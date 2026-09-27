@@ -1,36 +1,28 @@
 <script lang="ts">
 	import DoneTaskFilter from './DoneTaskFilter.svelte';
 	import TaskGroupSection from './TaskGroupSection.svelte';
+	import WaitingOnMeFilter from './WaitingOnMeFilter.svelte';
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { postListReorder } from '$lib/client/postListReorder';
+	import { createTaskRowActions, type TaskRowHandlers, type TaskRowSources } from './taskRowActions';
 	import { groupTasksByGoal } from './taskTreeGroups';
-	import { withoutDoneTasks } from './taskTreeFilters';
-	import type { Goal } from '$lib/server/goals/goalRecord';
-	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
-	import type { TaskRowActions } from './taskRowActions';
+	import { countTasksWhere, onlyTasksWhere, withoutDoneTasks } from './taskTreeFilters';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 	let {
 		taskTree,
 		projectId,
-		goals,
-		people,
-		assigneeIdsByTask,
-		onAddSubtask,
-		onChangeStatus,
-		onChangeGoal
+		sources,
+		handlers
 	}: {
 		taskTree: TaskTreeNode[];
 		projectId: string;
-		goals: Goal[];
-		people: ProjectPerson[];
-		assigneeIdsByTask: Record<string, string[]>;
-		onAddSubtask: (parentTask: TaskTreeNode) => void;
-		onChangeStatus: (task: TaskTreeNode) => void;
-		onChangeGoal: (task: TaskTreeNode) => void;
+		sources: TaskRowSources;
+		handlers: TaskRowHandlers;
 	} = $props();
 
 	let shouldIncludeDone = $state(false);
+	let isWaitingOnMeOnly = $state(false);
 
 	const listReorder = new ListReorder(
 		(movedTaskId, targetTaskId, placement) =>
@@ -38,36 +30,28 @@
 		{ canNestRows: true }
 	);
 
-	const visibleTasks = $derived(shouldIncludeDone ? taskTree : withoutDoneTasks(taskTree));
-	const taskGroups = $derived(groupTasksByGoal(visibleTasks, goals));
-	const emptyStateMessage = $derived(
-		taskTree.length > 0
-			? 'Everything here is done — switch the filter to All to see finished tasks.'
-			: 'No tasks yet — add one.'
-	);
-
-	const actions = $derived<TaskRowActions>({
-		assigneeNamesFor,
-		goalTitleFor,
-		onAddSubtask,
-		onChangeStatus,
-		onChangeGoal
+	const actions = $derived(createTaskRowActions(sources, handlers));
+	const isWaitingOnMe = (task: TaskTreeNode) => actions.turnFor(task.id)?.isOnViewer === true;
+	const openTasks = $derived(shouldIncludeDone ? taskTree : withoutDoneTasks(taskTree));
+	const tasksWaitingOnMe = $derived(onlyTasksWhere(openTasks, isWaitingOnMe));
+	const waitingCount = $derived(countTasksWhere(withoutDoneTasks(taskTree), isWaitingOnMe));
+	const visibleTasks = $derived(isWaitingOnMeOnly ? tasksWaitingOnMe : openTasks);
+	const taskGroups = $derived(groupTasksByGoal(visibleTasks, sources.goals));
+	const emptyStateMessage = $derived.by(() => {
+		if (isWaitingOnMeOnly) return 'Nothing is waiting on you or your Claude.';
+		if (taskTree.length > 0)
+			return 'Everything here is done — switch the filter to All to see finished tasks.';
+		return 'No tasks yet — add one.';
 	});
-
-	function goalTitleFor(goalId: string | null): string | null {
-		return goals.find((goal) => goal.id === goalId)?.title ?? null;
-	}
-
-	function assigneeNamesFor(taskId: string): string[] {
-		const assigneeIds = assigneeIdsByTask[taskId] ?? [];
-		return people.filter((person) => assigneeIds.includes(person.id)).map((person) => person.name);
-	}
 </script>
 
 <div class="flex flex-col gap-4">
 	<div class="flex flex-wrap items-center justify-between gap-3">
 		<h2 class="font-display text-sm tracking-widest text-chalk/50 uppercase">Backlog</h2>
-		<DoneTaskFilter bind:shouldIncludeDone />
+		<div class="flex flex-wrap items-center gap-2">
+			<WaitingOnMeFilter bind:isWaitingOnMeOnly {waitingCount} />
+			<DoneTaskFilter bind:shouldIncludeDone />
+		</div>
 	</div>
 	{#if visibleTasks.length === 0}
 		<p class="rounded-2xl border border-dashed border-hairline p-8 text-center text-chalk/60">

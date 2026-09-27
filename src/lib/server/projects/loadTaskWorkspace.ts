@@ -1,3 +1,4 @@
+import { conversationAccountIds } from '$lib/server/conversations/conversationAccountIds';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
 import { getProject } from '$lib/server/projects/getProject';
@@ -43,7 +44,7 @@ export async function loadTaskWorkspace(
 		getTaskAssigneeMap(supabase, [taskId]),
 		getTaskRoles(supabase, taskId)
 	]);
-	const authorIds = [task.createdBy, ...messages.map((message) => message.authorAccountId)];
+	const authorIds = [task.createdBy, ...conversationAccountIds(messages)];
 	return {
 		task,
 		project,

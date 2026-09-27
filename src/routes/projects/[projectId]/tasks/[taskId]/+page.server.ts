@@ -10,6 +10,7 @@ import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskStoryRefusal } from '$lib/server/projects/newTaskStoryRefusal';
 import { deleteAcceptanceCriterion } from '$lib/server/projects/deleteAcceptanceCriterion';
 import { deleteTask } from '$lib/server/projects/deleteTask';
+import { suggestHandOff } from '$lib/server/conversations/defaultHandOff';
 import { getTask } from '$lib/server/projects/getTask';
 import { getTaskFamily } from '$lib/server/projects/getTaskFamily';
 import { getOtherProjects } from '$lib/server/projects/getOtherProjects';
@@ -22,7 +23,7 @@ import { withUploaderNames } from '$lib/server/projects/uploaderNames';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
-	await requireProjectAccess(locals, params.projectId);
+	const { user } = await requireProjectAccess(locals, params.projectId);
 	const workspace = await loadTaskWorkspace(locals.supabase, params.projectId, params.taskId);
 	if (workspace === null) error(404, 'Task not found');
 	const profileFlags = await getProfileFlags(locals.supabase);
@@ -33,7 +34,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		...(await getTaskFamily(locals.supabase, workspace.task)),
 		messages: withAuthorNames(workspace.messages, workspace.accounts),
 		raisedByName: accountNameLookup(workspace.accounts)(workspace.task.createdBy),
-		attachments: withUploaderNames(workspace.attachments, workspace.people)
+		attachments: withUploaderNames(workspace.attachments, workspace.people),
+		viewerId: user.id,
+		suggestedHandOff: suggestHandOff(workspace.messages, user.id, workspace.task.createdBy)
 	};
 };
 

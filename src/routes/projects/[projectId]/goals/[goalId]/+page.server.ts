@@ -1,5 +1,7 @@
+import { conversationAccountIds } from '$lib/server/conversations/conversationAccountIds';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { deleteGoal } from '$lib/server/goals/deleteGoal';
+import { suggestHandOff } from '$lib/server/conversations/defaultHandOff';
 import { findTasks } from '$lib/server/support/findTasks';
 import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
 import { getConversationParticipantIds } from '$lib/server/conversations/getConversationParticipantIds';
@@ -7,8 +9,7 @@ import { getGoal } from '$lib/server/goals/getGoal';
 import { getProject } from '$lib/server/projects/getProject';
 import { getProjectPeople } from '$lib/server/members/getProjectPeople';
 import { getThread } from '$lib/server/conversations/getThread';
-import { messageFormRefusal, readMessageForm } from '$lib/server/conversations/readMessageForm';
-import { postMessage } from '$lib/server/conversations/postMessage';
+import { postMessageFromForm } from '$lib/server/conversations/postMessageFromForm';
 import { parseRank } from '$lib/server/ordering/rankInput';
 import {
 	addParticipantFromForm,
@@ -21,7 +22,7 @@ import { withAuthorNames } from '$lib/server/conversations/withAuthorNames';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
-	await requireProjectAccess(locals, params.projectId);
+	const { user } = await requireProjectAccess(locals, params.projectId);
 	const [goal, project] = await Promise.all([
 		getGoal(locals.supabase, params.goalId),
 		getProject(locals.supabase, params.projectId)
@@ -38,7 +39,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		getProjectPeople(locals.supabase, project.id),
 		getConversationParticipantIds(locals.supabase, { goalId: goal.id })
 	]);
-	const authorIds = messages.map((message) => message.authorAccountId);
+	const authorIds = conversationAccountIds(messages);
 	const accounts = await getAccountDirectory(locals.supabase, authorIds);
 	return {
 		goal,
@@ -46,7 +47,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		tasks,
 		people,
 		participantIds,
-		messages: withAuthorNames(messages, accounts)
+		messages: withAuthorNames(messages, accounts),
+		viewerId: user.id,
+		suggestedHandOff: suggestHandOff(messages, user.id, goal.createdBy)
 	};
 };
 
@@ -63,10 +66,9 @@ export const actions: Actions = {
 	},
 	postMessage: async ({ locals, params, request }) => {
 		const { user } = await requireProjectAccess(locals, params.projectId);
-		const submission = readMessageForm(await request.formData());
-		if (submission === null) return fail(400, { message: messageFormRefusal });
-		await postMessage(locals.supabase, { goalId: params.goalId }, user.id, submission.body);
-		return {};
+		const subject = { goalId: params.goalId };
+		const formData = await request.formData();
+		return postMessageFromForm(locals.supabase, params.projectId, subject, user.id, formData);
 	},
 	addParticipant: async ({ locals, params, request }) => {
 		await requireProjectAccess(locals, params.projectId);

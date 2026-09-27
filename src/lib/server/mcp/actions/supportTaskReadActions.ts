@@ -1,3 +1,4 @@
+import { conversationAccountIds } from '$lib/server/conversations/conversationAccountIds';
 import {
 	describeOpenSupportTasks,
 	describeTaskConversation,
@@ -84,7 +85,7 @@ async function readConversation(caller: McpCaller, task: ProjectTask): Promise<s
 		{ taskId: task.id },
 		ownsProject(caller, task.projectId)
 	);
-	const authorIds = [task.createdBy, ...messages.map((message) => message.authorAccountId)];
+	const authorIds = [task.createdBy, ...conversationAccountIds(messages)];
 	const accounts = await getAccountDirectory(caller.supabase, authorIds);
 	return describeTaskConversation(task, project?.name ?? '', messages, accounts);
 }
