@@ -1,10 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-
-export type UserStory = {
-	role: string;
-	want: string;
-	benefit: string;
-};
+import type { UserStory } from '$lib/data/userStoryRule';
 
 export async function setTaskUserStory(
 	supabase: SupabaseClient,

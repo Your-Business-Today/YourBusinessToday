@@ -7,6 +7,7 @@ import { checklistActions } from './checklistActions';
 import { saveTaskActions } from './saveTaskActions';
 import { conversationActions } from './conversationActions';
 import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
+import { newTaskStoryRefusal } from '$lib/server/projects/newTaskStoryRefusal';
 import { deleteAcceptanceCriterion } from '$lib/server/projects/deleteAcceptanceCriterion';
 import { deleteTask } from '$lib/server/projects/deleteTask';
 import { getTask } from '$lib/server/projects/getTask';
@@ -46,6 +47,8 @@ export const actions: Actions = {
 		const { user } = await requireProjectAccess(locals, params.projectId);
 		const seed = readNewTaskSeed(await request.formData());
 		if (seed === null) return fail(400, { message: 'A subtask title is required.' });
+		const storyRefusal = newTaskStoryRefusal(seed);
+		if (storyRefusal !== null) return fail(400, { message: storyRefusal });
 		await createTask(locals.supabase, params.projectId, seed, user.id);
 		return {};
 	},
