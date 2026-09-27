@@ -1,5 +1,7 @@
 import {
+	awaitingKinds,
 	turnStage,
+	turnStages,
 	type AwaitingKind,
 	type ConversationTurn,
 	type HandOff,
@@ -25,7 +27,7 @@ export function readTurn(turn: ConversationTurn, nameOf: NameOf, viewerId: strin
 	const awaiting = turn.awaiting;
 	if (awaiting === null) return quietReading;
 	const isOnViewer = awaiting.accountId === viewerId;
-	const isOnClaude = stage !== 'with_person';
+	const isOnClaude = stage !== turnStages.withPerson;
 	const person = isOnViewer ? viewerWord : nameOf(awaiting.accountId);
 	const holder = isOnClaude
 		? claudeLabel(awaiting.accountId, nameOf, viewerId)
@@ -35,7 +37,7 @@ export function readTurn(turn: ConversationTurn, nameOf: NameOf, viewerId: strin
 }
 
 export function handOffLabel(handOff: HandOff, nameOf: NameOf, viewerId: string): string {
-	if (handOff.kind === 'claude') return claudeLabel(handOff.accountId, nameOf, viewerId);
+	if (handOff.kind === awaitingKinds.claude) return claudeLabel(handOff.accountId, nameOf, viewerId);
 	return personLabel(handOff.accountId, nameOf, viewerId);
 }
 
@@ -50,7 +52,7 @@ export function claudeLabel(accountId: string, nameOf: NameOf, viewerId: string)
 }
 
 const quietReading: TurnReading = {
-	stage: 'quiet',
+	stage: turnStages.quiet,
 	holder: 'Nobody',
 	headline: 'Nobody is waiting — nothing is needed from anyone',
 	isOnViewer: false,
@@ -58,9 +60,9 @@ const quietReading: TurnReading = {
 };
 
 function headlineFor(stage: TurnStage, holder: string, person: string, kind: AwaitingKind): string {
-	const forWhom = kind === 'person' ? ` for ${person}` : '';
-	if (stage === 'sent') return `Waiting on ${midSentence(holder)} to pick it up${forWhom}`;
-	if (stage === 'with_claude') return `${holder} has picked it up and is answering`;
+	const forWhom = kind === awaitingKinds.person ? ` for ${person}` : '';
+	if (stage === turnStages.sent) return `Waiting on ${midSentence(holder)} to pick it up${forWhom}`;
+	if (stage === turnStages.withClaude) return `${holder} has picked it up and is answering`;
 	if (person === viewerWord) return 'Waiting on you — your Claude has brought it to you';
 	return `Waiting on ${person} — their Claude has brought it to them`;
 }

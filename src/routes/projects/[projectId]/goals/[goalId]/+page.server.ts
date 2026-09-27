@@ -1,14 +1,10 @@
-import { conversationAccountIds } from '$lib/server/conversations/conversationAccountIds';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { deleteGoal } from '$lib/server/goals/deleteGoal';
-import { suggestHandOff } from '$lib/server/conversations/defaultHandOff';
 import { findTasks } from '$lib/server/support/findTasks';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
-import { getConversationParticipantIds } from '$lib/server/conversations/getConversationParticipantIds';
 import { getGoal } from '$lib/server/goals/getGoal';
 import { getProject } from '$lib/server/projects/getProject';
 import { getProjectPeople } from '$lib/server/members/getProjectPeople';
-import { getThread } from '$lib/server/conversations/getThread';
+import { loadConversation } from '$lib/server/conversations/loadConversation';
 import { postMessageFromForm } from '$lib/server/conversations/postMessageFromForm';
 import { parseRank } from '$lib/server/ordering/rankInput';
 import {
@@ -18,7 +14,6 @@ import {
 import { readGoalUpdate, updateGoal } from '$lib/server/goals/updateGoal';
 import { setGoalPriority } from '$lib/server/goals/setGoalPriority';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
-import { withAuthorNames } from '$lib/server/conversations/withAuthorNames';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
@@ -29,28 +24,14 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	]);
 	if (goal === null || project === null || goal.projectId !== project.id)
 		error(404, 'Goal not found');
-	const [tasks, messages, people, participantIds] = await Promise.all([
-		findTasks(locals.supabase, {
-			projectId: project.id,
-			goalId: goal.id,
-			phrase: ''
-		}),
-		getThread(locals.supabase, { goalId: goal.id }, true),
+	const subject = { goalId: goal.id };
+	const viewer = { viewerId: user.id, raisedById: goal.createdBy };
+	const [tasks, people, conversation] = await Promise.all([
+		findTasks(locals.supabase, { projectId: project.id, goalId: goal.id, phrase: '' }),
 		getProjectPeople(locals.supabase, project.id),
-		getConversationParticipantIds(locals.supabase, { goalId: goal.id })
+		loadConversation(locals.supabase, subject, viewer)
 	]);
-	const authorIds = conversationAccountIds(messages);
-	const accounts = await getAccountDirectory(locals.supabase, authorIds);
-	return {
-		goal,
-		project,
-		tasks,
-		people,
-		participantIds,
-		messages: withAuthorNames(messages, accounts),
-		viewerId: user.id,
-		suggestedHandOff: suggestHandOff(messages, user.id, goal.createdBy)
-	};
+	return { goal, project, tasks, people, ...conversation };
 };
 
 export const actions: Actions = {

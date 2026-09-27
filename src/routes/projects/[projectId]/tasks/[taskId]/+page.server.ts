@@ -28,16 +28,17 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const workspace = await loadTaskWorkspace(locals.supabase, params.projectId, params.taskId);
 	if (workspace === null) error(404, 'Task not found');
 	const profileFlags = await getProfileFlags(locals.supabase);
+	const task = workspace.task;
 	return {
 		...workspace,
 		canSendToBuild: profileFlags.isStaff || profileFlags.isAdmin,
 		otherProjects: await getOtherProjects(locals.supabase, params.projectId),
-		...(await getTaskFamily(locals.supabase, workspace.task)),
+		...(await getTaskFamily(locals.supabase, task)),
 		messages: withAuthorNames(workspace.messages, workspace.accounts),
-		raisedByName: accountNameLookup(workspace.accounts)(workspace.task.createdBy),
+		raisedByName: accountNameLookup(workspace.accounts)(task.createdBy),
 		attachments: withUploaderNames(workspace.attachments, workspace.people),
 		viewerId: user.id,
-		suggestedHandOff: suggestHandOff(workspace.messages, user.id, workspace.task.createdBy)
+		suggestedHandOff: suggestHandOff(workspace.messages, user.id, task.createdBy)
 	};
 };
 

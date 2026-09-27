@@ -4,15 +4,16 @@
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { branchNameRules, branchWebAddress, longestBranchName } from '$lib/data/branchName';
+	import type { Project } from '$lib/server/projects/projectRecord';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
-	let { task, repositoryUrl }: { task: ProjectTask; repositoryUrl: string } = $props();
+	let { task, project }: { task: ProjectTask; project: Project } = $props();
 
 	const tracker = new FormTracker();
 
 	let isEditing = $state(false);
 
-	const branchAddress = $derived(branchWebAddress(repositoryUrl, task.branchName));
+	const branchAddress = $derived(branchWebAddress(project.repositoryUrl, task.branchName));
 	const linkClasses = 'font-display text-sm text-go hover:brightness-110';
 </script>
 

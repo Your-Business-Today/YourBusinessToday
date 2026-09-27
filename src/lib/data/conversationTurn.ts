@@ -12,6 +12,7 @@ export const handOffSeparator = ':';
 
 export const siteMessage: MessageOrigin = { postedVia: 'site', awaiting: null };
 
+
 /** The latest message on a goal or task: who spoke, how, and who holds the baton now. */
 export type ConversationTurn = {
 	authorAccountId: string;
@@ -23,14 +24,30 @@ export type ConversationTurn = {
 
 export type TurnStage = 'quiet' | 'sent' | 'with_claude' | 'with_person';
 
+export const postedViaChannels = { site: 'site', claude: 'claude' } as const;
+
+export const awaitingKinds = { person: 'person', claude: 'claude' } as const;
+
+export const turnStages = {
+	quiet: 'quiet',
+	sent: 'sent',
+	withClaude: 'with_claude',
+	withPerson: 'with_person'
+} as const;
+
+const postedViaOptions: PostedVia[] = Object.values(postedViaChannels);
+const awaitingKindOptions: AwaitingKind[] = Object.values(awaitingKinds);
+const stageOnceHeldBy: Record<AwaitingKind, TurnStage> = {
+	person: turnStages.withPerson,
+	claude: turnStages.withClaude
+};
+
 export function parsePostedVia(value: unknown): PostedVia {
-	if (value === 'claude') return 'claude';
-	return 'site';
+	return postedViaOptions.find((option) => option === value) ?? siteMessage.postedVia;
 }
 
 export function parseAwaitingKind(value: unknown): AwaitingKind | null {
-	if (value === 'person' || value === 'claude') return value;
-	return null;
+	return awaitingKindOptions.find((kind) => kind === value) ?? null;
 }
 
 export function parseHandOff(accountId: unknown, kind: unknown): HandOff | null {
@@ -40,10 +57,10 @@ export function parseHandOff(accountId: unknown, kind: unknown): HandOff | null 
 }
 
 export function turnStage(turn: ConversationTurn): TurnStage {
-	if (turn.awaiting === null) return 'quiet';
-	if (turn.pickedUpAt === null) return 'sent';
-	if (turn.awaiting.kind === 'claude') return 'with_claude';
-	return 'with_person';
+	const awaiting = turn.awaiting;
+	if (awaiting === null) return turnStages.quiet;
+	if (turn.pickedUpAt === null) return turnStages.sent;
+	return stageOnceHeldBy[awaiting.kind];
 }
 
 type TurnMessage = Pick<ConversationTurn, 'authorAccountId' | 'postedVia' | 'awaiting' | 'pickedUpAt'> & {

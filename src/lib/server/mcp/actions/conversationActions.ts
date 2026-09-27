@@ -1,3 +1,4 @@
+import { postedViaChannels } from '$lib/data/conversationTurn';
 import { batonSentence } from './batonSentence';
 import { chooseHandOff, handOffFields } from './handOffFields';
 import { describeInbox } from './describeInbox';
@@ -45,7 +46,7 @@ export const conversationActions: McpAction[] = [
 			if (resolved === null) return noSuchSubject;
 			const choice = await chooseHandOff(caller, input, resolved);
 			if ('refusal' in choice) return choice.refusal;
-			const origin = { postedVia: 'claude' as const, awaiting: choice.handOff };
+			const origin = { postedVia: postedViaChannels.claude, awaiting: choice.handOff };
 			await postMessage(caller.supabase, resolved.subject, caller.accountId, body, origin);
 			return `Posted on "${resolved.title}". ${await batonSentence(caller, choice.handOff)}`;
 		}

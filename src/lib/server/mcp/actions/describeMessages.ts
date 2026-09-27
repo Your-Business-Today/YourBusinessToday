@@ -1,7 +1,7 @@
 import { accountNameLookup } from '$lib/data/accountNames';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { handOffLabel } from '$lib/data/turnLabels';
-import { latestTurn } from '$lib/data/conversationTurn';
+import { latestTurn, postedViaChannels } from '$lib/data/conversationTurn';
 import { withAuthorNames, type NamedMessage } from '$lib/server/conversations/withAuthorNames';
 import type { Account } from '$lib/server/accounts/accountRecord';
 import type { ConversationMessage } from '$lib/server/conversations/messageRecord';
@@ -16,7 +16,7 @@ export function threadLines(messages: ConversationMessage[], accounts: Account[]
 
 export function messageLine(message: NamedMessage, viewerId: string): string {
 	const audience = message.isInternal ? ' [internal]' : '';
-	const via = message.postedVia === 'claude' ? ' (by their Claude)' : '';
+	const via = message.postedVia === postedViaChannels.claude ? ' (by their Claude)' : '';
 	const said = `${message.authorName}${via}${audience}, ${formatBritishDate(message.createdAt)}`;
 	return `- ${said}: ${message.body}${batonNote(message, viewerId)}`;
 }

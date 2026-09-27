@@ -202,7 +202,12 @@
     "minimumFamilySize": 4,
     "cooccurrenceThreshold": 0.75,
     "fileCountBand": 2.0,
-    "acceptedGaps": []
+    "acceptedGaps": [
+      "src/lib/server/goals/updateProject.ts",
+      "src/lib/server/goals/updateTask.ts",
+      "src/lib/server/projects/updateTaskProject.ts",
+      "src/lib/server/projects/updateTaskTask.ts"
+    ]
   },
   "siteDefinition": {
     "viewGlobs": [

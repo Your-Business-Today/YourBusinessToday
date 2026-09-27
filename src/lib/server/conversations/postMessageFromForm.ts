@@ -1,3 +1,4 @@
+import { postedViaChannels } from '$lib/data/conversationTurn';
 import { fail } from '@sveltejs/kit';
 import { getProjectPeople } from '$lib/server/members/getProjectPeople';
 import { messageFormRefusal, readMessageForm } from './readMessageForm';
@@ -23,7 +24,7 @@ export async function postMessageFromForm(
 		const isOnProject = people.some((person) => person.id === awaiting.accountId);
 		if (!isOnProject) return fail(400, { message: handOffRefusal });
 	}
-	const origin = { postedVia: 'site' as const, awaiting };
+	const origin = { postedVia: postedViaChannels.site, awaiting };
 	await postMessage(supabase, subject, authorAccountId, submission.body, origin);
 	return {};
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { BatonStation } from './batonTrack';
+	import type { BatonStation } from './batonStations';
 
 	let { station, accent }: { station: BatonStation; accent: string } = $props();
 

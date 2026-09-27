@@ -54,7 +54,7 @@
 	{#if data.canSendToBuild && data.project.repositoryUrl !== ''}
 		<BuildPanel task={data.task} project={data.project} />
 	{/if}
-	<TaskBranchPanel task={data.task} repositoryUrl={data.project.repositoryUrl} />
+	<TaskBranchPanel task={data.task} project={data.project} />
 	<SubtaskList subtasks={data.subtasks} onAddSubtask={() => (isSubtaskModalOpen = true)} />
 	<ChecklistSection checklists={data.checklists} />
 	<TaskAttachmentsSection

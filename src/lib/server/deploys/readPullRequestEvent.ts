@@ -19,7 +19,8 @@ const openingActions = new Set(['opened', 'reopened', 'ready_for_review']);
 export function readPullRequestEvent(event: unknown): PullRequestEvent | null {
 	const { action, pull_request: pullRequest, repository } = event as GithubPullRequestEvent;
 	const change = changeOf(action, pullRequest?.merged === true);
-	const branchName = pullRequest?.head?.ref ?? '';
+	const head = pullRequest?.head;
+	const branchName = head?.ref ?? '';
 	const url = pullRequest?.html_url ?? '';
 	const repositoryUrl = repository?.html_url ?? '';
 	if (change === null || branchName === '' || url === '' || repositoryUrl === '') return null;

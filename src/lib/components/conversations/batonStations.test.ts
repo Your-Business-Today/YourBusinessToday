@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { batonStations } from './batonTrack';
+import { batonStations } from './batonStations';
 import type { ConversationTurn } from '$lib/data/conversationTurn';
 
 const names: Record<string, string> = { james: 'James', dan: 'Dan' };
