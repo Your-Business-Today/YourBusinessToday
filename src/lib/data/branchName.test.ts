@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { branchNameRefusal, branchWebAddress, pullRequestUrlRefusal } from './branchName';
+import {
+	branchNameRefusal,
+	branchWebAddress,
+	pullRequestUrlRefusal,
+	taskBranchRefusal
+} from './branchName';
 
 describe('branch names', () => {
 	it('accepts the names tasks are worked on, and an empty name that clears one', () => {
@@ -24,5 +29,12 @@ describe('branch names', () => {
 		const address = branchWebAddress('https://github.com/owner/repo/', 'fix/rounding');
 		expect(address).toBe('https://github.com/owner/repo/tree/fix/rounding');
 		expect(branchWebAddress('', 'fix/rounding')).toBeNull();
+	});
+});
+
+describe('a task’s branch', () => {
+	it('is never the default branch', () => {
+		expect(taskBranchRefusal('main', 'main')).not.toBeNull();
+		expect(taskBranchRefusal('feature/grid', 'main')).toBeNull();
 	});
 });

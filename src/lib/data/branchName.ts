@@ -26,3 +26,11 @@ export function branchWebAddress(repositoryUrl: string, branchName: string): str
 	if (repositoryUrl === '' || branchName === '') return null;
 	return `${repositoryUrl.replace(/\/+$/, '')}/tree/${branchName}`;
 }
+
+/** A task's work never happens on the default branch, so it is never recorded as a task's branch. */
+export function taskBranchRefusal(branchName: string, defaultBranch: string): string | null {
+	if (branchName === defaultBranch) {
+		return `${defaultBranch} is the default branch — a task's work goes on a branch of its own.`;
+	}
+	return branchNameRefusal(branchName);
+}
