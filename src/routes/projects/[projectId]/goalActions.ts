@@ -1,8 +1,16 @@
 import { fail } from '@sveltejs/kit';
 import { createGoal, readNewGoalSeed } from '$lib/server/goals/createGoal';
 import { deleteGoal } from '$lib/server/goals/deleteGoal';
+import { getGoal } from '$lib/server/goals/getGoal';
+import { isUuid } from '$lib/data/isUuid';
+import { moveGoal } from '$lib/server/goals/moveGoal';
+import { parseDropPlacement, parseMoveDirection } from '$lib/server/ordering/rankInput';
+import { placeGoal } from '$lib/server/goals/placeGoal';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import type { Actions } from './$types';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
+const goalRequired = 'A goal on this project is required.';
 
 export const goalActions = {
 	createGoal: async ({ locals, params, request }) => {
@@ -18,5 +26,36 @@ export const goalActions = {
 		if (goalId === '') return fail(400, { message: 'A goal is required.' });
 		await deleteGoal(locals.supabase, goalId);
 		return {};
+	},
+	moveGoal: async ({ locals, params, request }) => {
+		await requireProjectAccess(locals, params.projectId);
+		const formData = await request.formData();
+		const goalId = String(formData.get('goalId') ?? '');
+		const direction = parseMoveDirection(formData.get('direction'));
+		const isOnProject = await isGoalOnProject(locals.supabase, goalId, params.projectId);
+		if (!isOnProject || direction === null) return fail(400, { message: goalRequired });
+		await moveGoal(locals.supabase, goalId, direction);
+		return {};
+	},
+	placeGoal: async ({ locals, params, request }) => {
+		await requireProjectAccess(locals, params.projectId);
+		const formData = await request.formData();
+		const movedGoalId = String(formData.get('movedGoalId') ?? '');
+		const targetGoalId = String(formData.get('targetGoalId') ?? '');
+		const isOnProject = await isGoalOnProject(locals.supabase, movedGoalId, params.projectId);
+		if (!isOnProject || targetGoalId === '') return fail(400, { message: goalRequired });
+		const placement = parseDropPlacement(formData.get('placement'));
+		await placeGoal(locals.supabase, movedGoalId, targetGoalId, placement);
+		return {};
 	}
 } satisfies Actions;
+
+async function isGoalOnProject(
+	supabase: SupabaseClient,
+	goalId: string,
+	projectId: string
+): Promise<boolean> {
+	if (!isUuid(goalId)) return false;
+	const goal = await getGoal(supabase, goalId);
+	return goal?.projectId === projectId;
+}

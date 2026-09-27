@@ -4,12 +4,18 @@
 	import GoalStatusFilter from './GoalStatusFilter.svelte';
 	import { openGoalsOnly } from './goalStatusFilters';
 	import Modal from '$lib/components/site/Modal.svelte';
+	import { ListReorder } from '$lib/client/listReorder.svelte';
+	import { postListReorder } from '$lib/client/postListReorder';
 	import type { GoalSummary } from '$lib/server/goals/getGoalSummaries';
 
 	let { goalSummaries }: { goalSummaries: GoalSummary[] } = $props();
 
 	let isAddGoalModalOpen = $state(false);
 	let shouldIncludeClosed = $state(false);
+
+	const listReorder = new ListReorder((movedGoalId, targetGoalId, placement) =>
+		postListReorder('?/placeGoal', { movedGoalId, targetGoalId, placement })
+	);
 
 	const shownGoalSummaries = $derived(
 		shouldIncludeClosed ? goalSummaries : openGoalsOnly(goalSummaries)
@@ -41,8 +47,13 @@
 		</p>
 	{:else}
 		<ul class="flex flex-col gap-3">
-			{#each shownGoalSummaries as goalSummary (goalSummary.id)}
-				<GoalRow {goalSummary} />
+			{#each shownGoalSummaries as goalSummary, goalIndex (goalSummary.id)}
+				<GoalRow
+					{goalSummary}
+					{listReorder}
+					isFirst={goalIndex === 0}
+					isLast={goalIndex === shownGoalSummaries.length - 1}
+				/>
 			{/each}
 		</ul>
 	{/if}
