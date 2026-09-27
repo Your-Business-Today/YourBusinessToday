@@ -2,6 +2,7 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { addAcceptanceCriterion } from '$lib/server/projects/addAcceptanceCriterion';
 import { accountNameLookup } from '$lib/data/accountNames';
 import { attachmentActions } from './attachmentActions';
+import { branchActions } from './branchActions';
 import { buildActions } from './buildActions';
 import { checklistActions } from './checklistActions';
 import { saveTaskActions } from './saveTaskActions';
@@ -45,6 +46,7 @@ export const actions: Actions = {
 	...checklistActions,
 	...buildActions,
 	...attachmentActions,
+	...branchActions,
 	...conversationActions,
 	addSubtask: async ({ locals, params, request }) => {
 		const { user } = await requireProjectAccess(locals, params.projectId);

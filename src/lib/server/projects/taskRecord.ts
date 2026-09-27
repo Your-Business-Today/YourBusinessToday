@@ -23,6 +23,7 @@ export type ProjectTask = {
 	dueDate: string | null;
 	buildBrief: string;
 	buildStatus: BuildStatus;
+	branchName: string;
 	pullRequestUrl: string;
 	buildSessionUrl: string;
 	hasMigration: boolean;
@@ -53,6 +54,7 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		dueDate: (row.due_date as string) ?? null,
 		buildBrief: (row.build_brief as string) ?? '',
 		buildStatus: parseBuildStatus(row.build_status),
+		branchName: (row.branch_name as string) ?? '',
 		pullRequestUrl: (row.pull_request_url as string) ?? '',
 		buildSessionUrl: (row.build_session_url as string) ?? '',
 		hasMigration: row.has_migration === true,

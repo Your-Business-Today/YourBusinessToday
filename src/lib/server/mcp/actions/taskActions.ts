@@ -3,6 +3,7 @@ import { buildDispatchActions } from './buildDispatchActions';
 import { builderActions } from './builderActions';
 import { checklistActions } from './checklistActions';
 import { checklistItemActions } from './checklistItemActions';
+import { taskBranchActions } from './taskBranchActions';
 import { taskOrderActions } from './taskOrderActions';
 import { taskParentActions } from './taskParentActions';
 import { taskProjectActions } from './taskProjectActions';
@@ -24,6 +25,7 @@ export const taskActions: McpAction[] = [
 	...taskWriteActions,
 	...taskUpdateActions,
 	...taskStatusActions,
+	...taskBranchActions,
 	...taskStoryActions,
 	...taskTeamActions,
 	...taskRoleActions,

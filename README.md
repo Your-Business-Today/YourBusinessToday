@@ -24,7 +24,12 @@ The books live in their own house, Your Books Today.
   tasks, and every goal and task carries a conversation. `/projects` shows your projects
   and your team projects; `/tasks` is your queue across the projects you own, with a Team
   filter for what is assigned to you elsewhere. Anyone on a project can do all of this
-  through their own Claude at `/api/mcp` too.
+  through their own Claude at `/api/mcp` too. Every top level task is a user story unless it
+  is a `FIX:`; every message says whose turn it is next — a person or their Claude — and the
+  backlog filters to what is waiting on you; every task records the git branch its work is on,
+  and GitHub's pull request webhook marks it done when that branch merges;
+  [docs/conversation-turns-and-branches.md](./docs/conversation-turns-and-branches.md) is the
+  design.
 - Support tasks are how a member raises something that needs an answer: find the goal,
   find or raise the task, post on it, read what is new in one call; the owner answers where
   the work is and closes it with a resolution the raiser reads. `/support` lists what is
@@ -37,7 +42,7 @@ The books live in their own house, Your Books Today.
 - Every push to a project's default branch is a deploy YBT counts, and every N of them (set on
   the project, 10 by default) it raises `REFACTOR: round N` on the project as the reminder to run
   the repository's refactor-round skill from the project-process kit — a person's Claude runs it
-  in the working tree and the person commits;
+  on a refactor/round-N branch and opens a pull request the person merges;
   [docs/refactor-cadence-architecture.md](./docs/refactor-cadence-architecture.md) is the design.
   The kit itself — the coding rules, the audit and gate, the bootstrap — lives in
   [project-process](https://github.com/jamesbeadle/project-process).

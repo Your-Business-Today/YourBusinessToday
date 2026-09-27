@@ -16,7 +16,10 @@ export const taskStatusActions: McpAction[] = [
 		summary: 'move a task between backlog, in progress, on hold and done',
 		guidance:
 			'Marking a task done takes it to 100 per cent, whatever it was before. A support task ' +
-			'closes through resolve_support_task instead, so its raiser gets an answer.',
+			'closes through resolve_support_task instead, so its raiser gets an answer. In progress ' +
+			'is when the work starts: work that changes a repository starts on a branch named for ' +
+			'the task, never on the default branch, and set_task_branch records it. A task with a ' +
+			'branch is marked done by itself when its pull request merges.',
 		inputSchema: objectSchema(
 			{ taskId: textField('The task id'), status: textField(taskStatusOrder.join(', ')) },
 			['taskId', 'status']
