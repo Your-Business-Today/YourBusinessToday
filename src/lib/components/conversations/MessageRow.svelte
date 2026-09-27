@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ProseText from '$lib/components/site/ProseText.svelte';
 	import { formatBritishDateTime } from '$lib/data/britishDate';
 	import type { NamedMessage } from '$lib/server/conversations/withAuthorNames';
 
@@ -15,5 +16,5 @@
 			· <span class="text-caution">internal</span>
 		{/if}
 	</p>
-	<p class="whitespace-pre-wrap text-chalk/90">{message.body}</p>
+	<ProseText text={message.body} class="text-chalk/90" />
 </li>

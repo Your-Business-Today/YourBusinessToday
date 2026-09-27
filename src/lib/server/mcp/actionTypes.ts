@@ -35,3 +35,10 @@ export function objectSchema(
 }
 
 export const textField = (description: string) => ({ type: 'string', description });
+
+const shownAsMarkdown =
+	' — shown as Markdown: put each point of a list on its own line, as "1." or "-", never ' +
+	'as an inline (1) (2) (3) run';
+
+/** A text field whose words are read on the site as Markdown. */
+export const proseField = (description: string) => textField(`${description}${shownAsMarkdown}`);

@@ -2,7 +2,7 @@ import { reachableGoal } from '../projectAccess';
 import { deleteGoal } from '$lib/server/goals/deleteGoal';
 import { goalIdField } from './goalReadActions';
 import { noSuchGoal } from './describeGoal';
-import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
+import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
 import { updateGoal } from '$lib/server/goals/updateGoal';
 import type { McpAction } from '../actionTypes';
 
@@ -22,7 +22,7 @@ export const goalEditActions: McpAction[] = [
 			{
 				goalId: goalIdField,
 				title: textField(`The goal in one line${keepText}`),
-				measure: textField(`How we will know it is met${keepText}`)
+				measure: proseField(`How we will know it is met${keepText}`)
 			},
 			['goalId']
 		),

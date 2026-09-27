@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ProseText from '$lib/components/site/ProseText.svelte';
 	import type { GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 
 	let { task }: { task: GlobalTask } = $props();
@@ -18,7 +19,7 @@
 			</p>
 		{/if}
 		{#if task.details !== ''}
-			<p class="text-sm whitespace-pre-wrap text-chalk/80">{task.details}</p>
+			<ProseText text={task.details} class="text-sm text-chalk/80" />
 		{:else}
 			<p class="text-sm text-chalk/40">No details on this task yet.</p>
 		{/if}

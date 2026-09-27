@@ -1,7 +1,7 @@
 import { describeInbox } from './describeInbox';
 import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
 import { longestMessageBody, postMessage } from '$lib/server/conversations/postMessage';
-import { objectSchema, readOptionalText, textField } from '../actionTypes';
+import { objectSchema, proseField, readOptionalText, textField } from '../actionTypes';
 import { readInbox } from '$lib/server/conversations/readInbox';
 import { reachableProjectIds } from '../projectAccess';
 import { resolveSubject, noSuchSubject } from './resolveSubject';
@@ -25,7 +25,7 @@ export const conversationActions: McpAction[] = [
 			{
 				goalId: textField('The goal to post on — give this or taskId'),
 				taskId: textField('The task to post on — give this or goalId'),
-				body: textField('What you want to say')
+				body: proseField('What you want to say')
 			},
 			['body']
 		),

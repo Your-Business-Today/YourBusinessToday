@@ -3,7 +3,7 @@ import { createTask } from '$lib/server/projects/createTask';
 import { fibonacciStoryPoints } from '$lib/data/storyPoints';
 import { noSuchProject } from './describeProject';
 import { noSuchTask } from './describeTask';
-import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
+import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
 import { parseTaskKind, taskKindOrder } from '$lib/data/taskKind';
 import { readTaskDetailsEdit, wrongStoryPoints } from './taskDetailsEdit';
 import { updateTaskDetails } from '$lib/server/projects/updateTaskDetails';
@@ -33,7 +33,7 @@ export const taskWriteActions: McpAction[] = [
 			{
 				projectId: textField('The project the task belongs to'),
 				title: textField('What the task is called'),
-				details: textField('What the task involves'),
+				details: proseField('What the task involves'),
 				dueDate: textField('When it is due, as YYYY-MM-DD'),
 				goalId: textField('The goal it serves, as given by find_goals'),
 				parentTaskId: textField('The task it is a subtask of'),
@@ -78,7 +78,7 @@ export const taskWriteActions: McpAction[] = [
 			{
 				taskId: taskIdField,
 				title: textField(`A new title${keepText}`),
-				details: textField(`New details${keepText}`),
+				details: proseField(`New details${keepText}`),
 				dueDate: textField(`A new due date, as YYYY-MM-DD${keepText}`),
 				goalId: textField(`The goal it serves${keepText}`),
 				kind: textField(`${taskKindOrder.join(' or ')}${keepText}`),
