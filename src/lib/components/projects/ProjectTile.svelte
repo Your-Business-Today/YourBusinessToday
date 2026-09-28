@@ -46,6 +46,7 @@
 			openTaskCount={project.openTaskCount}
 			taskCount={project.taskCount}
 			completionPercent={project.completionPercent}
+			assignedTaskCount={project.assignedTaskCount}
 		/>
 		<div class="relative flex items-center justify-between gap-2 border-t border-hairline pt-3">
 			<div class="flex items-center gap-1">

@@ -1,7 +1,7 @@
 import { reachableTask } from '../projectAccess';
 import { describeTask, noSuchTask } from './describeTask';
 import { getGlobalTaskPage } from '$lib/server/projects/getGlobalTaskPage';
-import { getTeamTasks } from '$lib/server/projects/getTeamTasks';
+import { getAssignedTasks } from '$lib/server/projects/getAssignedTasks';
 import { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { taskStatusLabels } from '$lib/data/taskStatus';
@@ -38,11 +38,11 @@ export const taskReadActions: McpAction[] = [
 		area: 'tasks',
 		audience: 'everyone',
 		isWrite: false,
-		summary: 'the open tasks assigned to you on projects other people own, soonest due first',
+		summary: 'the open tasks assigned to you across every project you are on, soonest due first',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
-			const tasks = await getTeamTasks(caller.supabase, caller.accountId);
-			if (tasks.length === 0) return 'Nothing is assigned to you on anyone else’s project.';
+			const tasks = await getAssignedTasks(caller.supabase, caller.accountId);
+			if (tasks.length === 0) return 'Nothing open is assigned to you on any project.';
 			return tasks.map((task, index) => queueLine(task, index + 1)).join('\n');
 		}
 	},

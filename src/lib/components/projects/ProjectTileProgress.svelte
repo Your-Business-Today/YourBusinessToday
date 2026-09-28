@@ -1,11 +1,18 @@
 <script lang="ts">
+	import AssignedToYouNote from './AssignedToYouNote.svelte';
 	import CompletionBar from './CompletionBar.svelte';
 
 	let {
 		openTaskCount,
 		taskCount,
-		completionPercent
-	}: { openTaskCount: number; taskCount: number; completionPercent: number } = $props();
+		completionPercent,
+		assignedTaskCount
+	}: {
+		openTaskCount: number;
+		taskCount: number;
+		completionPercent: number;
+		assignedTaskCount: number;
+	} = $props();
 
 	const taskCountLine = $derived(describeTaskCount());
 
@@ -17,7 +24,10 @@
 </script>
 
 <div class="mt-auto flex flex-col gap-2">
-	<span class="font-display text-xs text-chalk/50">{taskCountLine}</span>
+	<div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+		<span class="font-display text-xs text-chalk/50">{taskCountLine}</span>
+		<AssignedToYouNote {assignedTaskCount} />
+	</div>
 	{#if taskCount > 0}
 		<CompletionBar {completionPercent} />
 	{/if}

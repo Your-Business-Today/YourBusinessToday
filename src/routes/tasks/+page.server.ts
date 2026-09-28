@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { getGlobalTaskPage, singlePageOf } from '$lib/server/projects/getGlobalTaskPage';
-import { getTeamTasks } from '$lib/server/projects/getTeamTasks';
+import { getAssignedTasks } from '$lib/server/projects/getAssignedTasks';
 import { moveGlobalTask } from '$lib/server/projects/moveGlobalTask';
 import { parseDropPlacement } from '$lib/server/ordering/rankInput';
 import { parseTaskStatus } from '$lib/data/taskStatus';
@@ -9,7 +9,12 @@ import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireProjectOwner } from '$lib/server/auth/requireProjectOwner';
 import { requireUser } from '$lib/server/auth/requireUser';
 import { getTask } from '$lib/server/projects/getTask';
-import { parseTaskListFilter, type TaskListFilter } from '$lib/data/taskListFilter';
+import {
+	filterForAssignedTasks,
+	filterForEveryTask,
+	parseTaskListFilter,
+	type TaskListFilter
+} from '$lib/data/taskListFilter';
 import { statusChangeRefusal } from '$lib/server/support/statusChangeRefusal';
 import { updateTaskStatus } from '$lib/server/projects/updateTaskStatus';
 import type { GlobalTaskPage } from '$lib/server/projects/getGlobalTaskPage';
@@ -24,14 +29,18 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	return { taskPage: await pageFor(locals.supabase, user.id, filter, pageNumber), filter };
 };
 
-function pageFor(
+async function pageFor(
 	supabase: SupabaseClient,
 	accountId: string,
 	filter: TaskListFilter,
 	pageNumber: number
 ): Promise<GlobalTaskPage> {
-	if (filter === 'team') return getTeamTasks(supabase, accountId).then(singlePageOf);
-	return getGlobalTaskPage(supabase, accountId, pageNumber, filter === 'all');
+	if (filter === filterForAssignedTasks) {
+		const assignedTasks = await getAssignedTasks(supabase, accountId);
+		return singlePageOf(assignedTasks);
+	}
+	const shouldIncludeDone = filter === filterForEveryTask;
+	return getGlobalTaskPage(supabase, accountId, pageNumber, shouldIncludeDone);
 }
 
 export const actions: Actions = {

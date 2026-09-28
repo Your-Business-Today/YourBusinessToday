@@ -9,11 +9,13 @@ export const taskStatusLabels: Record<TaskStatus, string> = {
 
 export const taskStatusOrder: TaskStatus[] = ['backlog', 'in_progress', 'on_hold', 'done'];
 
+export const doneTaskStatus: TaskStatus = 'done';
+
 export function parseTaskStatus(value: unknown): TaskStatus {
 	if (value === 'in_progress' || value === 'on_hold' || value === 'done') return value;
 	return 'backlog';
 }
 
 export function isTaskDone(status: TaskStatus): boolean {
-	return status === 'done';
+	return status === doneTaskStatus;
 }
