@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PriorityControls from '$lib/components/projects/PriorityControls.svelte';
+	import ChevronIcon from '$lib/components/site/ChevronIcon.svelte';
 	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
 	import TaskDueDate from '$lib/components/projects/TaskDueDate.svelte';
 	import TaskMetaBadges from '$lib/components/projects/TaskMetaBadges.svelte';
@@ -58,13 +59,15 @@
 			<button
 				type="button"
 				onclick={() => onToggleDetail(task)}
+				title={isExpanded ? 'Hide the details' : 'Show the details'}
+				aria-expanded={isExpanded}
 				class="flex w-full items-center gap-1.5 text-left font-display transition hover:text-go"
 			>
 				<span class="truncate">
 					{#if task.isUserStory}<span title="User story" class="text-caution">◆</span>{/if}
 					{task.title}
 				</span>
-				<span class="shrink-0 text-xs text-chalk/40">{isExpanded ? '▴' : '▾'}</span>
+				<span class="shrink-0 text-chalk/40"><ChevronIcon isOpen={isExpanded} /></span>
 			</button>
 			<a
 				href={`/projects/${task.projectId}`}

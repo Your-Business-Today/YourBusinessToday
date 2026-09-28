@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ArrowIcon from '$lib/components/site/ArrowIcon.svelte';
 	import { enhance } from '$app/forms';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 
@@ -21,37 +22,27 @@
 	const tracker = new FormTracker();
 </script>
 
+{#snippet moveForm(direction: 'up' | 'down', isAtEnd: boolean, label: string, hoverClass: string)}
+	<form method="POST" action={moveAction} use:enhance={tracker.submit()}>
+		<input type="hidden" name={fieldName} value={id} />
+		<input type="hidden" name="direction" value={direction} />
+		{#each Object.entries(extraFields) as [extraFieldName, extraFieldValue] (extraFieldName)}
+			<input type="hidden" name={extraFieldName} value={extraFieldValue} />
+		{/each}
+		<button
+			type="submit"
+			disabled={isAtEnd || tracker.isSaving}
+			title={label}
+			aria-label={label}
+			class={`px-1 py-0.5 text-chalk/40 transition ${hoverClass}`}
+			class:invisible={isAtEnd}
+		>
+			<ArrowIcon {direction} />
+		</button>
+	</form>
+{/snippet}
+
 <div class="flex flex-col" class:animate-pulse={tracker.isSaving}>
-	<form method="POST" action={moveAction} use:enhance={tracker.submit()}>
-		<input type="hidden" name={fieldName} value={id} />
-		<input type="hidden" name="direction" value="up" />
-		{#each Object.entries(extraFields) as [extraFieldName, extraFieldValue] (extraFieldName)}
-			<input type="hidden" name={extraFieldName} value={extraFieldValue} />
-		{/each}
-		<button
-			type="submit"
-			disabled={isFirst || tracker.isSaving}
-			aria-label="Raise priority"
-			class="px-1 text-chalk/40 transition hover:text-go"
-			class:invisible={isFirst}
-		>
-			▲
-		</button>
-	</form>
-	<form method="POST" action={moveAction} use:enhance={tracker.submit()}>
-		<input type="hidden" name={fieldName} value={id} />
-		<input type="hidden" name="direction" value="down" />
-		{#each Object.entries(extraFields) as [extraFieldName, extraFieldValue] (extraFieldName)}
-			<input type="hidden" name={extraFieldName} value={extraFieldValue} />
-		{/each}
-		<button
-			type="submit"
-			disabled={isLast || tracker.isSaving}
-			aria-label="Lower priority"
-			class="px-1 text-chalk/40 transition hover:text-caution"
-			class:invisible={isLast}
-		>
-			▼
-		</button>
-	</form>
+	{@render moveForm('up', isFirst, 'Raise priority', 'hover:text-go')}
+	{@render moveForm('down', isLast, 'Lower priority', 'hover:text-caution')}
 </div>

@@ -1,11 +1,13 @@
 <script lang="ts">
 	import PriorityControls from './PriorityControls.svelte';
 	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
-	import TaskListRow from './TaskListRow.svelte';
+	import SubtaskRows from './SubtaskRows.svelte';
+	import TaskFoldButton from './TaskFoldButton.svelte';
 	import TaskRowControls from './TaskRowControls.svelte';
 	import TaskRowMeta from './TaskRowMeta.svelte';
 	import { isTaskDone } from '$lib/data/taskStatus';
 	import { needsUserStory } from '$lib/data/userStoryRule';
+	import { openRows } from '$lib/client/openRows.svelte';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
 	import type { TaskRowActions } from './taskRowActions';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
@@ -28,6 +30,9 @@
 
 	const isDone = $derived(isTaskDone(task.status));
 	const titleWeight = $derived(task.parentTaskId === null ? 'font-medium' : 'text-sm');
+	const hasSubtasks = $derived(task.subtasks.length > 0);
+	const isOpen = $derived(hasSubtasks && openRows.isOpen(task.id));
+	const subtaskPanelId = $derived(`subtasks-${task.id}`);
 </script>
 
 <ReorderableRow {listReorder} rowId={task.id} groupId={task.parentTaskId}>
@@ -50,17 +55,25 @@
 				</span>
 			</div>
 			<div class="flex min-w-0 flex-1 flex-col gap-1.5">
-				<a
-					href={`/projects/${task.projectId}/tasks/${task.id}`}
-					class={`truncate font-display transition hover:text-go ${titleWeight}`}
-				>
-					{#if task.isUserStory}
-						<span title="User story" class="text-caution">◆</span>
-					{:else if needsUserStory(task)}
-						<span title="No user story yet — edit the task to write one" class="text-chalk/30">◇</span>
-					{/if}
-					{task.title}
-				</a>
+				<div class="flex min-w-0 items-center gap-1.5">
+					<TaskFoldButton
+						subtaskCount={task.subtasks.length}
+						{isOpen}
+						panelId={subtaskPanelId}
+						onToggle={() => openRows.toggle(task.id)}
+					/>
+					<a
+						href={`/projects/${task.projectId}/tasks/${task.id}`}
+						class={`truncate font-display transition hover:text-go ${titleWeight}`}
+					>
+						{#if task.isUserStory}
+							<span title="User story" class="text-caution">◆</span>
+						{:else if needsUserStory(task)}
+							<span title="No user story yet — edit the task to write one" class="text-chalk/30">◇</span>
+						{/if}
+						{task.title}
+					</a>
+				</div>
 				<TaskRowMeta
 					{task}
 					{isDone}
@@ -72,19 +85,8 @@
 			</div>
 			<TaskRowControls {task} {actions} />
 		</div>
-		{#if task.subtasks.length > 0}
-			<ol class="ml-7 flex flex-col border-l border-hairline sm:ml-12">
-				{#each task.subtasks as subtask, subtaskIndex (subtask.id)}
-					<TaskListRow
-						task={subtask}
-						numberPath={`${numberPath}.${subtask.priority}`}
-						isFirst={subtaskIndex === 0}
-						isLast={subtaskIndex === task.subtasks.length - 1}
-						{listReorder}
-						{actions}
-					/>
-				{/each}
-			</ol>
+		{#if isOpen}
+			<SubtaskRows parentTask={task} {numberPath} panelId={subtaskPanelId} {listReorder} {actions} />
 		{/if}
 	{/snippet}
 </ReorderableRow>

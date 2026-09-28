@@ -4,6 +4,7 @@
 	import WaitingOnMeFilter from './WaitingOnMeFilter.svelte';
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { postListReorder } from '$lib/client/postListReorder';
+	import { rememberOpenRows } from '$lib/client/openRows.svelte';
 	import { createTaskRowActions, type TaskRowHandlers, type TaskRowSources } from './taskRowActions';
 	import { groupTasksByGoal } from './taskTreeGroups';
 	import { countTasksWhere, onlyTasksWhere, withoutDoneTasks } from './taskTreeFilters';
@@ -20,6 +21,8 @@
 		sources: TaskRowSources;
 		handlers: TaskRowHandlers;
 	} = $props();
+
+	rememberOpenRows();
 
 	let shouldIncludeDone = $state(false);
 	let isWaitingOnMeOnly = $state(false);
