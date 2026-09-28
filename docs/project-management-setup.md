@@ -31,6 +31,10 @@ Run these in the Supabase SQL editor, in order (each is run-once):
   which assigns every existing project to James.
 - Everyone else — no Projects link; visiting `/projects` redirects home.
 - Notifications are personal: each account only ever sees its own.
+- Marking a task done clears every notification about it, for every recipient, so the
+  bell only counts what still needs someone. The messages on the task stay; reopening
+  the task brings nothing back; a message posted on a done task notifies as normal
+  (`migrations/0060_done_task_clears_notifications.sql`).
 
 ## The views
 
