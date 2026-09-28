@@ -5,7 +5,7 @@
 	let {
 		goals,
 		goalId = null,
-		kind = 'work',
+		kind = $bindable('work'),
 		shouldOfferKind = true
 	}: {
 		goals: Goal[];
@@ -31,7 +31,7 @@
 	{#if shouldOfferKind}
 		<label class="flex flex-col gap-1">
 			<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Kind</span>
-			<select name="kind" value={kind} class={fieldClasses}>
+			<select name="kind" bind:value={kind} class={fieldClasses}>
 				{#each taskKindOrder as kindOption (kindOption)}
 					<option value={kindOption}>{taskKindLabels[kindOption]}</option>
 				{/each}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ProseText from '$lib/components/site/ProseText.svelte';
 	import GoalStatusPill from './GoalStatusPill.svelte';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 
@@ -31,7 +32,7 @@
 		{#if goal.measure === ''}
 			<p class="text-sm text-chalk/50">No measure written yet — how will we know it is met?</p>
 		{:else}
-			<p class="whitespace-pre-wrap text-sm text-chalk/80">{goal.measure}</p>
+			<ProseText text={goal.measure} class="text-sm text-chalk/80" />
 		{/if}
 	</div>
 </section>

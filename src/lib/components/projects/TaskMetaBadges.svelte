@@ -10,6 +10,15 @@
 {#if task.buildStatus !== 'not_sent'}
 	<BuildStatusPill status={task.buildStatus} />
 {/if}
+{#if task.branchName !== ''}
+	<span
+		title={`Worked on ${task.branchName}`}
+		class="max-w-40 truncate rounded-full border border-hairline px-2 py-0.5 font-display text-xs
+			text-chalk/60"
+	>
+		⎇ {task.branchName}
+	</span>
+{/if}
 <span
 	title="Story points"
 	class="rounded-full border border-hairline px-2 py-0.5 font-display text-xs text-chalk/60"

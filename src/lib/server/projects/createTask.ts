@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { isStoryComplete, type UserStory } from '$lib/data/userStoryRule';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
 import { nextQueueRank, nextSiblingRank } from '$lib/server/projects/nextRanks';
 
@@ -9,6 +10,7 @@ export type NewTaskSeed = {
 	parentTaskId: string | null;
 	goalId: string | null;
 	kind: TaskKind;
+	story?: UserStory;
 };
 
 export function readNewTaskSeed(formData: FormData): NewTaskSeed | null {
@@ -20,7 +22,12 @@ export function readNewTaskSeed(formData: FormData): NewTaskSeed | null {
 		dueDate: emptyAsNull(String(formData.get('dueDate') ?? '')),
 		parentTaskId: emptyAsNull(String(formData.get('parentTaskId') ?? '')),
 		goalId: emptyAsNull(String(formData.get('goalId') ?? '')),
-		kind: parseTaskKind(formData.get('kind'))
+		kind: parseTaskKind(formData.get('kind')),
+		story: {
+			role: String(formData.get('storyRole') ?? '').trim(),
+			want: String(formData.get('storyWant') ?? '').trim(),
+			benefit: String(formData.get('storyBenefit') ?? '').trim()
+		}
 	};
 }
 
@@ -44,12 +51,23 @@ export async function createTask(
 			due_date: seed.dueDate,
 			priority: await nextSiblingRank(supabase, projectId, seed.parentTaskId),
 			global_priority: globalPriority,
-			created_by: createdBy
+			created_by: createdBy,
+			...storyColumns(seed.story)
 		})
 		.select('id')
 		.single();
 	if (error) throw error;
 	return data.id;
+}
+
+function storyColumns(story: UserStory | undefined): Record<string, unknown> {
+	if (story === undefined || !isStoryComplete(story)) return {};
+	return {
+		is_user_story: true,
+		story_role: story.role,
+		story_want: story.want,
+		story_benefit: story.benefit
+	};
 }
 
 function emptyAsNull(value: string): string | null {

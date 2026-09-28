@@ -1,3 +1,4 @@
+import { conversationAccountIds } from '$lib/server/conversations/conversationAccountIds';
 import { describeGoal, goalLine, noSuchGoal } from './describeGoal';
 import { findGoals } from '$lib/server/goals/findGoals';
 import { findTasks } from '$lib/server/support/findTasks';
@@ -66,7 +67,7 @@ async function readGoalInFull(caller: McpCaller, goal: Goal): Promise<string> {
 		{ goalId: goal.id },
 		ownsProject(caller, goal.projectId)
 	);
-	const authorIds = messages.map((message) => message.authorAccountId);
+	const authorIds = conversationAccountIds(messages);
 	const accounts = await getAccountDirectory(caller.supabase, authorIds);
 	return describeGoal(goal, tasks, messages, accounts);
 }

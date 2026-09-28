@@ -1,4 +1,4 @@
-import { formatBritishDate } from '$lib/data/britishDate';
+import { messageLine } from './describeMessages';
 import { withAuthorNames, type NamedMessage } from '$lib/server/conversations/withAuthorNames';
 import type { Account } from '$lib/server/accounts/accountRecord';
 import type { Inbox } from '$lib/server/conversations/readInbox';
@@ -7,13 +7,18 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 export async function describeInbox(
 	supabase: SupabaseClient,
 	inbox: Inbox,
-	accounts: Account[]
+	accounts: Account[],
+	viewerId: string
 ): Promise<string> {
 	if (inbox.messages.length === 0) return 'Nothing new since you last looked.';
 	const titles = await subjectTitles(supabase, inbox);
 	const grouped = groupBySubject(withAuthorNames(inbox.messages, accounts));
 	return [...grouped.entries()]
-		.flatMap(([subjectKey, messages]) => [subjectHeading(subjectKey, titles), ...messages.map(messageLine), ''])
+		.flatMap(([subjectKey, messages]) => [
+			subjectHeading(subjectKey, titles),
+			...messages.map((message) => messageLine(message, viewerId)),
+			''
+		])
 		.join('\n');
 }
 
@@ -34,11 +39,6 @@ function subjectKeyOf(message: NamedMessage): string {
 function subjectHeading(subjectKey: string, titles: Map<string, string>): string {
 	const [kind, id] = subjectKey.split(':');
 	return `On the ${kind} "${titles.get(subjectKey) ?? 'unknown'}" (${kind} id: ${id}):`;
-}
-
-function messageLine(message: NamedMessage): string {
-	const audience = message.isInternal ? ' [internal]' : '';
-	return `- ${message.authorName}${audience}, ${formatBritishDate(message.createdAt)}: ${message.body}`;
 }
 
 async function subjectTitles(supabase: SupabaseClient, inbox: Inbox): Promise<Map<string, string>> {

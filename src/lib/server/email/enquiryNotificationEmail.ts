@@ -1,3 +1,4 @@
+import { escapeHtml } from '$lib/data/escapeHtml';
 import type { WebsiteEnquiry } from '$lib/data/enquiryForm';
 
 export function enquiryNotificationSubject(enquiry: WebsiteEnquiry): string {
@@ -36,12 +37,4 @@ export function renderEnquiryNotificationEmail(enquiry: WebsiteEnquiry, clientUr
 
 function websiteLine(website: string): string {
 	return `<p style="margin:0 0 8px;font-size:15px;line-height:1.6;color:#c9d2e6;">${escapeHtml(website)}</p>`;
-}
-
-function escapeHtml(text: string): string {
-	return text
-		.replaceAll('&', '&amp;')
-		.replaceAll('<', '&lt;')
-		.replaceAll('>', '&gt;')
-		.replaceAll('"', '&quot;');
 }

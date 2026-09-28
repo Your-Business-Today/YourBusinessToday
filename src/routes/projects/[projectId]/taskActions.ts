@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
+import { newTaskStoryRefusal } from '$lib/server/projects/newTaskStoryRefusal';
 import { getTask } from '$lib/server/projects/getTask';
 import { moveTask, type TaskMoveDirection } from '$lib/server/projects/moveTask';
 import { parseDropPlacement } from '$lib/server/ordering/rankInput';
@@ -16,6 +17,8 @@ export const taskActions = {
 		const { user } = await requireProjectAccess(locals, params.projectId);
 		const seed = readNewTaskSeed(await request.formData());
 		if (seed === null) return fail(400, { message: 'A task title is required.' });
+		const storyRefusal = newTaskStoryRefusal(seed);
+		if (storyRefusal !== null) return fail(400, { message: storyRefusal });
 		await createTask(locals.supabase, params.projectId, seed, user.id);
 		return {};
 	},

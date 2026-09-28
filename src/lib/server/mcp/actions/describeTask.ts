@@ -1,4 +1,5 @@
 import { attachmentLines } from './describeAttachments';
+import { branchLine } from './describeBranch';
 import { accountNameLookup } from '$lib/data/accountNames';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import { threadLines } from './describeMessages';
@@ -21,6 +22,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 		raisedByLine(workspace),
 		teamLine(workspace),
 		storyLine(task),
+		branchLine(task),
 		task.details === '' ? 'No details written yet.' : `Details: ${task.details}`,
 		...criterionLines(workspace.criteria),
 		...checklistLines(workspace.checklists),

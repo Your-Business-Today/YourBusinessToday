@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ProseText from '$lib/components/site/ProseText.svelte';
 	import SupportTaskFacts from '$lib/components/support/SupportTaskFacts.svelte';
 	import TaskDueDate from './TaskDueDate.svelte';
 	import { taskStatusLabelFor } from '$lib/data/taskKind';
@@ -86,6 +87,6 @@
 		</p>
 	{/if}
 	{#if task.details !== ''}
-		<p class="whitespace-pre-wrap text-sm text-chalk/80">{task.details}</p>
+		<ProseText text={task.details} class="text-sm text-chalk/80" />
 	{/if}
 </section>

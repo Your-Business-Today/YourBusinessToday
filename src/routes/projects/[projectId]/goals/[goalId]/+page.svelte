@@ -33,7 +33,12 @@
 	<GoalOverviewPanel goal={data.goal} onEdit={() => (isEditModalOpen = true)} />
 	<GoalTaskList tasks={data.tasks} />
 	<ConversationParticipantsPanel people={data.people} participantIds={data.participantIds} />
-	<ConversationThread messages={data.messages} />
+	<ConversationThread
+		messages={data.messages}
+		people={data.people}
+		viewerId={data.viewerId}
+		suggestedHandOff={data.suggestedHandOff}
+	/>
 	<button
 		type="button"
 		onclick={() => (isDeleteModalOpen = true)}

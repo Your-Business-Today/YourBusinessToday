@@ -1,7 +1,11 @@
+import { postedViaChannels } from '$lib/data/conversationTurn';
+import { batonSentence } from './batonSentence';
+import { chooseHandOff, handOffFields } from './handOffFields';
 import { describeInbox } from './describeInbox';
 import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
 import { longestMessageBody, postMessage } from '$lib/server/conversations/postMessage';
-import { objectSchema, readOptionalText, textField } from '../actionTypes';
+import { markTurnsPickedUp } from '$lib/server/conversations/markTurnsPickedUp';
+import { objectSchema, proseField, readOptionalText, textField } from '../actionTypes';
 import { readInbox } from '$lib/server/conversations/readInbox';
 import { reachableProjectIds } from '../projectAccess';
 import { resolveSubject, noSuchSubject } from './resolveSubject';
@@ -17,15 +21,19 @@ export const conversationActions: McpAction[] = [
 		guidance:
 			'Whatever you post is read by the person on the other side and by their Claude, so write ' +
 			'to them: what you found, what you need, what happens next. Everyone on the project ' +
-			'can read it; everyone in its conversation is told of it, and posting joins you. A ' +
-			'question for one person names them; their Claude brings it to them through ' +
-			'read_latest_messages and posts the answer here. When work on a task stops, the work log ' +
-			'goes here too: what changed, which files or records, the decisions and why, what is left.',
+			'can read it; everyone in its conversation is told of it, and posting joins you. Every ' +
+			'message passes the baton: say who must answer next with waitingOn, and with waitingFor ' +
+			'whether their Claude can answer on its own or it needs them. Their Claude picks it up ' +
+			'through read_latest_messages and posts the answer here, passing the baton back. When ' +
+			'work on a task stops, the work log goes here too, waiting on nobody: what changed, ' +
+			'the branch and pull request it is on, which files or records, the decisions and why, ' +
+			'what is left.',
 		inputSchema: objectSchema(
 			{
 				goalId: textField('The goal to post on — give this or taskId'),
 				taskId: textField('The task to post on — give this or goalId'),
-				body: textField('What you want to say')
+				body: proseField('What you want to say'),
+				...handOffFields
 			},
 			['body']
 		),
@@ -34,10 +42,13 @@ export const conversationActions: McpAction[] = [
 			if (body === null) return 'Write the message first.';
 			if (body.length > longestMessageBody)
 				return `Keep it under ${longestMessageBody} characters.`;
-			const subject = await resolveSubject(caller, input);
-			if (subject === null) return noSuchSubject;
-			await postMessage(caller.supabase, subject.subject, caller.accountId, body);
-			return `Posted on "${subject.title}".`;
+			const resolved = await resolveSubject(caller, input);
+			if (resolved === null) return noSuchSubject;
+			const choice = await chooseHandOff(caller, input, resolved);
+			if ('refusal' in choice) return choice.refusal;
+			const origin = { postedVia: postedViaChannels.claude, awaiting: choice.handOff };
+			await postMessage(caller.supabase, resolved.subject, caller.accountId, body, origin);
+			return `Posted on "${resolved.title}". ${await batonSentence(caller, choice.handOff)}`;
 		}
 	},
 	{
@@ -52,9 +63,12 @@ export const conversationActions: McpAction[] = [
 			'returns only what arrived since the last one and then moves the marker, so read it all ' +
 			'before moving on; a message may be the resolution of something they raised. A message ' +
 			'that asks the person you are with a question is theirs to answer: put it to them, then ' +
-			'post_message the answer on the same goal or task.',
+			'post_message the answer on the same goal or task. A message marked as waiting on you ' +
+			'holds the baton: reading it tells the other side you have picked it up, so answer it ' +
+			'yourself when it waits on your Claude, and bring it to the person when it waits on them.',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
+			await markTurnsPickedUp(caller.supabase, caller.accountId);
 			const inbox = await readInbox(caller.supabase, {
 				accountId: caller.accountId,
 				projectIds: reachableProjectIds(caller),
@@ -62,7 +76,7 @@ export const conversationActions: McpAction[] = [
 			});
 			const authorIds = inbox.messages.map((message) => message.authorAccountId);
 			const accounts = await getAccountDirectory(caller.supabase, authorIds);
-			return describeInbox(caller.supabase, inbox, accounts);
+			return describeInbox(caller.supabase, inbox, accounts, caller.accountId);
 		}
 	}
 ];

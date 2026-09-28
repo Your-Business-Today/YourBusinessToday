@@ -1,8 +1,8 @@
 import { fail } from '@sveltejs/kit';
 import { getProject } from '$lib/server/projects/getProject';
 import { getTask } from '$lib/server/projects/getTask';
-import { longestMessageBody, postMessage } from '$lib/server/conversations/postMessage';
-import { messageFormRefusal, readMessageForm } from '$lib/server/conversations/readMessageForm';
+import { longestMessageBody } from '$lib/server/conversations/postMessage';
+import { postMessageFromForm } from '$lib/server/conversations/postMessageFromForm';
 import {
 	addParticipantFromForm,
 	removeParticipantFromForm
@@ -14,10 +14,9 @@ import type { Actions } from './$types';
 export const conversationActions = {
 	postMessage: async ({ locals, params, request }) => {
 		const { user } = await requireProjectAccess(locals, params.projectId);
-		const submission = readMessageForm(await request.formData());
-		if (submission === null) return fail(400, { message: messageFormRefusal });
-		await postMessage(locals.supabase, { taskId: params.taskId }, user.id, submission.body);
-		return {};
+		const subject = { taskId: params.taskId };
+		const formData = await request.formData();
+		return postMessageFromForm(locals.supabase, params.projectId, subject, user.id, formData);
 	},
 	addParticipant: async ({ locals, params, request }) => {
 		await requireProjectAccess(locals, params.projectId);

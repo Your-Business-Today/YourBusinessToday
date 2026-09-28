@@ -5,6 +5,7 @@
 	import TaskRowControls from './TaskRowControls.svelte';
 	import TaskRowMeta from './TaskRowMeta.svelte';
 	import { isTaskDone } from '$lib/data/taskStatus';
+	import { needsUserStory } from '$lib/data/userStoryRule';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
 	import type { TaskRowActions } from './taskRowActions';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
@@ -53,7 +54,11 @@
 					href={`/projects/${task.projectId}/tasks/${task.id}`}
 					class={`truncate font-display transition hover:text-go ${titleWeight}`}
 				>
-					{#if task.isUserStory}<span title="User story" class="text-caution">◆</span>{/if}
+					{#if task.isUserStory}
+						<span title="User story" class="text-caution">◆</span>
+					{:else if needsUserStory(task)}
+						<span title="No user story yet — edit the task to write one" class="text-chalk/30">◇</span>
+					{/if}
 					{task.title}
 				</a>
 				<TaskRowMeta
@@ -61,6 +66,7 @@
 					{isDone}
 					assigneeNames={actions.assigneeNamesFor(task.id)}
 					goalTitle={actions.goalTitleFor(task.goalId)}
+					turn={actions.turnFor(task.id)}
 					onChangeGoal={() => actions.onChangeGoal(task)}
 				/>
 			</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ProseText from '$lib/components/site/ProseText.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { formatBritishDate } from '$lib/data/britishDate';
 	import { inputClasses, quietButtonClasses } from '$lib/components/site/formStyles';
@@ -23,7 +24,7 @@
 					<span class="text-go">Found on the web</span>
 				{/if}
 			</p>
-			<p class="mt-1 whitespace-pre-wrap text-sm text-chalk/80">{note.body}</p>
+			<ProseText text={note.body} class="mt-1 text-sm text-chalk/80" />
 		</article>
 	{/each}
 	<form method="POST" action="?/addNote" class="flex flex-col gap-2">

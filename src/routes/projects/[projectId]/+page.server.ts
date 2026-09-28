@@ -6,6 +6,7 @@ import { getProjectGoals } from '$lib/server/goals/getProjectGoals';
 import { getProjectPeople } from '$lib/server/members/getProjectPeople';
 import { getProjectTasks } from '$lib/server/projects/getProjectTasks';
 import { getTaskAssigneeMap } from '$lib/server/projects/getTaskAssigneeMap';
+import { getTaskTurns } from '$lib/server/conversations/conversationTurns';
 import { goalActions } from './goalActions';
 import { memberActions } from './memberActions';
 import { projectActions } from './projectActions';
@@ -14,11 +15,12 @@ import { taskActions } from './taskActions';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
-	const { project, isOwner } = await requireProjectAccess(locals, params.projectId);
+	const { project, isOwner, user } = await requireProjectAccess(locals, params.projectId);
 	const tasks = await getProjectTasks(locals.supabase, project.id);
 	const goals = await getProjectGoals(locals.supabase, project.id);
 	const taskIds = tasks.map((task) => task.id);
 	const assigneeIdsByTask = await getTaskAssigneeMap(locals.supabase, taskIds);
+	const turnsByTask = await getTaskTurns(locals.supabase, taskIds);
 	const deploysSinceRefactor = await countDeploysSinceRefactor(locals.supabase, project);
 	return {
 		project,
@@ -31,7 +33,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		goalSummaries: getGoalSummaries(goals, tasks),
 		goals,
 		people: await getProjectPeople(locals.supabase, project.id),
-		assigneeIdsByTask: Object.fromEntries(assigneeIdsByTask)
+		assigneeIdsByTask: Object.fromEntries(assigneeIdsByTask),
+		turnsByTask: Object.fromEntries(turnsByTask),
+		viewerId: user.id
 	};
 };
 

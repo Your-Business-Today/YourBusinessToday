@@ -4,8 +4,9 @@ How a repository's code comes back to the standard on a rhythm nobody has to rem
 push to a project's default branch is a deploy, YBT counts them, and every N of them it raises
 a refactor round on the project as the reminder. The round itself is a Claude script in the
 repository (the project-process kit's `refactor-round` skill and `tools/refactor/` audit), run by
-a person's Claude in the working tree; the person commits as they always do. YBT decides *when*
-and keeps the record; it never commits, pushes, opens a pull request or dispatches a build.
+a person's Claude on its own `refactor/round-N` branch and handed to the person as a pull request
+to review and merge. YBT decides *when* and keeps the record; YBT itself never commits, pushes,
+opens a pull request or dispatches a build.
 
 It adds one small entity and one webhook event. The repository's home already lives on the
 project (`repository_url`); the GitHub webhook already reaches `/api/github-webhook`. What was
@@ -18,7 +19,7 @@ missing was the count, the rule, and the task.
 | Project owner | every N deploys of my default branch to raise a refactor round on the project by itself | the code returns to the standard on a rhythm, not when someone remembers |
 | Project owner | to see on the project how many deploys have landed since the last round, and to set N | I know when the next round comes and can change the rhythm, or turn it off |
 | Anyone on the project | the round to be a task like any other, with the before and after on it | the history of every round is on the project, next to the work it followed |
-| Anyone on the project | git to stay mine — no checks on my pushes, no pull requests opened for me | a red check never reads as a failed deploy |
+| Anyone on the project | no CI checks on my pushes, and nothing reaching the default branch until I merge its pull request | a red check never reads as a failed deploy |
 | Anyone | to register an old repository mid-way and have the cadence start from then | onboarding is one edit and one webhook, never a migration of history |
 
 ## The views
@@ -44,11 +45,11 @@ push to <default branch> ──▶ GitHub webhook (push) ──▶ /api/github-w
                              task "REFACTOR: round N" raised in the owner's name, brief attached,
                              last_refactor_raised_at stamped, a message saying why
                                                               │
-                     the owner's Claude reads it (read_latest_messages / the queue) and runs the
-                     repository's refactor-round skill in the working tree; the person commits;
-                     the headline is posted on the task and the task marked done
+                     the owner's Claude reads it (read_latest_messages / the queue), runs the
+                     repository's refactor-round skill on a refactor/round-N branch and opens a
+                     pull request; the headline and the PR are posted on the task
                                                               │
-                                        that commit is itself a push: deploy 1 of the next N
+                              the person merges; that merge is a push: deploy 1 of the next N
 ```
 
 The repository can tell on its own, without YBT: `tools/refactor/deploys_since_baseline.sh`
@@ -98,10 +99,12 @@ its webhook here with push events; the first push after that is deploy one.
 ## Doctrine on the connector
 
 `get_current_context` now ends with the working doctrine (`src/lib/server/mcp/workingDoctrine.ts`):
-read the inbox first, find the task before touching anything (`FIX: …` for a bug), leave a
-work-log message when the work stops, put questions for other members on the task, and never
-raise a refactor round by hand — the round is the repository's skill, and the scripts never
-commit or push. `create_task`, `post_message`, `read_latest_messages` and
+read the inbox first; find the task and open its files before touching anything (`FIX: …` for a
+bug, a user story for anything else); make repository changes on a branch named for the task,
+record it with `set_task_branch`, and hand them over as a pull request the person merges — the
+merge marks the task done; leave a work log naming the branch and PR; put files and questions for
+other members on the task, passing the baton with `waitingOn`; never raise a refactor round by
+hand. `create_task`, `post_message`, `read_latest_messages` and
 `update_project_details` carry the same doctrine in their `guidance`. `workingDoctrine.test.ts`
 fails the build if the doctrine or any guidance names an action that does not exist.
 
@@ -116,7 +119,8 @@ round is due; with it, the reminder lands on the project.
 
 ## Status
 
-Written on 15 September 2026, on the working tree. Migration `0055` is written and not yet
-applied. The pure rules are under test (`readPushEvent`, `repositoryUrlKey`,
+Written on 15 September 2026. Migration `0055` is applied and the cadence was deployed on
+16 September (d9e4311). On 27 September the connector's doctrine was aligned with the kit's
+branching rule (branch, push, pull request, a person merges). The pure rules are under test (`readPushEvent`, `repositoryUrlKey`,
 `refactorRoundTitle`, `isRefactorRoundDue`, `workingDoctrine`); the webhook path has not yet
 received a live push.

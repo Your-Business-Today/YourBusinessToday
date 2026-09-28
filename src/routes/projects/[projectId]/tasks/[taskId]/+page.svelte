@@ -6,6 +6,7 @@
 	import ConversationThread from '$lib/components/conversations/ConversationThread.svelte';
 	import ResolveSupportTaskForm from '$lib/components/support/ResolveSupportTaskForm.svelte';
 	import SubtaskList from '$lib/components/projects/SubtaskList.svelte';
+	import TaskBranchPanel from '$lib/components/projects/TaskBranchPanel.svelte';
 	import TaskAttachmentsSection from '$lib/components/projects/TaskAttachmentsSection.svelte';
 	import TaskDetailHeader from '$lib/components/projects/TaskDetailHeader.svelte';
 	import TaskOverviewPanel from '$lib/components/projects/TaskOverviewPanel.svelte';
@@ -53,6 +54,7 @@
 	{#if data.canSendToBuild && data.project.repositoryUrl !== ''}
 		<BuildPanel task={data.task} project={data.project} />
 	{/if}
+	<TaskBranchPanel task={data.task} project={data.project} />
 	<SubtaskList subtasks={data.subtasks} onAddSubtask={() => (isSubtaskModalOpen = true)} />
 	<ChecklistSection checklists={data.checklists} />
 	<TaskAttachmentsSection
@@ -61,7 +63,12 @@
 		taskId={data.task.id}
 	/>
 	<ConversationParticipantsPanel people={data.people} participantIds={data.participantIds} />
-	<ConversationThread messages={data.messages} />
+	<ConversationThread
+		messages={data.messages}
+		people={data.people}
+		viewerId={data.viewerId}
+		suggestedHandOff={data.suggestedHandOff}
+	/>
 	<button
 		type="button"
 		onclick={() => (isDeleteModalOpen = true)}

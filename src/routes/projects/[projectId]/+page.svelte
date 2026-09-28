@@ -59,12 +59,12 @@
 	<TaskTreePanel
 		taskTree={data.taskTree}
 		projectId={data.project.id}
-		goals={data.goals}
-		people={data.people}
-		assigneeIdsByTask={data.assigneeIdsByTask}
-		onAddSubtask={openSubtaskModal}
-		onChangeStatus={openStatusModal}
-		onChangeGoal={openGoalModal}
+		sources={data}
+		handlers={{
+			onAddSubtask: openSubtaskModal,
+			onChangeStatus: openStatusModal,
+			onChangeGoal: openGoalModal
+		}}
 	/>
 </div>
 
