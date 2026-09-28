@@ -1,16 +1,15 @@
-export type TaskListFilter = 'open' | 'all' | 'waiting' | 'team';
+export type TaskListFilter = 'open' | 'all' | 'team';
 
 export const taskListFilterLabels: Record<TaskListFilter, string> = {
 	open: 'Open',
 	all: 'All',
-	waiting: 'Waiting on me',
 	team: 'Team'
 };
 
-export const taskListFilterOrder: TaskListFilter[] = ['open', 'all', 'waiting', 'team'];
+export const taskListFilterOrder: TaskListFilter[] = ['open', 'all', 'team'];
 
 export function parseTaskListFilter(value: string | null): TaskListFilter {
-	if (value === 'all' || value === 'waiting' || value === 'team') return value;
+	if (value === 'all' || value === 'team') return value;
 	return 'open';
 }
 

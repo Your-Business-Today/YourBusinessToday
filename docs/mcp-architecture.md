@@ -11,7 +11,7 @@ the projects an administrator has added them to — their goals, tasks and conve
 > holder resolved from an OAuth token only: they own some projects and are a member of
 > others, and every project, goal, task and conversation action is gated by that standing
 > on the project in question — owners manage, everyone on the project works. `is_staff`
-> still gates the clients register and the Builder. Client access tokens and `/portal`
+> still gates the clients register. Client access tokens and `/portal`
 > are gone; a client contact is an ordinary member. The stories and shape below still hold;
 > read "project member" as "anyone on the project" and "staff" as "the owner" where the
 > action manages the project.

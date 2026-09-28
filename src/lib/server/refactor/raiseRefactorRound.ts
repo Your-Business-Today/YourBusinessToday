@@ -5,7 +5,6 @@ import { postMessage } from '$lib/server/conversations/postMessage';
 import { refactorRoundBrief, refactorRoundRaisedSentence, refactorRoundStoryPoints } from './refactorRoundBrief';
 import { refactorRoundTitle } from './refactorRoundTitle';
 import { setTaskStoryPoints } from '$lib/server/projects/setTaskStoryPoints';
-import { updateTaskBuild } from '$lib/server/builder/updateTaskBuild';
 import type { Project } from '$lib/server/projects/projectRecord';
 
 /** Raises "REFACTOR: round N" on the project, in the owner's name, as the reminder that a round is due. */
@@ -29,7 +28,6 @@ export async function raiseRefactorRound(
 		project.ownerId
 	);
 	await setTaskStoryPoints(supabase, taskId, refactorRoundStoryPoints);
-	await updateTaskBuild(supabase, taskId, { buildBrief: refactorRoundBrief });
 	await markRefactorRoundRaised(supabase, project.id, new Date());
 	await postMessage(
 		supabase,

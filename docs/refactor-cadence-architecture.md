@@ -5,8 +5,8 @@ push to a project's default branch is a deploy, YBT counts them, and every N of 
 a refactor round on the project as the reminder. The round itself is a Claude script in the
 repository (the project-process kit's `refactor-round` skill and `tools/refactor/` audit), run by
 a person's Claude on its own `refactor/round-N` branch and handed to the person as a pull request
-to review and merge. YBT decides *when* and keeps the record; YBT itself never commits, pushes,
-opens a pull request or dispatches a build.
+to review and merge. YBT decides *when* and keeps the record; YBT itself never commits, pushes or
+opens a pull request.
 
 It adds one small entity and one webhook event. The repository's home already lives on the
 project (`repository_url`); the GitHub webhook already reaches `/api/github-webhook`. What was
@@ -28,8 +28,7 @@ No new pages. The project page (`/projects/[projectId]`) reads a line under the 
 when a repository is recorded — *7 of 10 deploys since the last refactor round.* — and its
 Edit form gains the repository, the live site, the default branch and *Refactor every … deploys*
 (0 turns the cadence off). A round is an ordinary task titled `REFACTOR: round N`, 13 points,
-its brief in the details and the Build panel (so *Send to build* is there for anyone who does
-run the Builder), and its conversation opening with why it was raised. The connector mirrors the
+its brief in the details, and its conversation opening with why it was raised. The connector mirrors the
 page: `read_project` carries the same line, and `update_project_details` takes the same four
 fields.
 
@@ -85,8 +84,8 @@ open until its status is done, and while one is open no other is raised.
 | `isRefactorRoundDue` (pure) | the one rule: cadence on, enough deploys, no round open |
 
 `raiseRefactorRound` creates the task in the owner's name, sets its points and brief, stamps the
-project, and posts why it was raised. It does not dispatch anything: the Builder's *Send to
-build* stays a person's button.
+project, and posts why it was raised. It does not dispatch anything: a person's Claude runs
+the round.
 
 ## Idempotence
 
