@@ -14,6 +14,7 @@ import { taskReadActions } from './taskReadActions';
 import { taskStatusActions } from './taskStatusActions';
 import { taskStoryActions } from './taskStoryActions';
 import { taskTeamActions } from './taskTeamActions';
+import { taskUploadActions } from './taskUploadActions';
 import { taskUpdateActions } from './taskUpdateActions';
 import { taskWriteActions } from './taskWriteActions';
 import type { McpAction } from '../actionTypes';
@@ -36,5 +37,6 @@ export const taskActions: McpAction[] = [
 	...checklistActions,
 	...checklistItemActions,
 	...taskAttachmentReadActions,
-	...taskAttachmentWriteActions
+	...taskAttachmentWriteActions,
+	...taskUploadActions
 ];

@@ -6,6 +6,9 @@ const megabyte = 1024 * 1024;
 const kilobyte = 1024;
 
 export const maxAttachmentByteCount = 25 * megabyte;
+export const maxAttachmentFilenameLength = 255;
+
+const mimeTypeShape = /^[^/\s]{1,127}\/[^/\s]{1,127}$/;
 
 /** Vercel caps a function response at 4.5 MB, and base64 grows a file by a third. */
 export const maxInlineAttachmentByteCount = 3 * megabyte;
@@ -19,6 +22,10 @@ const inlineImageMimeTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/web
 
 export function isWithinAttachmentLimit(byteCount: number): boolean {
 	return byteCount > 0 && byteCount <= maxAttachmentByteCount;
+}
+
+export function isMimeTypeShaped(mimeType: string): boolean {
+	return mimeTypeShape.test(mimeType);
 }
 
 export function attachmentLimitDescription(): string {

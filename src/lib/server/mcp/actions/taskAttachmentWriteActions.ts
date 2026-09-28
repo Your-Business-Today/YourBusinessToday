@@ -20,8 +20,10 @@ export const taskAttachmentWriteActions: McpAction[] = [
 		summary: 'attach a file to a task, from a web address or from base64 content',
 		guidance:
 			'Give sourceUrl or contentBase64, not both. Anything up to 25 MB works through ' +
-			'sourceUrl, which the server downloads itself. contentBase64 is for small files only: ' +
-			'the request as a whole is capped at about 4.5 MB, so keep those under 3 MB.',
+			'sourceUrl, which the server downloads itself. contentBase64 is for tiny files only: ' +
+			'the request as a whole is capped at about 4.5 MB, and typing bytes out as base64 is ' +
+			'slow and easily corrupts them. For a file in your own workspace, call grant_task_upload ' +
+			'instead and send it with one HTTP PUT.',
 		inputSchema: objectSchema(
 			{
 				taskId: taskIdField,
