@@ -132,7 +132,7 @@ site's own attachment form uses (`grantAttachment` and `recordAttachment` in
 cap never sees them:
 
 1. `grant_task_upload` (task, filename, mimeType) writes a `task_upload_grants` row under the
-   caller (migration `0060`), signs a storage upload link for the attachment's own path, and
+   caller (migration `0062`), signs a storage upload link for the attachment's own path, and
    answers with the `curl --upload-file` command and the `uploadId`. The link expires fifteen
    minutes after it is granted (`uploadLinkLifetimeSeconds`).
 2. The caller's Claude sends one HTTP PUT of the raw bytes, up to the bucket's 25 MB.
