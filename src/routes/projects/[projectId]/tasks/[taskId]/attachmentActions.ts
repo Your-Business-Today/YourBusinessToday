@@ -19,7 +19,7 @@ export const attachmentActions: Actions = {
 		if (!isWithinAttachmentLimit(upload.byteCount)) {
 			return fail(400, { message: `That file is too large. ${attachmentLimitDescription()}` });
 		}
-		return grantAttachmentUpload(locals.supabase, params.taskId, upload);
+		return grantAttachmentUpload(locals.supabase, params.taskId, upload.filename);
 	},
 	recordAttachment: async ({ locals, params, request }) => {
 		const { user } = await requireProjectAccess(locals, params.projectId);
