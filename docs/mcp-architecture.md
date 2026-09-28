@@ -122,6 +122,30 @@ restricted.
 Tables: `client_api_tokens` (0036), `oauth_clients`, `oauth_authorization_codes`,
 `oauth_tokens` (0038).
 
+## Files from a Claude's own workspace
+
+`attach_file_to_task` takes a public address or base64, and base64 typed out by a model is
+slow and corrupts bytes. A file that lives in the caller's Claude's workspace — a screenshot,
+an export — goes through a one-time upload link instead, the same grant-then-record shape the
+site's own attachment form uses (`grantAttachment` and `recordAttachment` in
+`attachmentActions.ts`), with the storage bucket carrying the bytes so Vercel's 4.5 MB body
+cap never sees them:
+
+1. `grant_task_upload` (task, filename, mimeType) writes a `task_upload_grants` row under the
+   caller (migration `0062`), signs a storage upload link for the attachment's own path, and
+   answers with the `curl --upload-file` command and the `uploadId`. The link expires fifteen
+   minutes after it is granted (`uploadLinkLifetimeSeconds`).
+2. The caller's Claude sends one HTTP PUT of the raw bytes, up to the bucket's 25 MB.
+3. `record_task_upload` (task, uploadId) finds the grant by id, task and caller, reads the
+   size that actually landed from storage, claims the grant with a single conditional update
+   (`recorded_at` null and not expired, so it is used once), and writes the
+   `task_attachments` row under the person the link was granted to. An expired grant's stray
+   file is removed; a missing file says so, so the PUT can be retried.
+
+The storage link itself refuses a second file at the same path, and the grant refuses a
+second recording, so the link works once. A grant nobody records leaves no attachment; a
+file it left in storage is dropped with the task.
+
 ## Abuse and limits
 
 The caller's Claude is an eager agent. Two limits, both named constants: a body cap on a
