@@ -1,4 +1,4 @@
--- 0060: task upload grants — the short-lived, one-time upload link a person's
+-- 0062: task upload grants — the short-lived, one-time upload link a person's
 -- Claude asks for so it can send a file to a task straight from its own
 -- workspace, at full quality, instead of typing the bytes out as base64.
 --
