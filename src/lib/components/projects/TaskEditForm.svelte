@@ -39,6 +39,11 @@
 
 	const tracker = new FormTracker();
 
+	const priorityScope = $derived(
+		parentTask === null
+			? 'of all the project’s top level tasks, counting done ones and those under every goal'
+			: 'of the subtasks, counting done ones'
+	);
 	const statusOptions = Object.entries(taskStatusLabels) as [TaskStatus, string][];
 	const fieldClasses =
 		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
@@ -77,7 +82,7 @@
 		</label>
 	</div>
 	<TaskPlanningFields {task} />
-	<PriorityField priority={task.priority} among={parentTask === null ? 'of the project’s tasks' : 'of the subtasks'} />
+	<PriorityField priority={task.priority} among={priorityScope} />
 	<TaskGoalAndKindFields {goals} goalId={task.goalId} kind={task.kind} />
 	<TaskMoveFields {parentTask} {siblingTasks} {otherProjects} />
 	<UserStoryFields {task} />

@@ -32,11 +32,15 @@
 
 	const actions = $derived(createTaskRowActions(sources, handlers));
 	const isWaitingOnMe = (task: TaskTreeNode) => actions.turnFor(task.id)?.isOnViewer === true;
-	const openTasks = $derived(shouldIncludeDone ? taskTree : withoutDoneTasks(taskTree));
-	const tasksWaitingOnMe = $derived(onlyTasksWhere(openTasks, isWaitingOnMe));
 	const waitingCount = $derived(countTasksWhere(withoutDoneTasks(taskTree), isWaitingOnMe));
-	const visibleTasks = $derived(isWaitingOnMeOnly ? tasksWaitingOnMe : openTasks);
-	const taskGroups = $derived(groupTasksByGoal(visibleTasks, sources.goals));
+	const visibleTasks = $derived(visibleTasksOf(taskTree));
+	const taskGroups = $derived(groupTasksByGoal(taskTree, sources.goals, visibleTasksOf));
+
+	function visibleTasksOf(tasks: TaskTreeNode[]): TaskTreeNode[] {
+		const openTasks = shouldIncludeDone ? tasks : withoutDoneTasks(tasks);
+		if (!isWaitingOnMeOnly) return openTasks;
+		return onlyTasksWhere(openTasks, isWaitingOnMe);
+	}
 	const emptyStateMessage = $derived.by(() => {
 		if (isWaitingOnMeOnly) return 'Nothing is waiting on you or your Claude.';
 		if (taskTree.length > 0)

@@ -6,9 +6,11 @@ import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 const launch = { id: 'goal-launch', title: 'Launch' } as Goal;
 const polish = { id: 'goal-polish', title: 'Polish' } as Goal;
 
-function task(id: string, goalId: string | null): TaskTreeNode {
-	return { id, goalId, subtasks: [] } as unknown as TaskTreeNode;
+function task(id: string, goalId: string | null, subtasks: TaskTreeNode[] = []): TaskTreeNode {
+	return { id, goalId, status: 'backlog', subtasks } as unknown as TaskTreeNode;
 }
+
+const idsOf = (tasks: TaskTreeNode[]) => tasks.map((candidate) => candidate.id);
 
 describe('groupTasksByGoal', () => {
 	it('keeps goal order, keeps task order within a goal, and puts the rest last', () => {
@@ -29,5 +31,30 @@ describe('groupTasksByGoal', () => {
 	it('treats a task whose goal is gone as outside any goal', () => {
 		const groups = groupTasksByGoal([task('a', 'goal-deleted')], [launch]);
 		expect(groups[0].goal).toBeNull();
+	});
+
+	it('lists a subtask under its own goal when it carries a different one from its parent', () => {
+		const groups = groupTasksByGoal(
+			[task('permissions', 'goal-polish', [task('login-roles', 'goal-launch')])],
+			[launch, polish]
+		);
+		expect(groups.map((group) => group.goal?.title)).toEqual(['Launch', 'Polish']);
+		expect(idsOf(groups[0].tasks)).toEqual(['login-roles']);
+		expect(idsOf(groups[1].tasks)).toEqual(['permissions']);
+		expect(groups[1].tasks[0].subtasks).toEqual([]);
+	});
+
+	it('keeps a subtask with no goal of its own under its parent', () => {
+		const groups = groupTasksByGoal([task('parent', 'goal-launch', [task('child', null)])], [launch]);
+		expect(groups).toHaveLength(1);
+		expect(idsOf(groups[0].tasks[0].subtasks)).toEqual(['child']);
+	});
+
+	it('narrows each group after forming it, so a hidden parent keeps its goal for its subtasks', () => {
+		const doneParent = { ...task('parent', 'goal-launch', [task('child', null)]), status: 'done' };
+		const withoutParent = (tasks: TaskTreeNode[]) => tasks.flatMap((candidate) => candidate.subtasks);
+		const groups = groupTasksByGoal([doneParent as TaskTreeNode], [launch], withoutParent);
+		expect(groups[0].goal).toBe(launch);
+		expect(idsOf(groups[0].tasks)).toEqual(['child']);
 	});
 });
