@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { buildStatusLabels } from '$lib/data/buildStatus';
 import { taskStatusOrder } from '$lib/data/taskStatus';
 import { workingDoctrine } from './workingDoctrine';
 
@@ -9,7 +8,7 @@ const actionsDirectory = join(import.meta.dirname, 'actions');
 const declaredName = /^\s*name: '([a-z_]+)'/gm;
 const guidanceBlock = /guidance:\s*((?:'[^']*'\s*\+?\s*)+)/g;
 const snakeCaseName = /(?<![/.])\b[a-z]+(?:_[a-z]+)+\b(?![/.])/g;
-const statusWords = new Set([...Object.keys(buildStatusLabels), ...taskStatusOrder]);
+const statusWords = new Set<string>(taskStatusOrder);
 
 function actionSources(): { file: string; source: string }[] {
 	return readdirSync(actionsDirectory)

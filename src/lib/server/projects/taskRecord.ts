@@ -1,4 +1,3 @@
-import { parseBuildStatus, type BuildStatus } from '$lib/data/buildStatus';
 import { parseStoryPoints } from '$lib/data/storyPoints';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
 import { parseTaskStatus, type TaskStatus } from '$lib/data/taskStatus';
@@ -21,12 +20,8 @@ export type ProjectTask = {
 	storyWant: string;
 	storyBenefit: string;
 	dueDate: string | null;
-	buildBrief: string;
-	buildStatus: BuildStatus;
 	branchName: string;
 	pullRequestUrl: string;
-	buildSessionUrl: string;
-	hasMigration: boolean;
 	resolution: string;
 	resolvedAt: string | null;
 	createdBy: string;
@@ -52,21 +47,11 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		storyWant: row.story_want as string,
 		storyBenefit: row.story_benefit as string,
 		dueDate: (row.due_date as string) ?? null,
-		...parseDeliveryFields(row),
+		branchName: (row.branch_name as string) ?? '',
+		pullRequestUrl: (row.pull_request_url as string) ?? '',
 		resolution: (row.resolution as string) ?? '',
 		resolvedAt: (row.resolved_at as string) ?? null,
 		createdBy: row.created_by as string,
 		createdAt: row.created_at as string
-	};
-}
-
-function parseDeliveryFields(row: Record<string, unknown>) {
-	return {
-		buildBrief: (row.build_brief as string) ?? '',
-		buildStatus: parseBuildStatus(row.build_status),
-		branchName: (row.branch_name as string) ?? '',
-		pullRequestUrl: (row.pull_request_url as string) ?? '',
-		buildSessionUrl: (row.build_session_url as string) ?? '',
-		hasMigration: row.has_migration === true
 	};
 }

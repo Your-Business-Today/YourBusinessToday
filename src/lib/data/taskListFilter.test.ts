@@ -10,6 +10,6 @@ describe('taskListFilter', () => {
 
 	it('keeps the open queue at the bare path', () => {
 		expect(taskListHref('open')).toBe('/tasks');
-		expect(taskListHref('waiting')).toBe('/tasks?status=waiting');
+		expect(taskListHref('team')).toBe('/tasks?status=team');
 	});
 });

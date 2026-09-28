@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ChevronIcon from '$lib/components/site/ChevronIcon.svelte';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 
 	let {
@@ -21,6 +22,7 @@
 		goal === null ? 'border-hairline text-chalk/50' : 'border-go/40 bg-go/10 text-go'
 	);
 	const groupTitle = $derived(goal?.title ?? 'Other tasks');
+	const toggleLabel = $derived(isOpen ? 'Hide the tasks' : 'Show the tasks');
 </script>
 
 <header
@@ -30,17 +32,14 @@
 	<button
 		type="button"
 		onclick={onToggle}
+		title={toggleLabel}
 		aria-expanded={isOpen}
 		aria-controls={panelId}
 		class="flex min-w-0 flex-1 items-center gap-3 rounded-xl px-2 py-1.5 text-left transition
 			hover:bg-carriage/60"
 	>
-		<span
-			aria-hidden="true"
-			class="inline-block shrink-0 font-display text-xs text-chalk/40 transition-transform"
-			class:rotate-90={isOpen}
-		>
-			▶
+		<span class="shrink-0 text-chalk/40">
+			<ChevronIcon {isOpen} />
 		</span>
 		<span
 			class={`shrink-0 rounded-full border px-2.5 py-0.5 font-display text-xs whitespace-nowrap

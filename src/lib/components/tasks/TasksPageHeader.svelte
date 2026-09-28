@@ -6,7 +6,6 @@
 	const descriptions: Record<TaskListFilter, string> = {
 		open: 'Every project you own, its tasks in one queue ordered by priority — the top row is the next thing to work on.',
 		all: 'Every task on the projects you own, done ones included, in queue order.',
-		waiting: 'Builds that have a migration for you to review before they go live.',
 		team: 'Tasks assigned to you on projects other people own, soonest due first.'
 	};
 </script>

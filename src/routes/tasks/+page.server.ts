@@ -1,6 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getBuildsWaitingOnMe, singlePageOf } from '$lib/server/builder/getBuildsWaitingOnMe';
-import { getGlobalTaskPage } from '$lib/server/projects/getGlobalTaskPage';
+import { getGlobalTaskPage, singlePageOf } from '$lib/server/projects/getGlobalTaskPage';
 import { getTeamTasks } from '$lib/server/projects/getTeamTasks';
 import { moveGlobalTask } from '$lib/server/projects/moveGlobalTask';
 import { parseDropPlacement } from '$lib/server/ordering/rankInput';
@@ -31,7 +30,6 @@ function pageFor(
 	filter: TaskListFilter,
 	pageNumber: number
 ): Promise<GlobalTaskPage> {
-	if (filter === 'waiting') return getBuildsWaitingOnMe(supabase, accountId).then(singlePageOf);
 	if (filter === 'team') return getTeamTasks(supabase, accountId).then(singlePageOf);
 	return getGlobalTaskPage(supabase, accountId, pageNumber, filter === 'all');
 }

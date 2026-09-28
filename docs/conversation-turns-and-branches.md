@@ -45,10 +45,10 @@ composer offers the same choice with that default selected.
 A task has `branch_name`. A Claude records it with `set_task_branch` when it branches, and the
 pull request's address when it opens one; `find_task_by_branch` finds the task a session starting
 on a branch is working on. GitHub's `pull_request` webhook (the same `/api/github-webhook` and
-secret the Builder and the deploy count use) records the pull request on every task on that
+secret the deploy count uses) records the pull request on every task on that
 branch in a project for that repository when it opens, and on merge marks each work task done
 with a message saying so. A support task still closes through its resolution, so its merge only
-says so on the conversation. Builder branches (`claude/task-<id>-…`) keep their own path.
+says so on the conversation.
 
 ## Status
 

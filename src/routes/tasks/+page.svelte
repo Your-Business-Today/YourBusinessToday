@@ -38,7 +38,6 @@
 	const emptyMessages: Record<typeof data.filter, string> = {
 		open: 'No tasks here — add one from a project.',
 		all: 'No tasks here — add one from a project.',
-		waiting: 'Nothing is waiting on you. No build has a migration to review.',
 		team: 'Nothing is assigned to you on anyone else’s project.'
 	};
 </script>

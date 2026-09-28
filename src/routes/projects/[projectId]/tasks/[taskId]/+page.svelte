@@ -1,6 +1,5 @@
 <script lang="ts">
 	import AcceptanceCriteriaSection from '$lib/components/projects/AcceptanceCriteriaSection.svelte';
-	import BuildPanel from '$lib/components/projects/BuildPanel.svelte';
 	import ChecklistSection from '$lib/components/projects/ChecklistSection.svelte';
 	import ConversationParticipantsPanel from '$lib/components/conversations/ConversationParticipantsPanel.svelte';
 	import ConversationThread from '$lib/components/conversations/ConversationThread.svelte';
@@ -51,9 +50,6 @@
 		<ResolveSupportTaskForm />
 	{/if}
 	<AcceptanceCriteriaSection criteria={data.criteria} />
-	{#if data.canSendToBuild && data.project.repositoryUrl !== ''}
-		<BuildPanel task={data.task} project={data.project} />
-	{/if}
 	<TaskBranchPanel task={data.task} project={data.project} />
 	<SubtaskList subtasks={data.subtasks} onAddSubtask={() => (isSubtaskModalOpen = true)} />
 	<ChecklistSection checklists={data.checklists} />

@@ -3,7 +3,6 @@ import { addAcceptanceCriterion } from '$lib/server/projects/addAcceptanceCriter
 import { accountNameLookup } from '$lib/data/accountNames';
 import { attachmentActions } from './attachmentActions';
 import { branchActions } from './branchActions';
-import { buildActions } from './buildActions';
 import { checklistActions } from './checklistActions';
 import { saveTaskActions } from './saveTaskActions';
 import { conversationActions } from './conversationActions';
@@ -16,7 +15,6 @@ import { getTask } from '$lib/server/projects/getTask';
 import { getTaskFamily } from '$lib/server/projects/getTaskFamily';
 import { getOtherProjects } from '$lib/server/projects/getOtherProjects';
 import { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
-import { getProfileFlags } from '$lib/server/auth/getProfileFlags';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { setCriterionMet } from '$lib/server/projects/setCriterionMet';
 import { withAuthorNames } from '$lib/server/conversations/withAuthorNames';
@@ -27,11 +25,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const { user } = await requireProjectAccess(locals, params.projectId);
 	const workspace = await loadTaskWorkspace(locals.supabase, params.projectId, params.taskId);
 	if (workspace === null) error(404, 'Task not found');
-	const profileFlags = await getProfileFlags(locals.supabase);
 	const task = workspace.task;
 	return {
 		...workspace,
-		canSendToBuild: profileFlags.isStaff || profileFlags.isAdmin,
 		otherProjects: await getOtherProjects(locals.supabase, params.projectId),
 		...(await getTaskFamily(locals.supabase, task)),
 		messages: withAuthorNames(workspace.messages, workspace.accounts),
@@ -45,7 +41,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 export const actions: Actions = {
 	...saveTaskActions,
 	...checklistActions,
-	...buildActions,
 	...attachmentActions,
 	...branchActions,
 	...conversationActions,

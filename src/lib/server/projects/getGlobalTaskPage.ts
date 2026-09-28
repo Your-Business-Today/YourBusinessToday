@@ -13,6 +13,10 @@ export type GlobalTaskPage = {
 
 const tasksPerPage = 20;
 
+export function singlePageOf(tasks: GlobalTask[]): GlobalTaskPage {
+	return { tasks, pageNumber: 1, pageCount: 1, taskCount: tasks.length, firstTaskNumber: 1 };
+}
+
 export async function getGlobalTaskPage(
 	supabase: SupabaseClient,
 	ownerId: string,

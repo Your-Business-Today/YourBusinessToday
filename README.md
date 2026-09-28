@@ -5,7 +5,7 @@ the tools that run it.
 
 ## Status
 
-The consultancy runs on this: clients, projects, support and the Builder are all working.
+The consultancy runs on this: clients, projects and support are all working.
 The books live in their own house, Your Books Today.
 
 - Sign in with Google, or with an email address and a password — new accounts confirm
@@ -35,10 +35,6 @@ The books live in their own house, Your Books Today.
   the work is and closes it with a resolution the raiser reads. `/support` lists what is
   waiting on you; [docs/support-conversations-architecture.md](./docs/support-conversations-architecture.md)
   is the design.
-- Send a task to the Builder — a Claude Code routine per tier that branches, builds, opens
-  a pull request and reports back; merged builds mark the task live and say so in its
-  conversation. Schema changes wait for a person;
-  [docs/builder-architecture.md](./docs/builder-architecture.md) is the design.
 - Every push to a project's default branch is a deploy YBT counts, and every N of them (set on
   the project, 10 by default) it raises `REFACTOR: round N` on the project as the reminder to run
   the repository's refactor-round skill from the project-process kit — a person's Claude runs it
@@ -73,8 +69,7 @@ npm run dev
 | `COMPANIES_HOUSE_API_KEY` | Companies House company and officer search |
 | `RESEND_API_KEY` / `EMAIL_FROM` | Resend API key and sender address for transactional email |
 | `ENQUIRY_NOTIFICATION_EMAIL` | Where website enquiries from `/contact` are sent |
-| `BUILDER_{EASY,MEDIUM,HARD}_ROUTINE_URL` / `_TOKEN` | Fire endpoint and token of the Claude Code routine for each tier |
-| `GITHUB_WEBHOOK_SECRET` | Secret on the GitHub webhook that tells a task its build merged |
+| `GITHUB_WEBHOOK_SECRET` | Secret on the GitHub webhook that counts deploys and tells a task its pull request merged |
 
 ## Stack
 
