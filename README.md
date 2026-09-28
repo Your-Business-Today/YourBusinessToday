@@ -22,8 +22,11 @@ The books live in their own house, Your Books Today.
   creates projects they own; the owner invites people by email, removes them, and can hand
   the project on. Everyone on a project works its goals — high level, measurable — and its
   tasks, and every goal and task carries a conversation. `/projects` shows your projects
-  and your team projects; `/tasks` is your queue across the projects you own, with a Team
-  filter for what is assigned to you elsewhere. Anyone on a project can do all of this
+  and your team projects, each tile saying how much of its open work is assigned to you;
+  `/tasks` is your queue across the projects you own, with an Assigned to me filter for every
+  open task assigned to you on any project you are on. A project's backlog carries a chip per
+  person with their open assigned count, so what is assigned to each of you is one click away.
+  Anyone on a project can do all of this
   through their own Claude at `/api/mcp` too. Every top level task is a user story unless it
   is a `FIX:`; every message says whose turn it is next — a person or their Claude — and the
   backlog filters to what is waiting on you; every task records the git branch its work is on,

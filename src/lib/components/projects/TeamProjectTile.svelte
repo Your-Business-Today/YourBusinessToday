@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AssignedToYouNote from './AssignedToYouNote.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
 	import { projectTileClasses } from './projectTileStyles';
 	import type { TeamProject } from '$lib/server/members/getTeamProjects';
@@ -24,5 +25,8 @@
 		</h3>
 		<p class="text-sm text-chalk/60">Owned by {project.ownerName}</p>
 	</div>
-	<span class="mt-auto font-display text-xs text-chalk/50">{openTaskLine}</span>
+	<div class="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+		<span class="font-display text-xs text-chalk/50">{openTaskLine}</span>
+		<AssignedToYouNote assignedTaskCount={project.assignedTaskCount} />
+	</div>
 </li>

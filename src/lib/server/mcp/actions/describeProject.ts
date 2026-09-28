@@ -1,3 +1,4 @@
+import { assignedToYouLine } from '$lib/data/assignedTaskLine';
 import { goalLine } from './describeGoal';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
@@ -11,10 +12,19 @@ export const noSuchProject =
 
 const subtaskIndent = '  ';
 
+type OpenWork = { openTaskCount: number; assignedTaskCount: number };
+
 export function describeProjectLine(project: ProjectSummary): string {
 	const status = projectStatusLabels[project.status];
 	const place = `priority ${project.priority}, id: ${project.id}`;
-	return `${project.name} — ${status}, ${project.openTaskCount} open (${place})`;
+	return `${project.name} — ${status}, ${openWorkPhrase(project)} (${place})`;
+}
+
+/** "72 open", with ", 3 assigned to you" when any of it is the caller's. */
+export function openWorkPhrase(project: OpenWork): string {
+	const assignedLine = assignedToYouLine(project.assignedTaskCount);
+	if (assignedLine === '') return `${project.openTaskCount} open`;
+	return `${project.openTaskCount} open, ${assignedLine}`;
 }
 
 export function describeProject(

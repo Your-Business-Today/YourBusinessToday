@@ -39,16 +39,20 @@ Run these in the Supabase SQL editor, in order (each is run-once):
 ## The views
 
 - `/projects` — the viewed staff member's projects (yours by default), with open-task
-  counts and creation. The Task view button leads to the same person's task queue.
+  counts, how many of them are assigned to you, and creation. The Task view button leads to
+  the same person's task queue.
 - `/tasks` — the viewed staff member's top-level tasks in one paginated queue, ordered
   by global priority, each labelled with its project. Open tasks show by default; the
-  All filter reveals Done. The ▲ ▼ controls reorder the queue, and the status pill
-  works in place.
+  All filter reveals Done; Assigned to me lists every open task assigned to you across
+  every project you are on, soonest due first. The ▲ ▼ controls reorder the queue, and
+  the status pill works in place.
 - `/projects/[projectId]` — phases (with weighted completion bars and an add-phase form)
   above the prioritised backlog. New tasks join the bottom; the ▲ ▼ controls reorder, so
   the top row is always the next thing to spend Claude on. Each row shows its phase,
-  assignees, story points, and completion; the status pill cycles
-  Backlog → In progress → Done in place.
+  assignees as pills (yours highlighted), story points, and completion; the status pill
+  cycles Backlog → In progress → Done in place. Above the backlog a chip per person carries
+  their count of open assigned tasks — yours reads "Assigned to me" — and selecting one
+  narrows the backlog to that person's tasks.
 - `/projects/[projectId]/sprints` — create sprints (with optional start and end dates)
   and see each sprint's task count and weighted completion.
 - `/projects/[projectId]/sprints/[sprintId]` — the tasks in a sprint, drawn from any

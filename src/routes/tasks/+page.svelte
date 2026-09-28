@@ -7,6 +7,7 @@
 	import TaskStatusModal from '$lib/components/projects/TaskStatusModal.svelte';
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { postListReorder } from '$lib/client/postListReorder';
+	import { filterForAssignedTasks, filterForEveryTask } from '$lib/data/taskListFilter';
 	import type { GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 
 	let { data } = $props();
@@ -28,8 +29,8 @@
 		isStatusModalOpen = true;
 	}
 
-	const shouldIncludeDone = $derived(data.filter === 'all');
-	const canReorder = $derived(data.filter === 'open' || data.filter === 'all');
+	const shouldIncludeDone = $derived(data.filter === filterForEveryTask);
+	const canReorder = $derived(data.filter !== filterForAssignedTasks);
 	const taskCountLabel = $derived(
 		`${data.taskPage.taskCount} ${shouldIncludeDone ? 'task' : 'open task'}${
 			data.taskPage.taskCount === 1 ? '' : 's'
@@ -38,7 +39,7 @@
 	const emptyMessages: Record<typeof data.filter, string> = {
 		open: 'No tasks here — add one from a project.',
 		all: 'No tasks here — add one from a project.',
-		team: 'Nothing is assigned to you on anyone else’s project.'
+		assigned: 'Nothing open is assigned to you on any project.'
 	};
 </script>
 

@@ -1,6 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { createProject } from '$lib/server/projects/createProject';
 import { deleteProject } from '$lib/server/projects/deleteProject';
+import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
 import { getProjectList } from '$lib/server/projects/getProjectList';
 import { getTeamProjects } from '$lib/server/members/getTeamProjects';
 import { moveProject, type ProjectMoveDirection } from '$lib/server/projects/moveProject';
@@ -15,9 +16,10 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = await requireUser(locals);
+	const assignedTaskCounts = await getAssignedTaskCounts(locals.supabase, user.id);
 	return {
-		projects: await getProjectList(locals.supabase, user.id),
-		teamProjects: await getTeamProjects(locals.supabase, user.id)
+		projects: await getProjectList(locals.supabase, user.id, assignedTaskCounts),
+		teamProjects: await getTeamProjects(locals.supabase, user.id, assignedTaskCounts)
 	};
 };
 

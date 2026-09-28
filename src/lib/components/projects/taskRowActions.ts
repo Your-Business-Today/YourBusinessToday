@@ -7,6 +7,8 @@ import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 export type TaskTurn = TurnReading & { since: string };
 
+export type TaskAssignee = { id: string; name: string; isViewer: boolean };
+
 export type TaskRowHandlers = {
 	onAddSubtask: (parentTask: TaskTreeNode) => void;
 	onChangeStatus: (task: TaskTreeNode) => void;
@@ -14,7 +16,7 @@ export type TaskRowHandlers = {
 };
 
 export type TaskRowActions = TaskRowHandlers & {
-	assigneeNamesFor: (taskId: string) => string[];
+	assigneesFor: (taskId: string) => TaskAssignee[];
 	goalTitleFor: (goalId: string | null) => string | null;
 	turnFor: (taskId: string) => TaskTurn | null;
 };
@@ -35,11 +37,15 @@ export function createTaskRowActions(
 	return {
 		...handlers,
 		goalTitleFor: (goalId) => sources.goals.find((goal) => goal.id === goalId)?.title ?? null,
-		assigneeNamesFor: (taskId) => {
+		assigneesFor: (taskId) => {
 			const assigneeIds = sources.assigneeIdsByTask[taskId] ?? [];
 			return sources.people
 				.filter((person) => assigneeIds.includes(person.id))
-				.map((person) => person.name);
+				.map((person) => ({
+					id: person.id,
+					name: person.name,
+					isViewer: person.id === sources.viewerId
+				}));
 		},
 		turnFor: (taskId) => {
 			const turn = sources.turnsByTask[taskId];

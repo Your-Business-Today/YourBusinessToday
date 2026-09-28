@@ -1,8 +1,9 @@
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
-import { describeProject, describeProjectLine, noSuchProject } from './describeProject';
+import { describeProject, describeProjectLine, noSuchProject, openWorkPhrase } from './describeProject';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
 import { getProjectGoals } from '$lib/server/goals/getProjectGoals';
+import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
 import { getProjectList } from '$lib/server/projects/getProjectList';
 import { getProjectTasks } from '$lib/server/projects/getProjectTasks';
 import { getTeamProjects, type TeamProject } from '$lib/server/members/getTeamProjects';
@@ -23,8 +24,9 @@ export const projectReadActions: McpAction[] = [
 			'the projects you own, in priority order, then the projects you are on as a team member',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
-			const owned = await getProjectList(caller.supabase, caller.accountId);
-			const team = await getTeamProjects(caller.supabase, caller.accountId);
+			const assignedTaskCounts = await getAssignedTaskCounts(caller.supabase, caller.accountId);
+			const owned = await getProjectList(caller.supabase, caller.accountId, assignedTaskCounts);
+			const team = await getTeamProjects(caller.supabase, caller.accountId, assignedTaskCounts);
 			if (owned.length === 0 && team.length === 0) {
 				return 'You have no projects yet. Call create_project to start one.';
 			}
@@ -62,5 +64,5 @@ async function cadenceLineFor(supabase: SupabaseClient, project: Project): Promi
 
 function teamProjectLine(project: TeamProject): string {
 	const status = projectStatusLabels[project.status];
-	return `${project.name} — ${status}, ${project.openTaskCount} open, owned by ${project.ownerName} (id: ${project.id})`;
+	return `${project.name} — ${status}, ${openWorkPhrase(project)}, owned by ${project.ownerName} (id: ${project.id})`;
 }

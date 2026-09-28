@@ -44,7 +44,7 @@ export async function getGlobalTaskPage(
 	};
 }
 
-function parseGlobalTaskRow(row: Record<string, unknown>): GlobalTask {
+export function parseGlobalTaskRow(row: Record<string, unknown>): GlobalTask {
 	const project = row.projects as { name: string } | null;
 	return { ...parseTaskRecord(row), projectName: project?.name ?? '' };
 }

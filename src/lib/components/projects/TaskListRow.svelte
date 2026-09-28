@@ -77,7 +77,7 @@
 				<TaskRowMeta
 					{task}
 					{isDone}
-					assigneeNames={actions.assigneeNamesFor(task.id)}
+					assignees={actions.assigneesFor(task.id)}
 					goalTitle={actions.goalTitleFor(task.goalId)}
 					turn={actions.turnFor(task.id)}
 					onChangeGoal={() => actions.onChangeGoal(task)}
