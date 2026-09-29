@@ -1,7 +1,7 @@
 <script lang="ts">
 	import PriorityModal from '$lib/components/site/PriorityModal.svelte';
 	import TaskStatusModal from '$lib/components/projects/TaskStatusModal.svelte';
-	import { topRank } from '$lib/server/ordering/rankedSet';
+	import { topRank } from '$lib/data/topRank';
 	import type { GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 
 	let {
