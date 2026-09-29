@@ -1,4 +1,5 @@
 import { actionsFor, areasFor } from './actionRegistry';
+import { raisingDoctrine } from './raisingDoctrine';
 import { workingDoctrine } from './workingDoctrine';
 import type { McpCaller } from './resolveMcpCaller';
 
@@ -10,7 +11,9 @@ export function describeContext(caller: McpCaller): string {
 		`Areas you can reach: ${areasFor(caller).join(', ')}.`,
 		`${actionsFor(caller, null).length} actions are available to you — call list_actions to see them.`,
 		'',
-		workingDoctrine
+		workingDoctrine,
+		'',
+		raisingDoctrine
 	]
 		.filter((line) => line !== null)
 		.join('\n');
