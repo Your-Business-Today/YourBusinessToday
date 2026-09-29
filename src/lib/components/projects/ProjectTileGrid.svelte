@@ -10,13 +10,15 @@
 		firstPositionNumber,
 		projectCount,
 		onEdit,
-		onDelete
+		onDelete,
+		onSetPriority
 	}: {
 		projects: ProjectSummary[];
 		firstPositionNumber: number;
 		projectCount: number;
 		onEdit: (project: ProjectSummary) => void;
 		onDelete: (project: ProjectSummary) => void;
+		onSetPriority: (project: ProjectSummary) => void;
 	} = $props();
 
 	const listReorder = new ListReorder((movedProjectId, targetProjectId, placement) =>
@@ -33,6 +35,7 @@
 			isLast={firstPositionNumber + projectIndex === projectCount}
 			{onEdit}
 			{onDelete}
+			{onSetPriority}
 		/>
 	{/each}
 </ul>

@@ -13,6 +13,7 @@ export type TaskRowHandlers = {
 	onAddSubtask: (parentTask: TaskTreeNode) => void;
 	onChangeStatus: (task: TaskTreeNode) => void;
 	onChangeGoal: (task: TaskTreeNode) => void;
+	onSetPriority: (task: TaskTreeNode) => void;
 };
 
 export type TaskRowActions = TaskRowHandlers & {

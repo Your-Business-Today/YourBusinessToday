@@ -11,6 +11,7 @@
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { taskStatusLabels, type TaskStatus } from '$lib/data/taskStatus';
 	import type { Goal } from '$lib/server/goals/goalRecord';
+	import { taskPriorityScope } from '$lib/data/taskPriorityScope';
 	import type { ProjectChoice } from '$lib/server/projects/getOtherProjects';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
@@ -39,11 +40,7 @@
 
 	const tracker = new FormTracker();
 
-	const priorityScope = $derived(
-		parentTask === null
-			? 'of all the project’s top level tasks, counting done ones and those under every goal'
-			: 'of the subtasks, counting done ones'
-	);
+	const priorityScope = $derived(taskPriorityScope(parentTask?.id ?? null));
 	const statusOptions = Object.entries(taskStatusLabels) as [TaskStatus, string][];
 	const fieldClasses =
 		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';

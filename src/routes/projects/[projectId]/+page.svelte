@@ -4,8 +4,7 @@
 	import NewTaskForm from '$lib/components/projects/NewTaskForm.svelte';
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
 	import ProjectPeoplePanel from '$lib/components/members/ProjectPeoplePanel.svelte';
-	import TaskGoalModal from '$lib/components/projects/TaskGoalModal.svelte';
-	import TaskStatusModal from '$lib/components/projects/TaskStatusModal.svelte';
+	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
 	import TaskTreePanel from '$lib/components/projects/TaskTreePanel.svelte';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
@@ -14,9 +13,11 @@
 	let isTaskModalOpen = $state(false);
 	let isStatusModalOpen = $state(false);
 	let isGoalModalOpen = $state(false);
+	let isPriorityModalOpen = $state(false);
 	let subtaskParent = $state<TaskTreeNode | null>(null);
 	let statusTask = $state<TaskTreeNode | null>(null);
 	let goalTask = $state<TaskTreeNode | null>(null);
+	let priorityTask = $state<TaskTreeNode | null>(null);
 
 	function openNewTaskModal() {
 		subtaskParent = null;
@@ -36,6 +37,11 @@
 	function openGoalModal(task: TaskTreeNode) {
 		goalTask = task;
 		isGoalModalOpen = true;
+	}
+
+	function openPriorityModal(task: TaskTreeNode) {
+		priorityTask = task;
+		isPriorityModalOpen = true;
 	}
 
 	const taskModalTitle = $derived(
@@ -63,7 +69,8 @@
 		handlers={{
 			onAddSubtask: openSubtaskModal,
 			onChangeStatus: openStatusModal,
-			onChangeGoal: openGoalModal
+			onChangeGoal: openGoalModal,
+			onSetPriority: openPriorityModal
 		}}
 	/>
 </div>
@@ -76,16 +83,12 @@
 	/>
 </Modal>
 
-{#if statusTask !== null}
-	<TaskStatusModal task={statusTask} bind:isOpen={isStatusModalOpen} />
-{/if}
-
-{#if goalTask !== null}
-	<TaskGoalModal
-		taskId={goalTask.id}
-		taskTitle={goalTask.title}
-		currentGoalId={goalTask.goalId}
-		goals={data.goals}
-		bind:isOpen={isGoalModalOpen}
-	/>
-{/if}
+<TaskRowModals
+	{statusTask}
+	{goalTask}
+	{priorityTask}
+	goals={data.goals}
+	bind:isStatusModalOpen
+	bind:isGoalModalOpen
+	bind:isPriorityModalOpen
+/>

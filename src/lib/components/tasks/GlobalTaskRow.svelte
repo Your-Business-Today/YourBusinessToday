@@ -1,6 +1,7 @@
 <script lang="ts">
 	import PriorityControls from '$lib/components/projects/PriorityControls.svelte';
 	import ChevronIcon from '$lib/components/site/ChevronIcon.svelte';
+	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
 	import TaskDueDate from '$lib/components/projects/TaskDueDate.svelte';
 	import TaskMetaBadges from '$lib/components/projects/TaskMetaBadges.svelte';
@@ -17,6 +18,7 @@
 		shouldIncludeDone,
 		canReorder,
 		onChangeStatus,
+		onSetPriority,
 		isExpanded,
 		onToggleDetail
 	}: {
@@ -28,11 +30,13 @@
 		shouldIncludeDone: boolean;
 		canReorder: boolean;
 		onChangeStatus: (task: GlobalTask) => void;
+		onSetPriority: (task: GlobalTask) => void;
 		isExpanded: boolean;
 		onToggleDetail: (task: GlobalTask) => void;
 	} = $props();
 
 	const isDone = $derived(task.status === 'done');
+	const positionClasses = 'min-w-8 text-right font-display text-sm text-chalk/40';
 </script>
 
 <ReorderableRow
@@ -54,7 +58,16 @@
 				{isLast}
 			/>
 		{/if}
-		<span class="min-w-8 text-right font-display text-sm text-chalk/40">{positionNumber}</span>
+		{#if canReorder}
+			<PriorityNumberButton
+				label={positionNumber}
+				itemName={task.title}
+				class={positionClasses}
+				onclick={() => onSetPriority(task)}
+			/>
+		{:else}
+			<span class={positionClasses}>{positionNumber}</span>
+		{/if}
 		<div class="min-w-0 flex-1 basis-40">
 			<button
 				type="button"

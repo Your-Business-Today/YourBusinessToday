@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PriorityControls from './PriorityControls.svelte';
+	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ProjectActionsMenu from './ProjectActionsMenu.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
 	import ProjectTileProgress from './ProjectTileProgress.svelte';
@@ -14,7 +15,8 @@
 		isFirst,
 		isLast,
 		onEdit,
-		onDelete
+		onDelete,
+		onSetPriority
 	}: {
 		project: ProjectSummary;
 		listReorder: ListReorder;
@@ -22,6 +24,7 @@
 		isLast: boolean;
 		onEdit: (project: ProjectSummary) => void;
 		onDelete: (project: ProjectSummary) => void;
+		onSetPriority: (project: ProjectSummary) => void;
 	} = $props();
 </script>
 
@@ -31,7 +34,12 @@
 			<span class="sr-only">Open {project.name}</span>
 		</a>
 		<div class="flex items-center justify-between gap-3">
-			<span title="Priority" class={projectTilePriorityClasses}>{project.priority}</span>
+			<PriorityNumberButton
+				label={project.priority}
+				itemName={project.name}
+				class={`relative ${projectTilePriorityClasses}`}
+				onclick={() => onSetPriority(project)}
+			/>
 			<ProjectStatusBadge status={project.status} />
 		</div>
 		<div class="flex flex-col gap-1">

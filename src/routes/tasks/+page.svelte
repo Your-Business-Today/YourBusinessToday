@@ -1,10 +1,10 @@
 <script lang="ts">
 	import GlobalTaskFilter from '$lib/components/tasks/GlobalTaskFilter.svelte';
 	import GlobalTaskDetail from '$lib/components/tasks/GlobalTaskDetail.svelte';
+	import GlobalTaskModals from '$lib/components/tasks/GlobalTaskModals.svelte';
 	import GlobalTaskPagination from '$lib/components/tasks/GlobalTaskPagination.svelte';
 	import GlobalTaskRow from '$lib/components/tasks/GlobalTaskRow.svelte';
 	import TasksPageHeader from '$lib/components/tasks/TasksPageHeader.svelte';
-	import TaskStatusModal from '$lib/components/projects/TaskStatusModal.svelte';
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { postListReorder } from '$lib/client/postListReorder';
 	import { filterForAssignedTasks, filterForEveryTask } from '$lib/data/taskListFilter';
@@ -17,7 +17,9 @@
 	);
 
 	let isStatusModalOpen = $state(false);
+	let isPriorityModalOpen = $state(false);
 	let statusTask = $state<GlobalTask | null>(null);
+	let priorityTask = $state<GlobalTask | null>(null);
 	let expandedTaskId = $state<string | null>(null);
 
 	function toggleDetail(task: GlobalTask) {
@@ -27,6 +29,11 @@
 	function openStatusModal(task: GlobalTask) {
 		statusTask = task;
 		isStatusModalOpen = true;
+	}
+
+	function openPriorityModal(task: GlobalTask) {
+		priorityTask = task;
+		isPriorityModalOpen = true;
 	}
 
 	const shouldIncludeDone = $derived(data.filter === filterForEveryTask);
@@ -69,6 +76,7 @@
 					{shouldIncludeDone}
 					{canReorder}
 					onChangeStatus={openStatusModal}
+					onSetPriority={openPriorityModal}
 					isExpanded={expandedTaskId === task.id}
 					onToggleDetail={toggleDetail}
 				/>
@@ -85,6 +93,4 @@
 	{/if}
 </div>
 
-{#if statusTask !== null}
-	<TaskStatusModal task={statusTask} bind:isOpen={isStatusModalOpen} />
-{/if}
+<GlobalTaskModals {statusTask} {priorityTask} bind:isStatusModalOpen bind:isPriorityModalOpen />
