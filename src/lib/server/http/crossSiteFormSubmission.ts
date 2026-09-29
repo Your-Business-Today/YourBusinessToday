@@ -5,9 +5,8 @@ const formMediaTypes = ['application/x-www-form-urlencoded', 'multipart/form-dat
 const mutatingMethods = ['POST', 'PUT', 'PATCH', 'DELETE'];
 
 // SvelteKit's own origin check is switched off in svelte.config.js (it trusts
-// every origin) because it cannot exempt a path, and OAuth clients call the
-// token endpoint server-to-server with no Origin header at all, as GitHub does
-// when a webhook is set to its default form content type. Every other form
+// every origin) because it cannot exempt a path: OAuth clients and GitHub's
+// webhook post server-to-server with no Origin header at all. Every other form
 // keeps exactly the protection the framework gave it.
 const pathsOpenToOtherOrigins = [tokenPath, githubWebhookPath];
 
