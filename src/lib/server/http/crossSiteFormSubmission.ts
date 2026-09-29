@@ -1,3 +1,4 @@
+import { githubWebhookPath } from '$lib/server/deploys/githubWebhookPath';
 import { tokenPath } from '$lib/server/oauth/oauthSettings';
 
 const formMediaTypes = ['application/x-www-form-urlencoded', 'multipart/form-data', 'text/plain'];
@@ -5,9 +6,10 @@ const mutatingMethods = ['POST', 'PUT', 'PATCH', 'DELETE'];
 
 // SvelteKit's own origin check is switched off in svelte.config.js (it trusts
 // every origin) because it cannot exempt a path, and OAuth clients call the
-// token endpoint server-to-server with no Origin header at all. Every other
-// form keeps exactly the protection the framework gave it.
-const pathsOpenToOtherOrigins = [tokenPath];
+// token endpoint server-to-server with no Origin header at all, as GitHub does
+// when a webhook is set to its default form content type. Every other form
+// keeps exactly the protection the framework gave it.
+const pathsOpenToOtherOrigins = [tokenPath, githubWebhookPath];
 
 export function isForbiddenCrossSiteForm(request: Request, url: URL): boolean {
 	if (pathsOpenToOtherOrigins.includes(url.pathname)) return false;
