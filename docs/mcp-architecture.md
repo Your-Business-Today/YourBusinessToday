@@ -28,6 +28,14 @@ fix it there, not here.
 > the build if either names an action that does not exist. See
 > [refactor-cadence-architecture.md](./refactor-cadence-architecture.md).
 
+> **29 September 2026, raising something.** After the working doctrine, `get_current_context`
+> carries the raising doctrine (`src/lib/server/mcp/raisingDoctrine.ts`): the walk a client's
+> Claude takes from "here is what I want" to a well-formed goal, task or support request. Find
+> the project and the goal, show what already covers it, decide with the person what it is,
+> write it in that shape in their own words, ask before creating, put their files on it, and
+> say what happens next. It lives in the connector because a client's Claude has nothing else:
+> a skill in a repository never reaches it. The same test guards its action names.
+
 ## The stories it serves
 
 | As | I want | So that |

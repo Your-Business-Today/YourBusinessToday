@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { taskStatusOrder } from '$lib/data/taskStatus';
+import { raisingDoctrine } from './raisingDoctrine';
 import { workingDoctrine } from './workingDoctrine';
 
 const actionsDirectory = join(import.meta.dirname, 'actions');
@@ -29,6 +30,7 @@ describe('the working doctrine', () => {
 	it('names only actions that exist', () => {
 		expect(actionNames.size).toBeGreaterThan(50);
 		for (const name of namesIn(workingDoctrine)) expect(actionNames, name).toContain(name);
+		for (const name of namesIn(raisingDoctrine)) expect(actionNames, name).toContain(name);
 	});
 
 	it('is echoed by guidance that names only actions that exist', () => {
@@ -44,5 +46,13 @@ describe('the working doctrine', () => {
 		expect(workingDoctrine).toContain('find_tasks');
 		expect(workingDoctrine).toContain('FIX: ');
 		expect(workingDoctrine).toContain('REFACTOR: round');
+	});
+
+	it('takes whoever raises something through the search, the shape and the ask', () => {
+		expect(raisingDoctrine).toContain('find_goals');
+		expect(raisingDoctrine).toContain('find_tasks');
+		expect(raisingDoctrine).toContain('FIX: ');
+		expect(raisingDoctrine).toContain('ask before creating');
+		expect(raisingDoctrine).toContain('what happens next');
 	});
 });

@@ -1,0 +1,19 @@
+export const raisingDoctrine = [
+	'Raising something — a goal, a piece of work or a question — read this before creating any of them:',
+	'1. Find where it belongs. Call list_projects for the project it is about, then find_goals on',
+	'   that project for the goal it serves, and show the person the match. Then find_tasks with a',
+	'   few words of the matter: an open task that already covers it is where it goes — post_message',
+	'   on that one rather than raising it again.',
+	'2. Decide with them what it is. A goal is a high level outcome with a measure both sides can',
+	'   check (create_goal). A piece of work sits under a goal: something broken is a bug titled',
+	'   "FIX: <what is wrong>", anything new is a user story — as a…, I want…, so that… (create_task).',
+	'   A question somebody has to answer is a support request (create_support_task).',
+	'3. Write it in that shape in their own words — what they want and why, as they said it, not',
+	'   reworded into ours. Read it back and ask before creating; nothing is raised until they say so.',
+	'4. Put every file they mention on it once it exists: attach_file_to_task for one at a public',
+	'   address, grant_task_upload then record_task_upload for one in your workspace. Name it for',
+	'   what it is and say what it shows.',
+	'5. Tell them what happens next: someone at Your Business Today reads it, weighs it as a need or',
+	'   a want, sizes it and answers in its conversation. Bring that answer to them when',
+	'   read_latest_messages carries it, and post their reply on the same task with post_message.'
+].join('\n');
