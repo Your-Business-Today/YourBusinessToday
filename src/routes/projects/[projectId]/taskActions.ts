@@ -3,10 +3,15 @@ import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskStoryRefusal } from '$lib/server/projects/newTaskStoryRefusal';
 import { getTask } from '$lib/server/projects/getTask';
 import { moveTask, type TaskMoveDirection } from '$lib/server/projects/moveTask';
-import { parseDropPlacement } from '$lib/server/ordering/rankInput';
+import {
+	parseDropPlacement,
+	parsePriorityNumber,
+	priorityNumberRefusal
+} from '$lib/server/ordering/rankInput';
 import { parseTaskStatus } from '$lib/data/taskStatus';
 import { placeTask } from '$lib/server/projects/placeTask';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
+import { setTaskPriority } from '$lib/server/projects/setTaskPriority';
 import { statusChangeRefusal } from '$lib/server/support/statusChangeRefusal';
 import { updateTaskGoal } from '$lib/server/projects/updateTaskGoal';
 import { updateTaskStatus } from '$lib/server/projects/updateTaskStatus';
@@ -52,6 +57,18 @@ export const taskActions = {
 		const refusal = statusChangeRefusal(task, status);
 		if (refusal !== null) return fail(400, { message: refusal });
 		await updateTaskStatus(locals.supabase, task.id, status);
+		return {};
+	},
+	setTaskPriority: async ({ locals, params, request }) => {
+		await requireProjectAccess(locals, params.projectId);
+		const formData = await request.formData();
+		const task = await getTask(locals.supabase, String(formData.get('taskId') ?? ''));
+		if (task === null || task.projectId !== params.projectId) {
+			return fail(400, { message: 'A task on this project is required.' });
+		}
+		const priority = parsePriorityNumber(formData.get('priority'));
+		if (priority === null) return fail(400, { message: priorityNumberRefusal });
+		await setTaskPriority(locals.supabase, task.id, priority);
 		return {};
 	},
 	setGoal: async ({ locals, params, request }) => {

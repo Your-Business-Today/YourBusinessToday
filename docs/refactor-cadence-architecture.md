@@ -113,13 +113,19 @@ Run the project-process bootstrap in the repository (it installs the audit, the 
 end-of-day skills, and the due-check script). Optionally, in YBT, set the project's repository
 URL and default branch, and on GitHub have the repository's webhook to
 `<ybt>/api/github-webhook` send **push** events as well as pull request events — the same
-secret. Without the webhook the repository's own `deploys_since_baseline.sh` still says when a
-round is due; with it, the reminder lands on the project.
+secret. Either content type GitHub offers works: `application/json`, or its default
+`application/x-www-form-urlencoded`, where the event is the form's `payload` field. The site's
+own cross-site form guard (`crossSiteFormSubmission.ts`) leaves this path alone, because the
+HMAC signature is what guards it and GitHub sends no Origin header. Without the webhook the
+repository's own `deploys_since_baseline.sh` still says when a round is due; with it, the
+reminder lands on the project.
 
 ## Status
 
 Written on 15 September 2026. Migration `0055` is applied and the cadence was deployed on
 16 September (d9e4311). On 27 September the connector's doctrine was aligned with the kit's
 branching rule (branch, push, pull request, a person merges). The pure rules are under test (`readPushEvent`, `repositoryUrlKey`,
-`refactorRoundTitle`, `isRefactorRoundDue`, `workingDoctrine`); the webhook path has not yet
-received a live push.
+`refactorRoundTitle`, `isRefactorRoundDue`, `workingDoctrine`, `readGithubWebhookBody`,
+`crossSiteFormSubmission`). On 29 September the webhook path was found to be refused by the
+cross-site form guard when GitHub delivered with its default form content type; both the guard
+and the body reading now let such a delivery through.

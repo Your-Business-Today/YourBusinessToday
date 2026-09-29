@@ -21,7 +21,7 @@ export const projectReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'the projects you own, in priority order, then the projects you are on as a team member',
+			'the projects you own, in priority order, then the projects you are on as a team member, in your own order',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
 			const assignedTaskCounts = await getAssignedTaskCounts(caller.supabase, caller.accountId);
@@ -64,5 +64,6 @@ async function cadenceLineFor(supabase: SupabaseClient, project: Project): Promi
 
 function teamProjectLine(project: TeamProject): string {
 	const status = projectStatusLabels[project.status];
-	return `${project.name} — ${status}, ${openWorkPhrase(project)}, owned by ${project.ownerName} (id: ${project.id})`;
+	const place = `priority ${project.priority} among your team projects, id: ${project.id}`;
+	return `${project.name} — ${status}, ${openWorkPhrase(project)}, owned by ${project.ownerName} (${place})`;
 }

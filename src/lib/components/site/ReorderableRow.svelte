@@ -47,6 +47,10 @@
 	function lockTextSelection(isLocked: boolean) {
 		document.body.style.userSelect = isLocked ? 'none' : '';
 	}
+
+	function keepHoldingInsteadOfMenu(event: Event) {
+		event.preventDefault();
+	}
 </script>
 
 {#snippet dragHandle()}
@@ -59,8 +63,11 @@
 		onpointermove={(event) => listReorder.trackDrag(event)}
 		onpointerup={finishHandleDrag}
 		onpointercancel={cancelHandleDrag}
-		class="cursor-grab touch-none px-1 text-chalk/30 transition select-none hover:text-chalk/70
-			active:cursor-grabbing"
+		oncontextmenu={keepHoldingInsteadOfMenu}
+		class="inline-flex cursor-grab touch-none items-center justify-center px-1 text-chalk/30
+			transition select-none [-webkit-touch-callout:none] hover:text-chalk/70
+			active:cursor-grabbing pointer-coarse:min-h-10 pointer-coarse:min-w-9
+			pointer-coarse:text-xl pointer-coarse:text-chalk/50"
 	>
 		⠿
 	</button>

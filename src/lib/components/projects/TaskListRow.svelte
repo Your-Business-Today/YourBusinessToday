@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PriorityControls from './PriorityControls.svelte';
+	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
 	import SubtaskRows from './SubtaskRows.svelte';
 	import TaskFoldButton from './TaskFoldButton.svelte';
@@ -50,9 +51,12 @@
 					{isFirst}
 					{isLast}
 				/>
-				<span class="w-8 text-right font-display text-xs tabular-nums text-chalk/40">
-					{numberPath}
-				</span>
+				<PriorityNumberButton
+					label={numberPath}
+					itemName={task.title}
+					class="w-8 text-right font-display text-xs tabular-nums text-chalk/40"
+					onclick={() => actions.onSetPriority(task)}
+				/>
 			</div>
 			<div class="flex min-w-0 flex-1 flex-col gap-1.5">
 				<div class="flex min-w-0 items-center gap-1.5">

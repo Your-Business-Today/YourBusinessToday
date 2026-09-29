@@ -4,6 +4,7 @@
 	import GoalStatusFilter from './GoalStatusFilter.svelte';
 	import { openGoalsOnly } from './goalStatusFilters';
 	import Modal from '$lib/components/site/Modal.svelte';
+	import PriorityModal from '$lib/components/site/PriorityModal.svelte';
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { postListReorder } from '$lib/client/postListReorder';
 	import type { GoalSummary } from '$lib/server/goals/getGoalSummaries';
@@ -11,6 +12,8 @@
 	let { goalSummaries }: { goalSummaries: GoalSummary[] } = $props();
 
 	let isAddGoalModalOpen = $state(false);
+	let isPriorityModalOpen = $state(false);
+	let priorityGoal = $state<GoalSummary | null>(null);
 	let shouldIncludeClosed = $state(false);
 
 	const listReorder = new ListReorder((movedGoalId, targetGoalId, placement) =>
@@ -20,6 +23,11 @@
 	const shownGoalSummaries = $derived(
 		shouldIncludeClosed ? goalSummaries : openGoalsOnly(goalSummaries)
 	);
+
+	function openPriorityModal(goalSummary: GoalSummary) {
+		priorityGoal = goalSummary;
+		isPriorityModalOpen = true;
+	}
 </script>
 
 <section class="flex flex-col gap-3 rounded-2xl border border-hairline bg-carriage p-6">
@@ -53,6 +61,7 @@
 					{listReorder}
 					isFirst={goalIndex === 0}
 					isLast={goalIndex === shownGoalSummaries.length - 1}
+					onSetPriority={openPriorityModal}
 				/>
 			{/each}
 		</ul>
@@ -62,3 +71,14 @@
 <Modal title="Add goal" bind:isOpen={isAddGoalModalOpen}>
 	<AddGoalForm onCreated={() => (isAddGoalModalOpen = false)} />
 </Modal>
+
+{#if priorityGoal !== null}
+	<PriorityModal
+		itemName={priorityGoal.title}
+		priority={priorityGoal.priority}
+		among="of the project’s goals"
+		action="?/setGoalPriority"
+		fields={{ goalId: priorityGoal.id }}
+		bind:isOpen={isPriorityModalOpen}
+	/>
+{/if}

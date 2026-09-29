@@ -2,6 +2,7 @@
 	import CompletionBar from '$lib/components/projects/CompletionBar.svelte';
 	import GoalStatusPill from './GoalStatusPill.svelte';
 	import PriorityControls from '$lib/components/projects/PriorityControls.svelte';
+	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
 	import type { GoalSummary } from '$lib/server/goals/getGoalSummaries';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
@@ -10,9 +11,15 @@
 		goalSummary,
 		listReorder,
 		isFirst,
-		isLast
-	}: { goalSummary: GoalSummary; listReorder: ListReorder; isFirst: boolean; isLast: boolean } =
-		$props();
+		isLast,
+		onSetPriority
+	}: {
+		goalSummary: GoalSummary;
+		listReorder: ListReorder;
+		isFirst: boolean;
+		isLast: boolean;
+		onSetPriority: (goalSummary: GoalSummary) => void;
+	} = $props();
 
 	const taskCountLabel = $derived(
 		goalSummary.taskCount === 1 ? '1 task' : `${goalSummary.taskCount} tasks`
@@ -34,9 +41,12 @@
 				{isFirst}
 				{isLast}
 			/>
-			<span class="min-w-6 text-right font-display text-sm text-chalk/40">
-				{goalSummary.priority}
-			</span>
+			<PriorityNumberButton
+				label={goalSummary.priority}
+				itemName={goalSummary.title}
+				class="min-w-6 text-right font-display text-sm text-chalk/40"
+				onclick={() => onSetPriority(goalSummary)}
+			/>
 		</div>
 		<a
 			href={`/projects/${goalSummary.projectId}/goals/${goalSummary.id}`}
