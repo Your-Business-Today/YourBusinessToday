@@ -30,7 +30,7 @@
 
 <ReorderableRow {listReorder} rowId={project.id} class={projectTileClasses}>
 	{#snippet children(dragHandle)}
-		<a href={`/projects/${project.id}`} class="absolute inset-0 rounded-2xl">
+		<a href={`/projects/${project.id}`} class="absolute inset-0 rounded-xl">
 			<span class="sr-only">Open {project.name}</span>
 		</a>
 		<div class="flex items-center justify-between gap-3">
@@ -43,7 +43,7 @@
 			<ProjectStatusBadge status={project.status} />
 		</div>
 		<div class="flex flex-col gap-1">
-			<h3 class="font-display text-lg leading-snug font-medium transition group-hover/tile:text-go">
+			<h3 class="font-display text-base leading-snug font-medium transition group-hover/tile:text-go">
 				{project.name}
 			</h3>
 			{#if project.description !== ''}
@@ -56,7 +56,7 @@
 			completionPercent={project.completionPercent}
 			assignedTaskCount={project.assignedTaskCount}
 		/>
-		<div class="relative flex items-center justify-between gap-2 border-t border-hairline pt-3">
+		<div class="relative flex items-center justify-between gap-2 border-t border-hairline pt-2">
 			<div class="flex items-center gap-1">
 				{@render dragHandle()}
 				<PriorityControls

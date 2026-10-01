@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import ChecklistPanel from './ChecklistPanel.svelte';
+	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import { panelButtonClasses, panelEmptyClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { TaskChecklist } from '$lib/server/projects/checklistRecord';
 
 	let { checklists }: { checklists: TaskChecklist[] } = $props();
@@ -18,30 +20,22 @@
 	});
 </script>
 
-<section class="flex flex-col gap-3">
-	<div class="flex items-center justify-between gap-4">
-		<h2 class="font-display text-xl font-medium">Lists</h2>
-		<button
-			type="button"
-			onclick={() => (isAddModalOpen = true)}
-			class="rounded-full border border-hairline px-4 py-1.5 font-display text-sm text-chalk/70
-				transition hover:border-go hover:text-go"
-		>
-			Add list
+<DashboardPanel title="Lists" count={checklists.length}>
+	{#snippet actions()}
+		<button type="button" onclick={() => (isAddModalOpen = true)} class={panelButtonClasses}>
+			＋ List
 		</button>
-	</div>
+	{/snippet}
 	{#if checklists.length === 0}
-		<p class="rounded-2xl border border-dashed border-hairline p-6 text-chalk/60">
+		<p class={panelEmptyClasses}>
 			No lists yet — add one to track side work like a UAT run or a launch checklist.
 		</p>
 	{:else}
-		<div class="flex flex-col gap-4">
-			{#each checklists as checklist (checklist.id)}
-				<ChecklistPanel {checklist} />
-			{/each}
-		</div>
+		{#each checklists as checklist (checklist.id)}
+			<ChecklistPanel {checklist} />
+		{/each}
 	{/if}
-</section>
+</DashboardPanel>
 
 <Modal title="Add list" bind:isOpen={isAddModalOpen}>
 	<form

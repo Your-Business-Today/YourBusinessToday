@@ -26,7 +26,7 @@
 	const panelId = $derived(`task-group-${group.goal?.id ?? 'other'}`);
 </script>
 
-<section class="overflow-hidden rounded-2xl border border-hairline bg-carriage/40">
+<section class="border-b border-hairline last:border-b-0">
 	<TaskGroupHeader
 		goal={group.goal}
 		{projectId}

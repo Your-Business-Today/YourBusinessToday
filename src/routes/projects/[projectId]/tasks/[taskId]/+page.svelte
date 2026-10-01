@@ -3,13 +3,18 @@
 	import ChecklistSection from '$lib/components/projects/ChecklistSection.svelte';
 	import ConversationParticipantsPanel from '$lib/components/conversations/ConversationParticipantsPanel.svelte';
 	import ConversationThread from '$lib/components/conversations/ConversationThread.svelte';
+	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import ResolveSupportTaskForm from '$lib/components/support/ResolveSupportTaskForm.svelte';
 	import SubtaskList from '$lib/components/projects/SubtaskList.svelte';
-	import TaskBranchPanel from '$lib/components/projects/TaskBranchPanel.svelte';
 	import TaskAttachmentsSection from '$lib/components/projects/TaskAttachmentsSection.svelte';
+	import TaskBranchPanel from '$lib/components/projects/TaskBranchPanel.svelte';
 	import TaskDetailHeader from '$lib/components/projects/TaskDetailHeader.svelte';
-	import TaskOverviewPanel from '$lib/components/projects/TaskOverviewPanel.svelte';
+	import TaskFactsPanel from '$lib/components/projects/TaskFactsPanel.svelte';
 	import TaskPageModals from '$lib/components/projects/TaskPageModals.svelte';
+	import TaskStoryPanel from '$lib/components/projects/TaskStoryPanel.svelte';
+	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { isTaskDone } from '$lib/data/taskStatus';
+	import { supportTaskKind } from '$lib/data/taskKind';
 
 	let { data, form } = $props();
 
@@ -21,7 +26,7 @@
 		data.goals.find((goal) => goal.id === data.task.goalId)?.title ?? null
 	);
 	const isAwaitingResolution = $derived(
-		data.task.kind === 'support' && data.task.status !== 'done'
+		data.task.kind === supportTaskKind && !isTaskDone(data.task.status)
 	);
 	const assigneeNames = $derived(
 		data.people
@@ -34,45 +39,44 @@
 	<title>{data.task.title} — {data.project.name} — Your Business Today</title>
 </svelte:head>
 
-<div class="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-16">
-	<TaskDetailHeader project={data.project} parentTask={data.parentTask} taskTitle={data.task.title} />
-	{#if form?.message}
-		<p class="rounded-2xl border border-go/50 bg-go/10 px-5 py-4 text-go">{form.message}</p>
-	{/if}
-	<TaskOverviewPanel
-		task={data.task}
-		{goalTitle}
-		{assigneeNames}
-		raisedByName={data.raisedByName}
-		onEdit={() => (isEditModalOpen = true)}
-	/>
-	{#if isAwaitingResolution}
-		<ResolveSupportTaskForm />
-	{/if}
-	<AcceptanceCriteriaSection criteria={data.criteria} />
-	<TaskBranchPanel task={data.task} project={data.project} />
-	<SubtaskList subtasks={data.subtasks} onAddSubtask={() => (isSubtaskModalOpen = true)} />
-	<ChecklistSection checklists={data.checklists} />
-	<TaskAttachmentsSection
-		attachments={data.attachments}
-		projectId={data.project.id}
-		taskId={data.task.id}
-	/>
-	<ConversationParticipantsPanel people={data.people} participantIds={data.participantIds} />
-	<ConversationThread
-		messages={data.messages}
-		people={data.people}
-		viewerId={data.viewerId}
-		suggestedHandOff={data.suggestedHandOff}
-	/>
-	<button
-		type="button"
-		onclick={() => (isDeleteModalOpen = true)}
-		class="self-end rounded-full border border-hairline px-5 py-2 font-display text-sm
-			text-chalk/60 transition hover:border-signal hover:text-signal"
-	>
-		Delete task…
-	</button>
+<TaskDetailHeader
+	project={data.project}
+	parentTask={data.parentTask}
+	task={data.task}
+	onEdit={() => (isEditModalOpen = true)}
+	onAddSubtask={() => (isSubtaskModalOpen = true)}
+	onDelete={() => (isDeleteModalOpen = true)}
+/>
+
+<div class={workspaceBodyClasses}>
+	<FlashMessage message={form?.message} />
+	<div class={dashboardGridClasses}>
+		<div class="flex min-w-0 flex-col gap-4">
+			<TaskStoryPanel task={data.task} raisedByName={data.raisedByName} />
+			{#if isAwaitingResolution}
+				<ResolveSupportTaskForm />
+			{/if}
+			<AcceptanceCriteriaSection criteria={data.criteria} />
+			<SubtaskList subtasks={data.subtasks} onAddSubtask={() => (isSubtaskModalOpen = true)} />
+			<ChecklistSection checklists={data.checklists} />
+			<TaskAttachmentsSection
+				attachments={data.attachments}
+				projectId={data.project.id}
+				taskId={data.task.id}
+			/>
+			<ConversationThread
+				messages={data.messages}
+				people={data.people}
+				viewerId={data.viewerId}
+				suggestedHandOff={data.suggestedHandOff}
+			/>
+		</div>
+		<aside class="flex min-w-0 flex-col gap-4">
+			<TaskFactsPanel task={data.task} {goalTitle} {assigneeNames} />
+			<TaskBranchPanel task={data.task} project={data.project} />
+			<ConversationParticipantsPanel people={data.people} participantIds={data.participantIds} />
+		</aside>
+	</div>
 </div>
 
 <TaskPageModals

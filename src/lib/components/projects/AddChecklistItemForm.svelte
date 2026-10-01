@@ -13,7 +13,7 @@
 	method="POST"
 	action="?/addChecklistItem"
 	use:enhance={tracker.submit()}
-	class="flex flex-col gap-2 border-t border-hairline px-5 py-3"
+	class="flex flex-col gap-2 border-t border-hairline px-4 py-2.5"
 >
 	<div class="flex items-center gap-2">
 		<input type="hidden" name="checklistId" value={checklistId} />

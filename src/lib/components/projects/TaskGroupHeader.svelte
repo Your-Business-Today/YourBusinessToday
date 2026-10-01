@@ -26,7 +26,7 @@
 </script>
 
 <header
-	class="flex items-center gap-2 border-hairline bg-night/50 px-2 py-2 sm:px-3"
+	class="flex items-center gap-2 border-hairline bg-night/40 px-2 py-1.5"
 	class:border-b={isOpen}
 >
 	<button
@@ -35,19 +35,19 @@
 		title={toggleLabel}
 		aria-expanded={isOpen}
 		aria-controls={panelId}
-		class="flex min-w-0 flex-1 items-center gap-3 rounded-xl px-2 py-1.5 text-left transition
+		class="flex min-w-0 flex-1 items-center gap-3 rounded-lg px-2 py-1 text-left transition
 			hover:bg-carriage/60"
 	>
 		<span class="shrink-0 text-chalk/40">
 			<ChevronIcon {isOpen} />
 		</span>
 		<span
-			class={`shrink-0 rounded-full border px-2.5 py-0.5 font-display text-xs whitespace-nowrap
+			class={`shrink-0 rounded-full border px-2 py-0.5 font-display text-[0.7rem] whitespace-nowrap
 				${badgeClasses}`}
 		>
 			{goal === null ? 'No goal' : 'Goal'}
 		</span>
-		<span class="truncate font-display font-medium">{groupTitle}</span>
+		<span class="truncate font-display text-sm font-medium">{groupTitle}</span>
 		<span class="ml-auto shrink-0 font-display text-xs whitespace-nowrap text-chalk/50">
 			{taskCountLabel}
 		</span>

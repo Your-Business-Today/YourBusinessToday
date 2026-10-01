@@ -3,6 +3,8 @@ import { taskStatusLabels } from './taskStatus';
 
 export type TaskKind = 'work' | 'support';
 
+export const supportTaskKind: TaskKind = 'support';
+
 export const taskKindOrder: TaskKind[] = ['work', 'support'];
 
 export const taskKindLabels: Record<TaskKind, string> = {

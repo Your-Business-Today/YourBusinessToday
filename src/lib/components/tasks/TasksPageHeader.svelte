@@ -1,4 +1,6 @@
 <script lang="ts">
+	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
+	import { headerButtonClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { TaskListFilter } from '$lib/data/taskListFilter';
 
 	let { filter }: { filter: TaskListFilter } = $props();
@@ -10,16 +12,9 @@
 	};
 </script>
 
-<div class="flex flex-wrap items-end justify-between gap-4">
-	<div class="flex flex-col gap-2">
-		<h1 class="font-display text-3xl font-medium">Tasks</h1>
-		<p class="max-w-prose text-chalk/70">{descriptions[filter]}</p>
-	</div>
-	<a
-		href="/projects"
-		class="rounded-full border border-hairline px-6 py-2.5 font-display text-sm text-chalk/80
-			transition hover:border-go hover:text-go"
-	>
-		Project view
-	</a>
-</div>
+<WorkspaceHeader crumbs={[]} title="Tasks">
+	{#snippet actions()}
+		<a href="/projects" class={headerButtonClasses}>Project view</a>
+	{/snippet}
+	<p class="text-sm text-chalk/60">{descriptions[filter]}</p>
+</WorkspaceHeader>

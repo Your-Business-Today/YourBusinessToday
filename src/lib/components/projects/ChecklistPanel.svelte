@@ -13,12 +13,12 @@
 	const doneCount = $derived(checklist.items.filter((item) => item.isDone).length);
 </script>
 
-<div class="rounded-2xl border border-hairline">
-	<div class="flex items-center justify-between gap-4 px-5 py-3">
+<div class="border-b border-hairline last:border-b-0">
+	<div class="flex items-center justify-between gap-4 bg-night/40 px-4 py-2">
 		<div class="flex items-baseline gap-3">
-			<h3 class="font-display text-base font-medium">{checklist.title}</h3>
+			<h3 class="font-display text-sm font-medium">{checklist.title}</h3>
 			{#if checklist.items.length > 0}
-				<span class="font-display text-sm text-chalk/50">
+				<span class="font-display text-xs text-chalk/50">
 					{doneCount} of {checklist.items.length} done
 				</span>
 			{/if}

@@ -5,6 +5,7 @@
 	import GlobalTaskPagination from '$lib/components/tasks/GlobalTaskPagination.svelte';
 	import GlobalTaskRow from '$lib/components/tasks/GlobalTaskRow.svelte';
 	import TasksPageHeader from '$lib/components/tasks/TasksPageHeader.svelte';
+	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { postListReorder } from '$lib/client/postListReorder';
 	import { filterForAssignedTasks, filterForEveryTask } from '$lib/data/taskListFilter';
@@ -54,18 +55,19 @@
 	<title>Tasks — Your Business Today</title>
 </svelte:head>
 
-<div class="mx-auto flex max-w-4xl flex-col gap-8 px-6 py-16">
-	<TasksPageHeader filter={data.filter} />
-	<div class="flex flex-wrap items-center justify-between gap-4">
+<TasksPageHeader filter={data.filter} />
+
+<div class={workspaceBodyClasses}>
+	<div class="flex flex-wrap items-center justify-between gap-3">
 		<GlobalTaskFilter filter={data.filter} />
-		<p class="font-display text-sm text-chalk/50">{taskCountLabel}</p>
+		<p class="font-display text-xs text-chalk/50">{taskCountLabel}</p>
 	</div>
 	{#if data.taskPage.tasks.length === 0}
-		<p class="rounded-2xl border border-dashed border-hairline p-8 text-center text-chalk/60">
+		<p class="rounded-xl border border-dashed border-hairline p-8 text-center text-sm text-chalk/60">
 			{emptyMessages[data.filter]}
 		</p>
 	{:else}
-		<ol class="flex flex-col divide-y divide-hairline rounded-2xl border border-hairline">
+		<ol class="flex flex-col divide-y divide-hairline overflow-hidden rounded-xl border border-hairline bg-carriage">
 			{#each data.taskPage.tasks as task, taskIndex (task.id)}
 				<GlobalTaskRow
 					{task}

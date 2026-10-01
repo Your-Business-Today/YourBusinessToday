@@ -13,7 +13,7 @@
 	{#each taskListFilterOrder as option (option)}
 		<a
 			href={taskListHref(option)}
-			class={`rounded-full border px-4 py-1.5 font-display text-sm transition ${
+			class={`shrink-0 rounded-full border px-3 py-1 font-display text-xs transition ${
 				option === filter
 					? 'border-go bg-go/10 text-go'
 					: 'border-hairline text-chalk/60 hover:border-chalk/40 hover:text-chalk'

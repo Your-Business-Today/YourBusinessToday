@@ -30,7 +30,7 @@
 	} = $props();
 
 	const isDone = $derived(isTaskDone(task.status));
-	const titleWeight = $derived(task.parentTaskId === null ? 'font-medium' : 'text-sm');
+	const titleWeight = $derived(task.parentTaskId === null ? 'text-sm font-medium' : 'text-sm');
 	const hasSubtasks = $derived(task.subtasks.length > 0);
 	const isOpen = $derived(hasSubtasks && openRows.isOpen(task.id));
 	const subtaskPanelId = $derived(`subtasks-${task.id}`);
@@ -39,7 +39,7 @@
 <ReorderableRow {listReorder} rowId={task.id} groupId={task.parentTaskId}>
 	{#snippet children(dragHandle)}
 		<div
-			class="group/task flex items-start gap-2 px-3 py-3 transition hover:bg-carriage sm:px-4"
+			class="group/task flex items-start gap-2 px-2 py-2 transition hover:bg-night/40 sm:px-3"
 			class:opacity-50={isDone}
 		>
 			<div class="flex shrink-0 items-center gap-0.5 pt-0.5">
@@ -58,7 +58,7 @@
 					onclick={() => actions.onSetPriority(task)}
 				/>
 			</div>
-			<div class="flex min-w-0 flex-1 flex-col gap-1.5">
+			<div class="flex min-w-0 flex-1 flex-col gap-1">
 				<div class="flex min-w-0 items-center gap-1.5">
 					<TaskFoldButton
 						subtaskCount={task.subtasks.length}

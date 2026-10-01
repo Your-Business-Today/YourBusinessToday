@@ -10,6 +10,6 @@
 	};
 </script>
 
-<span class={`rounded-full border px-3 py-1 font-display text-xs ${pillStyles[status]}`}>
+<span class={`shrink-0 rounded-full border px-2 py-0.5 font-display text-[0.7rem] ${pillStyles[status]}`}>
 	{goalStatusLabels[status]}
 </span>

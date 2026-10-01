@@ -1,7 +1,12 @@
 <script lang="ts">
 	import EditProjectForm from './EditProjectForm.svelte';
+	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
+	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
+	import { headerButtonClasses, headerPrimaryButtonClasses } from '$lib/components/workspace/workspaceStyles';
+	import { projectsCrumb } from '$lib/components/workspace/projectCrumbs';
+	import { webAddressLabel } from '$lib/data/webAddressLabel';
 	import type { Project } from '$lib/server/projects/projectRecord';
 
 	let {
@@ -11,43 +16,37 @@
 	}: { project: Project; cadenceLine: string; onAddTask: () => void } = $props();
 
 	let isEditModalOpen = $state(false);
+
+	const facts = $derived(
+		[
+			linkFact(project.repositoryUrl),
+			linkFact(project.environmentUrl),
+			project.repositoryUrl === '' ? null : { label: `⎇ ${project.defaultBranch}` },
+			project.repositoryUrl === '' ? null : { label: cadenceLine }
+		].filter((fact) => fact !== null)
+	);
+
+	function linkFact(webAddress: string) {
+		if (webAddress === '') return null;
+		return { label: webAddressLabel(webAddress), href: webAddress };
+	}
 </script>
 
-<div class="flex flex-col gap-2">
-	<a href="/projects" class="font-display text-sm text-chalk/50 transition hover:text-chalk">
-		← All projects
-	</a>
-	<div class="flex flex-wrap items-center justify-between gap-4">
-		<div class="flex items-center gap-3">
-			<h1 class="font-display text-3xl font-medium">{project.name}</h1>
-			<ProjectStatusBadge status={project.status} />
-		</div>
-		<div class="flex items-center gap-2">
-			<button
-				type="button"
-				onclick={() => (isEditModalOpen = true)}
-				class="rounded-full border border-hairline px-5 py-2 font-display text-sm text-chalk/70
-					transition hover:border-go hover:text-go"
-			>
-				Edit
-			</button>
-			<button
-				type="button"
-				onclick={onAddTask}
-				class="rounded-full bg-go px-6 py-2 font-display text-sm font-medium text-night
-					transition hover:brightness-110"
-			>
-				Add task
-			</button>
-		</div>
-	</div>
+<WorkspaceHeader crumbs={[projectsCrumb]} title={project.name}>
+	{#snippet badge()}
+		<ProjectStatusBadge status={project.status} />
+	{/snippet}
+	{#snippet actions()}
+		<button type="button" onclick={() => (isEditModalOpen = true)} class={headerButtonClasses}>
+			Edit
+		</button>
+		<button type="button" onclick={onAddTask} class={headerPrimaryButtonClasses}>Add task</button>
+	{/snippet}
 	{#if project.description !== ''}
-		<p class="text-chalk/70">{project.description}</p>
+		<p class="line-clamp-2 max-w-4xl text-sm text-chalk/70">{project.description}</p>
 	{/if}
-	{#if project.repositoryUrl !== ''}
-		<p class="text-sm text-chalk/50">{cadenceLine}</p>
-	{/if}
-</div>
+	<HeaderFacts {facts} />
+</WorkspaceHeader>
 
 <Modal title={`Edit ${project.name}`} bind:isOpen={isEditModalOpen}>
 	<EditProjectForm {project} onSaved={() => (isEditModalOpen = false)} />

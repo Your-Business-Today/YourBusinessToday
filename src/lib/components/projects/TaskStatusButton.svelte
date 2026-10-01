@@ -20,7 +20,7 @@
 	type="button"
 	onclick={onOpenPicker}
 	title="Change status"
-	class={`w-28 rounded-full border px-3 py-1.5 font-display text-xs transition ${statusStyles[status]}`}
+	class={`w-24 truncate rounded-full border px-2 py-1 font-display text-xs sm:w-28 transition ${statusStyles[status]}`}
 >
 	{taskStatusLabelFor(kind, status)}
 </button>

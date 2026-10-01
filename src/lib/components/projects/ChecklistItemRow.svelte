@@ -8,7 +8,7 @@
 	const tracker = new FormTracker();
 </script>
 
-<li class="flex items-center gap-3 px-5 py-3" class:animate-pulse={tracker.isSaving}>
+<li class="flex items-center gap-3 px-4 py-2.5" class:animate-pulse={tracker.isSaving}>
 	<form method="POST" action="?/setChecklistItemDone" use:enhance={tracker.submit()}>
 		<input type="hidden" name="itemId" value={item.id} />
 		<input type="hidden" name="isDone" value={item.isDone ? 'false' : 'true'} />

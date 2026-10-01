@@ -10,6 +10,7 @@ import { getTaskTurns } from '$lib/server/conversations/conversationTurns';
 import { goalActions } from './goalActions';
 import { memberActions } from './memberActions';
 import { projectActions } from './projectActions';
+import { summariseProjectPulse } from '$lib/server/projects/summariseProjectPulse';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { taskActions } from './taskActions';
 import type { Actions, PageServerLoad } from './$types';
@@ -29,6 +30,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			refactorEveryDeploys: project.refactorEveryDeploys,
 			deploysSinceRefactor
 		}),
+		pulse: summariseProjectPulse({ tasks, assigneeIdsByTask, turnsByTask, viewerId: user.id }),
 		taskTree: buildTaskTree(tasks),
 		goalSummaries: getGoalSummaries(goals, tasks),
 		goals,

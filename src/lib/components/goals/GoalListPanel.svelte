@@ -1,11 +1,13 @@
 <script lang="ts">
 	import AddGoalForm from './AddGoalForm.svelte';
+	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import GoalRow from './GoalRow.svelte';
 	import GoalStatusFilter from './GoalStatusFilter.svelte';
 	import { openGoalsOnly } from './goalStatusFilters';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import PriorityModal from '$lib/components/site/PriorityModal.svelte';
 	import { ListReorder } from '$lib/client/listReorder.svelte';
+	import { panelButtonClasses, panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import { postListReorder } from '$lib/client/postListReorder';
 	import type { GoalSummary } from '$lib/server/goals/getGoalSummaries';
 
@@ -30,31 +32,23 @@
 	}
 </script>
 
-<section class="flex flex-col gap-3 rounded-2xl border border-hairline bg-carriage p-6">
-	<div class="flex flex-wrap items-center justify-between gap-3">
-		<h2 class="font-display text-sm tracking-widest text-chalk/50 uppercase">Goals</h2>
-		<div class="flex flex-wrap items-center gap-2">
-			<GoalStatusFilter bind:shouldIncludeClosed />
-			<button
-				type="button"
-				onclick={() => (isAddGoalModalOpen = true)}
-				class="rounded-full border border-hairline px-4 py-1.5 font-display text-xs text-chalk/70
-					transition hover:border-go hover:text-go"
-			>
-				Add goal
-			</button>
-		</div>
-	</div>
+<DashboardPanel title="Goals" count={shownGoalSummaries.length}>
+	{#snippet actions()}
+		<GoalStatusFilter bind:shouldIncludeClosed />
+		<button type="button" onclick={() => (isAddGoalModalOpen = true)} class={panelButtonClasses}>
+			＋ Goal
+		</button>
+	{/snippet}
 	{#if goalSummaries.length === 0}
-		<p class="text-sm text-chalk/60">
+		<p class={panelEmptyClasses}>
 			No goals yet — a goal is what the project must achieve, with a measure both sides can check.
 		</p>
 	{:else if shownGoalSummaries.length === 0}
-		<p class="text-sm text-chalk/60">
+		<p class={panelEmptyClasses}>
 			No open goals — press All to see the goals that are met or dropped.
 		</p>
 	{:else}
-		<ul class="flex flex-col gap-3">
+		<ul class={panelListClasses}>
 			{#each shownGoalSummaries as goalSummary, goalIndex (goalSummary.id)}
 				<GoalRow
 					{goalSummary}
@@ -66,7 +60,7 @@
 			{/each}
 		</ul>
 	{/if}
-</section>
+</DashboardPanel>
 
 <Modal title="Add goal" bind:isOpen={isAddGoalModalOpen}>
 	<AddGoalForm onCreated={() => (isAddGoalModalOpen = false)} />

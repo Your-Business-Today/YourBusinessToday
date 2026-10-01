@@ -9,10 +9,10 @@
 </script>
 
 <li
-	class="flex items-center gap-2 rounded-full border border-hairline py-1 pr-2 pl-4 font-display
-		text-sm text-chalk/80"
+	class="flex max-w-full min-w-0 items-center gap-1 rounded-full border border-hairline py-0.5 pr-1 pl-3
+		font-display text-xs text-chalk/80"
 >
-	{person.name}
+	<span class="truncate">{person.name}</span>
 	<form method="POST" action="?/removeParticipant" use:enhance={tracker.submit()}>
 		<input type="hidden" name="accountId" value={person.id} />
 		<button

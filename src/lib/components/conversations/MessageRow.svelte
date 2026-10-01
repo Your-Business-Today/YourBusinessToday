@@ -17,7 +17,7 @@
 	);
 </script>
 
-<li class={`flex flex-col gap-1 px-5 py-4 ${message.isInternal ? internalClasses : ''}`}>
+<li class={`flex flex-col gap-1 px-4 py-3 ${message.isInternal ? internalClasses : ''}`}>
 	<p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-chalk/50">
 		<span class="font-display text-chalk/80">{message.authorName}</span>
 		{#if message.postedVia === postedViaChannels.claude}
