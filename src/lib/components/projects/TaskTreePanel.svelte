@@ -1,10 +1,12 @@
 <script lang="ts">
 	import BacklogFilterBar from './BacklogFilterBar.svelte';
+	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import TaskGroupSection from './TaskGroupSection.svelte';
 	import { BacklogView } from '$lib/client/backlogView.svelte';
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { accountNameLookup } from '$lib/data/accountNames';
 	import { backlogEmptyMessage } from './backlogEmptyMessage';
+	import { countTasksInTree } from './taskTreeCounts';
 	import { postListReorder } from '$lib/client/postListReorder';
 	import { rememberOpenRows } from '$lib/client/openRows.svelte';
 	import { createTaskRowActions, type TaskRowHandlers, type TaskRowSources } from './taskRowActions';
@@ -57,20 +59,17 @@
 	}
 </script>
 
-<div class="flex flex-col gap-4">
-	<div class="flex flex-wrap items-center justify-between gap-3">
-		<h2 class="font-display text-sm tracking-widest text-chalk/50 uppercase">Backlog</h2>
+<DashboardPanel title="Backlog" count={countTasksInTree(backlog.visibleTasks)}>
+	{#snippet toolbar()}
 		<BacklogFilterBar {backlog} people={sources.people} viewerId={sources.viewerId} />
-	</div>
+	{/snippet}
 	{#if backlog.visibleTasks.length === 0}
-		<p class="rounded-2xl border border-dashed border-hairline p-8 text-center text-chalk/60">
-			{emptyStateMessage}
-		</p>
+		<p class="px-4 py-10 text-center text-sm text-chalk/60">{emptyStateMessage}</p>
 	{:else}
-		<div class="flex flex-col gap-6">
+		<div class="flex flex-col">
 			{#each taskGroups as group (group.goal?.id ?? 'other')}
 				<TaskGroupSection {group} {projectId} {listReorder} {actions} />
 			{/each}
 		</div>
 	{/if}
-</div>
+</DashboardPanel>

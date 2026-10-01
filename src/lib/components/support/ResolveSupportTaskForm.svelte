@@ -7,7 +7,7 @@
 	const tracker = new FormTracker();
 </script>
 
-<section class="flex flex-col gap-3 rounded-2xl border border-signal/40 bg-signal/5 p-6">
+<section class="flex flex-col gap-3 rounded-xl border border-signal/40 bg-signal/5 p-4">
 	<h2 class="font-display text-sm tracking-widest text-signal uppercase">Resolve</h2>
 	<p class="text-sm text-chalk/70">
 		The resolution is the answer the person who raised this reads, word for word. It is posted

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import GoalListPanel from '$lib/components/goals/GoalListPanel.svelte';
+	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewTaskForm from '$lib/components/projects/NewTaskForm.svelte';
+	import ProjectDashboard from '$lib/components/projects/ProjectDashboard.svelte';
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
-	import ProjectPeoplePanel from '$lib/components/members/ProjectPeoplePanel.svelte';
 	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
-	import TaskTreePanel from '$lib/components/projects/TaskTreePanel.svelte';
+	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 	let { data, form } = $props();
@@ -53,17 +53,11 @@
 	<title>{data.project.name} — Projects — Your Business Today</title>
 </svelte:head>
 
-<div class="mx-auto flex max-w-4xl flex-col gap-8 px-6 py-16">
-	<ProjectDetailHeader project={data.project} cadenceLine={data.cadenceLine} onAddTask={openNewTaskModal} />
-	{#if form?.message}
-		<p class="rounded-2xl border border-go/50 bg-go/10 px-5 py-4 text-go">
-			{form.message}
-		</p>
-	{/if}
-	<GoalListPanel goalSummaries={data.goalSummaries} />
-	<ProjectPeoplePanel people={data.people} isOwner={data.isOwner} />
-	<TaskTreePanel
-		taskTree={data.taskTree}
+<ProjectDetailHeader project={data.project} cadenceLine={data.cadenceLine} onAddTask={openNewTaskModal} />
+
+<div class={workspaceBodyClasses}>
+	<FlashMessage message={form?.message} />
+	<ProjectDashboard
 		projectId={data.project.id}
 		sources={data}
 		handlers={{

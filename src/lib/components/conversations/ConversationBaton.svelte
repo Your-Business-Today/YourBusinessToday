@@ -34,7 +34,7 @@
 	};
 </script>
 
-<section class={`flex flex-col gap-4 rounded-2xl border p-5 ${borderClasses[accent]}`}>
+<section class={`flex flex-col gap-3 rounded-xl border p-4 ${borderClasses[accent]}`}>
 	<div class="flex flex-wrap items-baseline justify-between gap-2">
 		<span class="font-display text-xs tracking-widest text-chalk/50 uppercase">Whose turn</span>
 		{#if turn !== null}

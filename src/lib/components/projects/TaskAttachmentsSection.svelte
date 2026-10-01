@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import AttachmentRow from './AttachmentRow.svelte';
+	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import { attachmentLimitDescription } from '$lib/data/taskAttachmentRules';
+	import { panelButtonClasses, panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import { uploadTaskAttachment } from './uploadTaskAttachment';
 	import type { TaskAttachment } from '$lib/server/projects/attachmentRecord';
 
@@ -43,30 +45,30 @@
 	}
 </script>
 
-<section class="flex flex-col gap-3">
-	<div class="flex items-center justify-between gap-4">
-		<h2 class="font-display text-xl font-medium">Attachments</h2>
+<DashboardPanel title="Attachments" count={attachments.length}>
+	{#snippet actions()}
 		<input bind:this={fileInput} type="file" multiple onchange={uploadChosenFiles} class="hidden" />
 		<button
 			type="button"
 			disabled={uploadingLabel !== null}
 			onclick={() => fileInput?.click()}
-			class="max-w-xs truncate rounded-full border border-hairline px-4 py-1.5 font-display text-sm
-				text-chalk/70 transition hover:border-go hover:text-go disabled:opacity-60"
+			class={`max-w-xs truncate ${panelButtonClasses}`}
 		>
-			{uploadingLabel ?? 'Add file'}
+			{uploadingLabel ?? '＋ File'}
 		</button>
-	</div>
+	{/snippet}
 	{#if attachments.length === 0}
-		<p class="rounded-2xl border border-dashed border-hairline p-6 text-chalk/60">
+		<p class={panelEmptyClasses}>
 			No attachments yet — add a spec, a screenshot, or an export. {attachmentLimitDescription()}
 		</p>
 	{:else}
-		<ul class="flex flex-col divide-y divide-hairline rounded-2xl border border-hairline">
+		<ul class={panelListClasses}>
 			{#each attachments as attachment (attachment.id)}
 				<AttachmentRow {attachment} {projectId} {taskId} />
 			{/each}
 		</ul>
 	{/if}
-	<FormErrorNote message={errorMessage} />
-</section>
+	{#if errorMessage !== null}
+		<div class="px-4 pb-3"><FormErrorNote message={errorMessage} /></div>
+	{/if}
+</DashboardPanel>

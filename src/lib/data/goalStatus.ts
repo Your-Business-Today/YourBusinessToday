@@ -2,6 +2,8 @@ export type GoalStatus = 'open' | 'met' | 'dropped';
 
 export const goalStatusOrder: GoalStatus[] = ['open', 'met', 'dropped'];
 
+export const openGoalStatus: GoalStatus = 'open';
+
 export const goalStatusLabels: Record<GoalStatus, string> = {
 	open: 'Open',
 	met: 'Met',

@@ -24,7 +24,7 @@
 	const filenameClasses = 'truncate text-left font-display text-chalk transition hover:text-go';
 </script>
 
-<li class="flex items-center gap-4 px-5 py-3">
+<li class="flex items-center gap-3 px-4 py-2.5">
 	<AttachmentThumbnail {attachment} {projectId} {taskId} />
 	<div class="flex min-w-0 flex-1 flex-col gap-0.5">
 		{#if canPreview}

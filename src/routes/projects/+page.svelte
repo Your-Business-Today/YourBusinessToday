@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DangerConfirmModal from '$lib/components/site/DangerConfirmModal.svelte';
+	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import EditProjectForm from '$lib/components/projects/EditProjectForm.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewProjectForm from '$lib/components/projects/NewProjectForm.svelte';
@@ -7,6 +8,7 @@
 	import ProjectBoard from '$lib/components/projects/ProjectBoard.svelte';
 	import ProjectsPageHeader from '$lib/components/projects/ProjectsPageHeader.svelte';
 	import TeamProjectsSection from '$lib/components/projects/TeamProjectsSection.svelte';
+	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { ProjectListView } from '$lib/client/projectListView.svelte';
 	import type { Project } from '$lib/server/projects/projectRecord';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectList';
@@ -44,11 +46,10 @@
 	<title>Projects — Your Business Today</title>
 </svelte:head>
 
-<div class="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-16">
-	<ProjectsPageHeader onNewProject={() => (isNewProjectModalOpen = true)} />
-	{#if form?.message}
-		<p class="rounded-2xl border border-go/50 bg-go/10 px-5 py-4 text-go">{form.message}</p>
-	{/if}
+<ProjectsPageHeader onNewProject={() => (isNewProjectModalOpen = true)} />
+
+<div class={workspaceBodyClasses}>
+	<FlashMessage message={form?.message} />
 	<ProjectBoard
 		{listView}
 		onEdit={openEditModal}

@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import CriterionRow from './CriterionRow.svelte';
+	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import { panelButtonClasses, panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { AcceptanceCriterion } from '$lib/server/projects/criterionRecord';
 
 	let { criteria }: { criteria: AcceptanceCriterion[] } = $props();
@@ -20,35 +22,24 @@
 	});
 </script>
 
-<section class="flex flex-col gap-3">
-	<div class="flex items-center justify-between gap-4">
-		<div class="flex items-baseline gap-3">
-			<h2 class="font-display text-xl font-medium">Acceptance criteria</h2>
-			{#if criteria.length > 0}
-				<span class="font-display text-sm text-chalk/50">{metCount} of {criteria.length} met</span>
-			{/if}
-		</div>
-		<button
-			type="button"
-			onclick={() => (isAddModalOpen = true)}
-			class="rounded-full border border-hairline px-4 py-1.5 font-display text-sm text-chalk/70
-				transition hover:border-go hover:text-go"
-		>
-			Add criterion
+<DashboardPanel title="Acceptance criteria" count={criteria.length > 0 ? `${metCount}/${criteria.length}` : null}>
+	{#snippet actions()}
+		<button type="button" onclick={() => (isAddModalOpen = true)} class={panelButtonClasses}>
+			＋ Criterion
 		</button>
-	</div>
+	{/snippet}
 	{#if criteria.length === 0}
-		<p class="rounded-2xl border border-dashed border-hairline p-6 text-chalk/60">
+		<p class={panelEmptyClasses}>
 			No acceptance criteria yet — add what must be true for this story to be done.
 		</p>
 	{:else}
-		<ul class="flex flex-col divide-y divide-hairline rounded-2xl border border-hairline">
+		<ul class={panelListClasses}>
 			{#each criteria as criterion (criterion.id)}
 				<CriterionRow {criterion} />
 			{/each}
 		</ul>
 	{/if}
-</section>
+</DashboardPanel>
 
 <Modal title="Add acceptance criterion" bind:isOpen={isAddModalOpen}>
 	<form

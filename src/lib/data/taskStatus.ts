@@ -11,6 +11,8 @@ export const taskStatusOrder: TaskStatus[] = ['backlog', 'in_progress', 'on_hold
 
 export const doneTaskStatus: TaskStatus = 'done';
 
+export const inProgressTaskStatus: TaskStatus = 'in_progress';
+
 export function parseTaskStatus(value: unknown): TaskStatus {
 	if (value === 'in_progress' || value === 'on_hold' || value === 'done') return value;
 	return 'backlog';

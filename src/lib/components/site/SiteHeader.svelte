@@ -30,7 +30,7 @@
 <header
 	class="relative z-40 h-[var(--site-header-height)] border-b border-hairline bg-night print:hidden"
 >
-	<div class="mx-auto flex h-full max-w-6xl items-center justify-between gap-4 px-4 sm:gap-6 sm:px-6">
+	<div class="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 sm:gap-6 sm:px-6">
 		<div class="flex min-w-0 items-center gap-3">
 			<a href="/" class="flex shrink-0 items-center">
 				<BrandWordmark fontSize={26} />

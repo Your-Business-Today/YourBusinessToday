@@ -18,12 +18,13 @@
 	} = $props();
 </script>
 
-<div class="flex flex-col gap-2">
-	<ProjectFilterBar bind:searchText={listView.searchText} bind:selectedStatus={listView.selectedStatus} />
-	<p class="text-right font-display text-sm text-chalk/50">{listView.countLabel}</p>
-</div>
+<ProjectFilterBar
+	bind:searchText={listView.searchText}
+	bind:selectedStatus={listView.selectedStatus}
+	countLabel={listView.countLabel}
+/>
 {#if listView.filteredProjects.length === 0}
-	<p class="rounded-2xl border border-dashed border-hairline p-8 text-center text-chalk/60">
+	<p class="rounded-xl border border-dashed border-hairline p-8 text-center text-sm text-chalk/60">
 		No projects match — adjust the filters or create one.
 	</p>
 {:else}
