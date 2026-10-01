@@ -7,11 +7,13 @@
 
 	let {
 		listView,
+		latestKitVersion,
 		onEdit,
 		onDelete,
 		onSetPriority
 	}: {
 		listView: ProjectListView;
+		latestKitVersion: string;
 		onEdit: (project: ProjectSummary) => void;
 		onDelete: (project: ProjectSummary) => void;
 		onSetPriority: (project: ProjectSummary) => void;
@@ -30,6 +32,7 @@
 {:else}
 	<ProjectTileGrid
 		projects={listView.pagedProjects}
+		{latestKitVersion}
 		firstPositionNumber={listView.firstPositionNumber}
 		projectCount={listView.filteredProjects.length}
 		{onEdit}

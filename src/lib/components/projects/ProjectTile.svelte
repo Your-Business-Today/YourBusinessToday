@@ -1,4 +1,5 @@
 <script lang="ts">
+	import KitVersionBadge from './KitVersionBadge.svelte';
 	import PriorityControls from './PriorityControls.svelte';
 	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ProjectActionsMenu from './ProjectActionsMenu.svelte';
@@ -11,6 +12,7 @@
 
 	let {
 		project,
+		latestKitVersion,
 		listReorder,
 		isFirst,
 		isLast,
@@ -19,6 +21,7 @@
 		onSetPriority
 	}: {
 		project: ProjectSummary;
+		latestKitVersion: string;
 		listReorder: ListReorder;
 		isFirst: boolean;
 		isLast: boolean;
@@ -40,7 +43,14 @@
 				class={`relative ${projectTilePriorityClasses}`}
 				onclick={() => onSetPriority(project)}
 			/>
-			<ProjectStatusBadge status={project.status} />
+			<div class="flex flex-wrap items-center justify-end gap-1.5">
+				<KitVersionBadge
+					repositoryUrl={project.repositoryUrl}
+					kitVersion={project.kitVersion}
+					{latestKitVersion}
+				/>
+				<ProjectStatusBadge status={project.status} />
+			</div>
 		</div>
 		<div class="flex flex-col gap-1">
 			<h3 class="font-display text-base leading-snug font-medium transition group-hover/tile:text-go">

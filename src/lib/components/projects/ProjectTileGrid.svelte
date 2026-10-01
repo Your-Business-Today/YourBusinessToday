@@ -7,6 +7,7 @@
 
 	let {
 		projects,
+		latestKitVersion,
 		firstPositionNumber,
 		projectCount,
 		onEdit,
@@ -14,6 +15,7 @@
 		onSetPriority
 	}: {
 		projects: ProjectSummary[];
+		latestKitVersion: string;
 		firstPositionNumber: number;
 		projectCount: number;
 		onEdit: (project: ProjectSummary) => void;
@@ -30,6 +32,7 @@
 	{#each projects as project, projectIndex (project.id)}
 		<ProjectTile
 			{project}
+			{latestKitVersion}
 			{listReorder}
 			isFirst={firstPositionNumber + projectIndex === 1}
 			isLast={firstPositionNumber + projectIndex === projectCount}

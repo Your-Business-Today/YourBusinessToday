@@ -16,6 +16,7 @@ export type Project = {
 	defaultBranch: string;
 	refactorEveryDeploys: number;
 	lastRefactorRaisedAt: string | null;
+	kitVersion: string;
 	createdAt: string;
 };
 
@@ -33,6 +34,7 @@ export function parseProjectRecord(row: Record<string, unknown>): Project {
 		defaultBranch: (row.default_branch as string) || defaultBranchWhenUnset,
 		refactorEveryDeploys: parseRefactorEveryDeploys(row.refactor_every_deploys),
 		lastRefactorRaisedAt: (row.last_refactor_raised_at as string) ?? null,
+		kitVersion: (row.kit_version as string) ?? '',
 		createdAt: row.created_at as string
 	};
 }
