@@ -1,5 +1,6 @@
 <script lang="ts">
 	import EditProjectForm from './EditProjectForm.svelte';
+	import KitVersionBadge from './KitVersionBadge.svelte';
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
@@ -12,8 +13,9 @@
 	let {
 		project,
 		cadenceLine,
+		latestKitVersion,
 		onAddTask
-	}: { project: Project; cadenceLine: string; onAddTask: () => void } = $props();
+	}: { project: Project; cadenceLine: string; latestKitVersion: string; onAddTask: () => void } = $props();
 
 	let isEditModalOpen = $state(false);
 
@@ -35,6 +37,13 @@
 <WorkspaceHeader crumbs={[projectsCrumb]} title={project.name}>
 	{#snippet badge()}
 		<ProjectStatusBadge status={project.status} />
+		<a href="/projects/kit-versions" class="rounded-full">
+			<KitVersionBadge
+				repositoryUrl={project.repositoryUrl}
+				kitVersion={project.kitVersion}
+				{latestKitVersion}
+			/>
+		</a>
 	{/snippet}
 	{#snippet actions()}
 		<button type="button" onclick={() => (isEditModalOpen = true)} class={headerButtonClasses}>

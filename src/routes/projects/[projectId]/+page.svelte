@@ -53,7 +53,12 @@
 	<title>{data.project.name} — Projects — Your Business Today</title>
 </svelte:head>
 
-<ProjectDetailHeader project={data.project} cadenceLine={data.cadenceLine} onAddTask={openNewTaskModal} />
+<ProjectDetailHeader
+	project={data.project}
+	cadenceLine={data.cadenceLine}
+	latestKitVersion={data.latestKitVersion}
+	onAddTask={openNewTaskModal}
+/>
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />

@@ -1,6 +1,7 @@
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
+import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getGoalSummaries } from '$lib/server/goals/getGoalSummaries';
 import { getProjectGoals } from '$lib/server/goals/getProjectGoals';
 import { getProjectPeople } from '$lib/server/members/getProjectPeople';
@@ -25,6 +26,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const deploysSinceRefactor = await countDeploysSinceRefactor(locals.supabase, project);
 	return {
 		project,
+		latestKitVersion: await getLatestKitVersion(locals.supabase),
 		isOwner,
 		cadenceLine: describeRefactorCadence({
 			refactorEveryDeploys: project.refactorEveryDeploys,

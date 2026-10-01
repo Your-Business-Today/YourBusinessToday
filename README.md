@@ -73,6 +73,7 @@ npm run dev
 | `RESEND_API_KEY` / `EMAIL_FROM` | Resend API key and sender address for transactional email |
 | `ENQUIRY_NOTIFICATION_EMAIL` | Where website enquiries from `/contact` are sent |
 | `GITHUB_WEBHOOK_SECRET` | Secret on the GitHub webhook that counts deploys and tells a task its pull request merged |
+| `GITHUB_TOKEN` | Optional read-only (contents) token so the project-process kit version of a private repository can be read; public ones need none |
 
 ## Stack
 

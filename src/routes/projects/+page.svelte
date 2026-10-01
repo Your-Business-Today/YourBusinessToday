@@ -52,6 +52,7 @@
 	<FlashMessage message={form?.message} />
 	<ProjectBoard
 		{listView}
+		latestKitVersion={data.latestKitVersion}
 		onEdit={openEditModal}
 		onDelete={openDeleteModal}
 		onSetPriority={(project) => openPriorityModal(project, 'of your board')}

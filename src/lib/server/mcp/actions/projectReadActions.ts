@@ -1,8 +1,10 @@
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
 import { describeProject, describeProjectLine, noSuchProject, openWorkPhrase } from './describeProject';
+import { describeKitStanding, kitStanding } from '$lib/data/kitVersion';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
 import { getProjectGoals } from '$lib/server/goals/getProjectGoals';
+import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
 import { getProjectList } from '$lib/server/projects/getProjectList';
 import { getProjectTasks } from '$lib/server/projects/getProjectTasks';
@@ -44,7 +46,8 @@ export const projectReadActions: McpAction[] = [
 		area: 'projects',
 		audience: 'everyone',
 		isWrite: false,
-		summary: 'read one project with its goals, its whole backlog and its refactor cadence',
+		summary:
+			'read one project with its goals, its whole backlog, its refactor cadence and the project-process kit version its repository is on',
 		inputSchema: objectSchema({ projectId: textField('The project id') }, ['projectId']),
 		run: async (caller, input) => {
 			const project = await reachableProject(caller, readText(input, 'projectId'));
@@ -52,7 +55,8 @@ export const projectReadActions: McpAction[] = [
 			const tasks = await getProjectTasks(caller.supabase, project.id);
 			const goals = await getProjectGoals(caller.supabase, project.id);
 			const cadenceLine = await cadenceLineFor(caller.supabase, project);
-			return describeProject(project, goals, buildTaskTree(tasks), cadenceLine);
+			const kitLine = await kitLineFor(caller.supabase, project);
+			return describeProject(project, goals, buildTaskTree(tasks), `${cadenceLine} ${kitLine}`);
 		}
 	}
 ];
@@ -60,6 +64,12 @@ export const projectReadActions: McpAction[] = [
 async function cadenceLineFor(supabase: SupabaseClient, project: Project): Promise<string> {
 	const deploysSinceRefactor = await countDeploysSinceRefactor(supabase, project);
 	return describeRefactorCadence({ refactorEveryDeploys: project.refactorEveryDeploys, deploysSinceRefactor });
+}
+
+async function kitLineFor(supabase: SupabaseClient, project: Project): Promise<string> {
+	const latestKitVersion = await getLatestKitVersion(supabase);
+	const reading = { hasRepository: project.repositoryUrl !== '', kitVersion: project.kitVersion, latestKitVersion };
+	return describeKitStanding(kitStanding(reading), reading);
 }
 
 function teamProjectLine(project: TeamProject): string {

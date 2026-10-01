@@ -1,6 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { createProject } from '$lib/server/projects/createProject';
 import { deleteProject } from '$lib/server/projects/deleteProject';
+import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
 import { getProjectList } from '$lib/server/projects/getProjectList';
 import { getTeamProjects } from '$lib/server/members/getTeamProjects';
@@ -17,7 +18,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const assignedTaskCounts = await getAssignedTaskCounts(locals.supabase, user.id);
 	return {
 		projects: await getProjectList(locals.supabase, user.id, assignedTaskCounts),
-		teamProjects: await getTeamProjects(locals.supabase, user.id, assignedTaskCounts)
+		teamProjects: await getTeamProjects(locals.supabase, user.id, assignedTaskCounts),
+		latestKitVersion: await getLatestKitVersion(locals.supabase)
 	};
 };
 
