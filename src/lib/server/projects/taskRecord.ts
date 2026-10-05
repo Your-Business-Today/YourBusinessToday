@@ -25,6 +25,7 @@ export type ProjectTask = {
 	resolution: string;
 	resolvedAt: string | null;
 	createdBy: string;
+	requestedBy: string;
 	createdAt: string;
 };
 
@@ -52,6 +53,7 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		resolution: (row.resolution as string) ?? '',
 		resolvedAt: (row.resolved_at as string) ?? null,
 		createdBy: row.created_by as string,
+		requestedBy: (row.requested_by as string) ?? (row.created_by as string),
 		createdAt: row.created_at as string
 	};
 }
