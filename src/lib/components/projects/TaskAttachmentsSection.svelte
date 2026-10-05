@@ -32,16 +32,21 @@
 		const files = Array.from(input.files ?? []);
 		input.value = '';
 		errorMessage = null;
+		try {
+			errorMessage = await uploadEachFile(files);
+			await invalidateAll();
+		} finally {
+			uploadingLabel = null;
+		}
+	}
+
+	async function uploadEachFile(files: File[]): Promise<string | null> {
 		for (const [index, file] of files.entries()) {
 			uploadingLabel = uploadProgressLabel(index, files.length, file.name);
 			const outcome = await uploadTaskAttachment(file);
-			if (outcome.status === 'failed') {
-				errorMessage = `${file.name}: ${outcome.message}`;
-				break;
-			}
+			if (outcome.status === 'failed') return `${file.name}: ${outcome.message}`;
 		}
-		uploadingLabel = null;
-		await invalidateAll();
+		return null;
 	}
 
 	async function uploadTaskAttachment(file: File): Promise<AttachmentUploadOutcome> {
