@@ -23,7 +23,7 @@ before anything reaches an inbox from `yourbusiness.today`:
    | TXT | `resend._domainkey` | DKIM — signs every message as genuinely ours |
    | MX | `send` | Return path for bounces (points at Resend's Amazon SES relay) |
    | TXT | `send` | SPF for that return path (`v=spf1 include:amazonses.com ~all`) |
-   | TXT | `_dmarc` | DMARC — required by Gmail and Yahoo: `v=DMARC1; p=none; rua=mailto:<an inbox you read>` to start |
+   | TXT | `_dmarc` | DMARC — required by Gmail and Yahoo: `v=DMARC1; p=none`, with no `rua=` tag (see *DMARC reporting* below) |
 
 3. Click **Verify**. Propagation takes minutes to an hour; the domain shows **Verified**
    when all records resolve.
@@ -60,7 +60,7 @@ still lands in spam, most likely first:
 2. **`EMAIL_FROM` is on another domain** (an old `yourbusinesstoday.uk` value, or a
    Gmail address). Check the value in Vercel, not in `.env.example`.
 3. **No DMARC record.** `_dmarc` is required, not optional: publish
-   `v=DMARC1; p=none; rua=mailto:<an inbox you read>` and leave it there.
+   `v=DMARC1; p=none` and leave it there.
 4. **Auth emails still come from Supabase** (`noreply@mail.app.supabase.io`) — section 3.
 5. **A new domain with no reputation.** Early mail is treated with suspicion; the fix
    is to keep sending low volumes of mail people open, and to ask the first recipients
@@ -76,10 +76,22 @@ page, a sign-up confirmation) to a Gmail and an Outlook address, then:
 - **Score:** send one to the address [mail-tester.com](https://www.mail-tester.com)
   gives you. 9/10 or better is the aim; it names anything that costs points.
 
-Once every test passes and the DMARC reports show nothing but Resend sending as
-`yourbusiness.today` for a couple of weeks, tighten the record to `p=quarantine`. If
-the root domain also sends mail from elsewhere (a mailbox provider), that provider
-needs its own SPF `include:` on the root and its own DKIM before tightening.
+Once every test passes from every sender the domain uses, tighten the record to
+`p=quarantine`. The root domain sends mail from Google Workspace as well as Resend
+(`consulting@yourbusiness.today` is a Gmail mailbox), so the root needs Google's SPF
+`include:` and Google's DKIM record before tightening, or replies from that mailbox
+are treated as fakes. Check a message from each sender with *Show original* as above.
+
+### DMARC reporting
+
+The DMARC record can carry a `rua=mailto:` tag asking every receiving provider to send
+a daily aggregate report. Do not point it at a mailbox: Google sends one a day and
+Microsoft one per region, each a zipped XML file listing sending IP addresses, written
+for software rather than people. They were pointed at `consulting@yourbusiness.today`
+until 5 October 2026, nobody read them, and the tag was removed. If the signal is ever
+wanted (an unknown server sending as `yourbusiness.today`), point `rua=` at a free
+digest service such as Postmark's DMARC tool, which turns the XML into one readable
+weekly summary. The record itself stays; only the reporting tag is optional.
 
 ## 3. Supabase Auth through Resend's SMTP relay
 
@@ -174,7 +186,7 @@ itself, which is Stripe's hosted page and cannot be rebranded.
 | Done by hand in a dashboard | Where |
 | --- | --- |
 | Verify `yourbusiness.today` and create an API key | Resend |
-| Publish the `_dmarc` record | DNS provider |
+| Publish the `_dmarc` record, with no `rua=` tag | DNS provider |
 | Test in Gmail, Outlook and mail-tester — see *Checking mail stays out of spam* | Inboxes |
 | Set `RESEND_API_KEY`, `EMAIL_FROM`, `ENQUIRY_NOTIFICATION_EMAIL` | Vercel environment variables |
 | Enable custom SMTP through `smtp.resend.com:465` | Supabase → Authentication → Emails → SMTP Settings |
