@@ -154,6 +154,26 @@ The storage link itself refuses a second file at the same path, and the grant re
 second recording, so the link works once. A grant nobody records leaves no attachment; a
 file it left in storage is dropped with the task.
 
+## Images waiting on a project
+
+A Claude in a chat cannot pass an image the person pasted there on to the connector, so the
+person uploads it to the project page instead — the Images button in the project header opens
+the project's bank of unassigned images. The upload is the same grant-then-record shape as a
+task attachment (`grantImage` and `recordImage` in `imageActions.ts`), into the same
+`task-attachments` bucket at `projects/<project id>/images/<image id>/<file>`, recorded in
+`project_images` (migration `0065`). Only images are taken, up to 25 MB.
+
+1. `find_project_images` (project, optional words from the file name) lists the bank newest
+   first, with how long ago each was uploaded and by whom, since the task it belongs to is
+   usually raised a few minutes later.
+2. `read_project_image` (project, image) returns the image itself, so the Claude can tell
+   which one is which.
+3. `assign_project_image` (task, image) calls the `assign_project_image` database function:
+   one transaction that writes the `task_attachments` row under the same id, path and uploader
+   and deletes the `project_images` row. The file never moves. The task must be on the image's
+   project. The project page's modal assigns by hand through the same function.
+4. `remove_project_image` (project, image) deletes the file and the row, as the modal's ✕ does.
+
 ## Abuse and limits
 
 The caller's Claude is an eager agent. Two limits, both named constants: a body cap on a

@@ -3,19 +3,31 @@
 	import KitVersionBadge from './KitVersionBadge.svelte';
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
+	import ProjectImagesButton from './ProjectImagesButton.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { headerButtonClasses, headerPrimaryButtonClasses } from '$lib/components/workspace/workspaceStyles';
 	import { projectsCrumb } from '$lib/components/workspace/projectCrumbs';
 	import { webAddressLabel } from '$lib/data/webAddressLabel';
 	import type { Project } from '$lib/server/projects/projectRecord';
+	import type { ProjectImage } from '$lib/server/projectImages/projectImageRecord';
+	import type { TaskChoice } from '$lib/server/projects/openTaskChoices';
 
 	let {
 		project,
 		cadenceLine,
 		latestKitVersion,
+		images,
+		taskChoices,
 		onAddTask
-	}: { project: Project; cadenceLine: string; latestKitVersion: string; onAddTask: () => void } = $props();
+	}: {
+		project: Project;
+		cadenceLine: string;
+		latestKitVersion: string;
+		images: (ProjectImage & { uploaderName: string })[];
+		taskChoices: TaskChoice[];
+		onAddTask: () => void;
+	} = $props();
 
 	let isEditModalOpen = $state(false);
 
@@ -49,6 +61,7 @@
 		<button type="button" onclick={() => (isEditModalOpen = true)} class={headerButtonClasses}>
 			Edit
 		</button>
+		<ProjectImagesButton {images} projectId={project.id} {taskChoices} />
 		<button type="button" onclick={onAddTask} class={headerPrimaryButtonClasses}>Add task</button>
 	{/snippet}
 	{#if project.description !== ''}
