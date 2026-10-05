@@ -5,6 +5,7 @@ import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
 import { getProjectList } from '$lib/server/projects/getProjectList';
 import { getTeamProjects } from '$lib/server/members/getTeamProjects';
+import { getTasksWaitingOnYou } from '$lib/server/conversations/getTasksWaitingOnYou';
 import { parseRank } from '$lib/server/ordering/rankInput';
 import { projectOrderActions } from './projectOrderActions';
 import { setProjectPriority } from '$lib/server/projects/setProjectPriority';
@@ -17,6 +18,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const user = await requireUser(locals);
 	const assignedTaskCounts = await getAssignedTaskCounts(locals.supabase, user.id);
 	return {
+		waitingTasks: await getTasksWaitingOnYou(locals.supabase, user.id),
 		projects: await getProjectList(locals.supabase, user.id, assignedTaskCounts),
 		teamProjects: await getTeamProjects(locals.supabase, user.id, assignedTaskCounts),
 		latestKitVersion: await getLatestKitVersion(locals.supabase)

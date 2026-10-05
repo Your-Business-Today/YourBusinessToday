@@ -7,6 +7,7 @@
 	import PriorityModal from '$lib/components/site/PriorityModal.svelte';
 	import ProjectBoard from '$lib/components/projects/ProjectBoard.svelte';
 	import ProjectsPageHeader from '$lib/components/projects/ProjectsPageHeader.svelte';
+	import WaitingOnYouSection from '$lib/components/projects/WaitingOnYouSection.svelte';
 	import TeamProjectsSection from '$lib/components/projects/TeamProjectsSection.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { ProjectListView } from '$lib/client/projectListView.svelte';
@@ -50,6 +51,7 @@
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
+	<WaitingOnYouSection waitingTasks={data.waitingTasks} />
 	<ProjectBoard
 		{listView}
 		latestKitVersion={data.latestKitVersion}
