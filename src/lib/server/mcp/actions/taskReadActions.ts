@@ -18,6 +18,11 @@ export const taskReadActions: McpAction[] = [
 		isWrite: false,
 		summary:
 			'your queue: the top level tasks across the projects you own, in the order they will be worked',
+		guidance:
+			'Work it from the top. Tasks asked for by the people using a live project come first, ' +
+			'then the owner’s own work on live projects, then everything on projects that are ' +
+			'scoping or on hold, which waits. A new task joins the end of its band; a task moved by ' +
+			'hand stays where it is put.',
 		inputSchema: objectSchema({
 			pageNumber: { type: 'number', description: 'Which page of twenty, from 1' },
 			shouldIncludeDone: { type: 'boolean', description: 'Include tasks already done' }
@@ -75,7 +80,8 @@ function describeQueue(taskPage: GlobalTaskPage): string {
 
 function queueLine(task: GlobalTask, position: number): string {
 	const status = taskStatusLabels[task.status];
-	return `${position}. ${task.title} — ${status}, ${task.projectName} (id: ${task.id})`;
+	const requested = task.requesterName === null ? '' : `, requested by ${task.requesterName}`;
+	return `${position}. ${task.title} — ${status}, ${task.projectName}${requested} (id: ${task.id})`;
 }
 
 function readPageNumber(value: unknown): number {

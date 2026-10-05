@@ -1,7 +1,13 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskRecord';
+import { withRequesterNames } from '$lib/server/projects/withRequesterNames';
 
-export type GlobalTask = ProjectTask & { projectName: string };
+/** A task in a list across projects; requesterName names who asked when it is not the project's owner. */
+export type GlobalTask = ProjectTask & {
+	projectName: string;
+	projectOwnerId: string | null;
+	requesterName: string | null;
+};
 
 export type GlobalTaskPage = {
 	tasks: GlobalTask[];
@@ -36,7 +42,7 @@ export async function getGlobalTaskPage(
 	if (error) throw error;
 	const taskCount = count ?? 0;
 	return {
-		tasks: data.map(parseGlobalTaskRow),
+		tasks: await withRequesterNames(supabase, data.map(parseGlobalTaskRow)),
 		pageNumber,
 		pageCount: Math.max(1, Math.ceil(taskCount / tasksPerPage)),
 		taskCount,
@@ -45,6 +51,11 @@ export async function getGlobalTaskPage(
 }
 
 export function parseGlobalTaskRow(row: Record<string, unknown>): GlobalTask {
-	const project = row.projects as { name: string } | null;
-	return { ...parseTaskRecord(row), projectName: project?.name ?? '' };
+	const project = row.projects as { name: string; owner_id?: string } | null;
+	return {
+		...parseTaskRecord(row),
+		projectName: project?.name ?? '',
+		projectOwnerId: project?.owner_id ?? null,
+		requesterName: null
+	};
 }

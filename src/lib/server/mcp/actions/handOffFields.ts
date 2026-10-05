@@ -1,9 +1,9 @@
+import { findProjectPerson } from '$lib/server/members/findProjectPerson';
 import { getProjectPeople } from '$lib/server/members/getProjectPeople';
 import { isHandedToWriter, selfHandOffRefusal } from '$lib/data/batonRule';
 import { parseAwaitingKind, type HandOff } from '$lib/data/conversationTurn';
 import { readOptionalText, textField } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
-import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 import type { ResolvedSubject } from './resolveSubject';
 
 const nobody = 'nobody';
@@ -35,16 +35,9 @@ export async function chooseHandOff(
 	if (kind === null) return { refusal: 'waitingFor is "person" or "claude". Say which.' };
 	if (waitingOn === null || waitingOn.toLowerCase() === nobody) return { handOff: null };
 	const people = await getProjectPeople(caller.supabase, resolved.projectId);
-	const person = findPerson(people, waitingOn);
+	const person = findProjectPerson(people, waitingOn);
 	if (person === null) return { refusal: `${waitingOn} is not on the project. Call list_project_people.` };
 	const handOff = { accountId: person.id, kind };
 	if (isHandedToWriter(handOff, caller.accountId)) return { refusal: selfHandOffRefusal };
 	return { handOff };
-}
-
-function findPerson(people: ProjectPerson[], waitingOn: string): ProjectPerson | null {
-	const wanted = waitingOn.toLowerCase();
-	const matches = (person: ProjectPerson) =>
-		person.id === waitingOn || person.email.toLowerCase() === wanted || person.name.toLowerCase() === wanted;
-	return people.find(matches) ?? null;
 }
