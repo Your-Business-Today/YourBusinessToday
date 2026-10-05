@@ -1,18 +1,18 @@
-export type TaskAttachment = {
-	id: string;
-	taskId: string;
-	filename: string;
-	mimeType: string;
-	byteCount: number;
-	storagePath: string;
-	uploadedBy: string;
-	createdAt: string;
-};
-
 export type AttachmentUpload = {
 	filename: string;
 	mimeType: string;
 	byteCount: number;
+};
+
+export type StoredFile = AttachmentUpload & {
+	id: string;
+	storagePath: string;
+};
+
+export type TaskAttachment = StoredFile & {
+	taskId: string;
+	uploadedBy: string;
+	createdAt: string;
 };
 
 export function parseAttachmentRecord(row: Record<string, unknown>): TaskAttachment {

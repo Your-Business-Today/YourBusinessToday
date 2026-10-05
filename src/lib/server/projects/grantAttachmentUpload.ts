@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { attachmentsBucket, attachmentStoragePath } from './attachmentStorage';
+import { attachmentStoragePath } from './attachmentStorage';
+import { signUploadUrl } from './storageUploads';
 
 export type AttachmentUploadGrant = {
 	attachmentId: string;
@@ -14,9 +15,5 @@ export async function grantAttachmentUpload(
 ): Promise<AttachmentUploadGrant> {
 	const attachmentId = crypto.randomUUID();
 	const storagePath = attachmentStoragePath(taskId, attachmentId, filename);
-	const { data, error } = await supabase.storage
-		.from(attachmentsBucket)
-		.createSignedUploadUrl(storagePath);
-	if (error !== null) throw error;
-	return { attachmentId, storagePath, uploadUrl: data.signedUrl };
+	return { attachmentId, storagePath, uploadUrl: await signUploadUrl(supabase, storagePath) };
 }

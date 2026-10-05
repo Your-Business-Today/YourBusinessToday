@@ -4,7 +4,7 @@ import { downloadAttachmentFile } from './downloadAttachmentFile';
 import { extractPdfText } from '$lib/server/documents/extractPdfText';
 import { extractSpreadsheetText } from '$lib/server/documents/extractSpreadsheetText';
 import { extractWordDocumentText } from '$lib/server/documents/extractWordDocumentText';
-import type { TaskAttachment } from './attachmentRecord';
+import type { StoredFile } from './attachmentRecord';
 
 export const maxAttachmentTextCharacters = 200_000;
 
@@ -20,7 +20,7 @@ const extractorByKind: Partial<Record<AttachmentContentKind, TextExtractor>> = {
 
 export async function readAttachmentText(
 	supabase: SupabaseClient,
-	attachment: TaskAttachment
+	attachment: StoredFile
 ): Promise<AttachmentText> {
 	const fileBytes = await downloadAttachmentFile(supabase, attachment);
 	const wholeText = await decode(fileBytes, attachment);
@@ -30,7 +30,7 @@ export async function readAttachmentText(
 	};
 }
 
-async function decode(fileBytes: Uint8Array, attachment: TaskAttachment): Promise<string> {
+async function decode(fileBytes: Uint8Array, attachment: StoredFile): Promise<string> {
 	const extract = extractorByKind[contentKindFor(attachment.mimeType, attachment.byteCount)];
 	if (extract !== undefined) return extract(fileBytes);
 	return new TextDecoder().decode(fileBytes);

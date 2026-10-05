@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { attachmentsBucket, attachmentStoragePath } from './attachmentStorage';
+import { attachmentStoragePath } from './attachmentStorage';
+import { isFileStored } from './storageUploads';
 import { saveAttachmentRecord } from './saveAttachmentRecord';
 import type { AttachmentUpload } from './attachmentRecord';
 
@@ -16,9 +17,4 @@ export async function recordTaskAttachment(
 	if (!(await isFileStored(supabase, storagePath))) return 'file_missing';
 	await saveAttachmentRecord(supabase, { attachmentId, taskId, uploadedBy, storagePath, upload });
 	return 'recorded';
-}
-
-async function isFileStored(supabase: SupabaseClient, storagePath: string): Promise<boolean> {
-	const { data: isStored } = await supabase.storage.from(attachmentsBucket).exists(storagePath);
-	return isStored;
 }

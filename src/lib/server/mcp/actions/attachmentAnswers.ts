@@ -11,11 +11,11 @@ import {
 	agentFetchLifetimeSeconds,
 	signAttachmentLink
 } from '$lib/server/projects/signAttachmentLink';
-import type { TaskAttachment } from '$lib/server/projects/attachmentRecord';
+import type { StoredFile } from '$lib/server/projects/attachmentRecord';
 
 export type AttachmentAnswer = (
 	supabase: SupabaseClient,
-	attachment: TaskAttachment
+	attachment: StoredFile
 ) => Promise<McpToolAnswer>;
 
 export const characterCap = maxAttachmentTextCharacters.toLocaleString('en-GB');
@@ -49,7 +49,7 @@ export const linkAnswer: AttachmentAnswer = (supabase, attachment) =>
 
 async function linkAnswerBecause(
 	supabase: SupabaseClient,
-	attachment: TaskAttachment,
+	attachment: StoredFile,
 	reason: string
 ): Promise<string> {
 	const link = await signAttachmentLink(
@@ -61,15 +61,15 @@ async function linkAnswerBecause(
 	return `${heading(attachment)}, ${attachment.mimeType}. ${reason} Fetch it within ten minutes from:\n${link}`;
 }
 
-function textOf(attachment: TaskAttachment, { text, isTruncated }: AttachmentText): string {
+function textOf(attachment: StoredFile, { text, isTruncated }: AttachmentText): string {
 	const ending = isTruncated ? `\n\n[cut off at ${characterCap} characters]` : '';
 	return `${heading(attachment)}:\n\n${text}${ending}`;
 }
 
-function heading(attachment: TaskAttachment): string {
+function heading(attachment: StoredFile): string {
 	return `${attachment.filename} (${describeByteCount(attachment.byteCount)})`;
 }
 
-function attachmentUri(attachment: TaskAttachment): string {
+function attachmentUri(attachment: StoredFile): string {
 	return `ybt://task-attachments/${attachment.id}/${encodeURIComponent(attachment.filename)}`;
 }

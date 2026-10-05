@@ -10,7 +10,11 @@ export function parseAttachmentUploadForm(formData: FormData): AttachmentUpload 
 }
 
 export function parseAttachmentId(formData: FormData): string | null {
-	const attachmentId = String(formData.get('attachmentId') ?? '');
-	if (!isUuid(attachmentId)) return null;
-	return attachmentId;
+	return parseUuidField(formData, 'attachmentId');
+}
+
+export function parseUuidField(formData: FormData, fieldName: string): string | null {
+	const fieldValue = String(formData.get(fieldName) ?? '');
+	if (!isUuid(fieldValue)) return null;
+	return fieldValue;
 }

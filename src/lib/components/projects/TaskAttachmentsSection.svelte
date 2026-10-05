@@ -3,9 +3,14 @@
 	import AttachmentRow from './AttachmentRow.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
-	import { attachmentLimitDescription } from '$lib/data/taskAttachmentRules';
+	import { attachmentLimitDescription, isWithinAttachmentLimit } from '$lib/data/taskAttachmentRules';
 	import { panelButtonClasses, panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
-	import { uploadTaskAttachment } from './uploadTaskAttachment';
+	import {
+		taskAttachmentUploadActions,
+		uploadProgressLabel,
+		uploadThroughSignedLink
+	} from './uploadThroughSignedLink';
+	import type { AttachmentUploadOutcome } from './uploadThroughSignedLink';
 	import type { TaskAttachment } from '$lib/server/projects/attachmentRecord';
 
 	let {
@@ -28,7 +33,7 @@
 		input.value = '';
 		errorMessage = null;
 		for (const [index, file] of files.entries()) {
-			uploadingLabel = progressLabel(index, files.length, file.name);
+			uploadingLabel = uploadProgressLabel(index, files.length, file.name);
 			const outcome = await uploadTaskAttachment(file);
 			if (outcome.status === 'failed') {
 				errorMessage = `${file.name}: ${outcome.message}`;
@@ -39,9 +44,11 @@
 		await invalidateAll();
 	}
 
-	function progressLabel(index: number, fileCount: number, filename: string): string {
-		if (fileCount === 1) return `Uploading ${filename}…`;
-		return `Uploading ${index + 1} of ${fileCount} — ${filename}…`;
+	async function uploadTaskAttachment(file: File): Promise<AttachmentUploadOutcome> {
+		if (!isWithinAttachmentLimit(file.size)) {
+			return { status: 'failed', message: `That file is too large. ${attachmentLimitDescription()}` };
+		}
+		return uploadThroughSignedLink(file, taskAttachmentUploadActions);
 	}
 </script>
 
