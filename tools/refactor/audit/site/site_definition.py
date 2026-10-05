@@ -7,13 +7,17 @@ from pathlib import Path
 from ..source_files import SourceFile, matchesAny
 from .definition import reduceView
 from .definition_kinds import FINDING, WIDGET, Definition, flatten
+from .hand_rolled_rules import layoutOf
 from .markup_tree import buildTree
 from .site_designs import designs
 from .site_rows import componentRows, routeRows
 from .vocabulary import vocabularyFor
+from .widget_boxes import boxedContentWidgets
 
 NAME = "siteDefinition"
-NOT_MEASURED = {"name": NAME, "summary": {"skipped": "no siteDefinition catalogue in rules.json"}, "offenders": {"handRolled": []}}
+NOT_MEASURED = {
+    "name": NAME, "summary": {"skipped": "no siteDefinition catalogue in rules.json"}, "offenders": {"handRolled": [], "boxedWidgets": []},
+}
 
 
 def findingRows(view: SourceFile, definitions: list[Definition]) -> list[dict]:
@@ -37,8 +41,9 @@ def byWidget(findings: list[dict]) -> list[dict]:
 
 
 def definitionOf(view: SourceFile, vocabulary) -> list[Definition]:
+    text = "\n".join(view.lines)
     isCatalogueWidget = Path(view.relative).stem in vocabulary.catalogue
-    return reduceView(buildTree("\n".join(view.lines)), vocabulary, isCatalogueWidget)
+    return reduceView(buildTree(text), vocabulary.inView(view.relative, layoutOf(text)), isCatalogueWidget)
 
 
 def repositoryRootOf(view: SourceFile) -> Path:
@@ -57,18 +62,19 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
     findings = [row for view in views for row in findingRows(view, definitionsByFile[view.relative])]
     routes = routeRows(views, definitionsByFile, parts, settings)
     usages = sum(widgetUsages(definitions) for definitions in definitionsByFile.values())
+    boxed = boxedContentWidgets(views, vocabulary, settings)
     widgetDesigns = designs(repositoryRootOf(views[0]), settings, sorted(vocabulary.catalogue))
     return {
         "name": NAME,
         "summary": {
             "routes": len(routes), "views": len(views), "siteComponents": len(parts), "catalogue": len(vocabulary.catalogue),
             "widgetUsages": usages, "handRolledElements": len(findings), "widgetSlots": usages + len(findings),
-            "viewsWithHandRolled": len({row["file"] for row in findings}),
+            "viewsWithHandRolled": len({row["file"] for row in findings}), "boxedContentWidgets": len(boxed),
             "designSheets": widgetDesigns["sheets"], "designsLastChecked": widgetDesigns["lastChecked"],
             "brandCheckedAt": widgetDesigns["brandCheckedAt"],
         },
         "designs": widgetDesigns,
-        "offenders": {"handRolled": findings, "byWidget": byWidget(findings)},
+        "offenders": {"handRolled": findings, "byWidget": byWidget(findings), "boxedWidgets": boxed},
         "catalogueNames": sorted(vocabulary.catalogue),
         "routes": routes,
         "components": componentRows(parts, vocabulary.componentFiles, definitionsByFile),

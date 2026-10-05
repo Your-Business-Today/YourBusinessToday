@@ -15,6 +15,7 @@ from .worklist.function_usage import FunctionUsage
 from .worklist.render import renderPlan
 from .worklist.steps import breakoutSteps, patternSteps, utilitySteps
 from .worklist.sweep_steps import sweepSteps
+from .worklist.unboxing_steps import unboxingSteps
 from .worklist.targets import describeTarget, worstFiles
 
 REFACTOR_DIRECTORY = Path("tools") / "refactor"
@@ -29,6 +30,7 @@ def buildPlan(repositoryRoot: Path, audit: dict) -> dict:
     others = [target for target in targets if not target["isView"]]
     designPatterns = design_patterns.check(sourceFiles, rules)
     steps = [
+        *unboxingSteps(audit),
         *adoptionSteps(audit),
         *breakoutSteps(views),
         *utilitySteps(views, usage.repeatedBodies(rules.get("frameworkHandlers", {})), audit),

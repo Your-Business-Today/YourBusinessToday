@@ -2,29 +2,17 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 from ..source_files import SourceFile
+from .hand_rolled_rules import HandRolledRule, handRolledRule
 from .markup_tree import Node
 
 CATALOGUE, COMPONENT, HTML, UNRESOLVED, IGNORED = "catalogue", "component", "html", "unresolved", "ignored"
 GRID_COLUMNS = re.compile(r"^(?:\w+:)?grid-cols-(\d+)$")
 BREAKPOINT_PREFIX = re.compile(r"^\w+:")
 ONE_COLUMN = 1
-
-
-@dataclass(frozen=True)
-class HandRolledRule:
-    element: str
-    ownedBy: str
-    unlessClassPrefixes: tuple[str, ...] = ()
-    unlessAttributes: tuple[str, ...] = ()
-
-    def applies(self, node: Node) -> bool:
-        hasExemptClass = any(name.startswith(prefix) for name in node.classes for prefix in self.unlessClassPrefixes)
-        hasExemptAttribute = any(text in node.attributes for text in self.unlessAttributes)
-        return not hasExemptClass and not hasExemptAttribute
 
 
 @dataclass
@@ -54,6 +42,10 @@ class Vocabulary:
     def everyOwner(self) -> tuple[str, ...]:
         return tuple(rule.ownedBy for rule in self.handRolled.values())
 
+    def inView(self, relative: str, layout: str) -> "Vocabulary":
+        reaching = {element: rule for element, rule in self.handRolled.items() if rule.reaches(relative, layout)}
+        return replace(self, handRolled=reaching)
+
     def isHorizontal(self, classes: list[str]) -> bool:
         bare = [BREAKPOINT_PREFIX.sub("", name) for name in classes]
         if any(name in self.verticalClasses for name in bare):
@@ -66,12 +58,6 @@ class Vocabulary:
 def columnsOf(className: str) -> int:
     match = GRID_COLUMNS.match(className)
     return int(match.group(1)) if match else ONE_COLUMN
-
-
-def handRolledRule(row: dict) -> HandRolledRule:
-    return HandRolledRule(
-        row["element"].lower(), row["ownedBy"], tuple(row.get("unlessClassPrefixes", [])), tuple(row.get("unlessAttributes", [])),
-    )
 
 
 def componentFilesOf(views: list[SourceFile], catalogue: set[str]) -> dict[str, SourceFile]:

@@ -82,6 +82,8 @@ The role column is the whole point: "the brand colours are used appropriately" i
    Every value in the reference that sits near no token (a colour, a size, a radius), with the reading and the nearest token it is not.
    ```
 
+   A content widget's sheet describes no box. A table, a heading or a field draws only its content (`code-rules.md`, *Content Widgets Draw Only Their Content*); the panel, border, rounded corners or scroll box in the reference belong to the container the widget sits in — `<Panel><RecordsTable/></Panel>` — so they go in that container widget's sheet, or under *Unmapped* with a note saying so, never in the content widget's Anatomy or Tokens.
+
    The rule that matters: **the sheet speaks in token names, never raw values.** A hex colour or a pixel size in the sheet is the magic-value rule broken one step early. A reading that fits no token goes under *Unmapped* — that is a decision for the person (add the token, or the design is off-brand), never something resolved silently.
 4. **Copy the images in** under `docs/design/widgets/<Widget>/`, named for the state they show, and write the index entry: `design`, `sheet`, `checkedAt` empty (the sheet is new; the widget has not been checked against it).
 5. **Show the person the sheet and the Unmapped list and wait for a yes** before committing — a sheet is a design decision recorded, so a person confirms it, as they confirm a house model before it is stored.
@@ -91,7 +93,7 @@ The role column is the whole point: "the brand colours are used appropriately" i
 
 For every widget in the index that has a sheet (or the ones the person names):
 
-1. Read the sheet and the widget's file side by side. Compare part by part — anatomy, tokens, states, variants, behaviour. A difference is one of three things: the widget is wrong (fix it, on this branch, behaviour of the *site* unchanged — this is the widget's look, and every view that composes it changes with it, which is the point of the catalogue); the sheet is wrong (the design moved on — say so and stop on that widget until the person re-extracts or amends); or an agreed exception (record it under a `## Exceptions` heading in the sheet, with the reason).
+1. Read the sheet and the widget's file side by side. Compare part by part — anatomy, tokens, states, variants, behaviour. A box a content widget draws is always the widget wrong, whatever the sheet shows — the audit reports it and the round takes it off. Any other difference is one of three things: the widget is wrong (fix it, on this branch, behaviour of the *site* unchanged — this is the widget's look, and every view that composes it changes with it, which is the point of the catalogue); the sheet is wrong (the design moved on — say so and stop on that widget until the person re-extracts or amends); or an agreed exception (record it under a `## Exceptions` heading in the sheet, with the reason).
 2. Never touch a view: a widget's design is met in the widget's own file. If the difference can only be fixed in the views that use it, the widget is missing a parameter or a variant — add it to the widget, then the views adopt it in the ordinary way.
 3. Stamp the index: `checkedAt` today, `checkedAgainst` the commit the check was made on.
 4. Run the quality check (the standing updates, and the ratchet gate must still pass — a design fix never adds a hand-rolled element), then commit on `feature/widget-design-check-<date>`, push, and open the pull request. Say in it which widgets changed, which sheets were found stale, and which exceptions were recorded.

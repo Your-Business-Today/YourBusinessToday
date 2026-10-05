@@ -42,3 +42,11 @@ def handRolledTable(byWidget: list[dict]) -> str:
     rows = ["| Should be | Written by hand | Where |", "| --- | --- | --- |"]
     rows += [f"| `{row['ownedBy']}` | {row['count']} in {len(row['files'])} files | {shortFiles(row['files'])} |" for row in byWidget]
     return "\n".join(rows)
+
+
+def boxedWidgetTable(boxed: list[dict]) -> str:
+    if not boxed:
+        return "No content widget draws its own box."
+    rows = ["| Widget | Outer element | Draws | Where |", "| --- | --- | --- | --- |"]
+    rows += [f"| `{row['widget']}` | `<{row['element']}>` | `{row['box']}` | `{row['file']}:{row['line']}` |" for row in boxed]
+    return "\n".join(rows)

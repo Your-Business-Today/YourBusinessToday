@@ -19,3 +19,4 @@ Claude outputs/
 .claude/worktrees/
 
 __pycache__/
+.env*

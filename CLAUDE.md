@@ -1,5 +1,5 @@
 <!-- project-process:begin -->
-<!-- project-process kit v1.12.1 — replaced whole by bootstrap.sh; edit the kit, and write this repository's own instructions in PROJECT.md -->
+<!-- project-process kit v1.14.0 — replaced whole by bootstrap.sh; edit the kit, and write this repository's own instructions in PROJECT.md -->
 
 # How We Work
 
@@ -30,6 +30,16 @@ Nothing is committed to the default branch (`main`, or whatever `origin/HEAD` po
 The repository carries a guard as well as this rule: `tools/branch_guard/`, installed as a Claude Code `PreToolUse` hook in `.claude/settings.json`, refuses any `git commit`, `git merge` or `git push` that would land on the default branch and says why. When it refuses, do what it says — branch — rather than looking for a way round it.
 
 A refactor round follows the same shape on a `refactor/round-N` branch, and a code quality check on a `quality/check-<date>` branch (their skills say so); they are the two branches that are neither a fix nor a feature. A process that only reads — the widget identification, the input validation check, the audit and the gate, the deploy count — writes nothing but its own output, so it needs no branch at all and commits nothing (next section).
+
+## A repository built on a template carries a template change to its siblings
+
+Some repositories are built on a shared template — a company portal is the portal template (jamesbeadle/portal-template) plus its company's domain — and when one is, its `PROJECT.md` says so: which template, which folders are the template's, and which other repositories are built on it (the register is `portals/portals.json` in the portal-template repository). In such a repository, decide before the first change whether the change is the template's or this repository's own. It is the template's when it is made in a file the template holds and is not about this company's domain: a bug in the shell (sign-in, the directory, to-dos, the mailbox intake, the connector framework), a change to a catalogue widget, the shared styles or the brand the portals share, a fix to how the layout works on a phone. A template change is made in every repository on the register, not only this one:
+
+1. **Say so on the task** before the first commit, naming every repository it will go to.
+2. **Branch in each under the same name** — the same `fix/<slug>` or `feature/<slug>` — from each one's fresh default branch, and make the change in each repository's own words (its namespaces, its *project* or *job*). Each is its own pull request, titled with the task, whose body names the others. A sibling that is not checked out in this session is cloned, or the task says plainly which repositories still need the change.
+3. **Read the drift when it is done.** The portal-template repository's `portals` server (`compare_template_file`, `read_template_drift`) shows whether the copies now agree; a file that still differs is a change not carried or a place a repository is rightly its own, and the pull request says which.
+
+A change that is this repository's own stays here. When it is not clear which it is, ask the person, naming both.
 
 ## Every process is asked for by name
 
@@ -186,6 +196,16 @@ A long frontend file is several components that have not been separated yet. Fin
 - It must work exactly as before. Breaking out a component is a move, not a rewrite.
 - A component that needs a long list of parameters was cut at the wrong seam. Take the larger chunk around it or the smaller ones inside it.
 
+## Content Widgets Draw Only Their Content
+
+A catalogue widget is one of two kinds. A **container widget** — a panel, a modal, a page — draws a box: the border, the rounded corners, the shadow, the scroll box with its maximum height. A **content widget** — a table, a heading, a field — draws only its content, never a box around it. A boxed table is composed, not built: `<Panel><RecordsTable /></Panel>`.
+
+The reason is adoption. A table that draws its own panel cannot be put inside a modal, a panel or a print sheet without being restyled, so the views that need it there write the table by hand instead, and the catalogue stops being adopted exactly where it was meant to make every table the same. The audit measures this: a content widget whose outer element carries container styling is reported and ratcheted, and it is never exempted — an exemption lowers the count without making the code any more consistent.
+
+- A content widget's outer element carries no panel, `border`, `rounded`, `shadow` or `max-h-` class, and is never a container widget.
+- Where a widget needs a box in most of its uses, the box is still the view's to compose; the widget does not grow a parameter for it.
+- A content widget's design sheet describes no box either. The box in the reference belongs to the container the widget sits in.
+
 ## Every Function Has a Home and a Reason
 
 Ask two questions of every function, when writing it and when reading it:
@@ -281,6 +301,7 @@ Things I never want to see in code you write for me:
 - Conditions with calls tangled inside calls (`if (is(getApple(1).colour == "RED"))`), and comparisons against raw literals.
 - Accessor functions that glue a type to its property (`getAppleColour()` instead of `apple.colour`), and function names over five words or forty characters.
 - Components that leave their functions behind in the parent, or reach back into it.
+- A content widget — a table, a heading, a field — that draws its own box; only a container widget draws one.
 - Functions that mask something the framework should be doing, and functions or components nothing calls.
 - The same function — the same body, not merely the same name — declared in more than one file.
 - A subject missing a file its design pattern predicts, or an empty file created to satisfy one.

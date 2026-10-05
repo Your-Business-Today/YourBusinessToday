@@ -27,6 +27,7 @@ RATCHETED_FIGURES = [
     ("conditions", "literalComparisonLines"),
     ("designPatterns", "predictedFilesMissing"),
     ("siteDefinition", "handRolledElements"),
+    ("siteDefinition", "boxedContentWidgets"),
     ("inputValidation", "unvalidatedDoors"),
     ("inputValidation", "looserLimits"),
 ]
