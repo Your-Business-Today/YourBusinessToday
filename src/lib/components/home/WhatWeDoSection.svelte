@@ -8,6 +8,9 @@
 	<h2 class="mt-5 max-w-3xl font-display text-3xl leading-tight font-medium md:text-5xl">
 		Most consultancies leave a report. We leave a business that runs itself.
 	</h2>
+	<p class="mt-5 font-display text-xl leading-relaxed text-chalk/90 md:text-2xl">
+		Building you tools which will grow with AI.
+	</p>
 	<div class="mt-8 grid gap-8 md:grid-cols-2 md:gap-12">
 		<p class="text-lg text-chalk/70">
 			We are brought in when a business has outgrown the way it has always been run: when the
@@ -15,11 +18,10 @@
 			at, and when the few people holding it together can never take a week off.
 		</p>
 		<p class="text-lg text-chalk/70">
-			We start by mapping your data sources: wherever the business creates a record, a document
-			or an asset today. We build the harness that holds that data, equip an AI agent with the
-			skills to run the processes around it, and give you two doors on to it: dashboards for
-			the screen and an MCP server for the agent. Each piece goes live and starts earning before
-			the next is built.
+			We analyse your business to identify the key data inputs and outputs. We define the range of
+			business processes your company works on and begin to automate within the bespoke framework
+			we create for you. We automate the parallel running of systems to ensure a seamless
+			transition of all processes to their AI upgrade.
 		</p>
 	</div>
 	<div class="mt-14 border-t border-hairline md:mt-16">
