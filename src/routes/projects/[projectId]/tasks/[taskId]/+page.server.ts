@@ -10,7 +10,6 @@ import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskStoryRefusal } from '$lib/server/projects/newTaskStoryRefusal';
 import { deleteAcceptanceCriterion } from '$lib/server/projects/deleteAcceptanceCriterion';
 import { deleteTask } from '$lib/server/projects/deleteTask';
-import { suggestHandOff } from '$lib/server/conversations/defaultHandOff';
 import { getTask } from '$lib/server/projects/getTask';
 import { getTaskFamily } from '$lib/server/projects/getTaskFamily';
 import { getOtherProjects } from '$lib/server/projects/getOtherProjects';
@@ -33,8 +32,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		messages: withAuthorNames(workspace.messages, workspace.accounts),
 		raisedByName: accountNameLookup(workspace.accounts)(task.createdBy),
 		attachments: withUploaderNames(workspace.attachments, workspace.people),
-		viewerId: user.id,
-		suggestedHandOff: suggestHandOff(workspace.messages, user.id, task.createdBy)
+		viewerId: user.id
 	};
 };
 

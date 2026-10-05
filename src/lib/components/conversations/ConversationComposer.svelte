@@ -4,14 +4,9 @@
 	import HandOffPicker from './HandOffPicker.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
-	import type { HandOff } from '$lib/data/conversationTurn';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 
-	let {
-		people,
-		viewerId,
-		suggestedHandOff
-	}: { people: ProjectPerson[]; viewerId: string; suggestedHandOff: HandOff | null } = $props();
+	let { people, viewerId }: { people: ProjectPerson[]; viewerId: string } = $props();
 
 	const tracker = new FormTracker();
 </script>
@@ -32,7 +27,7 @@
 			focus:border-go"
 	></textarea>
 	<div class="flex flex-wrap items-center justify-between gap-3">
-		<HandOffPicker {people} {viewerId} {suggestedHandOff} />
+		<HandOffPicker {people} {viewerId} />
 		<SubmitButton
 			isSaving={tracker.isSaving}
 			savingLabel="Posting…"

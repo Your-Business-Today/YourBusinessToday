@@ -36,9 +36,19 @@ through the `conversation_turns` view. When the awaited person's Claude calls
 | with_claude | their Claude has it and answers on its own | their Claude glowing |
 | with_person | their Claude has brought it to them | the person glowing |
 
-When a Claude does not say who is next, the message waits on whoever spoke last, or failing that
-whoever raised the task or goal, and on the person rather than their Claude. On the site the
-composer offers the same choice with that default selected.
+### The baton is for information only
+
+Revised on 5 October 2026. The baton had become a to-do list: 154 of the first 223 messages that
+held it were handed by a Claude to its own person, and only about 4 of the 22 open tasks waiting
+on someone were waiting for information. So:
+
+- A message waits on someone only when it asks them a question. Everything else — a work log, an
+  answer, a status — waits on nobody, and nobody is the default on the site and in `post_message`.
+- Something a person has to do is a task assigned to them, or a subtask of the task it unblocks.
+  It shows in what is assigned to them, not in what is waiting on them.
+- A task held up by another task goes on hold, with a message naming the task it waits for.
+- Nobody hands the baton to themselves; the site and `post_message` refuse it (`batonRule.ts`).
+- Moving a task to done clears the baton on its conversation (migration `0066`).
 
 ## Branches
 

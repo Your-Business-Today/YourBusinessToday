@@ -21,13 +21,15 @@ export const conversationActions: McpAction[] = [
 		guidance:
 			'Whatever you post is read by the person on the other side and by their Claude, so write ' +
 			'to them: what you found, what you need, what happens next. Everyone on the project ' +
-			'can read it; everyone in its conversation is told of it, and posting joins you. Every ' +
-			'message passes the baton: say who must answer next with waitingOn, and with waitingFor ' +
-			'whether their Claude can answer on its own or it needs them. Their Claude picks it up ' +
-			'through read_latest_messages and posts the answer here, passing the baton back. When ' +
-			'work on a task stops, the work log goes here too, waiting on nobody: what changed, ' +
-			'the branch and pull request it is on, which files or records, the decisions and why, ' +
-			'what is left.',
+			'can read it; everyone in its conversation is told of it, and posting joins you. A ' +
+			'message waits on someone only when it asks them a question: name them with waitingOn, ' +
+			'and say with waitingFor whether their Claude can answer on its own or it needs them. ' +
+			'Their Claude picks it up through read_latest_messages and posts the answer here. ' +
+			'Anything else waits on nobody — the default. Something a person has to do is a task ' +
+			'assigned to them (set_task_assignees) or a subtask, not a wait; a task held up by ' +
+			'another goes on hold, naming it. When work on a task stops, the work log goes here: ' +
+			'what changed, the branch and pull request it is on, which files or records, the ' +
+			'decisions and why, what is left.',
 		inputSchema: objectSchema(
 			{
 				goalId: textField('The goal to post on — give this or taskId'),
@@ -63,9 +65,11 @@ export const conversationActions: McpAction[] = [
 			'returns only what arrived since the last one and then moves the marker, so read it all ' +
 			'before moving on; a message may be the resolution of something they raised. A message ' +
 			'that asks the person you are with a question is theirs to answer: put it to them, then ' +
-			'post_message the answer on the same goal or task. A message marked as waiting on you ' +
-			'holds the baton: reading it tells the other side you have picked it up, so answer it ' +
-			'yourself when it waits on your Claude, and bring it to the person when it waits on them.',
+			'post_message the answer on the same goal or task, waiting on nobody unless the answer ' +
+			'asks something back. A message marked as waiting on you asks a question: reading it ' +
+			'tells the other side you have picked it up, so answer it yourself when it waits on ' +
+			'your Claude, and bring it to the person when it waits on them. What the person has to ' +
+			'do is in read_team_tasks — the tasks assigned to them.',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
 			await markTurnsPickedUp(caller.supabase, caller.accountId);
