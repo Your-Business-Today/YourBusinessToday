@@ -38,7 +38,6 @@
 				messages={data.messages}
 				people={data.people}
 				viewerId={data.viewerId}
-				suggestedHandOff={data.suggestedHandOff}
 			/>
 		</div>
 		<aside class="flex min-w-0 flex-col gap-4">

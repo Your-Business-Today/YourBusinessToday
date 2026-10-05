@@ -1,3 +1,4 @@
+import { isHandedToWriter, selfHandOffRefusal } from '$lib/data/batonRule';
 import { postedViaChannels } from '$lib/data/conversationTurn';
 import { fail } from '@sveltejs/kit';
 import { getProjectPeople } from '$lib/server/members/getProjectPeople';
@@ -8,7 +9,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 export const handOffRefusal = 'The person who answers next must be on the project.';
 
-/** A message typed on the site, handing the baton to someone on the project or to nobody. */
+/** A message typed on the site, waiting on an answer from someone else on the project or on nobody. */
 export async function postMessageFromForm(
 	supabase: SupabaseClient,
 	projectId: string,
@@ -19,6 +20,7 @@ export async function postMessageFromForm(
 	const submission = readMessageForm(formData);
 	if (submission === null) return fail(400, { message: messageFormRefusal });
 	const awaiting = submission.awaiting;
+	if (isHandedToWriter(awaiting, authorAccountId)) return fail(400, { message: selfHandOffRefusal });
 	if (awaiting !== null) {
 		const people = await getProjectPeople(supabase, projectId);
 		const isOnProject = people.some((person) => person.id === awaiting.accountId);

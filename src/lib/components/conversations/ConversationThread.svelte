@@ -5,20 +5,18 @@
 	import MessageRow from './MessageRow.svelte';
 	import { panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import { accountNameLookup } from '$lib/data/accountNames';
-	import { latestTurn, type HandOff } from '$lib/data/conversationTurn';
+	import { latestTurn } from '$lib/data/conversationTurn';
 	import type { NamedMessage } from '$lib/server/conversations/withAuthorNames';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 
 	let {
 		messages,
 		people,
-		viewerId,
-		suggestedHandOff
+		viewerId
 	}: {
 		messages: NamedMessage[];
 		people: ProjectPerson[];
 		viewerId: string;
-		suggestedHandOff: HandOff | null;
 	} = $props();
 
 	const nameOf = $derived(accountNameLookup(people));
@@ -40,6 +38,6 @@
 		</ul>
 	{/if}
 	<div class="border-t border-hairline p-4">
-		<ConversationComposer {people} {viewerId} {suggestedHandOff} />
+		<ConversationComposer {people} {viewerId} />
 	</div>
 </DashboardPanel>

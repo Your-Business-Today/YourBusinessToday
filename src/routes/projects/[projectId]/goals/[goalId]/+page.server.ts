@@ -25,11 +25,10 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	if (goal === null || project === null || goal.projectId !== project.id)
 		error(404, 'Goal not found');
 	const subject = { goalId: goal.id };
-	const viewer = { viewerId: user.id, raisedById: goal.createdBy };
 	const [tasks, people, conversation] = await Promise.all([
 		findTasks(locals.supabase, { projectId: project.id, goalId: goal.id, phrase: '' }),
 		getProjectPeople(locals.supabase, project.id),
-		loadConversation(locals.supabase, subject, viewer)
+		loadConversation(locals.supabase, subject, user.id)
 	]);
 	return { goal, project, tasks, people, ...conversation };
 };
