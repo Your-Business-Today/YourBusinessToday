@@ -47,7 +47,7 @@ administrator added them to it — never because of the company their contact re
 - `/projects/[projectId]` — gains a **Goals** panel (title, task count, completion bar,
   awaiting-answer count, status, Add goal) and, for administrators, a **Members** panel
   (name, email, add by email address, remove). The backlog is grouped by goal, in goal
-  order, with tasks under no goal in an **Other tasks** section at the bottom; dragging a
+  order, with tasks under no goal in an **Other tasks** section at the top; dragging a
   top-level task beside one under another goal moves it to that goal. The new-task modal
   gains goal and kind. Each backlog row shows a Support pill when the task is one.
   **Phases are gone from the UI** (2026-09-11, James: goals are the grouping level) — the
