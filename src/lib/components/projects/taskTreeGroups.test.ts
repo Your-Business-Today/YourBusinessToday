@@ -13,14 +13,14 @@ function task(id: string, goalId: string | null, subtasks: TaskTreeNode[] = []):
 const idsOf = (tasks: TaskTreeNode[]) => tasks.map((candidate) => candidate.id);
 
 describe('groupTasksByGoal', () => {
-	it('keeps goal order, keeps task order within a goal, and puts the rest last', () => {
+	it('puts the rest first, then keeps goal order and task order within a goal', () => {
 		const groups = groupTasksByGoal(
 			[task('a', null), task('b', 'goal-polish'), task('c', 'goal-launch'), task('d', 'goal-polish')],
 			[launch, polish]
 		);
-		expect(groups.map((group) => group.goal?.title ?? 'other')).toEqual(['Launch', 'Polish', 'other']);
-		expect(groups[1].tasks.map((candidate) => candidate.id)).toEqual(['b', 'd']);
-		expect(groups[2].tasks.map((candidate) => candidate.id)).toEqual(['a']);
+		expect(groups.map((group) => group.goal?.title ?? 'other')).toEqual(['other', 'Launch', 'Polish']);
+		expect(groups[0].tasks.map((candidate) => candidate.id)).toEqual(['a']);
+		expect(groups[2].tasks.map((candidate) => candidate.id)).toEqual(['b', 'd']);
 	});
 
 	it('leaves out goals with nothing under them and the rest when there is none', () => {

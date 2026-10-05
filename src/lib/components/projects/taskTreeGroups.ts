@@ -25,7 +25,7 @@ export function groupTasksByGoal(
 		const isInGroup = (task: TaskTreeNode) => goalIdsByTask.get(task.id) === groupGoalId;
 		return { goal, tasks: narrowToVisible(tasksKeptWhere(taskTree, isInGroup)) };
 	};
-	return [...goals, null].map(groupFor).filter((group) => group.tasks.length > 0);
+	return [null, ...goals].map(groupFor).filter((group) => group.tasks.length > 0);
 }
 
 function settledGoalIds(
