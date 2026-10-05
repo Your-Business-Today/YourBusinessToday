@@ -11,6 +11,7 @@ export type NewTaskSeed = {
 	goalId: string | null;
 	kind: TaskKind;
 	story?: UserStory;
+	requestedBy?: string;
 };
 
 export function readNewTaskSeed(formData: FormData): NewTaskSeed | null {
@@ -52,6 +53,7 @@ export async function createTask(
 			priority: await nextSiblingRank(supabase, projectId, seed.parentTaskId),
 			global_priority: globalPriority,
 			created_by: createdBy,
+			requested_by: seed.requestedBy ?? null,
 			...storyColumns(seed.story)
 		})
 		.select('id')

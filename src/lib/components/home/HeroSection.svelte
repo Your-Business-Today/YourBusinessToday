@@ -9,7 +9,7 @@
 			Welcome to Your Business Today
 		</p>
 		<h1 class="font-display text-4xl leading-tight font-medium md:text-6xl">
-			Use AI to streamline your business workflows.
+			We use AI to streamline your business today.
 		</h1>
 		<p class="max-w-prose text-lg text-chalk/70">
 			Your Business Today identifies how information travels through your company. We harness the

@@ -86,7 +86,7 @@
 				href={`/projects/${task.projectId}`}
 				class="block truncate text-xs text-chalk/50 transition hover:text-go"
 			>
-				{task.projectName}
+				{task.projectName}{task.requesterName === null ? '' : ` · requested by ${task.requesterName}`}
 			</a>
 		</div>
 		<div class="ml-auto flex shrink-0 items-center gap-2">
