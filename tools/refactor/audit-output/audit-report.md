@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-10-05 17:19 UTC.
+Generated 2026-10-05 18:49 UTC.
 
 ## Headline
 
@@ -40,22 +40,22 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| frontend | 407 | 284 | 11,185 |
+| frontend | 407 | 284 | 11,186 |
 | backend | 395 | 392 | 12,025 |
-| shared | 135 | 135 | 4,653 |
+| shared | 136 | 135 | 4,653 |
 | api | 104 | 104 | 4,829 |
 | tooling | 102 | 0 | 0 |
-| database | 67 | 0 | 0 |
-| tests | 55 | 56 | 1,925 |
+| database | 68 | 0 | 0 |
+| tests | 56 | 56 | 1,925 |
 | docs | 48 | 0 | 0 |
 | infrastructure | 13 | 0 | 0 |
-| **whole repository** | **1,326** | **971** | **34,617** |
+| **whole repository** | **1,329** | **971** | **34,618** |
 
 ## Summary
 
 | Check | Key figures |
 | --- | --- |
-| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 971, totalLines: 34617, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
+| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 971, totalLines: 34618, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
 | functionShape | limit: 30, functionsOverLimit: 6, totalFunctions: 1170, elseBlocks: 1, ifBlocks: 1493, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 2, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 32, measurementIsHeuristic: True |
@@ -70,7 +70,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | inventory | pages: 31, components: 231, orphanComponents: 3, averagePageLines: 49 |
 | siteDefinition | skipped: no siteDefinition catalogue in rules.json |
 | inputValidation | schemaTables: 84, limitedColumns: 0, writeDoors: 94, unvalidatedDoors: 94, looserLimits: 0 |
-| fileAreas | totalFiles: 1326, frontend: 407, backend: 395, shared: 135, api: 104, tooling: 102, database: 67, tests: 55, docs: 48, infrastructure: 13 |
+| fileAreas | totalFiles: 1329, frontend: 407, backend: 395, shared: 136, api: 104, tooling: 102, database: 68, tests: 56, docs: 48, infrastructure: 13 |
 
 ## Against the baseline
 

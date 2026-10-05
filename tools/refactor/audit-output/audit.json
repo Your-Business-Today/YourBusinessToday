@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-05T17:19:00+00:00",
+  "generatedAt": "2026-10-05T18:49:15+00:00",
   "kitVersion": "1.14.0",
   "score": {
     "overall": 84.1,
@@ -252,7 +252,7 @@
       "limit": 100,
       "filesOverLimit": 0,
       "totalFiles": 971,
-      "totalLines": 34617,
+      "totalLines": 34618,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
@@ -334,14 +334,14 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 1326,
+      "totalFiles": 1329,
       "frontend": 407,
       "backend": 395,
-      "shared": 135,
+      "shared": 136,
       "api": 104,
       "tooling": 102,
-      "database": 67,
-      "tests": 55,
+      "database": 68,
+      "tests": 56,
       "docs": 48,
       "infrastructure": 13
     }
@@ -353,7 +353,7 @@
         "limit": 100,
         "filesOverLimit": 0,
         "totalFiles": 971,
-        "totalLines": 34617,
+        "totalLines": 34618,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -3196,14 +3196,14 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 1326,
+        "totalFiles": 1329,
         "frontend": 407,
         "backend": 395,
-        "shared": 135,
+        "shared": 136,
         "api": 104,
         "tooling": 102,
-        "database": 67,
-        "tests": 55,
+        "database": 68,
+        "tests": 56,
         "docs": 48,
         "infrastructure": 13
       },
@@ -3212,7 +3212,7 @@
           "area": "frontend",
           "files": 407,
           "sourceFiles": 284,
-          "sourceLines": 11185
+          "sourceLines": 11186
         },
         {
           "area": "backend",
@@ -3222,7 +3222,7 @@
         },
         {
           "area": "shared",
-          "files": 135,
+          "files": 136,
           "sourceFiles": 135,
           "sourceLines": 4653
         },
@@ -3240,13 +3240,13 @@
         },
         {
           "area": "database",
-          "files": 67,
+          "files": 68,
           "sourceFiles": 0,
           "sourceLines": 0
         },
         {
           "area": "tests",
-          "files": 55,
+          "files": 56,
           "sourceFiles": 56,
           "sourceLines": 1925
         },
