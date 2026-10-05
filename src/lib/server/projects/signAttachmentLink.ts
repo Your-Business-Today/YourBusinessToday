@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { attachmentsBucket } from './attachmentStorage';
-import type { TaskAttachment } from './attachmentRecord';
+import type { StoredFile } from './attachmentRecord';
 
 export type AttachmentLinkKind = 'open' | 'download';
 
@@ -9,7 +9,7 @@ export const agentFetchLifetimeSeconds = 10 * 60;
 
 export async function signAttachmentLink(
 	supabase: SupabaseClient,
-	attachment: TaskAttachment,
+	attachment: StoredFile,
 	kind: AttachmentLinkKind,
 	lifetimeSeconds: number
 ): Promise<string> {
@@ -21,7 +21,7 @@ export async function signAttachmentLink(
 }
 
 function signingOptions(
-	attachment: TaskAttachment,
+	attachment: StoredFile,
 	kind: AttachmentLinkKind
 ): { download?: string } {
 	if (kind === 'open') return {};

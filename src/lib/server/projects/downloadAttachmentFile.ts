@@ -1,10 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { attachmentsBucket } from './attachmentStorage';
-import type { TaskAttachment } from './attachmentRecord';
+import type { StoredFile } from './attachmentRecord';
 
 export async function downloadAttachmentFile(
 	supabase: SupabaseClient,
-	attachment: TaskAttachment
+	attachment: StoredFile
 ): Promise<Uint8Array> {
 	const { data, error } = await supabase.storage
 		.from(attachmentsBucket)

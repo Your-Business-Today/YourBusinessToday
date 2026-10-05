@@ -1,11 +1,13 @@
 import { accountNameLookup } from '$lib/data/accountNames';
 import type { Account } from '$lib/server/accounts/accountRecord';
-import type { TaskAttachment } from '$lib/server/projects/attachmentRecord';
 
-export function withUploaderNames(attachments: TaskAttachment[], people: Account[]) {
+export function withUploaderNames<Upload extends { uploadedBy: string }>(
+	uploads: Upload[],
+	people: Account[]
+) {
 	const nameOf = accountNameLookup(people);
-	return attachments.map((attachment) => ({
-		...attachment,
-		uploaderName: nameOf(attachment.uploadedBy)
+	return uploads.map((upload) => ({
+		...upload,
+		uploaderName: nameOf(upload.uploadedBy)
 	}));
 }

@@ -1,3 +1,5 @@
+import { projectImageReadActions } from './projectImageReadActions';
+import { projectImageWriteActions } from './projectImageWriteActions';
 import { projectOrderActions } from './projectOrderActions';
 import { projectOwnershipActions } from './projectOwnershipActions';
 import { projectReadActions } from './projectReadActions';
@@ -10,5 +12,7 @@ export const projectActions: McpAction[] = [
 	...projectWriteActions,
 	...projectRemovalActions,
 	...projectOrderActions,
-	...projectOwnershipActions
+	...projectOwnershipActions,
+	...projectImageReadActions,
+	...projectImageWriteActions
 ];

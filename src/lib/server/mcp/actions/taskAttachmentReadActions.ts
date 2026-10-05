@@ -1,36 +1,14 @@
 import { reachableTask } from '../projectAccess';
-import {
-	contentKindFor,
-	describeByteCount,
-	maxInlineAttachmentByteCount,
-	type AttachmentContentKind
-} from '$lib/data/taskAttachmentRules';
+import { answerWithStoredFile } from './storedFileAnswer';
+import { characterCap } from './attachmentAnswers';
+import { describeByteCount, maxInlineAttachmentByteCount } from '$lib/data/taskAttachmentRules';
 import { findTaskAttachment } from '$lib/server/projects/findTaskAttachment';
 import { noSuchAttachment } from './describeAttachments';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readText, textField } from '../actionTypes';
-import {
-	characterCap,
-	fileAnswer,
-	imageAnswer,
-	linkAnswer,
-	pdfAnswer,
-	textAnswer,
-	type AttachmentAnswer
-} from './attachmentAnswers';
 import type { McpAction } from '../actionTypes';
 
 const inlineCap = describeByteCount(maxInlineAttachmentByteCount);
-
-const answerByKind: Record<AttachmentContentKind, AttachmentAnswer> = {
-	text: textAnswer,
-	wordDocument: textAnswer,
-	spreadsheet: textAnswer,
-	pdf: pdfAnswer,
-	image: imageAnswer,
-	file: fileAnswer,
-	link: linkAnswer
-};
 
 export const taskAttachmentReadActions: McpAction[] = [
 	{
@@ -61,8 +39,7 @@ export const taskAttachmentReadActions: McpAction[] = [
 				readText(input, 'attachmentId')
 			);
 			if (attachment === null) return noSuchAttachment;
-			const answer = answerByKind[contentKindFor(attachment.mimeType, attachment.byteCount)];
-			return answer(caller.supabase, attachment);
+			return answerWithStoredFile(caller.supabase, attachment);
 		}
 	}
 ];
