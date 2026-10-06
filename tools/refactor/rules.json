@@ -206,7 +206,9 @@
       "src/lib/server/goals/updateProject.ts",
       "src/lib/server/goals/updateTask.ts",
       "src/lib/server/projects/updateTaskProject.ts",
-      "src/lib/server/projects/updateTaskTask.ts"
+      "src/lib/server/projects/updateTaskTask.ts",
+      "src/lib/server/projects/updateTaskActions.ts",
+      "src/lib/server/projects/updateTaskRecord.ts"
     ]
   },
   "siteDefinition": {
