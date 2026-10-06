@@ -47,6 +47,7 @@
 				<KitVersionBadge
 					repositoryUrl={project.repositoryUrl}
 					kitVersion={project.kitVersion}
+					kitVersionReadAt={project.kitVersionReadAt}
 					{latestKitVersion}
 				/>
 				<ProjectStatusBadge status={project.status} />

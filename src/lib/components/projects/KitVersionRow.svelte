@@ -28,6 +28,11 @@
 	</div>
 	<div class="flex items-center gap-3">
 		<span class="text-xs text-chalk/40">{readTimeLabel}</span>
-		<KitVersionBadge repositoryUrl={entry.repositoryUrl} kitVersion={entry.kitVersion} {latestKitVersion} />
+		<KitVersionBadge
+			repositoryUrl={entry.repositoryUrl}
+			kitVersion={entry.kitVersion}
+			kitVersionReadAt={entry.kitVersionReadAt}
+			{latestKitVersion}
+		/>
 	</div>
 </li>

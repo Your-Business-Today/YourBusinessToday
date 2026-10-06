@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { compareKitVersions, describeKitStanding, kitStanding } from './kitVersion';
 
-const onRepository = { hasRepository: true, latestKitVersion: '1.13.0' };
+const onRepository = { hasRepository: true, isRead: true, latestKitVersion: '1.13.0' };
 
 describe('compareKitVersions', () => {
 	it('compares each part as a number, not as text', () => {
@@ -27,9 +27,13 @@ describe('kitStanding', () => {
 	});
 
 	it('says when there is no repository, no kit, or no latest version to compare with', () => {
-		expect(kitStanding({ hasRepository: false, kitVersion: '', latestKitVersion: '1.13.0' })).toBe('no_repository');
+		expect(kitStanding({ ...onRepository, hasRepository: false, kitVersion: '' })).toBe('no_repository');
 		expect(kitStanding({ ...onRepository, kitVersion: '' })).toBe('no_kit');
-		expect(kitStanding({ hasRepository: true, kitVersion: '1.13.0', latestKitVersion: '' })).toBe('unknown_latest');
+		expect(kitStanding({ ...onRepository, kitVersion: '1.13.0', latestKitVersion: '' })).toBe('unknown_latest');
+	});
+
+	it('is not read, never kit-less, while the repository has not been read', () => {
+		expect(kitStanding({ ...onRepository, isRead: false, kitVersion: '' })).toBe('not_read');
 	});
 
 	it('reads as a sentence on the project', () => {

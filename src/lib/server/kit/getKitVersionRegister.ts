@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { kitStanding, type KitStanding } from '$lib/data/kitVersion';
+import { kitReadingOf } from './kitReadingOf';
 import { parseProjectRecord, type Project } from '$lib/server/projects/projectRecord';
 
 export type KitVersionEntry = {
@@ -35,27 +36,20 @@ export async function getKitVersionRegister(
 export async function getOwnedProjectsWithRepositories(
 	supabase: SupabaseClient,
 	ownerId: string
-): Promise<{ withRepository: ProjectWithReadTime[]; withoutRepositoryCount: number }> {
+): Promise<{ withRepository: Project[]; withoutRepositoryCount: number }> {
 	const { data, error } = await supabase
 		.from('projects')
 		.select('*')
 		.eq('owner_id', ownerId)
 		.order('priority', { ascending: true });
 	if (error) throw error;
-	const projects = data.map(readProjectWithReadTime);
+	const projects = data.map(parseProjectRecord);
 	const withRepository = projects.filter((project) => project.repositoryUrl !== '');
 	return { withRepository, withoutRepositoryCount: projects.length - withRepository.length };
 }
 
-type ProjectWithReadTime = Project & { kitVersionReadAt: string | null };
-
-function readProjectWithReadTime(row: Record<string, unknown>): ProjectWithReadTime {
-	const project = parseProjectRecord(row);
-	return { ...project, kitVersionReadAt: (row.kit_version_read_at as string) ?? null };
-}
-
-function kitVersionEntry(project: ProjectWithReadTime, latestKitVersion: string): KitVersionEntry {
-	const reading = { hasRepository: true, kitVersion: project.kitVersion, latestKitVersion };
+function kitVersionEntry(project: Project, latestKitVersion: string): KitVersionEntry {
+	const reading = kitReadingOf(project, latestKitVersion);
 	return {
 		projectId: project.id,
 		projectName: project.name,

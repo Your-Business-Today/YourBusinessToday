@@ -4,14 +4,26 @@
 	let {
 		repositoryUrl,
 		kitVersion,
+		kitVersionReadAt,
 		latestKitVersion
-	}: { repositoryUrl: string; kitVersion: string; latestKitVersion: string } = $props();
+	}: {
+		repositoryUrl: string;
+		kitVersion: string;
+		kitVersionReadAt: string | null;
+		latestKitVersion: string;
+	} = $props();
 
-	const reading = $derived({ hasRepository: repositoryUrl !== '', kitVersion, latestKitVersion });
+	const reading = $derived({
+		hasRepository: repositoryUrl !== '',
+		isRead: kitVersionReadAt !== null,
+		kitVersion,
+		latestKitVersion
+	});
 	const standing = $derived(kitStanding(reading));
 
 	const standingStyles: Record<KitStanding, string> = {
 		no_repository: '',
+		not_read: 'border-hairline text-chalk/60',
 		no_kit: 'border-signal/60 text-signal',
 		unknown_latest: 'border-hairline text-chalk/60',
 		current: 'border-go/40 text-go/80',
@@ -20,6 +32,7 @@
 
 	const standingLabels: Record<KitStanding, string> = $derived({
 		no_repository: '',
+		not_read: 'Kit not read',
 		no_kit: 'No kit',
 		unknown_latest: `Kit ${kitVersion}`,
 		current: `Kit ${kitVersion}`,
