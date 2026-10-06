@@ -3,10 +3,10 @@ import { compactTaskQueue, compactTaskSiblingRanks } from '$lib/server/ordering/
 import { getAttachmentPathsForTasks, removeAttachmentFiles } from './attachmentFiles';
 import { getProjectOwnerId } from '$lib/server/projects/getProjectOwnerId';
 import { getTaskAndDescendantIds } from './getTaskAndDescendantIds';
-import { findTask } from '$lib/server/projects/taskSiblings';
+import { getTask } from '$lib/server/projects/getTask';
 
 export async function deleteTask(supabase: SupabaseClient, taskId: string): Promise<void> {
-	const task = await findTask(supabase, taskId);
+	const task = await getTask(supabase, taskId);
 	const familyIds = await getTaskAndDescendantIds(supabase, taskId);
 	await removeAttachmentFiles(supabase, await getAttachmentPathsForTasks(supabase, familyIds));
 	const { error } = await supabase.from('tasks').delete().eq('id', taskId);

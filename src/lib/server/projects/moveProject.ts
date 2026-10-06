@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { boardOf, findProject } from '$lib/server/projects/projectBoard';
+import { boardOf } from '$lib/server/projects/projectBoard';
+import { getProject } from '$lib/server/projects/getProject';
 import { moveByOne } from '$lib/server/ordering/rankedScope';
 import type { MoveDirection } from '$lib/server/ordering/rankedSet';
 
@@ -12,7 +13,7 @@ export async function moveProject(
 	direction: ProjectMoveDirection,
 	viewerId: string
 ): Promise<void> {
-	const project = await findProject(supabase, projectId);
+	const project = await getProject(supabase, projectId);
 	if (project === null) return;
 	await moveByOne(boardOf(supabase, project, viewerId), project.id, direction);
 }

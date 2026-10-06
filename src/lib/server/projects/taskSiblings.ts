@@ -25,16 +25,6 @@ export function siblingsOf(supabase: SupabaseClient, task: ProjectTask): RankedS
 	return taskSiblings(supabase, task.projectId, task.parentTaskId);
 }
 
-export async function findTask(
-	supabase: SupabaseClient,
-	taskId: string
-): Promise<ProjectTask | null> {
-	const { data, error } = await supabase.from('tasks').select('*').eq('id', taskId).maybeSingle();
-	if (error) throw error;
-	if (data === null) return null;
-	return parseTaskRecord(data);
-}
-
 async function loadSiblings(
 	supabase: SupabaseClient,
 	projectId: string,

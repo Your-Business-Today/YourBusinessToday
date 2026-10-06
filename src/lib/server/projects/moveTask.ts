@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { findTask, siblingsOf } from '$lib/server/projects/taskSiblings';
+import { siblingsOf } from '$lib/server/projects/taskSiblings';
+import { getTask } from '$lib/server/projects/getTask';
 import { moveByOne } from '$lib/server/ordering/rankedScope';
 import type { MoveDirection } from '$lib/server/ordering/rankedSet';
 
@@ -10,7 +11,7 @@ export async function moveTask(
 	taskId: string,
 	direction: TaskMoveDirection
 ): Promise<void> {
-	const task = await findTask(supabase, taskId);
+	const task = await getTask(supabase, taskId);
 	if (task === null) return;
 	await moveByOne(siblingsOf(supabase, task), task.id, direction);
 }

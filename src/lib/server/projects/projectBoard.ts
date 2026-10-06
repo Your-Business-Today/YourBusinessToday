@@ -24,20 +24,6 @@ export function boardOf(
 	return teamBoard(supabase, viewerId);
 }
 
-export async function findProject(
-	supabase: SupabaseClient,
-	projectId: string
-): Promise<Project | null> {
-	const { data, error } = await supabase
-		.from('projects')
-		.select('*')
-		.eq('id', projectId)
-		.maybeSingle();
-	if (error) throw error;
-	if (data === null) return null;
-	return parseProjectRecord(data);
-}
-
 async function loadBoard(supabase: SupabaseClient, ownerId: string): Promise<BoardPlace[]> {
 	const { data, error } = await supabase
 		.from('projects')
