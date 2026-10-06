@@ -1,9 +1,11 @@
 import type { TaskStatus } from './taskStatus';
-import { taskStatusLabels } from './taskStatus';
+import { taskStatuses, taskStatusLabels } from './taskStatus';
 
 export type TaskKind = 'work' | 'support';
 
-export const supportTaskKind: TaskKind = 'support';
+export const taskKinds = { work: 'work', support: 'support' } as const;
+
+export const supportTaskKind = taskKinds.support;
 
 export const taskKindOrder: TaskKind[] = ['work', 'support'];
 
@@ -20,15 +22,15 @@ const supportTaskStatusLabels: Record<TaskStatus, string> = {
 };
 
 export function parseTaskKind(value: unknown): TaskKind {
-	if (value === 'support') return 'support';
-	return 'work';
+	if (value === taskKinds.support) return taskKinds.support;
+	return taskKinds.work;
 }
 
 export function taskStatusLabelFor(kind: TaskKind, status: TaskStatus): string {
-	if (kind === 'support') return supportTaskStatusLabels[status];
+	if (kind === taskKinds.support) return supportTaskStatusLabels[status];
 	return taskStatusLabels[status];
 }
 
 export function isAwaitingAnswer(kind: TaskKind, status: TaskStatus): boolean {
-	return kind === 'support' && status === 'backlog';
+	return kind === taskKinds.support && status === taskStatuses.backlog;
 }

@@ -6,6 +6,8 @@ export type ActionArea =
 
 export type ActionAudience = 'everyone' | 'staff' | 'admin';
 
+export const actionAudiences = { everyone: 'everyone', staff: 'staff', admin: 'admin' } as const;
+
 export type McpAction = {
 	name: string;
 	area: ActionArea;

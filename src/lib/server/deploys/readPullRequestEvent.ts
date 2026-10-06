@@ -1,5 +1,7 @@
 export type PullRequestChange = 'opened' | 'merged';
 
+export const pullRequestChanges = { opened: 'opened', merged: 'merged' } as const;
+
 export type PullRequestEvent = {
 	change: PullRequestChange;
 	branchName: string;
@@ -14,6 +16,7 @@ type GithubPullRequestEvent = {
 };
 
 const openingActions = new Set(['opened', 'reopened', 'ready_for_review']);
+const closingAction = 'closed';
 
 /** A pull request opened or merged from a branch, or null for anything else GitHub says of it. */
 export function readPullRequestEvent(event: unknown): PullRequestEvent | null {
@@ -28,7 +31,7 @@ export function readPullRequestEvent(event: unknown): PullRequestEvent | null {
 }
 
 function changeOf(action: string | undefined, isMerged: boolean): PullRequestChange | null {
-	if (action === 'closed' && isMerged) return 'merged';
-	if (action !== undefined && openingActions.has(action)) return 'opened';
+	if (action === closingAction && isMerged) return pullRequestChanges.merged;
+	if (action !== undefined && openingActions.has(action)) return pullRequestChanges.opened;
 	return null;
 }

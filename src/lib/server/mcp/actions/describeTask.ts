@@ -1,7 +1,7 @@
 import { attachmentLines } from './describeAttachments';
 import { branchLine } from './describeBranch';
 import { accountNameLookup } from '$lib/data/accountNames';
-import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
+import { supportTaskKind, taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import { threadLines } from './describeMessages';
 import type { AcceptanceCriterion } from '$lib/server/projects/criterionRecord';
 import type { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
@@ -53,7 +53,7 @@ function goalTitle(workspace: TaskWorkspace): string {
 
 function raisedByLine(workspace: TaskWorkspace): string | null {
 	const task = workspace.task;
-	if (task.kind !== 'support') return null;
+	if (task.kind !== supportTaskKind) return null;
 	const raiser = accountNameLookup(workspace.accounts)(task.createdBy);
 	if (task.resolution === '') return `Raised by ${raiser}; awaiting our answer.`;
 	return `Raised by ${raiser}. Resolution: ${task.resolution}`;

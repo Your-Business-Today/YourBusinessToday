@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isAwaitingAnswer, type TaskKind } from '$lib/data/taskKind';
+	import { isAwaitingAnswer, supportTaskKind, type TaskKind } from '$lib/data/taskKind';
 	import type { TaskStatus } from '$lib/data/taskStatus';
 
 	let { kind, status }: { kind: TaskKind; status: TaskStatus } = $props();
@@ -11,7 +11,7 @@
 	);
 </script>
 
-{#if kind === 'support'}
+{#if kind === supportTaskKind}
 	<span
 		title={isAwaitingAnswer(kind, status) ? 'Support task awaiting an answer' : 'Support task'}
 		class={`rounded-full border px-2 py-0.5 font-display text-xs ${pillClasses}`}

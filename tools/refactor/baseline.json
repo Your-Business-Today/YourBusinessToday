@@ -1,16 +1,267 @@
 {
-  "generatedAt": "2026-09-15T16:23:50+00:00",
+  "generatedAt": "2026-10-06T13:11:18+00:00",
+  "kitVersion": "1.14.0",
+  "score": {
+    "overall": 87.7,
+    "groups": [
+      {
+        "group": "Standard baseline checks",
+        "score": 97.0,
+        "weight": 60
+      },
+      {
+        "group": "Design pattern file count",
+        "score": 100.0,
+        "weight": 10
+      },
+      {
+        "group": "Prose",
+        "score": 88.7,
+        "weight": 20
+      },
+      {
+        "group": "Widget adoption",
+        "score": null,
+        "weight": 0
+      },
+      {
+        "group": "Input validation",
+        "score": 0.0,
+        "weight": 8
+      }
+    ],
+    "elements": [
+      {
+        "key": "filesOverLimit",
+        "label": "Files over the line limit",
+        "group": "Standard baseline checks",
+        "weight": 10,
+        "zeroAt": 0.5,
+        "unit": "files",
+        "isMeasured": true,
+        "offenders": 0,
+        "measuredAgainst": 946,
+        "score": 100.0
+      },
+      {
+        "key": "worstFile",
+        "label": "Worst file, in limits over",
+        "group": "Standard baseline checks",
+        "weight": 5,
+        "zeroAt": 9,
+        "unit": "",
+        "isMeasured": true,
+        "offenders": 0.0,
+        "measuredAgainst": 1,
+        "score": 100.0
+      },
+      {
+        "key": "functionsOverLimit",
+        "label": "Functions over the line limit",
+        "group": "Standard baseline checks",
+        "weight": 8,
+        "zeroAt": 0.25,
+        "unit": "functions",
+        "isMeasured": true,
+        "offenders": 4,
+        "measuredAgainst": 1122,
+        "score": 98.6
+      },
+      {
+        "key": "elseBlocks",
+        "label": "Else blocks",
+        "group": "Standard baseline checks",
+        "weight": 5,
+        "zeroAt": 0.5,
+        "unit": "branches",
+        "isMeasured": true,
+        "offenders": 0,
+        "measuredAgainst": 1463,
+        "score": 100.0
+      },
+      {
+        "key": "duplication",
+        "label": "Duplication %",
+        "group": "Standard baseline checks",
+        "weight": 8,
+        "zeroAt": 20,
+        "unit": "",
+        "isMeasured": true,
+        "offenders": 0.19,
+        "measuredAgainst": 1,
+        "score": 99.1
+      },
+      {
+        "key": "comments",
+        "label": "Explanatory comment lines",
+        "group": "Standard baseline checks",
+        "weight": 4,
+        "zeroAt": 50,
+        "unit": "thousand lines",
+        "isMeasured": true,
+        "offenders": 78,
+        "measuredAgainst": 33.42,
+        "score": 95.3
+      },
+      {
+        "key": "magicValues",
+        "label": "Inline magic values",
+        "group": "Standard baseline checks",
+        "weight": 4,
+        "zeroAt": 20,
+        "unit": "thousand lines",
+        "isMeasured": true,
+        "offenders": 35,
+        "measuredAgainst": 33.42,
+        "score": 94.8
+      },
+      {
+        "key": "orphans",
+        "label": "Orphan components and functions",
+        "group": "Standard baseline checks",
+        "weight": 4,
+        "zeroAt": 0.1,
+        "unit": "components and functions",
+        "isMeasured": true,
+        "offenders": 0,
+        "measuredAgainst": 1351,
+        "score": 100.0
+      },
+      {
+        "key": "memberChains",
+        "label": "Long member chain lines",
+        "group": "Standard baseline checks",
+        "weight": 4,
+        "zeroAt": 30,
+        "unit": "thousand lines",
+        "isMeasured": true,
+        "offenders": 201,
+        "measuredAgainst": 33.42,
+        "score": 80.0
+      },
+      {
+        "key": "deepIndentation",
+        "label": "Deeply indented lines",
+        "group": "Standard baseline checks",
+        "weight": 4,
+        "zeroAt": 30,
+        "unit": "thousand lines",
+        "isMeasured": true,
+        "offenders": 89,
+        "measuredAgainst": 33.42,
+        "score": 91.1
+      },
+      {
+        "key": "functionNames",
+        "label": "Overlong function names",
+        "group": "Standard baseline checks",
+        "weight": 4,
+        "zeroAt": 0.1,
+        "unit": "functions",
+        "isMeasured": true,
+        "offenders": 2,
+        "measuredAgainst": 1122,
+        "score": 98.2
+      },
+      {
+        "key": "predictedFiles",
+        "label": "Files the patterns predict but are missing",
+        "group": "Design pattern file count",
+        "weight": 10,
+        "zeroAt": 0.5,
+        "unit": "predicted files",
+        "isMeasured": true,
+        "offenders": 0,
+        "measuredAgainst": 47,
+        "score": 100.0
+      },
+      {
+        "key": "entityFileCounts",
+        "label": "Entities outside their expected file count",
+        "group": "Design pattern file count",
+        "weight": 10,
+        "zeroAt": 0.5,
+        "unit": "entities",
+        "isMeasured": false,
+        "offenders": 0,
+        "score": null
+      },
+      {
+        "key": "tangledConditions",
+        "label": "Conditions with calls tangled inside calls",
+        "group": "Prose",
+        "weight": 8,
+        "zeroAt": 0.25,
+        "unit": "branches",
+        "isMeasured": true,
+        "offenders": 25,
+        "measuredAgainst": 1463,
+        "score": 93.2
+      },
+      {
+        "key": "literalComparisons",
+        "label": "Conditions compared to a raw literal",
+        "group": "Prose",
+        "weight": 6,
+        "zeroAt": 0.25,
+        "unit": "branches",
+        "isMeasured": true,
+        "offenders": 0,
+        "measuredAgainst": 1463,
+        "score": 100.0
+      },
+      {
+        "key": "gluedAccessors",
+        "label": "Accessor names that want to be a property",
+        "group": "Prose",
+        "weight": 6,
+        "zeroAt": 0.1,
+        "unit": "functions",
+        "isMeasured": true,
+        "offenders": 32,
+        "measuredAgainst": 1122,
+        "score": 71.5
+      },
+      {
+        "key": "handRolledWidgets",
+        "label": "Markup written by hand where a widget should be",
+        "group": "Widget adoption",
+        "weight": 8,
+        "zeroAt": 0.5,
+        "unit": "widget slots",
+        "isMeasured": false,
+        "offenders": null,
+        "score": null
+      },
+      {
+        "key": "unvalidatedWrites",
+        "label": "Doors that write without checking their input against the columns",
+        "group": "Input validation",
+        "weight": 8,
+        "zeroAt": 0.5,
+        "unit": "write doors",
+        "isMeasured": true,
+        "offenders": 95,
+        "measuredAgainst": 95,
+        "score": 0.0
+      }
+    ]
+  },
   "summaries": {
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 720,
-      "worstFileLines": 0
+      "totalFiles": 946,
+      "totalLines": 33423,
+      "worstFileLines": 0,
+      "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
-      "functionsOverLimit": 6,
-      "elseBlocks": 1,
+      "functionsOverLimit": 4,
+      "totalFunctions": 1122,
+      "elseBlocks": 0,
+      "ifBlocks": 1463,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -18,37 +269,80 @@
       "maxWords": 5,
       "maxLength": 40
     },
+    "accessorNames": {
+      "gluedAccessorNames": 32,
+      "measurementIsHeuristic": true
+    },
     "duplication": {
-      "clones": 8,
-      "duplicatedLines": 106,
-      "totalLines": 25007,
-      "duplicatedPercentage": 0.42
+      "clones": 6,
+      "duplicatedLines": 58,
+      "totalLines": 30513,
+      "duplicatedPercentage": 0.19
     },
     "naming": {
-      "bannedAbbreviationHits": 0,
-      "unprefixedBooleans": 0
+      "bannedAbbreviationHits": 17,
+      "unprefixedBooleans": 2
     },
     "comments": {
-      "explanatoryCommentLines": 90,
-      "filesWithComments": 39,
+      "explanatoryCommentLines": 78,
+      "filesWithComments": 34,
       "taskMarkers": 0
     },
     "magicValues": {
       "inlineHexColours": 4,
-      "inlineStyleAttributes": 2,
+      "inlineStyleAttributes": 1,
       "repeatedStringLiterals": 30
     },
     "prose": {
-      "longMemberChainLines": 208,
-      "deeplyIndentedLines": 113,
-      "overlongLines": 54,
+      "longMemberChainLines": 201,
+      "deeplyIndentedLines": 89,
+      "overlongLines": 77,
+      "measurementIsHeuristic": true
+    },
+    "conditions": {
+      "tangledConditionLines": 25,
+      "literalComparisonLines": 0,
+      "measurementIsHeuristic": true
+    },
+    "orphans": {
+      "orphanFunctions": 0,
+      "functionsExamined": 1122
+    },
+    "designPatterns": {
+      "roleFamilies": 53,
+      "predictedFiles": 47,
+      "predictedFilesMissing": 0,
+      "entities": 0,
+      "entitiesOutOfRange": 0,
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 24,
-      "components": 158,
-      "orphanComponents": 3,
-      "averagePageLines": 54
+      "pages": 31,
+      "components": 229,
+      "orphanComponents": 0,
+      "averagePageLines": 49
+    },
+    "siteDefinition": {
+      "skipped": "no siteDefinition catalogue in rules.json"
+    },
+    "inputValidation": {
+      "schemaTables": 84,
+      "limitedColumns": 0,
+      "writeDoors": 95,
+      "unvalidatedDoors": 95,
+      "looserLimits": 0
+    },
+    "fileAreas": {
+      "totalFiles": 1307,
+      "frontend": 405,
+      "backend": 386,
+      "shared": 120,
+      "api": 105,
+      "tooling": 102,
+      "database": 70,
+      "tests": 57,
+      "docs": 49,
+      "infrastructure": 13
     }
   },
   "details": {
@@ -57,8 +351,10 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 720,
-        "worstFileLines": 0
+        "totalFiles": 946,
+        "totalLines": 33423,
+        "worstFileLines": 0,
+        "worstFileTimesOverLimit": 0.0
       },
       "offenders": []
     },
@@ -66,34 +362,36 @@
       "name": "functionShape",
       "summary": {
         "limit": 30,
-        "functionsOverLimit": 6,
-        "elseBlocks": 1,
+        "functionsOverLimit": 4,
+        "totalFunctions": 1122,
+        "elseBlocks": 0,
+        "ifBlocks": 1463,
         "measurementIsHeuristic": true
       },
       "offenders": [
         {
-          "file": "src/hooks.server.ts",
-          "lines": 36
-        },
-        {
           "file": "src/lib/server/projects/loadTaskWorkspace.ts",
-          "lines": 36
+          "lines": 47,
+          "name": "loadTaskWorkspace",
+          "line": 16
         },
         {
-          "file": "src/lib/server/email/chatbotInviteEmail.ts",
-          "lines": 35
+          "file": "src/hooks.server.ts",
+          "lines": 36,
+          "name": "handle",
+          "line": 14
         },
         {
           "file": "src/lib/server/email/projectInviteEmail.ts",
-          "lines": 35
-        },
-        {
-          "file": "src/lib/server/email/inviteEmail.ts",
-          "lines": 34
+          "lines": 35,
+          "name": "renderProjectInviteEmail",
+          "line": 5
         },
         {
           "file": "src/lib/server/mcp/actions/raiseSupportTask.ts",
-          "lines": 34
+          "lines": 34,
+          "name": "raiseSupportTask",
+          "line": 13
         }
       ]
     },
@@ -112,27 +410,276 @@
         },
         {
           "file": "src/lib/server/projects/placeTask.ts",
-          "line": 50,
+          "line": 46,
           "name": "isTopLevelMoveAcrossGoals"
+        }
+      ]
+    },
+    "accessorNames": {
+      "name": "accessorNames",
+      "summary": {
+        "gluedAccessorNames": 32,
+        "measurementIsHeuristic": true
+      },
+      "offenders": [
+        {
+          "file": "src/lib/server/accounts/getAccountDirectory.ts",
+          "line": 4,
+          "name": "getAccountDirectory"
+        },
+        {
+          "file": "src/lib/server/clientDocuments/readClientDocumentMarkdown.ts",
+          "line": 7,
+          "name": "readClientDocumentMarkdown"
+        },
+        {
+          "file": "src/lib/server/clients/companyProfile.ts",
+          "line": 40,
+          "name": "readCompanyProfileForm"
+        },
+        {
+          "file": "src/lib/server/clients/getClientChildren.ts",
+          "line": 4,
+          "name": "getClientChildren"
+        },
+        {
+          "file": "src/lib/server/clients/getClientContacts.ts",
+          "line": 4,
+          "name": "getClientContacts"
+        },
+        {
+          "file": "src/lib/server/clients/getClientEvents.ts",
+          "line": 6,
+          "name": "getClientEvents"
+        },
+        {
+          "file": "src/lib/server/clients/getClientList.ts",
+          "line": 13,
+          "name": "getClientList"
+        },
+        {
+          "file": "src/lib/server/clients/getClientPeople.ts",
+          "line": 16,
+          "name": "getClientPeople"
+        },
+        {
+          "file": "src/lib/server/clients/getClientProjects.ts",
+          "line": 13,
+          "name": "getClientProjects"
+        },
+        {
+          "file": "src/lib/server/conversations/inboxCursor.ts",
+          "line": 3,
+          "name": "getInboxCursor"
+        },
+        {
+          "file": "src/lib/server/goals/getGoalSummaries.ts",
+          "line": 12,
+          "name": "getGoalSummaries"
+        },
+        {
+          "file": "src/lib/server/goals/getProjectGoals.ts",
+          "line": 4,
+          "name": "getProjectGoals"
+        },
+        {
+          "file": "src/lib/server/mcp/actions/clientDetailActions.ts",
+          "line": 43,
+          "name": "readClientHistory"
+        },
+        {
+          "file": "src/lib/server/mcp/actions/projectDetailsEdit.ts",
+          "line": 11,
+          "name": "readProjectDetailsEdit"
+        },
+        {
+          "file": "src/lib/server/mcp/actions/readAttachmentFileInput.ts",
+          "line": 10,
+          "name": "readAttachmentFileInput"
+        },
+        {
+          "file": "src/lib/server/mcp/actions/taskRoleActions.ts",
+          "line": 46,
+          "name": "readRequestedRoles"
+        },
+        {
+          "file": "src/lib/server/mcp/actions/taskTeamActions.ts",
+          "line": 49,
+          "name": "readAccountIds"
+        },
+        {
+          "file": "src/lib/server/members/getProjectPeople.ts",
+          "line": 4,
+          "name": "getProjectPeople"
+        },
+        {
+          "file": "src/lib/server/oauth/readClientRegistration.ts",
+          "line": 36,
+          "name": "readClientName"
+        },
+        {
+          "file": "src/lib/server/people/getPersonCompanies.ts",
+          "line": 14,
+          "name": "getPersonCompanies"
+        },
+        {
+          "file": "src/lib/server/people/getPersonEvents.ts",
+          "line": 8,
+          "name": "getPersonEvents"
+        },
+        {
+          "file": "src/lib/server/people/getPersonLinks.ts",
+          "line": 10,
+          "name": "getPersonLinks"
+        },
+        {
+          "file": "src/lib/server/people/getPersonNotes.ts",
+          "line": 13,
+          "name": "getPersonNotes"
+        },
+        {
+          "file": "src/lib/server/projectImages/getProjectImages.ts",
+          "line": 4,
+          "name": "getProjectImages"
+        },
+        {
+          "file": "src/lib/server/projectImages/getProjectImages.ts",
+          "line": 17,
+          "name": "getProjectImagePaths"
+        },
+        {
+          "file": "src/lib/server/projects/getProjectList.ts",
+          "line": 20,
+          "name": "getProjectList"
+        },
+        {
+          "file": "src/lib/server/projects/getProjectOwnerId.ts",
+          "line": 3,
+          "name": "getProjectOwnerId"
+        },
+        {
+          "file": "src/lib/server/projects/getProjectTasks.ts",
+          "line": 4,
+          "name": "getProjectTasks"
+        },
+        {
+          "file": "src/lib/server/projects/getTaskAssigneeMap.ts",
+          "line": 3,
+          "name": "getTaskAssigneeMap"
+        },
+        {
+          "file": "src/lib/server/projects/readStoredFileByteCount.ts",
+          "line": 5,
+          "name": "readStoredFileByteCount"
+        },
+        {
+          "file": "src/lib/server/projects/updateProjectDetails.ts",
+          "line": 16,
+          "name": "readProjectDetailsForm"
+        },
+        {
+          "file": "src/routes/notifications/+page.server.ts",
+          "line": 45,
+          "name": "readSubjectKind"
         }
       ]
     },
     "naming": {
       "name": "naming",
       "summary": {
-        "bannedAbbreviationHits": 0,
-        "unprefixedBooleans": 0
+        "bannedAbbreviationHits": 17,
+        "unprefixedBooleans": 2
       },
       "offenders": {
-        "abbreviations": [],
-        "booleans": []
+        "abbreviations": [
+          {
+            "file": "src/lib/server/clientDocuments/docx/buildWordDocument.test.ts",
+            "line": 26
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordBlocksXml.ts",
+            "line": 24
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 6
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 7
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 8
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 9
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 12
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 14
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 16
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 17
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 19
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 20
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 22
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 23
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 26
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 29
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordTableXml.ts",
+            "line": 13
+          }
+        ],
+        "booleans": [
+          {
+            "file": "src/lib/data/taskMove.ts",
+            "line": 10,
+            "name": "hadGoal"
+          },
+          {
+            "file": "src/lib/server/kit/readOwnedKitVersions.ts",
+            "line": 5,
+            "name": "latestIsRead"
+          }
+        ]
       }
     },
     "comments": {
       "name": "comments",
       "summary": {
-        "explanatoryCommentLines": 90,
-        "filesWithComments": 39,
+        "explanatoryCommentLines": 78,
+        "filesWithComments": 34,
         "taskMarkers": 0
       },
       "offenders": []
@@ -141,7 +688,7 @@
       "name": "magicValues",
       "summary": {
         "inlineHexColours": 4,
-        "inlineStyleAttributes": 2,
+        "inlineStyleAttributes": 1,
         "repeatedStringLiterals": 30
       },
       "offenders": {
@@ -165,10 +712,6 @@
         ],
         "inlineStyles": [
           {
-            "file": "src/lib/components/site/BrandMark.svelte",
-            "line": 10
-          },
-          {
             "file": "src/lib/components/site/BrandWordmark.svelte",
             "line": 7
           }
@@ -176,34 +719,30 @@
         "repeatedLiterals": [
           {
             "literal": "hidden",
-            "occurrences": 64
+            "occurrences": 66
           },
           {
             "literal": "button",
-            "occurrences": 49
+            "occurrences": 61
           },
           {
             "literal": "flex flex-col gap-1",
-            "occurrences": 46
+            "occurrences": 53
           },
           {
             "literal": "flex flex-col gap-4",
             "occurrences": 45
           },
           {
-            "literal": "font-display text-3xl font-medium",
-            "occurrences": 25
-          },
-          {
-            "literal": "flex flex-col gap-2",
-            "occurrences": 25
-          },
-          {
             "literal": "text-xs text-chalk/50",
-            "occurrences": 20
+            "occurrences": 23
           },
           {
-            "literal": "flex flex-col gap-3",
+            "literal": "text-sm text-chalk/60",
+            "occurrences": 21
+          },
+          {
+            "literal": "text-chalk/70",
             "occurrences": 18
           },
           {
@@ -211,7 +750,11 @@
             "occurrences": 17
           },
           {
-            "literal": "text-chalk/70",
+            "literal": "flex flex-col gap-2",
+            "occurrences": 17
+          },
+          {
+            "literal": "font-display text-3xl font-medium",
             "occurrences": 16
           },
           {
@@ -219,23 +762,23 @@
             "occurrences": 13
           },
           {
-            "literal": "text-sm text-chalk/60",
-            "occurrences": 11
+            "literal": "description",
+            "occurrences": 13
+          },
+          {
+            "literal": "flex flex-col gap-3",
+            "occurrences": 12
           },
           {
             "literal": "text-sm text-chalk/70",
-            "occurrences": 10
-          },
-          {
-            "literal": "min-w-0",
-            "occurrences": 10
-          },
-          {
-            "literal": "font-display text-xl",
-            "occurrences": 10
+            "occurrences": 11
           },
           {
             "literal": "text-xs text-chalk/40",
+            "occurrences": 11
+          },
+          {
+            "literal": "min-w-0",
             "occurrences": 10
           },
           {
@@ -243,15 +786,7 @@
             "occurrences": 10
           },
           {
-            "literal": "font-display text-xl font-medium",
-            "occurrences": 10
-          },
-          {
-            "literal": "max-w-prose text-chalk/70",
-            "occurrences": 10
-          },
-          {
-            "literal": "text-chalk/80",
+            "literal": "font-display text-xl",
             "occurrences": 10
           },
           {
@@ -259,11 +794,23 @@
             "occurrences": 9
           },
           {
-            "literal": "description",
+            "literal": "text-chalk/80",
             "occurrences": 9
           },
           {
             "literal": "flex items-center gap-3",
+            "occurrences": 8
+          },
+          {
+            "literal": "font-display text-lg",
+            "occurrences": 8
+          },
+          {
+            "literal": "website",
+            "occurrences": 8
+          },
+          {
+            "literal": "flex flex-wrap items-center gap-2",
             "occurrences": 8
           },
           {
@@ -275,23 +822,19 @@
             "occurrences": 8
           },
           {
-            "literal": "flex flex-col gap-2 text-sm text-chalk/70",
+            "literal": "font-display text-2xl font-medium",
             "occurrences": 8
           },
           {
-            "literal": "flex items-center gap-2",
+            "literal": "text-lg text-chalk/70",
+            "occurrences": 8
+          },
+          {
+            "literal": "Normal",
             "occurrences": 7
           },
           {
-            "literal": "font-display text-lg",
-            "occurrences": 7
-          },
-          {
-            "literal": "flex flex-wrap gap-2",
-            "occurrences": 7
-          },
-          {
-            "literal": "accent-go",
+            "literal": "font-display text-xl font-medium",
             "occurrences": 7
           }
         ]
@@ -300,222 +843,218 @@
     "prose": {
       "name": "prose",
       "summary": {
-        "longMemberChainLines": 58,
-        "deeplyIndentedLines": 113,
-        "overlongLines": 54,
+        "longMemberChainLines": 201,
+        "deeplyIndentedLines": 89,
+        "overlongLines": 77,
         "measurementIsHeuristic": true
       },
       "offenders": {
         "memberChains": [
           {
             "file": "src/hooks.server.ts",
+            "line": 18
+          },
+          {
+            "file": "src/hooks.server.ts",
+            "line": 29
+          },
+          {
+            "file": "src/hooks.server.ts",
             "line": 30
+          },
+          {
+            "file": "src/hooks.server.ts",
+            "line": 31
           },
           {
             "file": "src/hooks.server.ts",
             "line": 33
           },
           {
-            "file": "src/lib/client/projectListView.svelte.ts",
-            "line": 52
+            "file": "src/hooks.server.ts",
+            "line": 39
+          },
+          {
+            "file": "src/lib/client/findReorderRow.ts",
+            "line": 36
+          },
+          {
+            "file": "src/lib/client/findReorderRow.ts",
+            "line": 43
+          },
+          {
+            "file": "src/lib/client/findReorderRow.ts",
+            "line": 53
+          },
+          {
+            "file": "src/lib/client/findReorderRow.ts",
+            "line": 60
+          },
+          {
+            "file": "src/lib/client/formTracker.svelte.ts",
+            "line": 15
+          },
+          {
+            "file": "src/lib/components/clients/map/createAreaMap.ts",
+            "line": 53
+          },
+          {
+            "file": "src/lib/components/projects/taskTreeCounts.test.ts",
+            "line": 14
+          },
+          {
+            "file": "src/lib/components/projects/taskTreeGroups.test.ts",
+            "line": 21
+          },
+          {
+            "file": "src/lib/components/projects/taskTreeGroups.test.ts",
+            "line": 28
+          },
+          {
+            "file": "src/lib/components/projects/taskTreeGroups.test.ts",
+            "line": 41
           },
           {
             "file": "src/lib/components/projects/taskTreeGroups.ts",
-            "line": 12
+            "line": 28
           },
           {
-            "file": "src/lib/data/legal/privacyCollectionSections.ts",
-            "line": 8
+            "file": "src/lib/data/legal/privacyRightsSections.ts",
+            "line": 15
           },
           {
-            "file": "src/lib/data/legal/termsAccountSections.ts",
-            "line": 8
+            "file": "src/lib/data/taskAttachmentRules.test.ts",
+            "line": 4
           },
           {
-            "file": "src/lib/data/workflowModel.ts",
-            "line": 36
+            "file": "src/lib/data/taskAttachmentRules.test.ts",
+            "line": 5
+          },
+          {
+            "file": "src/lib/data/taskAttachmentRules.ts",
+            "line": 20
+          },
+          {
+            "file": "src/lib/data/taskAttachmentRules.ts",
+            "line": 21
+          },
+          {
+            "file": "src/lib/server/accounts/mintRecoveryLink.ts",
+            "line": 10
+          },
+          {
+            "file": "src/lib/server/accounts/mintRecoveryLink.ts",
+            "line": 17
+          },
+          {
+            "file": "src/lib/server/accounts/mintRecoveryLink.ts",
+            "line": 18
+          },
+          {
+            "file": "src/lib/server/accounts/mintSignInLink.ts",
+            "line": 13
+          },
+          {
+            "file": "src/lib/server/accounts/mintSignInLink.ts",
+            "line": 20
+          },
+          {
+            "file": "src/lib/server/accounts/mintSignInLink.ts",
+            "line": 21
           },
           {
             "file": "src/lib/server/admin/setUserPassword.ts",
             "line": 15
           },
           {
-            "file": "src/lib/server/anthropic/webSearchResults.ts",
+            "file": "src/lib/server/anthropic/requestAnthropic.ts",
+            "line": 52
+          },
+          {
+            "file": "src/lib/server/anthropic/requestAnthropic.ts",
+            "line": 53
+          },
+          {
+            "file": "src/lib/server/anthropic/requestAnthropic.ts",
+            "line": 54
+          },
+          {
+            "file": "src/lib/server/anthropic/requestAnthropic.ts",
+            "line": 55
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/buildWordDocument.ts",
+            "line": 13
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/buildWordDocument.ts",
+            "line": 20
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordTableXml.ts",
+            "line": 9
+          },
+          {
+            "file": "src/lib/server/clients/fetchPublicPage.ts",
             "line": 17
           },
           {
-            "file": "src/lib/server/builder/claimBuild.ts",
+            "file": "src/lib/server/clients/fetchPublicPage.ts",
+            "line": 18
+          },
+          {
+            "file": "src/lib/server/clients/fetchPublicPage.ts",
+            "line": 23
+          },
+          {
+            "file": "src/lib/server/clients/getClientList.ts",
             "line": 42
           },
           {
-            "file": "src/lib/server/clients/getClientPeople.ts",
-            "line": 56
+            "file": "src/lib/server/clients/importCompanyOfficers.ts",
+            "line": 16
           },
           {
             "file": "src/lib/server/clients/saveResearchedLead.ts",
             "line": 25
           },
           {
-            "file": "src/lib/server/companiesHouse/searchCompaniesHouse.ts",
-            "line": 54
+            "file": "src/lib/server/deploys/recordDeploy.ts",
+            "line": 14
           },
           {
-            "file": "src/lib/server/companiesHouse/searchCompaniesHouse.ts",
-            "line": 67
-          },
-          {
-            "file": "src/lib/server/email/enquiryNotificationEmail.ts",
-            "line": 4
-          },
-          {
-            "file": "src/lib/server/goals/getGoalSummaries.ts",
-            "line": 13
-          },
-          {
-            "file": "src/lib/server/mcp/actions/accountActions.ts",
-            "line": 17
-          },
-          {
-            "file": "src/lib/server/mcp/actions/describeInbox.ts",
-            "line": 45
-          },
-          {
-            "file": "src/lib/server/mcp/actions/describeInbox.ts",
-            "line": 46
-          },
-          {
-            "file": "src/lib/server/mcp/actions/describeProject.ts",
-            "line": 53
-          },
-          {
-            "file": "src/lib/server/mcp/actions/describeSupportTask.ts",
-            "line": 19
-          },
-          {
-            "file": "src/lib/server/mcp/actions/describeSupportTask.ts",
-            "line": 48
-          },
-          {
-            "file": "src/lib/server/mcp/actions/describeTask.ts",
-            "line": 18
-          },
-          {
-            "file": "src/lib/server/mcp/actions/describeTask.ts",
-            "line": 40
-          },
-          {
-            "file": "src/lib/server/mcp/actions/describeTask.ts",
-            "line": 58
-          },
-          {
-            "file": "src/lib/server/mcp/actions/findChecklistOnTask.ts",
-            "line": 39
-          },
-          {
-            "file": "src/lib/server/mcp/actions/projectReadActions.ts",
-            "line": 55
-          },
-          {
-            "file": "src/lib/server/mcp/browseActions.ts",
-            "line": 26
-          },
-          {
-            "file": "src/lib/server/members/inviteToProject.ts",
-            "line": 42
-          },
-          {
-            "file": "src/lib/server/people/approachContext.ts",
-            "line": 40
-          },
-          {
-            "file": "src/lib/server/people/getPersonCompanies.ts",
-            "line": 36
-          },
-          {
-            "file": "src/lib/server/people/research/personResearchBrief.ts",
-            "line": 21
-          },
-          {
-            "file": "src/lib/server/people/research/savePersonFindings.ts",
-            "line": 42
-          },
-          {
-            "file": "src/routes/projects/[projectId]/goals/[goalId]/+page.server.ts",
-            "line": 44
-          },
-          {
-            "file": "src/routes/projects/[projectId]/tasks/[taskId]/conversationActions.ts",
+            "file": "src/lib/server/deploys/recordDeploy.ts",
             "line": 15
           },
           {
-            "file": "src/lib/components/clients/CompanyProfileForm.svelte",
-            "line": 49
+            "file": "src/lib/server/deploys/recordDeploy.ts",
+            "line": 16
           },
           {
-            "file": "src/lib/components/clients/PersonCard.svelte",
+            "file": "src/lib/server/enquiries/findRecentWebsiteEnquiry.ts",
+            "line": 16
+          },
+          {
+            "file": "src/lib/server/http/reportServerError.ts",
             "line": 13
           },
           {
-            "file": "src/lib/components/clients/ProspectResultTable.svelte",
-            "line": 17
+            "file": "src/lib/server/http/reportServerError.ts",
+            "line": 14
           },
           {
-            "file": "src/lib/components/clients/ResearchedProfileReview.svelte",
-            "line": 23
+            "file": "src/lib/server/http/reportServerError.ts",
+            "line": 15
           },
           {
-            "file": "src/lib/components/clients/map/AreaCompanyPanel.svelte",
-            "line": 22
-          },
-          {
-            "file": "src/lib/components/clients/map/AreaSummary.svelte",
-            "line": 10
-          },
-          {
-            "file": "src/lib/components/people/PersonCompanyCard.svelte",
-            "line": 25
-          },
-          {
-            "file": "src/lib/components/people/PersonFindingsForm.svelte",
-            "line": 21
-          },
-          {
-            "file": "src/lib/components/projects/TaskGroupSection.svelte",
-            "line": 28
-          },
-          {
-            "file": "src/routes/clients/[clientId]/+page.svelte",
-            "line": 20
-          },
-          {
-            "file": "src/routes/clients/[clientId]/+page.svelte",
-            "line": 33
-          },
-          {
-            "file": "src/routes/clients/[clientId]/+page.svelte",
-            "line": 35
-          },
-          {
-            "file": "src/routes/clients/[clientId]/+page.svelte",
-            "line": 38
-          },
-          {
-            "file": "src/routes/clients/map/+page.svelte",
-            "line": 42
-          },
-          {
-            "file": "src/routes/clients/prospect/+page.svelte",
-            "line": 12
+            "file": "src/lib/server/http/reportServerError.ts",
+            "line": 16
           }
         ],
         "deepIndentation": [
           {
             "file": "src/lib/client/formTracker.svelte.ts",
-            "line": 42
-          },
-          {
-            "file": "src/lib/client/formTracker.svelte.ts",
-            "line": 43
+            "line": 36
           },
           {
             "file": "src/lib/client/formTracker.svelte.ts",
@@ -523,7 +1062,15 @@
           },
           {
             "file": "src/lib/client/formTracker.svelte.ts",
+            "line": 45
+          },
+          {
+            "file": "src/lib/client/formTracker.svelte.ts",
             "line": 46
+          },
+          {
+            "file": "src/lib/client/formTracker.svelte.ts",
+            "line": 47
           },
           {
             "file": "src/lib/server/clients/companyResearchPrompt.ts",
@@ -562,64 +1109,12 @@
             "line": 29
           },
           {
-            "file": "src/lib/components/goals/GoalTaskList.svelte",
-            "line": 20
+            "file": "src/lib/components/conversations/ConversationParticipantsPanel.svelte",
+            "line": 48
           },
           {
-            "file": "src/lib/components/goals/GoalTaskList.svelte",
-            "line": 21
-          },
-          {
-            "file": "src/lib/components/goals/GoalTaskList.svelte",
-            "line": 22
-          },
-          {
-            "file": "src/lib/components/goals/GoalTaskList.svelte",
-            "line": 24
-          },
-          {
-            "file": "src/lib/components/goals/GoalTaskList.svelte",
-            "line": 25
-          },
-          {
-            "file": "src/lib/components/goals/GoalTaskList.svelte",
-            "line": 26
-          },
-          {
-            "file": "src/lib/components/goals/GoalTaskList.svelte",
-            "line": 27
-          },
-          {
-            "file": "src/lib/components/goals/GoalTaskList.svelte",
-            "line": 28
-          },
-          {
-            "file": "src/lib/components/goals/GoalTaskList.svelte",
-            "line": 29
-          },
-          {
-            "file": "src/lib/components/goals/GoalTaskList.svelte",
-            "line": 30
-          },
-          {
-            "file": "src/lib/components/home/CaseStudySection.svelte",
-            "line": 27
-          },
-          {
-            "file": "src/lib/components/home/CaseStudySection.svelte",
-            "line": 28
-          },
-          {
-            "file": "src/lib/components/home/CaseStudySection.svelte",
-            "line": 29
-          },
-          {
-            "file": "src/lib/components/home/CaseStudySection.svelte",
-            "line": 30
-          },
-          {
-            "file": "src/lib/components/home/CaseStudySection.svelte",
-            "line": 31
+            "file": "src/lib/components/conversations/ConversationParticipantsPanel.svelte",
+            "line": 52
           },
           {
             "file": "src/lib/components/people/PeopleTable.svelte",
@@ -658,40 +1153,20 @@
             "line": 23
           },
           {
-            "file": "src/lib/components/projects/ProjectFilterBar.svelte",
-            "line": 25
+            "file": "src/lib/components/projects/TaskBranchPanel.svelte",
+            "line": 40
           },
           {
-            "file": "src/lib/components/projects/ProjectFilterBar.svelte",
-            "line": 26
+            "file": "src/lib/components/projects/TaskBranchPanel.svelte",
+            "line": 45
           },
           {
-            "file": "src/lib/components/projects/SubtaskList.svelte",
-            "line": 32
+            "file": "src/lib/components/projects/TaskBranchPanel.svelte",
+            "line": 66
           },
           {
-            "file": "src/lib/components/projects/SubtaskList.svelte",
-            "line": 33
-          },
-          {
-            "file": "src/lib/components/projects/SubtaskList.svelte",
-            "line": 34
-          },
-          {
-            "file": "src/lib/components/projects/SubtaskList.svelte",
-            "line": 36
-          },
-          {
-            "file": "src/lib/components/projects/SubtaskList.svelte",
-            "line": 37
-          },
-          {
-            "file": "src/lib/components/projects/SubtaskList.svelte",
-            "line": 38
-          },
-          {
-            "file": "src/lib/components/projects/SubtaskList.svelte",
-            "line": 39
+            "file": "src/lib/components/projects/TaskBranchPanel.svelte",
+            "line": 71
           },
           {
             "file": "src/lib/components/projects/TaskGoalModal.svelte",
@@ -708,28 +1183,152 @@
           {
             "file": "src/lib/components/projects/TaskGoalModal.svelte",
             "line": 51
+          },
+          {
+            "file": "src/lib/components/projects/TaskGoalModal.svelte",
+            "line": 53
+          },
+          {
+            "file": "src/lib/components/projects/TaskGoalModal.svelte",
+            "line": 54
+          },
+          {
+            "file": "src/lib/components/projects/TaskGoalModal.svelte",
+            "line": 55
+          },
+          {
+            "file": "src/lib/components/projects/TaskGoalModal.svelte",
+            "line": 56
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 64
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 65
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 66
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 67
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 70
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 71
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 73
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 74
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 75
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 76
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 77
+          },
+          {
+            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "line": 78
+          },
+          {
+            "file": "src/lib/components/projects/TaskStatusModal.svelte",
+            "line": 35
           }
         ],
         "overlongLines": [
           {
             "file": "src/lib/data/caseStudies.ts",
-            "line": 19
+            "line": 23
           },
           {
-            "file": "src/lib/data/consultancyServices.ts",
-            "line": 14
+            "file": "src/lib/data/caseStudies.ts",
+            "line": 26
           },
           {
-            "file": "src/lib/data/consultancyServices.ts",
+            "file": "src/lib/data/caseStudies.ts",
             "line": 28
           },
           {
-            "file": "src/lib/data/consultancyServices.ts",
+            "file": "src/lib/data/caseStudies.ts",
+            "line": 30
+          },
+          {
+            "file": "src/lib/data/clientDocumentCatalogue.ts",
+            "line": 15
+          },
+          {
+            "file": "src/lib/data/consultancyOffer.ts",
+            "line": 17
+          },
+          {
+            "file": "src/lib/data/consultancyOffer.ts",
+            "line": 19
+          },
+          {
+            "file": "src/lib/data/consultancyOffer.ts",
+            "line": 26
+          },
+          {
+            "file": "src/lib/data/consultancyOffer.ts",
+            "line": 28
+          },
+          {
+            "file": "src/lib/data/consultancyOffer.ts",
             "line": 35
           },
           {
-            "file": "src/lib/data/consultancySteps.ts",
-            "line": 13
+            "file": "src/lib/data/consultancyOffer.ts",
+            "line": 37
+          },
+          {
+            "file": "src/lib/data/consultancyOffer.ts",
+            "line": 44
+          },
+          {
+            "file": "src/lib/data/consultancyOffer.ts",
+            "line": 46
+          },
+          {
+            "file": "src/lib/data/consultancyOffer.ts",
+            "line": 53
+          },
+          {
+            "file": "src/lib/data/consultancyOffer.ts",
+            "line": 55
+          },
+          {
+            "file": "src/lib/data/legal/companyInformationSections.ts",
+            "line": 23
+          },
+          {
+            "file": "src/lib/data/legal/companyInformationSections.ts",
+            "line": 51
+          },
+          {
+            "file": "src/lib/data/legal/companyInformationSections.ts",
+            "line": 52
+          },
+          {
+            "file": "src/lib/data/legal/companyInformationSections.ts",
+            "line": 66
           },
           {
             "file": "src/lib/data/legal/privacyCollectionSections.ts",
@@ -738,6 +1337,10 @@
           {
             "file": "src/lib/data/legal/privacyCollectionSections.ts",
             "line": 9
+          },
+          {
+            "file": "src/lib/data/legal/privacyCollectionSections.ts",
+            "line": 17
           },
           {
             "file": "src/lib/data/legal/privacyCollectionSections.ts",
@@ -765,7 +1368,7 @@
           },
           {
             "file": "src/lib/data/legal/privacyRightsSections.ts",
-            "line": 13
+            "line": 8
           },
           {
             "file": "src/lib/data/legal/privacyRightsSections.ts",
@@ -773,19 +1376,27 @@
           },
           {
             "file": "src/lib/data/legal/privacyRightsSections.ts",
-            "line": 20
+            "line": 15
           },
           {
             "file": "src/lib/data/legal/privacyRightsSections.ts",
-            "line": 26
+            "line": 21
+          },
+          {
+            "file": "src/lib/data/legal/privacyRightsSections.ts",
+            "line": 27
           },
           {
             "file": "src/lib/data/legal/privacySharingSections.ts",
-            "line": 19
+            "line": 18
           },
           {
             "file": "src/lib/data/legal/privacySharingSections.ts",
-            "line": 25
+            "line": 24
+          },
+          {
+            "file": "src/lib/data/legal/privacySharingSections.ts",
+            "line": 30
           },
           {
             "file": "src/lib/data/legal/privacySharingSections.ts",
@@ -796,14 +1407,6 @@
             "line": 32
           },
           {
-            "file": "src/lib/data/legal/privacySharingSections.ts",
-            "line": 33
-          },
-          {
-            "file": "src/lib/data/legal/privacySharingSections.ts",
-            "line": 34
-          },
-          {
             "file": "src/lib/data/legal/termsAccountSections.ts",
             "line": 8
           },
@@ -817,15 +1420,19 @@
           },
           {
             "file": "src/lib/data/legal/termsAccountSections.ts",
+            "line": 16
+          },
+          {
+            "file": "src/lib/data/legal/termsAccountSections.ts",
             "line": 22
           },
           {
             "file": "src/lib/data/legal/termsAccountSections.ts",
-            "line": 28
+            "line": 23
           },
           {
             "file": "src/lib/data/legal/termsAccountSections.ts",
-            "line": 34
+            "line": 29
           },
           {
             "file": "src/lib/data/legal/termsAccountSections.ts",
@@ -836,91 +1443,255 @@
             "line": 36
           },
           {
-            "file": "src/lib/data/legal/termsGeneralSections.ts",
-            "line": 19
-          },
-          {
-            "file": "src/lib/data/legal/termsGeneralSections.ts",
-            "line": 26
-          },
-          {
-            "file": "src/lib/data/legal/termsGeneralSections.ts",
-            "line": 27
-          },
-          {
-            "file": "src/lib/data/legal/termsGeneralSections.ts",
-            "line": 33
-          },
-          {
-            "file": "src/lib/data/legal/termsGeneralSections.ts",
-            "line": 39
-          },
-          {
-            "file": "src/lib/data/legal/termsProductSections.ts",
+            "file": "src/lib/data/legal/termsEngagementSections.ts",
             "line": 7
           },
           {
-            "file": "src/lib/data/legal/termsProductSections.ts",
-            "line": 8
+            "file": "src/lib/data/legal/termsEngagementSections.ts",
+            "line": 14
           },
           {
-            "file": "src/lib/data/legal/termsProductSections.ts",
-            "line": 9
-          },
-          {
-            "file": "src/lib/data/legal/termsProductSections.ts",
+            "file": "src/lib/data/legal/termsEngagementSections.ts",
             "line": 15
-          },
+          }
+        ]
+      }
+    },
+    "conditions": {
+      "name": "conditions",
+      "summary": {
+        "tangledConditionLines": 25,
+        "literalComparisonLines": 0,
+        "measurementIsHeuristic": true
+      },
+      "offenders": {
+        "tangled": [
           {
-            "file": "src/lib/data/legal/termsProductSections.ts",
-            "line": 16
-          },
-          {
-            "file": "src/lib/data/legal/termsProductSections.ts",
-            "line": 23
-          },
-          {
-            "file": "src/lib/data/legal/termsProductSections.ts",
-            "line": 30
-          },
-          {
-            "file": "src/lib/data/legal/termsProductSections.ts",
-            "line": 31
-          },
-          {
-            "file": "src/lib/data/legal/termsProductSections.ts",
+            "file": "src/lib/components/site/siteNavigation.ts",
             "line": 37
           },
           {
-            "file": "src/lib/data/legal/termsProductSections.ts",
-            "line": 43
-          },
-          {
-            "file": "src/lib/data/privacyStatement.ts",
+            "file": "src/lib/data/officerSeniority.ts",
             "line": 9
           },
           {
-            "file": "src/lib/data/projectConversation.ts",
+            "file": "src/lib/data/taskAttachmentRules.ts",
+            "line": 38
+          },
+          {
+            "file": "src/lib/server/anthropic/requestAnthropic.ts",
+            "line": 44
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordBlocksXml.ts",
             "line": 15
           },
           {
-            "file": "src/lib/data/projectConversation.ts",
-            "line": 20
+            "file": "src/lib/server/clients/parsePublicUrl.ts",
+            "line": 25
           },
           {
-            "file": "src/lib/data/termsOfService.ts",
-            "line": 9
+            "file": "src/lib/server/clients/saveResearchedLead.ts",
+            "line": 18
+          },
+          {
+            "file": "src/lib/server/companiesHouse/officerName.ts",
+            "line": 5
+          },
+          {
+            "file": "src/lib/server/conversations/inboxCursor.ts",
+            "line": 10
+          },
+          {
+            "file": "src/lib/server/deploys/handlePushEvent.ts",
+            "line": 28
+          },
+          {
+            "file": "src/lib/server/deploys/readGithubWebhookBody.ts",
+            "line": 13
+          },
+          {
+            "file": "src/lib/server/http/addressRateLimit.ts",
+            "line": 39
+          },
+          {
+            "file": "src/lib/server/mcp/resolveMcpCaller.ts",
+            "line": 23
+          },
+          {
+            "file": "src/lib/server/oauth/isAuthorizationCodeUsable.ts",
+            "line": 21
+          },
+          {
+            "file": "src/lib/server/oauth/readTokenRequest.ts",
+            "line": 50
+          },
+          {
+            "file": "src/lib/server/oauth/refreshAccessToken.ts",
+            "line": 25
+          },
+          {
+            "file": "src/lib/server/projects/uploadGrantRecord.ts",
+            "line": 35
+          },
+          {
+            "file": "src/lib/server/tokens/bearerToken.ts",
+            "line": 3
+          },
+          {
+            "file": "src/routes/account/sign-in/+page.server.ts",
+            "line": 18
+          },
+          {
+            "file": "src/routes/api/github-webhook/+server.ts",
+            "line": 24
+          },
+          {
+            "file": "src/routes/api/github-webhook/+server.ts",
+            "line": 25
+          },
+          {
+            "file": "src/routes/contact/+page.server.ts",
+            "line": 23
+          },
+          {
+            "file": "src/routes/oauth/authorize/+page.server.ts",
+            "line": 66
+          },
+          {
+            "file": "src/routes/oauth/register/+server.ts",
+            "line": 16
+          },
+          {
+            "file": "src/lib/components/tasks/GlobalTaskPagination.svelte",
+            "line": 15
           }
-        ]
+        ],
+        "literalComparisons": []
+      }
+    },
+    "orphans": {
+      "name": "orphans",
+      "summary": {
+        "orphanFunctions": 0,
+        "functionsExamined": 1122
+      },
+      "offenders": []
+    },
+    "designPatterns": {
+      "name": "designPatterns",
+      "summary": {
+        "roleFamilies": 53,
+        "predictedFiles": 47,
+        "predictedFilesMissing": 0,
+        "entities": 0,
+        "entitiesOutOfRange": 0,
+        "measurementIsHeuristic": true
+      },
+      "offenders": {
+        "roleFamilies": {
+          "+page.server.ts": 23,
+          "+page.svelte": 31,
+          "+server.ts": 14,
+          "access": 4,
+          "actions": 63,
+          "attachment": 4,
+          "bar": 4,
+          "button": 8,
+          "card": 5,
+          "client": 8,
+          "count": 4,
+          "email": 7,
+          "event": 4,
+          "fields": 13,
+          "filter": 5,
+          "form": 34,
+          "goal": 8,
+          "grant": 4,
+          "header": 9,
+          "ids": 5,
+          "image": 4,
+          "link": 6,
+          "list": 14,
+          "message": 4,
+          "modal": 8,
+          "model": 5,
+          "name": 6,
+          "names": 4,
+          "note": 4,
+          "panel": 13,
+          "password": 5,
+          "person": 5,
+          "pill": 5,
+          "priority": 4,
+          "profile": 5,
+          "project": 9,
+          "projects": 4,
+          "record": 18,
+          "request": 6,
+          "row": 19,
+          "rules": 4,
+          "section": 25,
+          "sections": 7,
+          "status": 4,
+          "styles": 4,
+          "svelte": 7,
+          "table": 4,
+          "task": 14,
+          "tasks": 5,
+          "test": 57,
+          "text": 6,
+          "types": 10,
+          "xml": 4
+        },
+        "patterns": [
+          {
+            "pattern": "every status has a actions",
+            "predicted": 4,
+            "missing": [
+              "src/lib/server/projects/updateTaskActions.ts"
+            ]
+          },
+          {
+            "pattern": "every status has a record",
+            "predicted": 4,
+            "missing": [
+              "src/lib/server/projects/updateTaskRecord.ts"
+            ]
+          },
+          {
+            "pattern": "every goal has a project",
+            "predicted": 8,
+            "missing": [
+              "src/lib/server/goals/updateProject.ts",
+              "src/lib/server/projects/updateTaskProject.ts"
+            ]
+          },
+          {
+            "pattern": "every goal has a task",
+            "predicted": 8,
+            "missing": [
+              "src/lib/server/goals/updateTask.ts",
+              "src/lib/server/projects/updateTaskTask.ts"
+            ]
+          },
+          {
+            "pattern": "every +page.server.ts has a +page.svelte",
+            "predicted": 23,
+            "missing": []
+          }
+        ],
+        "missingPredictedFiles": [],
+        "entityFileCounts": []
       }
     },
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 24,
-        "components": 158,
-        "orphanComponents": 3,
-        "averagePageLines": 54
+        "pages": 31,
+        "components": 229,
+        "orphanComponents": 0,
+        "averagePageLines": 49
       },
       "offenders": {
         "pages": [
@@ -933,30 +1704,30 @@
             ]
           },
           {
-            "page": "src/routes/projects/+page.svelte",
-            "lines": 92,
-            "widgets": [
-              "modal"
-            ]
-          },
-          {
-            "page": "src/routes/projects/[projectId]/+page.svelte",
-            "lines": 91,
-            "widgets": [
-              "modal"
-            ]
-          },
-          {
             "page": "src/routes/tasks/+page.svelte",
-            "lines": 90,
+            "lines": 98,
             "widgets": [
               "modal",
               "list"
             ]
           },
           {
+            "page": "src/routes/projects/+page.svelte",
+            "lines": 97,
+            "widgets": [
+              "modal"
+            ]
+          },
+          {
+            "page": "src/routes/projects/[projectId]/+page.svelte",
+            "lines": 95,
+            "widgets": [
+              "modal"
+            ]
+          },
+          {
             "page": "src/routes/projects/[projectId]/tasks/[taskId]/+page.svelte",
-            "lines": 84,
+            "lines": 93,
             "widgets": [
               "modal"
             ]
@@ -970,9 +1741,12 @@
             ]
           },
           {
-            "page": "src/routes/vision/+page.svelte",
+            "page": "src/routes/projects/kit-versions/+page.svelte",
             "lines": 76,
-            "widgets": []
+            "widgets": [
+              "form",
+              "list"
+            ]
           },
           {
             "page": "src/routes/account/+page.svelte",
@@ -984,17 +1758,17 @@
             ]
           },
           {
+            "page": "src/routes/projects/[projectId]/goals/[goalId]/+page.svelte",
+            "lines": 60,
+            "widgets": [
+              "modal"
+            ]
+          },
+          {
             "page": "src/routes/clients/map/+page.svelte",
             "lines": 59,
             "widgets": [
               "error"
-            ]
-          },
-          {
-            "page": "src/routes/projects/[projectId]/goals/[goalId]/+page.svelte",
-            "lines": 56,
-            "widgets": [
-              "modal"
             ]
           },
           {
@@ -1034,6 +1808,18 @@
             "widgets": []
           },
           {
+            "page": "src/routes/admin/+page.svelte",
+            "lines": 45,
+            "widgets": [
+              "list"
+            ]
+          },
+          {
+            "page": "src/routes/admin/documents/+page.svelte",
+            "lines": 45,
+            "widgets": []
+          },
+          {
             "page": "src/routes/oauth/authorize/+page.svelte",
             "lines": 42,
             "widgets": [
@@ -1047,18 +1833,16 @@
             "widgets": []
           },
           {
-            "page": "src/routes/admin/+page.svelte",
-            "lines": 37,
-            "widgets": [
-              "list"
-            ]
-          },
-          {
             "page": "src/routes/clients/+page.svelte",
             "lines": 37,
             "widgets": [
               "error"
             ]
+          },
+          {
+            "page": "src/routes/admin/documents/[slug]/+page.svelte",
+            "lines": 35,
+            "widgets": []
           },
           {
             "page": "src/routes/clients/research/+page.svelte",
@@ -1069,12 +1853,37 @@
           },
           {
             "page": "src/routes/+page.svelte",
-            "lines": 29,
+            "lines": 33,
+            "widgets": []
+          },
+          {
+            "page": "src/routes/case-studies/jewel/+page.svelte",
+            "lines": 27,
+            "widgets": []
+          },
+          {
+            "page": "src/routes/offer/+page.svelte",
+            "lines": 27,
             "widgets": []
           },
           {
             "page": "src/routes/support/+page.svelte",
             "lines": 26,
+            "widgets": []
+          },
+          {
+            "page": "src/routes/about/+page.svelte",
+            "lines": 23,
+            "widgets": []
+          },
+          {
+            "page": "src/routes/vision/+page.svelte",
+            "lines": 19,
+            "widgets": []
+          },
+          {
+            "page": "src/routes/company/+page.svelte",
+            "lines": 11,
             "widgets": []
           },
           {
@@ -1091,15 +1900,19 @@
         "componentReuse": [
           {
             "component": "src/lib/components/site/SubmitButton.svelte",
-            "reusedBy": 48
+            "reusedBy": 51
           },
           {
             "component": "src/lib/components/site/FormErrorNote.svelte",
-            "reusedBy": 32
+            "reusedBy": 36
           },
           {
             "component": "src/lib/components/site/Modal.svelte",
-            "reusedBy": 18
+            "reusedBy": 20
+          },
+          {
+            "component": "src/lib/components/workspace/DashboardPanel.svelte",
+            "reusedBy": 15
           },
           {
             "component": "src/lib/components/site/FormField.svelte",
@@ -1107,22 +1920,46 @@
           },
           {
             "component": "src/lib/components/site/DangerConfirmModal.svelte",
+            "reusedBy": 7
+          },
+          {
+            "component": "src/lib/components/site/ProseText.svelte",
             "reusedBy": 6
+          },
+          {
+            "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
+            "reusedBy": 6
+          },
+          {
+            "component": "src/lib/components/projects/PriorityControls.svelte",
+            "reusedBy": 5
+          },
+          {
+            "component": "src/lib/components/site/PriorityNumberButton.svelte",
+            "reusedBy": 5
+          },
+          {
+            "component": "src/lib/components/site/ReorderableRow.svelte",
+            "reusedBy": 5
+          },
+          {
+            "component": "src/lib/components/workspace/FlashMessage.svelte",
+            "reusedBy": 5
           },
           {
             "component": "src/lib/components/clients/StagePill.svelte",
             "reusedBy": 4
           },
           {
-            "component": "src/lib/components/projects/PriorityControls.svelte",
+            "component": "src/lib/components/home/EnquirySection.svelte",
             "reusedBy": 4
           },
           {
-            "component": "src/lib/components/projects/ProjectStatusBadge.svelte",
+            "component": "src/lib/components/site/PriorityField.svelte",
             "reusedBy": 4
           },
           {
-            "component": "src/lib/components/site/ReorderableRow.svelte",
+            "component": "src/lib/components/site/PriorityModal.svelte",
             "reusedBy": 4
           },
           {
@@ -1130,7 +1967,19 @@
             "reusedBy": 3
           },
           {
+            "component": "src/lib/components/projects/KitVersionBadge.svelte",
+            "reusedBy": 3
+          },
+          {
+            "component": "src/lib/components/projects/ProjectStatusBadge.svelte",
+            "reusedBy": 3
+          },
+          {
             "component": "src/lib/components/projects/TaskDueDate.svelte",
+            "reusedBy": 3
+          },
+          {
+            "component": "src/lib/components/projects/TaskKindPill.svelte",
             "reusedBy": 3
           },
           {
@@ -1138,8 +1987,20 @@
             "reusedBy": 3
           },
           {
+            "component": "src/lib/components/site/ChevronIcon.svelte",
+            "reusedBy": 3
+          },
+          {
             "component": "src/lib/components/site/EmptyState.svelte",
             "reusedBy": 3
+          },
+          {
+            "component": "src/lib/components/site/LegalArticle.svelte",
+            "reusedBy": 3
+          },
+          {
+            "component": "src/lib/components/case-study/CaseStudyFigures.svelte",
+            "reusedBy": 2
           },
           {
             "component": "src/lib/components/clients/GroupUnderForm.svelte",
@@ -1150,11 +2011,19 @@
             "reusedBy": 2
           },
           {
+            "component": "src/lib/components/conversations/ConversationParticipantsPanel.svelte",
+            "reusedBy": 2
+          },
+          {
             "component": "src/lib/components/conversations/ConversationThread.svelte",
             "reusedBy": 2
           },
           {
             "component": "src/lib/components/goals/GoalStatusPill.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/harness/HarnessDiagram.svelte",
             "reusedBy": 2
           },
           {
@@ -1186,7 +2055,11 @@
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/projects/BuildStatusPill.svelte",
+            "component": "src/lib/components/projects/AssignedToYouNote.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/projects/CountedFilterChip.svelte",
             "reusedBy": 2
           },
           {
@@ -1194,11 +2067,15 @@
             "reusedBy": 2
           },
           {
+            "component": "src/lib/components/projects/ImageThumbnail.svelte",
+            "reusedBy": 2
+          },
+          {
             "component": "src/lib/components/projects/NewTaskForm.svelte",
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/projects/ProjectActionsMenu.svelte",
+            "component": "src/lib/components/projects/ProjectTile.svelte",
             "reusedBy": 2
           },
           {
@@ -1206,7 +2083,11 @@
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/projects/TaskKindPill.svelte",
+            "component": "src/lib/components/projects/TaskLinkList.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/projects/TaskListRow.svelte",
             "reusedBy": 2
           },
           {
@@ -1222,12 +2103,24 @@
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/site/LegalArticle.svelte",
+            "component": "src/lib/components/support/SupportTaskTable.svelte",
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/support/SupportTaskTable.svelte",
+            "component": "src/lib/components/team/TeamMemberProfile.svelte",
             "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/workspace/HeaderFacts.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/about/AboutStorySection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/about/AboutTeamSection.svelte",
+            "reusedBy": 1
           },
           {
             "component": "src/lib/components/account/DisplayNameForm.svelte",
@@ -1267,6 +2160,42 @@
           },
           {
             "component": "src/lib/components/admin/UserModelSelect.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/admin/documents/BeforeFirstUseNote.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/admin/documents/ClientDocumentList.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/admin/documents/ClientDocumentRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/admin/documents/DocumentProse.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/case-study/BuildPhaseRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/case-study/JewelCalendarSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/case-study/JewelIdeaSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/case-study/JewelIntroSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/case-study/JewelOutcomeSection.svelte",
             "reusedBy": 1
           },
           {
@@ -1366,11 +2295,35 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/conversations/BatonStationNode.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/conversations/BatonTrack.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/conversations/ConversationBaton.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/conversations/ConversationComposer.svelte",
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/conversations/HandOffPicker.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/conversations/MessageRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/conversations/ParticipantChip.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/conversations/TurnPill.svelte",
             "reusedBy": 1
           },
           {
@@ -1382,11 +2335,15 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/goals/GoalDetailHeader.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/goals/GoalListPanel.svelte",
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/goals/GoalOverviewPanel.svelte",
+            "component": "src/lib/components/goals/GoalMeasurePanel.svelte",
             "reusedBy": 1
           },
           {
@@ -1394,11 +2351,27 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/goals/GoalStatusFilter.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/goals/GoalTaskList.svelte",
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/home/BenefitsSection.svelte",
+            "component": "src/lib/components/harness/HarnessDoorCard.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/harness/HarnessFlowArrow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/harness/HarnessListCard.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/harness/HarnessTableCard.svelte",
             "reusedBy": 1
           },
           {
@@ -1406,11 +2379,11 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/home/ConsultancySection.svelte",
+            "component": "src/lib/components/home/DisciplineRow.svelte",
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/home/ConsultancyStepCard.svelte",
+            "component": "src/lib/components/home/HarnessSection.svelte",
             "reusedBy": 1
           },
           {
@@ -1418,11 +2391,15 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/home/ServiceCard.svelte",
+            "component": "src/lib/components/home/TeamSection.svelte",
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/home/ServicesSection.svelte",
+            "component": "src/lib/components/home/TwoDoorsSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/home/WhatWeDoSection.svelte",
             "reusedBy": 1
           },
           {
@@ -1439,6 +2416,26 @@
           },
           {
             "component": "src/lib/components/members/TransferOwnershipForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/offer/OfferHarnessSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/offer/OfferIntroSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/offer/OfferStepRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/offer/OfferStepsSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/offer/OfferTermsSection.svelte",
             "reusedBy": 1
           },
           {
@@ -1498,6 +2495,14 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/AssigneeFilterChips.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/AssigneePills.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/AttachmentPreviewModal.svelte",
             "reusedBy": 1
           },
@@ -1510,11 +2515,7 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/projects/BuildBriefForm.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/projects/BuildPanel.svelte",
+            "component": "src/lib/components/projects/BacklogFilterBar.svelte",
             "reusedBy": 1
           },
           {
@@ -1542,11 +2543,31 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/KitVersionRow.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/NewProjectForm.svelte",
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/NewTaskStoryFields.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/NotificationRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/ProjectActionsMenu.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/ProjectBoard.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/ProjectDashboard.svelte",
             "reusedBy": 1
           },
           {
@@ -1558,7 +2579,15 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/projects/ProjectMobileCard.svelte",
+            "component": "src/lib/components/projects/ProjectImageRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/ProjectImagesButton.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/ProjectImagesModal.svelte",
             "reusedBy": 1
           },
           {
@@ -1566,11 +2595,15 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/projects/ProjectTable.svelte",
+            "component": "src/lib/components/projects/ProjectPulseStrip.svelte",
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/projects/ProjectTableRow.svelte",
+            "component": "src/lib/components/projects/ProjectTileGrid.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/ProjectTileProgress.svelte",
             "reusedBy": 1
           },
           {
@@ -1586,7 +2619,15 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/SubtaskRows.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/TaskAttachmentsSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskBranchPanel.svelte",
             "reusedBy": 1
           },
           {
@@ -1598,6 +2639,14 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/TaskFactsPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskFoldButton.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/TaskGoalButton.svelte",
             "reusedBy": 1
           },
@@ -1606,19 +2655,15 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/TaskGroupHeader.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/TaskGroupSection.svelte",
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/projects/TaskListRow.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/projects/TaskMoveField.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/projects/TaskOverviewPanel.svelte",
+            "component": "src/lib/components/projects/TaskMoveFields.svelte",
             "reusedBy": 1
           },
           {
@@ -1630,6 +2675,22 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/TaskRowControls.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskRowMeta.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskRowModals.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskStoryPanel.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/TaskTreePanel.svelte",
             "reusedBy": 1
           },
@@ -1638,7 +2699,15 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/projects/TeamProjectTable.svelte",
+            "component": "src/lib/components/projects/TeamProjectGrid.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TeamProjectTile.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TeamProjectsSection.svelte",
             "reusedBy": 1
           },
           {
@@ -1646,7 +2715,19 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/WaitingOnYouSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/WaitingTaskRow.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/site/AccountMenu.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/site/ArrowIcon.svelte",
             "reusedBy": 1
           },
           {
@@ -1698,6 +2779,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/tasks/GlobalTaskModals.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/tasks/GlobalTaskPagination.svelte",
             "reusedBy": 1
           },
@@ -1710,34 +2795,912 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/project/ProjectHeader.svelte",
-            "reusedBy": 0
+            "component": "src/lib/components/vision/VisionArticle.svelte",
+            "reusedBy": 1
           },
           {
-            "component": "src/lib/components/site/BrandMark.svelte",
-            "reusedBy": 0
+            "component": "src/lib/components/workspace/PanelTabs.svelte",
+            "reusedBy": 1
           },
           {
-            "component": "src/lib/components/site/CopyButton.svelte",
-            "reusedBy": 0
+            "component": "src/lib/components/workspace/PersonInitials.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/workspace/ProgressTrack.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/workspace/StatTile.svelte",
+            "reusedBy": 1
           }
         ],
-        "orphans": [
-          "src/lib/components/project/ProjectHeader.svelte",
-          "src/lib/components/site/BrandMark.svelte",
-          "src/lib/components/site/CopyButton.svelte"
-        ]
+        "orphans": []
+      }
+    },
+    "siteDefinition": {
+      "name": "siteDefinition",
+      "summary": {
+        "skipped": "no siteDefinition catalogue in rules.json"
+      },
+      "offenders": {
+        "handRolled": [],
+        "boxedWidgets": []
+      }
+    },
+    "fileAreas": {
+      "name": "fileAreas",
+      "summary": {
+        "totalFiles": 1307,
+        "frontend": 405,
+        "backend": 386,
+        "shared": 120,
+        "api": 105,
+        "tooling": 102,
+        "database": 70,
+        "tests": 57,
+        "docs": 49,
+        "infrastructure": 13
+      },
+      "offenders": [
+        {
+          "area": "frontend",
+          "files": 405,
+          "sourceFiles": 282,
+          "sourceLines": 11165
+        },
+        {
+          "area": "backend",
+          "files": 386,
+          "sourceFiles": 383,
+          "sourceLines": 11682
+        },
+        {
+          "area": "shared",
+          "files": 120,
+          "sourceFiles": 119,
+          "sourceLines": 3763
+        },
+        {
+          "area": "api",
+          "files": 105,
+          "sourceFiles": 105,
+          "sourceLines": 4872
+        },
+        {
+          "area": "tooling",
+          "files": 102,
+          "sourceFiles": 0,
+          "sourceLines": 0
+        },
+        {
+          "area": "database",
+          "files": 70,
+          "sourceFiles": 0,
+          "sourceLines": 0
+        },
+        {
+          "area": "tests",
+          "files": 57,
+          "sourceFiles": 57,
+          "sourceLines": 1941
+        },
+        {
+          "area": "docs",
+          "files": 49,
+          "sourceFiles": 0,
+          "sourceLines": 0
+        },
+        {
+          "area": "infrastructure",
+          "files": 13,
+          "sourceFiles": 0,
+          "sourceLines": 0
+        }
+      ]
+    },
+    "inputValidation": {
+      "name": "inputValidation",
+      "summary": {
+        "schemaTables": 84,
+        "limitedColumns": 0,
+        "writeDoors": 95,
+        "unvalidatedDoors": 95,
+        "looserLimits": 0
+      },
+      "offenders": {
+        "unvalidated": [
+          {
+            "file": "src/lib/server/mcp/actionRegistry.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "conversationmessage",
+              "goal",
+              "inboxcursor",
+              "oauthtoken",
+              "people",
+              "project",
+              "projectmember",
+              "projectprocesskit",
+              "task",
+              "taskattachment",
+              "taskchecklist",
+              "taskchecklistitem",
+              "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actionTypes.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/acceptanceCriterionActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/accountActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/batonSentence.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/checklistActions.ts",
+            "tables": [
+              "oauthtoken",
+              "taskchecklist"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/checklistItemActions.ts",
+            "tables": [
+              "oauthtoken",
+              "taskchecklistitem"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/clientActions.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "oauthtoken",
+              "people",
+              "project"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/clientContactActions.ts",
+            "tables": [
+              "clientcontact",
+              "clientevent",
+              "oauthtoken",
+              "people"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/clientDetailActions.ts",
+            "tables": [
+              "clientevent",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/clientProjectActions.ts",
+            "tables": [
+              "clientevent",
+              "oauthtoken",
+              "project"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/clientRegisterActions.ts",
+            "tables": [
+              "client",
+              "clientevent",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/conversationActions.ts",
+            "tables": [
+              "conversationmessage",
+              "inboxcursor",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/describeClient.ts",
+            "tables": [
+              "clientevent"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/describeInbox.ts",
+            "tables": [
+              "inboxcursor"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/describeUploadGrant.ts",
+            "tables": [
+              "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/findChecklistOnTask.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/findMemberOn.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/goalActions.ts",
+            "tables": [
+              "goal",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/goalEditActions.ts",
+            "tables": [
+              "goal",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/goalOrderActions.ts",
+            "tables": [
+              "goal",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/goalReadActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/goalWriteActions.ts",
+            "tables": [
+              "goal",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/handOffFields.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/orderingFields.test.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/orderingFields.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectActions.ts",
+            "tables": [
+              "clientevent",
+              "oauthtoken",
+              "project",
+              "projectmember",
+              "projectprocesskit"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectDetailsEdit.ts",
+            "tables": [
+              "oauthtoken",
+              "project"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectImageReadActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectImageWriteActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectMembershipActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectOrderActions.ts",
+            "tables": [
+              "oauthtoken",
+              "project",
+              "projectmember"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectOwnershipActions.ts",
+            "tables": [
+              "clientevent",
+              "oauthtoken",
+              "project"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectPeopleActions.ts",
+            "tables": [
+              "oauthtoken",
+              "projectmember"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectReadActions.ts",
+            "tables": [
+              "oauthtoken",
+              "project",
+              "projectprocesskit"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectRemovalActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/projectWriteActions.ts",
+            "tables": [
+              "oauthtoken",
+              "project"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/queueFields.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/raiseSupportTask.ts",
+            "tables": [
+              "clientevent",
+              "conversationmessage",
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/readAttachmentFileInput.ts",
+            "tables": [
+              "oauthtoken",
+              "taskattachment"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/readUploadDescription.ts",
+            "tables": [
+              "oauthtoken",
+              "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/requestedByField.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/resolveSubject.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/storyFields.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/supportTaskActions.ts",
+            "tables": [
+              "clientevent",
+              "conversationmessage",
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/supportTaskReadActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/supportTaskWriteActions.ts",
+            "tables": [
+              "clientevent",
+              "conversationmessage",
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskActions.ts",
+            "tables": [
+              "conversationmessage",
+              "oauthtoken",
+              "task",
+              "taskattachment",
+              "taskchecklist",
+              "taskchecklistitem",
+              "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskAttachmentReadActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskAttachmentWriteActions.ts",
+            "tables": [
+              "oauthtoken",
+              "taskattachment"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskBranchActions.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskDetailsEdit.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskOrderActions.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskParentActions.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskProjectActions.ts",
+            "tables": [
+              "conversationmessage",
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskQueueActions.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskQueuePriorityActions.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskReadActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskRemovalActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskRoleActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskStatusActions.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskStoryActions.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskTeamActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskUpdateActions.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskUploadActions.ts",
+            "tables": [
+              "oauthtoken",
+              "taskattachment",
+              "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/taskWriteActions.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/withProjectAccess.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/browseActions.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "conversationmessage",
+              "goal",
+              "inboxcursor",
+              "oauthtoken",
+              "people",
+              "project",
+              "projectmember",
+              "projectprocesskit",
+              "task",
+              "taskattachment",
+              "taskchecklist",
+              "taskchecklistitem",
+              "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/describeContext.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "conversationmessage",
+              "goal",
+              "inboxcursor",
+              "oauthtoken",
+              "people",
+              "project",
+              "projectmember",
+              "projectprocesskit",
+              "task",
+              "taskattachment",
+              "taskchecklist",
+              "taskchecklistitem",
+              "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/mcpMethods.ts",
+            "tables": [
+              "conversationmessage",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/mcpTools.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "conversationmessage",
+              "goal",
+              "inboxcursor",
+              "oauthtoken",
+              "project",
+              "projectmember",
+              "projectprocesskit",
+              "task",
+              "taskchecklist",
+              "taskchecklistitem",
+              "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/projectAccess.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/resolveMcpCaller.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/runAction.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "conversationmessage",
+              "goal",
+              "inboxcursor",
+              "oauthtoken",
+              "people",
+              "project",
+              "projectmember",
+              "projectprocesskit",
+              "task",
+              "taskattachment",
+              "taskchecklist",
+              "taskchecklistitem",
+              "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/routes/account/+page.server.ts",
+            "tables": [
+              "usermodelpreference"
+            ]
+          },
+          {
+            "file": "src/routes/api/github-webhook/+server.ts",
+            "tables": [
+              "conversationmessage",
+              "project",
+              "projectdeploy",
+              "projectprocesskit",
+              "task"
+            ]
+          },
+          {
+            "file": "src/routes/api/mcp/+server.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/routes/clients/+page.server.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "people"
+            ]
+          },
+          {
+            "file": "src/routes/clients/[clientId]/+page.server.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "people",
+              "personlink",
+              "personnote",
+              "project"
+            ]
+          },
+          {
+            "file": "src/routes/clients/map/+page.server.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "people",
+              "personlink",
+              "personnote"
+            ]
+          },
+          {
+            "file": "src/routes/clients/prospect/+page.server.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "people",
+              "personlink",
+              "personnote"
+            ]
+          },
+          {
+            "file": "src/routes/clients/research/+page.server.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "people"
+            ]
+          },
+          {
+            "file": "src/routes/contact/+page.server.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "people"
+            ]
+          },
+          {
+            "file": "src/routes/notifications/+page.server.ts",
+            "tables": [
+              "notification"
+            ]
+          },
+          {
+            "file": "src/routes/oauth/authorize/+page.server.ts",
+            "tables": [
+              "oauthauthorizationcode",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/routes/oauth/register/+server.ts",
+            "tables": [
+              "oauthclient",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/routes/oauth/token/+server.ts",
+            "tables": [
+              "oauthauthorizationcode",
+              "oauthtoken"
+            ]
+          },
+          {
+            "file": "src/routes/people/+page.server.ts",
+            "tables": [
+              "people"
+            ]
+          },
+          {
+            "file": "src/routes/people/[personId]/+page.server.ts",
+            "tables": [
+              "client",
+              "clientcontact",
+              "clientevent",
+              "people",
+              "personlink",
+              "personnote"
+            ]
+          },
+          {
+            "file": "src/routes/projects/+page.server.ts",
+            "tables": [
+              "oauthtoken",
+              "project",
+              "projectmember",
+              "projectprocesskit"
+            ]
+          },
+          {
+            "file": "src/routes/projects/[projectId]/+page.server.ts",
+            "tables": [
+              "clientevent",
+              "conversationmessage",
+              "goal",
+              "oauthtoken",
+              "project",
+              "projectimage",
+              "projectmember",
+              "projectprocesskit",
+              "task",
+              "taskattachment",
+              "taskchecklist",
+              "taskchecklistitem",
+              "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/routes/projects/[projectId]/goals/[goalId]/+page.server.ts",
+            "tables": [
+              "conversationmessage",
+              "conversationparticipant",
+              "goal"
+            ]
+          },
+          {
+            "file": "src/routes/projects/[projectId]/tasks/[taskId]/+page.server.ts",
+            "tables": [
+              "conversationmessage",
+              "inboxcursor",
+              "oauthtoken",
+              "task",
+              "taskattachment",
+              "taskchecklist"
+            ]
+          },
+          {
+            "file": "src/routes/projects/kit-versions/+page.server.ts",
+            "tables": [
+              "project",
+              "projectprocesskit"
+            ]
+          },
+          {
+            "file": "src/routes/tasks/+page.server.ts",
+            "tables": [
+              "oauthtoken",
+              "task"
+            ]
+          }
+        ],
+        "looserLimits": []
       }
     },
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 8,
-        "duplicatedLines": 106,
-        "totalLines": 25007,
-        "duplicatedPercentage": 0.42
+        "clones": 6,
+        "duplicatedLines": 58,
+        "totalLines": 30513,
+        "duplicatedPercentage": 0.19
       },
       "offenders": [
+        {
+          "file": "src/lib/components/projects/ProjectTile.svelte:html",
+          "duplicatedLineInstances": 40
+        },
+        {
+          "file": "src/lib/components/projects/TeamProjectTile.svelte:html",
+          "duplicatedLineInstances": 40
+        },
         {
           "file": "src/lib/components/admin/AdminActionsMenu.svelte:html",
           "duplicatedLineInstances": 36
@@ -1745,10 +3708,6 @@
         {
           "file": "src/lib/components/projects/ProjectActionsMenu.svelte:html",
           "duplicatedLineInstances": 36
-        },
-        {
-          "file": "src/lib/server/projects/placeTask.ts",
-          "duplicatedLineInstances": 34
         },
         {
           "file": "src/lib/server/mcp/actions/taskAttachmentReadActions.ts",
@@ -1759,22 +3718,6 @@
           "duplicatedLineInstances": 14
         },
         {
-          "file": "src/lib/server/projects/getProject.ts",
-          "duplicatedLineInstances": 13
-        },
-        {
-          "file": "src/lib/server/projects/placeProject.ts",
-          "duplicatedLineInstances": 13
-        },
-        {
-          "file": "src/lib/server/projects/placeGlobalTask.ts",
-          "duplicatedLineInstances": 13
-        },
-        {
-          "file": "src/lib/server/projects/getSiblingTasks.ts",
-          "duplicatedLineInstances": 12
-        },
-        {
           "file": "src/lib/server/people/approachFormActions.ts",
           "duplicatedLineInstances": 10
         },
@@ -1783,8 +3726,12 @@
           "duplicatedLineInstances": 10
         },
         {
-          "file": "src/lib/server/projects/getTask.ts",
-          "duplicatedLineInstances": 9
+          "file": "src/lib/server/mcp/actions/projectImageReadActions.ts",
+          "duplicatedLineInstances": 8
+        },
+        {
+          "file": "src/lib/server/mcp/actions/projectImageWriteActions.ts",
+          "duplicatedLineInstances": 8
         },
         {
           "file": "src/lib/server/clients/addClientContact.ts",

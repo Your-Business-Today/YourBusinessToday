@@ -1,9 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { findTask, siblingsOf } from '$lib/server/projects/taskSiblings';
+import { siblingsOf } from '$lib/server/projects/taskSiblings';
+import { getTask } from '$lib/server/projects/getTask';
 import { placeBeside } from '$lib/server/ordering/rankedScope';
 import { reparentTask } from '$lib/server/projects/reparentTask';
 import { updateTaskGoal } from '$lib/server/projects/updateTaskGoal';
-import type { DropPlacement } from '$lib/server/ordering/rankedSet';
+import { dropPlacements, type DropPlacement } from '$lib/server/ordering/rankedSet';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 export async function placeTask(
@@ -12,8 +13,8 @@ export async function placeTask(
 	targetTaskId: string,
 	placement: DropPlacement
 ): Promise<void> {
-	if (placement === 'inside') return reparentTask(supabase, movedTaskId, targetTaskId);
-	const targetTask = await findTask(supabase, targetTaskId);
+	if (placement === dropPlacements.inside) return reparentTask(supabase, movedTaskId, targetTaskId);
+	const targetTask = await getTask(supabase, targetTaskId);
 	if (targetTask === null) return;
 	const movedTask = await movedTaskBesideTarget(supabase, movedTaskId, targetTask);
 	if (movedTask === null) return;
@@ -32,14 +33,14 @@ async function movedTaskBesideTarget(
 	movedTaskId: string,
 	targetTask: ProjectTask
 ): Promise<ProjectTask | null> {
-	const movedTask = await findTask(supabase, movedTaskId);
+	const movedTask = await getTask(supabase, movedTaskId);
 	if (movedTask === null) return null;
 	if (isTopLevelMoveAcrossGoals(movedTask, targetTask)) {
 		await updateTaskGoal(supabase, movedTaskId, targetTask.goalId);
 	}
-	if (movedTask.parentTaskId === targetTask.parentTaskId) return findTask(supabase, movedTaskId);
+	if (movedTask.parentTaskId === targetTask.parentTaskId) return getTask(supabase, movedTaskId);
 	await reparentTask(supabase, movedTaskId, targetTask.parentTaskId);
-	return findTask(supabase, movedTaskId);
+	return getTask(supabase, movedTaskId);
 }
 
 function isTopLevelMoveAcrossGoals(movedTask: ProjectTask, targetTask: ProjectTask): boolean {

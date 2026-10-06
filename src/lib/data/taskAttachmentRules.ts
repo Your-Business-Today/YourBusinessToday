@@ -1,4 +1,6 @@
 export type AttachmentPreviewKind = 'image' | 'pdf';
+
+export const attachmentPreviewKinds = { image: 'image', pdf: 'pdf' } as const;
 export type AttachmentContentKind =
 	'text' | 'wordDocument' | 'pdf' | 'spreadsheet' | 'image' | 'file' | 'link';
 

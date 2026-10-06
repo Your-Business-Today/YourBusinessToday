@@ -3,7 +3,7 @@
 	import { batonStations } from './batonStations';
 	import { elapsedPhrase } from '$lib/data/elapsedTime';
 	import { personLabel, readTurn, type NameOf } from '$lib/data/turnLabels';
-	import { postedViaChannels, type ConversationTurn } from '$lib/data/conversationTurn';
+	import { postedViaChannels, turnStages, type ConversationTurn } from '$lib/data/conversationTurn';
 
 	let {
 		turn,
@@ -19,9 +19,9 @@
 		const via = turn.postedVia === postedViaChannels.claude ? ' via Claude' : '';
 		return `last word ${elapsedPhrase(turn.since)} · ${speaker}${via}`;
 	});
-	const isInFlight = $derived(reading?.stage === 'sent');
+	const isInFlight = $derived(reading?.stage === turnStages.sent);
 	const accent = $derived.by(() => {
-		if (reading === null || reading.stage === 'quiet') return 'hairline';
+		if (reading === null || reading.stage === turnStages.quiet) return 'hairline';
 		if (reading.isOnViewer) return 'signal';
 		if (reading.isOnClaude) return 'caution';
 		return 'go';

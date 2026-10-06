@@ -3,6 +3,7 @@ import {
 	describeUpload,
 	projectImageUploadActions,
 	uploadProgressLabel,
+	uploadOutcomeStatuses,
 	uploadThroughSignedLink
 } from './uploadThroughSignedLink';
 
@@ -16,7 +17,7 @@ export async function uploadProjectImages(
 		const problem = projectImageUploadProblem(describeUpload(file));
 		if (problem !== null) return `${file.name}: ${problem}`;
 		const outcome = await uploadThroughSignedLink(file, projectImageUploadActions);
-		if (outcome.status === 'failed') return `${file.name}: ${outcome.message}`;
+		if (outcome.status === uploadOutcomeStatuses.failed) return `${file.name}: ${outcome.message}`;
 	}
 	return null;
 }

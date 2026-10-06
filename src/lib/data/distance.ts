@@ -1,6 +1,7 @@
 export type Coordinates = { latitude: number; longitude: number };
 
 const earthRadiusMiles = 3958.8;
+const hereWithinMiles = 0.1;
 
 export function distanceInMiles(from: Coordinates, to: Coordinates): number {
 	const latitudeDelta = toRadians(to.latitude - from.latitude);
@@ -14,7 +15,7 @@ export function distanceInMiles(from: Coordinates, to: Coordinates): number {
 }
 
 export function describeDistance(miles: number): string {
-	if (miles < 0.1) return 'here';
+	if (miles < hereWithinMiles) return 'here';
 	return `${miles.toFixed(1)} mi`;
 }
 

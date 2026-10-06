@@ -1,5 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { defaultSiteModel } from '$lib/data/siteModels';
+import { displayNameMaxLength } from '$lib/data/displayNameRules';
 import { getAdminPinnedModel } from '$lib/server/anthropic/getAdminPinnedModel';
 import { getSiteModel } from '$lib/server/anthropic/getSiteModel';
 import {
@@ -46,8 +47,8 @@ export const actions: Actions = {
 		await requireUser(locals);
 		const formData = await request.formData();
 		const displayName = String(formData.get('displayName') ?? '').trim();
-		if (displayName.length > 60) {
-			return fail(400, { message: 'Display names are 60 characters at most.' });
+		if (displayName.length > displayNameMaxLength) {
+			return fail(400, { message: `Display names are ${displayNameMaxLength} characters at most.` });
 		}
 		await saveDisplayName(locals.supabase, displayName);
 		return { message: 'Profile saved.' };

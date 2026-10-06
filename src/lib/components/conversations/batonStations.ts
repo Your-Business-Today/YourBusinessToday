@@ -9,6 +9,13 @@ import {
 
 export type StationState = 'spoke' | 'passed' | 'holding' | 'next';
 
+export const stationStates = {
+	spoke: 'spoke',
+	passed: 'passed',
+	holding: 'holding',
+	next: 'next'
+} as const;
+
 export type BatonStation = {
 	key: string;
 	label: string;

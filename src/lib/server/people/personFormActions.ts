@@ -4,7 +4,11 @@ import { addPersonNote } from './addPersonNote';
 import { removePersonLink } from './removePersonLink';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { updateContactRole } from '$lib/server/clients/updateContactRole';
-import { readPersonProfileEdit, updatePersonProfile } from './updatePersonProfile';
+import {
+	personProfileSaves,
+	readPersonProfileEdit,
+	updatePersonProfile
+} from './updatePersonProfile';
 
 export type StaffFormEvent = { locals: App.Locals; request: Request };
 
@@ -21,7 +25,7 @@ export const personFormActions = {
 		if (personId === '') return fail(400, personRequired);
 		if (edit === null) return fail(400, { message: 'A name is required.' });
 		const outcome = await updatePersonProfile(locals.supabase, personId, edit);
-		if (outcome === 'email_taken') {
+		if (outcome === personProfileSaves.emailTaken) {
 			return fail(409, { message: 'That email address already belongs to someone else.' });
 		}
 		await updateAffiliationRole(locals, formData);

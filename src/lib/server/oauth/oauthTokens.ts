@@ -5,6 +5,10 @@ import {
 } from './oauthSettings';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
+export type OauthTokenKind = 'access' | 'refresh';
+
+export const oauthTokenKinds = { access: 'access', refresh: 'refresh' } as const;
+
 const tokenBytes = 32;
 
 export type IssuedTokens = {
@@ -46,7 +50,7 @@ export async function revokeToken(supabase: SupabaseClient, tokenHash: string): 
 
 function tokenRow(
 	token: string,
-	kind: 'access' | 'refresh',
+	kind: OauthTokenKind,
 	clientId: string,
 	accountId: string,
 	lifetimeSeconds: number

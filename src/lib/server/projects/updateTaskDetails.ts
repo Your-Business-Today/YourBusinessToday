@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { TaskKind } from '$lib/data/taskKind';
-import type { TaskStatus } from '$lib/data/taskStatus';
+import { doneTaskStatus, type TaskStatus } from '$lib/data/taskStatus';
 
 export type TaskDetailsUpdate = {
 	title: string;
@@ -43,6 +43,6 @@ export async function updateTaskDetails(
 }
 
 function completionPercentFor(update: TaskDetailsUpdate): number {
-	if (update.status === 'done') return 100;
+	if (update.status === doneTaskStatus) return 100;
 	return update.completionPercent;
 }

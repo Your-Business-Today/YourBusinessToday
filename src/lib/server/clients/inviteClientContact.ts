@@ -13,6 +13,11 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 export type InviteOutcome = 'already_invited' | 'too_many_invites' | EmailDelivery;
 
+export const inviteOutcomes = {
+	alreadyInvited: 'already_invited',
+	tooManyInvites: 'too_many_invites'
+} as const;
+
 export async function inviteClientContact(
 	supabase: SupabaseClient,
 	contact: ClientContact,

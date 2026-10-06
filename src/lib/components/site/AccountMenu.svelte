@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { NavigationGroup } from './siteNavigation';
+	import { keyboardKeys } from '$lib/client/keyboardKeys';
 
 	let { menuGroups }: { menuGroups: NavigationGroup[] } = $props();
 
@@ -10,7 +11,7 @@
 
 	/** Escape closes the open menu and claims the key, so the page beneath does not act on it too. */
 	function closeOnEscape(event: KeyboardEvent): void {
-		if (!isOpen || event.key !== 'Escape') return;
+		if (!isOpen || event.key !== keyboardKeys.escape) return;
 		event.preventDefault();
 		closeMenu();
 	}

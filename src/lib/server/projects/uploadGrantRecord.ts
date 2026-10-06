@@ -11,6 +11,8 @@ export type TaskUploadGrant = {
 
 export type UploadGrantStanding = 'open' | 'expired' | 'used';
 
+export const uploadGrantStandings = { open: 'open', expired: 'expired', used: 'used' } as const;
+
 export const uploadLinkLifetimeMinutes = 15;
 export const uploadLinkLifetimeSeconds = uploadLinkLifetimeMinutes * 60;
 

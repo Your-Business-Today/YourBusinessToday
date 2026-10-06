@@ -3,6 +3,8 @@ import { findReorderRow } from '$lib/client/findReorderRow';
 
 export type DropPlacement = 'before' | 'after' | 'inside';
 
+export const dropPlacements = { before: 'before', after: 'after', inside: 'inside' } as const;
+
 export type SubmitListReorder = (
 	movedId: string,
 	targetId: string,

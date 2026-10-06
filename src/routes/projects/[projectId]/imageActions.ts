@@ -12,6 +12,7 @@ import { projectImageUploadProblem } from '$lib/data/projectImageRules';
 import { recordProjectImage } from '$lib/server/projectImages/recordProjectImage';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import type { Actions } from './$types';
+import { attachmentRecordings } from '$lib/server/projects/recordTaskAttachment';
 
 const imageGone = 'That image is no longer in the bank.';
 
@@ -34,7 +35,7 @@ export const imageActions: Actions = {
 		if (problem !== null) return fail(400, { message: problem });
 		const image = { projectId: project.id, imageId, uploadedBy: user.id, upload };
 		const recording = await recordProjectImage(locals.supabase, image);
-		if (recording === 'file_missing') {
+		if (recording === attachmentRecordings.fileMissing) {
 			return fail(400, { message: 'The image never reached storage — please try again.' });
 		}
 		return {};

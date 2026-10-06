@@ -6,6 +6,8 @@ const duplicateRowCode = '23505';
 
 export type PersonProfileSave = 'saved' | 'email_taken';
 
+export const personProfileSaves = { saved: 'saved', emailTaken: 'email_taken' } as const;
+
 export type PersonProfileEdit = PersonProfile & {
 	name: string;
 	email: string;

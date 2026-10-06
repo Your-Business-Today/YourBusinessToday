@@ -1,6 +1,6 @@
 import { readText, textField } from '../actionTypes';
 import { parseMoveDirection, parseRank } from '$lib/server/ordering/rankInput';
-import type { BesidePlacement, MoveDirection } from '$lib/server/ordering/rankedSet';
+import { dropPlacements, type BesidePlacement, type MoveDirection } from '$lib/server/ordering/rankedSet';
 
 export type { BesidePlacement };
 
@@ -21,7 +21,7 @@ export function readMoveDirection(input: Record<string, unknown>): MoveDirection
 
 export function readBesidePlacement(input: Record<string, unknown>): BesidePlacement | null {
 	const placement = readText(input, 'placement');
-	if (placement === 'before' || placement === 'after') return placement;
+	if (placement === dropPlacements.before || placement === dropPlacements.after) return placement;
 	return null;
 }
 

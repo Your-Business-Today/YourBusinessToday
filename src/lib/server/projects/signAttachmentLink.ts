@@ -1,8 +1,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { attachmentsBucket } from './attachmentStorage';
 import type { StoredFile } from './attachmentRecord';
+import { attachmentLinkKinds, type AttachmentLinkKind } from '$lib/data/attachmentLinkKind';
 
-export type AttachmentLinkKind = 'open' | 'download';
+export type { AttachmentLinkKind };
 
 export const clickThroughLifetimeSeconds = 60;
 export const agentFetchLifetimeSeconds = 10 * 60;
@@ -24,6 +25,6 @@ function signingOptions(
 	attachment: StoredFile,
 	kind: AttachmentLinkKind
 ): { download?: string } {
-	if (kind === 'open') return {};
+	if (kind === attachmentLinkKinds.open) return {};
 	return { download: attachment.filename };
 }

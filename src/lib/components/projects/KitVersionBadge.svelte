@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { describeKitStanding, kitStanding, type KitStanding } from '$lib/data/kitVersion';
+	import { describeKitStanding, kitStanding, kitStandings, type KitStanding } from '$lib/data/kitVersion';
 
 	let {
 		repositoryUrl,
@@ -27,7 +27,7 @@
 	});
 </script>
 
-{#if standing !== 'no_repository'}
+{#if standing !== kitStandings.noRepository}
 	<span
 		title={describeKitStanding(standing, reading)}
 		class={`rounded-full border px-2.5 py-0.5 font-display text-xs whitespace-nowrap ${standingStyles[standing]}`}

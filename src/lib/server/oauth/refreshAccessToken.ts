@@ -1,4 +1,10 @@
-import { hashSecret, issueTokensFor, revokeToken, type IssuedTokens } from './oauthTokens';
+import {
+	hashSecret,
+	issueTokensFor,
+	oauthTokenKinds,
+	revokeToken,
+	type IssuedTokens
+} from './oauthTokens';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 
 export async function refreshAccessToken(
@@ -13,7 +19,7 @@ export async function refreshAccessToken(
 		.eq('token_hash', tokenHash)
 		.maybeSingle();
 	if (error) throw error;
-	if (data === null || data.kind !== 'refresh') return 'invalid_grant';
+	if (data === null || data.kind !== oauthTokenKinds.refresh) return 'invalid_grant';
 	if (data.revoked_at !== null) return 'invalid_grant';
 	if (data.client_id !== clientId) return 'invalid_grant';
 	if (new Date(data.expires_at).getTime() < Date.now()) return 'invalid_grant';

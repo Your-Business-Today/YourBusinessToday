@@ -1,5 +1,5 @@
 import { attachmentLimitDescription, isWithinAttachmentLimit } from '$lib/data/taskAttachmentRules';
-import { fetchAttachmentSource } from '$lib/server/projects/fetchAttachmentSource';
+import { fetchAttachmentSource, sourceFetchStatuses } from '$lib/server/projects/fetchAttachmentSource';
 import { readOptionalText } from '../actionTypes';
 import type { AttachmentFile } from '$lib/server/projects/storeTaskAttachment';
 
@@ -28,11 +28,11 @@ async function fileFromWeb(
 	mimeType: string | null
 ): Promise<AttachmentFile | string> {
 	const fetched = await fetchAttachmentSource(sourceUrl, filename);
-	if (fetched.status === 'not_a_web_address') return 'sourceUrl must be an http or https address.';
-	if (fetched.status === 'unreachable') {
+	if (fetched.status === sourceFetchStatuses.notAWebAddress) return 'sourceUrl must be an http or https address.';
+	if (fetched.status === sourceFetchStatuses.unreachable) {
 		return `That address could not be downloaded — ${fetched.reason}.`;
 	}
-	if (fetched.status === 'too_large') return tooLarge;
+	if (fetched.status === sourceFetchStatuses.tooLarge) return tooLarge;
 	return { ...fetched.file, mimeType: mimeType ?? fetched.file.mimeType };
 }
 

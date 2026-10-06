@@ -6,7 +6,8 @@ import { setTaskBranch } from '$lib/server/projects/setTaskBranch';
 import { updateTaskStatus } from '$lib/server/projects/updateTaskStatus';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
-import type { PullRequestEvent } from './readPullRequestEvent';
+import { pullRequestChanges, type PullRequestEvent } from './readPullRequestEvent';
+import { supportTaskKind } from '$lib/data/taskKind';
 
 export type BranchOutcome = { kind: 'no_task_on_branch' } | { kind: 'recorded'; taskIds: string[] };
 
@@ -31,11 +32,11 @@ async function recordOnTask(
 ): Promise<void> {
 	const branch = { branchName: task.branchName, pullRequestUrl: pullRequest.url };
 	await setTaskBranch(supabase, task.id, branch);
-	if (pullRequest.change !== 'merged') return;
+	if (pullRequest.change !== pullRequestChanges.merged) return;
 	const project = projects.find((candidate) => candidate.id === task.projectId);
 	if (project === undefined) return;
 	const merged = `Merged: ${pullRequest.url} brought ${task.branchName} into ${project.defaultBranch}`;
-	if (task.kind === 'support') {
+	if (task.kind === supportTaskKind) {
 		const sentence = `${merged}. Resolve this with the answer the person who raised it will read.`;
 		await postMessage(supabase, { taskId: task.id }, project.ownerId, sentence);
 		return;

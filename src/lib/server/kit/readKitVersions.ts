@@ -5,7 +5,7 @@ import {
 	projectProcessDefaultBranch,
 	projectProcessRepositoryUrl
 } from './projectProcessKit';
-import { readRepositoryFile } from './readRepositoryFile';
+import { readRepositoryFile, repositoryFileKinds } from './readRepositoryFile';
 import { recordLatestKitVersion, recordProjectKitVersion } from './kitVersions';
 import type { Project } from '$lib/server/projects/projectRecord';
 
@@ -19,7 +19,7 @@ export async function readLatestKitVersion(
 	ref: string = projectProcessDefaultBranch
 ): Promise<KitVersionReading> {
 	const file = await readRepositoryFile(projectProcessRepositoryUrl, latestKitVersionPath, ref);
-	if (file.kind !== 'found') return { kind: 'unreadable' };
+	if (file.kind !== repositoryFileKinds.found) return { kind: 'unreadable' };
 	const version = file.text.trim();
 	await recordLatestKitVersion(supabase, version);
 	return { kind: 'read', version };
@@ -32,8 +32,8 @@ export async function readKitVersionOfProject(
 	ref: string = project.defaultBranch
 ): Promise<KitVersionReading> {
 	const file = await readRepositoryFile(project.repositoryUrl, installedKitVersionPath, ref);
-	if (file.kind === 'unreadable') return { kind: 'unreadable' };
-	const version = file.kind === 'found' ? file.text.trim() : noKitInstalled;
+	if (file.kind === repositoryFileKinds.unreadable) return { kind: 'unreadable' };
+	const version = file.kind === repositoryFileKinds.found ? file.text.trim() : noKitInstalled;
 	await recordProjectKitVersion(supabase, project.id, version);
 	return { kind: 'read', version };
 }

@@ -2,7 +2,8 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { findQueuedTask, taskQueue } from '$lib/server/projects/taskQueue';
 import { placeBeside } from '$lib/server/ordering/rankedScope';
 import { orderByRank } from '$lib/server/ordering/rankedSet';
-import type { MoveDirection } from '$lib/server/ordering/rankedSet';
+import { moveDirections, type MoveDirection } from '$lib/server/ordering/rankedSet';
+import { doneTaskStatus } from '$lib/data/taskStatus';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 /**
@@ -34,10 +35,10 @@ function neighbourOf(
 ): ProjectTask | null {
 	const currentIndex = tasksInOrder.findIndex((task) => task.id === taskId);
 	if (currentIndex === -1) return null;
-	const step = direction === 'up' ? -1 : 1;
+	const step = direction === moveDirections.up ? -1 : 1;
 	for (let index = currentIndex + step; index >= 0 && index < tasksInOrder.length; index += step) {
 		const candidate = tasksInOrder[index];
-		if (shouldIncludeDone || candidate.status !== 'done') return candidate;
+		if (shouldIncludeDone || candidate.status !== doneTaskStatus) return candidate;
 	}
 	return null;
 }

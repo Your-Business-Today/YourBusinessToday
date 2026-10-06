@@ -4,6 +4,7 @@
 	import { formatBritishDate } from '$lib/data/britishDate';
 	import { inputClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import type { AuthoredNote } from '$lib/server/people/authoredNotes';
+	import { personNoteKinds } from '$lib/data/personNoteKind';
 
 	let { personId, notes }: { personId: string; notes: AuthoredNote[] } = $props();
 </script>
@@ -17,10 +18,10 @@
 			<p class="flex flex-wrap gap-x-2 text-xs text-chalk/40">
 				<span>{formatBritishDate(note.createdAt)}</span>
 				<span>{note.authorName}</span>
-				{#if note.kind === 'approach'}
+				{#if note.kind === personNoteKinds.approach}
 					<span class="text-go">Drafted approach</span>
 				{/if}
-				{#if note.kind === 'research'}
+				{#if note.kind === personNoteKinds.research}
 					<span class="text-go">Found on the web</span>
 				{/if}
 			</p>

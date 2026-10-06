@@ -5,6 +5,8 @@
 
 	type LeadKind = 'company' | 'person';
 
+	const leadKinds = { company: 'company', person: 'person' } as const;
+
 	const toggleClasses = 'rounded-full px-3 py-1 font-display text-xs transition';
 	const chosenToggleClasses = `${toggleClasses} bg-chalk/10 text-chalk`;
 	const availableToggleClasses = `${toggleClasses} text-chalk/50 hover:text-chalk`;
@@ -32,7 +34,7 @@
 			</button>
 		</div>
 	</div>
-	{#if leadKind === 'person'}
+	{#if leadKind === leadKinds.person}
 		<AddPersonForm action="/people?/addPerson" />
 	{:else}
 		<form method="POST" action="?/addLead" class="flex flex-col gap-4">

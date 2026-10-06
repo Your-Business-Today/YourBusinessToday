@@ -8,6 +8,8 @@ import { readPullRequestEvent } from '$lib/server/deploys/readPullRequestEvent';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import type { RequestHandler } from './$types';
 
+const githubEvents = { pullRequest: 'pull_request', push: 'push' } as const;
+
 /** GitHub tells a task its branch's pull request opened or merged (pull_request) and a project it deployed (push). */
 export const POST: RequestHandler = async ({ request }) => {
 	if (!env.GITHUB_WEBHOOK_SECRET) error(503, 'github_webhook_not_configured');
@@ -19,8 +21,8 @@ export const POST: RequestHandler = async ({ request }) => {
 	const event = readGithubWebhookBody(request.headers.get('content-type'), payload);
 	if (event === null) error(400, 'unreadable_payload');
 	const eventName = request.headers.get('x-github-event');
-	if (eventName === 'pull_request') return json(await changedPullRequest(event));
-	if (eventName === 'push') return json(await pushedDeploy(event, request));
+	if (eventName === githubEvents.pullRequest) return json(await changedPullRequest(event));
+	if (eventName === githubEvents.push) return json(await pushedDeploy(event, request));
 	return json({ ignored: true });
 };
 

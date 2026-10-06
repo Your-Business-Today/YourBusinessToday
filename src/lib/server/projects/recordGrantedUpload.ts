@@ -3,7 +3,7 @@ import { claimTaskUploadGrant } from './claimTaskUploadGrant';
 import { readStoredFileByteCount } from './readStoredFileByteCount';
 import { removeAttachmentFiles } from './attachmentFiles';
 import { saveAttachmentRecord } from './saveAttachmentRecord';
-import { uploadGrantStanding, type TaskUploadGrant } from './uploadGrantRecord';
+import { uploadGrantStanding, uploadGrantStandings, type TaskUploadGrant } from './uploadGrantRecord';
 
 export type GrantedUploadRecording =
 	| { status: 'recorded'; byteCount: number }
@@ -11,14 +11,21 @@ export type GrantedUploadRecording =
 	| { status: 'expired' }
 	| { status: 'used' };
 
+export const uploadRecordingStatuses = {
+	recorded: 'recorded',
+	fileMissing: 'file_missing',
+	expired: 'expired',
+	used: 'used'
+} as const;
+
 /** Turn the file sent to a grant's link into the task's attachment, once, while the link is live. */
 export async function recordGrantedUpload(
 	supabase: SupabaseClient,
 	grant: TaskUploadGrant
 ): Promise<GrantedUploadRecording> {
 	const standing = uploadGrantStanding(grant, new Date());
-	if (standing === 'used') return { status: 'used' };
-	if (standing === 'expired') return expireWithFile(supabase, grant);
+	if (standing === uploadGrantStandings.used) return { status: 'used' };
+	if (standing === uploadGrantStandings.expired) return expireWithFile(supabase, grant);
 	const byteCount = await readStoredFileByteCount(supabase, grant.storagePath);
 	if (byteCount === null) return { status: 'file_missing' };
 	const isClaimed = await claimTaskUploadGrant(supabase, grant.id);

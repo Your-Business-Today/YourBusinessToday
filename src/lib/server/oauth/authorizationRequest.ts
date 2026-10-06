@@ -9,10 +9,12 @@ export type AuthorizationRequest = {
 	state: string;
 };
 
+const authorizationCodeResponseType = 'code';
+
 export async function readAuthorizationRequest(
 	parameters: URLSearchParams
 ): Promise<AuthorizationRequest | null> {
-	if (parameters.get('response_type') !== 'code') return null;
+	if (parameters.get('response_type') !== authorizationCodeResponseType) return null;
 	if (parameters.get('code_challenge_method') !== supportedCodeChallengeMethod) return null;
 	const clientId = parameters.get('client_id') ?? '';
 	const redirectUri = parameters.get('redirect_uri') ?? '';

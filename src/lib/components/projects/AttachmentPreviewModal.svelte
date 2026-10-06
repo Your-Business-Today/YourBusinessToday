@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from '$lib/components/site/Modal.svelte';
 	import { attachmentHref } from './attachmentLinks';
-	import { previewKindFor } from '$lib/data/taskAttachmentRules';
+	import { attachmentPreviewKinds, previewKindFor } from '$lib/data/taskAttachmentRules';
 	import type { TaskAttachment } from '$lib/server/projects/attachmentRecord';
 
 	let {
@@ -18,7 +18,7 @@
 
 <Modal title={attachment.filename} maxWidthClass="max-w-4xl" bind:isOpen>
 	<div class="flex flex-col gap-4">
-		{#if previewKind === 'image'}
+		{#if previewKind === attachmentPreviewKinds.image}
 			<img src={openHref} alt={attachment.filename} class="mx-auto max-h-[70vh] rounded-xl" />
 		{:else}
 			<iframe

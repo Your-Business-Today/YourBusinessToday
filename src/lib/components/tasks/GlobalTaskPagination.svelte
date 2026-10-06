@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TaskListFilter } from '$lib/data/taskListFilter';
+	import { filterWhenTasksOpen, type TaskListFilter } from '$lib/data/taskListFilter';
 
 	let {
 		pageNumber,
@@ -13,7 +13,7 @@
 	function pageHref(targetPageNumber: number): string {
 		const parameters = new URLSearchParams();
 		if (targetPageNumber > 1) parameters.set('page', String(targetPageNumber));
-		if (filter !== 'open') parameters.set('status', filter);
+		if (filter !== filterWhenTasksOpen) parameters.set('status', filter);
 		const query = parameters.toString();
 		if (query === '') return '/tasks';
 		return `/tasks?${query}`;

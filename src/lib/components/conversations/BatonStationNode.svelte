@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { BatonStation } from './batonStations';
+	import { stationStates, type BatonStation } from './batonStations';
 
 	let { station, accent }: { station: BatonStation; accent: string } = $props();
 
@@ -10,16 +10,16 @@
 		hairline: 'border-hairline text-chalk/60'
 	};
 	const stateClasses = $derived.by(() => {
-		if (station.state === 'holding') return `${holdingClasses[accent]} animate-pulse`;
-		if (station.state === 'spoke') return 'border-chalk/50 bg-carriage text-chalk';
-		if (station.state === 'next') return 'border-dashed border-chalk/30 text-chalk/40';
+		if (station.state === stationStates.holding) return `${holdingClasses[accent]} animate-pulse`;
+		if (station.state === stationStates.spoke) return 'border-chalk/50 bg-carriage text-chalk';
+		if (station.state === stationStates.next) return 'border-dashed border-chalk/30 text-chalk/40';
 		return 'border-chalk/15 text-chalk/35';
 	});
 	const mark = $derived(station.isClaude ? '✦' : station.label.charAt(0).toUpperCase());
 	const caption = $derived.by(() => {
-		if (station.state === 'holding') return 'has it';
-		if (station.state === 'spoke') return 'spoke';
-		if (station.state === 'next') return 'next';
+		if (station.state === stationStates.holding) return 'has it';
+		if (station.state === stationStates.spoke) return 'spoke';
+		if (station.state === stationStates.next) return 'next';
 		return '';
 	});
 </script>

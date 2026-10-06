@@ -4,6 +4,7 @@ import { exchangeAuthorizationCode } from '$lib/server/oauth/exchangeAuthorizati
 import { readTokenRequest, type TokenRequest } from '$lib/server/oauth/readTokenRequest';
 import { refreshAccessToken } from '$lib/server/oauth/refreshAccessToken';
 import { supportedScope } from '$lib/server/oauth/oauthSettings';
+import { oauthErrors } from '$lib/server/oauth/oauthErrors';
 import type { IssuedTokens } from '$lib/server/oauth/oauthTokens';
 import type { RequestHandler } from './$types';
 
@@ -29,14 +30,14 @@ export const POST: RequestHandler = async ({ request }) => {
 	const tokenRequest = await readTokenRequest(request);
 	if (tokenRequest === null) return refusal('invalid_request', badRequest);
 	const client = await authenticateOauthClient(tokenRequest.clientId, tokenRequest.clientSecret);
-	if (client === 'invalid_client') return refusal('invalid_client', unauthorised);
+	if (client === oauthErrors.invalidClient) return refusal('invalid_client', unauthorised);
 	const grant = grants[tokenRequest.grantType];
 	if (grant === undefined) return refusal('unsupported_grant_type', badRequest);
 	return answer(await grant(tokenRequest));
 };
 
 function answer(outcome: IssuedTokens | 'invalid_grant'): Response {
-	if (outcome === 'invalid_grant') return refusal('invalid_grant', badRequest);
+	if (outcome === oauthErrors.invalidGrant) return refusal('invalid_grant', badRequest);
 	return json(
 		{
 			access_token: outcome.accessToken,

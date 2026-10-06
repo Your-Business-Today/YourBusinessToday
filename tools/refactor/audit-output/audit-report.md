@@ -1,34 +1,34 @@
 # Refactor audit
 
-Generated 2026-10-05 20:59 UTC.
+Generated 2026-10-06 13:11 UTC.
 
 ## Headline
 
-**Code quality score 84.1%.** **0 of 977 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
+**Code quality score 87.7%.** **0 of 946 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
 
 ## Code quality score
 
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
-| **Standard baseline checks** | | **95.4%** | **60** | |
-| Files over the line limit | 0 in 977 files | 100.0% | 10 | 50% of files |
+| **Standard baseline checks** | | **97.0%** | **60** | |
+| Files over the line limit | 0 in 946 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
-| Functions over the line limit | 6 in 1174 functions | 98.0% | 8 | 25% of functions |
-| Else blocks | 1 in 1499 branches | 99.9% | 5 | 50% of branches |
-| Duplication % | 0.42 | 97.9% | 8 | 20 |
-| Explanatory comment lines | 90 in 34.75 thousand lines | 94.8% | 4 | 50 per thousand lines |
-| Inline magic values | 36 in 34.75 thousand lines | 94.8% | 4 | 20 per thousand lines |
-| Orphan components and functions | 29 in 1406 components and functions | 79.4% | 4 | 10% of components and functions |
-| Long member chain lines | 205 in 34.75 thousand lines | 80.3% | 4 | 30 per thousand lines |
-| Deeply indented lines | 88 in 34.75 thousand lines | 91.6% | 4 | 30 per thousand lines |
-| Overlong function names | 2 in 1174 functions | 98.3% | 4 | 10% of functions |
-| **Design pattern file count** | | **91.5%** | **10** | |
-| Files the patterns predict but are missing | 2 in 47 predicted files | 91.5% | 10 | 50% of predicted files |
+| Functions over the line limit | 4 in 1122 functions | 98.6% | 8 | 25% of functions |
+| Else blocks | 0 in 1463 branches | 100.0% | 5 | 50% of branches |
+| Duplication % | 0.19 | 99.1% | 8 | 20 |
+| Explanatory comment lines | 78 in 33.42 thousand lines | 95.3% | 4 | 50 per thousand lines |
+| Inline magic values | 35 in 33.42 thousand lines | 94.8% | 4 | 20 per thousand lines |
+| Orphan components and functions | 0 in 1351 components and functions | 100.0% | 4 | 10% of components and functions |
+| Long member chain lines | 201 in 33.42 thousand lines | 80.0% | 4 | 30 per thousand lines |
+| Deeply indented lines | 89 in 33.42 thousand lines | 91.1% | 4 | 30 per thousand lines |
+| Overlong function names | 2 in 1122 functions | 98.2% | 4 | 10% of functions |
+| **Design pattern file count** | | **100.0%** | **10** | |
+| Files the patterns predict but are missing | 0 in 47 predicted files | 100.0% | 10 | 50% of predicted files |
 | Entities outside their expected file count | not measured | not measured | — | 50% of entities |
-| **Prose** | | **80.1%** | **20** | |
-| Conditions with calls tangled inside calls | 25 in 1499 branches | 93.3% | 8 | 25% of branches |
-| Conditions compared to a raw literal | 110 in 1499 branches | 70.6% | 6 | 25% of branches |
-| Accessor names that want to be a property | 33 in 1174 functions | 71.9% | 6 | 10% of functions |
+| **Prose** | | **88.7%** | **20** | |
+| Conditions with calls tangled inside calls | 25 in 1463 branches | 93.2% | 8 | 25% of branches |
+| Conditions compared to a raw literal | 0 in 1463 branches | 100.0% | 6 | 25% of branches |
+| Accessor names that want to be a property | 32 in 1122 functions | 71.5% | 6 | 10% of functions |
 | **Widget adoption** | | **not measured** | **0** | |
 | Markup written by hand where a widget should be | not measured | not measured | — | 50% of widget slots |
 | **Input validation** | | **0.0%** | **8** | |
@@ -40,59 +40,59 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| frontend | 408 | 285 | 11,213 |
-| backend | 397 | 394 | 12,069 |
-| shared | 137 | 136 | 4,667 |
-| api | 105 | 105 | 4,864 |
-| tooling | 104 | 0 | 0 |
+| frontend | 405 | 282 | 11,165 |
+| backend | 386 | 383 | 11,682 |
+| shared | 120 | 119 | 3,763 |
+| api | 105 | 105 | 4,872 |
+| tooling | 102 | 0 | 0 |
 | database | 70 | 0 | 0 |
 | tests | 57 | 57 | 1,941 |
-| docs | 51 | 0 | 0 |
+| docs | 49 | 0 | 0 |
 | infrastructure | 13 | 0 | 0 |
-| **whole repository** | **1,342** | **977** | **34,754** |
+| **whole repository** | **1,307** | **946** | **33,423** |
 
 ## Summary
 
 | Check | Key figures |
 | --- | --- |
-| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 977, totalLines: 34754, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
-| functionShape | limit: 30, functionsOverLimit: 6, totalFunctions: 1174, elseBlocks: 1, ifBlocks: 1499, measurementIsHeuristic: True |
+| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 946, totalLines: 33423, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
+| functionShape | limit: 30, functionsOverLimit: 4, totalFunctions: 1122, elseBlocks: 0, ifBlocks: 1463, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 2, maxWords: 5, maxLength: 40 |
-| accessorNames | gluedAccessorNames: 33, measurementIsHeuristic: True |
-| duplication | clones: 8, duplicatedLines: 106, totalLines: 25007, duplicatedPercentage: 0.42, carriedFromBaseline: True |
+| accessorNames | gluedAccessorNames: 32, measurementIsHeuristic: True |
+| duplication | clones: 6, duplicatedLines: 58, totalLines: 30513, duplicatedPercentage: 0.19 |
 | naming | bannedAbbreviationHits: 17, unprefixedBooleans: 2 |
-| comments | explanatoryCommentLines: 90, filesWithComments: 39, taskMarkers: 0 |
-| magicValues | inlineHexColours: 4, inlineStyleAttributes: 2, repeatedStringLiterals: 30 |
-| prose | longMemberChainLines: 205, deeplyIndentedLines: 88, overlongLines: 79, measurementIsHeuristic: True |
-| conditions | tangledConditionLines: 25, literalComparisonLines: 110, measurementIsHeuristic: True |
-| orphans | orphanFunctions: 26, functionsExamined: 1174 |
-| designPatterns | roleFamilies: 55, predictedFiles: 47, predictedFilesMissing: 2, entities: 0, entitiesOutOfRange: 0, measurementIsHeuristic: True |
-| inventory | pages: 31, components: 232, orphanComponents: 3, averagePageLines: 49 |
+| comments | explanatoryCommentLines: 78, filesWithComments: 34, taskMarkers: 0 |
+| magicValues | inlineHexColours: 4, inlineStyleAttributes: 1, repeatedStringLiterals: 30 |
+| prose | longMemberChainLines: 201, deeplyIndentedLines: 89, overlongLines: 77, measurementIsHeuristic: True |
+| conditions | tangledConditionLines: 25, literalComparisonLines: 0, measurementIsHeuristic: True |
+| orphans | orphanFunctions: 0, functionsExamined: 1122 |
+| designPatterns | roleFamilies: 53, predictedFiles: 47, predictedFilesMissing: 0, entities: 0, entitiesOutOfRange: 0, measurementIsHeuristic: True |
+| inventory | pages: 31, components: 229, orphanComponents: 0, averagePageLines: 49 |
 | siteDefinition | skipped: no siteDefinition catalogue in rules.json |
 | inputValidation | schemaTables: 84, limitedColumns: 0, writeDoors: 95, unvalidatedDoors: 95, looserLimits: 0 |
-| fileAreas | totalFiles: 1342, frontend: 408, backend: 397, shared: 137, api: 105, tooling: 104, database: 70, tests: 57, docs: 51, infrastructure: 13 |
+| fileAreas | totalFiles: 1307, frontend: 405, backend: 386, shared: 120, api: 105, tooling: 102, database: 70, tests: 57, docs: 49, infrastructure: 13 |
 
 ## Against the baseline
 
 | Ratcheted figure | Baseline | Now | Verdict |
 | --- | --- | --- | --- |
-| code quality score | not measured | 84.1% | — |
+| code quality score | not measured | 87.7% | — |
 | fileLength.filesOverLimit | 0 | 0 | held |
 | fileLength.worstFileLines | 0 | 0 | held |
-| functionShape.functionsOverLimit | 6 | 6 | held |
-| functionShape.elseBlocks | 1 | 1 | held |
-| duplication.duplicatedPercentage | 0.42 | 0.42 | held |
-| comments.explanatoryCommentLines | 90 | 90 | held |
+| functionShape.functionsOverLimit | 6 | 4 | better |
+| functionShape.elseBlocks | 1 | 0 | better |
+| duplication.duplicatedPercentage | 0.42 | 0.19 | better |
+| comments.explanatoryCommentLines | 90 | 78 | better |
 | magicValues.inlineHexColours | 4 | 4 | held |
-| inventory.orphanComponents | 3 | 3 | held |
-| orphans.orphanFunctions | None | 26 | — |
-| prose.longMemberChainLines | 208 | 205 | better |
-| prose.deeplyIndentedLines | 113 | 88 | better |
+| inventory.orphanComponents | 3 | 0 | better |
+| orphans.orphanFunctions | None | 0 | — |
+| prose.longMemberChainLines | 208 | 201 | better |
+| prose.deeplyIndentedLines | 113 | 89 | better |
 | functionNames.overlongFunctionNames | 2 | 2 | held |
-| accessorNames.gluedAccessorNames | None | 33 | — |
+| accessorNames.gluedAccessorNames | None | 32 | — |
 | conditions.tangledConditionLines | None | 25 | — |
-| conditions.literalComparisonLines | None | 110 | — |
-| designPatterns.predictedFilesMissing | None | 2 | — |
+| conditions.literalComparisonLines | None | 0 | — |
+| designPatterns.predictedFilesMissing | None | 0 | — |
 | siteDefinition.handRolledElements | None | None | — |
 | siteDefinition.boxedContentWidgets | None | None | — |
 | inputValidation.unvalidatedDoors | None | 95 | — |
