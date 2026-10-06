@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ImageThumbnail from './ImageThumbnail.svelte';
 	import { attachmentHref } from './attachmentLinks';
 	import { fileExtensionLabel, previewKindFor } from '$lib/data/taskAttachmentRules';
 	import type { TaskAttachment } from '$lib/server/projects/attachmentRecord';
@@ -13,11 +14,10 @@
 </script>
 
 {#if isImage}
-	<img
+	<ImageThumbnail
 		src={attachmentHref(projectId, taskId, attachment.id, 'open')}
 		alt=""
-		loading="lazy"
-		class="h-10 w-10 shrink-0 rounded-lg border border-hairline object-cover"
+		sizeClasses="h-10 w-10"
 	/>
 {:else}
 	<span

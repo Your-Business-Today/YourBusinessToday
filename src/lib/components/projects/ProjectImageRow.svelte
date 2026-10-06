@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import DangerConfirmModal from '$lib/components/site/DangerConfirmModal.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
+	import ImageThumbnail from './ImageThumbnail.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { describeByteCount } from '$lib/data/taskAttachmentRules';
 	import { elapsedPhrase } from '$lib/data/elapsedTime';
@@ -24,12 +25,7 @@
 
 <li class="flex flex-col gap-3 py-3 sm:flex-row sm:items-center">
 	<a href={imageHref} target="_blank" rel="noreferrer" class="shrink-0">
-		<img
-			src={imageHref}
-			alt={image.filename}
-			loading="lazy"
-			class="h-20 w-20 rounded-lg border border-hairline object-cover"
-		/>
+		<ImageThumbnail src={imageHref} alt={image.filename} sizeClasses="h-20 w-20" />
 	</a>
 	<div class="flex min-w-0 flex-1 flex-col gap-1">
 		<p class="truncate font-display text-sm text-chalk">{image.filename}</p>

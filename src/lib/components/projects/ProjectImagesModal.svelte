@@ -29,9 +29,13 @@
 		const input = event.currentTarget as HTMLInputElement;
 		const files = Array.from(input.files ?? []);
 		input.value = '';
-		errorMessage = await uploadProjectImages(files, (label) => (uploadingLabel = label));
-		uploadingLabel = null;
-		await invalidateAll();
+		errorMessage = null;
+		try {
+			errorMessage = await uploadProjectImages(files, (label) => (uploadingLabel = label));
+			await invalidateAll();
+		} finally {
+			uploadingLabel = null;
+		}
 	}
 </script>
 
