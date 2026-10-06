@@ -1,0 +1,178 @@
+{
+  "score": 87.7,
+  "steps": [
+    {
+      "pass": "Pass 4 \u2014 Design pattern identification",
+      "title": "Complete the pattern: every status has a actions",
+      "detail": "1 of 4 lack it. Predicted: src/lib/server/projects/updateTaskActions.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
+    },
+    {
+      "pass": "Pass 4 \u2014 Design pattern identification",
+      "title": "Complete the pattern: every status has a record",
+      "detail": "1 of 4 lack it. Predicted: src/lib/server/projects/updateTaskRecord.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
+    },
+    {
+      "pass": "Pass 4 \u2014 Design pattern identification",
+      "title": "Complete the pattern: every goal has a project",
+      "detail": "2 of 8 lack it. Predicted: src/lib/server/goals/updateProject.ts; src/lib/server/projects/updateTaskProject.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
+    },
+    {
+      "pass": "Pass 4 \u2014 Design pattern identification",
+      "title": "Complete the pattern: every goal has a task",
+      "detail": "2 of 8 lack it. Predicted: src/lib/server/goals/updateTask.ts; src/lib/server/projects/updateTaskTask.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
+    },
+    {
+      "pass": "Pass 5 \u2014 The sweep to zero",
+      "title": "Accessor names that want to be a property: 32 to zero",
+      "detail": "Scores 71.5% at weight 6; the offenders are in audit.json under details.accessorNames, fifty at a time."
+    },
+    {
+      "pass": "Pass 5 \u2014 The sweep to zero",
+      "title": "Long member chain lines: 201 to zero",
+      "detail": "Scores 80.0% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
+    },
+    {
+      "pass": "Pass 5 \u2014 The sweep to zero",
+      "title": "Deeply indented lines: 89 to zero",
+      "detail": "Scores 91.1% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
+    },
+    {
+      "pass": "Pass 5 \u2014 The sweep to zero",
+      "title": "Conditions with calls tangled inside calls: 25 to zero",
+      "detail": "Scores 93.2% at weight 8; the offenders are in audit.json under details.conditions, fifty at a time."
+    },
+    {
+      "pass": "Pass 5 \u2014 The sweep to zero",
+      "title": "Inline magic values: 35 to zero",
+      "detail": "Scores 94.8% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
+    },
+    {
+      "pass": "Pass 5 \u2014 The sweep to zero",
+      "title": "Explanatory comment lines: 78 to zero",
+      "detail": "Scores 95.3% at weight 4; the offenders are in audit.json under details.comments, fifty at a time."
+    },
+    {
+      "pass": "Pass 5 \u2014 The sweep to zero",
+      "title": "Overlong function names: 2 to zero",
+      "detail": "Scores 98.2% at weight 4; the offenders are in audit.json under details.functionNames, fifty at a time."
+    },
+    {
+      "pass": "Pass 5 \u2014 The sweep to zero",
+      "title": "Functions over the line limit: 4 to zero",
+      "detail": "Scores 98.6% at weight 8; the offenders are in audit.json under details.functionShape, fifty at a time."
+    },
+    {
+      "pass": "Pass 5 \u2014 The sweep to zero",
+      "title": "Duplication %: 0.19 to zero",
+      "detail": "Scores 99.1% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time."
+    }
+  ],
+  "targets": [],
+  "designPatterns": {
+    "name": "designPatterns",
+    "summary": {
+      "roleFamilies": 53,
+      "predictedFiles": 47,
+      "predictedFilesMissing": 0,
+      "entities": 0,
+      "entitiesOutOfRange": 0,
+      "measurementIsHeuristic": true
+    },
+    "offenders": {
+      "roleFamilies": {
+        "+page.server.ts": 23,
+        "+page.svelte": 31,
+        "+server.ts": 14,
+        "access": 4,
+        "actions": 63,
+        "attachment": 4,
+        "bar": 4,
+        "button": 8,
+        "card": 5,
+        "client": 8,
+        "count": 4,
+        "email": 7,
+        "event": 4,
+        "fields": 13,
+        "filter": 5,
+        "form": 34,
+        "goal": 8,
+        "grant": 4,
+        "header": 9,
+        "ids": 5,
+        "image": 4,
+        "link": 6,
+        "list": 14,
+        "message": 4,
+        "modal": 8,
+        "model": 5,
+        "name": 6,
+        "names": 4,
+        "note": 4,
+        "panel": 13,
+        "password": 5,
+        "person": 5,
+        "pill": 5,
+        "priority": 4,
+        "profile": 5,
+        "project": 9,
+        "projects": 4,
+        "record": 18,
+        "request": 6,
+        "row": 19,
+        "rules": 4,
+        "section": 25,
+        "sections": 7,
+        "status": 4,
+        "styles": 4,
+        "svelte": 7,
+        "table": 4,
+        "task": 14,
+        "tasks": 5,
+        "test": 57,
+        "text": 6,
+        "types": 10,
+        "xml": 4
+      },
+      "patterns": [
+        {
+          "pattern": "every status has a actions",
+          "predicted": 4,
+          "missing": [
+            "src/lib/server/projects/updateTaskActions.ts"
+          ]
+        },
+        {
+          "pattern": "every status has a record",
+          "predicted": 4,
+          "missing": [
+            "src/lib/server/projects/updateTaskRecord.ts"
+          ]
+        },
+        {
+          "pattern": "every goal has a project",
+          "predicted": 8,
+          "missing": [
+            "src/lib/server/goals/updateProject.ts",
+            "src/lib/server/projects/updateTaskProject.ts"
+          ]
+        },
+        {
+          "pattern": "every goal has a task",
+          "predicted": 8,
+          "missing": [
+            "src/lib/server/goals/updateTask.ts",
+            "src/lib/server/projects/updateTaskTask.ts"
+          ]
+        },
+        {
+          "pattern": "every +page.server.ts has a +page.svelte",
+          "predicted": 23,
+          "missing": []
+        }
+      ],
+      "missingPredictedFiles": [],
+      "entityFileCounts": []
+    }
+  }
+}
