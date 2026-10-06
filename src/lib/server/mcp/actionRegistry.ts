@@ -7,7 +7,7 @@ import { projectMembershipActions } from './actions/projectMembershipActions';
 import { projectPeopleActions } from './actions/projectPeopleActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
-import type { ActionArea, McpAction } from './actionTypes';
+import { actionAudiences, type ActionArea, type McpAction } from './actionTypes';
 import type { AccountStanding } from './resolveAccountStanding';
 
 const everyAction: McpAction[] = [
@@ -38,7 +38,7 @@ export function areasFor(standing: AccountStanding): ActionArea[] {
 }
 
 function isForAudience(action: McpAction, standing: AccountStanding): boolean {
-	if (action.audience === 'everyone') return true;
-	if (action.audience === 'admin') return standing.isAdmin;
+	if (action.audience === actionAudiences.everyone) return true;
+	if (action.audience === actionAudiences.admin) return standing.isAdmin;
 	return standing.isStaff;
 }

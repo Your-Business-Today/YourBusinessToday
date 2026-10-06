@@ -1,8 +1,8 @@
 import { companyDetails } from '$lib/data/companyDetails';
-import { addClientContact } from '$lib/server/clients/addClientContact';
+import { addClientContact, addContactOutcomes } from '$lib/server/clients/addClientContact';
 import { getClient } from '$lib/server/clients/getClient';
 import { getClientContact } from '$lib/server/clients/getClientContacts';
-import { inviteClientContact } from '$lib/server/clients/inviteClientContact';
+import { inviteClientContact, inviteOutcomes } from '$lib/server/clients/inviteClientContact';
 import { noSuchClient } from './describeClient';
 import { tooManyInvitesMessage } from '$lib/server/email/inviteAllowance';
 import { undeliveredInviteNotice } from '$lib/data/emailDelivery';
@@ -69,7 +69,7 @@ async function listContact(caller: McpCaller, input: Record<string, unknown>): P
 		isPrimary: input.isPrimary === true
 	};
 	const outcome = await addClientContact(caller.supabase, client.id, seed, caller.accountId);
-	if (outcome === 'already_known') return `${email} is already listed at ${client.name}.`;
+	if (outcome === addContactOutcomes.alreadyKnown) return `${email} is already listed at ${client.name}.`;
 	return `${name} is now listed at ${client.name}. Invite them when you want them signed in.`;
 }
 
@@ -78,9 +78,9 @@ async function inviteContact(caller: McpCaller, input: Record<string, unknown>):
 	if (contact === null) return noSuchContact;
 	const origin = readOptionalText(input, 'origin') ?? companyDetails.websiteUrl;
 	const outcome = await inviteClientContact(caller.supabase, contact, origin, caller.accountId);
-	if (outcome === 'already_invited')
+	if (outcome === inviteOutcomes.alreadyInvited)
 		return `${contact.name} already has a sign-in, so nothing was sent.`;
-	if (outcome === 'too_many_invites') return tooManyInvitesMessage;
+	if (outcome === inviteOutcomes.tooManyInvites) return tooManyInvitesMessage;
 	const undelivered = undeliveredInviteNotice(outcome);
 	if (undelivered !== null)
 		return `${undelivered} ${contact.name} now has a sign-in but no link to it.`;

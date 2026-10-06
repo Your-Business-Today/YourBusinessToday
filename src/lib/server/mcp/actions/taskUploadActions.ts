@@ -6,7 +6,7 @@ import { noSuchTask } from './describeTask';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { openTaskUploadGrant } from '$lib/server/projects/openTaskUploadGrant';
 import { readUploadDescription } from './readUploadDescription';
-import { recordGrantedUpload } from '$lib/server/projects/recordGrantedUpload';
+import { recordGrantedUpload, uploadRecordingStatuses } from '$lib/server/projects/recordGrantedUpload';
 import { uploadLinkLifetimeMinutes } from '$lib/server/projects/uploadGrantRecord';
 import type { McpAction } from '../actionTypes';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -76,14 +76,14 @@ function recordingSentence(
 	grant: TaskUploadGrant,
 	recording: Awaited<ReturnType<typeof recordGrantedUpload>>
 ): string {
-	if (recording.status === 'recorded') {
+	if (recording.status === uploadRecordingStatuses.recorded) {
 		const attached = `"${grant.filename}" (${describeByteCount(recording.byteCount)})`;
 		return `${attached} attached to "${task.title}" (attachment id: ${grant.id}).`;
 	}
-	if (recording.status === 'file_missing') {
+	if (recording.status === uploadRecordingStatuses.fileMissing) {
 		return 'Nothing has arrived at that link yet. Send the file with the PUT first, then call again.';
 	}
-	if (recording.status === 'expired') {
+	if (recording.status === uploadRecordingStatuses.expired) {
 		return `That link expired ${uploadLinkLifetimeMinutes} minutes after it was granted, and anything sent to it since was discarded. Call grant_task_upload for a fresh one.`;
 	}
 	return 'That link has already been used, so the file is on the task. Call read_task to see it.';

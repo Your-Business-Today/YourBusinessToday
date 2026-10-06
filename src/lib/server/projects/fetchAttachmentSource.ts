@@ -8,6 +8,13 @@ export type SourceFetch =
 	| { status: 'unreachable'; reason: string }
 	| { status: 'too_large' };
 
+export const sourceFetchStatuses = {
+	fetched: 'fetched',
+	notAWebAddress: 'not_a_web_address',
+	unreachable: 'unreachable',
+	tooLarge: 'too_large'
+} as const;
+
 const webProtocols = ['http:', 'https:'];
 const unknownMimeType = 'application/octet-stream';
 const fallbackFilename = 'attachment';

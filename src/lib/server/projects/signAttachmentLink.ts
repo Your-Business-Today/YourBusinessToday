@@ -4,6 +4,8 @@ import type { StoredFile } from './attachmentRecord';
 
 export type AttachmentLinkKind = 'open' | 'download';
 
+export const attachmentLinkKinds = { open: 'open', download: 'download' } as const;
+
 export const clickThroughLifetimeSeconds = 60;
 export const agentFetchLifetimeSeconds = 10 * 60;
 

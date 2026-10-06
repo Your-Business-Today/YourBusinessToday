@@ -1,5 +1,6 @@
 import type { Token, Tokens } from 'marked';
 import { inlineRunsXml } from './wordInlineRuns';
+import { markdownTokenTypes } from './markdownTokenTypes';
 import { tableXml } from './wordTableXml';
 
 const bulletPrefix = '• ';
@@ -9,13 +10,13 @@ export function blocksXml(tokens: Token[]): string {
 }
 
 function blockXml(token: Token): string {
-	if (token.type === 'heading')
+	if (token.type === markdownTokenTypes.heading)
 		return paragraphXml(inlineRunsXml(token.tokens), `Heading${token.depth}`);
-	if (token.type === 'paragraph') return paragraphXml(inlineRunsXml(token.tokens));
-	if (token.type === 'list') return listXml(token as Tokens.List);
-	if (token.type === 'table') return tableXml(token as Tokens.Table);
-	if (token.type === 'blockquote') return quoteXml(token as Tokens.Blockquote);
-	if (token.type === 'hr') return paragraphXml('', 'Rule');
+	if (token.type === markdownTokenTypes.paragraph) return paragraphXml(inlineRunsXml(token.tokens));
+	if (token.type === markdownTokenTypes.list) return listXml(token as Tokens.List);
+	if (token.type === markdownTokenTypes.table) return tableXml(token as Tokens.Table);
+	if (token.type === markdownTokenTypes.blockquote) return quoteXml(token as Tokens.Blockquote);
+	if (token.type === markdownTokenTypes.rule) return paragraphXml('', 'Rule');
 	return '';
 }
 

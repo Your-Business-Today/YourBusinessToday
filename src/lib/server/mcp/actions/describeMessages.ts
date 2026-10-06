@@ -5,6 +5,7 @@ import { latestTurn, postedViaChannels } from '$lib/data/conversationTurn';
 import { withAuthorNames, type NamedMessage } from '$lib/server/conversations/withAuthorNames';
 import type { Account } from '$lib/server/accounts/accountRecord';
 import type { ConversationMessage } from '$lib/server/conversations/messageRecord';
+import { awaitingKinds } from '$lib/data/conversationTurn';
 
 const nobodyViewing = '';
 
@@ -24,7 +25,7 @@ export function messageLine(message: NamedMessage, viewerId: string): string {
 function batonNote(message: NamedMessage, viewerId: string): string {
 	const awaiting = message.awaiting;
 	if (awaiting === null || awaiting.accountId !== viewerId) return '';
-	if (awaiting.kind === 'claude') return ' [waiting on you, the Claude, to answer]';
+	if (awaiting.kind === awaitingKinds.claude) return ' [waiting on you, the Claude, to answer]';
 	return ' [waiting on the person you are with]';
 }
 

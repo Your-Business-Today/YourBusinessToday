@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { addPerson } from '$lib/server/people/addPerson';
-import { affiliatePersonWithClient } from './affiliatePersonWithClient';
+import { affiliatePersonWithClient, affiliationOutcomes } from './affiliatePersonWithClient';
 import { recordClientEvent } from './recordClientEvent';
 
 export type NewContactSeed = {
@@ -13,6 +13,8 @@ export type NewContactSeed = {
 };
 
 export type AddContactOutcome = 'added' | 'already_known';
+
+export const addContactOutcomes = { added: 'added', alreadyKnown: 'already_known' } as const;
 
 export function readNewContactSeed(formData: FormData): NewContactSeed | null {
 	const name = String(formData.get('name') ?? '').trim();
@@ -45,7 +47,7 @@ export async function addClientContact(
 		role: seed.role,
 		isPrimary: seed.isPrimary
 	});
-	if (outcome === 'already_affiliated') return 'already_known';
+	if (outcome === affiliationOutcomes.alreadyAffiliated) return addContactOutcomes.alreadyKnown;
 	await recordClientEvent(supabase, clientId, 'contact_added', { name: seed.name, email: seed.email }, actorAccountId);
 	return 'added';
 }

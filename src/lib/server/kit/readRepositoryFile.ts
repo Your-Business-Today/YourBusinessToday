@@ -6,6 +6,8 @@ export type RepositoryFile =
 	| { kind: 'missing' }
 	| { kind: 'unreadable' };
 
+export const repositoryFileKinds = { found: 'found', missing: 'missing', unreadable: 'unreadable' } as const;
+
 const githubHostPrefix = 'github.com/';
 const githubRepositoriesApi = 'https://api.github.com/repos';
 const notFoundStatus = 404;

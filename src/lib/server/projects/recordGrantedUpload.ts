@@ -11,6 +11,13 @@ export type GrantedUploadRecording =
 	| { status: 'expired' }
 	| { status: 'used' };
 
+export const uploadRecordingStatuses = {
+	recorded: 'recorded',
+	fileMissing: 'file_missing',
+	expired: 'expired',
+	used: 'used'
+} as const;
+
 /** Turn the file sent to a grant's link into the task's attachment, once, while the link is live. */
 export async function recordGrantedUpload(
 	supabase: SupabaseClient,

@@ -1,4 +1,4 @@
-import type { TaskKind } from './taskKind';
+import { supportTaskKind, type TaskKind } from './taskKind';
 
 export type UserStory = {
 	role: string;
@@ -21,7 +21,7 @@ export const storyRequiredRefusal =
  * task (somebody waiting on an answer) and a subtask (a step of a story) are not.
  */
 export function needsUserStory(task: StoryCandidate): boolean {
-	if (task.kind === 'support') return false;
+	if (task.kind === supportTaskKind) return false;
 	if (task.parentTaskId !== null) return false;
 	return !hasStoryExemptTitle(task.title);
 }

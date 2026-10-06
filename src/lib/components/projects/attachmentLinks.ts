@@ -1,4 +1,4 @@
-import type { AttachmentLinkKind } from '$lib/server/projects/signAttachmentLink';
+import { attachmentLinkKinds, type AttachmentLinkKind } from '$lib/server/projects/signAttachmentLink';
 
 export function attachmentHref(
 	projectId: string,
@@ -7,7 +7,7 @@ export function attachmentHref(
 	kind: AttachmentLinkKind
 ): string {
 	const attachmentPath = `/projects/${projectId}/tasks/${taskId}/attachments/${attachmentId}`;
-	if (kind === 'open') return attachmentPath;
+	if (kind === attachmentLinkKinds.open) return attachmentPath;
 	return `${attachmentPath}?download`;
 }
 

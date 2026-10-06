@@ -1,10 +1,13 @@
 import { deserialize } from '$app/forms';
 import type { ActionResult } from '@sveltejs/kit';
+import { actionResultTypes } from '$lib/client/actionResultTypes';
 import type { AttachmentUpload } from '$lib/server/projects/attachmentRecord';
 
 export type AttachmentUploadOutcome =
 	| { status: 'uploaded' }
 	| { status: 'failed'; message: string };
+
+export const uploadOutcomeStatuses = { uploaded: 'uploaded', failed: 'failed' } as const;
 
 /** The form actions that sign an upload link, and record what was sent to it under the id they gave. */
 export type SignedUploadActions = { grant: string; record: string; idField: string };
@@ -29,7 +32,7 @@ export async function uploadThroughSignedLink(
 ): Promise<AttachmentUploadOutcome> {
 	const upload = describeUpload(file);
 	const grant = await postAction(actions.grant, upload);
-	if (grant.type !== 'success') return failureFrom(grant, 'The upload could not be started.');
+	if (grant.type !== actionResultTypes.success) return failureFrom(grant, 'The upload could not be started.');
 	const grantData = grant.data ?? {};
 	const storageResponse = await fetch(String(grantData.uploadUrl), {
 		method: 'PUT',
@@ -39,7 +42,7 @@ export async function uploadThroughSignedLink(
 	if (!storageResponse.ok) return { status: 'failed', message: 'The file could not be uploaded.' };
 	const uploadedId = String(grantData[actions.idField]);
 	const recording = await postAction(actions.record, { ...upload, [actions.idField]: uploadedId });
-	if (recording.type !== 'success') return failureFrom(recording, 'The upload could not be saved.');
+	if (recording.type !== actionResultTypes.success) return failureFrom(recording, 'The upload could not be saved.');
 	return { status: 'uploaded' };
 }
 
@@ -74,7 +77,7 @@ async function postAction(
 }
 
 function failureFrom(result: ActionResult, fallbackMessage: string): AttachmentUploadOutcome {
-	if (result.type !== 'failure') return { status: 'failed', message: fallbackMessage };
+	if (result.type !== actionResultTypes.failure) return { status: 'failed', message: fallbackMessage };
 	const failureData = result.data ?? {};
 	const message = failureData.message;
 	return { status: 'failed', message: typeof message === 'string' ? message : fallbackMessage };

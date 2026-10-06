@@ -10,6 +10,8 @@ import { topRank } from '$lib/data/topRank';
 export { topRank };
 
 export type DropPlacement = 'before' | 'after' | 'inside';
+
+export const dropPlacements = { before: 'before', after: 'after', inside: 'inside' } as const;
 export type BesidePlacement = Exclude<DropPlacement, 'inside'>;
 export type MoveDirection = 'up' | 'down';
 

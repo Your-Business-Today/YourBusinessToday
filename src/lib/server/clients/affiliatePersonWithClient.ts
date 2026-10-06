@@ -13,6 +13,11 @@ export type Affiliation = {
 
 export type AffiliationOutcome = 'affiliated' | 'already_affiliated';
 
+export const affiliationOutcomes = {
+	affiliated: 'affiliated',
+	alreadyAffiliated: 'already_affiliated'
+} as const;
+
 const duplicateRowCode = '23505';
 
 // A company keeps exactly one primary contact, so the standing primary only

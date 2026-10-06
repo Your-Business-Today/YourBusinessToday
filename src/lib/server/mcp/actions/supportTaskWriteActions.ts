@@ -1,4 +1,5 @@
 import { getProject } from '$lib/server/projects/getProject';
+import { supportTaskKind } from '$lib/data/taskKind';
 import { longestMessageBody } from '$lib/server/conversations/postMessage';
 import { noReachableProject, reachableTask } from '../projectAccess';
 import { noReachableTask } from './describeSupportTask';
@@ -48,7 +49,7 @@ export const supportTaskWriteActions: McpAction[] = [
 		),
 		run: async (caller, input) => {
 			const task = await reachableTask(caller, readText(input, 'taskId'));
-			if (task === null || task.kind !== 'support') return noReachableTask;
+			if (task === null || task.kind !== supportTaskKind) return noReachableTask;
 			const resolution = readOptionalText(input, 'resolution');
 			if (resolution === null) return 'Give the resolution as well; it is what they read.';
 			if (resolution.length > longestMessageBody)

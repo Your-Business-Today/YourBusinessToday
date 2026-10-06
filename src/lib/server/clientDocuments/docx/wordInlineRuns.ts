@@ -1,5 +1,6 @@
 import type { Token } from 'marked';
 import { escapeXml } from './escapeXml';
+import { markdownTokenTypes } from './markdownTokenTypes';
 
 export type RunStyle = { isBold: boolean; isItalic: boolean };
 
@@ -12,11 +13,11 @@ export function inlineRunsXml(tokens: Token[] | undefined, style: RunStyle = pla
 }
 
 function inlineTokenXml(token: Token, style: RunStyle): string {
-	if (token.type === 'strong') return inlineRunsXml(token.tokens, { ...style, isBold: true });
-	if (token.type === 'em') return inlineRunsXml(token.tokens, { ...style, isItalic: true });
-	if (token.type === 'checkbox')
+	if (token.type === markdownTokenTypes.strong) return inlineRunsXml(token.tokens, { ...style, isBold: true });
+	if (token.type === markdownTokenTypes.emphasis) return inlineRunsXml(token.tokens, { ...style, isItalic: true });
+	if (token.type === markdownTokenTypes.checkbox)
 		return textRunXml(token.checked ? checkedBox : uncheckedBox, style);
-	if (token.type === 'br') return '<w:r><w:br/></w:r>';
+	if (token.type === markdownTokenTypes.lineBreak) return '<w:r><w:br/></w:r>';
 	if ('tokens' in token && token.tokens) return inlineRunsXml(token.tokens, style);
 	return textRunXml('text' in token ? String(token.text) : '', style);
 }

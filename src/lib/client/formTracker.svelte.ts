@@ -1,4 +1,5 @@
 import type { SubmitFunction } from '@sveltejs/kit';
+import { actionResultTypes } from './actionResultTypes';
 
 const fallbackErrorMessage = 'Something went wrong — please try again.';
 
@@ -31,20 +32,21 @@ export class FormTracker {
 			this.errorMessage = null;
 			return async ({ update, result }) => {
 				try {
-					const succeeded = result.type !== 'failure' && result.type !== 'error';
+					const succeeded =
+						result.type !== actionResultTypes.failure && result.type !== actionResultTypes.error;
 					// On success run onSuccess (usually "close the modal") BEFORE update():
 					// update() resets the form fields and then awaits a data refetch, so
 					// running it first flashed a blanked-out form inside the still-open
 					// modal before the modal finally closed.
 					if (succeeded) onSuccess?.();
 					await update({ reset: options.shouldKeepFields !== true });
-					if (result.type === 'failure') {
+					if (result.type === actionResultTypes.failure) {
 						const failureData = result.data as { message?: unknown } | undefined;
 						this.errorMessage =
 							typeof failureData?.message === 'string' ? failureData.message : fallbackErrorMessage;
-					} else if (result.type === 'error') {
-						this.errorMessage = fallbackErrorMessage;
+						return;
 					}
+					if (result.type === actionResultTypes.error) this.errorMessage = fallbackErrorMessage;
 				} finally {
 					this.isSaving = false;
 				}

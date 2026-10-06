@@ -1,5 +1,6 @@
 import { deserialize } from '$app/forms';
 import { invalidateAll } from '$app/navigation';
+import { actionResultTypes } from './actionResultTypes';
 
 /**
  * Submit a drop-reorder to a page action outside any <form>, then refetch
@@ -15,7 +16,7 @@ export async function postListReorder(
 		headers: { 'x-sveltekit-action': 'true' }
 	});
 	const result = deserialize(await response.text());
-	if (result.type === 'success') await invalidateAll();
+	if (result.type === actionResultTypes.success) await invalidateAll();
 }
 
 function toFormData(fields: Record<string, string>): FormData {
