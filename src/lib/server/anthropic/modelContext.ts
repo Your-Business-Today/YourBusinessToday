@@ -22,7 +22,3 @@ export async function requestModelOverride(): Promise<string | null> {
 export function recordMeteredCall(call: MeteredCall): void {
 	modelContextStorage.getStore()?.meteredCalls.push(call);
 }
-
-export function meteredCallsSoFar(): MeteredCall[] {
-	return [...(modelContextStorage.getStore()?.meteredCalls ?? [])];
-}

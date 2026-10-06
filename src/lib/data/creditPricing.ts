@@ -15,9 +15,6 @@ export const hiveMindEarningsPool = 12;
 const ingestBaseCredits = 50;
 const ingestBaseBytes = 25_000;
 const ingestCreditsPerExtraBlock = 10;
-const tradeTalkIncludedPages = 5;
-const tradeTalkCreditsPerExtraPage = 2;
-const harvestCreditsPerItem = 2;
 
 /**
  * Model-priced work. A credit is valued at the cheapest pack rate
@@ -42,19 +39,6 @@ const tokensPerMillion = 1_000_000;
 export function ingestCreditsFor(byteCount: number): number {
 	const extraBytes = Math.max(0, byteCount - ingestBaseBytes);
 	return ingestBaseCredits + ingestCreditsPerExtraBlock * Math.ceil(extraBytes / ingestBaseBytes);
-}
-
-export function harvestCreditsFor(itemCount: number): number {
-	return harvestCreditsPerItem * itemCount;
-}
-
-export function tradeTalkDepthCreditsFor(pagesRead: number): number {
-	const extraPages = Math.max(0, pagesRead - tradeTalkIncludedPages);
-	return tradeTalkCreditsPerExtraPage * extraPages;
-}
-
-export function formatPenceAsPounds(pence: number): string {
-	return `£${(pence / 100).toFixed(2)}`;
 }
 
 export function questionFloorCreditsFor(modelId: string): number {

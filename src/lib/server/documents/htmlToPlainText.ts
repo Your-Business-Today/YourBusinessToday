@@ -31,12 +31,6 @@ export function htmlToPlainText(html: string): string {
 		.trim();
 }
 
-export function htmlTitle(html: string): string {
-	const match = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
-	if (match === null) return '';
-	return decodeEntities(match[1]).replace(/\s+/g, ' ').trim();
-}
-
 function decodeEntities(text: string): string {
 	return text
 		.replace(/&#(\d+);/g, (whole, code) => String.fromCodePoint(Number(code)))

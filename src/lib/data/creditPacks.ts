@@ -29,11 +29,3 @@ export const cheapestCreditPack = creditPacks.reduce((cheapest, pack) =>
  * price that clears cost at this value clears it whichever pack was bought.
  */
 export const creditValuePence = pencePerCredit(cheapestCreditPack);
-
-export function isSamePack(candidate: CreditPackDefinition, pack: CreditPackDefinition): boolean {
-	return (
-		candidate.id === pack.id &&
-		candidate.credits === pack.credits &&
-		candidate.pricePence === pack.pricePence
-	);
-}
