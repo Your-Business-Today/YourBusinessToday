@@ -1,4 +1,4 @@
-import { attachmentLinkKinds, type AttachmentLinkKind } from '$lib/server/projects/signAttachmentLink';
+import { attachmentLinkKinds, type AttachmentLinkKind } from '$lib/data/attachmentLinkKind';
 
 export function attachmentHref(
 	projectId: string,

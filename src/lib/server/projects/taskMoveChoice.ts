@@ -7,9 +7,18 @@ export type TaskMoveChoice =
 	| { kind: 'upOneLevel' }
 	| { kind: 'underSibling'; newParentTaskId: string };
 
+export const taskMoveChoiceKinds = {
+	keep: 'keep',
+	upOneLevel: 'upOneLevel',
+	underSibling: 'underSibling'
+} as const;
+
+const keepChoiceValue = 'keep';
+const upOneLevelChoiceValue = 'up';
+
 export function parseTaskMoveChoice(value: unknown): TaskMoveChoice {
-	if (typeof value !== 'string' || value === '' || value === 'keep') return { kind: 'keep' };
-	if (value === 'up') return { kind: 'upOneLevel' };
+	if (typeof value !== 'string' || value === '' || value === keepChoiceValue) return { kind: 'keep' };
+	if (value === upOneLevelChoiceValue) return { kind: 'upOneLevel' };
 	return { kind: 'underSibling', newParentTaskId: value };
 }
 
@@ -18,8 +27,8 @@ export async function applyTaskMoveChoice(
 	taskId: string,
 	choice: TaskMoveChoice
 ): Promise<void> {
-	if (choice.kind === 'keep') return;
-	if (choice.kind === 'underSibling') return reparentTask(supabase, taskId, choice.newParentTaskId);
+	if (choice.kind === taskMoveChoiceKinds.keep) return;
+	if (choice.kind === taskMoveChoiceKinds.underSibling) return reparentTask(supabase, taskId, choice.newParentTaskId);
 	await moveUpOneLevel(supabase, taskId);
 }
 

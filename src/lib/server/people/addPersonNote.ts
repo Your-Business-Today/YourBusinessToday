@@ -1,6 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-export type PersonNoteKind = 'note' | 'approach' | 'research';
+import type { PersonNoteKind } from '$lib/data/personNoteKind';
+
+export type { PersonNoteKind };
 
 export async function addPersonNote(
 	supabase: SupabaseClient,

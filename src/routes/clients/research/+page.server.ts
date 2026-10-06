@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { getClient } from '$lib/server/clients/getClient';
 import { isAnthropicConfigured } from '$lib/server/anthropic/isAnthropicConfigured';
 import { readResearchedLeadForm } from '$lib/server/clients/readResearchedLeadForm';
-import { researchCompany } from '$lib/server/clients/researchCompany';
+import { researchCompany, researchOutcomeKinds } from '$lib/server/clients/researchCompany';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { saveResearchedLead } from '$lib/server/clients/saveResearchedLead';
 import type { Actions, PageServerLoad } from './$types';
@@ -30,7 +30,7 @@ export const actions: Actions = {
 		if (query === '') return fail(400, { message: 'A company name or website is required.' });
 		try {
 			const outcome = await researchCompany(query);
-			if (outcome.kind === 'no_website') return fail(404, { message: outcome.message });
+			if (outcome.kind === researchOutcomeKinds.noWebsite) return fail(404, { message: outcome.message });
 			return { researched: outcome.profile, clientId };
 		} catch (failure) {
 			console.error('Company research failed', failure);

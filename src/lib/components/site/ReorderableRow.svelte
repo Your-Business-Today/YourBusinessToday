@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ListReorder } from '$lib/client/listReorder.svelte';
+	import { dropPlacements, type ListReorder } from '$lib/client/listReorder.svelte';
 	import type { Snippet } from 'svelte';
 
 	let {
@@ -22,8 +22,8 @@
 	const isDropTarget = $derived(listReorder.dropTargetId === rowId);
 	const dropIndicatorClass = $derived.by(() => {
 		if (!isDropTarget) return '';
-		if (listReorder.dropPlacement === 'before') return 'shadow-[inset_0_2px_0_0_var(--color-go)]';
-		if (listReorder.dropPlacement === 'after') return 'shadow-[inset_0_-2px_0_0_var(--color-go)]';
+		if (listReorder.dropPlacement === dropPlacements.before) return 'shadow-[inset_0_2px_0_0_var(--color-go)]';
+		if (listReorder.dropPlacement === dropPlacements.after) return 'shadow-[inset_0_-2px_0_0_var(--color-go)]';
 		return 'shadow-[inset_0_0_0_2px_var(--color-go)]';
 	});
 

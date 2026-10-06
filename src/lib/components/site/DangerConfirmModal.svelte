@@ -3,6 +3,7 @@
 	import FormErrorNote from './FormErrorNote.svelte';
 	import SubmitButton from './SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import { keyboardKeys } from '$lib/client/keyboardKeys';
 
 	let {
 		title,
@@ -33,7 +34,7 @@
 	}
 
 	function closeOnEscape(event: KeyboardEvent) {
-		if (!isOpen || event.key !== 'Escape') return;
+		if (!isOpen || event.key !== keyboardKeys.escape) return;
 		event.preventDefault();
 		close();
 	}

@@ -53,11 +53,14 @@ function readRedirectUris(value: unknown): string[] | null {
 	return uris;
 }
 
+const secureProtocol = 'https:';
+const loopbackProtocol = 'http:';
+
 function isAcceptableRedirectUri(uri: string): boolean {
 	const parsed = parseUrl(uri);
 	if (parsed === null) return false;
-	if (parsed.protocol === 'https:') return true;
-	return parsed.protocol === 'http:' && loopbackHosts.includes(parsed.hostname);
+	if (parsed.protocol === secureProtocol) return true;
+	return parsed.protocol === loopbackProtocol && loopbackHosts.includes(parsed.hostname);
 }
 
 function parseUrl(uri: string): URL | null {

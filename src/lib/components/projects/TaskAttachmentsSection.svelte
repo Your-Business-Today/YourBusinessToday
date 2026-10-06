@@ -8,6 +8,7 @@
 	import {
 		taskAttachmentUploadActions,
 		uploadProgressLabel,
+		uploadOutcomeStatuses,
 		uploadThroughSignedLink
 	} from './uploadThroughSignedLink';
 	import type { AttachmentUploadOutcome } from './uploadThroughSignedLink';
@@ -44,7 +45,7 @@
 		for (const [index, file] of files.entries()) {
 			uploadingLabel = uploadProgressLabel(index, files.length, file.name);
 			const outcome = await uploadTaskAttachment(file);
-			if (outcome.status === 'failed') return `${file.name}: ${outcome.message}`;
+			if (outcome.status === uploadOutcomeStatuses.failed) return `${file.name}: ${outcome.message}`;
 		}
 		return null;
 	}

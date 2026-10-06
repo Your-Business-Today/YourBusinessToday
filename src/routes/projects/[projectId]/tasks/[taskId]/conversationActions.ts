@@ -10,6 +10,7 @@ import {
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { resolveSupportTask } from '$lib/server/support/resolveSupportTask';
 import type { Actions } from './$types';
+import { supportTaskKind } from '$lib/data/taskKind';
 
 export const conversationActions = {
 	postMessage: async ({ locals, params, request }) => {
@@ -45,7 +46,7 @@ export const conversationActions = {
 			getTask(locals.supabase, params.taskId),
 			getProject(locals.supabase, params.projectId)
 		]);
-		if (task === null || project === null || task.kind !== 'support') {
+		if (task === null || project === null || task.kind !== supportTaskKind) {
 			return fail(400, {
 				message: 'Only a support task is resolved this way.'
 			});

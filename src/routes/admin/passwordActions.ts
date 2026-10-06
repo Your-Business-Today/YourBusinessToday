@@ -7,6 +7,7 @@ import {
 } from '$lib/server/admin/sendUserPasswordReset';
 import { setUserPassword } from '$lib/server/admin/setUserPassword';
 import type { Actions } from './$types';
+import { emailDeliveries } from '$lib/data/emailDelivery';
 
 const badRequestStatus = 400;
 const userRequired = 'A user is required.';
@@ -26,7 +27,7 @@ export const passwordActions: Actions = {
 		if (targetEmail === '') return fail(badRequestStatus, { message: userRequired });
 		const outcome = await sendUserPasswordReset(targetEmail, url.origin);
 		const message = `${targetEmail} ${resetOutcomeMessages[outcome]}`;
-		if (outcome === 'sent') return { message };
+		if (outcome === emailDeliveries.sent) return { message };
 		return fail(badRequestStatus, { message });
 	},
 	setPassword: async ({ locals, request }) => {

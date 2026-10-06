@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { keyboardKeys } from '$lib/client/keyboardKeys';
 
 	let {
 		title,
@@ -13,7 +14,7 @@
 	}
 
 	function closeOnEscape(event: KeyboardEvent) {
-		if (event.key === 'Escape') close();
+		if (event.key === keyboardKeys.escape) close();
 	}
 </script>
 

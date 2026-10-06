@@ -3,6 +3,7 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import { displayNameMaxLength } from '$lib/data/displayNameRules';
 
 	let { displayName, onSaved }: { displayName: string; onSaved: () => void } = $props();
 
@@ -20,7 +21,7 @@
 		<input
 			name="displayName"
 			value={displayName}
-			maxlength="60"
+			maxlength={displayNameMaxLength}
 			placeholder="How your name appears on tasks and comments"
 			class="rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none
 				focus:border-go"

@@ -15,6 +15,8 @@ export const dropPlacements = { before: 'before', after: 'after', inside: 'insid
 export type BesidePlacement = Exclude<DropPlacement, 'inside'>;
 export type MoveDirection = 'up' | 'down';
 
+export const moveDirections = { up: 'up', down: 'down' } as const;
+
 /** Ranks outside the set are pulled to its ends, so "priority 99" means last. */
 export function clampRank(rank: number, count: number): number {
 	if (count <= 0) return topRank;

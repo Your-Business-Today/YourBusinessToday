@@ -1,5 +1,13 @@
 export type KitStanding = 'no_repository' | 'no_kit' | 'unknown_latest' | 'current' | 'behind';
 
+export const kitStandings = {
+	noRepository: 'no_repository',
+	noKit: 'no_kit',
+	unknownLatest: 'unknown_latest',
+	current: 'current',
+	behind: 'behind'
+} as const;
+
 export type KitReading = { hasRepository: boolean; kitVersion: string; latestKitVersion: string };
 
 const versionSeparator = '.';

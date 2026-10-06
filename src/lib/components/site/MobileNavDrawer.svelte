@@ -2,6 +2,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import MobileNavGroup from './MobileNavGroup.svelte';
 	import type { NavigationGroup } from './siteNavigation';
+	import { keyboardKeys } from '$lib/client/keyboardKeys';
 
 	let {
 		menuGroups,
@@ -16,7 +17,7 @@
 	const drawerWidth = 256;
 
 	function closeOnEscape(event: KeyboardEvent): void {
-		if (event.key !== 'Escape') return;
+		if (event.key !== keyboardKeys.escape) return;
 		event.preventDefault();
 		onClose();
 	}

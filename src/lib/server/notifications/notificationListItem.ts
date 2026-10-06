@@ -1,5 +1,7 @@
 export type NotificationSubjectKind = 'task' | 'goal';
 
+export const notificationSubjectKinds = { task: 'task', goal: 'goal' } as const;
+
 export type NotificationListItem = {
 	id: string;
 	subjectKind: NotificationSubjectKind;

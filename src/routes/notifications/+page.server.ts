@@ -9,6 +9,7 @@ import {
 } from '$lib/server/notifications/notificationListItem';
 import { requireUser } from '$lib/server/auth/requireUser';
 import type { Actions, PageServerLoad } from './$types';
+import { notificationSubjectKinds } from '$lib/server/notifications/notificationListItem';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = await requireUser(locals);
@@ -42,6 +43,6 @@ export const actions: Actions = {
 };
 
 function readSubjectKind(value: FormDataEntryValue | null): NotificationSubjectKind | null {
-	if (value === 'task' || value === 'goal') return value;
+	if (value === notificationSubjectKinds.task || value === notificationSubjectKinds.goal) return value;
 	return null;
 }

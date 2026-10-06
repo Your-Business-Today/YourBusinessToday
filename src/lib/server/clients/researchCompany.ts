@@ -11,6 +11,8 @@ export type ResearchOutcome =
 	| { kind: 'researched'; profile: ResearchedProfile }
 	| { kind: 'no_website'; message: string };
 
+export const researchOutcomeKinds = { researched: 'researched', noWebsite: 'no_website' } as const;
+
 export async function researchCompany(query: string): Promise<ResearchOutcome> {
 	const website = await resolveCompanyWebsite(query);
 	if (website === null) {

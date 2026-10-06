@@ -6,6 +6,8 @@ import type { AttachmentUpload } from './attachmentRecord';
 
 export type AttachmentRecording = 'recorded' | 'file_missing';
 
+export const attachmentRecordings = { recorded: 'recorded', fileMissing: 'file_missing' } as const;
+
 export async function recordTaskAttachment(
 	supabase: SupabaseClient,
 	taskId: string,
