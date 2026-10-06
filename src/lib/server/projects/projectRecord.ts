@@ -17,6 +17,7 @@ export type Project = {
 	refactorEveryDeploys: number;
 	lastRefactorRaisedAt: string | null;
 	kitVersion: string;
+	kitVersionReadAt: string | null;
 	createdAt: string;
 };
 
@@ -35,6 +36,7 @@ export function parseProjectRecord(row: Record<string, unknown>): Project {
 		refactorEveryDeploys: parseRefactorEveryDeploys(row.refactor_every_deploys),
 		lastRefactorRaisedAt: (row.last_refactor_raised_at as string) ?? null,
 		kitVersion: (row.kit_version as string) ?? '',
+		kitVersionReadAt: (row.kit_version_read_at as string) ?? null,
 		createdAt: row.created_at as string
 	};
 }

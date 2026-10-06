@@ -2,6 +2,7 @@ import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
 import { describeProject, describeProjectLine, noSuchProject, openWorkPhrase } from './describeProject';
 import { describeKitStanding, kitStanding } from '$lib/data/kitVersion';
+import { kitReadingOf } from '$lib/server/kit/kitReadingOf';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
 import { getProjectGoals } from '$lib/server/goals/getProjectGoals';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
@@ -68,7 +69,7 @@ async function cadenceLineFor(supabase: SupabaseClient, project: Project): Promi
 
 async function kitLineFor(supabase: SupabaseClient, project: Project): Promise<string> {
 	const latestKitVersion = await getLatestKitVersion(supabase);
-	const reading = { hasRepository: project.repositoryUrl !== '', kitVersion: project.kitVersion, latestKitVersion };
+	const reading = kitReadingOf(project, latestKitVersion);
 	return describeKitStanding(kitStanding(reading), reading);
 }
 
