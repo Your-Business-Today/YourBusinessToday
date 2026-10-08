@@ -23,7 +23,8 @@ export const taskAttachmentWriteActions: McpAction[] = [
 			'sourceUrl, which the server downloads itself. contentBase64 is for tiny files only: ' +
 			'the request as a whole is capped at about 4.5 MB, and typing bytes out as base64 is ' +
 			'slow and easily corrupts them. For a file in your own workspace, call grant_task_upload ' +
-			'instead and send it with one HTTP PUT.',
+			'instead and send it with one HTTP PUT. For a file only the person holds, such as an ' +
+			'image they pasted into the chat, call the tool show_task_upload_box.',
 		inputSchema: objectSchema(
 			{
 				taskId: taskIdField,

@@ -18,6 +18,9 @@ export function describeUploadGrant(
 			`PUT with the raw bytes as the body and content-type ${upload.mimeType}, for example:`,
 		`curl --fail --upload-file <path to the file> -H "content-type: ${upload.mimeType}" "${grant.uploadUrl}"`,
 		`Then call record_task_upload with taskId ${task.id} and uploadId ${grant.grantId} so the ` +
-			'file appears on the task as an attachment.'
+			'file appears on the task as an attachment.',
+		'If your own network refuses the PUT — a proxy answers 403, or the address cannot be ' +
+			'reached — the link is not at fault and retrying will not help: call the tool ' +
+			`show_task_upload_box with taskId ${task.id}, and the person adds the file there.`
 	].join('\n');
 }

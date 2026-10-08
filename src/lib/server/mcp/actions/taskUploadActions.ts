@@ -25,7 +25,9 @@ export const taskUploadActions: McpAction[] = [
 			'For a file you hold locally — a screenshot, an export — that is bigger than a few ' +
 			'kilobytes or not at a public address. The link takes one HTTP PUT of up to 25 MB and ' +
 			`expires after ${uploadLinkLifetimeMinutes} minutes; the answer gives the command. Send the ` +
-			'file, then call record_task_upload with the uploadId so it appears on the task, under you.',
+			'file, then call record_task_upload with the uploadId so it appears on the task, under you. ' +
+			'Where your own network refuses the PUT, retrying will not help: call the tool ' +
+			'show_task_upload_box and the person adds the file themselves.',
 		inputSchema: objectSchema(
 			{
 				taskId: taskIdField,
