@@ -15,5 +15,6 @@ Disallow: /clients
 Disallow: /requests
 Disallow: /projects
 Disallow: /tasks
+Disallow: /upload
 Disallow: /notifications
 Disallow: /account

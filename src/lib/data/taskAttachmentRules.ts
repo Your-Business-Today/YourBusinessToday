@@ -12,7 +12,7 @@ export const maxAttachmentFilenameLength = 255;
 
 const mimeTypeShape = /^[^/\s]{1,127}\/[^/\s]{1,127}$/;
 
-/** Vercel caps a function response at 4.5 MB, and base64 grows a file by a third. */
+/** Vercel caps a function request or response at 4.5 MB, and base64 grows a file by a third. */
 export const maxInlineAttachmentByteCount = 3 * megabyte;
 
 const pdfMimeType = 'application/pdf';

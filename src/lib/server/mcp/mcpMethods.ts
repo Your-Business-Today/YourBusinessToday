@@ -1,5 +1,6 @@
-import { contentBlocksOf, type McpToolAnswer } from './mcpContent';
-import { McpErrorCode, jsonRpcVersion, mcpFailure } from './mcpErrors';
+import { toolResultOf, type McpToolAnswer } from './mcpContent';
+import { McpErrorCode, McpRequestRefusal, jsonRpcVersion, mcpFailure } from './mcpErrors';
+import { describeMcpResources, readMcpResource } from './mcpResources';
 import { describeMcpTools, findMcpTool } from './mcpTools';
 import { toolFailureSentence } from './toolFailureSentence';
 import {
@@ -15,7 +16,7 @@ import type { McpRequest } from './readMcpRequest';
 type McpAnswer = Record<string, unknown>;
 type McpMethod = (caller: McpCaller, request: McpRequest) => Promise<McpAnswer>;
 
-const capabilities = { tools: { listChanged: false } };
+const capabilities = { tools: { listChanged: false }, resources: { listChanged: false } };
 
 const methods: Record<string, McpMethod> = {
 	'server/discover': async () => discovery(),
@@ -26,7 +27,13 @@ const methods: Record<string, McpMethod> = {
 		serverInfo: serverInformation
 	}),
 	'tools/list': async () => ({ tools: describeMcpTools(), ...listCacheHints }),
-	'tools/call': (caller, request) => callTool(caller, request)
+	'tools/call': (caller, request) => callTool(caller, request),
+	'resources/list': async () => ({ resources: describeMcpResources(), ...listCacheHints }),
+	'resources/templates/list': async () => ({ resourceTemplates: [], ...listCacheHints }),
+	'resources/read': async (_caller, request) => {
+		const { uri } = request.params;
+		return { ...readMcpResource(uri), ...listCacheHints };
+	}
 };
 
 export async function answerMcpRequest(caller: McpCaller, request: McpRequest) {
@@ -34,8 +41,13 @@ export async function answerMcpRequest(caller: McpCaller, request: McpRequest) {
 	if (method === null) {
 		return mcpFailure(request.id, McpErrorCode.MethodNotFound, `Unknown method ${request.method}`);
 	}
-	const result = await method(caller, request);
-	return { jsonrpc: jsonRpcVersion, id: request.id, result: { resultType: 'complete', ...result } };
+	try {
+		const result = await method(caller, request);
+		return { jsonrpc: jsonRpcVersion, id: request.id, result: { resultType: 'complete', ...result } };
+	} catch (failure) {
+		if (failure instanceof McpRequestRefusal) return mcpFailure(request.id, failure.code, failure.message);
+		throw failure;
+	}
 }
 
 /** Only a method declared above: a name every object inherits, such as constructor, is not one. */
@@ -68,5 +80,5 @@ async function callTool(caller: McpCaller, request: McpRequest): Promise<McpAnsw
 }
 
 function toolAnswer(answer: McpToolAnswer, isError: boolean): McpAnswer {
-	return { content: contentBlocksOf(answer), isError };
+	return { ...toolResultOf(answer), isError };
 }

@@ -1,6 +1,7 @@
 import { describeAction, listActions } from './browseActions';
 import { describeContext } from './describeContext';
 import { runAction } from './runAction';
+import { uploadBoxTools } from './uploadBox/uploadBoxTools';
 import type { McpCaller } from './resolveMcpCaller';
 import type { McpToolAnswer } from './mcpContent';
 
@@ -9,6 +10,8 @@ export type McpTool = {
 	title: string;
 	description: string;
 	inputSchema: Record<string, unknown>;
+	annotations?: Record<string, boolean>;
+	meta?: Record<string, unknown>;
 	run: (caller: McpCaller, argumentValues: Record<string, unknown>) => Promise<McpToolAnswer>;
 };
 
@@ -17,7 +20,7 @@ const areaField = {
 	description: 'Narrow to one area, as named by get_current_context'
 };
 
-export const mcpTools: McpTool[] = [
+const actionTools: McpTool[] = [
 	{
 		name: 'get_current_context',
 		title: 'Who you are here',
@@ -74,15 +77,19 @@ export const mcpTools: McpTool[] = [
 	}
 ];
 
+const everyTool: McpTool[] = [...actionTools, ...uploadBoxTools];
+
 export function findMcpTool(name: unknown): McpTool | null {
-	return mcpTools.find((tool) => tool.name === name) ?? null;
+	return everyTool.find((tool) => tool.name === name) ?? null;
 }
 
 export function describeMcpTools(): Record<string, unknown>[] {
-	return mcpTools.map((tool) => ({
+	return everyTool.map((tool) => ({
 		name: tool.name,
 		title: tool.title,
 		description: tool.description,
-		inputSchema: tool.inputSchema
+		inputSchema: tool.inputSchema,
+		annotations: tool.annotations,
+		_meta: tool.meta
 	}));
 }

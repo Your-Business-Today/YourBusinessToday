@@ -208,7 +208,15 @@
       "src/lib/server/projects/updateTaskProject.ts",
       "src/lib/server/projects/updateTaskTask.ts",
       "src/lib/server/projects/updateTaskActions.ts",
-      "src/lib/server/projects/updateTaskRecord.ts"
+      "src/lib/server/projects/updateTaskRecord.ts",
+      "src/routes/+page.server.ts",
+      "src/routes/about/+page.server.ts",
+      "src/routes/case-studies/jewel/+page.server.ts",
+      "src/routes/company/+page.server.ts",
+      "src/routes/offer/+page.server.ts",
+      "src/routes/privacy/+page.server.ts",
+      "src/routes/terms/+page.server.ts",
+      "src/routes/vision/+page.server.ts"
     ]
   },
   "siteDefinition": {
