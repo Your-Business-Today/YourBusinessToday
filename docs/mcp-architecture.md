@@ -171,8 +171,9 @@ file it left in storage is dropped with the task.
 This route needs the Claude's own network to reach the storage host, and a cloud session's
 does not by default: seen on 1 and 5 October 2026, and checked again on 8 October, when both
 `<project>.supabase.co` and yourbusiness.today were refused by the session's network policy.
-Until the storage host is on the environment's allowed domains, the link works only from a
-Claude on a person's own machine, so the grant's answer now says what to do when the PUT is
+Until the storage host is on the environment's allowed domains, the link works only from
+somewhere with ordinary internet — the first completion on record was on 8 October 2026, with
+the PUT sent from a browser — so the grant's answer now says what to do when the PUT is
 refused: show the upload box.
 
 ## Files only the person holds: the upload box
@@ -235,7 +236,9 @@ checked by `uploadBoxDocument.test.ts`, with the 100-line limit the audit does n
 ### The link
 
 `/upload/<token>` takes files for one task, as one person, for thirty minutes, with no sign-in,
-so it works on a phone and in any host. The token is the task, the person and the expiry,
+so it works on a phone and in any host. The link is written with the site's own address
+(`companyDetails.websiteUrl`), which the host redirects to `www`, path and all. The token is
+the task, the person and the expiry,
 signed (`taskUploadLink.ts`, HMAC-SHA256 under a key drawn from the service key), so it needs
 no table and no migration, and a rotated service key ends every outstanding link. On every
 request `resolveUploadLinkHolder` checks the signature and the expiry, that the account still
@@ -267,6 +270,15 @@ database and storage:
 - the upload page end to end, on a desktop and a phone-sized screen, and every kind of link
   that must not work: expired, altered, signed with another key, for a task out of reach, for
   an account that is restricted or gone, and the fifty-first upload.
+
+Proved the same day on the real storage, through the live connector: an upload grant taken with
+`grant_task_upload`, one PUT from a browser — from inside a sandboxed page on a foreign origin,
+which is how the box sends — and `record_task_upload`. The file arrived whole (47,754 bytes
+sent, 47,754 read back with `read_task_attachment`) and is on this work's task. It is the
+first upload grant on record to complete end to end: the earlier attempts the tasks describe
+were stopped at the PUT by a sandbox's network. It is the shape the box's first rung and the
+upload page both stand on, so what is left unknown about that rung is only whether the host
+lets the request leave.
 
 Not proved, because it cannot be reached from a build session: the box inside Claude itself.
 Three things there are unknown and each has its fallback — whether Claude's sandbox lets the
