@@ -185,11 +185,16 @@ reference. So the person hands the file over themselves, without leaving the con
 without changing a setting: the file leaves from their own browser or phone, not from Claude's
 sandbox, so the sandbox's network policy never comes into it.
 
-`show_task_upload_box` (task) is an MCP App: its entry in `tools/list` names a page,
-`ui://your-business-today/task-upload-box`, in `_meta.ui.resourceUri`; a host that draws such
+`show_task_upload_box` (task) is an MCP App: its entry in `tools/list` names a page under
+`ui://your-business-today/task-upload-box` in `_meta.ui.resourceUri`; a host that draws such
 pages (Claude on the web, on desktop and on mobile) fetches it with `resources/read` and shows
 it in a sandbox beside the tool's answer. A host that draws none (Claude Code) shows the answer
 alone, which carries a link that does the same job.
+
+A host may keep a page it has fetched, by address. So the page's address ends in a mark of its
+own content (such as `…/task-upload-box/513193e0`), and a changed box is a new address the
+host has not seen. Every address under the page's home still finds the page as it is now, the
+bare home included, so a tool list or a conversation that names an earlier one keeps working.
 
 The box (`src/lib/uploadBox/`) talks to its host in JSON-RPC over `postMessage`, with no SDK,
 and takes files dropped anywhere on it, pasted, or chosen. For each file it tries, in order:
@@ -226,6 +231,15 @@ The box trusts its host as little as it can:
   when the host refuses.
 - It takes the host's theme, style variables and safe-area insets, and reports its height so
   nothing scrolls inside it.
+
+The Paste image button (`boxClipboard.js`, `boxPasting.js`) is for an image that is on the
+clipboard and not in a file. A browser lets an embedded page read the clipboard only when the
+page around it grants that, and an MCP App can ask its host for clipboard writing but not for
+reading. So the button tries the read, and where it is refused it asks for the paste keys
+instead: they need no permission, and they reach the box because the press has just given it
+focus — pressed with the cursor in Claude's own message field, they put the image in the
+message. A phone has no paste keys, so there the button points at the upload page, which has
+the same button and no host in the way: the browser asks the person directly.
 
 The page is one self-contained document, because a host's sandbox loads nothing from anywhere
 else: `uploadBoxDocument.ts` splices the stylesheet and the box's modules into the markup, and
@@ -280,10 +294,17 @@ were stopped at the PUT by a sandbox's network. It is the shape the box's first 
 upload page both stand on, so what is left unknown about that rung is only whether the host
 lets the request leave.
 
-Not proved, because it cannot be reached from a build session: the box inside Claude itself.
-Three things there are unknown and each has its fallback — whether Claude's sandbox lets the
-box reach storage (else rung 2, then 3), whether Claude asks the person to approve the box's
-own tool calls, and whether the mobile apps' web view opens a file chooser (else the link).
+The paste button was proved the same way on 8 October 2026: inside the official host bridge
+with the frame granted nothing, where the browser refuses the read by permissions policy and
+the paste keys then put the image on the task; with a host that grants clipboard reading,
+where one press does it; on a phone-sized touch screen; and on the upload page, with the
+person allowing the read and refusing it.
+
+The box inside Claude itself cannot be reached from a build session. Its owner tried it there
+on 8 October 2026, after the deploy, and reported it working. Still unknown, each with its
+fallback: which rung a file takes in Claude (storage directly, else rung 2, then 3), whether
+Claude lets the box read the clipboard anywhere (else the paste keys, or the upload page), and
+whether the mobile apps' web view opens a file chooser (else the link).
 
 ## Images waiting on a project
 
