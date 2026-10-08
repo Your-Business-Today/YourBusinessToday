@@ -3,6 +3,7 @@ import { uploadBoxResource } from './uploadBox/uploadBoxResource';
 
 /** Something a host fetches by address rather than by calling a tool — here, the pages it draws in a conversation. */
 export type McpResource = {
+	home: string;
 	uri: string;
 	name: string;
 	title: string;
@@ -26,16 +27,25 @@ export function describeMcpResources(): Record<string, unknown>[] {
 }
 
 export function readMcpResource(uri: unknown): Record<string, unknown> {
-	const resource = everyResource.find((candidate) => candidate.uri === uri);
+	const address = typeof uri === 'string' ? uri : '';
+	const resource = everyResource.find((candidate) => isKeptAt(candidate, address));
 	if (resource === undefined) {
 		throw new McpRequestRefusal(McpErrorCode.InvalidParams, `No resource has the uri ${String(uri)}`);
 	}
-	return { contents: [contentsOf(resource)] };
+	return { contents: [contentsOf(resource, address)] };
 }
 
-function contentsOf(resource: McpResource): Record<string, unknown> {
+/**
+ * A page answers to its home and to every address under it: the one a host was given before the
+ * page last changed still finds the page as it is now.
+ */
+function isKeptAt(resource: McpResource, address: string): boolean {
+	return address === resource.home || address.startsWith(`${resource.home}/`);
+}
+
+function contentsOf(resource: McpResource, address: string): Record<string, unknown> {
 	return {
-		uri: resource.uri,
+		uri: address,
 		mimeType: resource.mimeType,
 		text: resource.text,
 		_meta: resource.meta

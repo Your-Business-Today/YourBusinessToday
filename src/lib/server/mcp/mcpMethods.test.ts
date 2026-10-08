@@ -3,7 +3,7 @@ import { answerMcpRequest } from './mcpMethods';
 import { McpErrorCode } from './mcpErrors';
 import {
 	showUploadBoxToolName,
-	uploadBoxResourceUri,
+	uploadBoxResourceHome,
 	uploadBoxStepToolName
 } from './uploadBox/uploadBoxNames';
 import type { McpCaller } from './resolveMcpCaller';
@@ -19,7 +19,8 @@ type Answered = { result?: Described; error?: { code: number } };
 
 const caller = { accountId: 'account-1', supabase: {} } as unknown as McpCaller;
 const namesEveryObjectInherits = ['constructor', 'toString', 'hasOwnProperty', '__proto__'];
-const boxPage = { uri: uploadBoxResourceUri, mimeType: 'text/html;profile=mcp-app' };
+const mcpAppMimeType = 'text/html;profile=mcp-app';
+const addressUnderHome = new RegExp(`^${uploadBoxResourceHome}/[0-9a-f]{8}$`);
 const reachesOnlyStorage = {
 	ui: { csp: { connectDomains: ['https://files.example'] }, prefersBorder: true }
 };
@@ -50,30 +51,43 @@ describe('the connector’s methods', () => {
 		const tools: Described[] = result.tools;
 		const showBox = tools.find((tool) => tool.name === showUploadBoxToolName);
 		const boxStep = tools.find((tool) => tool.name === uploadBoxStepToolName);
-		const drawsThePage = { resourceUri: uploadBoxResourceUri, visibility: ['model', 'app'] };
+		const page = expect.stringMatching(addressUnderHome);
+		const drawsThePage = { resourceUri: page, visibility: ['model', 'app'] };
 		expect(showBox).toMatchObject({
 			annotations: { readOnlyHint: true },
-			_meta: { ui: drawsThePage, 'ui/resourceUri': uploadBoxResourceUri }
+			_meta: { ui: drawsThePage, 'ui/resourceUri': page }
 		});
 		expect(boxStep).toMatchObject({ _meta: { ui: { visibility: ['app'] } } });
 	});
 
-	it('lists the box’s page and hands it over whole, asking to reach storage and nothing else', async () => {
+	it('lists the box’s page at an address marked with its content, asking to reach storage alone', async () => {
 		const { result: listed } = await ask('resources/list');
-		const { result: read } = await ask('resources/read', { uri: uploadBoxResourceUri });
 		const { result: templates } = await ask('resources/templates/list');
 		const [entry] = listed.resources;
-		const [page] = read.contents;
-		expect(entry).toMatchObject({ ...boxPage, _meta: reachesOnlyStorage });
-		expect(page).toMatchObject({ ...boxPage, _meta: reachesOnlyStorage });
-		expect(page.text).toContain('<!doctype html>');
+		expect(entry).toMatchObject({ mimeType: mcpAppMimeType, _meta: reachesOnlyStorage });
+		expect(entry.uri).toMatch(addressUnderHome);
 		expect(templates).toMatchObject({ resourceTemplates: [] });
+	});
+
+	it('hands the page over at its address now, and at any it had before it last changed', async () => {
+		const { result: listed } = await ask('resources/list');
+		const [entry] = listed.resources;
+		const earlierAddresses = [uploadBoxResourceHome, `${uploadBoxResourceHome}/0a1b2c3d`];
+		for (const address of [entry.uri, ...earlierAddresses]) {
+			const { result: read } = await ask('resources/read', { uri: address });
+			const [page] = read.contents;
+			expect(page, address).toMatchObject({ uri: address, mimeType: mcpAppMimeType });
+			expect(page.text, address).toContain('<!doctype html>');
+			expect(page._meta, address).toEqual(reachesOnlyStorage);
+		}
 	});
 
 	it('refuses a page it does not have as a bad request, not as a fault', async () => {
 		const unknownPage = await ask('resources/read', { uri: 'ui://your-business-today/nothing' });
+		const lookalike = await ask('resources/read', { uri: `${uploadBoxResourceHome}-elsewhere` });
 		const noPageNamed = await ask('resources/read');
 		expect(unknownPage.refusalCode).toBe(McpErrorCode.InvalidParams);
+		expect(lookalike.refusalCode).toBe(McpErrorCode.InvalidParams);
 		expect(noPageNamed.refusalCode).toBe(McpErrorCode.InvalidParams);
 	});
 });

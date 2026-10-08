@@ -1,4 +1,5 @@
-export const uploadBoxResourceUri = 'ui://your-business-today/task-upload-box';
+/** Where the upload box's page lives. Each version's own address begins with this. */
+export const uploadBoxResourceHome = 'ui://your-business-today/task-upload-box';
 
 export const showUploadBoxToolName = 'show_task_upload_box';
 

@@ -4,15 +4,13 @@ import { objectSchema, readText, textField } from '../actionTypes';
 import { openTaskUploadPage } from '$lib/server/projects/openTaskUploadPage';
 import { performUploadBoxStep } from './uploadBoxSteps';
 import { reachableTask } from '../projectAccess';
+import { uploadBoxResource } from './uploadBoxResource';
 import { uploadBoxSentence } from './uploadBoxSentence';
-import {
-	showUploadBoxToolName,
-	uploadBoxResourceUri,
-	uploadBoxStepNames,
-	uploadBoxStepToolName
-} from './uploadBoxNames';
+import { showUploadBoxToolName, uploadBoxStepNames, uploadBoxStepToolName } from './uploadBoxNames';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { McpTool } from '../mcpTools';
+
+const { uri: uploadBoxPage } = uploadBoxResource;
 
 const stepField = {
 	type: 'string',
@@ -49,8 +47,8 @@ export const uploadBoxTools: McpTool[] = [
 		inputSchema: objectSchema({ taskId: textField('The task the files are for') }, ['taskId']),
 		annotations: { readOnlyHint: true },
 		meta: {
-			ui: { resourceUri: uploadBoxResourceUri, visibility: ['model', 'app'] },
-			'ui/resourceUri': uploadBoxResourceUri
+			ui: { resourceUri: uploadBoxPage, visibility: ['model', 'app'] },
+			'ui/resourceUri': uploadBoxPage
 		},
 		run: showTaskUploadBox
 	},
