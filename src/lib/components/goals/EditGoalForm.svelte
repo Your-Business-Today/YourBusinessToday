@@ -35,6 +35,10 @@
 		</label>
 		<PriorityField priority={goal.priority} among="of the project’s goals" />
 	</div>
+	<p class="text-xs text-chalk/50">
+		A goal with tasks is met when every task under it is done, and open again when one is not.
+		Dropped stays until you change it.
+	</p>
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton
 		isSaving={tracker.isSaving}

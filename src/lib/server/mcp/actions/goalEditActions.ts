@@ -17,7 +17,7 @@ export const goalEditActions: McpAction[] = [
 		summary: 'reword a goal or change how it will be measured',
 		guidance:
 			'A goal stays high level and measurable. If the measure is being rewritten, say how both ' +
-			'sides will know it has been met. Use set_goal_status to mark it met or dropped.',
+			'sides will know it has been met. Its tasks mark it met; use set_goal_status to drop it.',
 		inputSchema: objectSchema(
 			{
 				goalId: goalIdField,

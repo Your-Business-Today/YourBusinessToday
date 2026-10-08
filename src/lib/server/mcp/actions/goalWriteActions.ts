@@ -41,7 +41,11 @@ export const goalWriteActions: McpAction[] = [
 		area: 'goals',
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'mark a goal open, met or dropped',
+		summary: 'drop a goal or bring one back — open and met follow its tasks',
+		guidance:
+			'A goal with tasks is met by itself when every task under it is done, and open again the ' +
+			'moment one is not, so it never needs marking met. Use this to drop a goal nobody wants ' +
+			'any more, to bring a dropped goal back, or to mark a goal with no tasks met.',
 		inputSchema: objectSchema(
 			{ goalId: goalIdField, status: textField(`One of ${goalStatusOrder.join(', ')}`) },
 			['goalId', 'status']
@@ -49,9 +53,10 @@ export const goalWriteActions: McpAction[] = [
 		run: async (caller, input) => {
 			const goal = await reachableGoal(caller, readText(input, 'goalId'));
 			if (goal === null) return noSuchGoal;
-			const status = parseGoalStatus(readText(input, 'status'));
-			await updateGoalStatus(caller.supabase, goal.id, status);
-			return `"${goal.title}" is now ${status}.`;
+			const askedStatus = parseGoalStatus(readText(input, 'status'));
+			const status = await updateGoalStatus(caller.supabase, goal.id, askedStatus);
+			if (status === askedStatus) return `"${goal.title}" is now ${status}.`;
+			return `"${goal.title}" stays ${status}: its tasks decide whether it is open or met.`;
 		}
 	}
 ];
