@@ -1,3 +1,4 @@
+import { settledGoalIds } from '$lib/data/settledGoalIds';
 import { tasksKeptWhere } from './taskTreeFilters';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
@@ -19,26 +20,11 @@ export function groupTasksByGoal(
 	goals: Goal[],
 	narrowToVisible: TaskTreeView = wholeTree
 ): TaskGroup[] {
-	const goalIdsByTask = settledGoalIds(taskTree, new Set(goals.map((goal) => goal.id)), null);
+	const goalIdsByTask = settledGoalIds(taskTree, new Set(goals.map((goal) => goal.id)));
 	const groupFor = (goal: Goal | null): TaskGroup => {
 		const groupGoalId = goal === null ? null : goal.id;
 		const isInGroup = (task: TaskTreeNode) => goalIdsByTask.get(task.id) === groupGoalId;
 		return { goal, tasks: narrowToVisible(tasksKeptWhere(taskTree, isInGroup)) };
 	};
 	return [null, ...goals].map(groupFor).filter((group) => group.tasks.length > 0);
-}
-
-function settledGoalIds(
-	taskTree: TaskTreeNode[],
-	knownGoalIds: Set<string>,
-	parentGoalId: string | null,
-	goalIdsByTask = new Map<string, string | null>()
-): Map<string, string | null> {
-	for (const task of taskTree) {
-		const hasKnownGoal = task.goalId !== null && knownGoalIds.has(task.goalId);
-		const goalId = hasKnownGoal ? task.goalId : parentGoalId;
-		goalIdsByTask.set(task.id, goalId);
-		settledGoalIds(task.subtasks, knownGoalIds, goalId, goalIdsByTask);
-	}
-	return goalIdsByTask;
 }

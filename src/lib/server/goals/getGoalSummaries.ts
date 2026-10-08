@@ -1,3 +1,5 @@
+import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
+import { settledGoalIds } from '$lib/data/settledGoalIds';
 import { weightedCompletionPercent } from '$lib/data/completionSummary';
 import type { Goal } from './goalRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -9,8 +11,12 @@ export type GoalSummary = Goal & {
 	awaitingAnswerCount: number;
 };
 
+/** Each goal counts the tasks the backlog groups under it, its subtasks' included. */
 export function getGoalSummaries(goals: Goal[], tasks: ProjectTask[]): GoalSummary[] {
-	return goals.map((goal) => summariseGoal(goal, tasks.filter((task) => task.goalId === goal.id)));
+	const knownGoalIds = new Set(goals.map((goal) => goal.id));
+	const goalIdsByTask = settledGoalIds(buildTaskTree(tasks), knownGoalIds);
+	const tasksOf = (goal: Goal) => tasks.filter((task) => goalIdsByTask.get(task.id) === goal.id);
+	return goals.map((goal) => summariseGoal(goal, tasksOf(goal)));
 }
 
 function summariseGoal(goal: Goal, goalTasks: ProjectTask[]): GoalSummary {
