@@ -29,11 +29,18 @@ export async function updateGoal(
 	if (error) throw error;
 }
 
+/** The status the goal settles on: open and met follow its tasks once it has any (migration 0069). */
 export async function updateGoalStatus(
 	supabase: SupabaseClient,
 	goalId: string,
 	status: GoalStatus
-): Promise<void> {
-	const { error } = await supabase.from('goals').update({ status }).eq('id', goalId);
+): Promise<GoalStatus> {
+	const { data, error } = await supabase
+		.from('goals')
+		.update({ status })
+		.eq('id', goalId)
+		.select('status')
+		.single();
 	if (error) throw error;
+	return parseGoalStatus(data.status);
 }
