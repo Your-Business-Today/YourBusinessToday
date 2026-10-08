@@ -1,36 +1,69 @@
-import { outcomes } from './boxFiles.js';
+import { hasPasteKeys, pasteKeysHere } from './boxClipboard.js';
 
-/**
- * @typedef {import('./boxFiles.js').StepOutcome} StepOutcome
- * @typedef {import('./boxFiles.js').OpenBox} OpenBox
- */
+/** @typedef {import('./boxFiles.js').OpenBox} OpenBox */
 
-const zoneStates = { open: 'open', over: 'over', closed: 'closed' };
-const statesThatTakeFiles = [zoneStates.open, zoneStates.over];
-const rowStates = { sending: 'sending', attached: 'attached', failed: 'failed' };
-const couldNotSend = 'That file could not be sent from here.';
+const zoneStates = { open: 'open', over: 'over', pasting: 'pasting', closed: 'closed' };
+const statesThatTakeFiles = [zoneStates.open, zoneStates.over, zoneStates.pasting];
+const readyHint = 'Drop files here, or';
+const noClipboardHere =
+	'This box cannot read the clipboard here — open the upload page below and paste there.';
+const notAnImageOrFile = 'What you pasted is not an image or a file.';
 
 /** @param {string} id */
 function part(id) {
 	return /** @type {HTMLElement} */ (document.getElementById(id));
 }
 
+/**
+ * @param {string} hint
+ * @param {string} zoneState
+ */
+function showZone(hint, zoneState) {
+	part('hint').textContent = hint;
+	part('drop-zone').dataset.state = zoneState;
+}
+
 /** @param {OpenBox} box */
 export function showOpenBox(box) {
 	const footnote = part('footnote');
 	part('task-title').textContent = box.taskTitle;
-	part('hint').textContent = 'Drop files here, paste an image, or';
-	part('drop-zone').dataset.state = zoneStates.open;
 	/** @type {HTMLInputElement} */ (part('file-input')).disabled = false;
+	/** @type {HTMLButtonElement} */ (part('paste-image')).disabled = false;
 	footnote.textContent = `Each file goes straight onto the task, up to ${box.largestFile}.`;
 	footnote.hidden = false;
+	showReadyForFiles();
 	showUploadPage(box.uploadPage);
+}
+
+export function showReadyForFiles() {
+	showZone(readyHint, zoneStates.open);
 }
 
 /** @param {string} reason */
 export function showClosedBox(reason) {
-	part('hint').textContent = reason;
-	part('drop-zone').dataset.state = zoneStates.closed;
+	showZone(reason, zoneStates.closed);
+}
+
+/**
+ * The browser would not let the box read the clipboard itself, so the person's own paste does it:
+ * the box already has focus from the press, and the paste keys reach it. A phone has no such keys.
+ */
+export function askForPasteKeys() {
+	if (!hasPasteKeys()) {
+		showZone(noClipboardHere, zoneStates.open);
+		return;
+	}
+	showZone(`Now press ${pasteKeysHere()} to paste the image.`, zoneStates.pasting);
+}
+
+/** The clipboard was read and holds no image. A copied file is out of a button's sight, but not of the keys'. */
+export function showNoImageOnClipboard() {
+	const forCopiedFile = hasPasteKeys() ? ` For a copied file, press ${pasteKeysHere()}.` : '';
+	showZone(`There is no image on the clipboard.${forCopiedFile}`, zoneStates.open);
+}
+
+export function showNothingUsablePasted() {
+	showZone(notAnImageOrFile, zoneStates.open);
 }
 
 /**
@@ -42,40 +75,6 @@ export function showUploadPage(address) {
 	const link = part('upload-page');
 	link.setAttribute('href', address);
 	link.hidden = false;
-}
-
-/**
- * @param {string} filename
- * @returns {HTMLElement}
- */
-export function addFileRow(filename) {
-	const row = document.createElement('li');
-	const name = document.createElement('span');
-	const status = document.createElement('span');
-	row.className = 'file';
-	row.dataset.state = rowStates.sending;
-	name.className = 'file-name';
-	name.textContent = filename;
-	status.className = 'file-status';
-	status.textContent = 'Sending…';
-	row.append(name, status);
-	part('files').append(row);
-	return row;
-}
-
-/**
- * @param {HTMLElement} row
- * @param {StepOutcome} outcome
- */
-export function showRowOutcome(row, outcome) {
-	const status = /** @type {HTMLElement} */ (row.lastElementChild);
-	if (outcome.outcome === outcomes.attached) {
-		row.dataset.state = rowStates.attached;
-		status.textContent = `On the task · ${outcome.size}`;
-		return;
-	}
-	row.dataset.state = rowStates.failed;
-	status.textContent = outcome.reason ?? couldNotSend;
 }
 
 /** @param {boolean} isOver */

@@ -2,8 +2,10 @@ import { askHost, listenToHost, onHostNotification, tellHost } from './hostChann
 import { outcomes, refusedBecause, uploadPageIn } from './boxFiles.js';
 import { performStep, steps } from './boxSteps.js';
 import { sendFile } from './boxUploads.js';
-import { addFileRow, showClosedBox, showOpenBox, showRowOutcome, showUploadPage } from './boxView.js';
+import { showClosedBox, showOpenBox, showReadyForFiles, showUploadPage } from './boxView.js';
+import { addFileRow, showRowOutcome } from './boxRows.js';
 import { applyHostLook } from './boxLook.js';
+import { whenPasteIsPressed } from './boxPasting.js';
 import { offerToTellClaude, whenFilesArrive, whenSizeChanges, whenUploadPageIsAsked } from './boxEvents.js';
 import { noteFilesForClaude, openThroughHost, tellClaudeTheyAreIn } from './boxRequests.js';
 
@@ -54,6 +56,7 @@ function rememberUploadPage({ content = [] }) {
 function takeFiles(files) {
 	const box = openBox;
 	if (box === null) return;
+	showReadyForFiles();
 	for (const file of files) {
 		const row = addFileRow(file.name);
 		filesBeingSent = filesBeingSent.then(() => sendOne(box, file, row));
@@ -80,6 +83,7 @@ async function startUploadBox() {
 	onHostNotification('ui/notifications/tool-result', rememberUploadPage);
 	onHostNotification('ui/notifications/host-context-changed', applyHostLook);
 	whenFilesArrive(takeFiles);
+	whenPasteIsPressed(takeFiles);
 	whenUploadPageIsAsked(openThroughHost);
 	const hostGreeting = { appInfo: boxInformation, appCapabilities: boxCapabilities, protocolVersion };
 	const { hostContext = {} } = await askHost('ui/initialize', hostGreeting);
