@@ -69,6 +69,12 @@ This shape keeps the tool list small and stable while the site grows: adding a c
 is adding an action file, never a tool. Tool descriptions are prose the caller's Claude
 reads, so they name the domain plainly.
 
+> **8 October 2026, two tools beside the four.** A host draws a page for a tool, never for an
+> action, so the upload box (below) is the one capability that could not be an action.
+> `show_task_upload_box` shows it, and `perform_upload_box_step` is the door the box itself
+> calls — marked for the box alone, so a host that draws boxes never offers it to the model.
+> Everything else is still an action.
+
 Every action runs against the service-role Supabase client, so row-level security is
 not the gate here — the action code is. A member's projects come from `project_members`
 at token resolution, never from input, and every shared action refuses a project that is
@@ -79,11 +85,14 @@ not among them.
 ```
 src/routes/api/mcp/+server.ts               POST — the whole protocol surface
 src/lib/server/mcp/readMcpRequest.ts        parse one JSON-RPC message
-src/lib/server/mcp/mcpMethods.ts            initialize | ping | tools/list | tools/call
+src/lib/server/mcp/mcpMethods.ts            initialize | ping | tools/list | tools/call | resources/list | resources/read
+src/lib/server/mcp/mcpResources.ts          the pages a host draws, fetched by address
 src/lib/server/mcp/mcpProtocol.ts           supported revisions and server identity
 src/lib/server/mcp/mcpTools.ts              the four tools
 src/lib/server/mcp/actionRegistry.ts        every action, filtered by standing
 src/lib/server/mcp/actions/*.ts             one file per concern
+src/lib/server/mcp/uploadBox/*.ts           the upload box: its two tools, its steps, its page
+src/lib/uploadBox/*                         the box itself, as a browser runs it
 src/lib/server/mcp/resolveMcpCaller.ts      the gate
 src/lib/server/mcp/toolFailureSentence.ts   database failures as sentences the model can act on
 src/lib/server/mcp/requestLimits.ts         the body cap and the daily ceiling
@@ -159,10 +168,116 @@ The storage link itself refuses a second file at the same path, and the grant re
 second recording, so the link works once. A grant nobody records leaves no attachment; a
 file it left in storage is dropped with the task.
 
+This route needs the Claude's own network to reach the storage host, and a cloud session's
+does not by default: seen on 1 and 5 October 2026, and checked again on 8 October, when both
+`<project>.supabase.co` and yourbusiness.today were refused by the session's network policy.
+Until the storage host is on the environment's allowed domains, the link works only from a
+Claude on a person's own machine, so the grant's answer now says what to do when the PUT is
+refused: show the upload box.
+
+## Files only the person holds: the upload box
+
+A Claude can see an image pasted into a chat and still cannot pass it on: a tool call is text
+the model writes, so the bytes would have to be typed out as base64, which is what damaged a
+screenshot on 24 September 2026. Nothing in Claude carries a chat attachment to a connector by
+reference. So the person hands the file over themselves, without leaving the conversation, and
+without changing a setting: the file leaves from their own browser or phone, not from Claude's
+sandbox, so the sandbox's network policy never comes into it.
+
+`show_task_upload_box` (task) is an MCP App: its entry in `tools/list` names a page,
+`ui://your-business-today/task-upload-box`, in `_meta.ui.resourceUri`; a host that draws such
+pages (Claude on the web, on desktop and on mobile) fetches it with `resources/read` and shows
+it in a sandbox beside the tool's answer. A host that draws none (Claude Code) shows the answer
+alone, which carries a link that does the same job.
+
+The box (`src/lib/uploadBox/`) talks to its host in JSON-RPC over `postMessage`, with no SDK,
+and takes files dropped anywhere on it, pasted, or chosen. For each file it tries, in order:
+
+1. **Straight to storage.** `perform_upload_box_step` `grant` opens an ordinary upload grant,
+   the browser PUTs the file to the signed link, and `record` turns it into the attachment:
+   the same grant-then-record shape as everywhere else, full quality, up to 25 MB. The page
+   asks the host for this one address in `_meta.ui.csp.connectDomains`.
+2. **Through the connector.** A host may refuse that address — Claude was reported doing so
+   (anthropics/claude-ai-mcp#40), and its maintainers have since said it honours the request;
+   the box works either way. A refused request fails at once and is not tried again. A file
+   up to 3 MB goes as base64 in an `attach` step instead: the box writes those bytes, not a
+   model, so nothing is mistyped, and 3 MB is what fits under Vercel's 4.5 MB request cap.
+3. **The upload page.** A bigger file is pointed at the link below, in words.
+
+Every step is a call the host proxies to this server as the caller, so `reachableTask` gates
+each one exactly as it gates an action. The steps answer in JSON, as structured content and
+as their own text, because a program reads them. `open`, the first, hands the box the task's
+title, the limits and a fresh link to the upload page each time the box is drawn, so a box
+reopened in an old conversation still works.
+
+The box trusts its host as little as it can:
+
+- The way round is always on show. A host can leave the box unable to take a file without the
+  box ever finding out — a phone's web view that opens no file chooser, say — so the link to
+  the upload page is there from the moment its address is known, not only after a failure.
+  It is opened through the host (`ui/open-link`), and spelled out to copy when the host will
+  not open it.
+- It waits two minutes for any answer and no longer, so a host that drops a request leaves a
+  sentence on the file's row and the next file still goes.
+- When a file lands it tells the host what arrived (`ui/update-model-context`) and offers one
+  button that says so in the conversation (`ui/message`). Hosts do not reliably say whether
+  they take messages, so the button is always offered, and says "Now tell Claude in a message"
+  when the host refuses.
+- It takes the host's theme, style variables and safe-area insets, and reports its height so
+  nothing scrolls inside it.
+
+The page is one self-contained document, because a host's sandbox loads nothing from anywhere
+else: `uploadBoxDocument.ts` splices the stylesheet and the box's modules into the markup, and
+takes the import and export lines off the modules as they join, since they share one script
+there. So the modules import each other by name only, and declare each name once — both
+checked by `uploadBoxDocument.test.ts`, with the 100-line limit the audit does not reach.
+
+### The link
+
+`/upload/<token>` takes files for one task, as one person, for thirty minutes, with no sign-in,
+so it works on a phone and in any host. The token is the task, the person and the expiry,
+signed (`taskUploadLink.ts`, HMAC-SHA256 under a key drawn from the service key), so it needs
+no table and no migration, and a rotated service key ends every outstanding link. On every
+request `resolveUploadLinkHolder` checks the signature and the expiry, that the account still
+stands, and that it can still reach the task's project. Each file is an ordinary upload grant
+under that person, so the page reuses the site's own `uploadThroughSignedLink`. A link stops
+starting uploads once fifty have been started on its task by its person since it was made
+(`mostFilesThroughOneLink`) — counted from the grants themselves, whichever way they came, so
+there is nothing to keep per link; a fresh link starts a fresh count. The link only ever adds
+files to its own task; it reads nothing but the task's title, and the page sends no referrer,
+so the token does not travel to storage with the file.
+
+### What has been proved, and what has not
+
+Proved on 8 October 2026 in a real browser (Chromium), with the box served by this server's
+own `resources/read` — the dev server and the production build alike — and a stand-in for the
+database and storage:
+
+- inside the official host bridge (`AppBridge`) and the reference sandbox proxy from
+  `modelcontextprotocol/ext-apps`, at both library generations (`ext-apps` 1.7.5 with
+  `@modelcontextprotocol/sdk` 1.32.1, and 2.0.3 with `@modelcontextprotocol/client` 2.3.1):
+  the handshake, the box's own tool listed for the app only, files chosen and dropped and
+  compared byte for byte with what storage then held, a 25 MB file among them, and an image
+  pasted from the clipboard;
+- with the sandbox's policy refusing storage (`connect-src 'self'`): the fallback through the
+  connector up to exactly 3 MB, and the pointer to the upload page one byte over;
+- a host that refuses messages, links and context updates, one that carries no tool calls, and
+  one that never answers;
+- dark and light themes, a 320-pixel-wide screen, safe-area insets, teardown;
+- the upload page end to end, on a desktop and a phone-sized screen, and every kind of link
+  that must not work: expired, altered, signed with another key, for a task out of reach, for
+  an account that is restricted or gone, and the fifty-first upload.
+
+Not proved, because it cannot be reached from a build session: the box inside Claude itself.
+Three things there are unknown and each has its fallback — whether Claude's sandbox lets the
+box reach storage (else rung 2, then 3), whether Claude asks the person to approve the box's
+own tool calls, and whether the mobile apps' web view opens a file chooser (else the link).
+
 ## Images waiting on a project
 
-A Claude in a chat cannot pass an image the person pasted there on to the connector, so the
-person uploads it to the project page instead — the Images button in the project header opens
+Since 8 October 2026 the upload box is the first route for a file whose task exists; the bank
+is for an image that arrives before its task does. The person uploads it to the project page
+— the Images button in the project header opens
 the project's bank of unassigned images. The upload is the same grant-then-record shape as a
 task attachment (`grantImage` and `recordImage` in `imageActions.ts`), into the same
 `task-attachments` bucket at `projects/<project id>/images/<image id>/<file>`, recorded in
