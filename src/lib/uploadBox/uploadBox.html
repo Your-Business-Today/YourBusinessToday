@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="light dark" />
+		<title>Upload box</title>
+		<style>
+			/*upload-box-styles*/
+		</style>
+	</head>
+	<body>
+		<main class="box">
+			<p class="heading">Add files to <strong id="task-title">the task</strong></p>
+			<div class="drop-zone" id="drop-zone" data-state="waiting">
+				<p class="hint" id="hint">Opening the task…</p>
+				<label class="choose">
+					<input type="file" id="file-input" class="file-input" multiple disabled />
+					Choose files
+				</label>
+			</div>
+			<ul class="files" id="files" aria-live="polite"></ul>
+			<div class="foot">
+				<p class="footnote" id="footnote" hidden></p>
+				<a class="page-link" id="upload-page" href="#" hidden>Not working here? Open the upload page</a>
+			</div>
+			<button type="button" class="tell" id="tell-claude" hidden>Tell Claude they are in</button>
+		</main>
+		<script type="module">
+			/*upload-box-script*/
+		</script>
+	</body>
+</html>

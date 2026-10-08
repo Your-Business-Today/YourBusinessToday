@@ -24,6 +24,13 @@ export const projectImageUploadActions: SignedUploadActions = {
 	idField: 'imageId'
 };
 
+/** The page behind an upload link, where the link itself says which task and whose upload it is. */
+export const uploadPageActions: SignedUploadActions = {
+	grant: '?/grantUpload',
+	record: '?/recordUpload',
+	idField: 'uploadId'
+};
+
 const unknownMimeType = 'application/octet-stream';
 
 export async function uploadThroughSignedLink(

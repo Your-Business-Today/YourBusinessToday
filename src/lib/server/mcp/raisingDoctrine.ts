@@ -11,8 +11,9 @@ export const raisingDoctrine = [
 	'3. Write it in that shape in their own words — what they want and why, as they said it, not',
 	'   reworded into ours. Read it back and ask before creating; nothing is raised until they say so.',
 	'4. Put every file they mention on it once it exists: attach_file_to_task for one at a public',
-	'   address, grant_task_upload then record_task_upload for one in your workspace. Name it for',
-	'   what it is and say what it shows.',
+	'   address, grant_task_upload then record_task_upload for one on your own disk, and the tool',
+	'   show_task_upload_box for one only they hold, such as an image pasted into the chat. Name it',
+	'   for what it is and say what it shows.',
 	'5. Tell them what happens next: someone at Your Business Today reads it, weighs it as a need or',
 	'   a want, sizes it and answers in its conversation. Bring that answer to them when',
 	'   read_latest_messages carries it, and post their reply on the same task with post_message.'

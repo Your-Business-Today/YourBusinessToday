@@ -14,6 +14,16 @@ export type McpFailure = {
 	error: { code: number; message: string };
 };
 
+/** A request that cannot be answered for a reason the caller can act on, with the code that says which. */
+export class McpRequestRefusal extends Error {
+	constructor(
+		readonly code: number,
+		message: string
+	) {
+		super(message);
+	}
+}
+
 export function mcpFailure(
 	id: string | number | null,
 	code: number,

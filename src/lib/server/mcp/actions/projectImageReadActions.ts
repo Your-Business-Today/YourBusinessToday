@@ -18,11 +18,11 @@ export const projectImageReadActions: McpAction[] = [
 		isWrite: false,
 		summary: 'the images uploaded to a project that are not on a task yet, newest first',
 		guidance:
-			'A person cannot hand you an image pasted into a chat, so they upload it to the project ' +
-			'page instead and it waits here, in the project’s bank of unassigned images, usually for a ' +
-			'task you are about to raise. Each line says how long ago it was uploaded and by whom. Open ' +
-			'one with read_project_image to see what it shows, then put it on its task with ' +
-			'assign_project_image.',
+			'Images a person uploaded on the project page wait here, in the project’s bank of ' +
+			'unassigned images, usually for a task you are about to raise. Each line says how long ago ' +
+			'it was uploaded and by whom. Open one with read_project_image to see what it shows, then ' +
+			'put it on its task with assign_project_image. Once the task exists, the tool ' +
+			'show_task_upload_box lets them add a file to it without leaving the chat.',
 		inputSchema: objectSchema(
 			{
 				projectId: projectIdField,

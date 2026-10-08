@@ -3,6 +3,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { taskStatusOrder } from '$lib/data/taskStatus';
 import { raisingDoctrine } from './raisingDoctrine';
+import { showUploadBoxToolName } from './uploadBox/uploadBoxNames';
 import { workingDoctrine } from './workingDoctrine';
 
 const actionsDirectory = join(import.meta.dirname, 'actions');
@@ -10,6 +11,7 @@ const declaredName = /^\s*name: '([a-z_]+)'/gm;
 const guidanceBlock = /guidance:\s*((?:'[^']*'\s*\+?\s*)+)/g;
 const snakeCaseName = /(?<![/.])\b[a-z]+(?:_[a-z]+)+\b(?![/.])/g;
 const statusWords = new Set<string>(taskStatusOrder);
+const toolsTheDoctrineNames = [showUploadBoxToolName];
 
 function actionSources(): { file: string; source: string }[] {
 	return readdirSync(actionsDirectory)
@@ -26,19 +28,26 @@ describe('the working doctrine', () => {
 	const actionNames = new Set(
 		sources.flatMap(({ source }) => [...source.matchAll(declaredName)].map((match) => match[1]))
 	);
+	const knownNames = new Set([...actionNames, ...toolsTheDoctrineNames]);
 
-	it('names only actions that exist', () => {
+	it('names only actions and tools that exist', () => {
 		expect(actionNames.size).toBeGreaterThan(50);
-		for (const name of namesIn(workingDoctrine)) expect(actionNames, name).toContain(name);
-		for (const name of namesIn(raisingDoctrine)) expect(actionNames, name).toContain(name);
+		for (const name of namesIn(workingDoctrine)) expect(knownNames, name).toContain(name);
+		for (const name of namesIn(raisingDoctrine)) expect(knownNames, name).toContain(name);
 	});
 
-	it('is echoed by guidance that names only actions that exist', () => {
+	it('is echoed by guidance that names only actions and tools that exist', () => {
 		for (const { file, source } of sources) {
 			for (const [, guidance] of source.matchAll(guidanceBlock)) {
-				for (const name of namesIn(guidance)) expect(actionNames, `${file} names ${name}`).toContain(name);
+				for (const name of namesIn(guidance)) expect(knownNames, `${file} names ${name}`).toContain(name);
 			}
 		}
+	});
+
+	it('sends a file only the person holds through the upload box, never through base64', () => {
+		expect(workingDoctrine).toContain(showUploadBoxToolName);
+		expect(raisingDoctrine).toContain(showUploadBoxToolName);
+		expect(workingDoctrine).toContain('Never type an image or any other file out as base64');
 	});
 
 	it('sends every session through the inbox, the task search and the work log', () => {

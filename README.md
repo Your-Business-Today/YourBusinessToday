@@ -68,7 +68,7 @@ npm run dev
 | `PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable API key |
 | `ANTHROPIC_API_KEY` | Claude API key — company and person research, and drafted approaches |
-| `SUPABASE_SECRET_KEY` | Supabase secret key — used by the MCP server and to read the site model |
+| `SUPABASE_SECRET_KEY` | Supabase secret key — used by the MCP server, to read the site model, and to sign upload links |
 | `COMPANIES_HOUSE_API_KEY` | Companies House company and officer search |
 | `RESEND_API_KEY` / `EMAIL_FROM` | Resend API key and sender address for transactional email |
 | `ENQUIRY_NOTIFICATION_EMAIL` | Where website enquiries from `/contact` are sent |
