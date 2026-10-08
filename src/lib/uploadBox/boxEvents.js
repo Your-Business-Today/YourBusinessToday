@@ -1,4 +1,4 @@
-import { markDraggedOver } from './boxView.js';
+import { markDraggedOver, showNothingUsablePasted } from './boxView.js';
 import { renamedIfFromClipboard } from './boxFiles.js';
 
 /**
@@ -27,6 +27,10 @@ export function whenFilesArrive(takeFiles) {
 	document.addEventListener('paste', (event) => {
 		const pastedAt = new Date();
 		const pastedFiles = filesIn(event.clipboardData);
+		if (pastedFiles.length === 0) {
+			showNothingUsablePasted();
+			return;
+		}
 		takeFiles(pastedFiles.map((file) => renamedIfFromClipboard(file, pastedAt)));
 	});
 }

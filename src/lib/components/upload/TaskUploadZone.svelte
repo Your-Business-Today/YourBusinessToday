@@ -1,14 +1,22 @@
 <script lang="ts">
 	import { attachmentLimitDescription } from '$lib/data/taskAttachmentRules';
+	import { notAnImageOrFile, pasteNoteFor } from './pasteNotes';
+	import { readClipboardImages } from '$lib/uploadBox/boxClipboard.js';
 	import { renamedIfFromClipboard } from '$lib/uploadBox/boxFiles.js';
 
 	let { onFilesGiven }: { onFilesGiven: (files: File[]) => void } = $props();
 
 	let isDraggedOver = $state(false);
+	let pasteNote = $state<string | null>(null);
+
+	function takeFiles(files: File[]) {
+		pasteNote = null;
+		onFilesGiven(files);
+	}
 
 	function takeChosenFiles(event: Event) {
 		const input = event.currentTarget as HTMLInputElement;
-		onFilesGiven(Array.from(input.files ?? []));
+		takeFiles(Array.from(input.files ?? []));
 		input.value = '';
 	}
 
@@ -26,14 +34,24 @@
 		event.preventDefault();
 		isDraggedOver = false;
 		const { dataTransfer } = event;
-		onFilesGiven(Array.from(dataTransfer?.files ?? []));
+		takeFiles(Array.from(dataTransfer?.files ?? []));
 	}
 
 	function takePastedFiles(event: ClipboardEvent) {
 		const { clipboardData } = event;
 		const pastedAt = new Date();
 		const pastedFiles = Array.from(clipboardData?.files ?? []);
-		onFilesGiven(pastedFiles.map((file) => renamedIfFromClipboard(file, pastedAt)));
+		if (pastedFiles.length === 0) {
+			pasteNote = notAnImageOrFile;
+			return;
+		}
+		takeFiles(pastedFiles.map((file) => renamedIfFromClipboard(file, pastedAt)));
+	}
+
+	async function pasteFromClipboard() {
+		const reading = await readClipboardImages(new Date());
+		takeFiles(reading.files);
+		pasteNote = pasteNoteFor(reading);
 	}
 </script>
 
@@ -50,14 +68,27 @@
 		isDraggedOver ? 'border-go bg-go/10' : 'border-hairline bg-carriage'
 	]}
 >
-	<p class="text-chalk/70">Drop files anywhere on this page, paste an image, or</p>
-	<label
-		class="cursor-pointer rounded-lg bg-go px-6 py-3 font-display font-medium text-night transition
-			focus-within:ring-2 focus-within:ring-chalk hover:brightness-110"
-	>
-		<input type="file" multiple onchange={takeChosenFiles} class="sr-only" />
-		Choose files
-	</label>
+	<p class="text-chalk/70">Drop files anywhere on this page, or</p>
+	<div class="flex flex-wrap justify-center gap-3">
+		<label
+			class="cursor-pointer rounded-lg bg-go px-6 py-3 font-display font-medium text-night transition
+				focus-within:ring-2 focus-within:ring-chalk hover:brightness-110"
+		>
+			<input type="file" multiple onchange={takeChosenFiles} class="sr-only" />
+			Choose files
+		</label>
+		<button
+			type="button"
+			onclick={pasteFromClipboard}
+			class="rounded-lg border border-hairline px-6 py-3 font-display font-medium text-chalk transition
+				hover:border-chalk/60 focus-visible:ring-2 focus-visible:ring-chalk"
+		>
+			Paste image
+		</button>
+	</div>
+	{#if pasteNote !== null}
+		<p class="text-sm text-caution">{pasteNote}</p>
+	{/if}
 	<p class="text-xs text-chalk/50">
 		{attachmentLimitDescription()} Each one goes straight onto the task, at full quality.
 	</p>

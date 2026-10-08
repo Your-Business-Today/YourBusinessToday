@@ -1,9 +1,12 @@
+import boxClipboard from '$lib/uploadBox/boxClipboard.js?raw';
 import boxEvents from '$lib/uploadBox/boxEvents.js?raw';
 import boxFiles from '$lib/uploadBox/boxFiles.js?raw';
 import boxLook from '$lib/uploadBox/boxLook.js?raw';
 import boxMain from '$lib/uploadBox/boxMain.js?raw';
 import boxMarkup from '$lib/uploadBox/uploadBox.html?raw';
+import boxPasting from '$lib/uploadBox/boxPasting.js?raw';
 import boxRequests from '$lib/uploadBox/boxRequests.js?raw';
+import boxRows from '$lib/uploadBox/boxRows.js?raw';
 import boxSteps from '$lib/uploadBox/boxSteps.js?raw';
 import boxStyles from '$lib/uploadBox/uploadBox.css?raw';
 import boxUploads from '$lib/uploadBox/boxUploads.js?raw';
@@ -14,12 +17,15 @@ import hostChannel from '$lib/uploadBox/hostChannel.js?raw';
 export const uploadBoxModules = [
 	hostChannel,
 	boxFiles,
+	boxClipboard,
 	boxSteps,
 	boxUploads,
 	boxView,
+	boxRows,
 	boxLook,
 	boxEvents,
 	boxRequests,
+	boxPasting,
 	boxMain
 ];
 

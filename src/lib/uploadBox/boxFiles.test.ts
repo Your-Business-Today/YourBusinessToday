@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
 	attachedSummary,
 	outcomes,
+	pastedImageName,
 	refusalBeforeSending,
 	renamedIfFromClipboard,
 	uploadDescriptionOf,
@@ -30,6 +31,7 @@ describe('a file the box is given', () => {
 		const pastedAt = new Date('2026-10-08T12:13:14.000Z');
 		const renamed = renamedIfFromClipboard(fileOfSize(8, 'image.png'), pastedAt);
 		expect(renamed.name).toBe('pasted-image-2026-10-08-121314.png');
+		expect(pastedImageName(pastedAt, 'jpeg')).toBe('pasted-image-2026-10-08-121314.jpeg');
 		expect(renamed.size).toBe(8);
 		expect(renamed.type).toBe('image/png');
 		expect(renamedIfFromClipboard(fileOfSize(8, 'site-plan.png'), pastedAt).name).toBe('site-plan.png');

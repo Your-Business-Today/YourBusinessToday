@@ -16,6 +16,7 @@ export const outcomes = {
 
 const unknownMimeType = 'application/octet-stream';
 const clipboardImageName = 'image.png';
+const pngExtension = 'png';
 const dateAndTimeLength = 19;
 const uploadPagePattern = /https:\/\/[^\s/]+\/upload\/[\w.-]+/;
 
@@ -48,15 +49,24 @@ export function refusalBeforeSending(box, file) {
 }
 
 /**
- * A screenshot pasted from the clipboard is called image.png every time, so it is named for when it was pasted.
+ * What an image from the clipboard is called: it has no name of its own, so it takes the moment it was pasted.
+ * @param {Date} pastedAt
+ * @param {string} extension
+ */
+export function pastedImageName(pastedAt, extension) {
+	const dateAndTime = pastedAt.toISOString().slice(0, dateAndTimeLength);
+	const timestamp = dateAndTime.replace('T', '-').replaceAll(':', '');
+	return `pasted-image-${timestamp}.${extension}`;
+}
+
+/**
+ * A screenshot pasted with the keyboard arrives called image.png every time, so it is renamed.
  * @param {File} file
  * @param {Date} pastedAt
  */
 export function renamedIfFromClipboard(file, pastedAt) {
 	if (file.name !== clipboardImageName) return file;
-	const dateAndTime = pastedAt.toISOString().slice(0, dateAndTimeLength);
-	const timestamp = dateAndTime.replace('T', '-').replaceAll(':', '');
-	return new File([file], `pasted-image-${timestamp}.png`, { type: file.type });
+	return new File([file], pastedImageName(pastedAt, pngExtension), { type: file.type });
 }
 
 /**

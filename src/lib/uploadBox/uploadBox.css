@@ -38,9 +38,11 @@ body {
 	background: var(--raised);
 	text-align: center;
 }
-.drop-zone[data-state='over'] { border-style: solid; border-color: var(--ink); }
-.drop-zone:not([data-state='open'], [data-state='over']) .choose { opacity: 0.5; pointer-events: none; }
+.drop-zone[data-state='over'], .drop-zone[data-state='pasting'] { border-style: solid; border-color: var(--ink); }
+.drop-zone[data-state='waiting'] .choose, .drop-zone[data-state='closed'] .choose { opacity: 0.5; pointer-events: none; }
+.drop-zone[data-state='pasting'] .hint { color: var(--ink); font-weight: var(--font-weight-semibold, 600); }
 .hint { margin: 0; color: var(--quiet-ink); }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 .choose {
 	position: relative;
 	display: inline-flex;
@@ -81,8 +83,7 @@ body {
 	font-size: var(--small-text);
 	overflow-wrap: anywhere;
 }
-.tell {
-	align-self: flex-start;
+.quiet-button {
 	min-height: var(--tap-height);
 	padding: 0 var(--gutter);
 	border: var(--hairline);
@@ -92,4 +93,5 @@ body {
 	font: inherit;
 	cursor: pointer;
 }
-.tell:disabled { opacity: 0.6; cursor: default; }
+.quiet-button:disabled { opacity: 0.6; cursor: default; }
+.tell { align-self: flex-start; }
