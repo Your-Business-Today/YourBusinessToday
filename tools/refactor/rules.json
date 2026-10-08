@@ -298,6 +298,8 @@
       "\\bnew Ajv\\b",
       "\\bvalidate[A-Z]\\w*\\("
     ],
-    "exemptGlobs": []
+    "exemptGlobs": [
+      "src/**/*.test.ts"
+    ]
   }
 }

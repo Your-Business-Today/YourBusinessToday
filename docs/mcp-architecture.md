@@ -99,6 +99,11 @@ A failure inside an action is answered as a tool result with `isError`, in a sen
 a malformed id says so, a missing referent says so, and only a real fault says "try
 again shortly" — a refusal the model can read beats an error it will retry.
 
+Methods are looked up by their own names only (`methodNamed`). `methods['constructor']` used
+to find the function every object inherits, which handed the caller straight back as the
+result; only a loop inside the database client stopped that from being written out as JSON,
+service key included.
+
 ## Authentication
 
 Two ways in, both resolved by `resolveMcpCaller`:

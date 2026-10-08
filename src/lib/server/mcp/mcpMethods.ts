@@ -13,10 +13,11 @@ import type { McpCaller } from './resolveMcpCaller';
 import type { McpRequest } from './readMcpRequest';
 
 type McpAnswer = Record<string, unknown>;
+type McpMethod = (caller: McpCaller, request: McpRequest) => Promise<McpAnswer>;
 
 const capabilities = { tools: { listChanged: false } };
 
-const methods: Record<string, (caller: McpCaller, request: McpRequest) => Promise<McpAnswer>> = {
+const methods: Record<string, McpMethod> = {
 	'server/discover': async () => discovery(),
 	ping: async () => ({}),
 	initialize: async (_caller, request) => ({
@@ -29,12 +30,18 @@ const methods: Record<string, (caller: McpCaller, request: McpRequest) => Promis
 };
 
 export async function answerMcpRequest(caller: McpCaller, request: McpRequest) {
-	const method = methods[request.method];
-	if (method === undefined) {
+	const method = methodNamed(request.method);
+	if (method === null) {
 		return mcpFailure(request.id, McpErrorCode.MethodNotFound, `Unknown method ${request.method}`);
 	}
 	const result = await method(caller, request);
 	return { jsonrpc: jsonRpcVersion, id: request.id, result: { resultType: 'complete', ...result } };
+}
+
+/** Only a method declared above: a name every object inherits, such as constructor, is not one. */
+function methodNamed(name: string): McpMethod | null {
+	if (!Object.hasOwn(methods, name)) return null;
+	return methods[name];
 }
 
 function discovery(): McpAnswer {
