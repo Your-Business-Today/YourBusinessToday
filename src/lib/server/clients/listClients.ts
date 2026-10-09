@@ -39,7 +39,8 @@ function toSummary(row: Record<string, unknown>): ClientSummary {
 function primaryContactName(contacts: ContactRow[]): string {
 	const primary = contacts.find((contact) => contact.is_primary) ?? contacts[0];
 	if (primary === undefined) return '';
-	return primary.people?.name ?? '';
+	const person = primary.people;
+	return person?.name ?? '';
 }
 
 function countAwaitingAnswer(projects: ProjectRow[]): number {

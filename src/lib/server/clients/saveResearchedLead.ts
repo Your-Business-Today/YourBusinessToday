@@ -12,9 +12,10 @@ export async function saveResearchedLead(
 	lead: ReviewedLead,
 	actorAccountId: string
 ): Promise<string> {
+	const { profile, people } = lead;
 	const clientId = await placeOnRegister(supabase, lead, actorAccountId);
 	const knownNames = await namesAlreadyListed(supabase, clientId);
-	for (const person of lead.people) {
+	for (const person of people) {
 		if (knownNames.has(person.name.toLowerCase())) continue;
 		await addResearchedPerson(supabase, clientId, person, actorAccountId);
 	}
@@ -22,7 +23,7 @@ export async function saveResearchedLead(
 		supabase,
 		clientId,
 		'profile_researched',
-		{ source: lead.profile.sourceUrl, people: lead.people.length },
+		{ source: profile.sourceUrl, people: people.length },
 		actorAccountId
 	);
 	return clientId;

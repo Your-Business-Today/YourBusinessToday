@@ -50,7 +50,8 @@ function markerFor(
 	isSelected: boolean,
 	onSelect: (key: string) => void
 ) {
-	const tone = pinTones[standingOf(pin.standing?.stage ?? null)];
+	const { standing } = pin;
+	const tone = pinTones[standingOf(standing?.stage ?? null)];
 	const colour = resolveColourToken(tone.colourToken);
 	const marker = leaflet.circleMarker([pin.latitude, pin.longitude], {
 		radius: isSelected ? selectedPinRadiusPixels : pinRadiusPixels,

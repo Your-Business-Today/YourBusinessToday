@@ -6,14 +6,16 @@ const notFound = 404;
 export const reportServerError: HandleServerError = ({ error, event, status, message }) => {
 	if (status === notFound) return { message };
 	const reference = crypto.randomUUID().slice(0, referenceLength);
+	const { route, url, request, locals } = event;
+	const user = locals.resolvedUser;
 	console.error(
 		JSON.stringify({
 			level: 'error',
 			reference,
-			routeId: event.route.id,
-			pathname: event.url.pathname,
-			method: event.request.method,
-			userId: event.locals.resolvedUser?.id ?? null,
+			routeId: route.id,
+			pathname: url.pathname,
+			method: request.method,
+			userId: user?.id ?? null,
 			status,
 			message,
 			cause: describeCause(error)

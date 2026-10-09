@@ -12,7 +12,6 @@ export class FormTracker {
 	isSaving = $state(false);
 	errorMessage = $state<string | null>(null);
 
-	/** Clear any lingering error, e.g. when the form's modal closes. */
 	reset(): void {
 		this.errorMessage = null;
 	}

@@ -4,9 +4,10 @@ import { inlineRunsXml } from './wordInlineRuns';
 const tableWidthTwips = 9000;
 
 export function tableXml(table: Tokens.Table): string {
-	const headerRow = rowXml(table.header, true);
-	const bodyRows = table.rows.map((row) => rowXml(row, false)).join('');
-	return `<w:tbl>${tablePropertiesXml()}${gridXml(table.header.length)}${headerRow}${bodyRows}</w:tbl><w:p/>`;
+	const { header, rows } = table;
+	const headerRow = rowXml(header, true);
+	const bodyRows = rows.map((row) => rowXml(row, false)).join('');
+	return `<w:tbl>${tablePropertiesXml()}${gridXml(header.length)}${headerRow}${bodyRows}</w:tbl><w:p/>`;
 }
 
 function tablePropertiesXml(): string {

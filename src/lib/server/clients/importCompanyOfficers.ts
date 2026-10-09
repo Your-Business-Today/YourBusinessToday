@@ -13,7 +13,8 @@ export async function importCompanyOfficers(
 	client: Client,
 	actorAccountId: string
 ): Promise<OfficerImport> {
-	const officers = await getCompanyOfficers(client.profile.companyNumber);
+	const { profile } = client;
+	const officers = await getCompanyOfficers(profile.companyNumber);
 	const outcome: OfficerImport = { importedCount: 0, alreadyListedCount: 0 };
 	const importedNames: string[] = [];
 	for (const officer of officers) {

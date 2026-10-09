@@ -1,4 +1,5 @@
 import type { DropPlacement } from '$lib/client/listReorder.svelte';
+import { reorderGroupOf, reorderListOf, reorderRowOf } from './reorderRowAttributes';
 
 export type ReorderDropTarget = { rowId: string; placement: DropPlacement };
 
@@ -33,14 +34,14 @@ function rowsFromInnermostOutward(
 	const pointedElement = document.elementFromPoint(clientX, clientY);
 	let row = pointedElement?.closest('[data-reorder-list]') ?? null;
 	while (row instanceof HTMLElement) {
-		if (row.dataset.reorderList === listId) rows.push(row);
+		if (reorderListOf(row) === listId) rows.push(row);
 		row = row.parentElement?.closest('[data-reorder-list]') ?? null;
 	}
 	return rows;
 }
 
 function rowsOutsideDraggedSubtree(rows: HTMLElement[], draggedRowId: string): HTMLElement[] {
-	const draggedRowIndex = rows.findIndex((row) => row.dataset.reorderRow === draggedRowId);
+	const draggedRowIndex = rows.findIndex((row) => reorderRowOf(row) === draggedRowId);
 	if (draggedRowIndex === -1) return rows;
 	return rows.slice(draggedRowIndex + 1);
 }
@@ -50,14 +51,14 @@ function preferredTargetRow(
 	draggedGroupId: string | null,
 	canNestRows: boolean
 ): HTMLElement | null {
-	const sameGroupRow = rows.find((row) => row.dataset.reorderGroup === (draggedGroupId ?? ''));
+	const sameGroupRow = rows.find((row) => reorderGroupOf(row) === (draggedGroupId ?? ''));
 	if (sameGroupRow !== undefined) return sameGroupRow;
 	if (!canNestRows) return null;
 	return rows[0] ?? null;
 }
 
 function dropTargetFor(row: HTMLElement, clientY: number, canNestRows: boolean): ReorderDropTarget {
-	const rowId = row.dataset.reorderRow ?? '';
+	const rowId = reorderRowOf(row) ?? '';
 	const rowBounds = row.getBoundingClientRect();
 	if (!canNestRows) return { rowId, placement: placementByHalves(rowBounds, clientY) };
 	return { rowId, placement: placementByThirds(rowBounds, clientY) };

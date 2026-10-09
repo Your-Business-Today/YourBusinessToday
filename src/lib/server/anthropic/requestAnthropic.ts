@@ -48,11 +48,12 @@ export async function requestAnthropic(request: AnthropicRequest): Promise<Anthr
 }
 
 function usageFrom(answer: AnthropicResponse): AnthropicUsage {
+	const { usage } = answer;
 	return {
-		inputTokens: answer.usage?.input_tokens ?? 0,
-		outputTokens: answer.usage?.output_tokens ?? 0,
-		cacheReadTokens: answer.usage?.cache_read_input_tokens ?? 0,
-		cacheWriteTokens: answer.usage?.cache_creation_input_tokens ?? 0
+		inputTokens: usage?.input_tokens ?? 0,
+		outputTokens: usage?.output_tokens ?? 0,
+		cacheReadTokens: usage?.cache_read_input_tokens ?? 0,
+		cacheWriteTokens: usage?.cache_creation_input_tokens ?? 0
 	};
 }
 

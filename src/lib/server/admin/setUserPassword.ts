@@ -12,9 +12,8 @@ export async function setUserPassword(
 	const service = supabaseServiceClient();
 	const account = await findAccountByEmail(service, targetEmail);
 	if (account === null) return noSuchAccount;
-	const { error } = await service.auth.admin.updateUserById(account.id, {
-		password
-	});
+	const { auth } = service;
+	const { error } = await auth.admin.updateUserById(account.id, { password });
 	if (error !== null) return couldNotSavePassword;
 	return null;
 }
