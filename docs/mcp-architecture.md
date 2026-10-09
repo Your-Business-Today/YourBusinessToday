@@ -306,26 +306,14 @@ fallback: which rung a file takes in Claude (storage directly, else rung 2, then
 Claude lets the box read the clipboard anywhere (else the paste keys, or the upload page), and
 whether the mobile apps' web view opens a file chooser (else the link).
 
-## Images waiting on a project
+## Images waiting on a project — retired
 
-Since 8 October 2026 the upload box is the first route for a file whose task exists; the bank
-is for an image that arrives before its task does. The person uploads it to the project page
-— the Images button in the project header opens
-the project's bank of unassigned images. The upload is the same grant-then-record shape as a
-task attachment (`grantImage` and `recordImage` in `imageActions.ts`), into the same
-`task-attachments` bucket at `projects/<project id>/images/<image id>/<file>`, recorded in
-`project_images` (migration `0065`). Only images are taken, up to 25 MB.
-
-1. `find_project_images` (project, optional words from the file name) lists the bank newest
-   first, with how long ago each was uploaded and by whom, since the task it belongs to is
-   usually raised a few minutes later.
-2. `read_project_image` (project, image) returns the image itself, so the Claude can tell
-   which one is which.
-3. `assign_project_image` (task, image) calls the `assign_project_image` database function:
-   one transaction that writes the `task_attachments` row under the same id, path and uploader
-   and deletes the `project_images` row. The file never moves. The task must be on the image's
-   project. The project page's modal assigns by hand through the same function.
-4. `remove_project_image` (project, image) deletes the file and the row, as the modal's ✕ does.
+Between 8 and 9 October 2026 a project carried a bank of images uploaded before their task
+existed (`project_images`, migration `0065`), with `find_project_images`,
+`read_project_image`, `assign_project_image` and `remove_project_image` to move them on to a
+task. The upload box above made it unnecessary: a file goes on its task from the chat, so the
+bank, its actions and the Images button on the project page were removed. The table stays
+until a later migration drops it, so nothing already in a bank is lost.
 
 ## Abuse and limits
 
