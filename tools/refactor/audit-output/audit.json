@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-09T13:45:02+00:00",
+  "generatedAt": "2026-10-09T13:45:39+00:00",
   "kitVersion": "1.14.0",
   "score": {
-    "overall": 90.8,
+    "overall": 90.9,
     "groups": [
       {
         "group": "Standard baseline checks",
@@ -111,9 +111,9 @@
         "zeroAt": 20,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 35,
+        "offenders": 30,
         "measuredAgainst": 37.1,
-        "score": 95.3
+        "score": 96.0
       },
       {
         "key": "orphans",
@@ -290,8 +290,8 @@
       "taskMarkers": 0
     },
     "magicValues": {
-      "inlineHexColours": 4,
-      "inlineStyleAttributes": 1,
+      "inlineHexColours": 0,
+      "inlineStyleAttributes": 0,
       "repeatedStringLiterals": 30
     },
     "prose": {
@@ -334,10 +334,10 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 1426,
+      "totalFiles": 1428,
       "frontend": 450,
-      "backend": 395,
-      "shared": 150,
+      "backend": 396,
+      "shared": 151,
       "api": 116,
       "tooling": 103,
       "database": 75,
@@ -521,35 +521,13 @@
     "magicValues": {
       "name": "magicValues",
       "summary": {
-        "inlineHexColours": 4,
-        "inlineStyleAttributes": 1,
+        "inlineHexColours": 0,
+        "inlineStyleAttributes": 0,
         "repeatedStringLiterals": 30
       },
       "offenders": {
-        "hexColours": [
-          {
-            "file": "src/lib/components/account/GoogleSignInButton.svelte",
-            "line": 14
-          },
-          {
-            "file": "src/lib/components/account/GoogleSignInButton.svelte",
-            "line": 18
-          },
-          {
-            "file": "src/lib/components/account/GoogleSignInButton.svelte",
-            "line": 21
-          },
-          {
-            "file": "src/lib/components/account/GoogleSignInButton.svelte",
-            "line": 23
-          }
-        ],
-        "inlineStyles": [
-          {
-            "file": "src/lib/components/site/BrandWordmark.svelte",
-            "line": 7
-          }
-        ],
+        "hexColours": [],
+        "inlineStyles": [],
         "repeatedLiterals": [
           {
             "literal": "hidden",
@@ -2537,10 +2515,10 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 1426,
+        "totalFiles": 1428,
         "frontend": 450,
-        "backend": 395,
-        "shared": 150,
+        "backend": 396,
+        "shared": 151,
         "api": 116,
         "tooling": 103,
         "database": 75,
@@ -2557,13 +2535,13 @@
         },
         {
           "area": "backend",
-          "files": 395,
+          "files": 396,
           "sourceFiles": 393,
           "sourceLines": 12162
         },
         {
           "area": "shared",
-          "files": 150,
+          "files": 151,
           "sourceFiles": 137,
           "sourceLines": 4411
         },

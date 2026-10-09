@@ -4,7 +4,7 @@ Generated 2026-10-09 13:45 UTC.
 
 ## Headline
 
-**Code quality score 90.8%.** **0 of 1,044 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
+**Code quality score 90.9%.** **0 of 1,044 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
 
 ## Code quality score
 
@@ -17,7 +17,7 @@ Generated 2026-10-09 13:45 UTC.
 | Else blocks | 0 in 1573 branches | 100.0% | 5 | 50% of branches |
 | Duplication % | 0.26 | 98.7% | 8 | 20 |
 | Explanatory comment lines | 74 in 37.1 thousand lines | 96.0% | 4 | 50 per thousand lines |
-| Inline magic values | 35 in 37.1 thousand lines | 95.3% | 4 | 20 per thousand lines |
+| Inline magic values | 30 in 37.1 thousand lines | 96.0% | 4 | 20 per thousand lines |
 | Orphan components and functions | 0 in 1536 components and functions | 100.0% | 4 | 10% of components and functions |
 | Long member chain lines | 109 in 37.1 thousand lines | 90.2% | 4 | 30 per thousand lines |
 | Deeply indented lines | 0 in 37.1 thousand lines | 100.0% | 4 | 30 per thousand lines |
@@ -41,15 +41,15 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
 | frontend | 450 | 326 | 12,093 |
-| backend | 395 | 393 | 12,162 |
-| shared | 150 | 137 | 4,411 |
+| backend | 396 | 393 | 12,162 |
+| shared | 151 | 137 | 4,411 |
 | api | 116 | 116 | 5,426 |
 | tooling | 103 | 0 | 0 |
 | database | 75 | 0 | 0 |
 | tests | 72 | 72 | 3,012 |
 | docs | 52 | 0 | 0 |
 | infrastructure | 13 | 0 | 0 |
-| **whole repository** | **1,426** | **1,044** | **37,104** |
+| **whole repository** | **1,428** | **1,044** | **37,104** |
 
 ## Summary
 
@@ -62,7 +62,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | duplication | clones: 11, duplicatedLines: 99, totalLines: 37840, duplicatedPercentage: 0.26, carriedFromBaseline: True |
 | naming | bannedAbbreviationHits: 17, unprefixedBooleans: 2 |
 | comments | explanatoryCommentLines: 74, filesWithComments: 33, taskMarkers: 0 |
-| magicValues | inlineHexColours: 4, inlineStyleAttributes: 1, repeatedStringLiterals: 30 |
+| magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 30 |
 | prose | longMemberChainLines: 109, deeplyIndentedLines: 0, overlongLines: 82, measurementIsHeuristic: True |
 | conditions | tangledConditionLines: 0, literalComparisonLines: 0, measurementIsHeuristic: True |
 | orphans | orphanFunctions: 0, functionsExamined: 1270 |
@@ -70,20 +70,20 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | inventory | pages: 33, components: 266, orphanComponents: 0, averagePageLines: 48 |
 | siteDefinition | skipped: no siteDefinition catalogue in rules.json |
 | inputValidation | schemaTables: 85, limitedColumns: 0, writeDoors: 98, unvalidatedDoors: 91, looserLimits: 0 |
-| fileAreas | totalFiles: 1426, frontend: 450, backend: 395, shared: 150, api: 116, tooling: 103, database: 75, tests: 72, docs: 52, infrastructure: 13 |
+| fileAreas | totalFiles: 1428, frontend: 450, backend: 396, shared: 151, api: 116, tooling: 103, database: 75, tests: 72, docs: 52, infrastructure: 13 |
 
 ## Against the baseline
 
 | Ratcheted figure | Baseline | Now | Verdict |
 | --- | --- | --- | --- |
-| code quality score | 88.1% | 90.8% | — |
+| code quality score | 88.1% | 90.9% | — |
 | fileLength.filesOverLimit | 0 | 0 | held |
 | fileLength.worstFileLines | 0 | 0 | held |
 | functionShape.functionsOverLimit | 4 | 3 | better |
 | functionShape.elseBlocks | 0 | 0 | held |
 | duplication.duplicatedPercentage | 0.26 | 0.26 | held |
 | comments.explanatoryCommentLines | 78 | 74 | better |
-| magicValues.inlineHexColours | 4 | 4 | held |
+| magicValues.inlineHexColours | 4 | 0 | better |
 | inventory.orphanComponents | 0 | 0 | held |
 | orphans.orphanFunctions | 0 | 0 | held |
 | prose.longMemberChainLines | 200 | 109 | better |

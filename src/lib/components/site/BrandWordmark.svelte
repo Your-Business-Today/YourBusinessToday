@@ -3,8 +3,8 @@
 </script>
 
 <span
-	class="font-display font-bold tracking-tight text-chalk"
-	style="font-size: {fontSize}px; line-height: 1;"
+	class="font-display leading-none font-bold tracking-tight text-chalk"
+	style:font-size={`${fontSize}px`}
 	aria-label="Your Business Today"
 >
 	YBT<span class="text-signal">.</span>
