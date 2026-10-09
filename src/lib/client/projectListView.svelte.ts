@@ -65,8 +65,12 @@ export class ProjectListView {
 		return this.filteredProjects.slice(firstProjectIndex, firstProjectIndex + projectsPerPage);
 	}
 
+	get projectCount(): number {
+		return this.#allProjects().length;
+	}
+
 	get countLabel(): string {
-		const totalCount = this.#allProjects().length;
+		const totalCount = this.projectCount;
 		const filteredCount = this.filteredProjects.length;
 		const noun = totalCount === 1 ? 'project' : 'projects';
 		if (filteredCount === totalCount) return `${totalCount} ${noun}`;

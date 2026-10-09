@@ -5,10 +5,9 @@
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewProjectForm from '$lib/components/projects/NewProjectForm.svelte';
 	import PriorityModal from '$lib/components/site/PriorityModal.svelte';
-	import ProjectBoard from '$lib/components/projects/ProjectBoard.svelte';
+	import ProjectBoardTabs from '$lib/components/projects/ProjectBoardTabs.svelte';
 	import ProjectsPageHeader from '$lib/components/projects/ProjectsPageHeader.svelte';
 	import WaitingOnYouSection from '$lib/components/projects/WaitingOnYouSection.svelte';
-	import TeamProjectsSection from '$lib/components/projects/TeamProjectsSection.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { ProjectListView } from '$lib/client/projectListView.svelte';
 	import type { Project } from '$lib/server/projects/projectRecord';
@@ -52,16 +51,14 @@
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
 	<WaitingOnYouSection waitingTasks={data.waitingTasks} />
-	<ProjectBoard
+	<ProjectBoardTabs
 		{listView}
+		teamProjects={data.teamProjects}
 		latestKitVersion={data.latestKitVersion}
 		onEdit={openEditModal}
 		onDelete={openDeleteModal}
 		onSetPriority={(project) => openPriorityModal(project, 'of your board')}
-	/>
-	<TeamProjectsSection
-		projects={data.teamProjects}
-		onSetPriority={(project) => openPriorityModal(project, 'of your team projects')}
+		onSetTeamPriority={(project) => openPriorityModal(project, 'of your team projects')}
 	/>
 </div>
 
