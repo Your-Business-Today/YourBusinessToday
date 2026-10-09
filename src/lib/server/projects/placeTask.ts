@@ -35,7 +35,7 @@ async function movedTaskBesideTarget(
 ): Promise<ProjectTask | null> {
 	const movedTask = await getTask(supabase, movedTaskId);
 	if (movedTask === null) return null;
-	if (isTopLevelMoveAcrossGoals(movedTask, targetTask)) {
+	if (isMoveToAnotherGoal(movedTask, targetTask)) {
 		await updateTaskGoal(supabase, movedTaskId, targetTask.goalId);
 	}
 	if (movedTask.parentTaskId === targetTask.parentTaskId) return getTask(supabase, movedTaskId);
@@ -43,6 +43,6 @@ async function movedTaskBesideTarget(
 	return getTask(supabase, movedTaskId);
 }
 
-function isTopLevelMoveAcrossGoals(movedTask: ProjectTask, targetTask: ProjectTask): boolean {
+function isMoveToAnotherGoal(movedTask: ProjectTask, targetTask: ProjectTask): boolean {
 	return targetTask.parentTaskId === null && movedTask.goalId !== targetTask.goalId;
 }

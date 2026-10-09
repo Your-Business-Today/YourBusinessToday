@@ -6,7 +6,7 @@ export type OfficerIdentity = { officerId: string; name: string; officerRole?: s
 
 const companiesHouseSource = 'companies_house';
 
-export async function findOrCreatePersonFromOfficer(
+export async function ensurePersonForOfficer(
 	supabase: SupabaseClient,
 	officer: OfficerIdentity
 ): Promise<string> {

@@ -25,6 +25,21 @@ export async function loadTaskWorkspace(
 		getProject(supabase, projectId)
 	]);
 	if (task === null || project === null) return null;
+	const { assigneeIdsByTask, sequencePlace, ...records } = await loadTaskRecords(supabase, task);
+	const authorIds = [task.createdBy, ...conversationAccountIds(records.messages)];
+	return {
+		task,
+		project,
+		...records,
+		accounts: await getAccountsById(supabase, authorIds),
+		assigneeIds: assigneeIdsByTask.get(taskId) ?? [],
+		waitedForAssigneeIds: assigneeIdsByTask.get(task.waitsForTaskId ?? '') ?? [],
+		...sequencePlace
+	};
+}
+
+async function loadTaskRecords(supabase: SupabaseClient, task: ProjectTask) {
+	const { id: taskId, projectId } = task;
 	const [
 		people,
 		goals,
@@ -48,22 +63,17 @@ export async function loadTaskWorkspace(
 		getTaskRoles(supabase, taskId),
 		getTaskSequence(supabase, task)
 	]);
-	const authorIds = [task.createdBy, ...conversationAccountIds(messages)];
 	return {
-		task,
-		project,
 		people,
 		goals,
 		messages,
 		participantIds,
-		accounts: await getAccountsById(supabase, authorIds),
 		criteria,
 		checklists,
 		attachments,
-		assigneeIds: assigneeIdsByTask.get(taskId) ?? [],
-		waitedForAssigneeIds: assigneeIdsByTask.get(task.waitsForTaskId ?? '') ?? [],
+		assigneeIdsByTask,
 		roles,
-		...sequencePlace
+		sequencePlace
 	};
 }
 

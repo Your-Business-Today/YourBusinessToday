@@ -212,7 +212,7 @@ only then drops the moved columns. `client_id_for_account()` is untouched.
 | Command | Story it serves |
 | --- | --- |
 | `addPerson` | a person typed in |
-| `findOrCreatePersonFromOfficer` | a Companies House officer becomes a person, once |
+| `ensurePersonForOfficer` | a Companies House officer becomes a person, once |
 | `affiliatePersonWithClient` | a person joins a company's people |
 | `importAppointmentsAsLeads` | the chosen appointments become leads, optionally grouped |
 | `importCompanyOfficers` | a company's officers become its people |

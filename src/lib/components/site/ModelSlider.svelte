@@ -11,21 +11,24 @@
 	const position = $derived(rungIndexFor(modelId));
 	const rung = $derived(modelLadder[position]);
 
+	/** A form reset (use:enhance's update) lands on the chosen rung, not the first. */
+	const modelIdAfterReset = $derived(rung.modelId);
+	const positionAfterReset = $derived(position);
+
 	function moveTo(event: Event) {
 		modelId = modelLadder[Number((event.currentTarget as HTMLInputElement).value)].modelId;
 	}
 </script>
 
 <div class="flex flex-col gap-3">
-	<!-- defaultValue keeps a form reset (use:enhance's update) on the chosen rung. -->
-	<input type="hidden" {name} value={rung.modelId} defaultValue={rung.modelId} />
+	<input type="hidden" {name} value={rung.modelId} defaultValue={modelIdAfterReset} />
 	<input
 		type="range"
 		min="0"
 		max={lastIndex}
 		step="1"
 		value={position}
-		defaultValue={position}
+		defaultValue={positionAfterReset}
 		oninput={moveTo}
 		aria-label="Model"
 		aria-valuetext={rung.name}

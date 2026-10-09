@@ -20,13 +20,8 @@ export async function raiseSupportTask(
 	const want = readOptionalText(input, 'want');
 	if (title === null || want === null)
 		return 'Say what the matter is in a sentence, then in your own words.';
-	if (want.length > longestMessageBody) {
-		return `That is too long — keep it under ${longestMessageBody} characters and link to the detail instead.`;
-	}
-	const raisedToday = await countSupportTasksRaisedToday(caller.supabase, caller.accountId);
-	if (raisedToday >= dailyRaiseCeiling) {
-		return `You have raised ${raisedToday} today, which is the daily limit. Add to an open task instead, or try again tomorrow.`;
-	}
+	const refusal = await refusalFor(caller, want);
+	if (refusal !== null) return refusal;
 	const placement = await placementWithin(caller, project.id, input);
 	if (placement === null)
 		return 'That goal or parent task is not on this project. Call find_goals or find_tasks first.';
@@ -43,6 +38,18 @@ export async function raiseSupportTask(
 		caller.accountId
 	);
 	return `Raised "${title}" on ${project.name} (task id: ${taskId}). Someone will answer in its conversation.`;
+}
+
+/** Why the want cannot be raised as it stands: too long, or the day's ceiling reached. */
+async function refusalFor(caller: McpCaller, want: string): Promise<string | null> {
+	if (want.length > longestMessageBody) {
+		return `That is too long — keep it under ${longestMessageBody} characters and link to the detail instead.`;
+	}
+	const raisedToday = await countSupportTasksRaisedToday(caller.supabase, caller.accountId);
+	if (raisedToday >= dailyRaiseCeiling) {
+		return `You have raised ${raisedToday} today, which is the daily limit. Add to an open task instead, or try again tomorrow.`;
+	}
+	return null;
 }
 
 type Placement = { goalId: string | null; parentTaskId: string | null };
