@@ -30,7 +30,9 @@ The books live in their own house, Your Books Today.
   through their own Claude at `/api/mcp` too. Every top level task is a user story unless it
   is a `FIX:`; every message says whose turn it is next — a person or their Claude — and the
   backlog filters to what is waiting on you; every task records the git branch its work is on,
-  and GitHub's pull request webhook marks it done when that branch merges;
+  and GitHub's pull request webhook marks it done when that branch merges. A task is sized for
+  one Claude session, and a session that stops short raises the rest as tasks assigned to
+  people and tells its person the chat can be archived;
   [docs/conversation-turns-and-branches.md](./docs/conversation-turns-and-branches.md) is the
   design. A task that cannot start until another is done waits for it, and a series of steps
   each waiting for the one before shows as a sequence on every step, with the step it is waiting

@@ -78,6 +78,26 @@ his Claude counted six. Two faults, one on each side.
   and a read that fills its page leaves the cursor on its last message rather than skipping
   what came after.
 
+### A task is one session's work
+
+Revised on 9 October 2026, from James: a task should be enough for one Claude session to
+complete; when it is not, the session raises the rest as new tasks assigned to people, and it
+always ends by saying the chat can be archived. Tying each session off cleanly is what lets a
+task, and the goal above it, be completed rather than carried from chat to chat.
+
+- A task is sized for one session when it is raised (the raising doctrine and `create_task` say
+  so) and split before it starts when a session finds it is more (working doctrine rule 2): one
+  task per step, each assigned to whoever does it, waiting for the one before where the order
+  matters.
+- When a session stops, anything the task asked for that it has not finished becomes a subtask
+  assigned to whoever does it next; the work log says which tasks carry what is left; the task is
+  marked done unless its pull request will do that on merge; and the person is told in chat that
+  the chat can be archived, with the tasks that carry the rest and who has them (rule 4).
+- A task stays open only for its pull request to merge or for an answer marked as waiting on
+  someone, never for a chat to come back to it. A goal counts its tasks' subtasks, so a split
+  task's goal stays open until the last step is done.
+- The kit's `CLAUDE.md` working process and its `end-of-day` skill say the same from kit 1.15.0.
+
 ## Branches
 
 A task has `branch_name`. A Claude records it with `set_task_branch` when it branches, and the
