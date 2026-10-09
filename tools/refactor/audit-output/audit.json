@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-09T07:12:51+00:00",
+  "generatedAt": "2026-10-09T08:43:54+00:00",
   "kitVersion": "1.14.0",
   "score": {
     "overall": 88.1,
     "groups": [
       {
         "group": "Standard baseline checks",
-        "score": 97.2,
+        "score": 97.3,
         "weight": 60
       },
       {
@@ -16,7 +16,7 @@
       },
       {
         "group": "Prose",
-        "score": 90.0,
+        "score": 89.9,
         "weight": 20
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 996,
+        "measuredAgainst": 1018,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 4,
-        "measuredAgainst": 1212,
+        "measuredAgainst": 1238,
         "score": 98.7
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1546,
+        "measuredAgainst": 1566,
         "score": 100.0
       },
       {
@@ -100,8 +100,8 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 78,
-        "measuredAgainst": 35.75,
-        "score": 95.6
+        "measuredAgainst": 36.52,
+        "score": 95.7
       },
       {
         "key": "magicValues",
@@ -112,8 +112,8 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 35,
-        "measuredAgainst": 35.75,
-        "score": 95.1
+        "measuredAgainst": 36.52,
+        "score": 95.2
       },
       {
         "key": "orphans",
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1453,
+        "measuredAgainst": 1486,
         "score": 100.0
       },
       {
@@ -136,8 +136,8 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 201,
-        "measuredAgainst": 35.75,
-        "score": 81.3
+        "measuredAgainst": 36.52,
+        "score": 81.7
       },
       {
         "key": "deepIndentation",
@@ -148,8 +148,8 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 81,
-        "measuredAgainst": 35.75,
-        "score": 92.4
+        "measuredAgainst": 36.52,
+        "score": 92.6
       },
       {
         "key": "functionNames",
@@ -160,8 +160,8 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 2,
-        "measuredAgainst": 1212,
-        "score": 98.3
+        "measuredAgainst": 1238,
+        "score": 98.4
       },
       {
         "key": "predictedFiles",
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 80,
+        "measuredAgainst": 82,
         "score": 100.0
       },
       {
@@ -195,8 +195,8 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 25,
-        "measuredAgainst": 1546,
-        "score": 93.5
+        "measuredAgainst": 1566,
+        "score": 93.6
       },
       {
         "key": "literalComparisons",
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1546,
+        "measuredAgainst": 1566,
         "score": 100.0
       },
       {
@@ -218,9 +218,9 @@
         "zeroAt": 0.1,
         "unit": "functions",
         "isMeasured": true,
-        "offenders": 30,
-        "measuredAgainst": 1212,
-        "score": 75.2
+        "offenders": 31,
+        "measuredAgainst": 1238,
+        "score": 75.0
       },
       {
         "key": "handRolledWidgets",
@@ -241,8 +241,8 @@
         "zeroAt": 0.5,
         "unit": "write doors",
         "isMeasured": true,
-        "offenders": 90,
-        "measuredAgainst": 97,
+        "offenders": 91,
+        "measuredAgainst": 98,
         "score": 0.0
       }
     ]
@@ -251,17 +251,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 996,
-      "totalLines": 35747,
+      "totalFiles": 1018,
+      "totalLines": 36520,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 4,
-      "totalFunctions": 1212,
+      "totalFunctions": 1238,
       "elseBlocks": 0,
-      "ifBlocks": 1546,
+      "ifBlocks": 1566,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -270,7 +270,7 @@
       "maxLength": 40
     },
     "accessorNames": {
-      "gluedAccessorNames": 30,
+      "gluedAccessorNames": 31,
       "measurementIsHeuristic": true
     },
     "duplication": {
@@ -297,7 +297,7 @@
     "prose": {
       "longMemberChainLines": 201,
       "deeplyIndentedLines": 81,
-      "overlongLines": 81,
+      "overlongLines": 82,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -307,19 +307,19 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 1212
+      "functionsExamined": 1238
     },
     "designPatterns": {
-      "roleFamilies": 55,
-      "predictedFiles": 80,
+      "roleFamilies": 56,
+      "predictedFiles": 82,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 32,
-      "components": 241,
+      "pages": 33,
+      "components": 248,
       "orphanComponents": 0,
       "averagePageLines": 49
     },
@@ -327,22 +327,22 @@
       "skipped": "no siteDefinition catalogue in rules.json"
     },
     "inputValidation": {
-      "schemaTables": 84,
+      "schemaTables": 85,
       "limitedColumns": 0,
-      "writeDoors": 97,
-      "unvalidatedDoors": 90,
+      "writeDoors": 98,
+      "unvalidatedDoors": 91,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 1381,
+      "totalFiles": 1377,
       "frontend": 424,
       "backend": 391,
       "shared": 141,
       "api": 113,
-      "tooling": 105,
+      "tooling": 103,
       "database": 73,
       "tests": 68,
-      "docs": 53,
+      "docs": 51,
       "infrastructure": 13
     }
   },
@@ -352,8 +352,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 996,
-        "totalLines": 35747,
+        "totalFiles": 1018,
+        "totalLines": 36520,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -364,9 +364,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 4,
-        "totalFunctions": 1212,
+        "totalFunctions": 1238,
         "elseBlocks": 0,
-        "ifBlocks": 1546,
+        "ifBlocks": 1566,
         "measurementIsHeuristic": true
       },
       "offenders": [
@@ -419,7 +419,7 @@
     "accessorNames": {
       "name": "accessorNames",
       "summary": {
-        "gluedAccessorNames": 30,
+        "gluedAccessorNames": 31,
         "measurementIsHeuristic": true
       },
       "offenders": [
@@ -472,6 +472,11 @@
           "file": "src/lib/server/conversations/inboxCursor.ts",
           "line": 3,
           "name": "getInboxCursor"
+        },
+        {
+          "file": "src/lib/server/feed/getProjectFeed.ts",
+          "line": 17,
+          "name": "getProjectFeed"
         },
         {
           "file": "src/lib/server/goals/getGoalSummaries.ts",
@@ -570,7 +575,7 @@
         },
         {
           "file": "src/routes/notifications/+page.server.ts",
-          "line": 45,
+          "line": 47,
           "name": "readSubjectKind"
         }
       ]
@@ -729,16 +734,16 @@
             "occurrences": 26
           },
           {
-            "literal": "text-chalk/70",
+            "literal": "text-sm text-chalk/60",
             "occurrences": 21
           },
           {
-            "literal": "text-sm text-chalk/60",
-            "occurrences": 20
+            "literal": "flex flex-col gap-2",
+            "occurrences": 21
           },
           {
-            "literal": "flex flex-col gap-2",
-            "occurrences": 20
+            "literal": "text-chalk/70",
+            "occurrences": 21
           },
           {
             "literal": "font-display text-3xl font-medium",
@@ -797,6 +802,10 @@
             "occurrences": 8
           },
           {
+            "literal": "flex flex-wrap gap-2",
+            "occurrences": 8
+          },
+          {
             "literal": "flex flex-wrap items-center gap-2",
             "occurrences": 8
           },
@@ -823,10 +832,6 @@
           {
             "literal": "Normal",
             "occurrences": 7
-          },
-          {
-            "literal": "font-display text-xl font-medium",
-            "occurrences": 7
           }
         ]
       }
@@ -836,7 +841,7 @@
       "summary": {
         "longMemberChainLines": 201,
         "deeplyIndentedLines": 81,
-        "overlongLines": 81,
+        "overlongLines": 82,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -1459,7 +1464,7 @@
         "tangled": [
           {
             "file": "src/lib/components/site/siteNavigation.ts",
-            "line": 37
+            "line": 38
           },
           {
             "file": "src/lib/data/officerSeniority.ts",
@@ -1565,15 +1570,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 1212
+        "functionsExamined": 1238
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 55,
-        "predictedFiles": 80,
+        "roleFamilies": 56,
+        "predictedFiles": 82,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -1581,11 +1586,11 @@
       },
       "offenders": {
         "roleFamilies": {
-          "+page.server.ts": 24,
-          "+page.svelte": 32,
+          "+page.server.ts": 25,
+          "+page.svelte": 33,
           "+server.ts": 13,
           "access": 4,
-          "actions": 62,
+          "actions": 63,
           "attachment": 4,
           "bar": 4,
           "button": 7,
@@ -1593,15 +1598,16 @@
           "client": 8,
           "count": 4,
           "email": 7,
-          "event": 4,
+          "event": 5,
           "field": 5,
           "fields": 14,
           "filter": 5,
           "form": 35,
           "goal": 8,
           "grant": 4,
-          "header": 9,
-          "ids": 6,
+          "header": 10,
+          "ids": 7,
+          "kind": 4,
           "link": 7,
           "list": 15,
           "message": 4,
@@ -1614,25 +1620,25 @@
           "password": 5,
           "people": 4,
           "person": 5,
-          "pill": 6,
+          "pill": 7,
           "priority": 4,
           "profile": 5,
           "project": 9,
           "projects": 5,
-          "record": 17,
+          "record": 18,
           "refusal": 4,
           "request": 6,
-          "row": 18,
-          "section": 25,
+          "row": 19,
+          "section": 26,
           "sections": 7,
-          "sentence": 4,
+          "sentence": 5,
           "status": 4,
           "styles": 4,
-          "svelte": 9,
+          "svelte": 10,
           "table": 4,
           "task": 14,
           "tasks": 5,
-          "test": 68,
+          "test": 70,
           "text": 6,
           "types": 10,
           "xml": 4
@@ -1670,12 +1676,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 24,
+            "predicted": 25,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 32,
+            "predicted": 33,
             "missing": [
               "src/routes/+page.server.ts",
               "src/routes/about/+page.server.ts",
@@ -1695,8 +1701,8 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 32,
-        "components": 241,
+        "pages": 33,
+        "components": 248,
         "orphanComponents": 0,
         "averagePageLines": 49
       },
@@ -1779,6 +1785,15 @@
             ]
           },
           {
+            "page": "src/routes/notifications/+page.svelte",
+            "lines": 54,
+            "widgets": [
+              "form",
+              "submit",
+              "list"
+            ]
+          },
+          {
             "page": "src/routes/clients/prospect/+page.svelte",
             "lines": 52,
             "widgets": [
@@ -1790,15 +1805,6 @@
             "lines": 50,
             "widgets": [
               "error"
-            ]
-          },
-          {
-            "page": "src/routes/notifications/+page.svelte",
-            "lines": 48,
-            "widgets": [
-              "form",
-              "submit",
-              "list"
             ]
           },
           {
@@ -1832,6 +1838,13 @@
             "widgets": [
               "form",
               "submit"
+            ]
+          },
+          {
+            "page": "src/routes/projects/feed/+page.svelte",
+            "lines": 42,
+            "widgets": [
+              "list"
             ]
           },
           {
@@ -1931,15 +1944,15 @@
             "reusedBy": 9
           },
           {
+            "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
+            "reusedBy": 7
+          },
+          {
             "component": "src/lib/components/site/DangerConfirmModal.svelte",
             "reusedBy": 6
           },
           {
             "component": "src/lib/components/site/ProseText.svelte",
-            "reusedBy": 6
-          },
-          {
-            "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
             "reusedBy": 6
           },
           {
@@ -1964,6 +1977,10 @@
           },
           {
             "component": "src/lib/components/home/EnquirySection.svelte",
+            "reusedBy": 4
+          },
+          {
+            "component": "src/lib/components/site/EmptyState.svelte",
             "reusedBy": 4
           },
           {
@@ -2000,10 +2017,6 @@
           },
           {
             "component": "src/lib/components/site/ChevronIcon.svelte",
-            "reusedBy": 3
-          },
-          {
-            "component": "src/lib/components/site/EmptyState.svelte",
             "reusedBy": 3
           },
           {
@@ -2136,6 +2149,10 @@
           },
           {
             "component": "src/lib/components/workspace/HeaderFacts.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/workspace/StatTile.svelte",
             "reusedBy": 2
           },
           {
@@ -2352,6 +2369,34 @@
           },
           {
             "component": "src/lib/components/conversations/TurnPill.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/feed/FeedDaySection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/feed/FeedEventPill.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/feed/FeedEventRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/feed/FeedPageHeader.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/feed/FeedScopeChips.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/feed/FeedScoreboard.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/feed/LiveMarker.svelte",
             "reusedBy": 1
           },
           {
@@ -2869,10 +2914,6 @@
           {
             "component": "src/lib/components/workspace/ProgressTrack.svelte",
             "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/workspace/StatTile.svelte",
-            "reusedBy": 1
           }
         ],
         "orphans": []
@@ -2891,45 +2932,45 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 1381,
+        "totalFiles": 1377,
         "frontend": 424,
         "backend": 391,
         "shared": 141,
         "api": 113,
-        "tooling": 105,
+        "tooling": 103,
         "database": 73,
         "tests": 68,
-        "docs": 53,
+        "docs": 51,
         "infrastructure": 13
       },
       "offenders": [
         {
           "area": "frontend",
           "files": 424,
-          "sourceFiles": 300,
-          "sourceLines": 11691
+          "sourceFiles": 308,
+          "sourceLines": 11911
         },
         {
           "area": "backend",
           "files": 391,
-          "sourceFiles": 388,
-          "sourceLines": 11915
+          "sourceFiles": 392,
+          "sourceLines": 12046
         },
         {
           "area": "shared",
           "files": 141,
-          "sourceFiles": 127,
-          "sourceLines": 4116
+          "sourceFiles": 134,
+          "sourceLines": 4338
         },
         {
           "area": "api",
           "files": 113,
-          "sourceFiles": 113,
-          "sourceLines": 5264
+          "sourceFiles": 114,
+          "sourceLines": 5321
         },
         {
           "area": "tooling",
-          "files": 105,
+          "files": 103,
           "sourceFiles": 0,
           "sourceLines": 0
         },
@@ -2942,12 +2983,12 @@
         {
           "area": "tests",
           "files": 68,
-          "sourceFiles": 68,
-          "sourceLines": 2761
+          "sourceFiles": 70,
+          "sourceLines": 2904
         },
         {
           "area": "docs",
-          "files": 53,
+          "files": 51,
           "sourceFiles": 0,
           "sourceLines": 0
         },
@@ -2962,10 +3003,10 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 84,
+        "schemaTables": 85,
         "limitedColumns": 0,
-        "writeDoors": 97,
-        "unvalidatedDoors": 90,
+        "writeDoors": 98,
+        "unvalidatedDoors": 91,
         "looserLimits": 0
       },
       "offenders": {
@@ -3096,6 +3137,12 @@
             "file": "src/lib/server/mcp/actions/describeUploadGrant.ts",
             "tables": [
               "taskuploadgrant"
+            ]
+          },
+          {
+            "file": "src/lib/server/mcp/actions/feedActions.ts",
+            "tables": [
+              "oauthtoken"
             ]
           },
           {

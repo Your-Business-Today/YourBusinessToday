@@ -17,10 +17,12 @@ export type TaskDetailsUpdate = {
 	storyBenefit: string;
 };
 
+/** Save a task's details; savedBy is who moved its status, should the save move it. */
 export async function updateTaskDetails(
 	supabase: SupabaseClient,
 	taskId: string,
-	update: TaskDetailsUpdate
+	update: TaskDetailsUpdate,
+	savedBy: string
 ): Promise<void> {
 	const { error } = await supabase
 		.from('tasks')
@@ -28,6 +30,7 @@ export async function updateTaskDetails(
 			title: update.title,
 			details: update.details,
 			status: update.status,
+			status_set_by: savedBy,
 			due_date: update.dueDate,
 			goal_id: update.goalId,
 			kind: update.kind,

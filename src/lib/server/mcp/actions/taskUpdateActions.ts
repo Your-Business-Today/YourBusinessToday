@@ -45,7 +45,7 @@ export const taskUpdateActions: McpAction[] = [
 			if (task === null) return noSuchTask;
 			const edit = readTaskDetailsEdit(input, task);
 			if (edit === null) return wrongStoryPoints;
-			await updateTaskDetails(caller.supabase, task.id, edit);
+			await updateTaskDetails(caller.supabase, task.id, edit, caller.accountId);
 			return `"${edit.title}" saved — ${edit.storyPoints} points, ${edit.completionPercent}% done.`;
 		}
 	}

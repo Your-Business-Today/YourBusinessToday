@@ -2,23 +2,28 @@
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import { formatBritishDateTime } from '$lib/data/britishDate';
+	import { notificationSentence } from '$lib/data/notificationSentence';
 	import type { NotificationListItem } from '$lib/server/notifications/notificationListItem';
 
 	let {
 		notification,
 		authorName
-	}: { notification: NotificationListItem; authorName: string } = $props();
+	}: { notification: NotificationListItem; authorName: string | null } = $props();
 
 	const tracker = new FormTracker();
 
-	const formattedDate = $derived(
-		new Date(notification.createdAt).toLocaleDateString('en-GB', {
-			day: 'numeric',
-			month: 'short',
-			hour: '2-digit',
-			minute: '2-digit'
+	const formattedDate = $derived(formatBritishDateTime(notification.createdAt));
+
+	const sentence = $derived(
+		notificationSentence({
+			subjectKind: notification.subjectKind,
+			subjectTitle: notification.subjectTitle,
+			eventKind: notification.eventKind,
+			actorName: authorName
 		})
 	);
+	const hasBody = $derived(notification.messageBody !== '');
 </script>
 
 <li class="flex items-start gap-4 px-5 py-4" class:opacity-60={notification.isRead}>
@@ -29,11 +34,13 @@
 	{/if}
 	<div class="min-w-0 flex-1">
 		<p class="text-sm">
-			<span class="font-display text-chalk/90">{authorName}</span>
-			<span class="text-chalk/60"> said on the {notification.subjectKind} </span>
-			<span class="font-display text-chalk/90">{notification.subjectTitle}</span>
+			<span class="font-display text-chalk/90">{sentence.who}</span>
+			<span class="text-chalk/60">{sentence.what}</span>
+			<span class="font-display text-chalk/90">{sentence.which}</span>
 		</p>
-		<p class="truncate text-sm text-chalk/60">{notification.messageBody}</p>
+		{#if hasBody}
+			<p class="truncate text-sm text-chalk/60">{notification.messageBody}</p>
+		{/if}
 		<p class="text-xs text-chalk/40">{formattedDate}</p>
 	</div>
 	<form method="POST" action="?/openNotification" use:enhance={tracker.submit()}>

@@ -25,6 +25,7 @@ export const primaryNavigationLinks: NavigationLink[] = [
 
 const workLinks: NavigationLink[] = [
 	{ href: '/projects', label: 'Projects' },
+	{ href: '/projects/feed', label: 'Feed' },
 	{ href: '/tasks', label: 'Tasks' },
 	{ href: '/support', label: 'Support' }
 ];

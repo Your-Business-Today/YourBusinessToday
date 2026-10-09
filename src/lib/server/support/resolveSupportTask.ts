@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { postMessage } from '$lib/server/conversations/postMessage';
 import { recordClientEvent } from '$lib/server/clients/recordClientEvent';
+import { doneTaskStatus } from '$lib/data/taskStatus';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
@@ -16,7 +17,8 @@ export async function resolveSupportTask(
 	const { error } = await supabase
 		.from('tasks')
 		.update({
-			status: 'done',
+			status: doneTaskStatus,
+			status_set_by: resolvedBy,
 			completion_percent: fullyComplete,
 			resolution,
 			resolved_at: new Date().toISOString()

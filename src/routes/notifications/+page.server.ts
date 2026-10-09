@@ -14,7 +14,9 @@ import { notificationSubjectKinds } from '$lib/server/notifications/notification
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = await requireUser(locals);
 	const notifications = await getNotificationList(locals.supabase, user.id);
-	const authorIds = notifications.map((notification) => notification.messageAuthorId);
+	const authorIds = notifications.flatMap((notification) =>
+		notification.messageAuthorId === null ? [] : [notification.messageAuthorId]
+	);
 	return {
 		notifications,
 		authors: await getAccountDirectory(locals.supabase, authorIds)

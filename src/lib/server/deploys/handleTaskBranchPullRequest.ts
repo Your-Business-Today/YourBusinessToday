@@ -8,6 +8,9 @@ import type { Project } from '$lib/server/projects/projectRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 import { pullRequestChanges, type PullRequestEvent } from './readPullRequestEvent';
 import { supportTaskKind } from '$lib/data/taskKind';
+import { doneTaskStatus } from '$lib/data/taskStatus';
+
+const nobodySignedIn = null;
 
 export type BranchOutcome = { kind: 'no_task_on_branch' } | { kind: 'recorded'; taskIds: string[] };
 
@@ -41,6 +44,6 @@ async function recordOnTask(
 		await postMessage(supabase, { taskId: task.id }, project.ownerId, sentence);
 		return;
 	}
-	await updateTaskStatus(supabase, task.id, 'done');
+	await updateTaskStatus(supabase, task.id, doneTaskStatus, nobodySignedIn);
 	await postMessage(supabase, { taskId: task.id }, project.ownerId, `${merged}, so this task is done.`);
 }

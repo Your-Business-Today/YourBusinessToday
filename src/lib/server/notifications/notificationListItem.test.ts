@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { conversationPath, parseNotificationRow } from './notificationListItem';
 
+const doneEvent = { kind: 'task_done', actor_account_id: null };
+
 const said = {
 	body: 'Jeremy — can you check the grid?',
 	author_account_id: 'nigel'
@@ -23,6 +25,24 @@ describe('parseNotificationRow', () => {
 		expect(item.subjectTitle).toBe('Profit summary');
 		expect(item.projectId).toBe('p1');
 		expect(item.messageAuthorId).toBe('nigel');
+		expect(item.eventKind).toBeNull();
+	});
+
+	it('reads a task event as the event, with its actor in place of an author', () => {
+		const item = parseNotificationRow({
+			id: 'n3',
+			task_id: 't1',
+			goal_id: null,
+			tasks: { title: 'Profit summary', project_id: 'p1' },
+			goals: null,
+			conversation_messages: null,
+			project_events: doneEvent,
+			is_read: false,
+			created_at: '2026-10-09T14:32:00Z'
+		});
+		expect(item.eventKind).toBe('task_done');
+		expect(item.messageAuthorId).toBeNull();
+		expect(item.messageBody).toBe('');
 	});
 
 	it('reads a message on a goal as a goal notification', () => {

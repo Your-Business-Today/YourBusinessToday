@@ -60,11 +60,11 @@ export const taskQueueActions = {
 		const formData = await request.formData();
 		const task = await getTask(locals.supabase, String(formData.get('taskId') ?? ''));
 		if (task === null) return fail(400, { message: taskRequired });
-		await requireProjectAccess(locals, task.projectId);
+		const { user } = await requireProjectAccess(locals, task.projectId);
 		const status = parseTaskStatus(formData.get('status'));
 		const refusal = statusChangeRefusal(task, status);
 		if (refusal !== null) return fail(400, { message: refusal });
-		await updateTaskStatus(locals.supabase, task.id, status);
+		await updateTaskStatus(locals.supabase, task.id, status, user.id);
 		return {};
 	}
 } satisfies Actions;
