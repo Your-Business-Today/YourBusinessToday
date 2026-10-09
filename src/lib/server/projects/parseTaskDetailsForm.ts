@@ -8,6 +8,7 @@ import type { TaskDetailsUpdate } from '$lib/server/projects/updateTaskDetails';
 export type TaskDetailsSubmission = TaskDetailsUpdate & {
 	assigneeIds: string[];
 	roles: string[];
+	waitsForTaskId: string | null;
 };
 
 export function parseTaskDetailsForm(formData: FormData): TaskDetailsSubmission | null {
@@ -27,7 +28,8 @@ export function parseTaskDetailsForm(formData: FormData): TaskDetailsSubmission 
 		storyWant: String(formData.get('storyWant') ?? '').trim(),
 		storyBenefit: String(formData.get('storyBenefit') ?? '').trim(),
 		assigneeIds: formData.getAll('assigneeIds').map(String),
-		roles: parseTaskRoles(formData.getAll('roles').map(String))
+		roles: parseTaskRoles(formData.getAll('roles').map(String)),
+		waitsForTaskId: emptyAsNull(String(formData.get('waitsForTaskId') ?? ''))
 	};
 }
 

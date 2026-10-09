@@ -10,8 +10,10 @@ import { getTaskAttachments } from '$lib/server/projects/getTaskAttachments';
 import { getTaskAssigneeMap } from '$lib/server/projects/getTaskAssigneeMap';
 import { getTaskChecklists } from '$lib/server/projects/getTaskChecklists';
 import { getTaskRoles } from '$lib/server/projects/getTaskRoles';
+import { getTaskSequence } from '$lib/server/projects/getTaskSequence';
 import { getConversationParticipantIds } from '$lib/server/conversations/getConversationParticipantIds';
 import { getThread } from '$lib/server/conversations/getThread';
+import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 export async function loadTaskWorkspace(
 	supabase: SupabaseClient,
@@ -32,7 +34,8 @@ export async function loadTaskWorkspace(
 		checklists,
 		attachments,
 		assigneeIdsByTask,
-		roles
+		roles,
+		sequencePlace
 	] = await Promise.all([
 		getProjectPeople(supabase, projectId),
 		getProjectGoals(supabase, projectId),
@@ -41,8 +44,9 @@ export async function loadTaskWorkspace(
 		getTaskAcceptanceCriteria(supabase, taskId),
 		getTaskChecklists(supabase, taskId),
 		getTaskAttachments(supabase, taskId),
-		getTaskAssigneeMap(supabase, [taskId]),
-		getTaskRoles(supabase, taskId)
+		getTaskAssigneeMap(supabase, taskIdsWithWaitedFor(task)),
+		getTaskRoles(supabase, taskId),
+		getTaskSequence(supabase, task)
 	]);
 	const authorIds = [task.createdBy, ...conversationAccountIds(messages)];
 	return {
@@ -57,6 +61,13 @@ export async function loadTaskWorkspace(
 		checklists,
 		attachments,
 		assigneeIds: assigneeIdsByTask.get(taskId) ?? [],
-		roles
+		waitedForAssigneeIds: assigneeIdsByTask.get(task.waitsForTaskId ?? '') ?? [],
+		roles,
+		...sequencePlace
 	};
+}
+
+function taskIdsWithWaitedFor(task: ProjectTask): string[] {
+	if (task.waitsForTaskId === null) return [task.id];
+	return [task.id, task.waitsForTaskId];
 }

@@ -4,22 +4,26 @@
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import NewTaskStoryFields from './NewTaskStoryFields.svelte';
 	import TaskGoalAndKindFields from './TaskGoalAndKindFields.svelte';
+	import TaskSequenceField from '$lib/components/sequences/TaskSequenceField.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { bugFixTitlePrefix, needsUserStory } from '$lib/data/userStoryRule';
 	import type { TaskKind } from '$lib/data/taskKind';
 	import type { Goal } from '$lib/server/goals/goalRecord';
+	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 	let {
 		createAction = '?/createTask',
 		parentTaskId = null,
 		goals = [],
 		goalId = null,
+		sequenceChoices = [],
 		onCreated
 	}: {
 		createAction?: string;
 		parentTaskId?: string | null;
 		goals?: Goal[];
 		goalId?: string | null;
+		sequenceChoices?: ProjectTask[];
 		onCreated: () => void;
 	} = $props();
 
@@ -71,6 +75,9 @@
 		<NewTaskStoryFields {isStoryRequired} />
 	{/if}
 	<TaskGoalAndKindFields {goals} {goalId} bind:kind />
+	{#if sequenceChoices.length > 0}
+		<TaskSequenceField waitsForTaskId={null} {sequenceChoices} />
+	{/if}
 	<p class="text-xs text-chalk/50">
 		Story points, assignees, and the rest are set on the task page after it's created.
 	</p>

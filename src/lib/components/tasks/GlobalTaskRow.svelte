@@ -3,9 +3,7 @@
 	import ChevronIcon from '$lib/components/site/ChevronIcon.svelte';
 	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
-	import TaskDueDate from '$lib/components/projects/TaskDueDate.svelte';
-	import TaskMetaBadges from '$lib/components/projects/TaskMetaBadges.svelte';
-	import TaskStatusButton from '$lib/components/projects/TaskStatusButton.svelte';
+	import GlobalTaskRowEnd from './GlobalTaskRowEnd.svelte';
 	import type { GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
 
@@ -89,12 +87,6 @@
 				{task.projectName}{task.requesterName === null ? '' : ` · requested by ${task.requesterName}`}
 			</a>
 		</div>
-		<div class="ml-auto flex shrink-0 items-center gap-2">
-			<TaskMetaBadges {task} />
-			{#if task.dueDate !== null}
-				<TaskDueDate dueDate={task.dueDate} {isDone} />
-			{/if}
-			<TaskStatusButton status={task.status} kind={task.kind} onOpenPicker={() => onChangeStatus(task)} />
-		</div>
+		<GlobalTaskRowEnd {task} {isDone} {onChangeStatus} />
 	{/snippet}
 </ReorderableRow>

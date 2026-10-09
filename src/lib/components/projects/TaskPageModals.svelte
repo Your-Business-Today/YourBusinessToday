@@ -17,6 +17,8 @@
 		assigneeIds,
 		roles,
 		otherProjects,
+		sequenceChoices,
+		subtaskSequenceChoices,
 		isEditModalOpen = $bindable(),
 		isSubtaskModalOpen = $bindable(),
 		isDeleteModalOpen = $bindable()
@@ -29,6 +31,8 @@
 		assigneeIds: string[];
 		roles: string[];
 		otherProjects: ProjectChoice[];
+		sequenceChoices: ProjectTask[];
+		subtaskSequenceChoices: ProjectTask[];
 		isEditModalOpen: boolean;
 		isSubtaskModalOpen: boolean;
 		isDeleteModalOpen: boolean;
@@ -45,6 +49,7 @@
 		{assigneeIds}
 		{roles}
 		{otherProjects}
+		{sequenceChoices}
 		onSaved={() => (isEditModalOpen = false)}
 	/>
 </Modal>
@@ -55,6 +60,7 @@
 		parentTaskId={task.id}
 		{goals}
 		goalId={task.goalId}
+		sequenceChoices={subtaskSequenceChoices}
 		onCreated={() => (isSubtaskModalOpen = false)}
 	/>
 </Modal>

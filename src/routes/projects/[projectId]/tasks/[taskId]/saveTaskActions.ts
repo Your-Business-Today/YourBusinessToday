@@ -9,6 +9,7 @@ import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { setTaskAssignees } from '$lib/server/projects/setTaskAssignees';
 import { setTaskPriority } from '$lib/server/projects/setTaskPriority';
 import { setTaskRoles } from '$lib/server/projects/setTaskRoles';
+import { setTaskWaitsFor } from '$lib/server/projects/setTaskWaitsFor';
 import { statusChangeRefusal } from '$lib/server/support/statusChangeRefusal';
 import { updateTaskDetails } from '$lib/server/projects/updateTaskDetails';
 import type { Actions } from './$types';
@@ -30,6 +31,8 @@ export const saveTaskActions: Actions = {
 		if (task === null) return fail(404, { message: 'Task not found.' });
 		const refusal = statusChangeRefusal(task, submission.status);
 		if (refusal !== null) return fail(400, { message: refusal });
+		const sequenceRefusal = await setTaskWaitsFor(locals.supabase, task, submission.waitsForTaskId);
+		if (sequenceRefusal !== null) return fail(400, { message: sequenceRefusal });
 		await updateTaskDetails(locals.supabase, params.taskId, submission);
 		await setTaskAssignees(locals.supabase, params.taskId, submission.assigneeIds);
 		await setTaskRoles(locals.supabase, params.taskId, submission.roles);

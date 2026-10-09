@@ -7,6 +7,7 @@ import { checklistActions } from './checklistActions';
 import { saveTaskActions } from './saveTaskActions';
 import { conversationActions } from './conversationActions';
 import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
+import { newTaskSequenceRefusal } from '$lib/server/projects/newTaskSequenceRefusal';
 import { newTaskStoryRefusal } from '$lib/server/projects/newTaskStoryRefusal';
 import { deleteAcceptanceCriterion } from '$lib/server/projects/deleteAcceptanceCriterion';
 import { deleteTask } from '$lib/server/projects/deleteTask';
@@ -48,6 +49,8 @@ export const actions: Actions = {
 		if (seed === null) return fail(400, { message: 'A subtask title is required.' });
 		const storyRefusal = newTaskStoryRefusal(seed);
 		if (storyRefusal !== null) return fail(400, { message: storyRefusal });
+		const sequenceRefusal = await newTaskSequenceRefusal(locals.supabase, params.projectId, seed);
+		if (sequenceRefusal !== null) return fail(400, { message: sequenceRefusal });
 		await createTask(locals.supabase, params.projectId, seed, user.id);
 		return {};
 	},

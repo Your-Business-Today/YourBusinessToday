@@ -13,6 +13,7 @@ import { memberActions } from './memberActions';
 import { projectActions } from './projectActions';
 import { summariseProjectPulse } from '$lib/server/projects/summariseProjectPulse';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
+import { sequenceStandingsOf } from '$lib/data/taskSequenceStanding';
 import { taskActions } from './taskActions';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -40,6 +41,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		people,
 		assigneeIdsByTask: Object.fromEntries(assigneeIdsByTask),
 		turnsByTask: Object.fromEntries(turnsByTask),
+		sequenceByTask: sequenceStandingsOf(tasks),
 		viewerId: user.id
 	};
 };

@@ -6,10 +6,11 @@
 	import TaskGoalAndKindFields from './TaskGoalAndKindFields.svelte';
 	import TaskMoveFields from './TaskMoveFields.svelte';
 	import TaskPlanningFields from './TaskPlanningFields.svelte';
+	import TaskSequenceField from '$lib/components/sequences/TaskSequenceField.svelte';
+	import TaskStatusAndDueFields from './TaskStatusAndDueFields.svelte';
 	import TeamPickerFieldset from './TeamPickerFieldset.svelte';
 	import UserStoryFields from './UserStoryFields.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
-	import { taskStatusLabels, type TaskStatus } from '$lib/data/taskStatus';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 	import { taskPriorityScope } from '$lib/data/taskPriorityScope';
 	import type { ProjectChoice } from '$lib/server/projects/getOtherProjects';
@@ -25,6 +26,7 @@
 		assigneeIds,
 		roles,
 		otherProjects,
+		sequenceChoices,
 		onSaved
 	}: {
 		task: ProjectTask;
@@ -35,13 +37,13 @@
 		assigneeIds: string[];
 		roles: string[];
 		otherProjects: ProjectChoice[];
+		sequenceChoices: ProjectTask[];
 		onSaved: () => void;
 	} = $props();
 
 	const tracker = new FormTracker();
 
 	const priorityScope = $derived(taskPriorityScope(parentTask?.id ?? null));
-	const statusOptions = Object.entries(taskStatusLabels) as [TaskStatus, string][];
 	const fieldClasses =
 		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
@@ -64,21 +66,9 @@
 			placeholder="Context, links — anything Claude or the team needs"
 			class={fieldClasses}>{task.details}</textarea>
 	</label>
-	<div class="grid gap-4 sm:grid-cols-2">
-		<label class="flex flex-col gap-1">
-			<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Status</span>
-			<select name="status" value={task.status} class={fieldClasses}>
-				{#each statusOptions as [statusValue, statusLabel] (statusValue)}
-					<option value={statusValue}>{statusLabel}</option>
-				{/each}
-			</select>
-		</label>
-		<label class="flex flex-col gap-1">
-			<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Due date</span>
-			<input name="dueDate" type="date" value={task.dueDate ?? ''} class={fieldClasses} />
-		</label>
-	</div>
+	<TaskStatusAndDueFields {task} />
 	<TaskPlanningFields {task} />
+	<TaskSequenceField waitsForTaskId={task.waitsForTaskId} {sequenceChoices} />
 	<PriorityField priority={task.priority} among={priorityScope} />
 	<TaskGoalAndKindFields {goals} goalId={task.goalId} kind={task.kind} />
 	<TaskMoveFields {parentTask} {siblingTasks} {otherProjects} />

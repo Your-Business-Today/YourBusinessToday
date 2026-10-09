@@ -8,6 +8,7 @@ export type NewTaskSeed = {
 	details: string;
 	dueDate: string | null;
 	parentTaskId: string | null;
+	waitsForTaskId: string | null;
 	goalId: string | null;
 	kind: TaskKind;
 	story?: UserStory;
@@ -22,6 +23,7 @@ export function readNewTaskSeed(formData: FormData): NewTaskSeed | null {
 		details: String(formData.get('details') ?? '').trim(),
 		dueDate: emptyAsNull(String(formData.get('dueDate') ?? '')),
 		parentTaskId: emptyAsNull(String(formData.get('parentTaskId') ?? '')),
+		waitsForTaskId: emptyAsNull(String(formData.get('waitsForTaskId') ?? '')),
 		goalId: emptyAsNull(String(formData.get('goalId') ?? '')),
 		kind: parseTaskKind(formData.get('kind')),
 		story: {
@@ -45,6 +47,7 @@ export async function createTask(
 		.insert({
 			project_id: projectId,
 			parent_task_id: seed.parentTaskId,
+			waits_for_task_id: seed.waitsForTaskId,
 			goal_id: seed.goalId,
 			kind: seed.kind,
 			title: seed.title,

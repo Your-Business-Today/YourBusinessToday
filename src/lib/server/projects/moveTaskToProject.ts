@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { compactTaskQueue, compactTaskSiblingRanks } from '$lib/server/ordering/compactInDatabase';
 import { dropAssigneesOffProject } from '$lib/server/projects/dropAssigneesOffProject';
+import { dropSequenceLinksAcrossProjects } from '$lib/server/projects/dropSequenceLinksAcrossProjects';
 import { getTaskAndDescendantIds } from '$lib/server/projects/getTaskAndDescendantIds';
 import { nextQueueRank, nextSiblingRank } from '$lib/server/projects/nextRanks';
 import { postMessage } from '$lib/server/conversations/postMessage';
@@ -20,14 +21,17 @@ export type TaskMove = {
  * A task changes project by leaving one backlog and joining the end of
  * another, taking its subtasks and everything hung off them with it. Two
  * things cannot cross: the goal, which belongs to the project the task was
- * raised on, and assignees the destination project has never heard of. The
- * backlog it left closes the gap behind it.
+ * raised on, and assignees the destination project has never heard of. A
+ * sequence cannot span projects either, so the links between the family and
+ * the tasks it leaves behind are dropped. The backlog it left closes the gap
+ * behind it.
  */
 export async function moveTaskToProject(supabase: SupabaseClient, move: TaskMove): Promise<void> {
 	const { task, source, destination } = move;
 	const familyIds = await getTaskAndDescendantIds(supabase, task.id);
 	const backlogRank = await nextSiblingRank(supabase, destination.id, null);
 	const queueRank = await queueRankFor(supabase, move);
+	await dropSequenceLinksAcrossProjects(supabase, familyIds);
 	await carryFamilyAcross(supabase, familyIds, destination.id);
 	await updateTaskColumns(supabase, task.id, {
 		parent_task_id: null,

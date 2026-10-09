@@ -1,13 +1,13 @@
 import { attachmentLines } from './describeAttachments';
 import { branchLine } from './describeBranch';
+import { checklistLines, criterionLines } from './describeTaskPlan';
+import { sequenceLines } from './describeSequence';
 import { accountNameLookup } from '$lib/data/accountNames';
 import { goalHorizonLabels } from '$lib/data/goalHorizon';
 import { supportTaskKind, taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import { threadLines } from './describeMessages';
-import type { AcceptanceCriterion } from '$lib/server/projects/criterionRecord';
 import type { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
-import type { ChecklistItem, TaskChecklist } from '$lib/server/projects/checklistRecord';
 
 export type TaskWorkspace = NonNullable<Awaited<ReturnType<typeof loadTaskWorkspace>>>;
 
@@ -24,6 +24,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 		teamLine(workspace),
 		storyLine(task),
 		branchLine(task),
+		...sequenceLines(workspace.sequence),
 		task.details === '' ? 'No details written yet.' : `Details: ${task.details}`,
 		...criterionLines(workspace.criteria),
 		...checklistLines(workspace.checklists),
@@ -72,30 +73,4 @@ function teamLine(workspace: TaskWorkspace): string {
 function storyLine(task: ProjectTask): string {
 	if (!task.isUserStory) return 'This is not written as a user story yet.';
 	return `Story: as ${task.storyRole}, I want ${task.storyWant}, so that ${task.storyBenefit}.`;
-}
-
-function criterionLines(criteria: AcceptanceCriterion[]): string[] {
-	if (criteria.length === 0) return ['Acceptance criteria: none yet.'];
-	return ['Acceptance criteria:', ...criteria.map(criterionLine)];
-}
-
-function criterionLine(criterion: AcceptanceCriterion): string {
-	const state = criterion.isMet ? 'met' : 'not met';
-	return `- ${criterion.description} (${state}, id: ${criterion.id})`;
-}
-
-function checklistLines(checklists: TaskChecklist[]): string[] {
-	return checklists.flatMap((checklist) => [
-		`Checklist "${checklist.title}" (id: ${checklist.id}):`,
-		...checklist.items.map(checklistItemLine)
-	]);
-}
-
-function checklistItemLine(item: ChecklistItem): string {
-	return `- ${item.description} (${itemState(item.isDone)}, id: ${item.id})`;
-}
-
-function itemState(isDone: boolean): string {
-	if (isDone) return 'done';
-	return 'to do';
 }

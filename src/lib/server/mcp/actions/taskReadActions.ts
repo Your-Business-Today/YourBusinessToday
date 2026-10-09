@@ -1,5 +1,6 @@
 import { reachableTask } from '../projectAccess';
 import { describeTask, noSuchTask } from './describeTask';
+import { waitsForClause } from './describeSequence';
 import { getGlobalTaskPage } from '$lib/server/projects/getGlobalTaskPage';
 import { getAssignedTasks } from '$lib/server/projects/getAssignedTasks';
 import { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
@@ -44,6 +45,9 @@ export const taskReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary: 'the open tasks assigned to you across every project you are on, soonest due first',
+		guidance:
+			'A task waiting for an earlier step of its sequence says so: do not start it until that ' +
+			'step is done — read_task shows the whole sequence.',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
 			const tasks = await getAssignedTasks(caller.supabase, caller.accountId);
@@ -81,7 +85,8 @@ function describeQueue(taskPage: GlobalTaskPage): string {
 function queueLine(task: GlobalTask, position: number): string {
 	const status = taskStatusLabels[task.status];
 	const requested = task.requesterName === null ? '' : `, requested by ${task.requesterName}`;
-	return `${position}. ${task.title} — ${status}, ${task.projectName}${requested} (id: ${task.id})`;
+	const waiting = waitsForClause(task);
+	return `${position}. ${task.title} — ${status}, ${task.projectName}${requested}${waiting} (id: ${task.id})`;
 }
 
 function readPageNumber(value: unknown): number {

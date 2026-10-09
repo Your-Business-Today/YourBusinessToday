@@ -1,6 +1,7 @@
 import { accountNameLookup } from '$lib/data/accountNames';
 import { readTurn, type TurnReading } from '$lib/data/turnLabels';
 import type { ConversationTurn } from '$lib/data/conversationTurn';
+import type { SequenceStanding } from '$lib/data/taskSequenceStanding';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
@@ -20,6 +21,7 @@ export type TaskRowActions = TaskRowHandlers & {
 	assigneesFor: (taskId: string) => TaskAssignee[];
 	goalTitleFor: (goalId: string | null) => string | null;
 	turnFor: (taskId: string) => TaskTurn | null;
+	standingFor: (taskId: string) => SequenceStanding | null;
 };
 
 export type TaskRowSources = {
@@ -27,6 +29,7 @@ export type TaskRowSources = {
 	people: ProjectPerson[];
 	assigneeIdsByTask: Record<string, string[]>;
 	turnsByTask: Record<string, ConversationTurn>;
+	sequenceByTask: Record<string, SequenceStanding>;
 	viewerId: string;
 };
 
@@ -52,6 +55,7 @@ export function createTaskRowActions(
 			const turn = sources.turnsByTask[taskId];
 			if (turn === undefined || turn.awaiting === null) return null;
 			return { ...readTurn(turn, nameOf, sources.viewerId), since: turn.since };
-		}
+		},
+		standingFor: (taskId) => sources.sequenceByTask[taskId] ?? null
 	};
 }

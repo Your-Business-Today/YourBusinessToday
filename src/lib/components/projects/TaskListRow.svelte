@@ -84,6 +84,7 @@
 					assignees={actions.assigneesFor(task.id)}
 					goalTitle={actions.goalTitleFor(task.goalId)}
 					turn={actions.turnFor(task.id)}
+					standing={actions.standingFor(task.id)}
 					onChangeGoal={() => actions.onChangeGoal(task)}
 				/>
 			</div>

@@ -27,7 +27,7 @@ export const conversationActions: McpAction[] = [
 			'Their Claude picks it up through read_latest_messages and posts the answer here. ' +
 			'Anything else waits on nobody — the default. Something a person has to do is a task ' +
 			'assigned to them (set_task_assignees) or a subtask, not a wait; a task held up by ' +
-			'another goes on hold, naming it. When work on a task stops, the work log goes here: ' +
+			'another waits for it (set_task_waits_for), never on hold with a note. When work on a task stops, the work log goes here: ' +
 			'what changed, the branch and pull request it is on, which files or records, the ' +
 			'decisions and why, what is left.',
 		inputSchema: objectSchema(

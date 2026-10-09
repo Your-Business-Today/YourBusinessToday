@@ -11,7 +11,11 @@
 	import TaskDetailHeader from '$lib/components/projects/TaskDetailHeader.svelte';
 	import TaskFactsPanel from '$lib/components/projects/TaskFactsPanel.svelte';
 	import TaskPageModals from '$lib/components/projects/TaskPageModals.svelte';
+	import TaskSequencePanel from '$lib/components/sequences/TaskSequencePanel.svelte';
 	import TaskStoryPanel from '$lib/components/projects/TaskStoryPanel.svelte';
+	import TaskWaitingNote from '$lib/components/sequences/TaskWaitingNote.svelte';
+	import { namesOfPeople } from '$lib/components/projects/namesOfPeople';
+	import { openSiblingsOf } from '$lib/components/projects/openSiblings';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { isTaskDone } from '$lib/data/taskStatus';
 	import { supportTaskKind } from '$lib/data/taskKind';
@@ -28,11 +32,8 @@
 	const isAwaitingResolution = $derived(
 		data.task.kind === supportTaskKind && !isTaskDone(data.task.status)
 	);
-	const assigneeNames = $derived(
-		data.people
-			.filter((person) => data.assigneeIds.includes(person.id))
-			.map((person) => person.name)
-	);
+	const assigneeNames = $derived(namesOfPeople(data.people, data.assigneeIds));
+	const waitedForAssigneeNames = $derived(namesOfPeople(data.people, data.waitedForAssigneeIds));
 </script>
 
 <svelte:head>
@@ -52,12 +53,14 @@
 	<FlashMessage message={form?.message} />
 	<div class={dashboardGridClasses}>
 		<div class="flex min-w-0 flex-col gap-4">
+			<TaskWaitingNote task={data.task} sequence={data.sequence} {waitedForAssigneeNames} />
 			<TaskStoryPanel task={data.task} raisedByName={data.raisedByName} />
 			{#if isAwaitingResolution}
 				<ResolveSupportTaskForm />
 			{/if}
 			<AcceptanceCriteriaSection criteria={data.criteria} />
 			<SubtaskList subtasks={data.subtasks} onAddSubtask={() => (isSubtaskModalOpen = true)} />
+			<TaskSequencePanel sequence={data.sequence} />
 			<ChecklistSection checklists={data.checklists} />
 			<TaskAttachmentsSection
 				attachments={data.attachments}
@@ -87,6 +90,8 @@
 	assigneeIds={data.assigneeIds}
 	roles={data.roles}
 	otherProjects={data.otherProjects}
+	sequenceChoices={data.sequenceChoices}
+	subtaskSequenceChoices={openSiblingsOf(data.subtasks)}
 	bind:isEditModalOpen
 	bind:isSubtaskModalOpen
 	bind:isDeleteModalOpen
