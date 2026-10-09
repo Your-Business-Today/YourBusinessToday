@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T13:49:48+00:00",
+  "generatedAt": "2026-10-09T13:50:33+00:00",
   "kitVersion": "1.14.0",
   "score": {
     "overall": 91.2,
@@ -276,9 +276,8 @@
     "duplication": {
       "clones": 11,
       "duplicatedLines": 99,
-      "totalLines": 37840,
-      "duplicatedPercentage": 0.26,
-      "carriedFromBaseline": true
+      "totalLines": 38217,
+      "duplicatedPercentage": 0.26
     },
     "naming": {
       "bannedAbbreviationHits": 17,
@@ -3306,9 +3305,8 @@
       "summary": {
         "clones": 11,
         "duplicatedLines": 99,
-        "totalLines": 37840,
-        "duplicatedPercentage": 0.26,
-        "carriedFromBaseline": true
+        "totalLines": 38217,
+        "duplicatedPercentage": 0.26
       },
       "offenders": [
         {

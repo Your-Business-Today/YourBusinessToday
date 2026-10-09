@@ -1,6 +1,6 @@
 # Refactoring plan
 
-Written by the code quality check at a score of 88.1%. These are the steps a refactor of this repository follows, in this order; a round takes the next steps from the top. The plan is measured, so a finished step is gone the next time the check runs. The facts are measured; the judgement is the round's.
+Written by the code quality check at a score of 91.2%. These are the steps a refactor of this repository follows, in this order; a round takes the next steps from the top. The plan is measured, so a finished step is gone the next time the check runs. The facts are measured; the judgement is the round's.
 
 ## The order
 
@@ -14,14 +14,8 @@ Written by the code quality check at a score of 88.1%. These are the steps a ref
 
 **Pass 5 — The sweep to zero**
 
-6. Accessor names that want to be a property: 31 to zero. Scores 75.2% at weight 6; the offenders are in audit.json under details.accessorNames, fifty at a time.
-7. Long member chain lines: 200 to zero. Scores 81.9% at weight 4; the offenders are in audit.json under details.prose, fifty at a time.
-8. Deeply indented lines: 81 to zero. Scores 92.7% at weight 4; the offenders are in audit.json under details.prose, fifty at a time.
-9. Conditions with calls tangled inside calls: 25 to zero. Scores 93.6% at weight 8; the offenders are in audit.json under details.conditions, fifty at a time.
-10. Inline magic values: 35 to zero. Scores 95.2% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time.
-11. Explanatory comment lines: 78 to zero. Scores 95.8% at weight 4; the offenders are in audit.json under details.comments, fifty at a time.
-12. Overlong function names: 2 to zero. Scores 98.4% at weight 4; the offenders are in audit.json under details.functionNames, fifty at a time.
-13. Functions over the line limit: 4 to zero. Scores 98.7% at weight 8; the offenders are in audit.json under details.functionShape, fifty at a time.
-14. Duplication %: 0.26 to zero. Scores 98.7% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time.
+6. Long member chain lines: 109 to zero. Scores 90.2% at weight 4; the offenders are in audit.json under details.prose, fifty at a time.
+7. Inline magic values: 30 to zero. Scores 96.0% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time.
+8. Duplication %: 0.26 to zero. Scores 98.7% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time.
 
 ## The detail behind the first targets

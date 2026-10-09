@@ -1,5 +1,5 @@
 {
-  "score": 88.1,
+  "score": 91.2,
   "steps": [
     {
       "pass": "Pass 4 \u2014 Design pattern identification",
@@ -28,43 +28,13 @@
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Accessor names that want to be a property: 31 to zero",
-      "detail": "Scores 75.2% at weight 6; the offenders are in audit.json under details.accessorNames, fifty at a time."
+      "title": "Long member chain lines: 109 to zero",
+      "detail": "Scores 90.2% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Long member chain lines: 200 to zero",
-      "detail": "Scores 81.9% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
-    },
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Deeply indented lines: 81 to zero",
-      "detail": "Scores 92.7% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
-    },
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Conditions with calls tangled inside calls: 25 to zero",
-      "detail": "Scores 93.6% at weight 8; the offenders are in audit.json under details.conditions, fifty at a time."
-    },
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Inline magic values: 35 to zero",
-      "detail": "Scores 95.2% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
-    },
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Explanatory comment lines: 78 to zero",
-      "detail": "Scores 95.8% at weight 4; the offenders are in audit.json under details.comments, fifty at a time."
-    },
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Overlong function names: 2 to zero",
-      "detail": "Scores 98.4% at weight 4; the offenders are in audit.json under details.functionNames, fifty at a time."
-    },
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Functions over the line limit: 4 to zero",
-      "detail": "Scores 98.7% at weight 8; the offenders are in audit.json under details.functionShape, fifty at a time."
+      "title": "Inline magic values: 30 to zero",
+      "detail": "Scores 96.0% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
@@ -76,7 +46,7 @@
   "designPatterns": {
     "name": "designPatterns",
     "summary": {
-      "roleFamilies": 56,
+      "roleFamilies": 55,
       "predictedFiles": 82,
       "predictedFilesMissing": 0,
       "entities": 0,
@@ -89,26 +59,25 @@
         "+page.svelte": 33,
         "+server.ts": 13,
         "access": 4,
-        "actions": 63,
+        "actions": 64,
         "attachment": 4,
         "bar": 4,
         "button": 7,
         "card": 5,
-        "client": 8,
-        "count": 4,
+        "client": 13,
         "email": 7,
         "event": 5,
         "field": 5,
         "fields": 14,
         "filter": 5,
-        "form": 35,
+        "form": 39,
         "goal": 8,
         "grant": 4,
-        "header": 10,
+        "header": 12,
         "ids": 7,
         "kind": 4,
-        "link": 7,
-        "list": 15,
+        "link": 8,
+        "list": 14,
         "message": 4,
         "modal": 7,
         "model": 5,
@@ -118,16 +87,16 @@
         "panel": 14,
         "password": 5,
         "people": 4,
-        "person": 5,
+        "person": 6,
         "pill": 7,
         "priority": 4,
         "profile": 5,
-        "project": 9,
+        "project": 13,
         "projects": 5,
         "record": 18,
         "refusal": 4,
         "request": 6,
-        "row": 19,
+        "row": 21,
         "section": 26,
         "sections": 8,
         "sentence": 5,
@@ -135,8 +104,8 @@
         "styles": 4,
         "svelte": 10,
         "table": 4,
-        "task": 14,
-        "tasks": 5,
+        "task": 15,
+        "tasks": 4,
         "test": 72,
         "text": 6,
         "types": 10,
