@@ -36,10 +36,14 @@ def referenceTargets(reference: str, branch: str | None, defaultBranch: str) -> 
     return reference == "HEAD" and branch == defaultBranch
 
 
+AUTO_MERGE_FLAG = "--auto"
+
+
 def refuseGithubMerge(subcommand: str, arguments: list[str]) -> str | None:
-    if subcommand == "pr" and arguments[:1] == ["merge"]:
+    if subcommand == "pr" and arguments[:1] == ["merge"] and AUTO_MERGE_FLAG not in arguments:
         return (
-            "Branch guard: `gh pr merge` is not allowed — a person reviews and merges the pull request. "
-            "Push the branch, make sure the pull request is open, and say on the task that it is ready."
+            "Branch guard: `gh pr merge` by hand is not allowed — GitHub merges the pull request itself once "
+            "its checks pass. Push the branch, make sure the pull request is open, and enable auto-merge on it "
+            "instead: `gh pr merge --auto --merge <pull request>`."
         )
     return None
