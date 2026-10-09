@@ -31,3 +31,12 @@ export function parseClientRecord(row: Record<string, unknown>): Client {
 		createdAt: row.created_at as string
 	};
 }
+
+export function companyNumberOf(client: Client): string {
+	const { profile } = client;
+	return profile.companyNumber;
+}
+
+export function hasCompanyNumber(client: Client): boolean {
+	return companyNumberOf(client) !== '';
+}

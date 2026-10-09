@@ -40,7 +40,8 @@ export const actions: Actions = {
 		return { message: 'Model saved.' };
 	},
 	signOut: async ({ locals }) => {
-		await locals.supabase.auth.signOut();
+		const { auth } = locals.supabase;
+		await auth.signOut();
 		redirect(303, '/');
 	},
 	saveDisplayName: async ({ locals, request }) => {

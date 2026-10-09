@@ -20,8 +20,9 @@ export function describeContext(caller: McpCaller): string {
 }
 
 function projectsLine(caller: McpCaller): string {
-	const owned = countOf(caller.ownedProjectIds.length, 'project');
-	const joined = countOf(caller.memberProjectIds.length, 'project');
+	const { ownedProjectIds, memberProjectIds } = caller;
+	const owned = countOf(ownedProjectIds.length, 'project');
+	const joined = countOf(memberProjectIds.length, 'project');
 	return `You own ${owned} and are on the team of ${joined}. Everyone on a project works and manages it; only its owner can hand it on.`;
 }
 

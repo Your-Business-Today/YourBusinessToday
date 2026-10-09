@@ -12,5 +12,6 @@ export async function placeGlobalTask(
 	if (placement === dropPlacements.inside) return;
 	const queued = await findQueuedTask(supabase, movedTaskId);
 	if (queued === null) return;
-	await placeBeside(taskQueue(supabase, queued.ownerId), queued.task.id, targetTaskId, placement);
+	const { task, ownerId } = queued;
+	await placeBeside(taskQueue(supabase, ownerId), task.id, targetTaskId, placement);
 }

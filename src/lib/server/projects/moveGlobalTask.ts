@@ -19,12 +19,13 @@ export async function moveGlobalTask(
 ): Promise<void> {
 	const queued = await findQueuedTask(supabase, taskId);
 	if (queued === null) return;
-	const queue = taskQueue(supabase, queued.ownerId);
+	const { task, ownerId } = queued;
+	const queue = taskQueue(supabase, ownerId);
 	const tasksInOrder = orderByRank(await queue.load(), queue.readRank);
-	const neighbour = neighbourOf(tasksInOrder, queued.task.id, direction, shouldIncludeDone);
+	const neighbour = neighbourOf(tasksInOrder, task.id, direction, shouldIncludeDone);
 	if (neighbour === null) return;
 	const placement = direction === 'up' ? 'before' : 'after';
-	await placeBeside(queue, queued.task.id, neighbour.id, placement);
+	await placeBeside(queue, task.id, neighbour.id, placement);
 }
 
 function neighbourOf(

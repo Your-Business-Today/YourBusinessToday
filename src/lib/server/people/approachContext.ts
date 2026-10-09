@@ -36,13 +36,15 @@ export function describePersonForApproach(person: PersonInFull): string {
 }
 
 function describeLinks(person: PersonInFull): string {
-	if (person.links.length === 0) return nothingRecorded;
-	return person.links.map((link) => `${link.label} ${link.url}`).join(', ');
+	const { links } = person;
+	if (links.length === 0) return nothingRecorded;
+	return links.map((link) => `${link.label} ${link.url}`).join(', ');
 }
 
 function describeNotes(person: PersonInFull): string {
-	if (person.notes.length === 0) return nothingRecorded;
-	return person.notes
+	const { notes } = person;
+	if (notes.length === 0) return nothingRecorded;
+	return notes
 		.map((note) => `- ${formatBritishDate(note.createdAt)}, ${note.authorName}: ${note.body}`)
 		.join('\n');
 }

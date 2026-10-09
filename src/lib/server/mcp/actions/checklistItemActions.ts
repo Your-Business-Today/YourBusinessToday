@@ -39,8 +39,9 @@ export const checklistItemActions: McpAction[] = [
 			if (typeof found === 'string') return found;
 			const description = readOptionalText(input, 'description');
 			if (description === null) return 'A checklist item needs a description.';
-			const itemId = await addChecklistItem(caller.supabase, found.checklist.id, description);
-			return `Added to "${found.checklist.title}": ${description} (item id: ${itemId})`;
+			const { checklist } = found;
+			const itemId = await addChecklistItem(caller.supabase, checklist.id, description);
+			return `Added to "${checklist.title}": ${description} (item id: ${itemId})`;
 		}
 	},
 	{
@@ -60,8 +61,9 @@ export const checklistItemActions: McpAction[] = [
 			const found = await findItemOnTask(caller, input);
 			if (typeof found === 'string') return found;
 			const isDone = input.isDone === true;
-			await setChecklistItemDone(caller.supabase, found.item.id, isDone);
-			return `"${found.item.description}" is ${isDone ? 'done' : 'to do'}.`;
+			const { item } = found;
+			await setChecklistItemDone(caller.supabase, item.id, isDone);
+			return `"${item.description}" is ${isDone ? 'done' : 'to do'}.`;
 		}
 	},
 	{
@@ -74,8 +76,9 @@ export const checklistItemActions: McpAction[] = [
 		run: async (caller, input) => {
 			const found = await findItemOnTask(caller, input);
 			if (typeof found === 'string') return found;
-			await deleteChecklistItem(caller.supabase, found.item.id);
-			return `"${found.item.description}" removed from "${found.checklist.title}".`;
+			const { item, checklist } = found;
+			await deleteChecklistItem(caller.supabase, item.id);
+			return `"${item.description}" removed from "${checklist.title}".`;
 		}
 	}
 ];

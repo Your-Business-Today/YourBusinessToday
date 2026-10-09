@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { getClient } from '$lib/server/clients/getClient';
+import { hasCompanyNumber } from '$lib/server/clients/clientRecord';
 import { groupClientsUnder, readGroupChoice } from '$lib/server/clients/groupClientsUnder';
 import { importCompanyOfficers } from '$lib/server/clients/importCompanyOfficers';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
@@ -21,7 +22,7 @@ export const groupActions: Actions = {
 		if (!isCompaniesHouseConfigured()) return fail(503, { message: 'Companies House is not configured.' });
 		const client = await getClient(locals.supabase, params.clientId);
 		if (client === null) return fail(404, { message: 'That client could not be found.' });
-		if (client.profile.companyNumber === '') return fail(400, { message: 'Record the company number first.' });
+		if (!hasCompanyNumber(client)) return fail(400, { message: 'Record the company number first.' });
 		try {
 			const outcome = await importCompanyOfficers(locals.supabase, client, user.id);
 			return { message: `${outcome.importedCount} officer(s) added, ${outcome.alreadyListedCount} already listed.` };

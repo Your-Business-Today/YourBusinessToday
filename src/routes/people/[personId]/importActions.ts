@@ -1,6 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { getOfficerAppointments } from '$lib/server/companiesHouse/getOfficerAppointments';
 import { getPerson } from '$lib/server/people/getPerson';
+import { companyNumberOf } from '$lib/server/clients/clientRecord';
 import { groupClientsUnder, readGroupChoice } from '$lib/server/clients/groupClientsUnder';
 import { importAppointmentsAsLeads, readChosenAppointments } from '$lib/server/people/importAppointmentsAsLeads';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
@@ -18,7 +19,7 @@ export async function pendingAppointmentsFor(
 	companies: PersonCompany[]
 ): Promise<OfficerAppointment[] | null> {
 	if (person.officerId === null || !isCompaniesHouseConfigured()) return null;
-	const listedNumbers = new Set(companies.map((company) => company.profile.companyNumber));
+	const listedNumbers = new Set(companies.map(companyNumberOf));
 	try {
 		const { appointments } = await getOfficerAppointments(person.officerId);
 		return appointments.filter((appointment) => !listedNumbers.has(appointment.companyNumber));
@@ -39,7 +40,8 @@ export const importActions: Actions = {
 		if (appointments.length === 0) return fail(400, { message: 'Tick at least one company.' });
 		const groupName = String(formData.get('groupName') ?? '').trim();
 		const imported = await importAppointmentsAsLeads(locals.supabase, person, appointments, groupName, user.id);
-		return { message: describeImport(imported.clientIds.length, groupName) };
+		const { clientIds } = imported;
+		return { message: describeImport(clientIds.length, groupName) };
 	},
 	groupUnder: async ({ locals, request }) => {
 		const user = await requireStaff(locals);

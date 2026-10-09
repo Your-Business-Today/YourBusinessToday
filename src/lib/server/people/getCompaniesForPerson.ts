@@ -27,13 +27,16 @@ export async function getCompaniesForPerson(
 }
 
 function toPersonCompany(row: Record<string, any>): PersonCompany {
-	const client = parseClientRecord(row.clients);
+	const clientRow = row.clients;
+	const client = parseClientRecord(clientRow);
+	const { profile } = client;
+	const parent = clientRow.parent;
 	return {
 		...client,
 		contactId: row.id as string,
 		role: (row.role ?? '') as string,
 		officerRole: (row.officer_role ?? '') as string,
-		isResearched: client.profile.sourceUrl !== '' || client.profile.summary !== '',
-		parentName: (row.clients.parent?.name ?? '') as string
+		isResearched: profile.sourceUrl !== '' || profile.summary !== '',
+		parentName: (parent?.name ?? '') as string
 	};
 }

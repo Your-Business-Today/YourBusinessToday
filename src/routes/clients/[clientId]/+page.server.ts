@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { getClient } from '$lib/server/clients/getClient';
+import { hasCompanyNumber } from '$lib/server/clients/clientRecord';
 import { getChildrenOfClient } from '$lib/server/clients/getChildrenOfClient';
 import { getEventsForClient } from '$lib/server/clients/getEventsForClient';
 import { getPeopleForClient } from '$lib/server/clients/getPeopleForClient';
@@ -41,7 +42,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		children,
 		parents,
 		parent,
-		canImportOfficers: client.profile.companyNumber !== '' && isCompaniesHouseConfigured()
+		canImportOfficers: hasCompanyNumber(client) && isCompaniesHouseConfigured()
 	};
 };
 

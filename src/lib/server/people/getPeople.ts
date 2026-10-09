@@ -21,6 +21,11 @@ function toSummary(row: Record<string, unknown>): PersonSummary {
 		...parsePersonRecord(row),
 		companyStages: affiliations
 			.filter((affiliation) => affiliation.clients !== null)
-			.map((affiliation) => parseClientStage(affiliation.clients?.lifecycle_stage))
+			.map(stageOf)
 	};
+}
+
+function stageOf(affiliation: AffiliationRow): ClientStage {
+	const { clients } = affiliation;
+	return parseClientStage(clients?.lifecycle_stage);
 }
