@@ -2,6 +2,7 @@
 	import GoalStatusPill from './GoalStatusPill.svelte';
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
+	import { goalHorizonLabels } from '$lib/data/goalHorizon';
 	import { isTaskDone } from '$lib/data/taskStatus';
 	import { projectCrumbs } from '$lib/components/workspace/projectCrumbs';
 	import {
@@ -29,6 +30,7 @@
 
 	const doneCount = $derived(tasks.filter((task) => isTaskDone(task.status)).length);
 	const facts = $derived([
+		{ label: `${goalHorizonLabels[goal.horizon]} goal` },
 		{ label: `Priority ${goal.priority}` },
 		{ label: `${doneCount} of ${tasks.length} tasks done` }
 	]);

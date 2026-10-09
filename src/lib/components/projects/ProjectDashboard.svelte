@@ -4,6 +4,7 @@
 	import ProjectPeoplePanel from '$lib/components/members/ProjectPeoplePanel.svelte';
 	import ProjectPulseStrip from './ProjectPulseStrip.svelte';
 	import TaskTreePanel from './TaskTreePanel.svelte';
+	import { currentGoalHorizon, longTermGoalHorizon } from '$lib/data/goalHorizon';
 	import { dashboardGridClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { GoalSummary } from '$lib/server/goals/getGoalSummaries';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
@@ -51,7 +52,8 @@
 	</div>
 	<aside class="flex min-w-0 flex-col gap-4">
 		<div class={panelVisibility('goals')}>
-			<GoalListPanel {goalSummaries} />
+			<GoalListPanel {goalSummaries} horizon={currentGoalHorizon} />
+			<GoalListPanel {goalSummaries} horizon={longTermGoalHorizon} />
 		</div>
 		<div class={panelVisibility('people')}>
 			<ProjectPeoplePanel {people} isOwner={sources.isOwner} />

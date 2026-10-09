@@ -6,8 +6,11 @@ import type { TaskStatus } from '$lib/data/taskStatus';
 
 const viewerId = 'viewer';
 
-function taskWith(id: string, status: TaskStatus): ProjectTask {
-	return { id, status, storyPoints: 1, completionPercent: status === 'done' ? 100 : 0 } as ProjectTask;
+const someday = { id: 'goal-someday', horizon: 'long_term' as const };
+
+function taskWith(id: string, status: TaskStatus, goalId: string | null = null): ProjectTask {
+	const completionPercent = status === 'done' ? 100 : 0;
+	return { id, status, goalId, parentTaskId: null, storyPoints: 1, completionPercent } as ProjectTask;
 }
 
 function turnAwaiting(accountId: string): ConversationTurn {
@@ -31,17 +34,35 @@ describe('summariseProjectPulse', () => {
 	it('counts the open work and how much of it is under way', () => {
 		const pulse = summariseProjectPulse({
 			tasks,
+			goals: [],
 			assigneeIdsByTask: new Map(),
 			turnsByTask: new Map(),
 			viewerId
 		});
-		expect(pulse).toMatchObject({ taskCount: 4, openTaskCount: 3, inProgressCount: 1 });
+		expect(pulse).toMatchObject({ taskCount: 4, currentTaskCount: 4, openTaskCount: 3, inProgressCount: 1 });
 		expect(pulse.completionPercent).toBe(25);
+	});
+
+	it('counts the completion and the viewer’s assignments over current work only', () => {
+		const pulse = summariseProjectPulse({
+			tasks: [...tasks, taskWith('e', 'backlog', 'goal-someday'), taskWith('f', 'backlog', 'goal-someday')],
+			goals: [someday],
+			assigneeIdsByTask: new Map([
+				['a', [viewerId]],
+				['e', [viewerId]]
+			]),
+			turnsByTask: new Map(),
+			viewerId
+		});
+		expect(pulse).toMatchObject({ taskCount: 6, currentTaskCount: 4, openTaskCount: 5 });
+		expect(pulse.completionPercent).toBe(25);
+		expect(pulse.assignedToViewerCount).toBe(1);
 	});
 
 	it('counts only the open tasks waiting on or assigned to the viewer', () => {
 		const pulse = summariseProjectPulse({
 			tasks,
+			goals: [],
 			assigneeIdsByTask: new Map([
 				['a', [viewerId]],
 				['c', [viewerId]],

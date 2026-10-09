@@ -13,5 +13,5 @@ export async function placeGoal(
 	if (placement === dropPlacements.inside) return;
 	const movedGoal = await getGoal(supabase, movedGoalId);
 	if (movedGoal === null) return;
-	await placeBeside(goalOrder(supabase, movedGoal.projectId), movedGoal.id, targetGoalId, placement);
+	await placeBeside(goalOrder(supabase, movedGoal.projectId, movedGoal.horizon), movedGoal.id, targetGoalId, placement);
 }

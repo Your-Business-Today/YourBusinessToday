@@ -1,5 +1,5 @@
 import { assignedToYouLine } from '$lib/data/assignedTaskLine';
-import { goalLine } from './describeGoal';
+import { goalSectionLines } from './describeGoal';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import type { Goal } from '$lib/server/goals/goalRecord';
@@ -38,9 +38,7 @@ export function describeProject(
 		project.description === '' ? 'No description yet.' : project.description,
 		codeLine(project, cadenceLine),
 		'',
-		'Goals, in priority order:',
-		...goalLines(goals),
-		'',
+		...goalSectionLines(goals),
 		'Backlog, in priority order (a subtask\u2019s priority is its place under its parent):',
 		...backlogLines(backlog, goals)
 	].join('\n');
@@ -49,11 +47,6 @@ export function describeProject(
 function codeLine(project: Project, cadenceLine: string): string {
 	if (project.repositoryUrl === '') return 'No repository recorded, so nothing is built or refactored by itself.';
 	return `Code: ${project.repositoryUrl} (deploys from ${project.defaultBranch}). ${cadenceLine}`;
-}
-
-function goalLines(goals: Goal[]): string[] {
-	if (goals.length === 0) return ['None yet.'];
-	return goals.map(goalLine);
 }
 
 function backlogLines(tasks: TaskTreeNode[], goals: Goal[]): string[] {

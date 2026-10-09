@@ -12,6 +12,7 @@ import {
 	removeParticipantFromForm
 } from '$lib/server/conversations/participantFormActions';
 import { readGoalUpdate, updateGoal } from '$lib/server/goals/updateGoal';
+import { readGoalHorizon, setGoalHorizon } from '$lib/server/goals/setGoalHorizon';
 import { setGoalPriority } from '$lib/server/goals/setGoalPriority';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import type { Actions, PageServerLoad } from './$types';
@@ -40,6 +41,7 @@ export const actions: Actions = {
 		const update = readGoalUpdate(formData);
 		if (update === null) return fail(400, { message: 'A goal needs a title.' });
 		await updateGoal(locals.supabase, params.goalId, update);
+		await setGoalHorizon(locals.supabase, params.goalId, readGoalHorizon(formData));
 		const priority = parseRank(formData.get('priority'));
 		if (priority !== null) await setGoalPriority(locals.supabase, params.goalId, priority);
 		return { message: 'Goal saved.' };

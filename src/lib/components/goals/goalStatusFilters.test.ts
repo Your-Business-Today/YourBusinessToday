@@ -10,6 +10,7 @@ function goalSummary(id: string, status: GoalStatus): GoalSummary {
 		title: `Goal ${id}`,
 		measure: 'A measure both sides can check',
 		status,
+		horizon: 'current',
 		priority: 1,
 		createdBy: null,
 		createdAt: '2026-09-18T00:00:00.000Z',

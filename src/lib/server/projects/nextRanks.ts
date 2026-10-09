@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getProjectOwnerId } from '$lib/server/projects/getProjectOwnerId';
+import type { GoalHorizon } from '$lib/data/goalHorizon';
 
 /**
  * A new row joins the bottom of its ranked set. Ranks are dense, so the next
@@ -19,11 +20,16 @@ export async function nextRankOnBoard(supabase: SupabaseClient, ownerId: string)
 	return oneAfter(highest, 'priority');
 }
 
-export async function nextGoalRank(supabase: SupabaseClient, projectId: string): Promise<number> {
+export async function nextGoalRank(
+	supabase: SupabaseClient,
+	projectId: string,
+	horizon: GoalHorizon
+): Promise<number> {
 	const highest = await supabase
 		.from('goals')
 		.select('priority')
 		.eq('project_id', projectId)
+		.eq('horizon', horizon)
 		.order('priority', lastFirst)
 		.limit(1)
 		.maybeSingle();

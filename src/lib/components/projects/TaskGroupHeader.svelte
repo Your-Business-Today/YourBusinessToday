@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ChevronIcon from '$lib/components/site/ChevronIcon.svelte';
+	import { isCurrentGoal } from '$lib/data/goalHorizon';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 
 	let {
@@ -18,11 +19,22 @@
 		onToggle: () => void;
 	} = $props();
 
-	const badgeClasses = $derived(
-		goal === null ? 'border-hairline text-chalk/50' : 'border-go/40 bg-go/10 text-go'
-	);
-	const groupTitle = $derived(goal?.title ?? 'Other tasks');
+	const badgeClasses = $derived(describeBadgeClasses());
+	const badgeLabel = $derived(describeBadge());
+	const groupTitle = $derived(goal?.title ?? 'Unassigned tasks');
 	const toggleLabel = $derived(isOpen ? 'Hide the tasks' : 'Show the tasks');
+
+	function describeBadge(): string {
+		if (goal === null) return 'No goal';
+		if (isCurrentGoal(goal)) return 'Goal';
+		return 'Long term';
+	}
+
+	function describeBadgeClasses(): string {
+		if (goal === null) return 'border-hairline text-chalk/50';
+		if (isCurrentGoal(goal)) return 'border-go/40 bg-go/10 text-go';
+		return 'border-hairline bg-night text-chalk/60';
+	}
 </script>
 
 <header
@@ -45,7 +57,7 @@
 			class={`shrink-0 rounded-full border px-2 py-0.5 font-display text-[0.7rem] whitespace-nowrap
 				${badgeClasses}`}
 		>
-			{goal === null ? 'No goal' : 'Goal'}
+			{badgeLabel}
 		</span>
 		<span class="truncate font-display text-sm font-medium">{groupTitle}</span>
 		<span class="ml-auto shrink-0 font-display text-xs whitespace-nowrap text-chalk/50">

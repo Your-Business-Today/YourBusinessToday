@@ -3,8 +3,9 @@ import { groupTasksByGoal } from './taskTreeGroups';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
-const launch = { id: 'goal-launch', title: 'Launch' } as Goal;
-const polish = { id: 'goal-polish', title: 'Polish' } as Goal;
+const launch = { id: 'goal-launch', title: 'Launch', horizon: 'current' } as Goal;
+const polish = { id: 'goal-polish', title: 'Polish', horizon: 'current' } as Goal;
+const someday = { id: 'goal-someday', title: 'Someday', horizon: 'long_term' } as Goal;
 
 function task(id: string, goalId: string | null, subtasks: TaskTreeNode[] = []): TaskTreeNode {
 	return { id, goalId, status: 'backlog', subtasks } as unknown as TaskTreeNode;
@@ -21,6 +22,14 @@ describe('groupTasksByGoal', () => {
 		expect(groups.map((group) => group.goal?.title ?? 'other')).toEqual(['other', 'Launch', 'Polish']);
 		expect(groups[0].tasks.map((candidate) => candidate.id)).toEqual(['a']);
 		expect(groups[2].tasks.map((candidate) => candidate.id)).toEqual(['b', 'd']);
+	});
+
+	it('lists the current goals before the long term ones, whatever their priority order', () => {
+		const groups = groupTasksByGoal(
+			[task('a', 'goal-someday'), task('b', 'goal-launch')],
+			[someday, launch]
+		);
+		expect(groups.map((group) => group.goal)).toEqual([launch, someday]);
 	});
 
 	it('leaves out goals with nothing under them and the rest when there is none', () => {

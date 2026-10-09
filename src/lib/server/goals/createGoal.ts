@@ -1,15 +1,21 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { nextGoalRank } from '$lib/server/projects/nextRanks';
+import { parseGoalHorizon, type GoalHorizon } from '$lib/data/goalHorizon';
 
 export type NewGoalSeed = {
 	title: string;
 	measure: string;
+	horizon: GoalHorizon;
 };
 
 export function readNewGoalSeed(formData: FormData): NewGoalSeed | null {
 	const title = String(formData.get('title') ?? '').trim();
 	if (title === '') return null;
-	return { title, measure: String(formData.get('measure') ?? '').trim() };
+	return {
+		title,
+		measure: String(formData.get('measure') ?? '').trim(),
+		horizon: parseGoalHorizon(formData.get('horizon'))
+	};
 }
 
 export async function createGoal(
@@ -24,7 +30,8 @@ export async function createGoal(
 			project_id: projectId,
 			title: seed.title,
 			measure: seed.measure,
-			priority: await nextGoalRank(supabase, projectId),
+			horizon: seed.horizon,
+			priority: await nextGoalRank(supabase, projectId, seed.horizon),
 			created_by: createdBy
 		})
 		.select('id')

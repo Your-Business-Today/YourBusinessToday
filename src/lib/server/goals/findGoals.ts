@@ -13,7 +13,7 @@ export async function findGoals(
 	for (const word of wordsOf(phrase)) {
 		query = query.or(matchingAnyOf(['title', 'measure'], word));
 	}
-	const { data, error } = await query.order('priority').limit(mostMatches);
+	const { data, error } = await query.order('horizon').order('priority').limit(mostMatches);
 	if (error) throw error;
 	return data.map(parseGoalRecord);
 }

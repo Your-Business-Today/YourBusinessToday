@@ -1,6 +1,7 @@
 import { attachmentLines } from './describeAttachments';
 import { branchLine } from './describeBranch';
 import { accountNameLookup } from '$lib/data/accountNames';
+import { goalHorizonLabels } from '$lib/data/goalHorizon';
 import { supportTaskKind, taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import { threadLines } from './describeMessages';
 import type { AcceptanceCriterion } from '$lib/server/projects/criterionRecord';
@@ -48,7 +49,7 @@ function priorityLine(task: ProjectTask): string {
 function goalTitle(workspace: TaskWorkspace): string {
 	const goal = workspace.goals.find((candidate) => candidate.id === workspace.task.goalId);
 	if (goal === undefined) return 'none';
-	return `${goal.title} (id: ${goal.id})`;
+	return `${goal.title} (${goalHorizonLabels[goal.horizon].toLowerCase()} goal, id: ${goal.id})`;
 }
 
 function raisedByLine(workspace: TaskWorkspace): string | null {
