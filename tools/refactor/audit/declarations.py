@@ -5,14 +5,10 @@ import hashlib
 import re
 from dataclasses import dataclass
 
+from .enclosing_types import TYPE_DECLARATION, EnclosingTypes, isConstructorName
 from .signatures import isFunctionSignature
 from .source_files import SourceFile
 
-TYPE_DECLARATION = re.compile(
-    r"^\s*(?:export\s+)?(?:declare\s+)?(?:default\s+)?"
-    r"(?:public|private|protected|internal|sealed|static|abstract|partial|\s)*"
-    r"\b(?:class|record|struct|interface|enum|type)\s+(\w+)"
-)
 NAME_BEFORE_PARENTHESIS = re.compile(r"(\w+)\s*(?:<[^>()]*>)?\s*\(")
 NAME_BEFORE_ARROW = re.compile(r"\b(?:const|let)\s+(\w+)")
 ATTRIBUTE_LINE = re.compile(r"^\s*(?:\[[\w\.]+.*\]|@\w[\w\.]*(?:\(.*\))?)\s*$")
@@ -27,6 +23,7 @@ class DeclaredFunction:
     line: int
     lines: int
     isAttributed: bool
+    isConstructor: bool
     bodyFingerprint: str
 
 
@@ -52,23 +49,30 @@ def fingerprintOf(bodyLines: list[str]) -> str:
 
 def declaredFunctions(sourceFile: SourceFile) -> list[DeclaredFunction]:
     functions = []
+    enclosingTypes = EnclosingTypes()
     depthAtFunctionStart = None
     depth = 0
     startLine = 0
+    typeAtFunctionStart = ""
     for lineNumber, line in enumerate(sourceFile.lines):
+        enclosingTypes.enter(line, depth)
         if depthAtFunctionStart is None and isFunctionSignature(line):
             depthAtFunctionStart = depth
             startLine = lineNumber
+            typeAtFunctionStart = enclosingTypes.innermost
         depth += line.count("{") - line.count("}")
+        enclosingTypes.leave(line, depth)
         isFunctionClosed = depthAtFunctionStart is not None and depth <= depthAtFunctionStart and "}" in line
         if not isFunctionClosed:
             continue
+        name = nameOnSignature(sourceFile.lines[startLine])
         functions.append(DeclaredFunction(
             file=sourceFile.relative,
-            name=nameOnSignature(sourceFile.lines[startLine]),
+            name=name,
             line=startLine + 1,
             lines=lineNumber - startLine + 1,
             isAttributed=previousLineIsAttribute(sourceFile.lines, startLine),
+            isConstructor=isConstructorName(name, typeAtFunctionStart),
             bodyFingerprint=fingerprintOf(sourceFile.lines[startLine + 1:lineNumber]),
         ))
         depthAtFunctionStart = None

@@ -5,7 +5,7 @@ import re
 from collections import defaultdict
 from pathlib import PurePosixPath
 
-from ..declarations import TYPE_DECLARATION
+from ..enclosing_types import TYPE_DECLARATION
 from ..source_files import SourceFile
 
 IMPORT = re.compile(r"(?:\bfrom\s+|\bimport\s*\(?\s*|\brequire\(\s*)['\"](?P<module>[^'\"]+)['\"]")

@@ -2,7 +2,8 @@
 
 A file name is a subject and a role: CreateProjectHandler is the Handler of CreateProject. A role many
 subjects share is a family; when nearly every subject with one role also has another, the pattern predicts
-that file for the subjects still missing it.
+that file for the subjects still missing it. A gap the rules accept is left out of its pattern, so the plan
+never asks for a file the repository has already said it does not need.
 """
 from __future__ import annotations
 
@@ -58,17 +59,21 @@ def predictionsBetween(role: str, members: dict[str, str], otherRole: str, other
     }
 
 
+def withoutAcceptedGaps(pattern: dict, acceptedGaps: set[str]) -> dict:
+    return {**pattern, "missing": [gap for gap in pattern["missing"] if gap not in acceptedGaps]}
+
+
 def measure(sourceFiles: list[SourceFile], patternRules: dict) -> dict:
     families = filesByRole(sourceFiles, patternRules.get("minimumFamilySize", MINIMUM_FAMILY_SIZE))
     threshold = patternRules.get("cooccurrenceThreshold", COOCCURRENCE_THRESHOLD)
     acceptedGaps = set(patternRules.get("acceptedGaps", []))
     patterns = [
-        prediction
+        withoutAcceptedGaps(prediction, acceptedGaps)
         for role, members in families.items()
         for otherRole, otherMembers in families.items()
         if (prediction := predictionsBetween(role, members, otherRole, otherMembers, threshold))
     ]
-    missing = [gap for pattern in patterns for gap in pattern["missing"] if gap not in acceptedGaps]
+    missing = [gap for pattern in patterns for gap in pattern["missing"]]
     return {
         "roleFamilies": {role: len(members) for role, members in sorted(families.items())},
         "patterns": patterns,

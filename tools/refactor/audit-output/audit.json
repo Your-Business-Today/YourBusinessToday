@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-09T13:50:33+00:00",
-  "kitVersion": "1.14.0",
+  "generatedAt": "2026-10-09T15:09:58+00:00",
+  "kitVersion": "1.14.1",
   "score": {
     "overall": 91.2,
     "groups": [
@@ -277,7 +277,8 @@
       "clones": 11,
       "duplicatedLines": 99,
       "totalLines": 38217,
-      "duplicatedPercentage": 0.26
+      "duplicatedPercentage": 0.26,
+      "carriedFromBaseline": true
     },
     "naming": {
       "bannedAbbreviationHits": 17,
@@ -1129,32 +1130,22 @@
           {
             "pattern": "every status has a actions",
             "predicted": 4,
-            "missing": [
-              "src/lib/server/projects/updateTaskActions.ts"
-            ]
+            "missing": []
           },
           {
             "pattern": "every status has a record",
             "predicted": 4,
-            "missing": [
-              "src/lib/server/projects/updateTaskRecord.ts"
-            ]
+            "missing": []
           },
           {
             "pattern": "every goal has a project",
             "predicted": 8,
-            "missing": [
-              "src/lib/server/goals/updateProject.ts",
-              "src/lib/server/projects/updateTaskProject.ts"
-            ]
+            "missing": []
           },
           {
             "pattern": "every goal has a task",
             "predicted": 8,
-            "missing": [
-              "src/lib/server/goals/updateTask.ts",
-              "src/lib/server/projects/updateTaskTask.ts"
-            ]
+            "missing": []
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
@@ -1164,16 +1155,7 @@
           {
             "pattern": "every +page.svelte has a +page.server.ts",
             "predicted": 33,
-            "missing": [
-              "src/routes/+page.server.ts",
-              "src/routes/about/+page.server.ts",
-              "src/routes/case-studies/jewel/+page.server.ts",
-              "src/routes/company/+page.server.ts",
-              "src/routes/offer/+page.server.ts",
-              "src/routes/privacy/+page.server.ts",
-              "src/routes/terms/+page.server.ts",
-              "src/routes/vision/+page.server.ts"
-            ]
+            "missing": []
           }
         ],
         "missingPredictedFiles": [],
@@ -3306,7 +3288,8 @@
         "clones": 11,
         "duplicatedLines": 99,
         "totalLines": 38217,
-        "duplicatedPercentage": 0.26
+        "duplicatedPercentage": 0.26,
+        "carriedFromBaseline": true
       },
       "offenders": [
         {
