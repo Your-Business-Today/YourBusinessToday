@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T03:15:16+00:00",
+  "generatedAt": "2026-10-09T07:12:51+00:00",
   "kitVersion": "1.14.0",
   "score": {
     "overall": 88.1,
@@ -252,7 +252,7 @@
       "limit": 100,
       "filesOverLimit": 0,
       "totalFiles": 996,
-      "totalLines": 35752,
+      "totalLines": 35747,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
@@ -297,7 +297,7 @@
     "prose": {
       "longMemberChainLines": 201,
       "deeplyIndentedLines": 81,
-      "overlongLines": 78,
+      "overlongLines": 81,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -334,15 +334,15 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 1352,
-      "frontend": 412,
-      "backend": 387,
-      "shared": 138,
-      "api": 110,
-      "tooling": 103,
-      "database": 72,
-      "tests": 67,
-      "docs": 50,
+      "totalFiles": 1381,
+      "frontend": 424,
+      "backend": 391,
+      "shared": 141,
+      "api": 113,
+      "tooling": 105,
+      "database": 73,
+      "tests": 68,
+      "docs": 53,
       "infrastructure": 13
     }
   },
@@ -353,7 +353,7 @@
         "limit": 100,
         "filesOverLimit": 0,
         "totalFiles": 996,
-        "totalLines": 35752,
+        "totalLines": 35747,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -836,7 +836,7 @@
       "summary": {
         "longMemberChainLines": 201,
         "deeplyIndentedLines": 81,
-        "overlongLines": 78,
+        "overlongLines": 81,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -1266,6 +1266,18 @@
             "line": 15
           },
           {
+            "file": "src/lib/data/consultancyDisciplines.ts",
+            "line": 12
+          },
+          {
+            "file": "src/lib/data/consultancyDisciplines.ts",
+            "line": 24
+          },
+          {
+            "file": "src/lib/data/consultancyDisciplines.ts",
+            "line": 30
+          },
+          {
             "file": "src/lib/data/consultancyOffer.ts",
             "line": 17
           },
@@ -1432,18 +1444,6 @@
           {
             "file": "src/lib/data/legal/termsAccountSections.ts",
             "line": 35
-          },
-          {
-            "file": "src/lib/data/legal/termsAccountSections.ts",
-            "line": 36
-          },
-          {
-            "file": "src/lib/data/legal/termsEngagementSections.ts",
-            "line": 7
-          },
-          {
-            "file": "src/lib/data/legal/termsEngagementSections.ts",
-            "line": 14
           }
         ]
       }
@@ -2891,63 +2891,63 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 1352,
-        "frontend": 412,
-        "backend": 387,
-        "shared": 138,
-        "api": 110,
-        "tooling": 103,
-        "database": 72,
-        "tests": 67,
-        "docs": 50,
+        "totalFiles": 1381,
+        "frontend": 424,
+        "backend": 391,
+        "shared": 141,
+        "api": 113,
+        "tooling": 105,
+        "database": 73,
+        "tests": 68,
+        "docs": 53,
         "infrastructure": 13
       },
       "offenders": [
         {
           "area": "frontend",
-          "files": 412,
+          "files": 424,
           "sourceFiles": 300,
-          "sourceLines": 11696
+          "sourceLines": 11691
         },
         {
           "area": "backend",
-          "files": 387,
+          "files": 391,
           "sourceFiles": 388,
           "sourceLines": 11915
         },
         {
           "area": "shared",
-          "files": 138,
+          "files": 141,
           "sourceFiles": 127,
           "sourceLines": 4116
         },
         {
           "area": "api",
-          "files": 110,
+          "files": 113,
           "sourceFiles": 113,
           "sourceLines": 5264
         },
         {
           "area": "tooling",
-          "files": 103,
+          "files": 105,
           "sourceFiles": 0,
           "sourceLines": 0
         },
         {
           "area": "database",
-          "files": 72,
+          "files": 73,
           "sourceFiles": 0,
           "sourceLines": 0
         },
         {
           "area": "tests",
-          "files": 67,
+          "files": 68,
           "sourceFiles": 68,
           "sourceLines": 2761
         },
         {
           "area": "docs",
-          "files": 50,
+          "files": 53,
           "sourceFiles": 0,
           "sourceLines": 0
         },

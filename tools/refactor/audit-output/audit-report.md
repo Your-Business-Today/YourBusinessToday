@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-10-09 03:15 UTC.
+Generated 2026-10-09 07:12 UTC.
 
 ## Headline
 
@@ -40,22 +40,22 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| frontend | 412 | 300 | 11,696 |
-| backend | 387 | 388 | 11,915 |
-| shared | 138 | 127 | 4,116 |
-| api | 110 | 113 | 5,264 |
-| tooling | 103 | 0 | 0 |
-| database | 72 | 0 | 0 |
-| tests | 67 | 68 | 2,761 |
-| docs | 50 | 0 | 0 |
+| frontend | 424 | 300 | 11,691 |
+| backend | 391 | 388 | 11,915 |
+| shared | 141 | 127 | 4,116 |
+| api | 113 | 113 | 5,264 |
+| tooling | 105 | 0 | 0 |
+| database | 73 | 0 | 0 |
+| tests | 68 | 68 | 2,761 |
+| docs | 53 | 0 | 0 |
 | infrastructure | 13 | 0 | 0 |
-| **whole repository** | **1,352** | **996** | **35,752** |
+| **whole repository** | **1,381** | **996** | **35,747** |
 
 ## Summary
 
 | Check | Key figures |
 | --- | --- |
-| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 996, totalLines: 35752, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
+| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 996, totalLines: 35747, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
 | functionShape | limit: 30, functionsOverLimit: 4, totalFunctions: 1212, elseBlocks: 0, ifBlocks: 1546, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 2, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 30, measurementIsHeuristic: True |
@@ -63,14 +63,14 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | naming | bannedAbbreviationHits: 17, unprefixedBooleans: 2 |
 | comments | explanatoryCommentLines: 78, filesWithComments: 34, taskMarkers: 0 |
 | magicValues | inlineHexColours: 4, inlineStyleAttributes: 1, repeatedStringLiterals: 30 |
-| prose | longMemberChainLines: 201, deeplyIndentedLines: 81, overlongLines: 78, measurementIsHeuristic: True |
+| prose | longMemberChainLines: 201, deeplyIndentedLines: 81, overlongLines: 81, measurementIsHeuristic: True |
 | conditions | tangledConditionLines: 25, literalComparisonLines: 0, measurementIsHeuristic: True |
 | orphans | orphanFunctions: 0, functionsExamined: 1212 |
 | designPatterns | roleFamilies: 55, predictedFiles: 80, predictedFilesMissing: 0, entities: 0, entitiesOutOfRange: 0, measurementIsHeuristic: True |
 | inventory | pages: 32, components: 241, orphanComponents: 0, averagePageLines: 49 |
 | siteDefinition | skipped: no siteDefinition catalogue in rules.json |
 | inputValidation | schemaTables: 84, limitedColumns: 0, writeDoors: 97, unvalidatedDoors: 90, looserLimits: 0 |
-| fileAreas | totalFiles: 1352, frontend: 412, backend: 387, shared: 138, api: 110, tooling: 103, database: 72, tests: 67, docs: 50, infrastructure: 13 |
+| fileAreas | totalFiles: 1381, frontend: 424, backend: 391, shared: 141, api: 113, tooling: 105, database: 73, tests: 68, docs: 53, infrastructure: 13 |
 
 ## Against the baseline
 
