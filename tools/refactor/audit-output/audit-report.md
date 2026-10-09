@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-10-09 02:13 UTC.
+Generated 2026-10-09 02:22 UTC.
 
 ## Headline
 
@@ -63,7 +63,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | naming | bannedAbbreviationHits: 17, unprefixedBooleans: 2 |
 | comments | explanatoryCommentLines: 78, filesWithComments: 34, taskMarkers: 0 |
 | magicValues | inlineHexColours: 4, inlineStyleAttributes: 1, repeatedStringLiterals: 30 |
-| prose | longMemberChainLines: 201, deeplyIndentedLines: 89, overlongLines: 78, measurementIsHeuristic: True |
+| prose | longMemberChainLines: 201, deeplyIndentedLines: 89, overlongLines: 81, measurementIsHeuristic: True |
 | conditions | tangledConditionLines: 25, literalComparisonLines: 0, measurementIsHeuristic: True |
 | orphans | orphanFunctions: 0, functionsExamined: 1185 |
 | designPatterns | roleFamilies: 54, predictedFiles: 80, predictedFilesMissing: 0, entities: 0, entitiesOutOfRange: 0, measurementIsHeuristic: True |

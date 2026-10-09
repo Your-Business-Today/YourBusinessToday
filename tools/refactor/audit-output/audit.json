@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T02:13:20+00:00",
+  "generatedAt": "2026-10-09T02:22:40+00:00",
   "kitVersion": "1.14.0",
   "score": {
     "overall": 87.9,
@@ -297,7 +297,7 @@
     "prose": {
       "longMemberChainLines": 201,
       "deeplyIndentedLines": 89,
-      "overlongLines": 78,
+      "overlongLines": 81,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -846,7 +846,7 @@
       "summary": {
         "longMemberChainLines": 201,
         "deeplyIndentedLines": 89,
-        "overlongLines": 78,
+        "overlongLines": 81,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -1276,6 +1276,18 @@
             "line": 15
           },
           {
+            "file": "src/lib/data/consultancyDisciplines.ts",
+            "line": 12
+          },
+          {
+            "file": "src/lib/data/consultancyDisciplines.ts",
+            "line": 24
+          },
+          {
+            "file": "src/lib/data/consultancyDisciplines.ts",
+            "line": 30
+          },
+          {
             "file": "src/lib/data/consultancyOffer.ts",
             "line": 17
           },
@@ -1442,18 +1454,6 @@
           {
             "file": "src/lib/data/legal/termsAccountSections.ts",
             "line": 35
-          },
-          {
-            "file": "src/lib/data/legal/termsAccountSections.ts",
-            "line": 36
-          },
-          {
-            "file": "src/lib/data/legal/termsEngagementSections.ts",
-            "line": 7
-          },
-          {
-            "file": "src/lib/data/legal/termsEngagementSections.ts",
-            "line": 14
           }
         ]
       }
