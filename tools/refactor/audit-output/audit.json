@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T02:06:04+00:00",
+  "generatedAt": "2026-10-09T02:13:20+00:00",
   "kitVersion": "1.14.0",
   "score": {
     "overall": 87.9,
@@ -252,7 +252,7 @@
       "limit": 100,
       "filesOverLimit": 0,
       "totalFiles": 984,
-      "totalLines": 35184,
+      "totalLines": 35182,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
@@ -353,7 +353,7 @@
         "limit": 100,
         "filesOverLimit": 0,
         "totalFiles": 984,
-        "totalLines": 35184,
+        "totalLines": 35182,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -2876,7 +2876,7 @@
           "area": "frontend",
           "files": 411,
           "sourceFiles": 287,
-          "sourceLines": 11420
+          "sourceLines": 11418
         },
         {
           "area": "backend",

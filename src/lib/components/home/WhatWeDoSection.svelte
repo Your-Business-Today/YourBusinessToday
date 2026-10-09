@@ -10,16 +10,13 @@
 	</h2>
 	<div class="mt-8 grid gap-8 md:grid-cols-2 md:gap-12">
 		<p class="text-lg text-chalk/70">
-			We analyse your business to identify the key data inputs and outputs. We define the range of
-			business processes your company works on and begin to automate within the bespoke framework
-			we create for you. We automate the parallel running of systems to ensure a seamless
-			transition of all processes to their AI upgrade.
+			We use our custom tools to analyse your business, identifying the areas in which our
+			solutions will have the greatest impact. Your bespoke framework gives you immediate power
+			to implement tailored AI solutions that have tangible results.
 		</p>
 		<p class="text-lg text-chalk/70">
-			We analyse your business to identify the key data inputs and outputs. We define the range of
-			business processes your company works on and begin to automate within the bespoke framework
-			we create for you. We automate the parallel running of systems to ensure a seamless
-			transition of all processes to their AI upgrade.
+			We build your automation platform in parallel with the running of existing systems to
+			ensure a seamless transition of all processes to their AI upgrade.
 		</p>
 	</div>
 	<div class="mt-14 border-t border-hairline md:mt-16">

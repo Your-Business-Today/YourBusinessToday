@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-10-09 02:06 UTC.
+Generated 2026-10-09 02:13 UTC.
 
 ## Headline
 
@@ -40,7 +40,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| frontend | 411 | 287 | 11,420 |
+| frontend | 411 | 287 | 11,418 |
 | backend | 395 | 392 | 11,883 |
 | shared | 137 | 123 | 3,906 |
 | api | 114 | 114 | 5,314 |
@@ -49,13 +49,13 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | tests | 68 | 68 | 2,661 |
 | docs | 50 | 0 | 0 |
 | infrastructure | 13 | 0 | 0 |
-| **whole repository** | **1,362** | **984** | **35,184** |
+| **whole repository** | **1,362** | **984** | **35,182** |
 
 ## Summary
 
 | Check | Key figures |
 | --- | --- |
-| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 984, totalLines: 35184, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
+| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 984, totalLines: 35182, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
 | functionShape | limit: 30, functionsOverLimit: 4, totalFunctions: 1185, elseBlocks: 0, ifBlocks: 1515, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 2, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 32, measurementIsHeuristic: True |
