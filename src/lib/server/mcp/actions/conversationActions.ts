@@ -31,7 +31,9 @@ export const conversationActions: McpAction[] = [
 			'someone is a message waiting on them, or a subtask assigned to them, never a line in ' +
 			'the task details. Something a person has to do is a task ' +
 			'assigned to them (set_task_assignees) or a subtask, not a wait; a task held up by ' +
-			'another waits for it (set_task_waits_for), never on hold with a note. When work on a task stops, the work log goes here: ' +
+			'another waits for it (set_task_waits_for), never on hold with a note. Marking a task done ' +
+			'is never asked of someone else: whoever finishes the work marks it done (update_task_status). ' +
+			'When work on a task stops, the work log goes here: ' +
 			'what changed, the branch and pull request it is on, which files or records, the ' +
 			'decisions and why, what is left.',
 		inputSchema: objectSchema(
