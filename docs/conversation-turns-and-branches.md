@@ -70,6 +70,9 @@ his Claude counted six. Two faults, one on each side.
   its own person goes to them in chat, never into the conversation, which every other Claude on
   the project reads. A decision needed from someone is a message waiting on them or a subtask
   assigned to them, never a line in the task details.
+- Marking a task done is never handed to someone else as an ask: whoever finishes the work marks
+  it done, and a merged pull request does it by itself. Jeremy's FIX of 9 October named a close
+  asked of him on a subtask James's Claude had finished.
 - A question is stamped `picked_up_at` only once the inbox has actually returned it to the
   reader's Claude, so "their Claude has it" is never said of something their Claude never saw;
   and a read that fills its page leaves the cursor on its last message rather than skipping

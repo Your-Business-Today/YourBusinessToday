@@ -21,7 +21,8 @@ export const taskStatusActions: McpAction[] = [
 			'resolve_support_task instead, so its raiser gets an answer. In progress ' +
 			'is when the work starts: work that changes a repository starts on a branch named for ' +
 			'the task, never on the default branch, and set_task_branch records it. A task with a ' +
-			'branch is marked done by itself when its pull request merges.',
+			'branch is marked done by itself when its pull request merges. Marking a task done is ' +
+			'never handed to someone else as an ask: whoever finishes the work marks it done.',
 		inputSchema: objectSchema(
 			{ taskId: textField('The task id'), status: textField(taskStatusOrder.join(', ')) },
 			['taskId', 'status']
