@@ -3,7 +3,7 @@ import { createProject } from '$lib/server/projects/createProject';
 import { deleteProject } from '$lib/server/projects/deleteProject';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
-import { getProjectList } from '$lib/server/projects/getProjectList';
+import { getProjectsForOwner } from '$lib/server/projects/getProjectsForOwner';
 import { getTeamProjects } from '$lib/server/members/getTeamProjects';
 import { getTasksWaitingOnYou } from '$lib/server/conversations/getTasksWaitingOnYou';
 import { parseRank } from '$lib/server/ordering/rankInput';
@@ -11,7 +11,7 @@ import { projectOrderActions } from './projectOrderActions';
 import { setProjectPriority } from '$lib/server/projects/setProjectPriority';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireUser } from '$lib/server/auth/requireUser';
-import { readProjectDetailsForm, updateProjectDetails } from '$lib/server/projects/updateProjectDetails';
+import { parseProjectDetailsForm, updateProjectDetails } from '$lib/server/projects/updateProjectDetails';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const assignedTaskCounts = await getAssignedTaskCounts(locals.supabase, user.id);
 	return {
 		waitingTasks: await getTasksWaitingOnYou(locals.supabase, user.id),
-		projects: await getProjectList(locals.supabase, user.id, assignedTaskCounts),
+		projects: await getProjectsForOwner(locals.supabase, user.id, assignedTaskCounts),
 		teamProjects: await getTeamProjects(locals.supabase, user.id, assignedTaskCounts),
 		latestKitVersion: await getLatestKitVersion(locals.supabase)
 	};
@@ -44,7 +44,7 @@ export const actions: Actions = {
 	updateProject: async ({ locals, request }) => {
 		const formData = await request.formData();
 		const projectId = String(formData.get('projectId') ?? '');
-		const edit = readProjectDetailsForm(formData);
+		const edit = parseProjectDetailsForm(formData);
 		if (projectId === '' || edit === null) {
 			return fail(400, { message: 'A project and a name are required.' });
 		}

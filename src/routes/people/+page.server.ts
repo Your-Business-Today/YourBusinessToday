@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { addPerson, readNewPersonSeed } from '$lib/server/people/addPerson';
-import { findOrCreatePersonFromOfficer } from '$lib/server/people/findOrCreatePersonFromOfficer';
+import { ensurePersonForOfficer } from '$lib/server/people/ensurePersonForOfficer';
 import { getPeople } from '$lib/server/people/getPeople';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
 import { searchOfficers } from '$lib/server/companiesHouse/searchOfficers';
@@ -24,7 +24,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	};
 };
 
-// The register being unreachable costs the search, never the page.
+/** The register being unreachable costs the search, never the page. */
 async function officersFor(query: string, isConfigured: boolean): Promise<OfficerSearchResult[] | null> {
 	if (query === '' || !isConfigured) return null;
 	try {
@@ -49,7 +49,7 @@ export const actions: Actions = {
 		const officerId = String(formData.get('officerId') ?? '').trim();
 		const name = String(formData.get('name') ?? '').trim();
 		if (officerId === '' || name === '') return fail(400, { message: 'An officer is required.' });
-		const personId = await findOrCreatePersonFromOfficer(locals.supabase, { officerId, name });
+		const personId = await ensurePersonForOfficer(locals.supabase, { officerId, name });
 		redirect(303, `/people/${personId}?${importCompaniesQuery}`);
 	}
 };

@@ -1,6 +1,5 @@
 <script lang="ts">
-	import StagePill from '$lib/components/clients/StagePill.svelte';
-	import { describeDistance } from '$lib/data/distance';
+	import AreaCompanyRow from './AreaCompanyRow.svelte';
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
 
 	let {
@@ -12,25 +11,6 @@
 
 <ul class="max-h-[36rem] divide-y divide-hairline overflow-y-auto rounded-2xl border border-hairline">
 	{#each pins as pin (pin.key)}
-		<li>
-			<button
-				type="button"
-				onclick={() => onSelect(pin.key)}
-				aria-pressed={pin.key === selectedKey}
-				class={`flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition
-					hover:bg-carriage ${pin.key === selectedKey ? 'bg-carriage' : ''}`}
-			>
-				<span class="min-w-0">
-					<span class="block truncate font-display text-sm">{pin.name}</span>
-					<span class="block truncate text-xs text-chalk/50">{pin.address}</span>
-				</span>
-				<span class="flex shrink-0 items-center gap-2 text-xs text-chalk/50">
-					{#if pin.standing !== null}
-						<StagePill stage={pin.standing.stage} />
-					{/if}
-					{describeDistance(pin.distanceMiles)}
-				</span>
-			</button>
-		</li>
+		<AreaCompanyRow {pin} isSelected={pin.key === selectedKey} {onSelect} />
 	{/each}
 </ul>

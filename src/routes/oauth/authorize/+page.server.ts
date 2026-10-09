@@ -63,15 +63,20 @@ async function requireStandingThatMayConnect(
 	url: URL
 ): Promise<AccountStanding> {
 	const { user } = await locals.safeGetSession();
-	if (user === null) redirect(seeOther, signInThenReturn(url));
+	if (user === null) {
+		const signInUrl = signInThenReturn(url);
+		redirect(seeOther, signInUrl);
+	}
 	const standing = await resolveAccountStanding(supabaseServiceClient(), user.id);
 	if (standing === null) error(forbidden, accountCannotConnect);
 	return standing;
 }
 
-// A form posting to "?/approve" would replace the query string and lose the
-// authorization parameters the action has to read back, so the parameters are
-// carried alongside the action name.
+/**
+ * A form posting to "?/approve" would replace the query string and lose the
+ * authorization parameters the action has to read back, so the parameters are
+ * carried alongside the action name.
+ */
 function pathForNamedAction(url: URL, actionName: string): string {
 	return `${url.pathname}${url.search}&/${actionName}`;
 }

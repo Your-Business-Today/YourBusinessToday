@@ -50,9 +50,11 @@ export const modelLadder: ModelRung[] = [
 
 export const cheapestModelId = modelLadder[0].modelId;
 
-// Models the site setting or an admin pin may still name; priced at a rung
-// whose rates are at least theirs so an old id can never undercut the
-// ladder (Sonnet 4.x bills $3/$15, above Sonnet 5, so it rides on Opus).
+/**
+ * Models the site setting or an admin pin may still name; priced at a rung
+ * whose rates are at least theirs so an old id can never undercut the
+ * ladder (Sonnet 4.x bills $3/$15, above Sonnet 5, so it rides on Opus).
+ */
 const legacyModelRungs: Record<string, string> = {
 	'claude-sonnet-4-5': 'claude-opus-5',
 	'claude-sonnet-4-6': 'claude-opus-5',
@@ -71,8 +73,10 @@ export function isKnownModel(modelId: string): boolean {
 	return isLadderModel(modelId) || modelId in legacyModelRungs;
 }
 
-// Dated ids ('claude-haiku-4-5-20251001') match their rung by prefix; an id
-// nothing recognises prices at the top rung, so a surprise never undercharges.
+/**
+ * Dated ids ('claude-haiku-4-5-20251001') match their rung by prefix; an id
+ * nothing recognises prices at the top rung, so a surprise never undercharges.
+ */
 export function rungFor(modelId: string): ModelRung {
 	const ladderId = legacyModelRungs[modelId] ?? modelId;
 	return (

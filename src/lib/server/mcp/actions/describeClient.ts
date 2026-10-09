@@ -4,8 +4,8 @@ import { formatBritishDate } from '$lib/data/britishDate';
 import type { Client } from '$lib/server/clients/clientRecord';
 import type { ClientContact } from '$lib/server/clients/clientContactRecord';
 import type { ClientEvent } from '$lib/server/clients/recordClientEvent';
-import type { ClientProject } from '$lib/server/clients/getClientProjects';
-import type { ClientSummary } from '$lib/server/clients/getClientList';
+import type { ClientProject } from '$lib/server/clients/getProjectsForClient';
+import type { ClientSummary } from '$lib/server/clients/listClients';
 
 export const noSuchClient = 'No client on the register has that id. Call list_clients to see them.';
 

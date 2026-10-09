@@ -4,11 +4,11 @@ import { describeProject, describeProjectLine, noSuchProject, openWorkPhrase } f
 import { describeKitStanding, kitStanding } from '$lib/data/kitVersion';
 import { kitReadingOf } from '$lib/server/kit/kitReadingOf';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
-import { getProjectGoals } from '$lib/server/goals/getProjectGoals';
+import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
-import { getProjectList } from '$lib/server/projects/getProjectList';
-import { getProjectTasks } from '$lib/server/projects/getProjectTasks';
+import { getProjectsForOwner } from '$lib/server/projects/getProjectsForOwner';
+import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import { getTeamProjects, type TeamProject } from '$lib/server/members/getTeamProjects';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { projectStatusLabels } from '$lib/data/projectStatus';
@@ -28,7 +28,7 @@ export const projectReadActions: McpAction[] = [
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
 			const assignedTaskCounts = await getAssignedTaskCounts(caller.supabase, caller.accountId);
-			const owned = await getProjectList(caller.supabase, caller.accountId, assignedTaskCounts);
+			const owned = await getProjectsForOwner(caller.supabase, caller.accountId, assignedTaskCounts);
 			const team = await getTeamProjects(caller.supabase, caller.accountId, assignedTaskCounts);
 			if (owned.length === 0 && team.length === 0) {
 				return 'You have no projects yet. Call create_project to start one.';
@@ -53,8 +53,8 @@ export const projectReadActions: McpAction[] = [
 		run: async (caller, input) => {
 			const project = await reachableProject(caller, readText(input, 'projectId'));
 			if (project === null) return noSuchProject;
-			const tasks = await getProjectTasks(caller.supabase, project.id);
-			const goals = await getProjectGoals(caller.supabase, project.id);
+			const tasks = await getTasksForProject(caller.supabase, project.id);
+			const goals = await getGoalsForProject(caller.supabase, project.id);
 			const cadenceLine = await cadenceLineFor(caller.supabase, project);
 			const kitLine = await kitLineFor(caller.supabase, project);
 			return describeProject(project, goals, buildTaskTree(tasks), `${cadenceLine} ${kitLine}`);

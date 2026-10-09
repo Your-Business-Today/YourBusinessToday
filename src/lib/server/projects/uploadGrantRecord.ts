@@ -1,3 +1,5 @@
+import { hasExpired } from '$lib/data/expiry';
+
 export type TaskUploadGrant = {
 	id: string;
 	taskId: string;
@@ -32,6 +34,6 @@ export function parseUploadGrantRecord(row: Record<string, unknown>): TaskUpload
 /** Whether a grant can still take its file: once only, and only before it expires. */
 export function uploadGrantStanding(grant: TaskUploadGrant, now: Date): UploadGrantStanding {
 	if (grant.recordedAt !== null) return 'used';
-	if (new Date(grant.expiresAt).getTime() < now.getTime()) return 'expired';
+	if (hasExpired(grant.expiresAt, now)) return 'expired';
 	return 'open';
 }

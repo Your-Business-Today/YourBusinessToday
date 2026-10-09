@@ -20,8 +20,10 @@ export const affiliationOutcomes = {
 
 const duplicateRowCode = '23505';
 
-// A company keeps exactly one primary contact, so the standing primary only
-// stands down once the incoming affiliation is safely in place.
+/**
+ * A company keeps exactly one primary contact, so the standing primary only
+ * stands down once the incoming affiliation is safely in place.
+ */
 export async function affiliatePersonWithClient(
 	supabase: SupabaseClient,
 	affiliation: Affiliation

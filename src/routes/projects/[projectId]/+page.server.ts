@@ -2,11 +2,11 @@ import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
-import { getGoalSummaries } from '$lib/server/goals/getGoalSummaries';
-import { getProjectGoals } from '$lib/server/goals/getProjectGoals';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
-import { getProjectTasks } from '$lib/server/projects/getProjectTasks';
-import { getTaskAssigneeMap } from '$lib/server/projects/getTaskAssigneeMap';
+import { summariseGoals } from '$lib/server/goals/summariseGoals';
+import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
+import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
+import { getAssigneeIdsByTask } from '$lib/server/projects/getAssigneeIdsByTask';
 import { getTaskTurns } from '$lib/server/conversations/conversationTurns';
 import { goalActions } from './goalActions';
 import { memberActions } from './memberActions';
@@ -19,13 +19,13 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const { project, isOwner, user } = await requireProjectAccess(locals, params.projectId);
-	const tasks = await getProjectTasks(locals.supabase, project.id);
-	const goals = await getProjectGoals(locals.supabase, project.id);
+	const tasks = await getTasksForProject(locals.supabase, project.id);
+	const goals = await getGoalsForProject(locals.supabase, project.id);
 	const taskIds = tasks.map((task) => task.id);
-	const assigneeIdsByTask = await getTaskAssigneeMap(locals.supabase, taskIds);
+	const assigneeIdsByTask = await getAssigneeIdsByTask(locals.supabase, taskIds);
 	const turnsByTask = await getTaskTurns(locals.supabase, taskIds);
 	const deploysSinceRefactor = await countDeploysSinceRefactor(locals.supabase, project);
-	const people = await getProjectPeople(locals.supabase, project.id);
+	const people = await getPeopleOnProject(locals.supabase, project.id);
 	return {
 		project,
 		latestKitVersion: await getLatestKitVersion(locals.supabase),
@@ -36,7 +36,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		}),
 		pulse: summariseProjectPulse({ tasks, goals, assigneeIdsByTask, turnsByTask, viewerId: user.id }),
 		taskTree: buildTaskTree(tasks),
-		goalSummaries: getGoalSummaries(goals, tasks),
+		goalSummaries: summariseGoals(goals, tasks),
 		goals,
 		people,
 		assigneeIdsByTask: Object.fromEntries(assigneeIdsByTask),

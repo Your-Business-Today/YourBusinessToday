@@ -5,7 +5,7 @@ import { findTaskAttachment } from '$lib/server/projects/findTaskAttachment';
 import { noSuchAttachment } from './describeAttachments';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readText, textField } from '../actionTypes';
-import { readAttachmentFileInput } from './readAttachmentFileInput';
+import { parseAttachmentFileInput } from './parseAttachmentFileInput';
 import { storeTaskAttachment } from '$lib/server/projects/storeTaskAttachment';
 import type { McpAction } from '../actionTypes';
 
@@ -40,7 +40,7 @@ export const taskAttachmentWriteActions: McpAction[] = [
 		run: async (caller, input) => {
 			const task = await reachableTask(caller, readText(input, 'taskId'));
 			if (task === null) return noSuchTask;
-			const file = await readAttachmentFileInput(input);
+			const file = await parseAttachmentFileInput(input);
 			if (typeof file === 'string') return file;
 			const attachmentId = await storeTaskAttachment(
 				caller.supabase,

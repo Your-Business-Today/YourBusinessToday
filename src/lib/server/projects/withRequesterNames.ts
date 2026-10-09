@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { accountNameLookup } from '$lib/data/accountNames';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
+import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { isRequest } from '$lib/data/queueBand';
 import type { GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 
@@ -11,7 +11,7 @@ export async function withRequesterNames(
 ): Promise<GlobalTask[]> {
 	const requests = tasks.filter(isRequest);
 	const requesterIds = requests.map((task) => task.requestedBy);
-	const nameOf = accountNameLookup(await getAccountDirectory(supabase, requesterIds));
+	const nameOf = accountNameLookup(await getAccountsById(supabase, requesterIds));
 	return tasks.map((task) => {
 		if (!isRequest(task)) return task;
 		return { ...task, requesterName: nameOf(task.requestedBy) };

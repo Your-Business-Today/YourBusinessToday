@@ -5,7 +5,7 @@
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { formatBritishDate } from '$lib/data/britishDate';
 	import { confirmButtonClasses, panelClasses, quietButtonClasses } from '$lib/components/site/formStyles';
-	import type { ClientPerson } from '$lib/server/clients/getClientPeople';
+	import type { ClientPerson } from '$lib/server/clients/getPeopleForClient';
 
 	let { person, onEdit }: { person: ClientPerson; onEdit: (person: ClientPerson) => void } = $props();
 

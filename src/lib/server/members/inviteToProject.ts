@@ -31,15 +31,16 @@ export async function inviteToProject(
 	supabase: SupabaseClient,
 	invite: ProjectInvite
 ): Promise<ProjectInviteOutcome> {
-	const invitesThisHour = await countProjectInvitesThisHour(supabase, invite.inviter.id);
+	const { project, inviter } = invite;
+	const invitesThisHour = await countProjectInvitesThisHour(supabase, inviter.id);
 	if (isInviteAllowanceSpent(invitesThisHour)) return 'too_many_invites';
 	const existingAccount = await findAccountByEmail(supabase, invite.email);
-	if (existingAccount?.id === invite.project.ownerId) return 'is_the_owner';
+	if (existingAccount?.id === project.ownerId) return 'is_the_owner';
 	if (existingAccount !== null && invite.memberIds.includes(existingAccount.id)) {
 		return 'already_on_project';
 	}
 	const arrival = await arrivalFor(invite, existingAccount);
-	await addProjectMember(supabase, invite.project.id, arrival.accountId, invite.inviter.id);
+	await addProjectMember(supabase, project.id, arrival.accountId, inviter.id);
 	return deliverInvite(invite, arrival);
 }
 
@@ -48,9 +49,10 @@ async function arrivalFor(
 	existingAccount: Account | null
 ): Promise<Arrival> {
 	if (existingAccount !== null) {
+		const { project } = invite;
 		return {
 			accountId: existingAccount.id,
-			openProjectUrl: `${invite.origin}/projects/${invite.project.id}`,
+			openProjectUrl: `${invite.origin}/projects/${project.id}`,
 			isNewAccount: false
 		};
 	}
@@ -63,12 +65,13 @@ async function arrivalFor(
 }
 
 function deliverInvite(invite: ProjectInvite, arrival: Arrival): Promise<EmailDelivery> {
+	const { project, inviter } = invite;
 	return sendTransactionalEmail({
 		to: invite.email,
-		subject: projectInviteEmailSubject(invite.project.name),
+		subject: projectInviteEmailSubject(project.name),
 		html: renderProjectInviteEmail(
-			invite.inviter.name,
-			invite.project.name,
+			inviter.name,
+			project.name,
 			arrival.openProjectUrl,
 			arrival.isNewAccount
 		)

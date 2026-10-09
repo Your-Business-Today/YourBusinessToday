@@ -21,11 +21,14 @@ const capabilities = { tools: { listChanged: false }, resources: { listChanged: 
 const methods: Record<string, McpMethod> = {
 	'server/discover': async () => discovery(),
 	ping: async () => ({}),
-	initialize: async (_caller, request) => ({
-		protocolVersion: negotiateProtocolVersion(request.params.protocolVersion),
-		capabilities,
-		serverInfo: serverInformation
-	}),
+	initialize: async (_caller, request) => {
+		const { params } = request;
+		return {
+			protocolVersion: negotiateProtocolVersion(params.protocolVersion),
+			capabilities,
+			serverInfo: serverInformation
+		};
+	},
 	'tools/list': async () => ({ tools: describeMcpTools(), ...listCacheHints }),
 	'tools/call': (caller, request) => callTool(caller, request),
 	'resources/list': async () => ({ resources: describeMcpResources(), ...listCacheHints }),
@@ -66,11 +69,12 @@ function discovery(): McpAnswer {
 }
 
 async function callTool(caller: McpCaller, request: McpRequest): Promise<McpAnswer> {
-	const tool = findMcpTool(request.params.name);
+	const { params } = request;
+	const tool = findMcpTool(params.name);
 	if (tool === null) {
-		return toolAnswer(`There is no tool called ${String(request.params.name)}.`, true);
+		return toolAnswer(`There is no tool called ${String(params.name)}.`, true);
 	}
-	const argumentValues = (request.params.arguments ?? {}) as Record<string, unknown>;
+	const argumentValues = (params.arguments ?? {}) as Record<string, unknown>;
 	try {
 		return toolAnswer(await tool.run(caller, argumentValues), false);
 	} catch (failure) {

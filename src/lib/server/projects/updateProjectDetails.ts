@@ -13,7 +13,7 @@ export type ProjectDetailsUpdate = {
 };
 
 /** The edit form as one update; null when it names no project. */
-export function readProjectDetailsForm(formData: FormData): ProjectDetailsUpdate | null {
+export function parseProjectDetailsForm(formData: FormData): ProjectDetailsUpdate | null {
 	const name = text(formData, 'name');
 	if (name === '') return null;
 	return {

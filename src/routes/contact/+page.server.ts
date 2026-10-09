@@ -20,7 +20,8 @@ export const actions: Actions = {
 		const reading = readWebsiteEnquiry(await request.formData());
 		if ('isHoneypotFilled' in reading) return { isSent: true };
 		if ('problem' in reading) return fail(400, { message: reading.problem });
-		if (!enquiriesPerAddress.isAllowedFrom(getClientAddress())) return { isSent: true };
+		const clientAddress = getClientAddress();
+		if (!enquiriesPerAddress.isAllowedFrom(clientAddress)) return { isSent: true };
 		try {
 			await recordAndNotify(reading.enquiry, url.origin);
 		} catch {

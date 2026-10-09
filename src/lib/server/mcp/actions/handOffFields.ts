@@ -1,5 +1,5 @@
 import { findProjectPerson } from '$lib/server/members/findProjectPerson';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { isHandedToWriter, selfHandOffRefusal } from '$lib/data/batonRule';
 import { parseAwaitingKind, type HandOff } from '$lib/data/conversationTurn';
 import { readOptionalText, textField } from '../actionTypes';
@@ -34,7 +34,7 @@ export async function chooseHandOff(
 	const kind = parseAwaitingKind(readOptionalText(input, 'waitingFor') ?? 'person');
 	if (kind === null) return { refusal: 'waitingFor is "person" or "claude". Say which.' };
 	if (waitingOn === null || waitingOn.toLowerCase() === nobody) return { handOff: null };
-	const people = await getProjectPeople(caller.supabase, resolved.projectId);
+	const people = await getPeopleOnProject(caller.supabase, resolved.projectId);
 	const person = findProjectPerson(people, waitingOn);
 	if (person === null) return { refusal: `${waitingOn} is not on the project. Call list_project_people.` };
 	const handOff = { accountId: person.id, kind };

@@ -3,7 +3,7 @@ import {
 	matchesProjectStatusFilter,
 	type ProjectStatusFilter
 } from '$lib/data/projectStatusFilter';
-import type { ProjectSummary } from '$lib/server/projects/getProjectList';
+import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
 const projectsPerPage = 12;
 

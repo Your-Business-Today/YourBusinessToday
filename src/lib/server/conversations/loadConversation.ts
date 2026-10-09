@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { conversationAccountIds } from './conversationAccountIds';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
+import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { getConversationParticipantIds } from './getConversationParticipantIds';
 import { getThread } from './getThread';
 import { withAuthorNames } from './withAuthorNames';
@@ -16,7 +16,7 @@ export async function loadConversation(
 		getThread(supabase, subject, true),
 		getConversationParticipantIds(supabase, subject)
 	]);
-	const accounts = await getAccountDirectory(supabase, conversationAccountIds(messages));
+	const accounts = await getAccountsById(supabase, conversationAccountIds(messages));
 	return {
 		messages: withAuthorNames(messages, accounts),
 		participantIds,

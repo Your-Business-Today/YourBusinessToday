@@ -8,8 +8,10 @@ export type AnthropicMessage = { role: 'user' | 'assistant'; content: unknown };
 
 export type AnthropicTool = { name: string; description: string; input_schema: unknown };
 
-// A tool Anthropic runs on its own servers, such as web search; the request
-// names it by type and the response carries its results as content blocks.
+/**
+ * A tool Anthropic runs on its own servers, such as web search; the request
+ * names it by type and the response carries its results as content blocks.
+ */
 export type AnthropicServerTool = {
 	type: string;
 	name: string;

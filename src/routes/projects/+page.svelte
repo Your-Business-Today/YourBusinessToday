@@ -11,7 +11,7 @@
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { ProjectListView } from '$lib/client/projectListView.svelte';
 	import type { Project } from '$lib/server/projects/projectRecord';
-	import type { ProjectSummary } from '$lib/server/projects/getProjectList';
+	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
 	type PriorityChoice = { project: Project; among: string };
 

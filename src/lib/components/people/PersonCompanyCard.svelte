@@ -3,7 +3,7 @@
 	import StagePill from '$lib/components/clients/StagePill.svelte';
 	import { panelClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import type { GroupParent } from '$lib/server/clients/getGroupParents';
-	import type { PersonCompany } from '$lib/server/people/getPersonCompanies';
+	import type { PersonCompany } from '$lib/server/people/getCompaniesForPerson';
 
 	let { company, parents }: { company: PersonCompany; parents: GroupParent[] } = $props();
 

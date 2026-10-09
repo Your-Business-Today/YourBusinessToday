@@ -21,6 +21,22 @@ structured record. Use only what the report says and only URLs from the list of 
 were read. Leave out anything the report was unsure belonged to this person. Write in plain
 British English.`;
 
+const foundRoleSchema = {
+	type: 'object',
+	properties: {
+		title: { type: 'string' },
+		organisation: { type: 'string' },
+		source_url: { type: 'string' }
+	},
+	required: ['title', 'organisation', 'source_url']
+};
+
+const foundLinkSchema = {
+	type: 'object',
+	properties: { label: { type: 'string' }, url: { type: 'string' } },
+	required: ['label', 'url']
+};
+
 export const personFindingsTool: AnthropicTool = {
 	name: 'record_person_findings',
 	description: 'Record what the open web says about this person in a business capacity.',
@@ -36,26 +52,14 @@ export const personFindingsTool: AnthropicTool = {
 			roles: {
 				type: 'array',
 				description: 'Each position or role found, with the page it came from.',
-				items: {
-					type: 'object',
-					properties: {
-						title: { type: 'string' },
-						organisation: { type: 'string' },
-						source_url: { type: 'string' }
-					},
-					required: ['title', 'organisation', 'source_url']
-				}
+				items: foundRoleSchema
 			},
 			links: {
 				type: 'array',
 				description:
 					'Pages worth keeping on their record — a company site, an about page, a profile, ' +
 					'press — each with a short label such as "Company site" or "Interview, 2025".',
-				items: {
-					type: 'object',
-					properties: { label: { type: 'string' }, url: { type: 'string' } },
-					required: ['label', 'url']
-				}
+				items: foundLinkSchema
 			}
 		},
 		required: ['summary', 'roles', 'links']

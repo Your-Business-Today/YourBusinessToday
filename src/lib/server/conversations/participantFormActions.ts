@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { addConversationParticipant } from './addConversationParticipant';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { removeConversationParticipant } from './removeConversationParticipant';
 import type { ConversationSubject } from './conversationSubject';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -36,7 +36,7 @@ async function accountOnProject(
 	formData: FormData
 ): Promise<string | null> {
 	const accountId = String(formData.get('accountId') ?? '');
-	const people = await getProjectPeople(supabase, projectId);
+	const people = await getPeopleOnProject(supabase, projectId);
 	if (!people.some((person) => person.id === accountId)) return null;
 	return accountId;
 }

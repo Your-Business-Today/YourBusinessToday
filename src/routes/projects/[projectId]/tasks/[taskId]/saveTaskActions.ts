@@ -53,15 +53,16 @@ async function sendTaskOnItsWay(
 	formData: FormData,
 	whereFrom: WhereFrom
 ): Promise<string | null> {
-	const chosenProjectId = otherProjectId(formData, whereFrom.source.id);
+	const { task, source } = whereFrom;
+	const chosenProjectId = otherProjectId(formData, source.id);
 	if (chosenProjectId === null) {
-		await placeAmongItsSiblings(supabase, whereFrom.task, formData);
+		await placeAmongItsSiblings(supabase, task, formData);
 		return null;
 	}
 	const destination = await getProject(supabase, chosenProjectId);
 	if (destination === null) return pickAProjectYouAreOn;
 	await moveTaskToProject(supabase, { ...whereFrom, destination });
-	redirect(303, `/projects/${destination.id}/tasks/${whereFrom.task.id}`);
+	redirect(303, `/projects/${destination.id}/tasks/${task.id}`);
 }
 
 function otherProjectId(formData: FormData, sourceProjectId: string): string | null {

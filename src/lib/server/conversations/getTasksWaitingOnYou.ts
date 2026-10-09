@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { accountNameLookup } from '$lib/data/accountNames';
 import { awaitingKinds, parseAwaitingKind } from '$lib/data/conversationTurn';
 import { doneTaskStatus } from '$lib/data/taskStatus';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
+import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { parseGlobalTaskRow, type GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 
 /** An open task whose latest message hands the baton to the viewer, and who handed it. */
@@ -24,7 +24,7 @@ export async function getTasksWaitingOnYou(
 	const authorIds = turns.map((turn) => turn.authorAccountId);
 	const [taskById, accounts] = await Promise.all([
 		getOpenTasksById(supabase, taskIds),
-		getAccountDirectory(supabase, authorIds)
+		getAccountsById(supabase, authorIds)
 	]);
 	const nameOf = accountNameLookup(accounts);
 	return turns.flatMap((turn) => {

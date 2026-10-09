@@ -57,8 +57,10 @@ export function usageCostPence(modelId: string, usage: AnthropicUsage): number {
 	return usd * usdToGbp * 100;
 }
 
-// What a finished question owes: the tier floor, or the marked-up bill if
-// that is higher — never less than the floor, so every call clears cost.
+/**
+ * What a finished question owes: the tier floor, or the marked-up bill if
+ * that is higher — never less than the floor, so every call clears cost.
+ */
 export function questionCreditsFor(calls: MeteredCall[]): number {
 	if (calls.length === 0) return 0;
 	const billPence = calls.reduce((total, call) => total + usageCostPence(call.modelId, call.usage), 0);

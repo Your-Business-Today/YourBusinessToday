@@ -13,10 +13,12 @@ export type AnthropicRequest = {
 	tools: AnthropicRequestTool[];
 	maxTokens: number;
 	forcedToolName?: string;
-	// Makes the model reply through one of the tools rather than in prose.
+	/** Makes the model reply through one of the tools rather than in prose. */
 	mustUseTool?: boolean;
-	// Pins the model for callers that answer on someone else's behalf (a
-	// chatbot member's question runs on the bot's model, not the caller's).
+	/**
+	 * Pins the model for callers that answer on someone else's behalf (a
+	 * chatbot member's question runs on the bot's model, not the caller's).
+	 */
 	model?: string;
 };
 
@@ -41,24 +43,25 @@ export async function requestAnthropic(request: AnthropicRequest): Promise<Anthr
 			messages: request.messages
 		})
 	});
-	if (!response.ok) throw new Error(await describeFailure(response));
+	if (!response.ok) throw await failureOf(response);
 	const answer: AnthropicResponse = await response.json();
 	recordMeteredCall({ modelId: model, usage: usageFrom(answer) });
 	return answer;
 }
 
 function usageFrom(answer: AnthropicResponse): AnthropicUsage {
+	const { usage } = answer;
 	return {
-		inputTokens: answer.usage?.input_tokens ?? 0,
-		outputTokens: answer.usage?.output_tokens ?? 0,
-		cacheReadTokens: answer.usage?.cache_read_input_tokens ?? 0,
-		cacheWriteTokens: answer.usage?.cache_creation_input_tokens ?? 0
+		inputTokens: usage?.input_tokens ?? 0,
+		outputTokens: usage?.output_tokens ?? 0,
+		cacheReadTokens: usage?.cache_read_input_tokens ?? 0,
+		cacheWriteTokens: usage?.cache_creation_input_tokens ?? 0
 	};
 }
 
-async function describeFailure(response: Response): Promise<string> {
+async function failureOf(response: Response): Promise<Error> {
 	const detail = (await response.text()).slice(0, failureDetailLimit);
-	return `Anthropic request failed with status ${response.status}: ${detail}`;
+	return new Error(`Anthropic request failed with status ${response.status}: ${detail}`);
 }
 
 function toolChoiceFor(request: AnthropicRequest): Record<string, unknown> {

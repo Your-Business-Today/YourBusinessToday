@@ -14,13 +14,15 @@ const requestHeaders = { accept: 'text/html', 'user-agent': 'YourBusinessToday/1
 
 export async function fetchPublicPage(pageUrl: string): Promise<PublicPage | null> {
 	const fetched = await fetchFollowingRedirects(pageUrl, mostRedirectHops);
-	if (fetched === null || !fetched.response.ok) return null;
-	const contentType = fetched.response.headers.get('content-type') ?? '';
+	if (fetched === null) return null;
+	const { response, url } = fetched;
+	if (!response.ok) return null;
+	const contentType = response.headers.get('content-type') ?? '';
 	if (!contentType.includes('text/html')) return null;
-	const html = await readBodyUpTo(fetched.response, longestPageBytes);
+	const html = await readBodyUpTo(response, longestPageBytes);
 	const text = htmlToPlainText(html).slice(0, longestPageCharacters);
 	if (text === '') return null;
-	return { url: fetched.url.href, html, text };
+	return { url: url.href, html, text };
 }
 
 async function fetchFollowingRedirects(pageUrl: string, hopsLeft: number): Promise<FetchedPage | null> {

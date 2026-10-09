@@ -1,8 +1,7 @@
 <script lang="ts">
 	import AreaCompanyList from '$lib/components/clients/map/AreaCompanyList.svelte';
 	import AreaCompanyPanel from '$lib/components/clients/map/AreaCompanyPanel.svelte';
-	import AreaLegend from '$lib/components/clients/map/AreaLegend.svelte';
-	import AreaMap from '$lib/components/clients/map/AreaMap.svelte';
+	import AreaMapPane from '$lib/components/clients/map/AreaMapPane.svelte';
 	import AreaSearchForm from '$lib/components/clients/map/AreaSearchForm.svelte';
 	import AreaSummary from '$lib/components/clients/map/AreaSummary.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
@@ -38,18 +37,7 @@
 	{#if data.area !== null}
 		<AreaSummary area={data.area} />
 		<div class="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-			<div class="flex flex-col gap-3">
-				{#key data.area.centre.postcode + data.area.radiusMiles}
-					<AreaMap
-						centre={data.area.centre}
-						radiusMiles={data.area.radiusMiles}
-						pins={data.area.pins}
-						{selectedKey}
-						onSelect={(key) => (selectedKey = key)}
-					/>
-				{/key}
-				<AreaLegend />
-			</div>
+			<AreaMapPane area={data.area} {selectedKey} onSelect={(key) => (selectedKey = key)} />
 			<div class="flex flex-col gap-4">
 				<AreaCompanyPanel pin={selectedPin} {addLeadAction} {addWithDirectorsAction} />
 				<AreaCompanyList pins={data.area.pins} {selectedKey} onSelect={(key) => (selectedKey = key)} />

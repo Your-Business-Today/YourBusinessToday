@@ -32,7 +32,7 @@ export const taskRoleActions: McpAction[] = [
 		run: async (caller, input) => {
 			const task = await reachableTask(caller, readText(input, 'taskId'));
 			if (task === null) return noSuchTask;
-			const requestedRoles = readRequestedRoles(input);
+			const requestedRoles = parseRequestedRoles(input);
 			if (requestedRoles === null) return `Pass roles as a list. ${rolesOnOffer}`;
 			const roles = parseTaskRoles(requestedRoles);
 			if (roles.length !== requestedRoles.length)
@@ -43,7 +43,7 @@ export const taskRoleActions: McpAction[] = [
 	}
 ];
 
-function readRequestedRoles(input: Record<string, unknown>): string[] | null {
+function parseRequestedRoles(input: Record<string, unknown>): string[] | null {
 	const roles = input.roles;
 	if (!Array.isArray(roles)) return null;
 	return [...new Set(roles.map(String))];

@@ -4,7 +4,7 @@ import {
 	addContactOutcomes,
 	readNewContactSeed
 } from '$lib/server/clients/addClientContact';
-import { getClientContact } from '$lib/server/clients/getClientContacts';
+import { getClientContact } from '$lib/server/clients/getContactsForClient';
 import { assignProjectToClient, readProjectOwnership } from '$lib/server/projects/assignProjectToClient';
 import { inviteClientContact, inviteOutcomes } from '$lib/server/clients/inviteClientContact';
 import { requireStaff } from '$lib/server/auth/requireStaff';

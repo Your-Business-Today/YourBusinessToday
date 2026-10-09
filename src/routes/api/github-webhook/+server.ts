@@ -21,10 +21,18 @@ export const POST: RequestHandler = async ({ request }) => {
 	const event = readGithubWebhookBody(request.headers.get('content-type'), payload);
 	if (event === null) error(400, 'unreadable_payload');
 	const eventName = request.headers.get('x-github-event');
-	if (eventName === githubEvents.pullRequest) return json(await changedPullRequest(event));
-	if (eventName === githubEvents.push) return json(await pushedDeploy(event, request));
-	return json({ ignored: true });
+	return json(await outcomeOf(eventName, event, request));
 };
+
+async function outcomeOf(
+	eventName: string | null,
+	event: unknown,
+	request: Request
+): Promise<Record<string, unknown>> {
+	if (eventName === githubEvents.pullRequest) return changedPullRequest(event);
+	if (eventName === githubEvents.push) return pushedDeploy(event, request);
+	return { ignored: true };
+}
 
 async function changedPullRequest(event: unknown): Promise<Record<string, unknown>> {
 	const pullRequest = readPullRequestEvent(event);

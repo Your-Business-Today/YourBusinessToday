@@ -44,8 +44,9 @@ export const checklistActions: McpAction[] = [
 			if (typeof found === 'string') return found;
 			const title = readOptionalText(input, 'title');
 			if (title === null) return 'A checklist needs a title.';
-			await renameChecklist(caller.supabase, found.checklist.id, title);
-			return `"${found.checklist.title}" is now called "${title}".`;
+			const { checklist } = found;
+			await renameChecklist(caller.supabase, checklist.id, title);
+			return `"${checklist.title}" is now called "${title}".`;
 		}
 	},
 	{
@@ -61,8 +62,9 @@ export const checklistActions: McpAction[] = [
 		run: async (caller, input) => {
 			const found = await findChecklistOnTask(caller, input);
 			if (typeof found === 'string') return found;
-			await deleteChecklist(caller.supabase, found.checklist.id);
-			return `Checklist "${found.checklist.title}" removed from "${found.task.title}".`;
+			const { checklist, task } = found;
+			await deleteChecklist(caller.supabase, checklist.id);
+			return `Checklist "${checklist.title}" removed from "${task.title}".`;
 		}
 	}
 ];

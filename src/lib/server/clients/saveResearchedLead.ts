@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { addClientContact } from './addClientContact';
 import { createClient } from './createClient';
-import { getClientContacts } from './getClientContacts';
+import { getContactsForClient } from './getContactsForClient';
 import { recordClientEvent } from './recordClientEvent';
 import { updateCompanyProfile } from './updateCompanyProfile';
 import type { ReviewedLead } from './readResearchedLeadForm';
@@ -12,17 +12,19 @@ export async function saveResearchedLead(
 	lead: ReviewedLead,
 	actorAccountId: string
 ): Promise<string> {
+	const { profile, people } = lead;
 	const clientId = await placeOnRegister(supabase, lead, actorAccountId);
 	const knownNames = await namesAlreadyListed(supabase, clientId);
-	for (const person of lead.people) {
-		if (knownNames.has(person.name.toLowerCase())) continue;
+	for (const person of people) {
+		const name = person.name.toLowerCase();
+		if (knownNames.has(name)) continue;
 		await addResearchedPerson(supabase, clientId, person, actorAccountId);
 	}
 	await recordClientEvent(
 		supabase,
 		clientId,
 		'profile_researched',
-		{ source: lead.profile.sourceUrl, people: lead.people.length },
+		{ source: profile.sourceUrl, people: people.length },
 		actorAccountId
 	);
 	return clientId;
@@ -45,7 +47,7 @@ async function placeOnRegister(
 }
 
 async function namesAlreadyListed(supabase: SupabaseClient, clientId: string): Promise<Set<string>> {
-	const contacts = await getClientContacts(supabase, clientId);
+	const contacts = await getContactsForClient(supabase, clientId);
 	return new Set(contacts.map((contact) => contact.name.toLowerCase()));
 }
 

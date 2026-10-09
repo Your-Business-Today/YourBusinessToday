@@ -35,7 +35,8 @@ export const projectOrderActions = {
 		const target = await requireProjectAccess(locals, targetProjectId);
 		if (moved.isOwner !== target.isOwner) return fail(400, { message: oneBoardOnly });
 		const placement = parseDropPlacement(formData.get('placement'));
-		await placeProject(locals.supabase, movedProjectId, targetProjectId, placement, moved.user.id);
+		const mover = moved.user;
+		await placeProject(locals.supabase, movedProjectId, targetProjectId, placement, mover.id);
 		return {};
 	},
 	setProjectPriority: async ({ locals, request }) => {

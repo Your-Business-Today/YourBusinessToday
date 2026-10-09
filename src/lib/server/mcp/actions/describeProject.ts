@@ -4,7 +4,7 @@ import { projectStatusLabels } from '$lib/data/projectStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { Project } from '$lib/server/projects/projectRecord';
-import type { ProjectSummary } from '$lib/server/projects/getProjectList';
+import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 export const noSuchProject =

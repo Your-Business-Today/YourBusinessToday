@@ -138,7 +138,7 @@ staff and the service role can name members and message authors without opening
 | Query | Story it serves |
 | --- | --- |
 | `findGoals`, `findTasks` | search before you create — word matches on title, measure, details and story |
-| `getProjectGoals`, `getGoalSummaries`, `getGoal` | the goals panel and page |
+| `getGoalsForProject`, `summariseGoals`, `getGoal` | the goals panel and page |
 | `getThread` | one conversation, with or without internal messages |
 | `getOpenSupportTasks`, `getSupportTasksForClient` | `/support` and the client page |
 | `getProjectMembers`, `getMemberProjects`, `getMemberProjectIds` | membership on both sides |

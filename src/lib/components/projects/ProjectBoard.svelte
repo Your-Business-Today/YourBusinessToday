@@ -3,7 +3,7 @@
 	import ProjectPagination from './ProjectPagination.svelte';
 	import ProjectTileGrid from './ProjectTileGrid.svelte';
 	import type { ProjectListView } from '$lib/client/projectListView.svelte';
-	import type { ProjectSummary } from '$lib/server/projects/getProjectList';
+	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
 	let {
 		listView,

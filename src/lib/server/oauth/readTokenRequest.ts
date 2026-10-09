@@ -1,3 +1,5 @@
+import { authorizationSchemes, credentialsForScheme } from '$lib/server/tokens/authorizationHeader';
+
 export type TokenRequest = {
 	grantType: string;
 	clientId: string;
@@ -46,9 +48,9 @@ async function readFormFields(request: Request): Promise<BodyFields | null> {
 }
 
 function readBasicCredentials(request: Request): { clientId: string; clientSecret: string } | null {
-	const header = request.headers.get('authorization') ?? '';
-	if (!header.toLowerCase().startsWith('basic ')) return null;
-	const decoded = Buffer.from(header.slice('basic '.length).trim(), 'base64').toString('utf8');
+	const encoded = credentialsForScheme(request, authorizationSchemes.basic);
+	if (encoded === null) return null;
+	const decoded = Buffer.from(encoded, 'base64').toString('utf8');
 	const separator = decoded.indexOf(':');
 	if (separator === -1) return null;
 	return {

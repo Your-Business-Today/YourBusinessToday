@@ -22,7 +22,8 @@ export function parsePublicUrl(candidate: string): URL | null {
 	}
 	if (!acceptedProtocols.includes(parsed.protocol)) return null;
 	if (!acceptedPorts.includes(parsed.port)) return null;
-	if (privateHostPatterns.some((pattern) => pattern.test(parsed.hostname))) return null;
+	const isPrivateHost = privateHostPatterns.some((pattern) => pattern.test(parsed.hostname));
+	if (isPrivateHost) return null;
 	return parsed;
 }
 

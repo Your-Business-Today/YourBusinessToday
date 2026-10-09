@@ -3,7 +3,7 @@ import { deleteGoal } from '$lib/server/goals/deleteGoal';
 import { findTasks } from '$lib/server/support/findTasks';
 import { getGoal } from '$lib/server/goals/getGoal';
 import { getProject } from '$lib/server/projects/getProject';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { loadConversation } from '$lib/server/conversations/loadConversation';
 import { postMessageFromForm } from '$lib/server/conversations/postMessageFromForm';
 import { parseRank } from '$lib/server/ordering/rankInput';
@@ -28,7 +28,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const subject = { goalId: goal.id };
 	const [tasks, people, conversation] = await Promise.all([
 		findTasks(locals.supabase, { projectId: project.id, goalId: goal.id, phrase: '' }),
-		getProjectPeople(locals.supabase, project.id),
+		getPeopleOnProject(locals.supabase, project.id),
 		loadConversation(locals.supabase, subject, user.id)
 	]);
 	return { goal, project, tasks, people, ...conversation };

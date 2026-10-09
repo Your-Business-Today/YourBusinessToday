@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { getProjectOwnerId } from '$lib/server/projects/getProjectOwnerId';
+import { getOwnerIdOfProject } from '$lib/server/projects/getOwnerIdOfProject';
 import type { GoalHorizon } from '$lib/data/goalHorizon';
 
 /**
@@ -51,7 +51,7 @@ export async function nextSiblingRank(
 }
 
 export async function nextQueueRank(supabase: SupabaseClient, projectId: string): Promise<number> {
-	const ownerId = await getProjectOwnerId(supabase, projectId);
+	const ownerId = await getOwnerIdOfProject(supabase, projectId);
 	const highest = await supabase
 		.from('tasks')
 		.select('global_priority, projects!inner(owner_id)')

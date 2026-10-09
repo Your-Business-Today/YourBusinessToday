@@ -23,17 +23,25 @@ export function renderProjectInviteEmail(
 			You can now see its goals and tasks, work on them, and talk to the team on each one —
 			on the site or through your own assistant. ${instruction}
 		</p>
-		<a
+		${inviteButtonHtml(openProjectUrl, buttonLabel)}
+		${inviteFooterHtml(openProjectUrl)}
+	</div>
+</div>`;
+}
+
+function inviteButtonHtml(openProjectUrl: string, buttonLabel: string): string {
+	return `<a
 			href="${openProjectUrl}"
 			style="display:inline-block;background-color:#ff4d5e;color:#0b0e16;text-decoration:none;
 				font-size:15px;font-weight:bold;padding:12px 28px;border-radius:999px;"
 		>
 			${buttonLabel}
-		</a>
-		<p style="margin:24px 0 0;font-size:12px;line-height:1.6;color:#6c7694;">
+		</a>`;
+}
+
+function inviteFooterHtml(openProjectUrl: string): string {
+	return `<p style="margin:24px 0 0;font-size:12px;line-height:1.6;color:#6c7694;">
 			If the button doesn't work, open this link: <br />
 			<a href="${openProjectUrl}" style="color:#c9d2e6;">${openProjectUrl}</a>
-		</p>
-	</div>
-</div>`;
+		</p>`;
 }

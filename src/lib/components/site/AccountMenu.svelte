@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AccountMenuGroup from './AccountMenuGroup.svelte';
 	import type { NavigationGroup } from './siteNavigation';
 	import { keyboardKeys } from '$lib/client/keyboardKeys';
 
@@ -56,19 +57,7 @@
 				shadow-2xl"
 		>
 			{#each menuGroups as menuGroup, groupIndex (menuGroup.label)}
-				{#if groupIndex > 0}
-					<div class="my-2 border-t border-hairline"></div>
-				{/if}
-				{#each menuGroup.links as menuLink (menuLink.href)}
-					<a
-						href={menuLink.href}
-						onclick={closeMenu}
-						class="block rounded-lg px-3 py-2 font-display text-sm text-chalk/80 transition
-							hover:bg-night/60 hover:text-chalk"
-					>
-						{menuLink.label}
-					</a>
-				{/each}
+				<AccountMenuGroup {menuGroup} isFirst={groupIndex === 0} onNavigate={closeMenu} />
 			{/each}
 		</nav>
 	{/if}

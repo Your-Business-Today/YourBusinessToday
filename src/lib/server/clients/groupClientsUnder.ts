@@ -37,8 +37,10 @@ export async function groupClientsUnder(
 	return parentId;
 }
 
-// A company cannot be put under one of its own descendants, or the group
-// would point at itself for ever.
+/**
+ * A company cannot be put under one of its own descendants, or the group
+ * would point at itself for ever.
+ */
 async function ancestorsOf(supabase: SupabaseClient, clientId: string): Promise<string[]> {
 	const ancestors: string[] = [];
 	let currentId: string | null = clientId;

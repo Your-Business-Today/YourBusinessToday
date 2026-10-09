@@ -1,4 +1,4 @@
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { textField } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
@@ -11,6 +11,6 @@ export async function findMemberOn(
 	projectId: string,
 	accountId: string
 ): Promise<ProjectPerson | null> {
-	const people = await getProjectPeople(caller.supabase, projectId);
+	const people = await getPeopleOnProject(caller.supabase, projectId);
 	return people.find((person) => person.id === accountId && !person.isOwner) ?? null;
 }

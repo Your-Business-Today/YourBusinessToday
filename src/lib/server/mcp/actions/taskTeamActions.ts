@@ -1,5 +1,5 @@
 import { reachableTask } from '../projectAccess';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { setTaskAssignees } from '$lib/server/projects/setTaskAssignees';
@@ -35,8 +35,8 @@ export const taskTeamActions: McpAction[] = [
 		run: async (caller, input) => {
 			const task = await reachableTask(caller, readText(input, 'taskId'));
 			if (task === null) return noSuchTask;
-			const people = await getProjectPeople(caller.supabase, task.projectId);
-			const chosenIds = readAccountIds(input);
+			const people = await getPeopleOnProject(caller.supabase, task.projectId);
+			const chosenIds = parseAccountIds(input);
 			if (chosenIds === null) return nameEveryoneAsAList;
 			const chosen = people.filter((person) => chosenIds.includes(person.id));
 			if (chosen.length !== chosenIds.length) return chooseFromProject(people);
@@ -46,7 +46,7 @@ export const taskTeamActions: McpAction[] = [
 	}
 ];
 
-function readAccountIds(input: Record<string, unknown>): string[] | null {
+function parseAccountIds(input: Record<string, unknown>): string[] | null {
 	const chosenIds = input.accountIds;
 	if (!Array.isArray(chosenIds)) return null;
 	return [...new Set(chosenIds.map(String))];

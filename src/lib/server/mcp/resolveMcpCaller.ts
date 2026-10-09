@@ -1,4 +1,5 @@
 import { bearerToken } from '$lib/server/tokens/bearerToken';
+import { hasExpired } from '$lib/data/expiry';
 import { hashSecret } from '$lib/server/oauth/oauthTokens';
 import { resolveAccountStanding, type AccountStanding } from './resolveAccountStanding';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
@@ -20,7 +21,7 @@ export async function resolveMcpCaller(request: Request): Promise<McpCaller | nu
 		.maybeSingle();
 	if (error) throw error;
 	if (data === null || data.kind !== oauthTokenKinds.access || data.revoked_at !== null) return null;
-	if (new Date(data.expires_at).getTime() < Date.now()) return null;
+	if (hasExpired(data.expires_at)) return null;
 	await stampUse(supabase, data.id);
 	const standing = await resolveAccountStanding(supabase, data.account_id);
 	if (standing === null) return null;

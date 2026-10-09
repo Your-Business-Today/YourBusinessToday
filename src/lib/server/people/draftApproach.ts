@@ -4,7 +4,7 @@ import { describeCompanyForApproach, describePersonForApproach } from './approac
 import { recordClientEvent } from '$lib/server/clients/recordClientEvent';
 import { requestAnthropic } from '$lib/server/anthropic/requestAnthropic';
 import { toolUseFrom } from '$lib/server/anthropic/anthropicTypes';
-import type { PersonCompany } from './getPersonCompanies';
+import type { PersonCompany } from './getCompaniesForPerson';
 import type { PersonInFull } from './getPerson';
 
 export type ApproachDraft = {

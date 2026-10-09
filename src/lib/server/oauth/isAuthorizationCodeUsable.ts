@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { hasExpired } from '$lib/data/expiry';
 
 export type ClaimedAuthorizationCode = {
 	account_id: string;
@@ -18,7 +19,7 @@ export function isAuthorizationCodeUsable(
 	claimedCode: ClaimedAuthorizationCode,
 	presentation: AuthorizationCodePresentation
 ): boolean {
-	if (new Date(claimedCode.expires_at).getTime() < Date.now()) return false;
+	if (hasExpired(claimedCode.expires_at)) return false;
 	if (claimedCode.client_id !== presentation.clientId) return false;
 	if (presentation.redirectUri !== '' && claimedCode.redirect_uri !== presentation.redirectUri) {
 		return false;

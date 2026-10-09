@@ -16,7 +16,7 @@
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { panelButtonClasses, panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import { postListReorder } from '$lib/client/postListReorder';
-	import type { GoalSummary } from '$lib/server/goals/getGoalSummaries';
+	import type { GoalSummary } from '$lib/server/goals/summariseGoals';
 
 	let { goalSummaries, horizon }: { goalSummaries: GoalSummary[]; horizon: GoalHorizon } = $props();
 

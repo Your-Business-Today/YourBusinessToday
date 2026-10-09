@@ -13,7 +13,8 @@ const registrationsPerAddress = addressRateLimit({
 });
 
 export const POST: RequestHandler = async ({ request, getClientAddress }) => {
-	if (!registrationsPerAddress.isAllowedFrom(getClientAddress())) {
+	const clientAddress = getClientAddress();
+	if (!registrationsPerAddress.isAllowedFrom(clientAddress)) {
 		return json(
 			{ error: 'too_many_registrations', error_description: 'Try again in an hour' },
 			{ status: tooManyRequests }

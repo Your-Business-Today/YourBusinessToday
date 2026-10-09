@@ -3,9 +3,11 @@ export type AddressRateLimit = { isAllowedFrom(clientAddress: string): boolean }
 
 const mostTrackedAddresses = 10_000;
 
-// Bounds bursts from one address on a public endpoint. The record lives in
-// the serverless instance, so it resets whenever the instance does — enough
-// to stop a loop, not a substitute for a per-user limit in the database.
+/**
+ * Bounds bursts from one address on a public endpoint. The record lives in
+ * the serverless instance, so it resets whenever the instance does — enough
+ * to stop a loop, not a substitute for a per-user limit in the database.
+ */
 export function addressRateLimit(window: AddressWindow): AddressRateLimit {
 	const attemptTimesByAddress = new Map<string, number[]>();
 
@@ -36,6 +38,7 @@ function forgetQuietAddressesWhenCrowded(
 ): void {
 	if (attemptTimesByAddress.size < mostTrackedAddresses) return;
 	for (const [address, times] of attemptTimesByAddress) {
-		if (timesWithinWindow(times, window, now).length === 0) attemptTimesByAddress.delete(address);
+		const recentTimes = timesWithinWindow(times, window, now);
+		if (recentTimes.length === 0) attemptTimesByAddress.delete(address);
 	}
 }

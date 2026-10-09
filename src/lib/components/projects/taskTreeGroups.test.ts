@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { groupTasksByGoal } from './taskTreeGroups';
+import { groupTasksByGoal, type TaskGroup } from './taskTreeGroups';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
@@ -13,13 +13,18 @@ function task(id: string, goalId: string | null, subtasks: TaskTreeNode[] = []):
 
 const idsOf = (tasks: TaskTreeNode[]) => tasks.map((candidate) => candidate.id);
 
+function goalTitleOf(group: TaskGroup): string | undefined {
+	const { goal } = group;
+	return goal?.title;
+}
+
 describe('groupTasksByGoal', () => {
 	it('puts the rest first, then keeps goal order and task order within a goal', () => {
 		const groups = groupTasksByGoal(
 			[task('a', null), task('b', 'goal-polish'), task('c', 'goal-launch'), task('d', 'goal-polish')],
 			[launch, polish]
 		);
-		expect(groups.map((group) => group.goal?.title ?? 'other')).toEqual(['other', 'Launch', 'Polish']);
+		expect(groups.map((group) => goalTitleOf(group) ?? 'other')).toEqual(['other', 'Launch', 'Polish']);
 		expect(groups[0].tasks.map((candidate) => candidate.id)).toEqual(['a']);
 		expect(groups[2].tasks.map((candidate) => candidate.id)).toEqual(['b', 'd']);
 	});
@@ -34,7 +39,7 @@ describe('groupTasksByGoal', () => {
 
 	it('leaves out goals with nothing under them and the rest when there is none', () => {
 		const groups = groupTasksByGoal([task('a', 'goal-launch')], [launch, polish]);
-		expect(groups.map((group) => group.goal?.title)).toEqual(['Launch']);
+		expect(groups.map(goalTitleOf)).toEqual(['Launch']);
 	});
 
 	it('treats a task whose goal is gone as outside any goal', () => {
@@ -47,7 +52,7 @@ describe('groupTasksByGoal', () => {
 			[task('permissions', 'goal-polish', [task('login-roles', 'goal-launch')])],
 			[launch, polish]
 		);
-		expect(groups.map((group) => group.goal?.title)).toEqual(['Launch', 'Polish']);
+		expect(groups.map(goalTitleOf)).toEqual(['Launch', 'Polish']);
 		expect(idsOf(groups[0].tasks)).toEqual(['login-roles']);
 		expect(idsOf(groups[1].tasks)).toEqual(['permissions']);
 		expect(groups[1].tasks[0].subtasks).toEqual([]);

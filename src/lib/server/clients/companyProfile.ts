@@ -37,7 +37,7 @@ export function parseCompanyProfileRecord(row: Record<string, unknown>): Company
 	};
 }
 
-export function readCompanyProfileForm(formData: FormData): CompanyProfile {
+export function parseCompanyProfileForm(formData: FormData): CompanyProfile {
 	return {
 		industry: readTrimmed(formData, 'industry'),
 		location: readTrimmed(formData, 'location'),

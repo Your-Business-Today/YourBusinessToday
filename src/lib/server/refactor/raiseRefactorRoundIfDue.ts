@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
-import { getProjectTasks } from '$lib/server/projects/getProjectTasks';
+import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import { isRefactorRoundDue } from './isRefactorRoundDue';
 import { nextRoundNumber, openRefactorRound } from './refactorRoundTitle';
 import { raiseRefactorRound } from './raiseRefactorRound';
@@ -14,7 +14,7 @@ export async function raiseRefactorRoundIfDue(
 	project: Project
 ): Promise<RoundOutcome> {
 	const deploysSinceRefactor = await countDeploysSinceRefactor(supabase, project);
-	const tasks = await getProjectTasks(supabase, project.id);
+	const tasks = await getTasksForProject(supabase, project.id);
 	const reading = {
 		refactorEveryDeploys: project.refactorEveryDeploys,
 		deploysSinceRefactor,

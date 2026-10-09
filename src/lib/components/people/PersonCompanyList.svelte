@@ -2,7 +2,7 @@
 	import PersonCompanyCard from './PersonCompanyCard.svelte';
 	import { quietButtonClasses } from '$lib/components/site/formStyles';
 	import type { GroupParent } from '$lib/server/clients/getGroupParents';
-	import type { PersonCompany } from '$lib/server/people/getPersonCompanies';
+	import type { PersonCompany } from '$lib/server/people/getCompaniesForPerson';
 
 	let {
 		companies,

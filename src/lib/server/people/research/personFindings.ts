@@ -12,8 +12,10 @@ export type PersonFindings = {
 	sources: WebSearchSource[];
 };
 
-// Only a page the search actually read can be cited, so a link Claude
-// misremembered never reaches the record.
+/**
+ * Only a page the search actually read can be cited, so a link Claude
+ * misremembered never reaches the record.
+ */
 export function parsePersonFindings(
 	toolInput: Record<string, unknown>,
 	sources: WebSearchSource[],

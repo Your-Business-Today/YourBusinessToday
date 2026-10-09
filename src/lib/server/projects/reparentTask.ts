@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { compactTaskQueue, compactTaskSiblingRanks } from '$lib/server/ordering/compactInDatabase';
 import { getTask } from '$lib/server/projects/getTask';
 import { nextQueueRank, nextSiblingRank } from '$lib/server/projects/nextRanks';
-import { getProjectOwnerId } from '$lib/server/projects/getProjectOwnerId';
+import { getOwnerIdOfProject } from '$lib/server/projects/getOwnerIdOfProject';
 import { updateTaskColumns } from '$lib/server/projects/taskSiblings';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
@@ -28,7 +28,7 @@ export async function reparentTask(
 	});
 	await compactTaskSiblingRanks(supabase, task.projectId);
 	if (task.parentTaskId === null) {
-		await compactTaskQueue(supabase, await getProjectOwnerId(supabase, task.projectId));
+		await compactTaskQueue(supabase, await getOwnerIdOfProject(supabase, task.projectId));
 	}
 }
 

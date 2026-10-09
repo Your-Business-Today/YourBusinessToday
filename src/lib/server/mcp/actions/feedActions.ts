@@ -1,7 +1,7 @@
 import { feedEventSentence, isFeedEventFor, parseFeedScope, type FeedEvent } from '$lib/data/feedEvent';
 import { feedScopes } from '$lib/data/feedEvent';
 import { formatBritishDateTime } from '$lib/data/britishDate';
-import { getProjectFeed } from '$lib/server/feed/getProjectFeed';
+import { getFeedForProjects } from '$lib/server/feed/getFeedForProjects';
 import { noSuchProject } from './describeProject';
 import { objectSchema, readOptionalText, textField } from '../actionTypes';
 import { canReachProject, reachableProjectIds } from '../projectAccess';
@@ -29,7 +29,7 @@ export const feedActions: McpAction[] = [
 			const projectIds = projectIdsFor(caller, readOptionalText(input, 'projectId'));
 			if (projectIds === null) return noSuchProject;
 			const scope = parseFeedScope(readOptionalText(input, 'scope'));
-			const events = await getProjectFeed(caller.supabase, { accountId: caller.accountId, projectIds, scope });
+			const events = await getFeedForProjects(caller.supabase, { accountId: caller.accountId, projectIds, scope });
 			if (events.length === 0) return nothingYet(scope);
 			return events.map((event) => feedLine(event, caller.accountId)).join('\n');
 		}

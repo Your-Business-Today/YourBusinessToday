@@ -1,7 +1,7 @@
 import { strFromU8, unzipSync } from 'fflate';
 import { describe, expect, it } from 'vitest';
 import { clientDocumentCatalogue } from '$lib/data/clientDocumentCatalogue';
-import { readClientDocumentMarkdown } from '../readClientDocumentMarkdown';
+import { readClientDocumentBySlug } from '../readClientDocumentBySlug';
 import { buildWordDocument } from './buildWordDocument';
 
 function documentXmlOf(markdown: string): string {
@@ -50,7 +50,7 @@ describe('the client documents', () => {
 	it('has written every document the catalogue lists', () => {
 		const missingSlugs = clientDocumentCatalogue
 			.map((entry) => entry.slug)
-			.filter((slug) => readClientDocumentMarkdown(slug) === undefined);
+			.filter((slug) => readClientDocumentBySlug(slug) === undefined);
 		expect(missingSlugs).toEqual([]);
 	});
 });

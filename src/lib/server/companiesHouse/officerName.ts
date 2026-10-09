@@ -2,8 +2,9 @@ const surnameFirstSeparator = ', ';
 
 export function displayNameFromRegisterName(registerName: string): string {
 	const [surname, forenames] = registerName.split(surnameFirstSeparator);
-	if (forenames === undefined) return toTitleCase(surname.trim());
-	return `${toTitleCase(forenames.trim())} ${toTitleCase(surname.trim())}`.trim();
+	const titledSurname = toTitleCase(surname.trim());
+	if (forenames === undefined) return titledSurname;
+	return `${toTitleCase(forenames.trim())} ${titledSurname}`.trim();
 }
 
 export function displayNameFromSearchTitle(title: string): string {

@@ -30,7 +30,7 @@ export type ChatbotTopUp = {
 export type ChatbotMembership = {
 	allowanceCredits: number;
 	spentCredits: number;
-	// The member's override, or the bot's own model when there is none.
+	/** The member's override, or the bot's own model when there is none. */
 	modelId: string;
 };
 
@@ -47,7 +47,7 @@ export type ChatbotMessage = {
 export type ChatbotAnswer = {
 	answerMarkdown: string;
 	citedPageKeys: string[];
-	// What the knowledge base would need to answer this, or null when it did.
+	/** What the knowledge base would need to answer this, or null when it did. */
 	missingKnowledge: string | null;
 };
 

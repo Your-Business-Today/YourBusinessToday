@@ -8,7 +8,7 @@
 	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
 	import { projectTileClasses, projectTilePriorityClasses } from './projectTileStyles';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
-	import type { ProjectSummary } from '$lib/server/projects/getProjectList';
+	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
 	let {
 		project,

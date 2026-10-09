@@ -25,7 +25,8 @@ export async function handlePushEvent(
 ): Promise<PushOutcome> {
 	const deploy = readPushEvent(event, new Date());
 	if (deploy === null) return { kind: 'ignored', reason: 'not_a_branch_push' };
-	if (isProjectProcessRelease(deploy)) await readLatestKitVersion(supabase, pushedRef(deploy));
+	const pushed = pushedRef(deploy);
+	if (isProjectProcessRelease(deploy)) await readLatestKitVersion(supabase, pushed);
 	const projects = await findProjectsByRepository(supabase, deploy.repositoryUrl);
 	if (projects.length === 0) return { kind: 'ignored', reason: 'no_project_for_repository' };
 	const deployed = projects.filter((project) => project.defaultBranch === deploy.branch);

@@ -1,10 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { addPersonLink } from '../addPersonLink';
 import { addPersonNote } from '../addPersonNote';
-import { getPersonLinks } from '../getPersonLinks';
+import { getLinksForPeople } from '../getLinksForPeople';
 import { recordClientEvent } from '$lib/server/clients/recordClientEvent';
 import type { FoundLink } from './personFindings';
-import type { PersonCompany } from '../getPersonCompanies';
+import type { PersonCompany } from '../getCompaniesForPerson';
 
 export type ReviewedFindings = {
 	personId: string;
@@ -38,7 +38,7 @@ export async function savePersonFindings(
 	companies: PersonCompany[],
 	actorAccountId: string
 ): Promise<number> {
-	const heldUrls = new Set((await getPersonLinks(supabase, [findings.personId])).map((link) => link.url));
+	const heldUrls = new Set((await getLinksForPeople(supabase, [findings.personId])).map((link) => link.url));
 	const newLinks = findings.links.filter((link) => !heldUrls.has(link.url));
 	for (const link of newLinks) await addPersonLink(supabase, findings.personId, link);
 	if (findings.summary !== '') {

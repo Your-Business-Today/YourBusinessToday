@@ -29,7 +29,12 @@ export function groupTasksByGoal(
 		const isInGroup = (task: TaskTreeNode) => goalIdsByTask.get(task.id) === groupGoalId;
 		return { goal, tasks: narrowToVisible(tasksKeptWhere(taskTree, isInGroup)) };
 	};
-	return [null, ...goalsByHorizon(goals)].map(groupFor).filter((group) => group.tasks.length > 0);
+	return [null, ...goalsByHorizon(goals)].map(groupFor).filter(hasTasks);
+}
+
+function hasTasks(group: TaskGroup): boolean {
+	const { tasks } = group;
+	return tasks.length > 0;
 }
 
 function goalsByHorizon(goals: Goal[]): Goal[] {

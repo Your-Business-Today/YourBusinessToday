@@ -2,7 +2,7 @@ import { conversationAccountIds } from '$lib/server/conversations/conversationAc
 import { describeGoal, goalLine, noSuchGoal } from './describeGoal';
 import { findGoals } from '$lib/server/goals/findGoals';
 import { findTasks } from '$lib/server/support/findTasks';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
+import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { getThread } from '$lib/server/conversations/getThread';
 import { noReachableProject, ownsProject, reachableGoal, reachableProject } from '../projectAccess';
 import { objectSchema, readText, textField } from '../actionTypes';
@@ -68,6 +68,6 @@ async function readGoalInFull(caller: McpCaller, goal: Goal): Promise<string> {
 		ownsProject(caller, goal.projectId)
 	);
 	const authorIds = conversationAccountIds(messages);
-	const accounts = await getAccountDirectory(caller.supabase, authorIds);
+	const accounts = await getAccountsById(caller.supabase, authorIds);
 	return describeGoal(goal, tasks, messages, accounts);
 }

@@ -4,7 +4,7 @@
 	import TeamProjectsSection from './TeamProjectsSection.svelte';
 	import { RememberedChoice } from '$lib/client/rememberedChoice.svelte';
 	import type { ProjectListView } from '$lib/client/projectListView.svelte';
-	import type { ProjectSummary } from '$lib/server/projects/getProjectList';
+	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 	import type { TeamProject } from '$lib/server/members/getTeamProjects';
 
 	let {

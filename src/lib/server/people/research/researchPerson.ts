@@ -5,7 +5,7 @@ import { personResearchBrief } from './personResearchBrief';
 import { requestAnthropic } from '$lib/server/anthropic/requestAnthropic';
 import { textFrom, toolUseFrom, type AnthropicMessage, type AnthropicResponse } from '$lib/server/anthropic/anthropicTypes';
 import { webSearchTool } from '$lib/server/anthropic/webSearchTool';
-import type { PersonCompany } from '../getPersonCompanies';
+import type { PersonCompany } from '../getCompaniesForPerson';
 import type { PersonInFull } from '../getPerson';
 
 const mostSearches = 5;
@@ -29,7 +29,7 @@ export async function researchPerson(person: PersonInFull, companies: PersonComp
 
 type SearchOutcome = { report: string; sources: WebSearchSource[] };
 
-// A long search can pause the turn; handing the content back lets it carry on.
+/** A long search can pause the turn; handing the content back lets it carry on. */
 async function searchTheWeb(brief: string): Promise<SearchOutcome> {
 	const messages: AnthropicMessage[] = [{ role: 'user', content: brief }];
 	const sources: WebSearchSource[] = [];

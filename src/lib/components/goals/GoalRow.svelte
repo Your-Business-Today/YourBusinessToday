@@ -6,7 +6,7 @@
 	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
 	import { isCurrentGoal } from '$lib/data/goalHorizon';
 	import { openGoalStatus } from '$lib/data/goalStatus';
-	import type { GoalSummary } from '$lib/server/goals/getGoalSummaries';
+	import type { GoalSummary } from '$lib/server/goals/summariseGoals';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
 
 	let {

@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { getProjectTasks } from '$lib/server/projects/getProjectTasks';
+import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import { readTaskSequence, type TaskSequence } from '$lib/data/taskSequence';
 import { sequenceChoicesFor } from '$lib/data/taskSequenceStanding';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -14,7 +14,7 @@ export async function getTaskSequence(
 	supabase: SupabaseClient,
 	task: ProjectTask
 ): Promise<TaskSequencePlace> {
-	const tasks = await getProjectTasks(supabase, task.projectId);
+	const tasks = await getTasksForProject(supabase, task.projectId);
 	return {
 		sequence: readTaskSequence(task, tasks),
 		sequenceChoices: sequenceChoicesFor(task, tasks)

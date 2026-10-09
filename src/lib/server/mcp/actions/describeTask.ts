@@ -48,7 +48,8 @@ function priorityLine(task: ProjectTask): string {
 }
 
 function goalTitle(workspace: TaskWorkspace): string {
-	const goal = workspace.goals.find((candidate) => candidate.id === workspace.task.goalId);
+	const { goals, task } = workspace;
+	const goal = goals.find((candidate) => candidate.id === task.goalId);
 	if (goal === undefined) return 'none';
 	return `${goal.title} (${goalHorizonLabels[goal.horizon].toLowerCase()} goal, id: ${goal.id})`;
 }
@@ -66,7 +67,8 @@ function teamLine(workspace: TaskWorkspace): string {
 		.filter((person) => workspace.assigneeIds.includes(person.id))
 		.map((person) => person.name);
 	const assignees = names.length === 0 ? 'nobody' : names.join(', ');
-	const roles = workspace.roles.length === 0 ? 'none named' : workspace.roles.join(', ');
+	const roleNames = workspace.roles;
+	const roles = roleNames.length === 0 ? 'none named' : roleNames.join(', ');
 	return `Assigned to ${assignees}. Roles: ${roles}.`;
 }
 

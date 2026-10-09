@@ -9,6 +9,8 @@ export async function setQueuePriority(
 	position: number
 ): Promise<void> {
 	const queued = await findQueuedTask(supabase, taskId);
-	if (queued === null || queued.task.globalPriority === position) return;
-	await setRank(taskQueue(supabase, queued.ownerId), queued.task.id, position);
+	if (queued === null) return;
+	const { task, ownerId } = queued;
+	if (task.globalPriority === position) return;
+	await setRank(taskQueue(supabase, ownerId), task.id, position);
 }

@@ -36,7 +36,8 @@ export async function findItemOnTask(
 	const found = await findChecklistOnTask(caller, input);
 	if (typeof found === 'string') return found;
 	const itemId = readText(input, 'itemId');
-	const item = found.checklist.items.find((candidate) => candidate.id === itemId);
+	const { checklist } = found;
+	const item = checklist.items.find((candidate) => candidate.id === itemId);
 	if (item === undefined) return noSuchItem;
 	return { ...found, item };
 }

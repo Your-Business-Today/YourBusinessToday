@@ -5,7 +5,7 @@ import {
 	noReachableTask
 } from './describeSupportTask';
 import { findTasks } from '$lib/server/support/findTasks';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
+import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { getOpenSupportTasks } from '$lib/server/support/getOpenSupportTasks';
 import { getProject } from '$lib/server/projects/getProject';
 import { getThread } from '$lib/server/conversations/getThread';
@@ -86,6 +86,6 @@ async function readConversation(caller: McpCaller, task: ProjectTask): Promise<s
 		ownsProject(caller, task.projectId)
 	);
 	const authorIds = [task.createdBy, ...conversationAccountIds(messages)];
-	const accounts = await getAccountDirectory(caller.supabase, authorIds);
+	const accounts = await getAccountsById(caller.supabase, authorIds);
 	return describeTaskConversation(task, project?.name ?? '', messages, accounts);
 }

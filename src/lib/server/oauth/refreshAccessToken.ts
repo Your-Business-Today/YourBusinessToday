@@ -6,6 +6,7 @@ import {
 	type IssuedTokens
 } from './oauthTokens';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
+import { hasExpired } from '$lib/data/expiry';
 
 export async function refreshAccessToken(
 	refreshToken: string,
@@ -22,7 +23,7 @@ export async function refreshAccessToken(
 	if (data === null || data.kind !== oauthTokenKinds.refresh) return 'invalid_grant';
 	if (data.revoked_at !== null) return 'invalid_grant';
 	if (data.client_id !== clientId) return 'invalid_grant';
-	if (new Date(data.expires_at).getTime() < Date.now()) return 'invalid_grant';
+	if (hasExpired(data.expires_at)) return 'invalid_grant';
 	await revokeToken(supabase, tokenHash);
 	return issueTokensFor(supabase, clientId, data.account_id);
 }
