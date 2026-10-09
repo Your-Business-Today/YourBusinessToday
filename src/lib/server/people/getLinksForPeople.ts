@@ -7,7 +7,7 @@ export type PersonLink = {
 	url: string;
 };
 
-export async function getPersonLinks(supabase: SupabaseClient, personIds: string[]): Promise<PersonLink[]> {
+export async function getLinksForPeople(supabase: SupabaseClient, personIds: string[]): Promise<PersonLink[]> {
 	if (personIds.length === 0) return [];
 	const { data, error } = await supabase
 		.from('person_links')

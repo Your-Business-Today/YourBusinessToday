@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 
 /**
  * A task arriving on a project can only be worked by the people on it, so
@@ -27,7 +27,7 @@ async function assigneesNotOnProject(
 ): Promise<string[]> {
 	const [assignedIds, people] = await Promise.all([
 		assignedProfileIds(supabase, taskIds),
-		getProjectPeople(supabase, projectId)
+		getPeopleOnProject(supabase, projectId)
 	]);
 	const idsOnProject = people.map((person) => person.id);
 	return assignedIds.filter((profileId) => !idsOnProject.includes(profileId));

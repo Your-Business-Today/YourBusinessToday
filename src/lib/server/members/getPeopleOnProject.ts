@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseProjectPersonRecord, type ProjectPerson } from './projectPersonRecord';
 
-export async function getProjectPeople(
+export async function getPeopleOnProject(
 	supabase: SupabaseClient,
 	projectId: string
 ): Promise<ProjectPerson[]> {

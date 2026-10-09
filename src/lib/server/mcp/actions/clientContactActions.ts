@@ -1,7 +1,7 @@
 import { companyDetails } from '$lib/data/companyDetails';
 import { addClientContact, addContactOutcomes } from '$lib/server/clients/addClientContact';
 import { getClient } from '$lib/server/clients/getClient';
-import { getClientContact } from '$lib/server/clients/getClientContacts';
+import { getClientContact } from '$lib/server/clients/getContactsForClient';
 import { inviteClientContact, inviteOutcomes } from '$lib/server/clients/inviteClientContact';
 import { noSuchClient } from './describeClient';
 import { tooManyInvitesMessage } from '$lib/server/email/inviteAllowance';

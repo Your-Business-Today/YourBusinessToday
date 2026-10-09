@@ -101,7 +101,7 @@ Claude suggested next to what a person later learned.
 
 | Query | Story it serves |
 | --- | --- |
-| `getClientList` | the register, now filtered by stage |
+| `listClients` | the register, now filtered by stage |
 | `getPeopleForClient` | each person with their links and notes |
 | `searchCompaniesHouse` | the prospecting results |
 
@@ -225,10 +225,10 @@ only then drops the moved columns. `client_id_for_account()` is untouched.
 | --- | --- |
 | `getPeople` | the people register |
 | `getPerson` | one person with their links and notes |
-| `getPersonCompanies` | their companies, stage and research state |
-| `getPersonEvents` | their ledger across companies |
-| `getClientPeople` | a company's people and what else each owns |
-| `getGroupParents`, `getClientChildren` | the groups to choose from, and a group's companies |
+| `getCompaniesForPerson` | their companies, stage and research state |
+| `getPersonEventsForClients` | their ledger across companies |
+| `getPeopleForClient` | a company's people and what else each owns |
+| `getGroupParents`, `getChildrenOfClient` | the groups to choose from, and a group's companies |
 | `searchOfficers`, `getOfficerAppointments`, `getCompanyOfficers` | Companies House |
 
 Companies House lives in `src/lib/server/companiesHouse/`: the advanced company search

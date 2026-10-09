@@ -10,7 +10,7 @@ export type PersonNote = {
 	createdAt: string;
 };
 
-export async function getPersonNotes(supabase: SupabaseClient, personIds: string[]): Promise<PersonNote[]> {
+export async function getNotesForPeople(supabase: SupabaseClient, personIds: string[]): Promise<PersonNote[]> {
 	if (personIds.length === 0) return [];
 	const { data, error } = await supabase
 		.from('person_notes')

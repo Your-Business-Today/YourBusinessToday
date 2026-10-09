@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskRecord';
 
-export async function getProjectTasks(
+export async function getTasksForProject(
 	supabase: SupabaseClient,
 	projectId: string
 ): Promise<ProjectTask[]> {

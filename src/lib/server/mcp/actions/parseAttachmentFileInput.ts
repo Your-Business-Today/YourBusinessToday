@@ -7,7 +7,7 @@ const unknownMimeType = 'application/octet-stream';
 
 export const tooLarge = `That file is over the limit. ${attachmentLimitDescription()}`;
 
-export async function readAttachmentFileInput(
+export async function parseAttachmentFileInput(
 	input: Record<string, unknown>
 ): Promise<AttachmentFile | string> {
 	const sourceUrl = readOptionalText(input, 'sourceUrl');

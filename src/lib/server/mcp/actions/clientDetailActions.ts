@@ -1,8 +1,8 @@
 import { describeClientEvents, describeClientInFull, noSuchClient } from './describeClient';
 import { getClient } from '$lib/server/clients/getClient';
-import { getClientContacts } from '$lib/server/clients/getClientContacts';
-import { getClientEvents } from '$lib/server/clients/getClientEvents';
-import { getClientProjects } from '$lib/server/clients/getClientProjects';
+import { getContactsForClient } from '$lib/server/clients/getContactsForClient';
+import { getEventsForClient } from '$lib/server/clients/getEventsForClient';
+import { getProjectsForClient } from '$lib/server/clients/getProjectsForClient';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -26,7 +26,7 @@ export const clientDetailActions: McpAction[] = [
 		isWrite: false,
 		summary: 'the event ledger for one client, newest first',
 		inputSchema: objectSchema({ clientId: clientIdField }, ['clientId']),
-		run: async (caller, input) => readClientHistory(caller, readText(input, 'clientId'))
+		run: async (caller, input) => readHistoryForClient(caller, readText(input, 'clientId'))
 	}
 ];
 
@@ -35,14 +35,14 @@ async function readClientInFull(caller: McpCaller, clientId: string): Promise<st
 	if (client === null) return noSuchClient;
 	return describeClientInFull(
 		client,
-		await getClientContacts(caller.supabase, client.id),
-		await getClientProjects(caller.supabase, client.id)
+		await getContactsForClient(caller.supabase, client.id),
+		await getProjectsForClient(caller.supabase, client.id)
 	);
 }
 
-async function readClientHistory(caller: McpCaller, clientId: string): Promise<string> {
+async function readHistoryForClient(caller: McpCaller, clientId: string): Promise<string> {
 	const client = await getClient(caller.supabase, clientId);
 	if (client === null) return noSuchClient;
-	const events = await getClientEvents(caller.supabase, client.id);
+	const events = await getEventsForClient(caller.supabase, client.id);
 	return `${client.name}\n${describeClientEvents(events)}`;
 }

@@ -12,7 +12,7 @@ export type GoalSummary = Goal & {
 };
 
 /** Each goal counts the tasks the backlog groups under it, its subtasks' included. */
-export function getGoalSummaries(goals: Goal[], tasks: ProjectTask[]): GoalSummary[] {
+export function summariseGoals(goals: Goal[], tasks: ProjectTask[]): GoalSummary[] {
 	const knownGoalIds = new Set(goals.map((goal) => goal.id));
 	const goalIdsByTask = settledGoalIds(buildTaskTree(tasks), knownGoalIds);
 	const tasksOf = (goal: Goal) => tasks.filter((task) => goalIdsByTask.get(task.id) === goal.id);

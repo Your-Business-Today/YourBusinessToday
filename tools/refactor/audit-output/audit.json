@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-09T13:24:39+00:00",
+  "generatedAt": "2026-10-09T13:29:28+00:00",
   "kitVersion": "1.14.0",
   "score": {
-    "overall": 88.1,
+    "overall": 89.6,
     "groups": [
       {
         "group": "Standard baseline checks",
@@ -16,7 +16,7 @@
       },
       {
         "group": "Prose",
-        "score": 90.0,
+        "score": 97.4,
         "weight": 20
       },
       {
@@ -218,9 +218,9 @@
         "zeroAt": 0.1,
         "unit": "functions",
         "isMeasured": true,
-        "offenders": 31,
+        "offenders": 0,
         "measuredAgainst": 1249,
-        "score": 75.2
+        "score": 100.0
       },
       {
         "key": "handRolledWidgets",
@@ -270,14 +270,15 @@
       "maxLength": 40
     },
     "accessorNames": {
-      "gluedAccessorNames": 31,
+      "gluedAccessorNames": 0,
       "measurementIsHeuristic": true
     },
     "duplication": {
       "clones": 11,
       "duplicatedLines": 99,
       "totalLines": 37840,
-      "duplicatedPercentage": 0.26
+      "duplicatedPercentage": 0.26,
+      "carriedFromBaseline": true
     },
     "naming": {
       "bannedAbbreviationHits": 17,
@@ -309,7 +310,7 @@
       "functionsExamined": 1249
     },
     "designPatterns": {
-      "roleFamilies": 56,
+      "roleFamilies": 55,
       "predictedFiles": 82,
       "predictedFilesMissing": 0,
       "entities": 0,
@@ -418,166 +419,10 @@
     "accessorNames": {
       "name": "accessorNames",
       "summary": {
-        "gluedAccessorNames": 31,
+        "gluedAccessorNames": 0,
         "measurementIsHeuristic": true
       },
-      "offenders": [
-        {
-          "file": "src/lib/server/accounts/getAccountDirectory.ts",
-          "line": 4,
-          "name": "getAccountDirectory"
-        },
-        {
-          "file": "src/lib/server/clientDocuments/readClientDocumentMarkdown.ts",
-          "line": 7,
-          "name": "readClientDocumentMarkdown"
-        },
-        {
-          "file": "src/lib/server/clients/companyProfile.ts",
-          "line": 40,
-          "name": "readCompanyProfileForm"
-        },
-        {
-          "file": "src/lib/server/clients/getClientChildren.ts",
-          "line": 4,
-          "name": "getClientChildren"
-        },
-        {
-          "file": "src/lib/server/clients/getClientContacts.ts",
-          "line": 4,
-          "name": "getClientContacts"
-        },
-        {
-          "file": "src/lib/server/clients/getClientEvents.ts",
-          "line": 6,
-          "name": "getClientEvents"
-        },
-        {
-          "file": "src/lib/server/clients/getClientList.ts",
-          "line": 13,
-          "name": "getClientList"
-        },
-        {
-          "file": "src/lib/server/clients/getClientPeople.ts",
-          "line": 16,
-          "name": "getClientPeople"
-        },
-        {
-          "file": "src/lib/server/clients/getClientProjects.ts",
-          "line": 13,
-          "name": "getClientProjects"
-        },
-        {
-          "file": "src/lib/server/conversations/inboxCursor.ts",
-          "line": 3,
-          "name": "getInboxCursor"
-        },
-        {
-          "file": "src/lib/server/feed/getProjectFeed.ts",
-          "line": 17,
-          "name": "getProjectFeed"
-        },
-        {
-          "file": "src/lib/server/goals/getGoalSummaries.ts",
-          "line": 15,
-          "name": "getGoalSummaries"
-        },
-        {
-          "file": "src/lib/server/goals/getProjectGoals.ts",
-          "line": 4,
-          "name": "getProjectGoals"
-        },
-        {
-          "file": "src/lib/server/mcp/actions/clientDetailActions.ts",
-          "line": 43,
-          "name": "readClientHistory"
-        },
-        {
-          "file": "src/lib/server/mcp/actions/projectDetailsEdit.ts",
-          "line": 11,
-          "name": "readProjectDetailsEdit"
-        },
-        {
-          "file": "src/lib/server/mcp/actions/readAttachmentFileInput.ts",
-          "line": 10,
-          "name": "readAttachmentFileInput"
-        },
-        {
-          "file": "src/lib/server/mcp/actions/taskRoleActions.ts",
-          "line": 46,
-          "name": "readRequestedRoles"
-        },
-        {
-          "file": "src/lib/server/mcp/actions/taskTeamActions.ts",
-          "line": 49,
-          "name": "readAccountIds"
-        },
-        {
-          "file": "src/lib/server/members/getProjectPeople.ts",
-          "line": 4,
-          "name": "getProjectPeople"
-        },
-        {
-          "file": "src/lib/server/oauth/readClientRegistration.ts",
-          "line": 36,
-          "name": "readClientName"
-        },
-        {
-          "file": "src/lib/server/people/getPersonCompanies.ts",
-          "line": 14,
-          "name": "getPersonCompanies"
-        },
-        {
-          "file": "src/lib/server/people/getPersonEvents.ts",
-          "line": 8,
-          "name": "getPersonEvents"
-        },
-        {
-          "file": "src/lib/server/people/getPersonLinks.ts",
-          "line": 10,
-          "name": "getPersonLinks"
-        },
-        {
-          "file": "src/lib/server/people/getPersonNotes.ts",
-          "line": 13,
-          "name": "getPersonNotes"
-        },
-        {
-          "file": "src/lib/server/projects/getProjectList.ts",
-          "line": 23,
-          "name": "getProjectList"
-        },
-        {
-          "file": "src/lib/server/projects/getProjectOwnerId.ts",
-          "line": 3,
-          "name": "getProjectOwnerId"
-        },
-        {
-          "file": "src/lib/server/projects/getProjectTasks.ts",
-          "line": 4,
-          "name": "getProjectTasks"
-        },
-        {
-          "file": "src/lib/server/projects/getTaskAssigneeMap.ts",
-          "line": 3,
-          "name": "getTaskAssigneeMap"
-        },
-        {
-          "file": "src/lib/server/projects/readStoredFileByteCount.ts",
-          "line": 5,
-          "name": "readStoredFileByteCount"
-        },
-        {
-          "file": "src/lib/server/projects/updateProjectDetails.ts",
-          "line": 16,
-          "name": "readProjectDetailsForm"
-        },
-        {
-          "file": "src/routes/notifications/+page.server.ts",
-          "line": 47,
-          "name": "readSubjectKind"
-        }
-      ]
+      "offenders": []
     },
     "naming": {
       "name": "naming",
@@ -1002,12 +847,12 @@
             "line": 23
           },
           {
-            "file": "src/lib/server/clients/getClientList.ts",
-            "line": 42
-          },
-          {
             "file": "src/lib/server/clients/importCompanyOfficers.ts",
             "line": 16
+          },
+          {
+            "file": "src/lib/server/clients/listClients.ts",
+            "line": 42
           },
           {
             "file": "src/lib/server/clients/saveResearchedLead.ts",
@@ -1576,7 +1421,7 @@
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 56,
+        "roleFamilies": 55,
         "predictedFiles": 82,
         "predictedFilesMissing": 0,
         "entities": 0,
@@ -1594,8 +1439,7 @@
           "bar": 4,
           "button": 7,
           "card": 5,
-          "client": 8,
-          "count": 4,
+          "client": 13,
           "email": 7,
           "event": 5,
           "field": 5,
@@ -1608,7 +1452,7 @@
           "ids": 7,
           "kind": 4,
           "link": 7,
-          "list": 15,
+          "list": 13,
           "message": 4,
           "modal": 7,
           "model": 5,
@@ -1618,11 +1462,11 @@
           "panel": 14,
           "password": 5,
           "people": 4,
-          "person": 5,
+          "person": 6,
           "pill": 7,
           "priority": 4,
           "profile": 5,
-          "project": 9,
+          "project": 13,
           "projects": 5,
           "record": 18,
           "refusal": 4,
@@ -1635,8 +1479,8 @@
           "styles": 4,
           "svelte": 10,
           "table": 4,
-          "task": 14,
-          "tasks": 5,
+          "task": 15,
+          "tasks": 4,
           "test": 72,
           "text": 6,
           "types": 10,
@@ -3203,6 +3047,13 @@
             ]
           },
           {
+            "file": "src/lib/server/mcp/actions/parseAttachmentFileInput.ts",
+            "tables": [
+              "oauthtoken",
+              "taskattachment"
+            ]
+          },
+          {
             "file": "src/lib/server/mcp/actions/projectActions.ts",
             "tables": [
               "clientevent",
@@ -3282,13 +3133,6 @@
               "conversationmessage",
               "oauthtoken",
               "task"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/readAttachmentFileInput.ts",
-            "tables": [
-              "oauthtoken",
-              "taskattachment"
             ]
           },
           {
@@ -3753,7 +3597,8 @@
         "clones": 11,
         "duplicatedLines": 99,
         "totalLines": 37840,
-        "duplicatedPercentage": 0.26
+        "duplicatedPercentage": 0.26,
+        "carriedFromBaseline": true
       },
       "offenders": [
         {

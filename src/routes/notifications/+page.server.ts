@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { getNotificationList } from '$lib/server/notifications/getNotificationList';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
+import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { markAllNotificationsRead } from '$lib/server/notifications/markAllNotificationsRead';
 import { markNotificationRead } from '$lib/server/notifications/markNotificationRead';
 import {
@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	);
 	return {
 		notifications,
-		authors: await getAccountDirectory(locals.supabase, authorIds)
+		authors: await getAccountsById(locals.supabase, authorIds)
 	};
 };
 
@@ -30,7 +30,7 @@ export const actions: Actions = {
 		const notificationId = String(formData.get('notificationId') ?? '');
 		const projectId = String(formData.get('projectId') ?? '');
 		const subjectId = String(formData.get('subjectId') ?? '');
-		const subjectKind = readSubjectKind(formData.get('subjectKind'));
+		const subjectKind = parseSubjectKind(formData.get('subjectKind'));
 		if (notificationId === '' || projectId === '' || subjectId === '' || subjectKind === null) {
 			return fail(400, { message: 'A notification is required.' });
 		}
@@ -44,7 +44,7 @@ export const actions: Actions = {
 	}
 };
 
-function readSubjectKind(value: FormDataEntryValue | null): NotificationSubjectKind | null {
+function parseSubjectKind(value: FormDataEntryValue | null): NotificationSubjectKind | null {
 	if (value === notificationSubjectKinds.task || value === notificationSubjectKinds.goal) return value;
 	return null;
 }

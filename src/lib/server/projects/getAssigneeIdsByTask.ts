@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-export async function getTaskAssigneeMap(
+export async function getAssigneeIdsByTask(
 	supabase: SupabaseClient,
 	taskIds: string[]
 ): Promise<Map<string, string[]>> {

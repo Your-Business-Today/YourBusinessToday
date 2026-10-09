@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { inputClasses, quietButtonClasses } from '$lib/components/site/formStyles';
-	import type { PersonLink } from '$lib/server/people/getPersonLinks';
+	import type { PersonLink } from '$lib/server/people/getLinksForPeople';
 
 	let { personId, links }: { personId: string; links: PersonLink[] } = $props();
 </script>

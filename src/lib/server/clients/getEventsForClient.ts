@@ -3,7 +3,7 @@ import type { ClientEvent, ClientEventKind } from './recordClientEvent';
 
 const longestVisibleHistory = 40;
 
-export async function getClientEvents(
+export async function getEventsForClient(
 	supabase: SupabaseClient,
 	clientId: string
 ): Promise<ClientEvent[]> {

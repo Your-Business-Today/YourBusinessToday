@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { accountNameLookup } from '$lib/data/accountNames';
 import { feedScopes, type FeedEvent, type FeedScope } from '$lib/data/feedEvent';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
+import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { feedEventColumns, parseFeedEventRow } from './feedEventRecord';
 
 export const feedPageSize = 100;
@@ -14,12 +14,12 @@ export type FeedRequest = {
 };
 
 /** The newest events across the projects given, with the names of who made each move. */
-export async function getProjectFeed(supabase: SupabaseClient, request: FeedRequest): Promise<FeedEvent[]> {
+export async function getFeedForProjects(supabase: SupabaseClient, request: FeedRequest): Promise<FeedEvent[]> {
 	const { projectIds } = request;
 	if (projectIds.length === 0) return [];
 	const events = await readFeedRows(supabase, request);
 	const actorIds = events.flatMap((event) => (event.actorAccountId === null ? [] : [event.actorAccountId]));
-	const accounts = await getAccountDirectory(supabase, actorIds);
+	const accounts = await getAccountsById(supabase, actorIds);
 	const nameOf = accountNameLookup(accounts);
 	return events.map((event) => ({ ...event, actorName: actorNameFor(event, nameOf) }));
 }

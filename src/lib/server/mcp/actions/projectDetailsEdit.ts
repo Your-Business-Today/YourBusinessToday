@@ -8,7 +8,7 @@ import type { ProjectStatus } from '$lib/data/projectStatus';
 export const wrongStatus = `A project is ${projectStatusOrder.join(', ')}. Pick one of those.`;
 
 /** The project as the edit leaves it: every field given replaces, every field left out keeps what is there. */
-export function readProjectDetailsEdit(
+export function parseProjectDetailsEdit(
 	input: Record<string, unknown>,
 	project: Project
 ): ProjectDetailsUpdate | null {

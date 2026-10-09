@@ -1,6 +1,6 @@
 import { companyDetails } from '$lib/data/companyDetails';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getAccountsById } from '$lib/server/accounts/getAccountsById';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { inviteOutcomeMessage } from '$lib/server/members/inviteOutcomeMessage';
 import { inviteToProject } from '$lib/server/members/inviteToProject';
 import { noSuchProject } from './describeProject';
@@ -23,7 +23,7 @@ export const projectPeopleActions: McpAction[] = [
 		run: async (caller, input) => {
 			const project = await reachableProject(caller, readText(input, 'projectId'));
 			if (project === null) return noSuchProject;
-			const people = await getProjectPeople(caller.supabase, project.id);
+			const people = await getPeopleOnProject(caller.supabase, project.id);
 			return people.map(personLine).join('\n');
 		}
 	},
@@ -45,7 +45,7 @@ export const projectPeopleActions: McpAction[] = [
 			const project = await reachableProject(caller, readText(input, 'projectId'));
 			if (project === null) return noSuchProject;
 			const email = readText(input, 'email');
-			const people = await getProjectPeople(caller.supabase, project.id);
+			const people = await getPeopleOnProject(caller.supabase, project.id);
 			const outcome = await inviteToProject(caller.supabase, {
 				project,
 				email,
@@ -64,6 +64,6 @@ function personLine(person: ProjectPerson): string {
 }
 
 async function callerAccount(caller: McpCaller): Promise<Account> {
-	const [account] = await getAccountDirectory(caller.supabase, [caller.accountId]);
+	const [account] = await getAccountsById(caller.supabase, [caller.accountId]);
 	return account ?? { id: caller.accountId, name: caller.email, email: caller.email };
 }

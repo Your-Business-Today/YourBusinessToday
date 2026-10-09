@@ -1,8 +1,8 @@
 import { error } from '@sveltejs/kit';
 import { getGroupParents } from '$lib/server/clients/getGroupParents';
 import { getPerson } from '$lib/server/people/getPerson';
-import { getPersonCompanies } from '$lib/server/people/getPersonCompanies';
-import { getPersonEvents } from '$lib/server/people/getPersonEvents';
+import { getCompaniesForPerson } from '$lib/server/people/getCompaniesForPerson';
+import { getPersonEventsForClients } from '$lib/server/people/getPersonEventsForClients';
 import { approachFormActions } from '$lib/server/people/approachFormActions';
 import { importActions, pendingAppointmentsFor } from './importActions';
 import { personFormActions } from '$lib/server/people/personFormActions';
@@ -16,11 +16,11 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	await requireStaff(locals);
 	const person = await getPerson(locals.supabase, params.personId);
 	if (person === null) error(404, 'That person could not be found');
-	const companies = await getPersonCompanies(locals.supabase, person.id);
+	const companies = await getCompaniesForPerson(locals.supabase, person.id);
 	const isImportRequested = url.searchParams.get('import') === importCompaniesRequest;
 	const [parents, events, pendingAppointments] = await Promise.all([
 		getGroupParents(locals.supabase),
-		getPersonEvents(locals.supabase, companies.map((company) => company.id)),
+		getPersonEventsForClients(locals.supabase, companies.map((company) => company.id)),
 		isImportRequested ? pendingAppointmentsFor(person, companies) : null
 	]);
 	return { person, companies, parents, events, pendingAppointments };

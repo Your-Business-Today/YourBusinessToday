@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ClientStageForm from './ClientStageForm.svelte';
 	import { leadSourceLabels } from '$lib/data/leadSources';
-	import type { ClientSummary } from '$lib/server/clients/getClientList';
+	import type { ClientSummary } from '$lib/server/clients/listClients';
 
 	let { clients }: { clients: ClientSummary[] } = $props();
 

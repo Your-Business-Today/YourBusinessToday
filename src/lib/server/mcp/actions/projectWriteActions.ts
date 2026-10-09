@@ -3,7 +3,7 @@ import { noSuchProject } from './describeProject';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { projectStatusLabels, projectStatusOrder } from '$lib/data/projectStatus';
 import { reachableProject } from '../projectAccess';
-import { readProjectDetailsEdit, wrongStatus } from './projectDetailsEdit';
+import { parseProjectDetailsEdit, wrongStatus } from './projectDetailsEdit';
 import { updateProjectDetails } from '$lib/server/projects/updateProjectDetails';
 import type { McpAction } from '../actionTypes';
 
@@ -71,7 +71,7 @@ export const projectWriteActions: McpAction[] = [
 		run: async (caller, input) => {
 			const project = await reachableProject(caller, readText(input, 'projectId'));
 			if (project === null) return noSuchProject;
-			const edit = readProjectDetailsEdit(input, project);
+			const edit = parseProjectDetailsEdit(input, project);
 			if (edit === null) return wrongStatus;
 			await updateProjectDetails(caller.supabase, project.id, edit);
 			return `${edit.name} saved — ${projectStatusLabels[edit.status]}.`;

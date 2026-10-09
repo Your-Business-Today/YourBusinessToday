@@ -2,7 +2,7 @@ import { postedViaChannels } from '$lib/data/conversationTurn';
 import { batonSentence } from './batonSentence';
 import { chooseHandOff, handOffFields } from './handOffFields';
 import { describeInbox } from './describeInbox';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
+import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { longestMessageBody, postMessage } from '$lib/server/conversations/postMessage';
 import { markTurnsPickedUp } from '$lib/server/conversations/markTurnsPickedUp';
 import { objectSchema, proseField, readOptionalText, textField } from '../actionTypes';
@@ -87,7 +87,7 @@ export const conversationActions: McpAction[] = [
 			});
 			await markTurnsPickedUp(caller.supabase, caller.accountId, inbox.messages);
 			const authorIds = inbox.messages.map((message) => message.authorAccountId);
-			const accounts = await getAccountDirectory(caller.supabase, authorIds);
+			const accounts = await getAccountsById(caller.supabase, authorIds);
 			return describeInbox(caller.supabase, inbox, accounts, caller.accountId);
 		}
 	}

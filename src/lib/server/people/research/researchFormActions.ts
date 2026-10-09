@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { getPerson } from '../getPerson';
-import { getPersonCompanies } from '../getPersonCompanies';
+import { getCompaniesForPerson } from '../getCompaniesForPerson';
 import { isAnthropicConfigured } from '$lib/server/anthropic/isAnthropicConfigured';
 import { readReviewedFindings, savePersonFindings } from './savePersonFindings';
 import { requireStaff } from '$lib/server/auth/requireStaff';
@@ -18,7 +18,7 @@ export const researchFormActions = {
 		const formData = await request.formData();
 		const person = await getPerson(locals.supabase, String(formData.get('personId') ?? ''));
 		if (person === null) return fail(400, { message: 'That person could not be found.' });
-		const companies = await getPersonCompanies(locals.supabase, person.id);
+		const companies = await getCompaniesForPerson(locals.supabase, person.id);
 		try {
 			return { findings: await researchPerson(person, companies) };
 		} catch (failure) {
@@ -32,7 +32,7 @@ export const researchFormActions = {
 		if (reviewed === null) return fail(400, { message: 'A person is required.' });
 		const person = await getPerson(locals.supabase, reviewed.personId);
 		if (person === null) return fail(400, { message: 'That person could not be found.' });
-		const companies = await getPersonCompanies(locals.supabase, person.id);
+		const companies = await getCompaniesForPerson(locals.supabase, person.id);
 		const linkCount = await savePersonFindings(locals.supabase, reviewed, person.name, companies, user.id);
 		return { message: describeSave(linkCount, reviewed.summary !== '') };
 	}

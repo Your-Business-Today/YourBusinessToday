@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { advanceInboxCursor, getInboxCursor } from './inboxCursor';
+import { advanceInboxCursor, getInboxCursorForAccount } from './inboxCursor';
 import { messageColumns, parseMessageRecord, type ConversationMessage } from './messageRecord';
 
 export type InboxScope = {
@@ -13,7 +13,7 @@ export type Inbox = { since: string; messages: ConversationMessage[] };
 const mostMessages = 100;
 
 export async function readInbox(supabase: SupabaseClient, scope: InboxScope): Promise<Inbox> {
-	const since = await getInboxCursor(supabase, scope.accountId);
+	const since = await getInboxCursorForAccount(supabase, scope.accountId);
 	const readAt = new Date().toISOString();
 	const messages = await getMessagesSince(supabase, scope, since);
 	await advanceInboxCursor(supabase, scope.accountId, readUpTo(messages, readAt));

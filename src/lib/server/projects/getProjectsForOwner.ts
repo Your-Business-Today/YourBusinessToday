@@ -20,7 +20,7 @@ export type ProjectSummary = Project & ProjectProgress;
 
 type TaskProgress = PlacedTask & CompletionInput & { isDone: boolean };
 
-export async function getProjectList(
+export async function getProjectsForOwner(
 	supabase: SupabaseClient,
 	ownerId: string,
 	assignedTaskCounts: AssignedTaskCounts

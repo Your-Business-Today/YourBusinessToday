@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { addClientContact } from './addClientContact';
 import { createClient } from './createClient';
-import { getClientContacts } from './getClientContacts';
+import { getContactsForClient } from './getContactsForClient';
 import { recordClientEvent } from './recordClientEvent';
 import { updateCompanyProfile } from './updateCompanyProfile';
 import type { ReviewedLead } from './readResearchedLeadForm';
@@ -45,7 +45,7 @@ async function placeOnRegister(
 }
 
 async function namesAlreadyListed(supabase: SupabaseClient, clientId: string): Promise<Set<string>> {
-	const contacts = await getClientContacts(supabase, clientId);
+	const contacts = await getContactsForClient(supabase, clientId);
 	return new Set(contacts.map((contact) => contact.name.toLowerCase()));
 }
 

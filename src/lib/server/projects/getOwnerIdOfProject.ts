@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-export async function getProjectOwnerId(
+export async function getOwnerIdOfProject(
 	supabase: SupabaseClient,
 	projectId: string
 ): Promise<string> {

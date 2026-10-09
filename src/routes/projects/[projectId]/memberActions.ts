@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { getCurrentAccount } from '$lib/server/accounts/getCurrentAccount';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { inviteOutcomeMessage } from '$lib/server/members/inviteOutcomeMessage';
 import { inviteToProject } from '$lib/server/members/inviteToProject';
 import { removeProjectMember } from '$lib/server/members/removeProjectMember';
@@ -14,7 +14,7 @@ export const memberActions = {
 		const { user, project } = await requireProjectAccess(locals, params.projectId);
 		const email = String((await request.formData()).get('email') ?? '').trim();
 		if (email === '') return fail(400, { message: 'An email address is required.' });
-		const people = await getProjectPeople(locals.supabase, project.id);
+		const people = await getPeopleOnProject(locals.supabase, project.id);
 		const outcome = await inviteToProject(locals.supabase, {
 			project,
 			email,

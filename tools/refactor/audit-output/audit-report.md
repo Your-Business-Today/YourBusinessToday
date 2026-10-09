@@ -1,10 +1,10 @@
 # Refactor audit
 
-Generated 2026-10-09 13:24 UTC.
+Generated 2026-10-09 13:29 UTC.
 
 ## Headline
 
-**Code quality score 88.1%.** **0 of 1,023 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
+**Code quality score 89.6%.** **0 of 1,023 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
 
 ## Code quality score
 
@@ -25,10 +25,10 @@ Generated 2026-10-09 13:24 UTC.
 | **Design pattern file count** | | **100.0%** | **10** | |
 | Files the patterns predict but are missing | 0 in 82 predicted files | 100.0% | 10 | 50% of predicted files |
 | Entities outside their expected file count | not measured | not measured | — | 50% of entities |
-| **Prose** | | **90.0%** | **20** | |
+| **Prose** | | **97.4%** | **20** | |
 | Conditions with calls tangled inside calls | 25 in 1571 branches | 93.6% | 8 | 25% of branches |
 | Conditions compared to a raw literal | 0 in 1571 branches | 100.0% | 6 | 25% of branches |
-| Accessor names that want to be a property | 31 in 1249 functions | 75.2% | 6 | 10% of functions |
+| Accessor names that want to be a property | 0 in 1249 functions | 100.0% | 6 | 10% of functions |
 | **Widget adoption** | | **not measured** | **0** | |
 | Markup written by hand where a widget should be | not measured | not measured | — | 50% of widget slots |
 | **Input validation** | | **0.0%** | **8** | |
@@ -58,15 +58,15 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | fileLength | limit: 100, filesOverLimit: 0, totalFiles: 1023, totalLines: 36752, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
 | functionShape | limit: 30, functionsOverLimit: 4, totalFunctions: 1249, elseBlocks: 0, ifBlocks: 1571, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 2, maxWords: 5, maxLength: 40 |
-| accessorNames | gluedAccessorNames: 31, measurementIsHeuristic: True |
-| duplication | clones: 11, duplicatedLines: 99, totalLines: 37840, duplicatedPercentage: 0.26 |
+| accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
+| duplication | clones: 11, duplicatedLines: 99, totalLines: 37840, duplicatedPercentage: 0.26, carriedFromBaseline: True |
 | naming | bannedAbbreviationHits: 17, unprefixedBooleans: 2 |
 | comments | explanatoryCommentLines: 78, filesWithComments: 34, taskMarkers: 0 |
 | magicValues | inlineHexColours: 4, inlineStyleAttributes: 1, repeatedStringLiterals: 30 |
 | prose | longMemberChainLines: 200, deeplyIndentedLines: 81, overlongLines: 82, measurementIsHeuristic: True |
 | conditions | tangledConditionLines: 25, literalComparisonLines: 0, measurementIsHeuristic: True |
 | orphans | orphanFunctions: 0, functionsExamined: 1249 |
-| designPatterns | roleFamilies: 56, predictedFiles: 82, predictedFilesMissing: 0, entities: 0, entitiesOutOfRange: 0, measurementIsHeuristic: True |
+| designPatterns | roleFamilies: 55, predictedFiles: 82, predictedFilesMissing: 0, entities: 0, entitiesOutOfRange: 0, measurementIsHeuristic: True |
 | inventory | pages: 33, components: 248, orphanComponents: 0, averagePageLines: 49 |
 | siteDefinition | skipped: no siteDefinition catalogue in rules.json |
 | inputValidation | schemaTables: 85, limitedColumns: 0, writeDoors: 98, unvalidatedDoors: 91, looserLimits: 0 |
@@ -76,26 +76,26 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Ratcheted figure | Baseline | Now | Verdict |
 | --- | --- | --- | --- |
-| code quality score | 87.7% | 88.1% | — |
+| code quality score | 88.1% | 89.6% | — |
 | fileLength.filesOverLimit | 0 | 0 | held |
 | fileLength.worstFileLines | 0 | 0 | held |
 | functionShape.functionsOverLimit | 4 | 4 | held |
 | functionShape.elseBlocks | 0 | 0 | held |
-| duplication.duplicatedPercentage | 0.19 | 0.26 | worse |
+| duplication.duplicatedPercentage | 0.26 | 0.26 | held |
 | comments.explanatoryCommentLines | 78 | 78 | held |
 | magicValues.inlineHexColours | 4 | 4 | held |
 | inventory.orphanComponents | 0 | 0 | held |
 | orphans.orphanFunctions | 0 | 0 | held |
-| prose.longMemberChainLines | 201 | 200 | better |
-| prose.deeplyIndentedLines | 89 | 81 | better |
+| prose.longMemberChainLines | 200 | 200 | held |
+| prose.deeplyIndentedLines | 81 | 81 | held |
 | functionNames.overlongFunctionNames | 2 | 2 | held |
-| accessorNames.gluedAccessorNames | 32 | 31 | better |
+| accessorNames.gluedAccessorNames | 31 | 0 | better |
 | conditions.tangledConditionLines | 25 | 25 | held |
 | conditions.literalComparisonLines | 0 | 0 | held |
 | designPatterns.predictedFilesMissing | 0 | 0 | held |
 | siteDefinition.handRolledElements | None | None | — |
 | siteDefinition.boxedContentWidgets | None | None | — |
-| inputValidation.unvalidatedDoors | 95 | 91 | better |
+| inputValidation.unvalidatedDoors | 91 | 91 | held |
 | inputValidation.looserLimits | 0 | 0 | held |
 
 ## Worst files by length

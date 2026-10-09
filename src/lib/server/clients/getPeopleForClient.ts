@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { getClientContacts } from './getClientContacts';
+import { getContactsForClient } from './getContactsForClient';
 import { getPeopleInFull, type PersonInFull } from '$lib/server/people/getPerson';
 import { parsePersonRecord } from '$lib/server/people/personRecord';
 import type { ClientContact } from './clientContactRecord';
@@ -13,8 +13,8 @@ export type ClientPerson = PersonInFull & {
 	otherCompanyCount: number;
 };
 
-export async function getClientPeople(supabase: SupabaseClient, clientId: string): Promise<ClientPerson[]> {
-	const contacts = await getClientContacts(supabase, clientId);
+export async function getPeopleForClient(supabase: SupabaseClient, clientId: string): Promise<ClientPerson[]> {
+	const contacts = await getContactsForClient(supabase, clientId);
 	const personIds = contacts.map((contact) => contact.personId);
 	const [people, companyCounts] = await Promise.all([
 		getPeopleById(supabase, personIds),

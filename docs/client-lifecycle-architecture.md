@@ -169,7 +169,7 @@ by setting a password on the same address.
 
 | Query | Story it serves |
 | --- | --- |
-| `getClientList` | the pipeline |
+| `listClients` | the pipeline |
 | `getClient` | one company and everything hanging off it |
 | `getTriageQueue` | everything clients have asked for |
 | `getFeatureRequest` | one request and its thread |

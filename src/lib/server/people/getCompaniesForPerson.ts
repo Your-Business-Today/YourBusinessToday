@@ -11,7 +11,7 @@ export type PersonCompany = Client & {
 
 const companyColumns = 'id, role, officer_role, clients(*, parent:parent_client_id(name))';
 
-export async function getPersonCompanies(
+export async function getCompaniesForPerson(
 	supabase: SupabaseClient,
 	personId: string
 ): Promise<PersonCompany[]> {

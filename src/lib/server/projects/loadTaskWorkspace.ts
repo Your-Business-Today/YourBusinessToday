@@ -1,13 +1,13 @@
 import { conversationAccountIds } from '$lib/server/conversations/conversationAccountIds';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { getAccountDirectory } from '$lib/server/accounts/getAccountDirectory';
+import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { getProject } from '$lib/server/projects/getProject';
-import { getProjectGoals } from '$lib/server/goals/getProjectGoals';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { getTask } from '$lib/server/projects/getTask';
 import { getTaskAcceptanceCriteria } from '$lib/server/projects/getTaskAcceptanceCriteria';
 import { getTaskAttachments } from '$lib/server/projects/getTaskAttachments';
-import { getTaskAssigneeMap } from '$lib/server/projects/getTaskAssigneeMap';
+import { getAssigneeIdsByTask } from '$lib/server/projects/getAssigneeIdsByTask';
 import { getTaskChecklists } from '$lib/server/projects/getTaskChecklists';
 import { getTaskRoles } from '$lib/server/projects/getTaskRoles';
 import { getTaskSequence } from '$lib/server/projects/getTaskSequence';
@@ -37,14 +37,14 @@ export async function loadTaskWorkspace(
 		roles,
 		sequencePlace
 	] = await Promise.all([
-		getProjectPeople(supabase, projectId),
-		getProjectGoals(supabase, projectId),
+		getPeopleOnProject(supabase, projectId),
+		getGoalsForProject(supabase, projectId),
 		getThread(supabase, { taskId }, true),
 		getConversationParticipantIds(supabase, { taskId }),
 		getTaskAcceptanceCriteria(supabase, taskId),
 		getTaskChecklists(supabase, taskId),
 		getTaskAttachments(supabase, taskId),
-		getTaskAssigneeMap(supabase, taskIdsWithWaitedFor(task)),
+		getAssigneeIdsByTask(supabase, taskIdsWithWaitedFor(task)),
 		getTaskRoles(supabase, taskId),
 		getTaskSequence(supabase, task)
 	]);
@@ -56,7 +56,7 @@ export async function loadTaskWorkspace(
 		goals,
 		messages,
 		participantIds,
-		accounts: await getAccountDirectory(supabase, authorIds),
+		accounts: await getAccountsById(supabase, authorIds),
 		criteria,
 		checklists,
 		attachments,

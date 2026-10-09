@@ -6,7 +6,7 @@
 	import TaskTreePanel from './TaskTreePanel.svelte';
 	import { currentGoalHorizon, longTermGoalHorizon } from '$lib/data/goalHorizon';
 	import { dashboardGridClasses } from '$lib/components/workspace/workspaceStyles';
-	import type { GoalSummary } from '$lib/server/goals/getGoalSummaries';
+	import type { GoalSummary } from '$lib/server/goals/summariseGoals';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 	import type { ProjectPulse } from '$lib/server/projects/summariseProjectPulse';
 	import type { TaskRowHandlers, TaskRowSources } from './taskRowActions';

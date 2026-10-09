@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { addLead, readLeadSeed } from '$lib/server/clients/addLead';
-import { getClientList } from '$lib/server/clients/getClientList';
+import { listClients } from '$lib/server/clients/listClients';
 import { moveClientStage } from '$lib/server/clients/moveClientStage';
 import { parseClientStage } from '$lib/data/clientLifecycle';
 import { requireStaff } from '$lib/server/auth/requireStaff';
@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	const requestedStage = url.searchParams.get('stage');
 	const stage = requestedStage === null ? null : parseClientStage(requestedStage);
 	return {
-		clients: await getClientList(locals.supabase, stage),
+		clients: await listClients(locals.supabase, stage),
 		stage
 	};
 };

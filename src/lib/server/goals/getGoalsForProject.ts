@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseGoalRecord, type Goal } from './goalRecord';
 
-export async function getProjectGoals(supabase: SupabaseClient, projectId: string): Promise<Goal[]> {
+export async function getGoalsForProject(supabase: SupabaseClient, projectId: string): Promise<Goal[]> {
 	const { data, error } = await supabase
 		.from('goals')
 		.select('*')

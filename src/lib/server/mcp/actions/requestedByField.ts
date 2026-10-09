@@ -1,5 +1,5 @@
 import { findProjectPerson } from '$lib/server/members/findProjectPerson';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { readOptionalText, textField } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
@@ -19,7 +19,7 @@ export async function readRequester(
 ): Promise<RequesterChoice> {
 	const requestedBy = readOptionalText(input, 'requestedBy');
 	if (requestedBy === null) return { accountId: undefined };
-	const people = await getProjectPeople(caller.supabase, projectId);
+	const people = await getPeopleOnProject(caller.supabase, projectId);
 	const person = findProjectPerson(people, requestedBy);
 	if (person === null) return { refusal: `${requestedBy} is not on the project. Call list_project_people.` };
 	return { accountId: person.id };

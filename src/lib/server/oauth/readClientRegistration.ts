@@ -23,7 +23,7 @@ export function readClientRegistration(
 	const redirectUris = readRedirectUris(submission.redirect_uris);
 	if (redirectUris === null) return null;
 	return {
-		clientName: readClientName(submission.client_name),
+		clientName: parseClientName(submission.client_name),
 		redirectUris,
 		authenticationMethod: readAuthenticationMethod(submission.token_endpoint_auth_method)
 	};
@@ -33,7 +33,7 @@ export function needsClientSecret(method: ClientAuthenticationMethod): boolean {
 	return method !== 'none';
 }
 
-function readClientName(value: unknown): string {
+function parseClientName(value: unknown): string {
 	const name = String(value ?? '').trim();
 	if (name === '') return defaultClientName;
 	return name.slice(0, longestClientName);

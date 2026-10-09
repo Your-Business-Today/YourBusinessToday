@@ -1,4 +1,4 @@
-import type { PersonCompany } from '../getPersonCompanies';
+import type { PersonCompany } from '../getCompaniesForPerson';
 import type { PersonInFull } from '../getPerson';
 
 const nothingRecorded = '(nothing recorded)';

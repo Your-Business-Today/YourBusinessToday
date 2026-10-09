@@ -2,7 +2,7 @@ import { formatBritishDate } from '$lib/data/britishDate';
 import { headcountBandLabels } from '$lib/data/headcountBands';
 import { clientStageLabels } from '$lib/data/clientLifecycle';
 import { seniorityLabels, warmthLabels } from '$lib/data/contactProfileFields';
-import type { PersonCompany } from './getPersonCompanies';
+import type { PersonCompany } from './getCompaniesForPerson';
 import type { PersonInFull } from './getPerson';
 
 const nothingRecorded = '(nothing recorded)';

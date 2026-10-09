@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ClientProject } from '$lib/server/clients/getClientProjects';
+	import type { ClientProject } from '$lib/server/clients/getProjectsForClient';
 
 	let { projects }: { projects: ClientProject[] } = $props();
 </script>

@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-export async function getInboxCursor(supabase: SupabaseClient, accountId: string): Promise<string> {
+export async function getInboxCursorForAccount(supabase: SupabaseClient, accountId: string): Promise<string> {
 	const { data, error } = await supabase
 		.from('inbox_cursors')
 		.select('read_up_to')

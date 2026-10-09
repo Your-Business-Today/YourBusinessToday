@@ -8,7 +8,7 @@ import { requireStaff } from '$lib/server/auth/requireStaff';
 import type { Actions } from './$types';
 import type { OfficerAppointment } from '$lib/server/companiesHouse/officerAppointmentRecord';
 import type { Person } from '$lib/server/people/personRecord';
-import type { PersonCompany } from '$lib/server/people/getPersonCompanies';
+import type { PersonCompany } from '$lib/server/people/getCompaniesForPerson';
 
 const notOnCompaniesHouse = 'This person was not found through Companies House, so there is nothing to import.';
 

@@ -5,7 +5,7 @@ export type PersonEvent = ClientEvent & { clientId: string; clientName: string }
 
 const longestVisibleHistory = 40;
 
-export async function getPersonEvents(
+export async function getPersonEventsForClients(
 	supabase: SupabaseClient,
 	clientIds: string[]
 ): Promise<PersonEvent[]> {

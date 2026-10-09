@@ -5,7 +5,7 @@ import { personResearchBrief } from './personResearchBrief';
 import { requestAnthropic } from '$lib/server/anthropic/requestAnthropic';
 import { textFrom, toolUseFrom, type AnthropicMessage, type AnthropicResponse } from '$lib/server/anthropic/anthropicTypes';
 import { webSearchTool } from '$lib/server/anthropic/webSearchTool';
-import type { PersonCompany } from '../getPersonCompanies';
+import type { PersonCompany } from '../getCompaniesForPerson';
 import type { PersonInFull } from '../getPerson';
 
 const mostSearches = 5;

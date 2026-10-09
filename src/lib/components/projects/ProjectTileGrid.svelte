@@ -3,7 +3,7 @@
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { postListReorder } from '$lib/client/postListReorder';
 	import { projectTileGridClasses } from './projectTileStyles';
-	import type { ProjectSummary } from '$lib/server/projects/getProjectList';
+	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
 	let {
 		projects,

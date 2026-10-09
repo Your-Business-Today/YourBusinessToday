@@ -10,7 +10,7 @@ export type ClientSummary = Client & {
 	awaitingAnswerCount: number;
 };
 
-export async function getClientList(
+export async function listClients(
 	supabase: SupabaseClient,
 	stage: ClientStage | null = null
 ): Promise<ClientSummary[]> {

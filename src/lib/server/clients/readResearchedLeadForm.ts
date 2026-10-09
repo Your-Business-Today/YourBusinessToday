@@ -1,5 +1,5 @@
 import { publicUrlOr } from './parsePublicUrl';
-import { readCompanyProfileForm } from './companyProfile';
+import { parseCompanyProfileForm } from './companyProfile';
 import type { ResearchedPerson, ResearchedProfile } from './researchedProfile';
 
 export type ReviewedLead = ResearchedProfile & { existingClientId: string | null };
@@ -12,7 +12,7 @@ export function readResearchedLeadForm(formData: FormData): ReviewedLead | null 
 		existingClientId: existingClientId === '' ? null : existingClientId,
 		name,
 		website: String(formData.get('website') ?? '').trim(),
-		profile: readCompanyProfileForm(formData),
+		profile: parseCompanyProfileForm(formData),
 		people: readIncludedPeople(formData)
 	};
 }

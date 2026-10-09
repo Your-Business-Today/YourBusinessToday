@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { getProjectTasks } from '$lib/server/projects/getProjectTasks';
+import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import { updateTaskColumns } from '$lib/server/projects/taskSiblings';
 import { waitsForRefusal } from '$lib/data/taskSequenceStanding';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -15,7 +15,7 @@ export async function setTaskWaitsFor(
 	waitsForTaskId: string | null
 ): Promise<string | null> {
 	if (task.waitsForTaskId === waitsForTaskId) return null;
-	const tasks = await getProjectTasks(supabase, task.projectId);
+	const tasks = await getTasksForProject(supabase, task.projectId);
 	const refusal = waitsForRefusal(task, waitsForTaskId, tasks);
 	if (refusal !== null) return refusal;
 	await updateTaskColumns(supabase, task.id, { waits_for_task_id: waitsForTaskId });

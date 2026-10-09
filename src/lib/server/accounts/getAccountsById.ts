@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseAccountRecord, type Account } from './accountRecord';
 
-export async function getAccountDirectory(
+export async function getAccountsById(
 	supabase: SupabaseClient,
 	accountIds: string[]
 ): Promise<Account[]> {

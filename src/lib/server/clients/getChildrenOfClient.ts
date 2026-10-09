@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseClientRecord, type Client } from './clientRecord';
 
-export async function getClientChildren(supabase: SupabaseClient, parentClientId: string): Promise<Client[]> {
+export async function getChildrenOfClient(supabase: SupabaseClient, parentClientId: string): Promise<Client[]> {
 	const { data, error } = await supabase
 		.from('clients')
 		.select('*')

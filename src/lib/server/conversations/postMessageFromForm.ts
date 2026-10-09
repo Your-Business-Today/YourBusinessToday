@@ -1,7 +1,7 @@
 import { isHandedToWriter, selfHandOffRefusal } from '$lib/data/batonRule';
 import { postedViaChannels } from '$lib/data/conversationTurn';
 import { fail } from '@sveltejs/kit';
-import { getProjectPeople } from '$lib/server/members/getProjectPeople';
+import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { messageFormRefusal, readMessageForm } from './readMessageForm';
 import { postMessage } from './postMessage';
 import type { ConversationSubject } from './conversationSubject';
@@ -22,7 +22,7 @@ export async function postMessageFromForm(
 	const awaiting = submission.awaiting;
 	if (isHandedToWriter(awaiting, authorAccountId)) return fail(400, { message: selfHandOffRefusal });
 	if (awaiting !== null) {
-		const people = await getProjectPeople(supabase, projectId);
+		const people = await getPeopleOnProject(supabase, projectId);
 		const isOnProject = people.some((person) => person.id === awaiting.accountId);
 		if (!isOnProject) return fail(400, { message: handOffRefusal });
 	}

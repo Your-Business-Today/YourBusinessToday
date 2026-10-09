@@ -10,7 +10,7 @@ export type ClientProject = {
 	awaitingAnswerCount: number;
 };
 
-export async function getClientProjects(
+export async function getProjectsForClient(
 	supabase: SupabaseClient,
 	clientId: string
 ): Promise<ClientProject[]> {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getGoalSummaries } from './getGoalSummaries';
+import { summariseGoals } from './summariseGoals';
 import type { Goal } from './goalRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
@@ -19,10 +19,10 @@ function task(id: string, goalId: string | null, parentTaskId: string | null = n
 }
 
 function summaryOf(goal: Goal, tasks: ProjectTask[]) {
-	return getGoalSummaries([launch, polish], tasks).find((summary) => summary.id === goal.id);
+	return summariseGoals([launch, polish], tasks).find((summary) => summary.id === goal.id);
 }
 
-describe('getGoalSummaries', () => {
+describe('summariseGoals', () => {
 	it('counts a subtask with no goal of its own under its parent’s goal, as the backlog does', () => {
 		const tasks = [task('parent', 'goal-launch'), task('child', null, 'parent')];
 		expect(summaryOf(launch, tasks)?.taskCount).toBe(2);

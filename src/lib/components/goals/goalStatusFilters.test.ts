@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { openGoalsOnly } from './goalStatusFilters';
-import type { GoalSummary } from '$lib/server/goals/getGoalSummaries';
+import type { GoalSummary } from '$lib/server/goals/summariseGoals';
 import type { GoalStatus } from '$lib/data/goalStatus';
 
 function goalSummary(id: string, status: GoalStatus): GoalSummary {

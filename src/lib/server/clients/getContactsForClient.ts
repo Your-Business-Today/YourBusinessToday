@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { clientContactColumns, parseClientContactRecord, type ClientContact } from './clientContactRecord';
 
-export async function getClientContacts(
+export async function getContactsForClient(
 	supabase: SupabaseClient,
 	clientId: string
 ): Promise<ClientContact[]> {

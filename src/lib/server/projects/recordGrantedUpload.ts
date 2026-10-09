@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { claimTaskUploadGrant } from './claimTaskUploadGrant';
-import { readStoredFileByteCount } from './readStoredFileByteCount';
+import { measureStoredFile } from './measureStoredFile';
 import { removeAttachmentFiles } from './attachmentFiles';
 import { saveAttachmentRecord } from './saveAttachmentRecord';
 import { uploadGrantStanding, uploadGrantStandings, type TaskUploadGrant } from './uploadGrantRecord';
@@ -26,7 +26,7 @@ export async function recordGrantedUpload(
 	const standing = uploadGrantStanding(grant, new Date());
 	if (standing === uploadGrantStandings.used) return { status: 'used' };
 	if (standing === uploadGrantStandings.expired) return expireWithFile(supabase, grant);
-	const byteCount = await readStoredFileByteCount(supabase, grant.storagePath);
+	const byteCount = await measureStoredFile(supabase, grant.storagePath);
 	if (byteCount === null) return { status: 'file_missing' };
 	const isClaimed = await claimTaskUploadGrant(supabase, grant.id);
 	if (!isClaimed) return { status: 'used' };

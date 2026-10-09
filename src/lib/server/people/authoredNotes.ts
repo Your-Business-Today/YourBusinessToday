@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { getPersonNotes, type PersonNote } from './getPersonNotes';
+import { getNotesForPeople, type PersonNote } from './getNotesForPeople';
 import { getStaffDirectory } from '$lib/server/projects/getStaffDirectory';
 
 export type AuthoredNote = PersonNote & { authorName: string };
@@ -11,7 +11,7 @@ export async function getAuthoredNotes(
 	personIds: string[]
 ): Promise<AuthoredNote[]> {
 	const [notes, staffMembers] = await Promise.all([
-		getPersonNotes(supabase, personIds),
+		getNotesForPeople(supabase, personIds),
 		getStaffDirectory(supabase)
 	]);
 	const authorNames = new Map(staffMembers.map((member) => [member.id, member.name]));

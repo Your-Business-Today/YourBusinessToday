@@ -7,7 +7,7 @@
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { primaryButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import type { ApproachDraft } from '$lib/server/people/draftApproach';
-	import type { ClientPerson } from '$lib/server/clients/getClientPeople';
+	import type { ClientPerson } from '$lib/server/clients/getPeopleForClient';
 
 	let {
 		people,

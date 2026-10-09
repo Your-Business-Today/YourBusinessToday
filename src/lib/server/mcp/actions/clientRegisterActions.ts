@@ -2,7 +2,7 @@ import { clientStageLabels, clientStageOrder } from '$lib/data/clientLifecycle';
 import { createClient } from '$lib/server/clients/createClient';
 import { describeClientList, noSuchClient } from './describeClient';
 import { getClient } from '$lib/server/clients/getClient';
-import { getClientList } from '$lib/server/clients/getClientList';
+import { listClients } from '$lib/server/clients/listClients';
 import { moveClientStage } from '$lib/server/clients/moveClientStage';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
@@ -18,7 +18,7 @@ export const clientRegisterActions: McpAction[] = [
 		isWrite: false,
 		summary: 'every client on the register, with their stage, named contact and open requests',
 		inputSchema: objectSchema({}),
-		run: async (caller) => describeClientList(await getClientList(caller.supabase))
+		run: async (caller) => describeClientList(await listClients(caller.supabase))
 	},
 	{
 		name: 'create_client',
