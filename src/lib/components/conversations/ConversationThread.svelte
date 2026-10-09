@@ -5,7 +5,7 @@
 	import MessageRow from './MessageRow.svelte';
 	import { panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import { accountNameLookup } from '$lib/data/accountNames';
-	import { latestTurn } from '$lib/data/conversationTurn';
+	import { currentTurn } from '$lib/data/currentTurn';
 	import type { NamedMessage } from '$lib/server/conversations/withAuthorNames';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 
@@ -20,7 +20,7 @@
 	} = $props();
 
 	const nameOf = $derived(accountNameLookup(people));
-	const turn = $derived(latestTurn(messages));
+	const turn = $derived(currentTurn(messages));
 </script>
 
 <DashboardPanel title="Conversation" count={messages.length}>

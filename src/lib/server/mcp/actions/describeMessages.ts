@@ -1,7 +1,8 @@
 import { accountNameLookup } from '$lib/data/accountNames';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { handOffLabel } from '$lib/data/turnLabels';
-import { latestTurn, postedViaChannels } from '$lib/data/conversationTurn';
+import { currentTurn } from '$lib/data/currentTurn';
+import { postedViaChannels } from '$lib/data/conversationTurn';
 import { withAuthorNames, type NamedMessage } from '$lib/server/conversations/withAuthorNames';
 import type { Account } from '$lib/server/accounts/accountRecord';
 import type { ConversationMessage } from '$lib/server/conversations/messageRecord';
@@ -30,7 +31,7 @@ function batonNote(message: NamedMessage, viewerId: string): string {
 }
 
 function batonLine(messages: ConversationMessage[], accounts: Account[]): string {
-	const turn = latestTurn(messages);
+	const turn = currentTurn(messages);
 	if (turn === null || turn.awaiting === null) return 'Baton: nobody is waiting on anything.';
 	const holder = handOffLabel(turn.awaiting, accountNameLookup(accounts), nobodyViewing);
 	const pickedUp = turn.pickedUpAt === null ? 'not picked up yet' : 'picked up';
