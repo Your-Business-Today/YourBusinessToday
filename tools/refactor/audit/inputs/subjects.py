@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import re
 
-from ..declarations import TYPE_DECLARATION
+from ..enclosing_types import TYPE_DECLARATION
 from ..source_files import SourceFile
 from ..words import pluralsOf, wordsOf
 from .schema_columns import tableKey

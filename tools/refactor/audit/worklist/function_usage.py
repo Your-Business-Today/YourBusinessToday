@@ -6,9 +6,10 @@ several files is one function waiting for a home. Whether a name is the framewor
 from a list of framework vocabulary: a handler is bound from its own file's markup or invoked through an
 attribute or override, while a utility is imported by another file. A short body that reads as the
 framework's is dropped, a long one is reported as a body to extract rather than a function to move, and
-evidence that does not settle it is returned undecided for the round to judge. Likewise a file
-uses a function only when it imports it from the file that declares it; another file merely containing the
-same word is not a caller.
+evidence that does not settle it is returned undecided for the round to judge. A constructor is never a
+candidate: every dependency-injection constructor is the same few lines of this.x = x, and it has no home but
+its own class. Likewise a file uses a function only when it imports it from the file that declares it;
+another file merely containing the same word is not a caller.
 """
 from __future__ import annotations
 
@@ -45,9 +46,10 @@ class FunctionUsage:
             self.linesByCompanion[companionKey(sourceFile.relative)].extend(sourceFile.lines)
         self.functionsByBody: dict[str, list[DeclaredFunction]] = defaultdict(list)
         self.importsByFile = {sourceFile.relative: importedNames(sourceFile) for sourceFile in sourceFiles}
-        for file, functions in self.functionsByFile.items():
+        for functions in self.functionsByFile.values():
             for function in functions:
-                if function.bodyFingerprint:
+                isCandidateForAHome = bool(function.bodyFingerprint) and not function.isConstructor
+                if isCandidateForAHome:
                     self.functionsByBody[function.bodyFingerprint].append(function)
 
     def importedBy(self, function: DeclaredFunction) -> list[str]:

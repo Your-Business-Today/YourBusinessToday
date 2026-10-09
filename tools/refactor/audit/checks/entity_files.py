@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 from statistics import median
 
-from ..declarations import TYPE_DECLARATION
+from ..enclosing_types import TYPE_DECLARATION
 from ..source_files import SourceFile, matchesAny
 from ..words import containsPhrase, wordsOf
 

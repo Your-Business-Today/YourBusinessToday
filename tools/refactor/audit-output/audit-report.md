@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-10-09 13:50 UTC.
+Generated 2026-10-09 15:09 UTC.
 
 ## Headline
 
@@ -59,7 +59,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 1277, elseBlocks: 0, ifBlocks: 1574, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
-| duplication | clones: 11, duplicatedLines: 99, totalLines: 38217, duplicatedPercentage: 0.26 |
+| duplication | clones: 11, duplicatedLines: 99, totalLines: 38217, duplicatedPercentage: 0.26, carriedFromBaseline: True |
 | naming | bannedAbbreviationHits: 17, unprefixedBooleans: 2 |
 | comments | explanatoryCommentLines: 0, filesWithComments: 0, taskMarkers: 0 |
 | magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 30 |
@@ -76,21 +76,21 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Ratcheted figure | Baseline | Now | Verdict |
 | --- | --- | --- | --- |
-| code quality score | 88.1% | 91.2% | — |
+| code quality score | 91.2% | 91.2% | — |
 | fileLength.filesOverLimit | 0 | 0 | held |
 | fileLength.worstFileLines | 0 | 0 | held |
-| functionShape.functionsOverLimit | 4 | 0 | better |
+| functionShape.functionsOverLimit | 0 | 0 | held |
 | functionShape.elseBlocks | 0 | 0 | held |
 | duplication.duplicatedPercentage | 0.26 | 0.26 | held |
-| comments.explanatoryCommentLines | 78 | 0 | better |
-| magicValues.inlineHexColours | 4 | 0 | better |
+| comments.explanatoryCommentLines | 0 | 0 | held |
+| magicValues.inlineHexColours | 0 | 0 | held |
 | inventory.orphanComponents | 0 | 0 | held |
 | orphans.orphanFunctions | 0 | 0 | held |
-| prose.longMemberChainLines | 200 | 109 | better |
-| prose.deeplyIndentedLines | 81 | 0 | better |
-| functionNames.overlongFunctionNames | 2 | 0 | better |
-| accessorNames.gluedAccessorNames | 31 | 0 | better |
-| conditions.tangledConditionLines | 25 | 0 | better |
+| prose.longMemberChainLines | 109 | 109 | held |
+| prose.deeplyIndentedLines | 0 | 0 | held |
+| functionNames.overlongFunctionNames | 0 | 0 | held |
+| accessorNames.gluedAccessorNames | 0 | 0 | held |
+| conditions.tangledConditionLines | 0 | 0 | held |
 | conditions.literalComparisonLines | 0 | 0 | held |
 | designPatterns.predictedFilesMissing | 0 | 0 | held |
 | siteDefinition.handRolledElements | None | None | — |
