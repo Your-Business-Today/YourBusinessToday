@@ -52,6 +52,29 @@ on someone were waiting for information. So:
 - Nobody hands the baton to themselves; the site and `post_message` refuse it (`batonRule.ts`).
 - Moving a task to done clears the baton on its conversation (migration `0066`).
 
+### The open question is the turn
+
+Revised on 9 October 2026, from Jeremy's feedback: his board showed one task waiting on him while
+his Claude counted six. Two faults, one on each side.
+
+- The board read the latest message as the turn, so a question dropped off it the moment anyone
+  posted anything after it — a work log, a merge note. Now the turn is the **open question** on the
+  thread: the latest message that waits on someone who has not spoken on the thread since it was
+  posted (migration `0073`, `currentTurn.ts`). Only when nothing is open is the turn the latest
+  message. The board, the project pulse, the task page and the connector all read this one rule.
+- The Claude read questions from the prose — "James, which is it?" in a work log, "needs
+  Jeremy's decision" in task details — and counted them as waiting on its person. Now
+  `read_latest_messages` opens with how many things wait on the reader and lists those first,
+  by the baton alone; everything else follows as information only, and the doctrine says a
+  question in prose that is not marked as waiting on someone is nobody's. A Claude's question for
+  its own person goes to them in chat, never into the conversation, which every other Claude on
+  the project reads. A decision needed from someone is a message waiting on them or a subtask
+  assigned to them, never a line in the task details.
+- A question is stamped `picked_up_at` only once the inbox has actually returned it to the
+  reader's Claude, so "their Claude has it" is never said of something their Claude never saw;
+  and a read that fills its page leaves the cursor on its last message rather than skipping
+  what came after.
+
 ## Branches
 
 A task has `branch_name`. A Claude records it with `set_task_branch` when it branches, and the
