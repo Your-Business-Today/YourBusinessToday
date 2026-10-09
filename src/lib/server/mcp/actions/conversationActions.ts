@@ -35,7 +35,8 @@ export const conversationActions: McpAction[] = [
 			'is never asked of someone else: whoever finishes the work marks it done (update_task_status). ' +
 			'When work on a task stops, the work log goes here: ' +
 			'what changed, the branch and pull request it is on, which files or records, the ' +
-			'decisions and why, what is left.',
+			'decisions and why, and which tasks carry what is left — then the person is told in ' +
+			'chat that the chat can be archived.',
 		inputSchema: objectSchema(
 			{
 				goalId: textField('The goal to post on — give this or taskId'),

@@ -20,7 +20,11 @@ export const taskWriteActions: McpAction[] = [
 			'Search first: call find_tasks for the matter and work on the task you find. Raise one only ' +
 			'when nothing matches. Every top level work task is a user story — give storyRole, ' +
 			'storyWant and storyBenefit, and title it with the story — unless it is a bug, titled ' +
-			'"FIX: <what is wrong>". Subtasks are steps of a story and need none. Tasks titled ' +
+			'"FIX: <what is wrong>". Subtasks are steps of a story and need none. A task is one ' +
+			'session’s work: size it so one Claude session finishes it and ties it off, and raise ' +
+			'anything larger as tasks of that size. When a session stops short, the rest is raised ' +
+			'here as tasks of its own — subtasks of the task, each assigned with set_task_assignees — ' +
+			'never left in prose or for a next chat. Tasks titled ' +
 			'"REFACTOR: round N" are raised by the deploy count, never by hand. When you raise it ' +
 			'for someone else on the project — passed on in a message, a call or a chat — name them ' +
 			'with requestedBy, so it is worked as their request. A series of steps done in order is a ' +

@@ -57,6 +57,13 @@ describe('the working doctrine', () => {
 		expect(workingDoctrine).toContain('REFACTOR: round');
 	});
 
+	it('sizes a task for one session and ends the session with the chat archivable', () => {
+		expect(workingDoctrine).toContain('one session’s work');
+		expect(workingDoctrine).toContain('the chat can be archived');
+		expect(workingDoctrine).toContain('never for a chat to come back to it');
+		expect(raisingDoctrine).toContain('one Claude session');
+	});
+
 	it('takes whoever raises something through the search, the shape and the ask', () => {
 		expect(raisingDoctrine).toContain('find_goals');
 		expect(raisingDoctrine).toContain('find_tasks');
