@@ -5,7 +5,7 @@
 <section class="mx-auto max-w-6xl px-6 py-20 md:py-24">
 	<p class="font-display text-sm tracking-widest text-signal uppercase">The harness</p>
 	<h2 class="mt-5 max-w-3xl font-display text-3xl leading-tight font-medium md:text-5xl">
-		One database that holds your data, and everything runs around it.
+		Your single source of data truth and core business workflow processor.
 	</h2>
 	<div class="mt-8 grid gap-8 md:grid-cols-2 md:gap-12">
 		<p class="text-lg text-chalk/70">
