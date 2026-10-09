@@ -12,6 +12,7 @@ import { setProjectPriority } from '$lib/server/projects/setProjectPriority';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireUser } from '$lib/server/auth/requireUser';
 import { parseProjectDetailsForm, updateProjectDetails } from '$lib/server/projects/updateProjectDetails';
+import { projectDatabaseRefusal } from '$lib/data/projectDatabase';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -48,6 +49,8 @@ export const actions: Actions = {
 		if (projectId === '' || edit === null) {
 			return fail(400, { message: 'A project and a name are required.' });
 		}
+		const databaseRefusal = projectDatabaseRefusal(edit.database);
+		if (databaseRefusal !== null) return fail(400, { message: databaseRefusal });
 		const { user } = await requireProjectAccess(locals, projectId);
 		await updateProjectDetails(locals.supabase, projectId, edit);
 		const priority = parseRank(formData.get('priority'));

@@ -3,6 +3,7 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import PriorityField from '$lib/components/site/PriorityField.svelte';
+	import ProjectDatabaseFields from './ProjectDatabaseFields.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { projectStatusLabels, projectStatusOrder } from '$lib/data/projectStatus';
 	import type { Project } from '$lib/server/projects/projectRecord';
@@ -63,6 +64,7 @@
 	<p class="text-sm text-chalk/50">
 		Every push to the default branch counts as a deploy. At the number above a refactor round is raised on this project as the reminder to run it; 0 turns that off.
 	</p>
+	<ProjectDatabaseFields database={project.database} {fieldClasses} {labelClasses} />
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton
 		isSaving={tracker.isSaving}

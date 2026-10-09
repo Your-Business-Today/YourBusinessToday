@@ -1,4 +1,6 @@
 import { assignedToYouLine } from '$lib/data/assignedTaskLine';
+import { databaseKindLabels } from '$lib/data/databaseKind';
+import { hasDatabase, migrationsFolderOf } from '$lib/data/projectDatabase';
 import { goalSectionLines } from './describeGoal';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
@@ -37,6 +39,7 @@ export function describeProject(
 		`${project.name} — ${projectStatusLabels[project.status]} (id: ${project.id})`,
 		project.description === '' ? 'No description yet.' : project.description,
 		codeLine(project, cadenceLine),
+		databaseLine(project),
 		'',
 		...goalSectionLines(goals),
 		'Backlog, in priority order (a subtask\u2019s priority is its place under its parent):',
@@ -47,6 +50,12 @@ export function describeProject(
 function codeLine(project: Project, cadenceLine: string): string {
 	if (project.repositoryUrl === '') return 'No repository recorded, so nothing is built or refactored by itself.';
 	return `Code: ${project.repositoryUrl} (deploys from ${project.defaultBranch}). ${cadenceLine}`;
+}
+
+function databaseLine(project: Project): string {
+	const { database } = project;
+	if (!hasDatabase(database)) return 'No database recorded, so a migration it merges raises no database task.';
+	return `Database: ${databaseKindLabels[database.kind]}, migrations in ${migrationsFolderOf(database)} — each one a merge adds is a database task for the admin to run.`;
 }
 
 function backlogLines(tasks: TaskTreeNode[], goals: Goal[]): string[] {
