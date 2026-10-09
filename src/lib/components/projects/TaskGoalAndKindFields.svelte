@@ -1,4 +1,5 @@
 <script lang="ts">
+	import GoalSelectOptions from './GoalSelectOptions.svelte';
 	import { taskKindLabels, taskKindOrder, type TaskKind } from '$lib/data/taskKind';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 
@@ -22,10 +23,7 @@
 	<label class="flex flex-col gap-1">
 		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Goal</span>
 		<select name="goalId" value={goalId ?? ''} class={fieldClasses}>
-			<option value="">No goal</option>
-			{#each goals as goal (goal.id)}
-				<option value={goal.id}>{goal.title}</option>
-			{/each}
+			<GoalSelectOptions {goals} />
 		</select>
 	</label>
 	{#if shouldOfferKind}

@@ -1,3 +1,4 @@
+import { goalHorizonLabels, goalHorizonOrder, goalsOnHorizon, type GoalHorizon } from '$lib/data/goalHorizon';
 import { goalStatusLabels } from '$lib/data/goalStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import { threadLines } from './describeMessages';
@@ -10,8 +11,24 @@ export const noSuchGoal = 'No goal you can reach has that id. Call find_goals on
 
 export function goalLine(goal: Goal): string {
 	const measure = goal.measure === '' ? 'no measure written yet' : `measured by: ${goal.measure}`;
-	const place = `priority ${goal.priority}, id: ${goal.id}`;
-	return `${goal.title} — ${goalStatusLabels[goal.status]}, ${measure} (${place})`;
+	const horizon = goalHorizonLabels[goal.horizon].toLowerCase();
+	const place = `priority ${goal.priority} among the ${horizon} goals, id: ${goal.id}`;
+	return `${goal.title} — ${goalStatusLabels[goal.status]}, ${horizon} goal, ${measure} (${place})`;
+}
+
+/** "Current goals, in priority order:" and the lines under it, then the long term ones. */
+export function goalSectionLines(goals: Goal[]): string[] {
+	return goalHorizonOrder.flatMap((horizon) => [
+		`${goalHorizonLabels[horizon]} goals, in priority order:`,
+		...goalLinesOn(goals, horizon),
+		''
+	]);
+}
+
+function goalLinesOn(goals: Goal[], horizon: GoalHorizon): string[] {
+	const goalsOnIt = goalsOnHorizon(goals, horizon);
+	if (goalsOnIt.length === 0) return ['None yet.'];
+	return goalsOnIt.map(goalLine);
 }
 
 export function describeGoal(

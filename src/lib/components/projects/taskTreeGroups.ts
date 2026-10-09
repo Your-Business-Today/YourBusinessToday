@@ -1,3 +1,4 @@
+import { goalHorizonOrder, goalsOnHorizon } from '$lib/data/goalHorizon';
 import { settledGoalIds } from '$lib/data/settledGoalIds';
 import { tasksKeptWhere } from './taskTreeFilters';
 import type { Goal } from '$lib/server/goals/goalRecord';
@@ -10,10 +11,12 @@ type TaskTreeView = (taskTree: TaskTreeNode[]) => TaskTreeNode[];
 const wholeTree: TaskTreeView = (taskTree) => taskTree;
 
 /**
- * Every goal lists the tasks it counts, wherever they sit in the tree: a
- * subtask carrying another goal leaves its parent's list for its own, and a
- * subtask with no goal of its own stays with its parent. The view narrows
- * each group after it is formed, so a hidden parent never takes its goal with it.
+ * The unassigned tasks come first, then the current goals, then the long term
+ * ones, each in priority order. Every goal lists the tasks it counts, wherever
+ * they sit in the tree: a subtask carrying another goal leaves its parent's
+ * list for its own, and a subtask with no goal of its own stays with its
+ * parent. The view narrows each group after it is formed, so a hidden parent
+ * never takes its goal with it.
  */
 export function groupTasksByGoal(
 	taskTree: TaskTreeNode[],
@@ -26,5 +29,9 @@ export function groupTasksByGoal(
 		const isInGroup = (task: TaskTreeNode) => goalIdsByTask.get(task.id) === groupGoalId;
 		return { goal, tasks: narrowToVisible(tasksKeptWhere(taskTree, isInGroup)) };
 	};
-	return [null, ...goals].map(groupFor).filter((group) => group.tasks.length > 0);
+	return [null, ...goalsByHorizon(goals)].map(groupFor).filter((group) => group.tasks.length > 0);
+}
+
+function goalsByHorizon(goals: Goal[]): Goal[] {
+	return goalHorizonOrder.flatMap((horizon) => goalsOnHorizon(goals, horizon));
 }

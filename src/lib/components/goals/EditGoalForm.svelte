@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
+	import GoalHorizonField from './GoalHorizonField.svelte';
 	import PriorityField from '$lib/components/site/PriorityField.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import { goalPriorityScope } from '$lib/data/goalHorizon';
 	import { goalStatusLabels, goalStatusOrder } from '$lib/data/goalStatus';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 
@@ -33,11 +35,13 @@
 				{/each}
 			</select>
 		</label>
-		<PriorityField priority={goal.priority} among="of the project’s goals" />
+		<GoalHorizonField horizon={goal.horizon} />
+		<PriorityField priority={goal.priority} among={goalPriorityScope(goal.horizon)} />
 	</div>
 	<p class="text-xs text-chalk/50">
 		A goal with tasks is met when every task under it is done, and open again when one is not.
-		Dropped stays until you change it.
+		Dropped stays until you change it. A goal moved to the other horizon goes last among the
+		goals there.
 	</p>
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton

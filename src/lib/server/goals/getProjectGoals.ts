@@ -6,6 +6,7 @@ export async function getProjectGoals(supabase: SupabaseClient, projectId: strin
 		.from('goals')
 		.select('*')
 		.eq('project_id', projectId)
+		.order('horizon', { ascending: true })
 		.order('priority', { ascending: true });
 	if (error) throw error;
 	return data.map(parseGoalRecord);

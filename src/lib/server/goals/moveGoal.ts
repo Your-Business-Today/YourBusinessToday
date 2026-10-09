@@ -11,5 +11,5 @@ export async function moveGoal(
 ): Promise<void> {
 	const goal = await getGoal(supabase, goalId);
 	if (goal === null) return;
-	await moveByOne(goalOrder(supabase, goal.projectId), goal.id, direction);
+	await moveByOne(goalOrder(supabase, goal.projectId, goal.horizon), goal.id, direction);
 }

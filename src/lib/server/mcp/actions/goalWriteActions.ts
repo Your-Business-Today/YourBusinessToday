@@ -1,5 +1,6 @@
 import { createGoal } from '$lib/server/goals/createGoal';
 import { goalIdField, projectIdField } from './goalReadActions';
+import { goalHorizonOrder, parseGoalHorizon } from '$lib/data/goalHorizon';
 import { goalStatusOrder, parseGoalStatus } from '$lib/data/goalStatus';
 import { noSuchGoal } from './describeGoal';
 import { noReachableProject, reachableGoal, reachableProject } from '../projectAccess';
@@ -17,12 +18,15 @@ export const goalWriteActions: McpAction[] = [
 		guidance:
 			'Call find_goals first and show the person any match. Create only when they have said ' +
 			'nothing existing fits. A goal is high level and measurable: the measure says how we ' +
-			'will know it has been met, in words both sides can check.',
+			'will know it has been met, in words both sides can check. A goal is current — where the ' +
+			'work is being done and the completion percentage counts — or long term, work not going ' +
+			'to be done yet, whose tasks count toward no percentage.',
 		inputSchema: objectSchema(
 			{
 				projectId: projectIdField,
 				title: textField('The goal in one line'),
-				measure: proseField('How we will know it is met')
+				measure: proseField('How we will know it is met'),
+				horizon: textField(`One of ${goalHorizonOrder.join(', ')} — current unless said otherwise`)
 			},
 			['projectId', 'title']
 		),
@@ -31,9 +35,10 @@ export const goalWriteActions: McpAction[] = [
 			if (project === null) return noReachableProject;
 			const title = readOptionalText(input, 'title');
 			if (title === null) return 'A goal needs a title. Say what it is and try again.';
-			const seed = { title, measure: readText(input, 'measure') };
+			const horizon = parseGoalHorizon(readText(input, 'horizon'));
+			const seed = { title, measure: readText(input, 'measure'), horizon };
 			const goalId = await createGoal(caller.supabase, project.id, seed, caller.accountId);
-			return `"${title}" added to ${project.name} (goal id: ${goalId}).`;
+			return `"${title}" added to ${project.name} as a ${horizon} goal (goal id: ${goalId}).`;
 		}
 	},
 	{

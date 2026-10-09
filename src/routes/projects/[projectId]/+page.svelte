@@ -57,8 +57,6 @@
 	project={data.project}
 	cadenceLine={data.cadenceLine}
 	latestKitVersion={data.latestKitVersion}
-	images={data.images}
-	taskChoices={data.taskChoices}
 	onAddTask={openNewTaskModal}
 />
 

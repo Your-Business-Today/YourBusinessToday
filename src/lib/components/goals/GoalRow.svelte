@@ -4,6 +4,7 @@
 	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ProgressTrack from '$lib/components/workspace/ProgressTrack.svelte';
 	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
+	import { isCurrentGoal } from '$lib/data/goalHorizon';
 	import { openGoalStatus } from '$lib/data/goalStatus';
 	import type { GoalSummary } from '$lib/server/goals/getGoalSummaries';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
@@ -26,6 +27,7 @@
 		goalSummary.taskCount === 1 ? '1 task' : `${goalSummary.taskCount} tasks`
 	);
 	const isOpen = $derived(goalSummary.status === openGoalStatus);
+	const shouldShowCompletion = $derived(isCurrentGoal(goalSummary));
 </script>
 
 <ReorderableRow
@@ -62,10 +64,14 @@
 					<GoalStatusPill status={goalSummary.status} />
 				{/if}
 			</span>
-			<ProgressTrack completionPercent={goalSummary.completionPercent} />
+			{#if shouldShowCompletion}
+				<ProgressTrack completionPercent={goalSummary.completionPercent} />
+			{/if}
 			<span class="flex flex-wrap gap-x-2 text-[0.7rem] text-chalk/50">
 				<span>{taskCountLabel}</span>
-				<span>{goalSummary.completionPercent}%</span>
+				{#if shouldShowCompletion}
+					<span>{goalSummary.completionPercent}%</span>
+				{/if}
 				{#if goalSummary.awaitingAnswerCount > 0}
 					<span class="text-signal">{goalSummary.awaitingAnswerCount} awaiting an answer</span>
 				{/if}

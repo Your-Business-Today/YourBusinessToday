@@ -1,7 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { doneTaskStatus } from '$lib/data/taskStatus';
 
-/** How many open tasks are assigned to one person on each project they are on. */
+/** How many open current tasks are assigned to one person on each project they are on; long term work is not counted. */
 export class AssignedTaskCounts {
 	#countByProject: Map<string, number>;
 
@@ -18,17 +17,13 @@ export async function getAssignedTaskCounts(
 	supabase: SupabaseClient,
 	accountId: string
 ): Promise<AssignedTaskCounts> {
-	const { data, error } = await supabase
-		.from('tasks')
-		.select('project_id, task_assignees!inner(profile_id)')
-		.eq('task_assignees.profile_id', accountId)
-		.neq('status', doneTaskStatus);
+	const { data, error } = await supabase.rpc('assigned_current_task_counts', { member: accountId });
 	if (error) throw error;
-	const countByProject = new Map<string, number>();
-	for (const row of data) {
-		const projectId = row.project_id as string;
-		const countSoFar = countByProject.get(projectId) ?? 0;
-		countByProject.set(projectId, countSoFar + 1);
-	}
+	const countByProject = new Map<string, number>(
+		data.map((row: Record<string, unknown>) => [
+			row.project_id as string,
+			row.open_task_count as number
+		])
+	);
 	return new AssignedTaskCounts(countByProject);
 }

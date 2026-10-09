@@ -15,6 +15,14 @@ and puts the conversation where the work is.
 level and measurable; its tasks are how it gets met; subtasks are tasks with a parent, as
 before. Everything below the project carries one conversation.
 
+**A goal is current or long term** (`horizon`, migration `0070`). Current goals are where
+the work is being done, and the project's numbers are theirs: the completion percentage on
+a project tile and its pulse counts only the tasks under a current goal or under no goal.
+A long term goal holds work that is not going to be done yet, so its tasks count toward no
+percentage, and a long term task assigned to someone is not flagged to them on the projects
+page. A task with no goal is current — the backlog lists it under *Unassigned tasks*, to be
+done or moved under a long term goal. Priority is a dense rank within each horizon.
+
 **A support task is a task with a raiser and a resolution.** Tasks gain a `kind`: `work`
 (planned by us) or `support` (somebody raised it and is waiting on an answer). A support
 task is still a task — it sits under a goal or beneath another task, it can go to the

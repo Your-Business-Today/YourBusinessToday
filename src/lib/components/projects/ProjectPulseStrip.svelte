@@ -16,7 +16,7 @@
 	<StatTile
 		label="Complete"
 		value={`${pulse.completionPercent}%`}
-		caption={`across ${pulse.taskCount} tasks`}
+		caption={`across ${pulse.currentTaskCount} current tasks`}
 		tone="go"
 	/>
 	<StatTile
@@ -25,5 +25,9 @@
 		caption="conversations"
 		tone={waitingTone}
 	/>
-	<StatTile label="Assigned to you" value={`${pulse.assignedToViewerCount}`} caption="open tasks" />
+	<StatTile
+		label="Assigned to you"
+		value={`${pulse.assignedToViewerCount}`}
+		caption="open current tasks"
+	/>
 </div>

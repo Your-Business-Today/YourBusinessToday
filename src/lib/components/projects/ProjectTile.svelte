@@ -66,6 +66,7 @@
 			taskCount={project.taskCount}
 			completionPercent={project.completionPercent}
 			assignedTaskCount={project.assignedTaskCount}
+			longTermGoalCount={project.longTermGoalCount}
 		/>
 		<div class="relative flex items-center justify-between gap-2 border-t border-hairline pt-2">
 			<div class="flex items-center gap-1">

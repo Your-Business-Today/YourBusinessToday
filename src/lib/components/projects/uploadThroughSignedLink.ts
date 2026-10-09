@@ -18,12 +18,6 @@ export const taskAttachmentUploadActions: SignedUploadActions = {
 	idField: 'attachmentId'
 };
 
-export const projectImageUploadActions: SignedUploadActions = {
-	grant: '?/grantImage',
-	record: '?/recordImage',
-	idField: 'imageId'
-};
-
 /** The page behind an upload link, where the link itself says which task and whose upload it is. */
 export const uploadPageActions: SignedUploadActions = {
 	grant: '?/grantUpload',

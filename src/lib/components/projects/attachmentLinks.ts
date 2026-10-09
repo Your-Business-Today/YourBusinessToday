@@ -10,7 +10,3 @@ export function attachmentHref(
 	if (kind === attachmentLinkKinds.open) return attachmentPath;
 	return `${attachmentPath}?download`;
 }
-
-export function projectImageHref(projectId: string, imageId: string): string {
-	return `/projects/${projectId}/images/${imageId}`;
-}

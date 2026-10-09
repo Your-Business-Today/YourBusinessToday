@@ -1,10 +1,12 @@
 import { inProgressTaskStatus, isTaskDone } from '$lib/data/taskStatus';
+import { currentWork, type HorizonedGoal } from '$lib/data/taskHorizons';
 import { weightedCompletionPercent } from '$lib/data/completionSummary';
 import type { ConversationTurn } from '$lib/data/conversationTurn';
 import type { ProjectTask } from './taskRecord';
 
 export type ProjectPulse = {
 	taskCount: number;
+	currentTaskCount: number;
 	openTaskCount: number;
 	inProgressCount: number;
 	completionPercent: number;
@@ -14,21 +16,26 @@ export type ProjectPulse = {
 
 export type PulseSources = {
 	tasks: ProjectTask[];
+	goals: HorizonedGoal[];
 	assigneeIdsByTask: Map<string, string[]>;
 	turnsByTask: Map<string, ConversationTurn>;
 	viewerId: string;
 };
 
+/** The completion and the assignments are current work's: a task under a long term goal counts toward neither. */
 export function summariseProjectPulse(sources: PulseSources): ProjectPulse {
 	const { tasks } = sources;
 	const openTasks = tasks.filter((task) => !isTaskDone(task.status));
+	const currentTasks = currentWork(tasks, sources.goals);
+	const openCurrentTasks = currentTasks.filter((task) => !isTaskDone(task.status));
 	return {
 		taskCount: tasks.length,
+		currentTaskCount: currentTasks.length,
 		openTaskCount: openTasks.length,
 		inProgressCount: openTasks.filter((task) => task.status === inProgressTaskStatus).length,
-		completionPercent: weightedCompletionPercent(tasks),
+		completionPercent: weightedCompletionPercent(currentTasks),
 		waitingOnViewerCount: openTasks.filter((task) => isWaitingOnViewer(task, sources)).length,
-		assignedToViewerCount: openTasks.filter((task) => isAssignedToViewer(task, sources)).length
+		assignedToViewerCount: openCurrentTasks.filter((task) => isAssignedToViewer(task, sources)).length
 	};
 }
 

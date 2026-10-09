@@ -2,9 +2,11 @@
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
+	import GoalHorizonField from './GoalHorizonField.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import type { GoalHorizon } from '$lib/data/goalHorizon';
 
-	let { onCreated }: { onCreated: () => void } = $props();
+	let { horizon, onCreated }: { horizon: GoalHorizon; onCreated: () => void } = $props();
 
 	const tracker = new FormTracker();
 
@@ -31,6 +33,7 @@
 			class={fieldClasses}
 		></textarea>
 	</label>
+	<GoalHorizonField {horizon} />
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton
 		isSaving={tracker.isSaving}
