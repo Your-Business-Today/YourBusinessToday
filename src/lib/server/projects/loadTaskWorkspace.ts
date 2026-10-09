@@ -39,23 +39,33 @@ export async function loadTaskWorkspace(
 }
 
 async function loadTaskRecords(supabase: SupabaseClient, task: ProjectTask) {
-	const { id: taskId, projectId } = task;
-	const [
-		people,
-		goals,
-		messages,
-		participantIds,
-		criteria,
-		checklists,
-		attachments,
-		assigneeIdsByTask,
-		roles,
-		sequencePlace
-	] = await Promise.all([
+	const [projectRecords, conversationRecords, planRecords] = await Promise.all([
+		loadProjectRecords(supabase, task.projectId),
+		loadConversationRecords(supabase, task.id),
+		loadPlanRecords(supabase, task)
+	]);
+	return { ...projectRecords, ...conversationRecords, ...planRecords };
+}
+
+async function loadProjectRecords(supabase: SupabaseClient, projectId: string) {
+	const [people, goals] = await Promise.all([
 		getPeopleOnProject(supabase, projectId),
-		getGoalsForProject(supabase, projectId),
+		getGoalsForProject(supabase, projectId)
+	]);
+	return { people, goals };
+}
+
+async function loadConversationRecords(supabase: SupabaseClient, taskId: string) {
+	const [messages, participantIds] = await Promise.all([
 		getThread(supabase, { taskId }, true),
-		getConversationParticipantIds(supabase, { taskId }),
+		getConversationParticipantIds(supabase, { taskId })
+	]);
+	return { messages, participantIds };
+}
+
+async function loadPlanRecords(supabase: SupabaseClient, task: ProjectTask) {
+	const taskId = task.id;
+	const [criteria, checklists, attachments, assigneeIdsByTask, roles, sequencePlace] = await Promise.all([
 		getTaskAcceptanceCriteria(supabase, taskId),
 		getTaskChecklists(supabase, taskId),
 		getTaskAttachments(supabase, taskId),
@@ -63,18 +73,7 @@ async function loadTaskRecords(supabase: SupabaseClient, task: ProjectTask) {
 		getTaskRoles(supabase, taskId),
 		getTaskSequence(supabase, task)
 	]);
-	return {
-		people,
-		goals,
-		messages,
-		participantIds,
-		criteria,
-		checklists,
-		attachments,
-		assigneeIdsByTask,
-		roles,
-		sequencePlace
-	};
+	return { criteria, checklists, attachments, assigneeIdsByTask, roles, sequencePlace };
 }
 
 function taskIdsWithWaitedFor(task: ProjectTask): string[] {

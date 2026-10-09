@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-09T13:48:32+00:00",
+  "generatedAt": "2026-10-09T13:49:48+00:00",
   "kitVersion": "1.14.0",
   "score": {
-    "overall": 91.1,
+    "overall": 91.2,
     "groups": [
       {
         "group": "Standard baseline checks",
@@ -63,9 +63,9 @@
         "zeroAt": 0.25,
         "unit": "functions",
         "isMeasured": true,
-        "offenders": 1,
-        "measuredAgainst": 1274,
-        "score": 99.7
+        "offenders": 0,
+        "measuredAgainst": 1277,
+        "score": 100.0
       },
       {
         "key": "elseBlocks",
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1540,
+        "measuredAgainst": 1543,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1274,
+        "measuredAgainst": 1277,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1274,
+        "measuredAgainst": 1277,
         "score": 100.0
       },
       {
@@ -252,14 +252,14 @@
       "limit": 100,
       "filesOverLimit": 0,
       "totalFiles": 1044,
-      "totalLines": 37190,
+      "totalLines": 37189,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
-      "functionsOverLimit": 1,
-      "totalFunctions": 1274,
+      "functionsOverLimit": 0,
+      "totalFunctions": 1277,
       "elseBlocks": 0,
       "ifBlocks": 1574,
       "measurementIsHeuristic": true
@@ -307,7 +307,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 1274
+      "functionsExamined": 1277
     },
     "designPatterns": {
       "roleFamilies": 55,
@@ -353,7 +353,7 @@
         "limit": 100,
         "filesOverLimit": 0,
         "totalFiles": 1044,
-        "totalLines": 37190,
+        "totalLines": 37189,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -363,20 +363,13 @@
       "name": "functionShape",
       "summary": {
         "limit": 30,
-        "functionsOverLimit": 1,
-        "totalFunctions": 1274,
+        "functionsOverLimit": 0,
+        "totalFunctions": 1277,
         "elseBlocks": 0,
         "ifBlocks": 1574,
         "measurementIsHeuristic": true
       },
-      "offenders": [
-        {
-          "file": "src/lib/server/projects/loadTaskWorkspace.ts",
-          "lines": 38,
-          "name": "loadTaskRecords",
-          "line": 41
-        }
-      ]
+      "offenders": []
     },
     "functionNames": {
       "name": "functionNames",
@@ -1061,7 +1054,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 1274
+        "functionsExamined": 1277
       },
       "offenders": []
     },
@@ -2514,7 +2507,7 @@
           "area": "backend",
           "files": 396,
           "sourceFiles": 393,
-          "sourceLines": 12226
+          "sourceLines": 12225
         },
         {
           "area": "shared",
