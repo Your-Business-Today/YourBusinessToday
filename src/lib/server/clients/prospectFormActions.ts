@@ -10,8 +10,10 @@ const seedRequired = { message: 'A company name and number are required.' };
 const officerImportFailedMessage =
 	'The company is on the register, but its officers could not be read just now.';
 
-// A Companies House result becomes a lead the same way from the prospect
-// table and from the map, so both routes spread these.
+/**
+ * A Companies House result becomes a lead the same way from the prospect
+ * table and from the map, so both routes spread these.
+ */
 export const prospectFormActions = {
 	addLead: async ({ locals, request }: StaffFormEvent) => {
 		const user = await requireStaff(locals);

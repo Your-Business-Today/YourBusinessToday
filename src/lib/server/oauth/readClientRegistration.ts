@@ -39,8 +39,10 @@ function parseClientName(value: unknown): string {
 	return name.slice(0, longestClientName);
 }
 
-// A method we do not support is answered with one we do, which RFC 7591
-// allows; the client reads the method back from the response.
+/**
+ * A method we do not support is answered with one we do, which RFC 7591
+ * allows; the client reads the method back from the response.
+ */
 function readAuthenticationMethod(value: unknown): ClientAuthenticationMethod {
 	const requested = supportedClientAuthenticationMethods.find((method) => method === value);
 	return requested ?? 'none';

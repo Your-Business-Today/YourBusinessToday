@@ -1,7 +1,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-// A lead typed in by hand never captured a company number, so the same
-// company arriving from Companies House claims that row instead of a new one.
+/**
+ * A lead typed in by hand never captured a company number, so the same
+ * company arriving from Companies House claims that row instead of a new one.
+ */
 export async function findNumberlessClientByName(
 	supabase: SupabaseClient,
 	name: string

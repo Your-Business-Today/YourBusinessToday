@@ -30,8 +30,10 @@ export function readPersonProfileEdit(formData: FormData): PersonProfileEdit | n
 	};
 }
 
-// An email address names one person, so an edit onto an address another
-// person already holds is refused rather than raised as a database error.
+/**
+ * An email address names one person, so an edit onto an address another
+ * person already holds is refused rather than raised as a database error.
+ */
 export async function updatePersonProfile(
 	supabase: SupabaseClient,
 	personId: string,

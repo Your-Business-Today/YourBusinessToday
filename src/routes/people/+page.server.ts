@@ -24,7 +24,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	};
 };
 
-// The register being unreachable costs the search, never the page.
+/** The register being unreachable costs the search, never the page. */
 async function officersFor(query: string, isConfigured: boolean): Promise<OfficerSearchResult[] | null> {
 	if (query === '' || !isConfigured) return null;
 	try {

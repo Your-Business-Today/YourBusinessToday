@@ -72,9 +72,11 @@ async function requireStandingThatMayConnect(
 	return standing;
 }
 
-// A form posting to "?/approve" would replace the query string and lose the
-// authorization parameters the action has to read back, so the parameters are
-// carried alongside the action name.
+/**
+ * A form posting to "?/approve" would replace the query string and lose the
+ * authorization parameters the action has to read back, so the parameters are
+ * carried alongside the action name.
+ */
 function pathForNamedAction(url: URL, actionName: string): string {
 	return `${url.pathname}${url.search}&/${actionName}`;
 }

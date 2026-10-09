@@ -14,8 +14,10 @@ export type StaffFormEvent = { locals: App.Locals; request: Request };
 
 const personRequired = { message: 'A person is required.' };
 
-// A person is edited the same way from their own page and from a company
-// they are affiliated with, so both routes spread these.
+/**
+ * A person is edited the same way from their own page and from a company
+ * they are affiliated with, so both routes spread these.
+ */
 export const personFormActions = {
 	updatePerson: async ({ locals, request }: StaffFormEvent) => {
 		await requireStaff(locals);
@@ -61,8 +63,10 @@ export const personFormActions = {
 	}
 };
 
-// The role is what a person does at one company, so it is saved with the
-// affiliation rather than the person, and only when the form names one.
+/**
+ * The role is what a person does at one company, so it is saved with the
+ * affiliation rather than the person, and only when the form names one.
+ */
 async function updateAffiliationRole(
 	locals: App.Locals,
 	formData: FormData

@@ -13,7 +13,7 @@ import type { PersonCompany } from '$lib/server/people/getCompaniesForPerson';
 
 const notOnCompaniesHouse = 'This person was not found through Companies House, so there is nothing to import.';
 
-// The register being unreachable costs the import panel, never the page.
+/** The register being unreachable costs the import panel, never the page. */
 export async function pendingAppointmentsFor(
 	person: Person,
 	companies: PersonCompany[]

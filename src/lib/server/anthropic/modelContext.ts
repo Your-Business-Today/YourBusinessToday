@@ -17,8 +17,10 @@ export async function requestModelOverride(): Promise<string | null> {
 	return context.resolveOverride();
 }
 
-// Every Anthropic call made while handling the request lands here, so an
-// endpoint can price what the question actually cost once it is answered.
+/**
+ * Every Anthropic call made while handling the request lands here, so an
+ * endpoint can price what the question actually cost once it is answered.
+ */
 export function recordMeteredCall(call: MeteredCall): void {
 	modelContextStorage.getStore()?.meteredCalls.push(call);
 }

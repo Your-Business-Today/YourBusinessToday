@@ -1,5 +1,7 @@
-// How much of each brain a chatbot is shown at every question, so the prompt
-// stays bounded however large the knowledge base grows.
+/**
+ * How much of each brain a chatbot is shown at every question, so the prompt
+ * stays bounded however large the knowledge base grows.
+ */
 export const chatbotKnowledgeCaps = {
 	longestExpertiseIndex: 20_000,
 	mostExperienceItems: 40,

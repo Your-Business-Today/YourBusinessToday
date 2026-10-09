@@ -3,8 +3,10 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 const contactInvitedKind = 'contact_invited';
 
-// Each invitation leaves a contact_invited event naming who sent it, so the
-// events are the per-person record where client_contacts.invited_at is not.
+/**
+ * Each invitation leaves a contact_invited event naming who sent it, so the
+ * events are the per-person record where client_contacts.invited_at is not.
+ */
 export async function countContactInvitesThisHour(
 	supabase: SupabaseClient,
 	actorAccountId: string

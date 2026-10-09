@@ -20,9 +20,11 @@ export async function exchangeAuthorizationCode(
 	return issueTokensFor(supabase, clientId, claimedCode.account_id);
 }
 
-// Claiming is one conditional update, so a code presented twice at once is
-// spent exactly once, and a code that fails its checks is spent rather than
-// left open for another try.
+/**
+ * Claiming is one conditional update, so a code presented twice at once is
+ * spent exactly once, and a code that fails its checks is spent rather than
+ * left open for another try.
+ */
 async function claimCode(
 	supabase: SupabaseClient,
 	codeHash: string

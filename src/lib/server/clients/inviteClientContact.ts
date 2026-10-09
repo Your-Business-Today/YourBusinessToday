@@ -52,8 +52,10 @@ async function linkContactToAccount(
 	if (error) throw error;
 }
 
-// The account exists once the link is minted; an undelivered email must not
-// undo it, so the delivery status travels back for staff to see.
+/**
+ * The account exists once the link is minted; an undelivered email must not
+ * undo it, so the delivery status travels back for staff to see.
+ */
 function deliverInvitation(contact: ClientContact, setPasswordUrl: string): Promise<EmailDelivery> {
 	return sendTransactionalEmail({
 		to: contact.email,

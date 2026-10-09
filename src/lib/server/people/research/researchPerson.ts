@@ -29,7 +29,7 @@ export async function researchPerson(person: PersonInFull, companies: PersonComp
 
 type SearchOutcome = { report: string; sources: WebSearchSource[] };
 
-// A long search can pause the turn; handing the content back lets it carry on.
+/** A long search can pause the turn; handing the content back lets it carry on. */
 async function searchTheWeb(brief: string): Promise<SearchOutcome> {
 	const messages: AnthropicMessage[] = [{ role: 'user', content: brief }];
 	const sources: WebSearchSource[] = [];
