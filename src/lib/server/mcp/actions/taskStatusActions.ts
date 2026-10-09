@@ -15,8 +15,9 @@ export const taskStatusActions: McpAction[] = [
 		isWrite: true,
 		summary: 'move a task between backlog, in progress, on hold and done',
 		guidance:
-			'Marking a task done takes it to 100 per cent, whatever it was before, and clears the ' +
-			'notifications about it for everyone. A support task closes through ' +
+			'Marking a task done takes it to 100 per cent, whatever it was before, clears the ' +
+			'notifications about it for everyone, and tells the person who asked for it. Every move ' +
+			'shows on the project feed (read_project_feed). A support task closes through ' +
 			'resolve_support_task instead, so its raiser gets an answer. In progress ' +
 			'is when the work starts: work that changes a repository starts on a branch named for ' +
 			'the task, never on the default branch, and set_task_branch records it. A task with a ' +
@@ -32,7 +33,7 @@ export const taskStatusActions: McpAction[] = [
 			if (status === null) return `A task is ${taskStatusOrder.join(', ')}. Pick one of those.`;
 			const refusal = statusChangeRefusal(task, status);
 			if (refusal !== null) return refusal;
-			await updateTaskStatus(caller.supabase, task.id, status);
+			await updateTaskStatus(caller.supabase, task.id, status, caller.accountId);
 			return `"${task.title}" is now ${taskStatusLabels[status]}.`;
 		}
 	}

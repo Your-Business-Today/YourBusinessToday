@@ -16,3 +16,7 @@ export function formatBritishDateTime(isoDate: string): string {
 		minute: '2-digit'
 	});
 }
+
+export function formatBritishTime(isoDate: string): string {
+	return new Date(isoDate).toLocaleTimeString(britishLocale, { hour: '2-digit', minute: '2-digit' });
+}

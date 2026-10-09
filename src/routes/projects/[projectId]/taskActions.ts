@@ -52,14 +52,14 @@ export const taskActions = {
 		return {};
 	},
 	setStatus: async ({ locals, params, request }) => {
-		await requireProjectAccess(locals, params.projectId);
+		const { user } = await requireProjectAccess(locals, params.projectId);
 		const formData = await request.formData();
 		const task = await getTask(locals.supabase, String(formData.get('taskId') ?? ''));
 		if (task === null) return fail(400, { message: 'A task is required.' });
 		const status = parseTaskStatus(formData.get('status'));
 		const refusal = statusChangeRefusal(task, status);
 		if (refusal !== null) return fail(400, { message: refusal });
-		await updateTaskStatus(locals.supabase, task.id, status);
+		await updateTaskStatus(locals.supabase, task.id, status, user.id);
 		return {};
 	},
 	setTaskPriority: async ({ locals, params, request }) => {

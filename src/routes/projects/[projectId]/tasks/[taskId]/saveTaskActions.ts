@@ -33,7 +33,7 @@ export const saveTaskActions: Actions = {
 		if (refusal !== null) return fail(400, { message: refusal });
 		const sequenceRefusal = await setTaskWaitsFor(locals.supabase, task, submission.waitsForTaskId);
 		if (sequenceRefusal !== null) return fail(400, { message: sequenceRefusal });
-		await updateTaskDetails(locals.supabase, params.taskId, submission);
+		await updateTaskDetails(locals.supabase, params.taskId, submission, user.id);
 		await setTaskAssignees(locals.supabase, params.taskId, submission.assigneeIds);
 		await setTaskRoles(locals.supabase, params.taskId, submission.roles);
 		const whereFrom = { task, source: project, movedByAccountId: user.id };

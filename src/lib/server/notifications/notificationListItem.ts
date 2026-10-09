@@ -1,15 +1,19 @@
+import { parseFeedEventKind, type FeedEventKind } from '$lib/data/feedEventKind';
+
 export type NotificationSubjectKind = 'task' | 'goal';
 
 export const notificationSubjectKinds = { task: 'task', goal: 'goal' } as const;
 
+/** What the bell tells of: something said on a conversation, or a task event, such as it being done. */
 export type NotificationListItem = {
 	id: string;
 	subjectKind: NotificationSubjectKind;
 	subjectId: string;
 	subjectTitle: string;
 	projectId: string;
+	eventKind: FeedEventKind | null;
 	messageBody: string;
-	messageAuthorId: string;
+	messageAuthorId: string | null;
 	isRead: boolean;
 	createdAt: string;
 };
@@ -20,20 +24,23 @@ type Subject = {
 	title: string;
 	projectId: string;
 };
-type SaidBy = { body: string; authorId: string };
+type SaidBy = { body: string; authorId: string | null };
 type TitledRow = { title: string; project_id: string } | null;
+type EventRow = { kind: string; actor_account_id: string | null } | null;
 
 export function parseNotificationRow(row: Record<string, unknown>): NotificationListItem {
 	const subject = subjectOf(row);
 	const said = whatWasSaid(row);
+	const event = row.project_events as EventRow;
 	return {
 		id: row.id as string,
 		subjectKind: subject.kind,
 		subjectId: subject.id,
 		subjectTitle: subject.title,
 		projectId: subject.projectId,
+		eventKind: parseFeedEventKind(event?.kind),
 		messageBody: said.body,
-		messageAuthorId: said.authorId,
+		messageAuthorId: event === null || event === undefined ? said.authorId : event.actor_account_id,
 		isRead: row.is_read as boolean,
 		createdAt: row.created_at as string
 	};
@@ -78,5 +85,5 @@ function whatWasSaid(row: Record<string, unknown>): SaidBy {
 		body: string;
 		author_id: string;
 	} | null;
-	return { body: comment?.body ?? '', authorId: comment?.author_id ?? '' };
+	return { body: comment?.body ?? '', authorId: comment?.author_id ?? null };
 }
