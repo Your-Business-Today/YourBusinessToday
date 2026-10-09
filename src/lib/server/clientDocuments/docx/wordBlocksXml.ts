@@ -10,14 +10,23 @@ export function blocksXml(tokens: Token[]): string {
 }
 
 function blockXml(token: Token): string {
-	if (token.type === markdownTokenTypes.heading)
-		return paragraphXml(inlineRunsXml(token.tokens), `Heading${token.depth}`);
-	if (token.type === markdownTokenTypes.paragraph) return paragraphXml(inlineRunsXml(token.tokens));
+	if (token.type === markdownTokenTypes.heading) return headingXml(token as Tokens.Heading);
+	if (token.type === markdownTokenTypes.paragraph) return textParagraphXml(token as Tokens.Paragraph);
 	if (token.type === markdownTokenTypes.list) return listXml(token as Tokens.List);
 	if (token.type === markdownTokenTypes.table) return tableXml(token as Tokens.Table);
 	if (token.type === markdownTokenTypes.blockquote) return quoteXml(token as Tokens.Blockquote);
 	if (token.type === markdownTokenTypes.rule) return paragraphXml('', 'Rule');
 	return '';
+}
+
+function headingXml(heading: Tokens.Heading): string {
+	const runs = inlineRunsXml(heading.tokens);
+	return paragraphXml(runs, `Heading${heading.depth}`);
+}
+
+function textParagraphXml(paragraph: Tokens.Paragraph): string {
+	const runs = inlineRunsXml(paragraph.tokens);
+	return paragraphXml(runs);
 }
 
 function paragraphXml(runs: string, styleId?: string): string {

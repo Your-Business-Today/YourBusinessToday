@@ -35,7 +35,8 @@ const adminLinks: NavigationLink[] = [{ href: '/admin', label: 'Admin' }];
 export function buildMenuGroups(access: NavigationAccess): NavigationGroup[] {
 	const groups: NavigationGroup[] = [{ label: 'Explore', links: primaryNavigationLinks }];
 	if (access.isSignedIn) groups.push({ label: 'Work', links: workLinks });
-	if (access.isStaff) groups.push({ label: 'Business', links: businessLinks(access) });
+	const businessGroup = { label: 'Business', links: businessLinks(access) };
+	if (access.isStaff) groups.push(businessGroup);
 	groups.push({ label: 'Account', links: accountLinks(access) });
 	return groups;
 }

@@ -1,5 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
+const startOfTime = new Date(0).toISOString();
+
 export async function getInboxCursorForAccount(supabase: SupabaseClient, accountId: string): Promise<string> {
 	const { data, error } = await supabase
 		.from('inbox_cursors')
@@ -7,7 +9,7 @@ export async function getInboxCursorForAccount(supabase: SupabaseClient, account
 		.eq('account_id', accountId)
 		.maybeSingle();
 	if (error) throw error;
-	if (data === null) return new Date(0).toISOString();
+	if (data === null) return startOfTime;
 	return data.read_up_to as string;
 }
 

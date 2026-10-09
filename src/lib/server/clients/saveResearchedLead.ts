@@ -16,7 +16,8 @@ export async function saveResearchedLead(
 	const clientId = await placeOnRegister(supabase, lead, actorAccountId);
 	const knownNames = await namesAlreadyListed(supabase, clientId);
 	for (const person of people) {
-		if (knownNames.has(person.name.toLowerCase())) continue;
+		const name = person.name.toLowerCase();
+		if (knownNames.has(name)) continue;
 		await addResearchedPerson(supabase, clientId, person, actorAccountId);
 	}
 	await recordClientEvent(

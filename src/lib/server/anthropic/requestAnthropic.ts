@@ -41,7 +41,7 @@ export async function requestAnthropic(request: AnthropicRequest): Promise<Anthr
 			messages: request.messages
 		})
 	});
-	if (!response.ok) throw new Error(await describeFailure(response));
+	if (!response.ok) throw await failureOf(response);
 	const answer: AnthropicResponse = await response.json();
 	recordMeteredCall({ modelId: model, usage: usageFrom(answer) });
 	return answer;
@@ -57,9 +57,9 @@ function usageFrom(answer: AnthropicResponse): AnthropicUsage {
 	};
 }
 
-async function describeFailure(response: Response): Promise<string> {
+async function failureOf(response: Response): Promise<Error> {
 	const detail = (await response.text()).slice(0, failureDetailLimit);
-	return `Anthropic request failed with status ${response.status}: ${detail}`;
+	return new Error(`Anthropic request failed with status ${response.status}: ${detail}`);
 }
 
 function toolChoiceFor(request: AnthropicRequest): Record<string, unknown> {

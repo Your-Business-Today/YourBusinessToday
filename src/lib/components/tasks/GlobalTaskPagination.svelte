@@ -12,7 +12,8 @@
 
 	function pageHref(targetPageNumber: number): string {
 		const parameters = new URLSearchParams();
-		if (targetPageNumber > 1) parameters.set('page', String(targetPageNumber));
+		const pageValue = String(targetPageNumber);
+		if (targetPageNumber > 1) parameters.set('page', pageValue);
 		if (filter !== filterWhenTasksOpen) parameters.set('status', filter);
 		const query = parameters.toString();
 		if (query === '') return '/tasks';

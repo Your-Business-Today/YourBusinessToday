@@ -63,7 +63,10 @@ async function requireStandingThatMayConnect(
 	url: URL
 ): Promise<AccountStanding> {
 	const { user } = await locals.safeGetSession();
-	if (user === null) redirect(seeOther, signInThenReturn(url));
+	if (user === null) {
+		const signInUrl = signInThenReturn(url);
+		redirect(seeOther, signInUrl);
+	}
 	const standing = await resolveAccountStanding(supabaseServiceClient(), user.id);
 	if (standing === null) error(forbidden, accountCannotConnect);
 	return standing;

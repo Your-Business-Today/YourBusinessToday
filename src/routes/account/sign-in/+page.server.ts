@@ -15,7 +15,10 @@ const resetEmailSent = 'If that address has an account, a reset link is on its w
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	const { user } = await locals.safeGetSession();
-	if (user !== null) redirect(303, await destinationAfterSignIn(locals, url.searchParams.get('next')));
+	if (user !== null) {
+		const destination = await destinationAfterSignIn(locals, url.searchParams.get('next'));
+		redirect(303, destination);
+	}
 	return {
 		isInvited: url.searchParams.get('invited') === '1',
 		invitedBy: url.searchParams.get('by') ?? '',

@@ -35,9 +35,13 @@ export function attachmentLimitDescription(): string {
 }
 
 export function describeByteCount(byteCount: number): string {
-	if (byteCount >= megabyte) return `${(byteCount / megabyte).toFixed(1)} MB`;
+	if (byteCount >= megabyte) return `${megabytesOf(byteCount)} MB`;
 	if (byteCount >= kilobyte) return `${Math.round(byteCount / kilobyte)} KB`;
 	return `${byteCount} B`;
+}
+
+function megabytesOf(byteCount: number): string {
+	return (byteCount / megabyte).toFixed(1);
 }
 
 export function previewKindFor(mimeType: string): AttachmentPreviewKind | null {

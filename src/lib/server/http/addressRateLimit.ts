@@ -36,6 +36,7 @@ function forgetQuietAddressesWhenCrowded(
 ): void {
 	if (attemptTimesByAddress.size < mostTrackedAddresses) return;
 	for (const [address, times] of attemptTimesByAddress) {
-		if (timesWithinWindow(times, window, now).length === 0) attemptTimesByAddress.delete(address);
+		const recentTimes = timesWithinWindow(times, window, now);
+		if (recentTimes.length === 0) attemptTimesByAddress.delete(address);
 	}
 }

@@ -10,12 +10,17 @@ const formPayloadField = 'payload';
 export function readGithubWebhookBody(contentType: string | null, body: string): unknown | null {
 	const mediaType = mediaTypeOf(contentType);
 	if (mediaType === jsonMediaType) return parseJson(body);
-	if (mediaType === formMediaType) return parseJson(formPayload(body));
+	if (mediaType === formMediaType) return parseFormBody(body);
 	return null;
 }
 
 function mediaTypeOf(contentType: string | null): string {
 	return (contentType ?? '').split(';')[0].trim().toLowerCase();
+}
+
+function parseFormBody(body: string): unknown | null {
+	const payload = formPayload(body);
+	return parseJson(payload);
 }
 
 function formPayload(body: string): string {
