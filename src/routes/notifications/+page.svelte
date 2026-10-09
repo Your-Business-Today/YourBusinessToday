@@ -1,13 +1,9 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import MarkAllReadForm from '$lib/components/projects/MarkAllReadForm.svelte';
 	import NotificationRow from '$lib/components/projects/NotificationRow.svelte';
-	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
-	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { accountNameLookup } from '$lib/data/accountNames';
 
 	let { data } = $props();
-
-	const markAllReadTracker = new FormTracker();
 
 	const hasUnread = $derived(data.notifications.some((notification) => !notification.isRead));
 
@@ -27,16 +23,7 @@
 	<div class="flex items-baseline justify-between gap-4">
 		<h1 class="font-display text-3xl font-medium">Notifications</h1>
 		{#if hasUnread}
-			<form method="POST" action="?/markAllRead" use:enhance={markAllReadTracker.submit()}>
-				<SubmitButton
-					isSaving={markAllReadTracker.isSaving}
-					savingLabel="Marking…"
-					class="rounded-full border border-hairline px-4 py-1.5 font-display text-xs
-						text-chalk/70 transition hover:border-go hover:text-go"
-				>
-					Mark all read
-				</SubmitButton>
-			</form>
+			<MarkAllReadForm />
 		{/if}
 	</div>
 	{#if data.notifications.length === 0}

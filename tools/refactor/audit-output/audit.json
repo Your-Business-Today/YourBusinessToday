@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-09T13:40:11+00:00",
+  "generatedAt": "2026-10-09T13:42:14+00:00",
   "kitVersion": "1.14.0",
   "score": {
-    "overall": 90.2,
+    "overall": 90.3,
     "groups": [
       {
         "group": "Standard baseline checks",
-        "score": 98.2,
+        "score": 98.4,
         "weight": 60
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1036,
+        "measuredAgainst": 1042,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 74,
-        "measuredAgainst": 37.0,
+        "measuredAgainst": 37.04,
         "score": 96.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 35,
-        "measuredAgainst": 37.0,
+        "measuredAgainst": 37.04,
         "score": 95.3
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1523,
+        "measuredAgainst": 1529,
         "score": 100.0
       },
       {
@@ -135,9 +135,9 @@
         "zeroAt": 30,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 112,
-        "measuredAgainst": 37.0,
-        "score": 89.9
+        "offenders": 109,
+        "measuredAgainst": 37.04,
+        "score": 90.2
       },
       {
         "key": "deepIndentation",
@@ -147,9 +147,9 @@
         "zeroAt": 30,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 27,
-        "measuredAgainst": 37.0,
-        "score": 97.6
+        "offenders": 0,
+        "measuredAgainst": 37.04,
+        "score": 100.0
       },
       {
         "key": "functionNames",
@@ -251,8 +251,8 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 1036,
-      "totalLines": 36997,
+      "totalFiles": 1042,
+      "totalLines": 37040,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
@@ -295,8 +295,8 @@
       "repeatedStringLiterals": 30
     },
     "prose": {
-      "longMemberChainLines": 112,
-      "deeplyIndentedLines": 27,
+      "longMemberChainLines": 109,
+      "deeplyIndentedLines": 0,
       "overlongLines": 82,
       "measurementIsHeuristic": true
     },
@@ -319,9 +319,9 @@
     },
     "inventory": {
       "pages": 33,
-      "components": 260,
+      "components": 266,
       "orphanComponents": 0,
-      "averagePageLines": 49
+      "averagePageLines": 48
     },
     "siteDefinition": {
       "skipped": "no siteDefinition catalogue in rules.json"
@@ -334,8 +334,8 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 1408,
-      "frontend": 432,
+      "totalFiles": 1420,
+      "frontend": 444,
       "backend": 395,
       "shared": 150,
       "api": 116,
@@ -352,8 +352,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 1036,
-        "totalLines": 36997,
+        "totalFiles": 1042,
+        "totalLines": 37040,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -677,8 +677,8 @@
     "prose": {
       "name": "prose",
       "summary": {
-        "longMemberChainLines": 112,
-        "deeplyIndentedLines": 27,
+        "longMemberChainLines": 109,
+        "deeplyIndentedLines": 0,
         "overlongLines": 82,
         "measurementIsHeuristic": true
       },
@@ -845,6 +845,10 @@
             "line": 27
           },
           {
+            "file": "src/lib/components/clients/map/AreaMapPane.svelte",
+            "line": 14
+          },
+          {
             "file": "src/lib/components/clients/map/AreaSummary.svelte",
             "line": 10
           },
@@ -879,122 +883,9 @@
           {
             "file": "src/lib/components/projects/SubtaskRows.svelte",
             "line": 28
-          },
-          {
-            "file": "src/lib/components/projects/TaskGroupSection.svelte",
-            "line": 22
           }
         ],
-        "deepIndentation": [
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 63
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 64
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 65
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 66
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 67
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 68
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 69
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 75
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 76
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 77
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 78
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 80
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 83
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 84
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 85
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 86
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 87
-          },
-          {
-            "file": "src/lib/components/site/DangerConfirmModal.svelte",
-            "line": 89
-          },
-          {
-            "file": "src/lib/components/site/Modal.svelte",
-            "line": 40
-          },
-          {
-            "file": "src/lib/components/site/SiteHeader.svelte",
-            "line": 47
-          },
-          {
-            "file": "src/lib/components/workspace/HeaderFacts.svelte",
-            "line": 15
-          },
-          {
-            "file": "src/routes/clients/map/+page.svelte",
-            "line": 44
-          },
-          {
-            "file": "src/routes/clients/map/+page.svelte",
-            "line": 45
-          },
-          {
-            "file": "src/routes/clients/map/+page.svelte",
-            "line": 46
-          },
-          {
-            "file": "src/routes/clients/map/+page.svelte",
-            "line": 47
-          },
-          {
-            "file": "src/routes/clients/map/+page.svelte",
-            "line": 48
-          },
-          {
-            "file": "src/routes/notifications/+page.svelte",
-            "line": 35
-          }
-        ],
+        "deepIndentation": [],
         "overlongLines": [
           {
             "file": "src/lib/data/caseStudies.ts",
@@ -1347,13 +1238,13 @@
           "field": 5,
           "fields": 14,
           "filter": 5,
-          "form": 37,
+          "form": 39,
           "goal": 8,
           "grant": 4,
-          "header": 10,
+          "header": 11,
           "ids": 7,
           "kind": 4,
-          "link": 7,
+          "link": 8,
           "list": 14,
           "message": 4,
           "modal": 7,
@@ -1447,9 +1338,9 @@
       "name": "inventory",
       "summary": {
         "pages": 33,
-        "components": 260,
+        "components": 266,
         "orphanComponents": 0,
-        "averagePageLines": 49
+        "averagePageLines": 48
       },
       "offenders": {
         "pages": [
@@ -1523,22 +1414,6 @@
             ]
           },
           {
-            "page": "src/routes/clients/map/+page.svelte",
-            "lines": 59,
-            "widgets": [
-              "error"
-            ]
-          },
-          {
-            "page": "src/routes/notifications/+page.svelte",
-            "lines": 54,
-            "widgets": [
-              "form",
-              "submit",
-              "list"
-            ]
-          },
-          {
             "page": "src/routes/clients/prospect/+page.svelte",
             "lines": 52,
             "widgets": [
@@ -1557,6 +1432,13 @@
             "lines": 47,
             "widgets": [
               "form",
+              "error"
+            ]
+          },
+          {
+            "page": "src/routes/clients/map/+page.svelte",
+            "lines": 47,
+            "widgets": [
               "error"
             ]
           },
@@ -1596,6 +1478,13 @@
             "page": "src/routes/account/sign-in/+page.svelte",
             "lines": 41,
             "widgets": []
+          },
+          {
+            "page": "src/routes/notifications/+page.svelte",
+            "lines": 41,
+            "widgets": [
+              "list"
+            ]
           },
           {
             "page": "src/routes/clients/+page.svelte",
@@ -1721,6 +1610,10 @@
             "reusedBy": 4
           },
           {
+            "component": "src/lib/components/clients/map/AreaMap.svelte",
+            "reusedBy": 4
+          },
+          {
             "component": "src/lib/components/home/EnquirySection.svelte",
             "reusedBy": 4
           },
@@ -1735,10 +1628,6 @@
           {
             "component": "src/lib/components/site/PriorityModal.svelte",
             "reusedBy": 4
-          },
-          {
-            "component": "src/lib/components/clients/map/AreaMap.svelte",
-            "reusedBy": 3
           },
           {
             "component": "src/lib/components/projects/KitVersionBadge.svelte",
@@ -1766,6 +1655,10 @@
           },
           {
             "component": "src/lib/components/site/LegalArticle.svelte",
+            "reusedBy": 3
+          },
+          {
+            "component": "src/lib/components/workspace/HeaderFact.svelte",
             "reusedBy": 3
           },
           {
@@ -1890,6 +1783,10 @@
           },
           {
             "component": "src/lib/components/sequences/WaitsForPill.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/site/SignInLink.svelte",
             "reusedBy": 2
           },
           {
@@ -2086,6 +1983,10 @@
           },
           {
             "component": "src/lib/components/clients/map/AreaLegend.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/map/AreaMapPane.svelte",
             "reusedBy": 1
           },
           {
@@ -2401,6 +2302,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/MarkAllReadForm.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/NewProjectForm.svelte",
             "reusedBy": 1
           },
@@ -2617,6 +2522,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/site/DangerConfirmForm.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/site/MobileMenuButton.svelte",
             "reusedBy": 1
           },
@@ -2626,6 +2535,10 @@
           },
           {
             "component": "src/lib/components/site/MobileNavGroup.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/site/ModalHeader.svelte",
             "reusedBy": 1
           },
           {
@@ -2725,8 +2638,8 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 1408,
-        "frontend": 432,
+        "totalFiles": 1420,
+        "frontend": 444,
         "backend": 395,
         "shared": 150,
         "api": 116,
@@ -2739,9 +2652,9 @@
       "offenders": [
         {
           "area": "frontend",
-          "files": 432,
-          "sourceFiles": 320,
-          "sourceLines": 12048
+          "files": 444,
+          "sourceFiles": 326,
+          "sourceLines": 12091
         },
         {
           "area": "backend",

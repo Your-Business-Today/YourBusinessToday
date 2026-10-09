@@ -4,6 +4,7 @@
 	import MobileMenuButton from './MobileMenuButton.svelte';
 	import MobileNavDrawer from './MobileNavDrawer.svelte';
 	import NotificationsBell from './NotificationsBell.svelte';
+	import SignInLink from './SignInLink.svelte';
 	import { buildMenuGroups } from './siteNavigation';
 
 	let {
@@ -41,13 +42,7 @@
 				<NotificationsBell unreadCount={unreadNotificationCount} />
 			{/if}
 			{#if !isSignedIn}
-				<a
-					href="/account/sign-in"
-					class="rounded-full bg-signal px-5 py-2 font-display text-sm font-medium text-night
-						transition hover:brightness-110"
-				>
-					Sign in
-				</a>
+				<SignInLink />
 			{/if}
 			<AccountMenu {menuGroups} />
 		</nav>
