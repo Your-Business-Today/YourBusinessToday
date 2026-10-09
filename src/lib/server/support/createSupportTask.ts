@@ -27,6 +27,7 @@ export async function createSupportTask(
 			details: seed.want,
 			dueDate: null,
 			parentTaskId: seed.parentTaskId,
+			waitsForTaskId: null,
 			goalId: seed.goalId,
 			kind: 'support'
 		},

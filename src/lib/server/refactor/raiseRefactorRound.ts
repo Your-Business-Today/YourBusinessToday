@@ -22,6 +22,7 @@ export async function raiseRefactorRound(
 			details: refactorRoundBrief,
 			dueDate: null,
 			parentTaskId: null,
+			waitsForTaskId: null,
 			goalId: null,
 			kind: 'work'
 		},

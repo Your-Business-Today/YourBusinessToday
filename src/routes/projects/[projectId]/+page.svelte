@@ -6,6 +6,7 @@
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
 	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { openSiblingsOf } from '$lib/components/projects/openSiblings';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 	let { data, form } = $props();
@@ -47,6 +48,7 @@
 	const taskModalTitle = $derived(
 		subtaskParent === null ? 'New task' : `New subtask of “${subtaskParent.title}”`
 	);
+	const sequenceChoices = $derived(openSiblingsOf(subtaskParent?.subtasks ?? data.taskTree));
 </script>
 
 <svelte:head>
@@ -78,6 +80,7 @@
 	<NewTaskForm
 		parentTaskId={subtaskParent?.id ?? null}
 		goals={data.goals}
+		{sequenceChoices}
 		onCreated={() => (isTaskModalOpen = false)}
 	/>
 </Modal>

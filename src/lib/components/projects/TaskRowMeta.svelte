@@ -4,6 +4,8 @@
 	import TaskGoalButton from './TaskGoalButton.svelte';
 	import TaskMetaBadges from './TaskMetaBadges.svelte';
 	import TurnPill from '$lib/components/conversations/TurnPill.svelte';
+	import WaitsForPill from '$lib/components/sequences/WaitsForPill.svelte';
+	import type { SequenceStanding } from '$lib/data/taskSequenceStanding';
 	import type { TaskAssignee, TaskTurn } from './taskRowActions';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
@@ -13,6 +15,7 @@
 		goalTitle,
 		isDone,
 		turn,
+		standing,
 		onChangeGoal
 	}: {
 		task: ProjectTask;
@@ -20,6 +23,7 @@
 		goalTitle: string | null;
 		isDone: boolean;
 		turn: TaskTurn | null;
+		standing: SequenceStanding | null;
 		onChangeGoal: () => void;
 	} = $props();
 </script>
@@ -28,6 +32,7 @@
 	{#if turn !== null && !isDone}
 		<TurnPill {turn} />
 	{/if}
+	<WaitsForPill {standing} />
 	<TaskGoalButton {goalTitle} onOpenPicker={onChangeGoal} />
 	<TaskMetaBadges {task} />
 	{#if task.dueDate !== null}

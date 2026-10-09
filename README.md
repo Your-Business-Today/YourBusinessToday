@@ -32,7 +32,9 @@ The books live in their own house, Your Books Today.
   backlog filters to what is waiting on you; every task records the git branch its work is on,
   and GitHub's pull request webhook marks it done when that branch merges;
   [docs/conversation-turns-and-branches.md](./docs/conversation-turns-and-branches.md) is the
-  design.
+  design. A task that cannot start until another is done waits for it, and a series of steps
+  each waiting for the one before shows as a sequence on every step, with the step it is waiting
+  for; [docs/task-sequences-architecture.md](./docs/task-sequences-architecture.md) is the design.
 - Support tasks are how a member raises something that needs an answer: find the goal,
   find or raise the task, post on it, read what is new in one call; the owner answers where
   the work is and closes it with a resolution the raiser reads. `/support` lists what is

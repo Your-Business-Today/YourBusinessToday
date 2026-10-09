@@ -15,7 +15,8 @@ export const taskMoveWarnings = [
 		'attachments and subtasks.',
 	'Its goal link is cleared, because a goal belongs to the project the task was raised on.',
 	'Anyone assigned who is not on the destination project stops being an assignee.',
-	'It lands at the end of the destination project’s backlog and keeps its place in the queue.'
+	'It lands at the end of the destination project’s backlog and keeps its place in the queue.',
+	'It stops waiting for any task it leaves behind, and any task left behind stops waiting for it.'
 ];
 
 const clearedGoalNote = ' Its goal link was cleared, because a goal belongs to one project.';

@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
+import { newTaskSequenceRefusal } from '$lib/server/projects/newTaskSequenceRefusal';
 import { newTaskStoryRefusal } from '$lib/server/projects/newTaskStoryRefusal';
 import { getTask } from '$lib/server/projects/getTask';
 import { moveTask, type TaskMoveDirection } from '$lib/server/projects/moveTask';
@@ -24,6 +25,8 @@ export const taskActions = {
 		if (seed === null) return fail(400, { message: 'A task title is required.' });
 		const storyRefusal = newTaskStoryRefusal(seed);
 		if (storyRefusal !== null) return fail(400, { message: storyRefusal });
+		const sequenceRefusal = await newTaskSequenceRefusal(locals.supabase, params.projectId, seed);
+		if (sequenceRefusal !== null) return fail(400, { message: sequenceRefusal });
 		await createTask(locals.supabase, params.projectId, seed, user.id);
 		return {};
 	},

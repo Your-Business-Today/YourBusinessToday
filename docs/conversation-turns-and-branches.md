@@ -46,7 +46,9 @@ on someone were waiting for information. So:
   answer, a status — waits on nobody, and nobody is the default on the site and in `post_message`.
 - Something a person has to do is a task assigned to them, or a subtask of the task it unblocks.
   It shows in what is assigned to them, not in what is waiting on them.
-- A task held up by another task goes on hold, with a message naming the task it waits for.
+- A task held up by another task waits for it — `waits_for_task_id`, shown as a sequence; see
+  [task-sequences-architecture.md](./task-sequences-architecture.md). (Until 9 October 2026 it went
+  on hold with a message naming the task.)
 - Nobody hands the baton to themselves; the site and `post_message` refuse it (`batonRule.ts`).
 - Moving a task to done clears the baton on its conversation (migration `0066`).
 
