@@ -8,7 +8,11 @@ const pushToMain = {
 	after: 'c428de0f',
 	deleted: false,
 	repository: { html_url: 'https://github.com/jamesbeadle/jewel-portal' },
-	head_commit: { timestamp: '2026-09-15T15:58:12+01:00' }
+	head_commit: { timestamp: '2026-09-15T15:58:12+01:00' },
+	commits: [
+		{ added: ['migrations/0074_database_tasks.sql', 'src/a.ts'] },
+		{ added: ['migrations/0074_database_tasks.sql'] }
+	]
 };
 
 describe('readPushEvent', () => {
@@ -17,8 +21,13 @@ describe('readPushEvent', () => {
 			repositoryUrl: 'https://github.com/jamesbeadle/jewel-portal',
 			branch: 'main',
 			commitSha: 'c428de0f',
-			pushedAt: '2026-09-15T15:58:12+01:00'
+			pushedAt: '2026-09-15T15:58:12+01:00',
+			addedFiles: ['migrations/0074_database_tasks.sql', 'src/a.ts']
 		});
+	});
+
+	it('reads no added files from a push that lists no commits', () => {
+		expect(readPushEvent({ ...pushToMain, commits: undefined }, receivedAt)?.addedFiles).toEqual([]);
 	});
 
 	it('falls back to the time it arrived when the push carries no head commit', () => {

@@ -3,11 +3,13 @@ import { noSuchProject } from './describeProject';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { projectStatusLabels, projectStatusOrder } from '$lib/data/projectStatus';
 import { reachableProject } from '../projectAccess';
-import { parseProjectDetailsEdit, wrongStatus } from './projectDetailsEdit';
+import { parseProjectDetailsEdit } from './projectDetailsEdit';
+import { databaseKindOrder } from '$lib/data/databaseKind';
 import { updateProjectDetails } from '$lib/server/projects/updateProjectDetails';
 import type { McpAction } from '../actionTypes';
 
 const statusField = textField(`One of ${projectStatusOrder.join(', ')}`);
+const databaseKindField = textField(`The database behind the site: one of ${databaseKindOrder.join(', ')} — leave out to keep what is there`);
 
 const keepText = ' — leave out to keep what is there';
 
@@ -51,7 +53,10 @@ export const projectWriteActions: McpAction[] = [
 			'The repository and the default branch are what the deploy count reads: every push to that ' +
 			'branch of that repository is a deploy, and at refactorEveryDeploys of them a REFACTOR round ' +
 			'is raised on the project as the reminder to run the repository’s refactor-round skill. ' +
-			'0 turns the cadence off.',
+			'0 turns the cadence off. The database kind and details are what the database task list ' +
+			'reads: a migration file a merge adds under the migrations folder becomes a task for the ' +
+			'admin to run, written as a sqlcmd for an Azure SQL project (server, name and user are ' +
+			'needed) or as the file link and run-migration script for a Supabase one.',
 		inputSchema: objectSchema(
 			{
 				projectId: textField('The project id'),
@@ -64,7 +69,12 @@ export const projectWriteActions: McpAction[] = [
 				refactorEveryDeploys: {
 					type: 'number',
 					description: `Deploys between refactor rounds, 0 for none${keepText}`
-				}
+				},
+				databaseKind: databaseKindField,
+				databaseServer: textField(`The Azure SQL server’s full host name, as sqlcmd -S takes it${keepText}`),
+				databaseName: textField(`The Azure SQL database name${keepText}`),
+				databaseUser: textField(`The Azure SQL user sqlcmd signs in as${keepText}`),
+				migrationsPath: textField(`The folder the migration files live in, such as api/Data/Migrations${keepText}`)
 			},
 			['projectId']
 		),
@@ -72,9 +82,10 @@ export const projectWriteActions: McpAction[] = [
 			const project = await reachableProject(caller, readText(input, 'projectId'));
 			if (project === null) return noSuchProject;
 			const edit = parseProjectDetailsEdit(input, project);
-			if (edit === null) return wrongStatus;
-			await updateProjectDetails(caller.supabase, project.id, edit);
-			return `${edit.name} saved — ${projectStatusLabels[edit.status]}.`;
+			if ('refusal' in edit) return edit.refusal;
+			const { update } = edit;
+			await updateProjectDetails(caller.supabase, project.id, update);
+			return `${update.name} saved — ${projectStatusLabels[update.status]}.`;
 		}
 	}
 ];

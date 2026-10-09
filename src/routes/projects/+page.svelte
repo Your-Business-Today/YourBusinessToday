@@ -46,7 +46,7 @@
 	<title>Projects — Your Business Today</title>
 </svelte:head>
 
-<ProjectsPageHeader onNewProject={() => (isNewProjectModalOpen = true)} />
+<ProjectsPageHeader onNewProject={() => (isNewProjectModalOpen = true)} isAdmin={data.isAdmin} />
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
