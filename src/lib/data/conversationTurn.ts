@@ -62,20 +62,3 @@ export function turnStage(turn: ConversationTurn): TurnStage {
 	if (turn.pickedUpAt === null) return turnStages.sent;
 	return stageOnceHeldBy[awaiting.kind];
 }
-
-type TurnMessage = Pick<ConversationTurn, 'authorAccountId' | 'postedVia' | 'awaiting' | 'pickedUpAt'> & {
-	createdAt: string;
-};
-
-/** A thread's turn is its latest message: who spoke, how, and who holds the baton now. */
-export function latestTurn(messages: TurnMessage[]): ConversationTurn | null {
-	const latestMessage = messages.at(-1);
-	if (latestMessage === undefined) return null;
-	return {
-		authorAccountId: latestMessage.authorAccountId,
-		postedVia: latestMessage.postedVia,
-		awaiting: latestMessage.awaiting,
-		pickedUpAt: latestMessage.pickedUpAt,
-		since: latestMessage.createdAt
-	};
-}
