@@ -16,8 +16,15 @@ export async function readInbox(supabase: SupabaseClient, scope: InboxScope): Pr
 	const since = await getInboxCursor(supabase, scope.accountId);
 	const readAt = new Date().toISOString();
 	const messages = await getMessagesSince(supabase, scope, since);
-	await advanceInboxCursor(supabase, scope.accountId, readAt);
+	await advanceInboxCursor(supabase, scope.accountId, readUpTo(messages, readAt));
 	return { since, messages };
+}
+
+/** A read that filled the page leaves the cursor on its last message, so nothing beyond it is skipped. */
+function readUpTo(messages: ConversationMessage[], readAt: string): string {
+	const lastMessage = messages.at(-1);
+	if (messages.length < mostMessages || lastMessage === undefined) return readAt;
+	return lastMessage.createdAt;
 }
 
 async function getMessagesSince(

@@ -25,7 +25,11 @@ export const conversationActions: McpAction[] = [
 			'message waits on someone only when it asks them a question: name them with waitingOn, ' +
 			'and say with waitingFor whether their Claude can answer on its own or it needs them. ' +
 			'Their Claude picks it up through read_latest_messages and posts the answer here. ' +
-			'Anything else waits on nobody — the default. Something a person has to do is a task ' +
+			'Anything else waits on nobody — the default. A question for the person you are with ' +
+			'goes to them in chat, never into a message here: every other Claude on the project ' +
+			'reads this conversation and would take it as theirs to answer. A decision needed from ' +
+			'someone is a message waiting on them, or a subtask assigned to them, never a line in ' +
+			'the task details. Something a person has to do is a task ' +
 			'assigned to them (set_task_assignees) or a subtask, not a wait; a task held up by ' +
 			'another waits for it (set_task_waits_for), never on hold with a note. When work on a task stops, the work log goes here: ' +
 			'what changed, the branch and pull request it is on, which files or records, the ' +
@@ -63,21 +67,23 @@ export const conversationActions: McpAction[] = [
 		guidance:
 			'Call this at the start of a session and whenever the person asks what is new. Each call ' +
 			'returns only what arrived since the last one and then moves the marker, so read it all ' +
-			'before moving on; a message may be the resolution of something they raised. A message ' +
-			'that asks the person you are with a question is theirs to answer: put it to them, then ' +
+			'before moving on; a message may be the resolution of something they raised. It opens ' +
+			'with how many things wait on the person you are with and lists those first: reading ' +
+			'them tells the other side you have picked them up, so answer each yourself when it ' +
+			'waits on your Claude, and bring it to the person when it waits on them, then ' +
 			'post_message the answer on the same goal or task, waiting on nobody unless the answer ' +
-			'asks something back. A message marked as waiting on you asks a question: reading it ' +
-			'tells the other side you have picked it up, so answer it yourself when it waits on ' +
-			'your Claude, and bring it to the person when it waits on them. What the person has to ' +
-			'do is in read_team_tasks — the tasks assigned to them.',
+			'asks something back. Everything after that is for information only. Nothing there ' +
+			'waits on them, whatever its words say — a question in it that is not marked as waiting ' +
+			'on them is someone else’s to answer, so never count it or raise it as theirs. What ' +
+			'the person has to do is in read_team_tasks — the tasks assigned to them.',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
-			await markTurnsPickedUp(caller.supabase, caller.accountId);
 			const inbox = await readInbox(caller.supabase, {
 				accountId: caller.accountId,
 				projectIds: reachableProjectIds(caller),
 				shouldIncludeInternal: false
 			});
+			await markTurnsPickedUp(caller.supabase, caller.accountId, inbox.messages);
 			const authorIds = inbox.messages.map((message) => message.authorAccountId);
 			const accounts = await getAccountDirectory(caller.supabase, authorIds);
 			return describeInbox(caller.supabase, inbox, accounts, caller.accountId);

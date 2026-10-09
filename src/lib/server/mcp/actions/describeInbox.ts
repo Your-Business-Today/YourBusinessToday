@@ -1,25 +1,56 @@
 import { messageLine } from './describeMessages';
+import {
+	informationHeading,
+	nothingNew,
+	splitInbox,
+	waitingCountSentence,
+	waitingHeading
+} from './inboxSections';
+import { subjectKeyOf, subjectTitles } from './subjectTitles';
 import { withAuthorNames, type NamedMessage } from '$lib/server/conversations/withAuthorNames';
 import type { Account } from '$lib/server/accounts/accountRecord';
 import type { Inbox } from '$lib/server/conversations/readInbox';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
+/** The inbox in words: what waits on the reader first, then everything else, grouped by goal and task. */
 export async function describeInbox(
 	supabase: SupabaseClient,
 	inbox: Inbox,
 	accounts: Account[],
 	viewerId: string
 ): Promise<string> {
-	if (inbox.messages.length === 0) return 'Nothing new since you last looked.';
-	const titles = await subjectTitles(supabase, inbox);
-	const grouped = groupBySubject(withAuthorNames(inbox.messages, accounts));
-	return [...grouped.entries()]
-		.flatMap(([subjectKey, messages]) => [
-			subjectHeading(subjectKey, titles),
-			...messages.map((message) => messageLine(message, viewerId)),
-			''
-		])
-		.join('\n');
+	const messages = inbox.messages;
+	if (messages.length === 0) return nothingNew;
+	const titles = await subjectTitles(supabase, messages);
+	const sections = splitInbox(withAuthorNames(messages, accounts), viewerId);
+	return [
+		waitingCountSentence(sections),
+		'',
+		...section(waitingHeading, sections.waitingOnReader, titles, viewerId),
+		...section(informationHeading, sections.forInformation, titles, viewerId)
+	].join('\n');
+}
+
+function section(
+	heading: string,
+	messages: NamedMessage[],
+	titles: Map<string, string>,
+	viewerId: string
+): string[] {
+	if (messages.length === 0) return [];
+	return [heading, '', ...subjectBlocks(messages, titles, viewerId)];
+}
+
+function subjectBlocks(
+	messages: NamedMessage[],
+	titles: Map<string, string>,
+	viewerId: string
+): string[] {
+	return [...groupBySubject(messages).entries()].flatMap(([subjectKey, grouped]) => [
+		subjectHeading(subjectKey, titles),
+		...grouped.map((message) => messageLine(message, viewerId)),
+		''
+	]);
 }
 
 function groupBySubject(messages: NamedMessage[]): Map<string, NamedMessage[]> {
@@ -31,36 +62,7 @@ function groupBySubject(messages: NamedMessage[]): Map<string, NamedMessage[]> {
 	return groups;
 }
 
-function subjectKeyOf(message: NamedMessage): string {
-	if (message.goalId !== null) return `goal:${message.goalId}`;
-	return `task:${message.taskId}`;
-}
-
 function subjectHeading(subjectKey: string, titles: Map<string, string>): string {
 	const [kind, id] = subjectKey.split(':');
 	return `On the ${kind} "${titles.get(subjectKey) ?? 'unknown'}" (${kind} id: ${id}):`;
-}
-
-async function subjectTitles(supabase: SupabaseClient, inbox: Inbox): Promise<Map<string, string>> {
-	const goalIds = inbox.messages.flatMap((message) => (message.goalId === null ? [] : [message.goalId]));
-	const taskIds = inbox.messages.flatMap((message) => (message.taskId === null ? [] : [message.taskId]));
-	const [goals, tasks] = await Promise.all([
-		titlesFrom(supabase, 'goals', goalIds),
-		titlesFrom(supabase, 'tasks', taskIds)
-	]);
-	return new Map([
-		...goals.map(([id, title]) => [`goal:${id}`, title] as const),
-		...tasks.map(([id, title]) => [`task:${id}`, title] as const)
-	]);
-}
-
-async function titlesFrom(
-	supabase: SupabaseClient,
-	table: 'goals' | 'tasks',
-	ids: string[]
-): Promise<[string, string][]> {
-	if (ids.length === 0) return [];
-	const { data, error } = await supabase.from(table).select('id, title').in('id', [...new Set(ids)]);
-	if (error) throw error;
-	return data.map((row: Record<string, unknown>) => [row.id as string, row.title as string]);
 }
