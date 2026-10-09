@@ -3,11 +3,10 @@
 	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
 	import SubtaskRows from './SubtaskRows.svelte';
-	import TaskFoldButton from './TaskFoldButton.svelte';
 	import TaskRowControls from './TaskRowControls.svelte';
 	import TaskRowMeta from './TaskRowMeta.svelte';
+	import TaskRowTitle from './TaskRowTitle.svelte';
 	import { isTaskDone } from '$lib/data/taskStatus';
-	import { needsUserStory } from '$lib/data/userStoryRule';
 	import { openRows } from '$lib/client/openRows.svelte';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
 	import type { TaskRowActions } from './taskRowActions';
@@ -30,8 +29,8 @@
 	} = $props();
 
 	const isDone = $derived(isTaskDone(task.status));
-	const titleWeight = $derived(task.parentTaskId === null ? 'text-sm font-medium' : 'text-sm');
-	const hasSubtasks = $derived(task.subtasks.length > 0);
+	const subtasks = $derived(task.subtasks);
+	const hasSubtasks = $derived(subtasks.length > 0);
 	const isOpen = $derived(hasSubtasks && openRows.isOpen(task.id));
 	const subtaskPanelId = $derived(`subtasks-${task.id}`);
 </script>
@@ -59,25 +58,12 @@
 				/>
 			</div>
 			<div class="flex min-w-0 flex-1 flex-col gap-1">
-				<div class="flex min-w-0 items-center gap-1.5">
-					<TaskFoldButton
-						subtaskCount={task.subtasks.length}
-						{isOpen}
-						panelId={subtaskPanelId}
-						onToggle={() => openRows.toggle(task.id)}
-					/>
-					<a
-						href={`/projects/${task.projectId}/tasks/${task.id}`}
-						class={`truncate font-display transition hover:text-go ${titleWeight}`}
-					>
-						{#if task.isUserStory}
-							<span title="User story" class="text-caution">◆</span>
-						{:else if needsUserStory(task)}
-							<span title="No user story yet — edit the task to write one" class="text-chalk/30">◇</span>
-						{/if}
-						{task.title}
-					</a>
-				</div>
+				<TaskRowTitle
+					{task}
+					{isOpen}
+					panelId={subtaskPanelId}
+					onToggle={() => openRows.toggle(task.id)}
+				/>
 				<TaskRowMeta
 					{task}
 					{isDone}

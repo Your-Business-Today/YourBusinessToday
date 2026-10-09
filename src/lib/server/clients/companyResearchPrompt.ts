@@ -1,6 +1,16 @@
 import { headcountBandOrder } from '$lib/data/headcountBands';
 import type { AnthropicTool } from '$lib/server/anthropic/anthropicTypes';
 
+const namedPersonSchema = {
+	type: 'object',
+	properties: {
+		name: { type: 'string' },
+		role: { type: 'string' },
+		evidence_url: { type: 'string', description: 'The page the name appears on.' }
+	},
+	required: ['name', 'role', 'evidence_url']
+};
+
 export const companyResearchTool: AnthropicTool = {
 	name: 'record_company_profile',
 	description: 'Record what the public website says about this company and the people at it.',
@@ -24,15 +34,7 @@ export const companyResearchTool: AnthropicTool = {
 			people: {
 				type: 'array',
 				description: 'Named staff, with role, only where the site names them.',
-				items: {
-					type: 'object',
-					properties: {
-						name: { type: 'string' },
-						role: { type: 'string' },
-						evidence_url: { type: 'string', description: 'The page the name appears on.' }
-					},
-					required: ['name', 'role', 'evidence_url']
-				}
+				items: namedPersonSchema
 			},
 			opening_angles: {
 				type: 'array',

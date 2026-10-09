@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-09T13:37:01+00:00",
+  "generatedAt": "2026-10-09T13:40:11+00:00",
   "kitVersion": "1.14.0",
   "score": {
-    "overall": 90.0,
+    "overall": 90.2,
     "groups": [
       {
         "group": "Standard baseline checks",
-        "score": 97.8,
+        "score": 98.2,
         "weight": 60
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1024,
+        "measuredAgainst": 1036,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 3,
-        "measuredAgainst": 1261,
+        "measuredAgainst": 1263,
         "score": 99.0
       },
       {
@@ -99,9 +99,9 @@
         "zeroAt": 50,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 78,
-        "measuredAgainst": 36.84,
-        "score": 95.8
+        "offenders": 74,
+        "measuredAgainst": 37.0,
+        "score": 96.0
       },
       {
         "key": "magicValues",
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 35,
-        "measuredAgainst": 36.84,
+        "measuredAgainst": 37.0,
         "score": 95.3
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1509,
+        "measuredAgainst": 1523,
         "score": 100.0
       },
       {
@@ -135,9 +135,9 @@
         "zeroAt": 30,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 116,
-        "measuredAgainst": 36.84,
-        "score": 89.5
+        "offenders": 112,
+        "measuredAgainst": 37.0,
+        "score": 89.9
       },
       {
         "key": "deepIndentation",
@@ -147,9 +147,9 @@
         "zeroAt": 30,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 81,
-        "measuredAgainst": 36.84,
-        "score": 92.7
+        "offenders": 27,
+        "measuredAgainst": 37.0,
+        "score": 97.6
       },
       {
         "key": "functionNames",
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 2,
-        "measuredAgainst": 1261,
+        "measuredAgainst": 1263,
         "score": 98.4
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1261,
+        "measuredAgainst": 1263,
         "score": 100.0
       },
       {
@@ -251,15 +251,15 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 1024,
-      "totalLines": 36844,
+      "totalFiles": 1036,
+      "totalLines": 36997,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 3,
-      "totalFunctions": 1261,
+      "totalFunctions": 1263,
       "elseBlocks": 0,
       "ifBlocks": 1573,
       "measurementIsHeuristic": true
@@ -285,8 +285,8 @@
       "unprefixedBooleans": 2
     },
     "comments": {
-      "explanatoryCommentLines": 78,
-      "filesWithComments": 34,
+      "explanatoryCommentLines": 74,
+      "filesWithComments": 33,
       "taskMarkers": 0
     },
     "magicValues": {
@@ -295,8 +295,8 @@
       "repeatedStringLiterals": 30
     },
     "prose": {
-      "longMemberChainLines": 116,
-      "deeplyIndentedLines": 81,
+      "longMemberChainLines": 112,
+      "deeplyIndentedLines": 27,
       "overlongLines": 82,
       "measurementIsHeuristic": true
     },
@@ -307,7 +307,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 1261
+      "functionsExamined": 1263
     },
     "designPatterns": {
       "roleFamilies": 55,
@@ -319,7 +319,7 @@
     },
     "inventory": {
       "pages": 33,
-      "components": 248,
+      "components": 260,
       "orphanComponents": 0,
       "averagePageLines": 49
     },
@@ -352,8 +352,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 1024,
-        "totalLines": 36844,
+        "totalFiles": 1036,
+        "totalLines": 36997,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -364,7 +364,7 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 3,
-        "totalFunctions": 1261,
+        "totalFunctions": 1263,
         "elseBlocks": 0,
         "ifBlocks": 1573,
         "measurementIsHeuristic": true
@@ -512,8 +512,8 @@
     "comments": {
       "name": "comments",
       "summary": {
-        "explanatoryCommentLines": 78,
-        "filesWithComments": 34,
+        "explanatoryCommentLines": 74,
+        "filesWithComments": 33,
         "taskMarkers": 0
       },
       "offenders": []
@@ -677,8 +677,8 @@
     "prose": {
       "name": "prose",
       "summary": {
-        "longMemberChainLines": 116,
-        "deeplyIndentedLines": 81,
+        "longMemberChainLines": 112,
+        "deeplyIndentedLines": 27,
         "overlongLines": 82,
         "measurementIsHeuristic": true
       },
@@ -829,10 +829,6 @@
             "line": 54
           },
           {
-            "file": "src/lib/components/clients/map/AreaCompanyList.svelte",
-            "line": 29
-          },
-          {
             "file": "src/lib/components/clients/map/AreaCompanyPanel.svelte",
             "line": 22
           },
@@ -845,6 +841,10 @@
             "line": 49
           },
           {
+            "file": "src/lib/components/clients/map/AreaCompanyRow.svelte",
+            "line": 27
+          },
+          {
             "file": "src/lib/components/clients/map/AreaSummary.svelte",
             "line": 10
           },
@@ -855,14 +855,6 @@
           {
             "file": "src/lib/components/people/PersonCompanyCard.svelte",
             "line": 25
-          },
-          {
-            "file": "src/lib/components/people/PersonFindingsForm.svelte",
-            "line": 21
-          },
-          {
-            "file": "src/lib/components/people/PersonFindingsForm.svelte",
-            "line": 26
           },
           {
             "file": "src/lib/components/projects/ChecklistPanel.svelte",
@@ -883,208 +875,124 @@
           {
             "file": "src/lib/components/projects/ProjectBoard.svelte",
             "line": 37
+          },
+          {
+            "file": "src/lib/components/projects/SubtaskRows.svelte",
+            "line": 28
+          },
+          {
+            "file": "src/lib/components/projects/TaskGroupSection.svelte",
+            "line": 22
           }
         ],
         "deepIndentation": [
           {
-            "file": "src/lib/client/formTracker.svelte.ts",
-            "line": 35
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
+            "line": 63
           },
           {
-            "file": "src/lib/client/formTracker.svelte.ts",
-            "line": 43
-          },
-          {
-            "file": "src/lib/client/formTracker.svelte.ts",
-            "line": 44
-          },
-          {
-            "file": "src/lib/client/formTracker.svelte.ts",
-            "line": 45
-          },
-          {
-            "file": "src/lib/client/formTracker.svelte.ts",
-            "line": 46
-          },
-          {
-            "file": "src/lib/server/clients/companyResearchPrompt.ts",
-            "line": 30
-          },
-          {
-            "file": "src/lib/server/clients/companyResearchPrompt.ts",
-            "line": 31
-          },
-          {
-            "file": "src/lib/server/clients/companyResearchPrompt.ts",
-            "line": 32
-          },
-          {
-            "file": "src/lib/server/people/research/personResearchPrompt.ts",
-            "line": 42
-          },
-          {
-            "file": "src/lib/server/people/research/personResearchPrompt.ts",
-            "line": 43
-          },
-          {
-            "file": "src/lib/server/people/research/personResearchPrompt.ts",
-            "line": 44
-          },
-          {
-            "file": "src/lib/components/clients/ClientPeopleSection.svelte",
-            "line": 40
-          },
-          {
-            "file": "src/lib/components/clients/ClientTable.svelte",
-            "line": 23
-          },
-          {
-            "file": "src/lib/components/clients/map/AreaCompanyList.svelte",
-            "line": 29
-          },
-          {
-            "file": "src/lib/components/conversations/ConversationParticipantsPanel.svelte",
-            "line": 48
-          },
-          {
-            "file": "src/lib/components/conversations/ConversationParticipantsPanel.svelte",
-            "line": 52
-          },
-          {
-            "file": "src/lib/components/people/PeopleTable.svelte",
-            "line": 23
-          },
-          {
-            "file": "src/lib/components/people/PersonFindingsForm.svelte",
-            "line": 32
-          },
-          {
-            "file": "src/lib/components/people/PersonFindingsForm.svelte",
-            "line": 33
-          },
-          {
-            "file": "src/lib/components/people/PersonFindingsForm.svelte",
-            "line": 34
-          },
-          {
-            "file": "src/lib/components/people/PersonFindingsForm.svelte",
-            "line": 35
-          },
-          {
-            "file": "src/lib/components/people/PersonLinkList.svelte",
-            "line": 19
-          },
-          {
-            "file": "src/lib/components/people/PersonLinkList.svelte",
-            "line": 20
-          },
-          {
-            "file": "src/lib/components/people/PersonLinkList.svelte",
-            "line": 21
-          },
-          {
-            "file": "src/lib/components/people/PersonLinkList.svelte",
-            "line": 23
-          },
-          {
-            "file": "src/lib/components/projects/TaskBranchPanel.svelte",
-            "line": 40
-          },
-          {
-            "file": "src/lib/components/projects/TaskBranchPanel.svelte",
-            "line": 45
-          },
-          {
-            "file": "src/lib/components/projects/TaskBranchPanel.svelte",
-            "line": 66
-          },
-          {
-            "file": "src/lib/components/projects/TaskBranchPanel.svelte",
-            "line": 71
-          },
-          {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
             "line": 64
           },
           {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
             "line": 65
           },
           {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
             "line": 66
           },
           {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
             "line": 67
           },
           {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
-            "line": 70
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
+            "line": 68
           },
           {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
-            "line": 71
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
+            "line": 69
           },
           {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
-            "line": 73
-          },
-          {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
-            "line": 74
-          },
-          {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
             "line": 75
           },
           {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
             "line": 76
           },
           {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
             "line": 77
           },
           {
-            "file": "src/lib/components/projects/TaskListRow.svelte",
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
             "line": 78
           },
           {
-            "file": "src/lib/components/projects/TaskStatusModal.svelte",
-            "line": 35
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
+            "line": 80
           },
           {
-            "file": "src/lib/components/projects/TaskStatusModal.svelte",
-            "line": 36
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
+            "line": 83
           },
           {
-            "file": "src/lib/components/projects/TaskStatusModal.svelte",
-            "line": 37
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
+            "line": 84
           },
           {
-            "file": "src/lib/components/projects/TaskStatusModal.svelte",
-            "line": 38
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
+            "line": 85
           },
           {
-            "file": "src/lib/components/projects/TaskStatusModal.svelte",
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
+            "line": 86
+          },
+          {
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
+            "line": 87
+          },
+          {
+            "file": "src/lib/components/site/DangerConfirmModal.svelte",
+            "line": 89
+          },
+          {
+            "file": "src/lib/components/site/Modal.svelte",
             "line": 40
           },
           {
-            "file": "src/lib/components/projects/TaskStatusModal.svelte",
-            "line": 41
+            "file": "src/lib/components/site/SiteHeader.svelte",
+            "line": 47
           },
           {
-            "file": "src/lib/components/projects/TaskStatusModal.svelte",
-            "line": 42
+            "file": "src/lib/components/workspace/HeaderFacts.svelte",
+            "line": 15
           },
           {
-            "file": "src/lib/components/projects/TaskStatusModal.svelte",
-            "line": 43
+            "file": "src/routes/clients/map/+page.svelte",
+            "line": 44
           },
           {
-            "file": "src/lib/components/site/AccountMenu.svelte",
-            "line": 64
+            "file": "src/routes/clients/map/+page.svelte",
+            "line": 45
+          },
+          {
+            "file": "src/routes/clients/map/+page.svelte",
+            "line": 46
+          },
+          {
+            "file": "src/routes/clients/map/+page.svelte",
+            "line": 47
+          },
+          {
+            "file": "src/routes/clients/map/+page.svelte",
+            "line": 48
+          },
+          {
+            "file": "src/routes/notifications/+page.svelte",
+            "line": 35
           }
         ],
         "overlongLines": [
@@ -1408,7 +1316,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 1261
+        "functionsExamined": 1263
       },
       "offenders": []
     },
@@ -1428,7 +1336,7 @@
           "+page.svelte": 33,
           "+server.ts": 13,
           "access": 4,
-          "actions": 63,
+          "actions": 64,
           "attachment": 4,
           "bar": 4,
           "button": 7,
@@ -1439,14 +1347,14 @@
           "field": 5,
           "fields": 14,
           "filter": 5,
-          "form": 35,
+          "form": 37,
           "goal": 8,
           "grant": 4,
           "header": 10,
           "ids": 7,
           "kind": 4,
           "link": 7,
-          "list": 13,
+          "list": 14,
           "message": 4,
           "modal": 7,
           "model": 5,
@@ -1465,7 +1373,7 @@
           "record": 18,
           "refusal": 4,
           "request": 6,
-          "row": 19,
+          "row": 21,
           "section": 26,
           "sections": 8,
           "sentence": 5,
@@ -1539,7 +1447,7 @@
       "name": "inventory",
       "summary": {
         "pages": 33,
-        "components": 248,
+        "components": 260,
         "orphanComponents": 0,
         "averagePageLines": 49
       },
@@ -1893,6 +1801,10 @@
             "reusedBy": 2
           },
           {
+            "component": "src/lib/components/members/PersonRow.svelte",
+            "reusedBy": 2
+          },
+          {
             "component": "src/lib/components/people/AddPersonForm.svelte",
             "reusedBy": 2
           },
@@ -1914,6 +1826,10 @@
           },
           {
             "component": "src/lib/components/people/PersonNoteTimeline.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/people/PersonRow.svelte",
             "reusedBy": 2
           },
           {
@@ -2097,11 +2013,19 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/clients/ClientPeopleActions.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/clients/ClientPeopleSection.svelte",
             "reusedBy": 1
           },
           {
             "component": "src/lib/components/clients/ClientProjectList.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/ClientRow.svelte",
             "reusedBy": 1
           },
           {
@@ -2157,6 +2081,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/clients/map/AreaCompanyRow.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/clients/map/AreaLegend.svelte",
             "reusedBy": 1
           },
@@ -2174,6 +2102,10 @@
           },
           {
             "component": "src/lib/components/contact/EnquiryThankYou.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/conversations/AddParticipantForm.svelte",
             "reusedBy": 1
           },
           {
@@ -2317,10 +2249,6 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/members/PersonRow.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/members/ProjectPeoplePanel.svelte",
             "reusedBy": 1
           },
@@ -2357,6 +2285,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/people/FoundRoleList.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/people/OfficerResultList.svelte",
             "reusedBy": 1
           },
@@ -2386,6 +2318,10 @@
           },
           {
             "component": "src/lib/components/people/PersonHeader.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/people/PersonLinkChip.svelte",
             "reusedBy": 1
           },
           {
@@ -2533,6 +2469,14 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/TaskBranchForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskBranchLinks.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/TaskBranchPanel.svelte",
             "reusedBy": 1
           },
@@ -2597,7 +2541,15 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/TaskRowTitle.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/TaskStatusAndDueFields.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskStatusOption.svelte",
             "reusedBy": 1
           },
           {
@@ -2654,6 +2606,10 @@
           },
           {
             "component": "src/lib/components/site/AccountMenu.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/site/AccountMenuGroup.svelte",
             "reusedBy": 1
           },
           {
@@ -2784,20 +2740,20 @@
         {
           "area": "frontend",
           "files": 432,
-          "sourceFiles": 308,
-          "sourceLines": 11917
+          "sourceFiles": 320,
+          "sourceLines": 12048
         },
         {
           "area": "backend",
           "files": 395,
           "sourceFiles": 392,
-          "sourceLines": 12112
+          "sourceLines": 12118
         },
         {
           "area": "shared",
           "files": 150,
           "sourceFiles": 136,
-          "sourceLines": 4387
+          "sourceLines": 4403
         },
         {
           "area": "api",

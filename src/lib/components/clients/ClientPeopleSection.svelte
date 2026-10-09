@@ -1,11 +1,10 @@
 <script lang="ts">
+	import ClientPeopleActions from './ClientPeopleActions.svelte';
 	import DraftApproachForm from '$lib/components/people/DraftApproachForm.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewContactForm from './NewContactForm.svelte';
 	import PersonCard from './PersonCard.svelte';
 	import PersonFieldsForm from '$lib/components/people/PersonFieldsForm.svelte';
-	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
-	import { primaryButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import type { ApproachDraft } from '$lib/server/people/draftApproach';
 	import type { ClientPerson } from '$lib/server/clients/getPeopleForClient';
 
@@ -33,18 +32,7 @@
 <section class="flex flex-col gap-4">
 	<div class="flex flex-wrap items-center justify-between gap-4">
 		<h2 class="font-display text-xl">People</h2>
-		<div class="flex flex-wrap gap-2">
-			{#if canImportOfficers}
-				<form method="POST" action="?/importOfficers">
-					<SubmitButton class={quietButtonClasses} savingLabel="Reading the register…">
-						Import officers from Companies House
-					</SubmitButton>
-				</form>
-			{/if}
-			<button class={primaryButtonClasses} onclick={() => (isNewContactModalOpen = true)}>
-				Add contact
-			</button>
-		</div>
+		<ClientPeopleActions {canImportOfficers} onAddContact={() => (isNewContactModalOpen = true)} />
 	</div>
 	{#if people.length === 0}
 		<p class="text-sm text-chalk/50">Nobody listed yet.</p>
