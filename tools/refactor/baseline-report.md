@@ -1,3 +1,11 @@
+# Refactor audit — baseline v3, adopted from drift
+
+Generated 2026-10-09 from refactor/round-2 at the start of round 2, replacing the v2 baseline of 2026-10-06 without a round between them.
+
+Adopted from drift: the gate failed on duplication, 0.19% → 0.26% (6 clones and 58 lines → 11 clones and 99 lines), from code landed on main since v2 — the landing, about, offer and vision pages' markup, and an eight-line clone between the project's `taskActions.ts` and the task page's `+page.server.ts`. Every ratcheted figure the gate holds was otherwise level or better (functions over the limit 4, else blocks 0, orphans 0, missing predicted files 0, unvalidated doors 95 → 91, looser limits 0). The code quality score read 88.1% at the start of the round. The v2 report follows unchanged; round 2 replaces the whole of it when it ends.
+
+---
+
 # Refactor audit — baseline v2, after round 1
 
 Generated 2026-10-06 from refactor/round-1, replacing the v1 baseline of 2026-09-15.

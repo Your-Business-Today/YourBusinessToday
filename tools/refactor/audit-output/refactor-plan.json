@@ -1,5 +1,5 @@
 {
-  "score": 87.7,
+  "score": 88.1,
   "steps": [
     {
       "pass": "Pass 4 \u2014 Design pattern identification",
@@ -22,57 +22,62 @@
       "detail": "2 of 8 lack it. Predicted: src/lib/server/goals/updateTask.ts; src/lib/server/projects/updateTaskTask.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
     },
     {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Accessor names that want to be a property: 32 to zero",
-      "detail": "Scores 71.5% at weight 6; the offenders are in audit.json under details.accessorNames, fifty at a time."
+      "pass": "Pass 4 \u2014 Design pattern identification",
+      "title": "Complete the pattern: every +page.svelte has a +page.server.ts",
+      "detail": "8 of 33 lack it. Predicted: src/routes/+page.server.ts; src/routes/about/+page.server.ts; src/routes/case-studies/jewel/+page.server.ts; src/routes/company/+page.server.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Long member chain lines: 201 to zero",
-      "detail": "Scores 80.0% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
+      "title": "Accessor names that want to be a property: 31 to zero",
+      "detail": "Scores 75.2% at weight 6; the offenders are in audit.json under details.accessorNames, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Deeply indented lines: 89 to zero",
-      "detail": "Scores 91.1% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
+      "title": "Long member chain lines: 200 to zero",
+      "detail": "Scores 81.9% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
+    },
+    {
+      "pass": "Pass 5 \u2014 The sweep to zero",
+      "title": "Deeply indented lines: 81 to zero",
+      "detail": "Scores 92.7% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
       "title": "Conditions with calls tangled inside calls: 25 to zero",
-      "detail": "Scores 93.2% at weight 8; the offenders are in audit.json under details.conditions, fifty at a time."
+      "detail": "Scores 93.6% at weight 8; the offenders are in audit.json under details.conditions, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
       "title": "Inline magic values: 35 to zero",
-      "detail": "Scores 94.8% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
+      "detail": "Scores 95.2% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
       "title": "Explanatory comment lines: 78 to zero",
-      "detail": "Scores 95.3% at weight 4; the offenders are in audit.json under details.comments, fifty at a time."
+      "detail": "Scores 95.8% at weight 4; the offenders are in audit.json under details.comments, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
       "title": "Overlong function names: 2 to zero",
-      "detail": "Scores 98.2% at weight 4; the offenders are in audit.json under details.functionNames, fifty at a time."
+      "detail": "Scores 98.4% at weight 4; the offenders are in audit.json under details.functionNames, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
       "title": "Functions over the line limit: 4 to zero",
-      "detail": "Scores 98.6% at weight 8; the offenders are in audit.json under details.functionShape, fifty at a time."
+      "detail": "Scores 98.7% at weight 8; the offenders are in audit.json under details.functionShape, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Duplication %: 0.19 to zero",
-      "detail": "Scores 99.1% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time."
+      "title": "Duplication %: 0.26 to zero",
+      "detail": "Scores 98.7% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time."
     }
   ],
   "targets": [],
   "designPatterns": {
     "name": "designPatterns",
     "summary": {
-      "roleFamilies": 53,
-      "predictedFiles": 47,
+      "roleFamilies": 56,
+      "predictedFiles": 82,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -80,56 +85,59 @@
     },
     "offenders": {
       "roleFamilies": {
-        "+page.server.ts": 23,
-        "+page.svelte": 31,
-        "+server.ts": 14,
+        "+page.server.ts": 25,
+        "+page.svelte": 33,
+        "+server.ts": 13,
         "access": 4,
         "actions": 63,
         "attachment": 4,
         "bar": 4,
-        "button": 8,
+        "button": 7,
         "card": 5,
         "client": 8,
         "count": 4,
         "email": 7,
-        "event": 4,
-        "fields": 13,
+        "event": 5,
+        "field": 5,
+        "fields": 14,
         "filter": 5,
-        "form": 34,
+        "form": 35,
         "goal": 8,
         "grant": 4,
-        "header": 9,
-        "ids": 5,
-        "image": 4,
-        "link": 6,
-        "list": 14,
+        "header": 10,
+        "ids": 7,
+        "kind": 4,
+        "link": 7,
+        "list": 15,
         "message": 4,
-        "modal": 8,
+        "modal": 7,
         "model": 5,
         "name": 6,
-        "names": 4,
-        "note": 4,
-        "panel": 13,
+        "names": 5,
+        "note": 5,
+        "panel": 14,
         "password": 5,
+        "people": 4,
         "person": 5,
-        "pill": 5,
+        "pill": 7,
         "priority": 4,
         "profile": 5,
         "project": 9,
-        "projects": 4,
+        "projects": 5,
         "record": 18,
+        "refusal": 4,
         "request": 6,
         "row": 19,
-        "rules": 4,
-        "section": 25,
-        "sections": 7,
+        "section": 26,
+        "sections": 8,
+        "sentence": 5,
         "status": 4,
         "styles": 4,
-        "svelte": 7,
+        "svelte": 10,
         "table": 4,
         "task": 14,
         "tasks": 5,
-        "test": 57,
+        "test": 72,
         "text": 6,
         "types": 10,
         "xml": 4
@@ -167,8 +175,22 @@
         },
         {
           "pattern": "every +page.server.ts has a +page.svelte",
-          "predicted": 23,
+          "predicted": 25,
           "missing": []
+        },
+        {
+          "pattern": "every +page.svelte has a +page.server.ts",
+          "predicted": 33,
+          "missing": [
+            "src/routes/+page.server.ts",
+            "src/routes/about/+page.server.ts",
+            "src/routes/case-studies/jewel/+page.server.ts",
+            "src/routes/company/+page.server.ts",
+            "src/routes/offer/+page.server.ts",
+            "src/routes/privacy/+page.server.ts",
+            "src/routes/terms/+page.server.ts",
+            "src/routes/vision/+page.server.ts"
+          ]
         }
       ],
       "missingPredictedFiles": [],
