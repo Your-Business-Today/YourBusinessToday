@@ -9,6 +9,7 @@ export type TaskGroup = { goal: Goal | null; tasks: TaskTreeNode[] };
 type TaskTreeView = (taskTree: TaskTreeNode[]) => TaskTreeNode[];
 
 const wholeTree: TaskTreeView = (taskTree) => taskTree;
+const ungroupedKey = 'other';
 
 /**
  * The unassigned tasks come first, then the current goals, then the long term
@@ -30,6 +31,11 @@ export function groupTasksByGoal(
 		return { goal, tasks: narrowToVisible(tasksKeptWhere(taskTree, isInGroup)) };
 	};
 	return [null, ...goalsByHorizon(goals)].map(groupFor).filter(hasTasks);
+}
+
+export function groupKeyOf(group: TaskGroup): string {
+	const { goal } = group;
+	return goal?.id ?? ungroupedKey;
 }
 
 function hasTasks(group: TaskGroup): boolean {

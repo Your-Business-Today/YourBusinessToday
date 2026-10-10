@@ -5,9 +5,11 @@
 
 	let { data, form } = $props();
 
-	const clientId = $derived(data.existingClient?.id ?? null);
+	const { existingClient } = $derived(data);
+	const researched = $derived(form?.researched);
+	const clientId = $derived(existingClient?.id ?? null);
 	const backHref = $derived(clientId === null ? '/clients' : `/clients/${clientId}`);
-	const backLabel = $derived(data.existingClient === null ? 'Clients' : data.existingClient.name);
+	const backLabel = $derived(existingClient === null ? 'Clients' : existingClient.name);
 </script>
 
 <svelte:head>
@@ -26,10 +28,10 @@
 	{#if !data.isClaudeConfigured}
 		<FormErrorNote message="Claude is not configured on this server, so research is unavailable." />
 	{:else}
-		<ResearchQueryForm query={form?.researched?.website ?? data.query} {clientId} />
+		<ResearchQueryForm query={researched?.website ?? data.query} {clientId} />
 	{/if}
 	<FormErrorNote message={form?.message ?? null} />
-	{#if form?.researched !== undefined}
-		<ResearchedProfileReview researched={form.researched} {clientId} />
+	{#if researched !== undefined}
+		<ResearchedProfileReview {researched} {clientId} />
 	{/if}
 </div>

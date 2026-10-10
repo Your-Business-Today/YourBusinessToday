@@ -7,10 +7,11 @@
 	const summary = $derived(describe(area, heldCount));
 
 	function describe(mapped: AreaMap, held: number): string {
-		const within = `${mapped.pins.length} compan${mapped.pins.length === 1 ? 'y' : 'ies'} within ${mapped.radiusMiles} mile${mapped.radiusMiles === 1 ? '' : 's'} of ${mapped.centre.postcode}`;
+		const { pins, centre } = mapped;
+		const within = `${pins.length} compan${pins.length === 1 ? 'y' : 'ies'} within ${mapped.radiusMiles} mile${mapped.radiusMiles === 1 ? '' : 's'} of ${centre.postcode}`;
 		const onRegister = `${held} already on the register`;
 		if (!mapped.isSearchedOnCompaniesHouse) return `${within}, all from our register — ${onRegister}.`;
-		if (mapped.companiesHouseHits > mapped.pins.length) {
+		if (mapped.companiesHouseHits > pins.length) {
 			return `${within} (Companies House holds ${mapped.companiesHouseHits} around here; the nearest are shown — narrow with SIC codes or a smaller radius to see the rest) — ${onRegister}.`;
 		}
 		return `${within} — ${onRegister}.`;

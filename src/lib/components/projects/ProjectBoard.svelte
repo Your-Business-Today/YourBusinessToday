@@ -25,7 +25,7 @@
 	bind:selectedStatus={listView.selectedStatus}
 	countLabel={listView.countLabel}
 />
-{#if listView.filteredProjects.length === 0}
+{#if listView.matchCount === 0}
 	<p class="rounded-xl border border-dashed border-hairline p-8 text-center text-sm text-chalk/60">
 		No projects match — adjust the filters or create one.
 	</p>
@@ -34,7 +34,7 @@
 		projects={listView.pagedProjects}
 		{latestKitVersion}
 		firstPositionNumber={listView.firstPositionNumber}
-		projectCount={listView.filteredProjects.length}
+		projectCount={listView.matchCount}
 		{onEdit}
 		{onDelete}
 		{onSetPriority}

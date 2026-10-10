@@ -27,12 +27,13 @@ const accountCannotConnect =
 export const load: PageServerLoad = async ({ locals, url }) => {
 	const authorizationRequest = await requireAuthorizationRequest(url);
 	const standing = await requireStandingThatMayConnect(locals, url);
+	const { ownedProjectIds, memberProjectIds } = standing;
 	return {
 		clientName: authorizationRequest.clientName,
 		email: standing.email,
 		isStaff: standing.isStaff,
-		ownedProjectCount: standing.ownedProjectIds.length,
-		memberProjectCount: standing.memberProjectIds.length,
+		ownedProjectCount: ownedProjectIds.length,
+		memberProjectCount: memberProjectIds.length,
 		isAdmin: standing.isAdmin,
 		approvePath: pathForNamedAction(url, 'approve'),
 		refusePath: pathForNamedAction(url, 'refuse')

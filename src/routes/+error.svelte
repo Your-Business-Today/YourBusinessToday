@@ -3,6 +3,7 @@
 	import { primaryButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 
 	const notFound = 404;
+	const pageError = $derived(page.error);
 	const isNotFound = $derived(page.status === notFound);
 	const heading = $derived(isNotFound ? 'That page is not here' : 'Something went wrong');
 	const explanation = $derived(
@@ -24,7 +25,7 @@
 	</div>
 	{#if !isNotFound}
 		<p role="alert" class="rounded-xl border border-caution/50 bg-caution/10 px-4 py-3 text-sm text-caution">
-			{page.error?.message}
+			{pageError?.message}
 		</p>
 	{/if}
 	<div class="flex flex-wrap gap-3">

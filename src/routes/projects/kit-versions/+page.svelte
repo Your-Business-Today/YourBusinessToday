@@ -16,13 +16,13 @@
 
 	let isReading = $state(false);
 
-	const register = $derived(data.register);
-	const behindCount = $derived(register.entries.filter((entry) => entry.standing === 'behind').length);
-	const currentCount = $derived(register.entries.filter((entry) => entry.standing === 'current').length);
+	const { entries, latestKitVersion, projectsWithoutRepository } = $derived(data.register);
+	const behindCount = $derived(entries.filter((entry) => entry.standing === 'behind').length);
+	const currentCount = $derived(entries.filter((entry) => entry.standing === 'current').length);
 	const summaryLine = $derived(
-		register.latestKitVersion === ''
+		latestKitVersion === ''
 			? 'The latest kit version has not been read yet — read the versions now.'
-			: `${currentCount} of ${register.entries.length} repositories on the latest kit ${register.latestKitVersion}; ${behindCount} behind.`
+			: `${currentCount} of ${entries.length} repositories on the latest kit ${latestKitVersion}; ${behindCount} behind.`
 	);
 </script>
 
@@ -57,20 +57,20 @@
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
-	<DashboardPanel title="Repositories" count={register.entries.length}>
-		{#if register.entries.length === 0}
+	<DashboardPanel title="Repositories" count={entries.length}>
+		{#if entries.length === 0}
 			<p class={panelEmptyClasses}>No project of yours has a repository recorded yet.</p>
 		{:else}
 			<ul class={panelListClasses}>
-				{#each register.entries as entry (entry.projectId)}
-					<KitVersionRow {entry} latestKitVersion={register.latestKitVersion} />
+				{#each entries as entry (entry.projectId)}
+					<KitVersionRow {entry} {latestKitVersion} />
 				{/each}
 			</ul>
 		{/if}
 	</DashboardPanel>
-	{#if register.projectsWithoutRepository > 0}
+	{#if projectsWithoutRepository > 0}
 		<p class="text-xs text-chalk/50">
-			{register.projectsWithoutRepository} more projects have no repository recorded, so they carry no kit.
+			{projectsWithoutRepository} more projects have no repository recorded, so they carry no kit.
 		</p>
 	{/if}
 </div>

@@ -2,10 +2,12 @@
 	import DocumentProse from '$lib/components/admin/documents/DocumentProse.svelte';
 
 	let { data } = $props();
+
+	const { entry } = $derived(data);
 </script>
 
 <svelte:head>
-	<title>{data.entry.title} — Your Business Today</title>
+	<title>{entry.title} — Your Business Today</title>
 </svelte:head>
 
 <div class="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-16 print:py-0">
@@ -22,7 +24,7 @@
 				Print or save as PDF
 			</button>
 			<a
-				href={`/admin/documents/${data.entry.slug}/download`}
+				href={`/admin/documents/${entry.slug}/download`}
 				data-sveltekit-reload
 				class="rounded-full border border-signal/60 px-5 py-2 font-display text-sm text-signal
 					transition hover:bg-signal hover:text-night"

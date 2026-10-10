@@ -10,6 +10,7 @@
 	const researchHref = $derived(
 		`/clients/research?clientId=${company.id}&query=${encodeURIComponent(company.website || company.name)}`
 	);
+	const profile = $derived(company.profile);
 	const part = $derived(company.officerRole || company.role);
 	const otherParents = $derived(parents.filter((parent) => parent.id !== company.id));
 </script>
@@ -22,7 +23,7 @@
 				<StagePill stage={company.stage} />
 			</p>
 			<p class="text-xs text-chalk/50">
-				{[part, company.profile.companyNumber, company.profile.location].filter(Boolean).join(' · ')}
+				{[part, profile.companyNumber, profile.location].filter(Boolean).join(' · ')}
 			</p>
 			{#if company.parentName !== ''}
 				<p class="text-xs text-chalk/40">Part of {company.parentName}</p>

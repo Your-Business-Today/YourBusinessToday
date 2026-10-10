@@ -5,7 +5,8 @@
 
 	let { data } = $props();
 
-	const hasUnread = $derived(data.notifications.some((notification) => !notification.isRead));
+	const { notifications } = $derived(data);
+	const hasUnread = $derived(notifications.some((notification) => !notification.isRead));
 
 	const authorName = $derived(accountNameLookup(data.authors));
 
@@ -26,14 +27,14 @@
 			<MarkAllReadForm />
 		{/if}
 	</div>
-	{#if data.notifications.length === 0}
+	{#if notifications.length === 0}
 		<p class="rounded-2xl border border-dashed border-hairline p-8 text-center text-chalk/60">
 			Nothing yet — you'll be told when someone posts on a task or goal whose conversation you are in, and
 			when a task you asked for is done.
 		</p>
 	{:else}
 		<ul class="flex flex-col divide-y divide-hairline rounded-2xl border border-hairline">
-			{#each data.notifications as notification (notification.id)}
+			{#each notifications as notification (notification.id)}
 				<NotificationRow {notification} authorName={nameOrNobody(notification.messageAuthorId)} />
 			{/each}
 		</ul>

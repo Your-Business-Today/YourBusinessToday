@@ -3,6 +3,11 @@
 	import { selectClasses } from '$lib/components/site/formStyles';
 
 	let { clientId, stage }: { clientId: string; stage: ClientStage } = $props();
+
+	function submitChosenStage(event: Event & { currentTarget: HTMLSelectElement }): void {
+		const select = event.currentTarget;
+		select.form?.requestSubmit();
+	}
 </script>
 
 <form method="POST" action="/clients?/moveStage" class="contents">
@@ -10,7 +15,7 @@
 	<select
 		name="stage"
 		value={stage}
-		onchange={(event) => event.currentTarget.form?.requestSubmit()}
+		onchange={submitChosenStage}
 		class={`${selectClasses} py-1 text-sm`}
 		aria-label="Lifecycle stage"
 	>

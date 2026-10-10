@@ -8,11 +8,13 @@
 		selectedKey,
 		onSelect
 	}: { area: MappedArea; selectedKey: string | null; onSelect: (key: string) => void } = $props();
+
+	const { centre, radiusMiles, pins } = $derived(area);
 </script>
 
 <div class="flex flex-col gap-3">
-	{#key area.centre.postcode + area.radiusMiles}
-		<AreaMap centre={area.centre} radiusMiles={area.radiusMiles} pins={area.pins} {selectedKey} {onSelect} />
+	{#key centre.postcode + radiusMiles}
+		<AreaMap {centre} {radiusMiles} {pins} {selectedKey} {onSelect} />
 	{/key}
 	<AreaLegend />
 </div>

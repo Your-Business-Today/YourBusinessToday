@@ -11,6 +11,8 @@
 
 	let { data, form } = $props();
 
+	const { project } = $derived(data);
+
 	let isTaskModalOpen = $state(false);
 	let isStatusModalOpen = $state(false);
 	let isGoalModalOpen = $state(false);
@@ -52,11 +54,11 @@
 </script>
 
 <svelte:head>
-	<title>{data.project.name} — Projects — Your Business Today</title>
+	<title>{project.name} — Projects — Your Business Today</title>
 </svelte:head>
 
 <ProjectDetailHeader
-	project={data.project}
+	{project}
 	cadenceLine={data.cadenceLine}
 	latestKitVersion={data.latestKitVersion}
 	onAddTask={openNewTaskModal}
@@ -65,7 +67,7 @@
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
 	<ProjectDashboard
-		projectId={data.project.id}
+		projectId={project.id}
 		sources={data}
 		handlers={{
 			onAddSubtask: openSubtaskModal,

@@ -9,6 +9,7 @@
 
 	let { data, form } = $props();
 
+	const { officers, people } = $derived(data);
 	const addOfficerAction = $derived(`?/addOfficer&officer=${encodeURIComponent(data.officerQuery)}`);
 </script>
 
@@ -36,15 +37,15 @@
 			Set COMPANIES_HOUSE_API_KEY on the server to find people on Companies House.
 		</p>
 	{/if}
-	{#if data.officers !== null && data.officers.length === 0}
+	{#if officers !== null && officers.length === 0}
 		<EmptyState message="No officer matched that name." />
 	{/if}
-	{#if data.officers !== null && data.officers.length > 0}
-		<OfficerResultList officers={data.officers} addAction={addOfficerAction} />
+	{#if officers !== null && officers.length > 0}
+		<OfficerResultList {officers} addAction={addOfficerAction} />
 	{/if}
-	{#if data.people.length === 0}
+	{#if people.length === 0}
 		<EmptyState message="Nobody on the register yet." />
 	{:else}
-		<PeopleTable people={data.people} />
+		<PeopleTable {people} />
 	{/if}
 </div>

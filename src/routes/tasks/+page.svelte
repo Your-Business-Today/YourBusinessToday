@@ -37,11 +37,12 @@
 		isPriorityModalOpen = true;
 	}
 
+	const { tasks, taskCount, firstTaskNumber, pageNumber, pageCount } = $derived(data.taskPage);
 	const shouldIncludeDone = $derived(data.filter === filterForEveryTask);
 	const canReorder = $derived(data.filter !== filterForAssignedTasks);
 	const taskCountLabel = $derived(
-		`${data.taskPage.taskCount} ${shouldIncludeDone ? 'task' : 'open task'}${
-			data.taskPage.taskCount === 1 ? '' : 's'
+		`${taskCount} ${shouldIncludeDone ? 'task' : 'open task'}${
+			taskCount === 1 ? '' : 's'
 		}`
 	);
 	const emptyMessages: Record<typeof data.filter, string> = {
@@ -62,19 +63,19 @@
 		<GlobalTaskFilter filter={data.filter} />
 		<p class="font-display text-xs text-chalk/50">{taskCountLabel}</p>
 	</div>
-	{#if data.taskPage.tasks.length === 0}
+	{#if tasks.length === 0}
 		<p class="rounded-xl border border-dashed border-hairline p-8 text-center text-sm text-chalk/60">
 			{emptyMessages[data.filter]}
 		</p>
 	{:else}
 		<ol class="flex flex-col divide-y divide-hairline overflow-hidden rounded-xl border border-hairline bg-carriage">
-			{#each data.taskPage.tasks as task, taskIndex (task.id)}
+			{#each tasks as task, taskIndex (task.id)}
 				<GlobalTaskRow
 					{task}
 					{listReorder}
-					positionNumber={task.globalPriority ?? data.taskPage.firstTaskNumber + taskIndex}
-					isFirst={data.taskPage.firstTaskNumber + taskIndex === 1}
-					isLast={data.taskPage.firstTaskNumber + taskIndex === data.taskPage.taskCount}
+					positionNumber={task.globalPriority ?? firstTaskNumber + taskIndex}
+					isFirst={firstTaskNumber + taskIndex === 1}
+					isLast={firstTaskNumber + taskIndex === taskCount}
 					{shouldIncludeDone}
 					{canReorder}
 					onChangeStatus={openStatusModal}
@@ -88,8 +89,8 @@
 			{/each}
 		</ol>
 		<GlobalTaskPagination
-			pageNumber={data.taskPage.pageNumber}
-			pageCount={data.taskPage.pageCount}
+			pageNumber={pageNumber}
+			pageCount={pageCount}
 			filter={data.filter}
 		/>
 	{/if}

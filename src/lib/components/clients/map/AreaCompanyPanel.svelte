@@ -13,16 +13,18 @@
 		addWithDirectorsAction
 	}: { pin: AreaPin | null; addLeadAction: string; addWithDirectorsAction: string } = $props();
 
-	const facts = $derived(
-		pin === null
-			? []
-			: [
-					pin.companyNumber === '' ? '' : `Company ${pin.companyNumber}`,
-					pin.incorporatedOn === '' ? '' : `Incorporated ${formatBritishDate(pin.incorporatedOn)}`,
-					pin.sicCodes.length === 0 ? '' : `SIC ${pin.sicCodes.join(', ')}`,
-					`${describeDistance(pin.distanceMiles)} from the centre`
-				].filter((fact) => fact !== '')
-	);
+	const facts = $derived(pin === null ? [] : factsAbout(pin));
+	const standing = $derived(pin?.standing ?? null);
+
+	function factsAbout(company: AreaPin): string[] {
+		const { sicCodes } = company;
+		return [
+			company.companyNumber === '' ? '' : `Company ${company.companyNumber}`,
+			company.incorporatedOn === '' ? '' : `Incorporated ${formatBritishDate(company.incorporatedOn)}`,
+			sicCodes.length === 0 ? '' : `SIC ${sicCodes.join(', ')}`,
+			`${describeDistance(company.distanceMiles)} from the centre`
+		].filter((fact) => fact !== '');
+	}
 </script>
 
 {#if pin === null}
@@ -43,10 +45,10 @@
 				{/each}
 			</ul>
 		</div>
-		{#if pin.standing !== null}
+		{#if standing !== null}
 			<div class="flex flex-wrap items-center gap-3">
-				<StagePill stage={pin.standing.stage} />
-				<a href={`/clients/${pin.standing.clientId}`} class={quietButtonClasses}>Open the client</a>
+				<StagePill stage={standing.stage} />
+				<a href={`/clients/${standing.clientId}`} class={quietButtonClasses}>Open the client</a>
 			</div>
 		{:else}
 			<div class="flex flex-wrap gap-2">

@@ -9,12 +9,14 @@
 
 	let { data, form } = $props();
 
+	const { area } = $derived(data);
+
 	let selectedKey = $state<string | null>(null);
 
 	const searchQuery = $derived(data.search === null ? '' : `&${describeAreaSearchQuery(data.search)}`);
 	const addLeadAction = $derived(`?/addLead${searchQuery}`);
 	const addWithDirectorsAction = $derived(`?/addLeadWithDirectors${searchQuery}`);
-	const selectedPin = $derived(data.area?.pins.find((pin) => pin.key === selectedKey) ?? null);
+	const selectedPin = $derived(area?.pins.find((pin) => pin.key === selectedKey) ?? null);
 </script>
 
 <svelte:head>
@@ -34,13 +36,13 @@
 			<a href={`/clients/${form.clientId}`} class="text-go hover:underline">Open the client</a>
 		</p>
 	{/if}
-	{#if data.area !== null}
-		<AreaSummary area={data.area} />
+	{#if area !== null}
+		<AreaSummary {area} />
 		<div class="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-			<AreaMapPane area={data.area} {selectedKey} onSelect={(key) => (selectedKey = key)} />
+			<AreaMapPane {area} {selectedKey} onSelect={(key) => (selectedKey = key)} />
 			<div class="flex flex-col gap-4">
 				<AreaCompanyPanel pin={selectedPin} {addLeadAction} {addWithDirectorsAction} />
-				<AreaCompanyList pins={data.area.pins} {selectedKey} onSelect={(key) => (selectedKey = key)} />
+				<AreaCompanyList pins={area.pins} {selectedKey} onSelect={(key) => (selectedKey = key)} />
 			</div>
 		</div>
 	{/if}

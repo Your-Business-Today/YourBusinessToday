@@ -4,7 +4,7 @@
 	import { countTasksInTree } from './taskTreeCounts';
 	import { openRows } from '$lib/client/openRows.svelte';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
-	import type { TaskGroup } from './taskTreeGroups';
+	import { groupKeyOf, type TaskGroup } from './taskTreeGroups';
 	import type { TaskRowActions } from './taskRowActions';
 
 	let {
@@ -19,16 +19,17 @@
 		actions: TaskRowActions;
 	} = $props();
 
-	const openRowKey = $derived(group.goal?.id ?? `no-goal-${projectId}`);
+	const { goal, tasks } = $derived(group);
+	const openRowKey = $derived(goal?.id ?? `no-goal-${projectId}`);
 	const isOpen = $derived(openRows.isOpen(openRowKey));
-	const taskCount = $derived(countTasksInTree(group.tasks));
+	const taskCount = $derived(countTasksInTree(tasks));
 	const taskCountLabel = $derived(taskCount === 1 ? '1 task' : `${taskCount} tasks`);
-	const panelId = $derived(`task-group-${group.goal?.id ?? 'other'}`);
+	const panelId = $derived(`task-group-${groupKeyOf(group)}`);
 </script>
 
 <section class="border-b border-hairline last:border-b-0">
 	<TaskGroupHeader
-		goal={group.goal}
+		{goal}
 		{projectId}
 		{taskCountLabel}
 		{isOpen}
@@ -37,12 +38,12 @@
 	/>
 	{#if isOpen}
 		<ol id={panelId} class="flex flex-col divide-y divide-hairline">
-			{#each group.tasks as task, taskIndex (task.id)}
+			{#each tasks as task, taskIndex (task.id)}
 				<TaskListRow
 					{task}
 					numberPath={`${task.priority}`}
 					isFirst={taskIndex === 0}
-					isLast={taskIndex === group.tasks.length - 1}
+					isLast={taskIndex === tasks.length - 1}
 					{listReorder}
 					{actions}
 				/>
