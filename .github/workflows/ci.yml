@@ -7,6 +7,7 @@ on:
 
 jobs:
   check:
+    name: Run test suite
     runs-on: ubuntu-latest
     env:
       PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
