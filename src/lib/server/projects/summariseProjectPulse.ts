@@ -8,6 +8,7 @@ export type ProjectPulse = {
 	taskCount: number;
 	currentTaskCount: number;
 	openTaskCount: number;
+	openCurrentTaskCount: number;
 	inProgressCount: number;
 	completionPercent: number;
 	waitingOnViewerCount: number;
@@ -22,7 +23,7 @@ export type PulseSources = {
 	viewerId: string;
 };
 
-/** The completion and the assignments are current work's: a task under a long term goal counts toward neither. */
+/** The open tile, the completion and the assignments are current work's: a task under a long term goal counts toward neither. */
 export function summariseProjectPulse(sources: PulseSources): ProjectPulse {
 	const { tasks } = sources;
 	const openTasks = tasks.filter((task) => !isTaskDone(task.status));
@@ -32,7 +33,8 @@ export function summariseProjectPulse(sources: PulseSources): ProjectPulse {
 		taskCount: tasks.length,
 		currentTaskCount: currentTasks.length,
 		openTaskCount: openTasks.length,
-		inProgressCount: openTasks.filter((task) => task.status === inProgressTaskStatus).length,
+		openCurrentTaskCount: openCurrentTasks.length,
+		inProgressCount: openCurrentTasks.filter((task) => task.status === inProgressTaskStatus).length,
 		completionPercent: weightedCompletionPercent(currentTasks),
 		waitingOnViewerCount: openTasks.filter((task) => isWaitingOnViewer(task, sources)).length,
 		assignedToViewerCount: openCurrentTasks.filter((task) => isAssignedToViewer(task, sources)).length
