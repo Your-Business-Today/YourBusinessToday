@@ -74,7 +74,13 @@
 		</label>
 		<label class="flex max-w-48 flex-col gap-1">
 			<span class={labelClasses}>User</span>
-			<input name="databaseUser" value={database.user} required maxlength={longestDatabaseDetail} class={fieldClasses} />
+			<input
+				name="databaseUser"
+				value={database.user}
+				placeholder="blank when Entra-only"
+				maxlength={longestDatabaseDetail}
+				class={fieldClasses}
+			/>
 		</label>
 	</div>
 {/if}

@@ -55,8 +55,9 @@ export const projectWriteActions: McpAction[] = [
 			'is raised on the project as the reminder to run the repository’s refactor-round skill. ' +
 			'0 turns the cadence off. The database kind and details are what the database task list ' +
 			'reads: a migration file a merge adds under the migrations folder becomes a task for the ' +
-			'admin to run, written as a sqlcmd for an Azure SQL project (server, name and user are ' +
-			'needed) or as the file link and run-migration script for a Supabase one.',
+			'admin to run, written as a sqlcmd for an Azure SQL project (server and name are needed; ' +
+			'a blank user signs in through Entra as the az login user, a named one as that SQL login) ' +
+			'or as the file link and run-migration script for a Supabase one.',
 		inputSchema: objectSchema(
 			{
 				projectId: textField('The project id'),
@@ -73,7 +74,9 @@ export const projectWriteActions: McpAction[] = [
 				databaseKind: databaseKindField,
 				databaseServer: textField(`The Azure SQL server’s full host name, as sqlcmd -S takes it${keepText}`),
 				databaseName: textField(`The Azure SQL database name${keepText}`),
-				databaseUser: textField(`The Azure SQL user sqlcmd signs in as${keepText}`),
+				databaseUser: textField(
+					`The Azure SQL login sqlcmd signs in as; an empty string clears it for an Entra-only server, signed in as the az login user${keepText}`
+				),
 				migrationsPath: textField(`The folder the migration files live in, such as api/Data/Migrations${keepText}`)
 			},
 			['projectId']

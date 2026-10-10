@@ -12,6 +12,8 @@ const jewelPfp: ProjectDatabase = {
 	migrationsPath: 'api/Data/Migrations'
 };
 
+const entraOnly: ProjectDatabase = { ...jewelPfp, user: '' };
+
 const yourBusinessToday: ProjectDatabase = { ...noDatabase, kind: 'supabase' };
 
 const contactNumbers = 'api/Data/Migrations/20261013100000_ContactNumbers.sql';
@@ -20,6 +22,13 @@ describe('the instruction for a database task', () => {
 	it('writes the sqlcmd an Azure SQL portal is migrated with', () => {
 		expect(sqlcmdFor(jewelPfp, contactNumbers)).toBe(
 			'sqlcmd -S sql-jpfp-prod.example -d jpfp -U jpfpadmin ' +
+				'-i api/Data/Migrations/20261013100000_ContactNumbers.sql -b -o ContactNumbers.log'
+		);
+	});
+
+	it('signs in to an Entra-only server as the az login user, with no password', () => {
+		expect(sqlcmdFor(entraOnly, contactNumbers)).toBe(
+			'sqlcmd -S sql-jpfp-prod.example -d jpfp --authentication-method ActiveDirectoryDefault ' +
 				'-i api/Data/Migrations/20261013100000_ContactNumbers.sql -b -o ContactNumbers.log'
 		);
 	});
@@ -70,14 +79,15 @@ describe('the migration files a push added', () => {
 });
 
 describe('a project’s database details', () => {
-	it('accepts a complete Azure SQL project and a bare Supabase one', () => {
+	it('accepts a complete Azure SQL project, an Entra-only one and a bare Supabase one', () => {
 		expect(projectDatabaseRefusal(jewelPfp)).toBeNull();
+		expect(projectDatabaseRefusal(entraOnly)).toBeNull();
 		expect(projectDatabaseRefusal(yourBusinessToday)).toBeNull();
 		expect(projectDatabaseRefusal(noDatabase)).toBeNull();
 	});
 
 	it('refuses an Azure SQL project missing what sqlcmd needs, an overlong detail and a folder outside the repository', () => {
-		expect(projectDatabaseRefusal({ ...jewelPfp, user: '' })).toContain('database user');
+		expect(projectDatabaseRefusal({ ...jewelPfp, server: '' })).toContain('database server');
 		expect(projectDatabaseRefusal({ ...jewelPfp, server: 'a'.repeat(256) })).toContain('255');
 		expect(projectDatabaseRefusal({ ...yourBusinessToday, migrationsPath: '/etc' })).toContain('inside the repository');
 		expect(projectDatabaseRefusal({ ...yourBusinessToday, migrationsPath: '../x' })).toContain('inside the repository');
