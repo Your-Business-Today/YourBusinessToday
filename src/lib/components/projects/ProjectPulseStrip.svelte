@@ -10,7 +10,7 @@
 <div class="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4">
 	<StatTile
 		label="Open tasks"
-		value={`${pulse.openTaskCount}`}
+		value={`${pulse.openCurrentTaskCount}`}
 		caption={`${pulse.inProgressCount} in progress`}
 	/>
 	<StatTile
