@@ -7,7 +7,6 @@ on:
 
 jobs:
   check:
-    name: Run test suite
     runs-on: ubuntu-latest
     env:
       PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
@@ -20,5 +19,19 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
+
+  test:
+    name: Run test suite
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
+      PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
       - run: npm test
       - run: npm run build
