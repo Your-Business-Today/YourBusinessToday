@@ -32,6 +32,6 @@ For each task worked today in Your Business Today (`find_tasks` on the project, 
 
 ## 4. Commit, push and open the pull request
 
-Commit what is left on the branch — one commit per verified step, each message a sentence about the domain — then `git push -u origin <branch>` and open the pull request into the default branch if it is not already open: title the task's title, body the day's summary from step 3 plus what is left. With the GitHub CLI, `gh pr create --base <default> --title "<task title>" --body "<summary>"`; without it, give the person the compare link the push printed. Never merge it; the person reviews and merges. Put the pull request's link in the task's message from step 3.
+Commit what is left on the branch — one commit per verified step, each message a sentence about the domain — then `git push -u origin <branch>` and open the pull request into the default branch if it is not already open: title the task's title, body the day's summary from step 3 plus what is left. With the GitHub CLI, `gh pr create --base <default> --title "<task title>" --body "<summary>"`; without it, give the person the compare link the push printed. Merge it once its checks pass, as `CLAUDE.md` says. Put the pull request's link in the task's message from step 3.
 
 End by telling the person, in two sentences, which branch and pull request the day's work is on, whether a round ran, and that the chat can be archived — naming the tasks that carry what is left and who has them.

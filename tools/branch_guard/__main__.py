@@ -4,7 +4,7 @@ Installed by the project-process kit as a Claude Code PreToolUse hook on the Bas
 (.claude/settings.json), run as `python3 tools/branch_guard`. Claude Code hands the tool call
 to stdin as JSON; the guard reads the command, follows any checkout or switch it makes, and
 refuses — exit 2, the reason on stderr — any commit, merge, rebase, cherry-pick or revert that
-would write to the default branch, any push that would move it, and any pull-request merge.
+would write to the default branch, any push that would move it, and any pull-request merge that overrides the repository's protections.
 Everything else passes, and a guard that breaks lets the command through rather than the shell down.
 """
 from __future__ import annotations

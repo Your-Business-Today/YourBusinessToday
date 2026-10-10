@@ -5,7 +5,7 @@ description: Publish this repository's code quality — the score in a box at th
 
 # The code quality check
 
-One command measures the repository against the coding rules at the top of `CLAUDE.md`, turns every figure into one percentage, writes that percentage in a box at the bottom of `README.md` — with the breakdown, the count of every file in the repository split by area (frontend, backend, API, database, infrastructure…) and the refactoring plan each expandable beneath it — and writes `tools/refactor/refactor-plan.md` — the steps a refactor of this repository follows, in order — and `tools/refactor/site-definition.md`, the site definition: every route as a user sees it, in the widget notation, read from the views. It touches no source file and never resets `tools/refactor/baseline.json`; only a refactor round does that. It runs on its own branch and reaches the default branch by a pull request the person merges — the branch is for the README box, so it is only worth running when the person wants the score published. A question about the score is answered by the reading alone (`python3 -m tools.refactor.audit.run_audit . --output tools/refactor/audit-output --fast` prints it; no branch, no box), and the site definition alone is *"Run the widget identification"* (`widget-identification`, read-only). Neither of those is this skill.
+One command measures the repository against the coding rules at the top of `CLAUDE.md`, turns every figure into one percentage, writes that percentage in a box at the bottom of `README.md` — with the breakdown, the count of every file in the repository split by area (frontend, backend, API, database, infrastructure…) and the refactoring plan each expandable beneath it — and writes `tools/refactor/refactor-plan.md` — the steps a refactor of this repository follows, in order — and `tools/refactor/site-definition.md`, the site definition: every route as a user sees it, in the widget notation, read from the views. It touches no source file and never resets `tools/refactor/baseline.json`; only a refactor round does that. It runs on its own branch and reaches the default branch by a pull request that merges once its checks pass — the branch is for the README box, so it is only worth running when the person wants the score published. A question about the score is answered by the reading alone (`python3 -m tools.refactor.audit.run_audit . --output tools/refactor/audit-output --fast` prints it; no branch, no box), and the site definition alone is *"Run the widget identification"* (`widget-identification`, read-only). Neither of those is this skill.
 
 If the repository has no `tools/refactor/`, run the project-process bootstrap first (`bootstrap.sh --kit <a checkout of the kit>`, or the `curl` line in the kit's README when the kit is public) and tell the person it was installed.
 
@@ -41,7 +41,7 @@ git push -u origin quality/check-<YYYY-MM-DD>
 gh pr create --base <default> --title "QUALITY: <score>% on <YYYY-MM-DD>" --body "<the three group scores, the five lowest elements, the first five steps of the plan>"
 ```
 
-Without the GitHub CLI, give the person the compare link the push printed. Never merge it.
+Without the GitHub CLI, open it with the GitHub connector. Merge it once its checks pass, as `CLAUDE.md` says.
 
 ## 4. Tell the person
 
