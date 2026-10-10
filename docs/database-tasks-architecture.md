@@ -21,10 +21,13 @@ command to run it, confirmed as run on the site or through the connector.
 
 ## The two hand patterns
 
-**Azure SQL** (the portals): `sqlcmd -S <server> -d <database> -U <user> -i <file> -b -o <Name>.log`,
+**Azure SQL** (the portals): `sqlcmd -S <server> -d <database> --authentication-method ActiveDirectoryDefault -i <file> -b -o <Name>.log`,
 where `<Name>` is the migration's name without its timestamp — `20261013100000_ContactNumbers.sql`
-logs to `ContactNumbers.log`. The server, database and user sit on the project; the file is the
-path the push named.
+logs to `ContactNumbers.log`. The server and database sit on the project; the file is the path the
+push named. A portal's server is Entra-only once its admin password is retired (pfp and bb since
+10/10/2026), so sqlcmd signs in as the `az login` user, the server's Entra admin, and the project's
+user is left blank. A project that still names a SQL login gets `-U <user>` instead, the password
+prompted.
 
 **Supabase** (YBT, Your Brain Today): the file on GitHub at the commit that merged it —
 `<repository>/blob/<sha>/migrations/0074_database_tasks.sql` — and
@@ -62,7 +65,7 @@ but whose folder is not reads the folder its kind usually has (`migrations` for 
 **Project** — gains `database_kind` (`none`, `azure_sql`, `supabase`), `database_server`,
 `database_name`, `database_user` and `migrations_path`, each at most 255 characters. The site's
 edit form and `update_project_details` write them; both refuse an Azure SQL project missing what
-sqlcmd needs and a folder that leads outside the repository (`projectDatabaseRefusal`).
+sqlcmd needs (its server and database; a blank user means Entra-only) and a folder that leads outside the repository (`projectDatabaseRefusal`).
 
 **DatabaseTask** — `database_tasks`: `project_id`, `file_path` (unique with the project),
 `commit_sha`, `branch`, `raised_at`, `run_at`, `run_by_account_id`. Only administrators read or

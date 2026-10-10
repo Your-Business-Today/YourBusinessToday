@@ -1,6 +1,6 @@
 import { databaseKinds, type DatabaseKind } from './databaseKind';
 import { migrationNameOf } from './migrationFiles';
-import type { ProjectDatabase } from './projectDatabase';
+import { signsInThroughEntra, type ProjectDatabase } from './projectDatabase';
 
 /** What the admin runs for one migration: the command to copy, and the file on GitHub it runs. */
 export type DatabaseTaskInstruction = {
@@ -16,6 +16,7 @@ type MigrationToRun = {
 };
 
 const runMigrationScript = './scripts/run-migration.sh';
+const entraSignIn = '--authentication-method ActiveDirectoryDefault';
 
 export function databaseTaskInstruction(
 	database: ProjectDatabase,
@@ -30,7 +31,14 @@ export function databaseTaskInstruction(
 /** The sqlcmd the admin runs for an Azure SQL migration, in the shape every portal uses. */
 export function sqlcmdFor(database: ProjectDatabase, filePath: string): string {
 	const logFile = `${migrationNameOf(filePath)}.log`;
-	return `sqlcmd -S ${database.server} -d ${database.name} -U ${database.user} -i ${filePath} -b -o ${logFile}`;
+	const signIn = sqlcmdSignIn(database);
+	return `sqlcmd -S ${database.server} -d ${database.name} ${signIn} -i ${filePath} -b -o ${logFile}`;
+}
+
+/** An Entra-only server is signed in to as the az login user; any other as its SQL login, the password prompted. */
+function sqlcmdSignIn(database: ProjectDatabase): string {
+	if (signsInThroughEntra(database)) return entraSignIn;
+	return `-U ${database.user}`;
 }
 
 /** The file as it landed on the default branch, pinned to the commit that brought it. */

@@ -1,6 +1,6 @@
 import { databaseKinds, migrationsPathWhenUnset, type DatabaseKind } from './databaseKind';
 
-/** What a project says about its database: the kind, how sqlcmd reaches it, and where its migrations live. */
+/** What a project says about its database: the kind, how sqlcmd reaches it, and where its migrations live. A blank user is an Entra-only server. */
 export type ProjectDatabase = {
 	kind: DatabaseKind;
 	server: string;
@@ -45,12 +45,16 @@ export function migrationsFolderOf(database: ProjectDatabase): string {
 	return migrationsPathWhenUnset[database.kind];
 }
 
+export function signsInThroughEntra(database: ProjectDatabase): boolean {
+	return database.user === '';
+}
+
 export function hasDatabase(database: ProjectDatabase): boolean {
 	return database.kind !== databaseKinds.none;
 }
 
 function azureSqlRefusal(database: ProjectDatabase): string | null {
-	const missing = (['server', 'name', 'user'] as const).find((field) => database[field] === '');
+	const missing = (['server', 'name'] as const).find((field) => database[field] === '');
 	if (missing === undefined) return null;
 	return `${detailLabels[missing]} is needed to write the sqlcmd for an Azure SQL project.`;
 }

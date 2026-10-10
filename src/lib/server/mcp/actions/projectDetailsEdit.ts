@@ -1,7 +1,7 @@
 import { parseRefactorEveryDeploys } from '$lib/server/projects/projectRecord';
 import { databaseKindOrder, isDatabaseKind } from '$lib/data/databaseKind';
 import { projectStatusOrder } from '$lib/data/projectStatus';
-import { readOptionalText } from '../actionTypes';
+import { readOptionalText, readText } from '../actionTypes';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { ProjectDetailsUpdate } from '$lib/server/projects/updateProjectDetails';
 import { projectDatabaseRefusal, type ProjectDatabase } from '$lib/data/projectDatabase';
@@ -49,9 +49,15 @@ function readDatabase(input: Record<string, unknown>, project: Project): Project
 		kind,
 		server: readOptionalText(input, 'databaseServer') ?? database.server,
 		name: readOptionalText(input, 'databaseName') ?? database.name,
-		user: readOptionalText(input, 'databaseUser') ?? database.user,
+		user: readDatabaseUser(input, database),
 		migrationsPath: readOptionalText(input, 'migrationsPath') ?? database.migrationsPath
 	};
+}
+
+/** Unlike the other details, the user can be cleared: blank says the server is Entra-only. */
+function readDatabaseUser(input: Record<string, unknown>, database: ProjectDatabase): string {
+	if (input.databaseUser === undefined || input.databaseUser === null) return database.user;
+	return readText(input, 'databaseUser');
 }
 
 function readRefactorEveryDeploys(input: Record<string, unknown>, project: Project): number {
