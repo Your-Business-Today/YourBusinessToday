@@ -1,9 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { addPersonNote } from './addPersonNote';
 import { composeApproachNote, draftApproach } from './draftApproach';
-import { getPerson } from './getPerson';
-import { getCompaniesForPerson } from './getCompaniesForPerson';
-import { isAnthropicConfigured } from '$lib/server/anthropic/isAnthropicConfigured';
+import { hasFoundPerson, readPersonForClaude } from './readPersonForClaude';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import type { StaffFormEvent } from './personFormActions';
 
@@ -14,15 +12,12 @@ const draftFailedMessage = 'The approach could not be drafted just now — pleas
  * same whether it was asked for on their page or on one of those companies.
  */
 export const approachFormActions = {
-	draftApproach: async ({ locals, request }: StaffFormEvent) => {
+	draftApproach: async (event: StaffFormEvent) => {
+		const { locals } = event;
 		const user = await requireStaff(locals);
-		if (!isAnthropicConfigured()) {
-			return fail(503, { message: 'Claude is not configured on this server.' });
-		}
-		const formData = await request.formData();
-		const person = await getPerson(locals.supabase, String(formData.get('personId') ?? ''));
-		if (person === null) return fail(400, { message: 'That person could not be found.' });
-		const companies = await getCompaniesForPerson(locals.supabase, person.id);
+		const subject = await readPersonForClaude(event);
+		if (!hasFoundPerson(subject)) return subject;
+		const { person, companies } = subject;
 		try {
 			return { approachDraft: await draftApproach(locals.supabase, person, companies, user.id) };
 		} catch (failure) {

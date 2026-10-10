@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ActionsMenu from '$lib/components/site/ActionsMenu.svelte';
+
 	let {
 		projectName,
 		onEdit,
@@ -6,13 +8,6 @@
 	}: { projectName: string; onEdit: () => void; onDelete: () => void } = $props();
 
 	let isOpen = $state(false);
-	let menuElement: HTMLElement | undefined = $state();
-
-	function closeOnOutsideClick(event: MouseEvent) {
-		if (!isOpen) return;
-		if (menuElement?.contains(event.target as Node)) return;
-		isOpen = false;
-	}
 
 	function choose(menuAction: () => void) {
 		isOpen = false;
@@ -20,43 +15,21 @@
 	}
 </script>
 
-<svelte:window onclick={closeOnOutsideClick} />
-
-<div class="relative" bind:this={menuElement}>
+<ActionsMenu subjectName={projectName} menuWidthClass="w-44" bind:isOpen>
 	<button
 		type="button"
-		onclick={() => (isOpen = !isOpen)}
-		aria-haspopup="menu"
-		aria-expanded={isOpen}
-		aria-label={`Actions for ${projectName}`}
-		class="inline-flex items-center gap-1 rounded-full border border-hairline px-4 py-1.5
-			font-display text-sm whitespace-nowrap text-chalk/70 transition hover:border-go
-			hover:text-go"
+		onclick={() => choose(onEdit)}
+		class="w-full rounded-xl px-3 py-2 text-left font-display text-sm text-chalk/80
+			transition hover:bg-hairline/40 hover:text-chalk"
 	>
-		Actions <span aria-hidden="true" class="text-xs">▾</span>
+		Edit…
 	</button>
-	{#if isOpen}
-		<div
-			role="menu"
-			class="absolute top-full right-0 z-10 mt-2 flex w-44 flex-col rounded-2xl border
-				border-hairline bg-night p-2 shadow-xl"
-		>
-			<button
-				type="button"
-				onclick={() => choose(onEdit)}
-				class="w-full rounded-xl px-3 py-2 text-left font-display text-sm text-chalk/80
-					transition hover:bg-hairline/40 hover:text-chalk"
-			>
-				Edit…
-			</button>
-			<button
-				type="button"
-				onclick={() => choose(onDelete)}
-				class="w-full rounded-xl px-3 py-2 text-left font-display text-sm text-signal/90
-					transition hover:bg-signal/10 hover:text-signal"
-			>
-				Delete…
-			</button>
-		</div>
-	{/if}
-</div>
+	<button
+		type="button"
+		onclick={() => choose(onDelete)}
+		class="w-full rounded-xl px-3 py-2 text-left font-display text-sm text-signal/90
+			transition hover:bg-signal/10 hover:text-signal"
+	>
+		Delete…
+	</button>
+</ActionsMenu>

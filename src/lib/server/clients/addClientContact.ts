@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { addPerson } from '$lib/server/people/addPerson';
+import { readContactDetails } from '$lib/server/people/contactDetailsForm';
 import { affiliatePersonWithClient, affiliationOutcomes } from './affiliatePersonWithClient';
 import { recordClientEvent } from './recordClientEvent';
 
@@ -17,12 +18,10 @@ export type AddContactOutcome = 'added' | 'already_known';
 export const addContactOutcomes = { added: 'added', alreadyKnown: 'already_known' } as const;
 
 export function readNewContactSeed(formData: FormData): NewContactSeed | null {
-	const name = String(formData.get('name') ?? '').trim();
-	if (name === '') return null;
+	const details = readContactDetails(formData);
+	if (details === null) return null;
 	return {
-		name,
-		email: String(formData.get('email') ?? '').trim().toLowerCase(),
-		phone: String(formData.get('phone') ?? '').trim(),
+		...details,
 		role: String(formData.get('role') ?? '').trim(),
 		isPrimary: formData.get('isPrimary') === 'on'
 	};

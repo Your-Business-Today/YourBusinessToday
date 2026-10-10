@@ -1,12 +1,12 @@
 <script lang="ts">
 	import KitVersionBadge from './KitVersionBadge.svelte';
 	import PriorityControls from './PriorityControls.svelte';
-	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ProjectActionsMenu from './ProjectActionsMenu.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
+	import ProjectTileFrame from './ProjectTileFrame.svelte';
+	import ProjectTileHeading from './ProjectTileHeading.svelte';
+	import ProjectTilePriority from './ProjectTilePriority.svelte';
 	import ProjectTileProgress from './ProjectTileProgress.svelte';
-	import ReorderableRow from '$lib/components/site/ReorderableRow.svelte';
-	import { projectTileClasses, projectTilePriorityClasses } from './projectTileStyles';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
@@ -31,17 +31,13 @@
 	} = $props();
 </script>
 
-<ReorderableRow {listReorder} rowId={project.id} class={projectTileClasses}>
-	{#snippet children(dragHandle)}
-		<a href={`/projects/${project.id}`} class="absolute inset-0 rounded-xl">
-			<span class="sr-only">Open {project.name}</span>
-		</a>
+<ProjectTileFrame {listReorder} projectId={project.id} projectName={project.name}>
+	{#snippet content(dragHandle)}
 		<div class="flex items-center justify-between gap-3">
-			<PriorityNumberButton
-				label={project.priority}
-				itemName={project.name}
-				class={`relative ${projectTilePriorityClasses}`}
-				onclick={() => onSetPriority(project)}
+			<ProjectTilePriority
+				priority={project.priority}
+				projectName={project.name}
+				onSetPriority={() => onSetPriority(project)}
 			/>
 			<div class="flex flex-wrap items-center justify-end gap-1.5">
 				<KitVersionBadge
@@ -53,14 +49,11 @@
 				<ProjectStatusBadge status={project.status} />
 			</div>
 		</div>
-		<div class="flex flex-col gap-1">
-			<h3 class="font-display text-base leading-snug font-medium transition group-hover/tile:text-go">
-				{project.name}
-			</h3>
+		<ProjectTileHeading projectName={project.name}>
 			{#if project.description !== ''}
 				<p class="line-clamp-2 text-sm text-chalk/60">{project.description}</p>
 			{/if}
-		</div>
+		</ProjectTileHeading>
 		<ProjectTileProgress
 			openTaskCount={project.openTaskCount}
 			taskCount={project.taskCount}
@@ -86,4 +79,4 @@
 			/>
 		</div>
 	{/snippet}
-</ReorderableRow>
+</ProjectTileFrame>

@@ -1,7 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { getPerson } from '../getPerson';
 import { getCompaniesForPerson } from '../getCompaniesForPerson';
-import { isAnthropicConfigured } from '$lib/server/anthropic/isAnthropicConfigured';
+import { hasFoundPerson, readPersonForClaude } from '../readPersonForClaude';
 import { readReviewedFindings, savePersonFindings } from './savePersonFindings';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { researchPerson } from './researchPerson';
@@ -10,15 +10,11 @@ import type { StaffFormEvent } from '../personFormActions';
 const researchFailedMessage = 'The web could not be searched just now — please try again.';
 
 export const researchFormActions = {
-	researchPerson: async ({ locals, request }: StaffFormEvent) => {
-		await requireStaff(locals);
-		if (!isAnthropicConfigured()) {
-			return fail(503, { message: 'Claude is not configured on this server.' });
-		}
-		const formData = await request.formData();
-		const person = await getPerson(locals.supabase, String(formData.get('personId') ?? ''));
-		if (person === null) return fail(400, { message: 'That person could not be found.' });
-		const companies = await getCompaniesForPerson(locals.supabase, person.id);
+	researchPerson: async (event: StaffFormEvent) => {
+		await requireStaff(event.locals);
+		const subject = await readPersonForClaude(event);
+		if (!hasFoundPerson(subject)) return subject;
+		const { person, companies } = subject;
 		try {
 			return { findings: await researchPerson(person, companies) };
 		} catch (failure) {
