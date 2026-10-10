@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { LeadSource } from '$lib/data/leadSources';
 import { parseSeniority, type Seniority } from '$lib/data/contactProfileFields';
 import { findPersonByEmail } from './findPerson';
+import { readContactDetails } from './contactDetailsForm';
 
 export type NewPersonSeed = {
 	name: string;
@@ -15,14 +16,9 @@ export type NewPersonSeed = {
 export type AddedPerson = { personId: string; wasAlreadyKnown: boolean };
 
 export function readNewPersonSeed(formData: FormData): NewPersonSeed | null {
-	const name = String(formData.get('name') ?? '').trim();
-	if (name === '') return null;
-	return {
-		name,
-		email: String(formData.get('email') ?? '').trim().toLowerCase(),
-		phone: String(formData.get('phone') ?? '').trim(),
-		seniority: parseSeniority(formData.get('seniority'))
-	};
+	const details = readContactDetails(formData);
+	if (details === null) return null;
+	return { ...details, seniority: parseSeniority(formData.get('seniority')) };
 }
 
 export async function addPerson(supabase: SupabaseClient, seed: NewPersonSeed): Promise<AddedPerson> {

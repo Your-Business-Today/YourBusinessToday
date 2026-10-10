@@ -1,7 +1,6 @@
 import { reachableProject } from '../projectAccess';
 import { createTask } from '$lib/server/projects/createTask';
-import { newTaskSequenceRefusal } from '$lib/server/projects/newTaskSequenceRefusal';
-import { newTaskStoryRefusal } from '$lib/server/projects/newTaskStoryRefusal';
+import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { noSuchProject } from './describeProject';
 import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
 import { parseTaskKind, taskKindOrder } from '$lib/data/taskKind';
@@ -68,10 +67,8 @@ export const taskWriteActions: McpAction[] = [
 				story: readStory(input),
 				requestedBy: requester.accountId
 			};
-			const storyRefusal = newTaskStoryRefusal(seed);
-			if (storyRefusal !== null) return storyRefusal;
-			const sequenceRefusal = await newTaskSequenceRefusal(caller.supabase, project.id, seed);
-			if (sequenceRefusal !== null) return sequenceRefusal;
+			const refusal = await newTaskRefusal(caller.supabase, project.id, seed);
+			if (refusal !== null) return refusal;
 			const taskId = await createTask(caller.supabase, project.id, seed, caller.accountId);
 			return `"${title}" added to ${project.name} (task id: ${taskId}).`;
 		}

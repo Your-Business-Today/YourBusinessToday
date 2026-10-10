@@ -33,7 +33,8 @@ async function fileFromWeb(
 		return `That address could not be downloaded — ${fetched.reason}.`;
 	}
 	if (fetched.status === sourceFetchStatuses.tooLarge) return tooLarge;
-	return { ...fetched.file, mimeType: mimeType ?? fetched.file.mimeType };
+	const { file } = fetched;
+	return { ...file, mimeType: mimeType ?? file.mimeType };
 }
 
 function fileFromBase64(

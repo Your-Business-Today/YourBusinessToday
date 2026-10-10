@@ -8,6 +8,8 @@
 		isSelected,
 		onSelect
 	}: { pin: AreaPin; isSelected: boolean; onSelect: (key: string) => void } = $props();
+
+	const standing = $derived(pin.standing);
 </script>
 
 <li>
@@ -23,8 +25,8 @@
 			<span class="block truncate text-xs text-chalk/50">{pin.address}</span>
 		</span>
 		<span class="flex shrink-0 items-center gap-2 text-xs text-chalk/50">
-			{#if pin.standing !== null}
-				<StagePill stage={pin.standing.stage} />
+			{#if standing !== null}
+				<StagePill stage={standing.stage} />
 			{/if}
 			{describeDistance(pin.distanceMiles)}
 		</span>

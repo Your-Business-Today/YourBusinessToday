@@ -17,12 +17,17 @@ export async function getPersonEventsForClients(
 		.order('created_at', { ascending: false })
 		.limit(longestVisibleHistory);
 	if (error) throw error;
-	return (data as unknown as Record<string, any>[]).map((row) => ({
+	return (data as unknown as Record<string, any>[]).map(personEventFrom);
+}
+
+function personEventFrom(row: Record<string, any>): PersonEvent {
+	const client = row.clients;
+	return {
 		id: row.id as string,
 		kind: row.kind as ClientEventKind,
 		detail: row.detail as Record<string, unknown>,
 		createdAt: row.created_at as string,
 		clientId: row.client_id as string,
-		clientName: (row.clients?.name ?? '') as string
-	}));
+		clientName: (client?.name ?? '') as string
+	};
 }

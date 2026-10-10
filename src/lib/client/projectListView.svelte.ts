@@ -52,8 +52,12 @@ export class ProjectListView {
 		return this.#allProjects().filter((project) => this.#matchesFilters(project));
 	}
 
+	get matchCount(): number {
+		return this.filteredProjects.length;
+	}
+
 	get pageCount(): number {
-		return Math.max(1, Math.ceil(this.filteredProjects.length / projectsPerPage));
+		return Math.max(1, Math.ceil(this.matchCount / projectsPerPage));
 	}
 
 	get firstPositionNumber(): number {
@@ -71,7 +75,7 @@ export class ProjectListView {
 
 	get countLabel(): string {
 		const totalCount = this.projectCount;
-		const filteredCount = this.filteredProjects.length;
+		const filteredCount = this.matchCount;
 		const noun = totalCount === 1 ? 'project' : 'projects';
 		if (filteredCount === totalCount) return `${totalCount} ${noun}`;
 		return `${filteredCount} of ${totalCount} ${noun}`;

@@ -14,10 +14,10 @@ export type TaskWorkspace = NonNullable<Awaited<ReturnType<typeof loadTaskWorksp
 export const noSuchTask = 'No task has that id. Call read_task_queue or read_project to find it.';
 
 export function describeTask(workspace: TaskWorkspace): string {
-	const task = workspace.task;
+	const { task, project } = workspace;
 	return [
 		headline(task),
-		`Project: ${workspace.project.name} (id: ${workspace.project.id})`,
+		`Project: ${project.name} (id: ${project.id})`,
 		priorityLine(task),
 		`Goal: ${goalTitle(workspace)}. Due: ${task.dueDate ?? 'no date set'}.`,
 		raisedByLine(workspace),

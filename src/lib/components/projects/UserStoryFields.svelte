@@ -5,6 +5,11 @@
 
 	let isUserStoryOverride = $state<boolean | null>(null);
 
+	function chooseUserStory(event: Event & { currentTarget: HTMLInputElement }): void {
+		const checkbox = event.currentTarget;
+		isUserStoryOverride = checkbox.checked;
+	}
+
 	const isUserStory = $derived(isUserStoryOverride ?? task.isUserStory);
 	const fieldClasses =
 		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
@@ -16,7 +21,7 @@
 			type="checkbox"
 			name="isUserStory"
 			checked={isUserStory}
-			onchange={(event) => (isUserStoryOverride = event.currentTarget.checked)}
+			onchange={chooseUserStory}
 			class="accent-go"
 		/>
 		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ActionsMenu from '$lib/components/site/ActionsMenu.svelte';
 	import AdminMenuAction from '$lib/components/admin/AdminMenuAction.svelte';
 	import SetPasswordModal from '$lib/components/admin/SetPasswordModal.svelte';
 	import type { AdminUserSummary } from '$lib/server/admin/getAdminUserList';
@@ -7,16 +8,9 @@
 
 	let isOpen = $state(false);
 	let isSetPasswordOpen = $state(false);
-	let menuElement: HTMLElement | undefined = $state();
 
 	function close() {
 		isOpen = false;
-	}
-
-	function closeOnOutsideClick(event: MouseEvent) {
-		if (!isOpen) return;
-		if (menuElement?.contains(event.target as Node)) return;
-		close();
 	}
 
 	function openSetPassword() {
@@ -25,65 +19,43 @@
 	}
 </script>
 
-<svelte:window onclick={closeOnOutsideClick} />
-
-<div class="relative" bind:this={menuElement}>
+<ActionsMenu subjectName={user.email} menuWidthClass="w-52" bind:isOpen>
+	<AdminMenuAction
+		action="?/sendPasswordReset"
+		fields={{ targetEmail: user.email }}
+		label="Send password reset"
+		onDone={close}
+	/>
 	<button
 		type="button"
-		onclick={() => (isOpen = !isOpen)}
-		aria-haspopup="menu"
-		aria-expanded={isOpen}
-		aria-label={`Actions for ${user.email}`}
-		class="inline-flex items-center gap-1 rounded-full border border-hairline px-4 py-1.5
-			font-display text-sm whitespace-nowrap text-chalk/70 transition hover:border-go
-			hover:text-go"
+		onclick={openSetPassword}
+		class="w-full rounded-xl px-3 py-2 text-left font-display text-sm text-chalk/80 transition
+			hover:bg-hairline/40 hover:text-chalk"
 	>
-		Actions <span aria-hidden="true" class="text-xs">▾</span>
+		Set password
 	</button>
-	{#if isOpen}
-		<div
-			role="menu"
-			class="absolute right-0 top-full z-10 mt-2 flex w-52 flex-col rounded-2xl border
-				border-hairline bg-night p-2 shadow-xl"
-		>
-			<AdminMenuAction
-				action="?/sendPasswordReset"
-				fields={{ targetEmail: user.email }}
-				label="Send password reset"
-				onDone={close}
-			/>
-			<button
-				type="button"
-				onclick={openSetPassword}
-				class="w-full rounded-xl px-3 py-2 text-left font-display text-sm text-chalk/80 transition
-					hover:bg-hairline/40 hover:text-chalk"
-			>
-				Set password
-			</button>
-			<AdminMenuAction
-				action="?/setStaff"
-				fields={{ targetEmail: user.email, shouldBeStaff: user.isStaff ? 'false' : 'true' }}
-				label={user.isStaff ? 'Remove staff' : 'Make staff'}
-				onDone={close}
-			/>
-			<AdminMenuAction
-				action="?/setRestriction"
-				fields={{ targetEmail: user.email, shouldRestrict: user.isRestricted ? 'false' : 'true' }}
-				label={user.isRestricted ? 'Unrestrict' : 'Restrict'}
-				onDone={close}
-			/>
-			{#if !user.isAdmin}
-				<AdminMenuAction
-					action="?/deleteUser"
-					fields={{ targetEmail: user.email }}
-					label="Delete account"
-					isDestructive
-					confirmMessage={`Delete ${user.email} and all of their data? This cannot be undone.`}
-					onDone={close}
-				/>
-			{/if}
-		</div>
+	<AdminMenuAction
+		action="?/setStaff"
+		fields={{ targetEmail: user.email, shouldBeStaff: user.isStaff ? 'false' : 'true' }}
+		label={user.isStaff ? 'Remove staff' : 'Make staff'}
+		onDone={close}
+	/>
+	<AdminMenuAction
+		action="?/setRestriction"
+		fields={{ targetEmail: user.email, shouldRestrict: user.isRestricted ? 'false' : 'true' }}
+		label={user.isRestricted ? 'Unrestrict' : 'Restrict'}
+		onDone={close}
+	/>
+	{#if !user.isAdmin}
+		<AdminMenuAction
+			action="?/deleteUser"
+			fields={{ targetEmail: user.email }}
+			label="Delete account"
+			isDestructive
+			confirmMessage={`Delete ${user.email} and all of their data? This cannot be undone.`}
+			onDone={close}
+		/>
 	{/if}
-</div>
+</ActionsMenu>
 
 <SetPasswordModal targetEmail={user.email} bind:isOpen={isSetPasswordOpen} />

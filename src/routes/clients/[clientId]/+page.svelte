@@ -14,28 +14,30 @@
 
 	let { data, form } = $props();
 
+	const { client, parent, projects, supportTasks } = $derived(data);
+
 	let isAssignProjectModalOpen = $state(false);
 
 	const researchAgainHref = $derived(
-		`/clients/research?clientId=${data.client.id}&query=${encodeURIComponent(data.client.website || data.client.name)}`
+		`/clients/research?clientId=${client.id}&query=${encodeURIComponent(client.website || client.name)}`
 	);
 </script>
 
 <svelte:head>
-	<title>{data.client.name} — Your Business Today</title>
+	<title>{client.name} — Your Business Today</title>
 </svelte:head>
 
 <div class="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-16">
 	<div class="flex flex-col gap-2">
 		<a href="/clients" class="font-display text-sm text-chalk/50 hover:text-chalk">← Clients</a>
-		<h1 class="font-display text-3xl font-medium">{data.client.name}</h1>
+		<h1 class="font-display text-3xl font-medium">{client.name}</h1>
 		<p class="text-chalk/70">
-			{clientStageLabels[data.client.stage]} · {leadSourceLabels[data.client.leadSource]}
-			{#if data.parent !== null}
-				· Part of <a href={`/clients/${data.parent.id}`} class="hover:text-signal">{data.parent.name}</a>
+			{clientStageLabels[client.stage]} · {leadSourceLabels[client.leadSource]}
+			{#if parent !== null}
+				· Part of <a href={`/clients/${parent.id}`} class="hover:text-signal">{parent.name}</a>
 			{/if}
-			{#if data.client.website !== ''}
-				· <a href={data.client.website} class="hover:text-signal">{data.client.website}</a>
+			{#if client.website !== ''}
+				· <a href={client.website} class="hover:text-signal">{client.website}</a>
 			{/if}
 		</p>
 	</div>
@@ -46,7 +48,7 @@
 			<h2 class="font-display text-xl">Company profile</h2>
 			<a href={researchAgainHref} class={quietButtonClasses}>Research again</a>
 		</div>
-		<CompanyProfileForm client={data.client} />
+		<CompanyProfileForm {client} />
 	</section>
 
 	<ClientPeopleSection
@@ -56,8 +58,8 @@
 	/>
 
 	<ClientGroupSection
-		client={data.client}
-		parent={data.parent}
+		{client}
+		{parent}
 		children={data.children}
 		parents={data.parents}
 	/>
@@ -69,21 +71,21 @@
 				Add project
 			</button>
 		</div>
-		{#if data.projects.length === 0}
+		{#if projects.length === 0}
 			<p class="text-sm text-chalk/50">
 				No projects yet — set this client on a project from its own page.
 			</p>
 		{:else}
-			<ClientProjectList projects={data.projects} />
+			<ClientProjectList {projects} />
 		{/if}
 	</section>
 
 	<section class="flex flex-col gap-4">
 		<h2 class="font-display text-xl">Support</h2>
-		{#if data.supportTasks.length === 0}
+		{#if supportTasks.length === 0}
 			<p class="text-sm text-chalk/50">Nothing raised yet.</p>
 		{:else}
-			<SupportTaskTable tasks={data.supportTasks} />
+			<SupportTaskTable tasks={supportTasks} />
 		{/if}
 	</section>
 

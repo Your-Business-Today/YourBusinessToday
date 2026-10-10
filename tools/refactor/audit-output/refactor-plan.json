@@ -1,53 +1,23 @@
 {
-  "score": 91.2,
+  "score": 91.6,
   "steps": [
-    {
-      "pass": "Pass 4 \u2014 Design pattern identification",
-      "title": "Complete the pattern: every status has a actions",
-      "detail": "1 of 4 lack it. Predicted: src/lib/server/projects/updateTaskActions.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
-    },
-    {
-      "pass": "Pass 4 \u2014 Design pattern identification",
-      "title": "Complete the pattern: every status has a record",
-      "detail": "1 of 4 lack it. Predicted: src/lib/server/projects/updateTaskRecord.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
-    },
-    {
-      "pass": "Pass 4 \u2014 Design pattern identification",
-      "title": "Complete the pattern: every goal has a project",
-      "detail": "2 of 8 lack it. Predicted: src/lib/server/goals/updateProject.ts; src/lib/server/projects/updateTaskProject.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
-    },
-    {
-      "pass": "Pass 4 \u2014 Design pattern identification",
-      "title": "Complete the pattern: every goal has a task",
-      "detail": "2 of 8 lack it. Predicted: src/lib/server/goals/updateTask.ts; src/lib/server/projects/updateTaskTask.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
-    },
-    {
-      "pass": "Pass 4 \u2014 Design pattern identification",
-      "title": "Complete the pattern: every +page.svelte has a +page.server.ts",
-      "detail": "8 of 33 lack it. Predicted: src/routes/+page.server.ts; src/routes/about/+page.server.ts; src/routes/case-studies/jewel/+page.server.ts; src/routes/company/+page.server.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
-    },
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Long member chain lines: 109 to zero",
-      "detail": "Scores 90.2% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
-    },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
       "title": "Inline magic values: 30 to zero",
-      "detail": "Scores 96.0% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
+      "detail": "Scores 96.1% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Duplication %: 0.26 to zero",
-      "detail": "Scores 98.7% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time."
+      "title": "Long member chain lines: 11 to zero",
+      "detail": "Scores 99.0% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
     }
   ],
   "targets": [],
   "designPatterns": {
     "name": "designPatterns",
     "summary": {
-      "roleFamilies": 55,
-      "predictedFiles": 82,
+      "roleFamilies": 56,
+      "predictedFiles": 84,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -55,29 +25,30 @@
     },
     "offenders": {
       "roleFamilies": {
-        "+page.server.ts": 25,
-        "+page.svelte": 33,
+        "+page.server.ts": 26,
+        "+page.svelte": 34,
         "+server.ts": 13,
         "access": 4,
-        "actions": 64,
-        "attachment": 4,
+        "actions": 65,
+        "attachment": 5,
         "bar": 4,
-        "button": 7,
+        "button": 8,
         "card": 5,
         "client": 13,
         "email": 7,
         "event": 5,
         "field": 5,
-        "fields": 14,
+        "fields": 18,
         "filter": 5,
-        "form": 39,
+        "form": 41,
         "goal": 8,
         "grant": 4,
         "header": 12,
         "ids": 7,
-        "kind": 4,
+        "kind": 5,
         "link": 8,
         "list": 14,
+        "menu": 4,
         "message": 4,
         "modal": 7,
         "model": 5,
@@ -89,14 +60,14 @@
         "people": 4,
         "person": 6,
         "pill": 7,
-        "priority": 4,
+        "priority": 5,
         "profile": 5,
         "project": 13,
         "projects": 5,
-        "record": 18,
-        "refusal": 4,
+        "record": 19,
+        "refusal": 5,
         "request": 6,
-        "row": 21,
+        "row": 23,
         "section": 26,
         "sections": 8,
         "sentence": 5,
@@ -105,8 +76,8 @@
         "svelte": 10,
         "table": 4,
         "task": 15,
-        "tasks": 4,
-        "test": 72,
+        "tasks": 5,
+        "test": 73,
         "text": 6,
         "types": 10,
         "xml": 4
@@ -115,51 +86,32 @@
         {
           "pattern": "every status has a actions",
           "predicted": 4,
-          "missing": [
-            "src/lib/server/projects/updateTaskActions.ts"
-          ]
+          "missing": []
         },
         {
           "pattern": "every status has a record",
           "predicted": 4,
-          "missing": [
-            "src/lib/server/projects/updateTaskRecord.ts"
-          ]
+          "missing": []
         },
         {
           "pattern": "every goal has a project",
           "predicted": 8,
-          "missing": [
-            "src/lib/server/goals/updateProject.ts",
-            "src/lib/server/projects/updateTaskProject.ts"
-          ]
+          "missing": []
         },
         {
           "pattern": "every goal has a task",
           "predicted": 8,
-          "missing": [
-            "src/lib/server/goals/updateTask.ts",
-            "src/lib/server/projects/updateTaskTask.ts"
-          ]
+          "missing": []
         },
         {
           "pattern": "every +page.server.ts has a +page.svelte",
-          "predicted": 25,
+          "predicted": 26,
           "missing": []
         },
         {
           "pattern": "every +page.svelte has a +page.server.ts",
-          "predicted": 33,
-          "missing": [
-            "src/routes/+page.server.ts",
-            "src/routes/about/+page.server.ts",
-            "src/routes/case-studies/jewel/+page.server.ts",
-            "src/routes/company/+page.server.ts",
-            "src/routes/offer/+page.server.ts",
-            "src/routes/privacy/+page.server.ts",
-            "src/routes/terms/+page.server.ts",
-            "src/routes/vision/+page.server.ts"
-          ]
+          "predicted": 34,
+          "missing": []
         }
       ],
       "missingPredictedFiles": [],

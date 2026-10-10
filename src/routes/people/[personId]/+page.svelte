@@ -14,6 +14,8 @@
 
 	let { data, form } = $props();
 
+	const { person } = $derived(data);
+
 	let isEditModalOpen = $state(false);
 	let isApproachModalOpen = $state(false);
 	let isFindingsModalOpen = $state(false);
@@ -23,20 +25,20 @@
 		isFindingsModalOpen = form?.findings !== undefined;
 	});
 
-	const suggestedGroupName = $derived(suggestedGroupNameFor(data.person.name));
+	const suggestedGroupName = $derived(suggestedGroupNameFor(person.name));
 </script>
 
 <svelte:head>
-	<title>{data.person.name} — Your Business Today</title>
+	<title>{person.name} — Your Business Today</title>
 </svelte:head>
 
 <div class="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-16">
-	<PersonHeader person={data.person} onEdit={() => (isEditModalOpen = true)} />
+	<PersonHeader {person} onEdit={() => (isEditModalOpen = true)} />
 	<FormErrorNote message={form?.message ?? null} />
 
 	<section class="flex flex-col gap-4">
 		<h2 class="font-display text-xl">Links</h2>
-		<PersonLinkList personId={data.person.id} links={data.person.links} />
+		<PersonLinkList personId={person.id} links={person.links} />
 	</section>
 
 	{#if data.pendingAppointments !== null}
@@ -46,12 +48,12 @@
 	<PersonCompanyList
 		companies={data.companies}
 		parents={data.parents}
-		canImport={data.person.officerId !== null && data.pendingAppointments === null}
+		canImport={person.officerId !== null && data.pendingAppointments === null}
 	/>
 
 	<section class="flex flex-col gap-4">
 		<h2 class="font-display text-xl">Notes</h2>
-		<PersonNoteTimeline personId={data.person.id} notes={data.person.notes} />
+		<PersonNoteTimeline personId={person.id} notes={person.notes} />
 	</section>
 
 	<section class="flex flex-col gap-4">
@@ -61,7 +63,7 @@
 </div>
 
 <Modal title="Edit person" bind:isOpen={isEditModalOpen} maxWidthClass="max-w-2xl">
-	<PersonFieldsForm person={data.person} />
+	<PersonFieldsForm {person} />
 </Modal>
 
 <Modal title="Draft approach" bind:isOpen={isApproachModalOpen} maxWidthClass="max-w-2xl">

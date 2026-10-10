@@ -7,6 +7,8 @@
 	import { quietButtonClasses } from '$lib/components/site/formStyles';
 
 	let { data, form } = $props();
+
+	const { clients } = $derived(data);
 </script>
 
 <svelte:head>
@@ -29,9 +31,9 @@
 	<FormErrorNote message={form?.message ?? null} />
 	<AddLeadForm />
 	<StageFilterTabs chosenStage={data.stage} />
-	{#if data.clients.length === 0}
+	{#if clients.length === 0}
 		<EmptyState message="Nobody at this stage yet." />
 	{:else}
-		<ClientTable clients={data.clients} />
+		<ClientTable {clients} />
 	{/if}
 </div>

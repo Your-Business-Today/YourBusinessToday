@@ -6,10 +6,11 @@
 
 	let { data, form } = $props();
 
+	const { search, companies } = $derived(data);
 	const searchQuery = $derived(
-		data.search === null
+		search === null
 			? ''
-			: `&sicCodes=${encodeURIComponent(data.search.sicCodes.join(','))}&location=${encodeURIComponent(data.search.location)}`
+			: `&sicCodes=${encodeURIComponent(search.sicCodes.join(','))}&location=${encodeURIComponent(search.location)}`
 	);
 	const addLeadAction = $derived(`?/addLead${searchQuery}`);
 	const addWithDirectorsAction = $derived(`?/addLeadWithDirectors${searchQuery}`);
@@ -33,7 +34,7 @@
 			message="Companies House search needs COMPANIES_HOUSE_API_KEY on the server before it can run."
 		/>
 	{:else}
-		<ProspectSearchForm search={data.search} />
+		<ProspectSearchForm {search} />
 	{/if}
 	{#if form?.message !== undefined}
 		<p class="text-sm text-chalk/70">
@@ -43,10 +44,10 @@
 			{/if}
 		</p>
 	{/if}
-	{#if data.companies !== null && data.companies.length === 0}
+	{#if companies !== null && companies.length === 0}
 		<EmptyState message="No active companies matched. Try a broader location or another SIC code." />
 	{/if}
-	{#if data.companies !== null && data.companies.length > 0}
-		<ProspectResultTable companies={data.companies} {addLeadAction} {addWithDirectorsAction} />
+	{#if companies !== null && companies.length > 0}
+		<ProspectResultTable {companies} {addLeadAction} {addWithDirectorsAction} />
 	{/if}
 </div>

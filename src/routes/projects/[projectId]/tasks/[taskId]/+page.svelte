@@ -26,24 +26,25 @@
 	let isSubtaskModalOpen = $state(false);
 	let isDeleteModalOpen = $state(false);
 
+	const { task, project } = $derived(data);
 	const goalTitle = $derived(
-		data.goals.find((goal) => goal.id === data.task.goalId)?.title ?? null
+		data.goals.find((goal) => goal.id === task.goalId)?.title ?? null
 	);
 	const isAwaitingResolution = $derived(
-		data.task.kind === supportTaskKind && !isTaskDone(data.task.status)
+		task.kind === supportTaskKind && !isTaskDone(task.status)
 	);
 	const assigneeNames = $derived(namesOfPeople(data.people, data.assigneeIds));
 	const waitedForAssigneeNames = $derived(namesOfPeople(data.people, data.waitedForAssigneeIds));
 </script>
 
 <svelte:head>
-	<title>{data.task.title} — {data.project.name} — Your Business Today</title>
+	<title>{task.title} — {project.name} — Your Business Today</title>
 </svelte:head>
 
 <TaskDetailHeader
-	project={data.project}
+	{project}
 	parentTask={data.parentTask}
-	task={data.task}
+	{task}
 	onEdit={() => (isEditModalOpen = true)}
 	onAddSubtask={() => (isSubtaskModalOpen = true)}
 	onDelete={() => (isDeleteModalOpen = true)}
@@ -53,8 +54,8 @@
 	<FlashMessage message={form?.message} />
 	<div class={dashboardGridClasses}>
 		<div class="flex min-w-0 flex-col gap-4">
-			<TaskWaitingNote task={data.task} sequence={data.sequence} {waitedForAssigneeNames} />
-			<TaskStoryPanel task={data.task} raisedByName={data.raisedByName} />
+			<TaskWaitingNote {task} sequence={data.sequence} {waitedForAssigneeNames} />
+			<TaskStoryPanel {task} raisedByName={data.raisedByName} />
 			{#if isAwaitingResolution}
 				<ResolveSupportTaskForm />
 			{/if}
@@ -64,8 +65,8 @@
 			<ChecklistSection checklists={data.checklists} />
 			<TaskAttachmentsSection
 				attachments={data.attachments}
-				projectId={data.project.id}
-				taskId={data.task.id}
+				projectId={project.id}
+				taskId={task.id}
 			/>
 			<ConversationThread
 				messages={data.messages}
@@ -74,15 +75,15 @@
 			/>
 		</div>
 		<aside class="flex min-w-0 flex-col gap-4">
-			<TaskFactsPanel task={data.task} {goalTitle} {assigneeNames} />
-			<TaskBranchPanel task={data.task} project={data.project} />
+			<TaskFactsPanel {task} {goalTitle} {assigneeNames} />
+			<TaskBranchPanel {task} {project} />
 			<ConversationParticipantsPanel people={data.people} participantIds={data.participantIds} />
 		</aside>
 	</div>
 </div>
 
 <TaskPageModals
-	task={data.task}
+	{task}
 	parentTask={data.parentTask}
 	siblingTasks={data.siblingTasks}
 	people={data.people}

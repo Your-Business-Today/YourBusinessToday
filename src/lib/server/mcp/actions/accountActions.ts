@@ -10,14 +10,18 @@ export const accountActions: McpAction[] = [
 		isWrite: false,
 		summary: 'Your email address, your standing here, and what that lets you do',
 		inputSchema: objectSchema({}),
-		run: async (caller) =>
-			[
-				`Email: ${caller.email}`,
-				`Standing: ${standingOf(caller)}`,
-				`Projects: ${caller.ownedProjectIds.length} owned, ${caller.memberProjectIds.length} as a team member`
-			].join('\n')
+		run: async (caller) => describeAccount(caller)
 	}
 ];
+
+function describeAccount(caller: McpCaller): string {
+	const { ownedProjectIds, memberProjectIds } = caller;
+	return [
+		`Email: ${caller.email}`,
+		`Standing: ${standingOf(caller)}`,
+		`Projects: ${ownedProjectIds.length} owned, ${memberProjectIds.length} as a team member`
+	].join('\n');
+}
 
 function standingOf(caller: McpCaller): string {
 	if (caller.isAdmin) return 'administrator';

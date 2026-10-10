@@ -10,16 +10,17 @@
 	let isRenameModalOpen = $state(false);
 	let isDeleteModalOpen = $state(false);
 
-	const doneCount = $derived(checklist.items.filter((item) => item.isDone).length);
+	const items = $derived(checklist.items);
+	const doneCount = $derived(items.filter((item) => item.isDone).length);
 </script>
 
 <div class="border-b border-hairline last:border-b-0">
 	<div class="flex items-center justify-between gap-4 bg-night/40 px-4 py-2">
 		<div class="flex items-baseline gap-3">
 			<h3 class="font-display text-sm font-medium">{checklist.title}</h3>
-			{#if checklist.items.length > 0}
+			{#if items.length > 0}
 				<span class="font-display text-xs text-chalk/50">
-					{doneCount} of {checklist.items.length} done
+					{doneCount} of {items.length} done
 				</span>
 			{/if}
 		</div>
@@ -42,9 +43,9 @@
 			</button>
 		</div>
 	</div>
-	{#if checklist.items.length > 0}
+	{#if items.length > 0}
 		<ul class="flex flex-col divide-y divide-hairline border-t border-hairline">
-			{#each checklist.items as item (item.id)}
+			{#each items as item (item.id)}
 				<ChecklistItemRow {item} />
 			{/each}
 		</ul>

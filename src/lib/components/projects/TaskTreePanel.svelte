@@ -10,7 +10,7 @@
 	import { postListReorder } from '$lib/client/postListReorder';
 	import { rememberOpenRows } from '$lib/client/openRows.svelte';
 	import { createTaskRowActions, type TaskRowHandlers, type TaskRowSources } from './taskRowActions';
-	import { groupTasksByGoal } from './taskTreeGroups';
+	import { groupKeyOf, groupTasksByGoal } from './taskTreeGroups';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 	let {
@@ -39,6 +39,7 @@
 		assigneeIdsByTask: () => sources.assigneeIdsByTask,
 		isWaitingOnMe: (task) => actions.turnFor(task.id)?.isOnViewer === true
 	});
+	const visibleTasks = $derived(backlog.visibleTasks);
 	const taskGroups = $derived(
 		groupTasksByGoal(taskTree, sources.goals, (tasks) => backlog.visibleTasksOf(tasks))
 	);
@@ -59,15 +60,15 @@
 	}
 </script>
 
-<DashboardPanel title="Backlog" count={countTasksInTree(backlog.visibleTasks)}>
+<DashboardPanel title="Backlog" count={countTasksInTree(visibleTasks)}>
 	{#snippet toolbar()}
 		<BacklogFilterBar {backlog} people={sources.people} viewerId={sources.viewerId} />
 	{/snippet}
-	{#if backlog.visibleTasks.length === 0}
+	{#if visibleTasks.length === 0}
 		<p class="px-4 py-10 text-center text-sm text-chalk/60">{emptyStateMessage}</p>
 	{:else}
 		<div class="flex flex-col">
-			{#each taskGroups as group (group.goal?.id ?? 'other')}
+			{#each taskGroups as group (groupKeyOf(group))}
 				<TaskGroupSection {group} {projectId} {listReorder} {actions} />
 			{/each}
 		</div>

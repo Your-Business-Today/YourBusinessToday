@@ -12,17 +12,19 @@
 
 	let { data, form } = $props();
 
+	const { goal, project } = $derived(data);
+
 	let isEditModalOpen = $state(false);
 	let isDeleteModalOpen = $state(false);
 </script>
 
 <svelte:head>
-	<title>{data.goal.title} — {data.project.name} — Your Business Today</title>
+	<title>{goal.title} — {project.name} — Your Business Today</title>
 </svelte:head>
 
 <GoalDetailHeader
-	goal={data.goal}
-	project={data.project}
+	{goal}
+	{project}
 	tasks={data.tasks}
 	onEdit={() => (isEditModalOpen = true)}
 	onDelete={() => (isDeleteModalOpen = true)}
@@ -32,7 +34,7 @@
 	<FlashMessage message={form?.message} />
 	<div class={dashboardGridClasses}>
 		<div class="flex min-w-0 flex-col gap-4">
-			<GoalMeasurePanel goal={data.goal} />
+			<GoalMeasurePanel {goal} />
 			<GoalTaskList tasks={data.tasks} />
 			<ConversationThread
 				messages={data.messages}
@@ -47,12 +49,12 @@
 </div>
 
 <Modal title="Edit goal" bind:isOpen={isEditModalOpen}>
-	<EditGoalForm goal={data.goal} onSaved={() => (isEditModalOpen = false)} />
+	<EditGoalForm {goal} onSaved={() => (isEditModalOpen = false)} />
 </Modal>
 
 <DangerConfirmModal
 	title="Delete goal"
-	description={`Delete “${data.goal.title}”? Its tasks are kept — they just lose the goal. The conversation on it is deleted with it.`}
+	description={`Delete “${goal.title}”? Its tasks are kept — they just lose the goal. The conversation on it is deleted with it.`}
 	action="?/deleteGoal"
 	fields={{}}
 	submitLabel="Delete goal"

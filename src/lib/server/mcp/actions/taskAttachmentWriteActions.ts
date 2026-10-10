@@ -1,8 +1,7 @@
 import { reachableTask } from '../projectAccess';
 import { deleteTaskAttachment } from '$lib/server/projects/deleteTaskAttachment';
 import { describeByteCount } from '$lib/data/taskAttachmentRules';
-import { findTaskAttachment } from '$lib/server/projects/findTaskAttachment';
-import { noSuchAttachment } from './describeAttachments';
+import { findNamedAttachment } from './findNamedAttachment';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { parseAttachmentFileInput } from './parseAttachmentFileInput';
@@ -64,14 +63,9 @@ export const taskAttachmentWriteActions: McpAction[] = [
 			['taskId', 'attachmentId']
 		),
 		run: async (caller, input) => {
-			const task = await reachableTask(caller, readText(input, 'taskId'));
-			if (task === null) return noSuchTask;
-			const attachment = await findTaskAttachment(
-				caller.supabase,
-				task.id,
-				readText(input, 'attachmentId')
-			);
-			if (attachment === null) return noSuchAttachment;
+			const named = await findNamedAttachment(caller, input);
+			if (typeof named === 'string') return named;
+			const { task, attachment } = named;
 			await deleteTaskAttachment(caller.supabase, attachment);
 			return `"${attachment.filename}" removed from "${task.title}".`;
 		}

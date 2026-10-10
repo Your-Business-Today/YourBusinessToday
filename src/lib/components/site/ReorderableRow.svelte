@@ -45,7 +45,8 @@
 	}
 
 	function lockTextSelection(isLocked: boolean) {
-		document.body.style.userSelect = isLocked ? 'none' : '';
+		const { style } = document.body;
+		style.userSelect = isLocked ? 'none' : '';
 	}
 
 	function keepHoldingInsteadOfMenu(event: Event) {

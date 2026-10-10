@@ -2,6 +2,8 @@
 	import SupportTaskTable from '$lib/components/support/SupportTaskTable.svelte';
 
 	let { data } = $props();
+
+	const { tasks } = $derived(data);
 </script>
 
 <svelte:head>
@@ -16,11 +18,11 @@
 			with a resolution the person who raised it reads.
 		</p>
 	</div>
-	{#if data.tasks.length === 0}
+	{#if tasks.length === 0}
 		<p class="rounded-2xl border border-dashed border-hairline p-6 text-chalk/60">
 			Nothing is waiting on an answer.
 		</p>
 	{:else}
-		<SupportTaskTable tasks={data.tasks} />
+		<SupportTaskTable {tasks} />
 	{/if}
 </div>

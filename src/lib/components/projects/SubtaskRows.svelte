@@ -17,15 +17,17 @@
 		listReorder: ListReorder;
 		actions: TaskRowActions;
 	} = $props();
+
+	const subtasks = $derived(parentTask.subtasks);
 </script>
 
 <ol id={panelId} class="ml-7 flex flex-col border-l border-hairline sm:ml-12">
-	{#each parentTask.subtasks as subtask, subtaskIndex (subtask.id)}
+	{#each subtasks as subtask, subtaskIndex (subtask.id)}
 		<TaskListRow
 			task={subtask}
 			numberPath={`${numberPath}.${subtask.priority}`}
 			isFirst={subtaskIndex === 0}
-			isLast={subtaskIndex === parentTask.subtasks.length - 1}
+			isLast={subtaskIndex === subtasks.length - 1}
 			{listReorder}
 			{actions}
 		/>
