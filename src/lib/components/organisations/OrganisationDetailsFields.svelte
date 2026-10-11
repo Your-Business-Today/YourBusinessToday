@@ -8,14 +8,14 @@
 		type OrganisationDetails
 	} from '$lib/data/organisationRules';
 	import { organisationFieldClasses, organisationLabelClasses } from './organisationFormStyles';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { details, namePlaceholder }: { details: OrganisationDetails; namePlaceholder: string } = $props();
 
 	const contact = $derived(details.accountsContact);
 </script>
 
-<label class="flex flex-col gap-1">
-	<span class={organisationLabelClasses}>Name</span>
+<SmallCapsField label="Name">
 	<input
 		name="name"
 		required
@@ -24,9 +24,8 @@
 		maxlength={longestOrganisationName}
 		class={organisationFieldClasses}
 	/>
-</label>
-<label class="flex flex-col gap-1">
-	<span class={organisationLabelClasses}>Address</span>
+</SmallCapsField>
+<SmallCapsField label="Address">
 	<textarea
 		name="address"
 		rows="3"
@@ -34,7 +33,7 @@
 		maxlength={longestOrganisationAddress}
 		class={organisationFieldClasses}>{details.address}</textarea
 	>
-</label>
+</SmallCapsField>
 <fieldset class="flex flex-col gap-3 rounded-xl border border-hairline p-4">
 	<legend class={`px-1 ${organisationLabelClasses}`}>Accounts contact</legend>
 	<label class="flex flex-col gap-1">

@@ -3,7 +3,8 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
-	import { organisationFieldClasses, organisationLabelClasses, organisationSubmitClasses } from './organisationFormStyles';
+	import { organisationFieldClasses, organisationSubmitClasses } from './organisationFormStyles';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { organisationName, onInvited }: { organisationName: string; onInvited: () => void } = $props();
 
@@ -11,10 +12,9 @@
 </script>
 
 <form method="POST" action="?/invitePerson" use:enhance={tracker.submit(onInvited)} class="flex flex-col gap-4">
-	<label class="flex flex-col gap-1">
-		<span class={organisationLabelClasses}>Email address</span>
+	<SmallCapsField label="Email address">
 		<input name="email" type="email" required placeholder="Where to send the invitation" class={organisationFieldClasses} />
-	</label>
+	</SmallCapsField>
 	<label class="flex items-center gap-3 text-sm">
 		<input type="checkbox" name="isManager" class="accent-go" />
 		Project manager — they can bring people on to {organisationName} and anything under it

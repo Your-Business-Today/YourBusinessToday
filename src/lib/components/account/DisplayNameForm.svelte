@@ -4,6 +4,7 @@
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { displayNameMaxLength } from '$lib/data/displayNameRules';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { displayName, onSaved }: { displayName: string; onSaved: () => void } = $props();
 
@@ -16,8 +17,7 @@
 	use:enhance={tracker.submit(onSaved)}
 	class="flex flex-col gap-4"
 >
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Display name</span>
+	<SmallCapsField label="Display name">
 		<input
 			name="displayName"
 			value={displayName}
@@ -26,7 +26,7 @@
 			class="rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none
 				focus:border-go"
 		/>
-	</label>
+	</SmallCapsField>
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton
 		isSaving={tracker.isSaving}

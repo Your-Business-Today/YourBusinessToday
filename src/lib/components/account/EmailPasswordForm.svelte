@@ -2,11 +2,11 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import {
 		fieldClasses,
-		fieldLabelClasses,
 		noticeClasses,
 		primaryButtonClasses,
 		quietButtonClasses
 	} from './accountFormStyles';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let {
 		next = '',
@@ -30,12 +30,10 @@
 	class="flex flex-col gap-4"
 >
 	<input type="hidden" name="next" value={next} />
-	<label class="flex flex-col gap-1">
-		<span class={fieldLabelClasses}>Email</span>
+	<SmallCapsField label="Email">
 		<input name="email" type="email" autocomplete="email" required class={fieldClasses} />
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class={fieldLabelClasses}>Password</span>
+	</SmallCapsField>
+	<SmallCapsField label="Password">
 		<input
 			name="password"
 			type="password"
@@ -43,7 +41,7 @@
 			required
 			class={fieldClasses}
 		/>
-	</label>
+	</SmallCapsField>
 	<FormErrorNote message={problemMessage} />
 	{#if noticeMessage !== null}
 		<p class={noticeClasses}>{noticeMessage}</p>

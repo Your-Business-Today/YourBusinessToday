@@ -8,6 +8,7 @@
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { panelButtonClasses, panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { AcceptanceCriterion } from '$lib/server/projects/criterionRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { criteria }: { criteria: AcceptanceCriterion[] } = $props();
 
@@ -48,8 +49,7 @@
 		use:enhance={tracker.submit(() => (isAddModalOpen = false))}
 		class="flex flex-col gap-4"
 	>
-		<label class="flex flex-col gap-1">
-			<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Criterion</span>
+		<SmallCapsField label="Criterion">
 			<input
 				name="description"
 				required
@@ -57,7 +57,7 @@
 				class="rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none
 					focus:border-go"
 			/>
-		</label>
+		</SmallCapsField>
 		<FormErrorNote message={tracker.errorMessage} />
 		<SubmitButton
 			isSaving={tracker.isSaving}

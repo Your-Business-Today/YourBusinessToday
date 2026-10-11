@@ -8,6 +8,7 @@
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { panelButtonClasses, panelEmptyClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { TaskChecklist } from '$lib/server/projects/checklistRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { checklists }: { checklists: TaskChecklist[] } = $props();
 
@@ -44,8 +45,7 @@
 		use:enhance={tracker.submit(() => (isAddModalOpen = false))}
 		class="flex flex-col gap-4"
 	>
-		<label class="flex flex-col gap-1">
-			<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Title</span>
+		<SmallCapsField label="Title">
 			<input
 				name="title"
 				required
@@ -53,7 +53,7 @@
 				class="rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none
 					focus:border-go"
 			/>
-		</label>
+		</SmallCapsField>
 		<FormErrorNote message={tracker.errorMessage} />
 		<SubmitButton
 			isSaving={tracker.isSaving}

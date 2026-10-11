@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { taskStatusLabels, type TaskStatus } from '$lib/data/taskStatus';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { task }: { task: ProjectTask } = $props();
 
@@ -10,16 +11,14 @@
 </script>
 
 <div class="grid gap-4 sm:grid-cols-2">
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Status</span>
+	<SmallCapsField label="Status">
 		<select name="status" value={task.status} class={fieldClasses}>
 			{#each statusOptions as [statusValue, statusLabel] (statusValue)}
 				<option value={statusValue}>{statusLabel}</option>
 			{/each}
 		</select>
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Due date</span>
+	</SmallCapsField>
+	<SmallCapsField label="Due date">
 		<input name="dueDate" type="date" value={task.dueDate ?? ''} class={fieldClasses} />
-	</label>
+	</SmallCapsField>
 </div>

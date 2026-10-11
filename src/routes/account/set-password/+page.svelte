@@ -2,9 +2,9 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import {
 		fieldClasses,
-		fieldLabelClasses,
 		primaryButtonClasses
 	} from '$lib/components/account/accountFormStyles';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { data, form } = $props();
 </script>
@@ -21,8 +21,7 @@
 		</p>
 	</div>
 	<form method="POST" action="?/setPassword" class="flex flex-col gap-4">
-		<label class="flex flex-col gap-1">
-			<span class={fieldLabelClasses}>New password</span>
+		<SmallCapsField label="New password">
 			<input
 				name="password"
 				type="password"
@@ -30,9 +29,8 @@
 				required
 				class={fieldClasses}
 			/>
-		</label>
-		<label class="flex flex-col gap-1">
-			<span class={fieldLabelClasses}>Type it again</span>
+		</SmallCapsField>
+		<SmallCapsField label="Type it again">
 			<input
 				name="confirmation"
 				type="password"
@@ -40,7 +38,7 @@
 				required
 				class={fieldClasses}
 			/>
-		</label>
+		</SmallCapsField>
 		<FormErrorNote message={form?.message ?? null} />
 		<button type="submit" class={primaryButtonClasses}>Save password</button>
 	</form>

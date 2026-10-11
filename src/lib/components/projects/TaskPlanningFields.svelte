@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fibonacciStoryPoints } from '$lib/data/storyPoints';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { task }: { task: ProjectTask } = $props();
 
@@ -9,16 +10,14 @@
 </script>
 
 <div class="grid gap-4 sm:grid-cols-2">
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Story points</span>
+	<SmallCapsField label="Story points">
 		<select name="storyPoints" value={String(task.storyPoints)} class={fieldClasses}>
 			{#each fibonacciStoryPoints as storyPointsOption (storyPointsOption)}
 				<option value={String(storyPointsOption)}>{storyPointsOption}</option>
 			{/each}
 		</select>
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Complete %</span>
+	</SmallCapsField>
+	<SmallCapsField label="Complete %">
 		<input
 			name="completionPercent"
 			type="number"
@@ -28,5 +27,5 @@
 			value={task.completionPercent}
 			class={fieldClasses}
 		/>
-	</label>
+	</SmallCapsField>
 </div>

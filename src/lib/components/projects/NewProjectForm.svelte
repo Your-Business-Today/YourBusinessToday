@@ -5,6 +5,7 @@
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { organisations, onCreated }: { organisations: Organisation[]; onCreated: () => void } = $props();
 
@@ -12,7 +13,6 @@
 
 	const fieldClasses =
 		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
-	const labelClasses = 'font-display text-sm tracking-widest text-chalk/50 uppercase';
 </script>
 
 <form
@@ -21,20 +21,18 @@
 	use:enhance={tracker.submit(onCreated)}
 	class="flex flex-col gap-4"
 >
-	<label class="flex flex-col gap-1">
-		<span class={labelClasses}>Name</span>
+	<SmallCapsField label="Name">
 		<input name="name" required placeholder="Project name" class={fieldClasses} />
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class={labelClasses}>Description</span>
+	</SmallCapsField>
+	<SmallCapsField label="Description">
 		<textarea
 			name="description"
 			rows="3"
 			placeholder="What this project is for (optional)"
 			class={fieldClasses}
 		></textarea>
-	</label>
-	<OrganisationSelect {organisations} selectedOrganisationId={null} {fieldClasses} {labelClasses} />
+	</SmallCapsField>
+	<OrganisationSelect {organisations} selectedOrganisationId={null} {fieldClasses} />
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton
 		isSaving={tracker.isSaving}

@@ -8,12 +8,9 @@
 		type DatabaseKind
 	} from '$lib/data/databaseKind';
 	import { longestDatabaseDetail, type ProjectDatabase } from '$lib/data/projectDatabase';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
-	let {
-		database,
-		fieldClasses,
-		labelClasses
-	}: { database: ProjectDatabase; fieldClasses: string; labelClasses: string } = $props();
+	let { database, fieldClasses }: { database: ProjectDatabase; fieldClasses: string } = $props();
 
 	let chosenKind: DatabaseKind | null = $state(null);
 
@@ -29,8 +26,7 @@
 </script>
 
 <div class="flex flex-wrap gap-4">
-	<label class="flex max-w-48 flex-col gap-1">
-		<span class={labelClasses}>Database</span>
+	<SmallCapsField label="Database" class="max-w-48">
 		<select
 			name="databaseKind"
 			value={kind}
@@ -41,10 +37,9 @@
 				<option value={kindValue}>{databaseKindLabels[kindValue]}</option>
 			{/each}
 		</select>
-	</label>
+	</SmallCapsField>
 	{#if hasDatabase}
-		<label class="flex max-w-64 flex-col gap-1">
-			<span class={labelClasses}>Migrations folder</span>
+		<SmallCapsField label="Migrations folder" class="max-w-64">
 			<input
 				name="migrationsPath"
 				value={database.migrationsPath}
@@ -52,13 +47,12 @@
 				maxlength={longestDatabaseDetail}
 				class={fieldClasses}
 			/>
-		</label>
+		</SmallCapsField>
 	{/if}
 </div>
 {#if isAzureSql}
 	<div class="flex flex-wrap gap-4">
-		<label class="flex min-w-64 flex-1 flex-col gap-1">
-			<span class={labelClasses}>SQL server</span>
+		<SmallCapsField label="SQL server" class="min-w-64 flex-1">
 			<input
 				name="databaseServer"
 				value={database.server}
@@ -67,13 +61,11 @@
 				maxlength={longestDatabaseDetail}
 				class={fieldClasses}
 			/>
-		</label>
-		<label class="flex max-w-48 flex-col gap-1">
-			<span class={labelClasses}>Database name</span>
+		</SmallCapsField>
+		<SmallCapsField label="Database name" class="max-w-48">
 			<input name="databaseName" value={database.name} required maxlength={longestDatabaseDetail} class={fieldClasses} />
-		</label>
-		<label class="flex max-w-48 flex-col gap-1">
-			<span class={labelClasses}>User</span>
+		</SmallCapsField>
+		<SmallCapsField label="User" class="max-w-48">
 			<input
 				name="databaseUser"
 				value={database.user}
@@ -81,7 +73,7 @@
 				maxlength={longestDatabaseDetail}
 				class={fieldClasses}
 			/>
-		</label>
+		</SmallCapsField>
 	</div>
 {/if}
 {#if hasDatabase}

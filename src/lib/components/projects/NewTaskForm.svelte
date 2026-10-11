@@ -10,6 +10,7 @@
 	import type { TaskKind } from '$lib/data/taskKind';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let {
 		createAction = '?/createTask',
@@ -48,8 +49,7 @@
 	{#if parentTaskId !== null}
 		<input type="hidden" name="parentTaskId" value={parentTaskId} />
 	{/if}
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Title</span>
+	<SmallCapsField label="Title">
 		<input
 			name="title"
 			required
@@ -57,20 +57,18 @@
 			placeholder={isSubtask ? 'What needs doing' : `The story, or ${bugFixTitlePrefix} what is wrong`}
 			class={fieldClasses}
 		/>
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Details</span>
+	</SmallCapsField>
+	<SmallCapsField label="Details">
 		<textarea
 			name="details"
 			rows="3"
 			placeholder="Context, links, acceptance criteria (optional)"
 			class={fieldClasses}
 		></textarea>
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Due date</span>
+	</SmallCapsField>
+	<SmallCapsField label="Due date">
 		<input name="dueDate" type="date" class={fieldClasses} />
-	</label>
+	</SmallCapsField>
 	{#if !isSubtask}
 		<NewTaskStoryFields {isStoryRequired} />
 	{/if}

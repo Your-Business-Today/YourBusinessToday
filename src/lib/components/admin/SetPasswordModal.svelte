@@ -6,6 +6,7 @@
 	import { inputClasses } from '$lib/components/site/formStyles';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { minimumPasswordLength } from '$lib/data/passwordRules';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { targetEmail, isOpen = $bindable() }: { targetEmail: string; isOpen: boolean } = $props();
 
@@ -28,8 +29,7 @@
 			They can change it themselves once they are in.
 		</p>
 		<input type="hidden" name="targetEmail" value={targetEmail} />
-		<label class="flex flex-col gap-1">
-			<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Password</span>
+		<SmallCapsField label="Password">
 			<input
 				name="password"
 				type="text"
@@ -40,7 +40,7 @@
 				placeholder={`At least ${minimumPasswordLength} characters`}
 				class={inputClasses}
 			/>
-		</label>
+		</SmallCapsField>
 		<FormErrorNote message={tracker.errorMessage} />
 		<SubmitButton
 			isSaving={tracker.isSaving}
