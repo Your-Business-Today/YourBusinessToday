@@ -30,6 +30,35 @@ describe('readPushEvent', () => {
 		expect(readPushEvent({ ...pushToMain, commits: undefined }, receivedAt)?.addedFiles).toEqual([]);
 	});
 
+	it('leaves out a file a later commit renamed or deleted', () => {
+		const renamedOnItsBranch = {
+			...pushToMain,
+			commits: [
+				{ added: ['migrations/0076_done_task_keeps_its_questions.sql', 'migrations/0078_scratch.sql'] },
+				{
+					added: ['migrations/0077_done_task_keeps_its_questions.sql'],
+					removed: ['migrations/0076_done_task_keeps_its_questions.sql']
+				},
+				{ removed: ['migrations/0078_scratch.sql'] }
+			]
+		};
+		expect(readPushEvent(renamedOnItsBranch, receivedAt)?.addedFiles).toEqual([
+			'migrations/0077_done_task_keeps_its_questions.sql'
+		]);
+	});
+
+	it('keeps a file a later commit added back after removing it', () => {
+		const restoredOnItsBranch = {
+			...pushToMain,
+			commits: [
+				{ added: ['migrations/0074_database_tasks.sql'] },
+				{ removed: ['migrations/0074_database_tasks.sql'] },
+				{ added: ['migrations/0074_database_tasks.sql'] }
+			]
+		};
+		expect(readPushEvent(restoredOnItsBranch, receivedAt)?.addedFiles).toEqual(['migrations/0074_database_tasks.sql']);
+	});
+
 	it('falls back to the time it arrived when the push carries no head commit', () => {
 		const deploy = readPushEvent({ ...pushToMain, head_commit: null }, receivedAt);
 		expect(deploy?.pushedAt).toBe('2026-09-15T16:00:00.000Z');

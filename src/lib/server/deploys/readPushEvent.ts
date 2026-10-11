@@ -14,8 +14,10 @@ type PushEvent = {
 	deleted?: boolean;
 	repository?: { html_url?: string };
 	head_commit?: { timestamp?: string } | null;
-	commits?: { added?: string[] }[];
+	commits?: PushedCommit[];
 };
+
+type PushedCommit = { added?: string[]; removed?: string[] };
 
 /** The deploy a GitHub push event describes, or null when the push is not to a branch or removed one. */
 export function readPushEvent(event: unknown, receivedAt: Date): PushedDeploy | null {
@@ -33,7 +35,15 @@ export function readPushEvent(event: unknown, receivedAt: Date): PushedDeploy | 
 	};
 }
 
-/** Every file the push's commits added, once each: a merge lists what the whole branch brought. */
-function filesAddedBy(commits: { added?: string[] }[]): string[] {
-	return [...new Set(commits.flatMap((commit) => commit.added ?? []))];
+/**
+ * Every file the push's commits added and did not later remove, read in commit order: a merge lists what the whole
+ * branch brought, and a file the branch renamed or deleted shows as removed by a later commit.
+ */
+function filesAddedBy(commits: PushedCommit[]): string[] {
+	const files = new Set<string>();
+	for (const commit of commits) {
+		for (const file of commit.added ?? []) files.add(file);
+		for (const file of commit.removed ?? []) files.delete(file);
+	}
+	return [...files];
 }
