@@ -13,6 +13,7 @@ export type Project = {
 	status: ProjectStatus;
 	priority: number;
 	clientId: string | null;
+	organisationId: string | null;
 	repositoryUrl: string;
 	environmentUrl: string;
 	defaultBranch: string;
@@ -33,6 +34,7 @@ export function parseProjectRecord(row: Record<string, unknown>): Project {
 		status: parseProjectStatus(row.status),
 		priority: row.priority as number,
 		clientId: (row.client_id as string) ?? null,
+		organisationId: (row.organisation_id as string) ?? null,
 		repositoryUrl: (row.repository_url as string) ?? '',
 		environmentUrl: (row.environment_url as string) ?? '',
 		defaultBranch: (row.default_branch as string) || defaultBranchWhenUnset,

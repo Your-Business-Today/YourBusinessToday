@@ -2,7 +2,14 @@ import type { McpCaller } from './resolveMcpCaller';
 import type { McpToolAnswer } from './mcpContent';
 
 export type ActionArea =
-	'account' | 'clients' | 'projects' | 'goals' | 'support' | 'conversations' | 'tasks';
+	| 'account'
+	| 'clients'
+	| 'organisations'
+	| 'projects'
+	| 'goals'
+	| 'support'
+	| 'conversations'
+	| 'tasks';
 
 export type ActionAudience = 'everyone' | 'staff' | 'admin';
 

@@ -10,7 +10,8 @@ import { reachableProject } from '../projectAccess';
 import type { Account } from '$lib/server/accounts/accountRecord';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
-import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
+import { isOnThroughOrganisation } from '$lib/data/projectMemberStanding';
+	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 
 export const projectPeopleActions: McpAction[] = [
 	{
@@ -59,8 +60,13 @@ export const projectPeopleActions: McpAction[] = [
 ];
 
 function personLine(person: ProjectPerson): string {
-	const standing = person.isOwner ? 'owner' : 'member';
-	return `${person.name} — ${standing}, ${person.email} (account id: ${person.id})`;
+	return `${person.name} — ${standingOf(person)}, ${person.email} (account id: ${person.id})`;
+}
+
+function standingOf(person: ProjectPerson): string {
+	if (person.isOwner) return 'owner';
+	if (isOnThroughOrganisation(person)) return `member through ${person.viaOrganisation}`;
+	return 'member';
 }
 
 async function callerAccount(caller: McpCaller): Promise<Account> {

@@ -1,6 +1,6 @@
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
-import { describeProject, describeProjectLine, noSuchProject, openWorkPhrase } from './describeProject';
+import { describeProject, describeProjectLine, forOrganisation, noSuchProject, openWorkPhrase } from './describeProject';
 import { describeKitStanding, kitStanding } from '$lib/data/kitVersion';
 import { kitReadingOf } from '$lib/server/kit/kitReadingOf';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
@@ -10,7 +10,9 @@ import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCount
 import { getProjectsForOwner } from '$lib/server/projects/getProjectsForOwner';
 import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import { getTeamProjects, type TeamProject } from '$lib/server/members/getTeamProjects';
-import { objectSchema, readText, textField } from '../actionTypes';
+import { getOrganisations } from '$lib/server/organisations/getOrganisations';
+import { everyOrganisationFilter, matchesOrganisationFilter } from '$lib/data/organisationFilter';
+import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { reachableProject } from '../projectAccess';
 import type { McpAction } from '../actionTypes';
@@ -24,12 +26,19 @@ export const projectReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'the projects you own, in priority order, then the projects you are on as a team member, in your own order',
-		inputSchema: objectSchema({}),
-		run: async (caller) => {
+			'the projects you own, in priority order, then the projects you are on as a team member, in your own order — all of them, or those under one organisation',
+		inputSchema: objectSchema({
+			organisationId: textField(
+				'Narrow to the projects under one organisation and its sub-organisations, as list_organisations gives it'
+			)
+		}),
+		run: async (caller, input) => {
 			const assignedTaskCounts = await getAssignedTaskCounts(caller.supabase, caller.accountId);
-			const owned = await getProjectsForOwner(caller.supabase, caller.accountId, assignedTaskCounts);
-			const team = await getTeamProjects(caller.supabase, caller.accountId, assignedTaskCounts);
+			const filter = readOptionalText(input, 'organisationId') ?? everyOrganisationFilter;
+			const organisations = await getOrganisations(caller.supabase);
+			const underFilter = (project: Project) => matchesOrganisationFilter(project.organisationId, filter, organisations);
+			const owned = (await getProjectsForOwner(caller.supabase, caller.accountId, assignedTaskCounts)).filter(underFilter);
+			const team = (await getTeamProjects(caller.supabase, caller.accountId, assignedTaskCounts)).filter(underFilter);
 			if (owned.length === 0 && team.length === 0) {
 				return 'You have no projects yet. Call create_project to start one.';
 			}
@@ -76,5 +85,5 @@ async function kitLineFor(supabase: SupabaseClient, project: Project): Promise<s
 function teamProjectLine(project: TeamProject): string {
 	const status = projectStatusLabels[project.status];
 	const place = `priority ${project.priority} among your team projects, id: ${project.id}`;
-	return `${project.name} — ${status}, ${openWorkPhrase(project)}, owned by ${project.ownerName} (${place})`;
+	return `${project.name} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)}, owned by ${project.ownerName} (${place})`;
 }

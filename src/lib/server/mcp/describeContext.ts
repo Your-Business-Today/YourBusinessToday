@@ -1,5 +1,7 @@
 import { actionsFor, areasFor } from './actionRegistry';
 import { countPendingDatabaseTasks } from '$lib/server/databaseTasks/getDatabaseTaskRegister';
+import { getOrganisations } from '$lib/server/organisations/getOrganisations';
+import { organisationNameLookup } from '$lib/data/organisationFamilies';
 import { raisingDoctrine } from './raisingDoctrine';
 import { workingDoctrine } from './workingDoctrine';
 import type { McpCaller } from './resolveMcpCaller';
@@ -8,6 +10,7 @@ export async function describeContext(caller: McpCaller): Promise<string> {
 	return [
 		`Signed in as ${caller.email}.`,
 		projectsLine(caller),
+		await organisationsLine(caller),
 		staffLine(caller),
 		await databaseTasksLine(caller),
 		`Areas you can reach: ${areasFor(caller).join(', ')}.`,
@@ -26,6 +29,17 @@ function projectsLine(caller: McpCaller): string {
 	const owned = countOf(ownedProjectIds.length, 'project');
 	const joined = countOf(memberProjectIds.length, 'project');
 	return `You own ${owned} and are on the team of ${joined}. Everyone on a project works and manages it; only its owner can hand it on.`;
+}
+
+async function organisationsLine(caller: McpCaller): Promise<string | null> {
+	const memberships = caller.organisationMemberships;
+	if (memberships.length === 0) return null;
+	const nameOf = organisationNameLookup(await getOrganisations(caller.supabase));
+	const standings = memberships.map((membership) => {
+		const standing = membership.isManager ? ' (project manager)' : '';
+		return `${nameOf(membership.organisationId)}${standing}`;
+	});
+	return `You are on ${countOf(memberships.length, 'organisation')}: ${standings.join(', ')} — every project under each is yours to work; call list_organisations.`;
 }
 
 function staffLine(caller: McpCaller): string | null {

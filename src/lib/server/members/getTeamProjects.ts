@@ -5,6 +5,7 @@ import type { AssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCou
 /** A project as one of its members sees it: `priority` is the member's own rank for it, not the owner's. */
 export type TeamProject = Project & {
 	ownerName: string;
+	organisationName: string;
 	openTaskCount: number;
 	assignedTaskCount: number;
 };
@@ -23,6 +24,7 @@ export async function getTeamProjects(
 			...project,
 			priority: row.member_priority as number,
 			ownerName: row.owner_name as string,
+			organisationName: (row.organisation_name as string) ?? '',
 			openTaskCount: row.open_task_count as number,
 			assignedTaskCount: assignedTaskCounts.forProject(project.id)
 		};

@@ -19,7 +19,13 @@ type OpenWork = { openTaskCount: number; assignedTaskCount: number };
 export function describeProjectLine(project: ProjectSummary): string {
 	const status = projectStatusLabels[project.status];
 	const place = `priority ${project.priority}, id: ${project.id}`;
-	return `${project.name} — ${status}, ${openWorkPhrase(project)} (${place})`;
+	return `${project.name} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)} (${place})`;
+}
+
+/** " for Jewel Passive Fire Protection", or nothing for a project under no organisation. */
+export function forOrganisation(project: { organisationName: string }): string {
+	if (project.organisationName === '') return '';
+	return ` for ${project.organisationName}`;
 }
 
 /** "72 open", with ", 3 assigned to you" when any of it is the caller's. */
