@@ -11,3 +11,12 @@ A pull request merges by itself when CI passes and Vercel deploys main within a 
 - **Every reader of the new schema on a path every request runs** — a layout load, a hook, the connector's account standing — answers empty when the schema is not there yet: `if (isSchemaNotYetMigrated(error)) return <empty>;` before the `throw`, from `$lib/server/schema/schemaNotYetMigrated`. Readers behind a page of their own may fail until the migration runs; the connector already tells the caller a migration is missing.
 - **Writes are not guarded.** A write to a table that does not exist yet fails and says so; it is never quietly dropped.
 - **A migration that drops or renames something live code reads ships in two pull requests:** the first stops reading it, the second changes the schema once the first is deployed.
+
+## Production deploys only from main
+
+Vercel project `ybt` is connected to Your-Business-Today/YourBusinessToday with `main` as its production branch, so every merged pull request deploys production by itself. What is live is always what was merged, with its checks passed.
+
+- **Production is never deployed by hand.** No `vercel --prod`, `vercel deploy --prod` or `vercel promote` of a local build: the CLI ships whatever the local checkout holds and goes around GitHub, its checks and the deploy count.
+- **A fix ships by a merged pull request**, however small, and an urgent one is still a pull request that merges at green.
+- **A rollback is Vercel's own.** Open the project's Deployments, pick an earlier `main` production deployment and use Instant Rollback, Promote or Redeploy on it; then fix forward with a pull request.
+- **A pull request waits on its Vercel preview.** The preview is a required status check on `main`, so auto-merge does not fire while it builds or when it fails.
