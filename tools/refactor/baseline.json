@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-10T18:36:42+00:00",
-  "kitVersion": "1.17.0",
+  "generatedAt": "2026-10-11T16:21:08+00:00",
+  "kitVersion": "1.18.0",
   "score": {
-    "overall": 91.6,
+    "overall": 91.7,
     "groups": [
       {
         "group": "Standard baseline checks",
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1075,
+        "measuredAgainst": 1167,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1325,
+        "measuredAgainst": 1440,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1616,
+        "measuredAgainst": 1763,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 38.32,
+        "measuredAgainst": 41.44,
         "score": 100.0
       },
       {
@@ -112,8 +112,8 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 30,
-        "measuredAgainst": 38.32,
-        "score": 96.1
+        "measuredAgainst": 41.44,
+        "score": 96.4
       },
       {
         "key": "orphans",
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1605,
+        "measuredAgainst": 1741,
         "score": 100.0
       },
       {
@@ -135,9 +135,9 @@
         "zeroAt": 30,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 11,
-        "measuredAgainst": 38.32,
-        "score": 99.0
+        "offenders": 7,
+        "measuredAgainst": 41.44,
+        "score": 99.4
       },
       {
         "key": "deepIndentation",
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 38.32,
+        "measuredAgainst": 41.44,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1325,
+        "measuredAgainst": 1440,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 84,
+        "measuredAgainst": 88,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1616,
+        "measuredAgainst": 1763,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1616,
+        "measuredAgainst": 1763,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1325,
+        "measuredAgainst": 1440,
         "score": 100.0
       },
       {
@@ -241,8 +241,8 @@
         "zeroAt": 0.5,
         "unit": "write doors",
         "isMeasured": true,
-        "offenders": 86,
-        "measuredAgainst": 101,
+        "offenders": 84,
+        "measuredAgainst": 113,
         "score": 0.0
       }
     ]
@@ -251,17 +251,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 1075,
-      "totalLines": 38320,
+      "totalFiles": 1167,
+      "totalLines": 41443,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 1325,
+      "totalFunctions": 1440,
       "elseBlocks": 0,
-      "ifBlocks": 1616,
+      "ifBlocks": 1763,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -276,7 +276,7 @@
     "duplication": {
       "clones": 0,
       "duplicatedLines": 0,
-      "totalLines": 39299,
+      "totalLines": 42648,
       "duplicatedPercentage": 0.0
     },
     "naming": {
@@ -294,9 +294,9 @@
       "repeatedStringLiterals": 30
     },
     "prose": {
-      "longMemberChainLines": 11,
+      "longMemberChainLines": 7,
       "deeplyIndentedLines": 0,
-      "overlongLines": 85,
+      "overlongLines": 86,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -306,19 +306,19 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 1325
+      "functionsExamined": 1440
     },
     "designPatterns": {
-      "roleFamilies": 56,
-      "predictedFiles": 84,
+      "roleFamilies": 63,
+      "predictedFiles": 88,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 34,
-      "components": 280,
+      "pages": 36,
+      "components": 301,
       "orphanComponents": 0,
       "averagePageLines": 48
     },
@@ -326,22 +326,22 @@
       "skipped": "no siteDefinition catalogue in rules.json"
     },
     "inputValidation": {
-      "schemaTables": 86,
+      "schemaTables": 88,
       "limitedColumns": 0,
-      "writeDoors": 101,
-      "unvalidatedDoors": 86,
+      "writeDoors": 113,
+      "unvalidatedDoors": 84,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 1466,
-      "frontend": 465,
-      "backend": 404,
-      "shared": 156,
-      "api": 118,
-      "tooling": 104,
-      "tests": 77,
-      "database": 76,
-      "docs": 53,
+      "totalFiles": 1564,
+      "frontend": 490,
+      "backend": 438,
+      "shared": 170,
+      "api": 130,
+      "tooling": 105,
+      "tests": 85,
+      "database": 79,
+      "docs": 54,
       "infrastructure": 13
     }
   },
@@ -351,8 +351,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 1075,
-        "totalLines": 38320,
+        "totalFiles": 1167,
+        "totalLines": 41443,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -363,9 +363,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 1325,
+        "totalFunctions": 1440,
         "elseBlocks": 0,
-        "ifBlocks": 1616,
+        "ifBlocks": 1763,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -500,27 +500,23 @@
         "repeatedLiterals": [
           {
             "literal": "hidden",
-            "occurrences": 65
+            "occurrences": 67
           },
           {
             "literal": "button",
-            "occurrences": 59
-          },
-          {
-            "literal": "flex flex-col gap-1",
-            "occurrences": 54
+            "occurrences": 66
           },
           {
             "literal": "flex flex-col gap-4",
-            "occurrences": 44
+            "occurrences": 47
           },
           {
             "literal": "text-xs text-chalk/50",
-            "occurrences": 26
+            "occurrences": 33
           },
           {
             "literal": "text-sm text-chalk/60",
-            "occurrences": 22
+            "occurrences": 24
           },
           {
             "literal": "flex flex-col gap-2",
@@ -531,11 +527,11 @@
             "occurrences": 21
           },
           {
-            "literal": "font-display text-3xl font-medium",
+            "literal": "submit",
             "occurrences": 18
           },
           {
-            "literal": "submit",
+            "literal": "flex flex-col gap-1",
             "occurrences": 17
           },
           {
@@ -556,10 +552,14 @@
           },
           {
             "literal": "min-w-0",
-            "occurrences": 10
+            "occurrences": 11
           },
           {
             "literal": "font-display text-xl",
+            "occurrences": 10
+          },
+          {
+            "literal": "text-lg text-chalk/70",
             "occurrences": 10
           },
           {
@@ -572,6 +572,18 @@
           },
           {
             "literal": "noreferrer",
+            "occurrences": 9
+          },
+          {
+            "literal": "checkbox",
+            "occurrences": 9
+          },
+          {
+            "literal": "font-display text-2xl font-medium",
+            "occurrences": 9
+          },
+          {
+            "literal": "text-chalk/80",
             "occurrences": 9
           },
           {
@@ -595,23 +607,11 @@
             "occurrences": 8
           },
           {
-            "literal": "checkbox",
+            "literal": "accent-go",
             "occurrences": 8
           },
           {
             "literal": "personId",
-            "occurrences": 8
-          },
-          {
-            "literal": "font-display text-2xl font-medium",
-            "occurrences": 8
-          },
-          {
-            "literal": "text-lg text-chalk/70",
-            "occurrences": 8
-          },
-          {
-            "literal": "text-chalk/80",
             "occurrences": 8
           },
           {
@@ -624,44 +624,28 @@
     "prose": {
       "name": "prose",
       "summary": {
-        "longMemberChainLines": 11,
+        "longMemberChainLines": 7,
         "deeplyIndentedLines": 0,
-        "overlongLines": 85,
+        "overlongLines": 86,
         "measurementIsHeuristic": true
       },
       "offenders": {
         "memberChains": [
           {
-            "file": "src/lib/components/projects/taskTreeCounts.test.ts",
-            "line": 14
-          },
-          {
             "file": "src/lib/data/legal/privacyRightsSections.ts",
             "line": 15
           },
           {
-            "file": "src/lib/data/taskAttachmentRules.test.ts",
-            "line": 4
+            "file": "src/lib/data/officeMimeTypes.ts",
+            "line": 1
           },
           {
-            "file": "src/lib/data/taskAttachmentRules.test.ts",
-            "line": 5
-          },
-          {
-            "file": "src/lib/data/taskAttachmentRules.ts",
-            "line": 20
-          },
-          {
-            "file": "src/lib/data/taskAttachmentRules.ts",
-            "line": 21
+            "file": "src/lib/data/officeMimeTypes.ts",
+            "line": 2
           },
           {
             "file": "src/lib/server/clientDocuments/docx/buildWordDocument.ts",
-            "line": 13
-          },
-          {
-            "file": "src/lib/server/clientDocuments/docx/buildWordDocument.ts",
-            "line": 20
+            "line": 17
           },
           {
             "file": "src/lib/server/enquiries/findRecentWebsiteEnquiry.ts",
@@ -700,15 +684,7 @@
           },
           {
             "file": "src/lib/data/consultancyDisciplines.ts",
-            "line": 12
-          },
-          {
-            "file": "src/lib/data/consultancyDisciplines.ts",
-            "line": 24
-          },
-          {
-            "file": "src/lib/data/consultancyDisciplines.ts",
-            "line": 30
+            "line": 42
           },
           {
             "file": "src/lib/data/consultancyOffer.ts",
@@ -749,6 +725,10 @@
           {
             "file": "src/lib/data/consultancyOffer.ts",
             "line": 55
+          },
+          {
+            "file": "src/lib/data/jewelBuild.ts",
+            "line": 44
           },
           {
             "file": "src/lib/data/kitVersion.ts",
@@ -877,6 +857,10 @@
           {
             "file": "src/lib/data/legal/termsAccountSections.ts",
             "line": 35
+          },
+          {
+            "file": "src/lib/data/legal/termsAccountSections.ts",
+            "line": 36
           }
         ]
       }
@@ -897,15 +881,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 1325
+        "functionsExamined": 1440
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 56,
-        "predictedFiles": 84,
+        "roleFamilies": 63,
+        "predictedFiles": 88,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -913,61 +897,68 @@
       },
       "offenders": {
         "roleFamilies": {
-          "+page.server.ts": 26,
-          "+page.svelte": 34,
+          "+page.server.ts": 28,
+          "+page.svelte": 36,
           "+server.ts": 13,
-          "access": 4,
-          "actions": 65,
+          "access": 7,
+          "actions": 76,
           "attachment": 5,
           "bar": 4,
           "button": 8,
           "card": 5,
           "client": 13,
-          "email": 7,
+          "count": 4,
+          "details": 4,
+          "email": 8,
           "event": 5,
-          "field": 5,
-          "fields": 18,
-          "filter": 5,
-          "form": 41,
+          "field": 6,
+          "fields": 19,
+          "filter": 7,
+          "form": 45,
           "goal": 8,
           "grant": 4,
-          "header": 12,
+          "header": 14,
           "ids": 7,
           "kind": 5,
           "link": 8,
           "list": 14,
+          "member": 4,
           "menu": 4,
           "message": 4,
           "modal": 7,
+          "modals": 4,
           "model": 5,
           "name": 6,
           "names": 5,
           "note": 5,
-          "panel": 14,
+          "organisation": 10,
+          "panel": 18,
           "password": 5,
           "people": 4,
           "person": 6,
           "pill": 7,
           "priority": 5,
           "profile": 5,
-          "project": 13,
-          "projects": 5,
-          "record": 19,
+          "project": 14,
+          "projects": 6,
+          "record": 21,
           "refusal": 5,
           "request": 6,
-          "row": 23,
-          "section": 26,
+          "row": 26,
+          "rules": 4,
+          "section": 27,
           "sections": 8,
           "sentence": 5,
+          "standing": 5,
           "status": 4,
-          "styles": 4,
+          "styles": 5,
           "svelte": 10,
           "table": 4,
           "task": 15,
           "tasks": 5,
-          "test": 73,
+          "test": 80,
           "text": 6,
-          "types": 10,
+          "types": 11,
           "xml": 4
         },
         "patterns": [
@@ -993,12 +984,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 26,
+            "predicted": 28,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 34,
+            "predicted": 36,
             "missing": []
           }
         ],
@@ -1009,19 +1000,18 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 34,
-        "components": 280,
+        "pages": 36,
+        "components": 301,
         "orphanComponents": 0,
         "averagePageLines": 48
       },
       "offenders": {
         "pages": [
           {
-            "page": "src/routes/clients/[clientId]/+page.svelte",
-            "lines": 100,
+            "page": "src/routes/projects/[projectId]/+page.svelte",
+            "lines": 99,
             "widgets": [
-              "modal",
-              "error"
+              "modal"
             ]
           },
           {
@@ -1040,17 +1030,18 @@
             ]
           },
           {
-            "page": "src/routes/projects/[projectId]/+page.svelte",
-            "lines": 98,
+            "page": "src/routes/projects/+page.svelte",
+            "lines": 88,
             "widgets": [
               "modal"
             ]
           },
           {
-            "page": "src/routes/projects/+page.svelte",
-            "lines": 94,
+            "page": "src/routes/clients/[clientId]/+page.svelte",
+            "lines": 87,
             "widgets": [
-              "modal"
+              "modal",
+              "error"
             ]
           },
           {
@@ -1070,19 +1061,26 @@
             ]
           },
           {
-            "page": "src/routes/projects/[projectId]/goals/[goalId]/+page.svelte",
-            "lines": 62,
+            "page": "src/routes/organisations/[organisationId]/+page.svelte",
+            "lines": 68,
             "widgets": [
               "modal"
             ]
           },
           {
             "page": "src/routes/account/+page.svelte",
-            "lines": 61,
+            "lines": 62,
             "widgets": [
               "modal",
               "form",
               "submit"
+            ]
+          },
+          {
+            "page": "src/routes/projects/[projectId]/goals/[goalId]/+page.svelte",
+            "lines": 62,
+            "widgets": [
+              "modal"
             ]
           },
           {
@@ -1094,32 +1092,36 @@
           },
           {
             "page": "src/routes/clients/prospect/+page.svelte",
-            "lines": 53,
+            "lines": 54,
             "widgets": [
               "error"
             ]
           },
           {
             "page": "src/routes/people/+page.svelte",
-            "lines": 51,
+            "lines": 52,
             "widgets": [
               "error"
             ]
           },
           {
             "page": "src/routes/clients/map/+page.svelte",
-            "lines": 49,
+            "lines": 50,
             "widgets": [
               "error"
             ]
           },
           {
-            "page": "src/routes/account/set-password/+page.svelte",
-            "lines": 47,
+            "page": "src/routes/admin/+page.svelte",
+            "lines": 46,
             "widgets": [
-              "form",
-              "error"
+              "list"
             ]
+          },
+          {
+            "page": "src/routes/admin/documents/+page.svelte",
+            "lines": 46,
+            "widgets": []
           },
           {
             "page": "src/routes/contact/+page.svelte",
@@ -1127,31 +1129,32 @@
             "widgets": []
           },
           {
-            "page": "src/routes/admin/+page.svelte",
-            "lines": 45,
+            "page": "src/routes/account/set-password/+page.svelte",
+            "lines": 44,
             "widgets": [
-              "list"
+              "form",
+              "error"
             ]
           },
           {
-            "page": "src/routes/admin/documents/+page.svelte",
-            "lines": 45,
-            "widgets": []
-          },
-          {
             "page": "src/routes/notifications/+page.svelte",
-            "lines": 42,
+            "lines": 43,
             "widgets": [
               "list"
             ]
           },
           {
             "page": "src/routes/oauth/authorize/+page.svelte",
-            "lines": 42,
+            "lines": 43,
             "widgets": [
               "form",
               "submit"
             ]
+          },
+          {
+            "page": "src/routes/account/sign-in/+page.svelte",
+            "lines": 42,
+            "widgets": []
           },
           {
             "page": "src/routes/projects/feed/+page.svelte",
@@ -1161,13 +1164,22 @@
             ]
           },
           {
-            "page": "src/routes/account/sign-in/+page.svelte",
-            "lines": 41,
-            "widgets": []
+            "page": "src/routes/clients/+page.svelte",
+            "lines": 40,
+            "widgets": [
+              "error"
+            ]
           },
           {
-            "page": "src/routes/clients/+page.svelte",
-            "lines": 39,
+            "page": "src/routes/organisations/+page.svelte",
+            "lines": 40,
+            "widgets": [
+              "modal"
+            ]
+          },
+          {
+            "page": "src/routes/clients/research/+page.svelte",
+            "lines": 38,
             "widgets": [
               "error"
             ]
@@ -1178,25 +1190,18 @@
             "widgets": []
           },
           {
-            "page": "src/routes/clients/research/+page.svelte",
-            "lines": 37,
-            "widgets": [
-              "error"
-            ]
-          },
-          {
             "page": "src/routes/upload/[token]/+page.svelte",
-            "lines": 34,
+            "lines": 35,
             "widgets": []
           },
           {
             "page": "src/routes/support/+page.svelte",
-            "lines": 28,
+            "lines": 29,
             "widgets": []
           },
           {
             "page": "src/routes/+page.svelte",
-            "lines": 26,
+            "lines": 28,
             "widgets": []
           },
           {
@@ -1238,18 +1243,26 @@
         "componentReuse": [
           {
             "component": "src/lib/components/site/SubmitButton.svelte",
-            "reusedBy": 51
+            "reusedBy": 54
           },
           {
             "component": "src/lib/components/site/FormErrorNote.svelte",
-            "reusedBy": 34
+            "reusedBy": 37
+          },
+          {
+            "component": "src/lib/components/site/SmallCapsField.svelte",
+            "reusedBy": 26
           },
           {
             "component": "src/lib/components/site/Modal.svelte",
-            "reusedBy": 19
+            "reusedBy": 24
           },
           {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
+            "reusedBy": 21
+          },
+          {
+            "component": "src/lib/components/site/PageTitle.svelte",
             "reusedBy": 17
           },
           {
@@ -1258,22 +1271,26 @@
           },
           {
             "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
-            "reusedBy": 8
+            "reusedBy": 10
           },
           {
             "component": "src/lib/components/site/DangerConfirmModal.svelte",
-            "reusedBy": 6
+            "reusedBy": 8
+          },
+          {
+            "component": "src/lib/components/workspace/FlashMessage.svelte",
+            "reusedBy": 8
           },
           {
             "component": "src/lib/components/site/ProseText.svelte",
             "reusedBy": 6
           },
           {
-            "component": "src/lib/components/workspace/FlashMessage.svelte",
-            "reusedBy": 6
+            "component": "src/lib/components/projects/PriorityControls.svelte",
+            "reusedBy": 5
           },
           {
-            "component": "src/lib/components/projects/PriorityControls.svelte",
+            "component": "src/lib/components/site/EmptyState.svelte",
             "reusedBy": 5
           },
           {
@@ -1293,7 +1310,7 @@
             "reusedBy": 4
           },
           {
-            "component": "src/lib/components/site/EmptyState.svelte",
+            "component": "src/lib/components/projects/ProjectStatusBadge.svelte",
             "reusedBy": 4
           },
           {
@@ -1313,11 +1330,11 @@
             "reusedBy": 4
           },
           {
-            "component": "src/lib/components/projects/KitVersionBadge.svelte",
+            "component": "src/lib/components/organisations/OrganisationBadge.svelte",
             "reusedBy": 3
           },
           {
-            "component": "src/lib/components/projects/ProjectStatusBadge.svelte",
+            "component": "src/lib/components/projects/KitVersionBadge.svelte",
             "reusedBy": 3
           },
           {
@@ -1394,6 +1411,18 @@
           },
           {
             "component": "src/lib/components/members/PersonRow.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/organisations/NewOrganisationForm.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationDetailsFields.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationSelect.svelte",
             "reusedBy": 2
           },
           {
@@ -1513,6 +1542,10 @@
             "reusedBy": 2
           },
           {
+            "component": "src/lib/components/workspace/PersonInitials.svelte",
+            "reusedBy": 2
+          },
+          {
             "component": "src/lib/components/workspace/StatTile.svelte",
             "reusedBy": 2
           },
@@ -1618,6 +1651,10 @@
           },
           {
             "component": "src/lib/components/clients/ClientGroupSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/ClientHeader.svelte",
             "reusedBy": 1
           },
           {
@@ -1845,6 +1882,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/home/ProjectSystemSection.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/home/TeamSection.svelte",
             "reusedBy": 1
           },
@@ -1886,6 +1927,54 @@
           },
           {
             "component": "src/lib/components/offer/OfferTermsSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/InviteMemberForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/InvoicingDetailsPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationDetailsForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationFilterChips.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationMemberRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationPeoplePanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationProjectRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationProjectsPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationRegister.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/OrganisationsPageHeader.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/SubOrganisationsPanel.svelte",
             "reusedBy": 1
           },
           {
@@ -2062,6 +2151,10 @@
           },
           {
             "component": "src/lib/components/projects/ProjectDetailHeader.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/ProjectEditModals.svelte",
             "reusedBy": 1
           },
           {
@@ -2349,10 +2442,6 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/workspace/PersonInitials.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/workspace/ProgressTrack.svelte",
             "reusedBy": 1
           }
@@ -2373,63 +2462,63 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 1466,
-        "frontend": 465,
-        "backend": 404,
-        "shared": 156,
-        "api": 118,
-        "tooling": 104,
-        "tests": 77,
-        "database": 76,
-        "docs": 53,
+        "totalFiles": 1564,
+        "frontend": 490,
+        "backend": 438,
+        "shared": 170,
+        "api": 130,
+        "tooling": 105,
+        "tests": 85,
+        "database": 79,
+        "docs": 54,
         "infrastructure": 13
       },
       "offenders": [
         {
           "area": "frontend",
-          "files": 465,
-          "sourceFiles": 341,
-          "sourceLines": 12466
+          "files": 490,
+          "sourceFiles": 366,
+          "sourceLines": 13288
         },
         {
           "area": "backend",
-          "files": 404,
-          "sourceFiles": 401,
-          "sourceLines": 12526
+          "files": 438,
+          "sourceFiles": 435,
+          "sourceLines": 13473
         },
         {
           "area": "shared",
-          "files": 156,
-          "sourceFiles": 142,
-          "sourceLines": 4601
+          "files": 170,
+          "sourceFiles": 156,
+          "sourceLines": 5029
         },
         {
           "area": "api",
-          "files": 118,
-          "sourceFiles": 118,
-          "sourceLines": 5604
+          "files": 130,
+          "sourceFiles": 130,
+          "sourceLines": 6201
         },
         {
           "area": "tooling",
-          "files": 104,
+          "files": 105,
           "sourceFiles": 0,
           "sourceLines": 0
         },
         {
           "area": "tests",
-          "files": 77,
-          "sourceFiles": 73,
-          "sourceLines": 3123
+          "files": 85,
+          "sourceFiles": 80,
+          "sourceLines": 3452
         },
         {
           "area": "database",
-          "files": 76,
+          "files": 79,
           "sourceFiles": 0,
           "sourceLines": 0
         },
         {
           "area": "docs",
-          "files": 53,
+          "files": 54,
           "sourceFiles": 0,
           "sourceLines": 0
         },
@@ -2444,10 +2533,10 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 86,
+        "schemaTables": 88,
         "limitedColumns": 0,
-        "writeDoors": 101,
-        "unvalidatedDoors": 86,
+        "writeDoors": 113,
+        "unvalidatedDoors": 84,
         "looserLimits": 0
       },
       "offenders": {
@@ -2663,21 +2752,6 @@
               "clientevent",
               "oauthtoken",
               "project"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/projectPeopleActions.ts",
-            "tables": [
-              "oauthtoken",
-              "projectmember"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/projectReadActions.ts",
-            "tables": [
-              "oauthtoken",
-              "project",
-              "projectprocesskit"
             ]
           },
           {
@@ -2900,6 +2974,12 @@
             ]
           },
           {
+            "file": "src/lib/server/mcp/actions/waitingActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
             "file": "src/lib/server/mcp/actions/withProjectAccess.ts",
             "tables": [
               "oauthtoken"
@@ -3040,15 +3120,6 @@
             ]
           },
           {
-            "file": "src/routes/projects/+page.server.ts",
-            "tables": [
-              "oauthtoken",
-              "project",
-              "projectmember",
-              "projectprocesskit"
-            ]
-          },
-          {
             "file": "src/routes/projects/[projectId]/goals/[goalId]/+page.server.ts",
             "tables": [
               "conversationmessage",
@@ -3090,7 +3161,7 @@
       "summary": {
         "clones": 0,
         "duplicatedLines": 0,
-        "totalLines": 39299,
+        "totalLines": 42648,
         "duplicatedPercentage": 0.0
       },
       "offenders": []
