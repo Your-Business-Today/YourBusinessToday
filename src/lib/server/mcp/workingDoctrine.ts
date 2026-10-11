@@ -1,7 +1,8 @@
 export const workingDoctrine = [
 	'How we work here — read once per session, then follow it:',
 	'1. Start with read_latest_messages. Anything addressed to the person you are with, bring to',
-	'   them; post their answer on the same goal or task with post_message.',
+	'   them; post their answer on the same goal or task with post_message. To see everything',
+	'   waiting on them without moving the read marker, done tasks included, call list_waiting_on_me.',
 	'2. Every piece of work is done on a task. Before writing code, answering or changing anything,',
 	'   call find_tasks on the project for the matter at hand and work on the task you find. Raise',
 	'   one with create_task only when nothing matches: a bug as "FIX: <what is wrong>", anything',

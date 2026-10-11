@@ -8,6 +8,7 @@ import { projectMembershipActions } from './actions/projectMembershipActions';
 import { projectPeopleActions } from './actions/projectPeopleActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
+import { waitingActions } from './actions/waitingActions';
 import { actionAudiences, type ActionArea, type McpAction } from './actionTypes';
 import type { AccountStanding } from './resolveAccountStanding';
 
@@ -21,6 +22,7 @@ const everyAction: McpAction[] = [
 	...goalActions,
 	...supportTaskActions,
 	...conversationActions,
+	...waitingActions,
 	...taskActions
 ];
 
