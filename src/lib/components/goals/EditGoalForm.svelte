@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import GoalHorizonField from './GoalHorizonField.svelte';
@@ -13,9 +14,6 @@
 	let { goal, onSaved }: { goal: Goal; onSaved: () => void } = $props();
 
 	const tracker = new FormTracker();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <form method="POST" action="?/saveGoal" use:enhance={tracker.submit(onSaved)} class="flex flex-col gap-4">

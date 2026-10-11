@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
-	import { organisationFieldClasses, organisationSubmitClasses } from './organisationFormStyles';
+	import { organisationSubmitClasses } from './organisationFormStyles';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { organisationName, onInvited }: { organisationName: string; onInvited: () => void } = $props();
@@ -13,7 +14,7 @@
 
 <form method="POST" action="?/invitePerson" use:enhance={tracker.submit(onInvited)} class="flex flex-col gap-4">
 	<SmallCapsField label="Email address">
-		<input name="email" type="email" required placeholder="Where to send the invitation" class={organisationFieldClasses} />
+		<input name="email" type="email" required placeholder="Where to send the invitation" class={fieldClasses} />
 	</SmallCapsField>
 	<label class="flex items-center gap-3 text-sm">
 		<input type="checkbox" name="isManager" class="accent-go" />

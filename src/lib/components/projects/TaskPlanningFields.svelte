@@ -1,12 +1,10 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { fibonacciStoryPoints } from '$lib/data/storyPoints';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { task }: { task: ProjectTask } = $props();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <div class="grid gap-4 sm:grid-cols-2">

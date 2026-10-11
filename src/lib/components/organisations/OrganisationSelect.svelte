@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { inFamilyOrder } from '$lib/data/organisationFamilies';
 	import { organisationProjectHint, personalProjectHint, personalProjectLabel } from '$lib/data/personalProject';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
@@ -6,12 +7,10 @@
 
 	let {
 		organisations,
-		selectedOrganisationId,
-		fieldClasses
+		selectedOrganisationId
 	}: {
 		organisations: Organisation[];
 		selectedOrganisationId: string | null;
-		fieldClasses: string;
 	} = $props();
 
 	const inOrder = $derived(inFamilyOrder(organisations));

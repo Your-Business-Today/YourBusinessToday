@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import {
 		longestAccountsContactEmail,
 		longestAccountsContactName,
@@ -7,7 +8,7 @@
 		longestOrganisationName,
 		type OrganisationDetails
 	} from '$lib/data/organisationRules';
-	import { organisationFieldClasses, organisationLabelClasses } from './organisationFormStyles';
+	import { organisationLabelClasses } from './organisationFormStyles';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { details, namePlaceholder }: { details: OrganisationDetails; namePlaceholder: string } = $props();
@@ -22,7 +23,7 @@
 		value={details.name}
 		placeholder={namePlaceholder}
 		maxlength={longestOrganisationName}
-		class={organisationFieldClasses}
+		class={fieldClasses}
 	/>
 </SmallCapsField>
 <SmallCapsField label="Address">
@@ -31,7 +32,7 @@
 		rows="3"
 		placeholder="As it goes on an invoice"
 		maxlength={longestOrganisationAddress}
-		class={organisationFieldClasses}>{details.address}</textarea
+		class={fieldClasses}>{details.address}</textarea
 	>
 </SmallCapsField>
 <fieldset class="flex flex-col gap-3 rounded-xl border border-hairline p-4">
@@ -42,7 +43,7 @@
 			name="accountsContactName"
 			value={contact.name}
 			maxlength={longestAccountsContactName}
-			class={organisationFieldClasses}
+			class={fieldClasses}
 		/>
 	</label>
 	<div class="flex flex-wrap gap-3">
@@ -53,7 +54,7 @@
 				type="email"
 				value={contact.email}
 				maxlength={longestAccountsContactEmail}
-				class={organisationFieldClasses}
+				class={fieldClasses}
 			/>
 		</label>
 		<label class="flex max-w-48 flex-col gap-1">
@@ -62,7 +63,7 @@
 				name="accountsContactPhone"
 				value={contact.phone}
 				maxlength={longestAccountsContactPhone}
-				class={organisationFieldClasses}
+				class={fieldClasses}
 			/>
 		</label>
 	</div>

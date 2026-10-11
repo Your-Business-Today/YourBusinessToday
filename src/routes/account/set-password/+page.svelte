@@ -1,9 +1,7 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
-	import {
-		fieldClasses,
-		primaryButtonClasses
-	} from '$lib/components/account/accountFormStyles';
+	import { primaryButtonClasses } from '$lib/components/account/accountFormStyles';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { data, form } = $props();

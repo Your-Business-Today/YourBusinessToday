@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import OrganisationSelect from '$lib/components/organisations/OrganisationSelect.svelte';
@@ -10,9 +11,6 @@
 	let { organisations, onCreated }: { organisations: Organisation[]; onCreated: () => void } = $props();
 
 	const tracker = new FormTracker();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <form
@@ -32,7 +30,7 @@
 			class={fieldClasses}
 		></textarea>
 	</SmallCapsField>
-	<OrganisationSelect {organisations} selectedOrganisationId={null} {fieldClasses} />
+	<OrganisationSelect {organisations} selectedOrganisationId={null} />
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton
 		isSaving={tracker.isSaving}

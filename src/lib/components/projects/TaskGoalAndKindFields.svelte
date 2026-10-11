@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import GoalSelectOptions from './GoalSelectOptions.svelte';
 	import { taskKindLabels, taskKindOrder, type TaskKind } from '$lib/data/taskKind';
 	import type { Goal } from '$lib/server/goals/goalRecord';
@@ -15,9 +16,6 @@
 		kind?: TaskKind;
 		shouldOfferKind?: boolean;
 	} = $props();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <div class="grid gap-4 sm:grid-cols-2">

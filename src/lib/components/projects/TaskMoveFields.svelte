@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { taskMoveWarnings } from '$lib/data/taskMove';
 	import type { ProjectChoice } from '$lib/server/projects/getOtherProjects';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -23,8 +24,6 @@
 			? 'Where it is now (top level)'
 			: `Where it is now (under “${parentTask.title}”)`
 	);
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <SmallCapsField label="Project">

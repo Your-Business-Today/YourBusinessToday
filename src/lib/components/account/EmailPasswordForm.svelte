@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import {
-		fieldClasses,
 		noticeClasses,
 		primaryButtonClasses,
 		quietButtonClasses

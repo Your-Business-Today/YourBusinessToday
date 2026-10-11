@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import {
 		databaseKindLabels,
 		databaseKindOrder,
@@ -10,7 +11,7 @@
 	import { longestDatabaseDetail, type ProjectDatabase } from '$lib/data/projectDatabase';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
-	let { database, fieldClasses }: { database: ProjectDatabase; fieldClasses: string } = $props();
+	let { database }: { database: ProjectDatabase } = $props();
 
 	let chosenKind: DatabaseKind | null = $state(null);
 

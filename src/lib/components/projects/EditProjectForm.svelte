@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import OrganisationSelect from '$lib/components/organisations/OrganisationSelect.svelte';
@@ -18,9 +19,6 @@
 	}: { project: Project; organisations: Organisation[]; onSaved: () => void } = $props();
 
 	const tracker = new FormTracker();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <form
@@ -49,7 +47,6 @@
 	<OrganisationSelect
 		{organisations}
 		selectedOrganisationId={project.organisationId}
-		{fieldClasses}
 	/>
 	<SmallCapsField label="Repository">
 		<input name="repositoryUrl" value={project.repositoryUrl} placeholder="https://github.com/..." class={fieldClasses} />
@@ -68,7 +65,7 @@
 	<p class="text-sm text-chalk/50">
 		Every push to the default branch counts as a deploy. At the number above a refactor round is raised on this project as the reminder to run it; 0 turns that off.
 	</p>
-	<ProjectDatabaseFields database={project.database} {fieldClasses} />
+	<ProjectDatabaseFields database={project.database} />
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton
 		isSaving={tracker.isSaving}

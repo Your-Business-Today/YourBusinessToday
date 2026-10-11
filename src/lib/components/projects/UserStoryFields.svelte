@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 	let { task }: { task: ProjectTask } = $props();
@@ -11,8 +12,6 @@
 	}
 
 	const isUserStory = $derived(isUserStoryOverride ?? task.isUserStory);
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <div class="flex flex-col gap-4 rounded-xl border border-hairline p-4">

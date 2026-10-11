@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { startsWhenever } from '$lib/data/taskSequenceStanding';
 	import { taskStatusLabelFor } from '$lib/data/taskKind';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -8,9 +9,6 @@
 		waitsForTaskId,
 		sequenceChoices
 	}: { waitsForTaskId: string | null; sequenceChoices: ProjectTask[] } = $props();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <SmallCapsField label="Waits for">
