@@ -5,6 +5,7 @@
 	import Modal from '$lib/components/site/Modal.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data, form } = $props();
 
@@ -20,7 +21,7 @@
 <div class="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-16">
 	<div class="flex flex-wrap items-end justify-between gap-4">
 		<div class="flex flex-col gap-1">
-			<h1 class="font-display text-3xl font-medium">Account</h1>
+			<PageTitle>Account</PageTitle>
 			<p class="text-chalk/70">{data.userEmail}</p>
 		</div>
 		<form method="POST" action="?/signOut" use:enhance={signOutTracker.submit()}>

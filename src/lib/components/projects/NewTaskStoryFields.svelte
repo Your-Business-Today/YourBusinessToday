@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { bugFixTitlePrefix } from '$lib/data/userStoryRule';
 
 	let { isStoryRequired }: { isStoryRequired: boolean } = $props();
@@ -8,8 +9,6 @@
 		{ name: 'storyWant', label: 'I want…', placeholder: 'to record the day from my phone' },
 		{ name: 'storyBenefit', label: 'So that…', placeholder: 'the weekly report writes itself' }
 	];
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <fieldset class="flex flex-col gap-3 rounded-xl border border-caution/30 p-4">

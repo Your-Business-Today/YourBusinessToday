@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import GoalSelectOptions from './GoalSelectOptions.svelte';
 	import { taskKindLabels, taskKindOrder, type TaskKind } from '$lib/data/taskKind';
 	import type { Goal } from '$lib/server/goals/goalRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let {
 		goals,
@@ -14,26 +16,21 @@
 		kind?: TaskKind;
 		shouldOfferKind?: boolean;
 	} = $props();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <div class="grid gap-4 sm:grid-cols-2">
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Goal</span>
+	<SmallCapsField label="Goal">
 		<select name="goalId" value={goalId ?? ''} class={fieldClasses}>
 			<GoalSelectOptions {goals} />
 		</select>
-	</label>
+	</SmallCapsField>
 	{#if shouldOfferKind}
-		<label class="flex flex-col gap-1">
-			<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Kind</span>
+		<SmallCapsField label="Kind">
 			<select name="kind" bind:value={kind} class={fieldClasses}>
 				{#each taskKindOrder as kindOption (kindOption)}
 					<option value={kindOption}>{taskKindLabels[kindOption]}</option>
 				{/each}
 			</select>
-		</label>
+		</SmallCapsField>
 	{/if}
 </div>

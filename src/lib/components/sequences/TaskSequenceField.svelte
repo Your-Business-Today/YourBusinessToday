@@ -1,19 +1,17 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { startsWhenever } from '$lib/data/taskSequenceStanding';
 	import { taskStatusLabelFor } from '$lib/data/taskKind';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let {
 		waitsForTaskId,
 		sequenceChoices
 	}: { waitsForTaskId: string | null; sequenceChoices: ProjectTask[] } = $props();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
-<label class="flex flex-col gap-1">
-	<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Waits for</span>
+<SmallCapsField label="Waits for">
 	<select name="waitsForTaskId" value={waitsForTaskId ?? ''} class={fieldClasses}>
 		<option value="">{startsWhenever}</option>
 		{#each sequenceChoices as choice (choice.id)}
@@ -25,4 +23,4 @@
 	<span class="text-xs text-chalk/50">
 		The step before this one. A series of tasks each waiting for the one before shows as a sequence.
 	</span>
-</label>
+</SmallCapsField>

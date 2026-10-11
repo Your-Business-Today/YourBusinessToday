@@ -1,12 +1,10 @@
 import { error } from '@sveltejs/kit';
 import { findClientDocumentEntry } from '$lib/data/clientDocumentCatalogue';
+import { wordDocumentMimeType } from '$lib/data/officeMimeTypes';
 import { requireAdmin } from '$lib/server/admin/requireAdmin';
 import { attachmentResponse } from '$lib/server/clientDocuments/attachmentResponse';
 import { clientDocumentFileName } from '$lib/server/clientDocuments/clientDocumentFileName';
-import {
-	buildWordDocument,
-	wordDocumentContentType
-} from '$lib/server/clientDocuments/docx/buildWordDocument';
+import { buildWordDocument } from '$lib/server/clientDocuments/docx/buildWordDocument';
 import { readClientDocumentBySlug } from '$lib/server/clientDocuments/readClientDocumentBySlug';
 import type { RequestHandler } from './$types';
 
@@ -18,6 +16,6 @@ export const GET: RequestHandler = async ({ locals, params }) => {
 	return attachmentResponse(
 		buildWordDocument(markdown),
 		clientDocumentFileName(entry),
-		wordDocumentContentType
+		wordDocumentMimeType
 	);
 };

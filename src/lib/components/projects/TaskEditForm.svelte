@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import PriorityField from '$lib/components/site/PriorityField.svelte';
@@ -16,6 +17,7 @@
 	import type { ProjectChoice } from '$lib/server/projects/getOtherProjects';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let {
 		task,
@@ -44,8 +46,6 @@
 	const tracker = new FormTracker();
 
 	const priorityScope = $derived(taskPriorityScope(parentTask?.id ?? null));
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <form
@@ -54,18 +54,16 @@
 	use:enhance={tracker.submit(onSaved)}
 	class="flex flex-col gap-4"
 >
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Title</span>
+	<SmallCapsField label="Title">
 		<input name="title" required value={task.title} class={fieldClasses} />
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Details</span>
+	</SmallCapsField>
+	<SmallCapsField label="Details">
 		<textarea
 			name="details"
 			rows="4"
 			placeholder="Context, links — anything Claude or the team needs"
 			class={fieldClasses}>{task.details}</textarea>
-	</label>
+	</SmallCapsField>
 	<TaskStatusAndDueFields {task} />
 	<TaskPlanningFields {task} />
 	<TaskSequenceField waitsForTaskId={task.waitsForTaskId} {sequenceChoices} />

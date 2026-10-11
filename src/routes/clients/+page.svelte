@@ -5,6 +5,7 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import StageFilterTabs from '$lib/components/clients/StageFilterTabs.svelte';
 	import { quietButtonClasses } from '$lib/components/site/formStyles';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data, form } = $props();
 
@@ -18,7 +19,7 @@
 <div class="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-16">
 	<div class="flex flex-wrap items-end justify-between gap-4">
 		<div class="flex flex-col gap-2">
-			<h1 class="font-display text-3xl font-medium">Clients</h1>
+			<PageTitle>Clients</PageTitle>
 			<p class="text-chalk/70">Everyone we work for, and everyone we hope to.</p>
 		</div>
 		<div class="flex flex-wrap gap-3">

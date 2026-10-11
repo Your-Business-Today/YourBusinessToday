@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { primaryButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	const notFound = 404;
 	const pageError = $derived(page.error);
@@ -20,7 +21,7 @@
 <div class="mx-auto flex max-w-md flex-col gap-6 px-6 py-16">
 	<div class="flex flex-col gap-2">
 		<p class="font-display text-xs tracking-widest text-chalk/40 uppercase">{page.status}</p>
-		<h1 class="font-display text-3xl font-medium">{heading}</h1>
+		<PageTitle>{heading}</PageTitle>
 		<p class="text-chalk/70">{explanation}</p>
 	</div>
 	{#if !isNotFound}

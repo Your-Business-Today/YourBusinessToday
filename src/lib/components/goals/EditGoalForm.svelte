@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import GoalHorizonField from './GoalHorizonField.svelte';
@@ -8,33 +9,28 @@
 	import { goalPriorityScope } from '$lib/data/goalHorizon';
 	import { goalStatusLabels, goalStatusOrder } from '$lib/data/goalStatus';
 	import type { Goal } from '$lib/server/goals/goalRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { goal, onSaved }: { goal: Goal; onSaved: () => void } = $props();
 
 	const tracker = new FormTracker();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <form method="POST" action="?/saveGoal" use:enhance={tracker.submit(onSaved)} class="flex flex-col gap-4">
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Goal</span>
+	<SmallCapsField label="Goal">
 		<input name="title" required value={goal.title} class={fieldClasses} />
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Measure</span>
+	</SmallCapsField>
+	<SmallCapsField label="Measure">
 		<textarea name="measure" rows="3" class={fieldClasses}>{goal.measure}</textarea>
-	</label>
+	</SmallCapsField>
 	<div class="flex flex-wrap gap-4">
-		<label class="flex flex-col gap-1">
-			<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Status</span>
+		<SmallCapsField label="Status">
 			<select name="status" value={goal.status} class={fieldClasses}>
 				{#each goalStatusOrder as statusOption (statusOption)}
 					<option value={statusOption}>{goalStatusLabels[statusOption]}</option>
 				{/each}
 			</select>
-		</label>
+		</SmallCapsField>
 		<GoalHorizonField horizon={goal.horizon} />
 		<PriorityField priority={goal.priority} among={goalPriorityScope(goal.horizon)} />
 	</div>

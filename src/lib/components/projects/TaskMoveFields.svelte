@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { taskMoveWarnings } from '$lib/data/taskMove';
 	import type { ProjectChoice } from '$lib/server/projects/getOtherProjects';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let {
 		parentTask,
@@ -22,20 +24,16 @@
 			? 'Where it is now (top level)'
 			: `Where it is now (under “${parentTask.title}”)`
 	);
-	const labelClasses = 'font-display text-sm tracking-widest text-chalk/50 uppercase';
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
-<label class="flex flex-col gap-1">
-	<span class={labelClasses}>Project</span>
+<SmallCapsField label="Project">
 	<select name="destinationProjectId" bind:value={destinationProjectId} class={fieldClasses}>
 		<option value={stayOnThisProject}>Stay on this project</option>
 		{#each otherProjects as otherProject (otherProject.id)}
 			<option value={otherProject.id}>Move to {otherProject.name}</option>
 		{/each}
 	</select>
-</label>
+</SmallCapsField>
 
 {#if isLeavingTheProject}
 	<ul
@@ -47,8 +45,7 @@
 		{/each}
 	</ul>
 {:else}
-	<label class="flex flex-col gap-1">
-		<span class={labelClasses}>Move to</span>
+	<SmallCapsField label="Move to">
 		<select name="moveTo" value="keep" class={fieldClasses}>
 			<option value="keep">{currentPositionLabel}</option>
 			{#if parentTask !== null}
@@ -58,5 +55,5 @@
 				<option value={siblingTask.id}>Subtask of “{siblingTask.title}”</option>
 			{/each}
 		</select>
-	</label>
+	</SmallCapsField>
 {/if}

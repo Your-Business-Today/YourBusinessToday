@@ -4,6 +4,7 @@
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { members, onTransferred }: { members: ProjectPerson[]; onTransferred: () => void } =
 		$props();
@@ -17,8 +18,7 @@
 	use:enhance={tracker.submit(onTransferred)}
 	class="flex flex-col gap-4"
 >
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">New owner</span>
+	<SmallCapsField label="New owner">
 		<select
 			name="accountId"
 			required
@@ -30,7 +30,7 @@
 				<option value={member.id}>{member.name}</option>
 			{/each}
 		</select>
-	</label>
+	</SmallCapsField>
 	<p class="text-xs text-chalk/50">
 		They take over managing the project — its details, its people, and deleting it. You stay on
 		it as a member and keep working its goals and tasks.

@@ -5,6 +5,7 @@
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import type { TaskChecklist } from '$lib/server/projects/checklistRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { checklist, isOpen = $bindable() }: { checklist: TaskChecklist; isOpen: boolean } =
 		$props();
@@ -24,8 +25,7 @@
 		class="flex flex-col gap-4"
 	>
 		<input type="hidden" name="checklistId" value={checklist.id} />
-		<label class="flex flex-col gap-1">
-			<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Title</span>
+		<SmallCapsField label="Title">
 			<input
 				name="title"
 				required
@@ -33,7 +33,7 @@
 				class="rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none
 					focus:border-go"
 			/>
-		</label>
+		</SmallCapsField>
 		<FormErrorNote message={tracker.errorMessage} />
 		<SubmitButton
 			isSaving={tracker.isSaving}

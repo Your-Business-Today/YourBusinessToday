@@ -3,6 +3,7 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { onInvited }: { onInvited: () => void } = $props();
 
@@ -15,8 +16,7 @@
 	use:enhance={tracker.submit(onInvited)}
 	class="flex flex-col gap-4"
 >
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Email address</span>
+	<SmallCapsField label="Email address">
 		<input
 			name="email"
 			type="email"
@@ -25,7 +25,7 @@
 			class="rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none
 				focus:border-go"
 		/>
-	</label>
+	</SmallCapsField>
 	<p class="text-xs text-chalk/50">
 		They join the project straight away and get an email. Someone new here sets a password from
 		it; someone with an account just signs in. They can then work every goal and task on this

@@ -1,3 +1,5 @@
+import { spreadsheetMimeType, wordDocumentMimeType } from './officeMimeTypes';
+
 export type AttachmentPreviewKind = 'image' | 'pdf';
 
 export const attachmentPreviewKinds = { image: 'image', pdf: 'pdf' } as const;
@@ -16,9 +18,6 @@ const mimeTypeShape = /^[^/\s]{1,127}\/[^/\s]{1,127}$/;
 export const maxInlineAttachmentByteCount = 3 * megabyte;
 
 const pdfMimeType = 'application/pdf';
-const wordDocumentMimeType =
-	'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-const spreadsheetMimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 const textLikeMimeTypes = ['application/json', 'application/xml'];
 const inlineImageMimeTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
 

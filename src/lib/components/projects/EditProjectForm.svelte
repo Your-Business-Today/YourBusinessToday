@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import OrganisationSelect from '$lib/components/organisations/OrganisationSelect.svelte';
@@ -9,6 +10,7 @@
 	import { projectStatusLabels, projectStatusOrder } from '$lib/data/projectStatus';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 	import type { Project } from '$lib/server/projects/projectRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let {
 		project,
@@ -17,10 +19,6 @@
 	}: { project: Project; organisations: Organisation[]; onSaved: () => void } = $props();
 
 	const tracker = new FormTracker();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
-	const labelClasses = 'font-display text-sm tracking-widest text-chalk/50 uppercase';
 </script>
 
 <form
@@ -30,53 +28,44 @@
 	class="flex flex-col gap-4"
 >
 	<input type="hidden" name="projectId" value={project.id} />
-	<label class="flex flex-col gap-1">
-		<span class={labelClasses}>Name</span>
+	<SmallCapsField label="Name">
 		<input name="name" required value={project.name} class={fieldClasses} />
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class={labelClasses}>Description</span>
+	</SmallCapsField>
+	<SmallCapsField label="Description">
 		<textarea name="description" rows="3" class={fieldClasses}>{project.description}</textarea>
-	</label>
+	</SmallCapsField>
 	<div class="flex flex-wrap gap-4">
-		<label class="flex max-w-48 flex-col gap-1">
-			<span class={labelClasses}>Status</span>
+		<SmallCapsField label="Status" class="max-w-48">
 			<select name="status" value={project.status} class={fieldClasses}>
 				{#each projectStatusOrder as statusValue (statusValue)}
 					<option value={statusValue}>{projectStatusLabels[statusValue]}</option>
 				{/each}
 			</select>
-		</label>
+		</SmallCapsField>
 		<PriorityField priority={project.priority} among="of your board" />
 	</div>
 	<OrganisationSelect
 		{organisations}
 		selectedOrganisationId={project.organisationId}
-		{fieldClasses}
-		{labelClasses}
 	/>
-	<label class="flex flex-col gap-1">
-		<span class={labelClasses}>Repository</span>
+	<SmallCapsField label="Repository">
 		<input name="repositoryUrl" value={project.repositoryUrl} placeholder="https://github.com/..." class={fieldClasses} />
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class={labelClasses}>Live site</span>
+	</SmallCapsField>
+	<SmallCapsField label="Live site">
 		<input name="environmentUrl" value={project.environmentUrl} placeholder="https://..." class={fieldClasses} />
-	</label>
+	</SmallCapsField>
 	<div class="flex flex-wrap gap-4">
-		<label class="flex max-w-48 flex-col gap-1">
-			<span class={labelClasses}>Default branch</span>
+		<SmallCapsField label="Default branch" class="max-w-48">
 			<input name="defaultBranch" value={project.defaultBranch} class={fieldClasses} />
-		</label>
-		<label class="flex max-w-48 flex-col gap-1">
-			<span class={labelClasses}>Refactor every … deploys</span>
+		</SmallCapsField>
+		<SmallCapsField label="Refactor every … deploys" class="max-w-48">
 			<input name="refactorEveryDeploys" type="number" min="0" step="1" value={project.refactorEveryDeploys} class={fieldClasses} />
-		</label>
+		</SmallCapsField>
 	</div>
 	<p class="text-sm text-chalk/50">
 		Every push to the default branch counts as a deploy. At the number above a refactor round is raised on this project as the reminder to run it; 0 turns that off.
 	</p>
-	<ProjectDatabaseFields database={project.database} {fieldClasses} {labelClasses} />
+	<ProjectDatabaseFields database={project.database} />
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton
 		isSaving={tracker.isSaving}

@@ -1,17 +1,16 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import GoalHorizonField from './GoalHorizonField.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import type { GoalHorizon } from '$lib/data/goalHorizon';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let { horizon, onCreated }: { horizon: GoalHorizon; onCreated: () => void } = $props();
 
 	const tracker = new FormTracker();
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <form
@@ -20,19 +19,17 @@
 	use:enhance={tracker.submit(onCreated)}
 	class="flex flex-col gap-4"
 >
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Goal</span>
+	<SmallCapsField label="Goal">
 		<input name="title" required placeholder="What the project must achieve" class={fieldClasses} />
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Measure</span>
+	</SmallCapsField>
+	<SmallCapsField label="Measure">
 		<textarea
 			name="measure"
 			rows="2"
 			placeholder="How we will know it has been met"
 			class={fieldClasses}
 		></textarea>
-	</label>
+	</SmallCapsField>
 	<GoalHorizonField {horizon} />
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton

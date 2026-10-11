@@ -1,6 +1,9 @@
 export const inputClasses =
 	'rounded-xl border border-hairline bg-night px-4 py-2 text-chalk outline-none focus:border-go';
 
+export const fieldClasses =
+	'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
+
 export const selectClasses = `${inputClasses} appearance-none`;
 
 export const primaryButtonClasses =

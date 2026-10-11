@@ -6,6 +6,7 @@
 	import AreaSummary from '$lib/components/clients/map/AreaSummary.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import { describeAreaSearchQuery } from '$lib/data/areaSearch';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data, form } = $props();
 
@@ -26,7 +27,7 @@
 <div class="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-16">
 	<div class="flex flex-col gap-2">
 		<a href="/clients" class="font-display text-sm text-chalk/50 hover:text-chalk">← Clients</a>
-		<h1 class="font-display text-3xl font-medium">Map an area</h1>
+		<PageTitle>Map an area</PageTitle>
 		<p class="text-chalk/70">A postcode and a radius: every company registered there, and where we stand with each.</p>
 	</div>
 	<AreaSearchForm search={data.search} />

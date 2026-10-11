@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
@@ -10,6 +11,7 @@
 	import type { TaskKind } from '$lib/data/taskKind';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let {
 		createAction = '?/createTask',
@@ -34,9 +36,6 @@
 
 	const isStoryRequired = $derived(needsUserStory({ kind, title, parentTaskId }));
 	const isSubtask = $derived(parentTaskId !== null);
-
-	const fieldClasses =
-		'rounded-xl border border-hairline bg-night px-4 py-2.5 text-chalk outline-none focus:border-go';
 </script>
 
 <form
@@ -48,8 +47,7 @@
 	{#if parentTaskId !== null}
 		<input type="hidden" name="parentTaskId" value={parentTaskId} />
 	{/if}
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Title</span>
+	<SmallCapsField label="Title">
 		<input
 			name="title"
 			required
@@ -57,20 +55,18 @@
 			placeholder={isSubtask ? 'What needs doing' : `The story, or ${bugFixTitlePrefix} what is wrong`}
 			class={fieldClasses}
 		/>
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Details</span>
+	</SmallCapsField>
+	<SmallCapsField label="Details">
 		<textarea
 			name="details"
 			rows="3"
 			placeholder="Context, links, acceptance criteria (optional)"
 			class={fieldClasses}
 		></textarea>
-	</label>
-	<label class="flex flex-col gap-1">
-		<span class="font-display text-sm tracking-widest text-chalk/50 uppercase">Due date</span>
+	</SmallCapsField>
+	<SmallCapsField label="Due date">
 		<input name="dueDate" type="date" class={fieldClasses} />
-	</label>
+	</SmallCapsField>
 	{#if !isSubtask}
 		<NewTaskStoryFields {isStoryRequired} />
 	{/if}

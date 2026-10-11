@@ -1,18 +1,16 @@
 <script lang="ts">
+	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { inFamilyOrder } from '$lib/data/organisationFamilies';
 	import { organisationProjectHint, personalProjectHint, personalProjectLabel } from '$lib/data/personalProject';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
+	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
 	let {
 		organisations,
-		selectedOrganisationId,
-		fieldClasses,
-		labelClasses
+		selectedOrganisationId
 	}: {
 		organisations: Organisation[];
 		selectedOrganisationId: string | null;
-		fieldClasses: string;
-		labelClasses: string;
 	} = $props();
 
 	const inOrder = $derived(inFamilyOrder(organisations));
@@ -24,8 +22,7 @@
 </script>
 
 {#if organisations.length > 0}
-	<label class="flex flex-col gap-1">
-		<span class={labelClasses}>Organisation</span>
+	<SmallCapsField label="Organisation">
 		<select name="organisationId" value={selectedOrganisationId ?? ''} class={fieldClasses}>
 			<option value="">{personalProjectLabel}</option>
 			{#each inOrder as organisation (organisation.id)}
@@ -33,5 +30,5 @@
 			{/each}
 		</select>
 		<span class="text-xs text-chalk/50">{personalProjectHint} {organisationProjectHint}</span>
-	</label>
+	</SmallCapsField>
 {/if}
