@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { OrganisationMembership } from '$lib/data/organisationAccess';
+import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
 
 /** A membership row with who granted it, which the project memberships it derives carry forward. */
 export type GrantedMembership = OrganisationMembership & { addedBy: string | null };
@@ -26,6 +27,7 @@ export async function getMembershipsForAccount(
 		.from('organisation_members')
 		.select('organisation_id, account_id, is_manager, added_by')
 		.eq('account_id', accountId);
+	if (isSchemaNotYetMigrated(error)) return [];
 	if (error) throw error;
 	return data.map(parseGrantedMembership);
 }
