@@ -16,7 +16,7 @@ export type GlobalTask = ProjectTask & {
 
 /** The columns a list across projects selects: the task, its project, and the task it waits for. */
 export const globalTaskColumns =
-	'*, projects!inner(name, owner_id), waits_for:tasks!tasks_waits_for_task_id_fkey(id, title, status)';
+	'*, projects!inner(name, owner_id), waits_for:waits_for_task_id(id, title, status)';
 
 export type GlobalTaskPage = {
 	tasks: GlobalTask[];
