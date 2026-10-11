@@ -6,6 +6,7 @@
 		noOrganisationFilter,
 		type OrganisationFilter
 	} from '$lib/data/organisationFilter';
+	import { personalProjectLabel } from '$lib/data/personalProject';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
 	let {
@@ -18,7 +19,7 @@
 	type Chip = { filter: OrganisationFilter; label: string };
 
 	const everyChip: Chip = { filter: everyOrganisationFilter, label: 'Every organisation' };
-	const noneChip: Chip = { filter: noOrganisationFilter, label: 'No organisation' };
+	const noneChip: Chip = { filter: noOrganisationFilter, label: personalProjectLabel };
 
 	const chips = $derived<Chip[]>([
 		everyChip,
