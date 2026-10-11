@@ -3,12 +3,12 @@
 	import OrganisationProjectRow from './OrganisationProjectRow.svelte';
 	import { panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
-	import type { OrganisationProject } from '$lib/server/organisations/getProjectsForOrganisation';
+	import type { ReachableOrganisationProject } from '$lib/server/organisations/markReachableProjects';
 
-	let { organisation, projects }: { organisation: Organisation; projects: OrganisationProject[] } = $props();
+	let { organisation, projects }: { organisation: Organisation; projects: ReachableOrganisationProject[] } = $props();
 
 	/** A project under one of the organisation's businesses says which; its own projects need no line. */
-	function underLine(project: OrganisationProject): string {
+	function underLine(project: ReachableOrganisationProject): string {
 		if (project.organisationId === organisation.id) return '';
 		return project.organisationName;
 	}
