@@ -22,17 +22,17 @@
 		<HarnessFlowArrow direction="into" caption="retired into" />
 		<div class="flex flex-col gap-3 rounded-2xl border border-signal/50 bg-carriage p-5">
 			<p class="font-display text-xs tracking-widest text-signal uppercase">The harness</p>
-			<p class="font-display text-lg font-medium">A SQL database, typed and checked</p>
+			<p class="font-display text-lg font-medium">One secure place for all your data</p>
 			<div class="grid gap-2 sm:grid-cols-2">
 				{#each harnessTables as table (table.name)}
 					<HarnessTableCard {table} />
 				{/each}
 			</div>
 		</div>
-		<HarnessFlowArrow direction="both" caption="inputs out, outputs back" />
+		<HarnessFlowArrow direction="both" caption="in and out" />
 		<HarnessListCard
-			label="Agent skills"
-			title="What Claude or ChatGPT runs"
+			label="Assistant skills"
+			title="What your AI assistant runs"
 			items={agentSkillExamples}
 		/>
 	</div>
@@ -42,7 +42,7 @@
 		{/each}
 	</div>
 	<figcaption class="rounded-2xl border border-hairline px-5 py-4 text-sm text-chalk/70">
-		<span class="font-display text-chalk">Role-based access.</span>
+		<span class="font-display text-chalk">Roles.</span>
 		{roleBasedAccessLine}
 	</figcaption>
 </figure>

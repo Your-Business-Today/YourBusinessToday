@@ -9,7 +9,7 @@
 			<div class="flex items-center gap-3">
 				<BrandWordmark fontSize={18} />
 				<p class="text-sm text-chalk/60">
-					Your Business Today — put AI to work in your business.
+					Your Business Today. We use AI to streamline your business.
 				</p>
 			</div>
 			<a

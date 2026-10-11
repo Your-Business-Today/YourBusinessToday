@@ -1,31 +1,34 @@
 <section class="mx-auto max-w-6xl px-6 py-20 md:py-24">
 	<p class="font-display text-sm tracking-widest text-signal uppercase">About us</p>
 	<h1 class="mt-5 max-w-3xl font-display text-4xl leading-tight font-medium md:text-5xl">
-		A consultancy for businesses that have outgrown the way they run.
+		For businesses that have outgrown the way they run.
 	</h1>
 	<p class="mt-8 max-w-3xl text-lg text-chalk/80">
-		We are brought into businesses that already work — that have customers, a reputation and
-		people who know their trade — but that are held together by memory, spreadsheets and two or
-		three people who can never be away for a week.
+		We work with businesses that already work. You have customers and a reputation and people who
+		know their trade. What holds it together is memory and spreadsheets and two or three people
+		who can never take a week off.
 	</p>
 	<p class="mt-6 max-w-3xl text-chalk/80">
-		What we do about it is unusual only in that we do not stop at the recommendation. We map
-		your data sources, wherever the business creates a record, a document or an asset, and we
-		build the harness that holds all of it: one database, typed and checked. Then we teach
-		an AI agent the complex processes that run around it, so that a Claude or a ChatGPT reads the
-		harness for its inputs and writes its outputs back. You see it all on dashboards, and the
-		agent works it through an MCP server, under the same roles as the screens.
+		We do not stop at the recommendation. We map where your data comes from and build the harness
+		that holds all of it in one secure place. Then we teach your AI assistant the processes that
+		run around it. You see everything on your dashboards. Your assistant works it through a
+		connector under the same roles as the screens.
 	</p>
 	<p class="mt-6 max-w-3xl text-chalk/80">
-		Everything we learn is written down in your own language and it belongs to you — your
-		expertise, the record of the jobs you have done, and the way work moves from one person to
-		the next. It is never sold, never pooled and never used to train anything for anybody else,
-		and it leaves with you if you leave us.
+		Every client has a project in our project management system. You see every goal and task and
+		talk to us on each one. Your own AI assistant can read it and raise work on it. That is how we
+		run many clients at once and nothing gets dropped.
+	</p>
+	<p class="mt-6 max-w-3xl text-chalk/80">
+		Everything we learn is written down in your own language and it belongs to you. Your
+		expertise. The record of the jobs you have done. The way work moves from one person to the
+		next. It is never sold or pooled or used to train anything for anybody else. It leaves with
+		you if you leave us.
 	</p>
 	<p class="mt-6 max-w-3xl text-chalk/80">
 		We work in the open. From the first day you have a portal showing every project and every
-		request at the stage it is really at, and you can connect your own Claude to it and ask.
-		Work goes live a piece at a time, so the first part is earning before the second is built.
+		request at the stage it is really at. Work goes live a piece at a time so the first part is
+		earning before the second is built.
 	</p>
 	<a
 		href="/offer"

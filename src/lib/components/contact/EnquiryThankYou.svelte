@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-4">
 	<p class="font-display text-sm tracking-widest text-go uppercase">Message received</p>
-	<h2 class="font-display text-2xl font-medium">Thank you — we will be in touch.</h2>
+	<h2 class="font-display text-2xl font-medium">Thank you. We will be in touch.</h2>
 	<p class="text-chalk/70">
 		Your message is with the team. Expect a reply by email within a couple of working days.
 	</p>

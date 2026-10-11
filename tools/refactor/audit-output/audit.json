@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-10T18:36:42+00:00",
+  "generatedAt": "2026-10-11T08:30:57+00:00",
   "kitVersion": "1.17.0",
   "score": {
     "overall": 91.6,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1075,
+        "measuredAgainst": 1076,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 38.32,
+        "measuredAgainst": 38.36,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 30,
-        "measuredAgainst": 38.32,
+        "measuredAgainst": 38.36,
         "score": 96.1
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1605,
+        "measuredAgainst": 1606,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 11,
-        "measuredAgainst": 38.32,
+        "measuredAgainst": 38.36,
         "score": 99.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 38.32,
+        "measuredAgainst": 38.36,
         "score": 100.0
       },
       {
@@ -251,8 +251,8 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 1075,
-      "totalLines": 38320,
+      "totalFiles": 1076,
+      "totalLines": 38357,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
@@ -277,7 +277,8 @@
       "clones": 0,
       "duplicatedLines": 0,
       "totalLines": 39299,
-      "duplicatedPercentage": 0.0
+      "duplicatedPercentage": 0.0,
+      "carriedFromBaseline": true
     },
     "naming": {
       "bannedAbbreviationHits": 17,
@@ -296,7 +297,7 @@
     "prose": {
       "longMemberChainLines": 11,
       "deeplyIndentedLines": 0,
-      "overlongLines": 85,
+      "overlongLines": 81,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -318,7 +319,7 @@
     },
     "inventory": {
       "pages": 34,
-      "components": 280,
+      "components": 281,
       "orphanComponents": 0,
       "averagePageLines": 48
     },
@@ -351,8 +352,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 1075,
-        "totalLines": 38320,
+        "totalFiles": 1076,
+        "totalLines": 38357,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -563,6 +564,10 @@
             "occurrences": 10
           },
           {
+            "literal": "text-lg text-chalk/70",
+            "occurrences": 10
+          },
+          {
             "literal": "flex items-center gap-3",
             "occurrences": 9
           },
@@ -572,6 +577,14 @@
           },
           {
             "literal": "noreferrer",
+            "occurrences": 9
+          },
+          {
+            "literal": "font-display text-2xl font-medium",
+            "occurrences": 9
+          },
+          {
+            "literal": "text-chalk/80",
             "occurrences": 9
           },
           {
@@ -603,18 +616,6 @@
             "occurrences": 8
           },
           {
-            "literal": "font-display text-2xl font-medium",
-            "occurrences": 8
-          },
-          {
-            "literal": "text-lg text-chalk/70",
-            "occurrences": 8
-          },
-          {
-            "literal": "text-chalk/80",
-            "occurrences": 8
-          },
-          {
             "literal": "Normal",
             "occurrences": 7
           }
@@ -626,7 +627,7 @@
       "summary": {
         "longMemberChainLines": 11,
         "deeplyIndentedLines": 0,
-        "overlongLines": 85,
+        "overlongLines": 81,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -700,15 +701,7 @@
           },
           {
             "file": "src/lib/data/consultancyDisciplines.ts",
-            "line": 12
-          },
-          {
-            "file": "src/lib/data/consultancyDisciplines.ts",
-            "line": 24
-          },
-          {
-            "file": "src/lib/data/consultancyDisciplines.ts",
-            "line": 30
+            "line": 42
           },
           {
             "file": "src/lib/data/consultancyOffer.ts",
@@ -749,6 +742,10 @@
           {
             "file": "src/lib/data/consultancyOffer.ts",
             "line": 55
+          },
+          {
+            "file": "src/lib/data/jewelBuild.ts",
+            "line": 44
           },
           {
             "file": "src/lib/data/kitVersion.ts",
@@ -877,6 +874,10 @@
           {
             "file": "src/lib/data/legal/termsAccountSections.ts",
             "line": 35
+          },
+          {
+            "file": "src/lib/data/legal/termsAccountSections.ts",
+            "line": 36
           }
         ]
       }
@@ -956,7 +957,7 @@
           "refusal": 5,
           "request": 6,
           "row": 23,
-          "section": 26,
+          "section": 27,
           "sections": 8,
           "sentence": 5,
           "status": 4,
@@ -1010,7 +1011,7 @@
       "name": "inventory",
       "summary": {
         "pages": 34,
-        "components": 280,
+        "components": 281,
         "orphanComponents": 0,
         "averagePageLines": 48
       },
@@ -1190,13 +1191,13 @@
             "widgets": []
           },
           {
-            "page": "src/routes/support/+page.svelte",
+            "page": "src/routes/+page.svelte",
             "lines": 28,
             "widgets": []
           },
           {
-            "page": "src/routes/+page.svelte",
-            "lines": 26,
+            "page": "src/routes/support/+page.svelte",
+            "lines": 28,
             "widgets": []
           },
           {
@@ -1845,6 +1846,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/home/ProjectSystemSection.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/home/TeamSection.svelte",
             "reusedBy": 1
           },
@@ -2388,20 +2393,20 @@
         {
           "area": "frontend",
           "files": 465,
-          "sourceFiles": 341,
-          "sourceLines": 12466
+          "sourceFiles": 342,
+          "sourceLines": 12496
         },
         {
           "area": "backend",
           "files": 404,
           "sourceFiles": 401,
-          "sourceLines": 12526
+          "sourceLines": 12528
         },
         {
           "area": "shared",
           "files": 156,
           "sourceFiles": 142,
-          "sourceLines": 4601
+          "sourceLines": 4606
         },
         {
           "area": "api",
@@ -3091,7 +3096,8 @@
         "clones": 0,
         "duplicatedLines": 0,
         "totalLines": 39299,
-        "duplicatedPercentage": 0.0
+        "duplicatedPercentage": 0.0,
+        "carriedFromBaseline": true
       },
       "offenders": []
     }

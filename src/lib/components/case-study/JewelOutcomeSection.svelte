@@ -12,9 +12,8 @@
 	<p class="mt-8 max-w-3xl text-lg text-chalk/80">{caseStudy.outcome}</p>
 	<p class="mt-6 max-w-3xl text-chalk/80">
 		That last part is why the chat we had built into the portal came out again in August. People
-		do not want another window to go and look at. They already have an assistant open, so the
-		work should be reachable from inside it — which is what a connector does, and what a chat box
-		on a website never will.
+		do not want another window to go and look at. They already have an assistant open so the work
+		should be reachable from inside it. A connector does that. A chat box on a website never will.
 	</p>
 	<div class="mt-12">
 		<CaseStudyFigures figures={jewelBuildFigures} />

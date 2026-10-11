@@ -9,10 +9,10 @@
 </script>
 
 <svelte:head>
-	<title>Talk to us — Your Business Today</title>
+	<title>Talk to us | Your Business Today</title>
 	<meta
 		name="description"
-		content="Tell us what you would like to automate. We learn how your business really runs, then automate the work that repeats."
+		content="Tell us what you would like to automate. We learn how your business really runs and then automate the work that repeats."
 	/>
 </svelte:head>
 
@@ -23,8 +23,8 @@
 			Tell us what you would<br />like to automate.
 		</h1>
 		<p class="max-w-prose text-chalk/70">
-			A few lines is enough — what the business does, where the time goes, and what you wish ran
-			itself. We read every message and reply by email.
+			A few lines is enough. What the business does and where the time goes and what you wish
+			ran itself. We read every message and reply by email.
 		</p>
 		<p class="max-w-prose text-chalk/70">
 			Prefer email? Write to

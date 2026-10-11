@@ -11,7 +11,7 @@
 		</h2>
 		<p class="mt-6 max-w-prose text-lg text-chalk/70">
 			We are a small firm on purpose. You will not be sold to by one person and handed to
-			another, and the partner who sits in your office is the one who answers when you call.
+			another. The partner who sits in your office is the one who answers when you call.
 		</p>
 		<div class="mt-12 grid gap-10 md:grid-cols-3">
 			{#each teamMembers as member (member.id)}

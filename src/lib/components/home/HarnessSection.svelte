@@ -9,17 +9,14 @@
 	</h2>
 	<div class="mt-8 grid gap-8 md:grid-cols-2 md:gap-12">
 		<p class="text-lg text-chalk/70">
-			Your business already creates its data. It just creates it in many places: a quoting
-			sheet here, a job report there, an inbox, a folder of photographs. The harness is one
-			place for all of it, almost always a SQL database, with a table for each thing you make
-			and a column for each fact about it. Every value is checked at the door, so nothing goes
-			in that does not fit.
+			Your business already creates its data. It just creates it in many places. A quoting sheet
+			here. A job report there. An inbox and a folder of photographs. The harness is one secure
+			place for all of it. Every fact has its place and every value is checked before it goes in.
 		</p>
 		<p class="text-lg text-chalk/70">
-			The complex processes around it become skills. An AI agent, your own Claude or ChatGPT,
-			reads the harness for its inputs, runs the process, and writes the result back into the
-			harness, where the next process picks it up. The judgement stays with your people. The
-			assembling, typing and chasing goes to the agent.
+			The processes around it become skills. Your AI assistant reads the harness for what it
+			needs. It runs the process and writes the result back. The next process picks it up from
+			there. The judgement stays with your people. The repetitive work goes to the assistant.
 		</p>
 	</div>
 	<div class="mt-14">
