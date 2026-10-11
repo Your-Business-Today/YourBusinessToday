@@ -9,9 +9,6 @@ import {
 } from './wordPackageParts';
 import { stylesXml } from './wordStylesXml';
 
-export const wordDocumentContentType =
-	'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-
 export function buildWordDocument(markdown: string): Uint8Array {
 	const bodyXml = blocksXml(marked.lexer(markdown));
 	return zipSync({

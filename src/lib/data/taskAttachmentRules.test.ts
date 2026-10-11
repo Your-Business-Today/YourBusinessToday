@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { spreadsheetMimeType, wordDocumentMimeType } from './officeMimeTypes';
 import { contentKindFor, maxInlineAttachmentByteCount } from './taskAttachmentRules';
 
-const wordDocument = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-const spreadsheet = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 const small = 1024;
 const tooBigToCarry = maxInlineAttachmentByteCount + 1;
 
@@ -10,9 +9,9 @@ describe('contentKindFor', () => {
 	it('draws text out of documents whatever their size', () => {
 		expect(contentKindFor('text/markdown', tooBigToCarry)).toBe('text');
 		expect(contentKindFor('application/json', small)).toBe('text');
-		expect(contentKindFor(wordDocument, tooBigToCarry)).toBe('wordDocument');
+		expect(contentKindFor(wordDocumentMimeType, tooBigToCarry)).toBe('wordDocument');
 		expect(contentKindFor('application/pdf', tooBigToCarry)).toBe('pdf');
-		expect(contentKindFor(spreadsheet, tooBigToCarry)).toBe('spreadsheet');
+		expect(contentKindFor(spreadsheetMimeType, tooBigToCarry)).toBe('spreadsheet');
 	});
 
 	it('carries a small image as an image and any other small file as itself', () => {

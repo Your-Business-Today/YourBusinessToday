@@ -11,7 +11,7 @@ describe('counting a task tree', () => {
 	});
 
 	it('counts a task and every subtask beneath it', () => {
-		const tree = [task('one', [task('one.one', [task('one.one.one')])]), task('two')];
+		const tree = [task('parent', [task('child', [task('grandchild')])]), task('sibling')];
 		expect(countTasksInTree(tree)).toBe(4);
 	});
 });
