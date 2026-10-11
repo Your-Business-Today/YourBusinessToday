@@ -1,12 +1,9 @@
+import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
+
 const PostgresErrorCode = {
 	InvalidTextRepresentation: '22P02',
 	ForeignKeyViolation: '23503',
-	UniqueViolation: '23505',
-	UndefinedTable: '42P01'
-} as const;
-
-const PostgrestErrorCode = {
-	TableNotInSchema: 'PGRST205'
+	UniqueViolation: '23505'
 } as const;
 
 const missingTableSentence =
@@ -18,14 +15,13 @@ const sentencesByPostgresError: Record<string, string> = {
 		'One of the ids you passed is not a valid id. Use ids exactly as the list and read actions return them.',
 	[PostgresErrorCode.ForeignKeyViolation]:
 		'One of the ids you passed does not belong to anything here. Check it with a list action first.',
-	[PostgresErrorCode.UniqueViolation]: 'That would duplicate something that already exists.',
-	[PostgresErrorCode.UndefinedTable]: missingTableSentence,
-	[PostgrestErrorCode.TableNotInSchema]: missingTableSentence
+	[PostgresErrorCode.UniqueViolation]: 'That would duplicate something that already exists.'
 };
 
 export const transientFailureSentence = 'That did not work. Try again shortly.';
 
 export function toolFailureSentence(failure: unknown): string {
+	if (isSchemaNotYetMigrated(failure)) return missingTableSentence;
 	return sentencesByPostgresError[postgresErrorCode(failure)] ?? transientFailureSentence;
 }
 
