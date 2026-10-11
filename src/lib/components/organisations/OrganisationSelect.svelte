@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { inFamilyOrder } from '$lib/data/organisationFamilies';
+	import { organisationProjectHint, personalProjectHint, personalProjectLabel } from '$lib/data/personalProject';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
 	let {
@@ -26,11 +27,11 @@
 	<label class="flex flex-col gap-1">
 		<span class={labelClasses}>Organisation</span>
 		<select name="organisationId" value={selectedOrganisationId ?? ''} class={fieldClasses}>
-			<option value="">No organisation</option>
+			<option value="">{personalProjectLabel}</option>
 			{#each inOrder as organisation (organisation.id)}
 				<option value={organisation.id}>{labelFor(organisation)}</option>
 			{/each}
 		</select>
-		<span class="text-xs text-chalk/50">Everyone on the organisation is on the project at once.</span>
+		<span class="text-xs text-chalk/50">{personalProjectHint} {organisationProjectHint}</span>
 	</label>
 {/if}

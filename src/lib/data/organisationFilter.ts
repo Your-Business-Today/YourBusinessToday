@@ -1,6 +1,6 @@
 import { lineageOf, type OrganisationPlace } from './organisationAccess';
 
-/** The projects page shows every project, the ones under no organisation, or the ones under one organisation and its businesses. */
+/** The projects page shows every project, the personal ones under no organisation, or the ones under one organisation and its businesses. */
 export type OrganisationFilter = string;
 
 export const everyOrganisationFilter: OrganisationFilter = 'all';

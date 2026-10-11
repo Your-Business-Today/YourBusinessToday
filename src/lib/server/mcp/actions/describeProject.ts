@@ -1,6 +1,7 @@
 import { assignedToYouLine } from '$lib/data/assignedTaskLine';
 import { databaseKindLabels } from '$lib/data/databaseKind';
 import { hasDatabase, migrationsFolderOf } from '$lib/data/projectDatabase';
+import { personalProjectLabel } from '$lib/data/personalProject';
 import { goalSectionLines } from './describeGoal';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
@@ -22,9 +23,9 @@ export function describeProjectLine(project: ProjectSummary): string {
 	return `${project.name} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)} (${place})`;
 }
 
-/** " for Jewel Passive Fire Protection", or nothing for a project under no organisation. */
+/** " for Jewel Passive Fire Protection", or ", personal" for a project under no organisation. */
 export function forOrganisation(project: { organisationName: string }): string {
-	if (project.organisationName === '') return '';
+	if (project.organisationName === '') return `, ${personalProjectLabel.toLowerCase()}`;
 	return ` for ${project.organisationName}`;
 }
 
