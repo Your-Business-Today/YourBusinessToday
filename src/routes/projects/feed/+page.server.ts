@@ -1,7 +1,7 @@
 import { feedDependency } from '$lib/data/feedRefresh';
 import { parseFeedScope } from '$lib/data/feedEvent';
 import { getFeedForProjects } from '$lib/server/feed/getFeedForProjects';
-import { getReachableProjectIds } from '$lib/server/feed/getReachableProjectIds';
+import { getReachableProjectIds } from '$lib/server/projects/getReachableProjectIds';
 import { requireUser } from '$lib/server/auth/requireUser';
 import type { PageServerLoad } from './$types';
 
