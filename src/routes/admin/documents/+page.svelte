@@ -1,6 +1,7 @@
 <script lang="ts">
 	import BeforeFirstUseNote from '$lib/components/admin/documents/BeforeFirstUseNote.svelte';
 	import ClientDocumentList from '$lib/components/admin/documents/ClientDocumentList.svelte';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data } = $props();
 </script>
@@ -15,7 +16,7 @@
 			← Admin
 		</a>
 		<div class="flex flex-wrap items-baseline justify-between gap-3">
-			<h1 class="font-display text-3xl font-medium">Client documents</h1>
+			<PageTitle>Client documents</PageTitle>
 			<a
 				href="/admin/documents/pack"
 				data-sveltekit-reload

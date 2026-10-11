@@ -1,6 +1,7 @@
 <script lang="ts">
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { quietButtonClasses } from '$lib/components/site/formStyles';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data } = $props();
 
@@ -19,7 +20,7 @@
 </svelte:head>
 
 <div class="mx-auto flex max-w-md flex-col gap-6 px-6 py-16">
-	<h1 class="font-display text-3xl font-medium">Connect {data.clientName}</h1>
+	<PageTitle>Connect {data.clientName}</PageTitle>
 	<div class="flex flex-col gap-3 rounded-2xl border border-hairline p-6 text-chalk/80">
 		<p>
 			<strong class="text-chalk">{data.clientName}</strong> is asking to act as you on Your

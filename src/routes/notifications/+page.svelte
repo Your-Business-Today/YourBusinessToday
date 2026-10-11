@@ -2,6 +2,7 @@
 	import MarkAllReadForm from '$lib/components/projects/MarkAllReadForm.svelte';
 	import NotificationRow from '$lib/components/projects/NotificationRow.svelte';
 	import { accountNameLookup } from '$lib/data/accountNames';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data } = $props();
 
@@ -22,7 +23,7 @@
 
 <div class="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-16">
 	<div class="flex items-baseline justify-between gap-4">
-		<h1 class="font-display text-3xl font-medium">Notifications</h1>
+		<PageTitle>Notifications</PageTitle>
 		{#if hasUnread}
 			<MarkAllReadForm />
 		{/if}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import AdminUserRow from '$lib/components/admin/AdminUserRow.svelte';
 	import SiteModelPanel from '$lib/components/admin/SiteModelPanel.svelte';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data, form } = $props();
 </script>
@@ -12,7 +13,7 @@
 <div class="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-16">
 	<div class="flex flex-col gap-2">
 		<div class="flex items-baseline justify-between gap-3">
-			<h1 class="font-display text-3xl font-medium">Admin</h1>
+			<PageTitle>Admin</PageTitle>
 			<div class="flex items-baseline gap-4">
 				<a
 					href="/admin/documents"

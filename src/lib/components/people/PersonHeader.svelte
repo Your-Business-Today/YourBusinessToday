@@ -4,6 +4,7 @@
 	import { confirmButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import { leadSourceLabels } from '$lib/data/leadSources';
 	import type { Person } from '$lib/server/people/personRecord';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { person, onEdit }: { person: Person; onEdit: () => void } = $props();
 
@@ -16,7 +17,7 @@
 	<a href="/people" class="font-display text-sm text-chalk/50 hover:text-chalk">← People</a>
 	<div class="flex flex-wrap items-start justify-between gap-4">
 		<div class="flex flex-col gap-1">
-			<h1 class="font-display text-3xl font-medium">{person.name}</h1>
+			<PageTitle>{person.name}</PageTitle>
 			<p class="text-chalk/70">{contactLine}</p>
 			{#if person.officerId !== null}
 				<p class="text-xs text-chalk/40">Companies House officer {person.officerId}</p>

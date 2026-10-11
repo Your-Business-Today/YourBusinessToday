@@ -1,5 +1,6 @@
 <script lang="ts">
 	import AssignProjectForm from '$lib/components/clients/AssignProjectForm.svelte';
+	import ClientHeader from '$lib/components/clients/ClientHeader.svelte';
 	import ClientEventLedger from '$lib/components/clients/ClientEventLedger.svelte';
 	import ClientGroupSection from '$lib/components/clients/ClientGroupSection.svelte';
 	import ClientPeopleSection from '$lib/components/clients/ClientPeopleSection.svelte';
@@ -8,8 +9,6 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import SupportTaskTable from '$lib/components/support/SupportTaskTable.svelte';
-	import { clientStageLabels } from '$lib/data/clientLifecycle';
-	import { leadSourceLabels } from '$lib/data/leadSources';
 	import { primaryButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 
 	let { data, form } = $props();
@@ -28,19 +27,7 @@
 </svelte:head>
 
 <div class="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-16">
-	<div class="flex flex-col gap-2">
-		<a href="/clients" class="font-display text-sm text-chalk/50 hover:text-chalk">← Clients</a>
-		<h1 class="font-display text-3xl font-medium">{client.name}</h1>
-		<p class="text-chalk/70">
-			{clientStageLabels[client.stage]} · {leadSourceLabels[client.leadSource]}
-			{#if parent !== null}
-				· Part of <a href={`/clients/${parent.id}`} class="hover:text-signal">{parent.name}</a>
-			{/if}
-			{#if client.website !== ''}
-				· <a href={client.website} class="hover:text-signal">{client.website}</a>
-			{/if}
-		</p>
-	</div>
+	<ClientHeader {client} {parent} />
 	<FormErrorNote message={form?.message ?? null} />
 
 	<section class="flex flex-col gap-4">

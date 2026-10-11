@@ -1,6 +1,7 @@
 <script lang="ts">
 	import EmailPasswordForm from '$lib/components/account/EmailPasswordForm.svelte';
 	import GoogleSignInButton from '$lib/components/account/GoogleSignInButton.svelte';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data, form } = $props();
 </script>
@@ -22,7 +23,7 @@
 		</div>
 	{/if}
 	<div class="flex flex-col gap-2">
-		<h1 class="font-display text-3xl font-medium">Sign in</h1>
+		<PageTitle>Sign in</PageTitle>
 		<p class="text-chalk/70">
 			New here? Create an account with your email address, or continue with Google.
 		</p>

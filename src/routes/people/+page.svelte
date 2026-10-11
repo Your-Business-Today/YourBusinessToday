@@ -6,6 +6,7 @@
 	import OfficerSearchForm from '$lib/components/people/OfficerSearchForm.svelte';
 	import PeopleTable from '$lib/components/people/PeopleTable.svelte';
 	import { panelClasses, quietButtonClasses } from '$lib/components/site/formStyles';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data, form } = $props();
 
@@ -20,7 +21,7 @@
 <div class="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-16">
 	<div class="flex flex-wrap items-end justify-between gap-4">
 		<div class="flex flex-col gap-2">
-			<h1 class="font-display text-3xl font-medium">People</h1>
+			<PageTitle>People</PageTitle>
 			<p class="text-chalk/70">The directors and owners we are pursuing, across every company they hold.</p>
 		</div>
 		<a href="/clients" class={quietButtonClasses}>Clients</a>

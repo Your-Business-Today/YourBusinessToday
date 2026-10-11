@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SupportTaskTable from '$lib/components/support/SupportTaskTable.svelte';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data } = $props();
 
@@ -12,7 +13,7 @@
 
 <div class="mx-auto flex max-w-4xl flex-col gap-8 px-6 py-16">
 	<div class="flex flex-col gap-2">
-		<h1 class="font-display text-3xl font-medium">Support</h1>
+		<PageTitle>Support</PageTitle>
 		<p class="text-chalk/70">
 			Every support task still waiting on an answer, across the projects you own, newest first. Each closes
 			with a resolution the person who raised it reads.
