@@ -1,13 +1,16 @@
 import { fail } from '@sveltejs/kit';
+import { changeProjectOrganisation } from '$lib/server/organisations/changeProjectOrganisation';
 import { createProject } from '$lib/server/projects/createProject';
 import { deleteProject } from '$lib/server/projects/deleteProject';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
+import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { getProjectsForOwner } from '$lib/server/projects/getProjectsForOwner';
 import { getTeamProjects } from '$lib/server/members/getTeamProjects';
 import { getTasksWaitingOnYou } from '$lib/server/conversations/getTasksWaitingOnYou';
 import { parseRank } from '$lib/server/ordering/rankInput';
 import { projectOrderActions } from './projectOrderActions';
+import { readOrganisationChoice } from '$lib/server/organisations/organisationChoiceForm';
 import { setProjectPriority } from '$lib/server/projects/setProjectPriority';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireUser } from '$lib/server/auth/requireUser';
@@ -22,6 +25,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		waitingTasks: await getTasksWaitingOnYou(locals.supabase, user.id),
 		projects: await getProjectsForOwner(locals.supabase, user.id, assignedTaskCounts),
 		teamProjects: await getTeamProjects(locals.supabase, user.id, assignedTaskCounts),
+		organisations: await getOrganisations(locals.supabase),
 		latestKitVersion: await getLatestKitVersion(locals.supabase)
 	};
 };
@@ -34,9 +38,12 @@ export const actions: Actions = {
 		const name = String(formData.get('name') ?? '').trim();
 		const description = String(formData.get('description') ?? '').trim();
 		if (name === '') return fail(400, { message: 'A project name is required.' });
+		const choice = readOrganisationChoice(formData, await getOrganisations(locals.supabase));
+		if ('refusal' in choice) return fail(400, { message: choice.refusal });
 		await createProject(locals.supabase, {
 			name,
 			description,
+			organisationId: choice.organisationId,
 			ownerId: user.id,
 			createdBy: user.id
 		});
@@ -51,8 +58,10 @@ export const actions: Actions = {
 		}
 		const databaseRefusal = projectDatabaseRefusal(edit.database);
 		if (databaseRefusal !== null) return fail(400, { message: databaseRefusal });
-		const { user } = await requireProjectAccess(locals, projectId);
+		const { user, project } = await requireProjectAccess(locals, projectId);
 		await updateProjectDetails(locals.supabase, projectId, edit);
+		const organisationRefusal = await changeProjectOrganisation(locals.supabase, project, formData);
+		if (organisationRefusal !== null) return fail(400, { message: organisationRefusal });
 		const priority = parseRank(formData.get('priority'));
 		if (priority !== null) await setProjectPriority(locals.supabase, projectId, priority, user.id);
 		return { message: `Project "${edit.name}" saved.` };

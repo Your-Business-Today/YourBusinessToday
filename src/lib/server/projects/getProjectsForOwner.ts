@@ -16,7 +16,7 @@ export type TaskTally = {
 
 export type ProjectProgress = TaskTally & { assignedTaskCount: number; longTermGoalCount: number };
 
-export type ProjectSummary = Project & ProjectProgress;
+export type ProjectSummary = Project & ProjectProgress & { organisationName: string };
 
 type TaskProgress = PlacedTask & CompletionInput & { isDone: boolean };
 
@@ -28,7 +28,7 @@ export async function getProjectsForOwner(
 	const { data, error } = await supabase
 		.from('projects')
 		.select(
-			'*, tasks(id, parent_task_id, goal_id, status, story_points, completion_percent), goals(id, horizon)'
+			'*, organisations(name), tasks(id, parent_task_id, goal_id, status, story_points, completion_percent), goals(id, horizon)'
 		)
 		.eq('owner_id', ownerId)
 		.order('priority', { ascending: true });
@@ -41,7 +41,8 @@ export async function getProjectsForOwner(
 			...project,
 			...tallyTasks(currentWork(tasks, goals)),
 			assignedTaskCount: assignedTaskCounts.forProject(project.id),
-			longTermGoalCount: goalsOnHorizon(goals, longTermGoalHorizon).length
+			longTermGoalCount: goalsOnHorizon(goals, longTermGoalHorizon).length,
+			organisationName: organisationNameOf(row)
 		};
 	});
 }
@@ -63,6 +64,11 @@ function readTaskProgress(row: Record<string, unknown>): TaskProgress {
 		storyPoints: parseStoryPoints(row.story_points),
 		completionPercent: Number(row.completion_percent ?? 0)
 	};
+}
+
+function organisationNameOf(row: Record<string, unknown>): string {
+	const organisation = row.organisations as { name: string } | null;
+	return organisation?.name ?? '';
 }
 
 function readGoalHorizon(row: Record<string, unknown>): HorizonedGoal {

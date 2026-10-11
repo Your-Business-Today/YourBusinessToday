@@ -58,7 +58,7 @@ Claude sees four tools, the same four for everyone:
 | `perform_action` | run one action by name with its input |
 
 The actions live in `src/lib/server/mcp/actions/`, one file per concern, gathered by area
-(`account`, `clients`, `projects`, `goals`, `support`, `conversations`, `tasks`,
+(`account`, `clients`, `organisations`, `projects`, `goals`, `support`, `conversations`, `tasks`,
 `accounting`) into `actionRegistry.ts`. Each action names its audience — `everyone`,
 `member`, `staff` or `admin` — and the registry filters by the caller's standing on every
 lookup, so a member cannot list, describe or run a staff action; it does not exist for

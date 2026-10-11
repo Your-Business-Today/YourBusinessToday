@@ -11,16 +11,20 @@
 		userEmail,
 		isAdmin,
 		isStaff,
+		hasOrganisations,
 		unreadNotificationCount
 	}: {
 		userEmail: string | null;
 		isAdmin: boolean;
 		isStaff: boolean;
+		hasOrganisations: boolean;
 		unreadNotificationCount: number;
 	} = $props();
 
 	const isSignedIn = $derived(userEmail !== null);
-	const menuGroups = $derived(buildMenuGroups({ isSignedIn, isStaff: isStaff || isAdmin, isAdmin }));
+	const menuGroups = $derived(
+		buildMenuGroups({ isSignedIn, isStaff: isStaff || isAdmin, isAdmin, hasOrganisations })
+	);
 
 	let isMobileMenuOpen = $state(false);
 

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PersonInitials from '$lib/components/workspace/PersonInitials.svelte';
+	import { isOnThroughOrganisation } from '$lib/data/projectMemberStanding';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 
 	let {
@@ -19,6 +20,14 @@
 			<span class="truncate font-display text-sm">{person.name}</span>
 			{#if person.isOwner}
 				<span class="shrink-0 rounded-full bg-go/15 px-2 py-0.5 text-[0.7rem] text-go">Owner</span>
+			{/if}
+			{#if isOnThroughOrganisation(person)}
+				<span
+					title={`On this project through ${person.viaOrganisation}`}
+					class="shrink-0 truncate rounded-full border border-hairline px-2 py-0.5 text-[0.7rem] text-chalk/50"
+				>
+					{person.viaOrganisation}
+				</span>
 			{/if}
 		</span>
 		{#if isNamedApartFromEmail}

@@ -2,6 +2,7 @@ import { accountActions } from './actions/accountActions';
 import { clientActions } from './actions/clientActions';
 import { conversationActions } from './actions/conversationActions';
 import { goalActions } from './actions/goalActions';
+import { organisationActions } from './actions/organisationActions';
 import { projectActions } from './actions/projectActions';
 import { projectMembershipActions } from './actions/projectMembershipActions';
 import { projectPeopleActions } from './actions/projectPeopleActions';
@@ -13,6 +14,7 @@ import type { AccountStanding } from './resolveAccountStanding';
 const everyAction: McpAction[] = [
 	...accountActions,
 	...clientActions,
+	...organisationActions,
 	...projectActions,
 	...projectPeopleActions,
 	...projectMembershipActions,

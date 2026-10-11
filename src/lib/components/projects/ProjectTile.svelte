@@ -1,5 +1,6 @@
 <script lang="ts">
 	import KitVersionBadge from './KitVersionBadge.svelte';
+	import OrganisationBadge from '$lib/components/organisations/OrganisationBadge.svelte';
 	import PriorityControls from './PriorityControls.svelte';
 	import ProjectActionsMenu from './ProjectActionsMenu.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
@@ -40,6 +41,7 @@
 				onSetPriority={() => onSetPriority(project)}
 			/>
 			<div class="flex flex-wrap items-center justify-end gap-1.5">
+				<OrganisationBadge organisationId={project.organisationId} organisationName={project.organisationName} />
 				<KitVersionBadge
 					repositoryUrl={project.repositoryUrl}
 					kitVersion={project.kitVersion}

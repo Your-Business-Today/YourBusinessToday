@@ -7,20 +7,27 @@
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { headerButtonClasses, headerPrimaryButtonClasses } from '$lib/components/workspace/workspaceStyles';
 	import { projectsCrumb } from '$lib/components/workspace/projectCrumbs';
+	import OrganisationBadge from '$lib/components/organisations/OrganisationBadge.svelte';
+	import { organisationNameLookup } from '$lib/data/organisationFamilies';
 	import { webAddressLabel } from '$lib/data/webAddressLabel';
+	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 	import type { Project } from '$lib/server/projects/projectRecord';
 
 	let {
 		project,
+		organisations,
 		cadenceLine,
 		latestKitVersion,
 		onAddTask
 	}: {
 		project: Project;
+		organisations: Organisation[];
 		cadenceLine: string;
 		latestKitVersion: string;
 		onAddTask: () => void;
 	} = $props();
+
+	const organisationName = $derived(organisationNameLookup(organisations)(project.organisationId));
 
 	let isEditModalOpen = $state(false);
 
@@ -42,6 +49,7 @@
 <WorkspaceHeader crumbs={[projectsCrumb]} title={project.name}>
 	{#snippet badge()}
 		<ProjectStatusBadge status={project.status} />
+		<OrganisationBadge organisationId={project.organisationId} {organisationName} />
 		<a href="/projects/kit-versions" class="rounded-full">
 			<KitVersionBadge
 				repositoryUrl={project.repositoryUrl}
@@ -64,5 +72,5 @@
 </WorkspaceHeader>
 
 <Modal title={`Edit ${project.name}`} bind:isOpen={isEditModalOpen}>
-	<EditProjectForm {project} onSaved={() => (isEditModalOpen = false)} />
+	<EditProjectForm {project} {organisations} onSaved={() => (isEditModalOpen = false)} />
 </Modal>

@@ -3,6 +3,7 @@ import { getCurrentAccount } from '$lib/server/accounts/getCurrentAccount';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { inviteOutcomeMessage } from '$lib/server/members/inviteOutcomeMessage';
 import { inviteToProject } from '$lib/server/members/inviteToProject';
+import { removalRefusalFor } from '$lib/data/projectMemberStanding';
 import { removeProjectMember } from '$lib/server/members/removeProjectMember';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireProjectOwner } from '$lib/server/auth/requireProjectOwner';
@@ -30,6 +31,10 @@ export const memberActions = {
 		await requireProjectAccess(locals, params.projectId);
 		const accountId = String((await request.formData()).get('accountId') ?? '');
 		if (accountId === '') return fail(400, { message: 'A member is required.' });
+		const people = await getPeopleOnProject(locals.supabase, params.projectId);
+		const person = people.find((candidate) => candidate.id === accountId);
+		const refusal = person === undefined ? null : removalRefusalFor(person);
+		if (refusal !== null) return fail(400, { message: refusal });
 		await removeProjectMember(locals.supabase, params.projectId, accountId);
 		return {};
 	},

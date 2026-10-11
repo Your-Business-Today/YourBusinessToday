@@ -1,5 +1,7 @@
 import { getMemberProjectIds } from '$lib/server/members/getMemberProjectIds';
+import { getMembershipsForAccount } from '$lib/server/organisations/getMembershipsOfOrganisations';
 import { getOwnedProjectIds } from '$lib/server/projects/getOwnedProjectIds';
+import type { OrganisationMembership } from '$lib/data/organisationAccess';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export type AccountStanding = {
@@ -9,6 +11,7 @@ export type AccountStanding = {
 	isStaff: boolean;
 	ownedProjectIds: string[];
 	memberProjectIds: string[];
+	organisationMemberships: OrganisationMembership[];
 };
 
 export async function resolveAccountStanding(
@@ -28,6 +31,7 @@ export async function resolveAccountStanding(
 		isAdmin: data.is_admin === true,
 		isStaff: data.is_staff === true || data.is_admin === true,
 		ownedProjectIds: await getOwnedProjectIds(supabase, accountId),
-		memberProjectIds: await getMemberProjectIds(supabase, accountId)
+		memberProjectIds: await getMemberProjectIds(supabase, accountId),
+		organisationMemberships: await getMembershipsForAccount(supabase, accountId)
 	};
 }

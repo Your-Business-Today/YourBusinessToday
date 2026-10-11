@@ -3,6 +3,7 @@ import { countProjectInvitesThisHour } from './recentProjectInviteCount';
 import { findAccountByEmail } from '$lib/server/accounts/findAccountByEmail';
 import { isInviteAllowanceSpent } from '$lib/server/email/inviteAllowance';
 import { mintSignInLink } from '$lib/server/accounts/mintSignInLink';
+import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import {
 	projectInviteEmailSubject,
 	renderProjectInviteEmail
@@ -26,7 +27,7 @@ export type ProjectInvite = {
 
 type Arrival = { accountId: string; openProjectUrl: string; isNewAccount: boolean };
 
-/** The membership is created at once; the email is the doorbell. */
+/** The membership is created at once; the email is the doorbell. The directory answers staff and the service role only, so the address is looked up as the service role. */
 export async function inviteToProject(
 	supabase: SupabaseClient,
 	invite: ProjectInvite
@@ -34,7 +35,7 @@ export async function inviteToProject(
 	const { project, inviter } = invite;
 	const invitesThisHour = await countProjectInvitesThisHour(supabase, inviter.id);
 	if (isInviteAllowanceSpent(invitesThisHour)) return 'too_many_invites';
-	const existingAccount = await findAccountByEmail(supabase, invite.email);
+	const existingAccount = await findAccountByEmail(supabaseServiceClient(), invite.email);
 	if (existingAccount?.id === project.ownerId) return 'is_the_owner';
 	if (existingAccount !== null && invite.memberIds.includes(existingAccount.id)) {
 		return 'already_on_project';
