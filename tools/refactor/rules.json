@@ -241,15 +241,18 @@
           "type=\"radio\"",
           "type=\"file\"",
           "type=\"hidden\""
-        ]
+        ],
+        "unlessUnlabelled": true
       },
       {
         "element": "select",
-        "ownedBy": "FormField"
+        "ownedBy": "FormField",
+        "unlessUnlabelled": true
       },
       {
         "element": "textarea",
-        "ownedBy": "FormField"
+        "ownedBy": "FormField",
+        "unlessUnlabelled": true
       },
       {
         "element": "h1",

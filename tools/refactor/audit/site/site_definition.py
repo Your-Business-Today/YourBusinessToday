@@ -5,6 +5,7 @@ from collections import Counter
 from pathlib import Path
 
 from ..source_files import SourceFile, matchesAny
+from .control_labels import labelControls
 from .definition import reduceView
 from .definition_kinds import FINDING, WIDGET, Definition, flatten
 from .hand_rolled_rules import layoutOf
@@ -43,7 +44,7 @@ def byWidget(findings: list[dict]) -> list[dict]:
 def definitionOf(view: SourceFile, vocabulary) -> list[Definition]:
     text = "\n".join(view.lines)
     isCatalogueWidget = Path(view.relative).stem in vocabulary.catalogue
-    return reduceView(buildTree(text), vocabulary.inView(view.relative, layoutOf(text)), isCatalogueWidget)
+    return reduceView(labelControls(buildTree(text)), vocabulary.inView(view.relative, layoutOf(text)), isCatalogueWidget)
 
 
 def repositoryRootOf(view: SourceFile) -> Path:

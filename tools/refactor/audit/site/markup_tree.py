@@ -22,6 +22,7 @@ class Node:
     isSelfClosing: bool = False
     condition: str = ""
     line: int = 0
+    isLabelled: bool = False
     children: list["Node"] = field(default_factory=list)
 
     @property
