@@ -12,6 +12,7 @@ export type NavigationAccess = {
 	isSignedIn: boolean;
 	isStaff: boolean;
 	isAdmin: boolean;
+	hasOrganisations: boolean;
 };
 
 export const primaryNavigationLinks: NavigationLink[] = [
@@ -30,15 +31,24 @@ const workLinks: NavigationLink[] = [
 	{ href: '/support', label: 'Support' }
 ];
 
+const organisationsLink: NavigationLink = { href: '/organisations', label: 'Organisations' };
+
 const adminLinks: NavigationLink[] = [{ href: '/admin', label: 'Admin' }];
 
 export function buildMenuGroups(access: NavigationAccess): NavigationGroup[] {
 	const groups: NavigationGroup[] = [{ label: 'Explore', links: primaryNavigationLinks }];
-	if (access.isSignedIn) groups.push({ label: 'Work', links: workLinks });
+	const workGroup = { label: 'Work', links: workLinksFor(access) };
+	if (access.isSignedIn) groups.push(workGroup);
 	const businessGroup = { label: 'Business', links: businessLinks(access) };
 	if (access.isStaff) groups.push(businessGroup);
 	groups.push({ label: 'Account', links: accountLinks(access) });
 	return groups;
+}
+
+/** Organisations join the work links for staff and for anyone an organisation has brought on. */
+function workLinksFor(access: NavigationAccess): NavigationLink[] {
+	if (!access.hasOrganisations && !access.isStaff) return workLinks;
+	return [...workLinks, organisationsLink];
 }
 
 function businessLinks(access: NavigationAccess): NavigationLink[] {

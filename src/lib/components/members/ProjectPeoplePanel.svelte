@@ -6,6 +6,7 @@
 	import PersonRow from './PersonRow.svelte';
 	import TransferOwnershipForm from './TransferOwnershipForm.svelte';
 	import { panelButtonClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
+	import { isOnThroughOrganisation } from '$lib/data/projectMemberStanding';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 
 	let { people, isOwner }: { people: ProjectPerson[]; isOwner: boolean } = $props();
@@ -36,7 +37,7 @@
 	{/snippet}
 	<ul class={panelListClasses}>
 		{#each people as person (person.id)}
-			<PersonRow {person} canRemove={!person.isOwner} onRemove={openRemoveModal} />
+			<PersonRow {person} canRemove={!person.isOwner && !isOnThroughOrganisation(person)} onRemove={openRemoveModal} />
 		{/each}
 	</ul>
 	{#if members.length === 0}

@@ -17,6 +17,7 @@
 		userEmail={data.userEmail}
 		isAdmin={data.isAdmin}
 		isStaff={data.isStaff}
+		hasOrganisations={data.hasOrganisations}
 		unreadNotificationCount={data.unreadNotificationCount}
 	/>
 	<main

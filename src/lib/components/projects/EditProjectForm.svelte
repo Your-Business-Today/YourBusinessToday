@@ -1,14 +1,20 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
+	import OrganisationSelect from '$lib/components/organisations/OrganisationSelect.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import PriorityField from '$lib/components/site/PriorityField.svelte';
 	import ProjectDatabaseFields from './ProjectDatabaseFields.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { projectStatusLabels, projectStatusOrder } from '$lib/data/projectStatus';
+	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 	import type { Project } from '$lib/server/projects/projectRecord';
 
-	let { project, onSaved }: { project: Project; onSaved: () => void } = $props();
+	let {
+		project,
+		organisations,
+		onSaved
+	}: { project: Project; organisations: Organisation[]; onSaved: () => void } = $props();
 
 	const tracker = new FormTracker();
 
@@ -43,6 +49,12 @@
 		</label>
 		<PriorityField priority={project.priority} among="of your board" />
 	</div>
+	<OrganisationSelect
+		{organisations}
+		selectedOrganisationId={project.organisationId}
+		{fieldClasses}
+		{labelClasses}
+	/>
 	<label class="flex flex-col gap-1">
 		<span class={labelClasses}>Repository</span>
 		<input name="repositoryUrl" value={project.repositoryUrl} placeholder="https://github.com/..." class={fieldClasses} />

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import AssignedToYouNote from './AssignedToYouNote.svelte';
+	import OrganisationBadge from '$lib/components/organisations/OrganisationBadge.svelte';
 	import PriorityControls from './PriorityControls.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
 	import ProjectTileFrame from './ProjectTileFrame.svelte';
@@ -38,7 +39,10 @@
 				/>
 				<span class="font-display text-xs tracking-widest text-chalk/40 uppercase">Team</span>
 			</div>
-			<ProjectStatusBadge status={project.status} />
+			<div class="flex flex-wrap items-center justify-end gap-1.5">
+				<OrganisationBadge organisationId={project.organisationId} organisationName={project.organisationName} />
+				<ProjectStatusBadge status={project.status} />
+			</div>
 		</div>
 		<ProjectTileHeading projectName={project.name}>
 			<p class="text-sm text-chalk/60">Owned by {project.ownerName}</p>

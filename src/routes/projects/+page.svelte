@@ -1,11 +1,10 @@
 <script lang="ts">
-	import DangerConfirmModal from '$lib/components/site/DangerConfirmModal.svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
-	import EditProjectForm from '$lib/components/projects/EditProjectForm.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewProjectForm from '$lib/components/projects/NewProjectForm.svelte';
 	import PriorityModal from '$lib/components/site/PriorityModal.svelte';
 	import ProjectBoardTabs from '$lib/components/projects/ProjectBoardTabs.svelte';
+	import ProjectEditModals from '$lib/components/projects/ProjectEditModals.svelte';
 	import ProjectsPageHeader from '$lib/components/projects/ProjectsPageHeader.svelte';
 	import WaitingOnYouSection from '$lib/components/projects/WaitingOnYouSection.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
@@ -24,7 +23,7 @@
 	let selectedProject = $state<ProjectSummary | null>(null);
 	let priorityChoice = $state<PriorityChoice | null>(null);
 
-	const listView = new ProjectListView(() => data.projects);
+	const listView = new ProjectListView(() => data.projects, () => data.organisations);
 
 	function openEditModal(project: ProjectSummary) {
 		selectedProject = project;
@@ -54,6 +53,7 @@
 	<ProjectBoardTabs
 		{listView}
 		teamProjects={data.teamProjects}
+		organisations={data.organisations}
 		latestKitVersion={data.latestKitVersion}
 		onEdit={openEditModal}
 		onDelete={openDeleteModal}
@@ -63,21 +63,15 @@
 </div>
 
 <Modal title="New project" bind:isOpen={isNewProjectModalOpen}>
-	<NewProjectForm onCreated={() => (isNewProjectModalOpen = false)} />
+	<NewProjectForm organisations={data.organisations} onCreated={() => (isNewProjectModalOpen = false)} />
 </Modal>
 
 {#if selectedProject !== null}
-	<Modal title={`Edit ${selectedProject.name}`} bind:isOpen={isEditModalOpen}>
-		<EditProjectForm project={selectedProject} onSaved={() => (isEditModalOpen = false)} />
-	</Modal>
-	<DangerConfirmModal
-		title="Delete project"
-		description={`This permanently deletes “${selectedProject.name}”, every task and subtask in it, and all their comments. This cannot be undone.`}
-		action="?/deleteProject"
-		fields={{ projectId: selectedProject.id }}
-		submitLabel="Delete project"
-		confirmWord={selectedProject.name}
-		bind:isOpen={isDeleteModalOpen}
+	<ProjectEditModals
+		project={selectedProject}
+		organisations={data.organisations}
+		bind:isEditModalOpen
+		bind:isDeleteModalOpen
 	/>
 {/if}
 
