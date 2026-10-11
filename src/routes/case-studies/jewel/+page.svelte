@@ -6,9 +6,9 @@
 	import JewelOutcomeSection from '$lib/components/case-study/JewelOutcomeSection.svelte';
 	import PageMeta from '$lib/components/site/PageMeta.svelte';
 
-	const pageTitle = 'Jewel Bespoke Build — a case study — Your Business Today';
+	const pageTitle = 'Jewel Bespoke Build case study | Your Business Today';
 	const pageDescription =
-		'How a family-run Surrey construction company moved from messages and photographs to a portal its own assistant can read: two weeks of discovery and proof, sixteen weeks of building, one idea.';
+		'How a family run Surrey construction company moved from messages and photographs to a portal its own assistant can read. Two weeks of discovery and proof and then sixteen weeks of building on one idea.';
 </script>
 
 <PageMeta title={pageTitle} description={pageDescription} path="/case-studies/jewel" kind="article" />

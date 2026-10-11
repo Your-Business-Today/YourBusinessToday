@@ -4,10 +4,10 @@
 			<h2 class="font-display text-2xl font-medium">What it costs</h2>
 			<p class="max-w-prose text-chalk/70">
 				Mapping your data sources is a fixed price. The harness and each skill are agreed
-				before they start. Running it is one monthly fee you can cancel on a month’s notice:
-				hosting, the platform it runs on, monitoring, backups, updates and support, all of it
-				inside that one figure and nothing added on top. We will send you the written offer
-				with the figures on it; there is nothing to negotiate your way into.
+				before they start. Running it is one monthly fee you can cancel on a month’s notice.
+				Hosting and backups and support are all inside that one figure with nothing added on
+				top. We will send you the written offer with the figures on it. There is nothing to
+				negotiate your way into.
 			</p>
 			<a
 				href="/contact"
@@ -22,7 +22,7 @@
 			<ul class="flex max-w-prose flex-col gap-3 text-chalk/70">
 				<li>
 					<span class="font-display text-chalk">Two weeks of access</span> to the people who
-					create the data, rather than their managers’ account of them.
+					create the data rather than their managers’ account of them.
 				</li>
 				<li>
 					<span class="font-display text-chalk">One person who can decide.</span> Not a

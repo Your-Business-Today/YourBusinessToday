@@ -5,15 +5,15 @@
 			One decision per thing that arrives.
 		</h2>
 		<p class="mt-8 max-w-3xl text-lg text-chalk/80">
-			Everything that reaches the business is a communication: a photograph from site, a
-			message, a marked-up drawing, an email. A person makes exactly one decision about each one
-			— what it is. After that the system groups them, and the machine writes what has to be
-			written from the group.
+			Everything that reaches the business is a communication. A photograph from site. A
+			message. A marked up drawing. An email. A person makes exactly one decision about each one.
+			What it is. After that the system groups them and the machine writes what has to be
+			written.
 		</p>
 		<p class="mt-6 max-w-3xl text-chalk/80">
-			It is a small idea, and that is why it held. There is no form to fill in, no second system
-			to keep up to date, and nothing that falls apart when a week is busy. The judgement stays
-			with the person who has it; the typing goes to the machine.
+			It is a small idea and that is why it held. There is no form to fill in and no second
+			system to keep up to date. Nothing falls apart when a week is busy. The judgement stays
+			with the person who has it. The typing goes to the machine.
 		</p>
 	</div>
 </section>

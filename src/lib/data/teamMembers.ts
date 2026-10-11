@@ -13,7 +13,7 @@ export const teamMembers: TeamMember[] = [
 		initials: 'NR',
 		role: 'Managing Partner',
 		biography:
-			'Nigel sets the direction of the practice. A career spent across several industries has given him both the commercial judgement and the connections the firm runs on.'
+			'Nigel sets the direction of the practice. A career across several industries has given him the commercial judgement and the connections the firm runs on.'
 	},
 	{
 		id: 'jeremy-ferendinos',

@@ -11,7 +11,7 @@
 	<p class="mt-8 max-w-3xl text-lg text-chalk/80">{caseStudy.problem}</p>
 	<p class="mt-6 max-w-3xl text-chalk/80">
 		None of that is a software problem to begin with. It is a question about how work moves
-		through a business, and it has to be answered on paper before anybody writes anything.
+		through a business. It has to be answered on paper before anybody writes anything.
 	</p>
 	<a
 		href={caseStudy.clientWebsiteUrl}

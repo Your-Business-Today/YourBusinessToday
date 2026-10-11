@@ -4,14 +4,15 @@
 	import HarnessSection from '$lib/components/home/HarnessSection.svelte';
 	import HeroSection from '$lib/components/home/HeroSection.svelte';
 	import PageMeta from '$lib/components/site/PageMeta.svelte';
+	import ProjectSystemSection from '$lib/components/home/ProjectSystemSection.svelte';
 	import TeamSection from '$lib/components/home/TeamSection.svelte';
 	import TwoDoorsSection from '$lib/components/home/TwoDoorsSection.svelte';
 	import WhatWeDoSection from '$lib/components/home/WhatWeDoSection.svelte';
 	import { companyDetails } from '$lib/data/companyDetails';
 
-	const pageTitle = 'Your Business Today — put AI to work in your business';
+	const pageTitle = 'Your Business Today | We use AI to streamline your business today';
 	const pageDescription =
-		'A consultancy that automates businesses with AI: we map your data sources, build the harness that holds them, equip an AI agent with the skills to run the processes around it, and give you dashboards and an MCP server on to it.';
+		'We use AI to streamline your business today. We map how information moves through your company and build the tools that automate the work around it.';
 	const shareImageUrl = `${companyDetails.websiteUrl}/favicon.svg`;
 </script>
 
@@ -21,6 +22,7 @@
 <WhatWeDoSection />
 <HarnessSection />
 <TwoDoorsSection />
+<ProjectSystemSection />
 <CaseStudySection />
 <TeamSection />
 <EnquirySection />

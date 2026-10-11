@@ -3,8 +3,8 @@
 		Tell us what your business is struggling with.
 	</h2>
 	<p class="mx-auto mt-6 max-w-xl text-lg text-chalk/70">
-		No pitch deck and no discovery fee. A conversation about what is not working, and an honest
-		answer about whether we are the people to fix it.
+		No pitch deck and no discovery fee. Just a conversation about what is not working and an
+		honest answer about whether we can fix it.
 	</p>
 	<a
 		href="/contact"

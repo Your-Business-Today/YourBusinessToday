@@ -9,36 +9,41 @@ export const consultancyDisciplines: ConsultancyDiscipline[] = [
 		id: 'discovery',
 		name: 'Mapping your data sources',
 		description:
-			'We analyse all input sources to your business and map out your business domain. We identify all the outputs created from the input sources, along with the processes that created them.'
+			'We look at everything that comes into your business and everything that goes out. We map the processes that turn one into the other.'
 	},
 	{
 		id: 'harness',
 		name: 'Creating your data harness',
 		description:
-			'We build you a fully secure, role-based data harness that allows you to manage access to your data.'
+			'We build one secure place for all of your data. Every person sees what their role allows and nothing more.'
 	},
 	{
 		id: 'skills',
-		name: 'Teaching agents skills',
+		name: 'Teaching your assistant skills',
 		description:
-			"We give you a fully customisable agent skill layer that you can train yourself using the system's MCP connector. This allows you to fully control how your system is used by language models."
+			'We write the skills your AI assistant needs to run your processes. You can add to them and change them yourself through the connector.'
 	},
 	{
 		id: 'dashboards',
 		name: 'Viewing information',
 		description:
-			'We give you a fully customisable web-based UI which can be updated automatically in a chat window using the YBT MCP connector. This allows you to iterate UI features quickly without affecting the underlying data security.'
+			'We give you a web app over your data. New screens can be asked for in a chat and built without touching the data underneath.'
 	},
 	{
 		id: 'mcp',
 		name: 'Accessing information',
 		description:
-			'We build you an MCP server that mirrors the functionality of the web-based application that manages your data harness.'
+			'We connect your AI assistant to the same system. It can do everything the web app can do from a chat window instead of a screen.'
+	},
+	{
+		id: 'projects',
+		name: 'Running your project',
+		description:
+			'Your work lives in our project management system. You see every goal and task and talk to us on each one. Your own AI assistant can read it and raise work for you.'
 	},
 	{
 		id: 'management',
 		name: 'Future maintenance',
-		description:
-			'We stay on the harness, the skills and the doors we build. Not a handover and a goodbye.'
+		description: 'We stay on everything we build. It is not a handover and a goodbye.'
 	}
 ];
