@@ -1,4 +1,4 @@
--- 0076: a question stays open when its task is marked done.
+-- 0077: a question stays open when its task is marked done.
 --
 -- 0066 cleared every baton on a task the moment it was marked done, so a
 -- question still waiting on someone vanished whenever the work finished first —
