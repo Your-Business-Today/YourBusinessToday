@@ -84,5 +84,15 @@ export const workingDoctrine = [
 	'   "REFACTOR: round N" on a project as the reminder every N deploys of its default branch —',
 	'   never raise one by hand; change the rhythm on the project instead (update_project_details).',
 	'   The round follows rule 3 on its own refactor/round-N branch and ends in a pull request.',
-	'8. The repository’s CLAUDE.md carries these rules in full. Where it says more, follow it.'
+	'8. The repository’s CLAUDE.md carries these rules in full. Where it says more, follow it.',
+	'9. Prospecting is done on a patch, a piece of ground a staff member works. list_patches and',
+	'   read_patch say what is covered; list_unsearched_sectors chooses where to go next; claim_sector',
+	'   before searching, so nobody else works the same ground; read_sector first, so a business',
+	'   already known is matched rather than recorded twice; record_sighting for each business found',
+	'   on a public page, with the page it was read on; mark_sector_searched with one line on what',
+	'   was done when the sector is finished; add_sighting_as_lead for the ones worth approaching.',
+	'   Food businesses are already listed by list_patch_premises from the Food Standards Agency:',
+	'   add_premises_as_lead for those, never a sighting.',
+	'   Business-contact data only, never LinkedIn, X, Facebook or Instagram, nothing behind a login:',
+	'   the server refuses those pages whatever the doctrine says.'
 ].join('\n');

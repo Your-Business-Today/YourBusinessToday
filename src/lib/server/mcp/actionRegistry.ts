@@ -1,14 +1,21 @@
 import { accountActions } from './actions/accountActions';
+import { areaFeedActions } from './actions/areaFeedActions';
+import { claimActions } from './actions/claimActions';
 import { clientActions } from './actions/clientActions';
 import { conversationActions } from './actions/conversationActions';
 import { goalActions } from './actions/goalActions';
+import { observationActions } from './actions/observationActions';
 import { organisationActions } from './actions/organisationActions';
 import { patchActions } from './actions/patchActions';
 import { patchCompanyActions } from './actions/patchCompanyActions';
+import { premisesActions } from './actions/premisesActions';
 import { projectActions } from './actions/projectActions';
 import { projectMembershipActions } from './actions/projectMembershipActions';
 import { projectPeopleActions } from './actions/projectPeopleActions';
 import { registerActions } from './actions/registerActions';
+import { sectorActions } from './actions/sectorActions';
+import { sightingActions } from './actions/sightingActions';
+import { sightingLeadActions } from './actions/sightingLeadActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
 import { waitingActions } from './actions/waitingActions';
@@ -22,6 +29,13 @@ const everyAction: McpAction[] = [
 	...patchActions,
 	...patchCompanyActions,
 	...registerActions,
+	...sectorActions,
+	...claimActions,
+	...sightingActions,
+	...sightingLeadActions,
+	...premisesActions,
+	...areaFeedActions,
+	...observationActions,
 	...projectActions,
 	...projectPeopleActions,
 	...projectMembershipActions,

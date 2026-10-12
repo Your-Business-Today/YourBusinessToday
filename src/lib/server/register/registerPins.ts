@@ -1,6 +1,5 @@
-import { isNonTradingCategory } from '$lib/data/registerRules';
 import { distanceInMiles, type Coordinates } from '$lib/data/distance';
-import { oneCompany } from '$lib/data/hubPins';
+import { isNonTradingCategory, oneCompany } from '$lib/data/registerRules';
 import type { AreaPin } from '$lib/server/clients/area/areaPin';
 import type { LocatedRegisterCompany } from './registerCompanyRecord';
 import { groupByAddress, hubAddressesIn } from './hubAddresses';
@@ -57,7 +56,10 @@ function companyPin(company: LocatedRegisterCompany, centre: Coordinates, standi
 		distanceMiles: distanceInMiles(centre, company),
 		standing: standings.get(company.companyNumber) ?? null,
 		companyCount: oneCompany,
-		isNonTrading: isNonTradingCategory(company.accountCategory)
+		isNonTrading: isNonTradingCategory(company.accountCategory),
+		isSighting: false,
+		isPremises: false,
+		statusNote: company.statusNote
 	};
 }
 
@@ -76,6 +78,9 @@ function hubPin(address: string, residents: LocatedRegisterCompany[], centre: Co
 		distanceMiles: distanceInMiles(centre, first),
 		standing: null,
 		companyCount: residents.length,
-		isNonTrading: false
+		isNonTrading: false,
+		isSighting: false,
+		isPremises: false,
+		statusNote: ''
 	};
 }

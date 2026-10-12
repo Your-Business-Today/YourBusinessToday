@@ -1,6 +1,7 @@
 <script lang="ts">
 	import EmptyState from '$lib/components/site/EmptyState.svelte';
 	import FeedDaySection from '$lib/components/feed/FeedDaySection.svelte';
+	import FeedEventRow from '$lib/components/feed/FeedEventRow.svelte';
 	import FeedPageHeader from '$lib/components/feed/FeedPageHeader.svelte';
 	import FeedScoreboard from '$lib/components/feed/FeedScoreboard.svelte';
 	import { LiveRefresh } from '$lib/client/liveRefresh.svelte';
@@ -36,7 +37,11 @@
 		<EmptyState message={isMine ? emptyMessages.mine : emptyMessages.everything} />
 	{:else}
 		{#each days as day (day.dayKey)}
-			<FeedDaySection {day} viewerId={data.viewerId} />
+			<FeedDaySection {day}>
+				{#snippet row(event)}
+					<FeedEventRow {event} viewerId={data.viewerId} />
+				{/snippet}
+			</FeedDaySection>
 		{/each}
 	{/if}
 </div>

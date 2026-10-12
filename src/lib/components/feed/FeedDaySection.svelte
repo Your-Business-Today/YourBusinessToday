@@ -1,9 +1,9 @@
-<script lang="ts">
-	import FeedEventRow from './FeedEventRow.svelte';
+<script lang="ts" generics="Event extends Dated">
+	import type { Snippet } from 'svelte';
 	import { panelListClasses } from '$lib/components/workspace/workspaceStyles';
-	import type { FeedDay } from '$lib/data/feedDays';
+	import type { Dated, FeedDay } from '$lib/data/feedDays';
 
-	let { day, viewerId }: { day: FeedDay; viewerId: string } = $props();
+	let { day, row }: { day: FeedDay<Event>; row: Snippet<[Event]> } = $props();
 </script>
 
 <section class="flex flex-col gap-2">
@@ -13,7 +13,7 @@
 	</div>
 	<ol class="{panelListClasses} rounded-xl border border-hairline bg-carriage">
 		{#each day.events as event (event.id)}
-			<FeedEventRow {event} {viewerId} />
+			{@render row(event)}
 		{/each}
 	</ol>
 </section>
