@@ -7,7 +7,7 @@
 export type TaskMoveNames = {
 	sourceProjectName: string;
 	destinationProjectName: string;
-	hadGoal: boolean;
+	wasGoalLinked: boolean;
 };
 
 export const taskMoveWarnings = [
@@ -23,6 +23,6 @@ const clearedGoalNote = ' Its goal link was cleared, because a goal belongs to o
 
 export function taskMovedSentence(names: TaskMoveNames): string {
 	const moved = `Moved to ${names.destinationProjectName}, from ${names.sourceProjectName}.`;
-	if (!names.hadGoal) return moved;
+	if (!names.wasGoalLinked) return moved;
 	return moved + clearedGoalNote;
 }

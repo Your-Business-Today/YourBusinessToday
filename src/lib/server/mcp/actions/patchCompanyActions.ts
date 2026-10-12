@@ -65,8 +65,8 @@ function filtersIn(input: Record<string, unknown>): RegisterFilters {
 		sicCode: readText(input, 'sicCode'),
 		status: readText(input, 'status'),
 		incorporatedSince: readText(input, 'incorporatedSince'),
-		includeHubs: readText(input, 'includeHubs') === yes,
-		includeNonTrading: readText(input, 'includeNonTrading') === yes
+		shouldIncludeHubs: readText(input, 'includeHubs') === yes,
+		shouldIncludeNonTrading: readText(input, 'includeNonTrading') === yes
 	};
 }
 

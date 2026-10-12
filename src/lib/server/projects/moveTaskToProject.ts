@@ -69,6 +69,6 @@ function sentenceFor({ task, source, destination }: TaskMove): string {
 	return taskMovedSentence({
 		sourceProjectName: source.name,
 		destinationProjectName: destination.name,
-		hadGoal: task.goalId !== null
+		wasGoalLinked: task.goalId !== null
 	});
 }

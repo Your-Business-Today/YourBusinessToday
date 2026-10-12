@@ -7,17 +7,17 @@ export type RegisterFilters = {
 	sicCode: string;
 	status: string;
 	incorporatedSince: string;
-	includeHubs: boolean;
-	includeNonTrading: boolean;
+	shouldIncludeHubs: boolean;
+	shouldIncludeNonTrading: boolean;
 };
 
 export function filterRegisterCompanies(
 	companies: LocatedRegisterCompany[],
 	filters: RegisterFilters
 ): LocatedRegisterCompany[] {
-	const hubs = filters.includeHubs ? new Set<string>() : hubAddressesIn(companies);
+	const hubs = filters.shouldIncludeHubs ? new Set<string>() : hubAddressesIn(companies);
 	return companies
-		.filter((company) => filters.includeNonTrading || !isNonTradingCategory(company.accountCategory))
+		.filter((company) => filters.shouldIncludeNonTrading || !isNonTradingCategory(company.accountCategory))
 		.filter((company) => !hubs.has(addressKeyOf(company)))
 		.filter((company) => filters.sicCode === '' || company.sicCodes.some((code) => code.startsWith(filters.sicCode)))
 		.filter((company) => filters.status === '' || company.companyStatus.toLowerCase().includes(filters.status.toLowerCase()))
