@@ -27,7 +27,7 @@
 			<a href="/clients/map" class={quietButtonClasses}>Map an area</a>
 		</div>
 	</div>
-	<FormErrorNote message={form?.message ?? null} />
+	<FormErrorNote message={form?.message ?? data.notice} />
 	<PatchesOverview {patches} />
 	<CreatePatchForm suggestedPostcode={data.suggestedPostcode} nearQuery={data.nearQuery} />
 	{#if patches.length === 0}

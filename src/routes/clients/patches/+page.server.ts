@@ -6,11 +6,15 @@ import { reverseLookupPostcode } from '$lib/server/postcodes/reverseLookupPostco
 import type { Coordinates } from '$lib/data/distance';
 import type { Actions, PageServerLoad } from './$types';
 
+const noPostcodeThere = 'No postcode lies within 20 km of where you clicked — zoom in and click on land, or type a postcode.';
+
 export const load: PageServerLoad = async ({ locals, url }) => {
 	await requireStaff(locals);
 	const near = readNearPoint(url.searchParams);
 	const [patches, suggestedPostcode] = await Promise.all([listPatchesWithCentres(locals.supabase), postcodeNear(near)]);
-	return { patches, suggestedPostcode, nearQuery: near === null ? '' : describeNearQuery(near) };
+	const isClickWithoutPostcode = near !== null && suggestedPostcode === '';
+	const notice = isClickWithoutPostcode ? noPostcodeThere : null;
+	return { patches, suggestedPostcode, notice, nearQuery: near === null ? '' : describeNearQuery(near) };
 };
 
 /** The postcode under a map click prefills the form; postcodes.io being unreachable costs the suggestion, never the page. */
