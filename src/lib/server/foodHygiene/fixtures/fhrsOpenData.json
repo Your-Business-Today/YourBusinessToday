@@ -1,0 +1,56 @@
+{
+	"FHRSEstablishment": {
+		"Header": { "ExtractDate": "2026-10-11", "ItemCount": 3, "ReturnCode": "Success" },
+		"EstablishmentCollection": {
+			"EstablishmentDetail": [
+				{
+					"FHRSID": 1234567,
+					"LocalAuthorityBusinessID": "PI/000012345",
+					"BusinessName": "Nonna's Kitchen",
+					"BusinessType": "Restaurant/Cafe/Canteen",
+					"BusinessTypeID": 1,
+					"AddressLine1": "12 Eden Street",
+					"AddressLine2": "",
+					"AddressLine3": "Kingston upon Thames",
+					"AddressLine4": "",
+					"PostCode": "KT1 1BB",
+					"RatingValue": "AwaitingInspection",
+					"RatingKey": "fhrs_awaitinginspection_en-GB",
+					"RatingDate": null,
+					"LocalAuthorityCode": "508",
+					"LocalAuthorityName": "Kingston Upon Thames",
+					"Scores": { "Hygiene": null, "Structural": null, "ConfidenceInManagement": null },
+					"SchemeType": "FHRS",
+					"NewRatingPending": "True",
+					"Geocode": { "Longitude": "-0.306000", "Latitude": "51.411000" }
+				},
+				{
+					"FHRSID": 7654321,
+					"LocalAuthorityBusinessID": "PI/000054321",
+					"BusinessName": "The Druid's Head",
+					"BusinessType": "Pub/bar/nightclub",
+					"BusinessTypeID": 7843,
+					"AddressLine1": "3 Market Place",
+					"AddressLine2": "Kingston upon Thames",
+					"AddressLine3": "",
+					"AddressLine4": "",
+					"PostCode": "KT1 1JT",
+					"RatingValue": "5",
+					"RatingKey": "fhrs_5_en-gb",
+					"RatingDate": "2025-03-18T00:00:00",
+					"LocalAuthorityCode": "508",
+					"LocalAuthorityName": "Kingston Upon Thames",
+					"Scores": { "Hygiene": 0, "Structural": 5, "ConfidenceInManagement": 5 },
+					"SchemeType": "FHRS",
+					"NewRatingPending": false,
+					"Geocode": null
+				},
+				{
+					"FHRSID": "",
+					"BusinessName": "Nameless",
+					"PostCode": "KT1 1AA"
+				}
+			]
+		}
+	}
+}

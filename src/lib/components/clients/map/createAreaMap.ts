@@ -1,8 +1,7 @@
 import type { Coordinates } from '$lib/data/distance';
 import type { AreaPin } from '$lib/server/clients/area/areaPin';
-import { addBasemapTo } from './basemap';
+import { createCircleMap } from './createCircleMap';
 import { pinTones, resolveColourToken, standingOfPin } from './areaPinTones';
-import { milesToMetres } from '$lib/data/mapRadii';
 
 export type AreaMapHandle = {
 	showPins: (pins: AreaPin[], selectedKey: string | null, onSelect: (key: string) => void) => void;
@@ -11,28 +10,13 @@ export type AreaMapHandle = {
 
 const pinRadiusPixels = 7;
 const selectedPinRadiusPixels = 11;
-const circleOpacity = 0.15;
 
 export async function createAreaMap(
 	container: HTMLElement,
 	centre: Coordinates,
 	radiusMiles: number
 ): Promise<AreaMapHandle> {
-	await import('leaflet/dist/leaflet.css');
-	const leaflet = await import('leaflet');
-	const map = leaflet.map(container, { scrollWheelZoom: false, preferCanvas: true });
-	const centrePoint = leaflet.latLng(centre.latitude, centre.longitude);
-	const radiusMetres = milesToMetres(radiusMiles);
-	map.fitBounds(centrePoint.toBounds(radiusMetres * 2));
-	addBasemapTo(leaflet, map);
-	leaflet
-		.circle(centrePoint, {
-			radius: radiusMetres,
-			color: resolveColourToken('--color-go'),
-			fillOpacity: circleOpacity,
-			weight: 1
-		})
-		.addTo(map);
+	const { leaflet, map } = await createCircleMap(container, centre, radiusMiles);
 	const pinLayer = leaflet.layerGroup().addTo(map);
 	return {
 		showPins: (pins, selectedKey, onSelect) => {
@@ -43,7 +27,7 @@ export async function createAreaMap(
 	};
 }
 
-function markerFor(
+export function markerFor(
 	leaflet: typeof import('leaflet'),
 	pin: AreaPin,
 	isSelected: boolean,

@@ -14,6 +14,7 @@
 			`${mapped.companyCount.toLocaleString('en-GB')} companies within ${mapped.radiusMiles} mile${mapped.radiusMiles === 1 ? '' : 's'}`,
 			mapped.hubCount === 0 ? '' : `${mapped.hubCount} registered-office hub${mapped.hubCount === 1 ? '' : 's'}`,
 			mapped.nonTradingCount === 0 ? '' : `${mapped.nonTradingCount} dormant or without accounts`,
+			mapped.sightingCount === 0 ? '' : `${mapped.sightingCount} sighted on the web`,
 			mapped.postcodesToGeocode === 0 ? '' : `${mapped.postcodesToGeocode} postcodes still to geocode`,
 			pins.length > listedCount ? `the nearest ${listedCount} listed` : ''
 		].filter((fact) => fact !== '');

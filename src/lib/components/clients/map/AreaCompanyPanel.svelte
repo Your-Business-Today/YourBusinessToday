@@ -4,15 +4,18 @@
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { confirmButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import { describeDistance } from '$lib/data/distance';
+	import { describeFiledFigures, type FiledFigures } from '$lib/data/filedFigures';
 	import { formatBritishDate } from '$lib/data/britishDate';
-	import { isHub } from '$lib/data/hubPins';
+	import { isHub } from '$lib/data/registerRules';
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
 
 	let {
 		pin,
+		figures = null,
 		addLeadAction,
-		addWithDirectorsAction
-	}: { pin: AreaPin | null; addLeadAction: string; addWithDirectorsAction: string } = $props();
+		addWithDirectorsAction,
+		patchId = ''
+	}: { pin: AreaPin | null; figures?: FiledFigures | null; addLeadAction: string; addWithDirectorsAction: string; patchId?: string } = $props();
 
 	const facts = $derived(pin === null ? [] : factsAbout(pin));
 	const standing = $derived(pin?.standing ?? null);
@@ -22,6 +25,7 @@
 		const { sicCodes } = company;
 		return [
 			isHub(company) ? `${company.companyCount} companies registered at this address` : '',
+			company.statusNote,
 			company.isNonTrading ? 'Dormant, or no accounts filed' : '',
 			company.companyNumber === '' ? '' : `Company ${company.companyNumber}`,
 			company.incorporatedOn === '' ? '' : `Incorporated ${formatBritishDate(company.incorporatedOn)}`,
@@ -48,6 +52,9 @@
 					<li>{fact}</li>
 				{/each}
 			</ul>
+			{#if figures !== null}
+				<a href={figures.sourceUrl} target="_blank" rel="noreferrer" class="text-xs text-chalk/70 hover:text-signal">{describeFiledFigures(figures)}</a>
+			{/if}
 		</div>
 		{#if standing !== null}
 			<div class="flex flex-wrap items-center gap-3">
@@ -57,6 +64,7 @@
 		{:else if canBecomeLead}
 			<div class="flex flex-wrap gap-2">
 				<form method="POST" action={addLeadAction}>
+					<input type="hidden" name="patchId" value={patchId} />
 					<ProspectSeedFields company={pin} />
 					<SubmitButton class={quietButtonClasses} savingLabel="Adding…">Add as lead</SubmitButton>
 				</form>

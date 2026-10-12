@@ -1,0 +1,8 @@
+{
+	"@context": "https://www.thegazette.co.uk/notice/context.json",
+	"@id": "https://www.thegazette.co.uk/id/notice/4567891",
+	"isAbout": {
+		"@type": "Liquidation",
+		"hasCompany": { "@type": "Company", "name": "EXAMPLE LIMITED", "companyNumber": "SC 123456" }
+	}
+}

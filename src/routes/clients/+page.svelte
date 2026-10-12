@@ -28,6 +28,7 @@
 			<a href="/clients/prospect" class={quietButtonClasses}>Search Companies House</a>
 			<a href="/clients/map" class={quietButtonClasses}>Map an area</a>
 			<a href="/clients/patches" class={quietButtonClasses}>Patches</a>
+			<a href="/clients/feed" class={quietButtonClasses}>Patch feed</a>
 		</div>
 	</div>
 	<FormErrorNote message={form?.message ?? null} />

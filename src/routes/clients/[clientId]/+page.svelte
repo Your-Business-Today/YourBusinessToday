@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ClientObservations from '$lib/components/clients/ClientObservations.svelte';
 	import AssignProjectForm from '$lib/components/clients/AssignProjectForm.svelte';
 	import ClientHeader from '$lib/components/clients/ClientHeader.svelte';
 	import ClientEventLedger from '$lib/components/clients/ClientEventLedger.svelte';
@@ -27,7 +28,7 @@
 </svelte:head>
 
 <div class="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-16">
-	<ClientHeader {client} {parent} />
+	<ClientHeader {client} {parent} figures={data.figures} />
 	<FormErrorNote message={form?.message ?? null} />
 
 	<section class="flex flex-col gap-4">
@@ -78,6 +79,7 @@
 
 	<section class="flex flex-col gap-4">
 		<h2 class="font-display text-xl">History</h2>
+		<ClientObservations observations={data.observations} />
 		<ClientEventLedger events={data.events} />
 	</section>
 </div>

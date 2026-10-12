@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { csvRecordsInZip } from './registerZipRecords';
+import { csvRecordsInZip } from '$lib/server/csv/csvRecordsInZip';
 import { loadRegisterRecords, type RegisterLoadSummary } from './registerFileLoader';
 import {
 	markCompaniesGone,

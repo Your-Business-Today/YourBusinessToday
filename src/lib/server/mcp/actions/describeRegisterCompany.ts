@@ -1,4 +1,5 @@
 import { clientStageLabels } from '$lib/data/clientLifecycle';
+import { describeFiledFigures } from '$lib/data/filedFigures';
 import { formatBritishDate } from '$lib/data/britishDate';
 import type { LocatedRegisterCompany } from '$lib/server/register/registerCompanyRecord';
 import type { StandingByCompanyNumber } from '$lib/server/clients/area/findRegisterStanding';
@@ -22,9 +23,10 @@ function describeRegisterLine(company: LocatedRegisterCompany, stage: keyof type
 	return [
 		`${company.name} — ${company.companyNumber}`,
 		`${company.postcode} (${company.sector})`,
-		company.companyStatus,
+		company.statusNote === '' ? company.companyStatus : `${company.companyStatus} — ${company.statusNote}`,
 		company.incorporatedOn === '' ? 'incorporation unknown' : `incorporated ${formatBritishDate(company.incorporatedOn)}`,
 		sicCodes.length === 0 ? 'no SIC code' : `SIC ${sicCodes.join(' ')}`,
+		company.figures === null ? 'no figures read yet' : describeFiledFigures(company.figures),
 		stage === null ? 'not on our register' : clientStageLabels[stage]
 	].join(' — ');
 }

@@ -1,4 +1,4 @@
-import { addProspectAsLead } from '$lib/server/clients/addProspectAsLead';
+import { addPatchCompanyAsLead } from '$lib/server/patches/addPatchCompanyAsLead';
 import { describeRegisterCompanies, noSuchRegisterCompany } from './describeRegisterCompany';
 import { filterRegisterCompanies, type RegisterFilters } from '$lib/server/register/filterRegisterCompanies';
 import { getPatch } from '$lib/server/patches/getPatch';
@@ -29,6 +29,7 @@ export const patchCompanyActions: McpAction[] = [
 				sicCode: textField('Keep companies whose SIC code starts with this, such as 41 or 41202'),
 				status: textField('Keep companies whose status contains this, such as active or liquidation'),
 				incorporatedSince: textField('Keep companies incorporated on or after this date, as YYYY-MM-DD'),
+				arrivedSince: textField('Keep companies first seen in the register on or after this month, as YYYY-MM-01'),
 				includeHubs: textField('true to include companies at registered-office hubs'),
 				includeNonTrading: textField('true to include dormant companies and those with no accounts filed')
 			},
@@ -65,6 +66,7 @@ function filtersIn(input: Record<string, unknown>): RegisterFilters {
 		sicCode: readText(input, 'sicCode'),
 		status: readText(input, 'status'),
 		incorporatedSince: readText(input, 'incorporatedSince'),
+		arrivedSince: readText(input, 'arrivedSince'),
 		shouldIncludeHubs: readText(input, 'includeHubs') === yes,
 		shouldIncludeNonTrading: readText(input, 'includeNonTrading') === yes
 	};
@@ -78,7 +80,7 @@ async function addAsLead(caller: McpCaller, input: Record<string, unknown>): Pro
 	const seed = { name: company.name, companyNumber: company.companyNumber, address: company.registeredAddress, postcode: company.postcode };
 	const refusal = validateProspect(seed);
 	if (refusal !== null) return refusal;
-	const outcome = await addProspectAsLead(caller.supabase, seed, caller.accountId);
+	const outcome = await addPatchCompanyAsLead(caller.supabase, patch, seed, caller.accountId);
 	if (outcome.wasAlreadyListed) return `${company.name} is already on the register — client id ${outcome.clientId}.`;
 	return `${company.name} is on the register as a lead — client id ${outcome.clientId}.`;
 }
