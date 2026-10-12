@@ -25,6 +25,20 @@ export function helmertToWgs84(onAiry: Coordinates): Coordinates {
 	return fromCartesian([x2, y2, z2], grs80);
 }
 
+/** Moves a point from WGS84 back onto the Airy datum: the same shift run the other way, good to a few metres. */
+export function helmertToAiry(onWgs84: Coordinates): Coordinates {
+	const [x, y, z] = toCartesian(onWgs84, grs80);
+	const t = osgb36ToWgs84;
+	const s = 1 - t.scale / partsPerMillion;
+	const rx = -t.rx / arcSecondsInRadian;
+	const ry = -t.ry / arcSecondsInRadian;
+	const rz = -t.rz / arcSecondsInRadian;
+	const x2 = -t.tx + s * x - rz * y + ry * z;
+	const y2 = -t.ty + rz * x + s * y - rx * z;
+	const z2 = -t.tz - ry * x + rx * y + s * z;
+	return fromCartesian([x2, y2, z2], airy1830);
+}
+
 function toCartesian(point: Coordinates, ellipsoid: { semiMajor: number; semiMinor: number }): [number, number, number] {
 	const lat = toRadians(point.latitude);
 	const lon = toRadians(point.longitude);
