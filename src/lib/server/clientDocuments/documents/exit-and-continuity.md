@@ -1,6 +1,6 @@
 # Schedule 4 — Exit and Continuity
 
-**Version 1.0 — 24 September 2026**
+**Version 1.1 — 12 October 2026**
 
 This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It says how the Client gets its data and its system back — when the Run service ends normally, and if YBT cannot continue.
 
@@ -25,9 +25,9 @@ This schedule forms part of the Master Services Agreement between Your Business 
 
 3.2 **Source and hand-over.** For every stage that has been paid for, YBT hands over the source code, infrastructure definitions, configuration (without secrets, which are handed over separately and securely), and the documentation needed to run the Solution elsewhere.
 
-3.3 **Deletion.** Unless the Client asks otherwise in writing, YBT deletes the Client Data from the live Solution within 30 days after the final export is delivered, and gives the Client a written certificate of deletion. Copies in backups expire and are destroyed automatically within [35] days after that. YBT keeps nothing longer except where the law requires it.
+3.3 **Deletion.** Unless the Client asks otherwise in writing, YBT deletes the Client Data from the live Solution within 30 days after the final export is delivered, and gives the Client a written certificate of deletion. Copies in backups expire and are destroyed automatically within 35 days after that, the period backups are kept for under Schedule 2 section 3.3. YBT keeps nothing longer except where the law requires it.
 
-3.4 **Transition help.** If the Client asks, YBT will help move the Solution to the Client or to a new supplier, at the day rate in the Order Form, capped at [5] days unless agreed otherwise in writing.
+3.4 **Transition help.** If the Client asks, YBT will help move the Solution to the Client or to a new supplier, at the day rate in the Order Form, capped at 5 days unless agreed otherwise in writing.
 
 ## 4. Taking over the Azure subscription
 
@@ -37,13 +37,15 @@ This schedule forms part of the Master Services Agreement between Your Business 
 
 4.3 The Client should note that a move between Microsoft tenants does not carry across role assignments, access policies or usage history. These are recreated as part of the transition, using the infrastructure definitions handed over under section 3.2.
 
+4.4 **Before a transfer can be accepted.** The party taking over the subscription needs a Microsoft Customer Agreement billing account of its own. Reservations, savings plans and some Azure Marketplace purchases do not travel with the subscription; YBT will list any that apply to the Solution before the transfer, and the Client decides whether to replace them under its own account.
+
 ## 5. If YBT cannot continue
 
 5.1 A **Release Event** happens if YBT (a) becomes insolvent, enters administration or liquidation, or has a receiver appointed; (b) ceases to trade; or (c) fails to respond to a P1 support request for 5 consecutive Business Days after written notice from the Client.
 
-5.2 **Continuity copy.** So that the Client never depends on YBT's continued existence to reach its own system, YBT will, [monthly], write a copy of the Solution's database backup, source code and infrastructure definitions to a storage location the Client owns and controls. The Client should check that it can open these copies.
+5.2 **Continuity copy.** So that the Client never depends on YBT's continued existence to reach its own system, YBT will, every month, write a copy of the Solution's database backup, source code and infrastructure definitions to a storage location the Client owns and controls. The Client should check that it can open these copies.
 
-5.3 **Step-in.** On a Release Event, the Client (or its nominated successor, [name, if any]) may take over the running of the Solution, and YBT (or its insolvency practitioner) will immediately do what is needed to give effect to section 4.2 and hand over the credentials needed to operate the Solution. YBT grants the Client, now, the licences needed to do this.
+5.3 **Step-in.** On a Release Event, the Client (or the successor it nominates in the Order Form, if any) may take over the running of the Solution, and YBT (or its insolvency practitioner) will immediately do what is needed to give effect to section 4.2 and hand over the credentials needed to operate the Solution. YBT grants the Client, now, the licences needed to do this.
 
 ## 6. Survival
 

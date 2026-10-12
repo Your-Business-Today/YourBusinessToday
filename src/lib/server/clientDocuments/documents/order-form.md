@@ -1,6 +1,6 @@
 # Order Form
 
-**Order number:** [YBT-0001] — **Version 1.0 — 24 September 2026**
+**Order number:** [YBT-0001] — **Version 1.1 — 12 October 2026**
 
 This Order Form is made under, and incorporates by reference, the Master Services Agreement between Your Business Today Ltd and the Client dated [date of MSA] (the "**MSA**"). Words defined in the MSA have the same meaning here. It changes a clause of the MSA only where section 9 below names that clause.
 
@@ -61,13 +61,14 @@ Payment terms are as set out in clause 7 of the MSA: 14 days from invoice.
 
 ## 7. Your data in this stage
 
-|                                 |                                                                            |
-| ------------------------------- | -------------------------------------------------------------------------- |
-| Will YBT hold personal data?    | [Yes / No]                                                                 |
-| Kinds of personal data          | [e.g. names, work contact details, job records — see Schedule 1, Annex A]  |
-| Special category data?          | [No — if yes, stop and discuss before signing]                             |
-| Hosting region                  | Microsoft Azure UK South, with backups in UK West                          |
-| AI services used on Client Data | [None / Anthropic Claude via API, as listed in the sub-processor register] |
+|                                                   |                                                                            |
+| ------------------------------------------------- | -------------------------------------------------------------------------- |
+| Will YBT hold personal data?                      | [Yes / No]                                                                 |
+| Kinds of personal data                            | [e.g. names, work contact details, job records — see Schedule 1, Annex A]  |
+| Special category data?                            | [No — if yes, stop and discuss before signing]                             |
+| Hosting region                                    | Microsoft Azure UK South, with backups in UK West                          |
+| AI services used on Client Data                   | [None / Anthropic Claude via API, as listed in the sub-processor register] |
+| Successor nominated under Schedule 4, section 5.3 | [Name and company, or none]                                                |
 
 ## 8. Open-source components
 
