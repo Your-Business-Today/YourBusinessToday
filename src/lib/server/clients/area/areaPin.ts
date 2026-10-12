@@ -20,6 +20,7 @@ export type AreaPin = Coordinates & {
 	isNonTrading: boolean;
 	isSighting: boolean;
 	isPremises: boolean;
+	statusNote: string;
 };
 
 export function pinForCompany(
@@ -43,7 +44,8 @@ export function pinForCompany(
 		companyCount: oneCompany,
 		isNonTrading: false,
 		isSighting: false,
-		isPremises: false
+		isPremises: false,
+		statusNote: ''
 	};
 }
 

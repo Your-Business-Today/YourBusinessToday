@@ -52,7 +52,10 @@ export function areaEventSentence(event: AreaEvent): string {
 		[areaEventKinds.premisesChangedHands]: `${who} saw ${event.detail}`,
 		[areaEventKinds.leadAddedFromPremises]: `${who} added ${event.detail} as a lead from the food premises in ${event.sector}`,
 		[areaEventKinds.accountsFiled]: `${who} says ${event.detail}`,
-		[areaEventKinds.figuresRead]: `${who} read ${event.detail}`
+		[areaEventKinds.figuresRead]: `${who} read ${event.detail}`,
+		[areaEventKinds.windingUpPetitioned]: `${who} published ${event.detail}`,
+		[areaEventKinds.administrationOpened]: `${who} published ${event.detail}`,
+		[areaEventKinds.liquidatorAppointed]: `${who} published ${event.detail}`
 	};
 	return sentences[event.kind];
 }

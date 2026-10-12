@@ -23,7 +23,7 @@ function describeRegisterLine(company: LocatedRegisterCompany, stage: keyof type
 	return [
 		`${company.name} — ${company.companyNumber}`,
 		`${company.postcode} (${company.sector})`,
-		company.companyStatus,
+		company.statusNote === '' ? company.companyStatus : `${company.companyStatus} — ${company.statusNote}`,
 		company.incorporatedOn === '' ? 'incorporation unknown' : `incorporated ${formatBritishDate(company.incorporatedOn)}`,
 		sicCodes.length === 0 ? 'no SIC code' : `SIC ${sicCodes.join(' ')}`,
 		company.figures === null ? 'no figures read yet' : describeFiledFigures(company.figures),

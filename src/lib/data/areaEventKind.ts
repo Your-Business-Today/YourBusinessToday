@@ -20,7 +20,10 @@ export type AreaEventKind =
 	| 'premises_changed_hands'
 	| 'lead_added_from_premises'
 	| 'accounts_filed'
-	| 'figures_read';
+	| 'figures_read'
+	| 'winding_up_petitioned'
+	| 'administration_opened'
+	| 'liquidator_appointed';
 
 export const areaEventKinds = {
 	sectorClaimed: 'sector_claimed',
@@ -43,7 +46,10 @@ export const areaEventKinds = {
 	premisesChangedHands: 'premises_changed_hands',
 	leadAddedFromPremises: 'lead_added_from_premises',
 	accountsFiled: 'accounts_filed',
-	figuresRead: 'figures_read'
+	figuresRead: 'figures_read',
+	windingUpPetitioned: 'winding_up_petitioned',
+	administrationOpened: 'administration_opened',
+	liquidatorAppointed: 'liquidator_appointed'
 } as const;
 
 export const areaEventKindOrder: AreaEventKind[] = [
@@ -67,33 +73,11 @@ export const areaEventKindOrder: AreaEventKind[] = [
 	areaEventKinds.premisesChangedHands,
 	areaEventKinds.leadAddedFromPremises,
 	areaEventKinds.accountsFiled,
-	areaEventKinds.figuresRead
+	areaEventKinds.figuresRead,
+	areaEventKinds.windingUpPetitioned,
+	areaEventKinds.administrationOpened,
+	areaEventKinds.liquidatorAppointed
 ];
-
-/** The short word on the event's pill. */
-export const areaEventLabels: Record<AreaEventKind, string> = {
-	sector_claimed: 'Claimed',
-	sector_searched: 'Searched',
-	sighting_recorded: 'Sighted',
-	sighting_became_lead: 'Lead',
-	lead_added_from_register: 'Lead',
-	company_arrived: 'New company',
-	company_moved_in: 'Moved in',
-	company_left: 'Left',
-	status_changed: 'Status',
-	accounts_category_changed: 'Accounts',
-	accounts_overdue: 'Overdue',
-	charge_registered: 'Charge',
-	holding_company_over_trading: 'Holding co.',
-	observation_recorded: 'Observed',
-	premises_opened: 'Opened',
-	premises_reinspected: 'Re-inspected',
-	premises_closed: 'Closed',
-	premises_changed_hands: 'Changed hands',
-	lead_added_from_premises: 'Lead',
-	accounts_filed: 'Accounts filed',
-	figures_read: 'Figures'
-};
 
 export function parseAreaEventKind(value: unknown): AreaEventKind | null {
 	return areaEventKindOrder.find((kind) => kind === value) ?? null;

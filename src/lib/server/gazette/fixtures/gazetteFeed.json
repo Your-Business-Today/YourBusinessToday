@@ -1,0 +1,30 @@
+{
+	"feed": {
+		"f:total": "2",
+		"f:page-size": "100",
+		"f:page-number": "1",
+		"entry": [
+			{
+				"id": "https://www.thegazette.co.uk/notice/4567890",
+				"title": "Petitions to Wind Up (Companies)",
+				"published": "2026-10-11T00:00:00Z",
+				"f:notice-code": "2410",
+				"content": "<div>In the High Court of Justice... RIVERSIDE FIT-OUT LIMITED (Company Number 01234567) ... Registered office: 4 Victoria Road, Surbiton KT6 4JZ</div>"
+			},
+			{
+				"id": "https://www.thegazette.co.uk/notice/4567891",
+				"title": "Appointment of Liquidators",
+				"published": "2026-10-11T00:00:00Z",
+				"f:notice-code": "2434",
+				"content": "<div>Name of Company: Example Limited. Nature of Business: Printing.</div>"
+			},
+			{
+				"id": "https://www.thegazette.co.uk/notice/4567892",
+				"title": "Meetings of Creditors",
+				"published": "2026-10-11T00:00:00Z",
+				"f:notice-code": "2451",
+				"content": "<div>Company Number: 09876543</div>"
+			}
+		]
+	}
+}

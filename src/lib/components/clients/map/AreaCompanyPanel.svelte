@@ -25,6 +25,7 @@
 		const { sicCodes } = company;
 		return [
 			isHub(company) ? `${company.companyCount} companies registered at this address` : '',
+			company.statusNote,
 			company.isNonTrading ? 'Dormant, or no accounts filed' : '',
 			company.companyNumber === '' ? '' : `Company ${company.companyNumber}`,
 			company.incorporatedOn === '' ? '' : `Incorporated ${formatBritishDate(company.incorporatedOn)}`,

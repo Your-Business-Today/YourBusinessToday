@@ -58,7 +58,8 @@ function companyPin(company: LocatedRegisterCompany, centre: Coordinates, standi
 		companyCount: oneCompany,
 		isNonTrading: isNonTradingCategory(company.accountCategory),
 		isSighting: false,
-		isPremises: false
+		isPremises: false,
+		statusNote: company.statusNote
 	};
 }
 
@@ -79,6 +80,7 @@ function hubPin(address: string, residents: LocatedRegisterCompany[], centre: Co
 		companyCount: residents.length,
 		isNonTrading: false,
 		isSighting: false,
-		isPremises: false
+		isPremises: false,
+		statusNote: ''
 	};
 }

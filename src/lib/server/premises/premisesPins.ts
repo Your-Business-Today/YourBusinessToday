@@ -39,6 +39,7 @@ function premisesPin(premises: Premises, location: Coordinates, centre: Coordina
 		companyCount: oneCompany,
 		isNonTrading: false,
 		isSighting: false,
-		isPremises: true
+		isPremises: true,
+		statusNote: ''
 	};
 }

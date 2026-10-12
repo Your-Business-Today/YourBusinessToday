@@ -57,6 +57,7 @@ function pinForClient(row: RegisterRow, location: Coordinates, centre: Coordinat
 		companyCount: oneCompany,
 		isNonTrading: false,
 		isSighting: false,
-		isPremises: false
+		isPremises: false,
+		statusNote: ''
 	};
 }

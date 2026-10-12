@@ -33,6 +33,7 @@ function sightingPin(sighting: Sighting, location: Coordinates, centre: Coordina
 		companyCount: oneCompany,
 		isNonTrading: false,
 		isSighting: true,
-		isPremises: false
+		isPremises: false,
+		statusNote: ''
 	};
 }

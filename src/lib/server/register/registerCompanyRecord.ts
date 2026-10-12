@@ -21,6 +21,7 @@ export type RegisterCompany = {
 	isGone: boolean;
 	sourceUrl: string;
 	figures: FiledFigures | null;
+	statusNote: string;
 };
 
 export type LocatedRegisterCompany = RegisterCompany & Coordinates;
@@ -44,7 +45,8 @@ export function parseRegisterCompanyRecord(row: Record<string, unknown>): Regist
 		lastSeenMonth: row.last_seen_month as string,
 		isGone: Boolean(row.is_gone),
 		sourceUrl: (row.source_url ?? '') as string,
-		figures: figuresOf(row)
+		figures: figuresOf(row),
+		statusNote: (row.status_note ?? '') as string
 	};
 }
 

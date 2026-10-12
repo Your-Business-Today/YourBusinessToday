@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { areaEventLabels, type AreaEventKind } from '$lib/data/areaEventKind';
+	import { areaEventLabels } from '$lib/data/areaEventLabels';
+	import type { AreaEventKind } from '$lib/data/areaEventKind';
 
 	let { kind }: { kind: AreaEventKind } = $props();
 
@@ -24,7 +25,10 @@
 		premises_changed_hands: 'border-caution/60 text-caution',
 		lead_added_from_premises: 'border-chalk/60 text-chalk',
 		accounts_filed: 'border-go/40 text-go/80',
-		figures_read: 'border-hairline text-chalk/70'
+		figures_read: 'border-hairline text-chalk/70',
+		winding_up_petitioned: 'border-signal/60 bg-signal/10 text-signal',
+		administration_opened: 'border-signal/60 bg-signal/10 text-signal',
+		liquidator_appointed: 'border-signal/60 bg-signal/10 text-signal'
 	};
 </script>
 
