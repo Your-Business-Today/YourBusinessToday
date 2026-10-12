@@ -1,7 +1,7 @@
-import { companiesHouseApiOrigin, requestCompaniesHouse } from './companiesHouseRequest';
+import { requestCompaniesHouse } from './companiesHouseRequest';
+import { searchUrlFor, type CompaniesHouseSearch } from './searchUrl';
+export type { CompaniesHouseSearch } from './searchUrl';
 import { describeRegisteredAddress, postcodeOfRegisteredAddress } from './registeredAddress';
-
-export type CompaniesHouseSearch = { sicCodes: string[]; location: string };
 
 export type CompaniesHouseCompany = {
 	companyNumber: string;
@@ -14,8 +14,6 @@ export type CompaniesHouseCompany = {
 
 export type CompanySearchPage = { companies: CompaniesHouseCompany[]; totalHits: number };
 
-const advancedSearchPath = '/advanced-search/companies';
-const activeCompanyStatus = 'active';
 const longestResultPage = 50;
 
 export function readCompaniesHouseSearch(searchParams: URLSearchParams): CompaniesHouseSearch | null {
@@ -46,15 +44,6 @@ export async function searchCompaniesHousePage(
 export function parseCompanySearchPage(body: Record<string, unknown>): CompanySearchPage {
 	const items = Array.isArray(body.items) ? (body.items as Record<string, unknown>[]) : [];
 	return { companies: items.map(parseCompany), totalHits: Number(body.hits ?? items.length) };
-}
-
-function searchUrlFor(search: CompaniesHouseSearch, pageSize: number): URL {
-	const url = new URL(advancedSearchPath, companiesHouseApiOrigin);
-	for (const code of search.sicCodes) url.searchParams.append('sic_codes', code);
-	if (search.location !== '') url.searchParams.set('location', search.location);
-	url.searchParams.set('company_status', activeCompanyStatus);
-	url.searchParams.set('size', String(pageSize));
-	return url;
 }
 
 function parseCompany(item: Record<string, unknown>): CompaniesHouseCompany {

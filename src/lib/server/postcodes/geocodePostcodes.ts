@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { cacheLocations, readCachedLocations } from './postcodeLocationCache';
+import { inBatches } from '$lib/data/inBatches';
 import { parsePostcodeLocation, type PostcodeLocation } from './postcodeLocation';
 import { postcodeIn } from '$lib/data/postcode';
 import { postcodesApiOrigin, requestPostcodes } from './postcodesRequest';
@@ -24,11 +25,7 @@ export async function geocodePostcodes(
 }
 
 async function lookupInBatches(postcodes: string[]): Promise<PostcodeLocation[]> {
-	const batches: string[][] = [];
-	for (let start = 0; start < postcodes.length; start += longestBulkLookup) {
-		batches.push(postcodes.slice(start, start + longestBulkLookup));
-	}
-	const results = await Promise.all(batches.map(lookupBatch));
+	const results = await Promise.all(inBatches(postcodes, longestBulkLookup).map(lookupBatch));
 	return results.flat();
 }
 
