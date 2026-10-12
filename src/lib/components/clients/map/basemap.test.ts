@@ -4,17 +4,21 @@ import { basemapFor } from './basemap';
 vi.mock('$env/dynamic/public', () => ({ env: {} }));
 
 describe('basemapFor', () => {
-	it('draws Ordnance Survey with the Crown copyright line and the open zoom limit when a key is set', () => {
-		const { tileUrl, attribution, maxZoom } = basemapFor('an-os-key', 2026);
-		expect(tileUrl).toContain('maps/raster/v1/zxy/Light_3857');
-		expect(tileUrl).toContain('key=an-os-key');
-		expect(attribution).toContain('Crown copyright and database rights 2026');
-		expect(maxZoom).toBe(16);
+	it('draws Ordnance Survey from the zoom it serves, with OpenStreetMap for the country-wide view above, when a key is set', () => {
+		const [countryWide, ordnanceSurvey] = basemapFor('an-os-key', 2026);
+		expect(countryWide.tileUrl).toContain('openstreetmap.org');
+		expect(countryWide.maxZoom).toBe(6);
+		expect(ordnanceSurvey.tileUrl).toContain('maps/raster/v1/zxy/Light_3857');
+		expect(ordnanceSurvey.tileUrl).toContain('key=an-os-key');
+		expect(ordnanceSurvey.attribution).toContain('Crown copyright and database rights 2026');
+		expect(ordnanceSurvey.minZoom).toBe(7);
+		expect(ordnanceSurvey.maxZoom).toBe(16);
 	});
 
-	it('falls back to OpenStreetMap, credited, when no key is set', () => {
-		const { tileUrl, attribution } = basemapFor('', 2026);
-		expect(tileUrl).toContain('openstreetmap.org');
-		expect(attribution).toContain('OpenStreetMap');
+	it('falls back to OpenStreetMap alone, credited, when no key is set', () => {
+		const sources = basemapFor('', 2026);
+		expect(sources).toHaveLength(1);
+		expect(sources[0].tileUrl).toContain('openstreetmap.org');
+		expect(sources[0].attribution).toContain('OpenStreetMap');
 	});
 });
