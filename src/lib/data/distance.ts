@@ -14,6 +14,12 @@ export function distanceInMiles(from: Coordinates, to: Coordinates): number {
 	return 2 * earthRadiusMiles * Math.asin(Math.sqrt(halfChord));
 }
 
+const metresInAMile = 1609.344;
+
+export function distanceInMetres(from: Coordinates, to: Coordinates): number {
+	return distanceInMiles(from, to) * metresInAMile;
+}
+
 export function describeDistance(miles: number): string {
 	if (miles < hereWithinMiles) return 'here';
 	return `${miles.toFixed(1)} mi`;

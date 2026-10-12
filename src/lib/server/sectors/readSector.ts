@@ -3,6 +3,7 @@ import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { listSearchesForSector } from './listSearches';
 import { readPatchCoverage } from './patchCoverage';
 import { readRegisterForPatch } from '$lib/server/register/readRegisterForPatch';
+import { readSectorBuildings, type BuildingReading } from '$lib/server/buildings/readSectorBuildings';
 import type { Account } from '$lib/server/accounts/accountRecord';
 import type { LocatedRegisterCompany } from '$lib/server/register/registerCompanyRecord';
 import type { Patch } from '$lib/server/patches/patchRecord';
@@ -16,6 +17,7 @@ export type SectorReading = {
 	coverage: SectorCoverage | null;
 	searches: RecordedSectorSearch[];
 	companies: LocatedRegisterCompany[];
+	buildings: BuildingReading[];
 	accounts: Account[];
 };
 
@@ -23,9 +25,10 @@ export async function readSector(supabase: SupabaseClient, patch: Patch, sectorN
 	const { sectors, coverage } = await readPatchCoverage(supabase, patch);
 	const sector = sectors.find((candidate) => candidate.sector === sectorName);
 	if (sector === undefined) return null;
-	const [searches, companies] = await Promise.all([
+	const [searches, companies, buildings] = await Promise.all([
 		listSearchesForSector(supabase, sectorName),
-		readRegisterForPatch(supabase, patch.id)
+		readRegisterForPatch(supabase, patch.id),
+		readSectorBuildings(supabase, patch.id, patch.outcodes, sectorName)
 	]);
 	const entry = coverage.find((candidate) => candidate.sector === sectorName) ?? null;
 	const accountIds = searches.map((search) => search.searchedByAccountId).concat(entry?.claimedByAccountId ?? []);
@@ -34,6 +37,7 @@ export async function readSector(supabase: SupabaseClient, patch: Patch, sectorN
 		coverage: entry,
 		searches,
 		companies: companies.filter((company) => company.sector === sectorName),
+		buildings,
 		accounts: await getAccountsById(supabase, accountIds)
 	};
 }

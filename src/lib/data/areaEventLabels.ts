@@ -25,5 +25,7 @@ export const areaEventLabels: Record<AreaEventKind, string> = {
 	figures_read: 'Figures',
 	winding_up_petitioned: 'Petition',
 	administration_opened: 'Administration',
-	liquidator_appointed: 'Liquidator'
+	liquidator_appointed: 'Liquidator',
+	place_arrived: 'Place',
+	place_removed: 'Place gone'
 };

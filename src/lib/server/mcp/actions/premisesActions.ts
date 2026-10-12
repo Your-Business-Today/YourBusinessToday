@@ -3,6 +3,8 @@ import { describePremisesList } from './describePremises';
 import { getPremises } from '$lib/server/premises/getPremises';
 import { listPremisesForPatch } from '$lib/server/premises/listPremisesForPatch';
 import { objectSchema, readText, textField } from '../actionTypes';
+import { parsePremisesSource } from '$lib/server/premises/premisesSource';
+import { premisesSourceLabels } from '$lib/data/foodHygieneRules';
 import { validatePremisesInPatch } from '$lib/server/premises/validatePremisesInPatch';
 import { withPatch } from '$lib/server/patches/withPatch';
 import type { McpAction } from '../actionTypes';
@@ -20,15 +22,17 @@ export const premisesActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'every food business trading in a patch as the Food Standards Agency lists it, at its real address, newest first',
+		summary: 'every business trading in a patch at its real address: food businesses from the Food Standards Agency and trading places from Overture Maps, newest first',
 		guidance:
-			'A café, pub, shop or takeaway is already here: add it with add_premises_as_lead rather than recording it ' +
-			'as a sighting. newOnly keeps the ones first listed in the last thirty days.',
+			'A café, pub, shop or office listed here is already known: add it with add_premises_as_lead rather than recording it ' +
+			'as a sighting. newOnly keeps the ones first listed in the last thirty days; source and category narrow further.',
 		inputSchema: objectSchema(
 			{
 				patchId: textField('The patch id, as given by list_patches'),
 				sector: textField('Narrow to one sector, such as KT1 1'),
-				newOnly: textField('true to keep only premises first listed in the last thirty days')
+				newOnly: textField('true to keep only premises first listed in the last thirty days'),
+				source: textField(`One source: ${Object.keys(premisesSourceLabels).join(' or ')}`),
+				category: textField('Keep places whose category contains this word, such as solicitor or cafe')
 			},
 			['patchId']
 		),
@@ -48,10 +52,14 @@ export const premisesActions: McpAction[] = [
 async function list(caller: McpCaller, patch: Patch, input: Record<string, unknown>): Promise<string> {
 	const sector = readText(input, 'sector').toUpperCase();
 	const isNewOnly = readText(input, 'newOnly') === yes;
+	const source = readText(input, 'source');
+	const category = readText(input, 'category').toLowerCase();
 	const newSince = Date.now() - newForDays * millisecondsPerDay;
 	const premises = (await listPremisesForPatch(caller.supabase, patch.outcodes))
 		.filter((one) => sector === '' || one.sector === sector)
 		.filter((one) => !isNewOnly || isFirstSeenSince(one, newSince))
+		.filter((one) => source === '' || one.source === parsePremisesSource(source))
+		.filter((one) => category === '' || one.category.toLowerCase().includes(category))
 		.sort(byNewest);
 	return describePremisesList(premises);
 }

@@ -138,6 +138,31 @@ page per patch. `read_patch_brief` hands a weekly scheduled task the sectors mos
 visit and a page of companies longest unobserved, capped so one run stays within a subscription;
 `docs/patch-sweep-prompt.md` is the task's prompt word for word.
 
+**WatchRun and the cron door** — `/api/watch/<source>` is knocked on by Vercel's cron runner with
+`CRON_SECRET` as a bearer token; `watchSources.ts` is the registry and a name not in it is refused.
+Every run is a `watch_runs` row opened, marked after each unit of work and closed with where it
+got to, so a run the platform cuts off resumes from its marker. The sources are the heartbeat,
+the register geocoder, the Food Standards Agency sweep, the daily accounts file and The Gazette.
+
+**Premises** — `public.premises`: a business trading at a real address as an open register lists
+it, keyed by the source and its own id: the Food Standards Agency's food hygiene ratings
+(`food_hygiene`, swept nightly per local authority whose file moved, matched to the patches'
+districts through postcodes.io) and Overture Maps Places (`places_dataset`, loaded by hand each
+release through DuckDB over the public parquet, permissive licences only, marked gone only by the
+release's changelog). A trigger writes the feed's premises and place kinds through the same door.
+
+**Filed figures and status notes** — `register_companies` carries net assets, cash, creditors and
+the headcount read from the inline XBRL of the accounts the company filed, found through the
+daily Accounts Data Product zip opened by its central directory over HTTP range requests; and a
+status note stamped by The Gazette's corporate insolvency notices, which tones the pin.
+
+**Building** — `public.buildings` and `public.premises_points`: OS OpenMap Local footprints
+in the patch's circle with the Open UPRN points that fall inside each and the nearest Code-Point
+Open unit postcode with its distance, loaded by hand each April and October; a reload replaces
+the patch's rows whole. The map draws them at street zoom, green where a premises or an addressed
+sighting stands within thirty metres, chalk where nothing is known yet; registered offices are
+listed apart with no tenancy claimed.
+
 The centre is geocoded into `postcode_locations` as the patch is saved, so the overview map
 costs no lookup. Every limit is stated in `src/lib/data/patchRules.ts` and read by the form,
 the form action and the connector action; `validatePatch` refuses rather than repairs.
@@ -156,6 +181,10 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `addSightingAsLead`, `matchSightingToRegister` | the sighting reaches the register |
 | `recordAreaEvent` | every event, through the gated door |
 | `recordObservation` | something noticed, once per page |
+| `runWatchSource` | a named watcher run from where it last stopped |
+| `sweepFoodHygiene`, `sweepAccountsFiled`, `sweepGazetteNotices` | the keyless sources, nightly |
+| `loadBuildingsForPatch`, `loadOverturePlacesForPatch` | the buildings and the trading places, by hand |
+| `addPremisesAsLead` | a premises reaches the register |
 
 | Query | Story it serves |
 | --- | --- |
@@ -168,12 +197,15 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `listSightingsForPatch`, `pinsForSightings` | the sightings, drawn at their postcodes |
 | `getFeedForPatches` | the feed, narrowed by patch, kind or date |
 | `readPatchBrief` | what a weekly sweep looks at |
+| `listPremisesForPatch`, `pinsForPremises` | the premises, drawn at their real addresses |
+| `listBuildingsInBounds`, `readSectorBuildings` | the footprints in view, and a sector's largest |
+| `readCompanyInPatch` | everything known about one company |
 
 The connector's new `patches` area carries `list_patches`, `create_patch`, `read_patch`,
 `read_patch_companies`, `add_patch_company_as_lead`, `list_patch_sectors`, `list_unsearched_sectors`,
 `read_sector`, `mark_sector_searched`, `claim_sector`, `release_sector`, `hand_sector_to`,
 `record_sighting`, `list_sightings`, `add_sighting_as_lead`, `match_sighting_to_register`,
-`read_patch_feed`, `read_patch_brief`, `record_patch_observation` and, for admins,
-`geocode_register_postcodes`;
+`read_patch_feed`, `read_patch_brief`, `record_patch_observation`, `list_patch_premises`,
+`add_premises_as_lead`, `read_patch_company` and, for admins, `geocode_register_postcodes`;
 the map tiles come from `basemap.ts`: Ordnance Survey's Light style on the free OpenData plan
 when `PUBLIC_OS_MAPS_API_KEY` is set, OpenStreetMap only as the fallback.

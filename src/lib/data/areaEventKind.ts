@@ -23,7 +23,9 @@ export type AreaEventKind =
 	| 'figures_read'
 	| 'winding_up_petitioned'
 	| 'administration_opened'
-	| 'liquidator_appointed';
+	| 'liquidator_appointed'
+	| 'place_arrived'
+	| 'place_removed';
 
 export const areaEventKinds = {
 	sectorClaimed: 'sector_claimed',
@@ -49,7 +51,9 @@ export const areaEventKinds = {
 	figuresRead: 'figures_read',
 	windingUpPetitioned: 'winding_up_petitioned',
 	administrationOpened: 'administration_opened',
-	liquidatorAppointed: 'liquidator_appointed'
+	liquidatorAppointed: 'liquidator_appointed',
+	placeArrived: 'place_arrived',
+	placeRemoved: 'place_removed'
 } as const;
 
 export const areaEventKindOrder: AreaEventKind[] = [
@@ -76,7 +80,9 @@ export const areaEventKindOrder: AreaEventKind[] = [
 	areaEventKinds.figuresRead,
 	areaEventKinds.windingUpPetitioned,
 	areaEventKinds.administrationOpened,
-	areaEventKinds.liquidatorAppointed
+	areaEventKinds.liquidatorAppointed,
+	areaEventKinds.placeArrived,
+	areaEventKinds.placeRemoved
 ];
 
 export function parseAreaEventKind(value: unknown): AreaEventKind | null {

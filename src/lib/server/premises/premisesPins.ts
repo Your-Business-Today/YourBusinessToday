@@ -3,6 +3,7 @@ import { distanceInMiles, type Coordinates } from '$lib/data/distance';
 import { geocodePostcodes } from '$lib/server/postcodes/geocodePostcodes';
 import { oneCompany } from '$lib/data/registerRules';
 import { premisesKeyPrefix } from '$lib/data/premisesKeys';
+import { premisesSources } from '$lib/data/foodHygieneRules';
 import type { AreaPin } from '$lib/server/clients/area/areaPin';
 import type { Premises } from './premisesRecord';
 
@@ -40,6 +41,7 @@ function premisesPin(premises: Premises, location: Coordinates, centre: Coordina
 		isNonTrading: false,
 		isSighting: false,
 		isPremises: true,
+		isPlace: premises.source === premisesSources.placesDataset,
 		statusNote: ''
 	};
 }

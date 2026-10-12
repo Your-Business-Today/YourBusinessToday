@@ -1,12 +1,11 @@
-import { addPatchCompanyAsLead } from '$lib/server/patches/addPatchCompanyAsLead';
+import { describePatchCompany } from './describePatchCompany';
 import { describeRegisterCompanies, noSuchRegisterCompany } from './describeRegisterCompany';
 import { filterRegisterCompanies, type RegisterFilters } from '$lib/server/register/filterRegisterCompanies';
 import { getPatch } from '$lib/server/patches/getPatch';
-import { getRegisterCompany } from '$lib/server/register/getRegisterCompany';
 import { noSuchPatch } from './describePatch';
 import { readEveryStanding } from '$lib/server/clients/area/findRegisterStanding';
+import { readCompanyInPatch } from '$lib/server/patches/readCompanyInPatch';
 import { readRegisterForPatch } from '$lib/server/register/readRegisterForPatch';
-import { validateProspect } from '$lib/data/prospectRules';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -38,16 +37,14 @@ export const patchCompanyActions: McpAction[] = [
 		run: async (caller, input) => listCompanies(caller, input)
 	},
 	{
-		name: 'add_patch_company_as_lead',
+		name: 'read_patch_company',
 		area: 'patches',
 		audience: 'staff',
-		isWrite: true,
-		summary: 'put a company from the patch register on the clients register as a lead',
-		inputSchema: objectSchema(
-			{ patchId: textField('The patch id'), companyNumber: textField('The company number, as read_patch_companies gives it') },
-			['patchId', 'companyNumber']
-		),
-		run: async (caller, input) => addAsLead(caller, input)
+		isWrite: false,
+		summary: 'everything known about one company in a patch in one answer: the register row, our standing, its filed figures, where it was sighted, what was observed, and its feed',
+		guidance: 'Read this before drafting an approach: it gathers what the register, the sightings, the observations and the feed hold, and names what is missing.',
+		inputSchema: objectSchema({ patchId: textField('The patch id'), companyNumber: textField('The company number, as read_patch_companies gives it') }, ['patchId', 'companyNumber']),
+		run: async (caller, input) => readOne(caller, input)
 	}
 ];
 
@@ -72,15 +69,10 @@ function filtersIn(input: Record<string, unknown>): RegisterFilters {
 	};
 }
 
-async function addAsLead(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
+async function readOne(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
 	const patch = await getPatch(caller.supabase, readText(input, 'patchId'));
 	if (patch === null) return noSuchPatch;
-	const company = await getRegisterCompany(caller.supabase, readText(input, 'companyNumber'));
-	if (company === null || !patch.outcodes.includes(company.outcode)) return noSuchRegisterCompany;
-	const seed = { name: company.name, companyNumber: company.companyNumber, address: company.registeredAddress, postcode: company.postcode };
-	const refusal = validateProspect(seed);
-	if (refusal !== null) return refusal;
-	const outcome = await addPatchCompanyAsLead(caller.supabase, patch, seed, caller.accountId);
-	if (outcome.wasAlreadyListed) return `${company.name} is already on the register — client id ${outcome.clientId}.`;
-	return `${company.name} is on the register as a lead — client id ${outcome.clientId}.`;
+	const reading = await readCompanyInPatch(caller.supabase, patch, readText(input, 'companyNumber').toUpperCase());
+	if (reading === null) return noSuchRegisterCompany;
+	return describePatchCompany(reading);
 }

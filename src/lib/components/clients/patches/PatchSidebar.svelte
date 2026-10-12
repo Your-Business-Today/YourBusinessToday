@@ -1,6 +1,7 @@
 <script lang="ts">
 	import AreaCompanyList from '$lib/components/clients/map/AreaCompanyList.svelte';
 	import AreaCompanyPanel from '$lib/components/clients/map/AreaCompanyPanel.svelte';
+	import BuildingPanel from './BuildingPanel.svelte';
 	import PremisesPanel from './PremisesPanel.svelte';
 	import SectorPanel from './SectorPanel.svelte';
 	import SightingPanel from './SightingPanel.svelte';
@@ -10,6 +11,8 @@
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
 	import type { Premises } from '$lib/server/premises/premisesRecord';
 	import type { FiledFigures } from '$lib/data/filedFigures';
+	import type { Building } from '$lib/server/buildings/buildingRecord';
+	import type { BuildingCounts } from '$lib/server/buildings/buildingCounts';
 	import type { PatchCoverage } from '$lib/server/sectors/patchCoverage';
 	import type { RecordedSectorSearch } from '$lib/server/sectors/sectorSearchRecord';
 	import type { Sighting } from '$lib/server/sightings/sightingRecord';
@@ -23,9 +26,11 @@
 		sightings,
 		premises,
 		figures,
+		buildingCounts,
 		accountNames,
 		selectedKey,
 		selectedSector,
+		selectedBuilding,
 		onSelect
 	}: {
 		patchId: string;
@@ -36,9 +41,11 @@
 		sightings: Sighting[];
 		premises: Premises[];
 		figures: Record<string, FiledFigures>;
+		buildingCounts: Record<string, BuildingCounts>;
 		accountNames: Record<string, string>;
 		selectedKey: string | null;
 		selectedSector: string | null;
+		selectedBuilding: Building | null;
 		onSelect: (key: string) => void;
 	} = $props();
 
@@ -55,11 +62,14 @@
 		pins.filter((pin) => sectorOf(pin.postcode) === selectedSector).reduce((count, pin) => count + pin.companyCount, 0)
 	);
 	const sectorPremisesCount = $derived(premises.filter((one) => one.sector === selectedSector).length);
+	const sectorBuildings = $derived(selectedSector === null ? null : (buildingCounts[selectedSector] ?? null));
 </script>
 
 <div class="flex flex-col gap-4">
-	{#if sector !== null && sectorCoverage !== null}
-		<SectorPanel {patchId} {sector} coverage={sectorCoverage} searches={sectorSearches} companyCount={sectorCompanyCount} premisesCount={sectorPremisesCount} {accountNames} />
+	{#if selectedBuilding !== null}
+		<BuildingPanel building={selectedBuilding} {pins} {onSelect} />
+	{:else if sector !== null && sectorCoverage !== null}
+		<SectorPanel {patchId} {sector} coverage={sectorCoverage} searches={sectorSearches} companyCount={sectorCompanyCount} premisesCount={sectorPremisesCount} buildings={sectorBuildings} {accountNames} />
 	{:else if selectedPremises !== null}
 		<PremisesPanel premises={selectedPremises} {patchId} />
 	{:else if selectedSighting !== null}

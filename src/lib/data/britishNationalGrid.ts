@@ -4,7 +4,8 @@ import type { Coordinates } from './distance';
 /** An Ordnance Survey grid reference in metres east and north of the false origin. */
 export type GridPoint = { eastings: number; northings: number };
 
-const nationalGrid = { scale: 0.9996012717, originLatitude: 49, originLongitude: -2, falseEast: 400000, falseNorth: -100000 };
+/** The National Grid's projection: its scale on the central meridian, its true origin and its false origin. */
+export const nationalGrid = { scale: 0.9996012717, originLatitude: 49, originLongitude: -2, falseEast: 400000, falseNorth: -100000 };
 const closeEnoughMetres = 0.00001;
 
 /** Where a grid point is on the ground, as the satellites and the map tiles know it. */
@@ -33,7 +34,7 @@ function gridToLatitudeLongitude(point: GridPoint): Coordinates {
 	return inverseSeries(point.eastings - E0, latitude, lon0, nu, rho, eta2);
 }
 
-function meridionalArc(latitude: number, lat0: number, n: number, bF0: number): number {
+export function meridionalArc(latitude: number, lat0: number, n: number, bF0: number): number {
 	const n2 = n * n;
 	const n3 = n2 * n;
 	const difference = latitude - lat0;

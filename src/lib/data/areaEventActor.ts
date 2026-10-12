@@ -6,6 +6,7 @@ const theRegisterSnapshot = 'The register snapshot';
 const theFoodStandardsAgency = 'The Food Standards Agency';
 const theDailyAccountsFile = 'The daily accounts file';
 const theGazette = 'The Gazette';
+const overtureMaps = 'Overture Maps';
 
 const registerKinds: AreaEventKind[] = [
 	areaEventKinds.companyArrived,
@@ -29,6 +30,8 @@ const filingKinds: AreaEventKind[] = [areaEventKinds.accountsFiled, areaEventKin
 
 const noticeKinds: AreaEventKind[] = [areaEventKinds.windingUpPetitioned, areaEventKinds.administrationOpened, areaEventKinds.liquidatorAppointed];
 
+const placeKinds: AreaEventKind[] = [areaEventKinds.placeArrived, areaEventKinds.placeRemoved];
+
 /** Who did it, or what: a person by name, or the source the event came from. */
 export function areaEventActorName(event: AreaEvent): string {
 	if (event.actorName !== null) return event.actorName;
@@ -36,5 +39,6 @@ export function areaEventActorName(event: AreaEvent): string {
 	if (premisesKinds.includes(event.kind)) return theFoodStandardsAgency;
 	if (filingKinds.includes(event.kind)) return theDailyAccountsFile;
 	if (noticeKinds.includes(event.kind)) return theGazette;
+	if (placeKinds.includes(event.kind)) return overtureMaps;
 	return aColleague;
 }
