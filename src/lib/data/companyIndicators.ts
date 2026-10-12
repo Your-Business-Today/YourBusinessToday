@@ -29,3 +29,7 @@ export function indicatorSentence(indicators: CompanyIndicators): string {
 		.filter((part) => part !== '')
 		.join(' · ');
 }
+
+export function areIndicatorsEqual(first: CompanyIndicators, second: CompanyIndicators): boolean {
+	return (Object.keys(first) as (keyof CompanyIndicators)[]).every((key) => first[key] === second[key]);
+}

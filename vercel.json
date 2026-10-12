@@ -29,6 +29,10 @@
 		{
 			"path": "/api/watch/register",
 			"schedule": "40 6 * * *"
+		},
+		{
+			"path": "/api/watch/filings",
+			"schedule": "0 7 * * 0"
 		}
 	]
 }

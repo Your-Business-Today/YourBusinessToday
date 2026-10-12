@@ -24,7 +24,7 @@ export async function recordAccountsFiling(supabase: SupabaseClient, file: Accou
 		companyNumber: company.companyNumber,
 		detail: `${company.name} filed accounts made up to ${formatBritishDate(filing.madeUpTo)} ${fromTheDailyFile}`,
 		sourceUrl,
-		sourceKey: `accounts_filed:${filing.memberName}`
+		sourceKey: `accounts_filed:${company.companyNumber}:${filing.madeUpTo}`
 	});
 	await readAndRecordFigures(supabase, file, filing, company, sourceUrl);
 }
