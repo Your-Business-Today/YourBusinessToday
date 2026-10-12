@@ -78,7 +78,8 @@ export function areaEventSentence(event: AreaEvent): string {
 		[areaEventKinds.premisesOpened]: `${who} registered ${event.detail} in ${event.sector}`,
 		[areaEventKinds.premisesReinspected]: `${who} re-inspected ${event.detail}`,
 		[areaEventKinds.premisesClosed]: `${who} no longer lists ${event.detail}`,
-		[areaEventKinds.premisesChangedHands]: `${who} saw ${event.detail}`
+		[areaEventKinds.premisesChangedHands]: `${who} saw ${event.detail}`,
+		[areaEventKinds.leadAddedFromPremises]: `${who} added ${event.detail} as a lead from the food premises in ${event.sector}`
 	};
 	return sentences[event.kind];
 }

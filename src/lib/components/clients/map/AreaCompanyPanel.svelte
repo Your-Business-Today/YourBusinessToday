@@ -5,7 +5,7 @@
 	import { confirmButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import { describeDistance } from '$lib/data/distance';
 	import { formatBritishDate } from '$lib/data/britishDate';
-	import { isHub } from '$lib/data/hubPins';
+	import { isHub } from '$lib/data/registerRules';
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
 
 	let {

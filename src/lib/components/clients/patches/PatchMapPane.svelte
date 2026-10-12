@@ -2,6 +2,7 @@
 	import AreaLegend from '$lib/components/clients/map/AreaLegend.svelte';
 	import PatchMap from './PatchMap.svelte';
 	import SectorLegend from './SectorLegend.svelte';
+	import { foodHygieneCredit } from '$lib/data/foodHygieneRules';
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
 	import type { DrawnSector } from './createPatchMap';
 	import type { PostcodeLocation } from '$lib/server/postcodes/postcodeLocation';
@@ -33,4 +34,5 @@
 	{/key}
 	<SectorLegend />
 	<AreaLegend />
+	<p class="text-xs text-chalk/40">{foodHygieneCredit}</p>
 </div>

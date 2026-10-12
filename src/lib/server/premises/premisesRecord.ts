@@ -21,10 +21,11 @@ export type Premises = {
 	lastSeenAt: string;
 	isGone: boolean;
 	sourceUrl: string;
+	clientId: string | null;
 };
 
 export const premisesColumns =
-	'id, source, source_id, business_name, business_type, address, postcode, sector, outcode, latitude, longitude, rating_value, rating_date, is_new_rating_pending, first_seen_at, last_seen_at, is_gone, source_url';
+	'id, source, source_id, business_name, business_type, address, postcode, sector, outcode, latitude, longitude, rating_value, rating_date, is_new_rating_pending, first_seen_at, last_seen_at, is_gone, source_url, client_id';
 
 export function parsePremisesRecord(row: Record<string, unknown>): Premises {
 	return {
@@ -45,6 +46,7 @@ export function parsePremisesRecord(row: Record<string, unknown>): Premises {
 		firstSeenAt: row.first_seen_at as string,
 		lastSeenAt: row.last_seen_at as string,
 		isGone: Boolean(row.is_gone),
-		sourceUrl: (row.source_url ?? '') as string
+		sourceUrl: (row.source_url ?? '') as string,
+		clientId: (row.client_id ?? null) as string | null
 	};
 }

@@ -17,7 +17,8 @@ export type AreaEventKind =
 	| 'premises_opened'
 	| 'premises_reinspected'
 	| 'premises_closed'
-	| 'premises_changed_hands';
+	| 'premises_changed_hands'
+	| 'lead_added_from_premises';
 
 export const areaEventKinds = {
 	sectorClaimed: 'sector_claimed',
@@ -37,7 +38,8 @@ export const areaEventKinds = {
 	premisesOpened: 'premises_opened',
 	premisesReinspected: 'premises_reinspected',
 	premisesClosed: 'premises_closed',
-	premisesChangedHands: 'premises_changed_hands'
+	premisesChangedHands: 'premises_changed_hands',
+	leadAddedFromPremises: 'lead_added_from_premises'
 } as const;
 
 export const areaEventKindOrder: AreaEventKind[] = [
@@ -58,7 +60,8 @@ export const areaEventKindOrder: AreaEventKind[] = [
 	areaEventKinds.premisesOpened,
 	areaEventKinds.premisesReinspected,
 	areaEventKinds.premisesClosed,
-	areaEventKinds.premisesChangedHands
+	areaEventKinds.premisesChangedHands,
+	areaEventKinds.leadAddedFromPremises
 ];
 
 /** The short word on the event's pill. */
@@ -80,7 +83,8 @@ export const areaEventLabels: Record<AreaEventKind, string> = {
 	premises_opened: 'Opened',
 	premises_reinspected: 'Re-inspected',
 	premises_closed: 'Closed',
-	premises_changed_hands: 'Changed hands'
+	premises_changed_hands: 'Changed hands',
+	lead_added_from_premises: 'Lead'
 };
 
 export function parseAreaEventKind(value: unknown): AreaEventKind | null {

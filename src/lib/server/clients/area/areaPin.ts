@@ -1,5 +1,5 @@
 import { distanceInMiles, type Coordinates } from '$lib/data/distance';
-import { oneCompany } from '$lib/data/hubPins';
+import { oneCompany } from '$lib/data/registerRules';
 import type { ClientStage } from '$lib/data/clientLifecycle';
 import type { CompaniesHouseCompany } from '$lib/server/companiesHouse/searchCompaniesHouse';
 
@@ -19,6 +19,7 @@ export type AreaPin = Coordinates & {
 	companyCount: number;
 	isNonTrading: boolean;
 	isSighting: boolean;
+	isPremises: boolean;
 };
 
 export function pinForCompany(
@@ -41,7 +42,8 @@ export function pinForCompany(
 		standing,
 		companyCount: oneCompany,
 		isNonTrading: false,
-		isSighting: false
+		isSighting: false,
+		isPremises: false
 	};
 }
 

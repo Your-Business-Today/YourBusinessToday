@@ -21,7 +21,8 @@
 		premises_opened: 'border-go/60 text-go',
 		premises_reinspected: 'border-hairline text-chalk/70',
 		premises_closed: 'border-hairline text-chalk/50',
-		premises_changed_hands: 'border-caution/60 text-caution'
+		premises_changed_hands: 'border-caution/60 text-caution',
+		lead_added_from_premises: 'border-chalk/60 text-chalk'
 	};
 </script>
 

@@ -3,7 +3,7 @@ import { distanceInMiles, type Coordinates } from '$lib/data/distance';
 import { parseClientStage } from '$lib/data/clientLifecycle';
 import { geocodePostcodes } from '$lib/server/postcodes/geocodePostcodes';
 import { postcodeIn } from '$lib/data/postcode';
-import { oneCompany } from '$lib/data/hubPins';
+import { oneCompany } from '$lib/data/registerRules';
 import type { AreaPin } from './areaPin';
 
 type RegisterRow = {
@@ -56,6 +56,7 @@ function pinForClient(row: RegisterRow, location: Coordinates, centre: Coordinat
 		standing: { clientId: row.id, stage: parseClientStage(row.lifecycle_stage) },
 		companyCount: oneCompany,
 		isNonTrading: false,
-		isSighting: false
+		isSighting: false,
+		isPremises: false
 	};
 }

@@ -10,7 +10,7 @@ export function scoreAreaFeedToday(events: AreaEvent[], now: Date = new Date()):
 	return {
 		searchedCount: countOf(areaEventKinds.sectorSearched),
 		sightedCount: countOf(areaEventKinds.sightingRecorded),
-		leadCount: countOf(areaEventKinds.sightingBecameLead, areaEventKinds.leadAddedFromRegister),
+		leadCount: countOf(areaEventKinds.sightingBecameLead, areaEventKinds.leadAddedFromRegister, areaEventKinds.leadAddedFromPremises),
 		arrivedCount: countOf(areaEventKinds.companyArrived, areaEventKinds.companyMovedIn)
 	};
 }

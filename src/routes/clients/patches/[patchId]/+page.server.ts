@@ -4,10 +4,10 @@ import { accountNameLookup } from '$lib/data/accountNames';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { getPatch } from '$lib/server/patches/getPatch';
 import { listSearchesForPatch } from '$lib/server/sectors/listSearches';
-import { listPremisesForPatch } from '$lib/server/premises/listPremisesForPatch';
 import { listSightingsForPatch } from '$lib/server/sightings/listSightings';
 import { mapPatch, type PatchMap } from '$lib/server/patches/mapPatch';
 import { patchLeadFormActions } from '$lib/server/patches/patchLeadFormActions';
+import { premisesFormActions } from '$lib/server/premises/premisesFormActions';
 import { prospectFormActions } from '$lib/server/clients/prospectFormActions';
 import { readPatchCoverage, type PatchCoverage } from '$lib/server/sectors/patchCoverage';
 import { readWatcherTimes } from '$lib/server/watch/readWatcherTimes';
@@ -26,17 +26,16 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	await requireStaff(locals);
 	const patch = await getPatch(locals.supabase, params.patchId);
 	if (patch === null) error(404, 'That patch could not be found');
-	const [outcome, coverage, searches, sightings, watchers, premises] = await Promise.all([
+	const [outcome, coverage, searches, sightings, watchers] = await Promise.all([
 		mapOf(locals.supabase, patch),
 		readPatchCoverage(locals.supabase, patch),
 		listSearchesForPatch(locals.supabase, patch.id),
 		listSightingsForPatch(locals.supabase, patch.outcodes),
-		readWatcherTimes(locals.supabase),
-		listPremisesForPatch(locals.supabase, patch.outcodes)
+		readWatcherTimes(locals.supabase)
 	]);
 	const accountNames = await namesOf(locals.supabase, patch, coverage, searches, sightings);
 	const ownerName = patch.ownerAccountId === null ? nobodyOwnsIt : accountNames[patch.ownerAccountId];
-	return { patch, ownerName, map: outcome.map, notice: outcome.notice, coverage, searches, sightings, accountNames, watchers, premises };
+	return { patch, ownerName, map: outcome.map, notice: outcome.notice, coverage, searches, sightings, accountNames, watchers };
 };
 
 /** Everyone the page names: the owner, every claimant, every searcher and every finder, looked up once. */
@@ -71,4 +70,10 @@ async function mapOf(supabase: SupabaseClient, patch: Patch): Promise<MapOutcome
 	}
 }
 
-export const actions: Actions = { ...prospectFormActions, ...patchLeadFormActions, ...sectorFormActions, ...sightingFormActions };
+export const actions: Actions = {
+	...prospectFormActions,
+	...patchLeadFormActions,
+	...premisesFormActions,
+	...sectorFormActions,
+	...sightingFormActions
+};

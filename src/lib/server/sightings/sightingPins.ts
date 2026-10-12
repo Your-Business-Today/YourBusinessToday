@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { distanceInMiles, type Coordinates } from '$lib/data/distance';
 import { geocodePostcodes } from '$lib/server/postcodes/geocodePostcodes';
-import { oneCompany } from '$lib/data/hubPins';
+import { oneCompany } from '$lib/data/registerRules';
 import { postcodeIn } from '$lib/data/postcode';
 import { sightingKeyPrefix } from '$lib/data/sightingKeys';
 import type { AreaPin } from '$lib/server/clients/area/areaPin';
@@ -32,6 +32,7 @@ function sightingPin(sighting: Sighting, location: Coordinates, centre: Coordina
 		standing: null,
 		companyCount: oneCompany,
 		isNonTrading: false,
-		isSighting: true
+		isSighting: true,
+		isPremises: false
 	};
 }

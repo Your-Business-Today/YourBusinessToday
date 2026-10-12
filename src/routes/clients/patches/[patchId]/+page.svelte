@@ -63,7 +63,7 @@
 				{coverage}
 				searches={data.searches}
 				sightings={data.sightings}
-				premises={data.premises}
+				premises={map.premises}
 				accountNames={data.accountNames}
 				{selectedKey}
 				{selectedSector}

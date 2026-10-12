@@ -16,7 +16,8 @@ insert into public.area_event_kinds (kind, label) values
 	('premises_opened', 'Premises opened'),
 	('premises_reinspected', 'Premises re-inspected'),
 	('premises_closed', 'Premises closed'),
-	('premises_changed_hands', 'Premises changed hands')
+	('premises_changed_hands', 'Premises changed hands'),
+	('lead_added_from_premises', 'Lead added from a premises')
 on conflict (kind) do update set label = excluded.label;
 
 create table if not exists public.premises (
@@ -39,6 +40,7 @@ create table if not exists public.premises (
 	last_seen_at timestamptz not null default now(),
 	is_gone boolean not null default false,
 	source_url text not null default '',
+	client_id uuid references public.clients (id) on delete set null,
 	unique (source, source_id)
 );
 

@@ -91,6 +91,8 @@ export const workingDoctrine = [
 	'   already known is matched rather than recorded twice; record_sighting for each business found',
 	'   on a public page, with the page it was read on; mark_sector_searched with one line on what',
 	'   was done when the sector is finished; add_sighting_as_lead for the ones worth approaching.',
+	'   Food businesses are already listed by list_patch_premises from the Food Standards Agency:',
+	'   add_premises_as_lead for those, never a sighting.',
 	'   Business-contact data only, never LinkedIn, X, Facebook or Instagram, nothing behind a login:',
 	'   the server refuses those pages whatever the doctrine says.'
 ].join('\n');
