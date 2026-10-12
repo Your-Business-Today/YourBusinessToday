@@ -8,5 +8,5 @@ export const companyDetails = {
 	websiteUrl: 'https://yourbusiness.today',
 	consultingEmail: 'consulting@yourbusiness.today',
 	vatNumber: null as string | null,
-	icoRegistrationNumber: null as string | null
+	icoRegistrationNumber: 'ZC253740' as string | null
 };
