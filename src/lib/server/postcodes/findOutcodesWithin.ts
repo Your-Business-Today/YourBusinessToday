@@ -2,7 +2,8 @@ import type { Coordinates } from '$lib/data/distance';
 import { postcodesApiOrigin, requestPostcodes } from './postcodesRequest';
 
 const outcodesPath = '/outcodes';
-const mostOutcodes = 100;
+/** The most outcodes postcodes.io lists around a point; a radius that reaches it is too wide to lay out. */
+export const mostOutcodes = 100;
 const widestRadiusMetres = 25_000;
 
 export async function findOutcodesWithin(centre: Coordinates, radiusMetres: number): Promise<string[]> {

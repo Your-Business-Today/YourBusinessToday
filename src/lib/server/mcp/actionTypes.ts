@@ -5,6 +5,7 @@ export type ActionArea =
 	| 'account'
 	| 'clients'
 	| 'organisations'
+	| 'patches'
 	| 'projects'
 	| 'goals'
 	| 'support'

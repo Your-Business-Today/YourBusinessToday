@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { milesToMetres } from '$lib/data/mapRadii';
-import { byDistance, pinForCompany, type AreaPin } from './areaPin';
+import { byDistance, mergePins, pinForCompany, type AreaPin } from './areaPin';
 import { findCompaniesAround } from './findCompaniesAround';
 import { findOutcodesWithin } from '$lib/server/postcodes/findOutcodesWithin';
 import { findRegisterAround } from './findRegisterAround';
@@ -65,9 +65,4 @@ async function pinsForCompanies(
 			return [pinForCompany(company, location, centre, standings.get(company.companyNumber) ?? null)];
 		})
 		.filter((pin) => pin.distanceMiles <= radiusMiles);
-}
-
-function mergePins(companyPins: AreaPin[], registerPins: AreaPin[]): AreaPin[] {
-	const seen = new Set(companyPins.map((pin) => pin.key));
-	return [...companyPins, ...registerPins.filter((pin) => !seen.has(pin.key))];
 }

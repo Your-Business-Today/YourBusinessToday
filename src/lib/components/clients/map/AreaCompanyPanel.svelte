@@ -5,6 +5,7 @@
 	import { confirmButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import { describeDistance } from '$lib/data/distance';
 	import { formatBritishDate } from '$lib/data/britishDate';
+	import { isHub } from '$lib/data/hubPins';
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
 
 	let {
@@ -15,10 +16,13 @@
 
 	const facts = $derived(pin === null ? [] : factsAbout(pin));
 	const standing = $derived(pin?.standing ?? null);
+	const canBecomeLead = $derived(pin !== null && !isHub(pin) && pin.companyNumber !== '');
 
 	function factsAbout(company: AreaPin): string[] {
 		const { sicCodes } = company;
 		return [
+			isHub(company) ? `${company.companyCount} companies registered at this address` : '',
+			company.isNonTrading ? 'Dormant, or no accounts filed' : '',
 			company.companyNumber === '' ? '' : `Company ${company.companyNumber}`,
 			company.incorporatedOn === '' ? '' : `Incorporated ${formatBritishDate(company.incorporatedOn)}`,
 			sicCodes.length === 0 ? '' : `SIC ${sicCodes.join(', ')}`,
@@ -50,7 +54,7 @@
 				<StagePill stage={standing.stage} />
 				<a href={`/clients/${standing.clientId}`} class={quietButtonClasses}>Open the client</a>
 			</div>
-		{:else}
+		{:else if canBecomeLead}
 			<div class="flex flex-wrap gap-2">
 				<form method="POST" action={addLeadAction}>
 					<ProspectSeedFields company={pin} />

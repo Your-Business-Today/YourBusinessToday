@@ -3,18 +3,16 @@ import { createClient } from './createClient';
 import { emptyCompanyProfile } from './companyProfile';
 import { findClientByCompanyNumber, findNumberlessClientByName, stampCompanyNumber } from './findClientByNumber';
 import { postcodeIn } from '$lib/data/postcode';
+import type { ProspectSeed } from '$lib/data/prospectRules';
 
-export type ProspectSeed = { name: string; companyNumber: string; address: string; postcode?: string };
+export type { ProspectSeed };
 
 export type AddProspectOutcome = { clientId: string; wasAlreadyListed: boolean };
 
-export function readProspectSeed(formData: FormData): ProspectSeed | null {
-	const name = String(formData.get('name') ?? '').trim();
-	const companyNumber = String(formData.get('companyNumber') ?? '').trim();
-	if (name === '' || companyNumber === '') return null;
+export function readProspectSeed(formData: FormData): ProspectSeed {
 	return {
-		name,
-		companyNumber,
+		name: String(formData.get('name') ?? '').trim(),
+		companyNumber: String(formData.get('companyNumber') ?? '').trim(),
 		address: String(formData.get('address') ?? '').trim(),
 		postcode: String(formData.get('postcode') ?? '').trim()
 	};

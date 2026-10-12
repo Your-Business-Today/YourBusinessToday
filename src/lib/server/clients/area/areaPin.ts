@@ -1,9 +1,11 @@
 import { distanceInMiles, type Coordinates } from '$lib/data/distance';
+import { oneCompany } from '$lib/data/hubPins';
 import type { ClientStage } from '$lib/data/clientLifecycle';
 import type { CompaniesHouseCompany } from '$lib/server/companiesHouse/searchCompaniesHouse';
 
 export type RegisterStanding = { clientId: string; stage: ClientStage };
 
+/** One pin on an area map: a company, a client, or a registered-office hub holding many companies. */
 export type AreaPin = Coordinates & {
 	key: string;
 	companyNumber: string;
@@ -14,6 +16,8 @@ export type AreaPin = Coordinates & {
 	sicCodes: string[];
 	distanceMiles: number;
 	standing: RegisterStanding | null;
+	companyCount: number;
+	isNonTrading: boolean;
 };
 
 export function pinForCompany(
@@ -33,10 +37,18 @@ export function pinForCompany(
 		latitude: location.latitude,
 		longitude: location.longitude,
 		distanceMiles: distanceInMiles(centre, location),
-		standing
+		standing,
+		companyCount: oneCompany,
+		isNonTrading: false
 	};
 }
 
 export function byDistance(first: AreaPin, second: AreaPin): number {
 	return first.distanceMiles - second.distanceMiles;
+}
+
+/** Company pins first; a register pin for a company already drawn is not drawn twice. */
+export function mergePins(companyPins: AreaPin[], registerPins: AreaPin[]): AreaPin[] {
+	const seen = new Set(companyPins.map((pin) => pin.key));
+	return [...companyPins, ...registerPins.filter((pin) => !seen.has(pin.key))];
 }
