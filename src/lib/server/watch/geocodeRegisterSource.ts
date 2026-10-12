@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { geocodeRegisterPostcodes } from '$lib/server/register/geocodeRegisterPostcodes';
 import type { WatchOutcome } from './watchRunLog';
-import type { WatchProgress, WatchSource } from './watchSource';
+import type { WatchProgress, WatchSource, WatchStart } from './watchSource';
 
 export const geocodeRegisterSourceName = 'geocode_register';
 
@@ -16,7 +16,7 @@ export const geocodeRegisterSource: WatchSource = {
 
 async function geocodeWithinBudget(
 	supabase: SupabaseClient,
-	_resumeMarker: string,
+	_start: WatchStart,
 	progress: WatchProgress
 ): Promise<WatchOutcome> {
 	const stopAt = Date.now() + timeBudgetMilliseconds;

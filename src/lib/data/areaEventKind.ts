@@ -13,7 +13,11 @@ export type AreaEventKind =
 	| 'accounts_overdue'
 	| 'charge_registered'
 	| 'holding_company_over_trading'
-	| 'observation_recorded';
+	| 'observation_recorded'
+	| 'premises_opened'
+	| 'premises_reinspected'
+	| 'premises_closed'
+	| 'premises_changed_hands';
 
 export const areaEventKinds = {
 	sectorClaimed: 'sector_claimed',
@@ -29,7 +33,11 @@ export const areaEventKinds = {
 	accountsOverdue: 'accounts_overdue',
 	chargeRegistered: 'charge_registered',
 	holdingCompanyOverTrading: 'holding_company_over_trading',
-	observationRecorded: 'observation_recorded'
+	observationRecorded: 'observation_recorded',
+	premisesOpened: 'premises_opened',
+	premisesReinspected: 'premises_reinspected',
+	premisesClosed: 'premises_closed',
+	premisesChangedHands: 'premises_changed_hands'
 } as const;
 
 export const areaEventKindOrder: AreaEventKind[] = [
@@ -46,7 +54,11 @@ export const areaEventKindOrder: AreaEventKind[] = [
 	areaEventKinds.accountsOverdue,
 	areaEventKinds.chargeRegistered,
 	areaEventKinds.holdingCompanyOverTrading,
-	areaEventKinds.observationRecorded
+	areaEventKinds.observationRecorded,
+	areaEventKinds.premisesOpened,
+	areaEventKinds.premisesReinspected,
+	areaEventKinds.premisesClosed,
+	areaEventKinds.premisesChangedHands
 ];
 
 /** The short word on the event's pill. */
@@ -64,7 +76,11 @@ export const areaEventLabels: Record<AreaEventKind, string> = {
 	accounts_overdue: 'Overdue',
 	charge_registered: 'Charge',
 	holding_company_over_trading: 'Holding co.',
-	observation_recorded: 'Observed'
+	observation_recorded: 'Observed',
+	premises_opened: 'Opened',
+	premises_reinspected: 'Re-inspected',
+	premises_closed: 'Closed',
+	premises_changed_hands: 'Changed hands'
 };
 
 export function parseAreaEventKind(value: unknown): AreaEventKind | null {

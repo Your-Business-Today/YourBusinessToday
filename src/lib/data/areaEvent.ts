@@ -24,6 +24,7 @@ export type AreaFeedScope = (typeof areaFeedScopes)[keyof typeof areaFeedScopes]
 
 const aColleague = 'A colleague';
 const theRegisterSnapshot = 'The register snapshot';
+const theFoodStandardsAgency = 'The Food Standards Agency';
 
 const registerKinds: AreaEventKind[] = [
 	areaEventKinds.companyArrived,
@@ -36,6 +37,13 @@ const registerKinds: AreaEventKind[] = [
 	areaEventKinds.holdingCompanyOverTrading
 ];
 
+const premisesKinds: AreaEventKind[] = [
+	areaEventKinds.premisesOpened,
+	areaEventKinds.premisesReinspected,
+	areaEventKinds.premisesClosed,
+	areaEventKinds.premisesChangedHands
+];
+
 export function parseAreaFeedScope(value: unknown): AreaFeedScope {
 	if (value === areaFeedScopes.mine) return areaFeedScopes.mine;
 	return areaFeedScopes.everything;
@@ -45,6 +53,7 @@ export function parseAreaFeedScope(value: unknown): AreaFeedScope {
 export function areaEventActorName(event: AreaEvent): string {
 	if (event.actorName !== null) return event.actorName;
 	if (registerKinds.includes(event.kind)) return theRegisterSnapshot;
+	if (premisesKinds.includes(event.kind)) return theFoodStandardsAgency;
 	return aColleague;
 }
 
@@ -65,7 +74,11 @@ export function areaEventSentence(event: AreaEvent): string {
 		[areaEventKinds.accountsOverdue]: `${who} saw accounts fall overdue: ${event.detail}`,
 		[areaEventKinds.chargeRegistered]: `${who} saw a charge registered: ${event.detail}`,
 		[areaEventKinds.holdingCompanyOverTrading]: `${who} saw a holding company form: ${event.detail}`,
-		[areaEventKinds.observationRecorded]: `${who} noted ${event.detail}`
+		[areaEventKinds.observationRecorded]: `${who} noted ${event.detail}`,
+		[areaEventKinds.premisesOpened]: `${who} registered ${event.detail} in ${event.sector}`,
+		[areaEventKinds.premisesReinspected]: `${who} re-inspected ${event.detail}`,
+		[areaEventKinds.premisesClosed]: `${who} no longer lists ${event.detail}`,
+		[areaEventKinds.premisesChangedHands]: `${who} saw ${event.detail}`
 	};
 	return sentences[event.kind];
 }

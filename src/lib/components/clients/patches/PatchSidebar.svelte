@@ -6,6 +6,7 @@
 	import { sightingIdOfKey } from '$lib/data/sightingKeys';
 	import { sectorOf } from '$lib/data/postcode';
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
+	import type { Premises } from '$lib/server/premises/premisesRecord';
 	import type { PatchCoverage } from '$lib/server/sectors/patchCoverage';
 	import type { RecordedSectorSearch } from '$lib/server/sectors/sectorSearchRecord';
 	import type { Sighting } from '$lib/server/sightings/sightingRecord';
@@ -17,6 +18,7 @@
 		coverage,
 		searches,
 		sightings,
+		premises,
 		accountNames,
 		selectedKey,
 		selectedSector,
@@ -28,6 +30,7 @@
 		coverage: PatchCoverage;
 		searches: RecordedSectorSearch[];
 		sightings: Sighting[];
+		premises: Premises[];
 		accountNames: Record<string, string>;
 		selectedKey: string | null;
 		selectedSector: string | null;
@@ -43,11 +46,12 @@
 	const sectorCompanyCount = $derived(
 		pins.filter((pin) => sectorOf(pin.postcode) === selectedSector).reduce((count, pin) => count + pin.companyCount, 0)
 	);
+	const sectorPremisesCount = $derived(premises.filter((one) => one.sector === selectedSector).length);
 </script>
 
 <div class="flex flex-col gap-4">
 	{#if sector !== null && sectorCoverage !== null}
-		<SectorPanel {patchId} {sector} coverage={sectorCoverage} searches={sectorSearches} companyCount={sectorCompanyCount} {accountNames} />
+		<SectorPanel {patchId} {sector} coverage={sectorCoverage} searches={sectorSearches} companyCount={sectorCompanyCount} premisesCount={sectorPremisesCount} {accountNames} />
 	{:else if selectedSighting !== null}
 		<SightingPanel sighting={selectedSighting} seenByName={accountNames[selectedSighting.seenByAccountId] ?? 'Former account'} standing={selectedPin?.standing ?? null} />
 	{:else}

@@ -13,6 +13,10 @@
 		{
 			"path": "/api/watch/geocode_register",
 			"schedule": "5 6 * * *"
+		},
+		{
+			"path": "/api/watch/food_hygiene",
+			"schedule": "10 6 * * *"
 		}
 	]
 }

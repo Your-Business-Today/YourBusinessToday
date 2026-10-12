@@ -13,6 +13,7 @@
 		coverage,
 		searches,
 		companyCount,
+		premisesCount = 0,
 		accountNames,
 		actionPrefix = '?/'
 	}: {
@@ -21,6 +22,7 @@
 		coverage: SectorCoverage;
 		searches: RecordedSectorSearch[];
 		companyCount: number;
+		premisesCount?: number;
 		accountNames: Record<string, string>;
 		actionPrefix?: string;
 	} = $props();
@@ -34,7 +36,7 @@
 		<h2 class="font-display text-xl font-medium">
 			<a href={`/clients/patches/${patchId}/sectors/${encodeURIComponent(sector.sector)}`} class="hover:text-signal">{sector.sector}</a>
 		</h2>
-		<p class="text-sm text-chalk/70">{standing} · {sector.unitPostcodeCount} postcodes · {companyCount} companies registered here</p>
+		<p class="text-sm text-chalk/70">{standing} · {sector.unitPostcodeCount} postcodes · {companyCount} companies registered here · {premisesCount} food premises</p>
 	</div>
 	<SectorClaimForms {patchId} sector={sector.sector} isClaimed={coverage.claimedByAccountId !== null} {actionPrefix} />
 	<SightingForm {patchId} sector={sector.sector} action={`${actionPrefix}recordSighting`} />

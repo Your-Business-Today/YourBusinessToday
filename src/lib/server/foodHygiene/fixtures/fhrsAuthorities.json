@@ -1,0 +1,23 @@
+{
+	"authorities": [
+		{
+			"LocalAuthorityId": 174,
+			"LocalAuthorityIdCode": "508",
+			"Name": "Kingston Upon Thames",
+			"FriendlyName": "kingston-upon-thames",
+			"Url": "http://www.kingston.gov.uk",
+			"RegionName": "London",
+			"FileName": "https://ratings.food.gov.uk/OpenDataFiles/FHRS508en-GB.xml",
+			"EstablishmentCount": 1204,
+			"CreationDate": "2010-11-05T00:00:00",
+			"LastPublishedDate": "2026-10-11T04:12:51.3",
+			"SchemeType": 1
+		},
+		{
+			"LocalAuthorityId": 1,
+			"LocalAuthorityIdCode": "",
+			"Name": "Nowhere",
+			"FileName": ""
+		}
+	]
+}

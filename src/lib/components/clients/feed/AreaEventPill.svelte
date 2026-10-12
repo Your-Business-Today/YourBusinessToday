@@ -17,7 +17,11 @@
 		accounts_overdue: 'border-signal/50 text-signal/90',
 		charge_registered: 'border-caution/60 text-caution',
 		holding_company_over_trading: 'border-signal/60 bg-signal/10 text-signal',
-		observation_recorded: 'border-daylight/50 text-daylight'
+		observation_recorded: 'border-daylight/50 text-daylight',
+		premises_opened: 'border-go/60 text-go',
+		premises_reinspected: 'border-hairline text-chalk/70',
+		premises_closed: 'border-hairline text-chalk/50',
+		premises_changed_hands: 'border-caution/60 text-caution'
 	};
 </script>
 
