@@ -5,15 +5,15 @@ import re
 
 from ..source_files import SourceFile, matchesAny
 from .member_chains import isTooDeep
+from .string_literals import withoutStringText
 
-STRING_LITERAL = re.compile(r'"(?:[^"\\]|\\.)*"|@"[^"]*"')
 COMMENT_ONLY = re.compile(r"^\s*(//|///|@\*|\*|<!--)")
 IMPORT_LINE = re.compile(r"^\s*(using|namespace|@using|@namespace|global using|import|export \* from)\b")
 INDENTED_FILE_GLOBS_WHEN_UNSET = ["**/*.cs"]
 
 
 def stripStringsAndComments(line: str) -> str:
-    withoutStrings = STRING_LITERAL.sub('""', line)
+    withoutStrings = withoutStringText(line)
     commentStart = withoutStrings.find("//")
     if commentStart >= 0:
         withoutStrings = withoutStrings[:commentStart]
