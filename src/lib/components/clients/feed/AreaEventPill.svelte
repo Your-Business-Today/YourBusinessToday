@@ -8,7 +8,16 @@
 		sector_searched: 'border-go/60 bg-go/10 text-go',
 		sighting_recorded: 'border-signal/50 text-signal/90',
 		sighting_became_lead: 'border-chalk/60 text-chalk',
-		lead_added_from_register: 'border-chalk/60 text-chalk'
+		lead_added_from_register: 'border-chalk/60 text-chalk',
+		company_arrived: 'border-go/60 text-go',
+		company_moved_in: 'border-go/40 text-go/80',
+		company_left: 'border-hairline text-chalk/50',
+		status_changed: 'border-caution/60 text-caution',
+		accounts_category_changed: 'border-hairline text-chalk/70',
+		accounts_overdue: 'border-signal/50 text-signal/90',
+		charge_registered: 'border-caution/60 text-caution',
+		holding_company_over_trading: 'border-signal/60 bg-signal/10 text-signal',
+		observation_recorded: 'border-daylight/50 text-daylight'
 	};
 </script>
 

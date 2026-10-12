@@ -23,6 +23,18 @@ export const areaFeedScopes = { everything: 'everything', mine: 'mine' } as cons
 export type AreaFeedScope = (typeof areaFeedScopes)[keyof typeof areaFeedScopes];
 
 const aColleague = 'A colleague';
+const theRegisterSnapshot = 'The register snapshot';
+
+const registerKinds: AreaEventKind[] = [
+	areaEventKinds.companyArrived,
+	areaEventKinds.companyMovedIn,
+	areaEventKinds.companyLeft,
+	areaEventKinds.statusChanged,
+	areaEventKinds.accountsCategoryChanged,
+	areaEventKinds.accountsOverdue,
+	areaEventKinds.chargeRegistered,
+	areaEventKinds.holdingCompanyOverTrading
+];
 
 export function parseAreaFeedScope(value: unknown): AreaFeedScope {
 	if (value === areaFeedScopes.mine) return areaFeedScopes.mine;
@@ -31,7 +43,9 @@ export function parseAreaFeedScope(value: unknown): AreaFeedScope {
 
 /** Who did it, or what: a person by name, or the source the event came from. */
 export function areaEventActorName(event: AreaEvent): string {
-	return event.actorName ?? aColleague;
+	if (event.actorName !== null) return event.actorName;
+	if (registerKinds.includes(event.kind)) return theRegisterSnapshot;
+	return aColleague;
 }
 
 /** "James searched KT1 1: 14 found, 5 already registered". */
@@ -42,7 +56,16 @@ export function areaEventSentence(event: AreaEvent): string {
 		[areaEventKinds.sectorSearched]: `${who} searched ${event.sector}: ${event.detail}`,
 		[areaEventKinds.sightingRecorded]: `${who} sighted ${event.detail} in ${event.sector}`,
 		[areaEventKinds.sightingBecameLead]: `${who} added ${event.detail} as a lead from a sighting in ${event.sector}`,
-		[areaEventKinds.leadAddedFromRegister]: `${who} added ${event.detail} as a lead from the register in ${event.sector}`
+		[areaEventKinds.leadAddedFromRegister]: `${who} added ${event.detail} as a lead from the register in ${event.sector}`,
+		[areaEventKinds.companyArrived]: `${who} saw ${event.detail} newly registered in ${event.sector}`,
+		[areaEventKinds.companyMovedIn]: `${who} saw ${event.detail} move its registered office into ${event.sector}`,
+		[areaEventKinds.companyLeft]: `${who} no longer carries ${event.detail} in ${event.sector}`,
+		[areaEventKinds.statusChanged]: `${who} saw a status change: ${event.detail}`,
+		[areaEventKinds.accountsCategoryChanged]: `${who} saw an accounts change: ${event.detail}`,
+		[areaEventKinds.accountsOverdue]: `${who} saw accounts fall overdue: ${event.detail}`,
+		[areaEventKinds.chargeRegistered]: `${who} saw a charge registered: ${event.detail}`,
+		[areaEventKinds.holdingCompanyOverTrading]: `${who} saw a holding company form: ${event.detail}`,
+		[areaEventKinds.observationRecorded]: `${who} noted ${event.detail}`
 	};
 	return sentences[event.kind];
 }

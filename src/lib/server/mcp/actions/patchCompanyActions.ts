@@ -29,6 +29,7 @@ export const patchCompanyActions: McpAction[] = [
 				sicCode: textField('Keep companies whose SIC code starts with this, such as 41 or 41202'),
 				status: textField('Keep companies whose status contains this, such as active or liquidation'),
 				incorporatedSince: textField('Keep companies incorporated on or after this date, as YYYY-MM-DD'),
+				arrivedSince: textField('Keep companies first seen in the register on or after this month, as YYYY-MM-01'),
 				includeHubs: textField('true to include companies at registered-office hubs'),
 				includeNonTrading: textField('true to include dormant companies and those with no accounts filed')
 			},
@@ -65,6 +66,7 @@ function filtersIn(input: Record<string, unknown>): RegisterFilters {
 		sicCode: readText(input, 'sicCode'),
 		status: readText(input, 'status'),
 		incorporatedSince: readText(input, 'incorporatedSince'),
+		arrivedSince: readText(input, 'arrivedSince'),
 		includeHubs: readText(input, 'includeHubs') === yes,
 		includeNonTrading: readText(input, 'includeNonTrading') === yes
 	};

@@ -1,8 +1,8 @@
 import { areaEventKinds } from './areaEventKind';
 import type { AreaEvent } from './areaEvent';
 
-/** Today's score on the ground: sectors searched, businesses sighted, leads added, sectors claimed. */
-export type AreaFeedScore = { searchedCount: number; sightedCount: number; leadCount: number; claimedCount: number };
+/** Today's score on the ground: sectors searched, businesses sighted, leads added, companies arrived. */
+export type AreaFeedScore = { searchedCount: number; sightedCount: number; leadCount: number; arrivedCount: number };
 
 export function scoreAreaFeedToday(events: AreaEvent[], now: Date = new Date()): AreaFeedScore {
 	const today = events.filter((event) => isSameDay(new Date(event.createdAt), now));
@@ -11,7 +11,7 @@ export function scoreAreaFeedToday(events: AreaEvent[], now: Date = new Date()):
 		searchedCount: countOf(areaEventKinds.sectorSearched),
 		sightedCount: countOf(areaEventKinds.sightingRecorded),
 		leadCount: countOf(areaEventKinds.sightingBecameLead, areaEventKinds.leadAddedFromRegister),
-		claimedCount: countOf(areaEventKinds.sectorClaimed)
+		arrivedCount: countOf(areaEventKinds.companyArrived, areaEventKinds.companyMovedIn)
 	};
 }
 

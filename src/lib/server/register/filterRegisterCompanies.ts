@@ -7,6 +7,7 @@ export type RegisterFilters = {
 	sicCode: string;
 	status: string;
 	incorporatedSince: string;
+	arrivedSince: string;
 	includeHubs: boolean;
 	includeNonTrading: boolean;
 };
@@ -21,5 +22,6 @@ export function filterRegisterCompanies(
 		.filter((company) => !hubs.has(addressKeyOf(company)))
 		.filter((company) => filters.sicCode === '' || company.sicCodes.some((code) => code.startsWith(filters.sicCode)))
 		.filter((company) => filters.status === '' || company.companyStatus.toLowerCase().includes(filters.status.toLowerCase()))
-		.filter((company) => filters.incorporatedSince === '' || company.incorporatedOn >= filters.incorporatedSince);
+		.filter((company) => filters.incorporatedSince === '' || company.incorporatedOn >= filters.incorporatedSince)
+		.filter((company) => filters.arrivedSince === '' || company.firstSeenMonth >= filters.arrivedSince);
 }

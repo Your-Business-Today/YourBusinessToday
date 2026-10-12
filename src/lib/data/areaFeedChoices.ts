@@ -71,7 +71,8 @@ export function kindChoicesFor(view: AreaFeedView): ScopeChoice[] {
 
 function kindChoiceFor(view: AreaFeedView, kind: AreaEventKind): ScopeChoice {
 	const label = areaEventLabels[kind];
-	return { scope: kind, label, href: areaFeedHref({ ...view, kind }), title: `Only ${label.toLowerCase()} events` };
+	const title = `Only ${label.toLowerCase()} events`;
+	return { scope: kind, label, href: areaFeedHref({ ...view, kind }), title };
 }
 
 export function chosenKindOf(view: AreaFeedView): string {

@@ -11,5 +11,5 @@
 	<StatTile label="Searched today" value={`${score.searchedCount}`} caption="sectors marked searched" tone={searchedTone} />
 	<StatTile label="Sighted today" value={`${score.sightedCount}`} caption="businesses found on the web" />
 	<StatTile label="Leads today" value={`${score.leadCount}`} caption="put on the register" />
-	<StatTile label="Claimed today" value={`${score.claimedCount}`} caption="sectors being worked" />
+	<StatTile label="Arrived today" value={`${score.arrivedCount}`} caption="companies new on the register" />
 </div>
