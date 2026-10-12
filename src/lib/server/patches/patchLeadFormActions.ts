@@ -1,18 +1,16 @@
 import { fail } from '@sveltejs/kit';
+import { noSuchPatchMessage, openPatchForm } from './openPatchForm';
 import { addPatchCompanyAsLead } from './addPatchCompanyAsLead';
-import { getPatch } from './getPatch';
 import { readProspectSeed } from '$lib/server/clients/addProspectAsLead';
-import { requireStaff } from '$lib/server/auth/requireStaff';
 import { validateProspect } from '$lib/data/prospectRules';
 import type { StaffFormEvent } from '$lib/server/people/personFormActions';
 
 /** Add as lead from the patch map: the same lead the area map adds, with the patch's feed told. */
 export const patchLeadFormActions = {
-	addLead: async ({ locals, request }: StaffFormEvent) => {
-		const user = await requireStaff(locals);
-		const formData = await request.formData();
-		const patch = await getPatch(locals.supabase, String(formData.get('patchId') ?? ''));
-		if (patch === null) return fail(404, { message: 'That patch could not be found.' });
+	addLead: async (event: StaffFormEvent) => {
+		const { locals } = event;
+		const { user, formData, patch } = await openPatchForm(event);
+		if (patch === null) return fail(404, { message: noSuchPatchMessage });
 		const prospect = readProspectSeed(formData);
 		const refusal = validateProspect(prospect);
 		if (refusal !== null) return fail(400, { message: refusal });
