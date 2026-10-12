@@ -2,7 +2,7 @@
 	import AreaLegend from '$lib/components/clients/map/AreaLegend.svelte';
 	import PatchMap from './PatchMap.svelte';
 	import SectorLegend from './SectorLegend.svelte';
-	import { foodHygieneCredit } from '$lib/data/foodHygieneRules';
+	import { foodHygieneCredit, overtureCredit } from '$lib/data/foodHygieneRules';
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
 	import type { Building } from '$lib/server/buildings/buildingRecord';
 	import type { DrawnSector } from './createPatchMap';
@@ -41,5 +41,5 @@
 	{/key}
 	<SectorLegend />
 	<AreaLegend />
-	<p class="text-xs text-chalk/40">Zoom to street level for the buildings, from OS OpenMap Local and OS Open UPRN. Contains OS data © Crown copyright and database right {new Date().getFullYear()}. {foodHygieneCredit}</p>
+	<p class="text-xs text-chalk/40">Zoom to street level for the buildings, from OS OpenMap Local and OS Open UPRN. Contains OS data © Crown copyright and database right {new Date().getFullYear()}. {foodHygieneCredit} {overtureCredit}</p>
 </div>

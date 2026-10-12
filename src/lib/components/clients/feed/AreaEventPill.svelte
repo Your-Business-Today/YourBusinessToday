@@ -28,7 +28,9 @@
 		figures_read: 'border-hairline text-chalk/70',
 		winding_up_petitioned: 'border-signal/60 bg-signal/10 text-signal',
 		administration_opened: 'border-signal/60 bg-signal/10 text-signal',
-		liquidator_appointed: 'border-signal/60 bg-signal/10 text-signal'
+		liquidator_appointed: 'border-signal/60 bg-signal/10 text-signal',
+		place_arrived: 'border-go/60 text-go',
+		place_removed: 'border-hairline text-chalk/50'
 	};
 </script>
 
