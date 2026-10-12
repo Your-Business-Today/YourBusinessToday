@@ -1,6 +1,6 @@
 # Schedule 2 — Service Levels and Support
 
-**Version 1.0 — 24 September 2026**
+**Version 1.1 — 12 October 2026**
 
 This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It applies while the Client takes the Run service.
 
@@ -33,7 +33,7 @@ This schedule forms part of the Master Services Agreement between Your Business 
 
 3.2 Recovery time objective: the Solution restored within 8 support hours of a decision to restore.
 
-3.3 Backups are kept for [35] days. YBT tests a restore at least every six months and records the result.
+3.3 Backups are kept for 35 days. YBT tests a restore at least every six months and records the result.
 
 ## 4. Service credits
 

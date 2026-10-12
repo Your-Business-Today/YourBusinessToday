@@ -46,7 +46,7 @@ export const clientDocumentCatalogue: ClientDocumentEntry[] = [
 		slug: 'exit-and-continuity',
 		title: 'Schedule 4 — Exit and Continuity',
 		summary:
-			'Export at any time, data return and deletion, hand-over of the Azure subscription, and step-in if YBT cannot continue.',
+			'Export at any time, data return and deletion, hand-over of the Azure subscription and what the client needs to take it, a monthly continuity copy, and step-in if YBT cannot continue.',
 		audience: 'client'
 	},
 	{
