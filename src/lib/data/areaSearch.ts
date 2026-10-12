@@ -1,5 +1,6 @@
 import { parseRadiusMiles, type RadiusMiles } from '$lib/data/mapRadii';
 import { postcodeIn } from './postcode';
+import { readSicCodeList } from './sicCodes';
 
 export type AreaSearch = { postcode: string; radiusMiles: RadiusMiles; sicCodes: string[] };
 
@@ -9,7 +10,7 @@ export function readAreaSearch(searchParams: URLSearchParams): AreaSearch | null
 	return {
 		postcode,
 		radiusMiles: parseRadiusMiles(searchParams.get('radiusMiles')),
-		sicCodes: readSicCodes(searchParams.get('sicCodes') ?? '')
+		sicCodes: readSicCodeList(searchParams.get('sicCodes') ?? '')
 	};
 }
 
@@ -20,11 +21,4 @@ export function describeAreaSearchQuery(search: AreaSearch): string {
 		sicCodes: search.sicCodes.join(',')
 	});
 	return query.toString();
-}
-
-function readSicCodes(text: string): string[] {
-	return text
-		.split(/[,\s]+/)
-		.map((code) => code.trim())
-		.filter((code) => code !== '');
 }

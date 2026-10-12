@@ -3,6 +3,7 @@ import { clientActions } from './actions/clientActions';
 import { conversationActions } from './actions/conversationActions';
 import { goalActions } from './actions/goalActions';
 import { organisationActions } from './actions/organisationActions';
+import { patchActions } from './actions/patchActions';
 import { projectActions } from './actions/projectActions';
 import { projectMembershipActions } from './actions/projectMembershipActions';
 import { projectPeopleActions } from './actions/projectPeopleActions';
@@ -16,6 +17,7 @@ const everyAction: McpAction[] = [
 	...accountActions,
 	...clientActions,
 	...organisationActions,
+	...patchActions,
 	...projectActions,
 	...projectPeopleActions,
 	...projectMembershipActions,
