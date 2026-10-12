@@ -1,23 +1,23 @@
 {
-  "score": 91.7,
+  "score": 91.8,
   "steps": [
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Inline magic values: 30 to zero",
-      "detail": "Scores 96.4% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
+      "title": "Inline magic values: 2 to zero",
+      "detail": "Scores 99.8% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Long member chain lines: 7 to zero",
-      "detail": "Scores 99.4% at weight 4; the offenders are in audit.json under details.prose, fifty at a time."
+      "title": "Duplication %: 0.03 to zero",
+      "detail": "Scores 99.9% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time."
     }
   ],
   "targets": [],
   "designPatterns": {
     "name": "designPatterns",
     "summary": {
-      "roleFamilies": 63,
-      "predictedFiles": 88,
+      "roleFamilies": 66,
+      "predictedFiles": 92,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -25,11 +25,11 @@
     },
     "offenders": {
       "roleFamilies": {
-        "+page.server.ts": 28,
-        "+page.svelte": 36,
+        "+page.server.ts": 30,
+        "+page.svelte": 38,
         "+server.ts": 13,
         "access": 7,
-        "actions": 76,
+        "actions": 79,
         "attachment": 5,
         "bar": 4,
         "button": 8,
@@ -41,11 +41,12 @@
         "event": 5,
         "field": 6,
         "fields": 19,
+        "file": 4,
         "filter": 7,
-        "form": 45,
+        "form": 46,
         "goal": 8,
         "grant": 4,
-        "header": 14,
+        "header": 15,
         "ids": 7,
         "kind": 5,
         "link": 8,
@@ -62,6 +63,7 @@
         "organisation": 10,
         "panel": 18,
         "password": 5,
+        "patch": 5,
         "people": 4,
         "person": 6,
         "pill": 7,
@@ -69,22 +71,23 @@
         "profile": 5,
         "project": 14,
         "projects": 6,
-        "record": 21,
+        "record": 23,
         "refusal": 5,
         "request": 6,
-        "row": 26,
-        "rules": 4,
+        "row": 28,
+        "rules": 7,
         "section": 27,
         "sections": 8,
         "sentence": 5,
         "standing": 5,
         "status": 4,
         "styles": 5,
+        "summary": 4,
         "svelte": 10,
-        "table": 4,
+        "table": 5,
         "task": 15,
         "tasks": 5,
-        "test": 80,
+        "test": 87,
         "text": 6,
         "types": 11,
         "xml": 4
@@ -112,12 +115,12 @@
         },
         {
           "pattern": "every +page.server.ts has a +page.svelte",
-          "predicted": 28,
+          "predicted": 30,
           "missing": []
         },
         {
           "pattern": "every +page.svelte has a +page.server.ts",
-          "predicted": 36,
+          "predicted": 38,
           "missing": []
         }
       ],

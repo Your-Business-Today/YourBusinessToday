@@ -4,6 +4,8 @@ Generated 2026-10-11 from refactor/round-4, replacing the v5 baseline of 2026-10
 
 The widgets' designs: not set up. The repository has no design index (`docs/design/widgets.json`), no brand sheet and no widget catalogue in `rules.json` (`siteDefinition.catalogue` is empty), so the site has never been checked against the brand and the widgets never against their sheets, and widget adoption is not measured. The sentences that run each, once a catalogue exists, are `widget-design`: *"Check the site against the brand"* and *"Check the widgets against their designs"*.
 
+Adopted from drift on 2026-10-12, at the start of round 5: duplication grew from 0 to 0.03% (two clones, 14 lines) with the client prospecting work merged since round 4, so the gate failed before round 5 touched anything. The reading of that morning became the baseline, and round 5 starts from a green gate.
+
 ## Headline
 
 **Code quality score 91.7% → 91.7%.** **0 of 1,167 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines. Long member chains fell from 11 to 7, and the markup literals repeated four times or more from 67 kinds in 760 uses to 66 in 699; the magic-value reading lists only the top thirty, so it reads 30 until fewer than thirty kinds repeat. What holds the score at 91.7% is input validation (84 of 113 write doors), which a round never sweeps.
