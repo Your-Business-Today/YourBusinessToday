@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-11T16:21:08+00:00",
-  "kitVersion": "1.18.0",
+  "generatedAt": "2026-10-12T09:34:14+00:00",
+  "kitVersion": "1.19.0",
   "score": {
-    "overall": 91.7,
+    "overall": 91.8,
     "groups": [
       {
         "group": "Standard baseline checks",
-        "score": 99.7,
+        "score": 100.0,
         "weight": 60
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1167,
+        "measuredAgainst": 1390,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1440,
+        "measuredAgainst": 1780,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1763,
+        "measuredAgainst": 2138,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 41.44,
+        "measuredAgainst": 49.23,
         "score": 100.0
       },
       {
@@ -111,9 +111,9 @@
         "zeroAt": 20,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 30,
-        "measuredAgainst": 41.44,
-        "score": 96.4
+        "offenders": 0,
+        "measuredAgainst": 49.23,
+        "score": 100.0
       },
       {
         "key": "orphans",
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1741,
+        "measuredAgainst": 2110,
         "score": 100.0
       },
       {
@@ -135,9 +135,9 @@
         "zeroAt": 30,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 7,
-        "measuredAgainst": 41.44,
-        "score": 99.4
+        "offenders": 0,
+        "measuredAgainst": 49.23,
+        "score": 100.0
       },
       {
         "key": "deepIndentation",
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 41.44,
+        "measuredAgainst": 49.23,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1440,
+        "measuredAgainst": 1780,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 88,
+        "measuredAgainst": 98,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1763,
+        "measuredAgainst": 2138,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1763,
+        "measuredAgainst": 2138,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1440,
+        "measuredAgainst": 1780,
         "score": 100.0
       },
       {
@@ -241,8 +241,8 @@
         "zeroAt": 0.5,
         "unit": "write doors",
         "isMeasured": true,
-        "offenders": 84,
-        "measuredAgainst": 113,
+        "offenders": 81,
+        "measuredAgainst": 127,
         "score": 0.0
       }
     ]
@@ -251,17 +251,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 1167,
-      "totalLines": 41443,
+      "totalFiles": 1390,
+      "totalLines": 49227,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 1440,
+      "totalFunctions": 1780,
       "elseBlocks": 0,
-      "ifBlocks": 1763,
+      "ifBlocks": 2138,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -276,12 +276,12 @@
     "duplication": {
       "clones": 0,
       "duplicatedLines": 0,
-      "totalLines": 42648,
+      "totalLines": 50646,
       "duplicatedPercentage": 0.0
     },
     "naming": {
       "bannedAbbreviationHits": 17,
-      "unprefixedBooleans": 2
+      "unprefixedBooleans": 0
     },
     "comments": {
       "explanatoryCommentLines": 0,
@@ -291,12 +291,12 @@
     "magicValues": {
       "inlineHexColours": 0,
       "inlineStyleAttributes": 0,
-      "repeatedStringLiterals": 30
+      "repeatedStringLiterals": 0
     },
     "prose": {
-      "longMemberChainLines": 7,
+      "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 86,
+      "overlongLines": 106,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -306,42 +306,42 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 1440
+      "functionsExamined": 1780
     },
     "designPatterns": {
-      "roleFamilies": 63,
-      "predictedFiles": 88,
+      "roleFamilies": 73,
+      "predictedFiles": 98,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 36,
-      "components": 301,
+      "pages": 41,
+      "components": 330,
       "orphanComponents": 0,
-      "averagePageLines": 48
+      "averagePageLines": 47
     },
     "siteDefinition": {
       "skipped": "no siteDefinition catalogue in rules.json"
     },
     "inputValidation": {
-      "schemaTables": 88,
+      "schemaTables": 103,
       "limitedColumns": 0,
-      "writeDoors": 113,
-      "unvalidatedDoors": 84,
+      "writeDoors": 127,
+      "unvalidatedDoors": 81,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 1564,
-      "frontend": 490,
-      "backend": 438,
-      "shared": 170,
-      "api": 130,
-      "tooling": 105,
-      "tests": 85,
-      "database": 79,
-      "docs": 54,
+      "totalFiles": 1813,
+      "backend": 561,
+      "frontend": 531,
+      "shared": 196,
+      "api": 147,
+      "tooling": 110,
+      "tests": 106,
+      "database": 93,
+      "docs": 56,
       "infrastructure": 13
     }
   },
@@ -351,8 +351,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 1167,
-        "totalLines": 41443,
+        "totalFiles": 1390,
+        "totalLines": 49227,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -363,9 +363,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 1440,
+        "totalFunctions": 1780,
         "elseBlocks": 0,
-        "ifBlocks": 1763,
+        "ifBlocks": 2138,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -391,7 +391,7 @@
       "name": "naming",
       "summary": {
         "bannedAbbreviationHits": 17,
-        "unprefixedBooleans": 2
+        "unprefixedBooleans": 0
       },
       "offenders": {
         "abbreviations": [
@@ -409,15 +409,15 @@
           },
           {
             "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
-            "line": 7
-          },
-          {
-            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
-            "line": 8
-          },
-          {
-            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
             "line": 9
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 10
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 11
           },
           {
             "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
@@ -425,11 +425,7 @@
           },
           {
             "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
-            "line": 14
-          },
-          {
-            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
-            "line": 16
+            "line": 15
           },
           {
             "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
@@ -441,15 +437,15 @@
           },
           {
             "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
-            "line": 20
-          },
-          {
-            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
             "line": 22
           },
           {
             "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
             "line": 23
+          },
+          {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 25
           },
           {
             "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
@@ -460,22 +456,15 @@
             "line": 29
           },
           {
+            "file": "src/lib/server/clientDocuments/docx/wordStylesXml.ts",
+            "line": 32
+          },
+          {
             "file": "src/lib/server/clientDocuments/docx/wordTableXml.ts",
             "line": 14
           }
         ],
-        "booleans": [
-          {
-            "file": "src/lib/data/taskMove.ts",
-            "line": 10,
-            "name": "hadGoal"
-          },
-          {
-            "file": "src/lib/server/kit/readOwnedKitVersions.ts",
-            "line": 5,
-            "name": "latestIsRead"
-          }
-        ]
+        "booleans": []
       }
     },
     "comments": {
@@ -492,176 +481,38 @@
       "summary": {
         "inlineHexColours": 0,
         "inlineStyleAttributes": 0,
-        "repeatedStringLiterals": 30
+        "repeatedStringLiterals": 0
       },
       "offenders": {
         "hexColours": [],
         "inlineStyles": [],
-        "repeatedLiterals": [
-          {
-            "literal": "hidden",
-            "occurrences": 67
-          },
-          {
-            "literal": "button",
-            "occurrences": 66
-          },
-          {
-            "literal": "flex flex-col gap-4",
-            "occurrences": 47
-          },
-          {
-            "literal": "text-xs text-chalk/50",
-            "occurrences": 33
-          },
-          {
-            "literal": "text-sm text-chalk/60",
-            "occurrences": 24
-          },
-          {
-            "literal": "flex flex-col gap-2",
-            "occurrences": 21
-          },
-          {
-            "literal": "text-chalk/70",
-            "occurrences": 21
-          },
-          {
-            "literal": "submit",
-            "occurrences": 18
-          },
-          {
-            "literal": "flex flex-col gap-1",
-            "occurrences": 17
-          },
-          {
-            "literal": "text-sm text-chalk/50",
-            "occurrences": 14
-          },
-          {
-            "literal": "flex flex-col gap-3",
-            "occurrences": 13
-          },
-          {
-            "literal": "text-xs text-chalk/40",
-            "occurrences": 13
-          },
-          {
-            "literal": "text-sm text-chalk/70",
-            "occurrences": 11
-          },
-          {
-            "literal": "min-w-0",
-            "occurrences": 11
-          },
-          {
-            "literal": "font-display text-xl",
-            "occurrences": 10
-          },
-          {
-            "literal": "text-lg text-chalk/70",
-            "occurrences": 10
-          },
-          {
-            "literal": "flex items-center gap-3",
-            "occurrences": 9
-          },
-          {
-            "literal": "text-chalk",
-            "occurrences": 9
-          },
-          {
-            "literal": "noreferrer",
-            "occurrences": 9
-          },
-          {
-            "literal": "checkbox",
-            "occurrences": 9
-          },
-          {
-            "literal": "font-display text-2xl font-medium",
-            "occurrences": 9
-          },
-          {
-            "literal": "text-chalk/80",
-            "occurrences": 9
-          },
-          {
-            "literal": "description",
-            "occurrences": 9
-          },
-          {
-            "literal": "flex items-center gap-2",
-            "occurrences": 8
-          },
-          {
-            "literal": "font-display text-lg",
-            "occurrences": 8
-          },
-          {
-            "literal": "flex flex-wrap gap-2",
-            "occurrences": 8
-          },
-          {
-            "literal": "flex flex-wrap items-center gap-2",
-            "occurrences": 8
-          },
-          {
-            "literal": "accent-go",
-            "occurrences": 8
-          },
-          {
-            "literal": "personId",
-            "occurrences": 8
-          },
-          {
-            "literal": "Normal",
-            "occurrences": 7
-          }
-        ]
+        "repeatedLiterals": []
       }
     },
     "prose": {
       "name": "prose",
       "summary": {
-        "longMemberChainLines": 7,
+        "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 86,
+        "overlongLines": 106,
         "measurementIsHeuristic": true
       },
       "offenders": {
-        "memberChains": [
-          {
-            "file": "src/lib/data/legal/privacyRightsSections.ts",
-            "line": 15
-          },
-          {
-            "file": "src/lib/data/officeMimeTypes.ts",
-            "line": 1
-          },
-          {
-            "file": "src/lib/data/officeMimeTypes.ts",
-            "line": 2
-          },
-          {
-            "file": "src/lib/server/clientDocuments/docx/buildWordDocument.ts",
-            "line": 17
-          },
-          {
-            "file": "src/lib/server/enquiries/findRecentWebsiteEnquiry.ts",
-            "line": 16
-          },
-          {
-            "file": "src/lib/server/kit/readRepositoryFile.ts",
-            "line": 48
-          },
-          {
-            "file": "src/lib/server/refactor/refactorRoundBrief.ts",
-            "line": 12
-          }
-        ],
+        "memberChains": [],
         "deepIndentation": [],
         "overlongLines": [
+          {
+            "file": "src/lib/components/clients/map/areaPinTones.ts",
+            "line": 9
+          },
+          {
+            "file": "src/lib/data/areaFeedChoices.ts",
+            "line": 50
+          },
+          {
+            "file": "src/lib/data/areaFeedChoices.ts",
+            "line": 51
+          },
           {
             "file": "src/lib/data/caseStudies.ts",
             "line": 23
@@ -849,18 +700,6 @@
           {
             "file": "src/lib/data/legal/termsAccountSections.ts",
             "line": 23
-          },
-          {
-            "file": "src/lib/data/legal/termsAccountSections.ts",
-            "line": 29
-          },
-          {
-            "file": "src/lib/data/legal/termsAccountSections.ts",
-            "line": 35
-          },
-          {
-            "file": "src/lib/data/legal/termsAccountSections.ts",
-            "line": 36
           }
         ]
       }
@@ -881,15 +720,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 1440
+        "functionsExamined": 1780
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 63,
-        "predictedFiles": 88,
+        "roleFamilies": 73,
+        "predictedFiles": 98,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -897,66 +736,76 @@
       },
       "offenders": {
         "roleFamilies": {
-          "+page.server.ts": 28,
-          "+page.svelte": 36,
-          "+server.ts": 13,
+          "+page.server.ts": 33,
+          "+page.svelte": 41,
+          "+server.ts": 14,
           "access": 7,
-          "actions": 76,
+          "actions": 90,
           "attachment": 5,
           "bar": 4,
+          "brief": 4,
           "button": 8,
           "card": 5,
           "client": 13,
           "count": 4,
           "details": 4,
           "email": 8,
-          "event": 5,
+          "event": 7,
+          "facts": 4,
           "field": 6,
           "fields": 19,
+          "figures": 4,
+          "file": 6,
           "filter": 7,
-          "form": 45,
+          "form": 49,
           "goal": 8,
           "grant": 4,
-          "header": 14,
+          "header": 16,
           "ids": 7,
-          "kind": 5,
-          "link": 8,
+          "kind": 6,
+          "lead": 6,
+          "link": 9,
           "list": 14,
+          "map": 5,
           "member": 4,
           "menu": 4,
           "message": 4,
           "modal": 7,
           "modals": 4,
           "model": 5,
-          "name": 6,
+          "name": 7,
           "names": 5,
-          "note": 5,
+          "note": 7,
           "organisation": 10,
-          "panel": 18,
+          "panel": 21,
           "password": 5,
+          "patch": 9,
           "people": 4,
           "person": 6,
-          "pill": 7,
+          "pill": 8,
           "priority": 5,
           "profile": 5,
           "project": 14,
           "projects": 6,
-          "record": 21,
+          "record": 34,
           "refusal": 5,
+          "register": 4,
           "request": 6,
-          "row": 26,
-          "rules": 4,
+          "row": 34,
+          "rules": 11,
           "section": 27,
           "sections": 8,
           "sentence": 5,
+          "source": 11,
           "standing": 5,
           "status": 4,
           "styles": 5,
+          "summary": 4,
           "svelte": 10,
-          "table": 4,
+          "table": 5,
           "task": 15,
           "tasks": 5,
-          "test": 80,
+          "test": 99,
           "text": 6,
           "types": 11,
           "xml": 4
@@ -984,12 +833,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 28,
+            "predicted": 33,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 36,
+            "predicted": 41,
             "missing": []
           }
         ],
@@ -1000,10 +849,10 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 36,
-        "components": 301,
+        "pages": 41,
+        "components": 330,
         "orphanComponents": 0,
-        "averagePageLines": 48
+        "averagePageLines": 47
       },
       "offenders": {
         "pages": [
@@ -1030,18 +879,18 @@
             ]
           },
           {
+            "page": "src/routes/clients/[clientId]/+page.svelte",
+            "lines": 89,
+            "widgets": [
+              "modal",
+              "error"
+            ]
+          },
+          {
             "page": "src/routes/projects/+page.svelte",
             "lines": 88,
             "widgets": [
               "modal"
-            ]
-          },
-          {
-            "page": "src/routes/clients/[clientId]/+page.svelte",
-            "lines": 87,
-            "widgets": [
-              "modal",
-              "error"
             ]
           },
           {
@@ -1059,6 +908,11 @@
               "form",
               "list"
             ]
+          },
+          {
+            "page": "src/routes/clients/patches/[patchId]/+page.svelte",
+            "lines": 70,
+            "widgets": []
           },
           {
             "page": "src/routes/organisations/[organisationId]/+page.svelte",
@@ -1105,10 +959,10 @@
             ]
           },
           {
-            "page": "src/routes/clients/map/+page.svelte",
-            "lines": 50,
+            "page": "src/routes/projects/feed/+page.svelte",
+            "lines": 47,
             "widgets": [
-              "error"
+              "list"
             ]
           },
           {
@@ -1157,17 +1011,18 @@
             "widgets": []
           },
           {
-            "page": "src/routes/projects/feed/+page.svelte",
+            "page": "src/routes/clients/+page.svelte",
             "lines": 42,
             "widgets": [
-              "list"
+              "error"
             ]
           },
           {
-            "page": "src/routes/clients/+page.svelte",
-            "lines": 40,
+            "page": "src/routes/clients/patches/[patchId]/sectors/[sector]/+page.svelte",
+            "lines": 41,
             "widgets": [
-              "error"
+              "error",
+              "list"
             ]
           },
           {
@@ -1175,6 +1030,20 @@
             "lines": 40,
             "widgets": [
               "modal"
+            ]
+          },
+          {
+            "page": "src/routes/clients/feed/+page.svelte",
+            "lines": 38,
+            "widgets": [
+              "list"
+            ]
+          },
+          {
+            "page": "src/routes/clients/patches/+page.svelte",
+            "lines": 38,
+            "widgets": [
+              "error"
             ]
           },
           {
@@ -1193,6 +1062,18 @@
             "page": "src/routes/upload/[token]/+page.svelte",
             "lines": 35,
             "widgets": []
+          },
+          {
+            "page": "src/routes/clients/map/+page.svelte",
+            "lines": 34,
+            "widgets": []
+          },
+          {
+            "page": "src/routes/clients/patches/[patchId]/sightings/+page.svelte",
+            "lines": 30,
+            "widgets": [
+              "list"
+            ]
           },
           {
             "page": "src/routes/support/+page.svelte",
@@ -1243,11 +1124,11 @@
         "componentReuse": [
           {
             "component": "src/lib/components/site/SubmitButton.svelte",
-            "reusedBy": 54
+            "reusedBy": 60
           },
           {
             "component": "src/lib/components/site/FormErrorNote.svelte",
-            "reusedBy": 37
+            "reusedBy": 39
           },
           {
             "component": "src/lib/components/site/SmallCapsField.svelte",
@@ -1258,20 +1139,24 @@
             "reusedBy": 24
           },
           {
+            "component": "src/lib/components/site/PageTitle.svelte",
+            "reusedBy": 22
+          },
+          {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
             "reusedBy": 21
           },
           {
-            "component": "src/lib/components/site/PageTitle.svelte",
-            "reusedBy": 17
-          },
-          {
             "component": "src/lib/components/site/FormField.svelte",
-            "reusedBy": 12
+            "reusedBy": 15
           },
           {
             "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
             "reusedBy": 10
+          },
+          {
+            "component": "src/lib/components/site/EmptyState.svelte",
+            "reusedBy": 9
           },
           {
             "component": "src/lib/components/site/DangerConfirmModal.svelte",
@@ -1286,11 +1171,11 @@
             "reusedBy": 6
           },
           {
-            "component": "src/lib/components/projects/PriorityControls.svelte",
+            "component": "src/lib/components/clients/map/AreaMap.svelte",
             "reusedBy": 5
           },
           {
-            "component": "src/lib/components/site/EmptyState.svelte",
+            "component": "src/lib/components/projects/PriorityControls.svelte",
             "reusedBy": 5
           },
           {
@@ -1302,7 +1187,7 @@
             "reusedBy": 4
           },
           {
-            "component": "src/lib/components/clients/map/AreaMap.svelte",
+            "component": "src/lib/components/clients/patches/PatchMap.svelte",
             "reusedBy": 4
           },
           {
@@ -1327,6 +1212,10 @@
           },
           {
             "component": "src/lib/components/site/ReorderableRow.svelte",
+            "reusedBy": 4
+          },
+          {
+            "component": "src/lib/components/workspace/StatTile.svelte",
             "reusedBy": 4
           },
           {
@@ -1390,11 +1279,51 @@
             "reusedBy": 2
           },
           {
+            "component": "src/lib/components/clients/RegisterStandingLink.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/clients/map/AreaCompanyList.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/clients/map/AreaCompanyPanel.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/clients/map/AreaLegend.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/clients/map/LeadOutcomeNote.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/clients/patches/PatchesOverview.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/clients/patches/SectorPanel.svelte",
+            "reusedBy": 2
+          },
+          {
             "component": "src/lib/components/conversations/ConversationParticipantsPanel.svelte",
             "reusedBy": 2
           },
           {
             "component": "src/lib/components/conversations/ConversationThread.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/feed/FeedDaySection.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/feed/FeedScopeChips.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/feed/LiveMarker.svelte",
             "reusedBy": 2
           },
           {
@@ -1546,10 +1475,6 @@
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/workspace/StatTile.svelte",
-            "reusedBy": 2
-          },
-          {
             "component": "src/lib/components/workspace/TabStrip.svelte",
             "reusedBy": 2
           },
@@ -1658,6 +1583,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/clients/ClientObservations.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/clients/ClientPeopleActions.svelte",
             "reusedBy": 1
           },
@@ -1690,6 +1619,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/clients/ObservationRow.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/clients/PersonCard.svelte",
             "reusedBy": 1
           },
@@ -1718,11 +1651,19 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/clients/map/AreaCompanyList.svelte",
+            "component": "src/lib/components/clients/feed/AreaEventPill.svelte",
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/clients/map/AreaCompanyPanel.svelte",
+            "component": "src/lib/components/clients/feed/AreaEventRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/feed/AreaFeedHeader.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/feed/AreaFeedScoreboard.svelte",
             "reusedBy": 1
           },
           {
@@ -1730,11 +1671,11 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/clients/map/AreaLegend.svelte",
+            "component": "src/lib/components/clients/map/AreaMapPane.svelte",
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/clients/map/AreaMapPane.svelte",
+            "component": "src/lib/components/clients/map/AreaMapWorkspace.svelte",
             "reusedBy": 1
           },
           {
@@ -1743,6 +1684,74 @@
           },
           {
             "component": "src/lib/components/clients/map/AreaSummary.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/CoverageStrip.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/CreatePatchForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/PatchHeader.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/PatchMapPane.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/PatchRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/PatchSidebar.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/PatchSummary.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/PatchTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/PremisesPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/SectorClaimForms.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/SectorCompanyRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/SectorLegend.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/SectorSearchForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/SectorSearchRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/SightingForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/SightingPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/patches/SightingRow.svelte",
             "reusedBy": 1
           },
           {
@@ -1790,10 +1799,6 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/feed/FeedDaySection.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/feed/FeedEventPill.svelte",
             "reusedBy": 1
           },
@@ -1806,15 +1811,7 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/feed/FeedScopeChips.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/feed/FeedScoreboard.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/feed/LiveMarker.svelte",
             "reusedBy": 1
           },
           {
@@ -2462,63 +2459,63 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 1564,
-        "frontend": 490,
-        "backend": 438,
-        "shared": 170,
-        "api": 130,
-        "tooling": 105,
-        "tests": 85,
-        "database": 79,
-        "docs": 54,
+        "totalFiles": 1813,
+        "backend": 561,
+        "frontend": 531,
+        "shared": 196,
+        "api": 147,
+        "tooling": 110,
+        "tests": 106,
+        "database": 93,
+        "docs": 56,
         "infrastructure": 13
       },
       "offenders": [
         {
-          "area": "frontend",
-          "files": 490,
-          "sourceFiles": 366,
-          "sourceLines": 13288
+          "area": "backend",
+          "files": 561,
+          "sourceFiles": 553,
+          "sourceLines": 17409
         },
         {
-          "area": "backend",
-          "files": 438,
-          "sourceFiles": 435,
-          "sourceLines": 13473
+          "area": "frontend",
+          "files": 531,
+          "sourceFiles": 407,
+          "sourceLines": 14622
         },
         {
           "area": "shared",
-          "files": 170,
-          "sourceFiles": 156,
-          "sourceLines": 5029
+          "files": 196,
+          "sourceFiles": 182,
+          "sourceLines": 5906
         },
         {
           "area": "api",
-          "files": 130,
-          "sourceFiles": 130,
-          "sourceLines": 6201
+          "files": 147,
+          "sourceFiles": 147,
+          "sourceLines": 7125
         },
         {
           "area": "tooling",
-          "files": 105,
-          "sourceFiles": 0,
-          "sourceLines": 0
+          "files": 110,
+          "sourceFiles": 2,
+          "sourceLines": 54
         },
         {
           "area": "tests",
-          "files": 85,
-          "sourceFiles": 80,
-          "sourceLines": 3452
+          "files": 106,
+          "sourceFiles": 99,
+          "sourceLines": 4111
         },
         {
           "area": "database",
-          "files": 79,
+          "files": 93,
           "sourceFiles": 0,
           "sourceLines": 0
         },
         {
           "area": "docs",
-          "files": 54,
+          "files": 56,
           "sourceFiles": 0,
           "sourceLines": 0
         },
@@ -2533,10 +2530,10 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 88,
+        "schemaTables": 103,
         "limitedColumns": 0,
-        "writeDoors": 113,
-        "unvalidatedDoors": 84,
+        "writeDoors": 127,
+        "unvalidatedDoors": 81,
         "looserLimits": 0
       },
       "offenders": {
@@ -2790,6 +2787,12 @@
             ]
           },
           {
+            "file": "src/lib/server/mcp/actions/registerActions.ts",
+            "tables": [
+              "oauthtoken"
+            ]
+          },
+          {
             "file": "src/lib/server/mcp/actions/requestedByField.ts",
             "tables": [
               "oauthtoken"
@@ -3024,40 +3027,6 @@
             ]
           },
           {
-            "file": "src/routes/clients/[clientId]/+page.server.ts",
-            "tables": [
-              "client",
-              "clientcontact",
-              "clientevent",
-              "people",
-              "personlink",
-              "personnote",
-              "project"
-            ]
-          },
-          {
-            "file": "src/routes/clients/map/+page.server.ts",
-            "tables": [
-              "client",
-              "clientcontact",
-              "clientevent",
-              "people",
-              "personlink",
-              "personnote"
-            ]
-          },
-          {
-            "file": "src/routes/clients/prospect/+page.server.ts",
-            "tables": [
-              "client",
-              "clientcontact",
-              "clientevent",
-              "people",
-              "personlink",
-              "personnote"
-            ]
-          },
-          {
             "file": "src/routes/clients/research/+page.server.ts",
             "tables": [
               "client",
@@ -3109,17 +3078,6 @@
             ]
           },
           {
-            "file": "src/routes/people/[personId]/+page.server.ts",
-            "tables": [
-              "client",
-              "clientcontact",
-              "clientevent",
-              "people",
-              "personlink",
-              "personnote"
-            ]
-          },
-          {
             "file": "src/routes/projects/[projectId]/goals/[goalId]/+page.server.ts",
             "tables": [
               "conversationmessage",
@@ -3161,7 +3119,7 @@
       "summary": {
         "clones": 0,
         "duplicatedLines": 0,
-        "totalLines": 42648,
+        "totalLines": 50646,
         "duplicatedPercentage": 0.0
       },
       "offenders": []

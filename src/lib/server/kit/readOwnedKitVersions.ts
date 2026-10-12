@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { getOwnedProjectsWithRepositories } from './getKitVersionRegister';
 import { readLatestKitVersion, readKitVersionOfProject } from './readKitVersions';
 
-export type KitVersionsRead = { latestIsRead: boolean; projectsRead: number; projectsUnreadable: number };
+export type KitVersionsRead = { isLatestRead: boolean; projectsRead: number; projectsUnreadable: number };
 
 /** Reads the latest kit version and the version on every repository an owner has, there and then. */
 export async function readOwnedKitVersions(
@@ -16,14 +16,14 @@ export async function readOwnedKitVersions(
 	);
 	const projectsUnreadable = readings.filter((reading) => reading.kind === 'unreadable').length;
 	return {
-		latestIsRead: latest.kind === 'read',
+		isLatestRead: latest.kind === 'read',
 		projectsRead: readings.length - projectsUnreadable,
 		projectsUnreadable
 	};
 }
 
 export function describeKitVersionsRead(read: KitVersionsRead): string {
-	const latestLine = read.latestIsRead ? '' : ' The latest version could not be read from project-process.';
+	const latestLine = read.isLatestRead ? '' : ' The latest version could not be read from project-process.';
 	const unreadableLine =
 		read.projectsUnreadable === 0
 			? ''

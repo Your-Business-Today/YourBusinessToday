@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, isActionFailure, type ActionFailure } from '@sveltejs/kit';
 import { addProspectAsLead, readProspectSeed } from './addProspectAsLead';
 import { getClient } from './getClient';
 import { importCompanyOfficers } from './importCompanyOfficers';
@@ -10,28 +10,40 @@ import type { StaffFormEvent } from '$lib/server/people/personFormActions';
 const officerImportFailedMessage =
 	'The company is on the register, but its officers could not be read just now.';
 
+type ProspectRefusal = ActionFailure<{ message: string }>;
+
+function isRefusal(added: unknown): added is ProspectRefusal {
+	return isActionFailure(added);
+}
+
+async function addSubmittedProspect({ locals, request }: StaffFormEvent) {
+	const user = await requireStaff(locals);
+	const prospect = readProspectSeed(await request.formData());
+	const refusal = validateProspect(prospect);
+	if (refusal !== null) return fail(400, { message: refusal });
+	const outcome = await addProspectAsLead(locals.supabase, prospect, user.id);
+	return { user, prospect, outcome };
+}
+
 /**
  * A Companies House result becomes a lead the same way from the prospect
  * table and from the map, so both routes spread these.
  */
 export const prospectFormActions = {
-	addLead: async ({ locals, request }: StaffFormEvent) => {
-		const user = await requireStaff(locals);
-		const prospect = readProspectSeed(await request.formData());
-		const refusal = validateProspect(prospect);
-		if (refusal !== null) return fail(400, { message: refusal });
-		const outcome = await addProspectAsLead(locals.supabase, prospect, user.id);
+	addLead: async (event: StaffFormEvent) => {
+		const added = await addSubmittedProspect(event);
+		if (isRefusal(added)) return added;
+		const { prospect, outcome } = added;
 		if (outcome.wasAlreadyListed) {
 			return { message: `${prospect.name} is already on the register.`, clientId: outcome.clientId };
 		}
 		return { message: `${prospect.name} added as a lead.`, clientId: outcome.clientId };
 	},
-	addLeadWithDirectors: async ({ locals, request }: StaffFormEvent) => {
-		const user = await requireStaff(locals);
-		const prospect = readProspectSeed(await request.formData());
-		const refusal = validateProspect(prospect);
-		if (refusal !== null) return fail(400, { message: refusal });
-		const outcome = await addProspectAsLead(locals.supabase, prospect, user.id);
+	addLeadWithDirectors: async (event: StaffFormEvent) => {
+		const added = await addSubmittedProspect(event);
+		if (isRefusal(added)) return added;
+		const { user, prospect, outcome } = added;
+		const { locals } = event;
 		const client = await getClient(locals.supabase, outcome.clientId);
 		if (client === null) return fail(404, { message: 'That client could not be found.' });
 		if (!isCompaniesHouseConfigured()) {

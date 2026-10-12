@@ -15,7 +15,7 @@ export type PatchBrief = {
 	nextCursor: number | null;
 };
 
-const everyKind = { sicCode: '', status: '', incorporatedSince: '', arrivedSince: '', includeHubs: false, includeNonTrading: false };
+const everyKind = { sicCode: '', status: '', incorporatedSince: '', arrivedSince: '', shouldIncludeHubs: false, shouldIncludeNonTrading: false };
 
 export async function readPatchBrief(supabase: SupabaseClient, patch: Patch, cursor: number): Promise<PatchBrief> {
 	const [coverage, register, observations] = await Promise.all([

@@ -1,7 +1,7 @@
 import { fail } from '@sveltejs/kit';
+import { noSuchPatchMessage, openPatchForm } from '$lib/server/patches/openPatchForm';
 import { addSightingAsLead } from './addSightingAsLead';
 import { describeSightingOutcome, recordSighting } from './recordSighting';
-import { getPatch } from '$lib/server/patches/getPatch';
 import { getSighting } from './listSightings';
 import { matchOutcomes, matchSightingToRegister } from './matchSightingToRegister';
 import { requireStaff } from '$lib/server/auth/requireStaff';
@@ -28,11 +28,10 @@ export function readSightingSeed(formData: FormData): SightingSeed {
 }
 
 export const sightingFormActions = {
-	recordSighting: async ({ locals, request }: StaffFormEvent) => {
-		const user = await requireStaff(locals);
-		const formData = await request.formData();
-		const patch = await getPatch(locals.supabase, String(formData.get('patchId') ?? ''));
-		if (patch === null) return fail(404, { message: 'That patch could not be found.' });
+	recordSighting: async (event: StaffFormEvent) => {
+		const { locals } = event;
+		const { user, formData, patch } = await openPatchForm(event);
+		if (patch === null) return fail(404, { message: noSuchPatchMessage });
 		const seed = readSightingSeed(formData);
 		const refusal = validateSighting(seed);
 		if (refusal !== null) return fail(400, { message: refusal });

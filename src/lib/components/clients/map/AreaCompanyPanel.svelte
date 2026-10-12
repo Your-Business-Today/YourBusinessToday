@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ProspectSeedFields from '$lib/components/clients/ProspectSeedFields.svelte';
-	import StagePill from '$lib/components/clients/StagePill.svelte';
+	import RegisterStandingLink from '$lib/components/clients/RegisterStandingLink.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { confirmButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import { describeDistance } from '$lib/data/distance';
@@ -57,10 +57,7 @@
 			{/if}
 		</div>
 		{#if standing !== null}
-			<div class="flex flex-wrap items-center gap-3">
-				<StagePill stage={standing.stage} />
-				<a href={`/clients/${standing.clientId}`} class={quietButtonClasses}>Open the client</a>
-			</div>
+			<RegisterStandingLink {standing} />
 		{:else if canBecomeLead}
 			<div class="flex flex-wrap gap-2">
 				<form method="POST" action={addLeadAction}>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CoverageStrip from '$lib/components/clients/patches/CoverageStrip.svelte';
-	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
+	import LeadOutcomeNote from '$lib/components/clients/map/LeadOutcomeNote.svelte';
 	import PatchHeader from '$lib/components/clients/patches/PatchHeader.svelte';
 	import PatchMapPane from '$lib/components/clients/patches/PatchMapPane.svelte';
 	import PatchSidebar from '$lib/components/clients/patches/PatchSidebar.svelte';
@@ -36,12 +36,7 @@
 
 <div class="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-16">
 	<PatchHeader {patch} ownerName={data.ownerName} watchers={data.watchers} />
-	<FormErrorNote message={data.notice ?? form?.message ?? null} />
-	{#if form?.clientId !== undefined}
-		<p class="text-sm text-chalk/70">
-			<a href={`/clients/${form.clientId}`} class="text-go hover:underline">Open the client</a>
-		</p>
-	{/if}
+	<LeadOutcomeNote message={data.notice ?? form?.message ?? null} clientId={form?.clientId} />
 	<CoverageStrip counts={coverage.counts} />
 	{#if map !== null}
 		<PatchSummary {map} listedCount={nearestListed} />

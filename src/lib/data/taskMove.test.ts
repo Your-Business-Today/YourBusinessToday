@@ -5,13 +5,13 @@ const betweenProjects = { sourceProjectName: 'Carp Mania', destinationProjectNam
 
 describe('taskMovedSentence', () => {
 	it('records where the task came from and where it went', () => {
-		expect(taskMovedSentence({ ...betweenProjects, hadGoal: false })).toBe(
+		expect(taskMovedSentence({ ...betweenProjects, wasGoalLinked: false })).toBe(
 			'Moved to Cod Mania, from Carp Mania.'
 		);
 	});
 
 	it('records the goal link only when there was one to clear', () => {
-		expect(taskMovedSentence({ ...betweenProjects, hadGoal: true })).toContain('goal link');
+		expect(taskMovedSentence({ ...betweenProjects, wasGoalLinked: true })).toContain('goal link');
 	});
 });
 

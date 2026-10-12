@@ -1,5 +1,5 @@
 <script lang="ts">
-	import StagePill from '$lib/components/clients/StagePill.svelte';
+	import RegisterStandingLink from '$lib/components/clients/RegisterStandingLink.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { confirmButtonClasses, inputClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import { formatBritishDate } from '$lib/data/britishDate';
@@ -23,10 +23,7 @@
 		{/if}
 	</div>
 	{#if standing !== null}
-		<div class="flex flex-wrap items-center gap-3">
-			<StagePill stage={standing.stage} />
-			<a href={`/clients/${standing.clientId}`} class={quietButtonClasses}>Open the client</a>
-		</div>
+		<RegisterStandingLink {standing} />
 	{:else}
 		<form method="POST" action="?/addSightingAsLead">
 			<input type="hidden" name="sightingId" value={sighting.id} />
