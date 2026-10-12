@@ -1,4 +1,4 @@
-import { addProspectAsLead } from '$lib/server/clients/addProspectAsLead';
+import { addPatchCompanyAsLead } from '$lib/server/patches/addPatchCompanyAsLead';
 import { describeRegisterCompanies, noSuchRegisterCompany } from './describeRegisterCompany';
 import { filterRegisterCompanies, type RegisterFilters } from '$lib/server/register/filterRegisterCompanies';
 import { getPatch } from '$lib/server/patches/getPatch';
@@ -78,7 +78,7 @@ async function addAsLead(caller: McpCaller, input: Record<string, unknown>): Pro
 	const seed = { name: company.name, companyNumber: company.companyNumber, address: company.registeredAddress, postcode: company.postcode };
 	const refusal = validateProspect(seed);
 	if (refusal !== null) return refusal;
-	const outcome = await addProspectAsLead(caller.supabase, seed, caller.accountId);
+	const outcome = await addPatchCompanyAsLead(caller.supabase, patch, seed, caller.accountId);
 	if (outcome.wasAlreadyListed) return `${company.name} is already on the register — client id ${outcome.clientId}.`;
 	return `${company.name} is on the register as a lead — client id ${outcome.clientId}.`;
 }

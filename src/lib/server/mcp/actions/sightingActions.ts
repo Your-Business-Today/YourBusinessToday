@@ -5,7 +5,7 @@ import { listSightingsForPatch } from '$lib/server/sightings/listSightings';
 import { sightingSourceOrder } from '$lib/data/sightingRules';
 import { validateSighting } from '$lib/server/sightings/validateSighting';
 import { objectSchema, readText, textField } from '../actionTypes';
-import { withPatch } from './withPatch';
+import { withPatch } from '$lib/server/patches/withPatch';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 

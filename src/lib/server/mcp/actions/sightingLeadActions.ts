@@ -3,6 +3,7 @@ import { getSighting } from '$lib/server/sightings/listSightings';
 import { matchOutcomes, matchSightingToRegister } from '$lib/server/sightings/matchSightingToRegister';
 import { noSuchSighting } from './describeSighting';
 import { objectSchema, readText, textField } from '../actionTypes';
+import { validateCompanyNumber } from '$lib/data/prospectRules';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
@@ -45,6 +46,8 @@ async function match(caller: McpCaller, input: Record<string, unknown>): Promise
 	const sighting = await getSighting(caller.supabase, readText(input, 'sightingId'));
 	if (sighting === null) return noSuchSighting;
 	const companyNumber = readText(input, 'companyNumber').toUpperCase();
+	const notANumber = validateCompanyNumber(companyNumber);
+	if (notANumber !== null) return notANumber;
 	const outcome = await matchSightingToRegister(caller.supabase, sighting.id, companyNumber);
 	if (outcome.kind === matchOutcomes.notOnRegister) return `${companyNumber} is not on the register in any patch.`;
 	return `${sighting.businessName} is matched to ${outcome.registeredName} (${companyNumber}).`;

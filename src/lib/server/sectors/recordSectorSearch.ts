@@ -1,5 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { areaEventKinds } from '$lib/data/areaEventKind';
 import { getClaim } from './listClaims';
+import { recordAreaEvent } from '$lib/server/areaEvents/recordAreaEvent';
 import { isSectorOfPatch, releaseClaim } from './claimSector';
 import type { Patch } from '$lib/server/patches/patchRecord';
 import type { SectorSearch } from '$lib/data/sectorSearchRules';
@@ -33,5 +35,12 @@ export async function recordSectorSearch(
 	});
 	if (error) throw error;
 	if (claim !== null) await releaseClaim(supabase, patch.id, search.sector);
+	await recordAreaEvent(supabase, {
+		sector: search.sector,
+		patchId: patch.id,
+		kind: areaEventKinds.sectorSearched,
+		actorAccountId: searcherAccountId,
+		detail: `${search.foundCount} found — ${search.summary}`
+	});
 	return { kind: searchOutcomes.recorded };
 }

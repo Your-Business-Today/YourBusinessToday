@@ -1,8 +1,8 @@
-import { getPatch } from '$lib/server/patches/getPatch';
-import { noSuchPatch } from './describePatch';
-import { readText } from '../actionTypes';
-import type { McpCaller } from '../resolveMcpCaller';
-import type { Patch } from '$lib/server/patches/patchRecord';
+import { getPatch } from './getPatch';
+import { noSuchPatch } from '$lib/server/mcp/actions/describePatch';
+import { readText } from '$lib/server/mcp/actionTypes';
+import type { McpCaller } from '$lib/server/mcp/resolveMcpCaller';
+import type { Patch } from './patchRecord';
 
 /** Every patch action starts by finding the patch; one that is not there is answered the same way everywhere. */
 export async function withPatch(

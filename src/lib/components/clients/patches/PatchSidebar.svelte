@@ -51,7 +51,7 @@
 	{:else if selectedSighting !== null}
 		<SightingPanel sighting={selectedSighting} seenByName={accountNames[selectedSighting.seenByAccountId] ?? 'Former account'} standing={selectedPin?.standing ?? null} />
 	{:else}
-		<AreaCompanyPanel pin={selectedPin} addLeadAction="?/addLead" addWithDirectorsAction="?/addLeadWithDirectors" />
+		<AreaCompanyPanel pin={selectedPin} addLeadAction="?/addLead" addWithDirectorsAction="?/addLeadWithDirectors" {patchId} />
 	{/if}
 	<AreaCompanyList pins={listedPins} {selectedKey} {onSelect} />
 </div>

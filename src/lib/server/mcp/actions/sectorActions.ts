@@ -7,7 +7,7 @@ import { readSector } from '$lib/server/sectors/readSector';
 import { recordSectorSearch } from '$lib/server/sectors/recordSectorSearch';
 import { validateSectorSearch } from '$lib/data/sectorSearchRules';
 import { objectSchema, readText, textField } from '../actionTypes';
-import { withPatch } from './withPatch';
+import { withPatch } from '$lib/server/patches/withPatch';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Patch } from '$lib/server/patches/patchRecord';

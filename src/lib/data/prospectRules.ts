@@ -7,11 +7,16 @@ const companyNumberShape = /^[A-Z0-9]{8}$/i;
 
 export const prospectNeedsNameAndNumber = 'A company name and number are required.';
 
+/** Why the text is not a company number, or null when it is one. */
+export function validateCompanyNumber(companyNumber: string): string | null {
+	if (companyNumberShape.test(companyNumber)) return null;
+	return `${companyNumber} is not a company number: Companies House numbers are ${companyNumberLength} letters or digits.`;
+}
+
 /** Why the prospect cannot go on the register as it stands, or null when every value fits its column. */
 export function validateProspect(seed: ProspectSeed): string | null {
 	if (seed.name === '' || seed.companyNumber === '') return prospectNeedsNameAndNumber;
-	if (!companyNumberShape.test(seed.companyNumber)) {
-		return `${seed.companyNumber} is not a company number: Companies House numbers are ${companyNumberLength} letters or digits.`;
-	}
+	const notANumber = validateCompanyNumber(seed.companyNumber);
+	if (notANumber !== null) return notANumber;
 	return null;
 }

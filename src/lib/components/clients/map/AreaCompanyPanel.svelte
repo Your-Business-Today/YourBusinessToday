@@ -11,8 +11,9 @@
 	let {
 		pin,
 		addLeadAction,
-		addWithDirectorsAction
-	}: { pin: AreaPin | null; addLeadAction: string; addWithDirectorsAction: string } = $props();
+		addWithDirectorsAction,
+		patchId = ''
+	}: { pin: AreaPin | null; addLeadAction: string; addWithDirectorsAction: string; patchId?: string } = $props();
 
 	const facts = $derived(pin === null ? [] : factsAbout(pin));
 	const standing = $derived(pin?.standing ?? null);
@@ -57,6 +58,7 @@
 		{:else if canBecomeLead}
 			<div class="flex flex-wrap gap-2">
 				<form method="POST" action={addLeadAction}>
+					<input type="hidden" name="patchId" value={patchId} />
 					<ProspectSeedFields company={pin} />
 					<SubmitButton class={quietButtonClasses} savingLabel="Adding…">Add as lead</SubmitButton>
 				</form>

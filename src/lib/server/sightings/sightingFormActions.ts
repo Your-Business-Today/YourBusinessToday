@@ -5,6 +5,7 @@ import { getPatch } from '$lib/server/patches/getPatch';
 import { getSighting } from './listSightings';
 import { matchOutcomes, matchSightingToRegister } from './matchSightingToRegister';
 import { requireStaff } from '$lib/server/auth/requireStaff';
+import { validateCompanyNumber } from '$lib/data/prospectRules';
 import { validateSighting } from './validateSighting';
 import type { SightingSeed } from '$lib/data/sightingRules';
 import type { StaffFormEvent } from '$lib/server/people/personFormActions';
@@ -53,6 +54,8 @@ export const sightingFormActions = {
 		const sighting = await getSighting(locals.supabase, String(formData.get('sightingId') ?? ''));
 		if (sighting === null) return fail(404, { message: noSuchSightingMessage });
 		const companyNumber = String(formData.get('companyNumber') ?? '').trim().toUpperCase();
+		const notANumber = validateCompanyNumber(companyNumber);
+		if (notANumber !== null) return fail(400, { message: notANumber });
 		const outcome = await matchSightingToRegister(locals.supabase, sighting.id, companyNumber);
 		if (outcome.kind === matchOutcomes.notOnRegister) return fail(400, { message: `${companyNumber} is not on the register in any patch.` });
 		return { message: `${sighting.businessName} is matched to ${outcome.registeredName} (${companyNumber}).` };

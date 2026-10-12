@@ -1,5 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { areaEventKinds } from '$lib/data/areaEventKind';
 import { getClaim } from './listClaims';
+import { recordAreaEvent } from '$lib/server/areaEvents/recordAreaEvent';
 import type { Patch } from '$lib/server/patches/patchRecord';
 
 export type ClaimOutcome = { kind: 'claimed' } | { kind: 'held_by_someone_else'; holderAccountId: string } | { kind: 'not_in_patch' };
@@ -23,6 +25,7 @@ export async function claimSector(
 		.from('sector_claims')
 		.insert({ patch_id: patch.id, sector, claimed_by_account_id: claimantAccountId });
 	if (error) throw error;
+	await recordAreaEvent(supabase, { sector, patchId: patch.id, kind: areaEventKinds.sectorClaimed, actorAccountId: claimantAccountId });
 	return { kind: claimOutcomes.claimed };
 }
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { prospectNeedsNameAndNumber, validateProspect } from './prospectRules';
+import { prospectNeedsNameAndNumber, validateCompanyNumber, validateProspect } from './prospectRules';
 
 const jewel = { name: 'Jewel Bespoke Build Ltd', companyNumber: '13752749', address: 'Argent House', postcode: 'KT6 7LD' };
 
@@ -14,5 +14,13 @@ describe('validateProspect', () => {
 		expect(validateProspect({ ...jewel, name: '' })).toBe(prospectNeedsNameAndNumber);
 		expect(validateProspect({ ...jewel, companyNumber: '' })).toBe(prospectNeedsNameAndNumber);
 		expect(validateProspect({ ...jewel, companyNumber: '1375' })).toContain('is not a company number');
+	});
+});
+
+describe('validateCompanyNumber', () => {
+	it('knows an eight-character number and refuses anything else', () => {
+		expect(validateCompanyNumber('13752749')).toBeNull();
+		expect(validateCompanyNumber('SC123456')).toBeNull();
+		expect(validateCompanyNumber('1375')).toContain('is not a company number');
 	});
 });

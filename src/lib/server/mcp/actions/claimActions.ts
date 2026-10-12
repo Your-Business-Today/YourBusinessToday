@@ -2,7 +2,7 @@ import { claimSector, releaseClaim } from '$lib/server/sectors/claimSector';
 import { describeClaimOutcome, describeHandOverOutcome } from '$lib/server/sectors/sectorOutcomeSentences';
 import { handSectorTo } from '$lib/server/sectors/handSectorTo';
 import { objectSchema, readText, textField } from '../actionTypes';
-import { withPatch } from './withPatch';
+import { withPatch } from '$lib/server/patches/withPatch';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 

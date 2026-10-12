@@ -6,6 +6,7 @@ import { getPatch } from '$lib/server/patches/getPatch';
 import { listSearchesForPatch } from '$lib/server/sectors/listSearches';
 import { listSightingsForPatch } from '$lib/server/sightings/listSightings';
 import { mapPatch, type PatchMap } from '$lib/server/patches/mapPatch';
+import { patchLeadFormActions } from '$lib/server/patches/patchLeadFormActions';
 import { prospectFormActions } from '$lib/server/clients/prospectFormActions';
 import { readPatchCoverage, type PatchCoverage } from '$lib/server/sectors/patchCoverage';
 import { requireStaff } from '$lib/server/auth/requireStaff';
@@ -66,4 +67,4 @@ async function mapOf(supabase: SupabaseClient, patch: Patch): Promise<MapOutcome
 	}
 }
 
-export const actions: Actions = { ...prospectFormActions, ...sectorFormActions, ...sightingFormActions };
+export const actions: Actions = { ...prospectFormActions, ...patchLeadFormActions, ...sectorFormActions, ...sightingFormActions };

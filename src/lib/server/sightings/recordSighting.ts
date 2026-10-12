@@ -1,6 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { areaEventKinds } from '$lib/data/areaEventKind';
 import { postcodeIn } from '$lib/data/postcode';
 import { publicUrlOr } from '$lib/server/clients/parsePublicUrl';
+import { recordAreaEvent } from '$lib/server/areaEvents/recordAreaEvent';
 import type { SightingSeed } from '$lib/data/sightingRules';
 
 export type RecordSightingOutcome = { kind: 'recorded'; sightingId: string } | { kind: 'already_recorded' };
@@ -16,6 +18,22 @@ export async function recordSighting(
 	patchId: string,
 	seenByAccountId: string
 ): Promise<RecordSightingOutcome> {
+	const sightingId = await insertSighting(supabase, seed, patchId, seenByAccountId);
+	if (sightingId === null) return { kind: sightingOutcomes.alreadyRecorded };
+	await recordAreaEvent(supabase, {
+		sector: seed.sector,
+		patchId,
+		kind: areaEventKinds.sightingRecorded,
+		actorAccountId: seenByAccountId,
+		sightingId,
+		companyNumber: seed.companyNumber,
+		detail: seed.businessName,
+		sourceUrl: seed.sourceUrl
+	});
+	return { kind: sightingOutcomes.recorded, sightingId };
+}
+
+async function insertSighting(supabase: SupabaseClient, seed: SightingSeed, patchId: string, seenByAccountId: string): Promise<string | null> {
 	const { data, error } = await supabase
 		.from('sightings')
 		.insert({
@@ -33,9 +51,9 @@ export async function recordSighting(
 		})
 		.select('id')
 		.single();
-	if (error !== null && error.code === uniqueViolation) return { kind: sightingOutcomes.alreadyRecorded };
+	if (error !== null && error.code === uniqueViolation) return null;
 	if (error) throw error;
-	return { kind: sightingOutcomes.recorded, sightingId: data.id as string };
+	return data.id as string;
 }
 
 export function describeSightingOutcome(outcome: RecordSightingOutcome, seed: SightingSeed): string {
