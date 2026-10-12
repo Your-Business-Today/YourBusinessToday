@@ -5,6 +5,7 @@ import { getChildrenOfClient } from '$lib/server/clients/getChildrenOfClient';
 import { getEventsForClient } from '$lib/server/clients/getEventsForClient';
 import { getPeopleForClient } from '$lib/server/clients/getPeopleForClient';
 import { getProjectsForClient } from '$lib/server/clients/getProjectsForClient';
+import { getRegisterCompany } from '$lib/server/register/getRegisterCompany';
 import { getGroupParents } from '$lib/server/clients/getGroupParents';
 import { getSupportTasksForClient } from '$lib/server/support/getOpenSupportTasks';
 import { getUnassignedProjects } from '$lib/server/projects/getUnassignedProjects';
@@ -22,7 +23,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	await requireStaff(locals);
 	const client = await getClient(locals.supabase, params.clientId);
 	if (client === null) error(404, 'That client could not be found');
-	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations] =
+	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany] =
 		await Promise.all([
 			getPeopleForClient(locals.supabase, client.id),
 			getProjectsForClient(locals.supabase, client.id),
@@ -32,21 +33,12 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			getChildrenOfClient(locals.supabase, client.id),
 			getGroupParents(locals.supabase),
 			client.parentClientId === null ? null : getClient(locals.supabase, client.parentClientId),
-			listObservationsForCompany(locals.supabase, companyNumberOf(client))
+			listObservationsForCompany(locals.supabase, companyNumberOf(client)),
+			getRegisterCompany(locals.supabase, companyNumberOf(client))
 		]);
-	return {
-		client,
-		people,
-		projects,
-		supportTasks,
-		unassignedProjects,
-		events,
-		children,
-		parents,
-		parent,
-		observations,
-		canImportOfficers: hasCompanyNumber(client) && isCompaniesHouseConfigured()
-	};
+	const canImportOfficers = hasCompanyNumber(client) && isCompaniesHouseConfigured();
+	const figures = registerCompany?.figures ?? null;
+	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, canImportOfficers };
 };
 
 export const actions: Actions = {

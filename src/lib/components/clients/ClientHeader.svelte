@@ -1,10 +1,11 @@
 <script lang="ts">
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
 	import { clientStageLabels } from '$lib/data/clientLifecycle';
+	import { describeFiledFigures, type FiledFigures } from '$lib/data/filedFigures';
 	import { leadSourceLabels } from '$lib/data/leadSources';
 	import type { Client } from '$lib/server/clients/clientRecord';
 
-	let { client, parent }: { client: Client; parent: Client | null } = $props();
+	let { client, parent, figures = null }: { client: Client; parent: Client | null; figures?: FiledFigures | null } = $props();
 </script>
 
 <div class="flex flex-col gap-2">
@@ -19,4 +20,7 @@
 			· <a href={client.website} class="hover:text-signal">{client.website}</a>
 		{/if}
 	</p>
+	{#if figures !== null}
+		<a href={figures.sourceUrl} target="_blank" rel="noreferrer" class="text-sm text-chalk/60 hover:text-signal">{describeFiledFigures(figures)}</a>
+	{/if}
 </div>

@@ -4,16 +4,18 @@
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { confirmButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import { describeDistance } from '$lib/data/distance';
+	import { describeFiledFigures, type FiledFigures } from '$lib/data/filedFigures';
 	import { formatBritishDate } from '$lib/data/britishDate';
 	import { isHub } from '$lib/data/registerRules';
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
 
 	let {
 		pin,
+		figures = null,
 		addLeadAction,
 		addWithDirectorsAction,
 		patchId = ''
-	}: { pin: AreaPin | null; addLeadAction: string; addWithDirectorsAction: string; patchId?: string } = $props();
+	}: { pin: AreaPin | null; figures?: FiledFigures | null; addLeadAction: string; addWithDirectorsAction: string; patchId?: string } = $props();
 
 	const facts = $derived(pin === null ? [] : factsAbout(pin));
 	const standing = $derived(pin?.standing ?? null);
@@ -49,6 +51,9 @@
 					<li>{fact}</li>
 				{/each}
 			</ul>
+			{#if figures !== null}
+				<a href={figures.sourceUrl} target="_blank" rel="noreferrer" class="text-xs text-chalk/70 hover:text-signal">{describeFiledFigures(figures)}</a>
+			{/if}
 		</div>
 		{#if standing !== null}
 			<div class="flex flex-wrap items-center gap-3">

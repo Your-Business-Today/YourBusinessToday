@@ -18,7 +18,9 @@ export type AreaEventKind =
 	| 'premises_reinspected'
 	| 'premises_closed'
 	| 'premises_changed_hands'
-	| 'lead_added_from_premises';
+	| 'lead_added_from_premises'
+	| 'accounts_filed'
+	| 'figures_read';
 
 export const areaEventKinds = {
 	sectorClaimed: 'sector_claimed',
@@ -39,7 +41,9 @@ export const areaEventKinds = {
 	premisesReinspected: 'premises_reinspected',
 	premisesClosed: 'premises_closed',
 	premisesChangedHands: 'premises_changed_hands',
-	leadAddedFromPremises: 'lead_added_from_premises'
+	leadAddedFromPremises: 'lead_added_from_premises',
+	accountsFiled: 'accounts_filed',
+	figuresRead: 'figures_read'
 } as const;
 
 export const areaEventKindOrder: AreaEventKind[] = [
@@ -61,7 +65,9 @@ export const areaEventKindOrder: AreaEventKind[] = [
 	areaEventKinds.premisesReinspected,
 	areaEventKinds.premisesClosed,
 	areaEventKinds.premisesChangedHands,
-	areaEventKinds.leadAddedFromPremises
+	areaEventKinds.leadAddedFromPremises,
+	areaEventKinds.accountsFiled,
+	areaEventKinds.figuresRead
 ];
 
 /** The short word on the event's pill. */
@@ -84,7 +90,9 @@ export const areaEventLabels: Record<AreaEventKind, string> = {
 	premises_reinspected: 'Re-inspected',
 	premises_closed: 'Closed',
 	premises_changed_hands: 'Changed hands',
-	lead_added_from_premises: 'Lead'
+	lead_added_from_premises: 'Lead',
+	accounts_filed: 'Accounts filed',
+	figures_read: 'Figures'
 };
 
 export function parseAreaEventKind(value: unknown): AreaEventKind | null {

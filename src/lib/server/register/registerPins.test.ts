@@ -24,6 +24,7 @@ function company(number: string, overrides: Partial<LocatedRegisterCompany> = {}
 		lastSeenMonth: '2026-10-01',
 		isGone: false,
 		sourceUrl: '',
+		figures: null,
 		latitude: 51.411,
 		longitude: -0.301,
 		...overrides

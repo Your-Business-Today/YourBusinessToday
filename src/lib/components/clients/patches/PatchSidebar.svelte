@@ -9,6 +9,7 @@
 	import { sectorOf } from '$lib/data/postcode';
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
 	import type { Premises } from '$lib/server/premises/premisesRecord';
+	import type { FiledFigures } from '$lib/data/filedFigures';
 	import type { PatchCoverage } from '$lib/server/sectors/patchCoverage';
 	import type { RecordedSectorSearch } from '$lib/server/sectors/sectorSearchRecord';
 	import type { Sighting } from '$lib/server/sightings/sightingRecord';
@@ -21,6 +22,7 @@
 		searches,
 		sightings,
 		premises,
+		figures,
 		accountNames,
 		selectedKey,
 		selectedSector,
@@ -33,6 +35,7 @@
 		searches: RecordedSectorSearch[];
 		sightings: Sighting[];
 		premises: Premises[];
+		figures: Record<string, FiledFigures>;
 		accountNames: Record<string, string>;
 		selectedKey: string | null;
 		selectedSector: string | null;
@@ -40,6 +43,7 @@
 	} = $props();
 
 	const selectedPin = $derived(pins.find((pin) => pin.key === selectedKey) ?? null);
+	const selectedFigures = $derived(selectedPin === null ? null : (figures[selectedPin.companyNumber] ?? null));
 	const selectedSightingId = $derived(selectedKey === null ? null : sightingIdOfKey(selectedKey));
 	const selectedSighting = $derived(sightings.find((sighting) => sighting.id === selectedSightingId) ?? null);
 	const selectedPremisesId = $derived(selectedKey === null ? null : premisesIdOfKey(selectedKey));
@@ -61,7 +65,7 @@
 	{:else if selectedSighting !== null}
 		<SightingPanel sighting={selectedSighting} seenByName={accountNames[selectedSighting.seenByAccountId] ?? 'Former account'} standing={selectedPin?.standing ?? null} />
 	{:else}
-		<AreaCompanyPanel pin={selectedPin} addLeadAction="?/addLead" addWithDirectorsAction="?/addLeadWithDirectors" {patchId} />
+		<AreaCompanyPanel pin={selectedPin} figures={selectedFigures} addLeadAction="?/addLead" addWithDirectorsAction="?/addLeadWithDirectors" {patchId} />
 	{/if}
 	<AreaCompanyList pins={listedPins} {selectedKey} {onSelect} />
 </div>

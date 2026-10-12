@@ -28,7 +28,7 @@
 </svelte:head>
 
 <div class="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-16">
-	<ClientHeader {client} {parent} />
+	<ClientHeader {client} {parent} figures={data.figures} />
 	<FormErrorNote message={form?.message ?? null} />
 
 	<section class="flex flex-col gap-4">

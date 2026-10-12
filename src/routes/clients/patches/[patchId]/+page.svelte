@@ -64,6 +64,7 @@
 				searches={data.searches}
 				sightings={data.sightings}
 				premises={map.premises}
+				figures={map.figuresByCompanyNumber}
 				accountNames={data.accountNames}
 				{selectedKey}
 				{selectedSector}

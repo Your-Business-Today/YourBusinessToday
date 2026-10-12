@@ -22,7 +22,9 @@
 		premises_reinspected: 'border-hairline text-chalk/70',
 		premises_closed: 'border-hairline text-chalk/50',
 		premises_changed_hands: 'border-caution/60 text-caution',
-		lead_added_from_premises: 'border-chalk/60 text-chalk'
+		lead_added_from_premises: 'border-chalk/60 text-chalk',
+		accounts_filed: 'border-go/40 text-go/80',
+		figures_read: 'border-hairline text-chalk/70'
 	};
 </script>
 

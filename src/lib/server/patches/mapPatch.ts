@@ -13,6 +13,8 @@ import { readRegisterForPatch, readRegisterLoadState } from '$lib/server/registe
 import type { Patch } from './patchRecord';
 import type { PostcodeLocation } from '$lib/server/postcodes/postcodeLocation';
 import type { Premises } from '$lib/server/premises/premisesRecord';
+import type { FiledFigures } from '$lib/data/filedFigures';
+import type { LocatedRegisterCompany } from '$lib/server/register/registerCompanyRecord';
 
 /** A patch drawn: every register company in it as at the last file, and the clients we already hold there. */
 export type PatchMap = {
@@ -21,6 +23,7 @@ export type PatchMap = {
 	pins: AreaPin[];
 	asAtMonth: string | null;
 	premises: Premises[];
+	figuresByCompanyNumber: Record<string, FiledFigures>;
 	sightingCount: number;
 	companyCount: number;
 	hubCount: number;
@@ -49,10 +52,16 @@ export async function mapPatch(supabase: SupabaseClient, patch: Patch): Promise<
 		pins: mergePins([...sightingPins, ...premisesPins, ...register.pins], clientPins).sort(byDistance),
 		asAtMonth: loadState.asAtMonth,
 		premises,
+		figuresByCompanyNumber: figuresOf(companies),
 		sightingCount: sightings.length,
 		companyCount: register.companyCount,
 		hubCount: register.hubCount,
 		nonTradingCount: register.nonTradingCount,
 		postcodesToGeocode
 	};
+}
+
+/** The filed figures of every company that has some, by number, for the panel to show. */
+function figuresOf(companies: LocatedRegisterCompany[]): Record<string, FiledFigures> {
+	return Object.fromEntries(companies.flatMap((company) => (company.figures === null ? [] : [[company.companyNumber, company.figures]])));
 }
