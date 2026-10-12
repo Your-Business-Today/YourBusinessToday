@@ -22,6 +22,11 @@ not kept has one deliberate exception here: the register snapshot, kept so chang
 | Staff | to claim a sector before I search it, release it, or hand it to a named colleague, with only the claimant or the patch owner able to mark it searched | two of us in two cities never tread on the same ground and coverage is a signed claim, not a guess |
 | Staff | my own Claude to read a sector, search the web for the businesses trading in it and record each one it finds with the page it saw it on | I keep searching within my subscription until I am happy, and every record says where it came from |
 | Staff | to promote a sighting to a lead with its source kept, stamp a confirmed company number on it, and have my Claude know the prospecting walk from the start of every session | the good ones reach the pipeline and nothing is recorded twice |
+| Staff | everything that happens in my patches recorded as events my Claude can read in one call | a Monday-morning task sees what changed and every later source writes through the same door |
+| Staff | a feed page of what changed in my patches, mine first | I see new sightings, searched sectors and leads as they happen, and a colleague in Manchester sees hers |
+| Staff | the feed to show, each month, the companies new in my patch, the ones that have gone, and the ones whose status, accounts, due dates or charges changed | I know when a new target arrives or an existing one's situation changes, with no key |
+| Staff | a company flagged when a new holding company appears over an existing trading one | I can see who has just decided they need management information |
+| Staff | my own Claude, on a weekly schedule in my own claude.ai, to look at my patch for anything notable on a public page and record it with its link | a target's changed methodology reaches my feed without YBT paying for the search |
 
 The stories that follow — every registered company in a patch, every postcode sector drawn
 and marked searched, sightings a person's Claude records with their source, the feed of
@@ -51,6 +56,11 @@ Pipeline* in Your Business Today, one task per step, and are written here as eac
   panel: what the page showed, the page itself, who saw it and when, Add as lead, and Match to
   a company number on the register. `/clients/patches/[patchId]/sightings` lists every sighting
   in the patch, and the sector panel carries the form to record one by hand.
+- `/clients/feed` — what changed on the ground, newest first under day headings: sectors claimed
+  and searched, businesses sighted, leads added, companies arrived, moved in or left, status and
+  accounts changes, charges, a holding company formed over a trading one, and what a weekly sweep
+  observed. Chips narrow it to my patches, one patch, or one kind; it re-reads itself every half
+  minute while open. Each company's own page lists what was observed about it.
 - `/clients` gains a Patches door beside Map an area; the Business menu gains Patches.
 
 ## The entities
@@ -109,6 +119,25 @@ A sighting becomes a lead with source `sighting`, its page as the profile source
 event on the ledger; one already matched to a company number on the register claims that row.
 The connector's working doctrine gains the prospecting walk as its ninth rule.
 
+**AreaEvent** — `public.area_events`, keyed to the outcode and sector rather than the patch, so
+two patches that share a sector both see it: the kind (a row of `area_event_kinds`, so a later
+step adds one by inserting it), the company, sighting or client it is about, one line of detail,
+the page it came from, a source key that makes a loader re-run write once, when it happened and
+who did it. One trusted insert, `write_area_event`, is reached two ways: the gated door
+`record_area_event`, which refuses anyone but staff and the service role and is what the site's
+commands and the connector call, and the triggers on `register_companies`. The monthly loader
+therefore produces the register's events itself: a company first seen after an outcode's first
+load is *arrived* when incorporated within ninety days of the month, *moved in* otherwise; one a
+later file no longer carries has *left*; a changed status, account category or charge count, and
+accounts falling overdue, each write theirs; and a company registered under a holding or
+head-office SIC code at the address of a live trading company is flagged the month it appears.
+
+**Observation** — `public.observations`: something a staff member's own Claude noticed on a
+public page in the last week about a register company or a sighting, with the page, once per
+page per patch. `read_patch_brief` hands a weekly scheduled task the sectors most in need of a
+visit and a page of companies longest unobserved, capped so one run stays within a subscription;
+`docs/patch-sweep-prompt.md` is the task's prompt word for word.
+
 The centre is geocoded into `postcode_locations` as the patch is saved, so the overview map
 costs no lookup. Every limit is stated in `src/lib/data/patchRules.ts` and read by the form,
 the form action and the connector action; `validatePatch` refuses rather than repairs.
@@ -125,6 +154,8 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `claimSector`, `releaseClaim`, `passClaim`, `handSectorTo` | who holds a sector |
 | `recordSighting` | a business seen on a public page, once |
 | `addSightingAsLead`, `matchSightingToRegister` | the sighting reaches the register |
+| `recordAreaEvent` | every event, through the gated door |
+| `recordObservation` | something noticed, once per page |
 
 | Query | Story it serves |
 | --- | --- |
@@ -135,11 +166,14 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `readPatchCoverage`, `unsearchedFirst` | every sector with its coverage, the most needed first |
 | `readSector` | one sector: coverage, searches, companies |
 | `listSightingsForPatch`, `pinsForSightings` | the sightings, drawn at their postcodes |
+| `getFeedForPatches` | the feed, narrowed by patch, kind or date |
+| `readPatchBrief` | what a weekly sweep looks at |
 
 The connector's new `patches` area carries `list_patches`, `create_patch`, `read_patch`,
 `read_patch_companies`, `add_patch_company_as_lead`, `list_patch_sectors`, `list_unsearched_sectors`,
 `read_sector`, `mark_sector_searched`, `claim_sector`, `release_sector`, `hand_sector_to`,
-`record_sighting`, `list_sightings`, `add_sighting_as_lead`, `match_sighting_to_register` and, for
-admins, `geocode_register_postcodes`;
+`record_sighting`, `list_sightings`, `add_sighting_as_lead`, `match_sighting_to_register`,
+`read_patch_feed`, `read_patch_brief`, `record_patch_observation` and, for admins,
+`geocode_register_postcodes`;
 the map tiles come from `basemap.ts`: Ordnance Survey's Light style on the free OpenData plan
 when `PUBLIC_OS_MAPS_API_KEY` is set, OpenStreetMap only as the fallback.
