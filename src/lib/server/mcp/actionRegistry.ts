@@ -1,4 +1,5 @@
 import { accountActions } from './actions/accountActions';
+import { claimActions } from './actions/claimActions';
 import { clientActions } from './actions/clientActions';
 import { conversationActions } from './actions/conversationActions';
 import { goalActions } from './actions/goalActions';
@@ -9,6 +10,7 @@ import { projectActions } from './actions/projectActions';
 import { projectMembershipActions } from './actions/projectMembershipActions';
 import { projectPeopleActions } from './actions/projectPeopleActions';
 import { registerActions } from './actions/registerActions';
+import { sectorActions } from './actions/sectorActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
 import { waitingActions } from './actions/waitingActions';
@@ -22,6 +24,8 @@ const everyAction: McpAction[] = [
 	...patchActions,
 	...patchCompanyActions,
 	...registerActions,
+	...sectorActions,
+	...claimActions,
 	...projectActions,
 	...projectPeopleActions,
 	...projectMembershipActions,
