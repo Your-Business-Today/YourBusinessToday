@@ -9,3 +9,10 @@ export function postcodeIn(text: string): string {
 export function outcodeOf(postcode: string): string {
 	return postcode.split(' ')[0] ?? '';
 }
+
+/** The postcode sector: the outcode and the first character of the incode, such as KT1 1. */
+export function sectorOf(postcode: string): string {
+	const [outcode, incode] = postcode.split(' ');
+	if (outcode === undefined || incode === undefined || incode === '') return '';
+	return `${outcode} ${incode[0]}`;
+}

@@ -1,7 +1,8 @@
 {
   "sourceGlobs": [
     "src/**/*.ts",
-    "src/**/*.svelte"
+    "src/**/*.svelte",
+    "scripts/**/*.ts"
   ],
   "excludeGlobs": [
     "**/node_modules/**",
