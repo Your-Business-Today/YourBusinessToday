@@ -56,6 +56,7 @@ function businessLinks(access: NavigationAccess): NavigationLink[] {
 		{ href: '/clients', label: 'Clients' },
 		{ href: '/people', label: 'People' },
 		{ href: '/clients/patches', label: 'Patches' },
+		{ href: '/clients/feed', label: 'Patch feed' },
 		...(access.isAdmin ? adminLinks : [])
 	];
 }
