@@ -4,9 +4,11 @@ import { conversationActions } from './actions/conversationActions';
 import { goalActions } from './actions/goalActions';
 import { organisationActions } from './actions/organisationActions';
 import { patchActions } from './actions/patchActions';
+import { patchCompanyActions } from './actions/patchCompanyActions';
 import { projectActions } from './actions/projectActions';
 import { projectMembershipActions } from './actions/projectMembershipActions';
 import { projectPeopleActions } from './actions/projectPeopleActions';
+import { registerActions } from './actions/registerActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
 import { waitingActions } from './actions/waitingActions';
@@ -18,6 +20,8 @@ const everyAction: McpAction[] = [
 	...clientActions,
 	...organisationActions,
 	...patchActions,
+	...patchCompanyActions,
+	...registerActions,
 	...projectActions,
 	...projectPeopleActions,
 	...projectMembershipActions,

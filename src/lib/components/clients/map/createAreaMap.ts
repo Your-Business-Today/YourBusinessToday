@@ -1,7 +1,7 @@
 import type { Coordinates } from '$lib/data/distance';
 import type { AreaPin } from '$lib/server/clients/area/areaPin';
 import { addBasemapTo } from './basemap';
-import { pinTones, resolveColourToken, standingOf } from './areaPinTones';
+import { pinTones, resolveColourToken, standingOfPin } from './areaPinTones';
 import { milesToMetres } from '$lib/data/mapRadii';
 
 export type AreaMapHandle = {
@@ -20,7 +20,7 @@ export async function createAreaMap(
 ): Promise<AreaMapHandle> {
 	await import('leaflet/dist/leaflet.css');
 	const leaflet = await import('leaflet');
-	const map = leaflet.map(container, { scrollWheelZoom: false });
+	const map = leaflet.map(container, { scrollWheelZoom: false, preferCanvas: true });
 	const centrePoint = leaflet.latLng(centre.latitude, centre.longitude);
 	const radiusMetres = milesToMetres(radiusMiles);
 	map.fitBounds(centrePoint.toBounds(radiusMetres * 2));
@@ -49,8 +49,7 @@ function markerFor(
 	isSelected: boolean,
 	onSelect: (key: string) => void
 ) {
-	const { standing } = pin;
-	const tone = pinTones[standingOf(standing?.stage ?? null)];
+	const tone = pinTones[standingOfPin(pin)];
 	const colour = resolveColourToken(tone.colourToken);
 	const marker = leaflet.circleMarker([pin.latitude, pin.longitude], {
 		radius: isSelected ? selectedPinRadiusPixels : pinRadiusPixels,

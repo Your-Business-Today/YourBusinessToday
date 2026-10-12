@@ -1,7 +1,10 @@
 <script lang="ts">
 	import AreaLegend from './AreaLegend.svelte';
 	import AreaMap from './AreaMap.svelte';
-	import type { AreaMap as MappedArea } from '$lib/server/clients/area/mapArea';
+	import type { AreaPin } from '$lib/server/clients/area/areaPin';
+	import type { Coordinates } from '$lib/data/distance';
+
+	type MappedArea = { centre: Coordinates & { postcode: string }; radiusMiles: number; pins: AreaPin[] };
 
 	let {
 		area,

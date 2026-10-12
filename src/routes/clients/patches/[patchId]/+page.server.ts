@@ -3,7 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { accountNameLookup } from '$lib/data/accountNames';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { getPatch } from '$lib/server/patches/getPatch';
-import { mapArea, type AreaMap } from '$lib/server/clients/area/mapArea';
+import { mapPatch, type PatchMap } from '$lib/server/patches/mapPatch';
 import { prospectFormActions } from '$lib/server/clients/prospectFormActions';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import type { Patch } from '$lib/server/patches/patchRecord';
@@ -16,8 +16,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	await requireStaff(locals);
 	const patch = await getPatch(locals.supabase, params.patchId);
 	if (patch === null) error(404, 'That patch could not be found');
-	const [ownerName, outcome] = await Promise.all([ownerNameOf(locals.supabase, patch), areaOf(locals.supabase, patch)]);
-	return { patch, ownerName, area: outcome.area, notice: outcome.notice };
+	const [ownerName, outcome] = await Promise.all([ownerNameOf(locals.supabase, patch), mapOf(locals.supabase, patch)]);
+	return { patch, ownerName, map: outcome.map, notice: outcome.notice };
 };
 
 async function ownerNameOf(supabase: SupabaseClient, patch: Patch): Promise<string> {
@@ -26,17 +26,16 @@ async function ownerNameOf(supabase: SupabaseClient, patch: Patch): Promise<stri
 	return accountNameLookup(owners)(patch.ownerAccountId);
 }
 
-type AreaOutcome = { area: AreaMap | null; notice: string | null };
+type MapOutcome = { map: PatchMap | null; notice: string | null };
 
-/** The patch's own search, drawn as the area map draws it; the services being down cost the map, never the page. */
-async function areaOf(supabase: SupabaseClient, patch: Patch): Promise<AreaOutcome> {
-	const search = { postcode: patch.centrePostcode, radiusMiles: patch.radiusMiles, sicCodes: patch.sicCodes };
+/** The register being unreadable, or its migration unrun, costs the map, never the page. */
+async function mapOf(supabase: SupabaseClient, patch: Patch): Promise<MapOutcome> {
 	try {
-		const area = await mapArea(supabase, search);
-		return { area, notice: area === null ? mapFailedMessage : null };
+		const map = await mapPatch(supabase, patch);
+		return { map, notice: map === null ? mapFailedMessage : null };
 	} catch (failure) {
 		console.error('Patch map failed', failure);
-		return { area: null, notice: mapFailedMessage };
+		return { map: null, notice: mapFailedMessage };
 	}
 }
 
