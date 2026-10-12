@@ -1,6 +1,4 @@
-import { postcodeIn } from './postcode';
-
-/** A company as Companies House names it, about to become a client row. */
+/** A company as Companies House names it, about to become a client row; an overseas registered office carries no UK postcode. */
 export type ProspectSeed = { name: string; companyNumber: string; address: string; postcode?: string };
 
 /** A Companies House company number: eight characters, letters or digits, such as 13752749 or SC123456. */
@@ -15,7 +13,5 @@ export function validateProspect(seed: ProspectSeed): string | null {
 	if (!companyNumberShape.test(seed.companyNumber)) {
 		return `${seed.companyNumber} is not a company number: Companies House numbers are ${companyNumberLength} letters or digits.`;
 	}
-	const postcode = seed.postcode ?? '';
-	if (postcode !== '' && postcodeIn(postcode) === '') return `${postcode} does not read as a postcode.`;
 	return null;
 }

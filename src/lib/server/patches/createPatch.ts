@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { cacheLocations } from '$lib/server/postcodes/postcodeLocationCache';
-import { findOutcodesWithin } from '$lib/server/postcodes/findOutcodesWithin';
+import { findOutcodesWithin, mostOutcodes } from '$lib/server/postcodes/findOutcodesWithin';
 import { lookupPostcode } from '$lib/server/postcodes/lookupPostcode';
 import { milesToMetres } from '$lib/data/mapRadii';
 import type { PatchSeed } from '$lib/data/patchRules';
@@ -9,17 +9,19 @@ import type { PostcodeLocation } from '$lib/server/postcodes/postcodeLocation';
 export const patchOutcomes = {
 	created: 'created',
 	unknownPostcode: 'unknown_postcode',
-	nameTaken: 'name_taken'
+	nameTaken: 'name_taken',
+	tooWide: 'too_wide'
 } as const;
 
 export type CreatePatchOutcome =
 	| { kind: typeof patchOutcomes.created; patchId: string }
 	| { kind: typeof patchOutcomes.unknownPostcode }
-	| { kind: typeof patchOutcomes.nameTaken };
+	| { kind: typeof patchOutcomes.nameTaken }
+	| { kind: typeof patchOutcomes.tooWide };
 
 const uniqueViolation = '23505';
 
-/** A validated seed becomes a patch with its outcodes laid out, or says why it could not. */
+/** A validated seed becomes a patch with its outcodes laid out in one transaction, or says why it could not. */
 export async function createPatch(
 	supabase: SupabaseClient,
 	seed: PatchSeed,
@@ -28,46 +30,38 @@ export async function createPatch(
 	const centre = await lookupPostcode(seed.centrePostcode);
 	if (centre === null) return { kind: patchOutcomes.unknownPostcode };
 	const outcodes = await findOutcodesWithin(centre, milesToMetres(seed.radiusMiles));
+	if (outcodes.length >= mostOutcodes) return { kind: patchOutcomes.tooWide };
 	await cacheLocations(supabase, [centre]);
-	const patchId = await insertPatch(supabase, seed, centre, ownerAccountId);
+	const patchId = await insertPatchWithOutcodes(supabase, seed, centre, ownerAccountId, [...new Set([centre.outcode, ...outcodes])]);
 	if (patchId === null) return { kind: patchOutcomes.nameTaken };
-	await insertOutcodes(supabase, patchId, [...new Set([centre.outcode, ...outcodes])]);
 	return { kind: patchOutcomes.created, patchId };
 }
 
 export function refusalFor(outcome: CreatePatchOutcome, seed: PatchSeed): string | null {
-	if (outcome.kind === patchOutcomes.unknownPostcode) {
-		return `${seed.centrePostcode} is not a postcode the Royal Mail knows — check it and try again.`;
-	}
-	if (outcome.kind === patchOutcomes.nameTaken) return `A patch called ${seed.name} already exists.`;
-	return null;
+	const refusals: Record<string, string> = {
+		[patchOutcomes.unknownPostcode]: `${seed.centrePostcode} is not a postcode the Royal Mail knows — check it and try again.`,
+		[patchOutcomes.nameTaken]: `A patch called ${seed.name} already exists.`,
+		[patchOutcomes.tooWide]: `${seed.radiusMiles} miles around ${seed.centrePostcode} covers more outcodes than can be laid out at once — choose a smaller radius.`
+	};
+	return refusals[outcome.kind] ?? null;
 }
 
-async function insertPatch(
+async function insertPatchWithOutcodes(
 	supabase: SupabaseClient,
 	seed: PatchSeed,
 	centre: PostcodeLocation,
-	ownerAccountId: string
+	ownerAccountId: string,
+	outcodes: string[]
 ): Promise<string | null> {
-	const { data, error } = await supabase
-		.from('patches')
-		.insert({
-			name: seed.name,
-			centre_postcode: centre.postcode,
-			radius_miles: seed.radiusMiles,
-			sic_codes: seed.sicCodes,
-			owner_account_id: ownerAccountId
-		})
-		.select('id')
-		.single();
+	const { data, error } = await supabase.rpc('create_patch', {
+		patch_name: seed.name,
+		patch_centre_postcode: centre.postcode,
+		patch_radius_miles: seed.radiusMiles,
+		patch_sic_codes: seed.sicCodes,
+		patch_owner: ownerAccountId,
+		patch_outcodes: outcodes
+	});
 	if (error !== null && error.code === uniqueViolation) return null;
 	if (error) throw error;
-	return data.id as string;
-}
-
-async function insertOutcodes(supabase: SupabaseClient, patchId: string, outcodes: string[]): Promise<void> {
-	const { error } = await supabase
-		.from('patch_outcodes')
-		.insert(outcodes.map((outcode) => ({ patch_id: patchId, outcode })));
-	if (error) throw error;
+	return data as string;
 }

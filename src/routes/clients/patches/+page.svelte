@@ -29,7 +29,7 @@
 	</div>
 	<FormErrorNote message={form?.message ?? null} />
 	<PatchesOverview {patches} />
-	<CreatePatchForm suggestedPostcode={data.suggestedPostcode} />
+	<CreatePatchForm suggestedPostcode={data.suggestedPostcode} nearQuery={data.nearQuery} />
 	{#if patches.length === 0}
 		<EmptyState message="No patches yet. Click the map where you work, or type a postcode above." />
 	{:else}

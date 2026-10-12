@@ -15,8 +15,9 @@ const greatBritainSouthWest: [number, number] = [49.8, -8.7];
 const greatBritainNorthEast: [number, number] = [60.9, 1.8];
 const circleOpacity = 0.3;
 const circleWeight = 2;
+const doubleClickWindowMilliseconds = 300;
 
-/** One map of Great Britain with every patch as its circle; a circle opens the patch, bare ground starts one. */
+/** One map of Great Britain with every patch as its circle; a circle opens the patch, bare ground starts one, and a double-click only zooms. */
 export async function createPatchesOverview(
 	container: HTMLElement,
 	events: OverviewEvents
@@ -26,10 +27,7 @@ export async function createPatchesOverview(
 	const map = leaflet.map(container, { scrollWheelZoom: false });
 	map.fitBounds([greatBritainSouthWest, greatBritainNorthEast]);
 	addBasemapTo(leaflet, map);
-	map.on('click', (click) => {
-		const { latlng } = click;
-		events.onPick({ latitude: latlng.lat, longitude: latlng.lng });
-	});
+	listenForPicks(map, events);
 	const patchLayer = leaflet.layerGroup().addTo(map);
 	return {
 		showPatches: (patches) => {
@@ -42,6 +40,19 @@ export async function createPatchesOverview(
 		},
 		destroy: () => map.remove()
 	};
+}
+
+/** A single click on bare ground picks a centre once the double-click window has passed; a double-click only zooms. */
+function listenForPicks(map: import('leaflet').Map, events: OverviewEvents) {
+	let pendingPick: ReturnType<typeof setTimeout> | null = null;
+	map.on('click', (click) => {
+		const { latlng } = click;
+		pendingPick = setTimeout(() => events.onPick({ latitude: latlng.lat, longitude: latlng.lng }), doubleClickWindowMilliseconds);
+	});
+	map.on('dblclick', () => {
+		if (pendingPick !== null) clearTimeout(pendingPick);
+		pendingPick = null;
+	});
 }
 
 function circleFor(

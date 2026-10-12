@@ -39,6 +39,30 @@ drop policy if exists "project managers manage patch outcodes" on public.patch_o
 create policy "project managers manage patch outcodes" on public.patch_outcodes
 	for all using (public.is_project_manager()) with check (public.is_project_manager());
 
+-- The patch and its outcodes land together or not at all.
+create or replace function public.create_patch(
+	patch_name text,
+	patch_centre_postcode text,
+	patch_radius_miles integer,
+	patch_sic_codes text[],
+	patch_owner uuid,
+	patch_outcodes text[]
+)
+returns uuid
+language plpgsql
+as $$
+declare
+	new_id uuid;
+begin
+	insert into public.patches (name, centre_postcode, radius_miles, sic_codes, owner_account_id)
+	values (patch_name, patch_centre_postcode, patch_radius_miles, patch_sic_codes, patch_owner)
+	returning id into new_id;
+	insert into public.patch_outcodes (patch_id, outcode)
+	select new_id, unnest(patch_outcodes);
+	return new_id;
+end;
+$$;
+
 commit;
 
 notify pgrst, 'reload schema';

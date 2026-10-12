@@ -5,10 +5,12 @@
 	import { inputClasses, panelClasses, selectClasses } from '$lib/components/site/formStyles';
 	import { longestPatchName } from '$lib/data/patchRules';
 
-	let { suggestedPostcode }: { suggestedPostcode: string } = $props();
+	let { suggestedPostcode, nearQuery = '' }: { suggestedPostcode: string; nearQuery?: string } = $props();
+
+	const action = $derived(nearQuery === '' ? '?/createPatch' : `?/createPatch&${nearQuery}`);
 </script>
 
-<form method="POST" action="?/createPatch" id="new-patch" class={panelClasses}>
+<form method="POST" {action} id="new-patch" class={panelClasses}>
 	<h2 class="font-display text-lg">New patch</h2>
 	<div class="grid gap-3 sm:grid-cols-[1fr_10rem_9rem_1fr_auto] sm:items-end">
 		<FormField label="Name">

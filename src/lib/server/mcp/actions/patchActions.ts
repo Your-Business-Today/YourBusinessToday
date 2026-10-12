@@ -63,7 +63,8 @@ async function savePatch(caller: McpCaller, input: Record<string, unknown>): Pro
 	});
 	const refusal = validatePatch(seed);
 	if (refusal !== null) return refusal;
-	const outcome = await createPatch(caller.supabase, seed, caller.accountId);
+	const outcome = await createPatch(caller.supabase, seed, caller.accountId).catch(() => null);
+	if (outcome === null) return 'The postcode service could not be reached just now — try again in a moment.';
 	if (outcome.kind !== patchOutcomes.created) return refusalFor(outcome, seed) ?? noSuchPatch;
 	const patch = await getPatch(caller.supabase, outcome.patchId);
 	if (patch === null) return noSuchPatch;
