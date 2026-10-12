@@ -7,13 +7,18 @@
 
 	let { premises, patchId }: { premises: Premises; patchId: string } = $props();
 
-	const rating = $derived(ratingSentence(premises));
+	const isPlace = $derived(premises.source === 'places_dataset');
+	const rating = $derived(isPlace ? confidenceSentence(premises) : ratingSentence(premises));
 
 	function ratingSentence(one: Premises): string {
 		const value = one.ratingValue === '' ? 'No rating yet' : `Rating ${one.ratingValue}`;
 		const when = one.ratingDate === null ? '' : ` on ${formatBritishDate(one.ratingDate)}`;
 		const pending = one.isNewRatingPending ? ' · new rating pending' : '';
 		return `${value}${when}${pending}`;
+	}
+
+	function confidenceSentence(one: Premises): string {
+		return one.confidence === null ? 'Overture' : `Overture, confidence ${one.confidence.toFixed(2)}`;
 	}
 </script>
 
@@ -22,6 +27,12 @@
 		<h2 class="font-display text-xl font-medium">{premises.businessName}</h2>
 		<p class="text-sm text-chalk/70">{premises.address === '' ? premises.sector : `${premises.address} · ${premises.sector}`}</p>
 		<p class="text-xs text-chalk/50">{premises.businessType === '' ? '' : `${premises.businessType} · `}{rating}</p>
+		{#if premises.website !== '' || premises.phone !== ''}
+			<p class="flex flex-wrap gap-3 text-xs text-chalk/70">
+				{#if premises.website !== ''}<a href={premises.website} target="_blank" rel="noreferrer" class="hover:text-signal">{premises.website}</a>{/if}
+				{#if premises.phone !== ''}<span>{premises.phone}</span>{/if}
+			</p>
+		{/if}
 		<a href={premises.sourceUrl} target="_blank" rel="noreferrer" class="text-xs text-chalk/50 hover:text-signal">
 			Listed by {premisesSourceLabels[premises.source]}, first seen {formatBritishDate(premises.firstSeenAt)}
 		</a>

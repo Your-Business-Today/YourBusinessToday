@@ -58,6 +58,7 @@ function pinForClient(row: RegisterRow, location: Coordinates, centre: Coordinat
 		isNonTrading: false,
 		isSighting: false,
 		isPremises: false,
+		isPlace: false,
 		statusNote: ''
 	};
 }

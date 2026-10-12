@@ -2,11 +2,11 @@ import type { ClientStage } from '$lib/data/clientLifecycle';
 import { isHub } from '$lib/data/registerRules';
 import type { AreaPin } from '$lib/server/clients/area/areaPin';
 
-export type PinStanding = ClientStage | 'unlisted' | 'hub' | 'nonTrading' | 'sighting' | 'premises' | 'inTrouble';
+export type PinStanding = ClientStage | 'unlisted' | 'hub' | 'nonTrading' | 'sighting' | 'premises' | 'place' | 'inTrouble';
 
 export type PinTone = { colourToken: string; fillOpacity: number; label: string };
 
-export const pinToneOrder: PinStanding[] = ['unlisted', 'sighting', 'premises', 'lead', 'prospect', 'client', 'dormant', 'lost', 'inTrouble', 'hub', 'nonTrading'];
+export const pinToneOrder: PinStanding[] = ['unlisted', 'sighting', 'premises', 'place', 'lead', 'prospect', 'client', 'dormant', 'lost', 'inTrouble', 'hub', 'nonTrading'];
 
 export const pinTones: Record<PinStanding, PinTone> = {
 	unlisted: { colourToken: '--color-etch', fillOpacity: 0.35, label: 'Not on the register' },
@@ -19,6 +19,7 @@ export const pinTones: Record<PinStanding, PinTone> = {
 	nonTrading: { colourToken: '--color-etch', fillOpacity: 0.12, label: 'Dormant or no accounts filed' },
 	sighting: { colourToken: '--color-signal', fillOpacity: 0.85, label: 'Sighted on the web' },
 	premises: { colourToken: '--color-daylight', fillOpacity: 0.85, label: 'Food premises (FSA)' },
+	place: { colourToken: '--color-platform', fillOpacity: 0.6, label: 'Trading place (Overture)' },
 	inTrouble: { colourToken: '--color-caution', fillOpacity: 0.95, label: 'Insolvency notice' }
 };
 
@@ -33,6 +34,7 @@ export function standingOfPin(pin: AreaPin): PinStanding {
 	if (standing !== null) return standing.stage;
 	if (pin.statusNote !== '') return 'inTrouble';
 	if (pin.isSighting) return 'sighting';
+	if (pin.isPlace) return 'place';
 	if (pin.isPremises) return 'premises';
 	if (isHub(pin)) return 'hub';
 	if (pin.isNonTrading) return 'nonTrading';

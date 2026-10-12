@@ -34,6 +34,7 @@ function sightingPin(sighting: Sighting, location: Coordinates, centre: Coordina
 		isNonTrading: false,
 		isSighting: true,
 		isPremises: false,
+		isPlace: false,
 		statusNote: ''
 	};
 }
