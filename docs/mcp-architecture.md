@@ -191,6 +191,13 @@ pages (Claude on the web, on desktop and on mobile) fetches it with `resources/r
 it in a sandbox beside the tool's answer. A host that draws none (Claude Code) shows the answer
 alone, which carries a link that does the same job.
 
+A scheduled chat draws none either. On 11 October 2026 a scheduled task run in Cowork in the
+cloud called the tool, was told a box was in the conversation, and none appeared; the same
+person's ordinary chats draw it. The server cannot tell such a chat from any other — every
+request stands alone and none says what started the chat — so the answer tells Claude instead:
+a box only in a chat the person started on the web, desktop or mobile, and in a scheduled chat
+or Claude Code no mention of a box, only the link.
+
 A host may keep a page it has fetched, by address. So the page's address ends in a mark of its
 own content (such as `…/task-upload-box/513193e0`), and a changed box is a new address the
 host has not seen. Every address under the page's home still finds the page as it is now, the
