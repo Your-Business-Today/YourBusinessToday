@@ -109,32 +109,32 @@ All code follows the conventions in [CLAUDE.md](./CLAUDE.md).
 <sub>measured 2026-10-12 · project-process kit 1.19.0</sub>
 </td></tr></table>
 
-1,817 files · backend 562 · frontend 532 · shared 196 · api 149 · tooling 110 · tests 106 · database 93 · docs 56 · infrastructure 13
+1,813 files · backend 561 · frontend 531 · shared 196 · api 147 · tooling 110 · tests 106 · database 93 · docs 56 · infrastructure 13
 
 <details>
 <summary><strong>How the 91.8% is made up</strong></summary>
 
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
-| **Standard baseline checks** | | **99.9%** | **60** | |
-| Files over the line limit | 0 in 1388 files | 100.0% | 10 | 50% of files |
+| **Standard baseline checks** | | **100.0%** | **60** | |
+| Files over the line limit | 0 in 1390 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
-| Functions over the line limit | 0 in 1778 functions | 100.0% | 8 | 25% of functions |
+| Functions over the line limit | 0 in 1780 functions | 100.0% | 8 | 25% of functions |
 | Else blocks | 0 in 2138 branches | 100.0% | 5 | 50% of branches |
-| Duplication % | 0.08 | 99.6% | 8 | 20 |
-| Explanatory comment lines | 0 in 49.22 thousand lines | 100.0% | 4 | 50 per thousand lines |
-| Inline magic values | 0 in 49.22 thousand lines | 100.0% | 4 | 20 per thousand lines |
-| Orphan components and functions | 0 in 2107 components and functions | 100.0% | 4 | 10% of components and functions |
-| Long member chain lines | 0 in 49.22 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Deeply indented lines | 0 in 49.22 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Overlong function names | 0 in 1778 functions | 100.0% | 4 | 10% of functions |
+| Duplication % | 0 | 100.0% | 8 | 20 |
+| Explanatory comment lines | 0 in 49.23 thousand lines | 100.0% | 4 | 50 per thousand lines |
+| Inline magic values | 0 in 49.23 thousand lines | 100.0% | 4 | 20 per thousand lines |
+| Orphan components and functions | 0 in 2110 components and functions | 100.0% | 4 | 10% of components and functions |
+| Long member chain lines | 0 in 49.23 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Deeply indented lines | 0 in 49.23 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Overlong function names | 0 in 1780 functions | 100.0% | 4 | 10% of functions |
 | **Design pattern file count** | | **100.0%** | **10** | |
 | Files the patterns predict but are missing | 0 in 98 predicted files | 100.0% | 10 | 50% of predicted files |
 | Entities outside their expected file count | not measured | not measured | — | 50% of entities |
 | **Prose** | | **100.0%** | **20** | |
 | Conditions with calls tangled inside calls | 0 in 2138 branches | 100.0% | 8 | 25% of branches |
 | Conditions compared to a raw literal | 0 in 2138 branches | 100.0% | 6 | 25% of branches |
-| Accessor names that want to be a property | 0 in 1778 functions | 100.0% | 6 | 10% of functions |
+| Accessor names that want to be a property | 0 in 1780 functions | 100.0% | 6 | 10% of functions |
 | **Widget adoption** | | **not measured** | **0** | |
 | Markup written by hand where a widget should be | not measured | not measured | — | 50% of widget slots |
 | **Input validation** | | **0.0%** | **8** | |
@@ -145,31 +145,27 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 </details>
 
 <details>
-<summary><strong>The repository by area: 1,817 files</strong></summary>
+<summary><strong>The repository by area: 1,813 files</strong></summary>
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| backend | 562 | 552 | 17,404 |
-| frontend | 532 | 406 | 14,616 |
+| backend | 561 | 553 | 17,409 |
+| frontend | 531 | 407 | 14,622 |
 | shared | 196 | 182 | 5,906 |
-| api | 149 | 147 | 7,125 |
+| api | 147 | 147 | 7,125 |
 | tooling | 110 | 2 | 54 |
 | tests | 106 | 99 | 4,111 |
 | database | 93 | 0 | 0 |
 | docs | 56 | 0 | 0 |
 | infrastructure | 13 | 0 | 0 |
-| **whole repository** | **1,817** | **1,388** | **49,216** |
+| **whole repository** | **1,813** | **1,390** | **49,227** |
 
 </details>
 
 <details>
-<summary><strong>The refactoring plan: 1 steps, in order</strong></summary>
+<summary><strong>The refactoring plan: 0 steps, in order</strong></summary>
 
-**Pass 5 — The sweep to zero**
-
-1. Duplication %: 0.08 to zero. Scores 99.6% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time.
-
-The whole plan, with the measured detail, is in [`tools/refactor/refactor-plan.md`](tools/refactor/refactor-plan.md).
+Nothing is left to refactor: every figure is at zero.
 
 </details>
 
