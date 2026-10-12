@@ -21,6 +21,7 @@ describe('placeUprnsInBuildings', () => {
 	it('measures the footprint and finds its centre on the ground', () => {
 		expect(house.areaSquareMetres).toBe(400);
 		expect(house.centre).toEqual([518210, 169310]);
-		expect(house.centreOnGround.latitude).toBeCloseTo(51.41, 1);
+		const { centreOnGround } = house;
+		expect(centreOnGround.latitude).toBeCloseTo(51.41, 1);
 	});
 });

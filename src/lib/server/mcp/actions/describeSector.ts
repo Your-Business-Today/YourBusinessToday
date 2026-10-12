@@ -44,10 +44,15 @@ export function describeSectorInFull(reading: SectorReading): string {
 
 function describeBuildings(buildings: BuildingReading[]): string {
 	if (buildings.length === 0) return 'None loaded for this sector yet: the buildings loader fills them.';
-	const unknown = buildings.filter((entry) => entry.knownNearby.length === 0).length;
+	const unknown = buildings.filter((entry) => isNothingKnown(entry)).length;
 	const lines = buildings.map(describeBuildingLine);
 	lines.push(`${unknown} of these have nothing known in or beside them yet.`);
 	return lines.join('\n');
+}
+
+function isNothingKnown(entry: BuildingReading): boolean {
+	const { knownNearby } = entry;
+	return knownNearby.length === 0;
 }
 
 function describeBuildingLine(entry: BuildingReading): string {
