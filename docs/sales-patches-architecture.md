@@ -11,7 +11,7 @@ not kept has one deliberate exception here: the register snapshot, kept so chang
 
 | As | I want | So that |
 | --- | --- | --- |
-| Staff | to save an area (a centre postcode, a radius, optional SIC codes) as a named patch that is mine | Kingston is a thing on the site that keeps what I do in it, and a colleague in Manchester has her own |
+| Staff | to save an area (a centre postcode, a radius, optional SIC codes) as a named patch that is mine | Kingston is a thing on the site that keeps what I do in it, and a second staff member has their own |
 | Staff | a map of the UK with every patch drawn on it, and to start a new patch by clicking where I want it | I see what we cover at a glance and choose the next area from the map |
 | Staff | the patch map drawn on a basemap we are allowed to use commercially | a second person panning it never gets us blocked |
 | Staff | every live company in the latest monthly Companies House file whose registered office is in a patch stored in our database | the patch map shows the businesses there now without the API key |
@@ -23,7 +23,7 @@ not kept has one deliberate exception here: the register snapshot, kept so chang
 | Staff | my own Claude to read a sector, search the web for the businesses trading in it and record each one it finds with the page it saw it on | I keep searching within my subscription until I am happy, and every record says where it came from |
 | Staff | to promote a sighting to a lead with its source kept, stamp a confirmed company number on it, and have my Claude know the prospecting walk from the start of every session | the good ones reach the pipeline and nothing is recorded twice |
 | Staff | everything that happens in my patches recorded as events my Claude can read in one call | a Monday-morning task sees what changed and every later source writes through the same door |
-| Staff | a feed page of what changed in my patches, mine first | I see new sightings, searched sectors and leads as they happen, and a colleague in Manchester sees hers |
+| Staff | a feed page of what changed in my patches, mine first | I see new sightings, searched sectors and leads as they happen, and each staff member sees their own |
 | Staff | the feed to show, each month, the companies new in my patch, the ones that have gone, and the ones whose status, accounts, due dates or charges changed | I know when a new target arrives or an existing one's situation changes, with no key |
 | Staff | a company flagged when a new holding company appears over an existing trading one | I can see who has just decided they need management information |
 | Staff | my own Claude, on a weekly schedule in my own claude.ai, to look at my patch for anything notable on a public page and record it with its link | a target's changed methodology reaches my feed without YBT paying for the search |

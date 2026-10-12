@@ -29,7 +29,7 @@ export const patchActions: McpAction[] = [
 		isWrite: true,
 		summary: 'save an area you work as a named patch: a centre postcode, a radius and optional SIC codes',
 		guidance:
-			'A patch is the ground one person works, so name it for the place (Kingston, Manchester). ' +
+			'A patch is the ground one person works, so name it for the place (Kingston, Guildford). ' +
 			'Its outcodes are laid out from the radius when it is saved; narrow it with SIC codes only ' +
 			'when the patch is about one trade.',
 		inputSchema: objectSchema(
