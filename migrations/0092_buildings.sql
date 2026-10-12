@@ -48,6 +48,33 @@ drop policy if exists "project managers read premises points" on public.premises
 create policy "project managers read premises points" on public.premises_points
 	for select using (public.is_project_manager());
 
+-- Per sector: how many buildings, how many addressable places, and how many have a business known in or beside them,
+-- a known business being a premises or a sighting within about thirty metres of the building's centre.
+create or replace function public.patch_building_counts(target_patch_id uuid)
+returns table (sector text, building_count bigint, place_count bigint, known_count bigint)
+language sql
+stable
+as $$
+	select building.sector,
+		count(*) as building_count,
+		coalesce(sum(building.uprn_count), 0) as place_count,
+		count(*) filter (where exists (
+			select 1 from public.premises as premises
+			where premises.latitude between building.centre_latitude - 0.00027 and building.centre_latitude + 0.00027
+				and premises.longitude between building.centre_longitude - 0.00045 and building.centre_longitude + 0.00045
+				and not premises.is_gone
+		) or exists (
+			select 1 from public.sightings as sighting
+			join public.postcode_locations as location on location.postcode = sighting.postcode
+			where sighting.address <> ''
+				and location.latitude between building.centre_latitude - 0.00027 and building.centre_latitude + 0.00027
+				and location.longitude between building.centre_longitude - 0.00045 and building.centre_longitude + 0.00045
+		)) as known_count
+	from public.buildings as building
+	where building.patch_id = target_patch_id
+	group by building.sector;
+$$;
+
 commit;
 
 notify pgrst, 'reload schema';
