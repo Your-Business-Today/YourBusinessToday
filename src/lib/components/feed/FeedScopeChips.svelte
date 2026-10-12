@@ -1,23 +1,8 @@
 <script lang="ts">
 	import { filterChipClasses } from '$lib/components/projects/filterChipClasses';
-	import { feedScopes, type FeedScope } from '$lib/data/feedEvent';
+	import type { ScopeChoice } from '$lib/data/feedScopeChoice';
 
-	let { scope }: { scope: FeedScope } = $props();
-
-	const choices: { scope: FeedScope; label: string; href: string; title: string }[] = [
-		{
-			scope: feedScopes.everything,
-			label: 'Everything',
-			href: '/projects/feed',
-			title: 'Every event on every project you are on'
-		},
-		{
-			scope: feedScopes.mine,
-			label: 'Tasks I asked for',
-			href: '/projects/feed?scope=mine',
-			title: 'Only the tasks you raised or that were raised for you'
-		}
-	];
+	let { scope, choices }: { scope: string; choices: ScopeChoice[] } = $props();
 </script>
 
 <div class="flex flex-wrap gap-2">

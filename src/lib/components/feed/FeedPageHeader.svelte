@@ -1,16 +1,22 @@
 <script lang="ts">
 	import FeedScopeChips from './FeedScopeChips.svelte';
+	import type { ScopeChoice } from '$lib/data/feedScopeChoice';
 	import LiveMarker from './LiveMarker.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { headerButtonClasses } from '$lib/components/workspace/workspaceStyles';
 	import { projectsCrumb } from '$lib/components/workspace/projectCrumbs';
-	import type { FeedScope } from '$lib/data/feedEvent';
+	import { feedScopes, type FeedScope } from '$lib/data/feedEvent';
 
 	let {
 		scope,
 		readAt,
 		isRefreshing
 	}: { scope: FeedScope; readAt: string; isRefreshing: boolean } = $props();
+
+	const choices: ScopeChoice[] = [
+		{ scope: feedScopes.everything, label: 'Everything', href: '/projects/feed', title: 'Every event on every project you are on' },
+		{ scope: feedScopes.mine, label: 'Tasks I asked for', href: '/projects/feed?scope=mine', title: 'Only the tasks you raised or that were raised for you' }
+	];
 </script>
 
 <WorkspaceHeader crumbs={[projectsCrumb]} title="Feed">
@@ -24,5 +30,5 @@
 	<p class="text-sm text-chalk/60">
 		Every move on your projects as it happens — a task raised, started, sent for review, done — newest first.
 	</p>
-	<FeedScopeChips {scope} />
+	<FeedScopeChips {scope} {choices} />
 </WorkspaceHeader>
