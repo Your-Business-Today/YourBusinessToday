@@ -1,5 +1,6 @@
 import type { Coordinates } from '$lib/data/distance';
 import type { AreaPin } from '$lib/server/clients/area/areaPin';
+import { addBasemapTo } from './basemap';
 import { pinTones, resolveColourToken, standingOf } from './areaPinTones';
 import { milesToMetres } from '$lib/data/mapRadii';
 
@@ -8,8 +9,6 @@ export type AreaMapHandle = {
 	destroy: () => void;
 };
 
-const tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-const tileAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 const pinRadiusPixels = 7;
 const selectedPinRadiusPixels = 11;
 const circleOpacity = 0.15;
@@ -25,7 +24,7 @@ export async function createAreaMap(
 	const centrePoint = leaflet.latLng(centre.latitude, centre.longitude);
 	const radiusMetres = milesToMetres(radiusMiles);
 	map.fitBounds(centrePoint.toBounds(radiusMetres * 2));
-	leaflet.tileLayer(tileUrl, { attribution: tileAttribution }).addTo(map);
+	addBasemapTo(leaflet, map);
 	leaflet
 		.circle(centrePoint, {
 			radius: radiusMetres,
