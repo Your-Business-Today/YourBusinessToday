@@ -30,7 +30,16 @@
 		administration_opened: 'border-signal/60 bg-signal/10 text-signal',
 		liquidator_appointed: 'border-signal/60 bg-signal/10 text-signal',
 		place_arrived: 'border-go/60 text-go',
-		place_removed: 'border-hairline text-chalk/50'
+		place_removed: 'border-hairline text-chalk/50',
+		company_incorporated: 'border-go/60 bg-go/10 text-go',
+		company_dissolved: 'border-hairline text-chalk/50',
+		filing_made: 'border-hairline text-chalk/70',
+		officer_changed: 'border-caution/60 text-caution',
+		office_moved: 'border-caution/60 text-caution',
+		proposal_to_strike_off: 'border-signal/60 bg-signal/10 text-signal',
+		strike_off_final: 'border-hairline text-chalk/50',
+		insolvency_opened: 'border-signal/60 bg-signal/10 text-signal',
+		indicator_changed: 'border-caution/60 text-caution'
 	};
 </script>
 

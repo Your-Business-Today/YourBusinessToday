@@ -1,12 +1,14 @@
-import { companiesHouseApiOrigin, requestCompaniesHouse } from './companiesHouseRequest';
+import { requestCompaniesHouse } from './companiesHouseRequest';
+import { searchUrlFor, type CompaniesHouseSearch } from './searchUrl';
+export type { CompaniesHouseSearch } from './searchUrl';
 import { describeRegisteredAddress, postcodeOfRegisteredAddress } from './registeredAddress';
-
-export type CompaniesHouseSearch = { sicCodes: string[]; location: string };
 
 export type CompaniesHouseCompany = {
 	companyNumber: string;
 	name: string;
 	incorporatedOn: string;
+	dissolvedOn: string;
+	companyStatus: string;
 	address: string;
 	postcode: string;
 	sicCodes: string[];
@@ -14,8 +16,6 @@ export type CompaniesHouseCompany = {
 
 export type CompanySearchPage = { companies: CompaniesHouseCompany[]; totalHits: number };
 
-const advancedSearchPath = '/advanced-search/companies';
-const activeCompanyStatus = 'active';
 const longestResultPage = 50;
 
 export function readCompaniesHouseSearch(searchParams: URLSearchParams): CompaniesHouseSearch | null {
@@ -48,20 +48,13 @@ export function parseCompanySearchPage(body: Record<string, unknown>): CompanySe
 	return { companies: items.map(parseCompany), totalHits: Number(body.hits ?? items.length) };
 }
 
-function searchUrlFor(search: CompaniesHouseSearch, pageSize: number): URL {
-	const url = new URL(advancedSearchPath, companiesHouseApiOrigin);
-	for (const code of search.sicCodes) url.searchParams.append('sic_codes', code);
-	if (search.location !== '') url.searchParams.set('location', search.location);
-	url.searchParams.set('company_status', activeCompanyStatus);
-	url.searchParams.set('size', String(pageSize));
-	return url;
-}
-
 function parseCompany(item: Record<string, unknown>): CompaniesHouseCompany {
 	return {
 		companyNumber: String(item.company_number ?? ''),
 		name: String(item.company_name ?? ''),
 		incorporatedOn: String(item.date_of_incorporation ?? ''),
+		dissolvedOn: String(item.date_of_cessation ?? ''),
+		companyStatus: String(item.company_status ?? ''),
 		address: describeRegisteredAddress(item.registered_office_address),
 		postcode: postcodeOfRegisteredAddress(item.registered_office_address),
 		sicCodes: Array.isArray(item.sic_codes) ? item.sic_codes.map(String) : []

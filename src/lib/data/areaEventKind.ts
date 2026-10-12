@@ -25,7 +25,16 @@ export type AreaEventKind =
 	| 'administration_opened'
 	| 'liquidator_appointed'
 	| 'place_arrived'
-	| 'place_removed';
+	| 'place_removed'
+	| 'company_incorporated'
+	| 'company_dissolved'
+	| 'filing_made'
+	| 'officer_changed'
+	| 'office_moved'
+	| 'proposal_to_strike_off'
+	| 'strike_off_final'
+	| 'insolvency_opened'
+	| 'indicator_changed';
 
 export const areaEventKinds = {
 	sectorClaimed: 'sector_claimed',
@@ -53,38 +62,14 @@ export const areaEventKinds = {
 	administrationOpened: 'administration_opened',
 	liquidatorAppointed: 'liquidator_appointed',
 	placeArrived: 'place_arrived',
-	placeRemoved: 'place_removed'
+	placeRemoved: 'place_removed',
+	companyIncorporated: 'company_incorporated',
+	companyDissolved: 'company_dissolved',
+	filingMade: 'filing_made',
+	officerChanged: 'officer_changed',
+	officeMoved: 'office_moved',
+	proposalToStrikeOff: 'proposal_to_strike_off',
+	strikeOffFinal: 'strike_off_final',
+	insolvencyOpened: 'insolvency_opened',
+	indicatorChanged: 'indicator_changed'
 } as const;
-
-export const areaEventKindOrder: AreaEventKind[] = [
-	areaEventKinds.sectorClaimed,
-	areaEventKinds.sectorSearched,
-	areaEventKinds.sightingRecorded,
-	areaEventKinds.sightingBecameLead,
-	areaEventKinds.leadAddedFromRegister,
-	areaEventKinds.companyArrived,
-	areaEventKinds.companyMovedIn,
-	areaEventKinds.companyLeft,
-	areaEventKinds.statusChanged,
-	areaEventKinds.accountsCategoryChanged,
-	areaEventKinds.accountsOverdue,
-	areaEventKinds.chargeRegistered,
-	areaEventKinds.holdingCompanyOverTrading,
-	areaEventKinds.observationRecorded,
-	areaEventKinds.premisesOpened,
-	areaEventKinds.premisesReinspected,
-	areaEventKinds.premisesClosed,
-	areaEventKinds.premisesChangedHands,
-	areaEventKinds.leadAddedFromPremises,
-	areaEventKinds.accountsFiled,
-	areaEventKinds.figuresRead,
-	areaEventKinds.windingUpPetitioned,
-	areaEventKinds.administrationOpened,
-	areaEventKinds.liquidatorAppointed,
-	areaEventKinds.placeArrived,
-	areaEventKinds.placeRemoved
-];
-
-export function parseAreaEventKind(value: unknown): AreaEventKind | null {
-	return areaEventKindOrder.find((kind) => kind === value) ?? null;
-}

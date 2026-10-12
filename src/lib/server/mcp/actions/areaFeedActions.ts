@@ -2,9 +2,11 @@ import { areaEventSentence, areaFeedScopes, parseAreaFeedScope } from '$lib/data
 import { formatBritishDateTime } from '$lib/data/britishDate';
 import { getFeedForPatches } from '$lib/server/areaEvents/getFeedForPatches';
 import { listPatches } from '$lib/server/patches/listPatches';
-import { parseAreaEventKind, areaEventKindOrder } from '$lib/data/areaEventKind';
+import { parseAreaEventKind, areaEventKindOrder } from '$lib/data/areaEventKindOrder';
+import type { AreaEventKind } from '$lib/data/areaEventKind';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { validateFeedSince } from '$lib/data/areaFeedChoices';
+import { filingFeedKinds, filingsGroup } from '$lib/data/filingFeedKinds';
 import type { AreaEvent } from '$lib/data/areaEvent';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -23,7 +25,7 @@ export const areaFeedActions: McpAction[] = [
 		inputSchema: objectSchema({
 			patchId: textField('One patch to read — leave out for the patches you work, or every patch when you work none'),
 			scope: textField('"everything" for every patch; leave out for your own'),
-			kind: textField(`One kind of event: ${areaEventKindOrder.join(', ')}`),
+			kind: textField(`One kind of event: ${areaEventKindOrder.join(', ')}; or ${filingsGroup} for everything Companies House's records say`),
 			since: textField('Only events from this date, as YYYY-MM-DD')
 		}),
 		run: async (caller, input) => readFeed(caller, input)
@@ -37,11 +39,17 @@ async function readFeed(caller: McpCaller, input: Record<string, unknown>): Prom
 	const patches = patchesInView(await listPatches(caller.supabase), caller, input);
 	const events = await getFeedForPatches(caller.supabase, {
 		outcodes: patches.flatMap((patch) => patch.outcodes),
-		kind: parseAreaEventKind(readOptionalText(input, 'kind')),
+		kinds: kindsAsked(readOptionalText(input, 'kind')),
 		since
 	});
 	if (events.length === 0) return 'Nothing has happened on this ground yet.';
 	return events.map(feedLine).join('\n');
+}
+
+function kindsAsked(kind: string | null): AreaEventKind[] | null {
+	if (kind === filingsGroup) return filingFeedKinds;
+	const one = parseAreaEventKind(kind);
+	return one === null ? null : [one];
 }
 
 function patchesInView(patches: Patch[], caller: McpCaller, input: Record<string, unknown>): Patch[] {

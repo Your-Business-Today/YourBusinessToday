@@ -14,6 +14,7 @@ export type AreaEventSeed = {
 	detail?: string;
 	sourceUrl?: string;
 	sourceKey?: string;
+	happenedAt?: string | null;
 };
 
 /** The one door every area event goes through: the database's own function, which refuses anyone but staff. */
@@ -29,6 +30,7 @@ export async function recordAreaEvent(supabase: SupabaseClient, seed: AreaEventS
 		event_detail: seed.detail ?? '',
 		event_source_url: seed.sourceUrl ?? '',
 		event_source_key: seed.sourceKey ?? '',
+		event_happened_at: seed.happenedAt ?? null,
 		event_actor: seed.actorAccountId
 	});
 	if (error) throw error;

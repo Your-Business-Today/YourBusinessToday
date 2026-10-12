@@ -73,6 +73,7 @@
 				sightings={data.sightings}
 				premises={map.premises}
 				figures={map.figuresByCompanyNumber}
+				standings={map.standingByCompanyNumber}
 				buildingCounts={data.buildingCounts}
 				accountNames={data.accountNames}
 				{selectedKey}

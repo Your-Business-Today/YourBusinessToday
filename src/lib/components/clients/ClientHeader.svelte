@@ -5,7 +5,7 @@
 	import { leadSourceLabels } from '$lib/data/leadSources';
 	import type { Client } from '$lib/server/clients/clientRecord';
 
-	let { client, parent, figures = null }: { client: Client; parent: Client | null; figures?: FiledFigures | null } = $props();
+	let { client, parent, figures = null, standing = '' }: { client: Client; parent: Client | null; figures?: FiledFigures | null; standing?: string } = $props();
 </script>
 
 <div class="flex flex-col gap-2">
@@ -20,7 +20,9 @@
 			· <a href={client.website} class="hover:text-signal">{client.website}</a>
 		{/if}
 	</p>
-	{#if figures !== null}
+	{#if standing !== ''}
+		<p class="text-sm text-chalk/60">{standing}</p>
+	{:else if figures !== null}
 		<a href={figures.sourceUrl} target="_blank" rel="noreferrer" class="text-sm text-chalk/60 hover:text-signal">{describeFiledFigures(figures)}</a>
 	{/if}
 </div>

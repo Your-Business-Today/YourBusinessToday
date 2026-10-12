@@ -6,6 +6,7 @@ import { getEventsForClient } from '$lib/server/clients/getEventsForClient';
 import { getPeopleForClient } from '$lib/server/clients/getPeopleForClient';
 import { getProjectsForClient } from '$lib/server/clients/getProjectsForClient';
 import { getRegisterCompany } from '$lib/server/register/getRegisterCompany';
+import { standingLine } from '$lib/data/standingLine';
 import { getGroupParents } from '$lib/server/clients/getGroupParents';
 import { getSupportTasksForClient } from '$lib/server/support/getOpenSupportTasks';
 import { getUnassignedProjects } from '$lib/server/projects/getUnassignedProjects';
@@ -38,7 +39,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		]);
 	const canImportOfficers = hasCompanyNumber(client) && isCompaniesHouseConfigured();
 	const figures = registerCompany?.figures ?? null;
-	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, canImportOfficers };
+	const standing = registerCompany === null ? '' : standingLine(registerCompany);
+	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, standing, canImportOfficers };
 };
 
 export const actions: Actions = {

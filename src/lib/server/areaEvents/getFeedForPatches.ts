@@ -8,7 +8,7 @@ import type { AreaEventKind } from '$lib/data/areaEventKind';
 export const areaFeedPageSize = 100;
 
 /** Which ground, and how narrowed: the outcodes of the patches in view, one kind, and a date to start from. */
-export type AreaFeedRequest = { outcodes: string[]; kind: AreaEventKind | null; since: string | null };
+export type AreaFeedRequest = { outcodes: string[]; kinds: AreaEventKind[] | null; since: string | null };
 
 /** The newest events across the outcodes given, with the names of who made each. */
 export async function getFeedForPatches(supabase: SupabaseClient, request: AreaFeedRequest): Promise<AreaEvent[]> {
@@ -22,7 +22,7 @@ export async function getFeedForPatches(supabase: SupabaseClient, request: AreaF
 
 async function readRows(supabase: SupabaseClient, request: AreaFeedRequest): Promise<AreaEvent[]> {
 	let query = supabase.from('area_events').select(areaEventColumns).in('outcode', [...new Set(request.outcodes)]);
-	if (request.kind !== null) query = query.eq('kind', request.kind);
+	if (request.kinds !== null) query = query.in('kind', request.kinds);
 	if (request.since !== null) query = query.gte('created_at', request.since);
 	const { data, error } = await query.order('created_at', { ascending: false }).limit(areaFeedPageSize);
 	if (error) throw error;

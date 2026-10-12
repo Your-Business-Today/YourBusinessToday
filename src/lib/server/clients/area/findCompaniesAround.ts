@@ -1,3 +1,4 @@
+import { inBatches } from '$lib/data/inBatches';
 import {
 	searchCompaniesHousePage,
 	type CompaniesHouseCompany
@@ -21,12 +22,4 @@ export async function findCompaniesAround(outcodes: string[], sicCodes: string[]
 		}
 	}
 	return { companies: [...byNumber.values()], totalHits };
-}
-
-function inBatches<Item>(items: Item[], batchSize: number): Item[][] {
-	const batches: Item[][] = [];
-	for (let start = 0; start < items.length; start += batchSize) {
-		batches.push(items.slice(start, start + batchSize));
-	}
-	return batches;
 }

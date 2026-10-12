@@ -1,0 +1,51 @@
+{
+	"total_count": 5,
+	"items": [
+		{
+			"transaction_id": "MzQ1Njc4OTAxMmFkaXF6a2N4",
+			"date": "2026-10-03",
+			"type": "AA",
+			"category": "accounts",
+			"description": "accounts-with-accounts-type-micro-entity",
+			"description_values": { "made_up_date": "2026-03-31" },
+			"links": { "self": "/company/12345678/filing-history/MzQ1Njc4OTAxMmFkaXF6a2N4" }
+		},
+		{
+			"transaction_id": "MzQ1Njc4OTAxMmFkaXF6a2N5",
+			"date": "2026-09-20",
+			"type": "CS01",
+			"category": "confirmation-statement",
+			"description": "confirmation-statement-with-no-updates",
+			"description_values": { "made_up_date": "2026-09-15" }
+		},
+		{
+			"transaction_id": "MzQ1Njc4OTAxMmFkaXF6a2N6",
+			"date": "2026-08-02",
+			"type": "AP01",
+			"category": "officers",
+			"description": "appoint-person-director-company-with-name-date",
+			"description_values": { "officer_name": "Jane Smith", "appointment_date": "2026-08-01" }
+		},
+		{
+			"transaction_id": "MzQ1Njc4OTAxMmFkaXF6a2N7",
+			"date": "2026-07-14",
+			"type": "AD01",
+			"category": "address",
+			"description": "change-registered-office-address-company-with-date-old-address-new-address",
+			"description_values": { "old_address": "1 Old Street", "new_address": "12 Eden Street, Kingston upon Thames, KT1 1BB" }
+		},
+		{
+			"transaction_id": "MzQ1Njc4OTAxMmFkaXF6a2N8",
+			"date": "2026-06-30",
+			"type": "GAZ1",
+			"category": "gazette",
+			"description": "gazette-notice-voluntary",
+			"description_values": {}
+		},
+		{
+			"date": "2026-06-01",
+			"type": "MISC",
+			"description": "legacy"
+		}
+	]
+}

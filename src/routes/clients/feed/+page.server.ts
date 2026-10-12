@@ -2,7 +2,7 @@ import { areaFeedDependency } from '$lib/data/areaFeedRefresh';
 import { areaFeedScopes } from '$lib/data/areaEvent';
 import { getFeedForPatches } from '$lib/server/areaEvents/getFeedForPatches';
 import { listPatches } from '$lib/server/patches/listPatches';
-import { readAreaFeedView, type AreaFeedView } from '$lib/data/areaFeedChoices';
+import { kindsInView, readAreaFeedView, type AreaFeedView } from '$lib/data/areaFeedChoices';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import type { Patch } from '$lib/server/patches/patchRecord';
 import type { PageServerLoad } from './$types';
@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ locals, url, depends }) => {
 	const patches = await listPatches(locals.supabase);
 	const inView = patchesInView(patches, view, user.id);
 	const outcodes = inView.flatMap((patch) => patch.outcodes);
-	const events = await getFeedForPatches(locals.supabase, { outcodes, kind: view.kind, since: view.since });
+	const events = await getFeedForPatches(locals.supabase, { outcodes, kinds: kindsInView(view), since: view.since });
 	return { events, view, patches: patches.map((patch) => ({ id: patch.id, name: patch.name })), readAt: new Date().toISOString() };
 };
 

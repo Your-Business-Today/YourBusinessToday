@@ -25,6 +25,14 @@
 		{
 			"path": "/api/watch/gazette_notices",
 			"schedule": "30 6 * * *"
+		},
+		{
+			"path": "/api/watch/register",
+			"schedule": "40 6 * * *"
+		},
+		{
+			"path": "/api/watch/filings",
+			"schedule": "0 7 * * 0"
 		}
 	]
 }

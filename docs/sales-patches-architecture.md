@@ -163,6 +163,17 @@ the patch's rows whole. The map draws them at street zoom, green where a premise
 sighting stands within thirty metres, chalk where nothing is known yet; registered offices are
 listed apart with no tenancy claimed.
 
+**The keyed watchers** — once `COMPANIES_HOUSE_API_KEY` exists, the `register` source asks the
+advanced search outcode by outcode for the companies incorporated, dissolved or in trouble since
+the last day checked and writes what an answer carries through `upsert_watched_companies`, which
+leaves the accounts columns the monthly file fills alone; the `filings` source reads the filing
+history and profile of the companies longest unchecked, a page a week, keeps the filings in
+`company_filings`, tells the feed the new ones as the kind each is (`filingKinds.ts` maps the
+register's description ids), and the standing flags on the register row. Every keyed call waits
+for the window the last answer named (`rateBudget.ts`). Without the key each source says so and
+does nothing. `standingLine.ts` reads the accounts, the figures, the flags and the notice as one
+sentence on every company panel.
+
 The centre is geocoded into `postcode_locations` as the patch is saved, so the overview map
 costs no lookup. Every limit is stated in `src/lib/data/patchRules.ts` and read by the form,
 the form action and the connector action; `validatePatch` refuses rather than repairs.
@@ -185,6 +196,8 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `sweepFoodHygiene`, `sweepAccountsFiled`, `sweepGazetteNotices` | the keyless sources, nightly |
 | `loadBuildingsForPatch`, `loadOverturePlacesForPatch` | the buildings and the trading places, by hand |
 | `addPremisesAsLead` | a premises reaches the register |
+| `watchRegister`, `watchOutcode` | the daily Companies House watch, keyed |
+| `sweepFilings`, `sweepCompanyFilings` | the weekly filings sweep, keyed |
 
 | Query | Story it serves |
 | --- | --- |
@@ -200,12 +213,14 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `listPremisesForPatch`, `pinsForPremises` | the premises, drawn at their real addresses |
 | `listBuildingsInBounds`, `readSectorBuildings` | the footprints in view, and a sector's largest |
 | `readCompanyInPatch` | everything known about one company |
+| `getFilingHistory`, `getCompanyProfile`, `listFilingsForCompany` | a company's filings, live or stored |
 
 The connector's new `patches` area carries `list_patches`, `create_patch`, `read_patch`,
 `read_patch_companies`, `add_patch_company_as_lead`, `list_patch_sectors`, `list_unsearched_sectors`,
 `read_sector`, `mark_sector_searched`, `claim_sector`, `release_sector`, `hand_sector_to`,
 `record_sighting`, `list_sightings`, `add_sighting_as_lead`, `match_sighting_to_register`,
 `read_patch_feed`, `read_patch_brief`, `record_patch_observation`, `list_patch_premises`,
-`add_premises_as_lead`, `read_patch_company` and, for admins, `geocode_register_postcodes`;
+`add_premises_as_lead`, `read_patch_company`, `read_company_filings` and, for admins,
+`geocode_register_postcodes` and `run_patch_watch`;
 the map tiles come from `basemap.ts`: Ordnance Survey's Light style on the free OpenData plan
 when `PUBLIC_OS_MAPS_API_KEY` is set, OpenStreetMap only as the fallback.
