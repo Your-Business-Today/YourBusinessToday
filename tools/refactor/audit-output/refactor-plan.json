@@ -1,17 +1,6 @@
 {
   "score": 91.8,
-  "steps": [
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Inline magic values: 2 to zero",
-      "detail": "Scores 99.8% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
-    },
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Duplication %: 0.03 to zero",
-      "detail": "Scores 99.9% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time."
-    }
-  ],
+  "steps": [],
   "targets": [],
   "designPatterns": {
     "name": "designPatterns",
@@ -59,7 +48,7 @@
         "model": 5,
         "name": 6,
         "names": 5,
-        "note": 5,
+        "note": 6,
         "organisation": 10,
         "panel": 18,
         "password": 5,
