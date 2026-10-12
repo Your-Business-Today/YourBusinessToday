@@ -8,6 +8,7 @@
 
 	const heartbeat = $derived(lastRunSentence('Heartbeat', 'Watchers have not run yet', watchers.heartbeatAt));
 	const foodHygiene = $derived(lastRunSentence('Food premises swept', 'Food premises not swept yet', watchers.foodHygieneAt));
+	const register = $derived(lastRunSentence('Register: live, last checked', 'Register: monthly file only', watchers.registerAt));
 
 	const { sicCodes, outcodes } = $derived(patch);
 	const reach = $derived(`${patch.radiusMiles} mile${patch.radiusMiles === 1 ? '' : 's'} around ${patch.centrePostcode}`);
@@ -22,7 +23,7 @@
 		<a href={`/clients/feed?patch=${patch.id}`} class="hover:text-signal">What changed here</a>
 	</p>
 	<p class="text-chalk/70">{reach} · {trades} · worked by {ownerName}</p>
-	<p class="text-xs text-chalk/50">{heartbeat} · {foodHygiene}</p>
+	<p class="text-xs text-chalk/50">{heartbeat} · {foodHygiene} · {register}</p>
 	<ul class="flex flex-wrap gap-2">
 		{#each outcodes as outcode (outcode)}
 			<li class="rounded-full border border-hairline px-3 py-0.5 text-xs text-chalk/70">{outcode}</li>

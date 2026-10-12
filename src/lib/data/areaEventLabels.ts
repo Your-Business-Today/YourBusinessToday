@@ -27,5 +27,7 @@ export const areaEventLabels: Record<AreaEventKind, string> = {
 	administration_opened: 'Administration',
 	liquidator_appointed: 'Liquidator',
 	place_arrived: 'Place',
-	place_removed: 'Place gone'
+	place_removed: 'Place gone',
+	company_incorporated: 'Incorporated',
+	company_dissolved: 'Dissolved'
 };

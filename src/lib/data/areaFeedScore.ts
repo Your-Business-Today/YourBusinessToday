@@ -11,7 +11,7 @@ export function scoreAreaFeedToday(events: AreaEvent[], now: Date = new Date()):
 		searchedCount: countOf(areaEventKinds.sectorSearched),
 		sightedCount: countOf(areaEventKinds.sightingRecorded),
 		leadCount: countOf(areaEventKinds.sightingBecameLead, areaEventKinds.leadAddedFromRegister, areaEventKinds.leadAddedFromPremises),
-		arrivedCount: countOf(areaEventKinds.companyArrived, areaEventKinds.companyMovedIn)
+		arrivedCount: countOf(areaEventKinds.companyArrived, areaEventKinds.companyMovedIn, areaEventKinds.companyIncorporated)
 	};
 }
 

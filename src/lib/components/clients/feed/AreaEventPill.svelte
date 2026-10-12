@@ -30,7 +30,9 @@
 		administration_opened: 'border-signal/60 bg-signal/10 text-signal',
 		liquidator_appointed: 'border-signal/60 bg-signal/10 text-signal',
 		place_arrived: 'border-go/60 text-go',
-		place_removed: 'border-hairline text-chalk/50'
+		place_removed: 'border-hairline text-chalk/50',
+		company_incorporated: 'border-go/60 bg-go/10 text-go',
+		company_dissolved: 'border-hairline text-chalk/50'
 	};
 </script>
 

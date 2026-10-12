@@ -30,5 +30,7 @@ export const areaEventSentences: Record<AreaEventKind, Sentence> = {
 	[areaEventKinds.administrationOpened]: (who, event) => `${who} published ${event.detail}`,
 	[areaEventKinds.liquidatorAppointed]: (who, event) => `${who} published ${event.detail}`,
 	[areaEventKinds.placeArrived]: (who, event) => `${who} lists ${event.detail} in ${event.sector}`,
-	[areaEventKinds.placeRemoved]: (who, event) => `${who} removed ${event.detail}`
+	[areaEventKinds.placeRemoved]: (who, event) => `${who} removed ${event.detail}`,
+	[areaEventKinds.companyIncorporated]: (who, event) => `${who} registered ${event.detail} in ${event.sector}`,
+	[areaEventKinds.companyDissolved]: (who, event) => `${who} dissolved ${event.detail}`
 };

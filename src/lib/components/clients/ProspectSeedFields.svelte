@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { CompaniesHouseCompany } from '$lib/server/companiesHouse/searchCompaniesHouse';
+	import type { ProspectSeed } from '$lib/data/prospectRules';
 
-	let { company }: { company: CompaniesHouseCompany } = $props();
+	let { company }: { company: ProspectSeed } = $props();
 </script>
 
 <input type="hidden" name="name" value={company.name} />

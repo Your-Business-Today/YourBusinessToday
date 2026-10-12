@@ -7,6 +7,8 @@ export type CompaniesHouseCompany = {
 	companyNumber: string;
 	name: string;
 	incorporatedOn: string;
+	dissolvedOn: string;
+	companyStatus: string;
 	address: string;
 	postcode: string;
 	sicCodes: string[];
@@ -51,6 +53,8 @@ function parseCompany(item: Record<string, unknown>): CompaniesHouseCompany {
 		companyNumber: String(item.company_number ?? ''),
 		name: String(item.company_name ?? ''),
 		incorporatedOn: String(item.date_of_incorporation ?? ''),
+		dissolvedOn: String(item.date_of_cessation ?? ''),
+		companyStatus: String(item.company_status ?? ''),
 		address: describeRegisteredAddress(item.registered_office_address),
 		postcode: postcodeOfRegisteredAddress(item.registered_office_address),
 		sicCodes: Array.isArray(item.sic_codes) ? item.sic_codes.map(String) : []
