@@ -1,4 +1,4 @@
-import { parseAreaEventKind } from '$lib/data/areaEventKind';
+import { parseAreaEventKind } from '$lib/data/areaEventKindOrder';
 import type { AreaEvent } from '$lib/data/areaEvent';
 
 export const areaEventColumns =

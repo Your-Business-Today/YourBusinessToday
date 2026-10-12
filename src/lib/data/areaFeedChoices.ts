@@ -1,4 +1,5 @@
-import { areaEventKindOrder, parseAreaEventKind, type AreaEventKind } from './areaEventKind';
+import { type AreaEventKind } from './areaEventKind';
+import { areaEventKindOrder, parseAreaEventKind } from './areaEventKindOrder';
 import { areaEventLabels } from './areaEventLabels';
 import { areaFeedScopes, parseAreaFeedScope, type AreaFeedScope } from './areaEvent';
 import type { ScopeChoice } from './feedScopeChoice';

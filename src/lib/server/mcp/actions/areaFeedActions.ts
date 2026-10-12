@@ -2,7 +2,7 @@ import { areaEventSentence, areaFeedScopes, parseAreaFeedScope } from '$lib/data
 import { formatBritishDateTime } from '$lib/data/britishDate';
 import { getFeedForPatches } from '$lib/server/areaEvents/getFeedForPatches';
 import { listPatches } from '$lib/server/patches/listPatches';
-import { parseAreaEventKind, areaEventKindOrder } from '$lib/data/areaEventKind';
+import { parseAreaEventKind, areaEventKindOrder } from '$lib/data/areaEventKindOrder';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { validateFeedSince } from '$lib/data/areaFeedChoices';
 import type { AreaEvent } from '$lib/data/areaEvent';

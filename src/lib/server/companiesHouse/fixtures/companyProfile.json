@@ -1,0 +1,11 @@
+{
+	"company_number": "12345678",
+	"company_name": "KINGSTON PRINT LIMITED",
+	"company_status": "active",
+	"company_status_detail": "active-proposal-to-strike-off",
+	"accounts": { "overdue": false, "last_accounts": { "type": "micro-entity", "made_up_to": "2026-03-31" } },
+	"confirmation_statement": { "overdue": true },
+	"has_charges": true,
+	"has_insolvency_history": false,
+	"links": { "self": "/company/12345678", "charges": "/company/12345678/charges" }
+}

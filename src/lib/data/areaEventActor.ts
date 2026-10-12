@@ -33,7 +33,17 @@ const noticeKinds: AreaEventKind[] = [areaEventKinds.windingUpPetitioned, areaEv
 
 const placeKinds: AreaEventKind[] = [areaEventKinds.placeArrived, areaEventKinds.placeRemoved];
 
-const liveRegisterKinds: AreaEventKind[] = [areaEventKinds.companyIncorporated, areaEventKinds.companyDissolved];
+const liveRegisterKinds: AreaEventKind[] = [
+	areaEventKinds.companyIncorporated,
+	areaEventKinds.companyDissolved,
+	areaEventKinds.filingMade,
+	areaEventKinds.officerChanged,
+	areaEventKinds.officeMoved,
+	areaEventKinds.proposalToStrikeOff,
+	areaEventKinds.strikeOffFinal,
+	areaEventKinds.insolvencyOpened,
+	areaEventKinds.indicatorChanged
+];
 
 /** Who did it, or what: a person by name, or the source the event came from. */
 export function areaEventActorName(event: AreaEvent): string {
