@@ -11,7 +11,7 @@ import { validatePlace } from '$lib/data/placeRules';
 const placesSql = `
 	select 'abc-1' as id,
 		{'primary': 'Kingston Osteopaths', 'common': null} as names,
-		{'primary': 'osteopath', 'alternate': ['health']} as categories,
+		{'primary': 'osteopath', 'alternate': ['health']} as taxonomy,
 		['https://kingston-osteopaths.example'] as websites,
 		['+44 20 8000 0000'] as phones,
 		0.86 as confidence,

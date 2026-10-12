@@ -6,9 +6,10 @@ import { openParquetReader } from '$lib/server/places/duckDb';
 /**
  * Loads the trading places of every patch, or one patch by name, from one Overture Maps release.
  *
- *   PUBLIC_SUPABASE_URL=… SUPABASE_SECRET_KEY=… node scripts/places/load-overture-places.mjs <release, such as 2026-09-24.0> [patch name]
+ *   PUBLIC_SUPABASE_URL=… SUPABASE_SECRET_KEY=… node scripts/places/load-overture-places.mjs <release, such as 2026-09-23.1> [patch name]
  *
- * The release name is the folder under s3://overturemaps-us-west-2/release/; releases are kept for sixty days, their changelogs for good.
+ * The release name is the folder under s3://overturemaps-us-west-2/release/, printed on docs.overturemaps.org/release-calendar;
+ * releases are kept for sixty days, their changelogs for good.
  */
 const { argv, env } = process;
 const [release, patchName] = argv.slice(2);

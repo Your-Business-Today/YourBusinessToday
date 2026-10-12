@@ -12,12 +12,13 @@ export function changelogPathFor(release: string): string {
 	return `${overtureBucket}/changelog/${release}/theme=places/type=place/*`;
 }
 
-/** Every place in the box with the columns the premises row takes; the point is read from the bbox, so no spatial extension is needed. */
+/** Every place in the box with the columns the premises row takes; the point is read from the bbox, so no spatial extension is needed.
+ * The category is the taxonomy's primary entry: the September 2026 release removed the older categories column. */
 export function placesInBoundsQuery(parquetPath: string, bounds: MapBounds): string {
 	return [
 		'select id,',
 		'  names.primary as name,',
-		'  categories.primary as category,',
+		'  taxonomy.primary as category,',
 		'  list_extract(websites, 1) as website,',
 		'  list_extract(phones, 1) as phone,',
 		'  confidence,',
