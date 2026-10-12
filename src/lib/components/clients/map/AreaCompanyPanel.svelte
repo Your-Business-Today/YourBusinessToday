@@ -12,13 +12,14 @@
 	let {
 		pin,
 		figures = null,
+		standing = '',
 		addLeadAction,
 		addWithDirectorsAction,
 		patchId = ''
-	}: { pin: AreaPin | null; figures?: FiledFigures | null; addLeadAction: string; addWithDirectorsAction: string; patchId?: string } = $props();
+	}: { pin: AreaPin | null; figures?: FiledFigures | null; standing?: string; addLeadAction: string; addWithDirectorsAction: string; patchId?: string } = $props();
 
 	const facts = $derived(pin === null ? [] : factsAbout(pin));
-	const standing = $derived(pin?.standing ?? null);
+	const registerStanding = $derived(pin?.standing ?? null);
 	const canBecomeLead = $derived(pin !== null && !isHub(pin) && pin.companyNumber !== '');
 
 	function factsAbout(company: AreaPin): string[] {
@@ -52,12 +53,14 @@
 					<li>{fact}</li>
 				{/each}
 			</ul>
-			{#if figures !== null}
+			{#if standing !== ''}
+				<p class="text-xs text-chalk/70">{standing}</p>
+			{:else if figures !== null}
 				<a href={figures.sourceUrl} target="_blank" rel="noreferrer" class="text-xs text-chalk/70 hover:text-signal">{describeFiledFigures(figures)}</a>
 			{/if}
 		</div>
-		{#if standing !== null}
-			<RegisterStandingLink {standing} />
+		{#if registerStanding !== null}
+			<RegisterStandingLink standing={registerStanding} />
 		{:else if canBecomeLead}
 			<div class="flex flex-wrap gap-2">
 				<form method="POST" action={addLeadAction}>

@@ -1,5 +1,7 @@
 import type { Coordinates } from '$lib/data/distance';
 import type { FiledFigures } from '$lib/data/filedFigures';
+import { indicatorsOf } from './companyToCheckRecord';
+import type { CompanyIndicators } from '$lib/data/companyIndicators';
 
 /** A company as the monthly Companies House file describes it, kept by number. */
 export type RegisterCompany = {
@@ -22,6 +24,8 @@ export type RegisterCompany = {
 	sourceUrl: string;
 	figures: FiledFigures | null;
 	statusNote: string;
+	indicators: CompanyIndicators | null;
+	filingsCheckedAt: string | null;
 };
 
 export type LocatedRegisterCompany = RegisterCompany & Coordinates;
@@ -46,7 +50,9 @@ export function parseRegisterCompanyRecord(row: Record<string, unknown>): Regist
 		isGone: Boolean(row.is_gone),
 		sourceUrl: (row.source_url ?? '') as string,
 		figures: figuresOf(row),
-		statusNote: (row.status_note ?? '') as string
+		statusNote: (row.status_note ?? '') as string,
+		indicators: row.filings_checked_at === null || row.filings_checked_at === undefined ? null : indicatorsOf(row),
+		filingsCheckedAt: (row.filings_checked_at ?? null) as string | null
 	};
 }
 

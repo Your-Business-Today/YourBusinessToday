@@ -26,6 +26,7 @@
 		sightings,
 		premises,
 		figures,
+		standings,
 		buildingCounts,
 		accountNames,
 		selectedKey,
@@ -41,6 +42,7 @@
 		sightings: Sighting[];
 		premises: Premises[];
 		figures: Record<string, FiledFigures>;
+		standings: Record<string, string>;
 		buildingCounts: Record<string, BuildingCounts>;
 		accountNames: Record<string, string>;
 		selectedKey: string | null;
@@ -51,6 +53,7 @@
 
 	const selectedPin = $derived(pins.find((pin) => pin.key === selectedKey) ?? null);
 	const selectedFigures = $derived(selectedPin === null ? null : (figures[selectedPin.companyNumber] ?? null));
+	const selectedStanding = $derived(selectedPin === null ? '' : (standings[selectedPin.companyNumber] ?? ''));
 	const selectedSightingId = $derived(selectedKey === null ? null : sightingIdOfKey(selectedKey));
 	const selectedSighting = $derived(sightings.find((sighting) => sighting.id === selectedSightingId) ?? null);
 	const selectedPremisesId = $derived(selectedKey === null ? null : premisesIdOfKey(selectedKey));
@@ -75,7 +78,7 @@
 	{:else if selectedSighting !== null}
 		<SightingPanel sighting={selectedSighting} seenByName={accountNames[selectedSighting.seenByAccountId] ?? 'Former account'} standing={selectedPin?.standing ?? null} />
 	{:else}
-		<AreaCompanyPanel pin={selectedPin} figures={selectedFigures} addLeadAction="?/addLead" addWithDirectorsAction="?/addLeadWithDirectors" {patchId} />
+		<AreaCompanyPanel pin={selectedPin} figures={selectedFigures} standing={selectedStanding} addLeadAction="?/addLead" addWithDirectorsAction="?/addLeadWithDirectors" {patchId} />
 	{/if}
 	<AreaCompanyList pins={listedPins} {selectedKey} {onSelect} />
 </div>

@@ -15,6 +15,7 @@ import type { PostcodeLocation } from '$lib/server/postcodes/postcodeLocation';
 import type { Premises } from '$lib/server/premises/premisesRecord';
 import type { FiledFigures } from '$lib/data/filedFigures';
 import type { LocatedRegisterCompany } from '$lib/server/register/registerCompanyRecord';
+import { standingLine } from '$lib/data/standingLine';
 
 /** A patch drawn: every register company in it as at the last file, and the clients we already hold there. */
 export type PatchMap = {
@@ -24,6 +25,7 @@ export type PatchMap = {
 	asAtMonth: string | null;
 	premises: Premises[];
 	figuresByCompanyNumber: Record<string, FiledFigures>;
+	standingByCompanyNumber: Record<string, string>;
 	sightingCount: number;
 	companyCount: number;
 	hubCount: number;
@@ -53,6 +55,7 @@ export async function mapPatch(supabase: SupabaseClient, patch: Patch): Promise<
 		asAtMonth: loadState.asAtMonth,
 		premises,
 		figuresByCompanyNumber: figuresOf(companies),
+		standingByCompanyNumber: standingOf(companies),
 		sightingCount: sightings.length,
 		companyCount: register.companyCount,
 		hubCount: register.hubCount,
@@ -64,4 +67,10 @@ export async function mapPatch(supabase: SupabaseClient, patch: Patch): Promise<
 /** The filed figures of every company that has some, by number, for the panel to show. */
 function figuresOf(companies: LocatedRegisterCompany[]): Record<string, FiledFigures> {
 	return Object.fromEntries(companies.flatMap((company) => (company.figures === null ? [] : [[company.companyNumber, company.figures]])));
+}
+
+/** One sentence on where every company with anything known stands, by number. */
+function standingOf(companies: LocatedRegisterCompany[]): Record<string, string> {
+	const lines = companies.map((company) => [company.companyNumber, standingLine(company)] as const);
+	return Object.fromEntries(lines.filter(([, line]) => line !== ''));
 }
