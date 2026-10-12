@@ -2,6 +2,7 @@
 	import SectorClaimForms from './SectorClaimForms.svelte';
 	import SectorSearchForm from './SectorSearchForm.svelte';
 	import SectorSearchRow from './SectorSearchRow.svelte';
+	import SightingForm from './SightingForm.svelte';
 	import { coverageStateLabels, type SectorCoverage } from '$lib/data/sectorCoverage';
 	import type { PostcodeSector } from '$lib/server/sectors/postcodeSectorRecord';
 	import type { RecordedSectorSearch } from '$lib/server/sectors/sectorSearchRecord';
@@ -36,6 +37,7 @@
 		<p class="text-sm text-chalk/70">{standing} · {sector.unitPostcodeCount} postcodes · {companyCount} companies registered here</p>
 	</div>
 	<SectorClaimForms {patchId} sector={sector.sector} isClaimed={coverage.claimedByAccountId !== null} {actionPrefix} />
+	<SightingForm {patchId} sector={sector.sector} action={`${actionPrefix}recordSighting`} />
 	<SectorSearchForm {patchId} sector={sector.sector} action={`${actionPrefix}markSearched`} />
 	{#if searches.length > 0}
 		<ul class="divide-y divide-hairline">

@@ -4,6 +4,7 @@ import { getPatch } from '$lib/server/patches/getPatch';
 import { readSector } from '$lib/server/sectors/readSector';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { sectorFormActions } from '$lib/server/sectors/sectorFormActions';
+import { sightingFormActions } from '$lib/server/sightings/sightingFormActions';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
@@ -17,4 +18,4 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	return { patch, reading, coverage: reading.coverage, accountNames };
 };
 
-export const actions: Actions = { ...sectorFormActions };
+export const actions: Actions = { ...sectorFormActions, ...sightingFormActions };

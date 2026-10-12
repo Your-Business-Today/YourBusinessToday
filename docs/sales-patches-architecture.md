@@ -20,6 +20,8 @@ not kept has one deliberate exception here: the register snapshot, kept so chang
 | Staff | my patch drawn as every one of its postcode sectors, including the ones where nobody is registered | the coverage map can never miss a sector and I can see the ground I am meant to cover |
 | Staff | to mark a sector searched with one line on what I did and have the map tint it | I can graphically see that I have covered everywhere and which sectors have gone stale |
 | Staff | to claim a sector before I search it, release it, or hand it to a named colleague, with only the claimant or the patch owner able to mark it searched | two of us in two cities never tread on the same ground and coverage is a signed claim, not a guess |
+| Staff | my own Claude to read a sector, search the web for the businesses trading in it and record each one it finds with the page it saw it on | I keep searching within my subscription until I am happy, and every record says where it came from |
+| Staff | to promote a sighting to a lead with its source kept, stamp a confirmed company number on it, and have my Claude know the prospecting walk from the start of every session | the good ones reach the pipeline and nothing is recorded twice |
 
 The stories that follow — every registered company in a patch, every postcode sector drawn
 and marked searched, sightings a person's Claude records with their source, the feed of
@@ -45,6 +47,10 @@ Pipeline* in Your Business Today, one task per step, and are written here as eac
   with who, when and the one-line summary, Claim, Release and Hand to, and the Mark searched form.
 - `/clients/patches/[patchId]/sectors/[sector]` — one sector alone: the same panel and every
   company registered in it, for a link from a Claude or a colleague.
+- Sightings are pins of their own on the patch map, in their own tone; choosing one opens its
+  panel: what the page showed, the page itself, who saw it and when, Add as lead, and Match to
+  a company number on the register. `/clients/patches/[patchId]/sightings` lists every sighting
+  in the patch, and the sector panel carries the form to record one by hand.
 - `/clients` gains a Patches door beside Map an area; the Business menu gains Patches.
 
 ## The entities
@@ -90,6 +96,19 @@ searched by whoever holds its claim or by the patch owner, and the marking spend
 unclaimed sector may be marked by anyone on the register, so a search is never lost for want of
 a claim. A claim is handed to a colleague found by email, who must be staff.
 
+**Sighting** — `public.sightings`, keyed by sector rather than patch, so two people whose patches
+share a sector see the same sightings: the business as it names itself, address and postcode
+(which must fall in the sector), a company number once confirmed, its website, the public page it
+was read on and what kind of page that is, what the page showed, who saw it, when, and the client
+it became. One row per business per page per sector. The page must be public http(s) and never
+LinkedIn, X, Facebook or Instagram: the server refuses those, not only the doctrine. The server
+reads no page itself; the staff member's own Claude does the searching on its own subscription
+and the only calls that reach YBT store what it found.
+
+A sighting becomes a lead with source `sighting`, its page as the profile source and a `sighted`
+event on the ledger; one already matched to a company number on the register claims that row.
+The connector's working doctrine gains the prospecting walk as its ninth rule.
+
 The centre is geocoded into `postcode_locations` as the patch is saved, so the overview map
 costs no lookup. Every limit is stated in `src/lib/data/patchRules.ts` and read by the form,
 the form action and the connector action; `validatePatch` refuses rather than repairs.
@@ -104,6 +123,8 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `loadCodePointOpen` | every sector in Great Britain with its centroid |
 | `recordSectorSearch` | a sector marked searched, the claim spent |
 | `claimSector`, `releaseClaim`, `passClaim`, `handSectorTo` | who holds a sector |
+| `recordSighting` | a business seen on a public page, once |
+| `addSightingAsLead`, `matchSightingToRegister` | the sighting reaches the register |
 
 | Query | Story it serves |
 | --- | --- |
@@ -113,10 +134,12 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `mapPatch`, `readRegisterForPatch`, `pinsForRegister` | the register in a patch as pins, hubs folded, shells muted |
 | `readPatchCoverage`, `unsearchedFirst` | every sector with its coverage, the most needed first |
 | `readSector` | one sector: coverage, searches, companies |
+| `listSightingsForPatch`, `pinsForSightings` | the sightings, drawn at their postcodes |
 
 The connector's new `patches` area carries `list_patches`, `create_patch`, `read_patch`,
 `read_patch_companies`, `add_patch_company_as_lead`, `list_patch_sectors`, `list_unsearched_sectors`,
-`read_sector`, `mark_sector_searched`, `claim_sector`, `release_sector`, `hand_sector_to` and, for
+`read_sector`, `mark_sector_searched`, `claim_sector`, `release_sector`, `hand_sector_to`,
+`record_sighting`, `list_sightings`, `add_sighting_as_lead`, `match_sighting_to_register` and, for
 admins, `geocode_register_postcodes`;
 the map tiles come from `basemap.ts`: Ordnance Survey's Light style on the free OpenData plan
 when `PUBLIC_OS_MAPS_API_KEY` is set, OpenStreetMap only as the fallback.

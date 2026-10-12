@@ -62,6 +62,7 @@
 				{listedPins}
 				{coverage}
 				searches={data.searches}
+				sightings={data.sightings}
 				accountNames={data.accountNames}
 				{selectedKey}
 				{selectedSector}

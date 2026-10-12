@@ -18,5 +18,6 @@ export const clientEventLabels: Record<ClientEventKind, string> = {
 	appointments_imported: 'Imported from their appointments',
 	officers_imported: 'Officers imported',
 	grouped_under: 'Grouped under',
-	person_researched: 'Person found on the web'
+	person_researched: 'Person found on the web',
+	sighted: 'Sighted on the web'
 };
