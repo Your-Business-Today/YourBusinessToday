@@ -46,6 +46,14 @@ describe('what the box and Claude tell each other', () => {
 		expect(uploadPageIn('No task has that id.')).toBeNull();
 	});
 
+	it('tells Claude a scheduled chat draws no box, so the person goes straight to the link', () => {
+		const task = { title: openBox.taskTitle } as ProjectTask;
+		const sentence = uploadBoxSentence(task, 'https://yourbusiness.today/upload/token');
+		expect(sentence).toContain('A scheduled chat');
+		expect(sentence).toContain('send the person straight to this link');
+		expect(sentence).not.toContain('is now in the conversation');
+	});
+
 	it('tells Claude which files arrived, and how to see them', () => {
 		const attachedFiles = [
 			{ filename: 'grid.png', size: '412 KB' },

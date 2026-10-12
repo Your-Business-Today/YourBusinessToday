@@ -42,8 +42,8 @@ export const uploadBoxTools: McpTool[] = [
 			'Show the person a box in the conversation where they drop, paste or choose files to put ' +
 			'on a task. Use it for any image or file only they hold: one they pasted here, which you ' +
 			'can see but cannot pass on, or one your own network will not let you send. Never type a ' +
-			'file out as base64. Where the host draws no box, the answer carries a link that does the ' +
-			'same in their browser.',
+			'file out as base64. A scheduled chat and Claude Code draw no box: there the answer\'s link ' +
+			'does the same in their browser, and is what to give the person.',
 		inputSchema: objectSchema({ taskId: textField('The task the files are for') }, ['taskId']),
 		annotations: { readOnlyHint: true },
 		meta: {
