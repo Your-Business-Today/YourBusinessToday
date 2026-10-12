@@ -57,7 +57,8 @@ function companyPin(company: LocatedRegisterCompany, centre: Coordinates, standi
 		distanceMiles: distanceInMiles(centre, company),
 		standing: standings.get(company.companyNumber) ?? null,
 		companyCount: oneCompany,
-		isNonTrading: isNonTradingCategory(company.accountCategory)
+		isNonTrading: isNonTradingCategory(company.accountCategory),
+		isSighting: false
 	};
 }
 
@@ -76,6 +77,7 @@ function hubPin(address: string, residents: LocatedRegisterCompany[], centre: Co
 		distanceMiles: distanceInMiles(centre, first),
 		standing: null,
 		companyCount: residents.length,
-		isNonTrading: false
+		isNonTrading: false,
+		isSighting: false
 	};
 }

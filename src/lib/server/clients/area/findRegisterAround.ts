@@ -55,6 +55,7 @@ function pinForClient(row: RegisterRow, location: Coordinates, centre: Coordinat
 		distanceMiles: distanceInMiles(centre, location),
 		standing: { clientId: row.id, stage: parseClientStage(row.lifecycle_stage) },
 		companyCount: oneCompany,
-		isNonTrading: false
+		isNonTrading: false,
+		isSighting: false
 	};
 }

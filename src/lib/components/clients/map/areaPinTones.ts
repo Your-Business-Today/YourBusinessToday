@@ -2,11 +2,11 @@ import type { ClientStage } from '$lib/data/clientLifecycle';
 import { isHub } from '$lib/data/hubPins';
 import type { AreaPin } from '$lib/server/clients/area/areaPin';
 
-export type PinStanding = ClientStage | 'unlisted' | 'hub' | 'nonTrading';
+export type PinStanding = ClientStage | 'unlisted' | 'hub' | 'nonTrading' | 'sighting';
 
 export type PinTone = { colourToken: string; fillOpacity: number; label: string };
 
-export const pinToneOrder: PinStanding[] = ['unlisted', 'lead', 'prospect', 'client', 'dormant', 'lost', 'hub', 'nonTrading'];
+export const pinToneOrder: PinStanding[] = ['unlisted', 'sighting', 'lead', 'prospect', 'client', 'dormant', 'lost', 'hub', 'nonTrading'];
 
 export const pinTones: Record<PinStanding, PinTone> = {
 	unlisted: { colourToken: '--color-etch', fillOpacity: 0.35, label: 'Not on the register' },
@@ -16,7 +16,8 @@ export const pinTones: Record<PinStanding, PinTone> = {
 	dormant: { colourToken: '--color-slate', fillOpacity: 0.9, label: 'Dormant' },
 	lost: { colourToken: '--color-signal', fillOpacity: 0.6, label: 'Lost' },
 	hub: { colourToken: '--color-caution', fillOpacity: 0.35, label: 'Registered-office hub' },
-	nonTrading: { colourToken: '--color-etch', fillOpacity: 0.12, label: 'Dormant or no accounts filed' }
+	nonTrading: { colourToken: '--color-etch', fillOpacity: 0.12, label: 'Dormant or no accounts filed' },
+	sighting: { colourToken: '--color-signal', fillOpacity: 0.85, label: 'Sighted on the web' }
 };
 
 export function standingOf(stage: ClientStage | null): PinStanding {
@@ -28,6 +29,7 @@ export function standingOf(stage: ClientStage | null): PinStanding {
 export function standingOfPin(pin: AreaPin): PinStanding {
 	const { standing } = pin;
 	if (standing !== null) return standing.stage;
+	if (pin.isSighting) return 'sighting';
 	if (isHub(pin)) return 'hub';
 	if (pin.isNonTrading) return 'nonTrading';
 	return 'unlisted';

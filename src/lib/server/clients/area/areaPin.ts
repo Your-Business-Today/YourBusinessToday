@@ -18,6 +18,7 @@ export type AreaPin = Coordinates & {
 	standing: RegisterStanding | null;
 	companyCount: number;
 	isNonTrading: boolean;
+	isSighting: boolean;
 };
 
 export function pinForCompany(
@@ -39,7 +40,8 @@ export function pinForCompany(
 		distanceMiles: distanceInMiles(centre, location),
 		standing,
 		companyCount: oneCompany,
-		isNonTrading: false
+		isNonTrading: false,
+		isSighting: false
 	};
 }
 
