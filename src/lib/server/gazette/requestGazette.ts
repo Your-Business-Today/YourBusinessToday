@@ -1,10 +1,10 @@
 export const gazetteOrigin = 'https://www.thegazette.co.uk';
 
-/** The Gazette's robots file asks for ten seconds between requests; every call to it waits that long after the one before. */
+/** The Gazette's fair-use policy asks for one request every ten seconds, between nine at night and seven in the morning UK time; every call waits that long after the one before, and the cron runs in that window. */
 export const gazetteCrawlDelayMilliseconds = 10_000;
 const fetchTimeoutMilliseconds = 30_000;
 const notFound = 404;
-const userAgent = 'Mozilla/5.0 (compatible; YourBusinessToday/1.0; +https://yourbusiness.today)';
+const userAgent = 'Mozilla/5.0 (compatible; YourBusinessToday/1.0; +https://yourbusiness.today; hello@yourbusiness.today)';
 
 let lastRequestAt = 0;
 
