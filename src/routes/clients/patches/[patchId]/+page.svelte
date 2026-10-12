@@ -35,7 +35,7 @@
 </svelte:head>
 
 <div class="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-16">
-	<PatchHeader {patch} ownerName={data.ownerName} />
+	<PatchHeader {patch} ownerName={data.ownerName} heartbeatAt={data.heartbeatAt} />
 	<FormErrorNote message={data.notice ?? form?.message ?? null} />
 	{#if form?.clientId !== undefined}
 		<p class="text-sm text-chalk/70">
