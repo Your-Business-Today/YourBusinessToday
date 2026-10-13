@@ -17,6 +17,7 @@ import { projectMembershipActions } from './actions/projectMembershipActions';
 import { projectPeopleActions } from './actions/projectPeopleActions';
 import { registerActions } from './actions/registerActions';
 import { sectorActions } from './actions/sectorActions';
+import { serverErrorActions } from './actions/serverErrorActions';
 import { sightingActions } from './actions/sightingActions';
 import { sightingLeadActions } from './actions/sightingLeadActions';
 import { supportTaskActions } from './actions/supportTaskActions';
@@ -47,6 +48,7 @@ const everyAction: McpAction[] = [
 	...projectMembershipActions,
 	...goalActions,
 	...supportTaskActions,
+	...serverErrorActions,
 	...conversationActions,
 	...waitingActions,
 	...taskActions
