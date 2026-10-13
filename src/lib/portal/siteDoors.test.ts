@@ -47,6 +47,18 @@ describe('portalReroute', () => {
 		expect(portalReroute(new URL('https://portal.yourbusiness.today/'), portalHost)).toBe('/portal');
 	});
 
+	it('serves a project page on the portal from inside the portal route', () => {
+		const projectPage = new URL('https://portal.yourbusiness.today/projects/project-1');
+		expect(portalReroute(projectPage, portalHost)).toBe('/portal/projects/project-1');
+	});
+
+	it('leaves deeper project paths and the staff host’s project pages alone', () => {
+		const taskPage = new URL('https://portal.yourbusiness.today/projects/project-1/tasks/task-1');
+		const staffProjectPage = new URL('https://yourbusiness.today/projects/project-1');
+		expect(portalReroute(taskPage, portalHost)).toBeUndefined();
+		expect(portalReroute(staffProjectPage, portalHost)).toBeUndefined();
+	});
+
 	it('leaves every other path and host alone', () => {
 		const signIn = new URL('https://portal.yourbusiness.today/account/sign-in');
 		expect(portalReroute(signIn, portalHost)).toBeUndefined();
