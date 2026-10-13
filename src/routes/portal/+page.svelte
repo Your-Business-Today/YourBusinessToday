@@ -1,9 +1,10 @@
 <script lang="ts">
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
+	import PortalProjectList from '$lib/components/portal/PortalProjectList.svelte';
 	import PortalVisitorCard from '$lib/components/portal/PortalVisitorCard.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
-	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
 
@@ -20,7 +21,10 @@
 </WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>
-	<DashboardPanel title="Signed in as" class="max-w-xl">
-		<PortalVisitorCard {visitor} />
-	</DashboardPanel>
+	<div class={dashboardGridClasses}>
+		<PortalProjectList projects={data.projects} />
+		<DashboardPanel title="Signed in as">
+			<PortalVisitorCard {visitor} />
+		</DashboardPanel>
+	</div>
 </div>

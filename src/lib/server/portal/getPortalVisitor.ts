@@ -20,6 +20,7 @@ export async function getPortalVisitor(
 		personName: contact.name,
 		emailAddress: contact.email,
 		role: contact.role,
+		clientId: contact.clientId,
 		organisationName: organisation?.name ?? ''
 	};
 }

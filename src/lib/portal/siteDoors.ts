@@ -5,6 +5,9 @@ export type SiteDoor = { isPortal: boolean; otherDoorOrigin: string };
 export const productionPortalHost = 'portal.yourbusiness.today';
 export const portalHomePath = '/';
 export const portalRoutePath = '/portal';
+export const portalProjectRouteId = `${portalRoutePath}/projects/[projectId]`;
+
+const portalProjectPathPattern = /^\/projects\/[^/]+$/;
 
 const portalSubdomain = 'portal.';
 const productionStaffHost = new URL(companyDetails.websiteUrl).host;
@@ -39,9 +42,14 @@ export function portalOriginFor(origin: string, configuredPortalHost: string): s
 	return door.otherDoorOrigin;
 }
 
-/** The portal's front door is its own home page, which lives at /portal inside the app. */
+/** The portal's front door and its project pages live under /portal inside the app. */
 export function portalReroute(url: URL, configuredPortalHost: string): string | undefined {
-	const isPortalHome = url.pathname === portalHomePath;
-	if (isPortalHome && isPortalHost(url.host, configuredPortalHost)) return portalRoutePath;
+	if (!isPortalHost(url.host, configuredPortalHost)) return undefined;
+	if (url.pathname === portalHomePath) return portalRoutePath;
+	if (portalProjectPathPattern.test(url.pathname)) return `${portalRoutePath}${url.pathname}`;
 	return undefined;
+}
+
+export function portalProjectPath(projectId: string): string {
+	return `/projects/${projectId}`;
 }

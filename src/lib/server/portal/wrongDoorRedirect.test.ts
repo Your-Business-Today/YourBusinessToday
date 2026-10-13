@@ -7,6 +7,7 @@ const staffDoor = { isPortal: false, otherDoorOrigin: 'https://portal.yourbusine
 describe('wrongDoorRedirect', () => {
 	it('lets the portal serve its home and the sign-in routes', () => {
 		expect(wrongDoorRedirect(portalDoor, '/portal')).toBeNull();
+		expect(wrongDoorRedirect(portalDoor, '/portal/projects/[projectId]')).toBeNull();
 		expect(wrongDoorRedirect(portalDoor, '/account/sign-in')).toBeNull();
 		expect(wrongDoorRedirect(portalDoor, '/auth/callback')).toBeNull();
 		expect(wrongDoorRedirect(portalDoor, '/auth/hand-off')).toBeNull();
@@ -15,10 +16,14 @@ describe('wrongDoorRedirect', () => {
 	it('sends a staff route asked for on the portal to the portal front door', () => {
 		expect(wrongDoorRedirect(portalDoor, '/projects')).toBe('/');
 		expect(wrongDoorRedirect(portalDoor, '/admin')).toBe('/');
+		expect(wrongDoorRedirect(portalDoor, '/projects/[projectId]')).toBe('/');
 	});
 
 	it('sends the portal route asked for on yourbusiness.today to the portal', () => {
 		expect(wrongDoorRedirect(staffDoor, '/portal')).toBe('https://portal.yourbusiness.today/');
+		expect(wrongDoorRedirect(staffDoor, '/portal/projects/[projectId]')).toBe(
+			'https://portal.yourbusiness.today/'
+		);
 	});
 
 	it('leaves the staff routes and unknown paths alone', () => {
