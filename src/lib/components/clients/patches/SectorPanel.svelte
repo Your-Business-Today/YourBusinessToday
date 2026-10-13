@@ -3,6 +3,7 @@
 	import SectorSearchForm from './SectorSearchForm.svelte';
 	import SectorSearchRow from './SectorSearchRow.svelte';
 	import SightingForm from './SightingForm.svelte';
+	import { boundarySourceLabelOf } from '$lib/data/sectorBoundarySources';
 	import { coverageStateLabels, type SectorCoverage } from '$lib/data/sectorCoverage';
 	import type { PostcodeSector } from '$lib/server/sectors/postcodeSectorRecord';
 	import type { RecordedSectorSearch } from '$lib/server/sectors/sectorSearchRecord';
@@ -46,6 +47,7 @@
 		{#if buildingsLine !== ''}
 			<p class="text-xs text-chalk/50">{buildingsLine}</p>
 		{/if}
+		<p class="text-xs text-chalk/50">{boundarySourceLabelOf(sector.boundarySource)}</p>
 	</div>
 	<SectorClaimForms {patchId} sector={sector.sector} isClaimed={coverage.claimedByAccountId !== null} {actionPrefix} />
 	<SightingForm {patchId} sector={sector.sector} action={`${actionPrefix}recordSighting`} />

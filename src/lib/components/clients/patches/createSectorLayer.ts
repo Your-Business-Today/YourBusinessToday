@@ -12,8 +12,8 @@ import type { SectorCoverage } from '$lib/data/sectorCoverage';
 
 type Leaflet = typeof import('leaflet');
 
-/** What the layer draws for one sector: the ground, its coverage, and the initials of whoever holds it. */
-export type DrawnSector = { name: string; sector: PostcodeSector; coverage: SectorCoverage; holderInitials: string };
+/** What the layer draws for one sector: the ground, whether it has a shape, its coverage, and the initials of whoever holds it. */
+export type DrawnSector = { name: string; sector: PostcodeSector; hasShape: boolean; coverage: SectorCoverage; holderInitials: string };
 
 export type SectorLayerHandle = {
 	showSectors: (drawn: DrawnSector[], selectedSector: string | null, onPick: (sector: string) => void) => void;

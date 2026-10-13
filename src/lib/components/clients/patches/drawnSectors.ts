@@ -14,6 +14,6 @@ export function drawnSectorsOf(
 		const entry = coverageBySector.get(sector.sector);
 		if (entry === undefined) return [];
 		const holder = entry.claimedByAccountId === null ? '' : (accountNames[entry.claimedByAccountId] ?? '');
-		return [{ name: sector.sector, sector, coverage: entry, holderInitials: holder === '' ? '' : initialsOf(holder) }];
+		return [{ name: sector.sector, sector, hasShape: sector.boundary !== null, coverage: entry, holderInitials: holder === '' ? '' : initialsOf(holder) }];
 	});
 }
