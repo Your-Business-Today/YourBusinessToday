@@ -1,12 +1,13 @@
-import { areaOf, boundsOf, centroidOf } from '$lib/data/polygonMeasures';
+import { areaOf, boundsOf, centroidOf, type PlaneBox } from '$lib/data/polygonMeasures';
 import { toCoordinates } from '$lib/data/britishNationalGrid';
+import { toLongitudeLatitude } from '$lib/data/longitudeLatitude';
 import type { Coordinates } from '$lib/data/distance';
 import type { PlanePoint, Ring } from '$lib/data/pointInPolygon';
 
 /** A building footprint as the loader holds it: on the grid for the geometry, and on the ground for the map. */
 export type Footprint = {
 	rings: Ring[];
-	bounds: { minX: number; minY: number; maxX: number; maxY: number };
+	bounds: PlaneBox;
 	centre: PlanePoint;
 	centreOnGround: Coordinates;
 	areaSquareMetres: number;
@@ -24,9 +25,4 @@ export function footprintOf(rings: Ring[]): Footprint {
 		areaSquareMetres: Math.round(areaOf(outer)),
 		geoJson: { type: 'Polygon', coordinates: rings.map((ring) => ring.map(toLongitudeLatitude)) }
 	};
-}
-
-function toLongitudeLatitude([eastings, northings]: PlanePoint): [number, number] {
-	const { latitude, longitude } = toCoordinates({ eastings, northings });
-	return [longitude, latitude];
 }
