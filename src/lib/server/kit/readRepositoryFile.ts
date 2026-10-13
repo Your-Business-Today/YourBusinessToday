@@ -23,10 +23,8 @@ export async function readRepositoryFile(
 	path: string,
 	ref: string
 ): Promise<RepositoryFile> {
-	const repositoryKey = repositoryUrlKey(repositoryUrl);
-	if (!repositoryKey.startsWith(githubHostPrefix)) return { kind: 'unreadable' };
-	const ownerAndName = repositoryKey.slice(githubHostPrefix.length);
-	const repositoryAddress = `${githubRepositoriesApi}/${ownerAndName}`;
+	const repositoryAddress = githubRepositoryAddress(repositoryUrl);
+	if (repositoryAddress === null) return { kind: 'unreadable' };
 	const fileAddress = `${repositoryAddress}/contents/${path}?ref=${encodeURIComponent(ref)}`;
 	try {
 		const response = await fetch(fileAddress, { headers: githubHeaders() });
@@ -38,14 +36,24 @@ export async function readRepositoryFile(
 	}
 }
 
+/** The GitHub API address of a repository, or null when the repository is not on GitHub. */
+export function githubRepositoryAddress(repositoryUrl: string): string | null {
+	const repositoryKey = repositoryUrlKey(repositoryUrl);
+	if (!repositoryKey.startsWith(githubHostPrefix)) return null;
+	const ownerAndName = repositoryKey.slice(githubHostPrefix.length);
+	return `${githubRepositoriesApi}/${ownerAndName}`;
+}
+
 async function missingWhenRepositoryIsVisible(repositoryAddress: string): Promise<RepositoryFile> {
 	const response = await fetch(repositoryAddress, { headers: githubHeaders() });
 	return response.ok ? { kind: 'missing' } : { kind: 'unreadable' };
 }
 
-function githubHeaders(): Record<string, string> {
+export const githubMediaTypes = { raw: 'application/vnd.github.raw', json: 'application/vnd.github+json' } as const;
+
+export function githubHeaders(mediaType: string = githubMediaTypes.raw): Record<string, string> {
 	const headers: Record<string, string> = {
-		Accept: 'application/vnd.github.raw',
+		Accept: mediaType,
 		'User-Agent': 'your-business-today'
 	};
 	if (env.GITHUB_TOKEN) headers.Authorization = `Bearer ${env.GITHUB_TOKEN}`;

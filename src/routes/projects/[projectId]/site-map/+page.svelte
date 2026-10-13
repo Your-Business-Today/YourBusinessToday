@@ -1,39 +1,25 @@
 <script lang="ts">
+	import AudienceSwitch from '$lib/components/blueprint/AudienceSwitch.svelte';
 	import BlueprintHeader from '$lib/components/blueprint/BlueprintHeader.svelte';
 	import EmptyState from '$lib/components/site/EmptyState.svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
-	import ScreenAlbum from '$lib/components/blueprint/ScreenAlbum.svelte';
-	import ScreenDetails from '$lib/components/blueprint/ScreenDetails.svelte';
-	import SectionCrates from '$lib/components/blueprint/SectionCrates.svelte';
+	import McpMapBrowser from '$lib/components/blueprint/McpMapBrowser.svelte';
+	import ParitySummary from '$lib/components/blueprint/ParitySummary.svelte';
+	import SiteMapBrowser from '$lib/components/blueprint/SiteMapBrowser.svelte';
 	import { blueprintEmptyMessages } from '$lib/components/blueprint/blueprintEmptyMessages';
-	import { blueprintQueryKeys, linkedValueOf } from '$lib/components/blueprint/blueprintViews';
-	import { cratesOf, everySection, indexOfRoute, screensInCrate } from '$lib/components/blueprint/siteMapSections';
+	import { blueprintQueryKeys, linkedValueOf, siteMapAudienceOf, siteMapAudiences } from '$lib/components/blueprint/blueprintViews';
 	import { page } from '$app/state';
-	import { untrack } from 'svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data, form } = $props();
 
 	const { project, blueprint, goals } = $derived(data);
 	const siteMap = $derived(blueprint?.siteMap ?? null);
-
-	let chosenSection = $state(everySection);
-	let chosenIndex = $state(untrack(() => indexOfRoute(siteMap?.screens ?? [], linkedRoute())));
-
-	const screens = $derived(siteMap === null ? [] : screensInCrate(siteMap, chosenSection));
-	const chosenScreen = $derived(screens[chosenIndex]);
-	const emptyMessage = $derived(
-		project.repositoryUrl === '' ? blueprintEmptyMessages.noRepository : blueprintEmptyMessages.noSiteMap
-	);
-
-	function linkedRoute(): string | null {
-		return linkedValueOf(page.url, blueprintQueryKeys.screen);
-	}
-
-	function chooseSection(section: string) {
-		chosenSection = section;
-		chosenIndex = 0;
-	}
+	const mcpMap = $derived(blueprint?.mcpMap ?? null);
+	const audience = $derived(siteMapAudienceOf(page.url));
+	const hasNoRepository = $derived(project.repositoryUrl === '');
+	const siteMapEmptyMessage = $derived(hasNoRepository ? blueprintEmptyMessages.noRepository : blueprintEmptyMessages.noSiteMap);
+	const mcpMapEmptyMessage = $derived(hasNoRepository ? blueprintEmptyMessages.noRepository : blueprintEmptyMessages.noMcpMap);
 </script>
 
 <svelte:head>
@@ -44,16 +30,21 @@
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
-	{#if siteMap === null}
-		<EmptyState message={emptyMessage} />
-	{:else}
-		<SectionCrates
-			crates={cratesOf(siteMap)}
-			bind:chosenSection={() => chosenSection, chooseSection}
-		/>
-		<ScreenAlbum {screens} bind:chosenIndex />
-		{#if chosenScreen !== undefined}
-			<ScreenDetails screen={chosenScreen} projectId={project.id} {goals} />
+	<AudienceSwitch projectId={project.id} {audience} />
+	{#if mcpMap !== null}
+		<ParitySummary {mcpMap} />
+	{/if}
+	{#if audience === siteMapAudiences.claude}
+		{#if mcpMap === null}
+			<EmptyState message={mcpMapEmptyMessage} />
+		{:else}
+			{@const linkedEntryName = linkedValueOf(page.url, blueprintQueryKeys.entry)}
+			<McpMapBrowser {mcpMap} {siteMap} projectId={project.id} {goals} {linkedEntryName} />
 		{/if}
+	{:else if siteMap === null}
+		<EmptyState message={siteMapEmptyMessage} />
+	{:else}
+		{@const linkedRoute = linkedValueOf(page.url, blueprintQueryKeys.screen)}
+		<SiteMapBrowser {siteMap} {mcpMap} projectId={project.id} {goals} {linkedRoute} />
 	{/if}
 </div>

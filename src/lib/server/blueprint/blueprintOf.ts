@@ -10,6 +10,7 @@ export function blueprintOf(manifestText: string, siteDefinitionText: string, re
 	return {
 		domain: manifest === null ? null : translateEntityManifest(manifest),
 		siteMap: parseSiteDefinition(siteDefinitionText, entityRoutes),
+		mcpMap: null,
 		readAtCommit: ref,
 		readAt: new Date().toISOString()
 	};

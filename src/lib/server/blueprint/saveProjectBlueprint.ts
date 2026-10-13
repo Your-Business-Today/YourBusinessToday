@@ -12,6 +12,7 @@ export async function saveProjectBlueprint(
 			project_id: projectId,
 			domain: blueprint.domain,
 			site_map: blueprint.siteMap,
+			mcp_map: blueprint.mcpMap,
 			read_at_commit: blueprint.readAtCommit,
 			read_at: blueprint.readAt
 		},

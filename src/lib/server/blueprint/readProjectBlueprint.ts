@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { blueprintSources } from '$lib/data/blueprint/blueprintSources';
 import { blueprintOf } from './blueprintOf';
 import { readRepositoryFile, repositoryFileKinds, type RepositoryFile } from '$lib/server/kit/readRepositoryFile';
+import { readMcpMap } from './readMcpMap';
 import { saveProjectBlueprint } from './saveProjectBlueprint';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { ProjectBlueprint } from '$lib/data/blueprint/projectBlueprint';
@@ -27,10 +28,14 @@ export async function readProjectBlueprint(
 	const manifestFile = await readRepositoryFile(project.repositoryUrl, blueprintSources.entityManifestPath, ref);
 	const siteFile = await readRepositoryFile(project.repositoryUrl, blueprintSources.siteDefinitionPath, ref);
 	if (isUnreadable(manifestFile) || isUnreadable(siteFile)) return { kind: blueprintReadingKinds.unreadable };
-	const blueprint = blueprintOf(textOf(manifestFile), textOf(siteFile), ref);
-	if (blueprint.domain === null && blueprint.siteMap === null) return { kind: blueprintReadingKinds.nothingFound };
+	const blueprint = { ...blueprintOf(textOf(manifestFile), textOf(siteFile), ref), mcpMap: await readMcpMap(project.repositoryUrl, ref) };
+	if (isEmptyBlueprint(blueprint)) return { kind: blueprintReadingKinds.nothingFound };
 	await saveProjectBlueprint(supabase, project.id, blueprint);
 	return { kind: blueprintReadingKinds.read, blueprint };
+}
+
+function isEmptyBlueprint(blueprint: ProjectBlueprint): boolean {
+	return blueprint.domain === null && blueprint.siteMap === null && blueprint.mcpMap === null;
 }
 
 function isUnreadable(file: RepositoryFile): boolean {

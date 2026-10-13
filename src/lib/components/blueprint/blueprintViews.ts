@@ -17,7 +17,12 @@ export function shortCommit(ref: string): string {
 	return isCommitSha ? ref.slice(0, shortCommitLength) : ref;
 }
 
-export const blueprintQueryKeys = { screen: 'screen', entity: 'entity' } as const;
+export const blueprintQueryKeys = { screen: 'screen', entity: 'entity', audience: 'audience', entry: 'entry' } as const;
+
+/** Who the site map is drawn for: a person at the screens, or a Claude at the connector's tools, skills and agents. */
+export const siteMapAudiences = { person: 'person', claude: 'claude' } as const;
+
+export type SiteMapAudience = (typeof siteMapAudiences)[keyof typeof siteMapAudiences];
 
 export function siteMapScreenHref(projectId: string, route: string): string {
 	return `/projects/${projectId}/site-map?${blueprintQueryKeys.screen}=${encodeURIComponent(route)}`;
@@ -30,4 +35,18 @@ export function domainEntityHref(projectId: string, entityName: string): string 
 /** The value a link put in the address for a view to open on, such as the screen or the entity. */
 export function linkedValueOf(address: URL, key: string): string | null {
 	return address.searchParams.get(key);
+}
+
+export function mcpEntryHref(projectId: string, entryName: string): string {
+	const audience = `${blueprintQueryKeys.audience}=${siteMapAudiences.claude}`;
+	return `/projects/${projectId}/site-map?${audience}&${blueprintQueryKeys.entry}=${encodeURIComponent(entryName)}`;
+}
+
+export function siteMapAudienceHref(projectId: string, audience: SiteMapAudience): string {
+	return `/projects/${projectId}/site-map?${blueprintQueryKeys.audience}=${audience}`;
+}
+
+export function siteMapAudienceOf(address: URL): SiteMapAudience {
+	const isForClaude = linkedValueOf(address, blueprintQueryKeys.audience) === siteMapAudiences.claude;
+	return isForClaude ? siteMapAudiences.claude : siteMapAudiences.person;
 }

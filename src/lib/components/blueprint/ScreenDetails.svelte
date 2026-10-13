@@ -1,13 +1,20 @@
 <script lang="ts">
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import RaiseChangeButton from './RaiseChangeButton.svelte';
+	import ScreenTools from './ScreenTools.svelte';
 	import Wireframe from './Wireframe.svelte';
 	import { changeSubjectKinds } from '$lib/data/blueprint/changeSubject';
 	import { domainEntityHref } from './blueprintViews';
 	import type { Goal } from '$lib/server/goals/goalRecord';
+	import type { McpMap } from '$lib/data/blueprint/mcpMap';
 	import type { Screen } from '$lib/data/blueprint/siteMap';
 
-	let { screen, projectId, goals }: { screen: Screen; projectId: string; goals: Goal[] } = $props();
+	let {
+		screen,
+		mcpMap,
+		projectId,
+		goals
+	}: { screen: Screen; mcpMap: McpMap | null; projectId: string; goals: Goal[] } = $props();
 </script>
 
 <DashboardPanel title={screen.route}>
@@ -28,6 +35,9 @@
 					<a href={domainEntityHref(projectId, screen.entityName)} class="text-go hover:underline">{screen.entityName}</a>
 					entity in the domain.
 				</p>
+			{/if}
+			{#if mcpMap !== null}
+				<ScreenTools {mcpMap} route={screen.route} {projectId} />
 			{/if}
 			<section class="flex flex-col gap-1.5">
 				<h3 class="font-display text-xs tracking-widest text-chalk/50 uppercase">What a user sees</h3>
