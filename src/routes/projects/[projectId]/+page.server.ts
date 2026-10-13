@@ -1,6 +1,7 @@
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
+import { getMainRunsForProject } from '$lib/server/mainRuns/getMainRunsForProject';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { summariseGoals } from '$lib/server/goals/summariseGoals';
@@ -30,6 +31,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	return {
 		project,
 		latestKitVersion: await getLatestKitVersion(locals.supabase),
+		mainRuns: await getMainRunsForProject(locals.supabase, project.id),
 		organisations: await getOrganisations(locals.supabase),
 		isOwner,
 		cadenceLine: describeRefactorCadence({
