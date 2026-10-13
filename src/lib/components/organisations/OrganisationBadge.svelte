@@ -1,13 +1,21 @@
 <script lang="ts">
 	import { isPersonalProject, personalProjectLabel } from '$lib/data/personalProject';
+	import { teamProjectHint, teamProjectLabel } from '$lib/data/teamProject';
 
-	let { organisationId, organisationName }: { organisationId: string | null; organisationName: string } = $props();
+	let {
+		organisationId,
+		organisationName,
+		isTeamProject = false
+	}: { organisationId: string | null; organisationName: string; isTeamProject?: boolean } = $props();
 
 	const badgeClasses =
 		'relative z-10 max-w-full truncate rounded-full border border-hairline px-2.5 py-0.5 font-display text-xs text-chalk/60';
 </script>
 
-{#if isPersonalProject(organisationId)}
+{#if isTeamProject}
+	<span title={teamProjectHint} class={badgeClasses}>{teamProjectLabel}</span>
+{/if}
+{#if isPersonalProject(organisationId) && !isTeamProject}
 	<span title="Only you and the people you invite are on this project" class={badgeClasses}>
 		{personalProjectLabel}
 	</span>

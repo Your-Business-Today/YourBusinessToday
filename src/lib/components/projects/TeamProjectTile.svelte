@@ -40,7 +40,11 @@
 				<span class="font-display text-xs tracking-widest text-chalk/40 uppercase">Team</span>
 			</div>
 			<div class="flex flex-wrap items-center justify-end gap-1.5">
-				<OrganisationBadge organisationId={project.organisationId} organisationName={project.organisationName} />
+				<OrganisationBadge
+					organisationId={project.organisationId}
+					organisationName={project.organisationName}
+					isTeamProject={project.isTeamProject}
+				/>
 				<ProjectStatusBadge status={project.status} />
 			</div>
 		</div>

@@ -6,6 +6,7 @@ import { projectOwnershipActions } from './projectOwnershipActions';
 import { projectReadActions } from './projectReadActions';
 import { projectRemovalActions } from './projectRemovalActions';
 import { projectWriteActions } from './projectWriteActions';
+import { teamProjectActions } from './teamProjectActions';
 import type { McpAction } from '../actionTypes';
 
 export const projectActions: McpAction[] = [
@@ -16,5 +17,6 @@ export const projectActions: McpAction[] = [
 	...projectWriteActions,
 	...projectRemovalActions,
 	...projectOrderActions,
-	...projectOwnershipActions
+	...projectOwnershipActions,
+	...teamProjectActions
 ];

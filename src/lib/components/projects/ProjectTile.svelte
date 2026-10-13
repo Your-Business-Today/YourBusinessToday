@@ -41,7 +41,11 @@
 				onSetPriority={() => onSetPriority(project)}
 			/>
 			<div class="flex flex-wrap items-center justify-end gap-1.5">
-				<OrganisationBadge organisationId={project.organisationId} organisationName={project.organisationName} />
+				<OrganisationBadge
+					organisationId={project.organisationId}
+					organisationName={project.organisationName}
+					isTeamProject={project.isTeamProject}
+				/>
 				<KitVersionBadge
 					repositoryUrl={project.repositoryUrl}
 					kitVersion={project.kitVersion}

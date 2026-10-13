@@ -4,6 +4,7 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import OrganisationSelect from '$lib/components/organisations/OrganisationSelect.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
+	import TeamProjectField from './TeamProjectField.svelte';
 	import PriorityField from '$lib/components/site/PriorityField.svelte';
 	import ProjectDatabaseFields from './ProjectDatabaseFields.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
@@ -48,6 +49,7 @@
 		{organisations}
 		selectedOrganisationId={project.organisationId}
 	/>
+	<TeamProjectField isTeamProject={project.isTeamProject} />
 	<SmallCapsField label="Repository">
 		<input name="repositoryUrl" value={project.repositoryUrl} placeholder="https://github.com/..." class={fieldClasses} />
 	</SmallCapsField>

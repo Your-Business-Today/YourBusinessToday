@@ -6,11 +6,12 @@ export type NewProjectSeed = {
 	name: string;
 	description: string;
 	organisationId: string | null;
+	isTeamProject: boolean;
 	ownerId: string;
 	createdBy: string;
 };
 
-/** A project under an organisation is on its people's boards the moment it exists. */
+/** A project under an organisation, or a team project, is on its people's boards the moment it exists. */
 export async function createProject(supabase: SupabaseClient, seed: NewProjectSeed): Promise<void> {
 	const { error } = await supabase.from('projects').insert({
 		name: seed.name,
@@ -18,8 +19,15 @@ export async function createProject(supabase: SupabaseClient, seed: NewProjectSe
 		organisation_id: seed.organisationId,
 		priority: await nextRankOnBoard(supabase, seed.ownerId),
 		owner_id: seed.ownerId,
-		created_by: seed.createdBy
+		created_by: seed.createdBy,
+		...teamProjectColumns(seed.isTeamProject)
 	});
 	if (error) throw error;
 	if (seed.organisationId !== null) await syncOrganisationAccess(seed.organisationId);
+}
+
+/** A personal project names no team column, so creating one stands before the team projects migration has run. */
+function teamProjectColumns(isTeamProject: boolean): Record<string, boolean> {
+	if (!isTeamProject) return {};
+	return { is_team_project: true };
 }

@@ -2,6 +2,7 @@ import { assignedToYouLine } from '$lib/data/assignedTaskLine';
 import { databaseKindLabels } from '$lib/data/databaseKind';
 import { hasDatabase, migrationsFolderOf } from '$lib/data/projectDatabase';
 import { personalProjectLabel } from '$lib/data/personalProject';
+import { teamProjectLabel } from '$lib/data/teamProject';
 import { goalSectionLines } from './describeGoal';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
@@ -23,10 +24,17 @@ export function describeProjectLine(project: ProjectSummary): string {
 	return `${project.name} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)} (${place})`;
 }
 
-/** " for Jewel Passive Fire Protection", or ", personal" for a project under no organisation. */
-export function forOrganisation(project: { organisationName: string }): string {
-	if (project.organisationName === '') return `, ${personalProjectLabel.toLowerCase()}`;
-	return ` for ${project.organisationName}`;
+/** " for Jewel Passive Fire Protection", or ", personal" for a project under no organisation; a team project says so. */
+export function forOrganisation(project: { organisationName: string; isTeamProject: boolean }): string {
+	const teamPhrase = teamProjectPhrase(project.isTeamProject);
+	if (project.organisationName !== '') return ` for ${project.organisationName}${teamPhrase}`;
+	if (project.isTeamProject) return teamPhrase;
+	return `, ${personalProjectLabel.toLowerCase()}`;
+}
+
+function teamProjectPhrase(isTeamProject: boolean): string {
+	if (!isTeamProject) return '';
+	return `, ${teamProjectLabel} project`;
 }
 
 /** "72 open", with ", 3 assigned to you" when any of it is the caller's. */
