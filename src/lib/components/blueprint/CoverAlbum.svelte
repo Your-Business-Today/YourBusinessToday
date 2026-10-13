@@ -1,11 +1,23 @@
-<script lang="ts">
-	import ScreenCover from './ScreenCover.svelte';
+<script lang="ts" generics="Item">
 	import { coverPlacement, steppedIndex } from '$lib/data/blueprint/albumPlacement';
 	import { keyboardKeys } from '$lib/client/keyboardKeys';
 	import { headerButtonClasses } from '$lib/components/workspace/workspaceStyles';
-	import type { Screen } from '$lib/data/blueprint/siteMap';
+	import type { CoverPlacement } from '$lib/data/blueprint/albumPlacement';
+	import type { Snippet } from 'svelte';
 
-	let { screens, chosenIndex = $bindable() }: { screens: Screen[]; chosenIndex: number } = $props();
+	let {
+		items,
+		keyOf,
+		label,
+		chosenIndex = $bindable(),
+		cover
+	}: {
+		items: Item[];
+		keyOf: (item: Item) => string;
+		label: string;
+		chosenIndex: number;
+		cover: Snippet<[Item, CoverPlacement, boolean, () => void]>;
+	} = $props();
 
 	const swipeDistance = 40;
 	const wheelDistance = 30;
@@ -16,7 +28,7 @@
 	let wheelTravel = 0;
 
 	function step(by: number) {
-		chosenIndex = steppedIndex(chosenIndex, by, screens.length);
+		chosenIndex = steppedIndex(chosenIndex, by, items.length);
 	}
 
 	function stepOnArrowKey(event: KeyboardEvent) {
@@ -46,23 +58,23 @@
 	<div
 		role="listbox"
 		tabindex="0"
-		aria-label="Screens, flicked through with the arrow keys"
+		aria-label={`${label}, flicked through with the arrow keys`}
 		onkeydown={stepOnArrowKey}
 		onpointerdown={(event) => (swipeStartX = event.clientX)}
 		onpointerup={stepOnSwipeEnd}
 		onwheel={stepOnSidewaysWheel}
 		class="relative h-72 touch-pan-y overflow-hidden rounded-xl border border-hairline bg-gradient-to-b from-night to-carriage outline-none [perspective:1100px] focus-visible:border-go"
 	>
-		{#each screens as screen, index (screen.route)}
+		{#each items as item, index (keyOf(item))}
 			{@const placement = coverPlacement(index - chosenIndex)}
 			{#if placement.isShown}
-				<ScreenCover {screen} {placement} isChosen={index === chosenIndex} onChoose={() => (chosenIndex = index)} />
+				{@render cover(item, placement, index === chosenIndex, () => (chosenIndex = index))}
 			{/if}
 		{/each}
 	</div>
 	<div class="flex items-center justify-center gap-3 text-sm text-chalk/60">
 		<button type="button" class={headerButtonClasses} onclick={() => step(steps.back)} disabled={chosenIndex === 0}>←</button>
-		<span>{chosenIndex + 1} of {screens.length}</span>
-		<button type="button" class={headerButtonClasses} onclick={() => step(steps.forward)} disabled={chosenIndex === screens.length - 1}>→</button>
+		<span>{chosenIndex + 1} of {items.length}</span>
+		<button type="button" class={headerButtonClasses} onclick={() => step(steps.forward)} disabled={chosenIndex === items.length - 1}>→</button>
 	</div>
 </div>

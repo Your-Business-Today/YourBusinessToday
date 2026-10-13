@@ -1,4 +1,5 @@
 import { describeDomain, describeSiteMap } from './describeBlueprint';
+import { describeMcpMap } from './describeMcpMap';
 import { getProjectBlueprint } from '$lib/server/blueprint/getProjectBlueprint';
 import { noSuchProject } from './describeProject';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
@@ -42,6 +43,22 @@ export const projectBlueprintActions: McpAction[] = [
 			const blueprint = await getProjectBlueprint(caller.supabase, project.id);
 			if (blueprint?.siteMap == null) return notReadYet;
 			return describeSiteMap(blueprint.siteMap, project.name, readOptionalText(input, 'route'));
+		}
+	},
+	{
+		name: 'read_project_mcp_map',
+		area: 'projects',
+		audience: 'everyone',
+		isWrite: false,
+		summary:
+			'read a project\'s MCP map: every user story with the connector tool a Claude uses and the screens a person uses, the parity gaps, and its skills and agents',
+		inputSchema: objectSchema({ projectId: textField('The project id') }, ['projectId']),
+		run: async (caller, input) => {
+			const project = await reachableProject(caller, readText(input, 'projectId'));
+			if (project === null) return noSuchProject;
+			const blueprint = await getProjectBlueprint(caller.supabase, project.id);
+			if (blueprint?.mcpMap == null) return notReadYet;
+			return describeMcpMap(blueprint.mcpMap, project.name);
 		}
 	}
 ];
