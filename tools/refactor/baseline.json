@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-13T12:15:14+00:00",
+  "generatedAt": "2026-10-13T12:19:21+00:00",
   "kitVersion": "1.19.0",
   "score": {
     "overall": 91.8,
     "groups": [
       {
         "group": "Standard baseline checks",
-        "score": 99.9,
+        "score": 100.0,
         "weight": 60
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1573,
+        "measuredAgainst": 1576,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2045,
+        "measuredAgainst": 2043,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2374,
+        "measuredAgainst": 2373,
         "score": 100.0
       },
       {
@@ -87,9 +87,9 @@
         "zeroAt": 20,
         "unit": "",
         "isMeasured": true,
-        "offenders": 0.04,
+        "offenders": 0.0,
         "measuredAgainst": 1,
-        "score": 99.8
+        "score": 100.0
       },
       {
         "key": "comments",
@@ -111,9 +111,9 @@
         "zeroAt": 20,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 2,
+        "offenders": 0,
         "measuredAgainst": 55.26,
-        "score": 99.8
+        "score": 100.0
       },
       {
         "key": "orphans",
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2388,
+        "measuredAgainst": 2386,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2045,
+        "measuredAgainst": 2043,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2374,
+        "measuredAgainst": 2373,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2374,
+        "measuredAgainst": 2373,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2045,
+        "measuredAgainst": 2043,
         "score": 100.0
       },
       {
@@ -251,17 +251,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 1573,
-      "totalLines": 55263,
+      "totalFiles": 1576,
+      "totalLines": 55259,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 2045,
+      "totalFunctions": 2043,
       "elseBlocks": 0,
-      "ifBlocks": 2374,
+      "ifBlocks": 2373,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -274,10 +274,10 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 3,
-      "duplicatedLines": 24,
-      "totalLines": 56714,
-      "duplicatedPercentage": 0.04
+      "clones": 0,
+      "duplicatedLines": 0,
+      "totalLines": 56675,
+      "duplicatedPercentage": 0.0
     },
     "naming": {
       "bannedAbbreviationHits": 17,
@@ -291,7 +291,7 @@
     "magicValues": {
       "inlineHexColours": 0,
       "inlineStyleAttributes": 0,
-      "repeatedStringLiterals": 2
+      "repeatedStringLiterals": 0
     },
     "prose": {
       "longMemberChainLines": 0,
@@ -306,7 +306,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 2045
+      "functionsExamined": 2043
     },
     "designPatterns": {
       "roleFamilies": 82,
@@ -333,10 +333,10 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2015,
-      "backend": 647,
-      "frontend": 548,
-      "shared": 228,
+      "totalFiles": 2018,
+      "backend": 648,
+      "frontend": 549,
+      "shared": 229,
       "api": 157,
       "tests": 143,
       "tooling": 117,
@@ -351,8 +351,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 1573,
-        "totalLines": 55263,
+        "totalFiles": 1576,
+        "totalLines": 55259,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -363,9 +363,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 2045,
+        "totalFunctions": 2043,
         "elseBlocks": 0,
-        "ifBlocks": 2374,
+        "ifBlocks": 2373,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -481,21 +481,12 @@
       "summary": {
         "inlineHexColours": 0,
         "inlineStyleAttributes": 0,
-        "repeatedStringLiterals": 2
+        "repeatedStringLiterals": 0
       },
       "offenders": {
         "hexColours": [],
         "inlineStyles": [],
-        "repeatedLiterals": [
-          {
-            "literal": "E92000001",
-            "occurrences": 4
-          },
-          {
-            "literal": "E09000021",
-            "occurrences": 4
-          }
-        ]
+        "repeatedLiterals": []
       }
     },
     "prose": {
@@ -729,7 +720,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 2045
+        "functionsExamined": 2043
       },
       "offenders": []
     },
@@ -760,7 +751,7 @@
           "company": 7,
           "count": 4,
           "counts": 4,
-          "details": 4,
+          "details": 5,
           "email": 8,
           "event": 9,
           "facts": 5,
@@ -2531,10 +2522,10 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2015,
-        "backend": 647,
-        "frontend": 548,
-        "shared": 228,
+        "totalFiles": 2018,
+        "backend": 648,
+        "frontend": 549,
+        "shared": 229,
         "api": 157,
         "tests": 143,
         "tooling": 117,
@@ -2545,21 +2536,21 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 647,
-          "sourceFiles": 637,
-          "sourceLines": 20098
+          "files": 648,
+          "sourceFiles": 638,
+          "sourceLines": 20112
         },
         {
           "area": "frontend",
-          "files": 548,
-          "sourceFiles": 424,
-          "sourceLines": 15275
+          "files": 549,
+          "sourceFiles": 425,
+          "sourceLines": 15265
         },
         {
           "area": "shared",
-          "files": 228,
-          "sourceFiles": 214,
-          "sourceLines": 6846
+          "files": 229,
+          "sourceFiles": 215,
+          "sourceLines": 6831
         },
         {
           "area": "api",
@@ -2571,7 +2562,7 @@
           "area": "tests",
           "files": 143,
           "sourceFiles": 136,
-          "sourceLines": 5377
+          "sourceLines": 5384
         },
         {
           "area": "tooling",
@@ -3146,37 +3137,12 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 3,
-        "duplicatedLines": 24,
-        "totalLines": 56714,
-        "duplicatedPercentage": 0.04
+        "clones": 0,
+        "duplicatedLines": 0,
+        "totalLines": 56675,
+        "duplicatedPercentage": 0.0
       },
-      "offenders": [
-        {
-          "file": "src/lib/components/clients/patches/PatchMap.svelte:typescript",
-          "duplicatedLineInstances": 11
-        },
-        {
-          "file": "src/lib/components/clients/patches/PatchMapPane.svelte:typescript",
-          "duplicatedLineInstances": 11
-        },
-        {
-          "file": "src/lib/data/britishNationalGrid.ts",
-          "duplicatedLineInstances": 7
-        },
-        {
-          "file": "src/lib/data/britishNationalGridForward.ts",
-          "duplicatedLineInstances": 7
-        },
-        {
-          "file": "src/routes/projects/+page.server.ts",
-          "duplicatedLineInstances": 6
-        },
-        {
-          "file": "src/routes/projects/[projectId]/projectActions.ts",
-          "duplicatedLineInstances": 6
-        }
-      ]
+      "offenders": []
     }
   }
 }
