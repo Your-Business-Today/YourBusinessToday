@@ -41,8 +41,9 @@ so the row says where it came from; if it does not, the ledger still says so.
   URL) and suggested opening angles. The draft is shown in an editable form; Save as lead
   writes the client, its people and a `profile_researched` event. Opened from a client's
   page, the same view updates that client instead of creating another. Given only a name,
-  a few likely `.co.uk` and `.com` domains are tried before asking for the address — there
-  is no web search yet.
+  a few likely `.co.uk` and `.com` domains are tried first; when none can be read, Claude's
+  web search looks for the official site (see *Finding the website* below), and only when
+  that finds nothing readable is the address asked for.
 - `/clients/prospect` — SIC codes and a location, searched against the Companies House
   advanced search; a results table with company, number, incorporation date, address and
   SIC codes, and Add as lead on every row. Without `COMPANIES_HOUSE_API_KEY` the page says
@@ -326,6 +327,21 @@ and nothing is read behind a login: the Prospector's compliance rules apply in f
 ### Deliberately not built
 
 Officers are not pinned separately — their correspondence address is often an accountant's.
-Web search does not yet stand in for a missing website on `/clients/research`, though the
-same tool would do it. The map does not draw a polygon; a postcode and a radius are enough
-to work a patch.
+The map does not draw a polygon; a postcode and a radius are enough to work a patch.
+
+### Finding the website
+
+A company added from the map has a name, a number and a registered address but rarely a
+website, so `/clients/research` would otherwise stop at "paste the address".
+`resolveCompanyWebsite` tries the guessed domains first and, only when none can be read,
+the query is a name rather than an address, and Claude is configured, calls
+`searchForCompanyWebsite`: one request with the same web search tool (at most three
+searches, located in the UK), briefed with the name and, opened from a client's page, its
+Companies House number and registered address to tell namesakes apart. Claude answers with
+the homepage address or `NONE`. `officialWebsiteCandidates` keeps at most three homepages
+from the answer and never one on a social or directory site (LinkedIn, Facebook, X,
+Instagram, Companies House and `gov.uk`, Yell and the company-data and review sites listed
+in `websiteDirectoryHosts`). A candidate is accepted only when `fetchCompanyPages` can read
+it; the fetch-and-profile flow then runs unchanged. A failed search is logged and treated
+as nothing found, so the view asks for the address as before; without Claude configured
+nothing is searched.

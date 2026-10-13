@@ -1,4 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
+import { companyIdentityNamed, companyIdentityOf } from '$lib/server/clients/companyIdentity';
 import { getClient } from '$lib/server/clients/getClient';
 import { isAnthropicConfigured } from '$lib/server/anthropic/isAnthropicConfigured';
 import { readResearchedLeadForm } from '$lib/server/clients/readResearchedLeadForm';
@@ -29,7 +30,9 @@ export const actions: Actions = {
 		const clientId = String(formData.get('clientId') ?? '');
 		if (query === '') return fail(400, { message: 'A company name or website is required.' });
 		try {
-			const outcome = await researchCompany(query);
+			const existingClient = clientId === '' ? null : await getClient(locals.supabase, clientId);
+			const company = existingClient === null ? companyIdentityNamed(query) : companyIdentityOf(existingClient);
+			const outcome = await researchCompany(query, company);
 			if (outcome.kind === researchOutcomeKinds.noWebsite) return fail(404, { message: outcome.message });
 			return { researched: outcome.profile, clientId };
 		} catch (failure) {

@@ -1,6 +1,7 @@
 import { companyResearchSystemPrompt, companyResearchTool } from './companyResearchPrompt';
 import { parseResearchedProfile, type ResearchedProfile } from './researchedProfile';
 import { resolveCompanyWebsite } from './resolveCompanyWebsite';
+import { companyIdentityNamed, type CompanyIdentity } from './companyIdentity';
 import { requestAnthropic } from '$lib/server/anthropic/requestAnthropic';
 import { toolUseFrom } from '$lib/server/anthropic/anthropicTypes';
 import type { PublicPage } from './fetchPublicPage';
@@ -13,8 +14,11 @@ export type ResearchOutcome =
 
 export const researchOutcomeKinds = { researched: 'researched', noWebsite: 'no_website' } as const;
 
-export async function researchCompany(query: string): Promise<ResearchOutcome> {
-	const website = await resolveCompanyWebsite(query);
+export async function researchCompany(
+	query: string,
+	company: CompanyIdentity = companyIdentityNamed(query)
+): Promise<ResearchOutcome> {
+	const website = await resolveCompanyWebsite(query, company);
 	if (website === null) {
 		return {
 			kind: 'no_website',
