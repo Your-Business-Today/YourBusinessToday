@@ -1,4 +1,5 @@
 <script lang="ts">
+	import CompanyJobAdverts from '$lib/components/clients/CompanyJobAdverts.svelte';
 	import ProspectSeedFields from '$lib/components/clients/ProspectSeedFields.svelte';
 	import RegisterStandingLink from '$lib/components/clients/RegisterStandingLink.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
@@ -20,6 +21,7 @@
 
 	const facts = $derived(pin === null ? [] : factsAbout(pin));
 	const registerStanding = $derived(pin?.standing ?? null);
+	const isOneCompany = $derived(pin !== null && !isHub(pin));
 	const canBecomeLead = $derived(pin !== null && !isHub(pin) && pin.companyNumber !== '');
 
 	function factsAbout(company: AreaPin): string[] {
@@ -59,6 +61,9 @@
 				<a href={figures.sourceUrl} target="_blank" rel="noreferrer" class="text-xs text-chalk/70 hover:text-signal">{describeFiledFigures(figures)}</a>
 			{/if}
 		</div>
+		{#if isOneCompany}
+			<CompanyJobAdverts companyName={pin.name} place={pin.postcode} />
+		{/if}
 		{#if registerStanding !== null}
 			<RegisterStandingLink standing={registerStanding} />
 		{:else if canBecomeLead}

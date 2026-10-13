@@ -12,6 +12,7 @@ import { prospectFormActions } from '$lib/server/clients/prospectFormActions';
 import { readPatchCoverage, type PatchCoverage } from '$lib/server/sectors/patchCoverage';
 import { readBuildingCountsBySector } from '$lib/server/buildings/buildingCounts';
 import { readWatcherTimes } from '$lib/server/watch/readWatcherTimes';
+import { jobAdvertFormActions } from '$lib/server/jobAdverts/jobAdvertFormActions';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { sectorFormActions } from '$lib/server/sectors/sectorFormActions';
 import { sightingFormActions } from '$lib/server/sightings/sightingFormActions';
@@ -77,5 +78,6 @@ export const actions: Actions = {
 	...patchLeadFormActions,
 	...premisesFormActions,
 	...sectorFormActions,
-	...sightingFormActions
+	...sightingFormActions,
+	...jobAdvertFormActions
 };

@@ -17,6 +17,7 @@ import { listObservationsForCompany } from '$lib/server/observations/listObserva
 import { personFormActions } from '$lib/server/people/personFormActions';
 import { profileActions } from './profileActions';
 import { registerActions } from './registerActions';
+import { jobAdvertFormActions } from '$lib/server/jobAdverts/jobAdvertFormActions';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -48,5 +49,6 @@ export const actions: Actions = {
 	...profileActions,
 	...personFormActions,
 	...approachFormActions,
-	...groupActions
+	...groupActions,
+	...jobAdvertFormActions
 };

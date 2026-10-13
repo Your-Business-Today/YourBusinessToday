@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ClientObservations from '$lib/components/clients/ClientObservations.svelte';
 	import AssignProjectForm from '$lib/components/clients/AssignProjectForm.svelte';
+	import CompanyJobAdverts from '$lib/components/clients/CompanyJobAdverts.svelte';
 	import ClientHeader from '$lib/components/clients/ClientHeader.svelte';
 	import ClientEventLedger from '$lib/components/clients/ClientEventLedger.svelte';
 	import ClientGroupSection from '$lib/components/clients/ClientGroupSection.svelte';
@@ -36,6 +37,7 @@
 			<h2 class="font-display text-xl">Company profile</h2>
 			<a href={researchAgainHref} class={quietButtonClasses}>Research again</a>
 		</div>
+		<CompanyJobAdverts companyName={client.name} place={client.address} />
 		<CompanyProfileForm {client} />
 	</section>
 
