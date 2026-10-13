@@ -1,3 +1,5 @@
+import { toRadians } from './angles';
+
 export type Coordinates = { latitude: number; longitude: number };
 
 const earthRadiusMiles = 3958.8;
@@ -23,8 +25,4 @@ export function distanceInMetres(from: Coordinates, to: Coordinates): number {
 export function describeDistance(miles: number): string {
 	if (miles < hereWithinMiles) return 'here';
 	return `${miles.toFixed(1)} mi`;
-}
-
-function toRadians(degrees: number): number {
-	return (degrees * Math.PI) / 180;
 }

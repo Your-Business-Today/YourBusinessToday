@@ -5,11 +5,18 @@ import { afterAll, describe, expect, it } from 'vitest';
 import { strToU8, zipSync } from 'fflate';
 import { readSectorCentroids } from './codePointCentroids';
 
+const england = 'E92000001';
+const kingstonUponThames = 'E09000021';
+
+function codePointRow(postcode: string, quality: number, eastings: number, northings: number, ward: string): string {
+	return `"${postcode}",${quality},${eastings},${northings},"${england}","","","","${kingstonUponThames}","${ward}"`;
+}
+
 const rows = [
-	'"KT1 1EU",10,517900,169200,"E92000001","","","","E09000021","E05000400"',
-	'"KT1 1AA",10,518100,169400,"E92000001","","","","E09000021","E05000400"',
-	'"KT2 5AA",10,518500,170200,"E92000001","","","","E09000021","E05000401"',
-	'"KT2 5ZZ",90,0,0,"E92000001","","","","E09000021","E05000401"'
+	codePointRow('KT1 1EU', 10, 517900, 169200, 'E05000400'),
+	codePointRow('KT1 1AA', 10, 518100, 169400, 'E05000400'),
+	codePointRow('KT2 5AA', 10, 518500, 170200, 'E05000401'),
+	codePointRow('KT2 5ZZ', 90, 0, 0, 'E05000401')
 ];
 
 const folder = mkdtempSync(join(tmpdir(), 'code-point-'));

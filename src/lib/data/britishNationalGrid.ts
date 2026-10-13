@@ -1,3 +1,4 @@
+import { toDegrees, toRadians } from './angles';
 import { airy1830, helmertToWgs84 } from './helmertDatumShift';
 import type { Coordinates } from './distance';
 
@@ -8,6 +9,16 @@ export type GridPoint = { eastings: number; northings: number };
 export const nationalGrid = { scale: 0.9996012717, originLatitude: 49, originLongitude: -2, falseEast: 400000, falseNorth: -100000 };
 const closeEnoughMetres = 0.00001;
 
+/** The projection's constants worked out once on the Airy ellipsoid: its axes, its eccentricity squared and its third flattening n. */
+export const gridProjection = {
+	...airy1830,
+	...nationalGrid,
+	originLatitudeRadians: toRadians(nationalGrid.originLatitude),
+	originLongitudeRadians: toRadians(nationalGrid.originLongitude),
+	eccentricitySquared: 1 - (airy1830.semiMinor * airy1830.semiMinor) / (airy1830.semiMajor * airy1830.semiMajor),
+	thirdFlattening: (airy1830.semiMajor - airy1830.semiMinor) / (airy1830.semiMajor + airy1830.semiMinor)
+};
+
 /** Where a grid point is on the ground, as the satellites and the map tiles know it. */
 export function toCoordinates(point: GridPoint): Coordinates {
 	const onAiry = gridToLatitudeLongitude(point);
@@ -15,12 +26,8 @@ export function toCoordinates(point: GridPoint): Coordinates {
 }
 
 function gridToLatitudeLongitude(point: GridPoint): Coordinates {
-	const { semiMajor: a, semiMinor: b } = airy1830;
-	const { scale: F0, falseEast: E0, falseNorth: N0 } = nationalGrid;
-	const lat0 = toRadians(nationalGrid.originLatitude);
-	const lon0 = toRadians(nationalGrid.originLongitude);
-	const e2 = 1 - (b * b) / (a * a);
-	const n = (a - b) / (a + b);
+	const { semiMajor: a, semiMinor: b, scale: F0, falseEast: E0, falseNorth: N0 } = gridProjection;
+	const { originLatitudeRadians: lat0, originLongitudeRadians: lon0, eccentricitySquared: e2, thirdFlattening: n } = gridProjection;
 	let latitude = lat0;
 	let M = 0;
 	do {
@@ -65,12 +72,4 @@ function inverseSeries(dE: number, latitude: number, lon0: number, nu: number, r
 	const lat = latitude - VII * dE2 + VIII * dE2 * dE2 - IX * dE2 * dE2 * dE2;
 	const lon = lon0 + X * dE - XI * dE2 * dE + XII * dE2 * dE2 * dE - XIIA * dE2 * dE2 * dE2 * dE;
 	return { latitude: toDegrees(lat), longitude: toDegrees(lon) };
-}
-
-function toRadians(degrees: number): number {
-	return (degrees * Math.PI) / 180;
-}
-
-function toDegrees(radians: number): number {
-	return (radians * 180) / Math.PI;
 }

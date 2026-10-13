@@ -1,5 +1,6 @@
-import { airy1830, helmertToAiry } from './helmertDatumShift';
-import { meridionalArc, nationalGrid, type GridPoint } from './britishNationalGrid';
+import { toRadians } from './angles';
+import { helmertToAiry } from './helmertDatumShift';
+import { gridProjection, meridionalArc, type GridPoint } from './britishNationalGrid';
 import type { Coordinates } from './distance';
 
 /** Where a point on the ground falls on Ordnance Survey's grid: the shift onto the Airy datum, then the projection. */
@@ -9,12 +10,8 @@ export function toGridPoint(coordinates: Coordinates): GridPoint {
 }
 
 function project(latitude: number, longitude: number): GridPoint {
-	const { semiMajor: a, semiMinor: b } = airy1830;
-	const { scale: F0, falseEast: E0, falseNorth: N0 } = nationalGrid;
-	const lat0 = toRadians(nationalGrid.originLatitude);
-	const lon0 = toRadians(nationalGrid.originLongitude);
-	const e2 = 1 - (b * b) / (a * a);
-	const n = (a - b) / (a + b);
+	const { semiMajor: a, semiMinor: b, scale: F0, falseEast: E0, falseNorth: N0 } = gridProjection;
+	const { originLatitudeRadians: lat0, originLongitudeRadians: lon0, eccentricitySquared: e2, thirdFlattening: n } = gridProjection;
 	const sinLat = Math.sin(latitude);
 	const cosLat = Math.cos(latitude);
 	const tan2 = Math.tan(latitude) ** 2;
@@ -33,8 +30,4 @@ function project(latitude: number, longitude: number): GridPoint {
 	const northings = I + II * dL ** 2 + III * dL ** 4 + IIIA * dL ** 6;
 	const eastings = E0 + IV * dL + V * dL ** 3 + VI * dL ** 5;
 	return { eastings, northings };
-}
-
-function toRadians(degrees: number): number {
-	return (degrees * Math.PI) / 180;
 }
