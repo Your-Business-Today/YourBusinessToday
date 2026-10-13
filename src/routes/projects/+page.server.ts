@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { changeProjectOrganisation } from '$lib/server/organisations/changeProjectOrganisation';
+import { changeTeamProject } from '$lib/server/projects/changeTeamProject';
 import { createProject } from '$lib/server/projects/createProject';
 import { deleteProject } from '$lib/server/projects/deleteProject';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
@@ -14,6 +15,8 @@ import { readOrganisationChoice } from '$lib/server/organisations/organisationCh
 import { setProjectPriority } from '$lib/server/projects/setProjectPriority';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireUser } from '$lib/server/auth/requireUser';
+import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
+import { readTeamChoiceFrom, teamProjectsAreForStaff } from '$lib/data/teamProject';
 import { parseProjectDetailsForm, updateProjectDetails } from '$lib/server/projects/updateProjectDetails';
 import { projectDatabaseRefusal } from '$lib/data/projectDatabase';
 import type { Actions, PageServerLoad } from './$types';
@@ -40,10 +43,13 @@ export const actions: Actions = {
 		if (name === '') return fail(400, { message: 'A project name is required.' });
 		const choice = readOrganisationChoice(formData, await getOrganisations(locals.supabase));
 		if ('refusal' in choice) return fail(400, { message: choice.refusal });
+		const isTeamProject = readTeamChoiceFrom(formData) === true;
+		if (isTeamProject && !(await isStaffMember(locals))) return fail(400, { message: teamProjectsAreForStaff });
 		await createProject(locals.supabase, {
 			name,
 			description,
 			organisationId: choice.organisationId,
+			isTeamProject,
 			ownerId: user.id,
 			createdBy: user.id
 		});
@@ -62,6 +68,8 @@ export const actions: Actions = {
 		await updateProjectDetails(locals.supabase, projectId, edit);
 		const organisationRefusal = await changeProjectOrganisation(locals.supabase, project, formData);
 		if (organisationRefusal !== null) return fail(400, { message: organisationRefusal });
+		const teamRefusal = await changeTeamProject(locals.supabase, project, formData, await isStaffMember(locals));
+		if (teamRefusal !== null) return fail(400, { message: teamRefusal });
 		const priority = parseRank(formData.get('priority'));
 		if (priority !== null) await setProjectPriority(locals.supabase, projectId, priority, user.id);
 		return { message: `Project "${edit.name}" saved.` };

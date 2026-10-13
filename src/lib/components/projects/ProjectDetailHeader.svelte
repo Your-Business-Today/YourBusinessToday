@@ -49,7 +49,7 @@
 <WorkspaceHeader crumbs={[projectsCrumb]} title={project.name}>
 	{#snippet badge()}
 		<ProjectStatusBadge status={project.status} />
-		<OrganisationBadge organisationId={project.organisationId} {organisationName} />
+		<OrganisationBadge organisationId={project.organisationId} {organisationName} isTeamProject={project.isTeamProject} />
 		<a href="/projects/kit-versions" class="rounded-full">
 			<KitVersionBadge
 				repositoryUrl={project.repositoryUrl}
