@@ -4,6 +4,13 @@
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data, form } = $props();
+
+	const staffIntroduction =
+		'New here? Create an account with your email address, or continue with Google.';
+	const portalIntroduction =
+		'Your client portal at Your Business Today. Use the email address your invitation went to.';
+	const door = $derived(data.door);
+	const introduction = $derived(door.isPortal ? portalIntroduction : staffIntroduction);
 </script>
 
 <svelte:head>
@@ -24,9 +31,7 @@
 	{/if}
 	<div class="flex flex-col gap-2">
 		<PageTitle>Sign in</PageTitle>
-		<p class="text-chalk/70">
-			New here? Create an account with your email address, or continue with Google.
-		</p>
+		<p class="text-chalk/70">{introduction}</p>
 	</div>
 	<EmailPasswordForm
 		next={data.next}

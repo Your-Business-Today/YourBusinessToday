@@ -13,14 +13,30 @@ export async function getContactsForClient(
 	return data.map(parseClientContactRecord).sort(byPrimaryThenName);
 }
 
-export async function getClientContact(
+export function getClientContact(
 	supabase: SupabaseClient,
 	contactId: string
+): Promise<ClientContact | null> {
+	return findOneContact(supabase, 'id', contactId);
+}
+
+/** The contact a signed-in account is, or null for staff and everyone else. */
+export function getContactForAccount(
+	supabase: SupabaseClient,
+	accountId: string
+): Promise<ClientContact | null> {
+	return findOneContact(supabase, 'account_id', accountId);
+}
+
+async function findOneContact(
+	supabase: SupabaseClient,
+	column: 'id' | 'account_id',
+	value: string
 ): Promise<ClientContact | null> {
 	const { data, error } = await supabase
 		.from('client_contacts')
 		.select(clientContactColumns)
-		.eq('id', contactId)
+		.eq(column, value)
 		.maybeSingle();
 	if (error) throw error;
 	if (data === null) return null;

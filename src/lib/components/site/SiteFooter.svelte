@@ -1,6 +1,8 @@
 <script lang="ts">
 	import BrandWordmark from './BrandWordmark.svelte';
 	import { companyDetails } from '$lib/data/companyDetails';
+
+	let { linkOrigin = '' }: { linkOrigin?: string } = $props();
 </script>
 
 <footer class="border-t border-hairline bg-night print:hidden">
@@ -20,21 +22,21 @@
 			</a>
 		</div>
 		<div class="flex flex-wrap items-center gap-6">
-			<a href="/vision" class="text-sm text-chalk/60 transition hover:text-chalk">
+			<a href={`${linkOrigin}/vision`} class="text-sm text-chalk/60 transition hover:text-chalk">
 				What we build
 			</a>
-			<a href="/offer" class="text-sm text-chalk/60 transition hover:text-chalk">The offer</a>
-			<a href="/case-studies/jewel" class="text-sm text-chalk/60 transition hover:text-chalk">
+			<a href={`${linkOrigin}/offer`} class="text-sm text-chalk/60 transition hover:text-chalk">The offer</a>
+			<a href={`${linkOrigin}/case-studies/jewel`} class="text-sm text-chalk/60 transition hover:text-chalk">
 				Case study
 			</a>
-			<a href="/contact" class="text-sm text-chalk/60 transition hover:text-chalk">Contact</a>
-			<a href="/terms" class="text-sm text-chalk/60 transition hover:text-chalk">
+			<a href={`${linkOrigin}/contact`} class="text-sm text-chalk/60 transition hover:text-chalk">Contact</a>
+			<a href={`${linkOrigin}/terms`} class="text-sm text-chalk/60 transition hover:text-chalk">
 				Terms of service
 			</a>
-			<a href="/privacy" class="text-sm text-chalk/60 transition hover:text-chalk">
+			<a href={`${linkOrigin}/privacy`} class="text-sm text-chalk/60 transition hover:text-chalk">
 				Privacy statement
 			</a>
-			<a href="/company" class="text-sm text-chalk/60 transition hover:text-chalk">
+			<a href={`${linkOrigin}/company`} class="text-sm text-chalk/60 transition hover:text-chalk">
 				Company information
 			</a>
 		</div>
