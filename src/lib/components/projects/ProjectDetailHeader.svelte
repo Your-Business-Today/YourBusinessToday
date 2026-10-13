@@ -9,6 +9,7 @@
 	import { projectsCrumb } from '$lib/components/workspace/projectCrumbs';
 	import OrganisationBadge from '$lib/components/organisations/OrganisationBadge.svelte';
 	import { organisationNameLookup } from '$lib/data/organisationFamilies';
+	import { blueprintViewHref, blueprintViews } from '$lib/components/blueprint/blueprintViews';
 	import { mainRunFacts } from '$lib/data/mainRunFacts';
 	import { webAddressLabel } from '$lib/data/webAddressLabel';
 	import type { MainRun } from '$lib/data/mainRun';
@@ -67,6 +68,11 @@
 		</a>
 	{/snippet}
 	{#snippet actions()}
+		{#if hasRepository}
+			{#each blueprintViews as view (view.key)}
+				<a href={blueprintViewHref(project.id, view.path)} class={headerButtonClasses}>{view.label}</a>
+			{/each}
+		{/if}
 		<button type="button" onclick={() => (isEditModalOpen = true)} class={headerButtonClasses}>
 			Edit
 		</button>

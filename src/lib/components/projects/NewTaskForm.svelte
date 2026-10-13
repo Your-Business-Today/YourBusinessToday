@@ -19,6 +19,8 @@
 		goals = [],
 		goalId = null,
 		sequenceChoices = [],
+		hiddenFields = {},
+		submitLabel = 'Add task',
 		onCreated
 	}: {
 		createAction?: string;
@@ -26,6 +28,8 @@
 		goals?: Goal[];
 		goalId?: string | null;
 		sequenceChoices?: ProjectTask[];
+		hiddenFields?: Record<string, string>;
+		submitLabel?: string;
 		onCreated: () => void;
 	} = $props();
 
@@ -44,6 +48,9 @@
 	use:enhance={tracker.submit(onCreated)}
 	class="flex flex-col gap-4"
 >
+	{#each Object.entries(hiddenFields) as [fieldName, fieldValue] (fieldName)}
+		<input type="hidden" name={fieldName} value={fieldValue} />
+	{/each}
 	{#if parentTaskId !== null}
 		<input type="hidden" name="parentTaskId" value={parentTaskId} />
 	{/if}
@@ -84,6 +91,6 @@
 		class="self-end rounded-full bg-go px-6 py-2.5 font-display text-sm font-medium text-night
 			transition hover:brightness-110"
 	>
-		Add task
+		{submitLabel}
 	</SubmitButton>
 </form>
