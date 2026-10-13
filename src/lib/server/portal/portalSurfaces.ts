@@ -1,4 +1,4 @@
-/** The views migration 0096 opens to a client contact: only the columns the portal shows, only on their client's projects. */
+/** The views migration 0100 opens to a client contact: only the columns the portal shows, only on their client's projects. */
 export const PortalSurfaces = {
 	projects: 'portal_projects',
 	goals: 'portal_goals',

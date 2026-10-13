@@ -8,7 +8,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 /**
  * The projects YBT runs for a contact's client, read on the contact's own
- * account through the portal surfaces of migration 0096; before it runs the
+ * account through the portal surfaces of migration 0100; before it runs the
  * portal home stands with no projects.
  */
 export async function getPortalProjects(

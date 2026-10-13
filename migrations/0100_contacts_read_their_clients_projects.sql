@@ -1,4 +1,4 @@
--- 0096: a client contact reads, and only reads, what the client portal shows
+-- 0100: a client contact reads, and only reads, what the client portal shows
 -- of the projects YBT runs for their organisation — each project's name,
 -- state and live system link, its goals, and its tasks' titles and progress —
 -- on the contact's own account, never the service key.
@@ -13,7 +13,7 @@
 -- a contact for. Drops only this migration's own earlier policies and views,
 -- so it is safe to re-run.
 --
--- Run once, by hand, through scripts/run-migration.sh.
+-- Runs by itself when its pull request merges (run-migrations workflow).
 
 begin;
 
