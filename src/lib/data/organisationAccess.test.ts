@@ -9,6 +9,7 @@ import {
 	passiveFirePortal,
 	personalProject,
 	projects,
+	scarlett,
 	stuart
 } from './organisationAccess.fixtures';
 
@@ -70,5 +71,24 @@ describe('Nigel, a member of Jewel Enterprises', () => {
 describe('a project under no organisation', () => {
 	it('is reached by nobody through an organisation', () => {
 		expect(deriveProjectMemberships(organisations, memberships, [personalProject])).toEqual([]);
+	});
+});
+
+describe('Stuart and Scarlett, both project managers of Jewel Passive Fire Protection', () => {
+	const scarlettManagesPassiveFire = { organisationId: 'jewel-pfp', accountId: scarlett, isManager: true };
+	const twoManagers = [...memberships, scarlettManagesPassiveFire];
+
+	it('each manage it, while Jeremy still manages it from the organisation above', () => {
+		const managersOfPassiveFire = [stuart, scarlett, jeremy].filter((accountId) =>
+			managesOrganisation(twoManagers, organisations, accountId, 'jewel-pfp')
+		);
+		expect(managersOfPassiveFire).toEqual([stuart, scarlett, jeremy]);
+	});
+
+	it('leaves Stuart a manager when Scarlett stops being one', () => {
+		const scarlettOnPassiveFire = { ...scarlettManagesPassiveFire, isManager: false };
+		const oneManager = [...memberships, scarlettOnPassiveFire];
+		expect(managesOrganisation(oneManager, organisations, scarlett, 'jewel-pfp')).toBe(false);
+		expect(managesOrganisation(oneManager, organisations, stuart, 'jewel-pfp')).toBe(true);
 	});
 });
