@@ -1,0 +1,22 @@
+name: run migrations
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: run-migrations
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    name: Run the migrations this merge added
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: psql --version
+      - run: ./scripts/run-added-migrations.sh "${{ github.event.before }}" "${{ github.sha }}"
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
