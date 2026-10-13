@@ -45,10 +45,11 @@ Pipeline* in Your Business Today, one task per step, and are written here as eac
   holding twenty or more companies, an agent's office — is one pin; a dormant company or one
   with no accounts filed is drawn muted. Add as lead and Add with directors post to the same
   actions as the area map. Beneath the pins every postcode sector of the patch is drawn, from
-  OS Code-Point Open, as a circle at its centroid (a shape once a boundary is loaded), labelled,
+  OS Code-Point Open, as its shape (a circle at its centroid until the shapes are loaded), labelled,
   and tinted by its coverage: outlined until a person has searched it, amber with the holder's
   initials while claimed, green when searched, dashed when that was over ninety days ago. The
-  coverage strip above counts them. Choosing a sector opens its panel: who holds it, every search
+  coverage strip above counts them; while shapes are drawn the OS, Royal Mail and National Statistics
+  credit sits at the foot of the map. Choosing a sector opens its panel: where its shape came from, who holds it, every search
   with who, when and the one-line summary, Claim, Release and Hand to, and the Mark searched form.
 - `/clients/patches/[patchId]/sectors/[sector]` — one sector alone: the same panel and every
   company registered in it, for a link from a Claude or a colleague.
@@ -94,6 +95,14 @@ Code-Point Open (OGL, quarterly), its outcode, the centroid of its unit postcode
 with room for a boundary. Loaded by `node scripts/sectors/load-code-point-open.mjs <codepo_gb.zip>`,
 which converts British National Grid to WGS84 in `britishNationalGrid.ts` and `helmertDatumShift.ts`.
 A sector with no registered company still has a row, so the coverage map can never miss one.
+
+Each sector's shape is loaded by `node scripts/sectors/load-sector-shapes.mjs <codepo_gb.zip> <bdline_gb.gpkg>`,
+regenerated each quarter when Code-Point Open is released: the Voronoi tessellation of the sector
+centroids (the ground nearer each centroid than any other's), cut at the coast by the OS Boundary-Line
+`country_region` layer and simplified to `shapeToleranceMetres` in `sectorShapeRules.ts`, written to
+`boundary` as GeoJSON with `boundary_source` `code_point_voronoi`. It is an approximation drawn from the
+postcodes, not Royal Mail's own sector boundary; the GeoLytix 2012 sector polygons (OGL) were the
+alternative and were not used: drawn in 2012, they miss every sector created since.
 
 **SectorSearch** — `public.sector_searches`: one row each time a person marks a sector searched:
 the patch, the sector, what was searched (`open_web`, `register_file`, `food_hygiene`, `gazette`,
@@ -186,6 +195,7 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `loadRegisterFile` | the monthly file becomes register rows for every patch outcode |
 | `geocodeRegisterPostcodes` | one page of register postcodes located through the cache |
 | `loadCodePointOpen` | every sector in Great Britain with its centroid |
+| `loadSectorShapes` | every sector drawn as a shape rather than a circle, each quarter |
 | `recordSectorSearch` | a sector marked searched, the claim spent |
 | `claimSector`, `releaseClaim`, `passClaim`, `handSectorTo` | who holds a sector |
 | `recordSighting` | a business seen on a public page, once |

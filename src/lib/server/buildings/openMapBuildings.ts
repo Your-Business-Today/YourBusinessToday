@@ -1,4 +1,5 @@
 import { DatabaseSync } from 'node:sqlite';
+import { featureLayersMatching, geometryColumnOf } from '$lib/server/geoPackage/geoPackageLayers';
 import { ringsInGeoPackageBlob } from './geoPackageGeometry';
 import type { Ring } from '$lib/data/pointInPolygon';
 
@@ -6,27 +7,19 @@ import type { Ring } from '$lib/data/pointInPolygon';
 export type GridBounds = { minEast: number; minNorth: number; maxEast: number; maxNorth: number };
 
 const buildingTable = /building/i;
-const featureLayers = "select table_name from gpkg_contents where data_type = 'features'";
-const geometryColumnOf = 'select column_name from gpkg_geometry_columns where table_name = ?';
 
 /** The rings of every building footprint in the box, from each building layer of an OS OpenMap Local GeoPackage. */
 export function* readOpenMapBuildings(geoPackagePath: string, bounds: GridBounds): Generator<Ring[]> {
 	const database = new DatabaseSync(geoPackagePath, { readOnly: true });
 	try {
-		for (const table of buildingLayersIn(database)) yield* footprintsIn(database, table, bounds);
+		for (const table of featureLayersMatching(database, buildingTable)) yield* footprintsIn(database, table, bounds);
 	} finally {
 		database.close();
 	}
 }
 
-function buildingLayersIn(database: DatabaseSync): string[] {
-	const rows = database.prepare(featureLayers).all() as { table_name: string }[];
-	return rows.map((row) => row.table_name).filter((name) => buildingTable.test(name));
-}
-
 function* footprintsIn(database: DatabaseSync, table: string, bounds: GridBounds): Generator<Ring[]> {
-	const geometryRow = database.prepare(geometryColumnOf).get(table) as { column_name: string } | undefined;
-	const geometry = geometryRow?.column_name ?? 'geom';
+	const geometry = geometryColumnOf(database, table);
 	const query = hasSpatialIndex(database, table, geometry) ? indexedQuery(table, geometry) : scanQuery(table, geometry);
 	const rows = database.prepare(query).iterate(bounds.maxEast, bounds.minEast, bounds.maxNorth, bounds.minNorth) as Iterable<{ blob: Uint8Array }>;
 	for (const row of rows) {

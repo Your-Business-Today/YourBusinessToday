@@ -33,13 +33,23 @@ function meanOf(ring: Ring): PlanePoint {
 	return [ring.reduce((sum, [x]) => sum + x, 0) / count, ring.reduce((sum, [, y]) => sum + y, 0) / count];
 }
 
-/** The smallest box around every ring. */
-export function boundsOf(rings: Ring[]): { minX: number; minY: number; maxX: number; maxY: number } {
-	const points = rings.flat();
-	return {
-		minX: Math.min(...points.map(([x]) => x)),
-		minY: Math.min(...points.map(([, y]) => y)),
-		maxX: Math.max(...points.map(([x]) => x)),
-		maxY: Math.max(...points.map(([, y]) => y))
-	};
+/** A box in the plane, by its least and greatest x and y. */
+export type PlaneBox = { minX: number; minY: number; maxX: number; maxY: number };
+
+/** The smallest box around every ring, read point by point so a coastline of any length fits. */
+export function boundsOf(rings: Ring[]): PlaneBox {
+	const box = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+	for (const ring of rings) {
+		for (const [x, y] of ring) {
+			box.minX = Math.min(box.minX, x);
+			box.minY = Math.min(box.minY, y);
+			box.maxX = Math.max(box.maxX, x);
+			box.maxY = Math.max(box.maxY, y);
+		}
+	}
+	return box;
+}
+
+export function boxesOverlap(first: PlaneBox, second: PlaneBox): boolean {
+	return first.minX <= second.maxX && second.minX <= first.maxX && first.minY <= second.maxY && second.minY <= first.maxY;
 }
