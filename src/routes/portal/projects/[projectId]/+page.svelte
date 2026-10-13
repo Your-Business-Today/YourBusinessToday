@@ -1,5 +1,7 @@
 <script lang="ts">
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
+	import PortalRequestForm from '$lib/components/portal/PortalRequestForm.svelte';
+	import PortalRequestList from '$lib/components/portal/PortalRequestList.svelte';
 	import PortalGoalList from '$lib/components/portal/PortalGoalList.svelte';
 	import PortalTaskList from '$lib/components/portal/PortalTaskList.svelte';
 	import ProjectStatusBadge from '$lib/components/projects/ProjectStatusBadge.svelte';
@@ -38,5 +40,7 @@
 	<div class={dashboardGridClasses}>
 		<PortalTaskList tasks={project.openTasks} />
 		<PortalGoalList goals={project.currentGoals} />
+		<PortalRequestForm />
+		<PortalRequestList requests={data.requests} />
 	</div>
 </div>
