@@ -9,7 +9,9 @@
 	import { projectsCrumb } from '$lib/components/workspace/projectCrumbs';
 	import OrganisationBadge from '$lib/components/organisations/OrganisationBadge.svelte';
 	import { organisationNameLookup } from '$lib/data/organisationFamilies';
+	import { mainRunFacts } from '$lib/data/mainRunFacts';
 	import { webAddressLabel } from '$lib/data/webAddressLabel';
+	import type { MainRun } from '$lib/data/mainRun';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 	import type { Project } from '$lib/server/projects/projectRecord';
 
@@ -17,12 +19,14 @@
 		project,
 		organisations,
 		cadenceLine,
+		mainRuns,
 		latestKitVersion,
 		onAddTask
 	}: {
 		project: Project;
 		organisations: Organisation[];
 		cadenceLine: string;
+		mainRuns: MainRun[];
 		latestKitVersion: string;
 		onAddTask: () => void;
 	} = $props();
@@ -31,12 +35,15 @@
 
 	let isEditModalOpen = $state(false);
 
+	const hasRepository = $derived(project.repositoryUrl !== '');
+
 	const facts = $derived(
 		[
 			linkFact(project.repositoryUrl),
 			linkFact(project.environmentUrl),
-			project.repositoryUrl === '' ? null : { label: `⎇ ${project.defaultBranch}` },
-			project.repositoryUrl === '' ? null : { label: cadenceLine }
+			hasRepository ? { label: `⎇ ${project.defaultBranch}` } : null,
+			hasRepository ? { label: cadenceLine } : null,
+			...(hasRepository ? mainRunFacts(mainRuns) : [])
 		].filter((fact) => fact !== null)
 	);
 

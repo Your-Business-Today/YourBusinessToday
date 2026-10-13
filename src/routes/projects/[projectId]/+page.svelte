@@ -61,6 +61,7 @@
 	{project}
 	organisations={data.organisations}
 	cadenceLine={data.cadenceLine}
+	mainRuns={data.mainRuns}
 	latestKitVersion={data.latestKitVersion}
 	onAddTask={openNewTaskModal}
 />
