@@ -1,28 +1,29 @@
 import { isProjectOfClient, projectsOfClient } from './clientScope';
-import { portalProjectColumns, toPortalProject } from './portalProjectRecord';
+import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
+import { PortalSurfaceColumns, PortalSurfaces } from './portalSurfaces';
+import { toPortalProject } from './portalProjectRecord';
+import { withProjectWork } from './portalProjectWork';
 import type { PortalProject } from '$lib/portal/portalProject';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-const priorityColumn = 'priority';
-
 /**
  * The projects YBT runs for a contact's client, read on the contact's own
- * account: row-level security (migration 0096) is what lets a contact read
- * them at all, so before it runs the portal home stands with no projects.
+ * account through the portal surfaces of migration 0096; before it runs the
+ * portal home stands with no projects.
  */
 export async function getPortalProjects(
 	supabase: SupabaseClient,
 	clientId: string
 ): Promise<PortalProject[]> {
 	const { data, error } = await supabase
-		.from('projects')
-		.select(portalProjectColumns)
+		.from(PortalSurfaces.projects)
+		.select(PortalSurfaceColumns.projects)
 		.eq('client_id', clientId)
-		.order('name')
-		.order(priorityColumn, { referencedTable: 'goals' })
-		.order(priorityColumn, { referencedTable: 'tasks' });
+		.order('name');
+	if (isSchemaNotYetMigrated(error)) return [];
 	if (error) throw error;
-	return projectsOfClient(data.map(toPortalProject), clientId);
+	const projectRows = await withProjectWork(supabase, data);
+	return projectsOfClient(projectRows.map(toPortalProject), clientId);
 }
 
 export async function getPortalProject(
@@ -31,15 +32,14 @@ export async function getPortalProject(
 	clientId: string
 ): Promise<PortalProject | null> {
 	const { data, error } = await supabase
-		.from('projects')
-		.select(portalProjectColumns)
+		.from(PortalSurfaces.projects)
+		.select(PortalSurfaceColumns.projects)
 		.eq('id', projectId)
-		.order(priorityColumn, { referencedTable: 'goals' })
-		.order(priorityColumn, { referencedTable: 'tasks' })
 		.maybeSingle();
 	if (error) throw error;
 	if (data === null) return null;
-	const project = toPortalProject(data);
+	const [projectRow] = await withProjectWork(supabase, [data]);
+	const project = toPortalProject(projectRow);
 	if (!isProjectOfClient(project, clientId)) return null;
 	return project;
 }

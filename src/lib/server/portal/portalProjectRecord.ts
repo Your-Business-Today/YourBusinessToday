@@ -14,9 +14,6 @@ import type { PortalGoal, PortalProject, PortalTask } from '$lib/portal/portalPr
 
 const noGoalTitle = '';
 
-export const portalProjectColumns =
-	'id, name, status, client_id, environment_url, goals(*), tasks(*)';
-
 /** Only what a client reads leaves here: no repository, database, branch, estimate or staff notes. */
 export function toPortalProject(row: Record<string, unknown>): PortalProject {
 	const goals = readRows(row.goals).map(parseGoalRecord);
