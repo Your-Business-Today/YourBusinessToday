@@ -4,9 +4,19 @@ This repository's own instructions: its conventions, the commands that build and
 
 The project-process kit writes this file once and never touches it again, and `CLAUDE.md` is the kit's, replaced whole every time the bootstrap runs, so anything written there is lost. Write here instead. Where this file and the kit disagree about this project, this file wins, except that nothing here lifts the branch rule: the work still happens on a branch and ends as a pull request.
 
+## Migrations run when their pull request merges
+
+The `run migrations` workflow (`.github/workflows/run-migrations.yml`, calling `scripts/run-added-migrations.sh`) runs on every push to main. It runs each `migrations/*.sql` file the push **added**, in filename order, against the live Supabase database, each in a single transaction with `ON_ERROR_STOP`, as `scripts/run-migration.sh` does by hand.
+
+- **Only added files run, so a file never runs twice.** Every migration before the workflow existed was run by hand; an edit to a file already on main is never run, so a correction is a new migration file.
+- **A failed migration stops the run and fails the workflow**: that file is rolled back and the ones after it are not run. Fix forward with a new pull request.
+- **The connection is the repository secret `SUPABASE_DB_URL`** (the Session pooler string). When a push adds a migration and the secret is not set, the workflow fails and says so, so nobody takes it for run. A push with no migration passes whether or not the secret is set.
+- **No one is at the keyboard when a migration runs, so it protects the data already there.** Additive (`create table if not exists`, `add column if not exists`), safe to run twice, never dropping or rewriting a table, column or row that holds data in use. The database backups are the safety net, not the plan.
+- **The Database tasks page stays for now.** It still lists each merged migration; confirm it there once the workflow is green rather than running it again.
+
 ## The site stands before its migration runs
 
-A pull request merges by itself when CI passes and Vercel deploys main within a minute, but its migration is run by hand afterwards, from Projects > Database tasks. Between the two, the new code runs against the old schema. So a pull request whose migration adds a table, a column or a relationship ships code that stands without it:
+A pull request merges by itself when CI passes; Vercel deploys main and the run migrations workflow runs its migration at the same time, so the two race and the new code may run against the old schema for a while — or for good, if the migration fails. So a pull request whose migration adds a table, a column or a relationship ships code that stands without it:
 
 - **Every reader of the new schema on a path every request runs** — a layout load, a hook, the connector's account standing — answers empty when the schema is not there yet: `if (isSchemaNotYetMigrated(error)) return <empty>;` before the `throw`, from `$lib/server/schema/schemaNotYetMigrated`. Readers behind a page of their own may fail until the migration runs; the connector already tells the caller a migration is missing.
 - **Writes are not guarded.** A write to a table that does not exist yet fails and says so; it is never quietly dropped.

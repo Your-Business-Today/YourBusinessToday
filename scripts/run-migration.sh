@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Runs one migration file against the Supabase Postgres database, locally and
-# deliberately — the psql equivalent of a hand-run sqlcmd script. Never wire
-# this into CI: migrations change customer data and deserve a human at the
-# keyboard. The whole file runs in a single transaction and aborts on the
-# first error, so a failed migration leaves the database untouched.
+# deliberately — the psql equivalent of a hand-run sqlcmd script. Merged
+# migrations run by themselves (scripts/run-added-migrations.sh); this is for
+# running or re-running one by hand. The whole file runs in a single
+# transaction and aborts on the first error, so a failed migration leaves the
+# database untouched.
 #
 # Setup (once):
 #   brew install libpq && brew link --force libpq   # provides psql on macOS
