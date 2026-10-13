@@ -16,7 +16,7 @@ export const organisationPeopleActions: McpAction[] = [
 		area: 'organisations',
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'make someone on an organisation you manage its project manager, or stop them being one',
+		summary: 'make someone on an organisation you manage one of its project managers (it can have several), or stop them being one',
 		inputSchema: objectSchema(
 			{
 				organisationId: organisationIdField,
