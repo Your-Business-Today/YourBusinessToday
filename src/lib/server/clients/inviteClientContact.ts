@@ -7,6 +7,8 @@ import { isInviteAllowanceSpent } from '$lib/server/email/inviteAllowance';
 import { recordClientEvent } from './recordClientEvent';
 import { sendTransactionalEmail } from '$lib/server/email/sendTransactionalEmail';
 import { mintSignInLink } from '$lib/server/accounts/mintSignInLink';
+import { configuredPortalHost } from '$lib/portal/configuredPortalHost';
+import { portalOriginFor } from '$lib/portal/siteDoors';
 import type { ClientContact } from './clientContactRecord';
 import type { EmailDelivery } from '$lib/data/emailDelivery';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -27,9 +29,10 @@ export async function inviteClientContact(
 	if (contact.accountId !== null) return 'already_invited';
 	const invitesThisHour = await countContactInvitesThisHour(supabase, actorAccountId);
 	if (isInviteAllowanceSpent(invitesThisHour)) return 'too_many_invites';
-	const invitation = await mintSignInLink(contact.email, origin);
+	const portalOrigin = portalOriginFor(origin, configuredPortalHost());
+	const invitation = await mintSignInLink(contact.email, portalOrigin);
 	await linkContactToAccount(supabase, contact.id, invitation.accountId);
-	const delivery = await deliverInvitation(contact, invitation.actionLink);
+	const delivery = await deliverInvitation(contact, invitation.actionLink, portalOrigin);
 	await recordClientEvent(
 		supabase,
 		contact.clientId,
@@ -56,10 +59,14 @@ async function linkContactToAccount(
  * The account exists once the link is minted; an undelivered email must not
  * undo it, so the delivery status travels back for staff to see.
  */
-function deliverInvitation(contact: ClientContact, setPasswordUrl: string): Promise<EmailDelivery> {
+function deliverInvitation(
+	contact: ClientContact,
+	setPasswordUrl: string,
+	portalOrigin: string
+): Promise<EmailDelivery> {
 	return sendTransactionalEmail({
 		to: contact.email,
 		subject: clientInviteEmailSubject('Your Business Today'),
-		html: renderClientInviteEmail(contact.name, setPasswordUrl)
+		html: renderClientInviteEmail(contact.name, setPasswordUrl, portalOrigin)
 	});
 }

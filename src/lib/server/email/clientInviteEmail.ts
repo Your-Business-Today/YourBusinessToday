@@ -2,7 +2,11 @@ export function clientInviteEmailSubject(clientName: string): string {
 	return `Your ${clientName} account on Your Business Today`;
 }
 
-export function renderClientInviteEmail(contactName: string, setPasswordUrl: string): string {
+export function renderClientInviteEmail(
+	contactName: string,
+	setPasswordUrl: string,
+	portalOrigin: string
+): string {
 	return `
 <div style="margin:0;padding:32px 16px;background-color:#0b0e16;font-family:Arial,Helvetica,sans-serif;">
 	<div style="max-width:520px;margin:0 auto;background-color:#141927;border:1px solid #242c40;border-radius:16px;padding:32px;">
@@ -21,10 +25,23 @@ export function renderClientInviteEmail(contactName: string, setPasswordUrl: str
 		>
 			Set your password
 		</a>
-		<p style="margin:24px 0 0;font-size:12px;line-height:1.6;color:#6c7694;">
-			If the button doesn't work, open this link: <br />
-			<a href="${setPasswordUrl}" style="color:#c9d2e6;">${setPasswordUrl}</a>
-		</p>
+		${portalDoorParagraph(portalOrigin)}
+		${fallbackLinkParagraph(setPasswordUrl)}
 	</div>
 </div>`;
+}
+
+function portalDoorParagraph(portalOrigin: string): string {
+	const portalAddress = new URL(portalOrigin).host;
+	return `<p style="margin:24px 0 0;font-size:15px;line-height:1.6;color:#c9d2e6;">
+			After that, your door in is
+			<a href="${portalOrigin}" style="color:#eef1f8;">${portalAddress}</a>.
+		</p>`;
+}
+
+function fallbackLinkParagraph(setPasswordUrl: string): string {
+	return `<p style="margin:24px 0 0;font-size:12px;line-height:1.6;color:#6c7694;">
+			If the button doesn't work, open this link: <br />
+			<a href="${setPasswordUrl}" style="color:#c9d2e6;">${setPasswordUrl}</a>
+		</p>`;
 }

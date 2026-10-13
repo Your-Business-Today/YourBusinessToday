@@ -1,3 +1,4 @@
+import type { SiteDoor } from '$lib/portal/siteDoors';
 import type { Session, SupabaseClient, User } from '@supabase/supabase-js';
 
 declare global {
@@ -6,6 +7,7 @@ declare global {
 			supabase: SupabaseClient;
 			safeGetSession: () => Promise<{ session: Session | null; user: User | null }>;
 			resolvedUser?: User | null;
+			door: SiteDoor;
 		}
 	}
 }

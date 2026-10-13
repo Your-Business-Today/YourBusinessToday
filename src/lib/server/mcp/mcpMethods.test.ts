@@ -13,6 +13,7 @@ vi.mock('$env/static/public', () => ({
 	PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-publishable-key'
 }));
 vi.mock('$env/dynamic/private', () => ({ env: {} }));
+vi.mock('$env/dynamic/public', () => ({ env: {} }));
 
 type Described = Record<string, any>;
 type Answered = { result?: Described; error?: { code: number } };
