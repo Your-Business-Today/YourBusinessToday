@@ -1,13 +1,12 @@
-import { error } from '@sveltejs/kit';
-import { getPortalProject } from '$lib/server/portal/getPortalProjects';
-import { requirePortalVisitor } from '$lib/server/portal/requirePortalVisitor';
-import type { PageServerLoad } from './$types';
-
-const notFound = 404;
+import { getPortalRequests } from '$lib/server/portal/getPortalRequests';
+import { portalRequestActions } from './portalRequestActions';
+import { requirePortalProject } from '$lib/server/portal/requirePortalProject';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
-	const visitor = await requirePortalVisitor(locals);
-	const project = await getPortalProject(locals.supabase, params.projectId, visitor.clientId);
-	if (project === null) error(notFound, 'There is no such project for your organisation.');
-	return { visitor, project };
+	const { visitor, project } = await requirePortalProject(locals, params.projectId);
+	const requests = await getPortalRequests(locals.supabase, project.id);
+	return { visitor, project, requests };
 };
+
+export const actions = { ...portalRequestActions } satisfies Actions;
