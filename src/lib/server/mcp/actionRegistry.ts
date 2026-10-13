@@ -5,6 +5,7 @@ import { clientActions } from './actions/clientActions';
 import { conversationActions } from './actions/conversationActions';
 import { filingActions } from './actions/filingActions';
 import { goalActions } from './actions/goalActions';
+import { jobAdvertActions } from './actions/jobAdvertActions';
 import { observationActions } from './actions/observationActions';
 import { organisationActions } from './actions/organisationActions';
 import { patchActions } from './actions/patchActions';
@@ -30,6 +31,7 @@ const everyAction: McpAction[] = [
 	...organisationActions,
 	...patchActions,
 	...patchCompanyActions,
+	...jobAdvertActions,
 	...patchLeadActions,
 	...registerActions,
 	...filingActions,

@@ -17,6 +17,7 @@ export type AnthropicServerTool = {
 	name: string;
 	max_uses?: number;
 	user_location?: { type: 'approximate'; country?: string; timezone?: string };
+	allowed_domains?: string[];
 };
 
 export type AnthropicRequestTool = AnthropicTool | AnthropicServerTool;
