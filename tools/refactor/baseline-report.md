@@ -1,4 +1,7 @@
-# Refactor audit — baseline v8, after round 5
+# Refactor audit — baseline v9, adopted from drift at the start of round 6
+
+Adopted from drift on 2026-10-13: main's prospecting work since round 5 brought duplication 0 → 0.04% (three clones: the patch map's view box, the British National Grid conversion, and a project-action check) and two repeated Code-Point test literals. The v8 report below is kept until the round's end rewrites it.
+
 
 Generated 2026-10-12 from refactor/round-5, replacing the v7 baseline adopted from drift at the start of the same round (v6 was the end of round 4, 2026-10-11).
 
