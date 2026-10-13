@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { createPatchMap, type DrawnSector, type PatchMapHandle } from './createPatchMap';
-	import type { AreaPin } from '$lib/server/clients/area/areaPin';
-	import type { Building } from '$lib/server/buildings/buildingRecord';
-	import type { Coordinates } from '$lib/data/distance';
+	import { createPatchMap, type PatchMapHandle } from './createPatchMap';
+	import type { PatchMapProperties } from './patchMapProperties';
 
 	let {
 		patchId,
@@ -17,19 +15,7 @@
 		onSelect,
 		onPickSector,
 		onPickBuilding
-	}: {
-		patchId: string;
-		centre: Coordinates;
-		radiusMiles: number;
-		pins: AreaPin[];
-		sectors: DrawnSector[];
-		selectedKey: string | null;
-		selectedSector: string | null;
-		selectedBuildingId: string | null;
-		onSelect: (key: string) => void;
-		onPickSector: (sector: string) => void;
-		onPickBuilding: (building: Building) => void;
-	} = $props();
+	}: PatchMapProperties = $props();
 
 	let container: HTMLDivElement;
 	let handle = $state<PatchMapHandle | null>(null);
