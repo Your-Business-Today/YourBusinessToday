@@ -4,6 +4,8 @@ export type ClientEventKind =
 	| 'stage_moved'
 	| 'contact_added'
 	| 'contact_invited'
+	| 'contact_removed'
+	| 'administrator_changed'
 	| 'project_assigned'
 	| 'request_raised'
 	| 'request_decided'

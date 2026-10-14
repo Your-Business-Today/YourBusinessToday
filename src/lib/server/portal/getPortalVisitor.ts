@@ -17,6 +17,8 @@ export async function getPortalVisitor(
 	if (contact === null) return null;
 	const organisation = await getClient(supabaseServiceClient(), contact.clientId);
 	return {
+		contactId: contact.id,
+		isAdministrator: contact.isPortalAdministrator,
 		personName: contact.name,
 		emailAddress: contact.email,
 		role: contact.role,

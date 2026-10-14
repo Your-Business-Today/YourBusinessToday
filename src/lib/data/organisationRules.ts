@@ -1,3 +1,5 @@
+import { isEmailShaped } from './emailShape';
+
 export type AccountsContact = { name: string; email: string; phone: string };
 
 /** What an organisation says about itself: who it is, where invoices go, and who answers for its accounts. */
@@ -28,15 +30,13 @@ const contactLimits: Limit<AccountsContact>[] = [
 	{ label: 'The accounts contact phone', longest: longestAccountsContactPhone, read: (contact) => contact.phone }
 ];
 
-const emailShape = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 /** Why the details cannot be saved as they stand, or null when every value fits its column. */
 export function validateOrganisationDetails(details: OrganisationDetails): string | null {
 	if (details.name === '') return organisationNeedsName;
 	const contact = details.accountsContact;
 	const tooLong = tooLongRefusal(details, detailLimits) ?? tooLongRefusal(contact, contactLimits);
 	if (tooLong !== null) return tooLong;
-	if (contact.email !== '' && !emailShape.test(contact.email)) return accountsContactEmailRefusal;
+	if (contact.email !== '' && !isEmailShaped(contact.email)) return accountsContactEmailRefusal;
 	return null;
 }
 

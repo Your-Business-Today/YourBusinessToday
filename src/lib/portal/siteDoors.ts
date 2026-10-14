@@ -6,6 +6,8 @@ export const productionPortalHost = 'portal.yourbusiness.today';
 export const portalHomePath = '/';
 export const portalRoutePath = '/portal';
 export const portalProjectRouteId = `${portalRoutePath}/projects/[projectId]`;
+export const portalPeoplePath = '/people';
+export const portalPeopleRouteId = `${portalRoutePath}${portalPeoplePath}`;
 
 const portalProjectPathPattern = /^\/projects\/[^/]+$/;
 
@@ -46,6 +48,7 @@ export function portalOriginFor(origin: string, configuredPortalHost: string): s
 export function portalReroute(url: URL, configuredPortalHost: string): string | undefined {
 	if (!isPortalHost(url.host, configuredPortalHost)) return undefined;
 	if (url.pathname === portalHomePath) return portalRoutePath;
+	if (url.pathname === portalPeoplePath) return portalPeopleRouteId;
 	if (portalProjectPathPattern.test(url.pathname)) return `${portalRoutePath}${url.pathname}`;
 	return undefined;
 }

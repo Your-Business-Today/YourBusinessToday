@@ -13,6 +13,7 @@ export type ClientContact = {
 	appointedOn: string | null;
 	affiliationSource: AffiliationSource;
 	isPrimary: boolean;
+	isPortalAdministrator: boolean;
 	invitedAt: string | null;
 	createdAt: string;
 };
@@ -36,6 +37,7 @@ export function parseClientContactRecord(row: Record<string, unknown>): ClientCo
 		appointedOn: (row.appointed_on ?? null) as string | null,
 		affiliationSource: parseAffiliationSource(row.affiliation_source),
 		isPrimary: row.is_primary as boolean,
+		isPortalAdministrator: row.is_portal_administrator === true,
 		invitedAt: (row.invited_at ?? null) as string | null,
 		createdAt: row.created_at as string
 	};

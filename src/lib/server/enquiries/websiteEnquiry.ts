@@ -4,8 +4,7 @@ import {
 	type WebsiteEnquiry
 } from '$lib/data/enquiryForm';
 import { publicUrlOr } from '$lib/server/clients/parsePublicUrl';
-
-const emailShape = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { isEmailShaped } from '$lib/data/emailShape';
 
 export type EnquiryReading =
 	| { enquiry: WebsiteEnquiry }
@@ -32,7 +31,7 @@ function fieldValue(formData: FormData, fieldName: string): string {
 
 function findEnquiryProblem(enquiry: WebsiteEnquiry): string | null {
 	if (enquiry.name === '') return 'Tell us your name.';
-	if (!emailShape.test(enquiry.email)) return 'Enter an email address we can reply to.';
+	if (!isEmailShaped(enquiry.email)) return 'Enter an email address we can reply to.';
 	if (enquiry.message === '') return 'Tell us what you would like to automate.';
 	const overlongField = findOverlongField(enquiry);
 	if (overlongField === null) return null;

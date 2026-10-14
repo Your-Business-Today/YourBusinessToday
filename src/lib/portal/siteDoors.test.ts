@@ -52,6 +52,11 @@ describe('portalReroute', () => {
 		expect(portalReroute(projectPage, portalHost)).toBe('/portal/projects/project-1');
 	});
 
+	it('serves the organisation’s people page from inside the portal route', () => {
+		const peoplePage = new URL('https://portal.yourbusiness.today/people');
+		expect(portalReroute(peoplePage, portalHost)).toBe('/portal/people');
+	});
+
 	it('leaves deeper project paths and the staff host’s project pages alone', () => {
 		const taskPage = new URL('https://portal.yourbusiness.today/projects/project-1/tasks/task-1');
 		const staffProjectPage = new URL('https://yourbusiness.today/projects/project-1');

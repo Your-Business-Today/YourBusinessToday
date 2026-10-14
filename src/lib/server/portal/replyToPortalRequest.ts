@@ -1,7 +1,8 @@
 import { isOwnPortalRequest } from './getPortalRequests';
 import { postMessage } from '$lib/server/conversations/postMessage';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
-import type { PortalReply, Refusal } from './validatePortalRequest';
+import type { PortalReply } from './validatePortalRequest';
+import type { Refusal } from './portalFormReading';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 /** Posts the contact's reply on a request they raised; the request is checked on their own account first. */
