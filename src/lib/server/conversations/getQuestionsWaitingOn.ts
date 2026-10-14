@@ -1,5 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { parseWaitingQuestion, waitingQuestionColumns, type WaitingQuestion } from './waitingQuestion';
+import { getOpenQuestionRows } from './getOpenQuestionRows';
+import {
+	parseWaitingQuestion,
+	waitingQuestionColumns,
+	type WaitingQuestion
+} from './waitingQuestion';
 
 /**
  * Every open question waiting on this account, on goals and tasks alike and done tasks
@@ -10,23 +15,6 @@ export async function getQuestionsWaitingOn(
 	supabase: SupabaseClient,
 	accountId: string
 ): Promise<WaitingQuestion[]> {
-	const messageIds = await getWaitingMessageIds(supabase, accountId);
-	if (messageIds.length === 0) return [];
-	const { data, error } = await supabase
-		.from('conversation_messages')
-		.select(waitingQuestionColumns)
-		.in('id', messageIds)
-		.order('created_at', { ascending: true });
-	if (error) throw error;
-	const rows = data as unknown as Record<string, unknown>[];
+	const rows = await getOpenQuestionRows(supabase, accountId, waitingQuestionColumns);
 	return rows.flatMap((row) => parseWaitingQuestion(row) ?? []);
-}
-
-async function getWaitingMessageIds(supabase: SupabaseClient, accountId: string): Promise<string[]> {
-	const { data, error } = await supabase
-		.from('conversation_turns')
-		.select('message_id')
-		.eq('awaiting_account_id', accountId);
-	if (error) throw error;
-	return data.map((row: Record<string, unknown>) => row.message_id as string);
 }
