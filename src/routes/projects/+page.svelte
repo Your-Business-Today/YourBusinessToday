@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AssignedToYouSection from '$lib/components/projects/AssignedToYouSection.svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewProjectForm from '$lib/components/projects/NewProjectForm.svelte';
@@ -50,6 +51,7 @@
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
 	<WaitingOnYouSection waitingTasks={data.waitingTasks} />
+	<AssignedToYouSection assignedTasks={data.assignedTasks} />
 	<ProjectBoardTabs
 		{listView}
 		teamProjects={data.teamProjects}

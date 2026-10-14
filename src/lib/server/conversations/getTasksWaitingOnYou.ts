@@ -1,20 +1,25 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { accountNameLookup } from '$lib/data/accountNames';
 import { awaitingKinds, parseAwaitingKind } from '$lib/data/conversationTurn';
-import { doneTaskStatus } from '$lib/data/taskStatus';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { parseGlobalTaskRow, type GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
+import { getOpenQuestionRows } from './getOpenQuestionRows';
 
-/** An open task whose latest message hands the baton to the viewer, and who handed it. */
+/** A task with a question open for the viewer, and who asked it. */
 export type WaitingTask = GlobalTask & {
 	passedByName: string;
 	isForYourClaude: boolean;
 	since: string;
 };
 
-type WaitingTurn = { taskId: string; authorAccountId: string; isForYourClaude: boolean; since: string };
+type WaitingTurn = {
+	taskId: string;
+	authorAccountId: string;
+	isForYourClaude: boolean;
+	since: string;
+};
 
-/** Every open task, across every project, waiting on the viewer's reply — the longest wait first. */
+/** Every task, across every project, with a question waiting on the viewer — the longest wait first. */
 export async function getTasksWaitingOnYou(
 	supabase: SupabaseClient,
 	accountId: string
@@ -23,7 +28,7 @@ export async function getTasksWaitingOnYou(
 	const taskIds = turns.map((turn) => turn.taskId);
 	const authorIds = turns.map((turn) => turn.authorAccountId);
 	const [taskById, accounts] = await Promise.all([
-		getOpenTasksById(supabase, taskIds),
+		getTasksById(supabase, taskIds),
 		getAccountsById(supabase, authorIds)
 	]);
 	const nameOf = accountNameLookup(accounts);
@@ -31,19 +36,24 @@ export async function getTasksWaitingOnYou(
 		const task = taskById.get(turn.taskId);
 		if (task === undefined) return [];
 		const passedByName = nameOf(turn.authorAccountId);
-		return [{ ...task, passedByName, isForYourClaude: turn.isForYourClaude, since: turn.since }];
+		return [
+			{
+				...task,
+				passedByName,
+				isForYourClaude: turn.isForYourClaude,
+				since: turn.since
+			}
+		];
 	});
 }
 
-async function getTurnsWaitingOn(supabase: SupabaseClient, accountId: string): Promise<WaitingTurn[]> {
-	const { data, error } = await supabase
-		.from('conversation_turns')
-		.select('task_id, author_account_id, awaiting_kind, created_at')
-		.eq('awaiting_account_id', accountId)
-		.not('task_id', 'is', null)
-		.order('created_at', { ascending: true });
-	if (error) throw error;
-	return data.map(parseWaitingTurn);
+async function getTurnsWaitingOn(
+	supabase: SupabaseClient,
+	accountId: string
+): Promise<WaitingTurn[]> {
+	const columns = 'task_id, goal_id, author_account_id, awaiting_kind, created_at';
+	const rows = await getOpenQuestionRows(supabase, accountId, columns);
+	return rows.filter((row) => row.task_id !== null).map(parseWaitingTurn);
 }
 
 function parseWaitingTurn(row: Record<string, unknown>): WaitingTurn {
@@ -56,7 +66,7 @@ function parseWaitingTurn(row: Record<string, unknown>): WaitingTurn {
 	};
 }
 
-async function getOpenTasksById(
+async function getTasksById(
 	supabase: SupabaseClient,
 	taskIds: string[]
 ): Promise<Map<string, GlobalTask>> {
@@ -64,8 +74,7 @@ async function getOpenTasksById(
 	const { data, error } = await supabase
 		.from('tasks')
 		.select('*, projects!inner(name)')
-		.in('id', taskIds)
-		.neq('status', doneTaskStatus);
+		.in('id', taskIds);
 	if (error) throw error;
 	const tasks = data.map(parseGlobalTaskRow);
 	return new Map(tasks.map((task) => [task.id, task]));
