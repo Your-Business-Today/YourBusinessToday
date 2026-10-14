@@ -1,12 +1,20 @@
 <script lang="ts">
 	import PersonFacts from './PersonFacts.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
-	import { confirmButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
+	import {
+		confirmButtonClasses,
+		dangerButtonClasses,
+		quietButtonClasses
+	} from '$lib/components/site/formStyles';
 	import { leadSourceLabels } from '$lib/data/leadSources';
 	import type { Person } from '$lib/server/people/personRecord';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
-	let { person, onEdit }: { person: Person; onEdit: () => void } = $props();
+	let {
+		person,
+		onEdit,
+		onDelete
+	}: { person: Person; onEdit: () => void; onDelete: () => void } = $props();
 
 	const contactLine = $derived(
 		[person.email, person.phone, leadSourceLabels[person.leadSource]].filter(Boolean).join(' · ')
@@ -33,6 +41,7 @@
 				<input type="hidden" name="personId" value={person.id} />
 				<SubmitButton class={confirmButtonClasses} savingLabel="Drafting…">Draft approach</SubmitButton>
 			</form>
+			<button type="button" class={dangerButtonClasses} onclick={onDelete}>Delete</button>
 		</div>
 	</div>
 	<PersonFacts {person} />
