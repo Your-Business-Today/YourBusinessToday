@@ -1,4 +1,5 @@
 import { belongsAtPortal } from './belongsAtPortal';
+import { isConnectorDestination } from './connectorDestination';
 import { handOffToOtherDoor } from './handOffToOtherDoor';
 import { getMemberProjectIds } from '$lib/server/members/getMemberProjectIds';
 import { getOwnedProjectIds } from '$lib/server/projects/getOwnedProjectIds';
@@ -14,8 +15,9 @@ export function localDestinationOrDefault(destination: string | null): string {
 }
 
 /**
- * Where the signed-in session lands: the other door when this is the wrong one
- * for the account, otherwise the path it asked for, or its home.
+ * Where the signed-in session lands: the connector's next step when it is connecting a Claude,
+ * the other door when this is the wrong one for the account, otherwise the path it asked for, or
+ * its home.
  */
 export async function destinationAfterSignIn(
 	locals: App.Locals,
@@ -24,6 +26,7 @@ export async function destinationAfterSignIn(
 	const { user } = await locals.safeGetSession();
 	if (user === null) return defaultDestination;
 	const localDestination = isLocalPath(requestedDestination) ? requestedDestination : null;
+	if (isConnectorDestination(localDestination)) return localDestination;
 	if (await isAtWrongDoor(locals, user)) {
 		return handOffToOtherDoor(locals, user.email ?? '', localDestination);
 	}
