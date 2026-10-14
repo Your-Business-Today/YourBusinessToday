@@ -1,5 +1,6 @@
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { getGroupParents } from '$lib/server/clients/getGroupParents';
+import { deletePerson } from '$lib/server/people/deletePerson';
 import { getPerson } from '$lib/server/people/getPerson';
 import { getCompaniesForPerson } from '$lib/server/people/getCompaniesForPerson';
 import { getPersonEventsForClients } from '$lib/server/people/getPersonEventsForClients';
@@ -30,5 +31,10 @@ export const actions: Actions = {
 	...personFormActions,
 	...importActions,
 	...approachFormActions,
-	...researchFormActions
+	...researchFormActions,
+	deletePerson: async ({ locals, params }) => {
+		await requireStaff(locals);
+		await deletePerson(locals.supabase, params.personId);
+		redirect(303, '/people');
+	}
 };

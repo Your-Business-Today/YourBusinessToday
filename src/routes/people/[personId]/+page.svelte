@@ -1,5 +1,6 @@
 <script lang="ts">
 	import AppointmentImportForm from '$lib/components/people/AppointmentImportForm.svelte';
+	import DangerConfirmModal from '$lib/components/site/DangerConfirmModal.svelte';
 	import DraftApproachForm from '$lib/components/people/DraftApproachForm.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
@@ -19,6 +20,7 @@
 	let isEditModalOpen = $state(false);
 	let isApproachModalOpen = $state(false);
 	let isFindingsModalOpen = $state(false);
+	let isDeleteModalOpen = $state(false);
 
 	$effect(() => {
 		isApproachModalOpen = form?.approachDraft !== undefined;
@@ -33,7 +35,11 @@
 </svelte:head>
 
 <div class="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-16">
-	<PersonHeader {person} onEdit={() => (isEditModalOpen = true)} />
+	<PersonHeader
+		{person}
+		onEdit={() => (isEditModalOpen = true)}
+		onDelete={() => (isDeleteModalOpen = true)}
+	/>
 	<FormErrorNote message={form?.message ?? null} />
 
 	<section class="flex flex-col gap-4">
@@ -77,3 +83,12 @@
 		<PersonFindingsForm findings={form.findings} />
 	{/if}
 </Modal>
+
+<DangerConfirmModal
+	title="Delete person"
+	description={`This removes “${person.name}” from the People register, with their links and notes, and takes them off every company they sit on. Use it for someone added by mistake. This cannot be undone.`}
+	action="?/deletePerson"
+	fields={{ personId: person.id }}
+	submitLabel="Delete person"
+	bind:isOpen={isDeleteModalOpen}
+/>
