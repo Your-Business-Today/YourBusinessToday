@@ -2,7 +2,8 @@ import { countSupportTasksRaisedToday, dailyRaiseCeiling } from '$lib/server/sup
 import { createSupportTask } from '$lib/server/support/createSupportTask';
 import { getProject } from '$lib/server/projects/getProject';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
-import type { PortalRequestSeed, Refusal } from './validatePortalRequest';
+import type { PortalRequestSeed } from './validatePortalRequest';
+import type { Refusal } from './portalFormReading';
 
 const clientRole = 'client';
 

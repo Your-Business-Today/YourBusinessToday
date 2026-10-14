@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
-import { isRefusal, validatePortalReply, validatePortalRequest } from '$lib/server/portal/validatePortalRequest';
+import { isRefusal } from '$lib/server/portal/portalFormReading';
+import { validatePortalReply, validatePortalRequest } from '$lib/server/portal/validatePortalRequest';
 import { raisePortalRequest } from '$lib/server/portal/raisePortalRequest';
 import { replyToPortalRequest } from '$lib/server/portal/replyToPortalRequest';
 import { requirePortalProject } from '$lib/server/portal/requirePortalProject';

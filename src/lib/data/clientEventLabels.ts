@@ -4,6 +4,8 @@ export const clientEventLabels: Record<ClientEventKind, string> = {
 	stage_moved: 'Stage moved',
 	contact_added: 'Contact added',
 	contact_invited: 'Contact invited',
+	contact_removed: 'Contact removed',
+	administrator_changed: 'Portal administrator changed',
 	project_assigned: 'Project assigned',
 	request_raised: 'Support task raised',
 	request_decided: 'Support task resolved',

@@ -1,10 +1,9 @@
 import { portalRequestLimits } from '$lib/portal/portalRequest';
+import { textOf, tooLong, type Refusal } from './portalFormReading';
 
 export type PortalRequestSeed = { title: string; want: string; benefit: string };
 
 export type PortalReply = { taskId: string; body: string };
-
-export type Refusal = { refusal: string };
 
 /** The request a client typed, or why it cannot be raised as it stands. */
 export function validatePortalRequest(formData: FormData): PortalRequestSeed | Refusal {
@@ -29,16 +28,4 @@ export function validatePortalReply(formData: FormData): PortalReply | Refusal {
 	if (body === '') return { refusal: 'Write your reply first.' };
 	if (body.length > portalRequestLimits.replyLength) return tooLong('The reply', portalRequestLimits.replyLength);
 	return { taskId, body };
-}
-
-export function isRefusal(reading: object): reading is Refusal {
-	return 'refusal' in reading;
-}
-
-function textOf(formData: FormData, field: string): string {
-	return String(formData.get(field) ?? '').trim();
-}
-
-function tooLong(field: string, limit: number): Refusal {
-	return { refusal: `${field} is too long: keep it to ${limit} characters.` };
 }

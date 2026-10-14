@@ -1,8 +1,15 @@
-import { portalHomePath, portalProjectRouteId, portalRoutePath, type SiteDoor } from '$lib/portal/siteDoors';
+import {
+	portalHomePath,
+	portalPeopleRouteId,
+	portalProjectRouteId,
+	portalRoutePath,
+	type SiteDoor
+} from '$lib/portal/siteDoors';
 
 const portalRouteIds = new Set([
 	portalRoutePath,
 	portalProjectRouteId,
+	portalPeopleRouteId,
 	'/account/sign-in',
 	'/account/set-password',
 	'/auth/callback',
