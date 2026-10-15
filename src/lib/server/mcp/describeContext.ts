@@ -1,4 +1,5 @@
 import { actionsFor, areasFor } from './actionRegistry';
+import { clientContactOf } from './clientContactAccess';
 import { countPendingDatabaseTasks } from '$lib/server/databaseTasks/getDatabaseTaskRegister';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { organisationNameLookup } from '$lib/data/organisationFamilies';
@@ -11,6 +12,7 @@ export async function describeContext(caller: McpCaller): Promise<string> {
 		`Signed in as ${caller.email}.`,
 		projectsLine(caller),
 		await organisationsLine(caller),
+		await clientContactLine(caller),
 		staffLine(caller),
 		await databaseTasksLine(caller),
 		`Areas you can reach: ${areasFor(caller).join(', ')}.`,
@@ -40,6 +42,12 @@ async function organisationsLine(caller: McpCaller): Promise<string | null> {
 		return `${nameOf(membership.organisationId)}${standing}`;
 	});
 	return `You are on ${countOf(memberships.length, 'organisation')}: ${standings.join(', ')} — every project under each is yours to work; call list_organisations.`;
+}
+
+async function clientContactLine(caller: McpCaller): Promise<string | null> {
+	const contact = await clientContactOf(caller);
+	if (contact === null) return null;
+	return 'You are a contact at an organisation YBT works for: call list_portal_projects for its projects, then raise_portal_request and list_portal_requests, as on your portal.';
 }
 
 function staffLine(caller: McpCaller): string | null {

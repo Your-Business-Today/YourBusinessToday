@@ -21,7 +21,11 @@ export async function getPortalRequests(supabase: SupabaseClient, projectId: str
 	if (isSchemaNotYetMigrated(error)) return [];
 	if (error) throw error;
 	const messages = await readMessages(supabase, data.map((row) => row.id as string));
-	return data.map((row) => requestOf(row, messages));
+	return portalRequestsOf(data, messages);
+}
+
+export function portalRequestsOf(requestRows: Row[], messageRows: Row[]): PortalRequest[] {
+	return requestRows.map((row) => requestOf(row, messageRows));
 }
 
 /** Whether the signed-in contact raised this request, read on their own account. */
