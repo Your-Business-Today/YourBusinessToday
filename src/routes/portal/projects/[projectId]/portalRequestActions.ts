@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { isRefusal } from '$lib/server/portal/portalFormReading';
+import { formValues, isRefusal } from '$lib/server/portal/portalFormReading';
 import { validatePortalReply, validatePortalRequest } from '$lib/server/portal/validatePortalRequest';
 import { raisePortalRequest } from '$lib/server/portal/raisePortalRequest';
 import { replyToPortalRequest } from '$lib/server/portal/replyToPortalRequest';
@@ -11,7 +11,7 @@ const badRequest = 400;
 export const portalRequestActions = {
 	raiseRequest: async ({ locals, params, request }) => {
 		const { accountId, visitor, project } = await requirePortalProject(locals, params.projectId);
-		const seed = validatePortalRequest(await request.formData());
+		const seed = validatePortalRequest(formValues(await request.formData()));
 		if (isRefusal(seed)) return fail(badRequest, { message: seed.refusal });
 		const raised = await raisePortalRequest(accountId, project.id, seed, visitor.role);
 		if (isRefusal(raised)) return fail(badRequest, { message: raised.refusal });
@@ -19,7 +19,7 @@ export const portalRequestActions = {
 	},
 	replyToRequest: async ({ locals, params, request }) => {
 		const { accountId } = await requirePortalProject(locals, params.projectId);
-		const reply = validatePortalReply(await request.formData());
+		const reply = validatePortalReply(formValues(await request.formData()));
 		if (isRefusal(reply)) return fail(badRequest, { message: reply.refusal });
 		const refusal = await replyToPortalRequest(locals.supabase, accountId, reply);
 		if (refusal !== null) return fail(badRequest, { message: refusal.refusal });

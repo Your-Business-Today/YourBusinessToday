@@ -11,6 +11,8 @@ import { organisationActions } from './actions/organisationActions';
 import { patchActions } from './actions/patchActions';
 import { patchCompanyActions } from './actions/patchCompanyActions';
 import { patchLeadActions } from './actions/patchLeadActions';
+import { portalRequestReadActions } from './actions/portalRequestReadActions';
+import { portalRequestWriteActions } from './actions/portalRequestWriteActions';
 import { premisesActions } from './actions/premisesActions';
 import { projectActions } from './actions/projectActions';
 import { projectMembershipActions } from './actions/projectMembershipActions';
@@ -48,6 +50,8 @@ const everyAction: McpAction[] = [
 	...projectMembershipActions,
 	...goalActions,
 	...supportTaskActions,
+	...portalRequestReadActions,
+	...portalRequestWriteActions,
 	...serverErrorActions,
 	...conversationActions,
 	...waitingActions,
