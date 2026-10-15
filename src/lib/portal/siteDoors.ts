@@ -8,6 +8,8 @@ export const portalRoutePath = '/portal';
 export const portalProjectRouteId = `${portalRoutePath}/projects/[projectId]`;
 export const portalPeoplePath = '/people';
 export const portalPeopleRouteId = `${portalRoutePath}${portalPeoplePath}`;
+export const portalConnectPath = '/connect';
+export const portalConnectRouteId = `${portalRoutePath}${portalConnectPath}`;
 
 const portalProjectPathPattern = /^\/projects\/[^/]+$/;
 
@@ -49,6 +51,7 @@ export function portalReroute(url: URL, configuredPortalHost: string): string | 
 	if (!isPortalHost(url.host, configuredPortalHost)) return undefined;
 	if (url.pathname === portalHomePath) return portalRoutePath;
 	if (url.pathname === portalPeoplePath) return portalPeopleRouteId;
+	if (url.pathname === portalConnectPath) return portalConnectRouteId;
 	if (portalProjectPathPattern.test(url.pathname)) return `${portalRoutePath}${url.pathname}`;
 	return undefined;
 }

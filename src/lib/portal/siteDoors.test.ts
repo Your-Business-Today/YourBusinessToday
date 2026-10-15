@@ -57,6 +57,11 @@ describe('portalReroute', () => {
 		expect(portalReroute(peoplePage, portalHost)).toBe('/portal/people');
 	});
 
+	it('serves the connect your Claude page from inside the portal route', () => {
+		const connectPage = new URL('https://portal.yourbusiness.today/connect');
+		expect(portalReroute(connectPage, portalHost)).toBe('/portal/connect');
+	});
+
 	it('leaves deeper project paths and the staff host’s project pages alone', () => {
 		const taskPage = new URL('https://portal.yourbusiness.today/projects/project-1/tasks/task-1');
 		const staffProjectPage = new URL('https://yourbusiness.today/projects/project-1');

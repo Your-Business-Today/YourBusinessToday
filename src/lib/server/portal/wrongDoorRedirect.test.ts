@@ -9,6 +9,7 @@ describe('wrongDoorRedirect', () => {
 		expect(wrongDoorRedirect(portalDoor, '/portal')).toBeNull();
 		expect(wrongDoorRedirect(portalDoor, '/portal/projects/[projectId]')).toBeNull();
 		expect(wrongDoorRedirect(portalDoor, '/portal/people')).toBeNull();
+		expect(wrongDoorRedirect(portalDoor, '/portal/connect')).toBeNull();
 		expect(wrongDoorRedirect(portalDoor, '/account/sign-in')).toBeNull();
 		expect(wrongDoorRedirect(portalDoor, '/auth/callback')).toBeNull();
 		expect(wrongDoorRedirect(portalDoor, '/auth/hand-off')).toBeNull();
