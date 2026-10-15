@@ -1,4 +1,5 @@
 import {
+	portalConnectRouteId,
 	portalHomePath,
 	portalPeopleRouteId,
 	portalProjectRouteId,
@@ -10,6 +11,7 @@ const portalRouteIds = new Set([
 	portalRoutePath,
 	portalProjectRouteId,
 	portalPeopleRouteId,
+	portalConnectRouteId,
 	'/account/sign-in',
 	'/account/set-password',
 	'/auth/callback',
