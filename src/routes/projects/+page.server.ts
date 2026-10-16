@@ -7,7 +7,6 @@ import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { getProjectsForOwner } from '$lib/server/projects/getProjectsForOwner';
 import { getTeamProjects } from '$lib/server/members/getTeamProjects';
 import { getTasksWaitingOnYou } from '$lib/server/conversations/getTasksWaitingOnYou';
-import { getTasksAssignedToYou } from '$lib/server/projects/getTasksAssignedToYou';
 import { parseRank } from '$lib/server/ordering/rankInput';
 import { projectOrderActions } from './projectOrderActions';
 import { readOrganisationChoice } from '$lib/server/organisations/organisationChoiceForm';
@@ -26,7 +25,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const assignedTaskCounts = await getAssignedTaskCounts(locals.supabase, user.id);
 	return {
 		waitingTasks: await getTasksWaitingOnYou(locals.supabase, user.id),
-		assignedTasks: await getTasksAssignedToYou(locals.supabase, user.id),
 		projects: await getProjectsForOwner(locals.supabase, user.id, assignedTaskCounts),
 		teamProjects: await getTeamProjects(locals.supabase, user.id, assignedTaskCounts),
 		organisations: await getOrganisations(locals.supabase),
