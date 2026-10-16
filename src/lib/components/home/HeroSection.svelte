@@ -1,6 +1,7 @@
 <script lang="ts">
 	import BrandWordmark from '../site/BrandWordmark.svelte';
 	import { jewelBespokeBuildCaseStudy as caseStudy } from '$lib/data/caseStudies';
+	import { onboardingStartPath } from '$lib/onboarding/onboarding';
 </script>
 
 <section class="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:grid-cols-2">
@@ -31,6 +32,13 @@
 					transition hover:brightness-110"
 			>
 				Talk to us
+			</a>
+			<a
+				href={onboardingStartPath}
+				class="rounded-full border border-signal px-7 py-3 font-display text-sm text-signal
+					transition hover:bg-signal hover:text-night"
+			>
+				Start onboarding
 			</a>
 		</div>
 	</div>

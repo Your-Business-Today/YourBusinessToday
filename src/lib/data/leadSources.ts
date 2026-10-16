@@ -1,4 +1,4 @@
-export type LeadSource = 'staff' | 'website' | 'research' | 'companies_house' | 'sighting' | 'food_hygiene' | 'places_dataset';
+export type LeadSource = 'staff' | 'website' | 'research' | 'companies_house' | 'sighting' | 'food_hygiene' | 'places_dataset' | 'sign_up';
 
 export const leadSourceOrder: LeadSource[] = [
 	'staff',
@@ -7,7 +7,8 @@ export const leadSourceOrder: LeadSource[] = [
 	'companies_house',
 	'sighting',
 	'food_hygiene',
-	'places_dataset'
+	'places_dataset',
+	'sign_up'
 ];
 
 export const leadSourceLabels: Record<LeadSource, string> = {
@@ -17,7 +18,8 @@ export const leadSourceLabels: Record<LeadSource, string> = {
 	companies_house: 'Found on Companies House',
 	sighting: 'Sighted on the web',
 	food_hygiene: 'From the Food Standards Agency',
-	places_dataset: 'From a places dataset'
+	places_dataset: 'From a places dataset',
+	sign_up: 'Signed up on the website'
 };
 
 export function parseLeadSource(value: unknown): LeadSource {
