@@ -47,8 +47,9 @@ export const acceptanceCriterionActions: McpAction[] = [
 			['taskId', 'criterionId', 'isMet']
 		),
 		run: async (caller, input) => {
-			const taskId = readText(input, 'taskId');
-			const criteria = await getTaskAcceptanceCriteria(caller.supabase, taskId);
+			const task = await reachableTask(caller, readText(input, 'taskId'));
+			if (task === null) return noSuchTask;
+			const criteria = await getTaskAcceptanceCriteria(caller.supabase, task.id);
 			const criterion = findCriterion(criteria, readText(input, 'criterionId'));
 			if (criterion === null) return chooseAnotherCriterion(criteria);
 			const isMet = readIsMet(input);
@@ -67,8 +68,9 @@ export const acceptanceCriterionActions: McpAction[] = [
 			'criterionId'
 		]),
 		run: async (caller, input) => {
-			const taskId = readText(input, 'taskId');
-			const criteria = await getTaskAcceptanceCriteria(caller.supabase, taskId);
+			const task = await reachableTask(caller, readText(input, 'taskId'));
+			if (task === null) return noSuchTask;
+			const criteria = await getTaskAcceptanceCriteria(caller.supabase, task.id);
 			const criterion = findCriterion(criteria, readText(input, 'criterionId'));
 			if (criterion === null) return chooseAnotherCriterion(criteria);
 			await deleteAcceptanceCriterion(caller.supabase, criterion.id);
