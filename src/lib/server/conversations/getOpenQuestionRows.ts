@@ -1,19 +1,27 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { openQuestionsAmong, type ThreadMessage } from '$lib/data/openQuestion';
+import {
+	openQuestionsAmong,
+	questionsOnOpenTasks,
+	type ThreadMessage
+} from '$lib/data/openQuestion';
+import { getDoneTaskIds } from './getDoneTaskIds';
 
 type QuestionRow = Record<string, unknown> & ThreadMessage;
 
 /**
  * Every question still open for one account, read with the columns the caller asks for: on each
  * goal and task, the latest message waiting on them that they have not spoken after, even when a
- * later message on it waits on someone else.
+ * later message on it waits on someone else. A question on a done task is no longer open.
  */
 export async function getOpenQuestionRows(
 	supabase: SupabaseClient,
 	accountId: string,
 	columns: string
 ): Promise<Record<string, unknown>[]> {
-	const questions = await getQuestionsPutTo(supabase, accountId, columns);
+	const everyQuestion = await getQuestionsPutTo(supabase, accountId, columns);
+	const taskIds = [...new Set(everyQuestion.flatMap((question) => question.taskId ?? []))];
+	const doneTaskIds = await getDoneTaskIds(supabase, taskIds);
+	const questions = questionsOnOpenTasks(everyQuestion, doneTaskIds);
 	if (questions.length === 0) return [];
 	const replies = await getRepliesOnThreads(supabase, accountId, questions);
 	return openQuestionsAmong(questions, replies);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { openQuestionsAmong } from './openQuestion';
+import { openQuestionsAmong, questionsOnOpenTasks } from './openQuestion';
 
 const podcastTask = 'podcast-figures';
 const cashflowTask = 'weekly-cashflow';
@@ -43,5 +43,19 @@ describe('the questions still open for Jeremy', () => {
 	it('lists one question per task, the longest wait first', () => {
 		const questions = [askedJeremy, askedJeremyAgain, askedOnCashflow];
 		expect(openQuestionsAmong(questions, [])).toEqual([askedOnCashflow, askedJeremyAgain]);
+	});
+});
+
+describe('the questions on tasks that are still open', () => {
+	it('drops a question once its task is done and keeps the rest', () => {
+		const doneTaskIds = new Set([podcastTask]);
+		const kept = questionsOnOpenTasks([askedJeremy, askedOnCashflow], doneTaskIds);
+		expect(kept).toEqual([askedOnCashflow]);
+	});
+
+	it('keeps a question on a goal, which is never done', () => {
+		const askedOnGoal = { ...askedJeremy, taskId: null, goalId: 'grow-the-audience' };
+		const kept = questionsOnOpenTasks([askedOnGoal], new Set([podcastTask]));
+		expect(kept).toEqual([askedOnGoal]);
 	});
 });

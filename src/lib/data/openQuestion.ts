@@ -38,3 +38,16 @@ function threadOf(message: ThreadMessage): string {
 function byOldestFirst(left: ThreadMessage, right: ThreadMessage): number {
 	return left.createdAt.localeCompare(right.createdAt);
 }
+
+/** The questions whose task is still open: a question on a done task waits on nobody. */
+export function questionsOnOpenTasks<Question extends ThreadMessage>(
+	questions: Question[],
+	doneTaskIds: Set<string>
+): Question[] {
+	return questions.filter((question) => !isOnDoneTask(question, doneTaskIds));
+}
+
+function isOnDoneTask(question: ThreadMessage, doneTaskIds: Set<string>): boolean {
+	if (question.taskId === null) return false;
+	return doneTaskIds.has(question.taskId);
+}
