@@ -6,7 +6,7 @@ import { recordClientEvent } from './recordClientEvent';
 export type NewClientSeed = {
 	name: string;
 	website: string;
-	ownerId: string;
+	ownerId: string | null;
 	source?: LeadSource;
 	profile?: CompanyProfile;
 };
