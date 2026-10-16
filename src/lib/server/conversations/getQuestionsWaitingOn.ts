@@ -7,8 +7,8 @@ import {
 } from './waitingQuestion';
 
 /**
- * Every open question waiting on this account, on goals and tasks alike and done tasks
- * included, the longest waiting first. It only reads: nothing is marked picked up and the
+ * Every open question waiting on this account, on goals and open tasks alike, the longest
+ * waiting first. It only reads: nothing is marked picked up and the
  * inbox marker stays where it is, so asking twice gives the same list.
  */
 export async function getQuestionsWaitingOn(
