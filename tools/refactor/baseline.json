@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-17T01:19:06+00:00",
+  "generatedAt": "2026-10-17T01:39:16+00:00",
   "kitVersion": "1.19.0",
   "score": {
     "overall": 91.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1734,
+        "measuredAgainst": 1741,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2622,
+        "measuredAgainst": 2627,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 60.93,
+        "measuredAgainst": 61.1,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 60.93,
+        "measuredAgainst": 61.1,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2679,
+        "measuredAgainst": 2686,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 60.93,
+        "measuredAgainst": 61.1,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 60.93,
+        "measuredAgainst": 61.1,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2622,
+        "measuredAgainst": 2627,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2622,
+        "measuredAgainst": 2627,
         "score": 100.0
       },
       {
@@ -251,8 +251,8 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 1734,
-      "totalLines": 60928,
+      "totalFiles": 1741,
+      "totalLines": 61101,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
@@ -261,7 +261,7 @@
       "functionsOverLimit": 0,
       "totalFunctions": 2285,
       "elseBlocks": 0,
-      "ifBlocks": 2622,
+      "ifBlocks": 2627,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -276,7 +276,7 @@
     "duplication": {
       "clones": 0,
       "duplicatedLines": 0,
-      "totalLines": 62472,
+      "totalLines": 62669,
       "duplicatedPercentage": 0.0
     },
     "naming": {
@@ -318,7 +318,7 @@
     },
     "inventory": {
       "pages": 48,
-      "components": 394,
+      "components": 401,
       "orphanComponents": 0,
       "averagePageLines": 47
     },
@@ -333,9 +333,9 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2185,
+      "totalFiles": 2192,
       "backend": 695,
-      "frontend": 609,
+      "frontend": 616,
       "shared": 258,
       "api": 165,
       "tests": 157,
@@ -351,8 +351,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 1734,
-        "totalLines": 60928,
+        "totalFiles": 1741,
+        "totalLines": 61101,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -365,7 +365,7 @@
         "functionsOverLimit": 0,
         "totalFunctions": 2285,
         "elseBlocks": 0,
-        "ifBlocks": 2622,
+        "ifBlocks": 2627,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -796,7 +796,7 @@
           "details": 8,
           "email": 8,
           "event": 9,
-          "facts": 5,
+          "facts": 6,
           "field": 7,
           "fields": 19,
           "figures": 4,
@@ -823,7 +823,7 @@
           "name": 7,
           "names": 5,
           "node": 5,
-          "note": 7,
+          "note": 9,
           "organisation": 12,
           "organisations": 4,
           "page": 4,
@@ -832,7 +832,7 @@
           "patch": 10,
           "people": 5,
           "person": 11,
-          "pill": 8,
+          "pill": 7,
           "priority": 5,
           "profile": 6,
           "project": 20,
@@ -898,7 +898,7 @@
       "name": "inventory",
       "summary": {
         "pages": 48,
-        "components": 394,
+        "components": 401,
         "orphanComponents": 0,
         "averagePageLines": 47
       },
@@ -1292,6 +1292,10 @@
             "reusedBy": 4
           },
           {
+            "component": "src/lib/components/projects/TaskKindPill.svelte",
+            "reusedBy": 4
+          },
+          {
             "component": "src/lib/components/site/BrandWordmark.svelte",
             "reusedBy": 4
           },
@@ -1349,10 +1353,6 @@
           },
           {
             "component": "src/lib/components/projects/TaskDueDate.svelte",
-            "reusedBy": 3
-          },
-          {
-            "component": "src/lib/components/projects/TaskKindPill.svelte",
             "reusedBy": 3
           },
           {
@@ -1560,6 +1560,10 @@
             "reusedBy": 2
           },
           {
+            "component": "src/lib/components/projects/TaskCardFact.svelte",
+            "reusedBy": 2
+          },
+          {
             "component": "src/lib/components/projects/TaskGoalAndKindFields.svelte",
             "reusedBy": 2
           },
@@ -1569,10 +1573,6 @@
           },
           {
             "component": "src/lib/components/projects/TaskListRow.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/projects/TaskMetaBadges.svelte",
             "reusedBy": 2
           },
           {
@@ -1589,10 +1589,6 @@
           },
           {
             "component": "src/lib/components/sequences/TaskSequenceField.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/sequences/WaitsForPill.svelte",
             "reusedBy": 2
           },
           {
@@ -2048,7 +2044,7 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/conversations/TurnPill.svelte",
+            "component": "src/lib/components/conversations/TaskTurnNote.svelte",
             "reusedBy": 1
           },
           {
@@ -2552,6 +2548,18 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/TaskCardFacts.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskCardFooter.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskCardHandle.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/TaskDetailHeader.svelte",
             "reusedBy": 1
           },
@@ -2588,6 +2596,14 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/TaskKindTags.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskMetaBadges.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/TaskMoveFields.svelte",
             "reusedBy": 1
           },
@@ -2600,11 +2616,15 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/projects/TaskRowControls.svelte",
+            "component": "src/lib/components/projects/TaskProgressMeter.svelte",
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/projects/TaskRowMeta.svelte",
+            "component": "src/lib/components/projects/TaskRaisedDate.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/TaskRowControls.svelte",
             "reusedBy": 1
           },
           {
@@ -2672,11 +2692,19 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/sequences/TaskSequenceNote.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/sequences/TaskSequencePanel.svelte",
             "reusedBy": 1
           },
           {
             "component": "src/lib/components/sequences/TaskWaitingNote.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/sequences/WaitsForPill.svelte",
             "reusedBy": 1
           },
           {
@@ -2800,9 +2828,9 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2185,
+        "totalFiles": 2192,
         "backend": 695,
-        "frontend": 609,
+        "frontend": 616,
         "shared": 258,
         "api": 165,
         "tests": 157,
@@ -2820,9 +2848,9 @@
         },
         {
           "area": "frontend",
-          "files": 609,
-          "sourceFiles": 485,
-          "sourceLines": 17084
+          "files": 616,
+          "sourceFiles": 492,
+          "sourceLines": 17257
         },
         {
           "area": "shared",
@@ -3418,7 +3446,7 @@
       "summary": {
         "clones": 0,
         "duplicatedLines": 0,
-        "totalLines": 62472,
+        "totalLines": 62669,
         "duplicatedPercentage": 0.0
       },
       "offenders": []

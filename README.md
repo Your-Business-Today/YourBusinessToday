@@ -109,7 +109,7 @@ All code follows the conventions in [CLAUDE.md](./CLAUDE.md).
 <sub>measured 2026-10-17 · project-process kit 1.19.0</sub>
 </td></tr></table>
 
-2,185 files · backend 695 · frontend 609 · shared 258 · api 165 · tests 157 · tooling 117 · database 113 · docs 57 · infrastructure 14
+2,192 files · backend 695 · frontend 616 · shared 258 · api 165 · tests 157 · tooling 117 · database 113 · docs 57 · infrastructure 14
 
 <details>
 <summary><strong>How the 91.8% is made up</strong></summary>
@@ -117,23 +117,23 @@ All code follows the conventions in [CLAUDE.md](./CLAUDE.md).
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
 | **Standard baseline checks** | | **100.0%** | **60** | |
-| Files over the line limit | 0 in 1734 files | 100.0% | 10 | 50% of files |
+| Files over the line limit | 0 in 1741 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
 | Functions over the line limit | 0 in 2285 functions | 100.0% | 8 | 25% of functions |
-| Else blocks | 0 in 2622 branches | 100.0% | 5 | 50% of branches |
+| Else blocks | 0 in 2627 branches | 100.0% | 5 | 50% of branches |
 | Duplication % | 0 | 100.0% | 8 | 20 |
-| Explanatory comment lines | 0 in 60.93 thousand lines | 100.0% | 4 | 50 per thousand lines |
-| Inline magic values | 0 in 60.93 thousand lines | 100.0% | 4 | 20 per thousand lines |
-| Orphan components and functions | 0 in 2679 components and functions | 100.0% | 4 | 10% of components and functions |
-| Long member chain lines | 0 in 60.93 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Deeply indented lines | 0 in 60.93 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Explanatory comment lines | 0 in 61.1 thousand lines | 100.0% | 4 | 50 per thousand lines |
+| Inline magic values | 0 in 61.1 thousand lines | 100.0% | 4 | 20 per thousand lines |
+| Orphan components and functions | 0 in 2686 components and functions | 100.0% | 4 | 10% of components and functions |
+| Long member chain lines | 0 in 61.1 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Deeply indented lines | 0 in 61.1 thousand lines | 100.0% | 4 | 30 per thousand lines |
 | Overlong function names | 0 in 2285 functions | 100.0% | 4 | 10% of functions |
 | **Design pattern file count** | | **100.0%** | **10** | |
 | Files the patterns predict but are missing | 0 in 104 predicted files | 100.0% | 10 | 50% of predicted files |
 | Entities outside their expected file count | not measured | not measured | — | 50% of entities |
 | **Prose** | | **100.0%** | **20** | |
-| Conditions with calls tangled inside calls | 0 in 2622 branches | 100.0% | 8 | 25% of branches |
-| Conditions compared to a raw literal | 0 in 2622 branches | 100.0% | 6 | 25% of branches |
+| Conditions with calls tangled inside calls | 0 in 2627 branches | 100.0% | 8 | 25% of branches |
+| Conditions compared to a raw literal | 0 in 2627 branches | 100.0% | 6 | 25% of branches |
 | Accessor names that want to be a property | 0 in 2285 functions | 100.0% | 6 | 10% of functions |
 | **Widget adoption** | | **not measured** | **0** | |
 | Markup written by hand where a widget should be | not measured | not measured | — | 50% of widget slots |
@@ -145,12 +145,12 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 </details>
 
 <details>
-<summary><strong>The repository by area: 2,185 files</strong></summary>
+<summary><strong>The repository by area: 2,192 files</strong></summary>
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
 | backend | 695 | 685 | 21,831 |
-| frontend | 609 | 485 | 17,084 |
+| frontend | 616 | 492 | 17,257 |
 | shared | 258 | 244 | 7,879 |
 | api | 165 | 165 | 7,929 |
 | tests | 157 | 150 | 6,067 |
@@ -158,7 +158,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | database | 113 | 0 | 0 |
 | docs | 57 | 0 | 0 |
 | infrastructure | 14 | 0 | 0 |
-| **whole repository** | **2,185** | **1,734** | **60,928** |
+| **whole repository** | **2,192** | **1,741** | **61,101** |
 
 </details>
 
