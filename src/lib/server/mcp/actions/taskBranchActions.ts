@@ -19,8 +19,8 @@ export const taskBranchActions: McpAction[] = [
 			'Call this as soon as you create the branch for a task, and again with pullRequestUrl ' +
 			'when you open the pull request — then enable auto-merge on the pull request, so GitHub ' +
 			'merges it once its checks pass. When GitHub says that branch’s pull request merged, the ' +
-			'task is marked done with a message on its conversation, and any migration file the ' +
-			'branch added becomes a database task for the admin to run. An empty branch clears it.',
+			'task is marked done with a message on its conversation, and the repository’s own GitHub ' +
+			'workflow runs any migration file the branch added. An empty branch clears it.',
 		inputSchema: objectSchema(
 			{
 				taskId: textField('The task id'),

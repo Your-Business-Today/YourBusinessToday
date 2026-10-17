@@ -79,7 +79,7 @@
 {/if}
 {#if hasDatabase}
 	<p class="text-sm text-chalk/50">
-		A migration file a merge adds under that folder becomes a database task for the admin to run and
-		confirm, under Projects › Database tasks.
+		A migration file a merge adds under that folder is run on the database by the repository's own
+		GitHub workflow when the merge lands.
 	</p>
 {/if}

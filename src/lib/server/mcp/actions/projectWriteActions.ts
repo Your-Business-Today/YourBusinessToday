@@ -24,11 +24,9 @@ export const projectWriteActions: McpAction[] = [
 			'The repository and the default branch are what the deploy count reads: every push to that ' +
 			'branch of that repository is a deploy, and at refactorEveryDeploys of them a REFACTOR round ' +
 			'is raised on the project as the reminder to run the repository’s refactor-round skill. ' +
-			'0 turns the cadence off. The database kind and details are what the database task list ' +
-			'reads: a migration file a merge adds under the migrations folder becomes a task for the ' +
-			'admin to run, written as a sqlcmd for an Azure SQL project (server and name are needed; ' +
-			'a blank user signs in through Entra as the az login user, a named one as that SQL login) ' +
-			'or as the file link and run-migration script for a Supabase one.',
+			'0 turns the cadence off. The database kind and details record where the project’s data ' +
+			'lives and where its migrations are; the repository’s own GitHub workflow runs each ' +
+			'migration a merge adds (an Azure SQL project needs its server and name).',
 		inputSchema: objectSchema(
 			{
 				projectId: textField('The project id'),
