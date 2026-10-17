@@ -5,7 +5,8 @@ import type { McpCaller } from '$lib/server/mcp/resolveMcpCaller';
 export const raiseAnywayField = {
 	type: 'boolean',
 	description:
-		'true to raise it even though similar open tasks exist — only after showing them to the person and their choosing to'
+		'true to raise it even though similar open tasks exist — only after showing them to the person and their choosing to; ' +
+		'each of those tasks’ raisers is then asked to keep both, merge or replace theirs'
 };
 
 export const raiseAnywayRefusal = 'raiseAnyway is true or false.';

@@ -8,6 +8,8 @@ import { complexityActions } from './complexityActions';
 import { checklistActions } from './checklistActions';
 import { saveTaskActions } from './saveTaskActions';
 import { conversationActions } from './conversationActions';
+import { similarTaskReviewActions } from './similarTaskReviewActions';
+import { findReviewsWaitingOn } from '$lib/server/projects/findReviewsWaitingOn';
 import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { deleteAcceptanceCriterion } from '$lib/server/projects/deleteAcceptanceCriterion';
@@ -34,6 +36,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		messages: withAuthorNames(workspace.messages, workspace.accounts),
 		raisedByName: accountNameLookup(workspace.accounts)(task.createdBy),
 		attachments: withUploaderNames(workspace.attachments, workspace.people),
+		similarTaskReviews: await findReviewsWaitingOn(locals.supabase, task.id, user.id),
 		viewerId: user.id
 	};
 };
@@ -46,6 +49,7 @@ export const actions: Actions = {
 	...complexityActions,
 	...autocompleteActions,
 	...conversationActions,
+	...similarTaskReviewActions,
 	addSubtask: async ({ locals, params, request }) => {
 		const { user } = await requireProjectAccess(locals, params.projectId);
 		const seed = readNewTaskSeed(await request.formData());
