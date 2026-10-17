@@ -1,4 +1,5 @@
 import { buildableSentence } from '$lib/data/taskModel';
+import { buildQueueAction } from './buildQueueAction';
 import { getBuildModelSettings } from '$lib/server/buildModels/getBuildModelSettings';
 import { nextBuildableAction } from './nextBuildableAction';
 import { noSuchTask } from './describeTask';
@@ -40,5 +41,6 @@ export const buildableActions: McpAction[] = [
 			return `"${task.title}": ${buildableSentence(buildable.isBuildable, tagged, models)}`;
 		}
 	},
-	nextBuildableAction
+	nextBuildableAction,
+	buildQueueAction
 ];
