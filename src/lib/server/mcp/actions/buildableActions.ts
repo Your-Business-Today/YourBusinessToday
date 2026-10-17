@@ -2,6 +2,7 @@ import { buildableSentence } from '$lib/data/taskModel';
 import { buildQueueAction } from './buildQueueAction';
 import { getBuildModelSettings } from '$lib/server/buildModels/getBuildModelSettings';
 import { nextBuildableAction } from './nextBuildableAction';
+import { recentLifecycleAction } from './recentLifecycleAction';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { reachableTask } from '../projectAccess';
@@ -42,5 +43,6 @@ export const buildableActions: McpAction[] = [
 		}
 	},
 	nextBuildableAction,
-	buildQueueAction
+	buildQueueAction,
+	recentLifecycleAction
 ];
