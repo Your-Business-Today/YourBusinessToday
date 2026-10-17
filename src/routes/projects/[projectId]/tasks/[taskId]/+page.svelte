@@ -4,6 +4,7 @@
 	import ConversationThread from '$lib/components/conversations/ConversationThread.svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import ResolveSupportTaskForm from '$lib/components/support/ResolveSupportTaskForm.svelte';
+	import SimilarTaskReviewPanel from '$lib/components/projects/SimilarTaskReviewPanel.svelte';
 	import SubtaskList from '$lib/components/projects/SubtaskList.svelte';
 	import TaskAttachmentsSection from '$lib/components/projects/TaskAttachmentsSection.svelte';
 	import TaskAside from '$lib/components/projects/TaskAside.svelte';
@@ -26,7 +27,7 @@
 	let isSubtaskModalOpen = $state(false);
 	let isDeleteModalOpen = $state(false);
 
-	const { task, project } = $derived(data);
+	const { task, project, similarTaskReviews } = $derived(data);
 	const goal = $derived(
 		data.goals.find((candidate) => candidate.id === task.goalId) ?? null
 	);
@@ -54,6 +55,9 @@
 		<div class="flex min-w-0 flex-col gap-4">
 			<TaskWaitingNote {task} sequence={data.sequence} {waitedForAssigneeNames} />
 			<TaskStoryPanel {task} raisedByName={data.raisedByName} />
+			{#if similarTaskReviews.length > 0}
+				<SimilarTaskReviewPanel reviews={similarTaskReviews} />
+			{/if}
 			{#if isAwaitingResolution}
 				<ResolveSupportTaskForm />
 			{/if}

@@ -1,5 +1,7 @@
-import { reachableProject } from '../projectAccess';
-import { createTask, type NewTaskSeed } from '$lib/server/projects/createTask';
+import { reachableProject, reachableProjectIds } from '../projectAccess';
+import { createTask } from '$lib/server/projects/createTask';
+import { askSimilarTaskRaisers } from '$lib/server/projects/askSimilarTaskRaisers';
+import { postedViaChannels } from '$lib/data/conversationTurn';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { noSuchProject } from './describeProject';
 import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
@@ -64,7 +66,14 @@ export const taskWriteActions: McpAction[] = [
 			const seed = readConnectorTaskSeed(input, title, requester.accountId);
 			const refusal = await newTaskRefusal(caller.supabase, project.id, seed);
 			if (refusal !== null) return refusal;
+			const similarRefusal = await similarTasksRefusal(caller, seed, input.raiseAnyway);
+			if (similarRefusal !== null) return similarRefusal;
 			const taskId = await createTask(caller.supabase, project.id, seed, caller.accountId);
+			if (input.raiseAnyway === true) {
+				const raised = { ...seed, taskId, projectName: project.name };
+				const raiser = { accountId: caller.accountId, postedVia: postedViaChannels.claude };
+				await askSimilarTaskRaisers(caller.supabase, reachableProjectIds(caller), raiser, raised);
+			}
 			return `"${title}" added to ${project.name} with autocomplete on (task id: ${taskId}).`;
 		}
 	}
