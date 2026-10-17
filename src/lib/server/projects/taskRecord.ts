@@ -1,3 +1,4 @@
+import { parseTaskComplexity, type TaskComplexity } from '$lib/data/taskComplexity';
 import { parseStoryPoints } from '$lib/data/storyPoints';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
 import { parseTaskStatus, type TaskStatus } from '$lib/data/taskStatus';
@@ -15,6 +16,7 @@ export type ProjectTask = {
 	priority: number;
 	globalPriority: number | null;
 	storyPoints: number;
+	complexity: TaskComplexity | null;
 	completionPercent: number;
 	isUserStory: boolean;
 	storyRole: string;
@@ -44,6 +46,7 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		priority: row.priority as number,
 		globalPriority: (row.global_priority as number) ?? null,
 		storyPoints: parseStoryPoints(row.story_points),
+		complexity: parseTaskComplexity(row),
 		completionPercent: row.completion_percent as number,
 		isUserStory: row.is_user_story as boolean,
 		storyRole: row.story_role as string,

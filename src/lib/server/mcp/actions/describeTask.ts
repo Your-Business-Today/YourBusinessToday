@@ -1,4 +1,5 @@
 import { attachmentLines } from './describeAttachments';
+import { complexityPhrase, storyPointsForComplexity } from '$lib/data/taskComplexity';
 import { branchLine } from './describeBranch';
 import { checklistLines, criterionLines } from './describeTaskPlan';
 import { sequenceLines } from './describeSequence';
@@ -23,6 +24,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 		raisedByLine(workspace),
 		teamLine(workspace),
 		storyLine(task),
+		complexityLine(task),
 		branchLine(task),
 		...sequenceLines(workspace.sequence),
 		task.details === '' ? 'No details written yet.' : `Details: ${task.details}`,
@@ -70,6 +72,12 @@ function teamLine(workspace: TaskWorkspace): string {
 	const roleNames = workspace.roles;
 	const roles = roleNames.length === 0 ? 'none named' : roleNames.join(', ');
 	return `Assigned to ${assignees}. Roles: ${roles}.`;
+}
+
+function complexityLine(task: ProjectTask): string {
+	if (task.complexity === null) return 'Complexity: not measured yet (record_complexity).';
+	const formulaPoints = storyPointsForComplexity(task.complexity);
+	return `Complexity: ${complexityPhrase(task.complexity)}, so ${formulaPoints} points by the formula.`;
 }
 
 function storyLine(task: ProjectTask): string {
