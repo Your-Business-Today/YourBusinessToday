@@ -70,6 +70,7 @@
 				{task}
 				{isDone}
 				goalTitle={actions.goalTitleFor(task.goalId)}
+				isAutocomplete={actions.isAutocomplete(task)}
 			/>
 		</article>
 		{#if isOpen}

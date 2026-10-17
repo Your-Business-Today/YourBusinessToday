@@ -1,3 +1,4 @@
+import { parseGoalAutocomplete } from '$lib/data/autocomplete';
 import { parseGoalHorizon, type GoalHorizon } from '$lib/data/goalHorizon';
 import { parseGoalStatus, type GoalStatus } from '$lib/data/goalStatus';
 
@@ -9,6 +10,7 @@ export type Goal = {
 	status: GoalStatus;
 	horizon: GoalHorizon;
 	priority: number;
+	isAutocomplete: boolean;
 	createdBy: string | null;
 	createdAt: string;
 };
@@ -22,6 +24,7 @@ export function parseGoalRecord(row: Record<string, unknown>): Goal {
 		status: parseGoalStatus(row.status),
 		horizon: parseGoalHorizon(row.horizon),
 		priority: row.priority as number,
+		isAutocomplete: parseGoalAutocomplete(row.is_autocomplete),
 		createdBy: (row.created_by as string) ?? null,
 		createdAt: row.created_at as string
 	};

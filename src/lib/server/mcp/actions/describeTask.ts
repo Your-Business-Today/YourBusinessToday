@@ -1,4 +1,5 @@
 import { attachmentLines } from './describeAttachments';
+import { autocompleteSentence } from '$lib/data/autocomplete';
 import { branchLine } from './describeBranch';
 import { checklistLines, criterionLines } from './describeTaskPlan';
 import { sequenceLines } from './describeSequence';
@@ -7,6 +8,7 @@ import { goalHorizonLabels } from '$lib/data/goalHorizon';
 import { supportTaskKind, taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import { threadLines } from './describeMessages';
 import type { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
+import type { Goal } from '$lib/server/goals/goalRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 export type TaskWorkspace = NonNullable<Awaited<ReturnType<typeof loadTaskWorkspace>>>;
@@ -24,6 +26,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 		teamLine(workspace),
 		storyLine(task),
 		branchLine(task),
+		autocompleteSentence(task.autocompleteSetting, goalOf(workspace)?.isAutocomplete ?? null),
 		...sequenceLines(workspace.sequence),
 		task.details === '' ? 'No details written yet.' : `Details: ${task.details}`,
 		...criterionLines(workspace.criteria),
@@ -47,10 +50,14 @@ function priorityLine(task: ProjectTask): string {
 	return `Priority ${task.priority} among the project\u2019s top level tasks${queuePosition}.`;
 }
 
-function goalTitle(workspace: TaskWorkspace): string {
+function goalOf(workspace: TaskWorkspace): Goal | null {
 	const { goals, task } = workspace;
-	const goal = goals.find((candidate) => candidate.id === task.goalId);
-	if (goal === undefined) return 'none';
+	return goals.find((candidate) => candidate.id === task.goalId) ?? null;
+}
+
+function goalTitle(workspace: TaskWorkspace): string {
+	const goal = goalOf(workspace);
+	if (goal === null) return 'none';
 	return `${goal.title} (${goalHorizonLabels[goal.horizon].toLowerCase()} goal, id: ${goal.id})`;
 }
 

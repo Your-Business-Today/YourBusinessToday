@@ -1,3 +1,4 @@
+import { autocompleteActions } from './autocompleteActions';
 import { acceptanceCriterionActions } from './acceptanceCriterionActions';
 import { checklistActions } from './checklistActions';
 import { checklistItemActions } from './checklistItemActions';
@@ -26,6 +27,7 @@ export const taskActions: McpAction[] = [
 	...taskUpdateActions,
 	...taskStatusActions,
 	...taskBranchActions,
+	...autocompleteActions,
 	...taskStoryActions,
 	...taskTeamActions,
 	...taskRoleActions,

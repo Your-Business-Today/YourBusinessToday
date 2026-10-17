@@ -1,3 +1,4 @@
+import { autocompleteWord } from '$lib/data/autocomplete';
 import { goalHorizonLabels, goalHorizonOrder, goalsOnHorizon, type GoalHorizon } from '$lib/data/goalHorizon';
 import { goalStatusLabels } from '$lib/data/goalStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
@@ -13,7 +14,8 @@ export function goalLine(goal: Goal): string {
 	const measure = goal.measure === '' ? 'no measure written yet' : `measured by: ${goal.measure}`;
 	const horizon = goalHorizonLabels[goal.horizon].toLowerCase();
 	const place = `priority ${goal.priority} among the ${horizon} goals, id: ${goal.id}`;
-	return `${goal.title} — ${goalStatusLabels[goal.status]}, ${horizon} goal, ${measure} (${place})`;
+	const autocomplete = `autocomplete ${autocompleteWord(goal.isAutocomplete)}`;
+	return `${goal.title} — ${goalStatusLabels[goal.status]}, ${horizon} goal, ${autocomplete}, ${measure} (${place})`;
 }
 
 /** "Current goals, in priority order:" and the lines under it, then the long term ones. */
