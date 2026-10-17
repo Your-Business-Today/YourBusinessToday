@@ -57,7 +57,8 @@
 			onChangeStatus: (task) => dialogs.status.open(task),
 			onChangeGoal: (task) => dialogs.goal.open(task),
 			onSetPriority: (task) => dialogs.priority.open(task),
-			onChangeStoryPoints: (task) => dialogs.storyPoints.open(task)
+			onChangeStoryPoints: (task) => dialogs.storyPoints.open(task),
+			onChangeAutocomplete: (task) => dialogs.autocomplete.open(task)
 		}}
 	/>
 </div>

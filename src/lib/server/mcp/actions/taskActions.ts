@@ -1,3 +1,4 @@
+import { autocompleteActions } from './autocompleteActions';
 import { acceptanceCriterionActions } from './acceptanceCriterionActions';
 import { checklistActions } from './checklistActions';
 import { checklistItemActions } from './checklistItemActions';
@@ -10,6 +11,7 @@ import { taskRemovalActions } from './taskRemovalActions';
 import { taskRoleActions } from './taskRoleActions';
 import { complexityActions } from './complexityActions';
 import { taskSequenceActions } from './taskSequenceActions';
+import { lifecycleActions } from './lifecycleActions';
 import { taskAttachmentReadActions } from './taskAttachmentReadActions';
 import { taskAttachmentWriteActions } from './taskAttachmentWriteActions';
 import { taskReadActions } from './taskReadActions';
@@ -27,11 +29,13 @@ export const taskActions: McpAction[] = [
 	...taskUpdateActions,
 	...taskStatusActions,
 	...taskBranchActions,
+	...autocompleteActions,
 	...taskStoryActions,
 	...taskTeamActions,
 	...taskRoleActions,
 	...complexityActions,
 	...taskSequenceActions,
+	...lifecycleActions,
 	...taskOrderActions,
 	...taskQueueActions,
 	...taskParentActions,

@@ -1,20 +1,22 @@
 <script lang="ts">
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
+	import TaskAutocompleteFact from './TaskAutocompleteFact.svelte';
 	import TaskDueDate from './TaskDueDate.svelte';
 	import { isTaskDone } from '$lib/data/taskStatus';
 	import { taskStatusLabelFor } from '$lib/data/taskKind';
+	import type { Goal } from '$lib/server/goals/goalRecord';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 	let {
 		task,
-		goalTitle,
+		goal,
 		assigneeNames
-	}: { task: ProjectTask; goalTitle: string | null; assigneeNames: string[] } = $props();
+	}: { task: ProjectTask; goal: Goal | null; assigneeNames: string[] } = $props();
 
 	const queueLabel = $derived(task.globalPriority === null ? '' : ` · queue ${task.globalPriority}`);
 	const facts = $derived([
 		{ label: 'Status', value: taskStatusLabelFor(task.kind, task.status) },
-		{ label: 'Goal', value: goalTitle ?? '—' },
+		{ label: 'Goal', value: goal?.title ?? '—' },
 		{ label: 'Assignees', value: assigneeNames.length > 0 ? assigneeNames.join(', ') : 'Unassigned' },
 		{ label: 'Priority', value: `${task.priority}${queueLabel}` },
 		{ label: 'Points', value: `${task.storyPoints}` },
@@ -37,4 +39,5 @@
 			{/if}
 		</dd>
 	</dl>
+	<TaskAutocompleteFact {task} goalSetting={goal?.isAutocomplete ?? null} />
 </DashboardPanel>

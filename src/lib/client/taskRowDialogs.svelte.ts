@@ -17,4 +17,5 @@ export class TaskRowDialogs {
 	goal = new TaskRowDialog();
 	priority = new TaskRowDialog();
 	storyPoints = new TaskRowDialog();
+	autocomplete = new TaskRowDialog();
 }

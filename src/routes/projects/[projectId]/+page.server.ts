@@ -1,3 +1,4 @@
+import { autocompleteActions } from './autocompleteActions';
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
@@ -54,5 +55,6 @@ export const actions = {
 	...projectActions,
 	...goalActions,
 	...memberActions,
-	...taskActions
+	...taskActions,
+	...autocompleteActions
 } satisfies Actions;

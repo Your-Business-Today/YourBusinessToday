@@ -1,4 +1,5 @@
 import { accountNameLookup } from '$lib/data/accountNames';
+import { goalAutocomplete, isTaskAutocomplete } from '$lib/data/autocomplete';
 import { readTurn, type TurnReading } from '$lib/data/turnLabels';
 import type { ConversationTurn } from '$lib/data/conversationTurn';
 import type { SequenceStanding } from '$lib/data/taskSequenceStanding';
@@ -16,11 +17,13 @@ export type TaskRowHandlers = {
 	onChangeGoal: (task: TaskTreeNode) => void;
 	onSetPriority: (task: TaskTreeNode) => void;
 	onChangeStoryPoints: (task: TaskTreeNode) => void;
+	onChangeAutocomplete: (task: TaskTreeNode) => void;
 };
 
 export type TaskRowActions = TaskRowHandlers & {
 	assigneesFor: (taskId: string) => TaskAssignee[];
 	goalTitleFor: (goalId: string | null) => string | null;
+	isAutocomplete: (task: TaskTreeNode) => boolean;
 	turnFor: (taskId: string) => TaskTurn | null;
 	standingFor: (taskId: string) => SequenceStanding | null;
 };
@@ -42,6 +45,7 @@ export function createTaskRowActions(
 	return {
 		...handlers,
 		goalTitleFor: (goalId) => sources.goals.find((goal) => goal.id === goalId)?.title ?? null,
+		isAutocomplete: (task) => isTaskAutocomplete(task.autocompleteSetting, goalAutocomplete(sources.goals, task.goalId)),
 		assigneesFor: (taskId) => {
 			const assigneeIds = sources.assigneeIdsByTask[taskId] ?? [];
 			return sources.people

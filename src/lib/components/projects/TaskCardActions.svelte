@@ -30,6 +30,7 @@
 		{@render menuItem('Change status…', actions.onChangeStatus)}
 		{@render menuItem('Change goal…', actions.onChangeGoal)}
 		{@render menuItem('Story points…', actions.onChangeStoryPoints)}
+		{@render menuItem('Autocomplete…', actions.onChangeAutocomplete)}
 		{@render menuItem('Add subtask…', actions.onAddSubtask)}
 		<a href={editHref} role="menuitem" class={itemClasses}>Edit…</a>
 	</ActionsMenu>
