@@ -12,7 +12,7 @@ export function badgeOf(source: BadgeSource): LifecycleBadge {
 	return { step: latest.step, agent: latest.agent, isHeld: false };
 }
 
-/** "Building, Qwen on the Mac mini" */
+/** "Building, Local model" */
 export function badgeText(badge: LifecycleBadge): string {
 	return `${lifecycleStepLabels[badge.step]}, ${badge.agent}`;
 }
