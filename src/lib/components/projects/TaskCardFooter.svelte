@@ -1,20 +1,18 @@
 <script lang="ts">
 	import TaskDueDate from './TaskDueDate.svelte';
-	import TaskGoalButton from './TaskGoalButton.svelte';
+	import TaskKindTags from './TaskKindTags.svelte';
 	import TaskProgressMeter from './TaskProgressMeter.svelte';
 	import TaskRaisedDate from './TaskRaisedDate.svelte';
-	import type { ProjectTask } from '$lib/server/projects/taskRecord';
+	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 	let {
 		task,
 		isDone,
-		goalTitle,
-		onChangeGoal
+		goalTitle
 	}: {
-		task: ProjectTask;
+		task: TaskTreeNode;
 		isDone: boolean;
 		goalTitle: string | null;
-		onChangeGoal: () => void;
 	} = $props();
 
 	const hasBranch = $derived(task.branchName !== '');
@@ -24,7 +22,10 @@
 <div
 	class="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-hairline/70 pt-3 text-chalk/60"
 >
-	<TaskGoalButton {goalTitle} onOpenPicker={onChangeGoal} />
+	<TaskKindTags {task} />
+	<span title={goalTitle ?? 'Not under a goal'} class={`max-w-48 truncate ${chipClasses}`}>
+		{goalTitle ?? 'No goal'}
+	</span>
 	<span title="Story points — how big the task is" class={`whitespace-nowrap ${chipClasses}`}>
 		{task.storyPoints} pts
 	</span>
