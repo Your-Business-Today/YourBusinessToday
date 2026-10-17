@@ -1,12 +1,6 @@
 {
   "score": 91.8,
-  "steps": [
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Duplication %: 0.02 to zero",
-      "detail": "Scores 99.9% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time."
-    }
-  ],
+  "steps": [],
   "targets": [],
   "designPatterns": {
     "name": "designPatterns",
