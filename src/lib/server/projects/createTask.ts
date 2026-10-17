@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { isStoryComplete, type UserStory } from '$lib/data/userStoryRule';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
 import { nextQueueRank, nextSiblingRank } from '$lib/server/projects/nextRanks';
+import type { AutocompleteSetting } from '$lib/data/autocomplete';
 
 export type NewTaskSeed = {
 	title: string;
@@ -13,6 +14,7 @@ export type NewTaskSeed = {
 	kind: TaskKind;
 	story?: UserStory;
 	requestedBy?: string;
+	autocomplete?: AutocompleteSetting;
 };
 
 export function readNewTaskSeed(formData: FormData): NewTaskSeed | null {
@@ -56,13 +58,17 @@ export async function createTask(
 			priority: await nextSiblingRank(supabase, projectId, seed.parentTaskId),
 			global_priority: globalPriority,
 			created_by: createdBy,
-			requested_by: seed.requestedBy ?? null,
+			...requestColumns(seed),
 			...storyColumns(seed.story)
 		})
 		.select('id')
 		.single();
 	if (error) throw error;
 	return data.id;
+}
+
+function requestColumns(seed: NewTaskSeed): Record<string, unknown> {
+	return { requested_by: seed.requestedBy ?? null, is_autocomplete: seed.autocomplete ?? null };
 }
 
 function storyColumns(story: UserStory | undefined): Record<string, unknown> {

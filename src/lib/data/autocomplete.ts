@@ -16,6 +16,9 @@ export const autocompleteChoiceLabels: Record<AutocompleteChoice, string> = {
 	follow_goal: 'Follow its goal'
 };
 
+/** A task the connector raises starts with autocomplete on, set on the task, while the build process is proven. */
+export const connectorTaskAutocomplete: AutocompleteSetting = true;
+
 export const autocompleteChoiceRefusal = 'Autocomplete is one of on, off or follow_goal.';
 
 /** The setting a choice stands for, or undefined when the choice is not one of the three — never guessed. */
