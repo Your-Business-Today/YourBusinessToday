@@ -37,7 +37,7 @@
 		onToggle={() => openRows.toggle(openRowKey)}
 	/>
 	{#if isOpen}
-		<ol id={panelId} class="flex flex-col divide-y divide-hairline">
+		<ol id={panelId} class="flex flex-col gap-3 p-2 sm:p-3">
 			{#each tasks as task, taskIndex (task.id)}
 				<TaskListRow
 					{task}

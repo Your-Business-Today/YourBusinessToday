@@ -6,7 +6,7 @@
 	let { task, actions }: { task: TaskTreeNode; actions: TaskRowActions } = $props();
 </script>
 
-<div class="flex shrink-0 items-center gap-2 pt-0.5">
+<div class="ml-auto flex shrink-0 items-center gap-2 pt-0.5">
 	<TaskStatusButton
 		status={task.status}
 		kind={task.kind}

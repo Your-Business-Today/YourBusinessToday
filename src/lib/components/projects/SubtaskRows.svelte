@@ -21,7 +21,7 @@
 	const subtasks = $derived(parentTask.subtasks);
 </script>
 
-<ol id={panelId} class="ml-7 flex flex-col border-l border-hairline sm:ml-12">
+<ol id={panelId} class="mt-2 ml-2 flex flex-col gap-2 border-l-2 border-hairline pl-2 sm:ml-8 sm:pl-4">
 	{#each subtasks as subtask, subtaskIndex (subtask.id)}
 		<TaskListRow
 			task={subtask}
