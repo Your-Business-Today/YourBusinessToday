@@ -15,6 +15,7 @@ import { taskSequenceActions } from './taskSequenceActions';
 import { lifecycleActions } from './lifecycleActions';
 import { localBuildActions } from './localBuildActions';
 import { modelSettingsActions } from './modelSettingsActions';
+import { saveBuildModelAction } from './saveBuildModelAction';
 import { taskAttachmentReadActions } from './taskAttachmentReadActions';
 import { taskAttachmentWriteActions } from './taskAttachmentWriteActions';
 import { taskReadActions } from './taskReadActions';
@@ -44,6 +45,7 @@ export const taskActions: McpAction[] = [
 	...taskSequenceActions,
 	...lifecycleActions,
 	...modelSettingsActions,
+	saveBuildModelAction,
 	...buildableActions,
 	...localBuildActions,
 	...taskOrderActions,
