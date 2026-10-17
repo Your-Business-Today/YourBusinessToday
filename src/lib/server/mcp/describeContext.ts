@@ -1,5 +1,5 @@
 import { actionsFor, areasFor } from './actionRegistry';
-import { clientContactOf } from './clientContactAccess';
+import { clientContactsOf } from './clientContactAccess';
 import { countPendingDatabaseTasks } from '$lib/server/databaseTasks/getDatabaseTaskRegister';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { organisationNameLookup } from '$lib/data/organisationFamilies';
@@ -45,9 +45,10 @@ async function organisationsLine(caller: McpCaller): Promise<string | null> {
 }
 
 async function clientContactLine(caller: McpCaller): Promise<string | null> {
-	const contact = await clientContactOf(caller);
-	if (contact === null) return null;
-	return 'You are a contact at an organisation YBT works for: call list_portal_projects for its projects, then raise_portal_request and list_portal_requests, as on your portal.';
+	const contacts = await clientContactsOf(caller);
+	if (contacts.length === 0) return null;
+	const organisations = countOf(contacts.length, 'organisation');
+	return `You are a contact at ${organisations} YBT works for: call list_portal_projects for their projects, then raise_portal_request and list_portal_requests, as on your portal.`;
 }
 
 function staffLine(caller: McpCaller): string | null {

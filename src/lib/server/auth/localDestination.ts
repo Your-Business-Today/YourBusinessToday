@@ -1,5 +1,5 @@
 import { belongsAtPortal } from './belongsAtPortal';
-import { isConnectorDestination } from './connectorDestination';
+import { isConnectorDestination, isSignUpDestination } from './connectorDestination';
 import { handOffToOtherDoor } from './handOffToOtherDoor';
 import { getMemberProjectIds } from '$lib/server/members/getMemberProjectIds';
 import { getOwnedProjectIds } from '$lib/server/projects/getOwnedProjectIds';
@@ -27,6 +27,7 @@ export async function destinationAfterSignIn(
 	if (user === null) return defaultDestination;
 	const localDestination = isLocalPath(requestedDestination) ? requestedDestination : null;
 	if (isConnectorDestination(localDestination)) return localDestination;
+	if (isSignUpDestination(localDestination)) return localDestination;
 	if (await isAtWrongDoor(locals, user)) {
 		return handOffToOtherDoor(locals, user.email ?? '', localDestination);
 	}

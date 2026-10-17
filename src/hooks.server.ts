@@ -8,6 +8,7 @@ import { runWithModelResolver } from '$lib/server/anthropic/modelContext';
 import { configuredPortalHost } from '$lib/portal/configuredPortalHost';
 import { siteDoorFor } from '$lib/portal/siteDoors';
 import { wrongDoorRedirect } from '$lib/server/portal/wrongDoorRedirect';
+import { portalOrganisationCookie } from '$lib/portal/portalVisitor';
 import type { Cookies, Handle } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -25,6 +26,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const doorRedirect = wrongDoorRedirect(locals.door, route.id);
 	if (doorRedirect !== null) return redirectResponse(doorRedirect);
 	locals.supabase = supabaseClientFor(event.cookies);
+	locals.portalOrganisationId = event.cookies.get(portalOrganisationCookie) ?? null;
 	locals.safeGetSession = () => readSession(locals);
 	return runWithModelResolver(modelOverrideResolver(locals.supabase), () =>
 		resolve(event, {
