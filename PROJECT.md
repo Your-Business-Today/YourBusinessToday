@@ -12,7 +12,7 @@ The `run migrations` workflow (`.github/workflows/run-migrations.yml`, calling `
 - **A failed migration stops the run and fails the workflow**: that file is rolled back and the ones after it are not run. Fix forward with a new pull request.
 - **The connection is the repository secret `SUPABASE_DB_URL`** (the Session pooler string). When a push adds a migration and the secret is not set, the workflow fails and says so, so nobody takes it for run. A push with no migration passes whether or not the secret is set.
 - **No one is at the keyboard when a migration runs, so it protects the data already there.** Additive (`create table if not exists`, `add column if not exists`), safe to run twice, never dropping or rewriting a table, column or row that holds data in use. The database backups are the safety net, not the plan.
-- **The Database tasks page stays for now.** It still lists each merged migration; confirm it there once the workflow is green rather than running it again.
+- **A green run is the record that a migration ran.** There is no list to confirm it on; a red run is the one thing to act on.
 
 ## The site stands before its migration runs
 

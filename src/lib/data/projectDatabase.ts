@@ -45,10 +45,6 @@ export function migrationsFolderOf(database: ProjectDatabase): string {
 	return migrationsPathWhenUnset[database.kind];
 }
 
-export function signsInThroughEntra(database: ProjectDatabase): boolean {
-	return database.user === '';
-}
-
 export function hasDatabase(database: ProjectDatabase): boolean {
 	return database.kind !== databaseKinds.none;
 }

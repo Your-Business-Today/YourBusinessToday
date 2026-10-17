@@ -1,4 +1,3 @@
-import { databaseTaskActions } from './databaseTaskActions';
 import { feedActions } from './feedActions';
 import { projectBlueprintActions } from './projectBlueprintActions';
 import { projectCreateActions } from './projectCreateActions';
@@ -14,7 +13,6 @@ export const projectActions: McpAction[] = [
 	...projectReadActions,
 	...projectBlueprintActions,
 	...feedActions,
-	...databaseTaskActions,
 	...projectCreateActions,
 	...projectWriteActions,
 	...projectRemovalActions,

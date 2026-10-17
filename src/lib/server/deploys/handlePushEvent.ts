@@ -5,7 +5,6 @@ import { projectProcessDefaultBranch, projectProcessRepositoryUrl } from '$lib/s
 import { raiseRefactorRoundIfDue, type RoundOutcome } from '$lib/server/refactor/raiseRefactorRoundIfDue';
 import { readLatestKitVersion, readKitVersionOfProject, type KitVersionReading } from '$lib/server/kit/readKitVersions';
 import { readPushEvent, type PushedDeploy } from './readPushEvent';
-import { raiseDatabaseTasks } from '$lib/server/databaseTasks/raiseDatabaseTasks';
 import { recordDeploy } from './recordDeploy';
 import { readBlueprintOnDeploy } from '$lib/server/blueprint/readBlueprintOnDeploy';
 import type { Project } from '$lib/server/projects/projectRecord';
@@ -19,13 +18,12 @@ type DeployOutcome = {
 	isNew: boolean;
 	round: RoundOutcome;
 	kit: KitVersionReading;
-	databaseTasksRaised: number;
 	blueprint: Awaited<ReturnType<typeof readBlueprintOnDeploy>>;
 };
 
 /**
  * A push to a project's default branch is a deploy: record it, read the kit version, the domain and the site map
- * it carries, raise a database task for every migration it added, then raise the refactor round if it is due. A push to project-process's own
+ * it carries, then raise the refactor round if it is due. A push to project-process's own
  * default branch also refreshes the latest kit version.
  */
 export async function handlePushEvent(
@@ -55,9 +53,8 @@ async function recordAndRaise(
 	const isNew = await recordDeploy(supabase, { projectId: project.id, deliveryId, deploy });
 	const kit = await readKitVersionOfProject(supabase, project, pushedRef(deploy));
 	const blueprint = await readBlueprintOnDeploy(supabase, project, pushedRef(deploy));
-	const databaseTasksRaised = isNew ? await raiseDatabaseTasks(supabase, project, deploy) : 0;
 	const round = isNew ? await raiseRefactorRoundIfDue(supabase, project) : 'not_due';
-	return { projectId: project.id, isNew, round, kit, databaseTasksRaised, blueprint };
+	return { projectId: project.id, isNew, round, kit, blueprint };
 }
 
 function isProjectProcessRelease(deploy: PushedDeploy): boolean {

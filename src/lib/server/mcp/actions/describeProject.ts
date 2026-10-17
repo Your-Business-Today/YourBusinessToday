@@ -69,8 +69,8 @@ function codeLine(project: Project, cadenceLine: string): string {
 
 function databaseLine(project: Project): string {
 	const { database } = project;
-	if (!hasDatabase(database)) return 'No database recorded, so a migration it merges raises no database task.';
-	return `Database: ${databaseKindLabels[database.kind]}, migrations in ${migrationsFolderOf(database)} — each one a merge adds is a database task for the admin to run.`;
+	if (!hasDatabase(database)) return 'No database recorded.';
+	return `Database: ${databaseKindLabels[database.kind]}, migrations in ${migrationsFolderOf(database)}, each run by GitHub when the merge that adds it lands.`;
 }
 
 function backlogLines(tasks: TaskTreeNode[], goals: Goal[]): string[] {
