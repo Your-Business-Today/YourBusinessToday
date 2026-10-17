@@ -1,5 +1,6 @@
 import { attachmentLines } from './describeAttachments';
 import { branchLine } from './describeBranch';
+import { lifecycleLines } from './describeLifecycle';
 import { checklistLines, criterionLines } from './describeTaskPlan';
 import { sequenceLines } from './describeSequence';
 import { accountNameLookup } from '$lib/data/accountNames';
@@ -29,6 +30,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 		...criterionLines(workspace.criteria),
 		...checklistLines(workspace.checklists),
 		...attachmentLines(workspace.attachments, workspace.people),
+		...lifecycleLines(workspace.lifecycleSteps),
 		...threadLines(workspace.messages, workspace.accounts)
 	]
 		.filter((line) => line !== null)

@@ -9,6 +9,7 @@ import { taskQueueActions } from './taskQueueActions';
 import { taskRemovalActions } from './taskRemovalActions';
 import { taskRoleActions } from './taskRoleActions';
 import { taskSequenceActions } from './taskSequenceActions';
+import { lifecycleActions } from './lifecycleActions';
 import { taskAttachmentReadActions } from './taskAttachmentReadActions';
 import { taskAttachmentWriteActions } from './taskAttachmentWriteActions';
 import { taskReadActions } from './taskReadActions';
@@ -30,6 +31,7 @@ export const taskActions: McpAction[] = [
 	...taskTeamActions,
 	...taskRoleActions,
 	...taskSequenceActions,
+	...lifecycleActions,
 	...taskOrderActions,
 	...taskQueueActions,
 	...taskParentActions,

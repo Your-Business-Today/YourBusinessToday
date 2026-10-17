@@ -13,6 +13,7 @@ import { getTaskRoles } from '$lib/server/projects/getTaskRoles';
 import { getTaskSequence } from '$lib/server/projects/getTaskSequence';
 import { getConversationParticipantIds } from '$lib/server/conversations/getConversationParticipantIds';
 import { getThread } from '$lib/server/conversations/getThread';
+import { getLifecycleSteps } from '$lib/server/lifecycle/getLifecycleSteps';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 export async function loadTaskWorkspace(
@@ -56,11 +57,12 @@ async function loadProjectRecords(supabase: SupabaseClient, projectId: string) {
 }
 
 async function loadConversationRecords(supabase: SupabaseClient, taskId: string) {
-	const [messages, participantIds] = await Promise.all([
+	const [messages, participantIds, lifecycleSteps] = await Promise.all([
 		getThread(supabase, { taskId }, true),
-		getConversationParticipantIds(supabase, { taskId })
+		getConversationParticipantIds(supabase, { taskId }),
+		getLifecycleSteps(supabase, { taskId })
 	]);
-	return { messages, participantIds };
+	return { messages, participantIds, lifecycleSteps };
 }
 
 async function loadPlanRecords(supabase: SupabaseClient, task: ProjectTask) {
