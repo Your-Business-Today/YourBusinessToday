@@ -1,5 +1,6 @@
 import { attachmentLines } from './describeAttachments';
 import { autocompleteSentence } from '$lib/data/autocomplete';
+import { complexityLine, storyLine } from './describeTaskWork';
 import { branchLine } from './describeBranch';
 import { lifecycleLines } from './describeLifecycle';
 import { checklistLines, criterionLines } from './describeTaskPlan';
@@ -26,6 +27,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 		raisedByLine(workspace),
 		teamLine(workspace),
 		storyLine(task),
+		complexityLine(task),
 		branchLine(task),
 		autocompleteSentence(task.autocompleteSetting, goalOf(workspace)?.isAutocomplete ?? null),
 		...sequenceLines(workspace.sequence),
@@ -79,9 +81,4 @@ function teamLine(workspace: TaskWorkspace): string {
 	const roleNames = workspace.roles;
 	const roles = roleNames.length === 0 ? 'none named' : roleNames.join(', ');
 	return `Assigned to ${assignees}. Roles: ${roles}.`;
-}
-
-function storyLine(task: ProjectTask): string {
-	if (!task.isUserStory) return 'This is not written as a user story yet.';
-	return `Story: as ${task.storyRole}, I want ${task.storyWant}, so that ${task.storyBenefit}.`;
 }

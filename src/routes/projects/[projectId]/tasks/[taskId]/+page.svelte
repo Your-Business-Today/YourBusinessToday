@@ -1,15 +1,13 @@
 <script lang="ts">
 	import AcceptanceCriteriaSection from '$lib/components/projects/AcceptanceCriteriaSection.svelte';
 	import ChecklistSection from '$lib/components/projects/ChecklistSection.svelte';
-	import ConversationParticipantsPanel from '$lib/components/conversations/ConversationParticipantsPanel.svelte';
 	import ConversationThread from '$lib/components/conversations/ConversationThread.svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import ResolveSupportTaskForm from '$lib/components/support/ResolveSupportTaskForm.svelte';
 	import SubtaskList from '$lib/components/projects/SubtaskList.svelte';
 	import TaskAttachmentsSection from '$lib/components/projects/TaskAttachmentsSection.svelte';
-	import TaskBranchPanel from '$lib/components/projects/TaskBranchPanel.svelte';
+	import TaskAside from '$lib/components/projects/TaskAside.svelte';
 	import TaskDetailHeader from '$lib/components/projects/TaskDetailHeader.svelte';
-	import TaskFactsPanel from '$lib/components/projects/TaskFactsPanel.svelte';
 	import TaskPageModals from '$lib/components/projects/TaskPageModals.svelte';
 	import TaskSequencePanel from '$lib/components/sequences/TaskSequencePanel.svelte';
 	import TaskStoryPanel from '$lib/components/projects/TaskStoryPanel.svelte';
@@ -74,11 +72,7 @@
 				viewerId={data.viewerId}
 			/>
 		</div>
-		<aside class="flex min-w-0 flex-col gap-4">
-			<TaskFactsPanel {task} {goal} {assigneeNames} />
-			<TaskBranchPanel {task} {project} />
-			<ConversationParticipantsPanel people={data.people} participantIds={data.participantIds} />
-		</aside>
+		<TaskAside {task} {project} {goal} {assigneeNames} people={data.people} participantIds={data.participantIds} />
 	</div>
 </div>
 

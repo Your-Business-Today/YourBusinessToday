@@ -1,9 +1,9 @@
-import { parseTaskAutocomplete, type AutocompleteSetting } from '$lib/data/autocomplete';
+import { parseTaskBuildFields, type TaskBuildFields } from './taskBuildFields';
 import { parseStoryPoints } from '$lib/data/storyPoints';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
 import { parseTaskStatus, type TaskStatus } from '$lib/data/taskStatus';
 
-export type ProjectTask = {
+export type ProjectTask = TaskBuildFields & {
 	id: string;
 	projectId: string;
 	parentTaskId: string | null;
@@ -22,9 +22,6 @@ export type ProjectTask = {
 	storyWant: string;
 	storyBenefit: string;
 	dueDate: string | null;
-	branchName: string;
-	pullRequestUrl: string;
-	autocompleteSetting: AutocompleteSetting;
 	resolution: string;
 	resolvedAt: string | null;
 	createdBy: string;
@@ -52,9 +49,7 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		storyWant: row.story_want as string,
 		storyBenefit: row.story_benefit as string,
 		dueDate: (row.due_date as string) ?? null,
-		branchName: (row.branch_name as string) ?? '',
-		pullRequestUrl: (row.pull_request_url as string) ?? '',
-		autocompleteSetting: parseTaskAutocomplete(row.is_autocomplete),
+		...parseTaskBuildFields(row),
 		resolution: (row.resolution as string) ?? '',
 		resolvedAt: (row.resolved_at as string) ?? null,
 		createdBy: row.created_by as string,
