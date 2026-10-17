@@ -12,7 +12,7 @@ export const buildQueueAction: McpAction = {
 	audience: 'everyone',
 	isWrite: false,
 	summary:
-		'the build board as data: every open buildable task you can reach in queue order, with its points, the model it needs, its latest lifecycle step and who holds it, and the models with their ranges',
+		'the build board as data: every open buildable task you can reach in queue order, with its points, the model it needs (and the one named on it, if any), its latest lifecycle step and who holds it, and the models with their ranges',
 	guidance:
 		'For an app drawing the board, such as the YBT desktop app; it answers JSON. To take work, call ' +
 		'next_buildable_task instead, which claims the task for you.',
