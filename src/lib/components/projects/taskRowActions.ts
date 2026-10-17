@@ -2,6 +2,7 @@ import { accountNameLookup } from '$lib/data/accountNames';
 import { goalAutocomplete, isTaskAutocomplete } from '$lib/data/autocomplete';
 import { readTurn, type TurnReading } from '$lib/data/turnLabels';
 import type { ConversationTurn } from '$lib/data/conversationTurn';
+import type { LifecycleBadge } from '$lib/data/lifecycleBadge';
 import type { SequenceStanding } from '$lib/data/taskSequenceStanding';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
@@ -26,6 +27,7 @@ export type TaskRowActions = TaskRowHandlers & {
 	isAutocomplete: (task: TaskTreeNode) => boolean;
 	turnFor: (taskId: string) => TaskTurn | null;
 	standingFor: (taskId: string) => SequenceStanding | null;
+	lifecycleFor: (taskId: string) => LifecycleBadge | null;
 };
 
 export type TaskRowSources = {
@@ -34,6 +36,7 @@ export type TaskRowSources = {
 	assigneeIdsByTask: Record<string, string[]>;
 	turnsByTask: Record<string, ConversationTurn>;
 	sequenceByTask: Record<string, SequenceStanding>;
+	lifecycleByTask: Record<string, LifecycleBadge>;
 	viewerId: string;
 };
 
@@ -61,6 +64,7 @@ export function createTaskRowActions(
 			if (turn === undefined || turn.awaiting === null) return null;
 			return { ...readTurn(turn, nameOf, sources.viewerId), since: turn.since };
 		},
-		standingFor: (taskId) => sources.sequenceByTask[taskId] ?? null
+		standingFor: (taskId) => sources.sequenceByTask[taskId] ?? null,
+		lifecycleFor: (taskId) => sources.lifecycleByTask[taskId] ?? null
 	};
 }

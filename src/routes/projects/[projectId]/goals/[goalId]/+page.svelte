@@ -8,6 +8,7 @@
 	import GoalDetailHeader from '$lib/components/goals/GoalDetailHeader.svelte';
 	import GoalMeasurePanel from '$lib/components/goals/GoalMeasurePanel.svelte';
 	import GoalTaskList from '$lib/components/goals/GoalTaskList.svelte';
+	import LifecyclePanel from '$lib/components/lifecycle/LifecyclePanel.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
@@ -45,6 +46,7 @@
 			/>
 		</div>
 		<aside class="flex min-w-0 flex-col gap-4">
+			<LifecyclePanel steps={data.lifecycleSteps} repositoryUrl={project.repositoryUrl} />
 			<ConversationParticipantsPanel people={data.people} participantIds={data.participantIds} />
 		</aside>
 	</div>

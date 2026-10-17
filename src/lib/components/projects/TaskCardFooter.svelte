@@ -1,20 +1,24 @@
 <script lang="ts">
+	import LifecycleBadgeChip from '$lib/components/lifecycle/LifecycleBadgeChip.svelte';
 	import TaskDueDate from './TaskDueDate.svelte';
 	import TaskKindTags from './TaskKindTags.svelte';
 	import TaskProgressMeter from './TaskProgressMeter.svelte';
 	import TaskRaisedDate from './TaskRaisedDate.svelte';
+	import type { LifecycleBadge } from '$lib/data/lifecycleBadge';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 	let {
 		task,
 		isDone,
 		goalTitle,
-		isAutocomplete
+		isAutocomplete,
+		lifecycle
 	}: {
 		task: TaskTreeNode;
 		isDone: boolean;
 		goalTitle: string | null;
 		isAutocomplete: boolean;
+		lifecycle: LifecycleBadge | null;
 	} = $props();
 
 	const hasBranch = $derived(task.branchName !== '');
@@ -35,6 +39,9 @@
 		<span title="Autocomplete is off — a person gives input before an AI completes it" class={`whitespace-nowrap ${chipClasses}`}>
 			Not autocomplete
 		</span>
+	{/if}
+	{#if lifecycle !== null}
+		<LifecycleBadgeChip badge={lifecycle} />
 	{/if}
 	{#if hasBranch}
 		<span title={`Worked on ${task.branchName}`} class={`max-w-40 truncate ${chipClasses}`}>

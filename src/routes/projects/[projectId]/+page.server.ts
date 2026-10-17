@@ -3,6 +3,7 @@ import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
 import { getMainRunsForProject } from '$lib/server/mainRuns/getMainRunsForProject';
+import { getLifecycleBadges } from '$lib/server/lifecycle/getLifecycleBadges';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { summariseGoals } from '$lib/server/goals/summariseGoals';
@@ -28,7 +29,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const assigneeIdsByTask = await getAssigneeIdsByTask(locals.supabase, taskIds);
 	const turnsByTask = await getTaskTurns(locals.supabase, taskIds);
 	const deploysSinceRefactor = await countDeploysSinceRefactor(locals.supabase, project);
-	const people = await getPeopleOnProject(locals.supabase, project.id);
 	return {
 		project,
 		latestKitVersion: await getLatestKitVersion(locals.supabase),
@@ -43,10 +43,11 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		taskTree: buildTaskTree(tasks),
 		goalSummaries: summariseGoals(goals, tasks),
 		goals,
-		people,
+		people: await getPeopleOnProject(locals.supabase, project.id),
 		assigneeIdsByTask: Object.fromEntries(assigneeIdsByTask),
 		turnsByTask: Object.fromEntries(turnsByTask),
 		sequenceByTask: sequenceStandingsOf(tasks),
+		lifecycleByTask: await getLifecycleBadges(locals.supabase, project.id),
 		viewerId: user.id
 	};
 };

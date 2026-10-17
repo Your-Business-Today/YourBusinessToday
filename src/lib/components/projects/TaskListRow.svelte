@@ -71,6 +71,7 @@
 				{isDone}
 				goalTitle={actions.goalTitleFor(task.goalId)}
 				isAutocomplete={actions.isAutocomplete(task)}
+				lifecycle={actions.lifecycleFor(task.id)}
 			/>
 		</article>
 		{#if isOpen}
