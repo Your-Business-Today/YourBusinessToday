@@ -7,6 +7,7 @@ import { objectSchema, readOptionalText, readText, textField } from '../actionTy
 import { setCriterionMet } from '$lib/server/projects/setCriterionMet';
 import type { AcceptanceCriterion } from '$lib/server/projects/criterionRecord';
 import type { McpAction } from '../actionTypes';
+import type { McpCaller } from '../resolveMcpCaller';
 
 const taskIdField = textField('The task id');
 
@@ -47,11 +48,8 @@ export const acceptanceCriterionActions: McpAction[] = [
 			['taskId', 'criterionId', 'isMet']
 		),
 		run: async (caller, input) => {
-			const task = await reachableTask(caller, readText(input, 'taskId'));
-			if (task === null) return noSuchTask;
-			const criteria = await getTaskAcceptanceCriteria(caller.supabase, task.id);
-			const criterion = findCriterion(criteria, readText(input, 'criterionId'));
-			if (criterion === null) return chooseAnotherCriterion(criteria);
+			const criterion = await findCriterionOnTask(caller, input);
+			if (typeof criterion === 'string') return criterion;
 			const isMet = readIsMet(input);
 			await setCriterionMet(caller.supabase, criterion.id, isMet);
 			return `${criterion.description} — ${isMet ? 'met' : 'not met'}.`;
@@ -68,11 +66,8 @@ export const acceptanceCriterionActions: McpAction[] = [
 			'criterionId'
 		]),
 		run: async (caller, input) => {
-			const task = await reachableTask(caller, readText(input, 'taskId'));
-			if (task === null) return noSuchTask;
-			const criteria = await getTaskAcceptanceCriteria(caller.supabase, task.id);
-			const criterion = findCriterion(criteria, readText(input, 'criterionId'));
-			if (criterion === null) return chooseAnotherCriterion(criteria);
+			const criterion = await findCriterionOnTask(caller, input);
+			if (typeof criterion === 'string') return criterion;
 			await deleteAcceptanceCriterion(caller.supabase, criterion.id);
 			return `Dropped: ${criterion.description}`;
 		}
@@ -83,11 +78,17 @@ function readIsMet(input: Record<string, unknown>): boolean {
 	return input.isMet === true || input.isMet === 'true';
 }
 
-function findCriterion(
-	criteria: AcceptanceCriterion[],
-	criterionId: string
-): AcceptanceCriterion | null {
-	return criteria.find((candidate) => candidate.id === criterionId) ?? null;
+async function findCriterionOnTask(
+	caller: McpCaller,
+	input: Record<string, unknown>
+): Promise<AcceptanceCriterion | string> {
+	const task = await reachableTask(caller, readText(input, 'taskId'));
+	if (task === null) return noSuchTask;
+	const criteria = await getTaskAcceptanceCriteria(caller.supabase, task.id);
+	const criterionId = readText(input, 'criterionId');
+	const criterion = criteria.find((candidate) => candidate.id === criterionId);
+	if (criterion === undefined) return chooseAnotherCriterion(criteria);
+	return criterion;
 }
 
 function chooseAnotherCriterion(criteria: AcceptanceCriterion[]): string {
