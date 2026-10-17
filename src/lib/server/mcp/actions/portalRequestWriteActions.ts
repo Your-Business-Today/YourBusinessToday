@@ -6,7 +6,7 @@ import {
 	validatePortalRequest
 } from '$lib/server/portal/validatePortalRequest';
 import {
-	clientContactOf,
+	clientContactsOf,
 	noProjectOfYourOrganisation,
 	notAClientContact,
 	projectOfYourOrganisation
@@ -21,7 +21,7 @@ export const portalRequestWriteActions: McpAction[] = [
 		area: 'support',
 		audience: 'everyone',
 		isWrite: true,
-		summary: "for a client contact: raise a request on one of your organisation's projects",
+		summary: "for a client contact: raise a request on one of your organisations' projects",
 		guidance:
 			'Read list_portal_requests first: if an open request already covers it, reply there instead. ' +
 			'Ask the person before you raise it. One matter per request, in their words, with why it matters.',
@@ -35,16 +35,17 @@ export const portalRequestWriteActions: McpAction[] = [
 			['projectId', 'title', 'want']
 		),
 		run: async (caller, input) => {
-			const contact = await clientContactOf(caller);
-			if (contact === null) return notAClientContact;
+			const contacts = await clientContactsOf(caller);
+			if (contacts.length === 0) return notAClientContact;
 			const seed = validatePortalRequest(inputValues(input));
 			if (isRefusal(seed)) return seed.refusal;
-			const project = await projectOfYourOrganisation(
+			const reached = await projectOfYourOrganisation(
 				caller,
-				contact,
+				contacts,
 				readText(input, 'projectId')
 			);
-			if (project === null) return noProjectOfYourOrganisation;
+			if (reached === null) return noProjectOfYourOrganisation;
+			const { project, contact } = reached;
 			const raised = await raisePortalRequest(caller.accountId, project.id, seed, contact.role);
 			if (isRefusal(raised)) return raised.refusal;
 			return `Raised "${seed.title}" on ${project.name} (task id: ${raised.taskId}). The answer arrives on it.`;
@@ -65,11 +66,11 @@ export const portalRequestWriteActions: McpAction[] = [
 			['taskId', 'body']
 		),
 		run: async (caller, input) => {
-			const contact = await clientContactOf(caller);
-			if (contact === null) return notAClientContact;
+			const contacts = await clientContactsOf(caller);
+			if (contacts.length === 0) return notAClientContact;
 			const reply = validatePortalReply(inputValues(input));
 			if (isRefusal(reply)) return reply.refusal;
-			return replyAsClientContact(caller, contact, reply);
+			return replyAsClientContact(caller, contacts, reply);
 		}
 	}
 ];

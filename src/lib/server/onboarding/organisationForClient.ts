@@ -47,3 +47,20 @@ export async function isOrganisationNameTaken(
 	const wantedName = businessName.toLowerCase();
 	return data.some((row) => String(row.name).toLowerCase() === wantedName);
 }
+
+/** The client behind the organisation of that name among the given clients: the business already signed up. */
+export async function findClientWithOrganisationNamed(
+	service: SupabaseClient,
+	clientIds: string[],
+	businessName: string
+): Promise<string | null> {
+	if (clientIds.length === 0) return null;
+	const { data, error } = await service
+		.from('organisations')
+		.select('client_id, name')
+		.in('client_id', clientIds);
+	if (error) throw error;
+	const wantedName = businessName.toLowerCase();
+	const match = data.find((row) => String(row.name).toLowerCase() === wantedName);
+	return (match?.client_id as string) ?? null;
+}

@@ -1,5 +1,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { clientContactColumns, parseClientContactRecord, type ClientContact } from './clientContactRecord';
+import {
+	clientContactColumns,
+	parseClientContactRecord,
+	type ClientContact
+} from './clientContactRecord';
 
 export async function getContactsForClient(
 	supabase: SupabaseClient,
@@ -20,17 +24,22 @@ export function getClientContact(
 	return findOneContact(supabase, 'id', contactId);
 }
 
-/** The contact a signed-in account is, or null for staff and everyone else. */
-export function getContactForAccount(
+/** Every contact a signed-in account is, one per organisation; none for staff and everyone else. */
+export async function getContactsForAccount(
 	supabase: SupabaseClient,
 	accountId: string
-): Promise<ClientContact | null> {
-	return findOneContact(supabase, 'account_id', accountId);
+): Promise<ClientContact[]> {
+	const { data, error } = await supabase
+		.from('client_contacts')
+		.select(clientContactColumns)
+		.eq('account_id', accountId);
+	if (error) throw error;
+	return data.map(parseClientContactRecord);
 }
 
 async function findOneContact(
 	supabase: SupabaseClient,
-	column: 'id' | 'account_id',
+	column: 'id',
 	value: string
 ): Promise<ClientContact | null> {
 	const { data, error } = await supabase

@@ -8,6 +8,7 @@ declare global {
 			safeGetSession: () => Promise<{ session: Session | null; user: User | null }>;
 			resolvedUser?: User | null;
 			door: SiteDoor;
+			portalOrganisationId: string | null;
 		}
 	}
 }

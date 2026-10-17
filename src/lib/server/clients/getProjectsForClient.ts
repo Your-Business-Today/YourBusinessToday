@@ -30,8 +30,19 @@ function toClientProject(row: Record<string, unknown>): ClientProject {
 		name: row.name as string,
 		repositoryUrl: row.repository_url as string,
 		environmentUrl: row.environment_url as string,
-		awaitingAnswerCount: tasks.filter(
-			(task) => isAwaitingAnswer(parseTaskKind(task.kind), parseTaskStatus(task.status))
+		awaitingAnswerCount: tasks.filter((task) =>
+			isAwaitingAnswer(parseTaskKind(task.kind), parseTaskStatus(task.status))
 		).length
 	};
+}
+
+/** The projects YBT runs for each of the clients, one list after another. */
+export async function getProjectsForClients(
+	supabase: SupabaseClient,
+	clientIds: string[]
+): Promise<ClientProject[]> {
+	const projectLists = await Promise.all(
+		clientIds.map((clientId) => getProjectsForClient(supabase, clientId))
+	);
+	return projectLists.flat();
 }

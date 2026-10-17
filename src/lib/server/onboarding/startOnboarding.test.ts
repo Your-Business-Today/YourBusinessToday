@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const doubles = vi.hoisted(() => ({
-	getContactForAccount: vi.fn(),
+	getContactsForAccount: vi.fn(),
 	isOrganisationNameTaken: vi.fn(),
+	findClientWithOrganisationNamed: vi.fn(),
 	addSignUpLead: vi.fn(),
 	organisationForClient: vi.fn(),
 	addOrganisationMember: vi.fn(),
@@ -13,10 +14,11 @@ vi.mock('$lib/server/payments/supabaseServiceClient', () => ({
 	supabaseServiceClient: () => ({})
 }));
 vi.mock('$lib/server/clients/getContactsForClient', () => ({
-	getContactForAccount: doubles.getContactForAccount
+	getContactsForAccount: doubles.getContactsForAccount
 }));
 vi.mock('./organisationForClient', () => ({
 	isOrganisationNameTaken: doubles.isOrganisationNameTaken,
+	findClientWithOrganisationNamed: doubles.findClientWithOrganisationNamed,
 	organisationForClient: doubles.organisationForClient
 }));
 vi.mock('./addSignUpLead', () => ({ addSignUpLead: doubles.addSignUpLead }));
@@ -38,14 +40,15 @@ const onboardingPlace = {
 describe('a visitor signing up', () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
-		doubles.getContactForAccount.mockResolvedValue(null);
+		doubles.getContactsForAccount.mockResolvedValue([]);
+		doubles.findClientWithOrganisationNamed.mockResolvedValue(null);
 		doubles.isOrganisationNameTaken.mockResolvedValue(false);
 		doubles.addSignUpLead.mockResolvedValue('client-1');
 		doubles.organisationForClient.mockResolvedValue('organisation-1');
 	});
 
 	it('makes the lead, the organisation with them as manager, and the Onboarding project', async () => {
-		expect(await startOnboarding(signUp, account)).toBeNull();
+		expect(await startOnboarding(signUp, account)).toEqual({ clientId: 'client-1' });
 		expect(doubles.addSignUpLead).toHaveBeenCalledOnce();
 		expect(doubles.addOrganisationMember).toHaveBeenCalledWith(
 			{},
@@ -59,11 +62,18 @@ describe('a visitor signing up', () => {
 		expect(doubles.onboardingProjectFor).toHaveBeenCalledWith({}, onboardingPlace);
 	});
 
-	it('makes no second client when the account already stands for one', async () => {
-		doubles.getContactForAccount.mockResolvedValue({ clientId: 'client-1' });
-		expect(await startOnboarding(signUp, account)).toBeNull();
+	it('makes no second client when the account already signed this business up', async () => {
+		doubles.getContactsForAccount.mockResolvedValue([{ clientId: 'client-1' }]);
+		doubles.findClientWithOrganisationNamed.mockResolvedValue('client-1');
+		expect(await startOnboarding(signUp, account)).toEqual({ clientId: 'client-1' });
 		expect(doubles.addSignUpLead).not.toHaveBeenCalled();
 		expect(doubles.onboardingProjectFor).toHaveBeenCalledWith({}, onboardingPlace);
+	});
+
+	it('signs up a new business for someone already a contact at another organisation', async () => {
+		doubles.getContactsForAccount.mockResolvedValue([{ clientId: 'client-elsewhere' }]);
+		expect(await startOnboarding(signUp, account)).toEqual({ clientId: 'client-1' });
+		expect(doubles.addSignUpLead).toHaveBeenCalledOnce();
 	});
 
 	it('is refused, with nothing made, when an organisation already has the business’s name', async () => {
