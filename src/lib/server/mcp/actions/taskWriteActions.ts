@@ -3,10 +3,12 @@ import { createTask, type NewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { noSuchProject } from './describeProject';
 import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
-import { parseTaskKind, taskKindOrder } from '$lib/data/taskKind';
-import { connectorTaskAutocomplete } from '$lib/data/autocomplete';
+import { taskKindOrder } from '$lib/data/taskKind';
+import { readConnectorTaskSeed } from './connectorTaskSeed';
 import { readRequester, requestedByField } from './requestedByField';
-import { readStory, storyFields } from './storyFields';
+import { storyFields } from './storyFields';
+import { similarTasksRefusal } from './similarTasksRefusal';
+import { raiseAnywayField } from './similarTaskCheck';
 import type { McpAction } from '../actionTypes';
 
 export const taskWriteActions: McpAction[] = [
@@ -47,6 +49,7 @@ export const taskWriteActions: McpAction[] = [
 					`${taskKindOrder.join(' or ')} — work unless somebody is waiting on an answer`
 				),
 				requestedBy: requestedByField,
+				raiseAnyway: raiseAnywayField,
 				...storyFields
 			},
 			['projectId', 'title']
@@ -67,21 +70,3 @@ export const taskWriteActions: McpAction[] = [
 	}
 ];
 
-function readConnectorTaskSeed(
-	input: Record<string, unknown>,
-	title: string,
-	requestedBy: string | undefined
-): NewTaskSeed {
-	return {
-		title,
-		details: readText(input, 'details'),
-		dueDate: readOptionalText(input, 'dueDate'),
-		parentTaskId: readOptionalText(input, 'parentTaskId'),
-		waitsForTaskId: readOptionalText(input, 'waitsForTaskId'),
-		goalId: readOptionalText(input, 'goalId'),
-		kind: parseTaskKind(readText(input, 'kind')),
-		story: readStory(input),
-		requestedBy,
-		autocomplete: connectorTaskAutocomplete
-	};
-}
