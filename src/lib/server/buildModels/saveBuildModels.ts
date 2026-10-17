@@ -5,6 +5,7 @@ export async function saveBuildModel(supabase: SupabaseClient, model: BuildModel
 	const { error } = await supabase.rpc('admin_save_build_model', {
 		new_model_id: model.modelId,
 		new_label: model.label,
+		new_runs_on: model.runsOn,
 		new_least_points: model.leastPoints,
 		new_most_points: model.mostPoints
 	});

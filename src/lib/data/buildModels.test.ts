@@ -3,8 +3,8 @@ import { modelForPoints, uncoveredPoints, type BuildModel } from './buildModels'
 import { validateBuildModel } from './validateBuildModel';
 
 const tiers: BuildModel[] = [
-	{ modelId: 'qwen-local', label: 'Qwen', leastPoints: 1, mostPoints: 2 },
-	{ modelId: 'claude-opus', label: 'Opus', leastPoints: 3, mostPoints: 8 }
+	{ modelId: 'qwen-local', label: 'Qwen', runsOn: '', leastPoints: 1, mostPoints: 2 },
+	{ modelId: 'claude-opus', label: 'Opus', runsOn: '', leastPoints: 3, mostPoints: 8 }
 ];
 
 describe('build models', () => {
@@ -18,10 +18,11 @@ describe('build models', () => {
 	});
 
 	it('accepts a model that fits its columns', () => {
-		const fields = { modelId: 'claude-fable', label: 'Fable', leastPoints: '13', mostPoints: '21' };
+		const fields = { modelId: 'claude-fable', label: 'Fable', runsOn: ' Claude Fable 5.1 ', leastPoints: '13', mostPoints: '21' };
 		expect(validateBuildModel(fields)).toEqual({
 			modelId: 'claude-fable',
 			label: 'Fable',
+			runsOn: 'Claude Fable 5.1',
 			leastPoints: 13,
 			mostPoints: 21
 		});

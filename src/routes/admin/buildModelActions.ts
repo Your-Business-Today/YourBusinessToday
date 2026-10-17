@@ -21,6 +21,7 @@ export const buildModelActions: Actions = {
 		const model = validateBuildModel({
 			modelId: formData.get('modelId'),
 			label: formData.get('label'),
+			runsOn: formData.get('runsOn'),
 			leastPoints: formData.get('leastPoints'),
 			mostPoints: formData.get('mostPoints')
 		});
