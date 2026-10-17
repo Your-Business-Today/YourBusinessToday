@@ -1,6 +1,7 @@
 import { conversationAccountIds } from '$lib/server/conversations/conversationAccountIds';
 import { describeGoal, goalLine, noSuchGoal, type GoalLifecycle } from './describeGoal';
-import { getLatestLifecycleSteps, getLifecycleSteps } from '$lib/server/lifecycle/getLifecycleSteps';
+import { getLifecycleMarks } from '$lib/server/lifecycle/getLifecycleMarks';
+import { getLifecycleSteps } from '$lib/server/lifecycle/getLifecycleSteps';
 import { findGoals } from '$lib/server/goals/findGoals';
 import { findTasks } from '$lib/server/support/findTasks';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
@@ -75,9 +76,9 @@ async function readGoalInFull(caller: McpCaller, goal: Goal): Promise<string> {
 }
 
 async function readGoalLifecycle(caller: McpCaller, goal: Goal): Promise<GoalLifecycle> {
-	const [steps, latestByTask] = await Promise.all([
+	const [steps, marksByTask] = await Promise.all([
 		getLifecycleSteps(caller.supabase, { goalId: goal.id }),
-		getLatestLifecycleSteps(caller.supabase, [goal.projectId])
+		getLifecycleMarks(caller.supabase, [goal.projectId])
 	]);
-	return { steps, latestByTask };
+	return { steps, marksByTask };
 }

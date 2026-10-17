@@ -12,7 +12,7 @@ import { getThread } from '$lib/server/conversations/getThread';
 import { noReachableProject, ownsProject, reachableProject, reachableTask } from '../projectAccess';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { taskLine } from './describeGoal';
-import { getLatestLifecycleSteps } from '$lib/server/lifecycle/getLifecycleSteps';
+import { getLifecycleMarks } from '$lib/server/lifecycle/getLifecycleMarks';
 import { withProjectAccess } from './withProjectAccess';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -48,8 +48,8 @@ export const supportTaskReadActions: McpAction[] = [
 			});
 			if (tasks.length === 0)
 				return `No task on ${project.name} matches. Widen the words, or offer to raise one.`;
-			const latestByTask = await getLatestLifecycleSteps(caller.supabase, [project.id]);
-			return tasks.map((task) => taskLine(task, latestByTask.get(task.id))).join('\n');
+			const marksByTask = await getLifecycleMarks(caller.supabase, [project.id]);
+			return tasks.map((task) => taskLine(task, marksByTask.get(task.id))).join('\n');
 		}
 	},
 	{

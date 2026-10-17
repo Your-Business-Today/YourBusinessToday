@@ -12,6 +12,7 @@ export type ResolvedSubject = {
 	subject: ConversationSubject;
 	title: string;
 	projectId: string;
+	parentGoalId: string | null;
 };
 
 export async function resolveSubject(
@@ -30,12 +31,12 @@ async function resolveGoalSubject(caller: McpCaller, goalId: string): Promise<Re
 	const goal = await getGoal(caller.supabase, goalId);
 	if (goal === null || !canReachProject(caller, goal.projectId)) return null;
 	const subject = { goalId: goal.id };
-	return { subject, title: goal.title, projectId: goal.projectId };
+	return { subject, title: goal.title, projectId: goal.projectId, parentGoalId: null };
 }
 
 async function resolveTaskSubject(caller: McpCaller, taskId: string): Promise<ResolvedSubject | null> {
 	const task = await getTask(caller.supabase, taskId);
 	if (task === null || !canReachProject(caller, task.projectId)) return null;
 	const subject = { taskId: task.id };
-	return { subject, title: task.title, projectId: task.projectId };
+	return { subject, title: task.title, projectId: task.projectId, parentGoalId: task.goalId };
 }

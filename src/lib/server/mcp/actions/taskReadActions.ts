@@ -1,12 +1,11 @@
 import { reachableTask } from '../projectAccess';
 import { describeTask, noSuchTask } from './describeTask';
-import { waitsForClause } from './describeSequence';
+import { describeQueue, queueLine, queueProjectIds } from './describeQueue';
 import { getGlobalTaskPage } from '$lib/server/projects/getGlobalTaskPage';
 import { getAssignedTasks } from '$lib/server/projects/getAssignedTasks';
 import { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
 import { objectSchema, readText, textField } from '../actionTypes';
-import { taskStatusLabels } from '$lib/data/taskStatus';
-import type { GlobalTask, GlobalTaskPage } from '$lib/server/projects/getGlobalTaskPage';
+import { getLifecycleMarks } from '$lib/server/lifecycle/getLifecycleMarks';
 import type { McpAction } from '../actionTypes';
 
 const firstPageNumber = 1;
@@ -36,7 +35,8 @@ export const taskReadActions: McpAction[] = [
 				input.shouldIncludeDone === true
 			);
 			if (taskPage.taskCount === 0) return 'Nothing is queued on the projects you own.';
-			return describeQueue(taskPage);
+			const marksByTask = await getLifecycleMarks(caller.supabase, queueProjectIds(taskPage));
+			return describeQueue(taskPage, marksByTask);
 		}
 	},
 	{
@@ -72,22 +72,6 @@ export const taskReadActions: McpAction[] = [
 		}
 	}
 ];
-
-function describeQueue(taskPage: GlobalTaskPage): string {
-	const place = `page ${taskPage.pageNumber} of ${taskPage.pageCount}`;
-	const heading = `Your queue — ${place}, ${taskPage.taskCount} tasks. Numbers are queue positions (done tasks keep theirs, so they may skip); set_task_queue_priority takes them.`;
-	const lines = taskPage.tasks.map((task, index) =>
-		queueLine(task, task.globalPriority ?? taskPage.firstTaskNumber + index)
-	);
-	return [heading, ...lines].join('\n');
-}
-
-function queueLine(task: GlobalTask, position: number): string {
-	const status = taskStatusLabels[task.status];
-	const requested = task.requesterName === null ? '' : `, requested by ${task.requesterName}`;
-	const waiting = waitsForClause(task);
-	return `${position}. ${task.title} — ${status}, ${task.projectName}${requested}${waiting} (id: ${task.id})`;
-}
 
 function readPageNumber(value: unknown): number {
 	const pageNumber = Number(value);

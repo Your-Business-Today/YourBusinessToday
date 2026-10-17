@@ -1,5 +1,7 @@
+import { claimLeaseMinutes } from '$lib/data/lifecycleClaim';
 import { getLifecycleSteps } from '$lib/server/lifecycle/getLifecycleSteps';
 import { lifecycleLines } from './describeLifecycle';
+import { lifecycleStepRefusal } from './lifecycleStepRefusal';
 import { lifecycleStepFields, readLifecycleStepFields, subjectFields } from './lifecycleFields';
 import { noSuchSubject, resolveSubject } from './resolveSubject';
 import { objectSchema } from '../actionTypes';
@@ -22,13 +24,20 @@ export const lifecycleActions: McpAction[] = [
 			'before anything else is touched; considered carries its outcome (buildable, waiting on a ' +
 			'person, needs splitting, needs an infrastructure change); built, reviewing and pull ' +
 			'request open carry the branch; released gives the work up. GitHub records the pull ' +
-			'request opening and its merge by itself.',
+			'request opening and its merge by itself. Considering, building and reviewing claim the ' +
+			'work for the agent named, and a claim on a goal covers its tasks: another agent is ' +
+			'refused until the holder records a step that lets it go, the work merges, or ' +
+			`${claimLeaseMinutes} minutes pass with no step from the holder, so record a step at least that often to keep it. ` +
+			'Name yourself alone as the agent, with your session or machine, since agents sharing a ' +
+			'name share a claim. A goal is considered only after a step on every open task under it.',
 		inputSchema: objectSchema(lifecycleStepFields, ['step', 'agent']),
 		run: async (caller, input) => {
 			const resolved = await resolveSubject(caller, input);
 			if (resolved === null) return noSuchSubject;
 			const step = validateLifecycleStep(readLifecycleStepFields(input));
 			if (typeof step === 'string') return step;
+			const refusal = await lifecycleStepRefusal(caller.supabase, resolved, step);
+			if (refusal !== null) return refusal;
 			await recordLifecycleStep(caller.supabase, resolved.projectId, resolved.subject, step);
 			return `Recorded on "${resolved.title}": ${step.step} by ${step.agent}.`;
 		}

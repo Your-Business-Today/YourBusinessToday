@@ -2,11 +2,12 @@ import { autocompleteWord } from '$lib/data/autocomplete';
 import { goalHorizonLabels, goalHorizonOrder, goalsOnHorizon, type GoalHorizon } from '$lib/data/goalHorizon';
 import { goalStatusLabels } from '$lib/data/goalStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
-import { latestStepSuffix, lifecycleLines } from './describeLifecycle';
+import { lifecycleLines, lifecycleMarkSuffix } from './describeLifecycle';
 import { threadLines } from './describeMessages';
 import type { Account } from '$lib/server/accounts/accountRecord';
 import type { ConversationMessage } from '$lib/server/conversations/messageRecord';
 import type { Goal } from '$lib/server/goals/goalRecord';
+import type { LifecycleMark } from '$lib/server/lifecycle/getLifecycleMarks';
 import type { LifecycleStep } from '$lib/server/lifecycle/lifecycleStepRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
@@ -43,7 +44,7 @@ export type GoalReading = {
 	accounts: Account[];
 };
 
-export type GoalLifecycle = { steps: LifecycleStep[]; latestByTask: Map<string, LifecycleStep> };
+export type GoalLifecycle = { steps: LifecycleStep[]; marksByTask: Map<string, LifecycleMark> };
 
 export function describeGoal(reading: GoalReading): string {
 	const { goal, tasks, lifecycle, messages, accounts } = reading;
@@ -51,20 +52,20 @@ export function describeGoal(reading: GoalReading): string {
 		goalLine(goal),
 		...lifecycleLines(lifecycle.steps),
 		'',
-		...taskLines(tasks, lifecycle.latestByTask),
+		...taskLines(tasks, lifecycle.marksByTask),
 		'',
 		...threadLines(messages, accounts)
 	].join('\n');
 }
 
-function taskLines(tasks: ProjectTask[], latestByTask: Map<string, LifecycleStep>): string[] {
+function taskLines(tasks: ProjectTask[], marksByTask: Map<string, LifecycleMark>): string[] {
 	if (tasks.length === 0) return ['Tasks under this goal: none yet.'];
-	return ['Tasks under this goal:', ...tasks.map((task) => taskLine(task, latestByTask.get(task.id)))];
+	return ['Tasks under this goal:', ...tasks.map((task) => taskLine(task, marksByTask.get(task.id)))];
 }
 
-export function taskLine(task: ProjectTask, latestStep?: LifecycleStep): string {
+export function taskLine(task: ProjectTask, mark?: LifecycleMark): string {
 	const kind = taskKindLabels[task.kind];
 	const status = taskStatusLabelFor(task.kind, task.status);
 	const place = `priority ${task.priority}, id: ${task.id}`;
-	return `- ${task.title} — ${kind} task, ${status}${latestStepSuffix(latestStep)} (${place})`;
+	return `- ${task.title} — ${kind} task, ${status}${lifecycleMarkSuffix(mark)} (${place})`;
 }
