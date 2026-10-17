@@ -1,6 +1,8 @@
 import { fail } from '@sveltejs/kit';
+import { buildModelActions } from './buildModelActions';
 import { deleteUserAccount } from '$lib/server/admin/deleteUserAccount';
 import { getAdminUserList } from '$lib/server/admin/getAdminUserList';
+import { getBuildModelSettings } from '$lib/server/buildModels/getBuildModelSettings';
 import { getSiteModel } from '$lib/server/anthropic/getSiteModel';
 import { isKnownSiteModel } from '$lib/data/siteModels';
 import { passwordActions } from './passwordActions';
@@ -15,12 +17,14 @@ export const load: PageServerLoad = async ({ locals }) => {
 	await requireAdmin(locals);
 	return {
 		users: await getAdminUserList(locals.supabase),
-		siteModel: await getSiteModel()
+		siteModel: await getSiteModel(),
+		buildModels: await getBuildModelSettings(locals.supabase)
 	};
 };
 
 export const actions: Actions = {
 	...passwordActions,
+	...buildModelActions,
 	setSiteModel: async ({ locals, request }) => {
 		await requireAdmin(locals);
 		const formData = await request.formData();
