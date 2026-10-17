@@ -8,11 +8,13 @@
 	let {
 		task,
 		isDone,
-		goalTitle
+		goalTitle,
+		isAutocomplete
 	}: {
 		task: TaskTreeNode;
 		isDone: boolean;
 		goalTitle: string | null;
+		isAutocomplete: boolean;
 	} = $props();
 
 	const hasBranch = $derived(task.branchName !== '');
@@ -29,6 +31,11 @@
 	<span title="Story points — how big the task is" class={`whitespace-nowrap ${chipClasses}`}>
 		{task.storyPoints} pts
 	</span>
+	{#if !isAutocomplete}
+		<span title="Autocomplete is off — a person gives input before an AI completes it" class={`whitespace-nowrap ${chipClasses}`}>
+			Not autocomplete
+		</span>
+	{/if}
 	{#if hasBranch}
 		<span title={`Worked on ${task.branchName}`} class={`max-w-40 truncate ${chipClasses}`}>
 			⎇ {task.branchName}

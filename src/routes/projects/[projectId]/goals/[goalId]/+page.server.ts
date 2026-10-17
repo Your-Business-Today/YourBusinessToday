@@ -14,6 +14,7 @@ import {
 import { readGoalUpdate, updateGoal } from '$lib/server/goals/updateGoal';
 import { readGoalHorizon, setGoalHorizon } from '$lib/server/goals/setGoalHorizon';
 import { setGoalPriority } from '$lib/server/goals/setGoalPriority';
+import { setGoalAutocompleteFromForm } from '$lib/server/autocomplete/setAutocompleteFromForm';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -45,6 +46,11 @@ export const actions: Actions = {
 		const priority = parseRank(formData.get('priority'));
 		if (priority !== null) await setGoalPriority(locals.supabase, params.goalId, priority);
 		return { message: 'Goal saved.' };
+	},
+	setGoalAutocomplete: async ({ locals, params, request }) => {
+		await requireProjectAccess(locals, params.projectId);
+		const formData = await request.formData();
+		return setGoalAutocompleteFromForm(locals.supabase, params.projectId, params.goalId, formData);
 	},
 	postMessage: async ({ locals, params, request }) => {
 		const { user } = await requireProjectAccess(locals, params.projectId);

@@ -8,6 +8,7 @@
 <WorkspaceHeader crumbs={[]} title="Projects">
 	{#snippet actions()}
 		<a href="/projects/feed" class={headerButtonClasses}>Feed</a>
+		<a href="/projects/autocomplete" class={headerButtonClasses}>Autocomplete</a>
 		<a href="/tasks" class={headerButtonClasses}>Task view</a>
 		<a href="/projects/kit-versions" class={headerButtonClasses}>Kit versions</a>
 		<button type="button" onclick={onNewProject} class={headerPrimaryButtonClasses}>

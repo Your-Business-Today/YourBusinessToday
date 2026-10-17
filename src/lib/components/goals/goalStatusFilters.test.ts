@@ -12,6 +12,7 @@ function goalSummary(id: string, status: GoalStatus): GoalSummary {
 		status,
 		horizon: 'current',
 		priority: 1,
+		isAutocomplete: true,
 		createdBy: null,
 		createdAt: '2026-09-18T00:00:00.000Z',
 		taskCount: 0,

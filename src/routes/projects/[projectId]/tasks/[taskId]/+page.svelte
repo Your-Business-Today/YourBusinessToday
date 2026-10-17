@@ -29,8 +29,8 @@
 	let isDeleteModalOpen = $state(false);
 
 	const { task, project } = $derived(data);
-	const goalTitle = $derived(
-		data.goals.find((goal) => goal.id === task.goalId)?.title ?? null
+	const goal = $derived(
+		data.goals.find((candidate) => candidate.id === task.goalId) ?? null
 	);
 	const isAwaitingResolution = $derived(task.kind === supportTaskKind && !isTaskDone(task.status));
 	const assigneeNames = $derived(namesOfPeople(data.people, data.assigneeIds));
@@ -75,7 +75,7 @@
 			/>
 		</div>
 		<aside class="flex min-w-0 flex-col gap-4">
-			<TaskFactsPanel {task} {goalTitle} {assigneeNames} />
+			<TaskFactsPanel {task} {goal} {assigneeNames} />
 			<TaskBranchPanel {task} {project} />
 			<ConversationParticipantsPanel people={data.people} participantIds={data.participantIds} />
 		</aside>

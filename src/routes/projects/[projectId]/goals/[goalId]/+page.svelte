@@ -4,6 +4,7 @@
 	import DangerConfirmModal from '$lib/components/site/DangerConfirmModal.svelte';
 	import EditGoalForm from '$lib/components/goals/EditGoalForm.svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
+	import GoalAutocompletePanel from '$lib/components/goals/GoalAutocompletePanel.svelte';
 	import GoalDetailHeader from '$lib/components/goals/GoalDetailHeader.svelte';
 	import GoalMeasurePanel from '$lib/components/goals/GoalMeasurePanel.svelte';
 	import GoalTaskList from '$lib/components/goals/GoalTaskList.svelte';
@@ -35,6 +36,7 @@
 	<div class={dashboardGridClasses}>
 		<div class="flex min-w-0 flex-col gap-4">
 			<GoalMeasurePanel {goal} />
+			<GoalAutocompletePanel {goal} />
 			<GoalTaskList tasks={data.tasks} />
 			<ConversationThread
 				messages={data.messages}
