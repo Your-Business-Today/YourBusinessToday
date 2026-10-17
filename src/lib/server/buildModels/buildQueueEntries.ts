@@ -11,6 +11,7 @@ export type BuildQueueEntry = {
 	projectName: string;
 	storyPoints: number;
 	modelId: string | null;
+	namedModelId: string | null;
 	isAutocomplete: boolean;
 	isWaiting: boolean;
 	queuePlace: number | null;
@@ -44,6 +45,7 @@ function buildQueueEntry(
 		projectName,
 		storyPoints: task.storyPoints,
 		modelId: modelNeededFor(task, models)?.modelId ?? null,
+		namedModelId: task.modelNeeded,
 		isAutocomplete: isTaskAutocomplete(task.autocompleteSetting, goalSetting),
 		isWaiting,
 		queuePlace: isQueued(candidate) ? candidate.queuePlace : null,
