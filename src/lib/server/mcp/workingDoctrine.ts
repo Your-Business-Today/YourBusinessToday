@@ -1,4 +1,7 @@
-export const workingDoctrine = [
+import { lifecycleDoctrine } from './lifecycleDoctrine';
+import { prospectingDoctrine } from './prospectingDoctrine';
+
+const sessionDoctrine = [
 	'How we work here — read once per session, then follow it:',
 	'1. Start with read_latest_messages. Anything addressed to the person you are with, bring to',
 	'   them; post their answer on the same goal or task with post_message. To see everything',
@@ -14,6 +17,7 @@ export const workingDoctrine = [
 	'   more than that is split before the work starts — one task per step (create_task, a subtask',
 	'   of it, or a step waiting for the one before), each assigned to whoever does it — and this',
 	'   session works the first.',
+	'   Before anything else, record it considering (rule 10).',
 	'   Mark it in progress with update_task_status when the work starts. Before the first',
 	'   change, read it with read_task and open every file it lists with read_task_attachment:',
 	'   those files are part of the ask.',
@@ -83,16 +87,7 @@ export const workingDoctrine = [
 	'   "REFACTOR: round N" on a project as the reminder every N deploys of its default branch —',
 	'   never raise one by hand; change the rhythm on the project instead (update_project_details).',
 	'   The round follows rule 3 on its own refactor/round-N branch and ends in a pull request.',
-	'8. The repository’s CLAUDE.md carries these rules in full. Where it says more, follow it.',
-	'9. Prospecting is done on a patch, a piece of ground a staff member works. list_patches and',
-	'   read_patch say what is covered; list_unsearched_sectors chooses where to go next; claim_sector',
-	'   before searching, so nobody else works the same ground; read_sector first, so a business',
-	'   already known is matched rather than recorded twice; record_sighting for each business found',
-	'   on a public page, with the page it was read on; mark_sector_searched with one line on what',
-	'   was done when the sector is finished; add_sighting_as_lead for the ones worth approaching.',
-	'   Food businesses and trading places are already listed by list_patch_premises, from the Food',
-	'   Standards Agency and Overture Maps: add_premises_as_lead for those, never a sighting. Before',
-	'   an approach, read_patch_company gathers everything known about the company in one answer.',
-	'   Business-contact data only, never LinkedIn, X, Facebook or Instagram, nothing behind a login:',
-	'   the server refuses those pages whatever the doctrine says.'
-].join('\n');
+	'8. The repository’s CLAUDE.md carries these rules in full. Where it says more, follow it.'
+];
+
+export const workingDoctrine = [...sessionDoctrine, ...prospectingDoctrine, ...lifecycleDoctrine].join('\n');
