@@ -1,9 +1,10 @@
 import { reachableProject } from '../projectAccess';
-import { createTask } from '$lib/server/projects/createTask';
+import { createTask, type NewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { noSuchProject } from './describeProject';
 import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
 import { parseTaskKind, taskKindOrder } from '$lib/data/taskKind';
+import { connectorTaskAutocomplete } from '$lib/data/autocomplete';
 import { readRequester, requestedByField } from './requestedByField';
 import { readStory, storyFields } from './storyFields';
 import type { McpAction } from '../actionTypes';
@@ -29,7 +30,8 @@ export const taskWriteActions: McpAction[] = [
 			'with requestedBy, so it is worked as their request. A series of steps done in order is a ' +
 			'task sequence: raise one task per step, give each the step before it with waitsForTaskId, ' +
 			'and assign each to whoever does it with set_task_assignees. Files the task needs go on it ' +
-			'with attach_file_to_task once it exists.',
+			'with attach_file_to_task once it exists. A task raised here starts with autocomplete on; ' +
+			'set_task_autocomplete switches it off.',
 		inputSchema: objectSchema(
 			{
 				projectId: textField('The project the task belongs to'),
@@ -56,21 +58,30 @@ export const taskWriteActions: McpAction[] = [
 			if (title === null) return 'A task needs a title. Say what to call it and try again.';
 			const requester = await readRequester(caller, project.id, input);
 			if ('refusal' in requester) return requester.refusal;
-			const seed = {
-				title,
-				details: readText(input, 'details'),
-				dueDate: readOptionalText(input, 'dueDate'),
-				parentTaskId: readOptionalText(input, 'parentTaskId'),
-				waitsForTaskId: readOptionalText(input, 'waitsForTaskId'),
-				goalId: readOptionalText(input, 'goalId'),
-				kind: parseTaskKind(readText(input, 'kind')),
-				story: readStory(input),
-				requestedBy: requester.accountId
-			};
+			const seed = readConnectorTaskSeed(input, title, requester.accountId);
 			const refusal = await newTaskRefusal(caller.supabase, project.id, seed);
 			if (refusal !== null) return refusal;
 			const taskId = await createTask(caller.supabase, project.id, seed, caller.accountId);
-			return `"${title}" added to ${project.name} (task id: ${taskId}).`;
+			return `"${title}" added to ${project.name} with autocomplete on (task id: ${taskId}).`;
 		}
 	}
 ];
+
+function readConnectorTaskSeed(
+	input: Record<string, unknown>,
+	title: string,
+	requestedBy: string | undefined
+): NewTaskSeed {
+	return {
+		title,
+		details: readText(input, 'details'),
+		dueDate: readOptionalText(input, 'dueDate'),
+		parentTaskId: readOptionalText(input, 'parentTaskId'),
+		waitsForTaskId: readOptionalText(input, 'waitsForTaskId'),
+		goalId: readOptionalText(input, 'goalId'),
+		kind: parseTaskKind(readText(input, 'kind')),
+		story: readStory(input),
+		requestedBy,
+		autocomplete: connectorTaskAutocomplete
+	};
+}
