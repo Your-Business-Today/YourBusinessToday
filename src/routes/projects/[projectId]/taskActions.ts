@@ -1,6 +1,4 @@
 import { fail } from '@sveltejs/kit';
-import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
-import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { getTask } from '$lib/server/projects/getTask';
 import { moveTask, type TaskMoveDirection } from '$lib/server/projects/moveTask';
 import {
@@ -17,18 +15,11 @@ import { setTaskStoryPoints } from '$lib/server/projects/setTaskStoryPoints';
 import { statusChangeRefusal } from '$lib/server/support/statusChangeRefusal';
 import { updateTaskGoal } from '$lib/server/projects/updateTaskGoal';
 import { updateTaskStatus } from '$lib/server/projects/updateTaskStatus';
+import { createTaskAction } from './createTaskAction';
 import type { Actions } from './$types';
 
 export const taskActions = {
-	createTask: async ({ locals, params, request }) => {
-		const { user } = await requireProjectAccess(locals, params.projectId);
-		const seed = readNewTaskSeed(await request.formData());
-		if (seed === null) return fail(400, { message: 'A task title is required.' });
-		const refusal = await newTaskRefusal(locals.supabase, params.projectId, seed);
-		if (refusal !== null) return fail(400, { message: refusal });
-		await createTask(locals.supabase, params.projectId, seed, user.id);
-		return {};
-	},
+	createTask: createTaskAction,
 	moveTask: async ({ locals, params, request }) => {
 		await requireProjectAccess(locals, params.projectId);
 		const formData = await request.formData();

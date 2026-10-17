@@ -1,4 +1,5 @@
-import { newTaskText, raiseAnywayRefusal, similarTasksAnswer, similarTasksFor } from './similarTaskCheck';
+import { newTaskText } from '$lib/server/projects/similarTasksForNewTask';
+import { raiseAnywayRefusal, similarTasksAnswer, similarTasksFor } from './similarTaskCheck';
 import type { McpCaller } from '$lib/server/mcp/resolveMcpCaller';
 import type { NewTaskSeed } from '$lib/server/projects/createTask';
 
