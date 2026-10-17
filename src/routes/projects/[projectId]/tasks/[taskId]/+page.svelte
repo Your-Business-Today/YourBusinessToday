@@ -19,10 +19,12 @@
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { isTaskDone } from '$lib/data/taskStatus';
 	import { supportTaskKind } from '$lib/data/taskKind';
+	import { page } from '$app/state';
 
 	let { data, form } = $props();
 
-	let isEditModalOpen = $state(false);
+	const { searchParams } = page.url;
+	let isEditModalOpen = $state(searchParams.has('edit'));
 	let isSubtaskModalOpen = $state(false);
 	let isDeleteModalOpen = $state(false);
 
@@ -30,9 +32,7 @@
 	const goalTitle = $derived(
 		data.goals.find((goal) => goal.id === task.goalId)?.title ?? null
 	);
-	const isAwaitingResolution = $derived(
-		task.kind === supportTaskKind && !isTaskDone(task.status)
-	);
+	const isAwaitingResolution = $derived(task.kind === supportTaskKind && !isTaskDone(task.status));
 	const assigneeNames = $derived(namesOfPeople(data.people, data.assigneeIds));
 	const waitedForAssigneeNames = $derived(namesOfPeople(data.people, data.waitedForAssigneeIds));
 </script>

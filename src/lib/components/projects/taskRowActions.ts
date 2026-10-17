@@ -15,6 +15,7 @@ export type TaskRowHandlers = {
 	onChangeStatus: (task: TaskTreeNode) => void;
 	onChangeGoal: (task: TaskTreeNode) => void;
 	onSetPriority: (task: TaskTreeNode) => void;
+	onChangeStoryPoints: (task: TaskTreeNode) => void;
 };
 
 export type TaskRowActions = TaskRowHandlers & {

@@ -9,3 +9,12 @@ export function parseStoryPoints(value: unknown): number {
 	}
 	return defaultStoryPoints;
 }
+
+export const storyPointsRefusal = `Story points are one of ${fibonacciStoryPoints.join(', ')}.`;
+
+/** The story points as given, or null when they are not one of the Fibonacci sizes — never quietly defaulted. */
+export function readExactStoryPoints(value: unknown): number | null {
+	const points = Number(value);
+	const sizes: readonly number[] = fibonacciStoryPoints;
+	return sizes.includes(points) ? points : null;
+}
