@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { doneTaskStatus } from '$lib/data/taskStatus';
 import { isTaskAutocomplete, parseGoalAutocomplete, parseTaskAutocomplete } from '$lib/data/autocomplete';
 import { openGoalStatus } from '$lib/data/goalStatus';
-import type { RegisterGoal, RegisterProject, RegisterTask } from './autocompleteRegisterRecord';
+import type { RegisterGoal, RegisterProject, RegisterTask } from '$lib/data/autocompleteRegister';
 
 type Row = Record<string, unknown>;
 

@@ -5,7 +5,7 @@
 		countAutocomplete,
 		countOpenTasks,
 		type RegisterProject
-	} from '$lib/server/autocomplete/autocompleteRegisterRecord';
+	} from '$lib/data/autocompleteRegister';
 
 	let { project }: { project: RegisterProject } = $props();
 

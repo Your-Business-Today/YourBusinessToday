@@ -5,7 +5,7 @@ import {
 	type RegisterGoal,
 	type RegisterProject,
 	type RegisterTask
-} from '$lib/server/autocomplete/autocompleteRegisterRecord';
+} from '$lib/data/autocompleteRegister';
 import { getAutocompleteRegister } from '$lib/server/autocomplete/getAutocompleteRegister';
 import { noReachableProject, reachableProjectIds } from '../projectAccess';
 import { objectSchema, readOptionalText, textField } from '../actionTypes';
