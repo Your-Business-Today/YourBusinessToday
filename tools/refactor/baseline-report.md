@@ -2,6 +2,8 @@
 
 Generated 2026-10-13 from refactor/round-6, replacing the v9 baseline adopted from drift at the start of the same round (v8 was the end of round 5, 2026-10-12).
 
+Baseline v11 adopted from drift at the start of round 7 (2026-10-17): duplication grew 0 → 0.02% in the ten merges since round 6 (two clone pairs inside `src/lib/server/mcp/actions/acceptanceCriterionActions.ts` and `projectBlueprintActions.ts`), and input validation reads 75 of 142 write doors. Round 7 starts from this reading.
+
 The widgets' designs: not set up. The repository has no design index (`docs/design/widgets.json`), no brand sheet and no widget catalogue in `rules.json` (`siteDefinition.catalogue` is empty), so the site has never been checked against the brand and the widgets never against their sheets, and widget adoption is not measured. The sentences that run each, once a catalogue exists, are `widget-design`: *"Check the site against the brand"* and *"Check the widgets against their designs"*.
 
 ## Headline
