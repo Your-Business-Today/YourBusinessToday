@@ -1,6 +1,5 @@
 import { actionsFor, areasFor } from './actionRegistry';
 import { clientContactsOf } from './clientContactAccess';
-import { countPendingDatabaseTasks } from '$lib/server/databaseTasks/getDatabaseTaskRegister';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { organisationNameLookup } from '$lib/data/organisationFamilies';
 import { raisingDoctrine } from './raisingDoctrine';
@@ -14,7 +13,6 @@ export async function describeContext(caller: McpCaller): Promise<string> {
 		await organisationsLine(caller),
 		await clientContactLine(caller),
 		staffLine(caller),
-		await databaseTasksLine(caller),
 		`Areas you can reach: ${areasFor(caller).join(', ')}.`,
 		`${actionsFor(caller, null).length} actions are available to you — call list_actions to see them.`,
 		'',
@@ -57,14 +55,6 @@ function staffLine(caller: McpCaller): string | null {
 	if (caller.isStaff)
 		return 'You are staff at Your Business Today, with the clients register as well.';
 	return null;
-}
-
-async function databaseTasksLine(caller: McpCaller): Promise<string | null> {
-	if (!caller.isAdmin) return null;
-	const pendingCount = await countPendingDatabaseTasks(caller.supabase);
-	if (pendingCount === 0) return null;
-	const noun = pendingCount === 1 ? 'migration waits' : 'migrations wait';
-	return `${pendingCount} ${noun} to be run on the database task list — call list_database_tasks, bring each command to the admin in order, and confirm each with confirm_database_task_run once they say it has been run.`;
 }
 
 function countOf(count: number, noun: string): string {

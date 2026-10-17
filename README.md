@@ -60,11 +60,9 @@ The books live in their own house, Your Books Today.
   The kit itself — the coding rules, the audit and gate, the bootstrap — lives in
   [project-process](https://github.com/jamesbeadle/project-process).
 - A pull request merges by itself once GitHub's checks pass — the Claude that opens it enables
-  auto-merge — so the one hand step left is the database. Every migration file a merge brings to
-  a project's default branch lands on `/projects/database`, for the admin alone, with the exact
-  command to run it (a sqlcmd for an Azure SQL project, the file on GitHub and the script line for
-  a Supabase one), and is confirmed as run there or through the connector;
-  [docs/database-tasks-architecture.md](./docs/database-tasks-architecture.md) is the design.
+  auto-merge — and every migration file the merge adds is run on the live database by the
+  repository's own GitHub workflow (Supabase here, Azure SQL on the portals), so nothing is left
+  to run by hand.
 - The MCP server at `/api/mcp` is the same product as the site: OAuth sign-in from the
   Connect button, every action gated by the caller's standing on each project;
   [docs/mcp-architecture.md](./docs/mcp-architecture.md) is the design.
