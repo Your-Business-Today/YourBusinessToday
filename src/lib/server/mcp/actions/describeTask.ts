@@ -1,9 +1,6 @@
 import { attachmentLines } from './describeAttachments';
-<<<<<<< HEAD
-import { complexityPhrase, storyPointsForComplexity } from '$lib/data/taskComplexity';
-=======
 import { autocompleteSentence } from '$lib/data/autocomplete';
->>>>>>> origin/main
+import { complexityLine, storyLine } from './describeTaskWork';
 import { branchLine } from './describeBranch';
 import { lifecycleLines } from './describeLifecycle';
 import { checklistLines, criterionLines } from './describeTaskPlan';
@@ -84,15 +81,4 @@ function teamLine(workspace: TaskWorkspace): string {
 	const roleNames = workspace.roles;
 	const roles = roleNames.length === 0 ? 'none named' : roleNames.join(', ');
 	return `Assigned to ${assignees}. Roles: ${roles}.`;
-}
-
-function complexityLine(task: ProjectTask): string {
-	if (task.complexity === null) return 'Complexity: not measured yet (record_complexity).';
-	const formulaPoints = storyPointsForComplexity(task.complexity);
-	return `Complexity: ${complexityPhrase(task.complexity)}, so ${formulaPoints} points by the formula.`;
-}
-
-function storyLine(task: ProjectTask): string {
-	if (!task.isUserStory) return 'This is not written as a user story yet.';
-	return `Story: as ${task.storyRole}, I want ${task.storyWant}, so that ${task.storyBenefit}.`;
 }

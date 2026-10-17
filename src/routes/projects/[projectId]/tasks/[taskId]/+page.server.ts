@@ -4,6 +4,7 @@ import { accountNameLookup } from '$lib/data/accountNames';
 import { attachmentActions } from './attachmentActions';
 import { autocompleteActions } from './autocompleteActions';
 import { branchActions } from './branchActions';
+import { complexityActions } from './complexityActions';
 import { checklistActions } from './checklistActions';
 import { saveTaskActions } from './saveTaskActions';
 import { conversationActions } from './conversationActions';
@@ -42,6 +43,7 @@ export const actions: Actions = {
 	...checklistActions,
 	...attachmentActions,
 	...branchActions,
+	...complexityActions,
 	...autocompleteActions,
 	...conversationActions,
 	addSubtask: async ({ locals, params, request }) => {
