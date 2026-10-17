@@ -3,13 +3,14 @@ import { fibonacciStoryPoints } from './storyPoints';
 export type BuildModel = {
 	modelId: string;
 	label: string;
+	runsOn: string;
 	leastPoints: number;
 	mostPoints: number;
 };
 
 export type BuildModelSettings = { models: BuildModel[]; reviewModelId: string };
 
-export const buildModelLimits = { longestModelId: 80, longestLabel: 80 };
+export const buildModelLimits = { longestModelId: 80, longestLabel: 80, longestRunsOn: 80 };
 
 export const modelIdPattern = /^[a-z0-9][a-z0-9.:_-]{0,79}$/;
 
@@ -20,6 +21,7 @@ export function parseBuildModel(row: Record<string, unknown>): BuildModel {
 	return {
 		modelId: row.model_id as string,
 		label: row.label as string,
+		runsOn: (row.runs_on as string | undefined) ?? '',
 		leastPoints: row.least_points as number,
 		mostPoints: row.most_points as number
 	};

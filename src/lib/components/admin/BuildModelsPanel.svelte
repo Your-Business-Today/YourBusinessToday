@@ -5,7 +5,7 @@
 
 	let { settings }: { settings: BuildModelSettings } = $props();
 
-	const blankModel: BuildModel = { modelId: '', label: '', leastPoints: 1, mostPoints: 1 };
+	const blankModel: BuildModel = { modelId: '', label: '', runsOn: '', leastPoints: 1, mostPoints: 1 };
 	const gaps = $derived(uncoveredPoints(settings.models));
 </script>
 

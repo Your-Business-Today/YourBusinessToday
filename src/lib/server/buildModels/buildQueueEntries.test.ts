@@ -6,8 +6,8 @@ import type { BuildModel } from '$lib/data/buildModels';
 import type { LifecycleMark } from '$lib/server/lifecycle/getLifecycleMarks';
 
 const models: BuildModel[] = [
-	{ modelId: 'qwen-local', label: 'Qwen on the Mac mini', leastPoints: 1, mostPoints: 2 },
-	{ modelId: 'claude-opus', label: 'Claude Opus', leastPoints: 3, mostPoints: 8 }
+	{ modelId: 'qwen-local', label: 'Qwen on the Mac mini', runsOn: '', leastPoints: 1, mostPoints: 2 },
+	{ modelId: 'claude-opus', label: 'Claude Opus', runsOn: '', leastPoints: 3, mostPoints: 8 }
 ];
 
 const task = parseTaskRecord({

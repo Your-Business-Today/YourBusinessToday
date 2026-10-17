@@ -4,8 +4,8 @@ import { validateTaskBuildable } from './validateTaskBuildable';
 import type { BuildModel } from './buildModels';
 
 const models: BuildModel[] = [
-	{ modelId: 'qwen-local', label: 'Qwen', leastPoints: 1, mostPoints: 2 },
-	{ modelId: 'claude-opus', label: 'Opus', leastPoints: 3, mostPoints: 8 }
+	{ modelId: 'qwen-local', label: 'Qwen', runsOn: '', leastPoints: 1, mostPoints: 2 },
+	{ modelId: 'claude-opus', label: 'Opus', runsOn: '', leastPoints: 3, mostPoints: 8 }
 ];
 
 describe('the model a task needs', () => {

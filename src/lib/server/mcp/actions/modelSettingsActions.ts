@@ -31,7 +31,8 @@ export const modelSettingsActions: McpAction[] = [
 ];
 
 function modelLine(model: BuildModel): string {
-	return `- ${model.label} (id: ${model.modelId}) takes ${rangePhrase(model)}`;
+	const runsOn = model.runsOn === '' ? '' : `, runs on ${model.runsOn},`;
+	return `- ${model.label} (id: ${model.modelId})${runsOn} takes ${rangePhrase(model)}`;
 }
 
 function gapLine(models: BuildModel[]): string {

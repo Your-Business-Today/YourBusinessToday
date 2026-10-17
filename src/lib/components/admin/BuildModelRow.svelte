@@ -24,6 +24,8 @@
 		{/if}
 		<input name="label" required maxlength={buildModelLimits.longestLabel} value={model.label}
 			placeholder="label" class={fieldClass} />
+		<input name="runsOn" maxlength={buildModelLimits.longestRunsOn} value={model.runsOn}
+			placeholder="runs on, e.g. Claude Opus 5.5" class={fieldClass} />
 		<PointsSelect name="leastPoints" label="from" value={model.leastPoints} />
 		<PointsSelect name="mostPoints" label="to" value={model.mostPoints} />
 		<SubmitButton isSaving={tracker.isSaving} savingLabel="Saving…"

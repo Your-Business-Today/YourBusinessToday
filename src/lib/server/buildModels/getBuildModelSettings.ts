@@ -8,7 +8,7 @@ const notYetSet: BuildModelSettings = { models: [], reviewModelId: '' };
 export async function getBuildModelSettings(supabase: SupabaseClient): Promise<BuildModelSettings> {
 	const models = await supabase
 		.from('build_models')
-		.select('model_id, label, least_points, most_points')
+		.select('model_id, label, runs_on, least_points, most_points')
 		.order('least_points');
 	if (isSchemaNotYetMigrated(models.error)) return notYetSet;
 	if (models.error) throw models.error;
