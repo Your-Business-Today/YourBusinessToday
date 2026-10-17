@@ -3,6 +3,8 @@ import { goalAutocomplete, isTaskAutocomplete } from '$lib/data/autocomplete';
 import { readTurn, type TurnReading } from '$lib/data/turnLabels';
 import type { ConversationTurn } from '$lib/data/conversationTurn';
 import type { LifecycleBadge } from '$lib/data/lifecycleBadge';
+import { modelNeededFor } from '$lib/data/taskModel';
+import type { BuildModel } from '$lib/data/buildModels';
 import type { SequenceStanding } from '$lib/data/taskSequenceStanding';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
@@ -28,6 +30,7 @@ export type TaskRowActions = TaskRowHandlers & {
 	turnFor: (taskId: string) => TaskTurn | null;
 	standingFor: (taskId: string) => SequenceStanding | null;
 	lifecycleFor: (taskId: string) => LifecycleBadge | null;
+	buildModelFor: (task: TaskTreeNode) => BuildModel | null;
 };
 
 export type TaskRowSources = {
@@ -37,6 +40,7 @@ export type TaskRowSources = {
 	turnsByTask: Record<string, ConversationTurn>;
 	sequenceByTask: Record<string, SequenceStanding>;
 	lifecycleByTask: Record<string, LifecycleBadge>;
+	buildModels: BuildModel[];
 	viewerId: string;
 };
 
@@ -65,6 +69,7 @@ export function createTaskRowActions(
 			return { ...readTurn(turn, nameOf, sources.viewerId), since: turn.since };
 		},
 		standingFor: (taskId) => sources.sequenceByTask[taskId] ?? null,
-		lifecycleFor: (taskId) => sources.lifecycleByTask[taskId] ?? null
+		lifecycleFor: (taskId) => sources.lifecycleByTask[taskId] ?? null,
+		buildModelFor: (task) => (task.isBuildable ? modelNeededFor(task, sources.buildModels) : null)
 	};
 }

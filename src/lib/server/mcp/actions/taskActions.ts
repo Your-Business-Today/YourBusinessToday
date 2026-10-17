@@ -1,4 +1,5 @@
 import { autocompleteActions } from './autocompleteActions';
+import { buildableActions } from './buildableActions';
 import { acceptanceCriterionActions } from './acceptanceCriterionActions';
 import { checklistActions } from './checklistActions';
 import { checklistItemActions } from './checklistItemActions';
@@ -38,6 +39,7 @@ export const taskActions: McpAction[] = [
 	...taskSequenceActions,
 	...lifecycleActions,
 	...modelSettingsActions,
+	...buildableActions,
 	...taskOrderActions,
 	...taskQueueActions,
 	...taskParentActions,

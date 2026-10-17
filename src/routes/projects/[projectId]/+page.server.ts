@@ -3,7 +3,7 @@ import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
 import { getMainRunsForProject } from '$lib/server/mainRuns/getMainRunsForProject';
-import { getLifecycleBadges } from '$lib/server/lifecycle/getLifecycleBadges';
+import { getBuildBoard } from '$lib/server/lifecycle/getBuildBoard';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { summariseGoals } from '$lib/server/goals/summariseGoals';
@@ -47,7 +47,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		assigneeIdsByTask: Object.fromEntries(assigneeIdsByTask),
 		turnsByTask: Object.fromEntries(turnsByTask),
 		sequenceByTask: sequenceStandingsOf(tasks),
-		lifecycleByTask: await getLifecycleBadges(locals.supabase, project.id),
+		...(await getBuildBoard(locals.supabase, project.id)),
 		viewerId: user.id
 	};
 };
