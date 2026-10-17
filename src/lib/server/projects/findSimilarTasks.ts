@@ -3,17 +3,18 @@ import { doneTaskStatus } from '$lib/data/taskStatus';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { matchingAnyOf } from '$lib/server/search/wordMatch';
 import { meaningfulWords, mostSimilar } from '$lib/server/search/similarWords';
+import type { SimilarTask } from '$lib/data/similarTasks';
 
-export type SimilarTask = {
-	taskId: string;
+export type { SimilarTask };
+
+type Candidate = {
+	id: string;
+	projectId: string;
 	title: string;
+	storyWant: string;
 	projectName: string;
 	raisedById: string;
-	raisedBy: string;
-	sharedWords: string[];
 };
-
-type Candidate = { id: string; title: string; storyWant: string; projectName: string; raisedById: string };
 
 const mostCandidatesRead = 300;
 const searchedColumns = ['title', 'story_want'];
@@ -33,6 +34,7 @@ export async function findSimilarTasks(
 	const nameById = new Map(raisers.map((account) => [account.id, account.name]));
 	return found.map(({ item, shared }) => ({
 		taskId: item.id,
+		projectId: item.projectId,
 		title: item.title,
 		projectName: item.projectName,
 		raisedById: item.raisedById,
@@ -45,7 +47,7 @@ async function readCandidates(supabase: SupabaseClient, projectIds: string[], wo
 	const anyWord = words.map((word) => matchingAnyOf(searchedColumns, word)).join(',');
 	const { data, error } = await supabase
 		.from('tasks')
-		.select('id, title, story_want, created_by, requested_by, projects(name)')
+		.select('id, project_id, title, story_want, created_by, requested_by, projects(name)')
 		.in('project_id', projectIds)
 		.neq('status', doneTaskStatus)
 		.or(anyWord)
@@ -58,6 +60,7 @@ function parseCandidate(row: Record<string, unknown>): Candidate {
 	const project = (row.projects ?? {}) as { name?: unknown };
 	return {
 		id: row.id as string,
+		projectId: row.project_id as string,
 		title: String(row.title ?? ''),
 		storyWant: String(row.story_want ?? ''),
 		projectName: String(project.name ?? ''),

@@ -1,7 +1,6 @@
 import { findSimilarTasks, type SimilarTask } from '$lib/server/projects/findSimilarTasks';
 import { reachableProjectIds } from '../projectAccess';
 import type { McpCaller } from '$lib/server/mcp/resolveMcpCaller';
-import type { UserStory } from '$lib/data/userStoryRule';
 
 export const raiseAnywayField = {
 	type: 'boolean',
@@ -10,11 +9,6 @@ export const raiseAnywayField = {
 };
 
 export const raiseAnywayRefusal = 'raiseAnyway is true or false.';
-
-/** The words a new task is compared by: its title and what its story wants. */
-export function newTaskText(title: string, story: UserStory | undefined): string {
-	return `${title} ${story?.want ?? ''}`;
-}
 
 export async function similarTasksFor(caller: McpCaller, text: string): Promise<SimilarTask[]> {
 	return findSimilarTasks(caller.supabase, reachableProjectIds(caller), text);

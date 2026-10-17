@@ -14,9 +14,11 @@ const fallbackErrorMessage = 'Something went wrong — please try again.';
 export class FormTracker {
 	isSaving = $state(false);
 	errorMessage = $state<string | null>(null);
+	failureData = $state<Record<string, unknown> | null>(null);
 
 	reset(): void {
 		this.errorMessage = null;
+		this.failureData = null;
 	}
 
 	/**
@@ -31,7 +33,7 @@ export class FormTracker {
 				return;
 			}
 			this.isSaving = true;
-			this.errorMessage = null;
+			this.reset();
 			return async ({ update, result }) => {
 				try {
 					await this.settle(result, update, onSuccess, options);
@@ -58,6 +60,7 @@ export class FormTracker {
 		if (succeeded) onSuccess?.();
 		await update({ reset: options.shouldKeepFields !== true });
 		this.errorMessage = errorMessageFor(result);
+		this.failureData = failureDataOf(result);
 	}
 }
 
@@ -68,4 +71,9 @@ function errorMessageFor(result: ActionResult): string | null {
 	}
 	if (result.type === actionResultTypes.error) return fallbackErrorMessage;
 	return null;
+}
+
+function failureDataOf(result: ActionResult): Record<string, unknown> | null {
+	if (result.type !== actionResultTypes.failure) return null;
+	return (result.data as Record<string, unknown> | undefined) ?? null;
 }

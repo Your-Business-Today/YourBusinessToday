@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { fieldClasses } from '$lib/components/site/formStyles';
 	import { enhance } from '$app/forms';
-	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
-	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
+	import NewTaskFormFooter from './NewTaskFormFooter.svelte';
 	import NewTaskStoryFields from './NewTaskStoryFields.svelte';
 	import TaskGoalAndKindFields from './TaskGoalAndKindFields.svelte';
 	import TaskSequenceField from '$lib/components/sequences/TaskSequenceField.svelte';
@@ -12,6 +11,7 @@
 	import type { Goal } from '$lib/server/goals/goalRecord';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
+	import { readSimilarTasks } from '$lib/data/similarTasks';
 
 	let {
 		createAction = '?/createTask',
@@ -40,6 +40,7 @@
 
 	const isStoryRequired = $derived(needsUserStory({ kind, title, parentTaskId }));
 	const isSubtask = $derived(parentTaskId !== null);
+	const similarTasks = $derived(readSimilarTasks(tracker.failureData));
 </script>
 
 <form
@@ -81,16 +82,11 @@
 	{#if sequenceChoices.length > 0}
 		<TaskSequenceField waitsForTaskId={null} {sequenceChoices} />
 	{/if}
-	<p class="text-xs text-chalk/50">
-		Story points, assignees, and the rest are set on the task page after it's created.
-	</p>
-	<FormErrorNote message={tracker.errorMessage} />
-	<SubmitButton
+	<NewTaskFormFooter
+		errorMessage={tracker.errorMessage}
+		{similarTasks}
 		isSaving={tracker.isSaving}
-		savingLabel="Adding…"
-		class="self-end rounded-full bg-go px-6 py-2.5 font-display text-sm font-medium text-night
-			transition hover:brightness-110"
-	>
 		{submitLabel}
-	</SubmitButton>
+		onCancelSimilar={() => tracker.reset()}
+	/>
 </form>
