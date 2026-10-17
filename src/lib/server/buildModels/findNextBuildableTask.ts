@@ -9,9 +9,12 @@ import type { BuildModel } from '$lib/data/buildModels';
 
 const candidatesRead = 200;
 
-const candidateColumns = '*, goal:goal_id(is_autocomplete), waits_for:waits_for_task_id(status)';
+const candidateColumns =
+	'*, goal:goal_id(is_autocomplete), waits_for:waits_for_task_id(status), parent:parent_task_id(global_priority)';
 
-type Candidate = { task: ProjectTask; goalSetting: boolean | null; isWaiting: boolean };
+const unqueued = Number.POSITIVE_INFINITY;
+
+type Candidate = { task: ProjectTask; goalSetting: boolean | null; isWaiting: boolean; queuePlace: number };
 
 export type BuildSearch = { projectIds: string[]; modelId: string; agent: string; models: BuildModel[] };
 
@@ -28,12 +31,11 @@ export async function findNextBuildableTask(
 		.in('project_id', projectIds)
 		.eq('is_buildable', true)
 		.neq('status', doneTaskStatus)
-		.order('global_priority', { ascending: true, nullsFirst: false })
 		.order('priority', { ascending: true })
 		.limit(candidatesRead);
 	if (error) throw error;
 	const marks = await getLifecycleMarks(supabase, projectIds);
-	const candidates = (data ?? []).map(parseCandidate);
+	const candidates = (data ?? []).map(parseCandidate).sort(byQueuePlace);
 	const next = candidates.find((candidate) => isFreeFor(candidate, search, marks));
 	return next?.task ?? null;
 }
@@ -41,8 +43,16 @@ export async function findNextBuildableTask(
 function parseCandidate(row: Record<string, unknown>): Candidate {
 	const goal = row.goal as { is_autocomplete?: boolean } | null;
 	const waitedFor = row.waits_for as { status?: string } | null;
+	const parent = row.parent as { global_priority?: number | null } | null;
 	const isWaiting = waitedFor !== null && !isTaskDone(parseTaskStatus(waitedFor.status));
-	return { task: parseTaskRecord(row), goalSetting: goal?.is_autocomplete ?? null, isWaiting };
+	const task = parseTaskRecord(row);
+	const queuePlace = task.globalPriority ?? parent?.global_priority ?? unqueued;
+	return { task, goalSetting: goal?.is_autocomplete ?? null, isWaiting, queuePlace };
+}
+
+/** A subtask takes its parent's place in the queue, so a review follows the work it reviews. */
+function byQueuePlace(first: Candidate, second: Candidate): number {
+	return first.queuePlace - second.queuePlace;
 }
 
 function isFreeFor(candidate: Candidate, search: BuildSearch, marks: Map<string, LifecycleMark>): boolean {
