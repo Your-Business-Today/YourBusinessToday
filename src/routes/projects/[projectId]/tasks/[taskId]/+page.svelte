@@ -72,7 +72,8 @@
 				viewerId={data.viewerId}
 			/>
 		</div>
-		<TaskAside {task} {project} {goal} {assigneeNames} people={data.people} participantIds={data.participantIds} />
+		<TaskAside {task} {project} {goal} {assigneeNames} people={data.people}
+			participantIds={data.participantIds} lifecycleSteps={data.lifecycleSteps} />
 	</div>
 </div>
 

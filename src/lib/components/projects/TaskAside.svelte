@@ -1,10 +1,12 @@
 <script lang="ts">
 	import ConversationParticipantsPanel from '$lib/components/conversations/ConversationParticipantsPanel.svelte';
+	import LifecyclePanel from '$lib/components/lifecycle/LifecyclePanel.svelte';
 	import TaskBranchPanel from './TaskBranchPanel.svelte';
 	import TaskComplexityPanel from './TaskComplexityPanel.svelte';
 	import TaskFactsPanel from './TaskFactsPanel.svelte';
 	import type { ComponentProps } from 'svelte';
 	import type { Goal } from '$lib/server/goals/goalRecord';
+	import type { LifecycleStep } from '$lib/server/lifecycle/lifecycleStepRecord';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 	type Participants = ComponentProps<typeof ConversationParticipantsPanel>;
@@ -15,7 +17,8 @@
 		goal,
 		assigneeNames,
 		people,
-		participantIds
+		participantIds,
+		lifecycleSteps
 	}: {
 		task: ProjectTask;
 		project: ComponentProps<typeof TaskBranchPanel>['project'];
@@ -23,6 +26,7 @@
 		assigneeNames: string[];
 		people: Participants['people'];
 		participantIds: Participants['participantIds'];
+		lifecycleSteps: LifecycleStep[];
 	} = $props();
 </script>
 
@@ -30,5 +34,6 @@
 	<TaskFactsPanel {task} {goal} {assigneeNames} />
 	<TaskComplexityPanel {task} />
 	<TaskBranchPanel {task} {project} />
+	<LifecyclePanel steps={lifecycleSteps} repositoryUrl={project.repositoryUrl} />
 	<ConversationParticipantsPanel {people} {participantIds} />
 </aside>

@@ -2,6 +2,7 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { deleteGoal } from '$lib/server/goals/deleteGoal';
 import { findTasks } from '$lib/server/support/findTasks';
 import { getGoal } from '$lib/server/goals/getGoal';
+import { getLifecycleSteps } from '$lib/server/lifecycle/getLifecycleSteps';
 import { getProject } from '$lib/server/projects/getProject';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { loadConversation } from '$lib/server/conversations/loadConversation';
@@ -27,12 +28,13 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	if (goal === null || project === null || goal.projectId !== project.id)
 		error(404, 'Goal not found');
 	const subject = { goalId: goal.id };
-	const [tasks, people, conversation] = await Promise.all([
+	const [tasks, people, conversation, lifecycleSteps] = await Promise.all([
 		findTasks(locals.supabase, { projectId: project.id, goalId: goal.id, phrase: '' }),
 		getPeopleOnProject(locals.supabase, project.id),
-		loadConversation(locals.supabase, subject, user.id)
+		loadConversation(locals.supabase, subject, user.id),
+		getLifecycleSteps(locals.supabase, subject)
 	]);
-	return { goal, project, tasks, people, ...conversation };
+	return { goal, project, tasks, people, lifecycleSteps, ...conversation };
 };
 
 export const actions: Actions = {
