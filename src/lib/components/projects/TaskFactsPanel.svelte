@@ -2,16 +2,20 @@
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import TaskAutocompleteFact from './TaskAutocompleteFact.svelte';
 	import TaskDueDate from './TaskDueDate.svelte';
+	import { buildableSentence } from '$lib/data/taskModel';
 	import { isTaskDone } from '$lib/data/taskStatus';
 	import { taskStatusLabelFor } from '$lib/data/taskKind';
+	import type { BuildModel } from '$lib/data/buildModels';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 	let {
 		task,
 		goal,
-		assigneeNames
-	}: { task: ProjectTask; goal: Goal | null; assigneeNames: string[] } = $props();
+		assigneeNames,
+		buildModels
+	}: { task: ProjectTask; goal: Goal | null; assigneeNames: string[]; buildModels: BuildModel[] } =
+		$props();
 
 	const queueLabel = $derived(task.globalPriority === null ? '' : ` · queue ${task.globalPriority}`);
 	const facts = $derived([
@@ -20,7 +24,8 @@
 		{ label: 'Assignees', value: assigneeNames.length > 0 ? assigneeNames.join(', ') : 'Unassigned' },
 		{ label: 'Priority', value: `${task.priority}${queueLabel}` },
 		{ label: 'Points', value: `${task.storyPoints}` },
-		{ label: 'Complete', value: `${task.completionPercent}%` }
+		{ label: 'Complete', value: `${task.completionPercent}%` },
+		{ label: 'Build', value: buildableSentence(task.isBuildable, task, buildModels) }
 	]);
 </script>
 

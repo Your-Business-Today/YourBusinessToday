@@ -5,6 +5,7 @@
 	import TaskComplexityPanel from './TaskComplexityPanel.svelte';
 	import TaskFactsPanel from './TaskFactsPanel.svelte';
 	import type { ComponentProps } from 'svelte';
+	import type { BuildModel } from '$lib/data/buildModels';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 	import type { LifecycleStep } from '$lib/server/lifecycle/lifecycleStepRecord';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -18,7 +19,8 @@
 		assigneeNames,
 		people,
 		participantIds,
-		lifecycleSteps
+		lifecycleSteps,
+		buildModels
 	}: {
 		task: ProjectTask;
 		project: ComponentProps<typeof TaskBranchPanel>['project'];
@@ -27,11 +29,12 @@
 		people: Participants['people'];
 		participantIds: Participants['participantIds'];
 		lifecycleSteps: LifecycleStep[];
+		buildModels: BuildModel[];
 	} = $props();
 </script>
 
 <aside class="flex min-w-0 flex-col gap-4">
-	<TaskFactsPanel {task} {goal} {assigneeNames} />
+	<TaskFactsPanel {task} {goal} {assigneeNames} {buildModels} />
 	<TaskComplexityPanel {task} />
 	<TaskBranchPanel {task} {project} />
 	<LifecyclePanel steps={lifecycleSteps} repositoryUrl={project.repositoryUrl} />

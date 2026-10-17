@@ -73,7 +73,8 @@
 			/>
 		</div>
 		<TaskAside {task} {project} {goal} {assigneeNames} people={data.people}
-			participantIds={data.participantIds} lifecycleSteps={data.lifecycleSteps} />
+			participantIds={data.participantIds} lifecycleSteps={data.lifecycleSteps}
+			buildModels={data.buildModels} />
 	</div>
 </div>
 

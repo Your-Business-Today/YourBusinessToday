@@ -4,6 +4,7 @@
 	import TaskKindTags from './TaskKindTags.svelte';
 	import TaskProgressMeter from './TaskProgressMeter.svelte';
 	import TaskRaisedDate from './TaskRaisedDate.svelte';
+	import type { BuildModel } from '$lib/data/buildModels';
 	import type { LifecycleBadge } from '$lib/data/lifecycleBadge';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
@@ -12,13 +13,15 @@
 		isDone,
 		goalTitle,
 		isAutocomplete,
-		lifecycle
+		lifecycle,
+		buildModel
 	}: {
 		task: TaskTreeNode;
 		isDone: boolean;
 		goalTitle: string | null;
 		isAutocomplete: boolean;
 		lifecycle: LifecycleBadge | null;
+		buildModel: BuildModel | null;
 	} = $props();
 
 	const hasBranch = $derived(task.branchName !== '');
@@ -38,6 +41,11 @@
 	{#if !isAutocomplete}
 		<span title="Autocomplete is off — a person gives input before an AI completes it" class={`whitespace-nowrap ${chipClasses}`}>
 			Not autocomplete
+		</span>
+	{/if}
+	{#if buildModel !== null}
+		<span title="Buildable — a model may build it unattended" class={`whitespace-nowrap ${chipClasses}`}>
+			Buildable · {buildModel.label}
 		</span>
 	{/if}
 	{#if lifecycle !== null}

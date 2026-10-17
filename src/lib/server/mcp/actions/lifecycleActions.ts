@@ -1,3 +1,4 @@
+import { applyConsideredOutcome } from '$lib/server/lifecycle/applyConsideredOutcome';
 import { claimLeaseMinutes } from '$lib/data/lifecycleClaim';
 import { getLifecycleSteps } from '$lib/server/lifecycle/getLifecycleSteps';
 import { lifecycleLines } from './describeLifecycle';
@@ -29,7 +30,8 @@ export const lifecycleActions: McpAction[] = [
 			'refused until the holder records a step that lets it go, the work merges, or ' +
 			`${claimLeaseMinutes} minutes pass with no step from the holder, so record a step at least that often to keep it. ` +
 			'Name yourself alone as the agent, with your session or machine, since agents sharing a ' +
-			'name share a claim. A goal is considered only after a step on every open task under it.',
+			'name share a claim. A goal is considered only after a step on every open task under it. ' +
+			'A task considered buildable is tagged buildable; any other outcome takes the tag off.',
 		inputSchema: objectSchema(lifecycleStepFields, ['step', 'agent']),
 		run: async (caller, input) => {
 			const resolved = await resolveSubject(caller, input);
@@ -39,6 +41,7 @@ export const lifecycleActions: McpAction[] = [
 			const refusal = await lifecycleStepRefusal(caller.supabase, resolved, step);
 			if (refusal !== null) return refusal;
 			await recordLifecycleStep(caller.supabase, resolved.projectId, resolved.subject, step);
+			await applyConsideredOutcome(caller.supabase, resolved.subject, step);
 			return `Recorded on "${resolved.title}": ${step.step} by ${step.agent}.`;
 		}
 	},

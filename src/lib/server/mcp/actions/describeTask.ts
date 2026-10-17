@@ -1,6 +1,6 @@
 import { attachmentLines } from './describeAttachments';
 import { autocompleteSentence } from '$lib/data/autocomplete';
-import { complexityLine, storyLine } from './describeTaskWork';
+import { buildableLine, complexityLine, storyLine } from './describeTaskWork';
 import { branchLine } from './describeBranch';
 import { lifecycleLines } from './describeLifecycle';
 import { checklistLines, criterionLines } from './describeTaskPlan';

@@ -1,6 +1,7 @@
 import { conversationAccountIds } from '$lib/server/conversations/conversationAccountIds';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
+import { getBuildModelSettings } from '$lib/server/buildModels/getBuildModelSettings';
 import { getProject } from '$lib/server/projects/getProject';
 import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
@@ -49,11 +50,12 @@ async function loadTaskRecords(supabase: SupabaseClient, task: ProjectTask) {
 }
 
 async function loadProjectRecords(supabase: SupabaseClient, projectId: string) {
-	const [people, goals] = await Promise.all([
+	const [people, goals, buildModelSettings] = await Promise.all([
 		getPeopleOnProject(supabase, projectId),
-		getGoalsForProject(supabase, projectId)
+		getGoalsForProject(supabase, projectId),
+		getBuildModelSettings(supabase)
 	]);
-	return { people, goals };
+	return { people, goals, buildModels: buildModelSettings.models };
 }
 
 async function loadConversationRecords(supabase: SupabaseClient, taskId: string) {

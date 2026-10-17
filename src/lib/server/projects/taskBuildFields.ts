@@ -7,6 +7,8 @@ export type TaskBuildFields = {
 	branchName: string;
 	pullRequestUrl: string;
 	autocompleteSetting: AutocompleteSetting;
+	isBuildable: boolean;
+	modelNeeded: string | null;
 };
 
 export function parseTaskBuildFields(row: Record<string, unknown>): TaskBuildFields {
@@ -14,6 +16,8 @@ export function parseTaskBuildFields(row: Record<string, unknown>): TaskBuildFie
 		complexity: parseTaskComplexity(row),
 		branchName: (row.branch_name as string) ?? '',
 		pullRequestUrl: (row.pull_request_url as string) ?? '',
-		autocompleteSetting: parseTaskAutocomplete(row.is_autocomplete)
+		autocompleteSetting: parseTaskAutocomplete(row.is_autocomplete),
+		isBuildable: row.is_buildable === true,
+		modelNeeded: (row.model_needed as string) ?? null
 	};
 }
