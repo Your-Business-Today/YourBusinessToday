@@ -3,8 +3,8 @@
 	import SubtaskRows from './SubtaskRows.svelte';
 	import TaskCardHandle from './TaskCardHandle.svelte';
 	import TaskCardFacts from './TaskCardFacts.svelte';
+	import TaskCardActions from './TaskCardActions.svelte';
 	import TaskCardFooter from './TaskCardFooter.svelte';
-	import TaskRowControls from './TaskRowControls.svelte';
 	import TaskRowTitle from './TaskRowTitle.svelte';
 	import { isTaskDone } from '$lib/data/taskStatus';
 	import { openRows } from '$lib/client/openRows.svelte';
@@ -58,7 +58,7 @@
 					panelId={subtaskPanelId}
 					onToggle={() => openRows.toggle(task.id)}
 				/>
-				<TaskRowControls {task} {actions} />
+				<TaskCardActions {task} {actions} />
 			</div>
 			<TaskCardFacts
 				{isDone}
@@ -70,7 +70,6 @@
 				{task}
 				{isDone}
 				goalTitle={actions.goalTitleFor(task.goalId)}
-				onChangeGoal={() => actions.onChangeGoal(task)}
 			/>
 		</article>
 		{#if isOpen}

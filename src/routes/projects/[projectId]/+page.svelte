@@ -7,6 +7,7 @@
 	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { openSiblingsOf } from '$lib/components/projects/openSiblings';
+	import { TaskRowDialogs } from '$lib/client/taskRowDialogs.svelte';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 	let { data, form } = $props();
@@ -14,13 +15,8 @@
 	const { project } = $derived(data);
 
 	let isTaskModalOpen = $state(false);
-	let isStatusModalOpen = $state(false);
-	let isGoalModalOpen = $state(false);
-	let isPriorityModalOpen = $state(false);
 	let subtaskParent = $state<TaskTreeNode | null>(null);
-	let statusTask = $state<TaskTreeNode | null>(null);
-	let goalTask = $state<TaskTreeNode | null>(null);
-	let priorityTask = $state<TaskTreeNode | null>(null);
+	const dialogs = new TaskRowDialogs();
 
 	function openNewTaskModal() {
 		subtaskParent = null;
@@ -30,21 +26,6 @@
 	function openSubtaskModal(parentTask: TaskTreeNode) {
 		subtaskParent = parentTask;
 		isTaskModalOpen = true;
-	}
-
-	function openStatusModal(task: TaskTreeNode) {
-		statusTask = task;
-		isStatusModalOpen = true;
-	}
-
-	function openGoalModal(task: TaskTreeNode) {
-		goalTask = task;
-		isGoalModalOpen = true;
-	}
-
-	function openPriorityModal(task: TaskTreeNode) {
-		priorityTask = task;
-		isPriorityModalOpen = true;
 	}
 
 	const taskModalTitle = $derived(
@@ -73,9 +54,10 @@
 		sources={data}
 		handlers={{
 			onAddSubtask: openSubtaskModal,
-			onChangeStatus: openStatusModal,
-			onChangeGoal: openGoalModal,
-			onSetPriority: openPriorityModal
+			onChangeStatus: (task) => dialogs.status.open(task),
+			onChangeGoal: (task) => dialogs.goal.open(task),
+			onSetPriority: (task) => dialogs.priority.open(task),
+			onChangeStoryPoints: (task) => dialogs.storyPoints.open(task)
 		}}
 	/>
 </div>
@@ -89,12 +71,4 @@
 	/>
 </Modal>
 
-<TaskRowModals
-	{statusTask}
-	{goalTask}
-	{priorityTask}
-	goals={data.goals}
-	bind:isStatusModalOpen
-	bind:isGoalModalOpen
-	bind:isPriorityModalOpen
-/>
+<TaskRowModals {dialogs} goals={data.goals} />

@@ -11,7 +11,9 @@ import {
 import { parseTaskStatus } from '$lib/data/taskStatus';
 import { placeTask } from '$lib/server/projects/placeTask';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
+import { readExactStoryPoints, storyPointsRefusal } from '$lib/data/storyPoints';
 import { setTaskPriority } from '$lib/server/projects/setTaskPriority';
+import { setTaskStoryPoints } from '$lib/server/projects/setTaskStoryPoints';
 import { statusChangeRefusal } from '$lib/server/support/statusChangeRefusal';
 import { updateTaskGoal } from '$lib/server/projects/updateTaskGoal';
 import { updateTaskStatus } from '$lib/server/projects/updateTaskStatus';
@@ -69,6 +71,18 @@ export const taskActions = {
 		const priority = parsePriorityNumber(formData.get('priority'));
 		if (priority === null) return fail(400, { message: priorityNumberRefusal });
 		await setTaskPriority(locals.supabase, task.id, priority);
+		return {};
+	},
+	setStoryPoints: async ({ locals, params, request }) => {
+		await requireProjectAccess(locals, params.projectId);
+		const formData = await request.formData();
+		const task = await getTask(locals.supabase, String(formData.get('taskId') ?? ''));
+		if (task === null || task.projectId !== params.projectId) {
+			return fail(400, { message: 'A task on this project is required.' });
+		}
+		const storyPoints = readExactStoryPoints(formData.get('storyPoints'));
+		if (storyPoints === null) return fail(400, { message: storyPointsRefusal });
+		await setTaskStoryPoints(locals.supabase, task.id, storyPoints);
 		return {};
 	},
 	setGoal: async ({ locals, params, request }) => {
