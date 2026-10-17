@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { findProjectsByRepository } from './findProjectsByRepository';
 import { findTasksOnBranch } from '$lib/server/projects/findTasksOnBranch';
 import { postMessage } from '$lib/server/conversations/postMessage';
+import { recordGithubStep } from '$lib/server/lifecycle/recordGithubStep';
 import { setTaskBranch } from '$lib/server/projects/setTaskBranch';
 import { updateTaskStatus } from '$lib/server/projects/updateTaskStatus';
 import type { Project } from '$lib/server/projects/projectRecord';
@@ -35,6 +36,7 @@ async function recordOnTask(
 ): Promise<void> {
 	const branch = { branchName: task.branchName, pullRequestUrl: pullRequest.url };
 	await setTaskBranch(supabase, task.id, branch);
+	await recordGithubStep(supabase, task, pullRequest);
 	if (pullRequest.change !== pullRequestChanges.merged) return;
 	const project = projects.find((candidate) => candidate.id === task.projectId);
 	if (project === undefined) return;
