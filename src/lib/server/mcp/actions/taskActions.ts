@@ -26,14 +26,12 @@ import { taskUploadActions } from './taskUploadActions';
 import { taskUpdateActions } from './taskUpdateActions';
 import { taskWriteActions } from './taskWriteActions';
 import { similarTaskActions } from './similarTaskActions';
-import { similarTaskReviewActions } from './similarTaskReviewActions';
 import type { McpAction } from '../actionTypes';
 
 export const taskActions: McpAction[] = [
 	...taskReadActions,
 	...taskWriteActions,
 	...similarTaskActions,
-	...similarTaskReviewActions,
 	...taskUpdateActions,
 	...taskStatusActions,
 	...taskBranchActions,

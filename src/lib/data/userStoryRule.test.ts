@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { needsUserStory } from './userStoryRule';
+import { needsUserStory, titleWithoutExemptPrefix } from './userStoryRule';
 
 const topLevelWork = { kind: 'work' as const, parentTaskId: null };
 
@@ -17,5 +17,17 @@ describe('which tasks must be user stories', () => {
 	it('spares a support question and a subtask', () => {
 		expect(needsUserStory({ ...topLevelWork, kind: 'support', title: 'Why?' })).toBe(false);
 		expect(needsUserStory({ ...topLevelWork, parentTaskId: 'parent', title: 'Step' })).toBe(false);
+	});
+});
+
+describe('titleWithoutExemptPrefix', () => {
+	it('takes the bug fix or refactor prefix off, however it is cased', () => {
+		expect(titleWithoutExemptPrefix('FIX: total rounds up')).toBe('total rounds up');
+		expect(titleWithoutExemptPrefix(' fix:total rounds up ')).toBe('total rounds up');
+		expect(titleWithoutExemptPrefix('REFACTOR: round 3')).toBe('round 3');
+	});
+
+	it('leaves a story title as it is', () => {
+		expect(titleWithoutExemptPrefix('Weekly cashflow grid')).toBe('Weekly cashflow grid');
 	});
 });

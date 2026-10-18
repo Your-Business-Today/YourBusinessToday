@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isSimilarCheckSkipped, newTaskText } from './similarTasksForNewTask';
+import { isSimilarCheckSkipped, newTaskTexts } from './similarTasksForNewTask';
 import type { NewTaskSeed } from './createTask';
 
 const topLevelSeed: NewTaskSeed = {
@@ -12,9 +12,15 @@ const topLevelSeed: NewTaskSeed = {
 	kind: 'work'
 };
 
-describe('newTaskText', () => {
-	it('joins the title with what the story wants', () => {
-		expect(newTaskText('Export', { role: 'a', want: 'the register', benefit: 'b' })).toBe('Export the register');
+describe('newTaskTexts', () => {
+	it('compares a story by its title and what it wants', () => {
+		const story = { role: 'a site manager', want: 'the fire door register exported', benefit: 'to send it on' };
+		expect(newTaskTexts({ ...topLevelSeed, story })).toEqual(['Export the fire door register', 'the fire door register exported']);
+	});
+
+	it('compares a task without a story by its title alone', () => {
+		expect(newTaskTexts(topLevelSeed)).toEqual(['Export the fire door register']);
+		expect(newTaskTexts({ ...topLevelSeed, story: { role: 'a', want: '  ', benefit: 'b' } })).toEqual(['Export the fire door register']);
 	});
 });
 

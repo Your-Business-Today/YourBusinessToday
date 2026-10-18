@@ -4,7 +4,6 @@ import { describeBlueprintReading } from '$lib/server/blueprint/describeBlueprin
 import { describeChangeSubject } from '$lib/data/blueprint/changeSubject';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { similarTasksFailure } from '$lib/server/projects/similarTasksForNewTask';
-import { askRaisersWhenRaisedAnyway } from '$lib/server/projects/raisedAnywayReviews';
 import { validateChangeSubject } from '$lib/server/blueprint/validateChangeSubject';
 import { readProjectBlueprint } from '$lib/server/blueprint/readProjectBlueprint';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
@@ -31,11 +30,9 @@ export const blueprintActions = {
 		const change = { ...seed, details: [raisedFrom, seed.details].filter(Boolean).join('\n\n') };
 		const refusal = await newTaskRefusal(locals.supabase, project.id, change);
 		if (refusal !== null) return fail(400, { message: refusal });
-		const similar = await similarTasksFailure(locals.supabase, user.id, change, formData);
+		const similar = await similarTasksFailure(locals.supabase, project.id, change, formData);
 		if (similar !== null) return similar;
-		const taskId = await createTask(locals.supabase, project.id, change, user.id);
-		const raised = { ...change, taskId, projectName: project.name };
-		await askRaisersWhenRaisedAnyway(locals.supabase, user.id, formData, raised);
+		await createTask(locals.supabase, project.id, change, user.id);
 		return { message: `Raised “${change.title}” on ${project.name}'s backlog.` };
 	}
 };

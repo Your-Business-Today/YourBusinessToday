@@ -16,7 +16,7 @@
 				>
 					{similarTask.title}
 				</a>
-				<span class="text-chalk/60">on {similarTask.projectName}, raised by {similarTask.raisedBy}</span>
+				<span class="text-chalk/60">raised by {similarTask.raisedBy}</span>
 			</li>
 		{/each}
 	</ul>

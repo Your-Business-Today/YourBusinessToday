@@ -1,19 +1,29 @@
 import { wordsOf } from './wordMatch';
 
-export const similarityLimits = { leastSharedWords: 2, mostShown: 5 } as const;
+export const similarityLimits = { leastSharedWords: 2, leastSharedShare: 0.5, mostShown: 5 } as const;
 
 const commonWords = new Set([
-	'the', 'and', 'for', 'with', 'that', 'this', 'from', 'into', 'when', 'what', 'who', 'can', 'are',
-	'was', 'has', 'have', 'its', 'our', 'your', 'their', 'they', 'them', 'not', 'but', 'all', 'any',
-	'each', 'every', 'one', 'out', 'how', 'why', 'want', 'wants', 'need', 'needs', 'see', 'get',
-	'set', 'use', 'make', 'task', 'tasks', 'someone', 'user', 'should', 'would', 'could', 'will',
-	'than', 'then', 'there', 'here', 'also', 'only', 'about', 'after', 'before', 'which', 'where'
+	'the', 'and', 'for', 'with', 'that', 'this', 'from', 'into', 'onto', 'upon', 'when', 'what', 'who',
+	'can', 'are', 'was', 'were', 'has', 'have', 'had', 'its', 'our', 'your', 'their', 'they', 'them',
+	'you', 'his', 'her', 'she', 'him', 'not', 'but', 'all', 'any', 'each', 'every', 'one', 'out', 'how',
+	'why', 'want', 'wants', 'need', 'needs', 'see', 'get', 'set', 'use', 'make', 'task', 'tasks',
+	'someone', 'user', 'should', 'would', 'could', 'will', 'than', 'then', 'there', 'here', 'also',
+	'only', 'about', 'after', 'before', 'which', 'where', 'own', 'new', 'like', 'just', 'more', 'some',
+	'such', 'other', 'others', 'over', 'under', 'through', 'without', 'within', 'between', 'because',
+	'while', 'still', 'does', 'did', 'done', 'being', 'been', 'way', 'very', 'much', 'many', 'most',
+	'same', 'know', 'able', 'let', 'too', 'yet', 'now', 'ever', 'never', 'always', 'already', 'again',
+	'instead', 'rather', 'either', 'neither', 'both', 'these', 'those', 'myself', 'itself'
 ]);
+
+/** The distinct words of a text, in lower case. */
+export function distinctWords(text: string): string[] {
+	const words = wordsOf(text).map((word) => word.toLowerCase());
+	return [...new Set(words)];
+}
 
 /** The distinct words of a text that carry its meaning, in lower case. */
 export function meaningfulWords(text: string): string[] {
-	const words = wordsOf(text).map((word) => word.toLowerCase());
-	return [...new Set(words)].filter((word) => !commonWords.has(word));
+	return distinctWords(text).filter((word) => !commonWords.has(word));
 }
 
 export function sharedWords(first: string[], second: string[]): string[] {
@@ -21,18 +31,17 @@ export function sharedWords(first: string[], second: string[]): string[] {
 	return first.filter((word) => secondWords.has(word));
 }
 
-export type Scored<T> = { item: T; shared: string[]; sharedCount: number };
-
-/** The items sharing enough meaningful words with the text, most shared first, at most a handful. */
-export function mostSimilar<T>(text: string, items: T[], textOf: (item: T) => string): Scored<T>[] {
-	const words = meaningfulWords(text);
-	return items
-		.map((item) => scoredItem(item, sharedWords(words, meaningfulWords(textOf(item)))))
-		.filter((scored) => scored.sharedCount >= similarityLimits.leastSharedWords)
-		.sort((first, second) => second.sharedCount - first.sharedCount)
-		.slice(0, similarityLimits.mostShown);
+/** Two texts look alike when they share enough meaningful words, and enough of the shorter text's words. */
+export function looksAlike(first: string[], second: string[]): boolean {
+	const sharedCount = sharedWords(first, second).length;
+	const shorterCount = Math.min(first.length, second.length);
+	const hasEnoughShared = sharedCount >= similarityLimits.leastSharedWords;
+	const hasEnoughOfShorter = sharedCount >= shorterCount * similarityLimits.leastSharedShare;
+	return hasEnoughShared && hasEnoughOfShorter;
 }
 
-function scoredItem<T>(item: T, shared: string[]): Scored<T> {
-	return { item, shared, sharedCount: shared.length };
+/** Two texts say the same when they are made of the very same words. */
+export function saysTheSame(first: string[], second: string[]): boolean {
+	if (first.length === 0 || first.length !== second.length) return false;
+	return sharedWords(first, second).length === first.length;
 }
