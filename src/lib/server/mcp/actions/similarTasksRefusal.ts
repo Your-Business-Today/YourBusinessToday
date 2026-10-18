@@ -1,5 +1,5 @@
 import { findSimilarTasks } from '$lib/server/projects/findSimilarTasks';
-import { newTaskText } from '$lib/server/projects/similarTasksForNewTask';
+import { newTaskTexts } from '$lib/server/projects/similarTasksForNewTask';
 import { raiseAnywayRefusal, similarTasksAnswer } from './similarTaskCheck';
 import type { McpCaller } from '$lib/server/mcp/resolveMcpCaller';
 import type { NewTaskSeed } from '$lib/server/projects/createTask';
@@ -16,7 +16,7 @@ export async function similarTasksRefusal(
 	if (!isAnswered) return raiseAnywayRefusal;
 	const isSubtask = seed.parentTaskId !== null;
 	if (raiseAnyway === true || isSubtask) return null;
-	const similar = await findSimilarTasks(caller.supabase, project.id, newTaskText(seed.title, seed.story));
+	const similar = await findSimilarTasks(caller.supabase, project.id, newTaskTexts(seed.title, seed.story));
 	if (similar.length === 0) return null;
 	return similarTasksAnswer(seed.title, project.name, similar);
 }

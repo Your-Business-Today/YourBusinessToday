@@ -2,7 +2,7 @@ import { fail, type ActionFailure } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { UserStory } from '$lib/data/userStoryRule';
 import {
-	comparedTaskText,
+	comparedTaskTexts,
 	raiseAnywayFieldName,
 	raiseAnywayFormValue,
 	similarTasksFoundMessage,
@@ -13,9 +13,9 @@ import { findSimilarTasks } from './findSimilarTasks';
 
 const refusedStatus = 400;
 
-/** The words a new task is compared by: what its story wants, or its title when it has no story. */
-export function newTaskText(title: string, story: UserStory | undefined): string {
-	return comparedTaskText(title, story?.want);
+/** The texts a new task is compared by: its title, and what its story wants when it has one. */
+export function newTaskTexts(title: string, story: UserStory | undefined): string[] {
+	return comparedTaskTexts(title, story?.want);
 }
 
 /** A subtask is a step of its own parent, and a task the person chose to raise anyway is not checked again. */
@@ -31,7 +31,7 @@ export async function similarTasksForNewTask(
 ): Promise<SimilarTask[]> {
 	const isRaisedAnyway = formData.get(raiseAnywayFieldName) === raiseAnywayFormValue;
 	if (isSimilarCheckSkipped(seed, isRaisedAnyway)) return [];
-	return findSimilarTasks(supabase, projectId, newTaskText(seed.title, seed.story));
+	return findSimilarTasks(supabase, projectId, newTaskTexts(seed.title, seed.story));
 }
 
 /** The form's refusal when open tasks on the project look like the new one, carrying them to show; null when none do. */

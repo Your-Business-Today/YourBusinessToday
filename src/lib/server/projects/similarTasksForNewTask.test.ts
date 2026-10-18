@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isSimilarCheckSkipped, newTaskText } from './similarTasksForNewTask';
+import { isSimilarCheckSkipped, newTaskTexts } from './similarTasksForNewTask';
 import type { NewTaskSeed } from './createTask';
 
 const topLevelSeed: NewTaskSeed = {
@@ -12,14 +12,14 @@ const topLevelSeed: NewTaskSeed = {
 	kind: 'work'
 };
 
-describe('newTaskText', () => {
-	it('compares a story by what it wants', () => {
-		expect(newTaskText('Export', { role: 'a', want: 'the register', benefit: 'b' })).toBe('the register');
+describe('newTaskTexts', () => {
+	it('compares a story by its title and what it wants', () => {
+		expect(newTaskTexts('Export', { role: 'a', want: 'the register', benefit: 'b' })).toEqual(['Export', 'the register']);
 	});
 
-	it('compares a task without a story by its title', () => {
-		expect(newTaskText('Export the register', undefined)).toBe('Export the register');
-		expect(newTaskText('Export the register', { role: 'a', want: '  ', benefit: 'b' })).toBe('Export the register');
+	it('compares a task without a story by its title alone', () => {
+		expect(newTaskTexts('Export the register', undefined)).toEqual(['Export the register']);
+		expect(newTaskTexts('Export the register', { role: 'a', want: '  ', benefit: 'b' })).toEqual(['Export the register']);
 	});
 });
 

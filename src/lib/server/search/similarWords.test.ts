@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { looksAlike, meaningfulWords, mostSimilar, similarityLimits } from './similarWords';
+import { distinctWords, looksAlike, meaningfulWords, saysTheSame } from './similarWords';
+
+describe('distinctWords', () => {
+	it('keeps every word once, in lower case, ordinary ones included', () => {
+		expect(distinctWords('As a user I want the Fire door register, the register!')).toEqual(['user', 'want', 'the', 'fire', 'door', 'register']);
+	});
+});
 
 describe('meaningfulWords', () => {
 	it('drops short and common words, and repeats', () => {
@@ -22,32 +28,14 @@ describe('looksAlike', () => {
 	});
 });
 
-describe('mostSimilar', () => {
-	const titles = ['Export the fire door register', 'Fire door photos on the job', 'Change the logo colour'];
-
-	it('keeps titles sharing enough words, most shared first', () => {
-		const found = mostSimilar('Fire door register as a spreadsheet', titles, (title) => title);
-		expect(found.map((scored) => scored.item)).toEqual(['Export the fire door register', 'Fire door photos on the job']);
-		expect(found[0].shared).toEqual(['fire', 'door', 'register']);
+describe('saysTheSame', () => {
+	it('is true for the very same words in any order', () => {
+		expect(saysTheSame(['see', 'own', 'tasks'], ['tasks', 'own', 'see'])).toBe(true);
 	});
 
-	it('finds nothing when too few words are shared', () => {
-		expect(mostSimilar('Logo on the invoice', titles, (title) => title)).toEqual([]);
-	});
-
-	it('finds nothing when the shared words are under half of the shorter text', () => {
-		const text = 'Fire door register as a spreadsheet for every building';
-		expect(mostSimilar(text, ['Photos of every fire door, penetration and ceiling void on the job'], (title) => title)).toEqual([]);
-	});
-
-	it('finds nothing when two long stories share only a couple of ordinary words', () => {
-		const mailboxWant = 'the office manager to file each mailbox message against its job so the director sees which items wait on a reply';
-		const financeWant = 'the finance director to approve each supplier bill before payment so items are paid once and on time';
-		expect(mostSimilar(mailboxWant, [financeWant], (want) => want)).toEqual([]);
-	});
-
-	it('shows at most a handful', () => {
-		const many = Array.from({ length: similarityLimits.mostShown + 2 }, () => 'fire door');
-		expect(mostSimilar('fire door', many, (title) => title)).toHaveLength(similarityLimits.mostShown);
+	it('is false when a word differs, and for two empty texts', () => {
+		expect(saysTheSame(['see', 'own', 'tasks'], ['set', 'own', 'tasks'])).toBe(false);
+		expect(saysTheSame(['backlog'], ['backlog', 'archive'])).toBe(false);
+		expect(saysTheSame([], [])).toBe(false);
 	});
 });

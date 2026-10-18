@@ -15,10 +15,15 @@ const commonWords = new Set([
 	'instead', 'rather', 'either', 'neither', 'both', 'these', 'those', 'myself', 'itself'
 ]);
 
+/** The distinct words of a text, in lower case. */
+export function distinctWords(text: string): string[] {
+	const words = wordsOf(text).map((word) => word.toLowerCase());
+	return [...new Set(words)];
+}
+
 /** The distinct words of a text that carry its meaning, in lower case. */
 export function meaningfulWords(text: string): string[] {
-	const words = wordsOf(text).map((word) => word.toLowerCase());
-	return [...new Set(words)].filter((word) => !commonWords.has(word));
+	return distinctWords(text).filter((word) => !commonWords.has(word));
 }
 
 export function sharedWords(first: string[], second: string[]): string[] {
@@ -34,19 +39,8 @@ export function looksAlike(first: string[], second: string[]): boolean {
 	return hasEnoughShared && sharedCount >= shorterCount * similarityLimits.leastSharedShare;
 }
 
-export type Scored<T> = { item: T; shared: string[]; sharedCount: number };
-
-/** The items whose text looks like the given one, most shared words first, at most a handful. */
-export function mostSimilar<T>(text: string, items: T[], textOf: (item: T) => string): Scored<T>[] {
-	const words = meaningfulWords(text);
-	return items
-		.map((item) => ({ item, words: meaningfulWords(textOf(item)) }))
-		.filter((candidate) => looksAlike(words, candidate.words))
-		.map((candidate) => scoredItem(candidate.item, sharedWords(words, candidate.words)))
-		.sort((first, second) => second.sharedCount - first.sharedCount)
-		.slice(0, similarityLimits.mostShown);
-}
-
-function scoredItem<T>(item: T, shared: string[]): Scored<T> {
-	return { item, shared, sharedCount: shared.length };
+/** Two texts say the same when they are made of the very same words. */
+export function saysTheSame(first: string[], second: string[]): boolean {
+	if (first.length === 0 || first.length !== second.length) return false;
+	return sharedWords(first, second).length === first.length;
 }

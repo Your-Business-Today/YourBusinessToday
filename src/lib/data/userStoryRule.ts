@@ -27,8 +27,20 @@ export function needsUserStory(task: StoryCandidate): boolean {
 }
 
 export function hasStoryExemptTitle(title: string): boolean {
+	return exemptPrefixOf(title) !== undefined;
+}
+
+/** The title with its bug fix or refactor round prefix taken off: what the task is about, without the kind of task it is. */
+export function titleWithoutExemptPrefix(title: string): string {
+	const trimmedTitle = title.trim();
+	const prefix = exemptPrefixOf(trimmedTitle);
+	if (prefix === undefined) return trimmedTitle;
+	return trimmedTitle.slice(prefix.length).trim();
+}
+
+function exemptPrefixOf(title: string): string | undefined {
 	const shoutedTitle = title.trim().toUpperCase();
-	return storyExemptTitlePrefixes.some((prefix) => shoutedTitle.startsWith(prefix));
+	return storyExemptTitlePrefixes.find((prefix) => shoutedTitle.startsWith(prefix));
 }
 
 export function isStoryComplete(story: UserStory): boolean {

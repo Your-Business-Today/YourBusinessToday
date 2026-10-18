@@ -1,4 +1,4 @@
-import { comparedTaskText } from '$lib/data/similarTasks';
+import { comparedTaskTexts } from '$lib/data/similarTasks';
 import { findSimilarTasks } from '$lib/server/projects/findSimilarTasks';
 import { reachableProject } from '../projectAccess';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
@@ -29,8 +29,8 @@ export const similarTaskActions: McpAction[] = [
 			if (project === null) return noSuchProject;
 			const title = readOptionalText(input, 'title');
 			if (title === null) return 'Give the title of the task you have in mind.';
-			const text = comparedTaskText(title, readOptionalText(input, 'storyWant'));
-			const similar = await findSimilarTasks(caller.supabase, project.id, text);
+			const texts = comparedTaskTexts(title, readOptionalText(input, 'storyWant'));
+			const similar = await findSimilarTasks(caller.supabase, project.id, texts);
 			if (similar.length === 0) return `No open task on ${project.name} looks like "${title}".`;
 			return similar.map(similarTaskLine).join('\n');
 		}

@@ -5,7 +5,6 @@ const stuartsTask = {
 	taskId: 'task-1',
 	projectId: 'project-1',
 	title: 'Fire door register as a spreadsheet',
-	raisedById: 'stuart',
 	raisedBy: 'Stuart',
 	sharedWords: ['fire', 'door', 'register']
 };
