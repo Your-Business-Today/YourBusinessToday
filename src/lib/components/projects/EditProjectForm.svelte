@@ -9,6 +9,10 @@
 	import ProjectDatabaseFields from './ProjectDatabaseFields.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { projectStatusLabels, projectStatusOrder } from '$lib/data/projectStatus';
+	import {
+		fewestDeploysBetweenRefactors,
+		mostDeploysBetweenRefactors
+	} from '$lib/data/projectDetailsRules';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 	import type { Project } from '$lib/server/projects/projectRecord';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
@@ -61,7 +65,15 @@
 			<input name="defaultBranch" value={project.defaultBranch} class={fieldClasses} />
 		</SmallCapsField>
 		<SmallCapsField label="Refactor every … deploys" class="max-w-48">
-			<input name="refactorEveryDeploys" type="number" min="0" step="1" value={project.refactorEveryDeploys} class={fieldClasses} />
+			<input
+				name="refactorEveryDeploys"
+				type="number"
+				min={fewestDeploysBetweenRefactors}
+				max={mostDeploysBetweenRefactors}
+				step="1"
+				value={project.refactorEveryDeploys}
+				class={fieldClasses}
+			/>
 		</SmallCapsField>
 	</div>
 	<p class="text-sm text-chalk/50">

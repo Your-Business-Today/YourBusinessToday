@@ -322,7 +322,10 @@
       "src/lib/server/mcp/actions/queueFields.ts",
       "src/lib/server/mcp/actions/requestedByField.ts",
       "src/lib/server/mcp/actions/serverErrorActions.ts",
-      "src/lib/server/mcp/actions/storyFields.ts"
+      "src/lib/server/mcp/actions/storyFields.ts",
+      "src/lib/server/mcp/actions/clientDetailActions.ts",
+      "src/lib/server/mcp/actions/describeInbox.ts",
+      "src/routes/projects/kit-versions/+page.server.ts"
     ]
   }
 }

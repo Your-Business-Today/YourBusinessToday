@@ -7,7 +7,7 @@ import {
 	getUserModelPreference,
 	saveUserModelPreference
 } from '$lib/server/anthropic/userModelPreference';
-import { isLadderModel } from '$lib/data/modelLadder';
+import { validateModelPreference } from '$lib/data/validateModelPreference';
 import { getDisplayName } from '$lib/server/auth/getDisplayName';
 import { requireUser } from '$lib/server/auth/requireUser';
 import { saveDisplayName } from '$lib/server/auth/saveDisplayName';
@@ -35,7 +35,8 @@ export const actions: Actions = {
 		const user = await requireUser(locals);
 		const formData = await request.formData();
 		const modelId = String(formData.get('modelId') ?? '');
-		if (!isLadderModel(modelId)) return fail(400, { message: 'Pick a model from the slider.' });
+		const modelRefusal = validateModelPreference(modelId);
+		if (modelRefusal !== null) return fail(400, { message: modelRefusal });
 		await saveUserModelPreference(locals.supabase, user.id, modelId);
 		return { message: 'Model saved.' };
 	},

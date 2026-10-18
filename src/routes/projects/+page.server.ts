@@ -15,9 +15,8 @@ import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireUser } from '$lib/server/auth/requireUser';
 import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
 import { readTeamChoiceFrom, teamProjectsAreForStaff } from '$lib/data/teamProject';
-import { parseProjectDetailsForm } from '$lib/server/projects/updateProjectDetails';
+import { parseProjectDetailsForm } from '$lib/server/projects/projectDetailsForm';
 import { saveProjectDetails } from '$lib/server/projects/saveProjectDetails';
-import { projectDatabaseRefusal } from '$lib/data/projectDatabase';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -58,18 +57,16 @@ export const actions: Actions = {
 	updateProject: async ({ locals, request }) => {
 		const formData = await request.formData();
 		const projectId = String(formData.get('projectId') ?? '');
+		if (projectId === '') return fail(400, { message: 'A project is required.' });
 		const edit = parseProjectDetailsForm(formData);
-		if (projectId === '' || edit === null) {
-			return fail(400, { message: 'A project and a name are required.' });
-		}
-		const databaseRefusal = projectDatabaseRefusal(edit.database);
-		if (databaseRefusal !== null) return fail(400, { message: databaseRefusal });
+		if ('refusal' in edit) return fail(400, { message: edit.refusal });
+		const { update } = edit;
 		const { user, project } = await requireProjectAccess(locals, projectId);
-		const saveRefusal = await saveProjectDetails(locals, project, edit, formData);
+		const saveRefusal = await saveProjectDetails(locals, project, update, formData);
 		if (saveRefusal !== null) return fail(400, { message: saveRefusal });
 		const priority = parseRank(formData.get('priority'));
 		if (priority !== null) await setProjectPriority(locals.supabase, projectId, priority, user.id);
-		return { message: `Project "${edit.name}" saved.` };
+		return { message: `Project "${update.name}" saved.` };
 	},
 	deleteProject: async ({ locals, request }) => {
 		const formData = await request.formData();
