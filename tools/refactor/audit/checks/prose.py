@@ -7,9 +7,10 @@ from ..check_result import checkResult
 from ..source_files import SourceFile, matchesAny
 from .member_chains import isTooDeep
 from .string_literals import withoutStringText
+from .text_blocks import withoutTextBlocks
 
 COMMENT_ONLY = re.compile(r"^\s*(//|///|@\*|\*|<!--)")
-IMPORT_LINE = re.compile(r"^\s*(using|namespace|@using|@namespace|global using|import|export \* from)\b")
+IMPORT_LINE = re.compile(r"^\s*(using|namespace|@using|@namespace|global using|import|export \* from|from\s+[\w.]+\s+import)\b")
 INDENTED_FILE_GLOBS_WHEN_UNSET = ["**/*.cs"]
 
 
@@ -43,10 +44,11 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
     overlongLines = []
     for sourceFile in sourceFiles:
         isMeasuredForIndentation = matchesAny(sourceFile.relative, indentedFileGlobs)
-        for lineNumber, line in enumerate(sourceFile.lines, start=1):
+        codeLines = withoutTextBlocks(sourceFile.lines)
+        for lineNumber, (line, codeLine) in enumerate(zip(sourceFile.lines, codeLines), start=1):
             if not isMeasurableCodeLine(line):
                 continue
-            code = stripStringsAndComments(line)
+            code = stripStringsAndComments(codeLine)
             if isTooDeep(code, proseRules):
                 longChains.append({"file": sourceFile.relative, "line": lineNumber})
             if isMeasuredForIndentation and indentDepth(line, indentWidth) > maxIndentDepth:
