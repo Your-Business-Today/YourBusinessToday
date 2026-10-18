@@ -1,5 +1,9 @@
+import { comparedTaskText } from '$lib/data/similarTasks';
+import { findSimilarTasks } from '$lib/server/projects/findSimilarTasks';
+import { reachableProject } from '../projectAccess';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
-import { similarTaskLine, similarTasksFor } from './similarTaskCheck';
+import { noSuchProject } from './describeProject';
+import { similarTaskLine } from './similarTaskCheck';
 import type { McpAction } from '../actionTypes';
 
 export const similarTaskActions: McpAction[] = [
@@ -8,22 +12,26 @@ export const similarTaskActions: McpAction[] = [
 		area: 'tasks',
 		audience: 'everyone',
 		isWrite: false,
-		summary:
-			'the open tasks across every project you can see that look like a task you have in mind, with who raised each',
+		summary: 'the open tasks on a project that look like a task you have in mind, with who raised each',
 		guidance:
-			'create_task runs this check itself; call it to look before drafting a task, or to compare an existing one.',
+			'create_task runs this check itself on the project the task is raised on; call it to look before ' +
+			'drafting a task, or to compare an existing one.',
 		inputSchema: objectSchema(
 			{
+				projectId: textField('The project the task would be raised on'),
 				title: textField('The title of the task you have in mind'),
 				storyWant: textField('What its user story wants, when it has one')
 			},
-			['title']
+			['projectId', 'title']
 		),
 		run: async (caller, input) => {
+			const project = await reachableProject(caller, readText(input, 'projectId'));
+			if (project === null) return noSuchProject;
 			const title = readOptionalText(input, 'title');
 			if (title === null) return 'Give the title of the task you have in mind.';
-			const similar = await similarTasksFor(caller, `${title} ${readText(input, 'storyWant')}`);
-			if (similar.length === 0) return `No open task across YBT looks like "${title}".`;
+			const text = comparedTaskText(title, readOptionalText(input, 'storyWant'));
+			const similar = await findSimilarTasks(caller.supabase, project.id, text);
+			if (similar.length === 0) return `No open task on ${project.name} looks like "${title}".`;
 			return similar.map(similarTaskLine).join('\n');
 		}
 	}

@@ -13,8 +13,13 @@ const topLevelSeed: NewTaskSeed = {
 };
 
 describe('newTaskText', () => {
-	it('joins the title with what the story wants', () => {
-		expect(newTaskText('Export', { role: 'a', want: 'the register', benefit: 'b' })).toBe('Export the register');
+	it('compares a story by what it wants', () => {
+		expect(newTaskText('Export', { role: 'a', want: 'the register', benefit: 'b' })).toBe('the register');
+	});
+
+	it('compares a task without a story by its title', () => {
+		expect(newTaskText('Export the register', undefined)).toBe('Export the register');
+		expect(newTaskText('Export the register', { role: 'a', want: '  ', benefit: 'b' })).toBe('Export the register');
 	});
 });
 
