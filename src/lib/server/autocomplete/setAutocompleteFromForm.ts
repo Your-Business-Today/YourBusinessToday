@@ -1,6 +1,6 @@
 import { fail, type ActionFailure } from '@sveltejs/kit';
 import { autocompleteChoiceRefusal, validateAutocompleteChoice } from '$lib/data/autocomplete';
-import { getTask } from '$lib/server/projects/getTask';
+import { findTaskOnProject, taskOnProjectRequired } from '$lib/server/projects/findTaskOnProject';
 import { setGoalAutocomplete } from '$lib/server/goals/setGoalAutocomplete';
 import { setTaskAutocomplete } from '$lib/server/projects/setTaskAutocomplete';
 import { getGoal } from '$lib/server/goals/getGoal';
@@ -14,10 +14,8 @@ export async function setTaskAutocompleteFromForm(
 	projectId: string,
 	formData: FormData
 ): Promise<FormAnswer> {
-	const task = await getTask(supabase, String(formData.get('taskId') ?? ''));
-	if (task === null || task.projectId !== projectId) {
-		return fail(400, { message: 'A task on this project is required.' });
-	}
+	const task = await findTaskOnProject(supabase, formData, projectId);
+	if (task === null) return fail(400, { message: taskOnProjectRequired });
 	const setting = validateAutocompleteChoice(formData.get('autocomplete'));
 	if (setting === undefined) return fail(400, { message: autocompleteChoiceRefusal });
 	await setTaskAutocomplete(supabase, task.id, setting);
