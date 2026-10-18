@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { getPortalProjects } from '$lib/server/portal/getPortalProjects';
 import { isRefusal } from '$lib/server/portal/portalFormReading';
-import { portalHomePath } from '$lib/portal/siteDoors';
+import { portalHomePath, portalSignInPath } from '$lib/portal/portalPaths';
 import { requirePortalVisitor } from '$lib/server/portal/requirePortalVisitor';
 import {
 	switchPortalOrganisation,
@@ -9,7 +9,6 @@ import {
 } from '$lib/server/portal/switchPortalOrganisation';
 import type { Actions, PageServerLoad } from './$types';
 
-const signInPath = '/account/sign-in';
 const badRequest = 400;
 const seeOther = 303;
 
@@ -23,7 +22,7 @@ export const actions: Actions = {
 	signOut: async ({ locals }) => {
 		const { auth } = locals.supabase;
 		await auth.signOut();
-		redirect(seeOther, signInPath);
+		redirect(seeOther, portalSignInPath);
 	},
 	switchOrganisation: async ({ locals, request, cookies }) => {
 		const visitor = await requirePortalVisitor(locals);

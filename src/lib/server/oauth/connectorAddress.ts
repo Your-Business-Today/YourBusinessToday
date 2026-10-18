@@ -1,8 +1,6 @@
 import { protectedResourcePath } from './oauthSettings';
-import type { SiteDoor } from '$lib/portal/siteDoors';
 
-/** The connector lives on the staff site, so a visitor at the portal is given the other door's address. */
-export function connectorAddressFor(door: SiteDoor, url: URL): string {
-	const staffOrigin = door.isPortal ? door.otherDoorOrigin : url.origin;
-	return `${staffOrigin}${protectedResourcePath}`;
+/** The connector lives on the same site as the portal, so its address is the site's own. */
+export function connectorAddressFor(url: URL): string {
+	return `${url.origin}${protectedResourcePath}`;
 }

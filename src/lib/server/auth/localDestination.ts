@@ -1,9 +1,9 @@
 import { belongsAtPortal } from './belongsAtPortal';
 import { isConnectorDestination, isSignUpDestination } from './connectorDestination';
-import { handOffToOtherDoor } from './handOffToOtherDoor';
 import { getMemberProjectIds } from '$lib/server/members/getMemberProjectIds';
 import { getOwnedProjectIds } from '$lib/server/projects/getOwnedProjectIds';
-import type { SupabaseClient, User } from '@supabase/supabase-js';
+import { isPathForClientContact, isPortalPath, portalHomePath } from '$lib/portal/portalPaths';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 export const defaultDestination = '/';
 export const projectsDestination = '/projects';
@@ -16,8 +16,7 @@ export function localDestinationOrDefault(destination: string | null): string {
 
 /**
  * Where the signed-in session lands: the connector's next step when it is connecting a Claude,
- * the other door when this is the wrong one for the account, otherwise the path it asked for, or
- * its home.
+ * the portal for a client contact, otherwise the path it asked for, or its home.
  */
 export async function destinationAfterSignIn(
 	locals: App.Locals,
@@ -28,20 +27,14 @@ export async function destinationAfterSignIn(
 	const localDestination = isLocalPath(requestedDestination) ? requestedDestination : null;
 	if (isConnectorDestination(localDestination)) return localDestination;
 	if (isSignUpDestination(localDestination)) return localDestination;
-	if (await isAtWrongDoor(locals, user)) {
-		return handOffToOtherDoor(locals, user.email ?? '', localDestination);
-	}
-	if (localDestination !== null) return localDestination;
-	const { door } = locals;
-	if (door.isPortal) return defaultDestination;
+	if (await belongsAtPortal(locals.supabase, user.id)) return portalDestinationFor(localDestination);
+	if (localDestination !== null && !isPortalPath(localDestination)) return localDestination;
 	return homeDestinationFor(locals.supabase, user.id);
 }
 
-async function isAtWrongDoor(locals: App.Locals, user: User): Promise<boolean> {
-	if (user.email === undefined) return false;
-	const { door } = locals;
-	const isPortalAccount = await belongsAtPortal(locals.supabase, user.id);
-	return isPortalAccount !== door.isPortal;
+function portalDestinationFor(destination: string | null): string {
+	if (destination !== null && isPathForClientContact(destination)) return destination;
+	return portalHomePath;
 }
 
 /** The projects page for anyone with a project to go to; the front page for everyone else. */

@@ -5,7 +5,7 @@
 	import PortalProjectList from '$lib/components/portal/PortalProjectList.svelte';
 	import PortalVisitorCard from '$lib/components/portal/PortalVisitorCard.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
-	import { portalConnectPath, portalPeoplePath } from '$lib/portal/siteDoors';
+	import { portalConnectPath, portalPeoplePath } from '$lib/portal/portalPaths';
 	import { hasSeveralOrganisations } from '$lib/portal/portalVisitor';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
