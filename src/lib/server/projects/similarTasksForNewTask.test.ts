@@ -14,12 +14,13 @@ const topLevelSeed: NewTaskSeed = {
 
 describe('newTaskTexts', () => {
 	it('compares a story by its title and what it wants', () => {
-		expect(newTaskTexts('Export', { role: 'a', want: 'the register', benefit: 'b' })).toEqual(['Export', 'the register']);
+		const story = { role: 'a site manager', want: 'the fire door register exported', benefit: 'to send it on' };
+		expect(newTaskTexts({ ...topLevelSeed, story })).toEqual(['Export the fire door register', 'the fire door register exported']);
 	});
 
 	it('compares a task without a story by its title alone', () => {
-		expect(newTaskTexts('Export the register', undefined)).toEqual(['Export the register']);
-		expect(newTaskTexts('Export the register', { role: 'a', want: '  ', benefit: 'b' })).toEqual(['Export the register']);
+		expect(newTaskTexts(topLevelSeed)).toEqual(['Export the fire door register']);
+		expect(newTaskTexts({ ...topLevelSeed, story: { role: 'a', want: '  ', benefit: 'b' } })).toEqual(['Export the fire door register']);
 	});
 });
 

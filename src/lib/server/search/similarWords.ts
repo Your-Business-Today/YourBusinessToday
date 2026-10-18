@@ -31,12 +31,13 @@ export function sharedWords(first: string[], second: string[]): string[] {
 	return first.filter((word) => secondWords.has(word));
 }
 
-/** Two texts look alike when they share at least two meaningful words, and at least half the words of the shorter. */
+/** Two texts look alike when they share enough meaningful words, and enough of the shorter text's words. */
 export function looksAlike(first: string[], second: string[]): boolean {
 	const sharedCount = sharedWords(first, second).length;
 	const shorterCount = Math.min(first.length, second.length);
 	const hasEnoughShared = sharedCount >= similarityLimits.leastSharedWords;
-	return hasEnoughShared && sharedCount >= shorterCount * similarityLimits.leastSharedShare;
+	const hasEnoughOfShorter = sharedCount >= shorterCount * similarityLimits.leastSharedShare;
+	return hasEnoughShared && hasEnoughOfShorter;
 }
 
 /** Two texts say the same when they are made of the very same words. */

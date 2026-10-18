@@ -6,8 +6,11 @@
 -- its raiser, naming a task from another project. The check is now a same-project
 -- "does this exist already?" check with a confirm turn, and nobody is asked
 -- anything. Every question still waiting on an answer is removed, with its
--- notifications (they cascade from the message); the reviews already answered stay
--- as history. The two review functions go.
+-- notifications (they cascade from the message), and the person who raised it
+-- leaves the other task's conversation, which posting the question had joined them
+-- to, unless they belong there in their own right: they raised, requested or are
+-- assigned the task, or wrote on it themselves. The reviews already answered stay as
+-- history. The two review functions go.
 --
 -- Safe to re-run.
 
@@ -17,7 +20,26 @@ delete from public.conversation_messages as message
 using public.similar_task_reviews as review
 where review.decision is null
 	and message.task_id = review.existing_task_id
+	and message.author_account_id = review.raised_by
 	and message.body like '% (review id: ' || review.id::text || ')';
+
+delete from public.conversation_participants as participant
+using public.similar_task_reviews as review
+where review.decision is null
+	and participant.task_id = review.existing_task_id
+	and participant.account_id = review.raised_by
+	and not exists (
+		select 1 from public.conversation_messages as other
+		where other.task_id = review.existing_task_id and other.author_account_id = review.raised_by
+	)
+	and not exists (
+		select 1 from public.task_assignees as assignee
+		where assignee.task_id = review.existing_task_id and assignee.profile_id = review.raised_by
+	)
+	and not exists (
+		select 1 from public.tasks as task
+		where task.id = review.existing_task_id and review.raised_by in (task.created_by, task.requested_by)
+	);
 
 delete from public.similar_task_reviews where decision is null;
 
