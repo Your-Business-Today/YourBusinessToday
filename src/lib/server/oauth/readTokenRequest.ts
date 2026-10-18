@@ -12,6 +12,16 @@ export type TokenRequest = {
 
 type BodyFields = Record<string, string>;
 
+const tokenRequestFields = [
+	'grant_type',
+	'client_id',
+	'client_secret',
+	'code',
+	'redirect_uri',
+	'code_verifier',
+	'refresh_token'
+];
+
 export async function readTokenRequest(request: Request): Promise<TokenRequest | null> {
 	const fields = await readBodyFields(request);
 	if (fields === null) return null;
@@ -37,9 +47,14 @@ async function readBodyFields(request: Request): Promise<BodyFields | null> {
 async function readJsonFields(request: Request): Promise<BodyFields | null> {
 	const payload = await request.json().catch(() => null);
 	if (typeof payload !== 'object' || payload === null) return null;
-	return Object.fromEntries(
-		Object.entries(payload as Record<string, unknown>).map(([field, value]) => [field, String(value)])
-	);
+	const fields = payload as Record<string, unknown>;
+	const isEveryFieldText = tokenRequestFields.every((field) => isTextOrAbsent(fields[field]));
+	if (!isEveryFieldText) return null;
+	return fields as BodyFields;
+}
+
+function isTextOrAbsent(value: unknown): boolean {
+	return value === undefined || typeof value === 'string';
 }
 
 async function readFormFields(request: Request): Promise<BodyFields | null> {

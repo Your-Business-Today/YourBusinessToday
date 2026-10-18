@@ -1,6 +1,10 @@
 import { json } from '@sveltejs/kit';
 import { addressRateLimit } from '$lib/server/http/addressRateLimit';
 import { registerOauthClient } from '$lib/server/oauth/registerOauthClient';
+import {
+	validateClientRegistration,
+	type RegistrationRefusal
+} from '$lib/server/oauth/validateClientRegistration';
 import type { RequestHandler } from './$types';
 
 const created = 201;
@@ -24,7 +28,10 @@ export const POST: RequestHandler = async ({ request, getClientAddress }) => {
 	if (submission === null || typeof submission !== 'object') {
 		return json({ error: 'invalid_client_metadata' }, { status: badRequest });
 	}
-	const registration = await registerOauthClient(submission as Record<string, unknown>);
+	const fields = submission as Record<string, unknown>;
+	const refusal = validateClientRegistration(fields);
+	if (refusal !== null) return registrationRefused(refusal);
+	const registration = await registerOauthClient(fields);
 	if (registration === null) {
 		return json(
 			{ error: 'invalid_redirect_uri', error_description: 'At least one https redirect URI is required' },
@@ -33,3 +40,10 @@ export const POST: RequestHandler = async ({ request, getClientAddress }) => {
 	}
 	return json(registration, { status: created });
 };
+
+function registrationRefused(refusal: RegistrationRefusal): Response {
+	return json(
+		{ error: refusal.error, error_description: refusal.description },
+		{ status: badRequest }
+	);
+}
