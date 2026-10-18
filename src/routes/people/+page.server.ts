@@ -1,5 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { addPerson, readNewPersonSeed } from '$lib/server/people/addPerson';
+import { validateSeniority } from '$lib/data/contactProfileFields';
 import { ensurePersonForOfficer } from '$lib/server/people/ensurePersonForOfficer';
 import { getPeople } from '$lib/server/people/getPeople';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
@@ -39,8 +40,11 @@ async function officersFor(query: string, isConfigured: boolean): Promise<Office
 export const actions: Actions = {
 	addPerson: async ({ locals, request }) => {
 		await requireStaff(locals);
-		const seed = readNewPersonSeed(await request.formData());
+		const formData = await request.formData();
+		const seed = readNewPersonSeed(formData);
 		if (seed === null) return fail(400, { message: 'A name is required.' });
+		const seniorityRefusal = validateSeniority(formData.get('seniority'));
+		if (seniorityRefusal !== null) return fail(400, { message: seniorityRefusal });
 		const added = await addPerson(locals.supabase, seed);
 		redirect(303, `/people/${added.personId}`);
 	},

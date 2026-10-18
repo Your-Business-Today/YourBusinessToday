@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parsePublicUrl, publicUrlOr } from './parsePublicUrl';
+import { parsePublicUrl, publicUrlOr, validatePublicUrl } from './parsePublicUrl';
 
 describe('parsePublicUrl schemes and ports', () => {
 	it('accepts http and https on default ports', () => {
@@ -58,5 +58,19 @@ describe('publicUrlOr', () => {
 		expect(publicUrlOr('http://10.0.0.1/', 'fallback')).toBe('fallback');
 		expect(publicUrlOr(undefined, 'fallback')).toBe('fallback');
 		expect(publicUrlOr('nonsense', 'fallback')).toBe('fallback');
+	});
+});
+
+describe('validatePublicUrl', () => {
+	it('lets a blank or public address through', () => {
+		expect(validatePublicUrl('website', '')).toBeNull();
+		expect(validatePublicUrl('website', null)).toBeNull();
+		expect(validatePublicUrl('website', ' https://example.com ')).toBeNull();
+	});
+
+	it('refuses a private or unparsable address by name rather than blanking it', () => {
+		const refusal = 'The website must be a public web address, such as https://example.com.';
+		expect(validatePublicUrl('website', 'http://10.0.0.1/')).toBe(refusal);
+		expect(validatePublicUrl('website', 'nonsense')).toBe(refusal);
 	});
 });

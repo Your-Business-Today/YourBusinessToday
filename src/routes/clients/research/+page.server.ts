@@ -5,6 +5,7 @@ import { isAnthropicConfigured } from '$lib/server/anthropic/isAnthropicConfigur
 import { readResearchedLeadForm } from '$lib/server/clients/readResearchedLeadForm';
 import { researchCompany, researchOutcomeKinds } from '$lib/server/clients/researchCompany';
 import { requireStaff } from '$lib/server/auth/requireStaff';
+import { validateResearchedLeadForm } from '$lib/server/clients/validateResearchedLeadForm';
 import { saveResearchedLead } from '$lib/server/clients/saveResearchedLead';
 import { validateRecordId } from '$lib/data/isUuid';
 import type { ReviewedLead } from '$lib/server/clients/readResearchedLeadForm';
@@ -44,9 +45,10 @@ export const actions: Actions = {
 	},
 	saveLead: async ({ locals, request }) => {
 		const user = await requireStaff(locals);
-		const lead = readResearchedLeadForm(await request.formData());
+		const formData = await request.formData();
+		const lead = readResearchedLeadForm(formData);
 		if (lead === null) return fail(400, { message: 'A company name is required.' });
-		const refusal = validateExistingClient(lead);
+		const refusal = validateExistingClient(lead) ?? validateResearchedLeadForm(formData);
 		if (refusal !== null) return fail(400, { message: refusal });
 		const clientId = await saveResearchedLead(locals.supabase, lead, user.id);
 		redirect(303, `/clients/${clientId}`);

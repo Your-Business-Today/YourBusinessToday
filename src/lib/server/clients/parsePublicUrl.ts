@@ -32,3 +32,11 @@ export function publicUrlOr(candidate: unknown, fallback: string): string {
 	if (parsed === null) return fallback;
 	return parsed.href;
 }
+
+/** Why a web address cannot be kept, or null when it is blank or a public http(s) page. */
+export function validatePublicUrl(fieldName: string, candidate: unknown): string | null {
+	const address = String(candidate ?? '').trim();
+	if (address === '') return null;
+	if (parsePublicUrl(address) !== null) return null;
+	return `The ${fieldName} must be a public web address, such as https://example.com.`;
+}

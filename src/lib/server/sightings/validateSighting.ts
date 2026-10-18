@@ -1,4 +1,4 @@
-import { parsePublicUrl } from '$lib/server/clients/parsePublicUrl';
+import { parsePublicUrl, validatePublicUrl } from '$lib/server/clients/parsePublicUrl';
 import { postcodeIn, sectorOf } from '$lib/data/postcode';
 import {
 	isRefusedSourceHost,
@@ -29,6 +29,8 @@ export function validateSighting(seed: SightingSeed): string | null {
 	if (parseSightingSource(seed.sourceKind) === null) return sightingSourceKindRefusal;
 	const sectorOfPostcode = sectorOf(postcodeIn(postcode));
 	if (postcode !== '' && sectorOfPostcode !== sector) return `${postcode} is not in sector ${sector}.`;
+	const websiteRefusal = validatePublicUrl('website', seed.website);
+	if (websiteRefusal !== null) return websiteRefusal;
 	return sourceRefusal(seed.sourceUrl);
 }
 

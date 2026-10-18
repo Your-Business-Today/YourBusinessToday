@@ -27,4 +27,9 @@ describe('validateSighting', () => {
 		expect(validateSighting({ ...joinery, whatWasSeen: '' })).toContain('what the page showed');
 		expect(validateSighting({ ...joinery, sourceKind: 'linkedin' })).toContain('source kind is one of');
 	});
+
+	it('refuses a website that is not public rather than blanking it', () => {
+		expect(validateSighting({ ...joinery, website: '' })).toBeNull();
+		expect(validateSighting({ ...joinery, website: 'http://192.168.1.4/' })).toContain('website must be a public web address');
+	});
 });
