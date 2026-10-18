@@ -5,6 +5,7 @@ import { getPeople } from '$lib/server/people/getPeople';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
 import { searchOfficers } from '$lib/server/companiesHouse/searchOfficers';
 import { requireStaff } from '$lib/server/auth/requireStaff';
+import { validateOfficerIdentity } from '$lib/data/personRules';
 import type { OfficerSearchResult } from '$lib/server/companiesHouse/officerSearchRecord';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -48,7 +49,8 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const officerId = String(formData.get('officerId') ?? '').trim();
 		const name = String(formData.get('name') ?? '').trim();
-		if (officerId === '' || name === '') return fail(400, { message: 'An officer is required.' });
+		const refusal = validateOfficerIdentity({ officerId, name });
+		if (refusal !== null) return fail(400, { message: refusal });
 		const personId = await ensurePersonForOfficer(locals.supabase, { officerId, name });
 		redirect(303, `/people/${personId}?${importCompaniesQuery}`);
 	}

@@ -20,7 +20,7 @@ export function readWebsiteEnquiry(formData: FormData): EnquiryReading {
 		website: publicUrlOr(fieldValue(formData, 'website'), ''),
 		message: fieldValue(formData, 'message')
 	};
-	const problem = findEnquiryProblem(enquiry);
+	const problem = validateWebsiteEnquiry(enquiry);
 	if (problem !== null) return { problem };
 	return { enquiry };
 }
@@ -29,7 +29,7 @@ function fieldValue(formData: FormData, fieldName: string): string {
 	return String(formData.get(fieldName) ?? '').trim();
 }
 
-function findEnquiryProblem(enquiry: WebsiteEnquiry): string | null {
+function validateWebsiteEnquiry(enquiry: WebsiteEnquiry): string | null {
 	if (enquiry.name === '') return 'Tell us your name.';
 	if (!isEmailShaped(enquiry.email)) return 'Enter an email address we can reply to.';
 	if (enquiry.message === '') return 'Tell us what you would like to automate.';

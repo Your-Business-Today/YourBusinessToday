@@ -2,7 +2,8 @@ import { fail } from '@sveltejs/kit';
 import { addLead, readLeadSeed } from '$lib/server/clients/addLead';
 import { listClients } from '$lib/server/clients/listClients';
 import { moveClientStage } from '$lib/server/clients/moveClientStage';
-import { parseClientStage } from '$lib/data/clientLifecycle';
+import { parseClientStage, validateClientStage } from '$lib/data/clientLifecycle';
+import { validateRecordId } from '$lib/data/isUuid';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -28,13 +29,10 @@ export const actions: Actions = {
 		const user = await requireStaff(locals);
 		const formData = await request.formData();
 		const clientId = String(formData.get('clientId') ?? '');
-		if (clientId === '') return fail(400, { message: 'A client is required.' });
-		await moveClientStage(
-			locals.supabase,
-			clientId,
-			parseClientStage(formData.get('stage')),
-			user.id
-		);
+		const requestedStage = String(formData.get('stage') ?? '');
+		const refusal = validateRecordId('client', clientId) ?? validateClientStage(requestedStage);
+		if (refusal !== null) return fail(400, { message: refusal });
+		await moveClientStage(locals.supabase, clientId, parseClientStage(requestedStage), user.id);
 		return { message: 'Stage updated.' };
 	}
 };

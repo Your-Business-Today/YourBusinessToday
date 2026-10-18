@@ -6,6 +6,7 @@ import { inviteClientContact, inviteOutcomes } from '$lib/server/clients/inviteC
 import { noSuchClient } from './describeClient';
 import { tooManyInvitesMessage } from '$lib/server/email/inviteAllowance';
 import { undeliveredInviteNotice } from '$lib/data/emailDelivery';
+import { validateRecordId } from '$lib/data/isUuid';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -56,7 +57,10 @@ export const clientContactActions: McpAction[] = [
 ];
 
 async function listContact(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
-	const client = await getClient(caller.supabase, readText(input, 'clientId'));
+	const clientId = readText(input, 'clientId');
+	const refusal = validateRecordId('clientId', clientId);
+	if (refusal !== null) return refusal;
+	const client = await getClient(caller.supabase, clientId);
 	if (client === null) return noSuchClient;
 	const name = readText(input, 'name');
 	const email = readText(input, 'email').toLowerCase();
@@ -74,7 +78,10 @@ async function listContact(caller: McpCaller, input: Record<string, unknown>): P
 }
 
 async function inviteContact(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
-	const contact = await getClientContact(caller.supabase, readText(input, 'contactId'));
+	const contactId = readText(input, 'contactId');
+	const refusal = validateRecordId('contactId', contactId);
+	if (refusal !== null) return refusal;
+	const contact = await getClientContact(caller.supabase, contactId);
 	if (contact === null) return noSuchContact;
 	const origin = readOptionalText(input, 'origin') ?? companyDetails.websiteUrl;
 	const outcome = await inviteClientContact(caller.supabase, contact, origin, caller.accountId);

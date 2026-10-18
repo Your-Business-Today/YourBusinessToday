@@ -2,7 +2,7 @@
 	import { formatBritishDate } from '$lib/data/britishDate';
 	import { summariseEventDetail } from '$lib/data/eventDetailSummary';
 	import { clientEventLabels } from '$lib/data/clientEventLabels';
-	import type { ClientEvent } from '$lib/server/clients/recordClientEvent';
+	import type { ClientEvent } from '$lib/server/clients/clientEventRecord';
 
 	let { events }: { events: ClientEvent[] } = $props();
 

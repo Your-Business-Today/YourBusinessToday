@@ -3,7 +3,7 @@ import { clientStageLabels } from '$lib/data/clientLifecycle';
 import { formatBritishDate } from '$lib/data/britishDate';
 import type { Client } from '$lib/server/clients/clientRecord';
 import type { ClientContact } from '$lib/server/clients/clientContactRecord';
-import type { ClientEvent } from '$lib/server/clients/recordClientEvent';
+import type { ClientEvent } from '$lib/server/clients/clientEventRecord';
 import type { ClientProject } from '$lib/server/clients/getProjectsForClient';
 import type { ClientSummary } from '$lib/server/clients/listClients';
 

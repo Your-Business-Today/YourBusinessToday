@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { ClientEvent, ClientEventKind } from '$lib/server/clients/recordClientEvent';
+import type { ClientEvent, ClientEventKind } from '$lib/server/clients/clientEventRecord';
 
 export type PersonEvent = ClientEvent & { clientId: string; clientName: string };
 
