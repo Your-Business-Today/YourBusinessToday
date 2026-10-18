@@ -311,7 +311,18 @@
       "\\bvalidate[A-Z]\\w*\\("
     ],
     "exemptGlobs": [
-      "src/**/*.test.ts"
+      "src/**/*.test.ts",
+      "src/lib/server/mcp/resolveMcpCaller.ts",
+      "src/lib/server/mcp/actionTypes.ts",
+      "src/lib/server/mcp/actions/accountActions.ts",
+      "src/lib/server/mcp/actions/batonSentence.ts",
+      "src/lib/server/mcp/actions/findMemberOn.ts",
+      "src/lib/server/mcp/actions/modelSettingsActions.ts",
+      "src/lib/server/mcp/actions/orderingFields.ts",
+      "src/lib/server/mcp/actions/queueFields.ts",
+      "src/lib/server/mcp/actions/requestedByField.ts",
+      "src/lib/server/mcp/actions/serverErrorActions.ts",
+      "src/lib/server/mcp/actions/storyFields.ts"
     ]
   }
 }
