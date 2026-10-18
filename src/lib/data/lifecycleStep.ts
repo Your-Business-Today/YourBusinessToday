@@ -51,6 +51,17 @@ export const lifecycleStepLimits = {
 
 export const githubAgent = 'GitHub';
 
+const stepsPastBuilding: readonly LifecycleStepName[] = [
+	lifecycleSteps.built,
+	lifecycleSteps.reviewing,
+	lifecycleSteps.pullRequestOpen
+];
+
+/** A task whose latest step is one of these has left the build queue: a reviewer or a pull request carries it now. */
+export function hasLeftTheBuildQueue(step: LifecycleStepName): boolean {
+	return stepsPastBuilding.includes(step);
+}
+
 export function isLifecycleStepName(value: string): value is LifecycleStepName {
 	const names: readonly string[] = Object.values(lifecycleSteps);
 	return names.includes(value);
