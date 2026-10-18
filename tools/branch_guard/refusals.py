@@ -4,6 +4,9 @@ from __future__ import annotations
 WRITES_HISTORY = {"commit", "merge", "rebase", "cherry-pick", "revert", "am"}
 REFERENCE_PREFIX = "refs/heads/"
 ADMIN_OVERRIDE = "--admin"
+PUSH = "push"
+PULL_REQUEST = "pr"
+MERGE = ["merge"]
 
 
 def refuseGit(subcommand: str, arguments: list[str], branch: str | None, defaultBranch: str) -> str | None:
@@ -13,7 +16,7 @@ def refuseGit(subcommand: str, arguments: list[str], branch: str | None, default
             f"moves by a merged pull request. Create a branch first: `git switch -c fix/<slug>` for a FIX "
             f"task or `git switch -c feature/<slug>` for a story, then commit there and open the pull request."
         )
-    if subcommand == "push" and pushTargetsDefault(arguments, branch, defaultBranch):
+    if subcommand == PUSH and pushTargetsDefault(arguments, branch, defaultBranch):
         return (
             f"Branch guard: this push would move `{defaultBranch}`, which only moves by a reviewed pull "
             f"request. Push the fix/ or feature/ branch instead (`git push -u origin <branch>`) and open the "
@@ -38,7 +41,7 @@ def referenceTargets(reference: str, branch: str | None, defaultBranch: str) -> 
 
 
 def refuseGithubMerge(subcommand: str, arguments: list[str]) -> str | None:
-    if subcommand == "pr" and arguments[:1] == ["merge"] and ADMIN_OVERRIDE in arguments:
+    if subcommand == PULL_REQUEST and arguments[:1] == MERGE and ADMIN_OVERRIDE in arguments:
         return (
             "Branch guard: `gh pr merge --admin` is not allowed — it overrides the repository's protections. "
             "Merge once CI is green (`gh pr merge --merge`, or `--auto` to merge when checks pass), and if a "

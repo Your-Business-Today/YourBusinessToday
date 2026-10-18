@@ -3,9 +3,11 @@ from __future__ import annotations
 
 import subprocess
 
+GIT_TRUE = "true"
+
 
 def defaultBranchOf(repository: str) -> str | None:
-    if git(repository, "rev-parse", "--is-inside-work-tree") != "true":
+    if git(repository, "rev-parse", "--is-inside-work-tree") != GIT_TRUE:
         return None
     origin = git(repository, "symbolic-ref", "--short", "refs/remotes/origin/HEAD")
     if origin:

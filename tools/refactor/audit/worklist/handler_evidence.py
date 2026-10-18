@@ -64,11 +64,13 @@ def verdictOn(evidences: list) -> str:
         return LOCAL
     if any(evidence["isImportedElsewhere"] for evidence in evidences):
         return SHARED
-    if all(looksFrameworkOwned(evidence) for evidence in evidences):
+    isFrameworkOwned = [looksFrameworkOwned(evidence) for evidence in evidences]
+    if all(isFrameworkOwned):
         return LOCAL
     if all(evidence["matchesHandlerShape"] for evidence in evidences):
         return LOCAL
-    if any(looksFrameworkOwned(evidence) or evidence["matchesHandlerShape"] for evidence in evidences):
+    isHandlerLike = [isOwned or evidence["matchesHandlerShape"] for isOwned, evidence in zip(isFrameworkOwned, evidences)]
+    if any(isHandlerLike):
         return UNDECIDED
     return SHARED
 

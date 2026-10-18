@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 
+from ..check_result import checkResult
 from ..source_files import SourceFile
 from .prose import isMeasurableCodeLine, stripStringsAndComments
 
@@ -13,17 +14,19 @@ STRING_COMPARISON = re.compile(r"""(?:[=!]==?)\s*(?:"[^"]+"|'[^']+')|(?:"[^"]+"|
 NUMBER_COMPARISON = re.compile(r"(?:[=!]==?|[<>]=?)\s*-?(\d+(?:\.\d+)?)\b")
 NUMBERS_THAT_READ_AS_WORDS = {"0", "1"}
 MAX_CALL_DEPTH = 1
+OPENING_PARENTHESIS = "("
+CLOSING_PARENTHESIS = ")"
 
 
 def deepestCallNesting(condition: str) -> int:
     openCalls = []
     deepest = 0
     for position, character in enumerate(condition):
-        if character == "(":
+        if character == OPENING_PARENTHESIS:
             isCall = position > 0 and (condition[position - 1].isalnum() or condition[position - 1] == "_")
             openCalls.append(isCall)
             deepest = max(deepest, sum(openCalls))
-        if character == ")" and openCalls:
+        if character == CLOSING_PARENTHESIS and openCalls:
             openCalls.pop()
     return deepest
 
@@ -50,16 +53,17 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
             match = CONDITION_LINE.match(line) if isMeasurableCodeLine(line) else None
             if not match:
                 continue
-            if isTangled(match.group(1)):
+            condition = match.group(1)
+            if isTangled(condition):
                 tangledLines.append({"file": sourceFile.relative, "line": lineNumber})
-            if comparesToLiteral(match.group(1)):
+            if comparesToLiteral(condition):
                 literalLines.append({"file": sourceFile.relative, "line": lineNumber})
-    return {
-        "name": "conditions",
-        "summary": {
+    return checkResult(
+        "conditions",
+        {
             "tangledConditionLines": len(tangledLines),
             "literalComparisonLines": len(literalLines),
             "measurementIsHeuristic": True,
         },
-        "offenders": {"tangled": tangledLines[:50], "literalComparisons": literalLines[:50]},
-    }
+        {"tangled": tangledLines[:50], "literalComparisons": literalLines[:50]},
+    )

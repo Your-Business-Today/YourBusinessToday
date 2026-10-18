@@ -13,8 +13,9 @@ STEP_TIMEOUT_SECONDS = 900
 
 
 def runCommand(command: list, repositoryRoot: Path) -> str:
-    finished = subprocess.run(command, cwd=repositoryRoot, capture_output=True, text=True,
-                              timeout=STEP_TIMEOUT_SECONDS, check=False)
+    finished = subprocess.run(
+        command, cwd=repositoryRoot, capture_output=True, text=True, timeout=STEP_TIMEOUT_SECONDS, check=False
+    )
     printed = (finished.stdout + finished.stderr).strip()
     return f"$ {' '.join(command)}\n(exit {finished.returncode})\n{printed}"
 

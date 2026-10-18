@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 
+from ..check_result import checkResult
 from ..source_files import SourceFile
 
 TASK_MARKER = re.compile(r"\b(TODO|FIXME|HACK)\b", re.IGNORECASE)
@@ -15,7 +16,8 @@ def markersAsList(marker: str | list[str]) -> list[str]:
 
 
 def isExplanatoryComment(strippedLine: str, markers: dict) -> bool:
-    if any(strippedLine.startswith(marker) for marker in markersAsList(markers["documentation"])):
+    documentationMarkers = tuple(markersAsList(markers["documentation"]))
+    if strippedLine.startswith(documentationMarkers):
         return False
     explanatoryMarkers = markersAsList(markers["line"]) + markersAsList(markers["markup"])
     return any(strippedLine.startswith(marker) for marker in explanatoryMarkers)
@@ -35,12 +37,12 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
             commentedFiles.add(sourceFile.relative)
             if TASK_MARKER.search(stripped):
                 taskMarkers.append({"file": sourceFile.relative, "line": lineNumber})
-    return {
-        "name": "comments",
-        "summary": {
+    return checkResult(
+        "comments",
+        {
             "explanatoryCommentLines": commentCount,
             "filesWithComments": len(commentedFiles),
             "taskMarkers": len(taskMarkers),
         },
-        "offenders": taskMarkers[:50],
-    }
+        taskMarkers[:50],
+    )

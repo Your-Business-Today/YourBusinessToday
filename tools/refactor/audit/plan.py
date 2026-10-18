@@ -19,6 +19,7 @@ from .worklist.unboxing_steps import unboxingSteps
 from .worklist.targets import describeTarget, worstFiles
 
 REFACTOR_DIRECTORY = Path("tools") / "refactor"
+RUN_AS_SCRIPT = "__main__"
 
 
 def buildPlan(repositoryRoot: Path, audit: dict) -> dict:
@@ -35,7 +36,7 @@ def buildPlan(repositoryRoot: Path, audit: dict) -> dict:
         *breakoutSteps(views),
         *utilitySteps(views, usage.repeatedBodies(rules.get("frameworkHandlers", {})), audit),
         *patternSteps(others, designPatterns),
-        *sweepSteps(audit["score"]),
+        *sweepSteps(audit),
     ]
     return {"score": audit["score"]["overall"], "steps": steps, "targets": targets, "designPatterns": designPatterns}
 
@@ -55,5 +56,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == RUN_AS_SCRIPT:
     sys.exit(main())

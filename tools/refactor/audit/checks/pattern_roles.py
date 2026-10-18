@@ -15,6 +15,7 @@ from ..words import wordsOf
 
 MINIMUM_FAMILY_SIZE = 4
 COOCCURRENCE_THRESHOLD = 0.75
+SUBJECT_AND_ROLE_WORDS = 2
 
 
 def subjectAndRole(relative: str) -> tuple[str, str] | None:
@@ -22,7 +23,7 @@ def subjectAndRole(relative: str) -> tuple[str, str] | None:
     if path.name.startswith("+"):
         return path.parent.as_posix(), path.name
     words = wordsOf(path.name.rsplit(".", 1)[0])
-    if len(words) < 2:
+    if len(words) < SUBJECT_AND_ROLE_WORDS:
         return None
     return "-".join(words[:-1]), words[-1]
 

@@ -8,6 +8,7 @@ from __future__ import annotations
 import re
 from collections import Counter
 
+from ..check_result import checkResult
 from ..source_files import SourceFile, matchesAny
 
 HEX_COLOUR = re.compile(r"#[0-9a-fA-F]{6}\b")
@@ -50,16 +51,16 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
                 inlineStyleHits.append({"file": sourceFile.relative, "line": lineNumber})
             countLiterals(line, isMarkup, literalCounts)
     repeatedLiterals = repeatedLiteralsIn(literalCounts)
-    return {
-        "name": "magicValues",
-        "summary": {
+    return checkResult(
+        "magicValues",
+        {
             "inlineHexColours": len(hexColourHits),
             "inlineStyleAttributes": len(inlineStyleHits),
             "repeatedStringLiterals": len(repeatedLiterals),
         },
-        "offenders": {
+        {
             "hexColours": hexColourHits[:LISTED_OFFENDERS],
             "inlineStyles": inlineStyleHits[:LISTED_OFFENDERS],
             "repeatedLiterals": repeatedLiterals[:LISTED_OFFENDERS],
         },
-    }
+    )

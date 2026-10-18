@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 
+from ..check_result import checkResult
 from ..source_files import SourceFile, matchesAny
 from .member_chains import isTooDeep
 from .string_literals import withoutStringText
@@ -45,23 +46,24 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
         for lineNumber, line in enumerate(sourceFile.lines, start=1):
             if not isMeasurableCodeLine(line):
                 continue
-            if isTooDeep(stripStringsAndComments(line), proseRules):
+            code = stripStringsAndComments(line)
+            if isTooDeep(code, proseRules):
                 longChains.append({"file": sourceFile.relative, "line": lineNumber})
             if isMeasuredForIndentation and indentDepth(line, indentWidth) > maxIndentDepth:
                 deepLines.append({"file": sourceFile.relative, "line": lineNumber})
             if len(line) > maxLineLength:
                 overlongLines.append({"file": sourceFile.relative, "line": lineNumber})
-    return {
-        "name": "prose",
-        "summary": {
+    return checkResult(
+        "prose",
+        {
             "longMemberChainLines": len(longChains),
             "deeplyIndentedLines": len(deepLines),
             "overlongLines": len(overlongLines),
             "measurementIsHeuristic": True,
         },
-        "offenders": {
+        {
             "memberChains": longChains[:50],
             "deepIndentation": deepLines[:50],
             "overlongLines": overlongLines[:50],
         },
-    }
+    )

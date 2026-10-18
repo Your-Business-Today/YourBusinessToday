@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 
 from . import report
+from .check_result import checkResult
 from .checks import (
     accessor_names, comments, conditions, design_patterns, duplication, file_length,
     function_names, function_shape, input_validation, magic_values, naming, orphans, prose,
@@ -26,7 +27,8 @@ FILE_CHECKS = [
     file_length, function_shape, function_names, accessor_names, naming, comments, magic_values,
     prose, conditions, orphans, design_patterns, pages_and_widgets, site_definition,
 ]
-NOT_MEASURED = {"name": "duplication", "summary": {"skipped": "--fast reading with no baseline to carry from"}, "offenders": []}
+NOT_MEASURED = checkResult("duplication", {"skipped": "--fast reading with no baseline to carry from"}, [])
+RUN_AS_SCRIPT = "__main__"
 
 
 def parseArguments() -> argparse.Namespace:
@@ -73,5 +75,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == RUN_AS_SCRIPT:
     sys.exit(main())

@@ -13,6 +13,7 @@ IDENTIFIER = re.compile(r"[A-Za-z_]\w*")
 ALIAS_PREFIXES = ("$lib/", "@/", "~/", "./", "../")
 TYPE_NAMED_FILES = (".cs", ".razor")
 DEPTH = 5
+INDEX_MODULE = "index"
 
 
 def pathWithoutExtension(relative: str) -> str:
@@ -38,8 +39,9 @@ class Reach:
     def index(self, sourceFile: SourceFile) -> None:
         stem = PurePosixPath(sourceFile.relative)
         self.byTail[stem.stem].append(sourceFile.relative)
-        if stem.stem == "index":
-            self.byTail[stem.parent.name].append(sourceFile.relative)
+        if stem.stem == INDEX_MODULE:
+            folder = stem.parent
+            self.byTail[folder.name].append(sourceFile.relative)
         for line in sourceFile.lines:
             declaration = TYPE_DECLARATION.match(line)
             if declaration:
