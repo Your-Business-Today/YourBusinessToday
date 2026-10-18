@@ -12,19 +12,15 @@ export const supportedClientAuthenticationMethods: ClientAuthenticationMethod[] 
 	'client_secret_basic'
 ];
 
-const defaultClientName = 'An MCP client';
-const longestClientName = 200;
-const mostRedirectUris = 10;
-const loopbackHosts = ['localhost', '127.0.0.1', '[::1]'];
+export const longestClientName = 200;
 
-export function readClientRegistration(
-	submission: Record<string, unknown>
-): ClientRegistrationRequest | null {
-	const redirectUris = readRedirectUris(submission.redirect_uris);
-	if (redirectUris === null) return null;
+const defaultClientName = 'An MCP client';
+
+/** Reads a registration validateClientRegistration has already let through. */
+export function readClientRegistration(submission: Record<string, unknown>): ClientRegistrationRequest {
 	return {
 		clientName: parseClientName(submission.client_name),
-		redirectUris,
+		redirectUris: (submission.redirect_uris as string[]).map(String),
 		authenticationMethod: readAuthenticationMethod(submission.token_endpoint_auth_method)
 	};
 }
@@ -36,7 +32,7 @@ export function needsClientSecret(method: ClientAuthenticationMethod): boolean {
 function parseClientName(value: unknown): string {
 	const name = String(value ?? '').trim();
 	if (name === '') return defaultClientName;
-	return name.slice(0, longestClientName);
+	return name;
 }
 
 /**
@@ -46,29 +42,4 @@ function parseClientName(value: unknown): string {
 function readAuthenticationMethod(value: unknown): ClientAuthenticationMethod {
 	const requested = supportedClientAuthenticationMethods.find((method) => method === value);
 	return requested ?? 'none';
-}
-
-function readRedirectUris(value: unknown): string[] | null {
-	if (!Array.isArray(value) || value.length === 0) return null;
-	const uris = value.map(String).filter(isAcceptableRedirectUri).slice(0, mostRedirectUris);
-	if (uris.length === 0) return null;
-	return uris;
-}
-
-const secureProtocol = 'https:';
-const loopbackProtocol = 'http:';
-
-function isAcceptableRedirectUri(uri: string): boolean {
-	const parsed = parseUrl(uri);
-	if (parsed === null) return false;
-	if (parsed.protocol === secureProtocol) return true;
-	return parsed.protocol === loopbackProtocol && loopbackHosts.includes(parsed.hostname);
-}
-
-function parseUrl(uri: string): URL | null {
-	try {
-		return new URL(uri);
-	} catch {
-		return null;
-	}
 }

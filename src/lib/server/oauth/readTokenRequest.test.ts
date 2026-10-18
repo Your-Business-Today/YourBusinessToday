@@ -25,3 +25,27 @@ describe('readTokenRequest JSON bodies', () => {
 		expect(tokenRequest?.grantType).toBe('refresh_token');
 	});
 });
+
+function basicRequest(credentials: string): Request {
+	return new Request('https://ybt.example/oauth/token', {
+		method: 'POST',
+		headers: {
+			'content-type': 'application/x-www-form-urlencoded',
+			authorization: `Basic ${Buffer.from(credentials).toString('base64')}`
+		},
+		body: 'grant_type=refresh_token&refresh_token=r'
+	});
+}
+
+describe('readTokenRequest Basic credentials', () => {
+	it('reads percent-encoded credentials', async () => {
+		const tokenRequest = await readTokenRequest(basicRequest('client%20one:s%3Acret'));
+		expect(tokenRequest?.clientId).toBe('client one');
+		expect(tokenRequest?.clientSecret).toBe('s:cret');
+	});
+
+	it('refuses a malformed escape or a missing separator as an invalid request', async () => {
+		expect(await readTokenRequest(basicRequest('client%zz:secret'))).toBeNull();
+		expect(await readTokenRequest(basicRequest('no-separator'))).toBeNull();
+	});
+});

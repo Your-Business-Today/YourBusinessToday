@@ -23,9 +23,8 @@ const millisecondsPerSecond = 1000;
 
 export async function registerOauthClient(
 	submission: Record<string, unknown>
-): Promise<ClientRegistration | null> {
+): Promise<ClientRegistration> {
 	const registration = readClientRegistration(submission);
-	if (registration === null) return null;
 	const clientId = mintSecret('ybt_client_');
 	const clientSecret = needsClientSecret(registration.authenticationMethod)
 		? mintSecret('ybt_cs_')

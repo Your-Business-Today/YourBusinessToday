@@ -12,6 +12,10 @@ export type TokenRequest = {
 
 type BodyFields = Record<string, string>;
 
+type BasicCredentials = { clientId: string; clientSecret: string };
+
+const malformedCredentials = 'malformed';
+
 const tokenRequestFields = [
 	'grant_type',
 	'client_id',
@@ -26,6 +30,7 @@ export async function readTokenRequest(request: Request): Promise<TokenRequest |
 	const fields = await readBodyFields(request);
 	if (fields === null) return null;
 	const basicCredentials = readBasicCredentials(request);
+	if (basicCredentials === malformedCredentials) return null;
 	return {
 		grantType: fields.grant_type ?? '',
 		clientId: basicCredentials?.clientId ?? fields.client_id ?? '',
@@ -62,14 +67,23 @@ async function readFormFields(request: Request): Promise<BodyFields | null> {
 	return Object.fromEntries(parameters.entries());
 }
 
-function readBasicCredentials(request: Request): { clientId: string; clientSecret: string } | null {
+/** Basic credentials that cannot be decoded are refused, never passed over for the body's. */
+function readBasicCredentials(request: Request): BasicCredentials | typeof malformedCredentials | null {
 	const encoded = credentialsForScheme(request, authorizationSchemes.basic);
 	if (encoded === null) return null;
 	const decoded = Buffer.from(encoded, 'base64').toString('utf8');
 	const separator = decoded.indexOf(':');
-	if (separator === -1) return null;
-	return {
-		clientId: decodeURIComponent(decoded.slice(0, separator)),
-		clientSecret: decodeURIComponent(decoded.slice(separator + 1))
-	};
+	if (separator === -1) return malformedCredentials;
+	const clientId = decodeCredential(decoded.slice(0, separator));
+	const clientSecret = decodeCredential(decoded.slice(separator + 1));
+	if (clientId === null || clientSecret === null) return malformedCredentials;
+	return { clientId, clientSecret };
+}
+
+function decodeCredential(encoded: string): string | null {
+	try {
+		return decodeURIComponent(encoded);
+	} catch {
+		return null;
+	}
 }
