@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { elapsedPhrase } from '$lib/data/elapsedTime';
-	import { formatBritishDate } from '$lib/data/britishDate';
+	import { formatBritishDate, formatBritishTime } from '$lib/data/britishDate';
 
 	let { createdAt }: { createdAt: string } = $props();
 </script>
@@ -10,5 +10,5 @@
 	title={`Raised ${elapsedPhrase(createdAt)}`}
 	class="font-display text-xs whitespace-nowrap text-chalk/45"
 >
-	Raised {formatBritishDate(createdAt)}
+	Raised {formatBritishDate(createdAt)}, {formatBritishTime(createdAt)}
 </time>
