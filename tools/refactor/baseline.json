@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-18T08:43:34+00:00",
+  "generatedAt": "2026-10-18T08:47:01+00:00",
   "kitVersion": "1.23.0",
   "score": {
     "overall": 96.8,
     "groups": [
       {
         "group": "Standard baseline checks",
-        "score": 99.9,
+        "score": 100.0,
         "weight": 60
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1836,
+        "measuredAgainst": 1838,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2410,
+        "measuredAgainst": 2413,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2755,
+        "measuredAgainst": 2758,
         "score": 100.0
       },
       {
@@ -87,9 +87,9 @@
         "zeroAt": 20,
         "unit": "",
         "isMeasured": true,
-        "offenders": 0.04,
+        "offenders": 0.0,
         "measuredAgainst": 1,
-        "score": 99.8
+        "score": 100.0
       },
       {
         "key": "comments",
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 64.44,
+        "measuredAgainst": 64.47,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 64.44,
+        "measuredAgainst": 64.47,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2827,
+        "measuredAgainst": 2830,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 64.44,
+        "measuredAgainst": 64.47,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 64.44,
+        "measuredAgainst": 64.47,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2410,
+        "measuredAgainst": 2413,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2755,
+        "measuredAgainst": 2758,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2755,
+        "measuredAgainst": 2758,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2410,
+        "measuredAgainst": 2413,
         "score": 100.0
       },
       {
@@ -251,17 +251,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 1836,
-      "totalLines": 64440,
+      "totalFiles": 1838,
+      "totalLines": 64467,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 2410,
+      "totalFunctions": 2413,
       "elseBlocks": 0,
-      "ifBlocks": 2755,
+      "ifBlocks": 2758,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -274,10 +274,10 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 3,
-      "duplicatedLines": 26,
-      "totalLines": 66106,
-      "duplicatedPercentage": 0.04
+      "clones": 0,
+      "duplicatedLines": 0,
+      "totalLines": 66121,
+      "duplicatedPercentage": 0.0
     },
     "naming": {
       "bannedAbbreviationHits": 28,
@@ -306,7 +306,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 2410
+      "functionsExamined": 2413
     },
     "designPatterns": {
       "roleFamilies": 96,
@@ -333,8 +333,8 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2300,
-      "backend": 718,
+      "totalFiles": 2302,
+      "backend": 720,
       "frontend": 632,
       "shared": 275,
       "api": 188,
@@ -351,8 +351,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 1836,
-        "totalLines": 64440,
+        "totalFiles": 1838,
+        "totalLines": 64467,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -363,9 +363,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 2410,
+        "totalFunctions": 2413,
         "elseBlocks": 0,
-        "ifBlocks": 2755,
+        "ifBlocks": 2758,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -805,7 +805,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 2410
+        "functionsExamined": 2413
       },
       "offenders": []
     },
@@ -825,7 +825,7 @@
           "+page.svelte": 48,
           "+server.ts": 16,
           "access": 8,
-          "action": 8,
+          "action": 9,
           "actions": 111,
           "attachment": 5,
           "badge": 4,
@@ -885,7 +885,7 @@
           "pill": 7,
           "priority": 5,
           "profile": 6,
-          "project": 20,
+          "project": 21,
           "projects": 7,
           "prompt": 5,
           "record": 40,
@@ -2942,8 +2942,8 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2300,
-        "backend": 718,
+        "totalFiles": 2302,
+        "backend": 720,
         "frontend": 632,
         "shared": 275,
         "api": 188,
@@ -2956,9 +2956,9 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 718,
-          "sourceFiles": 708,
-          "sourceLines": 22594
+          "files": 720,
+          "sourceFiles": 710,
+          "sourceLines": 22621
         },
         {
           "area": "frontend",
@@ -2970,13 +2970,13 @@
           "area": "shared",
           "files": 275,
           "sourceFiles": 261,
-          "sourceLines": 8539
+          "sourceLines": 8528
         },
         {
           "area": "api",
           "files": 188,
           "sourceFiles": 188,
-          "sourceLines": 8826
+          "sourceLines": 8837
         },
         {
           "area": "tests",
@@ -3243,33 +3243,12 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 3,
-        "duplicatedLines": 26,
-        "totalLines": 66106,
-        "duplicatedPercentage": 0.04
+        "clones": 0,
+        "duplicatedLines": 0,
+        "totalLines": 66121,
+        "duplicatedPercentage": 0.0
       },
-      "offenders": [
-        {
-          "file": "src/routes/projects/[projectId]/taskActions.ts",
-          "duplicatedLineInstances": 16
-        },
-        {
-          "file": "src/routes/projects/[projectId]/autocompleteActions.ts",
-          "duplicatedLineInstances": 10
-        },
-        {
-          "file": "src/routes/projects/[projectId]/tasks/[taskId]/autocompleteActions.ts",
-          "duplicatedLineInstances": 10
-        },
-        {
-          "file": "src/lib/server/mcp/actions/localBuildActions.ts",
-          "duplicatedLineInstances": 8
-        },
-        {
-          "file": "src/lib/server/mcp/actions/taskBranchActions.ts",
-          "duplicatedLineInstances": 8
-        }
-      ]
+      "offenders": []
     }
   }
 }
