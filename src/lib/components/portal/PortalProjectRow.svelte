@@ -2,7 +2,7 @@
 	import PortalEnvironmentLink from './PortalEnvironmentLink.svelte';
 	import PortalGoalRow from './PortalGoalRow.svelte';
 	import ProjectStatusBadge from '$lib/components/projects/ProjectStatusBadge.svelte';
-	import { portalProjectPath } from '$lib/portal/siteDoors';
+	import { portalProjectPath } from '$lib/portal/portalPaths';
 	import type { PortalProject } from '$lib/portal/portalProject';
 
 	let { project }: { project: PortalProject } = $props();

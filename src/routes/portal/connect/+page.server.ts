@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ locals, url, cookies }) => {
 	if (linkedClientId !== null) switchPortalOrganisation(visitor, linkedClientId, cookies);
 	return {
 		visitor,
-		connectorAddress: connectorAddressFor(locals.door, url),
+		connectorAddress: connectorAddressFor(url),
 		isOnboarding: await isOnboarding(locals.supabase, visitor.clientId)
 	};
 };

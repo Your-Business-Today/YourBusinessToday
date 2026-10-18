@@ -21,6 +21,6 @@ export const actions: Actions = {
 		if (isRefusal(signUp)) return fail(badRequest, { message: signUp.refusal });
 		const started = await startOnboarding(signUp, account);
 		if (isRefusal(started)) return fail(badRequest, { message: started.refusal });
-		redirect(seeOther, await connectAtPortal(locals, account, started.clientId));
+		redirect(seeOther, connectAtPortal(started.clientId));
 	}
 };

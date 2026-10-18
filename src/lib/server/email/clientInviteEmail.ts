@@ -5,7 +5,7 @@ export function clientInviteEmailSubject(clientName: string): string {
 export function renderClientInviteEmail(
 	contactName: string,
 	setPasswordUrl: string,
-	portalOrigin: string
+	portalAddress: string
 ): string {
 	return `
 <div style="margin:0;padding:32px 16px;background-color:#0b0e16;font-family:Arial,Helvetica,sans-serif;">
@@ -25,17 +25,18 @@ export function renderClientInviteEmail(
 		>
 			Set your password
 		</a>
-		${portalDoorParagraph(portalOrigin)}
+		${portalDoorParagraph(portalAddress)}
 		${fallbackLinkParagraph(setPasswordUrl)}
 	</div>
 </div>`;
 }
 
-function portalDoorParagraph(portalOrigin: string): string {
-	const portalAddress = new URL(portalOrigin).host;
+function portalDoorParagraph(portalAddress: string): string {
+	const portalUrl = new URL(portalAddress);
+	const shownAddress = `${portalUrl.host}${portalUrl.pathname}`;
 	return `<p style="margin:24px 0 0;font-size:15px;line-height:1.6;color:#c9d2e6;">
 			After that, your door in is
-			<a href="${portalOrigin}" style="color:#eef1f8;">${portalAddress}</a>.
+			<a href="${portalAddress}" style="color:#eef1f8;">${shownAddress}</a>.
 		</p>`;
 }
 

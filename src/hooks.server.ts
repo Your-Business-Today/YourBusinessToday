@@ -5,15 +5,11 @@ import { PUBLIC_SUPABASE_PUBLISHABLE_KEY, PUBLIC_SUPABASE_URL } from '$env/stati
 import { getUserModelOverride } from '$lib/server/anthropic/getUserModelOverride';
 import { reportServerError } from '$lib/server/http/reportServerError';
 import { runWithModelResolver } from '$lib/server/anthropic/modelContext';
-import { configuredPortalHost } from '$lib/portal/configuredPortalHost';
-import { siteDoorFor } from '$lib/portal/siteDoors';
-import { wrongDoorRedirect } from '$lib/server/portal/wrongDoorRedirect';
 import { portalOrganisationCookie } from '$lib/portal/portalVisitor';
 import type { Cookies, Handle } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 const forbidden = 403;
-const seeOther = 303;
 
 export const handleError = reportServerError;
 
@@ -21,10 +17,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (isForbiddenCrossSiteForm(event.request, event.url)) {
 		return text('Cross-site form submissions are forbidden', { status: forbidden });
 	}
-	const { locals, route } = event;
-	locals.door = siteDoorFor(event.url, configuredPortalHost());
-	const doorRedirect = wrongDoorRedirect(locals.door, route.id);
-	if (doorRedirect !== null) return redirectResponse(doorRedirect);
+	const { locals } = event;
 	locals.supabase = supabaseClientFor(event.cookies);
 	locals.portalOrganisationId = event.cookies.get(portalOrganisationCookie) ?? null;
 	locals.safeGetSession = () => readSession(locals);
@@ -35,10 +28,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		})
 	);
 };
-
-function redirectResponse(location: string): Response {
-	return new Response(null, { status: seeOther, headers: { location } });
-}
 
 function supabaseClientFor(cookies: Cookies): SupabaseClient {
 	return createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY, {

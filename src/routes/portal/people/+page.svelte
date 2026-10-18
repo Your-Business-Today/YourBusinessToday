@@ -4,7 +4,7 @@
 	import PortalPeopleList from '$lib/components/portal/PortalPeopleList.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
-	import { portalHomePath } from '$lib/portal/siteDoors';
+	import { portalHomePath } from '$lib/portal/portalPaths';
 
 	let { data } = $props();
 

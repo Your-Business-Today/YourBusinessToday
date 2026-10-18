@@ -7,8 +7,7 @@ import { isInviteAllowanceSpent } from '$lib/server/email/inviteAllowance';
 import { recordClientEvent } from './recordClientEvent';
 import { sendTransactionalEmail } from '$lib/server/email/sendTransactionalEmail';
 import { mintSignInLink } from '$lib/server/accounts/mintSignInLink';
-import { configuredPortalHost } from '$lib/portal/configuredPortalHost';
-import { portalOriginFor } from '$lib/portal/siteDoors';
+import { portalHomePath } from '$lib/portal/portalPaths';
 import type { ClientContact } from './clientContactRecord';
 import type { EmailDelivery } from '$lib/data/emailDelivery';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -29,10 +28,9 @@ export async function inviteClientContact(
 	if (contact.accountId !== null) return 'already_invited';
 	const invitesThisHour = await countContactInvitesThisHour(supabase, actorAccountId);
 	if (isInviteAllowanceSpent(invitesThisHour)) return 'too_many_invites';
-	const portalOrigin = portalOriginFor(origin, configuredPortalHost());
-	const invitation = await mintSignInLink(contact.email, portalOrigin);
+	const invitation = await mintSignInLink(contact.email, origin);
 	await linkContactToAccount(supabase, contact.id, invitation.accountId);
-	const delivery = await deliverInvitation(contact, invitation.actionLink, portalOrigin);
+	const delivery = await deliverInvitation(contact, invitation.actionLink, `${origin}${portalHomePath}`);
 	await recordClientEvent(
 		supabase,
 		contact.clientId,
@@ -62,11 +60,11 @@ async function linkContactToAccount(
 function deliverInvitation(
 	contact: ClientContact,
 	setPasswordUrl: string,
-	portalOrigin: string
+	portalAddress: string
 ): Promise<EmailDelivery> {
 	return sendTransactionalEmail({
 		to: contact.email,
 		subject: clientInviteEmailSubject('Your Business Today'),
-		html: renderClientInviteEmail(contact.name, setPasswordUrl, portalOrigin)
+		html: renderClientInviteEmail(contact.name, setPasswordUrl, portalAddress)
 	});
 }
