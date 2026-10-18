@@ -1,5 +1,5 @@
 <!-- project-process:begin -->
-<!-- project-process kit v1.25.1 — replaced whole by bootstrap.sh; edit the kit, and write this repository's own instructions in PROJECT.md -->
+<!-- project-process kit v1.26.0 — replaced whole by bootstrap.sh; edit the kit, and write this repository's own instructions in PROJECT.md -->
 
 # How We Work
 
@@ -33,9 +33,15 @@ The repository carries a guard as well as this rule: `tools/branch_guard/`, inst
 
 A refactor round follows the same shape on a `refactor/round-N` branch, and a code quality check on a `quality/check-<date>` branch (their skills say so); they are the two branches that are neither a fix nor a feature. A process that only reads — the widget identification, the input validation check, the audit and the gate, the deploy count — writes nothing but its own output, so it needs no branch at all and commits nothing (next section).
 
-## Migrations are run from Your Business Today, not announced in chat
+## Migrations run themselves when their pull request merges
 
-Every migration a merged pull request brings to the default branch appears by itself on the Database tasks page in Your Business Today (yourbusiness.today/projects/database), where the person runs it and confirms it. So a migration is not news for the chat: do not list it, ask the person to apply it, or remind them of it when a pull request opens or merges. It is named in the pull request body and on the task's work log, as any change is. The one exception: if a migration has merged and does not appear on the Database tasks page, tell the person that.
+Nobody runs a migration by hand. When a pull request merges, GitHub runs every migration file the merge added to the default branch, in filename order, each in one transaction, against the live database: the `run migrations` workflow with `scripts/run-added-migrations.sh` for a Supabase database (the bootstrap installs both with `--with-migration-run`, and the connection is the repository secret `SUPABASE_DB_URL`), and the portal template's own workflow for an Azure SQL portal. Because no one is at the keyboard when it runs:
+
+- **A migration protects the data already there.** Additive (`create table if not exists`, `add column if not exists`), safe to run twice, never dropping or rewriting a table, column or row that holds data in use. A correction is a new migration file, never an edit to one already merged, which never runs again. The backups are the safety net, not the plan.
+- **The code stands before its migration runs.** The deploy and the migration start together on the merge, so a reader of a new table or column on a path every request runs answers empty until it exists, and a migration that drops or renames something live code reads ships in two pull requests: the first stops reading it, the second changes the schema.
+- **A green run is the record; a red run is the thing to act on.** A failed migration is rolled back and stops the ones after it; fix it forward with a new pull request and tell the person, since that is the one migration they need to hear about.
+
+So a migration is not news for the chat: do not list it, ask the person to apply it, or remind them of it when a pull request opens or merges. It is named in the pull request body and on the task's work log, as any change is. Where a repository has a database and no workflow runs its migrations yet, say so on the task once and point to `--with-migration-run`, rather than running the migration yourself.
 
 ## A repository built on a template carries a template change to its siblings
 
