@@ -2,6 +2,7 @@ import { attachmentLines } from './describeAttachments';
 import { autocompleteSentence } from '$lib/data/autocomplete';
 import { buildableLine, complexityLine, storyLine } from './describeTaskWork';
 import { branchLine } from './describeBranch';
+import { repositoryLine } from './describeRepository';
 import { lifecycleLines } from './describeLifecycle';
 import { checklistLines, criterionLines } from './describeTaskPlan';
 import { sequenceLines } from './describeSequence';
@@ -22,6 +23,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 	return [
 		headline(task),
 		`Project: ${project.name} (id: ${project.id})`,
+		repositoryLine(project),
 		priorityLine(task),
 		`Goal: ${goalTitle(workspace)}. Due: ${task.dueDate ?? 'no date set'}.`,
 		raisedByLine(workspace),
