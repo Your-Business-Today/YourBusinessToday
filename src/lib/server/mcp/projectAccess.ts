@@ -45,6 +45,17 @@ export async function reachableTask(
 	return task;
 }
 
+export async function reachableTaskWithProject(
+	caller: McpCaller,
+	taskId: string
+): Promise<{ task: ProjectTask; project: Project } | null> {
+	const task = await reachableTask(caller, taskId);
+	if (task === null) return null;
+	const project = await reachableProject(caller, task.projectId);
+	if (project === null) return null;
+	return { task, project };
+}
+
 export async function reachableGoal(caller: McpCaller, goalId: string): Promise<Goal | null> {
 	const goal = await getGoal(caller.supabase, goalId);
 	if (goal === null || !canReachProject(caller, goal.projectId)) return null;

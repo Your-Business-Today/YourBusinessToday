@@ -5,7 +5,7 @@ import { lifecycleStepFields } from './lifecycleFields';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { raiseReviewTask } from '$lib/server/buildModels/raiseReviewTask';
-import { reachableProject, reachableTask } from '../projectAccess';
+import { reachableTaskWithProject } from '../projectAccess';
 import { recordLifecycleStep } from '$lib/server/lifecycle/recordLifecycleStep';
 import { setTaskBranch } from '$lib/server/projects/setTaskBranch';
 import { validateLifecycleStep } from '$lib/data/validateLifecycleStep';
@@ -38,9 +38,9 @@ export const localBuildActions: McpAction[] = [
 			['taskId', 'branch', 'agent']
 		),
 		run: async (caller, input) => {
-			const task = await reachableTask(caller, readText(input, 'taskId'));
-			const project = task === null ? null : await reachableProject(caller, task.projectId);
-			if (task === null || project === null) return noSuchTask;
+			const reached = await reachableTaskWithProject(caller, readText(input, 'taskId'));
+			if (reached === null) return noSuchTask;
+			const { task, project } = reached;
 			const branchName = readText(input, 'branch');
 			const isBranchMissing = branchName === '';
 			if (isBranchMissing) return 'Name the pushed branch the work is on.';

@@ -2,7 +2,7 @@ import { pullRequestUrlRefusal, taskBranchRefusal } from '$lib/data/branchName';
 import { findTasksOnBranch } from '$lib/server/projects/findTasksOnBranch';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
-import { reachableProject, reachableProjectIds, reachableTask } from '../projectAccess';
+import { reachableProjectIds, reachableTaskWithProject } from '../projectAccess';
 import { setTaskBranch } from '$lib/server/projects/setTaskBranch';
 import type { McpAction } from '../actionTypes';
 
@@ -30,9 +30,9 @@ export const taskBranchActions: McpAction[] = [
 			['taskId', 'branch']
 		),
 		run: async (caller, input) => {
-			const task = await reachableTask(caller, readText(input, 'taskId'));
-			const project = task === null ? null : await reachableProject(caller, task.projectId);
-			if (task === null || project === null) return noSuchTask;
+			const reached = await reachableTaskWithProject(caller, readText(input, 'taskId'));
+			if (reached === null) return noSuchTask;
+			const { task, project } = reached;
 			const branchName = readText(input, 'branch');
 			const pullRequestUrl = readOptionalText(input, 'pullRequestUrl') ?? undefined;
 			const refusal =

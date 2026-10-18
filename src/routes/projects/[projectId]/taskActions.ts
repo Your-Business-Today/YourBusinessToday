@@ -1,4 +1,5 @@
 import { fail } from '@sveltejs/kit';
+import { findTaskOnProject, taskOnProjectRequired } from '$lib/server/projects/findTaskOnProject';
 import { getTask } from '$lib/server/projects/getTask';
 import { moveTask, type TaskMoveDirection } from '$lib/server/projects/moveTask';
 import {
@@ -55,10 +56,8 @@ export const taskActions = {
 	setTaskPriority: async ({ locals, params, request }) => {
 		await requireProjectAccess(locals, params.projectId);
 		const formData = await request.formData();
-		const task = await getTask(locals.supabase, String(formData.get('taskId') ?? ''));
-		if (task === null || task.projectId !== params.projectId) {
-			return fail(400, { message: 'A task on this project is required.' });
-		}
+		const task = await findTaskOnProject(locals.supabase, formData, params.projectId);
+		if (task === null) return fail(400, { message: taskOnProjectRequired });
 		const priority = parsePriorityNumber(formData.get('priority'));
 		if (priority === null) return fail(400, { message: priorityNumberRefusal });
 		await setTaskPriority(locals.supabase, task.id, priority);
@@ -67,10 +66,8 @@ export const taskActions = {
 	setStoryPoints: async ({ locals, params, request }) => {
 		await requireProjectAccess(locals, params.projectId);
 		const formData = await request.formData();
-		const task = await getTask(locals.supabase, String(formData.get('taskId') ?? ''));
-		if (task === null || task.projectId !== params.projectId) {
-			return fail(400, { message: 'A task on this project is required.' });
-		}
+		const task = await findTaskOnProject(locals.supabase, formData, params.projectId);
+		if (task === null) return fail(400, { message: taskOnProjectRequired });
 		const storyPoints = readExactStoryPoints(formData.get('storyPoints'));
 		if (storyPoints === null) return fail(400, { message: storyPointsRefusal });
 		await setTaskStoryPoints(locals.supabase, task.id, storyPoints);
