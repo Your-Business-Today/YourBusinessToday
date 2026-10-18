@@ -28,7 +28,7 @@
       "skill": "input-validation-check",
       "title": "Run the input validation check",
       "sentences": ["Run the input validation check", "check the inputs against the schema", "can anything write data that does not fit its column", "is the MCP server validating its inputs"],
-      "summary": "Check every entry point that writes - API routes, server actions, command handlers, MCP tool and action handlers - against the column types and constraints it writes to: guarded, mismatched, unguarded, form only or repaired. Read-only - no branch, no commit, no pull request, no score box. It finds the gaps; fixing them is a fix/ branch the person asks for.",
+      "summary": "Check every entry point that writes - API routes, server actions, command handlers, MCP tool and action handlers - against the column types and constraints it writes to: guarded, mismatched, unguarded, form only or repaired. Read-only - no branch, no commit, no pull request, no score box. It finds the gaps; the refactor round closes them.",
       "branch": null,
       "writes": ["tools/refactor/input-validation.md", "tools/refactor/audit-output/"],
       "commands": [["python3", "-m", "tools.refactor.audit.run_audit", ".", "--output", "tools/refactor/audit-output", "--fast"]]
@@ -38,7 +38,7 @@
       "skill": "refactor-round",
       "title": "Refactor the repo",
       "sentences": ["Refactor the repo", "refactor the repository", "run a refactor round"],
-      "summary": "One measured round on a refactor/round-N branch, taking the next steps from the top of the refactoring plan in order. Behaviour never changes. This is the one process that changes source code.",
+      "summary": "One measured round on a refactor/round-N branch, taking the next steps from the top of the refactoring plan in order. Every scored element has steps, the write doors included; behaviour is otherwise unchanged. This is the one process that changes source code.",
       "branch": "refactor/round-N",
       "writes": ["source code", "tools/refactor/baseline.json", "README.md"],
       "commands": []

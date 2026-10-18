@@ -14,6 +14,7 @@ EF_COLUMN = re.compile(r"^\s*(?P<column>\w+)\s*=\s*table\.Column<", re.M)
 EF_ADD_COLUMN = re.compile(r"AddColumn<[^>]+>\(\s*name:\s*\"(?P<column>\w+)\",\s*table:\s*\"(?P<name>\w+)\"(?P<rest>.*?)\);", re.S)
 TEXT_LIMIT = re.compile(r"(?:char(?:acter)?(?:\s+varying)?|varchar|nvarchar|nchar)\s*\(\s*(\d+)\s*\)|maxLength:\s*(\d+)", re.I)
 CONSTRAINT_WORDS = {"constraint", "primary", "foreign", "unique", "check", "key", "index", "exclude"}
+ITEM_SEPARATOR = ","
 EXCLUDED_WHEN_UNSET = ["**/node_modules/**", "**/bin/**", "**/obj/**", "**/.svelte-kit/**"]
 
 
@@ -37,7 +38,7 @@ def topLevelItems(body: str) -> list[str]:
     items, depth, current = [], 0, ""
     for character in body:
         depth += {"(": 1, ")": -1}.get(character, 0)
-        if character == "," and depth == 0:
+        if character == ITEM_SEPARATOR and depth == 0:
             items.append(current)
             current = ""
             continue

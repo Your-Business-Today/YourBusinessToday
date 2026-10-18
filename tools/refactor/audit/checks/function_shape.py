@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 
+from ..check_result import checkResult
 from ..declarations import declaredFunctions
 from ..source_files import SourceFile
 
@@ -23,9 +24,9 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
         if function.lines > limit
     ]
     longFunctions.sort(key=lambda function: function["lines"], reverse=True)
-    return {
-        "name": "functionShape",
-        "summary": {
+    return checkResult(
+        "functionShape",
+        {
             "limit": limit,
             "functionsOverLimit": len(longFunctions),
             "totalFunctions": len(functions),
@@ -33,5 +34,5 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
             "ifBlocks": countMatchingLines(sourceFiles, IF_BLOCK),
             "measurementIsHeuristic": True,
         },
-        "offenders": longFunctions[:50],
-    }
+        longFunctions[:50],
+    )

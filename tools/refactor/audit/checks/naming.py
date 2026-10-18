@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 
+from ..check_result import checkResult
 from ..source_files import SourceFile
 
 BOOLEAN_DECLARATION = re.compile(
@@ -38,17 +39,15 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
             for match in BOOLEAN_DECLARATION.finditer(line):
                 name = declaredBooleanName(match)
                 if not hasBooleanPrefix(name, prefixes):
-                    unprefixedBooleans.append(
-                        {"file": sourceFile.relative, "line": lineNumber, "name": name}
-                    )
-    return {
-        "name": "naming",
-        "summary": {
+                    unprefixedBooleans.append({"file": sourceFile.relative, "line": lineNumber, "name": name})
+    return checkResult(
+        "naming",
+        {
             "bannedAbbreviationHits": len(abbreviationHits),
             "unprefixedBooleans": len(unprefixedBooleans),
         },
-        "offenders": {
+        {
             "abbreviations": abbreviationHits[:50],
             "booleans": unprefixedBooleans[:50],
         },
-    }
+    )

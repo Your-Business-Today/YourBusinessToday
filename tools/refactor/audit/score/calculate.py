@@ -9,7 +9,8 @@ HIGHEST_IMPERFECT_SCORE = 99.9
 
 def readFigures(summaries: dict, figures: list[tuple[str, str]]) -> float | None:
     values = [1 if check == "constant" else summaries.get(check, {}).get(figure) for check, figure in figures]
-    if any(not isinstance(value, (int, float)) for value in values):
+    unmeasuredValues = [value for value in values if not isinstance(value, (int, float))]
+    if unmeasuredValues:
         return None
     return sum(values)
 

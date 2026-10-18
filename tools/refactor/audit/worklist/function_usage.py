@@ -18,11 +18,13 @@ from collections import defaultdict
 
 from ..declarations import DeclaredFunction, declaredFunctions
 from ..source_files import SourceFile
-from .handler_evidence import (LOCAL, companionKey, evidenceFor, isShortEnoughToBeCoincidence,
-                               reasonFor, verdictOn)
+from .handler_evidence import (
+    LOCAL, companionKey, evidenceFor, isShortEnoughToBeCoincidence, reasonFor, verdictOn,
+)
 
 IDENTIFIER = re.compile(r"[A-Za-z_]\w*")
 IMPORT = re.compile(r"import\s+(?:type\s+)?([^;]*?)\s+from\s+['\"]([^'\"]+)['\"]", re.DOTALL)
+FILES_TO_REPEAT_IN = 2
 SOURCE_EXTENSION = re.compile(r"\.(?:svelte|tsx?|jsx?|mjs)$")
 
 
@@ -56,7 +58,7 @@ class FunctionUsage:
         module = moduleName(function.file)
         return sorted(
             file for file, imported in self.importsByFile.items()
-            if file != function.file and function.name in imported.get(module, set())
+            if file != function.file and function.name in imported.get(module, ())
         )
 
     def sameBodyIn(self, function: DeclaredFunction) -> list[str]:
@@ -74,7 +76,7 @@ class FunctionUsage:
         repeated = []
         for functions in self.functionsByBody.values():
             files = sorted({function.file for function in functions})
-            if len(files) < 2:
+            if len(files) < FILES_TO_REPEAT_IN:
                 continue
             lines = functions[0].lines
             evidences = [self.evidenceOn(function, handlerRules) for function in functions]

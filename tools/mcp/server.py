@@ -17,6 +17,10 @@ from run_process import resultFor
 PROTOCOL_VERSION = "2024-11-05"
 VERSION_PATH = Path("tools") / "refactor" / "kit-version"
 METHOD_NOT_FOUND = -32601
+INITIALIZE = "initialize"
+LIST_TOOLS = "tools/list"
+CALL_TOOL = "tools/call"
+RUN_AS_SCRIPT = "__main__"
 
 
 def serverDetails(repositoryRoot: Path) -> dict:
@@ -61,14 +65,18 @@ def answerCall(request: dict, repositoryRoot: Path) -> None:
 def answer(request: dict, repositoryRoot: Path) -> None:
     method = request.get("method", "")
     identifier = request.get("id")
-    if method == "initialize":
-        respond(identifier, {"protocolVersion": PROTOCOL_VERSION, "capabilities": {"tools": {}},
-                             "serverInfo": serverDetails(repositoryRoot)})
+    if method == INITIALIZE:
+        handshake = {
+            "protocolVersion": PROTOCOL_VERSION,
+            "capabilities": {"tools": {}},
+            "serverInfo": serverDetails(repositoryRoot),
+        }
+        respond(identifier, handshake)
         return
-    if method == "tools/list":
+    if method == LIST_TOOLS:
         respond(identifier, {"tools": toolsFrom(loadProcesses(repositoryRoot))})
         return
-    if method == "tools/call":
+    if method == CALL_TOOL:
         answerCall(request, repositoryRoot)
         return
     if identifier is not None:
@@ -83,5 +91,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == RUN_AS_SCRIPT:
     sys.exit(main())

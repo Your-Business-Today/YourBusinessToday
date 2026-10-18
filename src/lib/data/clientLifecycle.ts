@@ -15,3 +15,10 @@ export function parseClientStage(value: unknown): ClientStage {
 	if (stage === undefined) return 'lead';
 	return stage;
 }
+
+/** Why the value cannot be a client's lifecycle_stage, or null when it is one of the stages the column allows. */
+export function validateClientStage(value: string): string | null {
+	const isKnownStage = clientStageOrder.some((candidate) => candidate === value);
+	if (isKnownStage) return null;
+	return `There is no ${value} stage. Use one of: ${clientStageOrder.join(', ')}.`;
+}

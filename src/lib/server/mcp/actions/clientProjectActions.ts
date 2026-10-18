@@ -2,6 +2,7 @@ import { assignProjectToClient } from '$lib/server/projects/assignProjectToClien
 import { getClient } from '$lib/server/clients/getClient';
 import { getUnassignedProjects, type UnassignedProject } from '$lib/server/projects/getUnassignedProjects';
 import { noSuchClient } from './describeClient';
+import { validateRecordId } from '$lib/data/isUuid';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -44,9 +45,12 @@ function describeUnassignedProjects(projects: UnassignedProject[]): string {
 }
 
 async function assignProject(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
-	const client = await getClient(caller.supabase, readText(input, 'clientId'));
-	if (client === null) return noSuchClient;
+	const clientId = readText(input, 'clientId');
 	const projectId = readText(input, 'projectId');
+	const refusal = validateRecordId('clientId', clientId) ?? validateRecordId('projectId', projectId);
+	if (refusal !== null) return refusal;
+	const client = await getClient(caller.supabase, clientId);
+	if (client === null) return noSuchClient;
 	const project = (await getUnassignedProjects(caller.supabase)).find((candidate) => candidate.id === projectId);
 	if (project === undefined) {
 		return 'That project is not waiting to be assigned. Call list_unassigned_projects for the ones that are.';

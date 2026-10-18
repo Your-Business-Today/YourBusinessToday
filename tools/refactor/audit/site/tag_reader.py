@@ -11,6 +11,7 @@ ATTRIBUTE_NAME = re.compile(r"[^\s=>/]+")
 COMMENT_END = "-->"
 STRING_QUOTES = ('"', "'")
 EXPRESSION_OPENING = "@("
+TAG_CLOSING = ">"
 
 
 def readComment(text: str, position: int) -> int:
@@ -33,7 +34,7 @@ def readQuotedValue(text: str, position: int) -> int:
 
 def readUnquotedValue(text: str, position: int) -> int:
     cursor = position
-    while cursor < len(text) and not text[cursor].isspace() and text[cursor] != ">":
+    while cursor < len(text) and not text[cursor].isspace() and text[cursor] != TAG_CLOSING:
         cursor += 1
     return cursor
 

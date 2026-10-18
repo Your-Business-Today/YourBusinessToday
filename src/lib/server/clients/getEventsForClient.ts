@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { ClientEvent, ClientEventKind } from './recordClientEvent';
+import type { ClientEvent, ClientEventKind } from './clientEventRecord';
 
 const longestVisibleHistory = 40;
 

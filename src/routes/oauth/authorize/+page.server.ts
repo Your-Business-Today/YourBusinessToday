@@ -8,6 +8,7 @@ import {
 	readAuthorizationRequest,
 	type AuthorizationRequest
 } from '$lib/server/oauth/authorizationRequest';
+import { validateAuthorizationRequest } from '$lib/server/oauth/validateAuthorizationRequest';
 import {
 	resolveAccountStanding,
 	type AccountStanding
@@ -54,6 +55,8 @@ export const actions: Actions = {
 };
 
 async function requireAuthorizationRequest(url: URL): Promise<AuthorizationRequest> {
+	const refusal = validateAuthorizationRequest(url.searchParams);
+	if (refusal !== null) error(badRequest, `${invalidConnectionRequest} ${refusal}`);
 	const authorizationRequest = await readAuthorizationRequest(url.searchParams);
 	if (authorizationRequest === null) error(badRequest, invalidConnectionRequest);
 	return authorizationRequest;

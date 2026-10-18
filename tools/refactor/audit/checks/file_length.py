@@ -1,6 +1,7 @@
 """Flags files longer than the hard limit in rules.json."""
 from __future__ import annotations
 
+from ..check_result import checkResult
 from ..source_files import SourceFile, matchesAny
 
 
@@ -15,9 +16,9 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
     ]
     offenders.sort(key=lambda offender: offender["lines"], reverse=True)
     worstFileLines = offenders[0]["lines"] if offenders else 0
-    return {
-        "name": "fileLength",
-        "summary": {
+    return checkResult(
+        "fileLength",
+        {
             "limit": limit,
             "filesOverLimit": len(offenders),
             "totalFiles": len(sourceFiles),
@@ -25,5 +26,5 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
             "worstFileLines": worstFileLines,
             "worstFileTimesOverLimit": round(max(worstFileLines - limit, 0) / limit, 2),
         },
-        "offenders": offenders,
-    }
+        offenders,
+    )

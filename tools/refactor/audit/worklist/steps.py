@@ -8,6 +8,10 @@ BREAKOUT, UTILITIES, PATTERNS = "Pass 2 — Component breakout", "Pass 3 — Uti
 SHOWN_BLOCKS = 4
 SHOWN_FILES = 4
 SHOWN_REPEATS = 15
+ORPHANS_DETAIL = (
+    "Listed in audit.json under details.orphans and details.inventory.offenders.orphans; "
+    "confirm each has no caller before it goes."
+)
 
 
 def step(passName: str, title: str, detail: str) -> dict:
@@ -61,8 +65,8 @@ def utilitySteps(views: list[dict], repeatedBodies: list[dict], audit: dict) -> 
     steps += sharedFromViewSteps(views)
     orphanCount = audit["summaries"].get("orphans", {}).get("orphanFunctions", 0) + audit["summaries"].get("inventory", {}).get("orphanComponents", 0)
     if orphanCount:
-        steps.append(step(UTILITIES, f"Remove the {orphanCount} components and functions nothing calls",
-                          "Listed in audit.json under details.orphans and details.inventory.offenders.orphans; confirm each has no caller before it goes."))
+        title = f"Remove the {orphanCount} components and functions nothing calls"
+        steps.append(step(UTILITIES, title, ORPHANS_DETAIL))
     return steps
 
 

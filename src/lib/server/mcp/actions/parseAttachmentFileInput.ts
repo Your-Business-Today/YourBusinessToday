@@ -1,4 +1,5 @@
 import { attachmentLimitDescription, isWithinAttachmentLimit } from '$lib/data/taskAttachmentRules';
+import { validateAttachmentUpload } from '$lib/data/validateAttachmentUpload';
 import { fetchAttachmentSource, sourceFetchStatuses } from '$lib/server/projects/fetchAttachmentSource';
 import { readOptionalText } from '../actionTypes';
 import type { AttachmentFile } from '$lib/server/projects/storeTaskAttachment';
@@ -17,6 +18,17 @@ export async function parseAttachmentFileInput(
 	if (sourceUrl !== null && contentBase64 !== null) {
 		return 'Give either sourceUrl or contentBase64, not both.';
 	}
+	const file = await readFile(sourceUrl, contentBase64, filename, mimeType);
+	if (typeof file === 'string') return file;
+	return validateAttachmentUpload(file) ?? file;
+}
+
+async function readFile(
+	sourceUrl: string | null,
+	contentBase64: string | null,
+	filename: string | null,
+	mimeType: string | null
+): Promise<AttachmentFile | string> {
 	if (sourceUrl !== null) return fileFromWeb(sourceUrl, filename, mimeType);
 	if (contentBase64 !== null) return fileFromBase64(contentBase64, filename, mimeType);
 	return 'Say where the file is: a sourceUrl to download, or contentBase64 for a small file.';

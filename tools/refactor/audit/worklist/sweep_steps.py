@@ -2,30 +2,38 @@
 from __future__ import annotations
 
 from ..score.elements import ELEMENTS
+from .door_steps import doorSteps
 
 SWEEP = "Pass 5 — The sweep to zero"
 HANDLED_BY_EARLIER_PASSES = {"filesOverLimit", "worstFile", "orphans", "predictedFiles", "entityFileCounts", "handRolledWidgets"}
-CHANGES_BEHAVIOUR = {"unvalidatedWrites"}
+DOORS_INTO_THE_DATA = "unvalidatedWrites"
 
 
 def checkNameFor(elementKey: str) -> str:
     return next(row["figures"][0][0] for row in ELEMENTS if row["key"] == elementKey)
 
 
-def sweepSteps(score: dict) -> list[dict]:
+def elementStep(row: dict) -> dict:
+    return {
+        "pass": SWEEP,
+        "title": f"{row['label']}: {row['offenders']:g} to zero",
+        "detail": (
+            f"Scores {row['score']:.1f}% at weight {row['weight']}; the offenders are in audit.json "
+            f"under details.{checkNameFor(row['key'])}, fifty at a time."
+        ),
+    }
+
+
+def stepsForElement(row: dict, audit: dict) -> list[dict]:
+    if row["key"] == DOORS_INTO_THE_DATA:
+        return doorSteps(SWEEP, audit["details"].get(checkNameFor(row["key"]), {}))
+    return [elementStep(row)]
+
+
+def sweepSteps(audit: dict) -> list[dict]:
     remaining = [
-        row for row in score["elements"]
-        if row["isMeasured"] and row["offenders"] and row["key"] not in HANDLED_BY_EARLIER_PASSES | CHANGES_BEHAVIOUR
+        row for row in audit["score"]["elements"]
+        if row["isMeasured"] and row["offenders"] and row["key"] not in HANDLED_BY_EARLIER_PASSES
     ]
     remaining.sort(key=lambda row: row["score"])
-    return [
-        {
-            "pass": SWEEP,
-            "title": f"{row['label']}: {row['offenders']:g} to zero",
-            "detail": (
-                f"Scores {row['score']:.1f}% at weight {row['weight']}; the offenders are in audit.json "
-                f"under details.{checkNameFor(row['key'])}, fifty at a time."
-            ),
-        }
-        for row in remaining
-    ]
+    return [step for row in remaining for step in stepsForElement(row, audit)]

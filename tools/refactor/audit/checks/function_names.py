@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 
+from ..check_result import checkResult
 from ..source_files import SourceFile
 
 TYPE_DECLARATION = re.compile(r"^\s*(?:public|private|protected|internal|sealed|static|abstract|partial|\s)*\b(?:class|record|struct|interface)\s+(\w+)")
@@ -47,12 +48,12 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
                 overlongNames.append(
                     {"file": sourceFile.relative, "line": lineNumber, "name": name}
                 )
-    return {
-        "name": "functionNames",
-        "summary": {
+    return checkResult(
+        "functionNames",
+        {
             "overlongFunctionNames": len(overlongNames),
             "maxWords": nameRules["maxWords"],
             "maxLength": nameRules["maxLength"],
         },
-        "offenders": overlongNames[:50],
-    }
+        overlongNames[:50],
+    )

@@ -5,6 +5,7 @@ import { readTokenRequest, type TokenRequest } from '$lib/server/oauth/readToken
 import { refreshAccessToken } from '$lib/server/oauth/refreshAccessToken';
 import { supportedScope } from '$lib/server/oauth/oauthSettings';
 import { oauthErrors } from '$lib/server/oauth/oauthErrors';
+import { validateTokenRequest } from '$lib/server/oauth/validateTokenRequest';
 import type { IssuedTokens } from '$lib/server/oauth/oauthTokens';
 import type { RequestHandler } from './$types';
 
@@ -29,6 +30,8 @@ const grants: Record<string, Grant> = {
 export const POST: RequestHandler = async ({ request }) => {
 	const tokenRequest = await readTokenRequest(request);
 	if (tokenRequest === null) return refusal('invalid_request', badRequest);
+	const requestRefusal = validateTokenRequest(tokenRequest);
+	if (requestRefusal !== null) return refusal('invalid_request', badRequest, requestRefusal);
 	const client = await authenticateOauthClient(tokenRequest.clientId, tokenRequest.clientSecret);
 	if (client === oauthErrors.invalidClient) return refusal('invalid_client', unauthorised);
 	const grant = grants[tokenRequest.grantType];
@@ -50,6 +53,6 @@ function answer(outcome: IssuedTokens | 'invalid_grant'): Response {
 	);
 }
 
-function refusal(error: string, status: number): Response {
-	return json({ error }, { status, headers: neverCache });
+function refusal(error: string, status: number, description?: string): Response {
+	return json({ error, error_description: description }, { status, headers: neverCache });
 }

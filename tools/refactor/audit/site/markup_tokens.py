@@ -15,6 +15,10 @@ from .tokens import BLOCK, END, Token, blockToken, endToken
 TAG_START = re.compile(r"<(?:/?[A-Za-z]|!)")
 OPENING_BRACE = re.compile(r"\s*\{")
 OPENING_PARENTHESIS = re.compile(r"\s*\(")
+TAG_OPENING = "<"
+RAZOR_MARKER = "@"
+BLOCK_OPENING_BRACE = "{"
+BLOCK_CLOSING_BRACE = "}"
 SVELTE_CLOSES, SVELTE_CONTINUES = "/", ":"
 
 
@@ -63,14 +67,14 @@ def readSvelteBlock(text: str, position: int) -> tuple[list[Token], int]:
 
 def readNext(markup: str, position: int, openBlocks: int) -> tuple[list[Token], int]:
     character = markup[position]
-    if character == "<" and TAG_START.match(markup, position):
+    if character == TAG_OPENING and TAG_START.match(markup, position):
         token, end = readTag(markup, position, lineOf(markup, position))
         return ([token] if token else []), end
-    if character == "@":
+    if character == RAZOR_MARKER:
         return readRazor(markup, position)
-    if character == "}" and openBlocks > 0:
+    if character == BLOCK_CLOSING_BRACE and openBlocks > 0:
         return readBlockEnd(markup, position)
-    if character == "{":
+    if character == BLOCK_OPENING_BRACE:
         return readSvelteBlock(markup, position)
     return [], position + 1
 

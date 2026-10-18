@@ -8,6 +8,7 @@ import {
 	type NotificationSubjectKind
 } from '$lib/server/notifications/notificationListItem';
 import { requireUser } from '$lib/server/auth/requireUser';
+import { validateRecordId } from '$lib/data/isUuid';
 import type { Actions, PageServerLoad } from './$types';
 import { notificationSubjectKinds } from '$lib/server/notifications/notificationListItem';
 
@@ -34,6 +35,8 @@ export const actions: Actions = {
 		if (notificationId === '' || projectId === '' || subjectId === '' || subjectKind === null) {
 			return fail(400, { message: 'A notification is required.' });
 		}
+		const idRefusal = validateRecordId('notification', notificationId);
+		if (idRefusal !== null) return fail(400, { message: idRefusal });
 		await markNotificationRead(locals.supabase, notificationId);
 		redirect(303, conversationPath(subjectKind, projectId, subjectId));
 	},

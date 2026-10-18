@@ -19,12 +19,15 @@ from refusals import refuseGit, refuseGithubMerge
 from repository import currentBranchOf, defaultBranchOf
 
 BLOCKED_EXIT = 2
+BASH_TOOL = "Bash"
+GITHUB_CLI = "gh"
+RUN_AS_SCRIPT = "__main__"
 MENTIONS_GIT = re.compile(r"\b(git|gh)\b")
 
 
 def main() -> int:
     payload = readPayload()
-    if payload is None or payload.get("tool_name") != "Bash":
+    if payload is None or payload.get("tool_name") != BASH_TOOL:
         return 0
     command = str(payload.get("tool_input", {}).get("command", ""))
     if not MENTIONS_GIT.search(command):
@@ -49,17 +52,16 @@ def readPayload() -> dict | None:
 
 def firstRefusal(command: str, branch: str | None, defaultBranch: str) -> str | None:
     for program, subcommand, arguments in invocationsIn(command):
-        if program == "gh":
-            refusal = refuseGithubMerge(subcommand, arguments)
-        else:
+        isGithubCli = program == GITHUB_CLI
+        if not isGithubCli:
             branch = branchAfterSwitch(subcommand, arguments, branch)
-            refusal = refuseGit(subcommand, arguments, branch, defaultBranch)
+        refusal = refuseGithubMerge(subcommand, arguments) if isGithubCli else refuseGit(subcommand, arguments, branch, defaultBranch)
         if refusal:
             return refusal
     return None
 
 
-if __name__ == "__main__":
+if __name__ == RUN_AS_SCRIPT:
     try:
         sys.exit(main())
     except Exception:

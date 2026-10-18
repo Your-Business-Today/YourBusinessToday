@@ -1,4 +1,4 @@
-import type { ClientEventKind } from '$lib/server/clients/recordClientEvent';
+import type { ClientEventKind } from '$lib/server/clients/clientEventRecord';
 
 export const clientEventLabels: Record<ClientEventKind, string> = {
 	stage_moved: 'Stage moved',

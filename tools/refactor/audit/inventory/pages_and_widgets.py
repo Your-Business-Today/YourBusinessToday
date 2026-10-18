@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from ..check_result import checkResult
 from ..source_files import SourceFile
 
 
@@ -49,17 +50,17 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
         reverse=True,
     )
     orphanComponents = [row["component"] for row in reuseRows if row["reusedBy"] == 0]
-    return {
-        "name": "inventory",
-        "summary": {
+    return checkResult(
+        "inventory",
+        {
             "pages": len(pages),
             "components": len(components),
             "orphanComponents": len(orphanComponents),
             "averagePageLines": round(sum(page.lineCount for page in pages) / max(len(pages), 1)),
         },
-        "offenders": {
+        {
             "pages": pageRows,
             "componentReuse": reuseRows,
             "orphans": orphanComponents,
         },
-    }
+    )

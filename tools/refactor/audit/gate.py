@@ -31,6 +31,7 @@ RATCHETED_FIGURES = [
     ("inputValidation", "unvalidatedDoors"),
     ("inputValidation", "looserLimits"),
 ]
+RUN_AS_SCRIPT = "__main__"
 
 
 def readSummaries(path: Path) -> dict:
@@ -63,5 +64,5 @@ def main() -> int:
     return 1
 
 
-if __name__ == "__main__":
+if __name__ == RUN_AS_SCRIPT:
     sys.exit(main())

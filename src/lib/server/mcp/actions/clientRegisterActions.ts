@@ -1,6 +1,7 @@
-import { clientStageLabels, clientStageOrder } from '$lib/data/clientLifecycle';
+import { clientStageLabels, clientStageOrder, parseClientStage, validateClientStage } from '$lib/data/clientLifecycle';
 import { createClient } from '$lib/server/clients/createClient';
 import { describeClientList, noSuchClient } from './describeClient';
+import { validateRecordId } from '$lib/data/isUuid';
 import { getClient } from '$lib/server/clients/getClient';
 import { listClients } from '$lib/server/clients/listClients';
 import { moveClientStage } from '$lib/server/clients/moveClientStage';
@@ -62,11 +63,13 @@ async function addClientToRegister(
 }
 
 async function moveToStage(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
+	const clientId = readText(input, 'clientId');
 	const requestedStage = readText(input, 'stage');
-	const stage = clientStageOrder.find((candidate) => candidate === requestedStage);
-	if (stage === undefined) return `There is no ${requestedStage} stage. Use one of: ${clientStageOrder.join(', ')}.`;
-	const client = await getClient(caller.supabase, readText(input, 'clientId'));
+	const refusal = validateClientStage(requestedStage) ?? validateRecordId('clientId', clientId);
+	if (refusal !== null) return refusal;
+	const client = await getClient(caller.supabase, clientId);
 	if (client === null) return noSuchClient;
+	const stage = parseClientStage(requestedStage);
 	await moveClientStage(caller.supabase, client.id, stage, caller.accountId);
 	return `${client.name} is now at ${clientStageLabels[stage]}.`;
 }

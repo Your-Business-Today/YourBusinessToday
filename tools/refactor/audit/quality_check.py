@@ -14,6 +14,7 @@ from .run_audit import audit
 from .site.site_document import writeDocument
 
 OUTPUT_DIRECTORY = Path("tools") / "refactor" / "audit-output"
+RUN_AS_SCRIPT = "__main__"
 
 
 def main() -> int:
@@ -30,5 +31,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == RUN_AS_SCRIPT:
     sys.exit(main())

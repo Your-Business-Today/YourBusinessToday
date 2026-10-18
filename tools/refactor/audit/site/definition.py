@@ -9,6 +9,7 @@ from .vocabulary import CATALOGUE, COMPONENT, HTML, IGNORED, Vocabulary
 REPEATING_BLOCKS = {"foreach", "for", "while", "each"}
 CHOOSING_BLOCKS = {"if", "else if", "else", "switch", "then", "catch"}
 PER_ITEM = "n"
+ALTERNATIVES_FOR_EITHER = 2
 
 
 def reduceChildren(node: Node, vocabulary: Vocabulary, ancestors: tuple[str, ...]) -> list[Definition]:
@@ -23,7 +24,7 @@ def reduceGroup(group: list[Node], vocabulary: Vocabulary, ancestors: tuple[str,
         return reduceNode(group[0], vocabulary, ancestors)
     alternatives = [Definition(MAYBE, condition=branch.condition, children=reduceChildren(branch, vocabulary, ancestors)) for branch in group]
     shown = [alternative for alternative in alternatives if alternative.children]
-    if len(shown) < 2:
+    if len(shown) < ALTERNATIVES_FOR_EITHER:
         return shown
     return [Definition(EITHER, children=shown)]
 

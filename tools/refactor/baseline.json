@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-18T08:47:01+00:00",
-  "kitVersion": "1.23.0",
+  "generatedAt": "2026-10-18T09:18:46+00:00",
+  "kitVersion": "1.25.0",
   "score": {
-    "overall": 96.8,
+    "overall": 100.0,
     "groups": [
       {
         "group": "Standard baseline checks",
@@ -26,7 +26,7 @@
       },
       {
         "group": "Input validation",
-        "score": 60.5,
+        "score": 100.0,
         "weight": 8
       }
     ],
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1838,
+        "measuredAgainst": 1861,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2413,
+        "measuredAgainst": 2435,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2758,
+        "measuredAgainst": 2777,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 64.47,
+        "measuredAgainst": 64.99,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 64.47,
+        "measuredAgainst": 64.99,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2830,
+        "measuredAgainst": 2852,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 64.47,
+        "measuredAgainst": 64.99,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 64.47,
+        "measuredAgainst": 64.99,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2413,
+        "measuredAgainst": 2435,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2758,
+        "measuredAgainst": 2777,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2758,
+        "measuredAgainst": 2777,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2413,
+        "measuredAgainst": 2435,
         "score": 100.0
       },
       {
@@ -241,9 +241,9 @@
         "zeroAt": 0.5,
         "unit": "write doors",
         "isMeasured": true,
-        "offenders": 31,
-        "measuredAgainst": 157,
-        "score": 60.5
+        "offenders": 0,
+        "measuredAgainst": 142,
+        "score": 100.0
       }
     ]
   },
@@ -251,17 +251,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 1838,
-      "totalLines": 64467,
+      "totalFiles": 1861,
+      "totalLines": 64993,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 2413,
+      "totalFunctions": 2435,
       "elseBlocks": 0,
-      "ifBlocks": 2758,
+      "ifBlocks": 2777,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -276,7 +276,7 @@
     "duplication": {
       "clones": 0,
       "duplicatedLines": 0,
-      "totalLines": 66121,
+      "totalLines": 66593,
       "duplicatedPercentage": 0.0
     },
     "naming": {
@@ -306,7 +306,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 2413
+      "functionsExamined": 2435
     },
     "designPatterns": {
       "roleFamilies": 96,
@@ -328,19 +328,19 @@
     "inputValidation": {
       "schemaTables": 112,
       "limitedColumns": 0,
-      "writeDoors": 157,
-      "unvalidatedDoors": 31,
+      "writeDoors": 142,
+      "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2302,
-      "backend": 720,
+      "totalFiles": 2328,
+      "backend": 726,
       "frontend": 632,
-      "shared": 275,
+      "shared": 280,
       "api": 188,
-      "tests": 173,
+      "tests": 186,
       "database": 124,
-      "tooling": 117,
+      "tooling": 119,
       "docs": 59,
       "infrastructure": 14
     }
@@ -351,8 +351,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 1838,
-        "totalLines": 64467,
+        "totalFiles": 1861,
+        "totalLines": 64993,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -363,9 +363,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 2413,
+        "totalFunctions": 2435,
         "elseBlocks": 0,
-        "ifBlocks": 2758,
+        "ifBlocks": 2777,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -805,7 +805,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 2413
+        "functionsExamined": 2435
       },
       "offenders": []
     },
@@ -841,7 +841,7 @@
           "contact": 4,
           "count": 5,
           "counts": 4,
-          "details": 8,
+          "details": 9,
           "doctrine": 4,
           "email": 8,
           "event": 9,
@@ -851,7 +851,7 @@
           "figures": 4,
           "file": 6,
           "filter": 7,
-          "form": 54,
+          "form": 55,
           "goal": 8,
           "grant": 4,
           "header": 18,
@@ -888,12 +888,12 @@
           "project": 21,
           "projects": 7,
           "prompt": 5,
-          "record": 40,
+          "record": 41,
           "refusal": 8,
           "register": 6,
-          "request": 10,
+          "request": 12,
           "row": 44,
-          "rules": 14,
+          "rules": 17,
           "section": 28,
           "sections": 10,
           "sector": 4,
@@ -911,7 +911,7 @@
           "table": 5,
           "task": 20,
           "tasks": 6,
-          "test": 166,
+          "test": 178,
           "text": 6,
           "tones": 4,
           "types": 11,
@@ -2942,47 +2942,47 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2302,
-        "backend": 720,
+        "totalFiles": 2328,
+        "backend": 726,
         "frontend": 632,
-        "shared": 275,
+        "shared": 280,
         "api": 188,
-        "tests": 173,
+        "tests": 186,
         "database": 124,
-        "tooling": 117,
+        "tooling": 119,
         "docs": 59,
         "infrastructure": 14
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 720,
-          "sourceFiles": 710,
-          "sourceLines": 22621
+          "files": 726,
+          "sourceFiles": 716,
+          "sourceLines": 22706
         },
         {
           "area": "frontend",
           "files": 632,
           "sourceFiles": 508,
-          "sourceLines": 17814
+          "sourceLines": 17826
         },
         {
           "area": "shared",
-          "files": 275,
-          "sourceFiles": 261,
-          "sourceLines": 8528
+          "files": 280,
+          "sourceFiles": 266,
+          "sourceLines": 8648
         },
         {
           "area": "api",
           "files": 188,
           "sourceFiles": 188,
-          "sourceLines": 8837
+          "sourceLines": 8847
         },
         {
           "area": "tests",
-          "files": 173,
-          "sourceFiles": 166,
-          "sourceLines": 6529
+          "files": 186,
+          "sourceFiles": 178,
+          "sourceLines": 6828
         },
         {
           "area": "database",
@@ -2992,7 +2992,7 @@
         },
         {
           "area": "tooling",
-          "files": 117,
+          "files": 119,
           "sourceFiles": 5,
           "sourceLines": 138
         },
@@ -3015,228 +3015,12 @@
       "summary": {
         "schemaTables": 112,
         "limitedColumns": 0,
-        "writeDoors": 157,
-        "unvalidatedDoors": 31,
+        "writeDoors": 142,
+        "unvalidatedDoors": 0,
         "looserLimits": 0
       },
       "offenders": {
-        "unvalidated": [
-          {
-            "file": "src/lib/server/mcp/actionTypes.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/accountActions.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/batonSentence.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/clientActions.ts",
-            "tables": [
-              "client",
-              "clientcontact",
-              "clientevent",
-              "oauthtoken",
-              "people",
-              "project"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/clientContactActions.ts",
-            "tables": [
-              "clientcontact",
-              "clientevent",
-              "oauthtoken",
-              "people"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/clientDetailActions.ts",
-            "tables": [
-              "clientevent",
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/clientProjectActions.ts",
-            "tables": [
-              "clientevent",
-              "oauthtoken",
-              "project"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/clientRegisterActions.ts",
-            "tables": [
-              "client",
-              "clientevent",
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/describeClient.ts",
-            "tables": [
-              "clientevent"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/describeInbox.ts",
-            "tables": [
-              "inboxcursor"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/findMemberOn.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/modelSettingsActions.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/orderingFields.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/parseAttachmentFileInput.ts",
-            "tables": [
-              "oauthtoken",
-              "taskattachment"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/projectDetailsEdit.ts",
-            "tables": [
-              "oauthtoken",
-              "project"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/queueFields.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/readUploadDescription.ts",
-            "tables": [
-              "oauthtoken",
-              "taskuploadgrant"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/requestedByField.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/serverErrorActions.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/actions/storyFields.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/lib/server/mcp/resolveMcpCaller.ts",
-            "tables": [
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/routes/account/+page.server.ts",
-            "tables": [
-              "usermodelpreference"
-            ]
-          },
-          {
-            "file": "src/routes/clients/+page.server.ts",
-            "tables": [
-              "client",
-              "clientcontact",
-              "clientevent",
-              "people"
-            ]
-          },
-          {
-            "file": "src/routes/clients/research/+page.server.ts",
-            "tables": [
-              "client",
-              "clientcontact",
-              "clientevent",
-              "people"
-            ]
-          },
-          {
-            "file": "src/routes/contact/+page.server.ts",
-            "tables": [
-              "client",
-              "clientcontact",
-              "clientevent",
-              "people"
-            ]
-          },
-          {
-            "file": "src/routes/notifications/+page.server.ts",
-            "tables": [
-              "notification"
-            ]
-          },
-          {
-            "file": "src/routes/oauth/authorize/+page.server.ts",
-            "tables": [
-              "oauthauthorizationcode",
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/routes/oauth/register/+server.ts",
-            "tables": [
-              "oauthclient",
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/routes/oauth/token/+server.ts",
-            "tables": [
-              "oauthauthorizationcode",
-              "oauthtoken"
-            ]
-          },
-          {
-            "file": "src/routes/people/+page.server.ts",
-            "tables": [
-              "people"
-            ]
-          },
-          {
-            "file": "src/routes/projects/kit-versions/+page.server.ts",
-            "tables": [
-              "project",
-              "projectprocesskit"
-            ]
-          }
-        ],
+        "unvalidated": [],
         "looserLimits": []
       }
     },
@@ -3245,7 +3029,7 @@
       "summary": {
         "clones": 0,
         "duplicatedLines": 0,
-        "totalLines": 66121,
+        "totalLines": 66593,
         "duplicatedPercentage": 0.0
       },
       "offenders": []

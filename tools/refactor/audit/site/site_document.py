@@ -15,6 +15,7 @@ from .site_tables import boxedWidgetTable, componentTable, designTable, handRoll
 
 REFACTOR_DIRECTORY = Path("tools") / "refactor"
 DOCUMENT_WHEN_UNSET = "tools/refactor/site-definition.md"
+RUN_AS_SCRIPT = "__main__"
 NOT_MEASURED = "The site definition is not measured: name the shared widgets in rules.json under siteDefinition.catalogue, then read again."
 KEY = (
     "`a, b` stacked top to bottom · `[ a b ]` side by side · `(3) a` three of them, `(n) a` one per item · "
@@ -80,5 +81,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == RUN_AS_SCRIPT:
     sys.exit(main())

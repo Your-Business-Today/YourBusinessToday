@@ -16,7 +16,8 @@ def routesOf(view: SourceFile, settings: dict) -> list[str]:
     declared = ROUTE_DIRECTIVE.findall(text)
     if declared:
         return declared
-    if matchesAny(view.relative, settings.get("routeGlobs", [])) and ROUTE_FOLDER in view.relative:
+    routeGlobs = settings.get("routeGlobs", [])
+    if matchesAny(view.relative, routeGlobs) and ROUTE_FOLDER in view.relative:
         folder = view.relative.split(ROUTE_FOLDER, 1)[1]
         return ["/" + folder.split(ROUTE_FILE, 1)[0].rstrip("/")]
     return []
