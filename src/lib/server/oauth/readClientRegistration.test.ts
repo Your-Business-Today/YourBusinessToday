@@ -3,43 +3,16 @@ import { needsClientSecret, readClientRegistration } from './readClientRegistrat
 
 const httpsRedirect = 'https://client.example/callback';
 
-describe('readClientRegistration redirect URIs', () => {
-	it('refuses a registration with no redirect URIs', () => {
-		expect(readClientRegistration({})).toBeNull();
-		expect(readClientRegistration({ redirect_uris: [] })).toBeNull();
-		expect(readClientRegistration({ redirect_uris: 'not-a-list' })).toBeNull();
+describe('readClientRegistration', () => {
+	it('keeps every redirect URI and the name as sent', () => {
+		const loopbacks = [httpsRedirect, 'http://localhost:3000/cb'];
+		const registration = readClientRegistration({ redirect_uris: loopbacks, client_name: '  Claude  ' });
+		expect(registration.redirectUris).toEqual(loopbacks);
+		expect(registration.clientName).toBe('Claude');
 	});
 
-	it('accepts https redirects on any host', () => {
-		const registration = readClientRegistration({ redirect_uris: [httpsRedirect] });
-		expect(registration?.redirectUris).toEqual([httpsRedirect]);
-	});
-
-	it('accepts plain http only on loopback hosts', () => {
-		const loopbacks = ['http://localhost:3000/cb', 'http://127.0.0.1/cb', 'http://[::1]:8080/cb'];
-		expect(readClientRegistration({ redirect_uris: loopbacks })?.redirectUris).toEqual(loopbacks);
-		expect(readClientRegistration({ redirect_uris: ['http://client.example/cb'] })).toBeNull();
-	});
-
-	it('drops unparsable and non-web schemes and refuses when none survive', () => {
-		expect(readClientRegistration({ redirect_uris: ['not a url', 'ftp://x/y'] })).toBeNull();
-		const mixed = readClientRegistration({ redirect_uris: ['not a url', httpsRedirect] });
-		expect(mixed?.redirectUris).toEqual([httpsRedirect]);
-	});
-
-	it('keeps at most ten redirect URIs', () => {
-		const many = Array.from({ length: 12 }, (_, index) => `https://client.example/cb/${index}`);
-		expect(readClientRegistration({ redirect_uris: many })?.redirectUris).toHaveLength(10);
-	});
-});
-
-describe('readClientRegistration client details', () => {
-	it('names an anonymous client and trims a long name', () => {
-		const anonymous = readClientRegistration({ redirect_uris: [httpsRedirect] });
-		expect(anonymous?.clientName).toBe('An MCP client');
-		const longName = 'x'.repeat(300);
-		const named = readClientRegistration({ redirect_uris: [httpsRedirect], client_name: longName });
-		expect(named?.clientName).toHaveLength(200);
+	it('names an anonymous client', () => {
+		expect(readClientRegistration({ redirect_uris: [httpsRedirect] }).clientName).toBe('An MCP client');
 	});
 
 	it('falls back to public client authentication for an unsupported method', () => {
@@ -47,12 +20,12 @@ describe('readClientRegistration client details', () => {
 			redirect_uris: [httpsRedirect],
 			token_endpoint_auth_method: 'client_secret_basic'
 		});
-		expect(basic?.authenticationMethod).toBe('client_secret_basic');
+		expect(basic.authenticationMethod).toBe('client_secret_basic');
 		const unknown = readClientRegistration({
 			redirect_uris: [httpsRedirect],
 			token_endpoint_auth_method: 'private_key_jwt'
 		});
-		expect(unknown?.authenticationMethod).toBe('none');
+		expect(unknown.authenticationMethod).toBe('none');
 	});
 
 	it('needs a secret for every method but none', () => {

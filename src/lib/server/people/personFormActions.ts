@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 import { addPersonLink, readNewPersonLink } from './addPersonLink';
 import { addPersonNote } from './addPersonNote';
 import { removePersonLink } from './removePersonLink';
+import { validatePersonProfileChoices } from './validatePersonProfileChoices';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { updateContactRole } from '$lib/server/clients/updateContactRole';
 import {
@@ -26,6 +27,8 @@ export const personFormActions = {
 		const edit = readPersonProfileEdit(formData);
 		if (personId === '') return fail(400, personRequired);
 		if (edit === null) return fail(400, { message: 'A name is required.' });
+		const choiceRefusal = validatePersonProfileChoices(formData);
+		if (choiceRefusal !== null) return fail(400, { message: choiceRefusal });
 		const outcome = await updatePersonProfile(locals.supabase, personId, edit);
 		if (outcome === personProfileSaves.emailTaken) {
 			return fail(409, { message: 'That email address already belongs to someone else.' });

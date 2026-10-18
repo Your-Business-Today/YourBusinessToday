@@ -3,7 +3,7 @@ import {
 	enquiryHoneypotField,
 	type WebsiteEnquiry
 } from '$lib/data/enquiryForm';
-import { publicUrlOr } from '$lib/server/clients/parsePublicUrl';
+import { validatePublicUrl } from '$lib/server/clients/parsePublicUrl';
 import { isEmailShaped } from '$lib/data/emailShape';
 
 export type EnquiryReading =
@@ -17,7 +17,7 @@ export function readWebsiteEnquiry(formData: FormData): EnquiryReading {
 		name: fieldValue(formData, 'name'),
 		email: fieldValue(formData, 'email').toLowerCase(),
 		company: fieldValue(formData, 'company'),
-		website: publicUrlOr(fieldValue(formData, 'website'), ''),
+		website: fieldValue(formData, 'website'),
 		message: fieldValue(formData, 'message')
 	};
 	const problem = validateWebsiteEnquiry(enquiry);
@@ -33,6 +33,8 @@ function validateWebsiteEnquiry(enquiry: WebsiteEnquiry): string | null {
 	if (enquiry.name === '') return 'Tell us your name.';
 	if (!isEmailShaped(enquiry.email)) return 'Enter an email address we can reply to.';
 	if (enquiry.message === '') return 'Tell us what you would like to automate.';
+	const websiteRefusal = validatePublicUrl('website', enquiry.website);
+	if (websiteRefusal !== null) return websiteRefusal;
 	const overlongField = findOverlongField(enquiry);
 	if (overlongField === null) return null;
 	return `Keep the ${overlongField} under ${enquiryFieldLimits[overlongField]} characters.`;

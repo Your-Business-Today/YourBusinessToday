@@ -32,12 +32,6 @@ export const POST: RequestHandler = async ({ request, getClientAddress }) => {
 	const refusal = validateClientRegistration(fields);
 	if (refusal !== null) return registrationRefused(refusal);
 	const registration = await registerOauthClient(fields);
-	if (registration === null) {
-		return json(
-			{ error: 'invalid_redirect_uri', error_description: 'At least one https redirect URI is required' },
-			{ status: badRequest }
-		);
-	}
 	return json(registration, { status: created });
 };
 

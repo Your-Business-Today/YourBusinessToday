@@ -1,3 +1,5 @@
+import { validateChoice } from './choiceRules';
+
 export type HeadcountBand = '' | '1-10' | '11-50' | '51-200' | '201-500' | '500+';
 
 export const headcountBandOrder: HeadcountBand[] = ['', '1-10', '11-50', '51-200', '201-500', '500+'];
@@ -15,4 +17,9 @@ export function parseHeadcountBand(value: unknown): HeadcountBand {
 	const band = headcountBandOrder.find((candidate) => candidate === value);
 	if (band === undefined) return '';
 	return band;
+}
+
+/** Why a headcount band cannot be stored, or null when it is blank or one of the bands. */
+export function validateHeadcountBand(value: unknown): string | null {
+	return validateChoice('headcount band', value, headcountBandOrder);
 }
