@@ -4,6 +4,7 @@ import { hasDatabase, migrationsFolderOf } from '$lib/data/projectDatabase';
 import { personalProjectLabel } from '$lib/data/personalProject';
 import { teamProjectLabel } from '$lib/data/teamProject';
 import { goalSectionLines } from './describeGoal';
+import { noRepositoryRecorded, repositoryPhrase } from './describeRepository';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import type { Goal } from '$lib/server/goals/goalRecord';
@@ -63,8 +64,8 @@ export function describeProject(
 }
 
 function codeLine(project: Project, cadenceLine: string): string {
-	if (project.repositoryUrl === '') return 'No repository recorded, so nothing is built or refactored by itself.';
-	return `Code: ${project.repositoryUrl} (deploys from ${project.defaultBranch}). ${cadenceLine}`;
+	if (project.repositoryUrl === '') return `${noRepositoryRecorded}, so nothing is built or refactored by itself.`;
+	return `${repositoryPhrase(project)}. ${cadenceLine}`;
 }
 
 function databaseLine(project: Project): string {
