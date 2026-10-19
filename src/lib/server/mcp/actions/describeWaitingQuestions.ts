@@ -4,7 +4,7 @@ import { taskStatusLabels } from '$lib/data/taskStatus';
 import type { Account } from '$lib/server/accounts/accountRecord';
 import type { WaitingQuestion } from '$lib/server/conversations/waitingQuestion';
 
-export const nothingWaiting = 'Nothing waits on you on any project.';
+export const nothingWaiting = 'No question waits on you on any project.';
 
 /** Every question waiting on the reader, each under the goal or task it was asked on. */
 export function describeWaitingQuestions(
