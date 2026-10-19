@@ -33,6 +33,13 @@ describe('a workflow run GitHub says has finished', () => {
 		});
 	});
 
+	it('is named for its workflow, not for the run title its commit gave it', () => {
+		const { workflow_run: run } = completedRun('success');
+		const titledRun = { ...run, name: 'Deploy to the live portal: Merge pull request #436' };
+		const event = { ...completedRun('success'), workflow_run: titledRun, workflow: { name: 'Deploy to the live portal' } };
+		expect(readWorkflowRunEvent(event, receivedAt)?.checkName).toBe('Deploy to the live portal');
+	});
+
 	it('passes when it succeeded and fails when it timed out', () => {
 		expect(readWorkflowRunEvent(completedRun('success'), receivedAt)?.outcome).toBe('passed');
 		expect(readWorkflowRunEvent(completedRun('timed_out'), receivedAt)?.outcome).toBe('failed');
