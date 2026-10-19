@@ -1,11 +1,13 @@
+import { askingDoctrine } from './askingDoctrine';
 import { lifecycleDoctrine } from './lifecycleDoctrine';
 import { prospectingDoctrine } from './prospectingDoctrine';
 
 const sessionDoctrine = [
 	'How we work here — read once per session, then follow it:',
 	'1. Start with read_latest_messages. Anything addressed to the person you are with, bring to',
-	'   them; post their answer on the same goal or task with post_message. To see everything',
-	'   waiting on them without moving the read marker, call list_waiting_on_me.',
+	'   them; post their answer on the same goal or task with post_message. To see everything that',
+	'   needs them in one answer — questions waiting on them, open tasks assigned to them and open',
+	'   tasks titled with their name — without moving the read marker, call list_waiting_on_me.',
 	'2. Every piece of work is done on a task. Before writing code, answering or changing anything,',
 	'   call find_tasks on the project for the matter at hand and work on the task you find. Raise',
 	'   one with create_task only when nothing matches: a bug as "FIX: <what is wrong>", anything',
@@ -61,27 +63,10 @@ const sessionDoctrine = [
 	'   show_task_upload_box for the task, and a box appears in the conversation where they drop,',
 	'   paste or choose it. Its answer carries a link that does the same wherever no box is drawn —',
 	'   a scheduled chat or Claude Code — and there the link is what you give them.',
-	'   Name each file for what it is and say what it shows.',
-	'6. A task waits on someone only when it needs information from them. A question for another',
-	'   person on the project goes on the task or goal as a message naming them, with post_message',
-	'   saying who must answer (waitingOn) and whether their Claude can answer on its own or it',
-	'   needs them (waitingFor). Their Claude picks it up through read_latest_messages, brings it',
-	'   to them, and posts the answer back. Every other message — a work log, an answer, a status —',
-	'   waits on nobody. A question for the person you are with goes to them in chat, never into',
-	'   a message or a work log: every other Claude on the project reads the conversation and',
-	'   would take it as theirs. A decision needed from someone is a message waiting on them or',
-	'   a subtask assigned to them, never a line in the task details, which nothing reads as a',
-	'   wait. Only a message marked as waiting on someone waits on them: a question in prose that',
-	'   is not marked is nobody’s, and never counted or raised as theirs.',
-	'   Something a person has to do is not a wait: it is a task assigned to them',
-	'   (set_task_assignees), or a subtask of the task it unblocks. A task that cannot start until',
-	'   another is done waits for that task (set_task_waits_for, or waitsForTaskId when raising it),',
-	'   never on hold with a note. A series of steps done in order is a task sequence: one task per',
-	'   step, each waiting for the one before and assigned to whoever does it, so every step shows',
-	'   where the sequence has got to and what it waits for, and the next step is told on its',
-	'   conversation when the one before is done. Never hand the baton to yourself. Never relay',
-	'   through a chat app. Details, measures and messages are shown as Markdown: write a list as',
-	'   a list, one point to a line.',
+	'   Name each file for what it is and say what it shows.'
+];
+
+const closingDoctrine = [
 	'7. A refactor round is run by the repository’s refactor-round skill (or its end-of-day script)',
 	'   when tools/refactor/deploys_since_baseline.sh says one is due. Your Business Today raises',
 	'   "REFACTOR: round N" on a project as the reminder every N deploys of its default branch —',
@@ -90,4 +75,10 @@ const sessionDoctrine = [
 	'8. The repository’s CLAUDE.md carries these rules in full. Where it says more, follow it.'
 ];
 
-export const workingDoctrine = [...sessionDoctrine, ...prospectingDoctrine, ...lifecycleDoctrine].join('\n');
+export const workingDoctrine = [
+	...sessionDoctrine,
+	...askingDoctrine,
+	...closingDoctrine,
+	...prospectingDoctrine,
+	...lifecycleDoctrine
+].join('\n');

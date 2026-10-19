@@ -1,65 +1,14 @@
-import { postedViaChannels } from '$lib/data/conversationTurn';
-import { batonSentence } from './batonSentence';
-import { chooseHandOff, handOffFields } from './handOffFields';
 import { describeInbox } from './describeInbox';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
-import { longestMessageBody, postMessage } from '$lib/server/conversations/postMessage';
 import { markTurnsPickedUp } from '$lib/server/conversations/markTurnsPickedUp';
-import { objectSchema, proseField, readOptionalText, textField } from '../actionTypes';
+import { objectSchema } from '../actionTypes';
+import { postMessageAction } from './postMessageAction';
 import { readInbox } from '$lib/server/conversations/readInbox';
 import { reachableProjectIds } from '../projectAccess';
-import { resolveSubject, noSuchSubject } from './resolveSubject';
 import type { McpAction } from '../actionTypes';
 
 export const conversationActions: McpAction[] = [
-	{
-		name: 'post_message',
-		area: 'conversations',
-		audience: 'everyone',
-		isWrite: true,
-		summary: 'say something on the conversation of a goal or a task',
-		guidance:
-			'Whatever you post is read by the person on the other side and by their Claude, so write ' +
-			'to them: what you found, what you need, what happens next. Everyone on the project ' +
-			'can read it; everyone in its conversation is told of it, and posting joins you. A ' +
-			'message waits on someone only when it asks them a question: name them with waitingOn, ' +
-			'and say with waitingFor whether their Claude can answer on its own or it needs them. ' +
-			'Their Claude picks it up through read_latest_messages and posts the answer here. ' +
-			'Anything else waits on nobody — the default. A question for the person you are with ' +
-			'goes to them in chat, never into a message here: every other Claude on the project ' +
-			'reads this conversation and would take it as theirs to answer. A decision needed from ' +
-			'someone is a message waiting on them, or a subtask assigned to them, never a line in ' +
-			'the task details. Something a person has to do is a task ' +
-			'assigned to them (set_task_assignees) or a subtask, not a wait; a task held up by ' +
-			'another waits for it (set_task_waits_for), never on hold with a note. Marking a task done ' +
-			'is never asked of someone else: whoever finishes the work marks it done (update_task_status). ' +
-			'When work on a task stops, the work log goes here: ' +
-			'what changed, the branch and pull request it is on, which files or records, the ' +
-			'decisions and why, and which tasks carry what is left — then the person is told in ' +
-			'chat that the chat can be archived.',
-		inputSchema: objectSchema(
-			{
-				goalId: textField('The goal to post on — give this or taskId'),
-				taskId: textField('The task to post on — give this or goalId'),
-				body: proseField('What you want to say'),
-				...handOffFields
-			},
-			['body']
-		),
-		run: async (caller, input) => {
-			const body = readOptionalText(input, 'body');
-			if (body === null) return 'Write the message first.';
-			if (body.length > longestMessageBody)
-				return `Keep it under ${longestMessageBody} characters.`;
-			const resolved = await resolveSubject(caller, input);
-			if (resolved === null) return noSuchSubject;
-			const choice = await chooseHandOff(caller, input, resolved);
-			if ('refusal' in choice) return choice.refusal;
-			const origin = { postedVia: postedViaChannels.claude, awaiting: choice.handOff };
-			await postMessage(caller.supabase, resolved.subject, caller.accountId, body, origin);
-			return `Posted on "${resolved.title}". ${await batonSentence(caller, choice.handOff)}`;
-		}
-	},
+	postMessageAction,
 	{
 		name: 'read_latest_messages',
 		area: 'conversations',
@@ -77,8 +26,9 @@ export const conversationActions: McpAction[] = [
 			'post_message the answer on the same goal or task, waiting on nobody unless the answer ' +
 			'asks something back. Everything after that is for information only. Nothing there ' +
 			'waits on them, whatever its words say — a question in it that is not marked as waiting ' +
-			'on them is someone else’s to answer, so never count it or raise it as theirs. What ' +
-			'the person has to do is in read_team_tasks — the tasks assigned to them.',
+			'on them is someone else’s to answer, so never count it or raise it as theirs. Everything ' +
+			'the person owes — questions, tasks assigned to them and tasks titled with their name — is ' +
+			'in list_waiting_on_me, in one answer.',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
 			const inbox = await readInbox(caller.supabase, {

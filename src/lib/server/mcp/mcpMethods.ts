@@ -3,6 +3,7 @@ import { McpErrorCode, McpRequestRefusal, jsonRpcVersion, mcpFailure } from './m
 import { describeMcpResources, readMcpResource } from './mcpResources';
 import { describeMcpTools, findMcpTool } from './mcpTools';
 import { toolFailureSentence } from './toolFailureSentence';
+import { UnknownFieldError, refuseUnknownFields } from './unknownFieldRefusal';
 import {
 	latestProtocolVersion,
 	listCacheHints,
@@ -76,8 +77,10 @@ async function callTool(caller: McpCaller, request: McpRequest): Promise<McpAnsw
 	}
 	const argumentValues = (params.arguments ?? {}) as Record<string, unknown>;
 	try {
+		refuseUnknownFields(tool.name, tool.inputSchema, argumentValues);
 		return toolAnswer(await tool.run(caller, argumentValues), false);
 	} catch (failure) {
+		if (failure instanceof UnknownFieldError) return toolAnswer(failure.message, true);
 		console.error(`MCP tool ${tool.name} failed`, failure);
 		return toolAnswer(toolFailureSentence(failure), true);
 	}
