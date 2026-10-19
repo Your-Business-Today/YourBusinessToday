@@ -2,18 +2,19 @@ import { mainRunOutcomes, type MainRun } from './mainRun';
 
 export type MainRunFact = { label: string; href?: string };
 
-export const noMainRunsYet = 'No runs on main read yet';
+const failedMark = '✗';
 
-const outcomeMarks = { [mainRunOutcomes.passed]: '✓', [mainRunOutcomes.failed]: '✗' } as const;
-
-/** One fact per check on the default branch, linking to its run; a single fact when none has been read yet. */
+/** One fact per check failing on the default branch, linking to its run; nothing while every check passes. */
 export function mainRunFacts(runs: MainRun[]): MainRunFact[] {
-	if (runs.length === 0) return [{ label: noMainRunsYet }];
-	return runs.map(factOf);
+	return runs.filter(isFailing).map(factOf);
+}
+
+function isFailing(run: MainRun): boolean {
+	return run.outcome === mainRunOutcomes.failed;
 }
 
 function factOf(run: MainRun): MainRunFact {
-	const label = `${outcomeMarks[run.outcome]} ${run.checkName} ${run.outcome}`;
+	const label = `${failedMark} ${run.checkName} failed`;
 	if (run.runUrl === '') return { label };
 	return { label, href: run.runUrl };
 }

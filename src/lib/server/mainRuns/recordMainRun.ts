@@ -18,7 +18,8 @@ export async function recordMainRun(supabase: SupabaseClient, projectId: string,
 			outcome: run.outcome,
 			run_url: run.runUrl,
 			finished_at: run.finishedAt,
-			received_at: new Date().toISOString()
+			received_at: new Date().toISOString(),
+			is_named_for_its_check: true
 		},
 		{ onConflict: 'project_id,check_name' }
 	);
