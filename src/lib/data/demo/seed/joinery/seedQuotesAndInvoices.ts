@@ -1,15 +1,7 @@
-import {
-	DemoInvoiceStatus,
-	DemoQuoteStatus,
-	type DemoInvoice,
-	type DemoInvoiceStatusValue,
-	type DemoQuote,
-	type DemoQuoteStatusValue
-} from '../demoBusiness';
-import { isoDateDaysFrom } from '../demoDates';
+import { DemoInvoiceStatus, DemoQuoteStatus, type DemoInvoice, type DemoQuote } from '../../demoBusiness';
+import { invoiceIssuedBefore, quoteSentBefore } from '../datedRecords';
 import { DemoClientId, DemoJobId } from './seedClientsAndJobs';
 
-const paymentTermsDays = 30;
 const { oakwell, hotel, school, cafe, architects } = DemoClientId;
 
 export function seedQuotes(today: string): DemoQuote[] {
@@ -34,44 +26,4 @@ export function seedInvoices(today: string): DemoInvoice[] {
 		invoice('INV-1036', school, DemoJobId.schoolLibrary, 8_500, 75, paid),
 		invoice('INV-1049', cafe, DemoJobId.cafeCounter, 9_600, 31, paid)
 	];
-}
-
-function quoteSentBefore(today: string) {
-	return (
-		id: string,
-		clientId: string,
-		work: string,
-		amount: number,
-		sentDaysAgo: number,
-		status: DemoQuoteStatusValue,
-		chasedDaysAgo: number | null
-	): DemoQuote => ({
-		id,
-		clientId,
-		work,
-		amount,
-		sentOn: isoDateDaysFrom(today, -sentDaysAgo),
-		status,
-		chasedOn: chasedDaysAgo === null ? null : isoDateDaysFrom(today, -chasedDaysAgo)
-	});
-}
-
-function invoiceIssuedBefore(today: string) {
-	return (
-		id: string,
-		clientId: string,
-		jobId: string,
-		amount: number,
-		issuedDaysAgo: number,
-		status: DemoInvoiceStatusValue
-	): DemoInvoice => ({
-		id,
-		clientId,
-		jobId,
-		amount,
-		issuedOn: isoDateDaysFrom(today, -issuedDaysAgo),
-		dueOn: isoDateDaysFrom(today, paymentTermsDays - issuedDaysAgo),
-		status,
-		chasedOn: null
-	});
 }

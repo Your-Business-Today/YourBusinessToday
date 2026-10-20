@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { seedDemoBusiness } from '$lib/data/demo/seed/seedDemoBusiness';
+import { DemoKind } from '$lib/data/demo/demoKinds';
 import { McpErrorCode } from '$lib/server/mcp/mcpErrors';
 import { answerDemoRequest, type DemoCopy } from './answerDemoRequest';
 import type { DemoBusiness } from '$lib/data/demo/demoBusiness';
@@ -12,7 +13,7 @@ const today = '2026-10-20';
 function copyThatRemembersSaves(): { copy: DemoCopy; saved: DemoBusiness[] } {
 	const saved: DemoBusiness[] = [];
 	const copy: DemoCopy = {
-		business: seedDemoBusiness(today),
+		business: seedDemoBusiness(DemoKind.construction, today),
 		today,
 		save: async (changed) => {
 			saved.push(changed);

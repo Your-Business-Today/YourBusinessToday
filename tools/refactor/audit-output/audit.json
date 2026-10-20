@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-20T15:05:23+00:00",
+  "generatedAt": "2026-10-20T15:55:53+00:00",
   "kitVersion": "1.26.0",
   "score": {
     "overall": 100.0,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 1942,
+        "measuredAgainst": 1954,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2573,
+        "measuredAgainst": 2583,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2864,
+        "measuredAgainst": 2865,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 67.96,
+        "measuredAgainst": 68.3,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 67.96,
+        "measuredAgainst": 68.3,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3003,
+        "measuredAgainst": 3014,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 67.96,
+        "measuredAgainst": 68.3,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 67.96,
+        "measuredAgainst": 68.3,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2573,
+        "measuredAgainst": 2583,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2864,
+        "measuredAgainst": 2865,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2864,
+        "measuredAgainst": 2865,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2573,
+        "measuredAgainst": 2583,
         "score": 100.0
       },
       {
@@ -251,17 +251,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 1942,
-      "totalLines": 67963,
+      "totalFiles": 1954,
+      "totalLines": 68304,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 2573,
+      "totalFunctions": 2583,
       "elseBlocks": 0,
-      "ifBlocks": 2864,
+      "ifBlocks": 2865,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -307,10 +307,10 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 2573
+      "functionsExamined": 2583
     },
     "designPatterns": {
-      "roleFamilies": 106,
+      "roleFamilies": 108,
       "predictedFiles": 108,
       "predictedFilesMissing": 0,
       "entities": 0,
@@ -319,7 +319,7 @@
     },
     "inventory": {
       "pages": 50,
-      "components": 430,
+      "components": 431,
       "orphanComponents": 0,
       "averagePageLines": 45
     },
@@ -334,13 +334,13 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2375,
-      "backend": 744,
-      "frontend": 634,
-      "shared": 281,
-      "tests": 199,
-      "api": 198,
-      "database": 126,
+      "totalFiles": 2419,
+      "backend": 754,
+      "frontend": 647,
+      "shared": 298,
+      "tests": 201,
+      "api": 199,
+      "database": 127,
       "tooling": 120,
       "docs": 59,
       "infrastructure": 14
@@ -352,8 +352,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 1942,
-        "totalLines": 67963,
+        "totalFiles": 1954,
+        "totalLines": 68304,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -364,9 +364,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 2573,
+        "totalFunctions": 2583,
         "elseBlocks": 0,
-        "ifBlocks": 2864,
+        "ifBlocks": 2865,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -811,14 +811,14 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 2573
+        "functionsExamined": 2583
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 106,
+        "roleFamilies": 108,
         "predictedFiles": 108,
         "predictedFilesMissing": 0,
         "entities": 0,
@@ -840,10 +840,12 @@
           "bounds": 4,
           "branch": 4,
           "brief": 5,
+          "business": 5,
           "button": 8,
-          "card": 6,
+          "card": 7,
           "check": 4,
           "chip": 5,
+          "choices": 4,
           "client": 14,
           "company": 7,
           "contact": 4,
@@ -925,7 +927,7 @@
           "table": 5,
           "task": 20,
           "tasks": 9,
-          "test": 191,
+          "test": 192,
           "text": 6,
           "title": 4,
           "tones": 4,
@@ -964,7 +966,7 @@
       "name": "inventory",
       "summary": {
         "pages": 50,
-        "components": 430,
+        "components": 431,
         "orphanComponents": 0,
         "averagePageLines": 45
       },
@@ -1223,7 +1225,7 @@
           },
           {
             "page": "src/routes/demo/[token]/+page.svelte",
-            "lines": 29,
+            "lines": 30,
             "widgets": []
           },
           {
@@ -2172,6 +2174,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/demo/DemoKindChoiceCard.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/demo/DemoLinkedSystemRow.svelte",
             "reusedBy": 1
           },
@@ -3020,13 +3026,13 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2375,
-        "backend": 744,
-        "frontend": 634,
-        "shared": 281,
-        "tests": 199,
-        "api": 198,
-        "database": 126,
+        "totalFiles": 2419,
+        "backend": 754,
+        "frontend": 647,
+        "shared": 298,
+        "tests": 201,
+        "api": 199,
+        "database": 127,
         "tooling": 120,
         "docs": 59,
         "infrastructure": 14
@@ -3034,37 +3040,37 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 744,
+          "files": 754,
           "sourceFiles": 744,
-          "sourceLines": 23665
+          "sourceLines": 23673
         },
         {
           "area": "frontend",
-          "files": 634,
-          "sourceFiles": 523,
-          "sourceLines": 18237
+          "files": 647,
+          "sourceFiles": 524,
+          "sourceLines": 18254
         },
         {
           "area": "shared",
-          "files": 281,
-          "sourceFiles": 280,
-          "sourceLines": 9191
+          "files": 298,
+          "sourceFiles": 290,
+          "sourceLines": 9465
         },
         {
           "area": "tests",
-          "files": 199,
-          "sourceFiles": 191,
-          "sourceLines": 7425
+          "files": 201,
+          "sourceFiles": 192,
+          "sourceLines": 7467
         },
         {
           "area": "api",
-          "files": 198,
+          "files": 199,
           "sourceFiles": 199,
           "sourceLines": 9307
         },
         {
           "area": "database",
-          "files": 126,
+          "files": 127,
           "sourceFiles": 0,
           "sourceLines": 0
         },

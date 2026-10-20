@@ -1,7 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { DemoBusiness } from '$lib/data/demo/demoBusiness';
+import { firstDemoKind, type DemoKindValue } from '$lib/data/demo/demoKinds';
 
 const table = 'demo_businesses';
+
+type StoredDemoBusiness = Omit<DemoBusiness, 'kind'> & { kind?: DemoKindValue };
 
 export async function createDemoBusiness(
 	supabase: SupabaseClient,
@@ -20,7 +23,8 @@ export async function readDemoBusiness(
 	const { data, error } = await supabase.from(table).select('business').eq('token', token).maybeSingle();
 	if (error) throw error;
 	if (data === null) return null;
-	return data.business as DemoBusiness;
+	const stored = data.business as StoredDemoBusiness;
+	return { ...stored, kind: stored.kind ?? firstDemoKind };
 }
 
 export async function saveDemoBusiness(

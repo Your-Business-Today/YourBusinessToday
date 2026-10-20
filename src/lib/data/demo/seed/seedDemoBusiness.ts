@@ -1,26 +1,20 @@
 import type { DemoBusiness } from '../demoBusiness';
-import { seedBrain, demoSystems } from './seedBrainAndSystems';
-import { demoClients, demoJobs, demoPeople } from './seedClientsAndJobs';
-import { seedInvoices, seedQuotes } from './seedQuotesAndInvoices';
-import { demoSubscriptions, seedInbox } from './seedSubscriptionsAndInbox';
+import { DemoKind, type DemoKindValue } from '../demoKinds';
+import { seedBookkeepingBusiness } from './bookkeeping/seedBookkeepingBusiness';
+import { seedJoineryBusiness } from './joinery/seedJoineryBusiness';
 
-export const demoBusinessName = 'Harbourside Joinery Ltd';
+const seedForKind: Record<DemoKindValue, (today: string) => Omit<DemoBusiness, 'log'>> = {
+	[DemoKind.construction]: seedJoineryBusiness,
+	[DemoKind.bookkeeping]: seedBookkeepingBusiness
+};
 
-/** A fresh copy of the made-up business, its dates set relative to the day it starts. */
-export function seedDemoBusiness(today: string): DemoBusiness {
-	return {
-		name: demoBusinessName,
-		trade: 'Bespoke joinery and fit-out, twelve people',
-		town: 'Bristol',
-		people: demoPeople,
-		clients: demoClients,
-		jobs: demoJobs,
-		quotes: seedQuotes(today),
-		invoices: seedInvoices(today),
-		subscriptions: demoSubscriptions,
-		inbox: seedInbox(today),
-		brain: seedBrain(today),
-		systems: demoSystems,
-		log: [{ on: today, sentence: 'Your private copy of the demo started fresh.' }]
-	};
+/** A fresh copy of the made-up business of one kind, its dates set relative to the day it starts. */
+export function seedDemoBusiness(kind: DemoKindValue, today: string): DemoBusiness {
+	const seed = seedForKind[kind];
+	return { ...seed(today), log: [{ on: today, sentence: 'Your private copy of the demo started fresh.' }] };
+}
+
+/** The same kind of business as a copy, back to how it started. */
+export function startedAgain(business: DemoBusiness, today: string): DemoBusiness {
+	return seedDemoBusiness(business.kind, today);
 }

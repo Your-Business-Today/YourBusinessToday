@@ -1,3 +1,5 @@
+import type { DemoKindValue } from './demoKinds';
+
 export type DemoPerson = { name: string; role: string };
 
 export type DemoClient = { id: string; name: string; contact: string };
@@ -69,6 +71,7 @@ export type DemoLogEntry = { on: string; sentence: string };
 
 /** One prospect's private copy of the made-up business, held whole as one document. */
 export type DemoBusiness = {
+	kind: DemoKindValue;
 	name: string;
 	trade: string;
 	town: string;
