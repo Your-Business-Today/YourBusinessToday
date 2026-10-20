@@ -8,6 +8,7 @@
 	import ProjectTileHeading from './ProjectTileHeading.svelte';
 	import ProjectTilePriority from './ProjectTilePriority.svelte';
 	import ProjectTileProgress from './ProjectTileProgress.svelte';
+	import { shownIdsField } from '$lib/data/shownIds';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
@@ -15,6 +16,8 @@
 		project,
 		latestKitVersion,
 		listReorder,
+		position,
+		shownIds,
 		isFirst,
 		isLast,
 		onEdit,
@@ -24,6 +27,8 @@
 		project: ProjectSummary;
 		latestKitVersion: string;
 		listReorder: ListReorder;
+		position: number;
+		shownIds: string;
 		isFirst: boolean;
 		isLast: boolean;
 		onEdit: (project: ProjectSummary) => void;
@@ -36,7 +41,7 @@
 	{#snippet content(dragHandle)}
 		<div class="flex items-center justify-between gap-3">
 			<ProjectTilePriority
-				priority={project.priority}
+				priority={position}
 				projectName={project.name}
 				onSetPriority={() => onSetPriority(project)}
 			/>
@@ -76,6 +81,7 @@
 					id={project.id}
 					{isFirst}
 					{isLast}
+					extraFields={{ [shownIdsField]: shownIds }}
 				/>
 			</div>
 			<ProjectActionsMenu

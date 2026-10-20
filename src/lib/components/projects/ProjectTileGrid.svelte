@@ -3,6 +3,7 @@
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { postListReorder } from '$lib/client/postListReorder';
 	import { projectTileGridClasses } from './projectTileStyles';
+	import { topRank } from '$lib/data/topRank';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
 	let {
@@ -10,6 +11,7 @@
 		latestKitVersion,
 		firstPositionNumber,
 		projectCount,
+		shownIds,
 		onEdit,
 		onDelete,
 		onSetPriority
@@ -18,6 +20,7 @@
 		latestKitVersion: string;
 		firstPositionNumber: number;
 		projectCount: number;
+		shownIds: string;
 		onEdit: (project: ProjectSummary) => void;
 		onDelete: (project: ProjectSummary) => void;
 		onSetPriority: (project: ProjectSummary) => void;
@@ -30,12 +33,15 @@
 
 <ul class={projectTileGridClasses}>
 	{#each projects as project, projectIndex (project.id)}
+		{@const position = firstPositionNumber + projectIndex}
 		<ProjectTile
 			{project}
 			{latestKitVersion}
 			{listReorder}
-			isFirst={firstPositionNumber + projectIndex === 1}
-			isLast={firstPositionNumber + projectIndex === projectCount}
+			{position}
+			{shownIds}
+			isFirst={position === topRank}
+			isLast={position === projectCount}
 			{onEdit}
 			{onDelete}
 			{onSetPriority}

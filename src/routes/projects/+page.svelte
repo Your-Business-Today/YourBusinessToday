@@ -9,10 +9,12 @@
 	import WaitingOnYouSection from '$lib/components/projects/WaitingOnYouSection.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { ProjectListView } from '$lib/client/projectListView.svelte';
-	import type { Project } from '$lib/server/projects/projectRecord';
+	import {
+		boardPriorityChoice,
+		teamPriorityChoice,
+		type PriorityChoice
+	} from '$lib/client/projectPriorityChoice';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
-
-	type PriorityChoice = { project: Project; among: string };
 
 	let { data, form } = $props();
 
@@ -35,8 +37,8 @@
 		isDeleteModalOpen = true;
 	}
 
-	function openPriorityModal(project: Project, among: string) {
-		priorityChoice = { project, among };
+	function openPriorityModal(choice: PriorityChoice) {
+		priorityChoice = choice;
 		isPriorityModalOpen = true;
 	}
 </script>
@@ -57,8 +59,8 @@
 		latestKitVersion={data.latestKitVersion}
 		onEdit={openEditModal}
 		onDelete={openDeleteModal}
-		onSetPriority={(project) => openPriorityModal(project, 'of your board')}
-		onSetTeamPriority={(project) => openPriorityModal(project, 'of your team projects')}
+		onSetPriority={(project) => openPriorityModal(boardPriorityChoice(project, listView.placeOf(project.id)))}
+		onSetTeamPriority={(project) => openPriorityModal(teamPriorityChoice(project))}
 	/>
 </div>
 
@@ -70,6 +72,7 @@
 	<ProjectEditModals
 		project={selectedProject}
 		organisations={data.organisations}
+		boardPlace={listView.placeOf(selectedProject.id)}
 		bind:isEditModalOpen
 		bind:isDeleteModalOpen
 	/>
@@ -79,10 +82,10 @@
 	{@const rankedProject = priorityChoice.project}
 	<PriorityModal
 		itemName={rankedProject.name}
-		priority={rankedProject.priority}
+		priority={priorityChoice.priority}
 		among={priorityChoice.among}
 		action="?/setProjectPriority"
-		fields={{ projectId: rankedProject.id }}
+		fields={priorityChoice.fields}
 		bind:isOpen={isPriorityModalOpen}
 	/>
 {/if}

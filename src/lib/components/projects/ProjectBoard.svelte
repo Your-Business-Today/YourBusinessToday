@@ -23,6 +23,8 @@
 <ProjectFilterBar
 	bind:searchText={listView.searchText}
 	bind:selectedStatus={listView.selectedStatus}
+	bind:isShowingFinished={listView.isShowingFinished}
+	finishedCount={listView.finishedCount}
 	countLabel={listView.countLabel}
 />
 {#if listView.matchCount === 0}
@@ -35,6 +37,7 @@
 		{latestKitVersion}
 		firstPositionNumber={listView.firstPositionNumber}
 		projectCount={listView.matchCount}
+		shownIds={listView.shownIds}
 		{onEdit}
 		{onDelete}
 		{onSetPriority}

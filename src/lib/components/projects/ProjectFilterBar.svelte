@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FinishedProjectsToggle from './FinishedProjectsToggle.svelte';
 	import { filterChipClasses } from './filterChipClasses';
 	import {
 		projectStatusFilterLabel,
@@ -9,8 +10,16 @@
 	let {
 		searchText = $bindable(),
 		selectedStatus = $bindable(),
+		isShowingFinished = $bindable(),
+		finishedCount,
 		countLabel
-	}: { searchText: string; selectedStatus: ProjectStatusFilter; countLabel: string } = $props();
+	}: {
+		searchText: string;
+		selectedStatus: ProjectStatusFilter;
+		isShowingFinished: boolean;
+		finishedCount: number;
+		countLabel: string;
+	} = $props();
 </script>
 
 <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -24,6 +33,7 @@
 				{projectStatusFilterLabel(statusFilter)}
 			</button>
 		{/each}
+		<FinishedProjectsToggle bind:isShowingFinished {finishedCount} />
 	</div>
 	<div class="flex items-center gap-3">
 		<span class="shrink-0 font-display text-xs text-chalk/50">{countLabel}</span>

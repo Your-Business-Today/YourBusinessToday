@@ -1,50 +1,23 @@
-import { filterWhenProjectsOpen, type ProjectStatusFilter } from '$lib/data/projectStatusFilter';
-import { everyOrganisationFilter, type OrganisationFilter } from '$lib/data/organisationFilter';
-import { matchesProjectListFilters } from '$lib/data/projectListFilter';
+import { ProjectFilterChoices } from './projectFilterChoices.svelte';
+import { matchesProjectListFilters, type ProjectListFilters } from '$lib/data/projectListFilter';
+import { projectCountLabel } from '$lib/data/projectCountLabel';
+import { topRank } from '$lib/data/topRank';
+import { writeShownIds, type ShownPosition } from '$lib/data/shownIds';
 import type { OrganisationPlace } from '$lib/data/organisationAccess';
 import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
 const projectsPerPage = 12;
 
 /** The projects list as one person has narrowed and paged it; changing a filter returns to the first page. */
-export class ProjectListView {
-	#searchText = $state('');
-	#selectedStatus = $state<ProjectStatusFilter>(filterWhenProjectsOpen);
-	#selectedOrganisation = $state<OrganisationFilter>(everyOrganisationFilter);
+export class ProjectListView extends ProjectFilterChoices {
 	#pageNumber = $state(1);
 	#allProjects: () => ProjectSummary[];
 	#organisations: () => OrganisationPlace[];
 
 	constructor(allProjects: () => ProjectSummary[], organisations: () => OrganisationPlace[]) {
+		super();
 		this.#allProjects = allProjects;
 		this.#organisations = organisations;
-	}
-
-	get searchText(): string {
-		return this.#searchText;
-	}
-
-	set searchText(value: string) {
-		this.#searchText = value;
-		this.#pageNumber = 1;
-	}
-
-	get selectedStatus(): ProjectStatusFilter {
-		return this.#selectedStatus;
-	}
-
-	set selectedStatus(value: ProjectStatusFilter) {
-		this.#selectedStatus = value;
-		this.#pageNumber = 1;
-	}
-
-	get selectedOrganisation(): OrganisationFilter {
-		return this.#selectedOrganisation;
-	}
-
-	set selectedOrganisation(value: OrganisationFilter) {
-		this.#selectedOrganisation = value;
-		this.#pageNumber = 1;
 	}
 
 	get pageNumber(): number {
@@ -56,11 +29,29 @@ export class ProjectListView {
 	}
 
 	get filteredProjects(): ProjectSummary[] {
-		return this.#allProjects().filter((project) => this.#matchesFilters(project));
+		return this.#projectsMatching(this.filters);
 	}
 
 	get matchCount(): number {
 		return this.filteredProjects.length;
+	}
+
+	/** Finished projects the other filters would show, whether or not they are hidden. */
+	get finishedCount(): number {
+		const withFinished = this.#projectsMatching({ ...this.filters, isShowingFinished: true });
+		const withoutFinished = this.#projectsMatching({ ...this.filters, isShowingFinished: false });
+		return withFinished.length - withoutFinished.length;
+	}
+
+	/** The shown projects' ids in order, as the board's arrows and priority box send them. */
+	get shownIds(): string {
+		return writeShownIds(this.filteredProjects.map((project) => project.id));
+	}
+
+	/** A project's number on the board as shown, 1 at the top. */
+	placeOf(projectId: string): ShownPosition {
+		const position = this.filteredProjects.findIndex((project) => project.id === projectId) + topRank;
+		return { position, shownIds: this.shownIds };
 	}
 
 	get pageCount(): number {
@@ -81,19 +72,15 @@ export class ProjectListView {
 	}
 
 	get countLabel(): string {
-		const totalCount = this.projectCount;
-		const filteredCount = this.matchCount;
-		const noun = totalCount === 1 ? 'project' : 'projects';
-		if (filteredCount === totalCount) return `${totalCount} ${noun}`;
-		return `${filteredCount} of ${totalCount} ${noun}`;
+		return projectCountLabel(this.projectCount, this.matchCount);
 	}
 
-	#matchesFilters(project: ProjectSummary): boolean {
-		const filters = {
-			status: this.#selectedStatus,
-			organisation: this.#selectedOrganisation,
-			searchText: this.#searchText
-		};
-		return matchesProjectListFilters(project, filters, this.#organisations());
+	protected onRefilter(): void {
+		this.#pageNumber = 1;
+	}
+
+	#projectsMatching(filters: ProjectListFilters): ProjectSummary[] {
+		const organisations = this.#organisations();
+		return this.#allProjects().filter((project) => matchesProjectListFilters(project, filters, organisations));
 	}
 }

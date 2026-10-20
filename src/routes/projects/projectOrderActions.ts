@@ -1,5 +1,7 @@
 import { fail } from '@sveltejs/kit';
-import { moveProject, type ProjectMoveDirection } from '$lib/server/projects/moveProject';
+import { type ProjectMoveDirection } from '$lib/server/projects/moveProject';
+import { moveProjectAmongShown, setProjectPosition } from '$lib/server/projects/projectShownOrder';
+import { readShownIds, shownIdsField } from '$lib/data/shownIds';
 import {
 	parseDropPlacement,
 	parsePriorityNumber,
@@ -7,7 +9,6 @@ import {
 } from '$lib/server/ordering/rankInput';
 import { placeProject } from '$lib/server/projects/placeProject';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
-import { setProjectPriority } from '$lib/server/projects/setProjectPriority';
 import type { Actions } from './$types';
 
 const projectRequired = 'A project is required.';
@@ -21,7 +22,8 @@ export const projectOrderActions = {
 		const direction = String(formData.get('direction')) as ProjectMoveDirection;
 		if (projectId === '') return fail(400, { message: projectRequired });
 		const { user } = await requireProjectAccess(locals, projectId);
-		await moveProject(locals.supabase, projectId, direction, user.id);
+		const shownIds = readShownIds(formData.get(shownIdsField));
+		await moveProjectAmongShown(locals.supabase, projectId, direction, shownIds, user.id);
 		return {};
 	},
 	placeProject: async ({ locals, request }) => {
@@ -46,7 +48,8 @@ export const projectOrderActions = {
 		const { user } = await requireProjectAccess(locals, projectId);
 		const priority = parsePriorityNumber(formData.get('priority'));
 		if (priority === null) return fail(400, { message: priorityNumberRefusal });
-		await setProjectPriority(locals.supabase, projectId, priority, user.id);
+		const shownIds = readShownIds(formData.get(shownIdsField));
+		await setProjectPosition(locals.supabase, projectId, priority, shownIds, user.id);
 		return {};
 	}
 } satisfies Actions;
