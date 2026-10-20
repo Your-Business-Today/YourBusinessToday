@@ -34,8 +34,8 @@ export function choiceForSetting(setting: AutocompleteSetting): AutocompleteChoi
 }
 
 /** A task's own setting wins; without one it follows its goal, and with no goal it is on. */
-export function isTaskAutocomplete(taskSetting: AutocompleteSetting, goalSetting: boolean | null): boolean {
-	return taskSetting ?? goalSetting ?? true;
+export function isTaskAutocomplete(taskSetting: AutocompleteSetting, isGoalAutocomplete: boolean | null): boolean {
+	return taskSetting ?? isGoalAutocomplete ?? true;
 }
 
 export function parseGoalAutocomplete(value: unknown): boolean {
@@ -52,14 +52,14 @@ export function autocompleteWord(isAutocomplete: boolean): string {
 }
 
 /** "Autocomplete on, following its goal." — what a task's setting comes to and where it comes from. */
-export function autocompleteSentence(setting: AutocompleteSetting, goalSetting: boolean | null): string {
-	const isOn = isTaskAutocomplete(setting, goalSetting);
-	return `Autocomplete ${autocompleteWord(isOn)}, ${settingSource(setting, goalSetting)}.`;
+export function autocompleteSentence(setting: AutocompleteSetting, isGoalAutocomplete: boolean | null): string {
+	const isOn = isTaskAutocomplete(setting, isGoalAutocomplete);
+	return `Autocomplete ${autocompleteWord(isOn)}, ${settingSource(setting, isGoalAutocomplete)}.`;
 }
 
-function settingSource(setting: AutocompleteSetting, goalSetting: boolean | null): string {
+function settingSource(setting: AutocompleteSetting, isGoalAutocomplete: boolean | null): string {
 	if (setting !== null) return 'set on the task';
-	if (goalSetting === null) return 'with no goal to follow';
+	if (isGoalAutocomplete === null) return 'with no goal to follow';
 	return 'following its goal';
 }
 

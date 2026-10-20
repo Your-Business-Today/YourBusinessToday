@@ -25,7 +25,7 @@ export async function findNextBuildableTask(
 
 function isFreeFor(candidate: BuildCandidate, search: BuildSearch, marks: Map<string, LifecycleMark>): boolean {
 	const { task } = candidate;
-	const isAutocomplete = isTaskAutocomplete(task.autocompleteSetting, candidate.goalSetting);
+	const isAutocomplete = isTaskAutocomplete(task.autocompleteSetting, candidate.isGoalAutocomplete);
 	const model = modelNeededFor(task, search.models);
 	const isForThisModel = model?.modelId === search.modelId;
 	if (!isAutocomplete || candidate.isWaiting || !isForThisModel) return false;

@@ -5,7 +5,7 @@ import { readOptionalText, textField } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { ResolvedSubject } from './resolveSubject';
 
-const promiseIsNotAutocomplete = false;
+const isPromiseAutocomplete = false;
 
 export const promiseField = textField(
 	'Something the person you are with promises in this message ("I’ll do X"), in a few words ' +
@@ -37,7 +37,7 @@ export async function raisePromise(
 		waitsForTaskId: null,
 		goalId: resolved.parentGoalId,
 		kind: taskKinds.work,
-		autocomplete: promiseIsNotAutocomplete
+		autocomplete: isPromiseAutocomplete
 	};
 	const taskId = await createTask(caller.supabase, resolved.projectId, seed, caller.accountId);
 	await setTaskAssignees(caller.supabase, taskId, [caller.accountId]);

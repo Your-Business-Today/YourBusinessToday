@@ -33,7 +33,7 @@ function buildQueueEntry(
 	marks: Map<string, LifecycleMark>,
 	models: BuildModel[]
 ): BuildQueueEntry {
-	const { task, projectName, goalSetting, isWaiting } = candidate;
+	const { task, projectName, isGoalAutocomplete, isWaiting } = candidate;
 	const mark = marks.get(task.id);
 	const goalMark = marks.get(task.goalId ?? '');
 	const claim = mark?.claim ?? goalMark?.claim ?? null;
@@ -46,7 +46,7 @@ function buildQueueEntry(
 		storyPoints: task.storyPoints,
 		modelId: modelNeededFor(task, models)?.modelId ?? null,
 		namedModelId: task.modelNeeded,
-		isAutocomplete: isTaskAutocomplete(task.autocompleteSetting, goalSetting),
+		isAutocomplete: isTaskAutocomplete(task.autocompleteSetting, isGoalAutocomplete),
 		isWaiting,
 		queuePlace: isQueued(candidate) ? candidate.queuePlace : null,
 		latestStep: latest?.step ?? null,
