@@ -22,6 +22,7 @@ import { sectorActions } from './actions/sectorActions';
 import { serverErrorActions } from './actions/serverErrorActions';
 import { sightingActions } from './actions/sightingActions';
 import { sightingLeadActions } from './actions/sightingLeadActions';
+import { summaryActions } from './actions/summaryActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
 import { waitingActions } from './actions/waitingActions';
@@ -55,6 +56,7 @@ const everyAction: McpAction[] = [
 	...serverErrorActions,
 	...conversationActions,
 	...waitingActions,
+	...summaryActions,
 	...taskActions
 ];
 

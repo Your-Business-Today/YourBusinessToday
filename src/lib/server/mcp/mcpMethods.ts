@@ -1,5 +1,6 @@
 import { toolResultOf, type McpToolAnswer } from './mcpContent';
 import { McpErrorCode, McpRequestRefusal, jsonRpcVersion, mcpFailure } from './mcpErrors';
+import { describeMcpPrompts, getMcpPrompt } from './mcpPrompts';
 import { describeMcpResources, readMcpResource } from './mcpResources';
 import { describeMcpTools, findMcpTool } from './mcpTools';
 import { toolFailureSentence } from './toolFailureSentence';
@@ -8,6 +9,7 @@ import {
 	latestProtocolVersion,
 	listCacheHints,
 	negotiateProtocolVersion,
+	serverCapabilities as capabilities,
 	serverInformation,
 	supportedProtocolVersions
 } from './mcpProtocol';
@@ -17,7 +19,6 @@ import type { McpRequest } from './readMcpRequest';
 type McpAnswer = Record<string, unknown>;
 type McpMethod = (caller: McpCaller, request: McpRequest) => Promise<McpAnswer>;
 
-const capabilities = { tools: { listChanged: false }, resources: { listChanged: false } };
 
 const methods: Record<string, McpMethod> = {
 	'server/discover': async () => discovery(),
@@ -37,6 +38,11 @@ const methods: Record<string, McpMethod> = {
 	'resources/read': async (_caller, request) => {
 		const { uri } = request.params;
 		return { ...readMcpResource(uri), ...listCacheHints };
+	},
+	'prompts/list': async () => ({ prompts: describeMcpPrompts(), ...listCacheHints }),
+	'prompts/get': async (_caller, request) => {
+		const { name } = request.params;
+		return getMcpPrompt(name);
 	}
 };
 

@@ -1,5 +1,6 @@
 import { actionsFor, areasFor } from './actionRegistry';
 import { clientContactsOf } from './clientContactAccess';
+import { countOf } from '$lib/data/countOf';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { organisationNameLookup } from '$lib/data/organisationFamilies';
 import { raisingDoctrine } from './raisingDoctrine';
@@ -55,10 +56,4 @@ function staffLine(caller: McpCaller): string | null {
 	if (caller.isStaff)
 		return 'You are staff at Your Business Today, with the clients register as well.';
 	return null;
-}
-
-function countOf(count: number, noun: string): string {
-	if (count === 0) return `no ${noun}s`;
-	if (count === 1) return `one ${noun}`;
-	return `${count} ${noun}s`;
 }
