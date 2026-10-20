@@ -4,6 +4,15 @@ export const serverInformation = {
 	version: '1.0.0'
 } as const;
 
+const unchangingList = { listChanged: false } as const;
+
+/** What the connector serves: tools to call, pages a host draws, and prompts the person picks. */
+export const serverCapabilities = {
+	tools: unchangingList,
+	resources: unchangingList,
+	prompts: unchangingList
+} as const;
+
 export const latestProtocolVersion = '2026-07-28';
 
 export const supportedProtocolVersions = [

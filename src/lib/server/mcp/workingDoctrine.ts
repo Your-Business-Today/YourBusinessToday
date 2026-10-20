@@ -8,6 +8,8 @@ const sessionDoctrine = [
 	'   them; post their answer on the same goal or task with post_message. To see everything that',
 	'   needs them in one answer — questions waiting on them, open tasks assigned to them and open',
 	'   tasks titled with their name — without moving the read marker, call list_waiting_on_me.',
+	'   When they ask for their YBT summary, or what they have on, call read_ybt_summary and give',
+	'   it as its answer says: project by project, the quick decisions first, then the bigger work.',
 	'2. Every piece of work is done on a task. Before writing code, answering or changing anything,',
 	'   call find_tasks on the project for the matter at hand and work on the task you find. Raise',
 	'   one with create_task only when nothing matches: a bug as "FIX: <what is wrong>", anything',

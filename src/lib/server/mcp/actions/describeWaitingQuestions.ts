@@ -26,7 +26,7 @@ function waitingCount(count: number): string {
 	return `${count} questions wait on you.`;
 }
 
-function subjectHeading(question: WaitingQuestion): string {
+export function subjectHeading(question: WaitingQuestion): string {
 	const kind = question.subjectKind;
 	const status = question.taskStatus === null ? '' : `, ${taskStatusLabels[question.taskStatus]}`;
 	const where = `${kind} id: ${question.subjectId}${status}`;

@@ -1,12 +1,15 @@
 import { describeOwedTasks } from './describeOwedTasks';
 import { describeWaitingQuestions } from './describeWaitingQuestions';
-import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { getOwedTasks } from './owedTasks';
-import { getQuestionsWaitingOn } from '$lib/server/conversations/getQuestionsWaitingOn';
+import { getWaitingQuestionsFor } from './waitingQuestionsFor';
 import { objectSchema, readOptionalText, textField } from '../actionTypes';
-import { reachableProjectIds } from '../projectAccess';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
+
+export const titleNameField = textField(
+	'The first name people write in task titles for the person, such as Jeremy — leave ' +
+		'out to use the first word of their account name'
+);
 
 const everythingHeading = 'Everything that needs you, across every project you are on.';
 
@@ -29,10 +32,7 @@ export const waitingActions: McpAction[] = [
 			'or once its task is done. A task leaves it once it is done. read_latest_messages is still ' +
 			'how new messages are read.',
 		inputSchema: objectSchema({
-			name: textField(
-				'The first name people write in task titles for the person, such as Jeremy — leave ' +
-					'out to use the first word of their account name'
-			)
+			name: titleNameField
 		}),
 		run: async (caller, input) => {
 			const questions = await describeQuestions(caller);
@@ -43,10 +43,6 @@ export const waitingActions: McpAction[] = [
 ];
 
 async function describeQuestions(caller: McpCaller): Promise<string> {
-	const projectIds = reachableProjectIds(caller);
-	const everyQuestion = await getQuestionsWaitingOn(caller.supabase, caller.accountId);
-	const questions = everyQuestion.filter((question) => projectIds.includes(question.projectId));
-	const askerIds = questions.map((question) => question.authorAccountId);
-	const accounts = await getAccountsById(caller.supabase, askerIds);
-	return describeWaitingQuestions(questions, accounts, caller.accountId);
+	const { questions, askers } = await getWaitingQuestionsFor(caller);
+	return describeWaitingQuestions(questions, askers, caller.accountId);
 }

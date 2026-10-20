@@ -40,7 +40,7 @@ function owedTaskLine(task: GlobalTask, owed: OwedTasks): string {
 	return `- ${where}. ${latestMessageSentence(task, owed)}`;
 }
 
-function latestMessageSentence(task: GlobalTask, owed: OwedTasks): string {
+export function latestMessageSentence(task: GlobalTask, owed: OwedTasks): string {
 	const message = owed.latestByTask.get(task.id);
 	if (message === undefined) return 'Nothing said on it yet.';
 	const authorName = accountNameLookup(owed.accounts)(message.authorAccountId);

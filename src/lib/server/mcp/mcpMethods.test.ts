@@ -41,10 +41,11 @@ describe('the connector’s methods', () => {
 		}
 	});
 
-	it('says it serves pages as well as tools', async () => {
+	it('says it serves pages and prompts as well as tools', async () => {
 		const { result } = await ask('initialize', { protocolVersion: '2025-11-25' });
-		const servesBoth = { tools: { listChanged: false }, resources: { listChanged: false } };
-		expect(result.capabilities).toEqual(servesBoth);
+		const unchanging = { listChanged: false };
+		const servesAll = { tools: unchanging, resources: unchanging, prompts: unchanging };
+		expect(result.capabilities).toEqual(servesAll);
 	});
 
 	it('lists the upload box’s two tools: one that draws a page, one for the page alone', async () => {
