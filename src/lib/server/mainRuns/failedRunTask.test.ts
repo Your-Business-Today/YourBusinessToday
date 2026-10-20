@@ -8,6 +8,7 @@ const failedMigrations: FinishedRun = {
 	isProductionDeploy: false,
 	checkName: 'jewel-portal-migrations',
 	runId: '42',
+	commitSha: '',
 	outcome: 'failed',
 	runUrl: 'https://run/42',
 	finishedAt: '2026-10-13T11:00:00Z'

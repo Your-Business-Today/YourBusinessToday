@@ -11,8 +11,17 @@ describe('a pull request event from GitHub', () => {
 			change: 'opened',
 			branchName: 'fix/rounding',
 			url: pullRequest.html_url,
-			repositoryUrl: repository.html_url
+			repositoryUrl: repository.html_url,
+			mergeCommitSha: ''
 		});
+	});
+
+	it('reads the commit a merge made, and nothing that is not a commit', () => {
+		const mergeCommitSha = 'e'.repeat(40);
+		const merged = { action: 'closed', pull_request: { ...pullRequest, merged: true, merge_commit_sha: mergeCommitSha }, repository };
+		const garbled = { ...merged, pull_request: { ...merged.pull_request, merge_commit_sha: 'main' } };
+		expect(readPullRequestEvent(merged)?.mergeCommitSha).toBe(mergeCommitSha);
+		expect(readPullRequestEvent(garbled)?.mergeCommitSha).toBe('');
 	});
 
 	it('reads a merge, and ignores a pull request closed without one', () => {
