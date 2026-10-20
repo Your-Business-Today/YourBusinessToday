@@ -10,7 +10,8 @@ import { getTasksWaitingOnYou } from '$lib/server/conversations/getTasksWaitingO
 import { parseRank } from '$lib/server/ordering/rankInput';
 import { projectOrderActions } from './projectOrderActions';
 import { readOrganisationChoice } from '$lib/server/organisations/organisationChoiceForm';
-import { setProjectPriority } from '$lib/server/projects/setProjectPriority';
+import { setProjectPosition } from '$lib/server/projects/projectShownOrder';
+import { readShownIds, shownIdsField } from '$lib/data/shownIds';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireUser } from '$lib/server/auth/requireUser';
 import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
@@ -65,7 +66,8 @@ export const actions: Actions = {
 		const saveRefusal = await saveProjectDetails(locals, project, update, formData);
 		if (saveRefusal !== null) return fail(400, { message: saveRefusal });
 		const priority = parseRank(formData.get('priority'));
-		if (priority !== null) await setProjectPriority(locals.supabase, projectId, priority, user.id);
+		const shownIds = readShownIds(formData.get(shownIdsField));
+		if (priority !== null) await setProjectPosition(locals.supabase, projectId, priority, shownIds, user.id);
 		return { message: `Project "${update.name}" saved.` };
 	},
 	deleteProject: async ({ locals, request }) => {

@@ -5,9 +5,10 @@
 	import OrganisationSelect from '$lib/components/organisations/OrganisationSelect.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import TeamProjectField from './TeamProjectField.svelte';
-	import PriorityField from '$lib/components/site/PriorityField.svelte';
+	import ProjectPositionField from './ProjectPositionField.svelte';
 	import ProjectDatabaseFields from './ProjectDatabaseFields.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import type { ShownPosition } from '$lib/data/shownIds';
 	import { projectStatusLabels, projectStatusOrder } from '$lib/data/projectStatus';
 	import {
 		fewestDeploysBetweenRefactors,
@@ -20,8 +21,9 @@
 	let {
 		project,
 		organisations,
+		boardPlace = { position: project.priority, shownIds: '' },
 		onSaved
-	}: { project: Project; organisations: Organisation[]; onSaved: () => void } = $props();
+	}: { project: Project; organisations: Organisation[]; boardPlace?: ShownPosition; onSaved: () => void } = $props();
 
 	const tracker = new FormTracker();
 </script>
@@ -47,7 +49,7 @@
 				{/each}
 			</select>
 		</SmallCapsField>
-		<PriorityField priority={project.priority} among="of your board" />
+		<ProjectPositionField {...boardPlace} />
 	</div>
 	<OrganisationSelect
 		{organisations}
