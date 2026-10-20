@@ -29,18 +29,6 @@ export const demoPromises: DemoPromise[] = [
 	}
 ];
 
-export const demoQuestions: string[] = [
-	'Where is this business losing money right now?',
-	'Which invoices are overdue, and who do I chase first?',
-	'Raise the invoice for the work done on Plot 4.',
-	'Which quotes have gone quiet? Follow up the biggest one.',
-	'Are we paying for anything twice? Cancel the spare.',
-	'What is waiting in the inbox that needs a reply today?',
-	'How does this business like to chase Oakwell Developments?',
-	'Remember that we never start a job without a signed order.',
-	'Start the demo again from the beginning.'
-];
-
 export type ConnectStep = { where: string; how: string };
 
 export const connectSteps: ConnectStep[] = [
@@ -50,7 +38,7 @@ export const connectSteps: ConnectStep[] = [
 	},
 	{
 		where: 'Claude Code',
-		how: 'Run claude mcp add --transport http harbourside followed by the link above.'
+		how: 'Run claude mcp add --transport http ybt-demo followed by the link above.'
 	},
 	{
 		where: 'Then ask',

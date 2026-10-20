@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { demoQuestions } from '$lib/data/demo/demoPage';
+	let { questions }: { questions: string[] } = $props();
 </script>
 
 <section class="border-y border-hairline bg-carriage/60">
@@ -9,7 +9,7 @@
 			Ask your Claude, in your own words.
 		</h2>
 		<ul class="mt-8 grid gap-3 md:grid-cols-2">
-			{#each demoQuestions as question (question)}
+			{#each questions as question (question)}
 				<li class="rounded-2xl border border-hairline px-5 py-4 text-chalk/80">“{question}”</li>
 			{/each}
 		</ul>

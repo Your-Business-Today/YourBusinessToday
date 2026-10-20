@@ -7,7 +7,7 @@ import {
 	type DemoChange
 } from '$lib/data/demo/demoActions';
 import { DemoLimit } from '$lib/data/demo/demoLimits';
-import { seedDemoBusiness } from '$lib/data/demo/seed/seedDemoBusiness';
+import { startedAgain } from '$lib/data/demo/seed/seedDemoBusiness';
 import { noInput, oneField, readString, writes, type DemoTool, type DemoToolOutcome } from './demoTool';
 
 export const actionTools: DemoTool[] = [
@@ -60,9 +60,9 @@ export const actionTools: DemoTool[] = [
 		description: 'Puts this private copy back to how it started, undoing every change made here.',
 		inputSchema: noInput,
 		annotations: writes,
-		run: (_business, today) => ({
+		run: (business, today) => ({
 			answer: 'The demo is back to how it started.',
-			changed: seedDemoBusiness(today)
+			changed: startedAgain(business, today)
 		})
 	}
 ];

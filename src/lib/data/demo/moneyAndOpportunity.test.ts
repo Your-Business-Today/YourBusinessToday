@@ -1,13 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { cancelSubscription, chaseInvoice, chaseQuote, raiseInvoice, remember, type DemoChange } from './demoActions';
+import { DemoKind } from './demoKinds';
 import { DemoLimit } from './demoLimits';
 import { findMoneyAndOpportunity } from './moneyAndOpportunity';
 import { seedDemoBusiness } from './seed/seedDemoBusiness';
-import { DemoJobId } from './seed/seedClientsAndJobs';
+import { DemoJobId } from './seed/joinery/seedClientsAndJobs';
 import type { DemoBusiness } from './demoBusiness';
 
 const today = '2026-10-20';
-const business = seedDemoBusiness(today);
+const business = seedDemoBusiness(DemoKind.construction, today);
 
 function figureOf(title: string, measured: DemoBusiness = business): number {
 	const findings = findMoneyAndOpportunity(measured, today);

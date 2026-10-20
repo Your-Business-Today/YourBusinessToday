@@ -1,5 +1,5 @@
-import type { DemoEmail, DemoSubscription } from '../demoBusiness';
-import { isoDateDaysFrom } from '../demoDates';
+import type { DemoEmail, DemoSubscription } from '../../demoBusiness';
+import { emailReceivedBefore } from '../datedRecords';
 
 const companyAccount = 'Direct debit, company account';
 
@@ -27,14 +27,4 @@ export function seedInbox(today: string): DemoEmail[] {
 		email('MAIL-05', 'Jo Bennett, Meadow Lane Primary School', 'Thank you, and the hall cupboards', 6,
 			'Thanks the team for the library work and asks whether the hall storage quote is still available.')
 	];
-}
-
-function emailReceivedBefore(today: string) {
-	return (id: string, from: string, subject: string, receivedDaysAgo: number, summary: string): DemoEmail => ({
-		id,
-		from,
-		subject,
-		receivedOn: isoDateDaysFrom(today, -receivedDaysAgo),
-		summary
-	});
 }

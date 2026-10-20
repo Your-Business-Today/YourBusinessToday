@@ -7,6 +7,7 @@
 	import DemoOwnSystemSection from '$lib/components/demo/DemoOwnSystemSection.svelte';
 	import DemoQuestionsSection from '$lib/components/demo/DemoQuestionsSection.svelte';
 	import PageMeta from '$lib/components/site/PageMeta.svelte';
+	import { demoQuestions } from '$lib/data/demo/demoQuestions';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -21,7 +22,7 @@
 <PageMeta title={pageTitle} description={pageDescription} path="/demo" />
 
 <DemoConnectSection {business} connectorUrl={data.connectorUrl} demoUrl={data.demoUrl} />
-<DemoQuestionsSection />
+<DemoQuestionsSection questions={demoQuestions[business.kind]} />
 <DemoMoneySection findings={data.findings} />
 <DemoLinkedSystemsSection systems={business.systems} />
 <DemoBrainSection notes={business.brain} />

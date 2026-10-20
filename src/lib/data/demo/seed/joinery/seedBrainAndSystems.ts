@@ -1,8 +1,8 @@
-import type { DemoBrainNote, DemoLinkedSystem } from '../demoBusiness';
-import { isoDateDaysFrom } from '../demoDates';
+import type { DemoBrainNote, DemoLinkedSystem } from '../../demoBusiness';
+import { daysBefore } from '../datedRecords';
 
 export function seedBrain(today: string): DemoBrainNote[] {
-	const daysAgo = (days: number) => isoDateDaysFrom(today, -days);
+	const daysAgo = daysBefore(today);
 	return [
 		{
 			id: 'NOTE-01',

@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { isoDateOf } from '$lib/data/demo/demoDates';
 import { findMoneyAndOpportunity } from '$lib/data/demo/moneyAndOpportunity';
-import { seedDemoBusiness } from '$lib/data/demo/seed/seedDemoBusiness';
+import { startedAgain } from '$lib/data/demo/seed/seedDemoBusiness';
 import { demoNotReadySentence, noSuchDemoSentence, openDemoCopy } from '$lib/server/demo/openDemoCopy';
 import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
 import type { DemoCopy } from '$lib/server/demo/answerDemoRequest';
@@ -23,7 +23,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
 export const actions: Actions = {
 	startAgain: async ({ params }) => {
 		const copy = await openCopyOrFail(params.token);
-		await copy.save(seedDemoBusiness(isoDateOf(new Date())));
+		await copy.save(startedAgain(copy.business, isoDateOf(new Date())));
 		return { isStartedAgain: true };
 	}
 };
