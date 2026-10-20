@@ -51,7 +51,7 @@
 {#if autocompleteTask !== null}
 	<TaskAutocompleteModal
 		task={autocompleteTask}
-		goalSetting={goalAutocomplete(goals, autocompleteTask.goalId)}
+		isGoalAutocomplete={goalAutocomplete(goals, autocompleteTask.goalId)}
 		bind:isOpen={autocomplete.isOpen}
 	/>
 {/if}

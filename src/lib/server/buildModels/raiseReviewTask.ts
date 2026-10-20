@@ -8,7 +8,7 @@ import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 export type LocalBuild = { task: ProjectTask; branchName: string; reviewModelId: string };
 
-const autocompleteOn = true;
+const isReviewAutocomplete = true;
 
 /**
  * The review of a local model's branch, raised as a subtask on the same branch, so the merge of
@@ -32,7 +32,7 @@ export async function raiseReviewTask(
 	const reviewTaskId = await createTask(supabase, task.projectId, seed, raisedBy);
 	await setTaskBranch(supabase, reviewTaskId, { branchName });
 	await setTaskBuildable(supabase, reviewTaskId, { isBuildable: true, modelNeeded: build.reviewModelId });
-	await setTaskAutocomplete(supabase, reviewTaskId, autocompleteOn);
+	await setTaskAutocomplete(supabase, reviewTaskId, isReviewAutocomplete);
 	return reviewTaskId;
 }
 

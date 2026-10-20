@@ -22,7 +22,7 @@ const task = parseTaskRecord({
 });
 
 function candidate(queuePlace: number): BuildCandidate {
-	return { task, projectName: 'YourBusinessToday', goalSetting: true, isWaiting: false, queuePlace };
+	return { task, projectName: 'YourBusinessToday', isGoalAutocomplete: true, isWaiting: false, queuePlace };
 }
 
 describe('buildQueueEntries', () => {

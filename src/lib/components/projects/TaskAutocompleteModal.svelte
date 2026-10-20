@@ -8,9 +8,9 @@
 
 	let {
 		task,
-		goalSetting,
+		isGoalAutocomplete,
 		isOpen = $bindable()
-	}: { task: ProjectTask; goalSetting: boolean | null; isOpen: boolean } = $props();
+	}: { task: ProjectTask; isGoalAutocomplete: boolean | null; isOpen: boolean } = $props();
 
 	const tracker = new FormTracker();
 	const currentChoice = $derived(choiceForSetting(task.autocompleteSetting));
@@ -25,7 +25,7 @@
 		<p class="text-sm text-chalk/60">{task.title}</p>
 		<p class="text-xs text-chalk/45">
 			When it is on, an AI running on a schedule may take this task through to a merged pull request
-			without asking. {autocompleteSentence(task.autocompleteSetting, goalSetting)}
+			without asking. {autocompleteSentence(task.autocompleteSetting, isGoalAutocomplete)}
 		</p>
 		<FormErrorNote message={tracker.errorMessage} />
 		<div class="grid grid-cols-3 gap-2" class:animate-pulse={tracker.isSaving}>

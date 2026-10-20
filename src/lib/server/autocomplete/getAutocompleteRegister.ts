@@ -44,13 +44,13 @@ function registerGoal(row: Row): RegisterGoal {
 
 function registerTask(row: Row, goalRows: Row[]): RegisterTask {
 	const goal = goalRows.find((goalRow) => goalRow.id === row.goal_id);
-	const goalSetting = goal === undefined ? null : parseGoalAutocomplete(goal.is_autocomplete);
+	const isGoalAutocomplete = goal === undefined ? null : parseGoalAutocomplete(goal.is_autocomplete);
 	const setting = parseTaskAutocomplete(row.is_autocomplete);
 	return {
 		id: row.id as string,
 		title: row.title as string,
 		goalId: (row.goal_id as string) ?? null,
 		setting,
-		isAutocomplete: isTaskAutocomplete(setting, goalSetting)
+		isAutocomplete: isTaskAutocomplete(setting, isGoalAutocomplete)
 	};
 }

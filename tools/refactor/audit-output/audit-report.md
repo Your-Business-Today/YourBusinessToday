@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-10-20 15:55 UTC.
+Generated 2026-10-20 16:39 UTC.
 
 ## Headline
 
@@ -41,15 +41,15 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
 | backend | 754 | 744 | 23,673 |
-| frontend | 647 | 524 | 18,254 |
-| shared | 298 | 290 | 9,465 |
-| tests | 201 | 192 | 7,467 |
+| frontend | 648 | 524 | 18,254 |
+| shared | 304 | 290 | 9,465 |
+| tests | 202 | 192 | 7,467 |
 | api | 199 | 199 | 9,307 |
 | database | 127 | 0 | 0 |
 | tooling | 120 | 5 | 138 |
 | docs | 59 | 0 | 0 |
 | infrastructure | 14 | 0 | 0 |
-| **whole repository** | **2,419** | **1,954** | **68,304** |
+| **whole repository** | **2,427** | **1,954** | **68,304** |
 
 ## Summary
 
@@ -59,8 +59,8 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 2583, elseBlocks: 0, ifBlocks: 2865, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
-| duplication | clones: 0, duplicatedLines: 0, totalLines: 66593, duplicatedPercentage: 0.0, carriedFromBaseline: True |
-| naming | bannedAbbreviationHits: 28, unprefixedBooleans: 9 |
+| duplication | clones: 0, duplicatedLines: 0, totalLines: 69822, duplicatedPercentage: 0.0 |
+| naming | bannedAbbreviationHits: 28, unprefixedBooleans: 1 |
 | comments | explanatoryCommentLines: 0, filesWithComments: 0, taskMarkers: 0 |
 | magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 0 |
 | prose | longMemberChainLines: 0, deeplyIndentedLines: 0, overlongLines: 154, measurementIsHeuristic: True |
@@ -70,7 +70,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | inventory | pages: 50, components: 431, orphanComponents: 0, averagePageLines: 45 |
 | siteDefinition | skipped: no siteDefinition catalogue in rules.json |
 | inputValidation | schemaTables: 115, limitedColumns: 0, writeDoors: 149, unvalidatedDoors: 0, looserLimits: 0 |
-| fileAreas | totalFiles: 2419, backend: 754, frontend: 647, shared: 298, tests: 201, api: 199, database: 127, tooling: 120, docs: 59, infrastructure: 14 |
+| fileAreas | totalFiles: 2427, backend: 754, frontend: 648, shared: 304, tests: 202, api: 199, database: 127, tooling: 120, docs: 59, infrastructure: 14 |
 
 ## Against the baseline
 

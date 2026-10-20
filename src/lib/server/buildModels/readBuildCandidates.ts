@@ -12,7 +12,7 @@ const unqueued = Number.POSITIVE_INFINITY;
 export type BuildCandidate = {
 	task: ProjectTask;
 	projectName: string;
-	goalSetting: boolean | null;
+	isGoalAutocomplete: boolean | null;
 	isWaiting: boolean;
 	queuePlace: number;
 };
@@ -48,7 +48,7 @@ function parseCandidate(row: Record<string, unknown>): BuildCandidate {
 	const task = parseTaskRecord(row);
 	const queuePlace = task.globalPriority ?? parent?.global_priority ?? unqueued;
 	const projectName = project?.name ?? '';
-	return { task, projectName, goalSetting: goal?.is_autocomplete ?? null, isWaiting, queuePlace };
+	return { task, projectName, isGoalAutocomplete: goal?.is_autocomplete ?? null, isWaiting, queuePlace };
 }
 
 /** A subtask takes its parent's place in the queue, so a review follows the work it reviews. */

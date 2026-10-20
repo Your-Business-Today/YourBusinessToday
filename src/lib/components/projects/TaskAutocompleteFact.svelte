@@ -3,13 +3,13 @@
 	import { autocompleteSentence } from '$lib/data/autocomplete';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
-	let { task, goalSetting }: { task: ProjectTask; goalSetting: boolean | null } = $props();
+	let { task, isGoalAutocomplete }: { task: ProjectTask; isGoalAutocomplete: boolean | null } = $props();
 
 	let isModalOpen = $state(false);
 </script>
 
 <div class="flex items-center justify-between gap-3 border-t border-hairline px-4 py-3 text-sm">
-	<p class="font-display text-chalk/70">{autocompleteSentence(task.autocompleteSetting, goalSetting)}</p>
+	<p class="font-display text-chalk/70">{autocompleteSentence(task.autocompleteSetting, isGoalAutocomplete)}</p>
 	<button
 		type="button"
 		onclick={() => (isModalOpen = true)}
@@ -20,4 +20,4 @@
 	</button>
 </div>
 
-<TaskAutocompleteModal {task} {goalSetting} bind:isOpen={isModalOpen} />
+<TaskAutocompleteModal {task} {isGoalAutocomplete} bind:isOpen={isModalOpen} />

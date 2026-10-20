@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-20T15:55:53+00:00",
+  "generatedAt": "2026-10-20T16:39:34+00:00",
   "kitVersion": "1.26.0",
   "score": {
     "overall": 100.0,
@@ -276,13 +276,12 @@
     "duplication": {
       "clones": 0,
       "duplicatedLines": 0,
-      "totalLines": 66593,
-      "duplicatedPercentage": 0.0,
-      "carriedFromBaseline": true
+      "totalLines": 69822,
+      "duplicatedPercentage": 0.0
     },
     "naming": {
       "bannedAbbreviationHits": 28,
-      "unprefixedBooleans": 9
+      "unprefixedBooleans": 1
     },
     "comments": {
       "explanatoryCommentLines": 0,
@@ -334,11 +333,11 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2419,
+      "totalFiles": 2427,
       "backend": 754,
-      "frontend": 647,
-      "shared": 298,
-      "tests": 201,
+      "frontend": 648,
+      "shared": 304,
+      "tests": 202,
       "api": 199,
       "database": 127,
       "tooling": 120,
@@ -392,7 +391,7 @@
       "name": "naming",
       "summary": {
         "bannedAbbreviationHits": 28,
-        "unprefixedBooleans": 9
+        "unprefixedBooleans": 1
       },
       "offenders": {
         "abbreviations": [
@@ -511,49 +510,9 @@
         ],
         "booleans": [
           {
-            "file": "src/lib/data/autocomplete.ts",
-            "line": 37,
-            "name": "goalSetting"
-          },
-          {
-            "file": "src/lib/data/autocomplete.ts",
-            "line": 55,
-            "name": "goalSetting"
-          },
-          {
-            "file": "src/lib/data/autocomplete.ts",
-            "line": 60,
-            "name": "goalSetting"
-          },
-          {
             "file": "src/lib/data/taskComplexity.ts",
             "line": 4,
             "name": "changesDataStructure"
-          },
-          {
-            "file": "src/lib/server/buildModels/raiseReviewTask.ts",
-            "line": 11,
-            "name": "autocompleteOn"
-          },
-          {
-            "file": "src/lib/server/buildModels/readBuildCandidates.ts",
-            "line": 15,
-            "name": "goalSetting"
-          },
-          {
-            "file": "src/lib/server/mcp/actions/promiseField.ts",
-            "line": 8,
-            "name": "promiseIsNotAutocomplete"
-          },
-          {
-            "file": "src/lib/components/projects/TaskAutocompleteFact.svelte",
-            "line": 6,
-            "name": "goalSetting"
-          },
-          {
-            "file": "src/lib/components/projects/TaskAutocompleteModal.svelte",
-            "line": 13,
-            "name": "goalSetting"
           }
         ]
       }
@@ -3026,11 +2985,11 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2419,
+        "totalFiles": 2427,
         "backend": 754,
-        "frontend": 647,
-        "shared": 298,
-        "tests": 201,
+        "frontend": 648,
+        "shared": 304,
+        "tests": 202,
         "api": 199,
         "database": 127,
         "tooling": 120,
@@ -3046,19 +3005,19 @@
         },
         {
           "area": "frontend",
-          "files": 647,
+          "files": 648,
           "sourceFiles": 524,
           "sourceLines": 18254
         },
         {
           "area": "shared",
-          "files": 298,
+          "files": 304,
           "sourceFiles": 290,
           "sourceLines": 9465
         },
         {
           "area": "tests",
-          "files": 201,
+          "files": 202,
           "sourceFiles": 192,
           "sourceLines": 7467
         },
@@ -3113,9 +3072,8 @@
       "summary": {
         "clones": 0,
         "duplicatedLines": 0,
-        "totalLines": 66593,
-        "duplicatedPercentage": 0.0,
-        "carriedFromBaseline": true
+        "totalLines": 69822,
+        "duplicatedPercentage": 0.0
       },
       "offenders": []
     }

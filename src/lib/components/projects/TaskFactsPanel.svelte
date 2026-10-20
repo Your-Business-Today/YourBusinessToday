@@ -44,5 +44,5 @@
 			{/if}
 		</dd>
 	</dl>
-	<TaskAutocompleteFact {task} goalSetting={goal?.isAutocomplete ?? null} />
+	<TaskAutocompleteFact {task} isGoalAutocomplete={goal?.isAutocomplete ?? null} />
 </DashboardPanel>
