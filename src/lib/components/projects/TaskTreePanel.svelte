@@ -6,7 +6,6 @@
 	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { accountNameLookup } from '$lib/data/accountNames';
 	import { backlogEmptyMessage } from './backlogEmptyMessage';
-	import { countTasksInTree } from './taskTreeCounts';
 	import { postListReorder } from '$lib/client/postListReorder';
 	import { rememberOpenRows } from '$lib/client/openRows.svelte';
 	import { createTaskRowActions, type TaskRowHandlers, type TaskRowSources } from './taskRowActions';
@@ -60,7 +59,7 @@
 	}
 </script>
 
-<DashboardPanel title="Backlog" count={countTasksInTree(visibleTasks)}>
+<DashboardPanel title="Backlog" count={backlog.countOf(visibleTasks)}>
 	{#snippet toolbar()}
 		<BacklogFilterBar {backlog} people={sources.people} viewerId={sources.viewerId} />
 	{/snippet}
@@ -69,7 +68,13 @@
 	{:else}
 		<div class="flex flex-col">
 			{#each taskGroups as group (groupKeyOf(group))}
-				<TaskGroupSection {group} {projectId} {listReorder} {actions} />
+				<TaskGroupSection
+					{group}
+					taskCount={backlog.countOf(group.tasks)}
+					{projectId}
+					{listReorder}
+					{actions}
+				/>
 			{/each}
 		</div>
 	{/if}

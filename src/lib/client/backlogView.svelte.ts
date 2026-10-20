@@ -3,6 +3,7 @@ import {
 	onlyTasksWhere,
 	withoutDoneTasks
 } from '$lib/components/projects/taskTreeFilters';
+import { countTasksInTree } from '$lib/components/projects/taskTreeCounts';
 import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 export type TaskPredicate = (task: TaskTreeNode) => boolean;
@@ -34,6 +35,15 @@ export class BacklogView {
 
 	get visibleTasks(): TaskTreeNode[] {
 		return this.visibleTasksOf(this.#sources.taskTree());
+	}
+
+	/**
+	 * How many of the shown tasks the filters asked for. A parent shown only to
+	 * hold a matching subtask is not counted, so the count agrees with the chip.
+	 */
+	countOf(visibleTasks: TaskTreeNode[]): number {
+		if (!this.#isNarrowed) return countTasksInTree(visibleTasks);
+		return countTasksWhere(visibleTasks, (task) => this.#isWanted(task));
 	}
 
 	assignedCountFor(personId: string): number {
