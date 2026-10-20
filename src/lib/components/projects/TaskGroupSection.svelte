@@ -1,7 +1,6 @@
 <script lang="ts">
 	import TaskGroupHeader from './TaskGroupHeader.svelte';
 	import TaskListRow from './TaskListRow.svelte';
-	import { countTasksInTree } from './taskTreeCounts';
 	import { openRows } from '$lib/client/openRows.svelte';
 	import type { ListReorder } from '$lib/client/listReorder.svelte';
 	import { groupKeyOf, type TaskGroup } from './taskTreeGroups';
@@ -9,11 +8,13 @@
 
 	let {
 		group,
+		taskCount,
 		projectId,
 		listReorder,
 		actions
 	}: {
 		group: TaskGroup;
+		taskCount: number;
 		projectId: string;
 		listReorder: ListReorder;
 		actions: TaskRowActions;
@@ -22,7 +23,6 @@
 	const { goal, tasks } = $derived(group);
 	const openRowKey = $derived(goal?.id ?? `no-goal-${projectId}`);
 	const isOpen = $derived(openRows.isOpen(openRowKey));
-	const taskCount = $derived(countTasksInTree(tasks));
 	const taskCountLabel = $derived(taskCount === 1 ? '1 task' : `${taskCount} tasks`);
 	const panelId = $derived(`task-group-${groupKeyOf(group)}`);
 </script>
