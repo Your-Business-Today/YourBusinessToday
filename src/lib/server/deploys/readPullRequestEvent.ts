@@ -1,3 +1,5 @@
+import { commitShaOrNone } from '$lib/data/commitSha';
+
 export type PullRequestChange = 'opened' | 'merged';
 
 export const pullRequestChanges = { opened: 'opened', merged: 'merged' } as const;
@@ -7,11 +9,12 @@ export type PullRequestEvent = {
 	branchName: string;
 	url: string;
 	repositoryUrl: string;
+	mergeCommitSha: string;
 };
 
 type GithubPullRequestEvent = {
 	action?: string;
-	pull_request?: { merged?: boolean; html_url?: string; head?: { ref?: string } };
+	pull_request?: { merged?: boolean; html_url?: string; merge_commit_sha?: string | null; head?: { ref?: string } };
 	repository?: { html_url?: string };
 };
 
@@ -27,7 +30,8 @@ export function readPullRequestEvent(event: unknown): PullRequestEvent | null {
 	const url = pullRequest?.html_url ?? '';
 	const repositoryUrl = repository?.html_url ?? '';
 	if (change === null || branchName === '' || url === '' || repositoryUrl === '') return null;
-	return { change, branchName, url, repositoryUrl };
+	const mergeCommitSha = change === pullRequestChanges.merged ? commitShaOrNone(pullRequest?.merge_commit_sha) : '';
+	return { change, branchName, url, repositoryUrl, mergeCommitSha };
 }
 
 function changeOf(action: string | undefined, isMerged: boolean): PullRequestChange | null {

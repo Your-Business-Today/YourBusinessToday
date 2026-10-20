@@ -1,3 +1,4 @@
+import { commitShaOrNone } from '$lib/data/commitSha';
 import { outcomeOf, type FinishedRun } from '$lib/data/mainRun';
 
 export const productionDeployCheck = 'Production deploy';
@@ -8,7 +9,7 @@ const failingStates: ReadonlySet<string> = new Set(['failure', 'error']);
 
 type DeploymentStatusEvent = {
 	deployment_status?: { state?: string; log_url?: string; target_url?: string; updated_at?: string };
-	deployment?: { id?: number; environment?: string };
+	deployment?: { id?: number; environment?: string; sha?: string };
 	repository?: { html_url?: string };
 };
 
@@ -26,6 +27,7 @@ export function readDeploymentStatusEvent(event: unknown, receivedAt: Date): Fin
 		isProductionDeploy: true,
 		checkName: productionDeployCheck,
 		runId: String(deployment.id),
+		commitSha: commitShaOrNone(deployment.sha),
 		outcome,
 		runUrl: status?.log_url || status?.target_url || '',
 		finishedAt: status?.updated_at ?? receivedAt.toISOString()

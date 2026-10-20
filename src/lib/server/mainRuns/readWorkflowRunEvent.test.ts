@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readWorkflowRunEvent } from './readWorkflowRunEvent';
 
 const receivedAt = new Date('2026-10-13T12:00:00Z');
+const commitSha = 'd'.repeat(40);
 const repository = { html_url: 'https://github.com/Your-Business-Today/YourBusinessToday' };
 
 function completedRun(conclusion: string | null) {
@@ -11,6 +12,7 @@ function completedRun(conclusion: string | null) {
 			id: 42,
 			name: 'run migrations',
 			head_branch: 'main',
+			head_sha: commitSha,
 			conclusion,
 			html_url: 'https://github.com/Your-Business-Today/YourBusinessToday/actions/runs/42',
 			updated_at: '2026-10-13T11:59:00Z'
@@ -27,6 +29,7 @@ describe('a workflow run GitHub says has finished', () => {
 			isProductionDeploy: false,
 			checkName: 'run migrations',
 			runId: '42',
+			commitSha,
 			outcome: 'failed',
 			runUrl: 'https://github.com/Your-Business-Today/YourBusinessToday/actions/runs/42',
 			finishedAt: '2026-10-13T11:59:00Z'

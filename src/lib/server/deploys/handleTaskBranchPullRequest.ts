@@ -1,4 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { awaitMergeDeploy } from '$lib/server/mergeDeploys/awaitMergeDeploy';
+import { awaitingDeployMessage } from '$lib/server/mergeDeploys/mergeDeployMessages';
+import { bringMergesLive } from '$lib/server/mergeDeploys/bringMergesLive';
 import { findProjectsByRepository } from './findProjectsByRepository';
 import { findTasksOnBranch } from '$lib/server/projects/findTasksOnBranch';
 import { postMessage } from '$lib/server/conversations/postMessage';
@@ -15,7 +18,10 @@ const nobodySignedIn = null;
 
 export type BranchOutcome = { kind: 'no_task_on_branch' } | { kind: 'recorded'; taskIds: string[] };
 
-/** A pull request from a task's branch is recorded on the task; its merge marks the task done. */
+/**
+ * A pull request from a task's branch is recorded on the task. Its merge marks the task done once the merge's
+ * checks on the default branch pass, or at once on a project where no checks report there.
+ */
 export async function handleTaskBranchPullRequest(
 	supabase: SupabaseClient,
 	pullRequest: PullRequestEvent
@@ -44,6 +50,12 @@ async function recordOnTask(
 	if (task.kind === supportTaskKind) {
 		const sentence = `${merged}. Resolve this with the answer the person who raised it will read.`;
 		await postMessage(supabase, { taskId: task.id }, project.ownerId, sentence);
+		return;
+	}
+	const isAwaitingDeploy = await awaitMergeDeploy(supabase, task.id, project, pullRequest);
+	if (isAwaitingDeploy) {
+		await postMessage(supabase, { taskId: task.id }, project.ownerId, awaitingDeployMessage(merged, project));
+		await bringMergesLive(supabase, project);
 		return;
 	}
 	await updateTaskStatus(supabase, task.id, doneTaskStatus, nobodySignedIn);

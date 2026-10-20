@@ -32,6 +32,13 @@ describe('a deployment status GitHub passes on from Vercel', () => {
 		expect(readDeploymentStatusEvent(deploymentStatus('Production', 'success'), receivedAt)?.outcome).toBe('passed');
 	});
 
+	it('names the commit it deployed', () => {
+		const commitSha = 'f'.repeat(40);
+		const event = deploymentStatus('Production', 'success');
+		const deployedCommit = { ...event, deployment: { ...event.deployment, sha: commitSha } };
+		expect(readDeploymentStatusEvent(deployedCommit, receivedAt)?.commitSha).toBe(commitSha);
+	});
+
 	it('is nothing for a preview, or a deployment still building', () => {
 		expect(readDeploymentStatusEvent(deploymentStatus('Preview', 'failure'), receivedAt)).toBeNull();
 		expect(readDeploymentStatusEvent(deploymentStatus('Production', 'pending'), receivedAt)).toBeNull();

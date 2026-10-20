@@ -1,6 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { findProjectsByRepository } from '$lib/server/deploys/findProjectsByRepository';
 import { mainRunOutcomes, type FinishedRun } from '$lib/data/mainRun';
+import { handleCommitCheck } from '$lib/server/mergeDeploys/handleCommitCheck';
+import { isOnDefaultBranch } from './isOnDefaultBranch';
 import { raiseFailedRunTask } from './raiseFailedRunTask';
 import { recordMainRun } from './recordMainRun';
 import type { Project } from '$lib/server/projects/projectRecord';
@@ -11,7 +13,10 @@ export type FinishedRunOutcome =
 
 type RecordedRun = { projectId: string; isNew: boolean; fixTaskId: string | null };
 
-/** A finished run on a project's default branch becomes its latest for that check; a new failure raises a FIX. */
+/**
+ * A finished run on a project's default branch becomes its latest for that check. A failure on a task's merge is
+ * told on that task; any other new failure raises a FIX.
+ */
 export async function handleFinishedRun(
 	supabase: SupabaseClient,
 	run: FinishedRun | null
@@ -25,13 +30,10 @@ export async function handleFinishedRun(
 	return { kind: 'recorded', projects: recorded };
 }
 
-function isOnDefaultBranch(run: FinishedRun, project: Project): boolean {
-	return run.isProductionDeploy || run.branch === project.defaultBranch;
-}
-
 async function recordAndRaise(supabase: SupabaseClient, project: Project, run: FinishedRun): Promise<RecordedRun> {
 	const isNew = await recordMainRun(supabase, project.id, run);
-	const isNewFailure = isNew && run.outcome === mainRunOutcomes.failed;
+	const isMergeFailure = await handleCommitCheck(supabase, project, run);
+	const isNewFailure = isNew && run.outcome === mainRunOutcomes.failed && !isMergeFailure;
 	const fixTaskId = isNewFailure ? await raiseFailedRunTask(supabase, project, run) : null;
 	return { projectId: project.id, isNew, fixTaskId };
 }
