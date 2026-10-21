@@ -1,11 +1,11 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { beginGoogleSignIn } from '$lib/server/auth/beginGoogleSignIn';
-import { callbackUrlFor } from '$lib/server/auth/callbackUrlFor';
 import { createAccountWithPassword } from '$lib/server/auth/createAccountWithPassword';
 import { readEmailAndPassword } from '$lib/server/auth/emailAndPassword';
 import { destinationAfterSignIn } from '$lib/server/auth/localDestination';
 import { problemWithCredentials, problemWithEmailAddress } from '$lib/server/auth/passwordRules';
-import { sendPasswordResetEmail } from '$lib/server/auth/sendPasswordResetEmail';
+import { sendUserPasswordReset } from '$lib/server/admin/sendUserPasswordReset';
+import { emailSendAllowance, tooManyEmailsMessage } from '$lib/server/auth/emailSendAllowance';
 import { signInWithPassword } from '$lib/server/auth/signInWithPassword';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -54,25 +54,25 @@ export const actions: Actions = {
 		if (signInProblem !== null) return problemResponse(signInProblem);
 		redirect(303, await destinationAfterSignIn(locals, readDestination(formData)));
 	},
-	createAccount: async ({ locals, request, url }) => {
+	createAccount: async ({ request, url, getClientAddress }) => {
 		const formData = await request.formData();
 		const credentials = readEmailAndPassword(formData);
 		const inputProblem = problemWithCredentials(credentials);
 		if (inputProblem !== null) return problemResponse(inputProblem);
-		const verificationLink = callbackUrlFor(url.origin, readDestination(formData));
-		const signUpProblem = await createAccountWithPassword(
-			locals.supabase,
-			credentials,
-			verificationLink
-		);
+		const isAllowed = emailSendAllowance.isAllowedFrom(getClientAddress());
+		if (!isAllowed) return problemResponse(tooManyEmailsMessage);
+		const destination = readDestination(formData);
+		const signUpProblem = await createAccountWithPassword({ credentials, origin: url.origin, destination });
 		if (signUpProblem !== null) return problemResponse(signUpProblem);
 		return noticeResponse(confirmationEmailSent);
 	},
-	sendPasswordReset: async ({ locals, request, url }) => {
+	sendPasswordReset: async ({ request, url, getClientAddress }) => {
 		const { emailAddress } = readEmailAndPassword(await request.formData());
 		const inputProblem = problemWithEmailAddress(emailAddress);
 		if (inputProblem !== null) return problemResponse(inputProblem);
-		await sendPasswordResetEmail(locals.supabase, emailAddress, url.origin);
+		const isAllowed = emailSendAllowance.isAllowedFrom(getClientAddress());
+		if (!isAllowed) return problemResponse(tooManyEmailsMessage);
+		await sendUserPasswordReset(emailAddress, url.origin);
 		return noticeResponse(resetEmailSent);
 	}
 };

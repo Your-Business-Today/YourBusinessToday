@@ -1,4 +1,4 @@
-import { mintRecoveryLink, recoveryLinkFrom, setPasswordPath, type RecoveryLink } from './mintRecoveryLink';
+import { mintRecoveryLink, recoveryLinkFrom, type RecoveryLink } from './mintRecoveryLink';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 
 export type SignInLink = RecoveryLink;
@@ -10,11 +10,7 @@ export type SignInLink = RecoveryLink;
  */
 export async function mintSignInLink(email: string, origin: string): Promise<SignInLink> {
 	const { auth } = supabaseServiceClient();
-	const invited = await auth.admin.generateLink({
-		type: 'invite',
-		email,
-		options: { redirectTo: `${origin}${setPasswordPath}` }
-	});
+	const invited = await auth.admin.generateLink({ type: 'invite', email });
 	if (invited.error !== null) return mintRecoveryLink(email, origin);
-	return recoveryLinkFrom(invited.data);
+	return recoveryLinkFrom(invited.data, origin);
 }
