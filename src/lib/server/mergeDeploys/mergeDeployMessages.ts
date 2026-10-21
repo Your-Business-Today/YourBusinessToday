@@ -6,6 +6,10 @@ export function awaitingDeployMessage(merged: string, project: Project): string 
 	return `${merged}. This task is done once its checks on ${project.defaultBranch} pass.`;
 }
 
+export function stagingMergeMessage(merged: string, project: Project): string {
+	return `${merged}, so this task is done. It goes live when staging is promoted to ${project.defaultBranch}.`;
+}
+
 export function liveMessage(project: Project): string {
 	return `Its checks on ${project.defaultBranch} passed, so its work is live and this task is done.`;
 }

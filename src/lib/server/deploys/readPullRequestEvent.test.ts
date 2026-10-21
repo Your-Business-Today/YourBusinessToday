@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readPullRequestEvent } from './readPullRequestEvent';
 
 const repository = { html_url: 'https://github.com/owner/repo' };
-const pullRequest = { html_url: 'https://github.com/owner/repo/pull/7', head: { ref: 'fix/rounding' } };
+const pullRequest = { html_url: 'https://github.com/owner/repo/pull/7', head: { ref: 'fix/rounding' }, base: { ref: 'main' } };
 
 describe('a pull request event from GitHub', () => {
 	it('reads an opened pull request', () => {
@@ -10,6 +10,7 @@ describe('a pull request event from GitHub', () => {
 		expect(readPullRequestEvent(event)).toEqual({
 			change: 'opened',
 			branchName: 'fix/rounding',
+			baseBranch: 'main',
 			url: pullRequest.html_url,
 			repositoryUrl: repository.html_url,
 			mergeCommitSha: ''
@@ -29,5 +30,11 @@ describe('a pull request event from GitHub', () => {
 		const abandoned = { action: 'closed', pull_request: pullRequest, repository };
 		expect(readPullRequestEvent(merged)?.change).toBe('merged');
 		expect(readPullRequestEvent(abandoned)).toBeNull();
+	});
+
+	it('reads the branch a pull request merges into', () => {
+		const intoStaging = { ...pullRequest, merged: true, base: { ref: 'staging' } };
+		const event = { action: 'closed', pull_request: intoStaging, repository };
+		expect(readPullRequestEvent(event)?.baseBranch).toBe('staging');
 	});
 });

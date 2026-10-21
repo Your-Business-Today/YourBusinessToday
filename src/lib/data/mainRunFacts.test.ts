@@ -15,4 +15,9 @@ describe('the state of main on a project header', () => {
 		expect(mainRunFacts([passed])).toEqual([]);
 		expect(mainRunFacts([])).toEqual([]);
 	});
+
+	it('names the branch of a check failing on staging', () => {
+		const failed = { checkName: 'run migrations', outcome: 'failed', runUrl: '', finishedAt: '' } as const;
+		expect(mainRunFacts([failed], 'staging')).toEqual([{ label: '✗ run migrations failed on staging' }]);
+	});
 });
