@@ -3,6 +3,7 @@ import { batonSentence } from './batonSentence';
 import { chooseHandOff, handOffFields } from './handOffFields';
 import { longestMessageBody, postMessage } from '$lib/server/conversations/postMessage';
 import { objectSchema, proseField, readOptionalText, textField } from '../actionTypes';
+import { settleOpenQuestions } from '$lib/server/conversations/settleOpenQuestions';
 import { promiseField, promiseOnGoalRefusal, raisePromise, readPromise } from './promiseField';
 import { resolveSubject, noSuchSubject } from './resolveSubject';
 import type { McpAction } from '../actionTypes';
@@ -60,7 +61,8 @@ export const postMessageAction: McpAction = {
 		if ('refusal' in choice) return choice.refusal;
 		const origin = { postedVia: postedViaChannels.claude, awaiting: choice.handOff };
 		await postMessage(caller.supabase, resolved.subject, caller.accountId, body, origin);
-		const baton = await batonSentence(caller, choice.handOff);
+		if (choice.isSettlingThread) await settleOpenQuestions(caller.supabase, resolved.subject);
+		const baton = await batonSentence(caller, resolved.subject);
 		const promised = promise === null ? '' : await raisePromise(caller, resolved, promise);
 		return `Posted on "${resolved.title}". ${baton}${promised}`;
 	}
