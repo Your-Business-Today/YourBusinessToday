@@ -1,5 +1,8 @@
 import type { HandOff } from './conversationTurn';
 
+/** The word a writer gives to say a message waits on nobody, settling the thread. */
+export const nobodyWaiting = 'nobody';
+
 export const selfHandOffRefusal =
 	'A message waits on someone only for an answer from them, and nobody asks themselves a ' +
 	'question. A question for the person you are with goes to them in chat, not into this ' +
@@ -16,4 +19,9 @@ export function isWaitingOn(message: { awaiting: HandOff | null }, accountId: st
 /** The baton is for a question to someone else: a writer never hands it to themselves. */
 export function isHandedToWriter(handOff: HandOff | null, writerId: string): boolean {
 	return handOff?.accountId === writerId;
+}
+
+/** Whether the writer said outright that nobody is waiting, rather than leaving it unsaid. */
+export function isNobodyNamed(waitingOn: string | null): boolean {
+	return waitingOn?.trim().toLowerCase() === nobodyWaiting;
 }
