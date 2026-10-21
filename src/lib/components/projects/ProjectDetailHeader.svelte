@@ -11,6 +11,7 @@
 	import { organisationNameLookup } from '$lib/data/organisationFamilies';
 	import { blueprintViewHref, blueprintViews } from '$lib/components/blueprint/blueprintViews';
 	import { mainRunFacts } from '$lib/data/mainRunFacts';
+	import { stagingBranch } from '$lib/data/stagingBranch';
 	import { webAddressLabel } from '$lib/data/webAddressLabel';
 	import type { MainRun } from '$lib/data/mainRun';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
@@ -21,6 +22,7 @@
 		organisations,
 		cadenceLine,
 		mainRuns,
+		stagingRuns,
 		latestKitVersion,
 		onAddTask
 	}: {
@@ -28,6 +30,7 @@
 		organisations: Organisation[];
 		cadenceLine: string;
 		mainRuns: MainRun[];
+		stagingRuns: MainRun[];
 		latestKitVersion: string;
 		onAddTask: () => void;
 	} = $props();
@@ -44,7 +47,8 @@
 			linkFact(project.environmentUrl),
 			hasRepository ? { label: `⎇ ${project.defaultBranch}` } : null,
 			hasRepository ? { label: cadenceLine } : null,
-			...(hasRepository ? mainRunFacts(mainRuns) : [])
+			...(hasRepository ? mainRunFacts(mainRuns) : []),
+			...(hasRepository ? mainRunFacts(stagingRuns, stagingBranch) : [])
 		].filter((fact) => fact !== null)
 	);
 

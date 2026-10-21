@@ -1,16 +1,22 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { FinishedRun } from '$lib/data/mainRun';
+import type { BranchRunTable } from './branchRunTables';
 
 type PreviousRun = { runId: string; finishedAt: string };
 
 /**
- * Keeps the run as its check's latest on the project, and says whether it was new: a redelivered event, or one
- * older than the run already kept, changes nothing.
+ * Keeps the run as its check's latest on the project's branch, and says whether it was new: a redelivered event,
+ * or one older than the run already kept, changes nothing.
  */
-export async function recordMainRun(supabase: SupabaseClient, projectId: string, run: FinishedRun): Promise<boolean> {
-	const previous = await readPreviousRun(supabase, projectId, run.checkName);
+export async function recordMainRun(
+	supabase: SupabaseClient,
+	table: BranchRunTable,
+	projectId: string,
+	run: FinishedRun
+): Promise<boolean> {
+	const previous = await readPreviousRun(supabase, table, projectId, run.checkName);
 	if (previous !== null && !isLaterRun(run, previous)) return false;
-	const { error } = await supabase.from('project_main_runs').upsert(
+	const { error } = await supabase.from(table).upsert(
 		{
 			project_id: projectId,
 			check_name: run.checkName,
@@ -34,11 +40,12 @@ function isLaterRun(run: FinishedRun, previous: PreviousRun): boolean {
 
 async function readPreviousRun(
 	supabase: SupabaseClient,
+	table: BranchRunTable,
 	projectId: string,
 	checkName: string
 ): Promise<PreviousRun | null> {
 	const { data, error } = await supabase
-		.from('project_main_runs')
+		.from(table)
 		.select('run_id, finished_at')
 		.eq('project_id', projectId)
 		.eq('check_name', checkName)
