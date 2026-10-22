@@ -69,7 +69,14 @@ describe('the working doctrine', () => {
 		expect(raisingDoctrine).toContain('find_goals');
 		expect(raisingDoctrine).toContain('find_tasks');
 		expect(raisingDoctrine).toContain('FIX: ');
-		expect(raisingDoctrine).toContain('ask before creating');
+		expect(raisingDoctrine).toContain('ask once before creating');
 		expect(raisingDoctrine).toContain('what happens next');
+	});
+
+	it('raises a plain task at once and a goal with its tasks after one yes, all in one call', () => {
+		expect(raisingDoctrine).toContain('without reading it back');
+		expect(raisingDoctrine).toContain('create_goal_with_tasks');
+		expect(raisingDoctrine).toContain('Never raise a goal and leave its tasks for later');
+		expect(raisingDoctrine).toContain('list_waiting_on_me');
 	});
 });

@@ -1,4 +1,7 @@
 import { describeOwedTasks } from './describeOwedTasks';
+import { describeTasklessGoals } from './describeTasklessGoals';
+import { getTasklessGoalsRaisedBy } from '$lib/server/goals/getTasklessGoalsRaisedBy';
+import { reachableProjectIds } from '../projectAccess';
 import { describeWaitingQuestions } from './describeWaitingQuestions';
 import { getOwedTasks } from './owedTasks';
 import { getWaitingQuestionsFor } from './waitingQuestionsFor';
@@ -29,7 +32,9 @@ export const waitingActions: McpAction[] = [
 			'question names the project, the goal or task, who asked and when; each task names its ' +
 			'project and the latest message on it, with its date. Answer a question with post_message ' +
 			'on the same goal or task; it leaves the list once the person it waits on has spoken there, ' +
-			'or once its task is done. A task leaves it once it is done. read_latest_messages is still ' +
+			'or once its task is done. A task leaves it once it is done. A goal the person raised and ' +
+			'never gave a task is listed first, so nothing they started is left half-made: give it its ' +
+			'tasks or delete it with them. read_latest_messages is still ' +
 			'how new messages are read.',
 		inputSchema: objectSchema({
 			name: titleNameField
@@ -37,10 +42,16 @@ export const waitingActions: McpAction[] = [
 		run: async (caller, input) => {
 			const questions = await describeQuestions(caller);
 			const owed = await getOwedTasks(caller, readOptionalText(input, 'name'));
-			return [everythingHeading, '', questions, '', ...describeOwedTasks(owed)].join('\n');
+			const unfinished = describeTasklessGoals(await getTasklessGoals(caller));
+			const owedLines = describeOwedTasks(owed);
+			return [everythingHeading, '', ...unfinished, questions, '', ...owedLines].join('\n');
 		}
 	}
 ];
+
+async function getTasklessGoals(caller: McpCaller) {
+	return getTasklessGoalsRaisedBy(caller.supabase, reachableProjectIds(caller), caller.accountId);
+}
 
 async function describeQuestions(caller: McpCaller): Promise<string> {
 	const { questions, askers } = await getWaitingQuestionsFor(caller);

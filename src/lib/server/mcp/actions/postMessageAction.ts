@@ -4,6 +4,7 @@ import { chooseHandOff, handOffFields } from './handOffFields';
 import { longestMessageBody, postMessage } from '$lib/server/conversations/postMessage';
 import { objectSchema, proseField, readOptionalText, textField } from '../actionTypes';
 import { settleOpenQuestions } from '$lib/server/conversations/settleOpenQuestions';
+import { applyProgress, progressField, progressRefusal, readProgress } from './progressField';
 import { promiseField, promiseOnGoalRefusal, raisePromise, readPromise } from './promiseField';
 import { resolveSubject, noSuchSubject } from './resolveSubject';
 import type { McpAction } from '../actionTypes';
@@ -27,6 +28,9 @@ const postMessageGuidance =
 	'is never asked of someone else: whoever finishes the work marks it done (update_task_status). ' +
 	'When the person you are with promises something in the message ("I’ll do X"), give it ' +
 	'as promise: it becomes a subtask assigned to them, so it is never lost in prose. ' +
+	'When the message reports work done on the task — by the person you are with or by anyone ' +
+	'they tell you about — give progress, started or finished, without asking: the task moves ' +
+	'to In progress or Done with the message. ' +
 	'When work on a task stops, the work log goes here: ' +
 	'what changed, the branch and pull request it is on, which files or records, the ' +
 	'decisions and why, and which tasks carry what is left — then the person is told in ' +
@@ -45,6 +49,7 @@ export const postMessageAction: McpAction = {
 			taskId: textField('The task to post on — give this or goalId'),
 			body: proseField('What you want to say'),
 			promise: promiseField,
+			progress: progressField,
 			...handOffFields
 		},
 		['body']
@@ -57,6 +62,9 @@ export const postMessageAction: McpAction = {
 		if (resolved === null) return noSuchSubject;
 		const promise = readPromise(input);
 		if (promise !== null && !('taskId' in resolved.subject)) return promiseOnGoalRefusal;
+		const progress = readProgress(input);
+		const isProgressOffTask = progress !== null && !('taskId' in resolved.subject);
+		if (progress === undefined || isProgressOffTask) return progressRefusal;
 		const choice = await chooseHandOff(caller, input, resolved);
 		if ('refusal' in choice) return choice.refusal;
 		const origin = { postedVia: postedViaChannels.claude, awaiting: choice.handOff };
@@ -64,6 +72,7 @@ export const postMessageAction: McpAction = {
 		if (choice.isSettlingThread) await settleOpenQuestions(caller.supabase, resolved.subject);
 		const baton = await batonSentence(caller, resolved.subject);
 		const promised = promise === null ? '' : await raisePromise(caller, resolved, promise);
-		return `Posted on "${resolved.title}". ${baton}${promised}`;
+		const moved = progress === null ? '' : await applyProgress(caller, resolved, progress);
+		return `Posted on "${resolved.title}". ${baton}${promised}${moved}`;
 	}
 };
