@@ -3,7 +3,9 @@
 A file name is a subject and a role: CreateProjectHandler is the Handler of CreateProject. A role many
 subjects share is a family; when nearly every subject with one role also has another, the pattern predicts
 that file for the subjects still missing it. A gap the rules accept is left out of its pattern, so the plan
-never asks for a file the repository has already said it does not need.
+never asks for a file the repository has already said it does not need. A partial type's part named for a
+subject the rules list (ProjectContext.People.cs, one area's share of the context) is a slice of that type,
+not a role, so it forms no family.
 """
 from __future__ import annotations
 
@@ -18,20 +20,28 @@ COOCCURRENCE_THRESHOLD = 0.75
 SUBJECT_AND_ROLE_WORDS = 2
 
 
-def subjectAndRole(relative: str) -> tuple[str, str] | None:
+def isPartNamedForASubject(stem: str, subjectParts: frozenset[str]) -> bool:
+    typeName, separator, part = stem.rpartition(".")
+    return bool(separator) and part in subjectParts
+
+
+def subjectAndRole(relative: str, subjectParts: frozenset[str] = frozenset()) -> tuple[str, str] | None:
     path = PurePosixPath(relative)
     if path.name.startswith("+"):
         return path.parent.as_posix(), path.name
-    words = wordsOf(path.name.rsplit(".", 1)[0])
+    stem = path.name.rsplit(".", 1)[0]
+    if isPartNamedForASubject(stem, subjectParts):
+        return None
+    words = wordsOf(stem)
     if len(words) < SUBJECT_AND_ROLE_WORDS:
         return None
     return "-".join(words[:-1]), words[-1]
 
 
-def filesByRole(sourceFiles: list[SourceFile], minimumFamilySize: int) -> dict[str, dict[str, str]]:
+def filesByRole(sourceFiles: list[SourceFile], minimumFamilySize: int, subjectParts: frozenset[str] = frozenset()) -> dict[str, dict[str, str]]:
     files: dict[str, dict[str, str]] = defaultdict(dict)
     for sourceFile in sourceFiles:
-        named = subjectAndRole(sourceFile.relative)
+        named = subjectAndRole(sourceFile.relative, subjectParts)
         if named:
             files[named[1]][named[0]] = sourceFile.relative
     return {role: members for role, members in files.items() if len(members) >= minimumFamilySize}
@@ -65,7 +75,8 @@ def withoutAcceptedGaps(pattern: dict, acceptedGaps: set[str]) -> dict:
 
 
 def measure(sourceFiles: list[SourceFile], patternRules: dict) -> dict:
-    families = filesByRole(sourceFiles, patternRules.get("minimumFamilySize", MINIMUM_FAMILY_SIZE))
+    subjectParts = frozenset(patternRules.get("subjectParts", []))
+    families = filesByRole(sourceFiles, patternRules.get("minimumFamilySize", MINIMUM_FAMILY_SIZE), subjectParts)
     threshold = patternRules.get("cooccurrenceThreshold", COOCCURRENCE_THRESHOLD)
     acceptedGaps = set(patternRules.get("acceptedGaps", []))
     patterns = [
