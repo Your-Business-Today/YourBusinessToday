@@ -22,6 +22,8 @@ export const askingDoctrine = [
 	'   on them, never only on WhatsApp, email or a call: an ask that is not on the task is one',
 	'   their Claude cannot see, so it is missed. A promise the person you are with makes in a',
 	'   message — "I’ll do X" — goes in post_message’s promise, which raises it as a subtask',
-	'   assigned to them, so it shows in list_waiting_on_me until it is done. Details, measures',
+	'   assigned to them, so it shows in list_waiting_on_me until it is done. Work someone says',
+	'   they have done goes on its task the same way, without asking: post_message with progress',
+	'   started moves the task to In progress, finished marks it done. Details, measures',
 	'   and messages are shown as Markdown: write a list as a list, one point to a line.'
 ];

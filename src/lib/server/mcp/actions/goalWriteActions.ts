@@ -20,7 +20,10 @@ export const goalWriteActions: McpAction[] = [
 			'nothing existing fits. A goal is high level and measurable: the measure says how we ' +
 			'will know it has been met, in words both sides can check. A goal is current — where the ' +
 			'work is being done and the completion percentage counts — or long term, work not going ' +
-			'to be done yet, whose tasks count toward no percentage.',
+			'to be done yet, whose tasks count toward no percentage. A goal is raised with its work: ' +
+			'use create_goal_with_tasks, which raises the goal and its first tasks in one call. Use ' +
+			'this only when the person says the goal stands alone for now; until it has a task it ' +
+			'shows in their list_waiting_on_me, to be given its tasks or deleted.',
 		inputSchema: objectSchema(
 			{
 				projectId: projectIdField,

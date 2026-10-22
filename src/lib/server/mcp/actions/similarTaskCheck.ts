@@ -19,6 +19,6 @@ export function similarTasksAnswer(title: string, projectName: string, similar: 
 		`Not raised yet: "${title}" looks like ${similar.length} open task(s) on ${projectName}.`,
 		...similar.map(similarTaskLine),
 		'Show these to the person. If one already covers it, post on that task instead. If they still want ' +
-			'theirs, call create_task again with raiseAnyway: true.'
+			'theirs, call the same action again with raiseAnyway: true.'
 	].join('\n');
 }
