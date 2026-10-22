@@ -1,12 +1,16 @@
 """The last pass of the plan: every remaining figure brought to zero, the lowest-scoring element first."""
 from __future__ import annotations
 
+from ..score.element_keys import ElementKey
 from ..score.elements import ELEMENTS
 from .door_steps import doorSteps
 
 SWEEP = "Pass 5 — The sweep to zero"
-HANDLED_BY_EARLIER_PASSES = {"filesOverLimit", "worstFile", "orphans", "predictedFiles", "entityFileCounts", "handRolledWidgets"}
-DOORS_INTO_THE_DATA = "unvalidatedWrites"
+HANDLED_BY_EARLIER_PASSES = {
+    ElementKey.filesOverLimit, ElementKey.worstFile, ElementKey.orphans,
+    ElementKey.predictedFiles, ElementKey.entityFileCounts, ElementKey.handRolledWidgets,
+}
+DOORS_INTO_THE_DATA = ElementKey.unvalidatedWrites
 
 
 def checkNameFor(elementKey: str) -> str:

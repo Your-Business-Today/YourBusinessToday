@@ -1,7 +1,7 @@
 """Renders the score's breakdown as the markdown table the report and the README box share."""
 from __future__ import annotations
 
-THOUSAND_LINES_UNIT = "thousand lines"
+from .elements import THOUSAND_LINES_UNIT
 
 
 def percentage(score: float | None) -> str:

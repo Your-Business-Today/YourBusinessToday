@@ -6,6 +6,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+from .repository_layout import RULES_FILE
+
 
 @dataclass(frozen=True)
 class SourceFile:
@@ -17,9 +19,15 @@ class SourceFile:
     def lineCount(self) -> int:
         return len(self.lines)
 
+    @property
+    def repositoryRoot(self) -> Path:
+        depth = len(Path(self.relative).parts)
+        parts = self.path.parts
+        return Path(*parts[: len(parts) - depth])
+
 
 def loadRules(repositoryRoot: Path) -> dict:
-    rulesPath = repositoryRoot / "tools" / "refactor" / "rules.json"
+    rulesPath = repositoryRoot / RULES_FILE
     return json.loads(rulesPath.read_text())
 
 

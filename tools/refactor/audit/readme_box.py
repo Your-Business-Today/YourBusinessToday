@@ -9,6 +9,7 @@ from pathlib import Path
 
 from .inventory.file_areas import areasLine, areasTable
 from .score.breakdown import breakdownTable, derivation, percentage
+from .site.site_definition import isMeasured
 from .worklist.render import orderedSteps
 
 BOX_START, BOX_END = "<!-- code-quality:start -->", "<!-- code-quality:end -->"
@@ -42,7 +43,7 @@ def scoreBox(audit: dict) -> list[str]:
 
 def siteLine(audit: dict) -> list[str]:
     site = audit["summaries"].get("siteDefinition", {})
-    if "routes" not in site:
+    if not isMeasured(site):
         return []
     return [
         f"The site by route: {site['routes']} routes, {site['siteComponents']} components, {site['handRolledElements']:,} pieces of "

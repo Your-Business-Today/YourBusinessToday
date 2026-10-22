@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..source_files import SourceFile
 
@@ -51,7 +52,7 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
     )
     orphanComponents = [row["component"] for row in reuseRows if row["reusedBy"] == 0]
     return checkResult(
-        "inventory",
+        CheckName.inventory,
         {
             "pages": len(pages),
             "components": len(components),

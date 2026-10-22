@@ -4,6 +4,7 @@ from __future__ import annotations
 import re
 from collections import Counter
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..declarations import DeclaredFunction, declaredFunctions
 from ..source_files import SourceFile, matchesAny
@@ -46,7 +47,7 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
         if function.name and counts[function.name] == 1 and not isCalledByTheFramework(function, orphanRules)
     ]
     return checkResult(
-        "orphans",
+        CheckName.orphans,
         {"orphanFunctions": len(orphanFunctions), "functionsExamined": len(functions)},
         orphanFunctions[:100],
     )

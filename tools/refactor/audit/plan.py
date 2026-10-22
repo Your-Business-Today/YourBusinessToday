@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from .checks import design_patterns
+from .repository_layout import AUDIT_FILE, PLAN_DOCUMENT, PLAN_FILE
 from .source_files import loadRules, resolveSourceFiles
 from .worklist.adoption_steps import adoptionSteps
 from .worklist.function_usage import FunctionUsage
@@ -18,7 +19,6 @@ from .worklist.sweep_steps import sweepSteps
 from .worklist.unboxing_steps import unboxingSteps
 from .worklist.targets import describeTarget, worstFiles
 
-REFACTOR_DIRECTORY = Path("tools") / "refactor"
 RUN_AS_SCRIPT = "__main__"
 
 
@@ -43,14 +43,14 @@ def buildPlan(repositoryRoot: Path, audit: dict) -> dict:
 
 def writePlan(repositoryRoot: Path, audit: dict) -> dict:
     plan = buildPlan(repositoryRoot, audit)
-    (repositoryRoot / REFACTOR_DIRECTORY / "refactor-plan.md").write_text(renderPlan(plan))
-    (repositoryRoot / REFACTOR_DIRECTORY / "audit-output" / "refactor-plan.json").write_text(json.dumps(plan, indent=2))
+    (repositoryRoot / PLAN_DOCUMENT).write_text(renderPlan(plan))
+    (repositoryRoot / PLAN_FILE).write_text(json.dumps(plan, indent=2))
     return plan
 
 
 def main() -> int:
     repositoryRoot = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
-    auditPath = repositoryRoot / REFACTOR_DIRECTORY / "audit-output" / "audit.json"
+    auditPath = repositoryRoot / AUDIT_FILE
     plan = writePlan(repositoryRoot, json.loads(auditPath.read_text()))
     print(f"Wrote tools/refactor/refactor-plan.md: {len(plan['steps'])} steps, in order.")
     return 0

@@ -4,6 +4,7 @@ from __future__ import annotations
 from collections import Counter
 from pathlib import Path
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..source_files import SourceFile, matchesAny
 from .control_labels import labelControls
@@ -16,7 +17,7 @@ from .site_rows import componentRows, routeRows
 from .vocabulary import vocabularyFor
 from .widget_boxes import boxedContentWidgets
 
-NAME = "siteDefinition"
+NAME = CheckName.siteDefinition
 NOT_MEASURED = checkResult(
     NAME, {"skipped": "no siteDefinition catalogue in rules.json"}, {"handRolled": [], "boxedWidgets": []}
 )
@@ -48,10 +49,8 @@ def definitionOf(view: SourceFile, vocabulary) -> list[Definition]:
     return reduceView(labelControls(buildTree(text)), vocabulary.inView(view.relative, layoutOf(text)), isCatalogueWidget)
 
 
-def repositoryRootOf(view: SourceFile) -> Path:
-    depth = len(Path(view.relative).parts)
-    parts = view.path.parts
-    return Path(*parts[: len(parts) - depth])
+def isMeasured(site: dict) -> bool:
+    return "routes" in site
 
 
 def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
@@ -66,7 +65,8 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
     routes = routeRows(views, definitionsByFile, parts, settings)
     usages = sum(widgetUsages(definitions) for definitions in definitionsByFile.values())
     boxed = boxedContentWidgets(views, vocabulary, settings)
-    widgetDesigns = designs(repositoryRootOf(views[0]), settings, sorted(vocabulary.catalogue))
+    firstView = views[0]
+    widgetDesigns = designs(firstView.repositoryRoot, settings, sorted(vocabulary.catalogue))
     return {
         "name": NAME,
         "summary": {

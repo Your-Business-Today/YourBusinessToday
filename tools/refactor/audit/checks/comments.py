@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..source_files import SourceFile
 
@@ -38,7 +39,7 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
             if TASK_MARKER.search(stripped):
                 taskMarkers.append({"file": sourceFile.relative, "line": lineNumber})
     return checkResult(
-        "comments",
+        CheckName.comments,
         {
             "explanatoryCommentLines": commentCount,
             "filesWithComments": len(commentedFiles),

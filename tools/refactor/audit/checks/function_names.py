@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import re
 
+from ..check_names import CheckName
 from ..check_result import checkResult
+from ..declarations import KEYWORDS_MISTAKEN_FOR_NAMES
 from ..source_files import SourceFile
 
 TYPE_DECLARATION = re.compile(r"^\s*(?:public|private|protected|internal|sealed|static|abstract|partial|\s)*\b(?:class|record|struct|interface)\s+(\w+)")
@@ -13,7 +15,6 @@ METHOD_DECLARATION = re.compile(
     r"|^\s*(?:export\s+)?(?:default\s+)?(?:async\s+)?function\s*\*?\s*(\w+)\s*(?:<[^>]*>)?\s*\("
     r"|^\s*(?:export\s+)?(?:const|let)\s+(\w+)\s*(?::[^=]+)?=\s*(?:async\s*)?(?:\([^)]*\)|\w+)\s*(?::\s*[^=]+)?=>"
 )
-KEYWORDS_MISTAKEN_FOR_NAMES = {"if", "for", "foreach", "while", "switch", "catch", "using", "lock", "return", "get", "set"}
 
 
 def declaredName(match: re.Match) -> str:
@@ -49,7 +50,7 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
                     {"file": sourceFile.relative, "line": lineNumber, "name": name}
                 )
     return checkResult(
-        "functionNames",
+        CheckName.functionNames,
         {
             "overlongFunctionNames": len(overlongNames),
             "maxWords": nameRules["maxWords"],

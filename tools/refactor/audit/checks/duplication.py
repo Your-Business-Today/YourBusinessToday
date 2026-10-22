@@ -8,6 +8,7 @@ import tempfile
 from collections import Counter
 from pathlib import Path
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 
 
@@ -56,13 +57,13 @@ def check(repositoryRoot: Path, rules: dict) -> dict:
         reportPath = runJscpd(repositoryRoot, rules, Path(temporaryDirectory))
         if reportPath is None:
             return checkResult(
-                "duplication",
+                CheckName.duplication,
                 {"skipped": "jscpd is not installed (npm install -g jscpd)"},
                 [],
             )
         summary = summariseReport(reportPath, repositoryRoot)
     return checkResult(
-        "duplication",
+        CheckName.duplication,
         {key: value for key, value in summary.items() if key != "hotspots"},
         summary["hotspots"],
     )

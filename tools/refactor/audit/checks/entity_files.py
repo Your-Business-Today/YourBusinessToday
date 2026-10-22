@@ -16,6 +16,7 @@ from ..words import containsPhrase, wordsOf
 PROPERTY_LINE = re.compile(r"^\s*(?:public\s+[\w<>\[\]\?,\s]+\s+\w+\s*\{\s*get|(?:readonly\s+)?\w+\??\s*:\s*[^=]+[;,]?\s*$)")
 MINIMUM_ENTITIES = 4
 FILE_COUNT_BAND = 2.0
+ENTITY_SUFFIXES = ["Entity"]
 
 
 BASE_TYPES = re.compile(r":\s*(?P<bases>[\w\s,<>]+?)\s*(?:\{|$|where\b)")
@@ -58,12 +59,21 @@ def withInheritedProperties(properties: dict[str, int], bases: dict[str, list[st
     return {entity: count for entity, count in counted.items() if count > 0}
 
 
-def fileCounts(sourceFiles: list[SourceFile], entities: list[str]) -> dict[str, int]:
-    longestFirst = sorted(entities, key=lambda entity: len(wordsOf(entity)), reverse=True)
+def subjectOf(entity: str, suffixes: list[str]) -> str:
+    for suffix in suffixes:
+        isSuffixed = entity.endswith(suffix) and len(entity) > len(suffix)
+        if isSuffixed:
+            return entity[: -len(suffix)]
+    return entity
+
+
+def fileCounts(sourceFiles: list[SourceFile], entities: list[str], suffixes: list[str] = ENTITY_SUFFIXES) -> dict[str, int]:
+    subjects = {entity: wordsOf(subjectOf(entity, suffixes)) for entity in entities}
+    longestFirst = sorted(entities, key=lambda entity: len(subjects[entity]), reverse=True)
     counts = {entity: 0 for entity in entities}
     for sourceFile in sourceFiles:
         pathWords = wordsOf(sourceFile.relative)
-        owner = next((entity for entity in longestFirst if containsPhrase(pathWords, wordsOf(entity))), None)
+        owner = next((entity for entity in longestFirst if containsPhrase(pathWords, subjects[entity])), None)
         if owner:
             counts[owner] += 1
     return counts
@@ -73,7 +83,7 @@ def measure(sourceFiles: list[SourceFile], patternRules: dict) -> dict:
     properties = entityProperties(sourceFiles, patternRules.get("entityGlobs", []))
     if len(properties) < patternRules.get("minimumEntities", MINIMUM_ENTITIES):
         return {"entities": 0, "entitiesOutOfRange": 0, "rows": []}
-    counts = fileCounts(sourceFiles, list(properties))
+    counts = fileCounts(sourceFiles, list(properties), patternRules.get("entitySuffixes", ENTITY_SUFFIXES))
     filesPerProperty = median(counts[entity] / properties[entity] for entity in properties)
     band = patternRules.get("fileCountBand", FILE_COUNT_BAND)
     rows = []

@@ -10,18 +10,17 @@ from pathlib import Path
 
 from .plan import writePlan
 from .readme_box import writeBox
+from .repository_layout import AUDIT_FILE, AUDIT_OUTPUT_DIRECTORY
 from .run_audit import audit
 from .site.site_document import writeDocument
 
-OUTPUT_DIRECTORY = Path("tools") / "refactor" / "audit-output"
 RUN_AS_SCRIPT = "__main__"
 
 
 def main() -> int:
     repositoryRoot = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
-    outputDirectory = repositoryRoot / OUTPUT_DIRECTORY
-    audit(repositoryRoot, outputDirectory)
-    auditPayload = json.loads((outputDirectory / "audit.json").read_text())
+    audit(repositoryRoot, repositoryRoot / AUDIT_OUTPUT_DIRECTORY)
+    auditPayload = json.loads((repositoryRoot / AUDIT_FILE).read_text())
     plan = writePlan(repositoryRoot, auditPayload)
     writeBox(repositoryRoot / "README.md", auditPayload, plan["steps"])
     sitePath = writeDocument(repositoryRoot, auditPayload)

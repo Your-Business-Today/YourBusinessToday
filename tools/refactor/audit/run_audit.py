@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 
 from . import report
+from .check_names import CheckName
 from .check_result import checkResult
 from .checks import (
     accessor_names, comments, conditions, design_patterns, duplication, file_length,
@@ -27,7 +28,7 @@ FILE_CHECKS = [
     file_length, function_shape, function_names, accessor_names, naming, comments, magic_values,
     prose, conditions, orphans, design_patterns, pages_and_widgets, site_definition,
 ]
-NOT_MEASURED = checkResult("duplication", {"skipped": "--fast reading with no baseline to carry from"}, [])
+NOT_MEASURED = checkResult(CheckName.duplication, {"skipped": "--fast reading with no baseline to carry from"}, [])
 RUN_AS_SCRIPT = "__main__"
 
 
