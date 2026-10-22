@@ -53,3 +53,23 @@ class ThePlanAgreesWithTheScore(unittest.TestCase):
         self.assertEqual([step["title"] for step in steps], [f"Complete the pattern: {EVERY_HANDLER_HAS_A_VALIDATOR}"])
         self.assertIn(DELETE_VALIDATOR, steps[0]["detail"])
 
+
+
+AREAS = ["Clients", "Sales", "Jobs", "People", "Finance"]
+
+
+def areaPartFiles() -> list:
+    contextParts = [sourceFile(f"Data/Domain/ProjectContext.{area}.cs") for area in AREAS]
+    promoterParts = [sourceFile(f"Integrations/Promoters.{area}.cs") for area in AREAS[:3]]
+    return contextParts + promoterParts
+
+
+class APartNamedForASubjectIsNotARole(unittest.TestCase):
+    def test_area_parts_read_as_roles_when_nobody_named_the_areas(self):
+        measured = pattern_roles.measure(areaPartFiles(), {"minimumFamilySize": 1})
+        self.assertIn("people", measured["roleFamilies"])
+
+    def test_area_parts_form_no_family_once_the_areas_are_named(self):
+        measured = pattern_roles.measure(areaPartFiles(), {"minimumFamilySize": 1, "subjectParts": AREAS})
+        self.assertEqual(measured["roleFamilies"], {})
+        self.assertEqual(measured["predictedFilesMissing"], 0)

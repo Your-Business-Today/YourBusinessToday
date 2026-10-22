@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-10-22 07:00 UTC.
+Generated 2026-10-22 07:07 UTC.
 
 ## Headline
 
@@ -40,16 +40,16 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| backend | 764 | 756 | 24,111 |
+| backend | 766 | 756 | 24,111 |
 | frontend | 648 | 524 | 18,259 |
 | shared | 305 | 291 | 9,486 |
-| tests | 208 | 200 | 7,747 |
-| api | 204 | 208 | 9,799 |
+| tests | 212 | 200 | 7,747 |
+| api | 208 | 208 | 9,799 |
 | database | 130 | 0 | 0 |
 | tooling | 121 | 5 | 138 |
 | docs | 59 | 0 | 0 |
 | infrastructure | 14 | 0 | 0 |
-| **whole repository** | **2,453** | **1,984** | **69,540** |
+| **whole repository** | **2,463** | **1,984** | **69,540** |
 
 ## Summary
 
@@ -59,7 +59,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 2641, elseBlocks: 0, ifBlocks: 2905, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
-| duplication | clones: 0, duplicatedLines: 0, totalLines: 69822, duplicatedPercentage: 0.0, carriedFromBaseline: True |
+| duplication | clones: 0, duplicatedLines: 0, totalLines: 71054, duplicatedPercentage: 0.0 |
 | naming | bannedAbbreviationHits: 32, unprefixedBooleans: 1 |
 | comments | explanatoryCommentLines: 0, filesWithComments: 0, taskMarkers: 0 |
 | magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 0 |
@@ -70,7 +70,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | inventory | pages: 50, components: 431, orphanComponents: 0, averagePageLines: 45 |
 | siteDefinition | skipped: no siteDefinition catalogue in rules.json |
 | inputValidation | schemaTables: 116, limitedColumns: 0, writeDoors: 155, unvalidatedDoors: 0, looserLimits: 0 |
-| fileAreas | totalFiles: 2453, backend: 764, frontend: 648, shared: 305, tests: 208, api: 204, database: 130, tooling: 121, docs: 59, infrastructure: 14 |
+| fileAreas | totalFiles: 2463, backend: 766, frontend: 648, shared: 305, tests: 212, api: 208, database: 130, tooling: 121, docs: 59, infrastructure: 14 |
 
 ## Against the baseline
 

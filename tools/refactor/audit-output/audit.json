@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-22T07:00:30+00:00",
-  "kitVersion": "1.27.0",
+  "generatedAt": "2026-10-22T07:07:36+00:00",
+  "kitVersion": "1.29.0",
   "score": {
     "overall": 100.0,
     "groups": [
@@ -276,9 +276,8 @@
     "duplication": {
       "clones": 0,
       "duplicatedLines": 0,
-      "totalLines": 69822,
-      "duplicatedPercentage": 0.0,
-      "carriedFromBaseline": true
+      "totalLines": 71054,
+      "duplicatedPercentage": 0.0
     },
     "naming": {
       "bannedAbbreviationHits": 32,
@@ -334,12 +333,12 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2453,
-      "backend": 764,
+      "totalFiles": 2463,
+      "backend": 766,
       "frontend": 648,
       "shared": 305,
-      "tests": 208,
-      "api": 204,
+      "tests": 212,
+      "api": 208,
       "database": 130,
       "tooling": 121,
       "docs": 59,
@@ -3002,12 +3001,12 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2453,
-        "backend": 764,
+        "totalFiles": 2463,
+        "backend": 766,
         "frontend": 648,
         "shared": 305,
-        "tests": 208,
-        "api": 204,
+        "tests": 212,
+        "api": 208,
         "database": 130,
         "tooling": 121,
         "docs": 59,
@@ -3016,7 +3015,7 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 764,
+          "files": 766,
           "sourceFiles": 756,
           "sourceLines": 24111
         },
@@ -3034,13 +3033,13 @@
         },
         {
           "area": "tests",
-          "files": 208,
+          "files": 212,
           "sourceFiles": 200,
           "sourceLines": 7747
         },
         {
           "area": "api",
-          "files": 204,
+          "files": 208,
           "sourceFiles": 208,
           "sourceLines": 9799
         },
@@ -3089,9 +3088,8 @@
       "summary": {
         "clones": 0,
         "duplicatedLines": 0,
-        "totalLines": 69822,
-        "duplicatedPercentage": 0.0,
-        "carriedFromBaseline": true
+        "totalLines": 71054,
+        "duplicatedPercentage": 0.0
       },
       "offenders": []
     }
