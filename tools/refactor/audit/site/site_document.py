@@ -8,12 +8,12 @@ import json
 import sys
 from pathlib import Path
 
+from ..repository_layout import AUDIT_FILE
 from ..source_files import loadRules
-from .site_definition import NAME
+from .site_definition import NAME, isMeasured
 from .site_designs import designsStanding
 from .site_tables import boxedWidgetTable, componentTable, designTable, handRolledTable
 
-REFACTOR_DIRECTORY = Path("tools") / "refactor"
 DOCUMENT_WHEN_UNSET = "tools/refactor/site-definition.md"
 RUN_AS_SCRIPT = "__main__"
 NOT_MEASURED = "The site definition is not measured: name the shared widgets in rules.json under siteDefinition.catalogue, then read again."
@@ -65,7 +65,7 @@ def documentPath(repositoryRoot: Path) -> Path:
 
 def writeDocument(repositoryRoot: Path, audit: dict) -> Path | None:
     site = audit["details"].get(NAME, {})
-    if "routes" not in site:
+    if not isMeasured(site):
         return None
     path = documentPath(repositoryRoot)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -75,7 +75,7 @@ def writeDocument(repositoryRoot: Path, audit: dict) -> Path | None:
 
 def main() -> int:
     repositoryRoot = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
-    audit = json.loads((repositoryRoot / REFACTOR_DIRECTORY / "audit-output" / "audit.json").read_text())
+    audit = json.loads((repositoryRoot / AUDIT_FILE).read_text())
     path = writeDocument(repositoryRoot, audit)
     print(f"Wrote {path.relative_to(repositoryRoot)}." if path else NOT_MEASURED)
     return 0

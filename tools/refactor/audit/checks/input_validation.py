@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..inputs.doors import readDoors
 from ..inputs.schema_columns import readSchema
@@ -32,5 +33,5 @@ def check(repositoryRoot: Path, sourceFiles: list[SourceFile], rules: dict) -> d
         "looserLimits": len(looser),
     }
     return checkResult(
-        "inputValidation", summary, {"unvalidated": unguarded[:OFFENDER_LIMIT], "looserLimits": looser[:OFFENDER_LIMIT]}
+        CheckName.inputValidation, summary, {"unvalidated": unguarded[:OFFENDER_LIMIT], "looserLimits": looser[:OFFENDER_LIMIT]}
     )

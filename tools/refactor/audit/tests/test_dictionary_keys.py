@@ -7,6 +7,7 @@ from ..checks import magic_values
 from .fixtures import sourceFile
 
 RULES = {"styleTokens": {"markupGlobs": []}}
+VALUE = "archived"
 
 
 def repeatedLiteralsIn(line: str) -> list[str]:
@@ -25,11 +26,14 @@ class DictionaryKeysAreNotMagicValues(unittest.TestCase):
     def test_keys_written_in_a_literal(self):
         self.assertEqual(repeatedLiteralsIn('row = {"literal": literal, "occurrences": count}'), [])
 
+    def test_a_key_on_its_own_indented_line(self):
+        self.assertEqual(repeatedLiteralsIn('        "measurementIsHeuristic": True,'), [])
+
     def test_a_value_is_still_counted(self):
-        self.assertEqual(repeatedLiteralsIn('status = results.get("status", "archived")'), ["archived"])
+        self.assertEqual(repeatedLiteralsIn(f'status = results.get("status", "{VALUE}")'), [VALUE])
 
     def test_a_list_literal_is_still_counted(self):
-        self.assertEqual(repeatedLiteralsIn('prefixes = ["archived"]'), ["archived"])
+        self.assertEqual(repeatedLiteralsIn(f'prefixes = ["{VALUE}"]'), [VALUE])
 
     def test_a_ternary_branch_is_still_counted(self):
         self.assertEqual(repeatedLiteralsIn('label = isPaid ? "settled" : "pending"'), ["settled", "pending"])

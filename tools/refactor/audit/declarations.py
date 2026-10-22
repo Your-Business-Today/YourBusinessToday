@@ -13,7 +13,7 @@ NAME_BEFORE_PARENTHESIS = re.compile(r"(\w+)\s*(?:<[^>()]*>)?\s*\(")
 NAME_BEFORE_ARROW = re.compile(r"\b(?:const|let)\s+(\w+)")
 ATTRIBUTE_LINE = re.compile(r"^\s*(?:\[[\w\.]+.*\]|@\w[\w\.]*(?:\(.*\))?)\s*$")
 SMALLEST_COMPARABLE_BODY = 3
-KEYWORDS_MISTAKEN_FOR_NAMES = {"if", "for", "foreach", "while", "switch", "catch", "using", "lock", "return", "function"}
+KEYWORDS_MISTAKEN_FOR_NAMES = {"if", "for", "foreach", "while", "switch", "catch", "using", "lock", "return", "function", "get", "set"}
 
 
 @dataclass(frozen=True)

@@ -1,6 +1,7 @@
 """Flags accessor functions that glue a type to one of its properties: getAppleColour wants to be apple.colour."""
 from __future__ import annotations
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..declarations import declaredFunctions, declaredTypeNames
 from ..source_files import SourceFile
@@ -41,7 +42,7 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
         if isGluedAccessor(function.name, typeWords, nameRules)
     ]
     return checkResult(
-        "accessorNames",
+        CheckName.accessorNames,
         {"gluedAccessorNames": len(gluedAccessors), "measurementIsHeuristic": True},
         gluedAccessors[:50],
     )

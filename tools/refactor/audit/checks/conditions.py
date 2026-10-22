@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..source_files import SourceFile
 from .prose import isMeasurableCodeLine, stripStringsAndComments
@@ -59,7 +60,7 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
             if comparesToLiteral(condition):
                 literalLines.append({"file": sourceFile.relative, "line": lineNumber})
     return checkResult(
-        "conditions",
+        CheckName.conditions,
         {
             "tangledConditionLines": len(tangledLines),
             "literalComparisonLines": len(literalLines),

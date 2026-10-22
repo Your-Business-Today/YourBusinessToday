@@ -8,6 +8,7 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..source_files import SourceFile, matchesAny
 
@@ -59,7 +60,7 @@ def check(repositoryRoot: Path, sourceFiles: list[SourceFile], rules: dict) -> d
         row["sourceLines"] += sourceFile.lineCount
     populated = sorted((row for row in rows.values() if row["files"]), key=lambda row: row["files"], reverse=True)
     return checkResult(
-        "fileAreas",
+        CheckName.fileAreas,
         {"totalFiles": len(allFiles), **{row["area"]: row["files"] for row in populated}},
         populated,
     )

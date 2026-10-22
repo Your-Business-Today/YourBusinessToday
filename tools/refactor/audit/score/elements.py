@@ -5,15 +5,19 @@ zeroAt. rules.json may override any weight or zeroAt under score.elements.<key>.
 """
 from __future__ import annotations
 
+from .. import figures
+from .element_keys import ElementKey
+
 BASELINE, PATTERNS, PROSE, WIDGETS = "Standard baseline checks", "Design pattern file count", "Prose", "Widget adoption"
 INPUTS = "Input validation"
-ONE = [("constant", "one")]
-FILES = [("fileLength", "totalFiles")]
-FUNCTIONS = [("functionShape", "totalFunctions")]
-BRANCHES = [("functionShape", "ifBlocks")]
-THOUSAND_LINES = [("fileLength", "totalLines")]
-ORPHAN_CANDIDATES = [("inventory", "components"), ("orphans", "functionsExamined")]
-MAGIC_VALUES = [("magicValues", "inlineHexColours"), ("magicValues", "inlineStyleAttributes"), ("magicValues", "repeatedStringLiterals")]
+FILES_UNIT, FUNCTIONS_UNIT, BRANCHES_UNIT, THOUSAND_LINES_UNIT = "files", "functions", "branches", "thousand lines"
+ONE = [figures.ONE]
+FILES = [figures.TOTAL_FILES]
+FUNCTIONS = [figures.TOTAL_FUNCTIONS]
+BRANCHES = [figures.IF_BLOCKS]
+THOUSAND_LINES = [figures.TOTAL_LINES]
+ORPHAN_CANDIDATES = [figures.COMPONENTS, figures.FUNCTIONS_EXAMINED]
+MAGIC_VALUES = [figures.INLINE_HEX_COLOURS, figures.INLINE_STYLE_ATTRIBUTES, figures.REPEATED_STRING_LITERALS]
 
 
 def element(key: str, label: str, group: str, figures: list, per: list, unit: str, zeroAt: float, weight: int) -> dict:
@@ -21,29 +25,30 @@ def element(key: str, label: str, group: str, figures: list, per: list, unit: st
 
 
 ELEMENTS = [
-    element("filesOverLimit", "Files over the line limit", BASELINE, [("fileLength", "filesOverLimit")], FILES, "files", 0.5, 10),
-    element("worstFile", "Worst file, in limits over", BASELINE, [("fileLength", "worstFileTimesOverLimit")], ONE, "", 9, 5),
-    element("functionsOverLimit", "Functions over the line limit", BASELINE, [("functionShape", "functionsOverLimit")], FUNCTIONS, "functions", 0.25, 8),
-    element("elseBlocks", "Else blocks", BASELINE, [("functionShape", "elseBlocks")], BRANCHES, "branches", 0.5, 5),
-    element("duplication", "Duplication %", BASELINE, [("duplication", "duplicatedPercentage")], ONE, "", 20, 8),
-    element("comments", "Explanatory comment lines", BASELINE, [("comments", "explanatoryCommentLines")], THOUSAND_LINES, "thousand lines", 50, 4),
-    element("magicValues", "Inline magic values", BASELINE, MAGIC_VALUES, THOUSAND_LINES, "thousand lines", 20, 4),
-    element("orphans", "Orphan components and functions", BASELINE,
-            [("inventory", "orphanComponents"), ("orphans", "orphanFunctions")], ORPHAN_CANDIDATES, "components and functions", 0.1, 4),
-    element("memberChains", "Long member chain lines", BASELINE, [("prose", "longMemberChainLines")], THOUSAND_LINES, "thousand lines", 30, 4),
-    element("deepIndentation", "Deeply indented lines", BASELINE, [("prose", "deeplyIndentedLines")], THOUSAND_LINES, "thousand lines", 30, 4),
-    element("functionNames", "Overlong function names", BASELINE, [("functionNames", "overlongFunctionNames")], FUNCTIONS, "functions", 0.1, 4),
-    element("predictedFiles", "Files the patterns predict but are missing", PATTERNS,
-            [("designPatterns", "predictedFilesMissing")], [("designPatterns", "predictedFiles")], "predicted files", 0.5, 10),
-    element("entityFileCounts", "Entities outside their expected file count", PATTERNS,
-            [("designPatterns", "entitiesOutOfRange")], [("designPatterns", "entities")], "entities", 0.5, 10),
-    element("tangledConditions", "Conditions with calls tangled inside calls", PROSE, [("conditions", "tangledConditionLines")], BRANCHES, "branches", 0.25, 8),
-    element("literalComparisons", "Conditions compared to a raw literal", PROSE, [("conditions", "literalComparisonLines")], BRANCHES, "branches", 0.25, 6),
-    element("gluedAccessors", "Accessor names that want to be a property", PROSE, [("accessorNames", "gluedAccessorNames")], FUNCTIONS, "functions", 0.1, 6),
-    element("handRolledWidgets", "Markup written by hand where a widget should be", WIDGETS,
-            [("siteDefinition", "handRolledElements")], [("siteDefinition", "widgetSlots")], "widget slots", 0.5, 8),
-    element("unvalidatedWrites", "Doors that write without checking their input against the columns", INPUTS,
-            [("inputValidation", "unvalidatedDoors"), ("inputValidation", "looserLimits")], [("inputValidation", "writeDoors")], "write doors", 0.5, 8),
+    element(ElementKey.filesOverLimit, "Files over the line limit", BASELINE, [figures.FILES_OVER_LIMIT], FILES, FILES_UNIT, 0.5, 10),
+    element(ElementKey.worstFile, "Worst file, in limits over", BASELINE, [figures.WORST_FILE_TIMES_OVER_LIMIT], ONE, "", 9, 5),
+    element(ElementKey.functionsOverLimit, "Functions over the line limit", BASELINE, [figures.FUNCTIONS_OVER_LIMIT], FUNCTIONS, FUNCTIONS_UNIT, 0.25, 8),
+    element(ElementKey.elseBlocks, "Else blocks", BASELINE, [figures.ELSE_BLOCKS], BRANCHES, BRANCHES_UNIT, 0.5, 5),
+    element(ElementKey.duplication, "Duplication %", BASELINE, [figures.DUPLICATED_PERCENTAGE], ONE, "", 20, 8),
+    element(ElementKey.comments, "Explanatory comment lines", BASELINE, [figures.EXPLANATORY_COMMENT_LINES], THOUSAND_LINES, THOUSAND_LINES_UNIT, 50, 4),
+    element(ElementKey.magicValues, "Inline magic values", BASELINE, MAGIC_VALUES, THOUSAND_LINES, THOUSAND_LINES_UNIT, 20, 4),
+    element(ElementKey.orphans, "Orphan components and functions", BASELINE,
+            [figures.ORPHAN_COMPONENTS, figures.ORPHAN_FUNCTIONS], ORPHAN_CANDIDATES, "components and functions", 0.1, 4),
+    element(ElementKey.memberChains, "Long member chain lines", BASELINE, [figures.LONG_MEMBER_CHAIN_LINES], THOUSAND_LINES, THOUSAND_LINES_UNIT, 30, 4),
+    element(ElementKey.deepIndentation, "Deeply indented lines", BASELINE, [figures.DEEPLY_INDENTED_LINES], THOUSAND_LINES, THOUSAND_LINES_UNIT, 30, 4),
+    element(ElementKey.functionNames, "Overlong function names", BASELINE, [figures.OVERLONG_FUNCTION_NAMES], FUNCTIONS, FUNCTIONS_UNIT, 0.1, 4),
+    element(ElementKey.predictedFiles, "Files the patterns predict but are missing", PATTERNS,
+            [figures.PREDICTED_FILES_MISSING], [figures.PREDICTED_FILES], "predicted files", 0.5, 10),
+    element(ElementKey.entityFileCounts, "Entities outside their expected file count", PATTERNS,
+            [figures.ENTITIES_OUT_OF_RANGE], [figures.ENTITIES], "entities", 0.5, 10),
+    element(ElementKey.tangledConditions, "Conditions with calls tangled inside calls", PROSE,
+            [figures.TANGLED_CONDITION_LINES], BRANCHES, BRANCHES_UNIT, 0.25, 8),
+    element(ElementKey.literalComparisons, "Conditions compared to a raw literal", PROSE, [figures.LITERAL_COMPARISON_LINES], BRANCHES, BRANCHES_UNIT, 0.25, 6),
+    element(ElementKey.gluedAccessors, "Accessor names that want to be a property", PROSE, [figures.GLUED_ACCESSOR_NAMES], FUNCTIONS, FUNCTIONS_UNIT, 0.1, 6),
+    element(ElementKey.handRolledWidgets, "Markup written by hand where a widget should be", WIDGETS,
+            [figures.HAND_ROLLED_ELEMENTS], [figures.WIDGET_SLOTS], "widget slots", 0.5, 8),
+    element(ElementKey.unvalidatedWrites, "Doors that write without checking their input against the columns", INPUTS,
+            [figures.UNVALIDATED_DOORS, figures.LOOSER_LIMITS], [figures.WRITE_DOORS], "write doors", 0.5, 8),
 ]
 
 

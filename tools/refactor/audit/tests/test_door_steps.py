@@ -3,9 +3,10 @@ from __future__ import annotations
 
 import unittest
 
+from ..score.element_keys import ElementKey
 from ..worklist.sweep_steps import sweepSteps
 
-DOORS = "unvalidatedWrites"
+DOORS = ElementKey.unvalidatedWrites
 
 
 def element(key: str, score: float, offenders: int) -> dict:
@@ -30,11 +31,11 @@ class DoorStepsTest(unittest.TestCase):
         self.assertIn("Close the door in `src/routes/clients/+page.server.ts`", titles[1])
 
     def test_doors_take_their_place_in_score_order(self) -> None:
-        elements = [element("elseBlocks", 90.0, 3), element(DOORS, 60.5, 1)]
+        elements = [element(ElementKey.elseBlocks, 90.0, 3), element(DOORS, 60.5, 1)]
         audit = auditWith(elements, {"offenders": {"unvalidated": [UNGUARDED], "looserLimits": []}})
         titles = [step["title"] for step in sweepSteps(audit)]
         self.assertTrue(titles[0].startswith("Close the door"))
-        self.assertTrue(titles[1].startswith("elseBlocks"))
+        self.assertTrue(titles[1].startswith(ElementKey.elseBlocks))
 
     def test_closed_doors_leave_no_step(self) -> None:
         audit = auditWith([element(DOORS, 100.0, 0)], {"offenders": {"unvalidated": [], "looserLimits": []}})

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..source_files import SourceFile, matchesAny
 from .member_chains import isTooDeep
@@ -56,7 +57,7 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
             if len(line) > maxLineLength:
                 overlongLines.append({"file": sourceFile.relative, "line": lineNumber})
     return checkResult(
-        "prose",
+        CheckName.prose,
         {
             "longMemberChainLines": len(longChains),
             "deeplyIndentedLines": len(deepLines),

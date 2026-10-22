@@ -9,27 +9,29 @@ import json
 import sys
 from pathlib import Path
 
+from . import figures
+
 RATCHETED_FIGURES = [
-    ("fileLength", "filesOverLimit"),
-    ("fileLength", "worstFileLines"),
-    ("functionShape", "functionsOverLimit"),
-    ("functionShape", "elseBlocks"),
-    ("duplication", "duplicatedPercentage"),
-    ("comments", "explanatoryCommentLines"),
-    ("magicValues", "inlineHexColours"),
-    ("inventory", "orphanComponents"),
-    ("orphans", "orphanFunctions"),
-    ("prose", "longMemberChainLines"),
-    ("prose", "deeplyIndentedLines"),
-    ("functionNames", "overlongFunctionNames"),
-    ("accessorNames", "gluedAccessorNames"),
-    ("conditions", "tangledConditionLines"),
-    ("conditions", "literalComparisonLines"),
-    ("designPatterns", "predictedFilesMissing"),
-    ("siteDefinition", "handRolledElements"),
-    ("siteDefinition", "boxedContentWidgets"),
-    ("inputValidation", "unvalidatedDoors"),
-    ("inputValidation", "looserLimits"),
+    figures.FILES_OVER_LIMIT,
+    figures.WORST_FILE_LINES,
+    figures.FUNCTIONS_OVER_LIMIT,
+    figures.ELSE_BLOCKS,
+    figures.DUPLICATED_PERCENTAGE,
+    figures.EXPLANATORY_COMMENT_LINES,
+    figures.INLINE_HEX_COLOURS,
+    figures.ORPHAN_COMPONENTS,
+    figures.ORPHAN_FUNCTIONS,
+    figures.LONG_MEMBER_CHAIN_LINES,
+    figures.DEEPLY_INDENTED_LINES,
+    figures.OVERLONG_FUNCTION_NAMES,
+    figures.GLUED_ACCESSOR_NAMES,
+    figures.TANGLED_CONDITION_LINES,
+    figures.LITERAL_COMPARISON_LINES,
+    figures.PREDICTED_FILES_MISSING,
+    figures.HAND_ROLLED_ELEMENTS,
+    figures.BOXED_CONTENT_WIDGETS,
+    figures.UNVALIDATED_DOORS,
+    figures.LOOSER_LIMITS,
 ]
 RUN_AS_SCRIPT = "__main__"
 

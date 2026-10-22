@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..declarations import declaredFunctions
 from ..source_files import SourceFile
@@ -25,7 +26,7 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
     ]
     longFunctions.sort(key=lambda function: function["lines"], reverse=True)
     return checkResult(
-        "functionShape",
+        CheckName.functionShape,
         {
             "limit": limit,
             "functionsOverLimit": len(longFunctions),

@@ -7,6 +7,7 @@ from ..declarations import declaredFunctions
 from ..worklist.function_usage import FunctionUsage
 from .fixtures import csharpHandler, sourceFile
 
+CREATE_HANDLER, ARCHIVE_HANDLER = "CreateProjectHandler", "ArchiveProjectHandler"
 INJECTED_SERVICES = """        logger.Log(command);
         projects.Add(command);
         clock.Tick();"""
@@ -33,9 +34,9 @@ export function Apple(colour: Colour) {
 
 class ConstructorsAreTheirClassesOwn(unittest.TestCase):
     def test_a_csharp_constructor_is_read_as_one(self):
-        functions = declaredFunctions(sourceFile("CreateProjectHandler.cs", csharpHandler("CreateProjectHandler", INJECTED_SERVICES)))
+        functions = declaredFunctions(sourceFile(f"{CREATE_HANDLER}.cs", csharpHandler(CREATE_HANDLER, INJECTED_SERVICES)))
         byName = {function.name: function for function in functions}
-        self.assertTrue(byName["CreateProjectHandler"].isConstructor)
+        self.assertTrue(byName[CREATE_HANDLER].isConstructor)
         self.assertFalse(byName["Handle"].isConstructor)
 
     def test_a_typescript_constructor_is_read_as_one(self):
@@ -47,23 +48,23 @@ class ConstructorsAreTheirClassesOwn(unittest.TestCase):
         self.assertEqual([function.isConstructor for function in functions], [False])
 
     def test_the_second_class_in_a_file_owns_its_own_constructor(self):
-        text = csharpHandler("CreateProjectHandler", INJECTED_SERVICES) + csharpHandler("ArchiveProjectHandler", ARCHIVE_BODY)
+        text = csharpHandler(CREATE_HANDLER, INJECTED_SERVICES) + csharpHandler(ARCHIVE_HANDLER, ARCHIVE_BODY)
         functions = declaredFunctions(sourceFile("Handlers.cs", text))
         constructors = [function.name for function in functions if function.isConstructor]
-        self.assertEqual(constructors, ["CreateProjectHandler", "ArchiveProjectHandler"])
+        self.assertEqual(constructors, [CREATE_HANDLER, ARCHIVE_HANDLER])
 
 
 class RepeatedBodiesLeaveConstructorsAlone(unittest.TestCase):
     def test_identical_injection_constructors_are_not_one_function(self):
         files = [
-            sourceFile("CreateProjectHandler.cs", csharpHandler("CreateProjectHandler", INJECTED_SERVICES)),
-            sourceFile("ArchiveProjectHandler.cs", csharpHandler("ArchiveProjectHandler", ARCHIVE_BODY)),
+            sourceFile(f"{CREATE_HANDLER}.cs", csharpHandler(CREATE_HANDLER, INJECTED_SERVICES)),
+            sourceFile(f"{ARCHIVE_HANDLER}.cs", csharpHandler(ARCHIVE_HANDLER, ARCHIVE_BODY)),
         ]
         self.assertEqual(FunctionUsage(files).repeatedBodies({}), [])
 
     def test_an_identical_method_in_two_files_is_still_one_function(self):
         files = [
-            sourceFile("CreateProjectHandler.cs", csharpHandler("CreateProjectHandler", INJECTED_SERVICES)),
+            sourceFile(f"{CREATE_HANDLER}.cs", csharpHandler(CREATE_HANDLER, INJECTED_SERVICES)),
             sourceFile("RenameProjectHandler.cs", csharpHandler("RenameProjectHandler", INJECTED_SERVICES)),
         ]
         repeated = FunctionUsage(files).repeatedBodies({})

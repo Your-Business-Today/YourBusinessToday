@@ -11,6 +11,7 @@ from __future__ import annotations
 import re
 from collections import Counter
 
+from ..check_names import CheckName
 from ..check_result import checkResult
 from ..source_files import SourceFile, matchesAny
 
@@ -21,7 +22,7 @@ ATTRIBUTE_VALUE = re.compile(r'(?<![\w.$])([A-Za-z_:@][\w:.\-]*)="[^"]*"')
 REPEATED_LITERAL_THRESHOLD = 4
 SUBSCRIPT_KEY = re.compile(r'(?<=[\w)\]])\[\s*"[^"]*"\s*\]')
 GET_KEY = re.compile(r'\.get\(\s*"[^"]*"')
-LITERAL_KEY = re.compile(r'(^|[{,]\s*)"[^"]*"(?=\s*:)')
+LITERAL_KEY = re.compile(r'(^\s*|[{,]\s*)"[^"]*"(?=\s*:)')
 LISTED_OFFENDERS = 50
 
 
@@ -64,7 +65,7 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
             countLiterals(line, isMarkup, literalCounts)
     repeatedLiterals = repeatedLiteralsIn(literalCounts)
     return checkResult(
-        "magicValues",
+        CheckName.magicValues,
         {
             "inlineHexColours": len(hexColourHits),
             "inlineStyleAttributes": len(inlineStyleHits),

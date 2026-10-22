@@ -1,9 +1,9 @@
-"""An entity's complexity counts the columns it inherits from an abstract base, and the base is never an entity of its own."""
+"""An entity counts the columns it inherits, an abstract base is no entity, and its files are counted without the Entity suffix."""
 from __future__ import annotations
 
 import unittest
 
-from ..checks.entity_files import entityProperties
+from ..checks.entity_files import entityProperties, fileCounts
 from .fixtures import sourceFile
 
 STAMPED_BASE = """
@@ -37,3 +37,27 @@ class EntityPropertiesTests(unittest.TestCase):
     def test_an_abstract_base_is_not_an_entity(self) -> None:
         self.assertNotIn("StampedRecordColumns", entityProperties(self.files, ENTITY_GLOBS))
 
+
+
+QUOTE_ENTITY = """
+public sealed class QuoteEntity
+{
+    public string Reference { get; set; } = "";
+}
+"""
+QUOTE_FILES_INCLUDING_THE_ENTITY = 3
+
+
+class EntityFileCountTests(unittest.TestCase):
+    def test_files_named_for_the_subject_count_without_the_entity_suffix(self) -> None:
+        files = [
+            sourceFile("api/Data/Entities/QuoteEntity.cs", QUOTE_ENTITY),
+            sourceFile("api/Features/Quotes/QuoteEdit.cs"),
+            sourceFile("api/Features/Quotes/QuoteQueries.cs"),
+        ]
+        self.assertEqual(fileCounts(files, ["QuoteEntity"])["QuoteEntity"], QUOTE_FILES_INCLUDING_THE_ENTITY)
+
+    def test_the_longest_subject_owns_a_file_named_for_two_entities(self) -> None:
+        files = [sourceFile("api/Features/Quotes/QuoteRevisionEdit.cs")]
+        counts = fileCounts(files, ["QuoteEntity", "QuoteRevisionEntity"])
+        self.assertEqual(counts, {"QuoteEntity": 0, "QuoteRevisionEntity": 1})

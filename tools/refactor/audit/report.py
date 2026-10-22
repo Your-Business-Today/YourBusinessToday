@@ -5,19 +5,16 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
+from .check_names import CHECKS_IN_REPORT_ORDER
 from .gate import RATCHETED_FIGURES
 from .inventory.file_areas import areasTable
+from .repository_layout import KIT_VERSION_FILE
 from .score.breakdown import breakdownTable, derivation, percentage
 
-SUMMARY_ORDER = [
-    "fileLength", "functionShape", "functionNames", "accessorNames", "duplication", "naming", "comments",
-    "magicValues", "prose", "conditions", "orphans", "designPatterns", "inventory", "siteDefinition", "inputValidation", "fileAreas",
-]
-KIT_VERSION_FILE = Path("tools") / "refactor" / "kit-version"
 
 
 def flattenSummaries(results: dict) -> dict:
-    return {name: results[name]["summary"] for name in SUMMARY_ORDER if name in results}
+    return {name: results[name]["summary"] for name in CHECKS_IN_REPORT_ORDER if name in results}
 
 
 def kitVersion(repositoryRoot: Path) -> str:
