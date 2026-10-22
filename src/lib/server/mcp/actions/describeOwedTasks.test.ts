@@ -46,6 +46,6 @@ describe('the tasks a person owes', () => {
 
 	it('says when the account has no name to look for', () => {
 		const unnamed = describeOwedTasks({ ...jeremyOwes, name: null, named: [] }).join('\n');
-		expect(unnamed).toContain('Tasks that name you were not looked for');
+		expect(unnamed).toContain('Tasks titled with your name were not looked for');
 	});
 });

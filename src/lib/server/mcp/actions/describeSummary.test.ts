@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { describeSummary, nothingOwed, type SummarySources } from './describeSummary';
+import { unnamedAccountNotice } from './describeOwedTasks';
 import { awaitingKinds, postedViaChannels } from '$lib/data/conversationTurn';
 import { parseGlobalTaskRow } from '$lib/server/projects/getGlobalTaskPage';
 import { taskStatuses } from '$lib/data/taskStatus';
@@ -80,5 +81,11 @@ describe('the YBT summary', () => {
 		const owed = { ...jeremyOwes.owed, assigned: [], named: [] };
 		const waiting = { questions: [], askers: [] };
 		expect(describeSummary({ ...jeremyOwes, owed, waiting })).toEqual([nothingOwed]);
+	});
+
+	it('says when tasks titled with the person’s name were not looked for, even with nothing owed', () => {
+		const owed = { ...jeremyOwes.owed, assigned: [], named: [], name: null };
+		const waiting = { questions: [], askers: [] };
+		expect(describeSummary({ ...jeremyOwes, owed, waiting })).toEqual([unnamedAccountNotice, '', nothingOwed]);
 	});
 });
