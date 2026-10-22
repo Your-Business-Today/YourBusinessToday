@@ -18,8 +18,19 @@ MINIMUM_ENTITIES = 4
 FILE_COUNT_BAND = 2.0
 
 
+BASE_TYPES = re.compile(r":\s*(?P<bases>[\w\s,<>]+?)\s*(?:\{|$|where\b)")
+ABSTRACT = re.compile(r"\babstract\s+(?:partial\s+)?class\b")
+
+
+def declaredBases(line: str) -> list[str]:
+    found = BASE_TYPES.search(line)
+    return [base.strip() for base in found.group("bases").split(",")] if found else []
+
+
 def entityProperties(sourceFiles: list[SourceFile], entityGlobs: list[str]) -> dict[str, int]:
     properties: dict[str, int] = {}
+    bases: dict[str, list[str]] = {}
+    abstractTypes: set[str] = set()
     for sourceFile in sourceFiles:
         if not matchesAny(sourceFile.relative, entityGlobs):
             continue
@@ -29,9 +40,22 @@ def entityProperties(sourceFiles: list[SourceFile], entityGlobs: list[str]) -> d
             if declaration:
                 currentEntity = declaration.group(1)
                 properties.setdefault(currentEntity, 0)
+                bases[currentEntity] = declaredBases(line)
+                if ABSTRACT.search(line):
+                    abstractTypes.add(currentEntity)
             if currentEntity and not declaration and PROPERTY_LINE.match(line):
                 properties[currentEntity] += 1
-    return {entity: count for entity, count in properties.items() if count > 0}
+    return withInheritedProperties(properties, bases, abstractTypes)
+
+
+def inheritedPropertyCount(bases: list[str], properties: dict[str, int], abstractTypes: set[str]) -> int:
+    return sum(properties.get(base, 0) for base in bases if base in abstractTypes)
+
+
+def withInheritedProperties(properties: dict[str, int], bases: dict[str, list[str]], abstractTypes: set[str]) -> dict[str, int]:
+    entities = {entity: count for entity, count in properties.items() if entity not in abstractTypes}
+    counted = {entity: count + inheritedPropertyCount(bases.get(entity, []), properties, abstractTypes) for entity, count in entities.items()}
+    return {entity: count for entity, count in counted.items() if count > 0}
 
 
 def fileCounts(sourceFiles: list[SourceFile], entities: list[str]) -> dict[str, int]:
