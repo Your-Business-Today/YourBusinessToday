@@ -25,7 +25,7 @@ requireCommits() {
 		failWith "Usage: ./scripts/run-added-migrations.sh <before-sha> <after-sha>"
 	fi
 	if [ "$beforeCommit" = "$commitThatDoesNotExist" ]; then
-		failWith "This push has no previous commit to compare with, so the migrations it added cannot be told apart. Run them by hand with scripts/run-migration.sh."
+		failWith "This push has no previous commit to compare with, so the migrations it added cannot be told apart. Run them by hand with psql."
 	fi
 }
 

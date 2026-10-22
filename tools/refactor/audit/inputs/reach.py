@@ -10,6 +10,7 @@ from ..source_files import SourceFile
 
 IMPORT = re.compile(r"(?:\bfrom\s+|\bimport\s*\(?\s*|\brequire\(\s*)['\"](?P<module>[^'\"]+)['\"]")
 IDENTIFIER = re.compile(r"[A-Za-z_]\w*")
+COMMENT_LINE = re.compile(r"^\s*(?://|/\*|\*|@\*)")
 ALIAS_PREFIXES = ("$lib/", "@/", "~/", "./", "../")
 TYPE_NAMED_FILES = (".cs", ".razor")
 DEPTH = 5
@@ -55,7 +56,8 @@ class Reach:
         return chosen[0] if chosen else None
 
     def namedTypes(self, sourceFile: SourceFile) -> set[str]:
-        names = set(IDENTIFIER.findall("\n".join(sourceFile.lines)))
+        codeLines = [line for line in sourceFile.lines if not COMMENT_LINE.match(line)]
+        names = set(IDENTIFIER.findall("\n".join(codeLines)))
         implementations = {name[1:] for name in names if name.startswith("I") and name[1:2].isupper()}
         return {self.typeHomes[name] for name in names | implementations if name in self.typeHomes}
 

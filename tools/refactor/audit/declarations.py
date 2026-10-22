@@ -6,7 +6,7 @@ import re
 from dataclasses import dataclass
 
 from .enclosing_types import TYPE_DECLARATION, EnclosingTypes, isConstructorName
-from .signatures import isFunctionSignature
+from .function_extent import OpenFunction, startsFunction
 from .source_files import SourceFile
 
 NAME_BEFORE_PARENTHESIS = re.compile(r"(\w+)\s*(?:<[^>()]*>)?\s*\(")
@@ -47,35 +47,34 @@ def fingerprintOf(bodyLines: list[str]) -> str:
     return hashlib.sha1("\n".join(statements).encode()).hexdigest()
 
 
+def declaredFunction(sourceFile: SourceFile, function: OpenFunction, endLine: int) -> DeclaredFunction:
+    name = nameOnSignature(sourceFile.lines[function.startLine])
+    return DeclaredFunction(
+        file=sourceFile.relative,
+        name=name,
+        line=function.startLine + 1,
+        lines=endLine - function.startLine + 1,
+        isAttributed=previousLineIsAttribute(sourceFile.lines, function.startLine),
+        isConstructor=isConstructorName(name, function.enclosingType),
+        bodyFingerprint=fingerprintOf(sourceFile.lines[function.startLine + 1:endLine]),
+    )
+
+
 def declaredFunctions(sourceFile: SourceFile) -> list[DeclaredFunction]:
     functions = []
     enclosingTypes = EnclosingTypes()
-    depthAtFunctionStart = None
+    openFunction = None
     depth = 0
-    startLine = 0
-    typeAtFunctionStart = ""
     for lineNumber, line in enumerate(sourceFile.lines):
         enclosingTypes.enter(line, depth)
-        if depthAtFunctionStart is None and isFunctionSignature(line):
-            depthAtFunctionStart = depth
-            startLine = lineNumber
-            typeAtFunctionStart = enclosingTypes.innermost
+        if openFunction is None and startsFunction(line):
+            openFunction = OpenFunction(depth, lineNumber, enclosingTypes.innermost)
         depth += line.count("{") - line.count("}")
         enclosingTypes.leave(line, depth)
-        isFunctionClosed = depthAtFunctionStart is not None and depth <= depthAtFunctionStart and "}" in line
-        if not isFunctionClosed:
+        if openFunction is None or not openFunction.isClosedBy(line, depth):
             continue
-        name = nameOnSignature(sourceFile.lines[startLine])
-        functions.append(DeclaredFunction(
-            file=sourceFile.relative,
-            name=name,
-            line=startLine + 1,
-            lines=lineNumber - startLine + 1,
-            isAttributed=previousLineIsAttribute(sourceFile.lines, startLine),
-            isConstructor=isConstructorName(name, typeAtFunctionStart),
-            bodyFingerprint=fingerprintOf(sourceFile.lines[startLine + 1:lineNumber]),
-        ))
-        depthAtFunctionStart = None
+        functions.append(declaredFunction(sourceFile, openFunction, lineNumber))
+        openFunction = None
     return functions
 
 
