@@ -1,5 +1,6 @@
 import { describeAction, listActions } from './browseActions';
 import { describeContext } from './describeContext';
+import { outstandingTools } from './outstandingTool';
 import { runAction } from './runAction';
 import { uploadBoxTools } from './uploadBox/uploadBoxTools';
 import type { McpCaller } from './resolveMcpCaller';
@@ -77,7 +78,7 @@ const actionTools: McpTool[] = [
 	}
 ];
 
-const everyTool: McpTool[] = [...actionTools, ...uploadBoxTools];
+const everyTool: McpTool[] = [...actionTools, ...outstandingTools, ...uploadBoxTools];
 
 export function findMcpTool(name: unknown): McpTool | null {
 	return everyTool.find((tool) => tool.name === name) ?? null;

@@ -1,4 +1,4 @@
-import { latestMessageSentence } from './describeOwedTasks';
+import { latestMessageSentence, unnamedAccountNotice } from './describeOwedTasks';
 import { messageLine } from './describeMessages';
 import { subjectHeading } from './describeWaitingQuestions';
 import { accountNameLookup } from '$lib/data/accountNames';
@@ -22,6 +22,15 @@ export const nothingOwed = 'Nothing waits on you and nothing is assigned to you 
 
 /** The person's projects one by one, each with the decisions waiting on them and the work they owe. */
 export function describeSummary(sources: SummarySources): string[] {
+	return [...unnamedLines(sources.owed), ...projectLines(sources)];
+}
+
+function unnamedLines(owed: OwedTasks): string[] {
+	if (owed.name !== null) return [];
+	return [unnamedAccountNotice, ''];
+}
+
+function projectLines(sources: SummarySources): string[] {
 	const projectIds = projectsWithSomething(sources);
 	if (projectIds.length === 0) return [nothingOwed];
 	return [totalsLine(sources), '', ...projectIds.flatMap((id) => projectSection(sources, id))];

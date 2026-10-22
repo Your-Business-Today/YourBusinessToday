@@ -15,7 +15,19 @@ const ybtSummaryPrompt: McpPrompt = {
 		'me, then the quick decisions one at a time, then the bigger work.'
 };
 
-const everyPrompt: McpPrompt[] = [ybtSummaryPrompt];
+const outstandingPrompt: McpPrompt = {
+	name: 'whats_outstanding',
+	title: 'What is outstanding for me',
+	description:
+		'Every action item that needs you on Your Business Today, and who to chase for what you are ' +
+		'waiting on, person by person.',
+	text:
+		'What is outstanding for me? Run the whats_outstanding_for_me tool and walk me through it as ' +
+		'its answer says: every action item I must do, then who to chase, then the quick decisions ' +
+		'one at a time, then the bigger work.'
+};
+
+const everyPrompt: McpPrompt[] = [outstandingPrompt, ybtSummaryPrompt];
 
 export function describeMcpPrompts(): Record<string, unknown>[] {
 	return everyPrompt.map(({ name, title, description }) => ({ name, title, description }));
