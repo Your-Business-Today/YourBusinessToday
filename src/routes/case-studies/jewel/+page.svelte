@@ -5,6 +5,7 @@
 	import JewelIntroSection from '$lib/components/case-study/JewelIntroSection.svelte';
 	import JewelOutcomeSection from '$lib/components/case-study/JewelOutcomeSection.svelte';
 	import PageMeta from '$lib/components/site/PageMeta.svelte';
+	import PortalScreensSection from '$lib/components/case-study/PortalScreensSection.svelte';
 
 	const pageTitle = 'Jewel Bespoke Build case study | Your Business Today';
 	const pageDescription =
@@ -17,4 +18,5 @@
 <JewelIdeaSection />
 <JewelCalendarSection />
 <JewelOutcomeSection />
+<PortalScreensSection />
 <EnquirySection />
