@@ -24,7 +24,8 @@ export const lifecycleActions: McpAction[] = [
 			'board knows where the work stands and does not duplicate it. Considering comes first, ' +
 			'before anything else is touched; considered carries its outcome (buildable, waiting on a ' +
 			'person, needs splitting, needs an infrastructure change); built, reviewing and pull ' +
-			'request open carry the branch; released gives the work up. GitHub records the pull ' +
+			'request open carry the branch, and building, built, reviewing or pull request open moves a ' +
+			'task in the backlog to In progress; released gives the work up. GitHub records the pull ' +
 			'request opening and its merge by itself. Considering, building and reviewing claim the ' +
 			'work for the agent named, and a claim on a goal covers its tasks: another agent is ' +
 			'refused until the holder records a step that lets it go, the work merges, or ' +

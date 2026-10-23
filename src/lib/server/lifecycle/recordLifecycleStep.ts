@@ -1,8 +1,15 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { subjectColumns, type ConversationSubject } from '$lib/server/conversations/conversationSubject';
+import { isGoalSubject, subjectColumns, type ConversationSubject } from '$lib/server/conversations/conversationSubject';
+import { startTask } from '$lib/server/projects/startTask';
+import { startsTheWork } from '$lib/data/workStarted';
 import type { LifecycleStepInput } from '$lib/data/validateLifecycleStep';
 
-/** Add one step to a goal's or a task's lifecycle; steps are never changed once recorded. */
+const nobodySignedIn = null;
+
+/**
+ * Add one step to a goal's or a task's lifecycle; steps are never changed once recorded. A step
+ * that starts the work moves its task out of the backlog, so the board shows what is being built.
+ */
 export async function recordLifecycleStep(
 	supabase: SupabaseClient,
 	projectId: string,
@@ -21,4 +28,6 @@ export async function recordLifecycleStep(
 		note: step.note
 	});
 	if (error) throw error;
+	if (isGoalSubject(subject) || !startsTheWork(step.step)) return;
+	await startTask(supabase, subject.taskId, nobodySignedIn);
 }
