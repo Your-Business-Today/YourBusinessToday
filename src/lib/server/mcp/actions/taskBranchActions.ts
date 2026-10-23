@@ -4,6 +4,7 @@ import { noSuchTask } from './describeTask';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { reachableProjectIds, reachableTaskWithProject } from '../projectAccess';
 import { setTaskBranch } from '$lib/server/projects/setTaskBranch';
+import { startTask } from '$lib/server/projects/startTask';
 import type { McpAction } from '../actionTypes';
 
 const branchField = textField('The git branch, such as feature/weekly-cashflow-grid');
@@ -16,7 +17,8 @@ export const taskBranchActions: McpAction[] = [
 		isWrite: true,
 		summary: 'record the git branch a task’s work is on, and its pull request once opened',
 		guidance:
-			'Call this as soon as you create the branch for a task, and again with pullRequestUrl ' +
+			'Call this as soon as you create the branch for a task, which moves a task in the backlog ' +
+			'to In progress, and again with pullRequestUrl ' +
 			'when you open the pull request — then enable auto-merge on the pull request, so GitHub ' +
 			'merges it once its checks pass. When GitHub says that branch’s pull request merged, the ' +
 			'task is marked done with a message on its conversation, and the repository’s own GitHub ' +
@@ -41,6 +43,7 @@ export const taskBranchActions: McpAction[] = [
 			if (refusal !== null) return refusal;
 			await setTaskBranch(caller.supabase, task.id, { branchName, pullRequestUrl });
 			if (branchName === '') return `"${task.title}" no longer has a branch.`;
+			await startTask(caller.supabase, task.id, caller.accountId);
 			return `"${task.title}" is worked on ${branchName}.`;
 		}
 	},
