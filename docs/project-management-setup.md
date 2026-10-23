@@ -33,8 +33,11 @@ Run these in the Supabase SQL editor, in order (each is run-once):
 - Notifications are personal: each account only ever sees its own.
 - Marking a task done clears every notification about it, for every recipient, so the
   bell only counts what still needs someone. The messages on the task stay; reopening
-  the task brings nothing back; a message posted on a done task notifies as normal
-  (`migrations/0060_done_task_clears_notifications.sql`).
+  the task brings nothing back. Nothing raises a notification on a done task while
+  it stays done — not a message on it, not the "finished the task you asked for"
+  event, which stays on the project feed
+  (`migrations/0060_done_task_clears_notifications.sql`,
+  `migrations/0130_done_task_raises_no_notification.sql`).
 
 ## The views
 
