@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BrandWordmark from './BrandWordmark.svelte';
-	import { constructionCompanyCaseStudy as caseStudy } from '$lib/data/caseStudies';
+	import { caseStudyPath } from '$lib/data/caseStudies';
 	import { companyDetails } from '$lib/data/companyDetails';
 	import { buildTimeline } from '$lib/data/consultancyOffer';
 	import { discoveryCallPath, discoveryCallShortLabel } from '$lib/data/discoveryCall';
@@ -23,11 +23,8 @@
 			</a>
 		</div>
 		<div class="flex flex-wrap items-center gap-6">
-			<a href="/vision" class="text-sm text-chalk/60 transition hover:text-chalk">
-				What we build
-			</a>
 			<a href="/offer" class="text-sm text-chalk/60 transition hover:text-chalk">The offer</a>
-			<a href={caseStudy.href} class="text-sm text-chalk/60 transition hover:text-chalk">
+			<a href={caseStudyPath} class="text-sm text-chalk/60 transition hover:text-chalk">
 				Case study
 			</a>
 			<a href={discoveryCallPath} class="text-sm text-chalk/60 transition hover:text-chalk">

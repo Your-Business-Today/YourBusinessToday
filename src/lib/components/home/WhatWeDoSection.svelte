@@ -1,7 +1,7 @@
 <script lang="ts">
 	import BrandWordmark from '../site/BrandWordmark.svelte';
 	import DiscoveryCallButton from '../site/DiscoveryCallButton.svelte';
-	import OfferStepCard from './OfferStepCard.svelte';
+	import OfferStepCard from '../offer/OfferStepCard.svelte';
 	import { companyDetails } from '$lib/data/companyDetails';
 	import { consultancyOfferSteps } from '$lib/data/consultancyOffer';
 </script>

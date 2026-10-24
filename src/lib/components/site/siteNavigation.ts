@@ -1,4 +1,4 @@
-import { constructionCompanyCaseStudy } from '$lib/data/caseStudies';
+import { caseStudyPath } from '$lib/data/caseStudies';
 import { discoveryCallPath, discoveryCallShortLabel } from '$lib/data/discoveryCall';
 
 export type NavigationLink = {
@@ -20,9 +20,8 @@ export type NavigationAccess = {
 
 export const primaryNavigationLinks: NavigationLink[] = [
 	{ href: '/', label: 'Home' },
-	{ href: '/vision', label: 'What we build' },
 	{ href: '/offer', label: 'The offer' },
-	{ href: constructionCompanyCaseStudy.href, label: 'Case study' },
+	{ href: caseStudyPath, label: 'Case study' },
 	{ href: '/about', label: 'About us' },
 	{ href: discoveryCallPath, label: discoveryCallShortLabel }
 ];
