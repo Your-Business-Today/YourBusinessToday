@@ -12,19 +12,13 @@
 
 <form
 	method="POST"
-	action="?/sendEnquiry"
+	action="?/bookDiscoveryCall"
 	use:enhance={tracker.submit(undefined, { shouldKeepFields: true })}
 	class="relative flex flex-col gap-4"
 >
 	<div class="grid gap-4 sm:grid-cols-2">
 		<FormField label="Your name">
-			<input
-				name="name"
-				autocomplete="name"
-				required
-				maxlength={enquiryFieldLimits.name}
-				class={inputClasses}
-			/>
+			<input name="name" autocomplete="name" required maxlength={enquiryFieldLimits.name} class={inputClasses} />
 		</FormField>
 		<FormField label="Email">
 			<input
@@ -33,6 +27,16 @@
 				autocomplete="email"
 				required
 				maxlength={enquiryFieldLimits.email}
+				class={inputClasses}
+			/>
+		</FormField>
+		<FormField label="Phone">
+			<input
+				name="phone"
+				type="tel"
+				autocomplete="tel"
+				required
+				maxlength={enquiryFieldLimits.phone}
 				class={inputClasses}
 			/>
 		</FormField>
@@ -54,12 +58,21 @@
 				class={inputClasses}
 			/>
 		</FormField>
+		<FormField label="When suits you for a call? (optional)">
+			<input
+				name="whenSuits"
+				placeholder="Tuesday or Thursday afternoon"
+				maxlength={enquiryFieldLimits.whenSuits}
+				class={inputClasses}
+			/>
+		</FormField>
 	</div>
-	<FormField label="What would you like to automate?">
+	<FormField label="Tell us about your business">
 		<textarea
 			name="message"
-			rows="6"
+			rows="5"
 			required
+			placeholder="What the business does, where the time goes, and what you wish ran itself."
 			maxlength={enquiryFieldLimits.message}
 			class={inputClasses}
 		></textarea>
@@ -70,6 +83,6 @@
 	</label>
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton isSaving={tracker.isSaving} savingLabel="Sending…" class={primaryButtonClasses}>
-		Send message
+		Request my call
 	</SubmitButton>
 </form>

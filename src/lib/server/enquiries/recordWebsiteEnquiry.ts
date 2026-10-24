@@ -22,7 +22,7 @@ export async function recordWebsiteEnquiry(
 		supabase,
 		clientId,
 		'enquiry_received',
-		{ message: enquiry.message, source: websiteSource },
+		{ message: enquiry.message, whenSuits: enquiry.whenSuits, source: websiteSource },
 		null
 	);
 	return { clientId, isRepeat: false };
@@ -52,7 +52,7 @@ async function affiliateEnquirer(
 	const { personId } = await addPerson(supabase, {
 		name: enquiry.name,
 		email: enquiry.email,
-		phone: '',
+		phone: enquiry.phone,
 		seniority: '',
 		leadSource: websiteSource
 	});
