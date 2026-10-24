@@ -1,24 +1,23 @@
 <script lang="ts">
-	import { offerDocumentPath } from '$lib/data/consultancyOffer';
+	import { buildTimeline, offerDocumentPath } from '$lib/data/consultancyOffer';
 </script>
 
 <section class="mx-auto max-w-6xl px-6 py-20 md:py-24">
 	<p class="font-display text-sm tracking-widest text-signal uppercase">The offer</p>
 	<h1 class="mt-5 max-w-3xl font-display text-4xl leading-tight font-medium md:text-5xl">
-		Five steps. You can stop after any of them.
+		Seven steps. From the first conversation to long after launch.
 	</h1>
 	<div class="mt-8 grid gap-8 md:grid-cols-2 md:gap-12">
 		<p class="text-lg text-chalk/70">
-			This is for a business that already works. You have customers and a reputation and people
+			This is for a business that already works. You have customers, a reputation and people
 			who know their trade. What you do not have is one place where the business is. The quote
 			is in one system and the job is in another. The report is typed up by hand. Two or three
 			people carry the rest in their heads.
 		</p>
 		<p class="text-lg text-chalk/70">
-			We map where your data comes from. We build the harness that holds it. We teach your AI
-			assistant the processes that run around it. You reach it all through your dashboards and
-			through your own assistant. Each step is agreed before it starts and you own what each one
-			leaves behind.
+			We map how your business works, build one secure place for its data, put your own app
+			over it and connect your AI assistant to the same system. It is live in {buildTimeline}.
+			Then we stay on, and you change it however you want for one monthly fee.
 		</p>
 	</div>
 	<a

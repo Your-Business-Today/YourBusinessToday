@@ -1,3 +1,5 @@
+import { discoveryCallPath, discoveryCallShortLabel } from '$lib/data/discoveryCall';
+
 export type NavigationLink = {
 	href: string;
 	label: string;
@@ -21,7 +23,7 @@ export const primaryNavigationLinks: NavigationLink[] = [
 	{ href: '/offer', label: 'The offer' },
 	{ href: '/case-studies/jewel', label: 'Case study' },
 	{ href: '/about', label: 'About us' },
-	{ href: '/contact', label: 'Contact' }
+	{ href: discoveryCallPath, label: discoveryCallShortLabel }
 ];
 
 const workLinks: NavigationLink[] = [

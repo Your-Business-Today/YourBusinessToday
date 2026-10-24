@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EnquirySection from '$lib/components/home/EnquirySection.svelte';
+	import DiscoveryCallSection from '$lib/components/home/DiscoveryCallSection.svelte';
 	import JewelCalendarSection from '$lib/components/case-study/JewelCalendarSection.svelte';
 	import JewelIdeaSection from '$lib/components/case-study/JewelIdeaSection.svelte';
 	import JewelIntroSection from '$lib/components/case-study/JewelIntroSection.svelte';
@@ -19,4 +19,4 @@
 <JewelCalendarSection />
 <JewelOutcomeSection />
 <PortalScreensSection />
-<EnquirySection />
+<DiscoveryCallSection />

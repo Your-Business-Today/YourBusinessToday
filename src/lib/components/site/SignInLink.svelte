@@ -1,7 +1,3 @@
-<a
-	href="/account/sign-in"
-	class="rounded-full bg-signal px-5 py-2 font-display text-sm font-medium text-night
-		transition hover:brightness-110"
->
+<a href="/account/sign-in" class="font-display text-sm text-chalk/80 transition hover:text-chalk">
 	Sign in
 </a>

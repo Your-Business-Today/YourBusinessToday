@@ -5,6 +5,7 @@ import {
 } from '$lib/data/enquiryForm';
 import { validatePublicUrl } from '$lib/server/clients/parsePublicUrl';
 import { isEmailShaped } from '$lib/data/emailShape';
+import { isPhoneShaped } from '$lib/data/phoneShape';
 
 export type EnquiryReading =
 	| { enquiry: WebsiteEnquiry }
@@ -16,8 +17,10 @@ export function readWebsiteEnquiry(formData: FormData): EnquiryReading {
 	const enquiry: WebsiteEnquiry = {
 		name: fieldValue(formData, 'name'),
 		email: fieldValue(formData, 'email').toLowerCase(),
+		phone: fieldValue(formData, 'phone'),
 		company: fieldValue(formData, 'company'),
 		website: fieldValue(formData, 'website'),
+		whenSuits: fieldValue(formData, 'whenSuits'),
 		message: fieldValue(formData, 'message')
 	};
 	const problem = validateWebsiteEnquiry(enquiry);
@@ -32,7 +35,8 @@ function fieldValue(formData: FormData, fieldName: string): string {
 function validateWebsiteEnquiry(enquiry: WebsiteEnquiry): string | null {
 	if (enquiry.name === '') return 'Tell us your name.';
 	if (!isEmailShaped(enquiry.email)) return 'Enter an email address we can reply to.';
-	if (enquiry.message === '') return 'Tell us what you would like to automate.';
+	if (!isPhoneShaped(enquiry.phone)) return 'Enter a phone number we can call you on.';
+	if (enquiry.message === '') return 'Tell us a little about your business.';
 	const websiteRefusal = validatePublicUrl('website', enquiry.website);
 	if (websiteRefusal !== null) return websiteRefusal;
 	const overlongField = findOverlongField(enquiry);

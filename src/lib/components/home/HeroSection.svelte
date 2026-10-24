@@ -1,48 +1,38 @@
 <script lang="ts">
-	import BrandWordmark from '../site/BrandWordmark.svelte';
-	import { jewelBespokeBuildCaseStudy as caseStudy } from '$lib/data/caseStudies';
-	import { onboardingStartPath } from '$lib/onboarding/onboarding';
+	import DiscoveryCallButton from '../site/DiscoveryCallButton.svelte';
+	import LineIcon from '../site/LineIcon.svelte';
+	import HeroChecklist from './HeroChecklist.svelte';
+	import HeroPromiseRow from './HeroPromiseRow.svelte';
+	import HeroMockup from './mockup/HeroMockup.svelte';
+	import { heroAudience, heroPromises } from '$lib/data/home/heroCopy';
 </script>
 
-<section class="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:grid-cols-2">
+<section
+	class="mx-auto grid max-w-6xl items-center gap-12 px-6 py-16 md:grid-cols-[1.1fr_1fr] md:py-20"
+>
 	<div class="flex flex-col gap-6">
-		<p class="font-display text-sm tracking-widest text-signal uppercase">
-			Welcome to Your Business Today
-		</p>
-		<h1 class="font-display text-4xl leading-tight font-medium md:text-6xl">
-			We use AI to streamline your business today.
+		<span
+			class="inline-flex w-fit items-center gap-2 rounded-lg border border-signal/60 px-3 py-1.5
+				font-display text-sm text-chalk"
+		>
+			<LineIcon kind="briefcase" class="h-4 w-4 text-signal" />
+			{heroAudience}
+		</span>
+		<h1 class="font-display text-5xl leading-[1.05] font-semibold tracking-tight md:text-7xl">
+			We Build Your Business App Or Platform In 2–4 Weeks<span class="text-signal">.</span>
 		</h1>
-		<p class="max-w-prose text-lg text-chalk/70">
-			Your Business Today identifies how information travels through your company. We harness the
-			power of AI to automate the workflows along this information highway. We design, build and
-			then give you self-improving tools to ensure you can further automate the automation of your
-			business.
+		<HeroChecklist />
+		<p class="max-w-prose text-lg text-chalk/80">
+			Your own app, built around how
+			<strong class="font-semibold text-chalk">your</strong> business works, plus an
+			<strong class="font-semibold text-chalk">AI assistant</strong> your team can simply talk to.
 		</p>
-		<div class="flex flex-wrap items-center gap-4">
-			<a
-				href={caseStudy.href}
-				class="rounded-full border border-hairline px-7 py-3 font-display text-sm text-chalk/80
-					transition hover:border-chalk/40 hover:text-chalk"
-			>
-				View our case study
-			</a>
-			<a
-				href="/contact"
-				class="rounded-full bg-signal px-7 py-3 font-display text-sm font-medium text-night
-					transition hover:brightness-110"
-			>
-				Talk to us
-			</a>
-			<a
-				href={onboardingStartPath}
-				class="rounded-full border border-signal px-7 py-3 font-display text-sm text-signal
-					transition hover:bg-signal hover:text-night"
-			>
-				Start onboarding
-			</a>
+		<DiscoveryCallButton hasCalendarIcon class="w-fit px-6 py-4 text-base md:text-lg" />
+		<div class="mt-2 flex flex-col gap-3">
+			{#each heroPromises as promise (promise.id)}
+				<HeroPromiseRow {promise} />
+			{/each}
 		</div>
 	</div>
-	<div class="hidden items-center justify-center md:flex" aria-hidden="true">
-		<BrandWordmark fontSize={150} />
-	</div>
+	<HeroMockup />
 </section>
