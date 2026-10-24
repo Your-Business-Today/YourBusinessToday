@@ -9,7 +9,7 @@
       ['create_voq_from_rfq', 'Creates the variation order (VOQ, in Quoting) from a request’s RFQ — one per request.', false, []],
       ['create_manual_variation_order', 'Creates a standalone variation order with no request behind it; lands in Issued with its priced build-up staged.', false, []],
       ['set_variation_order_estimate', 'Sets the estimate on a variation in Quoting from its priced lines.', false, []],
-      ['approve_variation_order', 'APPROVES a variation order — records the client’s instruction and writes the lines to the Valuation Report.', true, ['Jewel — Second Brain']],
+      ['approve_variation_order', 'APPROVES a variation order — records the client’s instruction and writes the lines to the Valuation Report.', true, ['Second Brain']],
       ['reject_variation_order', 'Rejects a variation; the history is kept.', true, []],
       ['return_variation_order_to_quoting', 'Sends an issued variation back to Quoting for re-pricing.', false, []]
     ] },

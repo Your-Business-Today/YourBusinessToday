@@ -8,7 +8,7 @@
   const pathwayTones = { Client: 'positive', Subcontractor: 'warning', Supplier: 'info', Sales: 'accent', Internal: '' };
 
   function tagChip(tag) {
-    return `<span class="text-xs" title="JPMS/${tag}" style="border:1px solid rgba(102,224,148,.4);color:var(--accent);border-radius:999px;padding:1px 8px">${tag}</span>`;
+    return `<span class="text-xs" title="PORTAL/${tag}" style="border:1px solid rgba(102,224,148,.4);color:var(--accent);border-radius:999px;padding:1px 8px">${tag}</span>`;
   }
 
   function rowShell(isSelected, href, inner) {
@@ -39,7 +39,7 @@
 
   function taggedRow(mail) {
     const pathway = mail.pathway ? ui.pill(mail.pathway, pathwayTones[mail.pathway]) : '';
-    const tags = mail.tags.map((tag) => `<span title="JPMS/${tag}">${ui.pill(tag, 'info')}</span>`).join('');
+    const tags = mail.tags.map((tag) => `<span title="PORTAL/${tag}">${ui.pill(tag, 'info')}</span>`).join('');
     const inner = `<div class="row-between" style="flex-wrap:nowrap"><span class="semibold">${ui.escape(mail.from)}</span><span class="text-xs subtle">${mail.time}</span></div><p class="muted" style="margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ui.escape(mail.subject)}</p><div class="row" style="gap:4px;margin-top:6px">${pathway}${tags}</div>`;
     return rowShell(false, '#/control-centre?view=tagged', inner);
   }
@@ -55,7 +55,7 @@
     const isTagged = view === 'tagged';
     const strapline = isTagged ? '148 tagged emails — add or remove tags to manage which processes use them.' : '23 emails in the inbox waiting to be assigned to a request.';
     const tabs = `<div class="row" style="gap:4px;border-bottom:1px solid var(--line);margin:12px 0"><a class="tab${isTagged ? '' : ' is-active'}" href="${hrefFor({ view: 'queue' })}">Queue</a><a class="tab${isTagged ? ' is-active' : ''}" href="${hrefFor({ view: 'tagged' })}">Tagged</a></div>`;
-    const header = `<p class="eyebrow">JPMS · ${data.mailbox}</p><p class="muted" style="margin-top:4px">${strapline}</p>`;
+    const header = `<p class="eyebrow">Build Portal · ${data.mailbox}</p><p class="muted" style="margin-top:4px">${strapline}</p>`;
     return header + tabs + (isTagged ? taggedList() : queueList(selectedId, hrefFor));
   }
 
@@ -80,7 +80,7 @@
   }
 
   function emailPane(mail, project) {
-    const header = `<h2 class="text-lg semibold">${ui.escape(mail.subject)}</h2><div class="row" style="gap:12px;margin-top:12px;flex-wrap:nowrap;align-items:flex-start"><span class="avatar" style="background:rgba(102,224,148,.15);color:var(--accent)">${mail.from.split(' ').map((word) => word[0]).join('').slice(0, 2)}</span><div style="flex:1;min-width:0"><div class="row-between"><p><span class="semibold">${ui.escape(mail.from)}</span><span class="subtle"> &lt;${mail.email}&gt;</span></p><span class="text-xs subtle">25 Sep 2026 ${mail.time}</span></div><p class="text-xs subtle" style="margin-top:3px">To: ${data.mailbox}; liam.carter@jewel-demo.example</p><p class="text-xs subtle" style="margin-top:3px">Cc: sophie.turner@jewel-demo.example</p></div></div>`;
+    const header = `<h2 class="text-lg semibold">${ui.escape(mail.subject)}</h2><div class="row" style="gap:12px;margin-top:12px;flex-wrap:nowrap;align-items:flex-start"><span class="avatar" style="background:rgba(102,224,148,.15);color:var(--accent)">${mail.from.split(' ').map((word) => word[0]).join('').slice(0, 2)}</span><div style="flex:1;min-width:0"><div class="row-between"><p><span class="semibold">${ui.escape(mail.from)}</span><span class="subtle"> &lt;${mail.email}&gt;</span></p><span class="text-xs subtle">25 Sep 2026 ${mail.time}</span></div><p class="text-xs subtle" style="margin-top:3px">To: ${data.mailbox}; liam.carter@construction-demo.example</p><p class="text-xs subtle" style="margin-top:3px">Cc: sophie.turner@construction-demo.example</p></div></div>`;
     const buttons = `<div class="row">${ui.btn('↩ Reply')}${ui.btn('→ Forward')}</div>`;
     return `<section class="panel" style="padding:20px"><div class="stack-sm">${header}${attachmentList(mail)}${emailBody(mail, project)}${mail.id === 'm1' ? threadTabs() : ''}${buttons}</div></section>`;
   }

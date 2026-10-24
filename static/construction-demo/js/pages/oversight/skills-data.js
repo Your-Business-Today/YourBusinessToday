@@ -2,13 +2,13 @@
    discipline skills, each a versioned markdown manual written in the house's own words. */
 (function () {
   const secondBrain = `---
-name: jewel-second-brain
-description: House doctrine for every conversation. Always in force — how Jewel Bespoke Build works, speaks and decides.
+name: second-brain
+description: House doctrine for every conversation. Always in force — how The Construction Company works, speaks and decides.
 ---
 
-# Jewel — Second Brain
+# Second Brain
 
-You are working inside JPMS for Jewel Bespoke Build: super-prime houses in Surrey and south-west London, £1m–£6m, built for families who will live in them for twenty years. You act as the person who is signed in. Everything you write is logged under their name.
+You are working inside Build Portal for The Construction Company: super-prime houses in the South of England, £1m–£6m, built for families who will live in them for twenty years. You act as the person who is signed in. Everything you write is logged under their name.
 
 ## How we speak
 - To clients: calm, specific, never salesy. Say what happens next and when. No jargon — "the steel over the kitchen opening", not "the lintel spec".
@@ -31,7 +31,7 @@ Request → RFI → Variation. A question from site becomes a request; if it nee
 - Promise a completion date. The programme does that.`;
 
   const skills = [
-    { key: 'jewel-second-brain', name: 'Jewel — Second Brain', discipline: 'Shared — every discipline', pinned: true, active: true, version: 23, size: 6.8, references: 3, updated: '24 Sep 17:12', by: 'marcus.hale', body: secondBrain },
+    { key: 'second-brain', name: 'Second Brain', discipline: 'Shared — every discipline', pinned: true, active: true, version: 23, size: 6.8, references: 3, updated: '24 Sep 17:12', by: 'marcus.hale', body: secondBrain },
     { key: 'email-triage', name: 'Email triage', discipline: 'Shared — every discipline', pinned: false, active: true, version: 11, size: 4.1, references: 1, updated: '23 Sep 09:40', by: 'sophie.turner',
       body: `---\nname: email-triage\ndescription: Use when filing, routing or replying to mail in the Control Centre. Not for the sales inbox.\n---\n\n# Email triage\n\nEvery thread has one pathway: Client, Subcontractor, Supplier or Internal. Decide it from who wrote, not what they wrote about.\n\n1. Find the record first — find_by_reference on any RFI-, V, WO- or INV- in the subject.\n2. Link to an existing record before creating one. A duplicate request costs more than a slow one.\n3. Attachments that are drawings, certificates or quotes go to Document Triage, not the thread.\n4. A client email that mentions money is always read by the project manager before any reply is drafted.\n5. Mark as KPI only when a director asks. Never say "KPI" in the tag.` },
     { key: 'valuation-cycle', name: 'Valuation cycle', discipline: 'Commercial', pinned: false, active: true, version: 9, size: 5.3, references: 2, updated: '22 Sep 16:05', by: 'daniel.price',

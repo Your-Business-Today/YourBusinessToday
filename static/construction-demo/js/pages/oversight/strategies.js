@@ -11,7 +11,7 @@
   }
 
   function researchLine(strategy) {
-    if (strategy.research === 'Researching') return `<p class="text-xs subtle" style="margin-bottom:16px">${ui.jewel(12)} Claude is researching this strategy</p>`;
+    if (strategy.research === 'Researching') return `<p class="text-xs subtle" style="margin-bottom:16px">${ui.brandMark(12)} Claude is researching this strategy</p>`;
     return `<p class="text-xs subtle" style="margin-bottom:16px">${strategy.research}</p>`;
   }
 

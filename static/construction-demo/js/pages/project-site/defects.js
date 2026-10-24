@@ -49,7 +49,7 @@
 
   function communicationsPanel(project, defect) {
     const email = (from, when, subject, text) => `<div class="message"><div class="message-head"><span class="strong">${from}</span><span class="text-xs subtle">${when}</span></div><p class="text-xs subtle" style="margin-bottom:6px">${subject}</p><p class="muted">${text}</p><div class="row" style="margin-top:10px">${ui.btn('Reply', 'ghost')}${ui.btn('Forward', 'ghost')}</div></div>`;
-    const subject = `JPMS/${defect.ref} · ${project.name} — ${defect.location}`;
+    const subject = `PORTAL/${defect.ref} · ${project.name} — ${defect.location}`;
     const thread = defect.sent
       ? email(defect.supplier, '23 Sep 2026 · 09:14', subject, 'Thanks — we have the replacement unit on order, 10 working days. We will book the fit with Liam once it lands.')
         + email('Liam Carter', `${defect.sent} · 16:42`, subject, `Please see the defect below at ${project.name}. Could you confirm a date to attend and put it right? Photographs attached.`)
@@ -60,7 +60,7 @@
 
   function detailPanel(defect) {
     const supplier = defect.supplier ? `${ui.link(defect.supplier, '#/directory')}<span class="text-xs subtle" style="display:block">${defect.email}</span>` : site.italic('Not assigned — Edit to pick the supplier.');
-    const pairs = [['Supplier', supplier], ['Sent to supplier', defect.sent ? `${defect.sent} by liam.carter@jewel-demo.example` : site.italic('Not yet')], ['Raised', defect.raised]];
+    const pairs = [['Supplier', supplier], ['Sent to supplier', defect.sent ? `${defect.sent} by liam.carter@construction-demo.example` : site.italic('Not yet')], ['Raised', defect.raised]];
     if (defect.status === 'Resolved' || defect.status === 'Verified') pairs.push(['Resolved', '22 Sep 2026']);
     const list = pairs.map(([label, value]) => `<div style="margin-bottom:12px"><p class="eyebrow">${label}</p><div style="margin-top:2px">${value}</div></div>`).join('');
     return ui.panel('Detail', list);

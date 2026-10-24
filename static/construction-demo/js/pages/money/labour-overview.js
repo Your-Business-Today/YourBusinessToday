@@ -54,7 +54,7 @@
       const monthNav = `<div class="row" style="gap:8px">${ui.btn('‹ Prev')}<span class="subtle" style="white-space:nowrap;text-align:center">September 2026</span>${ui.btn('Next ›')}</div>`;
       return ui.join([
         money.sectionHeader('Labour overview', [monthNav, money.refreshButton(), money.exportButton(), ui.btn('Enter a week', 'primary')]),
-        money.note('Every JBB project in one view — this page ignores the project picked in the sidebar. Projected cost across every worker for the month, and where each day actually went. Contracted days multiplied by day rate, less every day recorded as holiday, a half day or not worked. Days not yet submitted stay at the full rate, so the figure is only as accurate as the submission rate below.', { lead: true, gap: 20 }),
+        money.note('Every project in one view — this page ignores the project picked in the sidebar. Projected cost across every worker for the month, and where each day actually went. Contracted days multiplied by day rate, less every day recorded as holiday, a half day or not worked. Days not yet submitted stay at the full rate, so the figure is only as accurate as the submission rate below.', { lead: true, gap: 20 }),
         forecastPanel(workers), viewSelector(), workersPanel(workers), chasePanel()
       ]);
     }

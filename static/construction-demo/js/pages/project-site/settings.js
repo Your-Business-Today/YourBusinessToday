@@ -26,7 +26,7 @@
   }
 
   function detailsPane(project) {
-    const tiles = [['Stage', project.stage], ['Entity', 'JBB'], ['Project Manager', 'sophie.turner@jewel-demo.example'], ['Client', project.client], ['Site address', `Hollow Lane, ${project.town}, GU5 9ZZ`], ['Xero site', `${project.ref} ${project.name}`], ['Xero contact', project.client]];
+    const tiles = [['Stage', project.stage], ['Entity', 'TCC'], ['Project Manager', 'sophie.turner@construction-demo.example'], ['Client', project.client], ['Site address', `Hollow Lane, ${project.town}, GU5 9ZZ`], ['Xero site', `${project.ref} ${project.name}`], ['Xero contact', project.client]];
     return [
       `<div class="row" style="justify-content:flex-end;margin-bottom:12px">${ui.btn('Edit details')}</div>`,
       `<div class="grid grid-3 grid-gap-sm" style="margin-bottom:12px">${tiles.map(([label, value]) => statTile(label, value)).join('')}</div>`,
@@ -55,10 +55,10 @@
   }
 
   function contractPane(project) {
-    const terms = [['Form', project.contract], ['Contract sum', ui.money(project.contractSum)], ['LADs', '£2,500 / week'], ['Employer', project.client], ['Contract administrator', project.architect], ['Contractor', 'Jewel Bespoke Build Ltd'], ['Possession', project.start], ['Completion', project.completion], ['Defects liability', '12 months'], ['Retention', '3% → 1.5%'], ['Valuation cut-off', 'Day 25'], ['Payment notices', '5d notice · 5d pay-less · 14d final date'], ['OH&amp;P', '12% direct · 10% sub · 5% attendance'], ['Daywork', '15% labour · 12.5% materials · 10% plant']];
-    const document = `<div class="row-between" style="border:1px solid var(--line);background:var(--surface);padding:10px 12px"><div><p class="strong">${project.ref} ${project.name} — executed contract.pdf</p><p class="text-xs subtle" style="margin-top:2px">8.4 MB · uploaded 20 Feb 2026 by marcus.hale@jewel-demo.example</p></div><div class="row">${ui.btn('Download', 'ghost')}${ui.btn('Replace')}</div></div>`;
+    const terms = [['Form', project.contract], ['Contract sum', ui.money(project.contractSum)], ['LADs', '£2,500 / week'], ['Employer', project.client], ['Contract administrator', project.architect], ['Contractor', 'The Construction Company Ltd'], ['Possession', project.start], ['Completion', project.completion], ['Defects liability', '12 months'], ['Retention', '3% → 1.5%'], ['Valuation cut-off', 'Day 25'], ['Payment notices', '5d notice · 5d pay-less · 14d final date'], ['OH&amp;P', '12% direct · 10% sub · 5% attendance'], ['Daywork', '15% labour · 12.5% materials · 10% plant']];
+    const document = `<div class="row-between" style="border:1px solid var(--line);background:var(--surface);padding:10px 12px"><div><p class="strong">${project.ref} ${project.name} — executed contract.pdf</p><p class="text-xs subtle" style="margin-top:2px">8.4 MB · uploaded 20 Feb 2026 by marcus.hale@construction-demo.example</p></div><div class="row">${ui.btn('Download', 'ghost')}${ui.btn('Replace')}</div></div>`;
     const amendment = `<div class="row-between" style="border:1px solid var(--line);background:var(--surface);padding:10px 12px"><div><p class="strong">Side letter — basement extent</p><p class="text-xs muted" style="margin-top:2px">Extends the basement under the orangery; contract sum adjusted by instruction.</p><p class="text-xs subtle" style="margin-top:2px">14 May 2026 · side-letter-basement.pdf</p></div><div class="row"><a class="text-xs tone-accent">Edit</a><a class="text-xs tone-negative">Remove</a></div></div>`;
-    const termsList = `<dl class="meta">${terms.map(([label, value]) => `<div><dt class="eyebrow">${label}</dt><dd>${value}</dd></div>`).join('')}</dl><p class="text-xs subtle" style="margin-top:12px">Last updated 03 Mar 2026 by ravi.patel@jewel-demo.example</p>`;
+    const termsList = `<dl class="meta">${terms.map(([label, value]) => `<div><dt class="eyebrow">${label}</dt><dd>${value}</dd></div>`).join('')}</dl><p class="text-xs subtle" style="margin-top:12px">Last updated 03 Mar 2026 by ravi.patel@construction-demo.example</p>`;
     const body = [
       `<section style="margin-bottom:24px"><h4 class="eyebrow" style="margin-bottom:8px">Executed contract</h4>${document}</section>`,
       `<section style="margin-bottom:24px"><h4 class="eyebrow" style="margin-bottom:8px">Amendments</h4>${amendment}<div style="margin-top:8px">${ui.btn('Add amendment')}</div></section>`,

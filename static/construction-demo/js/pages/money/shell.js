@@ -7,7 +7,7 @@
   function projectShell(project, body) {
     const crumbs = `<nav class="text-xs" style="margin-bottom:16px"><a class="subtle" href="#/projects" style="text-decoration:underline">Projects</a><span class="subtle" style="margin:0 8px">/</span><a class="subtle" href="#/projects/${project.id}" style="text-decoration:underline">${project.ref}</a></nav>`;
     const title = `<span class="row" style="gap:4px">${ui.iconBtn('<path d="M15 6l-6 6 6 6"/>', 'Previous project')}<span>${ui.escape(project.name)}</span>${ui.iconBtn('<path d="M9 6l6 6-6 6"/>', 'Next project')}</span>`;
-    const subtitle = `${ui.escape(project.client)} · JBB · ${ui.pill(project.stage, stageTones[project.stage], { dot: true })}`;
+    const subtitle = `${ui.escape(project.client)} · TCC · ${ui.pill(project.stage, stageTones[project.stage], { dot: true })}`;
     return ui.join([crumbs, ui.header({ eyebrow: project.ref, title, subtitle }), ui.join(body)]);
   }
 

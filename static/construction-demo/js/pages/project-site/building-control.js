@@ -62,7 +62,7 @@
     const dates = `<div class="grid grid-4 grid-gap-sm" style="margin-bottom:12px">${field('Booked for', inspection.booked)}${field('Inspected', inspection.inspected)}<div style="grid-column:span 2">${field('Inspector', inspection.inspector, 'Who carried out the visit')}</div></div>`;
     const outcome = `<div style="margin-bottom:12px">${ui.field('Outcome / actions required', inspection.outcome, { textarea: true, placeholder: 'The inspector\'s outcome — passed subject to…, actions before re-inspection…' })}</div>`;
     const stage = `<div style="margin-bottom:12px">${field('Stage name', inspection.stage)}</div>`;
-    const footer = `<div class="row-between">${ui.btn('Save changes', 'primary')}<p class="text-xs subtle">Created 26 Feb 2026 by sophie.turner@jewel-demo.example</p></div>`;
+    const footer = `<div class="row-between">${ui.btn('Save changes', 'primary')}<p class="text-xs subtle">Created 26 Feb 2026 by sophie.turner@construction-demo.example</p></div>`;
     return `<section class="panel" style="margin-bottom:20px"><div class="panel-body">${dates}${outcome}${stage}${footer}</div></section>`;
   }
 
@@ -80,7 +80,7 @@
   }
 
   function correspondencePanel(project, inspection) {
-    const email = (from, when, text) => `<div class="message"><div class="message-head"><span class="strong">${from}</span><span class="text-xs subtle">${when}</span></div><p class="text-xs subtle" style="margin-bottom:6px">JPMS/${inspection.ref} · ${inspection.stage} inspection — ${project.name}</p><p class="muted">${text}</p><div class="row" style="margin-top:10px">${ui.btn('Reply', 'ghost')}${ui.btn('Forward', 'ghost')}</div></div>`;
+    const email = (from, when, text) => `<div class="message"><div class="message-head"><span class="strong">${from}</span><span class="text-xs subtle">${when}</span></div><p class="text-xs subtle" style="margin-bottom:6px">PORTAL/${inspection.ref} · ${inspection.stage} inspection — ${project.name}</p><p class="muted">${text}</p><div class="row" style="margin-top:10px">${ui.btn('Reply', 'ghost')}${ui.btn('Forward', 'ghost')}</div></div>`;
     const thread = email('Alan Pryce', '17 Sep 2026 · 10:22', 'Please find attached my site inspection report following yesterday\'s visit. Re-test to be booked once the repair is complete.')
       + email('Liam Carter', '14 Sep 2026 · 08:05', 'Could we book the drainage inspection for Wednesday morning? Runs are open and ready for the air test.');
     return ui.panel('Correspondence', thread, { actions: [ui.btn('Find & tag', 'ghost'), ui.btn('New email')] });

@@ -16,7 +16,7 @@
 
   function termsPanel() {
     const body = [
-      `<p><a class="tone-accent strong" href="#/admin/system">JBB-Tender-Terms-and-Conditions-2026.pdf</a><span class="subtle"> · 412 KB · uploaded 03 Jun 2026, 10:48</span></p>`,
+      `<p><a class="tone-accent strong" href="#/admin/system">TCC-Tender-Terms-and-Conditions-2026.pdf</a><span class="subtle"> · 412 KB · uploaded 03 Jun 2026, 10:48</span></p>`,
       `<p class="text-xs subtle" style="margin-top:4px">Attached automatically to every tender-invite email, on every project, alongside the pricing schedule. Uploading a replacement changes what every invite sends from that moment on.</p>`,
       `<div style="border-top:1px solid var(--line);margin-top:16px;padding-top:16px">${ui.btn('Replace the document')}<p class="text-xs subtle" style="margin-top:8px">PDF only, up to 10&nbsp;MB. Directors and administrators can replace it.</p></div>`
     ];

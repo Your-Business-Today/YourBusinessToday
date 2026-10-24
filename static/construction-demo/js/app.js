@@ -80,7 +80,7 @@ window.JPMS = window.JPMS || {};
     const user = JPMS.data.signedIn;
     return `
       <div class="rail-head">
-        <a class="rail-brand" href="#/dashboard">${ui.jewel(20)}<span class="label">JPMS</span></a>
+        <a class="rail-brand" href="#/dashboard">${ui.brandMark(20)}<span class="label">Build Portal</span></a>
         <button type="button" class="btn-icon" style="border:0" data-collapse title="Toggle navigation"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="${state.isCollapsed ? 'M9 6l6 6-6 6' : 'M15 6l-6 6 6 6'}"/></svg></button>
       </div>
       <nav class="rail-nav">
@@ -108,7 +108,7 @@ window.JPMS = window.JPMS || {};
     document.getElementById('rail').classList.toggle('is-collapsed', state.isCollapsed);
     document.getElementById('shell').classList.toggle('is-collapsed', state.isCollapsed);
     document.getElementById('page-title').textContent = title || '';
-    document.title = `${title || 'JPMS'} · JPMS demo`;
+    document.title = `${title || 'Build Portal'} · Build Portal demo`;
     document.getElementById('page').innerHTML = `<section class="page ${found && found.page.narrow ? 'page-narrow' : ''}">${body}</section>`;
     window.scrollTo(0, 0);
   }

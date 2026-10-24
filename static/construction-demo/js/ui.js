@@ -19,8 +19,8 @@ window.JPMS = window.JPMS || {};
       return `<svg class="icon ${size ? 'icon-' + size : ''}" viewBox="0 0 24 24" aria-hidden="true">${path}</svg>`;
     },
 
-    jewel(size = 20) {
-      return `<svg width="${size}" height="${size}" viewBox="0 0 530 460" fill="none" stroke="currentColor" stroke-width="34" aria-hidden="true"><path d="M 140 30 L 390 30 L 510 175 L 265 430 L 20 175 Z"/><path d="M 55 175 L 475 175"/><path d="M 185 30 L 185 175"/><path d="M 345 30 L 345 175"/><path d="M 185 175 L 265 430"/><path d="M 345 175 L 265 430"/></svg>`;
+    brandMark(size = 20) {
+      return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 11 12 3l9 8"/><path d="M5 10v11h14V10"/><path d="M10 21v-6h4v6"/></svg>`;
     },
 
     money(amount, options = {}) {

@@ -7,7 +7,7 @@
 
   const records = [
     ['Lead', 'LD-0023 · Martin Greaves', [['Name', 'Martin Greaves'], ['Email', email], ['Phone', '07700 900719'], ['Property', 'Hillcrest, Station Road, Linford Heath'], ['Captured', '14 Jul 2026'], ['Stage', 'Lost']]],
-    ['Directory contact', 'Martin Greaves', [['Name', 'Martin Greaves'], ['Email', email], ['Phone', '07700 900719'], ['Company', '—'], ['Added', '14 Jul 2026 by daniel.price@jewel-demo.example']]],
+    ['Directory contact', 'Martin Greaves', [['Name', 'Martin Greaves'], ['Email', email], ['Phone', '07700 900719'], ['Company', '—'], ['Added', '14 Jul 2026 by daniel.price@construction-demo.example']]],
     ['Imagine round', 'LD-0023 · Round 1', [['Brief', 'Loft room for a home office with a view of the downs'], ['Concepts', '3 rendered'], ['Issued', '18 Jul 2026']]]
   ];
 

@@ -1,5 +1,5 @@
 /* The flagship pages' shared frame: ProjectPageShell.razor (breadcrumb, reference eyebrow, name
-   with prev/next arrows, client · JBB · stage), SectionHeader, the Toolbar icon buttons, the
+   with prev/next arrows, client · TCC · stage), SectionHeader, the Toolbar icon buttons, the
    compact select, and the portfolio the Projects and Owner Overview pages both read. */
 (function () {
   const ui = JPMS.ui;
@@ -20,10 +20,10 @@
   const stageTones = { 'On site': 'positive', 'Pre-construction': 'info', Procurement: 'info', Mobilisation: 'warning', 'Defects period': 'accent', Completed: '' };
 
   const portfolioExtras = [
-    { id: null, ref: 'JBB-104', name: 'Larch Hollow Orangery', town: 'Coldharbour Vale', client: 'Mr Julian Starling', stage: 'Procurement', contractSum: 1180000, nextValuation: null },
-    { id: null, ref: 'JBB-105', name: 'Fernleigh Court Basement', town: 'Linford Heath', client: 'The Pemberton-Hayes Family', stage: 'Mobilisation', contractSum: 2640000, nextValuation: '19 Oct 2026' },
-    { id: null, ref: 'JBB-099', name: 'Stonebridge Farmhouse', town: 'Ashcombe Green', client: 'Mr & Mrs Delacourt', stage: 'Defects period', contractSum: 1935000, nextValuation: '22 Sep 2026' },
-    { id: null, ref: 'JBB-096', name: 'Millrace Cottage', town: 'Linford Heath', client: 'Ms Harriet Vane-Lowry', stage: 'Completed', contractSum: 612000, nextValuation: null }
+    { id: null, ref: 'TCC-104', name: 'Larch Hollow Orangery', town: 'Coldharbour Vale', client: 'Mr Julian Starling', stage: 'Procurement', contractSum: 1180000, nextValuation: null },
+    { id: null, ref: 'TCC-105', name: 'Fernleigh Court Basement', town: 'Linford Heath', client: 'The Pemberton-Hayes Family', stage: 'Mobilisation', contractSum: 2640000, nextValuation: '19 Oct 2026' },
+    { id: null, ref: 'TCC-099', name: 'Stonebridge Farmhouse', town: 'Ashcombe Green', client: 'Mr & Mrs Delacourt', stage: 'Defects period', contractSum: 1935000, nextValuation: '22 Sep 2026' },
+    { id: null, ref: 'TCC-096', name: 'Millrace Cottage', town: 'Linford Heath', client: 'Ms Harriet Vane-Lowry', stage: 'Completed', contractSum: 612000, nextValuation: null }
   ];
 
   const nextValuations = { hollowmere: '30 Sep 2026', 'coach-house': '23 Sep 2026', kingsridge: null, wrenfield: null };
@@ -43,7 +43,7 @@
 
   function projectShell(project, body) {
     const title = `<span class="row" style="gap:4px">${ui.iconBtn(paths.left, 'Previous project')}<span>${ui.escape(project.name)}</span>${ui.iconBtn(paths.right, 'Next project')}</span>`;
-    const subtitle = `${ui.escape(project.client)} · JBB · ${stageBadge(project.stage)}`;
+    const subtitle = `${ui.escape(project.client)} · TCC · ${stageBadge(project.stage)}`;
     return ui.join([breadcrumb(project), ui.header({ eyebrow: project.ref, title, subtitle }), ui.join(body)]);
   }
 

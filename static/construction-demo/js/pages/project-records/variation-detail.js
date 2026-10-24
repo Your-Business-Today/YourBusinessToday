@@ -38,8 +38,8 @@
   ];
 
   const emails = [
-    { from: 'helen@ashdownrowe.example', to: 'projects@jewel-demo.example', when: '24 Sep 2026, 11:31', subject: 'Hollowmere House — Architect’s Instruction AI-031 (kitchen opening)', text: 'Please find attached AI-031 instructing the widened kitchen opening and the 203 UB lintel as per your variation V14.', tag: 'JPMS/VOQ-0014' },
-    { from: 'sophie.turner@jewel-demo.example', to: 'Mr & Mrs Whitfield', when: '19 Sep 2026, 09:00', subject: 'V14 — Steel lintel and widened kitchen opening', text: 'Please find attached Variation Order V14 for your approval. The value is £17,440 excluding VAT.', tag: 'JPMS/VOQ-0014' }
+    { from: 'helen@ashdownrowe.example', to: 'projects@construction-demo.example', when: '24 Sep 2026, 11:31', subject: 'Hollowmere House — Architect’s Instruction AI-031 (kitchen opening)', text: 'Please find attached AI-031 instructing the widened kitchen opening and the 203 UB lintel as per your variation V14.', tag: 'PORTAL/VOQ-0014' },
+    { from: 'sophie.turner@construction-demo.example', to: 'Mr & Mrs Whitfield', when: '19 Sep 2026, 09:00', subject: 'V14 — Steel lintel and widened kitchen opening', text: 'Please find attached Variation Order V14 for your approval. The value is £17,440 excluding VAT.', tag: 'PORTAL/VOQ-0014' }
   ];
 
   function actionItems(row) {

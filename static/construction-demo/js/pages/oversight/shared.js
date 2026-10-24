@@ -23,7 +23,7 @@
 
   function projectShell(project) {
     const crumbs = `<nav class="text-xs subtle" style="margin-bottom:16px">${ui.link('Projects', '#/projects')}<span style="margin:0 8px">/</span>${ui.link(project.ref, `#/projects/${project.id}`)}</nav>`;
-    const subtitle = `${project.client} · JBB · ${ui.pill(project.stage, project.stage === 'On site' ? 'positive' : '')}`;
+    const subtitle = `${project.client} · TCC · ${ui.pill(project.stage, project.stage === 'On site' ? 'positive' : '')}`;
     return crumbs + ui.header({ eyebrow: project.ref, title: `<span class="subtle">‹</span> ${project.name} <span class="subtle">›</span>`, subtitle });
   }
 

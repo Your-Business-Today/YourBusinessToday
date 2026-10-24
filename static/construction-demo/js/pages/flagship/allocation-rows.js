@@ -37,10 +37,10 @@
   }
 
   const badges = {
-    approved: (line) => `<span class="text-xs tone-positive" style="display:block;margin-top:3px" title="${line.at}">✓ Approved in Xero by JPMS</span>`,
+    approved: (line) => `<span class="text-xs tone-positive" style="display:block;margin-top:3px" title="${line.at}">✓ Approved in Xero by Build Portal</span>`,
     failed: (line) => `<span class="text-xs tone-negative" style="display:block;margin-top:3px">⚠ Xero write-back failed — still ${line.status} in Xero</span>`,
     draft: () => '<span class="text-xs tone-warning" style="display:block;margin-top:3px">Draft in Xero — approves once the whole bill is allocated</span>',
-    outside: (line) => `<span class="text-xs subtle" style="display:block;margin-top:3px" title="The bill was approved or paid in Xero without the portal's write-back">${line.status} in Xero (outside JPMS)</span>`
+    outside: (line) => `<span class="text-xs subtle" style="display:block;margin-top:3px" title="The bill was approved or paid in Xero without the portal's write-back">${line.status} in Xero (outside Build Portal)</span>`
   };
 
   function errorNote(line) {

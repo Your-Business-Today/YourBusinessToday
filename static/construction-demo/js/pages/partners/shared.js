@@ -11,7 +11,7 @@
 
   function projectShell(project, body) {
     const arrows = (glyph) => `<span class="subtle" style="font-weight:400;margin:0 8px">${glyph}</span>`;
-    const subtitle = `${project.client} · JBB · ${ui.pill(project.stage, stageTones[project.stage])}`;
+    const subtitle = `${project.client} · TCC · ${ui.pill(project.stage, stageTones[project.stage])}`;
     return ui.join([
       crumbs([['Projects', '#/projects'], [project.ref, `#/projects/${project.id}`]]),
       ui.header({ eyebrow: project.ref, title: `${arrows('‹')}${project.name}${arrows('›')}`, subtitle }),

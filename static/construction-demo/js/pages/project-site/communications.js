@@ -18,7 +18,7 @@
     { from: 'Northgate Groundworks Ltd', pathway: 'Subcontractor', when: '16 Sep 2026, 17:05', subject: 'Application for payment No. 7', preview: 'Our application for the period ending 15 September is attached, together with the drainage day-work sheets.', hasAttachment: true, links: [['Work order', 'WO-0138', 'Groundworks & drainage'], ['Cost centre', '2100', 'Groundworks & drainage']] }
   ];
 
-  const tagChip = ([type, reference, title]) => `<span class="pill pill-accent" style="border-radius:999px" title="JPMS/${reference}">${type} <span class="mono">${reference}</span> · ${ui.escape(title)}</span>`;
+  const tagChip = ([type, reference, title]) => `<span class="pill pill-accent" style="border-radius:999px" title="PORTAL/${reference}">${type} <span class="mono">${reference}</span> · ${ui.escape(title)}</span>`;
   const action = (label) => `<button type="button" class="text-xs tone-accent" style="background:none;border:0;padding:0;font-weight:500;cursor:pointer">${label}</button>`;
 
   function emailCard(email) {

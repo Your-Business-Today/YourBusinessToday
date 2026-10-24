@@ -3,26 +3,26 @@
 window.JPMS = window.JPMS || {};
 
 JPMS.data = {
-  company: 'Jewel Bespoke Build',
+  company: 'The Construction Company',
   today: '25 Sep 2026',
-  signedIn: { name: 'Demo Administrator', email: 'admin@jewel-demo.example', role: 'Administrator' },
+  signedIn: { name: 'Demo Administrator', email: 'admin@construction-demo.example', role: 'Administrator' },
 
   projects: [
-    { id: 'hollowmere', ref: 'JBB-101', name: 'Hollowmere House', town: 'Ashcombe Green', client: 'Mr & Mrs Whitfield', architect: 'Ashdown Rowe Architects', stage: 'On site', contract: 'JCT SBC 2016', contractSum: 3480000, valuedToDate: 2156400, margin: 14.2, start: '02 Mar 2026', completion: '30 Apr 2027', progress: 62 },
-    { id: 'coach-house', ref: 'JBB-102', name: 'The Old Coach House', town: 'Linford Heath', client: 'Ms Imogen Clarke', architect: 'Fenwick Hale Studio', stage: 'On site', contract: 'JCT IC 2016', contractSum: 1265000, valuedToDate: 498300, margin: 12.8, start: '15 Jun 2026', completion: '12 Mar 2027', progress: 38 },
-    { id: 'kingsridge', ref: 'JBB-103', name: 'Kingsridge Lodge', town: 'Coldharbour Vale', client: 'The Aldous Family Trust', architect: 'Ashdown Rowe Architects', stage: 'Pre-construction', contract: 'JCT SBC 2016', contractSum: 5920000, valuedToDate: 0, margin: 15.5, start: '12 Jan 2027', completion: '28 Jul 2028', progress: 0 },
-    { id: 'wrenfield', ref: 'JBB-098', name: 'Wrenfield Barn', town: 'Ashcombe Green', client: 'Dr & Mr Okafor', architect: 'Marlow Byrne Architects', stage: 'Completed', contract: 'JCT MW 2016', contractSum: 842000, valuedToDate: 842000, margin: 11.9, start: '06 Oct 2025', completion: '31 Jul 2026', progress: 100 }
+    { id: 'hollowmere', ref: 'TCC-101', name: 'Hollowmere House', town: 'Ashcombe Green', client: 'Mr & Mrs Whitfield', architect: 'Ashdown Rowe Architects', stage: 'On site', contract: 'JCT SBC 2016', contractSum: 3480000, valuedToDate: 2156400, margin: 14.2, start: '02 Mar 2026', completion: '30 Apr 2027', progress: 62 },
+    { id: 'coach-house', ref: 'TCC-102', name: 'The Old Coach House', town: 'Linford Heath', client: 'Ms Imogen Clarke', architect: 'Fenwick Hale Studio', stage: 'On site', contract: 'JCT IC 2016', contractSum: 1265000, valuedToDate: 498300, margin: 12.8, start: '15 Jun 2026', completion: '12 Mar 2027', progress: 38 },
+    { id: 'kingsridge', ref: 'TCC-103', name: 'Kingsridge Lodge', town: 'Coldharbour Vale', client: 'The Aldous Family Trust', architect: 'Ashdown Rowe Architects', stage: 'Pre-construction', contract: 'JCT SBC 2016', contractSum: 5920000, valuedToDate: 0, margin: 15.5, start: '12 Jan 2027', completion: '28 Jul 2028', progress: 0 },
+    { id: 'wrenfield', ref: 'TCC-098', name: 'Wrenfield Barn', town: 'Ashcombe Green', client: 'Dr & Mr Okafor', architect: 'Marlow Byrne Architects', stage: 'Completed', contract: 'JCT MW 2016', contractSum: 842000, valuedToDate: 842000, margin: 11.9, start: '06 Oct 2025', completion: '31 Jul 2026', progress: 100 }
   ],
 
   staff: [
-    { name: 'Marcus Hale', role: 'Managing Director', email: 'marcus.hale@jewel-demo.example', initials: 'MH' },
-    { name: 'Daniel Price', role: 'Finance Director', email: 'daniel.price@jewel-demo.example', initials: 'DP' },
-    { name: 'Sophie Turner', role: 'Project Manager', email: 'sophie.turner@jewel-demo.example', initials: 'ST' },
-    { name: 'Ravi Patel', role: 'Quantity Surveyor', email: 'ravi.patel@jewel-demo.example', initials: 'RP' },
-    { name: 'Liam Carter', role: 'Site Manager', email: 'liam.carter@jewel-demo.example', initials: 'LC' },
-    { name: 'Emma Walsh', role: 'Accounts', email: 'emma.walsh@jewel-demo.example', initials: 'EW' },
-    { name: 'Grace Holloway', role: 'H&S Officer', email: 'grace.holloway@jewel-demo.example', initials: 'GH' },
-    { name: 'Tom Reeves', role: 'Foreman', email: 'tom.reeves@jewel-demo.example', initials: 'TR' }
+    { name: 'Marcus Hale', role: 'Managing Director', email: 'marcus.hale@construction-demo.example', initials: 'MH' },
+    { name: 'Daniel Price', role: 'Finance Director', email: 'daniel.price@construction-demo.example', initials: 'DP' },
+    { name: 'Sophie Turner', role: 'Project Manager', email: 'sophie.turner@construction-demo.example', initials: 'ST' },
+    { name: 'Ravi Patel', role: 'Quantity Surveyor', email: 'ravi.patel@construction-demo.example', initials: 'RP' },
+    { name: 'Liam Carter', role: 'Site Manager', email: 'liam.carter@construction-demo.example', initials: 'LC' },
+    { name: 'Emma Walsh', role: 'Accounts', email: 'emma.walsh@construction-demo.example', initials: 'EW' },
+    { name: 'Grace Holloway', role: 'H&S Officer', email: 'grace.holloway@construction-demo.example', initials: 'GH' },
+    { name: 'Tom Reeves', role: 'Foreman', email: 'tom.reeves@construction-demo.example', initials: 'TR' }
   ],
 
   architects: [

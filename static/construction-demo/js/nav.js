@@ -1,4 +1,4 @@
-/* The rail, copied from jewel-portal/jpms/Services/Navigation/SidebarFolders.cs and NavIcon.razor. */
+/* The rail, copied from the portal's jpms project/Services/Navigation/SidebarFolders.cs and NavIcon.razor. */
 window.JPMS = window.JPMS || {};
 JPMS.navigation = {
  "home": {

@@ -1,4 +1,4 @@
-/* Leads — jpms/Pages/SalesLeads.razor: the one register of everyone Jewel might convince to
+/* Leads — jpms/Pages/SalesLeads.razor: the one register of everyone the company might convince to
    build with it, the four figures above it, stage chips, and the strategy that found each lead. */
 (function () {
   const ui = JPMS.ui;
@@ -50,7 +50,7 @@
       const pipeline = open.reduce((sum, lead) => sum + lead.value, 0);
       return ui.join([
         shared.salesTabs(0),
-        shared.header({ subtitle: 'Everyone we might convince to build with Jewel — to upgrade their house or have a new one built — and the property the work would be on. Every lead lands here whatever found it; the strategy that found it is named on the row, so a strategy is judged by how far its leads climb.', primary: 'New lead' }),
+        shared.header({ subtitle: 'Everyone we might convince to build with us — to upgrade their house or have a new one built — and the property the work would be on. Every lead lands here whatever found it; the strategy that found it is named on the row, so a strategy is judged by how far its leads climb.', primary: 'New lead' }),
         `<div style="margin-bottom:24px">${ui.stats([{ label: 'Open leads', value: String(open.length) }, { label: 'Open pipeline', value: ui.money(pipeline) }, { label: 'Won this year', value: '3' }, { label: 'New in the last 30 days', value: '6' }])}</div>`,
         register()
       ]);

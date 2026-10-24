@@ -21,7 +21,7 @@
     const count = project.id === 'hollowmere' ? moves.length : 4;
     return moves.slice(0, count).map(([when, who, line, move]) => [
       `<span class="subtle" style="white-space:nowrap">${when}</span>`,
-      `<span style="white-space:nowrap">${who}@jewel-demo.example</span>`,
+      `<span style="white-space:nowrap">${who}@construction-demo.example</span>`,
       `<span class="mono text-xs muted" style="white-space:nowrap">${line}</span>`,
       move
     ]);

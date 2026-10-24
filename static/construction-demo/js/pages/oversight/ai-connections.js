@@ -3,7 +3,7 @@
 (function () {
   const ui = JPMS.ui;
   const shared = JPMS.oversight;
-  const connectorUrl = 'https://portal.jewel-demo.example/mcp';
+  const connectorUrl = 'https://portal.construction-demo.example/mcp';
 
   const connections = [
     ['Claude', 'marcus.hale', '02 Sep 2026, 08:14', '25 Sep 2026, 09:51'],
@@ -18,7 +18,7 @@
   ];
 
   function row([tool, who, connected, lastUsed]) {
-    const email = who === 'admin' ? JPMS.data.signedIn.email : `${who}@jewel-demo.example`;
+    const email = who === 'admin' ? JPMS.data.signedIn.email : `${who}@construction-demo.example`;
     return [`<span class="strong" style="white-space:nowrap">${tool}</span>`, email, `<span style="white-space:nowrap">${connected}</span>`, `<span style="white-space:nowrap">${lastUsed}</span>`, `<div style="text-align:right">${ui.btn('Disconnect', 'secondary', { class: 'text-xs' })}</div>`];
   }
 

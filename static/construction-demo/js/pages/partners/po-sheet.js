@@ -11,7 +11,7 @@
     const meta = [['Date Created', order.created], ['Date Released', order.isDraft ? '— on approval' : order.released], ['Purchase Order #', order.isDraft ? 'Draft' : order.ref]]
       .map(([term, value]) => `<div style="display:flex;gap:12px"><span style="width:140px;color:#475569">${term}</span><span>${value}</span></div>`).join('');
     const company = ['Printed: 25 Sep 2026', 'Unit 4, Weyside Court, Mill Lane,', 'Ashcombe Green, Surrey, GU9 4ZZ', 'Phone: 01483 000 410'].map((line) => `<p>${line}</p>`).join('');
-    return `<header style="display:flex;justify-content:space-between;gap:24px"><div><div class="row" style="${ink}">${ui.jewel(28)}<span style="font-weight:700;letter-spacing:.08em">JEWEL BESPOKE BUILD</span></div><h1 style="font-size:26px;font-weight:700;margin:14px 0;${ink}">Purchase Order</h1>${meta}</div><div style="text-align:right"><p style="font-weight:700;${ink}">Jewel Bespoke Build Ltd</p>${company}</div></header>`;
+    return `<header style="display:flex;justify-content:space-between;gap:24px"><div><div class="row" style="${ink}">${ui.brandMark(28)}<span style="font-weight:700;letter-spacing:.08em">THE CONSTRUCTION COMPANY</span></div><h1 style="font-size:26px;font-weight:700;margin:14px 0;${ink}">Purchase Order</h1>${meta}</div><div style="text-align:right"><p style="font-weight:700;${ink}">The Construction Company Ltd</p>${company}</div></header>`;
   }
 
   function parties(order, project, supplier) {
@@ -23,10 +23,10 @@
       `<p style="font-style:italic">“This Works Order is issued subject to the terms and conditions which are appended hereto”</p>`,
       `<p style="color:#2563eb;text-decoration:underline">Find terms of work order here</p>`,
       `<p style="${heading}">Special Instructions</p><p>Every site requires full PPE, boots and Hi-Vis, please ensure these are worn at all times, with all RAMS adhered to.</p><p>We expect all of your work areas to be clean and tidy and left safe at the end of each working day.</p>`,
-      `<p style="${heading}">Insurances &amp; RAMS</p><p>Contractors to send all insurance documents and RAMS prior to starting works on site — <strong>projects@jewel-demo.example</strong></p>`,
+      `<p style="${heading}">Insurances &amp; RAMS</p><p>Contractors to send all insurance documents and RAMS prior to starting works on site — <strong>projects@construction-demo.example</strong></p>`,
       order.scope ? `<p style="${heading}">Works Order info</p><p style="white-space:pre-line">${order.scope}</p>` : '',
       order.programme ? `<p style="${heading}">Programme</p><p>Start Date — ${order.programme[0]}</p><p>Completion Date — ${order.programme[1]}</p>` : '',
-      `<p style="${heading}">Invoice and Payment Requirements</p><p>Please forward your invoice to <strong>accounts@jewel-demo.example</strong> and <strong>projects@jewel-demo.example</strong> by COB Friday's with a <strong><em>30 day terms</em></strong></p><p>Invoices to include <strong>CIS Breakdown</strong> (if necessary)</p><p>Correct <strong>VAT breakdown</strong> (including Reverse Charge if necessary)</p>`
+      `<p style="${heading}">Invoice and Payment Requirements</p><p>Please forward your invoice to <strong>accounts@construction-demo.example</strong> and <strong>projects@construction-demo.example</strong> by COB Friday's with a <strong><em>30 day terms</em></strong></p><p>Invoices to include <strong>CIS Breakdown</strong> (if necessary)</p><p>Correct <strong>VAT breakdown</strong> (including Reverse Charge if necessary)</p>`
     ];
     return `<section style="border:1px solid #cbd5e1;margin-bottom:16px"><p style="background:#f8fafc;border-bottom:1px solid #cbd5e1;padding:7px 10px;font-weight:600;${ink}">Scope of Work</p><div style="padding:10px 12px;line-height:1.6">${paragraphs.join('')}</div></section>`;
   }

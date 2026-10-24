@@ -71,7 +71,7 @@
   function pendingPanel() {
     return ui.panel('Pending access requests', ui.table({
       columns: ['Name', 'Email', 'Requested', 'Role asked for', ''],
-      rows: [['Nina Lowe', 'nina.lowe@jewel-demo.example', '24 Sep', 'Site Manager', `<div class="row" style="justify-content:flex-end">${ui.btn('Decline')}${ui.btn('Approve…')}</div>`]]
+      rows: [['Nina Lowe', 'nina.lowe@construction-demo.example', '24 Sep', 'Site Manager', `<div class="row" style="justify-content:flex-end">${ui.btn('Decline')}${ui.btn('Approve…')}</div>`]]
     }), { flush: true });
   }
 

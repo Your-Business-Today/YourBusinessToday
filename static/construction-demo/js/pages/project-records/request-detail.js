@@ -38,11 +38,11 @@
       { who: 'Ravi Patel', role: 'Quantity Surveyor', when: '16 Sep 2026, 10:05', text: 'Raised V14 to price it. Northgate for padstones, Ashlar for the steel and brick reveals, Timbercraft to re-set the kitchen run.', isInternal: true, isReply: true }
     ],
     history: [
-      ['08 Sep 2026', 'Request REQ-0187 raised from site by liam.carter@jewel-demo.example'],
+      ['08 Sep 2026', 'Request REQ-0187 raised from site by liam.carter@construction-demo.example'],
       ['09 Sep 2026', 'Promoted to RFI-049 · issued to Ashdown Rowe Architects'],
       ['09 Sep 2026', 'RFI document drafted to the projects mailbox'],
       ['15 Sep 2026', 'Response recorded — status Needs variation'],
-      ['16 Sep 2026', 'Variation Order Quote V14 raised by ravi.patel@jewel-demo.example'],
+      ['16 Sep 2026', 'Variation Order Quote V14 raised by ravi.patel@construction-demo.example'],
       ['19 Sep 2026', 'V14 issued to the client'],
       ['24 Sep 2026', 'AI-012 filed against V14']
     ]
@@ -87,7 +87,7 @@
       records().factRow('Type', 'RFI — Request for Information'),
       records().factRow('Corresponds with', architect.firm),
       records().factRow('On behalf of', project.client),
-      `<p class="eyebrow">Draft will be addressed to</p><p class="text-xs muted">To: ${architect.email}<br>CC: sophie.turner@jewel-demo.example, projects@jewel-demo.example</p>`
+      `<p class="eyebrow">Draft will be addressed to</p><p class="text-xs muted">To: ${architect.email}<br>CC: sophie.turner@construction-demo.example, projects@construction-demo.example</p>`
     ]);
   }
 
@@ -114,7 +114,7 @@
     const pills = [records().statusMenu(row.status, records().requestTones[row.status] || 'muted', statusOptions), row.variation && row.status !== 'Closed' ? ui.pill('Variation', 'warning') : '', row.isCriticalPath ? ui.pill('Critical path', 'negative') : ''];
     const header = records().headerBar({ reference: row.ref, secondary: row.number, kind: isRfi ? 'RFI' : 'General', pills, title: ui.escape(row.title), actions: [ui.btn(isRfi ? 'Email RFI' : 'Promote to RFI', 'primary'), ui.menu('Actions', actionItems)] });
     const facts = records().factsStrip([
-      ['Raised by', isRich ? 'liam.carter@jewel-demo.example' : 'sophie.turner@jewel-demo.example'],
+      ['Raised by', isRich ? 'liam.carter@construction-demo.example' : 'sophie.turner@construction-demo.example'],
       ['Issued', row.issued], ['Response due', row.due || '—'],
       ['Days outstanding', row.days ?? '—', row.isOverdue ? 'negative' : ''],
       ['Drawing / detail', row.drawing || '—'], ['Related drawing / spec', isRich ? 'SC-HH-014' : '—'], ['Created', isRich ? '08 Sep 2026' : row.issued]

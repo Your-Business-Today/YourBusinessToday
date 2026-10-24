@@ -28,7 +28,7 @@
 
   function actorCell([, who, via]) {
     const tone = via === connector ? 'tone-accent' : 'subtle';
-    return `<span style="white-space:nowrap">${who}@jewel-demo.example</span><p class="text-xs ${tone}">${via}</p>`;
+    return `<span style="white-space:nowrap">${who}@construction-demo.example</span><p class="text-xs ${tone}">${via}</p>`;
   }
 
   function recordCell(reference) {

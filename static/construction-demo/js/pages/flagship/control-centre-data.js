@@ -1,7 +1,7 @@
 /* A day's post in the invented projects mailbox for the Control Centre — the queue still to be
    distributed, the emails already tagged (one decision each), and the open email's thread. */
 (function () {
-  const mailbox = 'projects@jewel-demo.example';
+  const mailbox = 'projects@construction-demo.example';
 
   const icons = {
     inbox: "<path d='M3.5 13.5h4l1.5 2.5h6l1.5-2.5h4'/><path d='M5.5 6.5h13a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z'/><path d='M12 3v6M9.5 6.5 12 9l2.5-2.5'/>",
@@ -25,9 +25,9 @@
     { id: 'm5', group: 'Today', from: 'Building Control — Linford Heath', email: 'inspections@lhbc.example', time: '07:55', subject: 'Inspection booked — drainage test, The Old Coach House', preview: 'This is to confirm the below-ground drainage inspection on Wednesday 30 September at 11:00…', hasAttachments: false, threadTags: [], project: 'coach-house' },
     { id: 'm6', group: 'Yesterday', from: 'Priya Byrne', email: 'priya@marlowbyrne.example', time: '17:41', subject: 'Wrenfield Barn — sticking door to boot room', preview: 'The client mentions the boot room door is binding at the head since the heating went on…', hasAttachments: true, threadTags: [], project: 'wrenfield' },
     { id: 'm7', group: 'Yesterday', from: 'Jo Whitaker', email: 'jo@clearflow.example', time: '16:05', subject: 'Application 4 — Hollowmere, first fix plumbing', preview: 'Please see attached our application for payment number 4 for works to 18 September…', hasAttachments: true, threadTags: ['WO-0151'], project: 'hollowmere' },
-    { id: 'm8', group: 'Yesterday', from: 'Marcus Hale', email: 'marcus.hale@jewel-demo.example', time: '14:20', subject: 'Kingsridge — please book the pre-start with the Trust', preview: 'Can someone get a date in with the trustees before the end of October for the pre-start meeting…', hasAttachments: false, threadTags: [], project: 'kingsridge' },
+    { id: 'm8', group: 'Yesterday', from: 'Marcus Hale', email: 'marcus.hale@construction-demo.example', time: '14:20', subject: 'Kingsridge — please book the pre-start with the Trust', preview: 'Can someone get a date in with the trustees before the end of October for the pre-start meeting…', hasAttachments: false, threadTags: [], project: 'kingsridge' },
     { id: 'm9', group: 'Tuesday', from: 'Alex Moreton', email: 'alex.moreton@gmail.example', time: '11:18', subject: 'Enquiry — new house and pool, Coldharbour Vale', preview: 'We have planning for a replacement dwelling and would like a builder’s price. Our architect is…', hasAttachments: true, threadTags: [], project: '' },
-    { id: 'm10', group: 'Tuesday', from: 'Mail Delivery System', email: 'postmaster@jewel-demo.example', time: '09:03', subject: 'Undeliverable: Stage 2 drawings', preview: 'Delivery has failed to these recipients or groups: j.carr@oldpractice.example…', hasAttachments: false, threadTags: [], project: '' }
+    { id: 'm10', group: 'Tuesday', from: 'Mail Delivery System', email: 'postmaster@construction-demo.example', time: '09:03', subject: 'Undeliverable: Stage 2 drawings', preview: 'Delivery has failed to these recipients or groups: j.carr@oldpractice.example…', hasAttachments: false, threadTags: [], project: '' }
   ];
 
   const tagged = [
@@ -51,13 +51,13 @@
   const attachments = [['SE-104 rev C — kitchen opening lintel.pdf', '1.4 MB', true], ['Photo — temporary propping.jpg', '2.8 MB', false], ['Calcs — beam B7.pdf', '612 KB', true]];
 
   const recent = [
-    ['12 min ago', 'VOQ-0014', 'Email linked to variation V14 — Steel lintel and widened kitchen opening', 'JBB-101 · Demo Administrator'],
-    ['19 min ago', 'WO-0144', 'Email linked to work order — Foul and surface water drainage', 'JBB-102 · Demo Administrator'],
-    ['26 min ago', 'TODO-0058', 'To-do raised — Chase Brightwire for revised first-fix quote', 'JBB-101 · Demo Administrator'],
-    ['41 min ago', 'RFI-052', 'Email linked to RFI — Stair balustrade finish', 'JBB-102 · Sophie Turner'],
-    ['Yesterday', 'BPI-0006', 'Tender filed against bid package — Joinery', 'JBB-101 · Ravi Patel'],
-    ['Yesterday', 'SI-0012', 'Site instruction raised — Protect limestone floor finish', 'JBB-101 · Liam Carter'],
-    ['Yesterday', 'CAL-0101', 'Calendar event raised — Glazing survey visit', 'JBB-102 · Sophie Turner']
+    ['12 min ago', 'VOQ-0014', 'Email linked to variation V14 — Steel lintel and widened kitchen opening', 'TCC-101 · Demo Administrator'],
+    ['19 min ago', 'WO-0144', 'Email linked to work order — Foul and surface water drainage', 'TCC-102 · Demo Administrator'],
+    ['26 min ago', 'TODO-0058', 'To-do raised — Chase Brightwire for revised first-fix quote', 'TCC-101 · Demo Administrator'],
+    ['41 min ago', 'RFI-052', 'Email linked to RFI — Stair balustrade finish', 'TCC-102 · Sophie Turner'],
+    ['Yesterday', 'BPI-0006', 'Tender filed against bid package — Joinery', 'TCC-101 · Ravi Patel'],
+    ['Yesterday', 'SI-0012', 'Site instruction raised — Protect limestone floor finish', 'TCC-101 · Liam Carter'],
+    ['Yesterday', 'CAL-0101', 'Calendar event raised — Glazing survey visit', 'TCC-102 · Sophie Turner']
   ];
 
   JPMS.controlCentreData = { mailbox, icons, queue, tagged, thread, attachments, recent };

@@ -73,7 +73,7 @@
     const rows = [
       [`Rev ${next}`, ui.pill('Pending', 'warning'), '23 Sep 2026', 'helen@ashdownrowe.example'],
       [`Rev ${letter}`, ui.pill('Approved', 'positive'), '02 Sep 2026', 'helen@ashdownrowe.example'],
-      [`Rev ${previous}`, ui.pill('Archived'), '14 May 2026', 'sophie.turner@jewel-demo.example']
+      [`Rev ${previous}`, ui.pill('Archived'), '14 May 2026', 'sophie.turner@construction-demo.example']
     ];
     return ui.panel('Revisions', ui.table({ columns: ['Revision', 'Status', 'Uploaded', 'By'], rows: rows.map(([revision, ...rest]) => [ui.mono(revision), ...rest]), dense: true, selected: 1 }), { flush: true });
   }

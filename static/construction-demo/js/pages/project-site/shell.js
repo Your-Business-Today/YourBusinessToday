@@ -1,5 +1,5 @@
 /* The project page frame — jpms/Components/ProjectPageShell.razor (breadcrumb, reference eyebrow,
-   project name with the prev/next arrows, client · JBB · stage badge) and SectionHeader.razor. */
+   project name with the prev/next arrows, client · TCC · stage badge) and SectionHeader.razor. */
 (function () {
   const ui = JPMS.ui;
   const arrowLeft = '<path d="M15 6l-6 6 6 6"/>';
@@ -16,7 +16,7 @@
 
   function projectShell(project, body) {
     const title = `<span class="row" style="gap:4px">${ui.iconBtn(arrowLeft, 'Previous project')}<span>${ui.escape(project.name)}</span>${ui.iconBtn(arrowRight, 'Next project')}</span>`;
-    const subtitle = `${ui.escape(project.client)} · JBB · ${stageBadge(project.stage)}`;
+    const subtitle = `${ui.escape(project.client)} · TCC · ${stageBadge(project.stage)}`;
     return ui.join([breadcrumb(project), ui.header({ eyebrow: project.ref, title, subtitle }), ui.join(body)]);
   }
 
@@ -44,7 +44,7 @@
 
   function filedEmails(reference, emails) {
     const header = `<div class="row-between" style="margin-bottom:8px"><span class="eyebrow">Emails · ${reference}</span>${ui.btn('Find & tag emails', 'ghost')}</div>`;
-    const messages = emails.map(({ from, when, subject, text }) => `<div class="message"><div class="message-head"><span class="strong">${from}</span><span class="text-xs subtle">${when}</span></div><p class="text-xs subtle" style="margin-bottom:6px">JPMS/${reference} · ${subject}</p><p class="muted">${text}</p></div>`).join('');
+    const messages = emails.map(({ from, when, subject, text }) => `<div class="message"><div class="message-head"><span class="strong">${from}</span><span class="text-xs subtle">${when}</span></div><p class="text-xs subtle" style="margin-bottom:6px">PORTAL/${reference} · ${subject}</p><p class="muted">${text}</p></div>`).join('');
     return header + messages;
   }
 

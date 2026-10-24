@@ -14,7 +14,7 @@
       `v${skill.version}`,
       `${skill.size.toFixed(1)} KB`,
       skill.references,
-      `<span style="display:block;white-space:nowrap">${skill.updated}</span><span class="text-xs subtle">${skill.by}@jewel-demo.example</span>`
+      `<span style="display:block;white-space:nowrap">${skill.updated}</span><span class="text-xs subtle">${skill.by}@construction-demo.example</span>`
     ];
   }
 
@@ -74,7 +74,7 @@
 
   function historyPanel(skill) {
     const versions = skills.versionsOf(skill);
-    const rows = versions.map((version, index) => [`v${version.version}${index === 0 ? ' ' + ui.pill('In force', 'positive') : ''}`, version.written, `${version.by}@jewel-demo.example`, version.replaced || '—', `${version.size} KB`]);
+    const rows = versions.map((version, index) => [`v${version.version}${index === 0 ? ' ' + ui.pill('In force', 'positive') : ''}`, version.written, `${version.by}@construction-demo.example`, version.replaced || '—', `${version.size} KB`]);
     const table = ui.table({ columns: ['Version', 'Written', 'By', 'Replaced', { label: 'Size', num: true }], rows, dense: true, selected: 1 });
     const shown = versions[1] || versions[0];
     const chips = skill.references ? `<div style="margin-bottom:12px">${ui.chips(['SKILL.md', 'Client letter templates', 'JCT clause map', 'Glossary'].slice(0, skill.references + 1))}</div>` : '';

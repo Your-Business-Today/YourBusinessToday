@@ -54,7 +54,7 @@
     meanings: {
       New: 'Found or received — nobody has spoken to them yet.', Contacted: 'We have reached out; no reply or conversation yet.',
       Engaged: 'They are talking to us about a possible project.', 'Site visit': 'A visit is booked or has happened.',
-      Proposal: 'A proposal or budget has gone to them.', Won: 'They have chosen Jewel — a client and a project exist.',
+      Proposal: 'A proposal or budget has gone to them.', Won: 'They have chosen us — a client and a project exist.',
       Lost: 'Not going ahead with us.', Nurture: 'Not now, but worth keeping in touch with.'
     },
     strategies,

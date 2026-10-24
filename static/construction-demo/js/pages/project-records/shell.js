@@ -18,7 +18,7 @@
 
   function projectShell(project, body) {
     const title = `<span class="row" style="gap:4px">${ui.iconBtn(arrowLeft, 'Previous project')}<span>${ui.escape(project.name)}</span>${ui.iconBtn(arrowRight, 'Next project')}</span>`;
-    const subtitle = `${ui.escape(project.client)} · JBB · ${ui.pill(project.stage, stageTones[project.stage], { dot: true })}`;
+    const subtitle = `${ui.escape(project.client)} · TCC · ${ui.pill(project.stage, stageTones[project.stage], { dot: true })}`;
     return ui.join([breadcrumb(project), ui.header({ eyebrow: project.ref, title, subtitle }), ui.join(body)]);
   }
 

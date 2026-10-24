@@ -5,14 +5,14 @@
   const records = () => JPMS.records;
 
   const openItems = [
-    ['TODO-0412', 'Chase Brightwire for revised first-fix quote', '26 Sep 2026', 'Quantity Surveyor', 'sophie.turner@jewel-demo.example'],
-    ['TODO-0410', 'Approve Northgate bill against WO-0142', '25 Sep 2026', 'Finance Director', 'emma.walsh@jewel-demo.example'],
-    ['TODO-0409', 'Confirm oak flooring sample with client', '18 Sep 2026', 'Project Manager', 'liam.carter@jewel-demo.example', true],
-    ['TODO-0407', 'Order steel lintel once V14 is approved', '29 Sep 2026', 'Ravi Patel', 'sophie.turner@jewel-demo.example'],
-    ['TODO-0404', 'Book building control — first-floor structure', '02 Oct 2026', 'Project Manager', 'liam.carter@jewel-demo.example'],
-    ['TODO-0401', 'Photograph masonry for October valuation', '30 Sep 2026', 'Site Manager', 'ravi.patel@jewel-demo.example'],
-    ['TODO-0398', 'Issue revised door ironmongery schedule', '16 Sep 2026', 'Project Manager', 'sophie.turner@jewel-demo.example', true],
-    ['TODO-0395', 'Toolbox talk — working at height on the roof', null, 'H&S Officer', 'grace.holloway@jewel-demo.example']
+    ['TODO-0412', 'Chase Brightwire for revised first-fix quote', '26 Sep 2026', 'Quantity Surveyor', 'sophie.turner@construction-demo.example'],
+    ['TODO-0410', 'Approve Northgate bill against WO-0142', '25 Sep 2026', 'Finance Director', 'emma.walsh@construction-demo.example'],
+    ['TODO-0409', 'Confirm oak flooring sample with client', '18 Sep 2026', 'Project Manager', 'liam.carter@construction-demo.example', true],
+    ['TODO-0407', 'Order steel lintel once V14 is approved', '29 Sep 2026', 'Ravi Patel', 'sophie.turner@construction-demo.example'],
+    ['TODO-0404', 'Book building control — first-floor structure', '02 Oct 2026', 'Project Manager', 'liam.carter@construction-demo.example'],
+    ['TODO-0401', 'Photograph masonry for October valuation', '30 Sep 2026', 'Site Manager', 'ravi.patel@construction-demo.example'],
+    ['TODO-0398', 'Issue revised door ironmongery schedule', '16 Sep 2026', 'Project Manager', 'sophie.turner@construction-demo.example', true],
+    ['TODO-0395', 'Toolbox talk — working at height on the roof', null, 'H&S Officer', 'grace.holloway@construction-demo.example']
   ];
 
   const doneItems = [

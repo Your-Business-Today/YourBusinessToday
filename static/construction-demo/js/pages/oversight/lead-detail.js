@@ -19,7 +19,7 @@
       ['Company / practice', lead.company || '—'],
       ['Property / site', `${lead.property}<br><span class="subtle text-xs">${lead.postcode}</span>`],
       ['Estimated value', ui.money(lead.value)],
-      ['Owner', `${lead.owner}@jewel-demo.example`],
+      ['Owner', `${lead.owner}@construction-demo.example`],
       ['Found by', strategy ? ui.link(strategy.name, `#/sales/strategies/${strategy.id}`) : lead.source],
       ['Captured', lead.captured]
     ];
@@ -46,7 +46,7 @@
   }
 
   function imagine(lead) {
-    const link = `https://imagine.jewel-demo.example/i/${lead.ref.toLowerCase()}-7kq2`;
+    const link = `https://imagine.construction-demo.example/i/${lead.ref.toLowerCase()}-7kq2`;
     const concepts = ['Oak lantern over the kitchen', 'Flint and brick wing', 'Glazed link to the orangery'].map((title, index) => `<div><div class="photo">Concept ${index + 1}</div><p class="text-xs strong" style="margin-top:6px">${index === 0 ? '♥ ' : ''}${title}</p></div>`).join('');
     const body = [`<p class="eyebrow" style="margin-bottom:4px">The link</p><p class="mono text-xs">${link}</p><p class="text-xs subtle" style="margin-top:4px">Issued 04 Sep 2026 10:22 · only this link opens the page — there is no general address.</p>`,
       `<div class="row" style="margin:12px 0 16px">${ui.btn('Copy link')}${ui.btn('Download QR (PNG)')}${ui.btn('Open the page', 'ghost')}</div>`,
@@ -65,7 +65,7 @@
       ['Site visit', '19 Sep 2026', 'Walked the house and garden with both owners; measured the kitchen wing.', 'sophie.turner'],
       ['Imagine', '04 Sep 2026', 'Imagine link issued and printed on the letter.', 'marcus.hale'],
       ['Stage change', `${lead.captured}`, `Captured as New from ${lead.source.toLowerCase()}.`, lead.owner]
-    ].map(([kind, when, summary, who]) => `<div class="timeline-item is-done"><p class="text-xs tone-accent">${kind} <span class="subtle">· ${when}</span></p><p>${summary}</p><p class="text-xs faint">${who}@jewel-demo.example</p></div>`).join('');
+    ].map(([kind, when, summary, who]) => `<div class="timeline-item is-done"><p class="text-xs tone-accent">${kind} <span class="subtle">· ${when}</span></p><p>${summary}</p><p class="text-xs faint">${who}@construction-demo.example</p></div>`).join('');
     return ui.panel('Timeline', `<div class="timeline">${items}</div>`);
   }
 

@@ -23,7 +23,7 @@
   function factsPanel(item) {
     const assignee = item.person ? `${item.role} · ${item.person}` : item.role;
     const facts = [['Scope', `${item.scope} <a class="link text-xs">Move</a>`], ['Assigned to', `${assignee} <a class="link text-xs">Reassign</a>`], ['About', item.about ? ui.link(`${item.about} →`, aboutHrefs[item.about]) : '—'], ['Due', item.due || '—'], ['Added', item.added]];
-    if (item.inProgress) facts.push(['In progress since', '23 Sep 2026 by ravi.patel@jewel-demo.example']);
+    if (item.inProgress) facts.push(['In progress since', '23 Sep 2026 by ravi.patel@construction-demo.example']);
     if (item.done) facts.push(['Completed', item.done]);
     const notes = item.notes ? `<p class="muted" style="margin-bottom:16px">${item.notes}</p>` : '';
     return ui.panel('Detail', notes + ui.meta(facts));

@@ -14,10 +14,10 @@
   ];
 
   const signOffs = [
-    ['Sophie Turner (sophie.turner@jewel-demo.example)', 'signed 03 Sep 2026, 08:14 as “Sophie Turner”', 'on their login', null],
-    ['Liam Carter (liam.carter@jewel-demo.example)', 'signed 04 Sep 2026, 07:02 as “Liam Carter”', 'on their login', null],
-    ['Tom Reeves (tom.reeves@jewel-demo.example)', 'not yet signed', 'by link', 'Chase'],
-    ['Nina Lowe (nina.lowe@jewel-demo.example)', 'not yet signed', 'on their login', 'Send a link'],
+    ['Sophie Turner (sophie.turner@construction-demo.example)', 'signed 03 Sep 2026, 08:14 as “Sophie Turner”', 'on their login', null],
+    ['Liam Carter (liam.carter@construction-demo.example)', 'signed 04 Sep 2026, 07:02 as “Liam Carter”', 'on their login', null],
+    ['Tom Reeves (tom.reeves@construction-demo.example)', 'not yet signed', 'by link', 'Chase'],
+    ['Nina Lowe (nina.lowe@construction-demo.example)', 'not yet signed', 'on their login', 'Send a link'],
     ['Evenline Plastering — site team (kat@evenline.example)', 'not yet signed', 'by link', 'Chase']
   ];
 

@@ -31,7 +31,7 @@
       `<span class="strong" style="white-space:nowrap">${person}</span>${noLogin}`,
       `<p>${subject}</p>${shared.subText(from)}`,
       note,
-      `<span class="text-xs subtle" style="white-space:nowrap">${marked}<br>${markedBy}@jewel-demo.example</span>`,
+      `<span class="text-xs subtle" style="white-space:nowrap">${marked}<br>${markedBy}@construction-demo.example</span>`,
       actions
     ];
   }

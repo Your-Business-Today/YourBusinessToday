@@ -22,7 +22,7 @@
   function header() {
     const intro = 'Reconcile the accounts system with the projects: every Xero cost-of-sales purchase line (nominal accounts starting 3) is allocated to a project and master cost centre — or split across several centres. Suggestions come from the line’s Xero tracking — you confirm. Once every line of a draft bill (published from Dext) is allocated, its Sites and Cost Code tracking are confirmed back to Xero and the bill is approved automatically.';
     const links = '<div class="row" style="gap:16px;white-space:nowrap"><button type="button" class="muted" style="text-decoration:underline">Re-check matches</button><button type="button" class="muted" style="text-decoration:underline">Sync from Xero</button></div>';
-    return `<header class="row-between" style="align-items:flex-end;margin-bottom:24px;flex-wrap:nowrap"><div><p class="eyebrow" style="margin-bottom:4px">JPMS · Financials · Xero</p><h1 class="text-2xl semibold">Cost allocation</h1><p class="muted" style="margin-top:8px;max-width:900px;line-height:20px">${intro}</p></div>${links}</header>`;
+    return `<header class="row-between" style="align-items:flex-end;margin-bottom:24px;flex-wrap:nowrap"><div><p class="eyebrow" style="margin-bottom:4px">Build Portal · Financials · Xero</p><h1 class="text-2xl semibold">Cost allocation</h1><p class="muted" style="margin-top:8px;max-width:900px;line-height:20px">${intro}</p></div>${links}</header>`;
   }
 
   function tabBar(active) {

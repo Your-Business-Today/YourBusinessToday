@@ -4,7 +4,7 @@
   const ui = JPMS.ui;
   const shared = JPMS.oversight;
   const sales = JPMS.sales;
-  const mailbox = 'sales@jewel-demo.example';
+  const mailbox = 'sales@construction-demo.example';
 
   const messages = [
     ['Richard Ashworth', 'r.ashworth@mailbox.example', '09:12', 'Re: Harcourt Lodge — proposal v2', 'Thank you both. The lantern is exactly what we hoped for — could we talk about the timing of the roof?', false],

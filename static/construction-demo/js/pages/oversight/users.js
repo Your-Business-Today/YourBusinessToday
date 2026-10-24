@@ -7,15 +7,15 @@
 
   const users = [
     ['Demo Administrator', JPMS.data.signedIn.email, ['Administrator'], true],
-    ['Marcus Hale', 'marcus.hale@jewel-demo.example', ['Managing Director', 'Administrator']],
-    ['Daniel Price', 'daniel.price@jewel-demo.example', ['Finance Director']],
-    ['Sophie Turner', 'sophie.turner@jewel-demo.example', ['Project Manager']],
-    ['Ravi Patel', 'ravi.patel@jewel-demo.example', ['Quantity Surveyor']],
-    ['Liam Carter', 'liam.carter@jewel-demo.example', ['Site Manager']],
-    ['Emma Walsh', 'emma.walsh@jewel-demo.example', ['Accounts']],
-    ['Grace Holloway', 'grace.holloway@jewel-demo.example', ['H&S Officer']],
-    ['Tom Reeves', 'tom.reeves@jewel-demo.example', ['Foreman']],
-    ['Nina Lowe', 'nina.lowe@jewel-demo.example', ['Office Admin']],
+    ['Marcus Hale', 'marcus.hale@construction-demo.example', ['Managing Director', 'Administrator']],
+    ['Daniel Price', 'daniel.price@construction-demo.example', ['Finance Director']],
+    ['Sophie Turner', 'sophie.turner@construction-demo.example', ['Project Manager']],
+    ['Ravi Patel', 'ravi.patel@construction-demo.example', ['Quantity Surveyor']],
+    ['Liam Carter', 'liam.carter@construction-demo.example', ['Site Manager']],
+    ['Emma Walsh', 'emma.walsh@construction-demo.example', ['Accounts']],
+    ['Grace Holloway', 'grace.holloway@construction-demo.example', ['H&S Officer']],
+    ['Tom Reeves', 'tom.reeves@construction-demo.example', ['Foreman']],
+    ['Nina Lowe', 'nina.lowe@construction-demo.example', ['Office Admin']],
     ['Helen Rowe', 'helen@ashdownrowe.example', ['Architect'], false, 'Hollowmere House, Kingsridge Lodge'],
     ['Oliver Fenwick', 'oliver@fenwickhale.example', ['Architect'], false, 'The Old Coach House'],
     ['Imogen Clarke', 'imogen.clarke@mailbox.example', ['Client']],
@@ -23,9 +23,9 @@
   ];
 
   const revoked = [
-    ['Jack Pemberton', 'jack.pemberton@jewel-demo.example', ['Site Manager'], '14 Aug 2026, 17:02', 'marcus.hale@jewel-demo.example'],
-    ['Kirsty Doyle', 'kirsty@evenline.example', ['Subcontractor'], '02 Jul 2026, 09:40', 'admin@jewel-demo.example'],
-    ['Ben Ashby', 'ben@ashlarstone.example', ['Subcontractor'], '18 Jun 2026, 11:15', 'sophie.turner@jewel-demo.example']
+    ['Jack Pemberton', 'jack.pemberton@construction-demo.example', ['Site Manager'], '14 Aug 2026, 17:02', 'marcus.hale@construction-demo.example'],
+    ['Kirsty Doyle', 'kirsty@evenline.example', ['Subcontractor'], '02 Jul 2026, 09:40', 'admin@construction-demo.example'],
+    ['Ben Ashby', 'ben@ashlarstone.example', ['Subcontractor'], '18 Jun 2026, 11:15', 'sophie.turner@construction-demo.example']
   ];
 
   function roleChip(role, isFaint, canEdit) {
