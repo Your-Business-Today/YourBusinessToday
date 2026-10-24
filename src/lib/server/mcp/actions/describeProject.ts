@@ -25,7 +25,7 @@ export function describeProjectLine(project: ProjectSummary): string {
 	return `${project.name} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)} (${place})`;
 }
 
-/** " for Jewel Passive Fire Protection", or ", personal" for a project under no organisation; a team project says so. */
+/** " for The Construction Company", or ", personal" for a project under no organisation; a team project says so. */
 export function forOrganisation(project: { organisationName: string; isTeamProject: boolean }): string {
 	const teamPhrase = teamProjectPhrase(project.isTeamProject);
 	if (project.organisationName !== '') return ` for ${project.organisationName}${teamPhrase}`;

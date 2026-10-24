@@ -7,7 +7,7 @@ export type BuildPhase = {
 	description: string;
 };
 
-export const jewelBuildPhases: BuildPhase[] = [
+export const constructionBuildPhases: BuildPhase[] = [
 	{
 		id: 'discovery',
 		period: 'Week one',
@@ -27,7 +27,7 @@ export const jewelBuildPhases: BuildPhase[] = [
 		period: 'Three and a half weeks',
 		name: 'The business decided',
 		description:
-			'A pause while Jewel weighed it up. We did not build through it. Nothing was spent and nothing was wasted. That is the point of proving it first.'
+			'A pause while the business weighed it up. We did not build through it. Nothing was spent and nothing was wasted. That is the point of proving it first.'
 	},
 	{
 		id: 'production',
@@ -45,7 +45,7 @@ export const jewelBuildPhases: BuildPhase[] = [
 	}
 ];
 
-export const jewelBuildFigures: CaseStudyFigure[] = [
+export const constructionBuildFigures: CaseStudyFigure[] = [
 	{ value: '1,032', label: 'commits' },
 	{ value: '79', label: 'days with commits' },
 	{ value: '41', label: 'pull requests' },

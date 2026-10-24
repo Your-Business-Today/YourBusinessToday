@@ -1,5 +1,6 @@
 <script lang="ts">
 	import HarnessDiagram from '../harness/HarnessDiagram.svelte';
+	import { constructionCompanyCaseStudy as caseStudy } from '$lib/data/caseStudies';
 </script>
 
 <section class="mx-auto max-w-6xl px-6 py-20 md:py-24">
@@ -11,7 +12,7 @@
 		<HarnessDiagram />
 	</div>
 	<a
-		href="/case-studies/jewel"
+		href={caseStudy.href}
 		class="mt-10 inline-block rounded-full border border-hairline px-6 py-2.5 font-display text-sm
 			text-chalk/80 transition hover:border-chalk/40 hover:text-chalk"
 	>

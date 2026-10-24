@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BuildPhaseRow from './BuildPhaseRow.svelte';
-	import { jewelBuildPhases } from '$lib/data/jewelBuild';
+	import { constructionBuildPhases } from '$lib/data/constructionBuild';
 </script>
 
 <section class="mx-auto max-w-4xl px-6 py-20 md:py-24">
@@ -9,7 +9,7 @@
 		How the sixteen weeks went.
 	</h2>
 	<div class="mt-12 border-t border-hairline">
-		{#each jewelBuildPhases as phase (phase.id)}
+		{#each constructionBuildPhases as phase (phase.id)}
 			<BuildPhaseRow {phase} />
 		{/each}
 	</div>

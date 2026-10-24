@@ -15,7 +15,7 @@
 
 	const tracker = new FormTracker();
 	const blankDetails = { name: '', address: '', accountsContact: emptyAccountsContact };
-	const namePlaceholder = $derived(parentName === null ? 'Jewel Enterprises' : `A business of ${parentName}`);
+	const namePlaceholder = $derived(parentName === null ? 'The Construction Company Ltd' : `A business of ${parentName}`);
 	const submitLabel = $derived(parentName === null ? 'Create organisation' : 'Add sub-organisation');
 </script>
 

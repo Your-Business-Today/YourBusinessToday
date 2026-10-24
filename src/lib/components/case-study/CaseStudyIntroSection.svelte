@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { jewelBespokeBuildCaseStudy as caseStudy } from '$lib/data/caseStudies';
+	import { constructionCompanyCaseStudy as caseStudy } from '$lib/data/caseStudies';
 </script>
 
 <section class="mx-auto max-w-4xl px-6 py-20 md:py-24">
@@ -13,13 +13,4 @@
 		None of that is a software problem to begin with. It is a question about how work moves
 		through a business. It has to be answered on paper before anybody writes anything.
 	</p>
-	<a
-		href={caseStudy.clientWebsiteUrl}
-		rel="noreferrer"
-		target="_blank"
-		class="mt-8 inline-block font-display text-sm text-chalk/50 underline-offset-4 transition
-			hover:text-chalk hover:underline"
-	>
-		Visit {caseStudy.clientName}
-	</a>
 </section>

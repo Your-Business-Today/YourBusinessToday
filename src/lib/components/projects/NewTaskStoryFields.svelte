@@ -5,7 +5,7 @@
 	let { isStoryRequired }: { isStoryRequired: boolean } = $props();
 
 	const storyParts = [
-		{ name: 'storyRole', label: 'As a…', placeholder: 'site manager at Jewel' },
+		{ name: 'storyRole', label: 'As a…', placeholder: 'site manager at a construction company' },
 		{ name: 'storyWant', label: 'I want…', placeholder: 'to record the day from my phone' },
 		{ name: 'storyBenefit', label: 'So that…', placeholder: 'the weekly report writes itself' }
 	];
