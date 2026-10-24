@@ -13,7 +13,7 @@ import re
 from ..enclosing_types import TYPE_DECLARATION
 from ..source_files import SourceFile
 from ..words import pluralsOf, wordsOf
-from .schema_columns import tableKey
+from .column_limits import tableKey
 
 VALIDATED_TYPE = re.compile(r"(?:AbstractValidator|IValidator|IEntityTypeConfiguration)<(\w+)>")
 SCHEMA_DECLARATION = re.compile(r"^\s*(?:export\s+)?(?:const|let|var)\s+(\w+)\b")

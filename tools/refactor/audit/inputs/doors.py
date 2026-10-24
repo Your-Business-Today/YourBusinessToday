@@ -15,7 +15,7 @@ import re
 
 from ..source_files import SourceFile, matchesAny
 from .reach import Reach
-from .schema_columns import columnKey, tableKey
+from .column_limits import columnKey, tableKey
 from .subjects import Subjects
 
 LIMIT_IN_VALIDATOR = re.compile(r"(?:\bmax|maxLength|MaxLength|MaximumLength|StringLength|Length)\s*(?:\(\s*|[:=]\s*)(?:\d+\s*,\s*)?(\d+)")

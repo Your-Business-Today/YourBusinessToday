@@ -202,7 +202,7 @@
     ],
     "minimumFamilySize": 4,
     "cooccurrenceThreshold": 0.75,
-    "fileCountBand": 2.0,
+    "fileCountBand": 3.0,
     "acceptedGaps": [
       "src/lib/server/goals/updateProject.ts",
       "src/lib/server/goals/updateTask.ts",

@@ -3,60 +3,28 @@
 An entity's properties are its complexity; the files named for it are what the design patterns made of it.
 Across a consistent codebase the two keep a steady ratio, so an entity far outside it is where the pattern
 was skipped or where the code was piled into too few files.
+
+A file is named for an entity when the entity's subject is in the file's own name, never its directory:
+`Jobs/Groups/JobGroupLookup.cs` is the job group's, and `Documents/BrandFonts.cs` is nobody's. The subject
+may follow a verb, as a command's files do (`AddTodoItemEndpoint.cs`), so it is read anywhere in the name,
+and the longest subject wins (`HandoverPackDocumentRow.cs` is the handover pack document's, not the document's).
+
+The band is three times the expected count either way, because the patterns give every entity a floor of
+files whatever its size, so files per property runs from many times the median for a one-column entity to a
+fraction of it for a thirty-column one; a band of two flagged the floor-sized entities as too many.
 """
 from __future__ import annotations
 
-import re
+from pathlib import Path
 from statistics import median
 
-from ..enclosing_types import TYPE_DECLARATION
-from ..source_files import SourceFile, matchesAny
+from ..source_files import SourceFile
 from ..words import containsPhrase, wordsOf
+from .entity_properties import entityProperties
 
-PROPERTY_LINE = re.compile(r"^\s*(?:public\s+[\w<>\[\]\?,\s]+\s+\w+\s*\{\s*get|(?:readonly\s+)?\w+\??\s*:\s*[^=]+[;,]?\s*$)")
 MINIMUM_ENTITIES = 4
-FILE_COUNT_BAND = 2.0
+FILE_COUNT_BAND = 3.0
 ENTITY_SUFFIXES = ["Entity"]
-
-
-BASE_TYPES = re.compile(r":\s*(?P<bases>[\w\s,<>]+?)\s*(?:\{|$|where\b)")
-ABSTRACT = re.compile(r"\babstract\s+(?:partial\s+)?class\b")
-
-
-def declaredBases(line: str) -> list[str]:
-    found = BASE_TYPES.search(line)
-    return [base.strip() for base in found.group("bases").split(",")] if found else []
-
-
-def entityProperties(sourceFiles: list[SourceFile], entityGlobs: list[str]) -> dict[str, int]:
-    properties: dict[str, int] = {}
-    bases: dict[str, list[str]] = {}
-    abstractTypes: set[str] = set()
-    for sourceFile in sourceFiles:
-        if not matchesAny(sourceFile.relative, entityGlobs):
-            continue
-        currentEntity = None
-        for line in sourceFile.lines:
-            declaration = TYPE_DECLARATION.match(line)
-            if declaration:
-                currentEntity = declaration.group(1)
-                properties.setdefault(currentEntity, 0)
-                bases[currentEntity] = declaredBases(line)
-                if ABSTRACT.search(line):
-                    abstractTypes.add(currentEntity)
-            if currentEntity and not declaration and PROPERTY_LINE.match(line):
-                properties[currentEntity] += 1
-    return withInheritedProperties(properties, bases, abstractTypes)
-
-
-def inheritedPropertyCount(bases: list[str], properties: dict[str, int], abstractTypes: set[str]) -> int:
-    return sum(properties.get(base, 0) for base in bases if base in abstractTypes)
-
-
-def withInheritedProperties(properties: dict[str, int], bases: dict[str, list[str]], abstractTypes: set[str]) -> dict[str, int]:
-    entities = {entity: count for entity, count in properties.items() if entity not in abstractTypes}
-    counted = {entity: count + inheritedPropertyCount(bases.get(entity, []), properties, abstractTypes) for entity, count in entities.items()}
-    return {entity: count for entity, count in counted.items() if count > 0}
 
 
 def subjectOf(entity: str, suffixes: list[str]) -> str:
@@ -67,13 +35,18 @@ def subjectOf(entity: str, suffixes: list[str]) -> str:
     return entity
 
 
+def fileNameWords(sourceFile: SourceFile) -> list[str]:
+    fileName = Path(sourceFile.relative).stem
+    return wordsOf(fileName)
+
+
 def fileCounts(sourceFiles: list[SourceFile], entities: list[str], suffixes: list[str] = ENTITY_SUFFIXES) -> dict[str, int]:
     subjects = {entity: wordsOf(subjectOf(entity, suffixes)) for entity in entities}
     longestFirst = sorted(entities, key=lambda entity: len(subjects[entity]), reverse=True)
     counts = {entity: 0 for entity in entities}
     for sourceFile in sourceFiles:
-        pathWords = wordsOf(sourceFile.relative)
-        owner = next((entity for entity in longestFirst if containsPhrase(pathWords, subjects[entity])), None)
+        nameWords = fileNameWords(sourceFile)
+        owner = next((entity for entity in longestFirst if containsPhrase(nameWords, subjects[entity])), None)
         if owner:
             counts[owner] += 1
     return counts
