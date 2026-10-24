@@ -1,43 +1,10 @@
-"""An entity counts the columns it inherits, an abstract base is no entity, and its files are counted without the Entity suffix."""
+"""An entity's files are the ones named for its subject, and the band allows the patterns' floor of files."""
 from __future__ import annotations
 
 import unittest
 
-from ..checks.entity_files import entityProperties, fileCounts
+from ..checks.entity_files import fileCounts, measure
 from .fixtures import sourceFile
-
-STAMPED_BASE = """
-public abstract class StampedRecordColumns
-{
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset UpdatedAt { get; set; }
-}
-"""
-STAMPED_ENTITY = """
-public sealed class InvoiceEntity : StampedRecordColumns, IStampedRecord
-{
-    public string Reference { get; set; } = "";
-    public decimal Total { get; set; }
-}
-"""
-ENTITY_GLOBS = ["api/Data/Entities/*.cs"]
-OWN_AND_INHERITED_COLUMNS = 4
-
-
-class EntityPropertiesTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.files = [
-            sourceFile("api/Data/Entities/StampedRecordColumns.cs", STAMPED_BASE),
-            sourceFile("api/Data/Entities/InvoiceEntity.cs", STAMPED_ENTITY),
-        ]
-
-    def test_an_entity_counts_the_columns_it_inherits(self) -> None:
-        self.assertEqual(entityProperties(self.files, ENTITY_GLOBS)["InvoiceEntity"], OWN_AND_INHERITED_COLUMNS)
-
-    def test_an_abstract_base_is_not_an_entity(self) -> None:
-        self.assertNotIn("StampedRecordColumns", entityProperties(self.files, ENTITY_GLOBS))
-
-
 
 QUOTE_ENTITY = """
 public sealed class QuoteEntity
@@ -61,3 +28,39 @@ class EntityFileCountTests(unittest.TestCase):
         files = [sourceFile("api/Features/Quotes/QuoteRevisionEdit.cs")]
         counts = fileCounts(files, ["QuoteEntity", "QuoteRevisionEntity"])
         self.assertEqual(counts, {"QuoteEntity": 0, "QuoteRevisionEntity": 1})
+
+    def test_a_file_belongs_to_the_subject_in_its_name_not_its_directory(self) -> None:
+        files = [sourceFile("api/Features/Jobs/Groups/JobGroupLookup.cs"), sourceFile("api/Features/Documents/HandoverPackDocumentRow.cs")]
+        counts = fileCounts(files, ["JobEntity", "JobGroupEntity", "DocumentEntity", "HandoverPackDocumentEntity"])
+        self.assertEqual(counts, {"JobEntity": 0, "JobGroupEntity": 1, "DocumentEntity": 0, "HandoverPackDocumentEntity": 1})
+
+    def test_a_directory_named_for_the_subject_owns_nothing_by_itself(self) -> None:
+        files = [sourceFile("api/Features/Documents/BrandFonts.cs")]
+        self.assertEqual(fileCounts(files, ["DocumentEntity"])["DocumentEntity"], 0)
+
+    def test_a_command_file_names_the_subject_after_its_verb(self) -> None:
+        files = [sourceFile("api/Features/Todos/Commands/AddTodoItemEndpoint.cs"), sourceFile("api/Features/Todos/Commands/LinkTodoItemsHandler.cs")]
+        self.assertEqual(fileCounts(files, ["TodoItemEntity"])["TodoItemEntity"], len(files))
+
+
+ONE_COLUMN_ENTITY = """
+public sealed class {name}Entity
+{{
+    public string Reference {{ get; set; }} = "";
+}}
+"""
+PATTERN_RULES = {"entityGlobs": ["api/Data/Entities/*.cs"]}
+FLOOR_OF_PATTERN_FILES = 6
+
+
+def oneColumnEntity(name: str, roleCount: int) -> list:
+    files = [sourceFile(f"api/Data/Entities/{name}Entity.cs", ONE_COLUMN_ENTITY.format(name=name))]
+    files += [sourceFile(f"api/Features/{name}Role{index}.cs") for index in range(roleCount - 1)]
+    return files
+
+
+class EntityFileBandTests(unittest.TestCase):
+    def test_an_entity_carrying_the_patterns_floor_of_files_is_in_range(self) -> None:
+        files = oneColumnEntity("Quote", 2) + oneColumnEntity("Job", 2) + oneColumnEntity("Note", 2) + oneColumnEntity("AccessRequest", FLOOR_OF_PATTERN_FILES)
+        rows = {row["entity"]: row for row in measure(files, PATTERN_RULES)["rows"]}
+        self.assertTrue(rows["AccessRequestEntity"]["isInRange"])
