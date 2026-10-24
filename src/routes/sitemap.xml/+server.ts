@@ -1,13 +1,12 @@
-import { constructionCompanyCaseStudy } from '$lib/data/caseStudies';
+import { caseStudyPath } from '$lib/data/caseStudies';
 import type { RequestHandler } from './$types';
 
 const publicPagePaths = [
 	'/',
 	'/about',
 	'/offer',
-	constructionCompanyCaseStudy.href,
+	caseStudyPath,
 	'/demo',
-	'/vision',
 	'/contact',
 	'/terms',
 	'/privacy',

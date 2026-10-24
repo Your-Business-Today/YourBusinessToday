@@ -1,6 +1,4 @@
 <script lang="ts">
-	import DemoOwnSystemSection from '$lib/components/demo/DemoOwnSystemSection.svelte';
-	import DemoPromisesSection from '$lib/components/demo/DemoPromisesSection.svelte';
 	import DemoStartSection from '$lib/components/demo/DemoStartSection.svelte';
 	import PageMeta from '$lib/components/site/PageMeta.svelte';
 	import type { ActionData } from './$types';
@@ -15,5 +13,3 @@
 <PageMeta title={pageTitle} description={pageDescription} path="/demo" />
 
 <DemoStartSection message={form?.message ?? null} />
-<DemoPromisesSection />
-<DemoOwnSystemSection />

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { constructionCompanyCaseStudy as caseStudy } from '$lib/data/caseStudies';
+	import { caseStudyPath } from '$lib/data/caseStudies';
 </script>
 
 <div class="flex flex-col gap-4">
@@ -10,7 +10,7 @@
 		for the call.
 	</p>
 	<a
-		href={caseStudy.href}
+		href={caseStudyPath}
 		class="self-start rounded-full border border-hairline px-6 py-2.5 font-display text-sm
 			text-chalk/80 transition hover:border-chalk/40 hover:text-chalk"
 	>
