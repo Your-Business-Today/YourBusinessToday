@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { BuildPhase } from '$lib/data/jewelBuild';
+	import type { BuildPhase } from '$lib/data/constructionBuild';
 
 	let { phase }: { phase: BuildPhase } = $props();
 </script>

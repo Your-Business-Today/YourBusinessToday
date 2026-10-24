@@ -1,0 +1,392 @@
+/* The rail, copied from the portal's jpms project/Services/Navigation/SidebarFolders.cs and NavIcon.razor. */
+window.JPMS = window.JPMS || {};
+JPMS.navigation = {
+ "home": {
+  "label": "Home",
+  "href": "/dashboard"
+ },
+ "folders": [
+  {
+   "label": "Project",
+   "icon": "#project",
+   "rows": [
+    {
+     "label": "RFIs",
+     "href": "/projects/{project}/requests"
+    },
+    {
+     "label": "Variation Orders",
+     "href": "/projects/{project}/variations"
+    },
+    {
+     "label": "Architect's Instructions",
+     "href": "/projects/{project}/architect-instructions"
+    },
+    {
+     "label": "Documents",
+     "href": "/projects/{project}/documents"
+    },
+    {
+     "label": "Programme",
+     "href": "/projects/{project}/programme"
+    },
+    {
+     "label": "Calendar",
+     "href": "/projects/{project}/calendar"
+    },
+    {
+     "label": "To-do",
+     "href": "/projects/{project}/todos"
+    },
+    {
+     "label": "Progress",
+     "href": "/projects/{project}/progress"
+    },
+    {
+     "label": "Site Photos",
+     "href": "/site-photos"
+    },
+    {
+     "label": "Defects",
+     "href": "/projects/{project}/defects"
+    },
+    {
+     "label": "Inventory",
+     "href": "/projects/{project}/inventory"
+    },
+    {
+     "label": "Site Instructions",
+     "href": "/projects/{project}/site-instructions"
+    },
+    {
+     "label": "Building Control",
+     "href": "/projects/{project}/building-control"
+    },
+    {
+     "label": "H&S",
+     "href": "/projects/{project}/hs"
+    },
+    {
+     "label": "Communications",
+     "href": "/projects/{project}/communications"
+    },
+    {
+     "label": "Useful Information",
+     "href": "/projects/{project}/useful-information"
+    },
+    {
+     "label": "Project Settings",
+     "href": "/projects/{project}/settings"
+    }
+   ]
+  },
+  {
+   "label": "Subcontractor",
+   "icon": "#subcontractor",
+   "rows": [
+    {
+     "label": "Bid Package Invites",
+     "href": "/projects/{project}/bid-package-invites"
+    },
+    {
+     "label": "Work Orders",
+     "href": "/projects/{project}/work-orders"
+    },
+    {
+     "label": "Communications",
+     "href": "/subcontractors/communications"
+    },
+    {
+     "label": "Chasers",
+     "href": "/subcontractors/communications/chaser"
+    },
+    {
+     "label": "Info Requests",
+     "href": "/subcontractors/communications/info-request"
+    },
+    {
+     "label": "H&S",
+     "href": "/subcontractors/communications/h-s"
+    }
+   ]
+  },
+  {
+   "label": "Supplier",
+   "icon": "#supplier",
+   "rows": [
+    {
+     "label": "Communications",
+     "href": "/suppliers/communications"
+    },
+    {
+     "label": "Materials",
+     "href": "/suppliers/communications/materials"
+    },
+    {
+     "label": "Finishes",
+     "href": "/suppliers/communications/finishes"
+    }
+   ]
+  },
+  {
+   "label": "Internal",
+   "icon": "#internal",
+   "rows": [
+    {
+     "label": "Todo",
+     "href": "/todos"
+    },
+    {
+     "label": "Directory",
+     "href": "/directory"
+    },
+    {
+     "label": "Communications",
+     "href": "/internal/communications"
+    },
+    {
+     "label": "Registers",
+     "href": "/registers"
+    },
+    {
+     "label": "Policies",
+     "href": "/policies"
+    },
+    {
+     "label": "Forms",
+     "href": "/forms"
+    },
+    {
+     "label": "Emergency contacts",
+     "href": "/emergency-contacts"
+    }
+   ]
+  },
+  {
+   "label": "Time",
+   "icon": "#time",
+   "rows": [
+    {
+     "label": "Labour overview",
+     "href": "/labour/overview"
+    },
+    {
+     "label": "Labour",
+     "href": "/projects/{project}/labour"
+    },
+    {
+     "label": "Workers",
+     "href": "/labour/workers"
+    },
+    {
+     "label": "Xero mapping",
+     "href": "/labour/xero-mapping"
+    }
+   ]
+  },
+  {
+   "label": "Finance",
+   "icon": "#finance",
+   "rows": [
+    {
+     "label": "Financials",
+     "href": "/projects/{project}/financials"
+    },
+    {
+     "label": "WO Allocation",
+     "href": "/projects/{project}/work-order-allocation"
+    },
+    {
+     "label": "Payment Certificates",
+     "href": "/finance/payment-certificates"
+    },
+    {
+     "label": "Cost Codes",
+     "href": "/cost-codes"
+    },
+    {
+     "label": "Rates",
+     "href": "/rate-library"
+    }
+   ]
+  },
+  {
+   "label": "Financial Reports",
+   "icon": "#financial-reports",
+   "rows": [
+    {
+     "label": "Project Cashflow",
+     "href": "/projects/{project}/cashflow"
+    },
+    {
+     "label": "Cash Forecast",
+     "href": "/finance/cash-forecast"
+    },
+    {
+     "label": "Weekly Cashflow",
+     "href": "/finance/weekly-cashflow"
+    },
+    {
+     "label": "Profit Summary",
+     "href": "/finance/profit-summary"
+    }
+   ]
+  },
+  {
+   "label": "Xero",
+   "icon": "#xero",
+   "rows": [
+    {
+     "label": "Xero Transactions",
+     "href": "/finance/xero"
+    },
+    {
+     "label": "Aged Receivables",
+     "href": "/finance/aged-receivables"
+    },
+    {
+     "label": "Aged Payables",
+     "href": "/finance/aged-payables"
+    }
+   ]
+  },
+  {
+   "label": "Audit",
+   "icon": "#audit",
+   "rows": [
+    {
+     "label": "Reconciliation Audit",
+     "href": "/projects/{project}/reconciliation-audit"
+    },
+    {
+     "label": "System Audit Trail",
+     "href": "/audit"
+    },
+    {
+     "label": "Agent Activity",
+     "href": "/agents/activity"
+    },
+    {
+     "label": "AI Connections",
+     "href": "/settings/ai-connections"
+    }
+   ]
+  },
+  {
+   "label": "Sales",
+   "icon": "#sales",
+   "rows": [
+    {
+     "label": "Leads",
+     "href": "/sales/leads"
+    },
+    {
+     "label": "Inbox",
+     "href": "/sales/inbox"
+    },
+    {
+     "label": "Strategies",
+     "href": "/sales/strategies"
+    }
+   ]
+  },
+  {
+   "label": "Admin",
+   "icon": "#admin",
+   "rows": [
+    {
+     "label": "Users",
+     "href": "/admin/users"
+    },
+    {
+     "label": "System",
+     "href": "/admin/system"
+    },
+    {
+     "label": "Integrations",
+     "href": "/admin/integrations"
+    },
+    {
+     "label": "Trades",
+     "href": "/admin/trades"
+    },
+    {
+     "label": "KPI emails",
+     "href": "/admin/kpis"
+    },
+    {
+     "label": "Data protection",
+     "href": "/admin/data-protection"
+    },
+    {
+     "label": "AI Skills",
+     "href": "/admin/skills"
+    },
+    {
+     "label": "AI Actions",
+     "href": "/admin/ai-actions"
+    }
+   ]
+  }
+ ],
+ "standalone": [
+  {
+   "label": "Owner Overview",
+   "href": "/owner-overview"
+  },
+  {
+   "label": "Control Centre",
+   "href": "/control-centre"
+  },
+  {
+   "label": "Document Triage",
+   "href": "/document-triage"
+  },
+  {
+   "label": "Xero Cost Allocation",
+   "href": "/finance/allocation"
+  },
+  {
+   "label": "Valuation Reports",
+   "href": "/projects/{project}/valuation"
+  }
+ ]
+};
+JPMS.icons = {
+ "/dashboard": "<rect x='3' y='3' width='7' height='9' rx='1'/><rect x='14' y='3' width='7' height='5' rx='1'/><rect x='14' y='12' width='7' height='9' rx='1'/><rect x='3' y='16' width='7' height='5' rx='1'/>",
+ "/projects": "<path d='M3 7h6l2 2h10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/>",
+ "/rfis": "<circle cx='12' cy='12' r='8'/><path d='M9.6 9.3a2.4 2.4 0 0 1 4.8.2c0 1.5-2.4 1.9-2.4 3.2'/><path d='M12 16.4h.01'/>",
+ "/todos": "<path d='M4 5.5l1.5 1.5L8 4.5'/><path d='M11 6h9'/><path d='M4 12.5l1.5 1.5L8 11.5'/><path d='M11 13h9'/><path d='M4 19.5l1.5 1.5L8 18.5'/><path d='M11 20h9'/>",
+ "/directory": "<circle cx='9' cy='8' r='3'/><path d='M3 20a6 6 0 0 1 12 0'/><path d='M16 11a3 3 0 0 0 0-6'/><path d='M19 20a5 5 0 0 0-3-4.6'/>",
+ "/rate-library": "<path d='M5 4h11l3 3v13H5z'/><path d='M9 9h6M9 13h6M9 17h4'/>",
+ "/requests/triage": "<rect x='3' y='5' width='18' height='14' rx='2'/><path d='M3 7l9 6 9-6'/>",
+ "/clients": "<path d='M3 21V8l6-4v17'/><path d='M9 21V11l6 4v6'/><path d='M6 8h.01M6 12h.01M6 16h.01'/>",
+ "/cost-codes": "<path d='M12 3l9 9-8 8-9-9V4a1 1 0 0 1 1-1z'/><circle cx='8.5' cy='8.5' r='1.2'/>",
+ "/projects/{project}": "<path d='M3 7h6l2 2h10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/>",
+ "/projects/{project}/settings": "<circle cx='12' cy='12' r='3'/><path d='M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2'/>",
+ "/architects": "<circle cx='12' cy='5' r='2'/><path d='M12 7l-5 13M12 7l5 13'/><path d='M8.4 15.5a7.5 7.5 0 0 0 7.2 0'/>",
+ "#subcontractor": "<rect x='3' y='9' width='18' height='10' rx='2'/><path d='M9 9V7a3 3 0 0 1 6 0v2'/><path d='M3 14h18'/>",
+ "#supplier": "<path d='M2.5 6.5h11v10h-11z'/><path d='M13.5 9.5h4l3 3v4h-7'/><circle cx='6.5' cy='17.5' r='1.8'/><circle cx='17' cy='17.5' r='1.8'/>",
+ "#internal": "<path d='M4 5.5l1.5 1.5L8 4.5'/><path d='M11 6h9'/><path d='M4 12.5l1.5 1.5L8 11.5'/><path d='M11 13h9'/><path d='M4 19.5l1.5 1.5L8 18.5'/><path d='M11 20h9'/>",
+ "#project": "<rect x='4' y='5' width='16' height='16' rx='2'/><path d='M9 5V4a3 3 0 0 1 6 0v1'/><path d='M9 13l2 2 4-4'/>",
+ "#time": "<circle cx='12' cy='12' r='8'/><path d='M12 8v4l2.5 2.5'/>",
+ "#finance": "<rect x='3' y='6' width='18' height='12' rx='2'/><circle cx='12' cy='12' r='2.5'/><path d='M6.5 9.5h.01M17.5 14.5h.01'/>",
+ "#financial-reports": "<path d='M6 3h9l4 4v14H6z'/><path d='M15 3v4h4'/><path d='M9 17v-3M12 17v-6M15 17v-4'/>",
+ "#xero": "<circle cx='12' cy='12' r='8'/><path d='M9 9l6 6M15 9l-6 6'/>",
+ "#audit": "<path d='M4 5h9M4 9h6M4 13h4'/><circle cx='14.5' cy='13.5' r='4'/><path d='M17.4 16.4l3.1 3.1'/>",
+ "#sales": "<circle cx='12' cy='12' r='8'/><circle cx='12' cy='12' r='4'/><path d='M12 12l7-7'/><path d='M16 5h3v3'/>",
+ "/sales/leads": "<circle cx='9' cy='8' r='3'/><path d='M3 20a6 6 0 0 1 12 0'/><path d='M17 8h4M19 6v4'/>",
+ "/sales/strategies": "<path d='M4 19h16'/><path d='M4 15l4-4 4 3 4-6 4 2'/><circle cx='20' cy='10' r='1.5'/>",
+ "#admin": "<path d='M12 3l7 3v5c0 4.5-2.9 8.4-7 10-4.1-1.6-7-5.5-7-10V6z'/><path d='M9.2 12l2 2 3.6-3.8'/>",
+ "/admin/users": "<circle cx='9' cy='8' r='3'/><path d='M3 20a6 6 0 0 1 12 0'/><path d='M17.5 10l3.5 1.4v2.6c0 2.6-1.7 4.9-3.5 5.8-1.8-.9-3.5-3.2-3.5-5.8v-2.6z'/>",
+ "/finance": "<rect x='3' y='6' width='18' height='12' rx='2'/><circle cx='12' cy='12' r='2.5'/><path d='M6.5 9.5h.01M17.5 14.5h.01'/>",
+ "/finance/cash-forecast": "<rect x='3' y='6' width='18' height='12' rx='2'/><circle cx='12' cy='12' r='2.5'/><path d='M6.5 9.5h.01M17.5 14.5h.01'/>",
+ "/labour/workers": "<rect x='3' y='9' width='18' height='10' rx='2'/><path d='M9 9V7a3 3 0 0 1 6 0v2'/><path d='M3 14h18'/>",
+ "/finance/xero": "<circle cx='12' cy='12' r='8'/><path d='M9 9l6 6M15 9l-6 6'/>",
+ "/finance/allocation": "<path d='M4 7h7M4 12h7M4 17h7'/><path d='M15 7h5M15 12h5M15 17h5'/><path d='M11 7l4 5-4 5'/>",
+ "/control-centre": "<rect x='3' y='5' width='18' height='14' rx='2'/><path d='M3 7l9 6 9-6'/>",
+ "/document-triage": "<path d='M6 3h9l4 4v14H6z'/><path d='M15 3v4h4'/><path d='M9 12h6M9 16h4'/><path d='M9.5 8.5h2'/>",
+ "/finance/payment-certificates": "<path d='M6 3h9l4 4v14H6z'/><path d='M15 3v4h4'/><circle cx='12' cy='13' r='2.5'/><path d='M10.5 18.5l1.5-1 1.5 1v-3h-3z'/>",
+ "/projects/{project}/valuation": "<path d='M6 3h9l4 4v14H6z'/><path d='M15 3v4h4'/><path d='M9.5 14.5l2 2 3.5-4'/><path d='M9 9h4'/>",
+ "#fallback": "<circle cx='12' cy='12' r='8'/>"
+};

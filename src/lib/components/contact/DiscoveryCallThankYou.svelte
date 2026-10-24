@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { jewelBespokeBuildCaseStudy as caseStudy } from '$lib/data/caseStudies';
+	import { constructionCompanyCaseStudy as caseStudy } from '$lib/data/caseStudies';
 </script>
 
 <div class="flex flex-col gap-4">

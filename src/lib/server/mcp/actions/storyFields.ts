@@ -2,7 +2,7 @@ import { readText, textField } from '../actionTypes';
 import type { UserStory } from '$lib/data/userStoryRule';
 
 export const storyFields = {
-	storyRole: textField('Who the user is, such as a site manager at Jewel — the "as a…"'),
+	storyRole: textField('Who the user is, such as a site manager at a construction company — the "as a…"'),
 	storyWant: textField('What they want — the "I want…"'),
 	storyBenefit: textField('Why it is worth having — the "so that…"')
 };

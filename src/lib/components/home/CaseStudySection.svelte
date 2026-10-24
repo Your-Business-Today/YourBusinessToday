@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CaseStudyFigures from '../case-study/CaseStudyFigures.svelte';
-	import { jewelBespokeBuildCaseStudy as caseStudy } from '$lib/data/caseStudies';
+	import { constructionCompanyCaseStudy as caseStudy } from '$lib/data/caseStudies';
 </script>
 
 <section class="mx-auto max-w-6xl px-6 py-20 md:py-24">
@@ -19,22 +19,11 @@
 	<div class="mt-12">
 		<CaseStudyFigures figures={caseStudy.figures} />
 	</div>
-	<div class="mt-10 flex flex-wrap items-center gap-6">
-		<a
-			href={caseStudy.href}
-			class="rounded-full border border-signal/60 px-6 py-2.5 font-display text-sm text-signal
-				transition hover:bg-signal hover:text-night"
-		>
-			Read the full case study
-		</a>
-		<a
-			href={caseStudy.clientWebsiteUrl}
-			rel="noreferrer"
-			target="_blank"
-			class="font-display text-sm text-chalk/50 underline-offset-4 transition hover:text-chalk
-				hover:underline"
-		>
-			Visit {caseStudy.clientName}
-		</a>
-	</div>
+	<a
+		href={caseStudy.href}
+		class="mt-10 inline-block rounded-full border border-signal/60 px-6 py-2.5 font-display text-sm
+			text-signal transition hover:bg-signal hover:text-night"
+	>
+		Read the full case study
+	</a>
 </section>

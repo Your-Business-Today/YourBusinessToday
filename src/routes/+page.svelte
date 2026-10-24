@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BuiltForSection from '$lib/components/home/BuiltForSection.svelte';
 	import CaseStudySection from '$lib/components/home/CaseStudySection.svelte';
 	import DiscoveryCallSection from '$lib/components/home/DiscoveryCallSection.svelte';
 	import HeroSection from '$lib/components/home/HeroSection.svelte';
@@ -17,6 +18,7 @@
 
 <HeroSection />
 <WhatWeDoSection />
+<BuiltForSection />
 <CaseStudySection />
 <TeamSection />
 <DiscoveryCallSection />

@@ -14,7 +14,7 @@ export const projectCreateActions: McpAction[] = [
 		guidance:
 			'You own it and can hand it on; everyone you bring on to it manages it with you. It lands ' +
 			'at the bottom of your board; call move_project or place_project to prioritise it. Name the ' +
-			'organisation it is for — Jewel, one of its businesses, or Your Business Today — and everyone ' +
+			'organisation it is for — a client, one of its businesses, or Your Business Today — and everyone ' +
 			'on that organisation is on the project at once; call list_organisations for the ids. Staff ' +
 			'can make it a team project, which every Your Business Today staff member is on.',
 		inputSchema: objectSchema(

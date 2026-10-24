@@ -8,7 +8,7 @@
 	<a href={screen.imageUrl} target="_blank" rel="noreferrer" class="block">
 		<img
 			src={screen.imageUrl}
-			alt="The {screen.title} screen of the Jewel Bespoke Build portal, on invented data"
+			alt="The {screen.title} screen of the construction company's portal, on invented data"
 			width={portalScreenSize.width}
 			height={portalScreenSize.height}
 			loading="lazy"
