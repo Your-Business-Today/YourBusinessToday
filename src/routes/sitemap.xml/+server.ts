@@ -5,6 +5,7 @@ const publicPagePaths = [
 	'/about',
 	'/offer',
 	'/case-studies/jewel',
+	'/demo',
 	'/vision',
 	'/contact',
 	'/terms',

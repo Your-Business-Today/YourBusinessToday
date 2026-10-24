@@ -1,3 +1,7 @@
+<script lang="ts">
+	import DiscoveryCallButton from '../site/DiscoveryCallButton.svelte';
+</script>
+
 <article class="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-16">
 	<p class="font-display text-sm tracking-widest text-signal uppercase">What we build</p>
 	<h1 class="font-display text-4xl leading-tight font-medium">
@@ -49,20 +53,14 @@
 		belong to software that adapts to the business. That starts with giving the assistant a
 		business to know. Tell us about your business today and every tomorrow gets easier.
 	</p>
-	<div class="mt-4 flex flex-wrap gap-4 border-t border-hairline pt-8">
-		<a
-			href="/contact"
-			class="rounded-full bg-signal px-7 py-3 font-display text-sm font-medium text-night
-				transition hover:brightness-110"
-		>
-			Talk to us
-		</a>
+	<div class="mt-4 flex flex-wrap items-center gap-4 border-t border-hairline pt-8">
+		<DiscoveryCallButton isSolid />
 		<a
 			href="/offer"
 			class="rounded-full border border-hairline px-7 py-3 font-display text-sm text-chalk/80
 				transition hover:border-chalk/40 hover:text-chalk"
 		>
-			How an engagement works
+			The seven steps
 		</a>
 	</div>
 </article>

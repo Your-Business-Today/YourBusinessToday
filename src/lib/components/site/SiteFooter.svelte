@@ -1,6 +1,8 @@
 <script lang="ts">
 	import BrandWordmark from './BrandWordmark.svelte';
 	import { companyDetails } from '$lib/data/companyDetails';
+	import { buildTimeline } from '$lib/data/consultancyOffer';
+	import { discoveryCallPath, discoveryCallShortLabel } from '$lib/data/discoveryCall';
 </script>
 
 <footer class="border-t border-hairline bg-night print:hidden">
@@ -9,7 +11,7 @@
 			<div class="flex items-center gap-3">
 				<BrandWordmark fontSize={18} />
 				<p class="text-sm text-chalk/60">
-					Your Business Today. We use AI to streamline your business.
+					Your Business Today. We build your business app or platform in {buildTimeline}.
 				</p>
 			</div>
 			<a
@@ -27,7 +29,9 @@
 			<a href="/case-studies/jewel" class="text-sm text-chalk/60 transition hover:text-chalk">
 				Case study
 			</a>
-			<a href="/contact" class="text-sm text-chalk/60 transition hover:text-chalk">Contact</a>
+			<a href={discoveryCallPath} class="text-sm text-chalk/60 transition hover:text-chalk">
+				{discoveryCallShortLabel}
+			</a>
 			<a href="/terms" class="text-sm text-chalk/60 transition hover:text-chalk">
 				Terms of service
 			</a>

@@ -1,11 +1,13 @@
 <script lang="ts">
 	import AccountMenu from './AccountMenu.svelte';
 	import BrandWordmark from './BrandWordmark.svelte';
+	import DiscoveryCallButton from './DiscoveryCallButton.svelte';
 	import MobileMenuButton from './MobileMenuButton.svelte';
 	import MobileNavDrawer from './MobileNavDrawer.svelte';
 	import NotificationsBell from './NotificationsBell.svelte';
 	import SignInLink from './SignInLink.svelte';
 	import { buildMenuGroups } from './siteNavigation';
+	import { discoveryCallShortLabel } from '$lib/data/discoveryCall';
 
 	let {
 		userEmail,
@@ -47,6 +49,7 @@
 			{/if}
 			{#if !isSignedIn}
 				<SignInLink />
+				<DiscoveryCallButton isSolid label={discoveryCallShortLabel} class="px-4 py-2 text-sm" />
 			{/if}
 			<AccountMenu {menuGroups} />
 		</nav>
