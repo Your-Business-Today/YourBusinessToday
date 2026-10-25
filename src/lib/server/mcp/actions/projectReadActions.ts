@@ -5,7 +5,7 @@ import { describeKitStanding, kitStanding } from '$lib/data/kitVersion';
 import { kitReadingOf } from '$lib/server/kit/kitReadingOf';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
 import { describeDeployWindow } from '$lib/data/deployWindowFacts';
-import { readLatestDeployWindow } from '$lib/server/deployWindows/readLatestDeployWindow';
+import { readDeployWindowHistory } from '$lib/server/deployWindows/readLatestDeployWindow';
 import { ukClockAt } from '$lib/data/ukClock';
 import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
@@ -82,8 +82,8 @@ async function cadenceLineFor(supabase: SupabaseClient, project: Project): Promi
 
 /** The deploy window sentence after the kit line, or nothing for a project that deploys on every merge. */
 async function deployWindowLineFor(supabase: SupabaseClient, project: Project): Promise<string> {
-	const lastWindow = await readLatestDeployWindow(supabase, project.id);
-	const sentence = describeDeployWindow(project, lastWindow, ukClockAt(new Date()));
+	const history = await readDeployWindowHistory(supabase, project.id);
+	const sentence = describeDeployWindow(project, history, ukClockAt(new Date()));
 	return sentence === '' ? '' : ` ${sentence}`;
 }
 

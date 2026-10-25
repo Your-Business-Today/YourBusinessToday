@@ -1,4 +1,5 @@
 <script lang="ts">
+	import DeployNowButton from './DeployNowButton.svelte';
 	import EditProjectForm from './EditProjectForm.svelte';
 	import KitVersionBadge from './KitVersionBadge.svelte';
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
@@ -80,6 +81,7 @@
 			{#each blueprintViews as view (view.key)}
 				<a href={blueprintViewHref(project.id, view.path)} class={headerButtonClasses}>{view.label}</a>
 			{/each}
+			<DeployNowButton defaultBranch={project.defaultBranch} />
 		{/if}
 		<button type="button" onclick={() => (isEditModalOpen = true)} class={headerButtonClasses}>
 			Edit
