@@ -5,16 +5,18 @@ description: Refactor this repository — one measured round that follows the re
 
 # Refactor the repo: the round
 
-A round is Stage 4 of `tools/refactor/playbook.md`, run once, measured before and after. It never adds a feature and never changes the schema. The only refusal it adds is a door refusing a value its column cannot hold. It runs on its own branch: `refactor/round-N` off a fresh default branch, committed step by step, pushed, and opened as a pull request that merges once its checks pass. It never commits to the default branch. It is asked for by name, and it is due every N commits on the default branch since the baseline was last committed (`tools/refactor/deploys_since_baseline.sh`, ten unless the project says otherwise); Your Business Today may also have raised `REFACTOR: round N` on the project as the reminder — that task is where the round's record goes.
+A round is Stage 4 of `tools/refactor/playbook.md`, run once, measured before and after. It never adds a feature and never changes the schema. The only refusal it adds is a door refusing a value its column cannot hold. It runs on its own branch: `refactor/round-N` off a fresh base branch (`staging` where the repository has one, else the default branch), committed step by step, pushed, and opened as a pull request that merges once its checks pass. It never commits to the default branch. It is asked for by name, and it is due every N commits on the default branch since the baseline was last committed (`tools/refactor/deploys_since_baseline.sh`, ten unless the project says otherwise); Your Business Today may also have raised `REFACTOR: round N` on the project as the reminder — that task is where the round's record goes.
 
 Read, in this order, before the first change: the coding rules at the top of `CLAUDE.md`, `tools/refactor/playbook.md` (Stage 4 is the method this skill applies), `tools/refactor/rules.json`, then `tools/refactor/baseline-report.md`. If the repository has no `tools/refactor/`, run the project-process bootstrap first (`bootstrap.sh --kit <a checkout of the kit>`, or the `curl` line in the kit's README when the kit is public) and tell the person it was installed.
 
 ## 0. Branch
 
 ```
-git fetch origin && git switch <default> && git pull --ff-only
+git fetch origin && git switch <base> && git pull --ff-only
 git switch -c refactor/round-N
 ```
+
+`<base>` is `staging` where the repository has one (`git branch -r` lists `origin/staging`), else the default branch — the branch the pull request goes into, so the work starts from what it will merge into.
 
 If the working tree holds uncommitted changes, stop and ask the person what they belong to — a round starts clean.
 
