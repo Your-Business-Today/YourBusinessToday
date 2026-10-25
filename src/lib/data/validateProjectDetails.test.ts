@@ -9,6 +9,7 @@ import {
 	type ProjectDetailsClaim
 } from './projectDetailsRules';
 import { longestDatabaseDetail } from './projectDatabase';
+import { deployTimeRefusal } from './deployTime';
 import { projectDetailsEditOf, validateProjectDetails } from './validateProjectDetails';
 
 const claim: ProjectDetailsClaim = {
@@ -19,15 +20,25 @@ const claim: ProjectDetailsClaim = {
 	environmentUrl: '',
 	defaultBranch: 'main',
 	refactorEveryDeploys: 10,
+	deployStagingAt: '',
 	database: { kind: 'supabase', server: '', name: '', user: '', migrationsPath: 'migrations' }
 };
 
 describe('validateProjectDetails', () => {
+	const held = { ...claim, deployStagingAt: null };
+
 	it('lets through details every projects column can hold', () => {
-		expect(validateProjectDetails(claim)).toEqual(claim);
-		expect(validateProjectDetails({ ...claim, refactorEveryDeploys: 0 })).toEqual({ ...claim, refactorEveryDeploys: 0 });
+		expect(validateProjectDetails(claim)).toEqual(held);
+		expect(validateProjectDetails({ ...claim, refactorEveryDeploys: 0 })).toEqual({ ...held, refactorEveryDeploys: 0 });
 		const atMost = { ...claim, refactorEveryDeploys: mostDeploysBetweenRefactors };
-		expect(validateProjectDetails(atMost)).toEqual(atMost);
+		expect(validateProjectDetails(atMost)).toEqual({ ...held, refactorEveryDeploys: mostDeploysBetweenRefactors });
+	});
+
+	it('holds a deploy time as hours and minutes, blank as no window, and refuses anything else', () => {
+		expect(validateProjectDetails({ ...claim, deployStagingAt: '18:00' })).toEqual({ ...held, deployStagingAt: '18:00' });
+		for (const deployStagingAt of ['6pm', '24:00', '18:00:00']) {
+			expect(validateProjectDetails({ ...claim, deployStagingAt })).toBe(deployTimeRefusal);
+		}
 	});
 
 	it('refuses a status or database kind the check constraints do not list', () => {
@@ -49,7 +60,7 @@ describe('validateProjectDetails', () => {
 	});
 
 	it('answers as an edit: the update, or the refusal', () => {
-		expect(projectDetailsEditOf(claim)).toEqual({ update: claim });
+		expect(projectDetailsEditOf(claim)).toEqual({ update: held });
 		expect(projectDetailsEditOf({ ...claim, status: 'active' })).toEqual({ refusal: wrongStatus });
 	});
 });

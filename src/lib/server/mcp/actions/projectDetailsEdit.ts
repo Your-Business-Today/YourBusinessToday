@@ -14,6 +14,7 @@ export function parseProjectDetailsEdit(input: Record<string, unknown>, project:
 		environmentUrl: readOptionalText(input, 'environmentUrl') ?? project.environmentUrl,
 		defaultBranch: readOptionalText(input, 'defaultBranch') ?? project.defaultBranch,
 		refactorEveryDeploys: readRefactorEveryDeploys(input, project),
+		deployStagingAt: readDeployStagingAt(input, project),
 		database: readDatabase(input, project)
 	});
 }
@@ -33,6 +34,12 @@ function readDatabase(input: Record<string, unknown>, project: Project): Project
 function readDatabaseUser(input: Record<string, unknown>, database: ProjectDatabase): string {
 	if (input.databaseUser === undefined || input.databaseUser === null) return database.user;
 	return readText(input, 'databaseUser');
+}
+
+/** Like the database user, the deploy time can be cleared: blank says the project has no deploy window. */
+function readDeployStagingAt(input: Record<string, unknown>, project: Project): string {
+	if (input.deployStagingAt === undefined || input.deployStagingAt === null) return project.deployStagingAt ?? '';
+	return readText(input, 'deployStagingAt');
 }
 
 function readRefactorEveryDeploys(input: Record<string, unknown>, project: Project): number {

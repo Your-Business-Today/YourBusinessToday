@@ -16,6 +16,7 @@ import { goalActions } from './goalActions';
 import { memberActions } from './memberActions';
 import { projectActions } from './projectActions';
 import { summariseProjectPulse } from '$lib/server/projects/summariseProjectPulse';
+import { deployWindowFactsOf } from '$lib/server/deployWindows/deployWindowFactsOf';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { sequenceStandingsOf } from '$lib/data/taskSequenceStanding';
 import { taskActions } from './taskActions';
@@ -35,10 +36,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		...(await getBranchRunsForProject(locals.supabase, project.id)),
 		organisations: await getOrganisations(locals.supabase),
 		isOwner,
-		cadenceLine: describeRefactorCadence({
-			refactorEveryDeploys: project.refactorEveryDeploys,
-			deploysSinceRefactor
-		}),
+		cadenceLine: describeRefactorCadence({ refactorEveryDeploys: project.refactorEveryDeploys, deploysSinceRefactor }),
+		deployWindowFacts: await deployWindowFactsOf(locals.supabase, project),
 		pulse: summariseProjectPulse({ tasks, goals, assigneeIdsByTask, turnsByTask, viewerId: user.id }),
 		taskTree: buildTaskTree(tasks),
 		goalSummaries: summariseGoals(goals, tasks),

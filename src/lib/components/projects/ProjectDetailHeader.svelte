@@ -13,6 +13,7 @@
 	import { mainRunFacts } from '$lib/data/mainRunFacts';
 	import { stagingBranch } from '$lib/data/stagingBranch';
 	import { webAddressLabel } from '$lib/data/webAddressLabel';
+	import type { DeployWindowFact } from '$lib/data/deployWindowFacts';
 	import type { MainRun } from '$lib/data/mainRun';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 	import type { Project } from '$lib/server/projects/projectRecord';
@@ -21,6 +22,7 @@
 		project,
 		organisations,
 		cadenceLine,
+		deployWindowFacts,
 		mainRuns,
 		stagingRuns,
 		latestKitVersion,
@@ -29,6 +31,7 @@
 		project: Project;
 		organisations: Organisation[];
 		cadenceLine: string;
+		deployWindowFacts: DeployWindowFact[];
 		mainRuns: MainRun[];
 		stagingRuns: MainRun[];
 		latestKitVersion: string;
@@ -47,6 +50,7 @@
 			linkFact(project.environmentUrl),
 			hasRepository ? { label: `⎇ ${project.defaultBranch}` } : null,
 			hasRepository ? { label: cadenceLine } : null,
+			...(hasRepository ? deployWindowFacts : []),
 			...(hasRepository ? mainRunFacts(mainRuns) : []),
 			...(hasRepository ? mainRunFacts(stagingRuns, stagingBranch) : [])
 		].filter((fact) => fact !== null)

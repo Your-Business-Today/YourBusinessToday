@@ -19,6 +19,7 @@ export async function updateProjectDetails(
 			environment_url: update.environmentUrl,
 			default_branch: update.defaultBranch,
 			refactor_every_deploys: update.refactorEveryDeploys,
+			deploy_staging_at: update.deployStagingAt,
 			...databaseColumns(update.database)
 		})
 		.eq('id', projectId);
