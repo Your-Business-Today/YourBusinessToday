@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-25T17:58:20+00:00",
-  "kitVersion": "1.35.0",
+  "generatedAt": "2026-10-25T18:33:38+00:00",
+  "kitVersion": "1.35.1",
   "score": {
     "overall": 100.0,
     "groups": [
@@ -273,8 +273,7 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "skipped": "jscpd is not installed (npm install -g jscpd)",
-      "carriedFromBaseline": true
+      "skipped": "jscpd is not installed (npm install -g jscpd)"
     },
     "naming": {
       "bannedAbbreviationHits": 32,
@@ -330,13 +329,13 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2527,
+      "totalFiles": 2532,
       "backend": 782,
       "frontend": 659,
-      "shared": 316,
-      "tests": 219,
+      "shared": 318,
+      "tests": 221,
       "api": 212,
-      "database": 134,
+      "database": 135,
       "tooling": 130,
       "docs": 59,
       "infrastructure": 16
@@ -3016,13 +3015,13 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2527,
+        "totalFiles": 2532,
         "backend": 782,
         "frontend": 659,
-        "shared": 316,
-        "tests": 219,
+        "shared": 318,
+        "tests": 221,
         "api": 212,
-        "database": 134,
+        "database": 135,
         "tooling": 130,
         "docs": 59,
         "infrastructure": 16
@@ -3042,13 +3041,13 @@
         },
         {
           "area": "shared",
-          "files": 316,
+          "files": 318,
           "sourceFiles": 304,
           "sourceLines": 9922
         },
         {
           "area": "tests",
-          "files": 219,
+          "files": 221,
           "sourceFiles": 207,
           "sourceLines": 8012
         },
@@ -3060,7 +3059,7 @@
         },
         {
           "area": "database",
-          "files": 134,
+          "files": 135,
           "sourceFiles": 0,
           "sourceLines": 0
         },
@@ -3101,8 +3100,7 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "skipped": "jscpd is not installed (npm install -g jscpd)",
-        "carriedFromBaseline": true
+        "skipped": "jscpd is not installed (npm install -g jscpd)"
       },
       "offenders": []
     }

@@ -1,5 +1,5 @@
 <!-- project-process:begin -->
-<!-- project-process kit v1.35.0 — replaced whole by bootstrap.sh; edit the kit, and write this repository's own instructions in PROJECT.md -->
+<!-- project-process kit v1.35.1 — replaced whole by bootstrap.sh; edit the kit, and write this repository's own instructions in PROJECT.md -->
 
 # How We Work
 
@@ -38,7 +38,7 @@ A refactor round follows the same shape on a `refactor/round-N` branch, and a co
 A repository that deploys from its default branch, and has a `staging` branch, ships at a deploy window rather than on every merge: merging a pull request into `staging` deploys nothing, and the default branch moves only when `staging` is promoted into it. The promotion is one pull request, `staging` into the default branch, opened by the `promote-staging` workflow (`.github/workflows/promote-staging.yml` and `scripts/promote-staging.sh`, installed by the bootstrap where `staging` exists) and merged by itself at green; that merge is the one deploy, and it runs the migrations the window's work added. Your Business Today fires the workflow at the project's deploy time, set on the project; *Run workflow* in the Actions tab fires it by hand. Nobody promotes by any other route, and nobody merges the promotion pull request past red CI: a red promotion is fixed on a branch into `staging`, and the next window carries the fix.
 
 - **A task is done when its pull request merges into `staging`**; Your Business Today marks it so, and counts a deploy when the promotion reaches the default branch. Say *merged into staging, deploys at the window*, never *live*, until the promotion has merged.
-- **An urgent fix is the one pull request that goes into the default branch**, and only when the person asks for it by name as urgent: `fix/<slug>` from a fresh default branch, pull request into the default branch, merged at green. After the promotion merges, the workflow fast-forwards `staging` to the default branch, so the fix is on `staging` too; if it cannot (`staging` has moved on), open a pull request from the default branch into `staging` and say so on the task.
+- **An urgent fix is the one pull request that goes into the default branch**, and only when the person asks for it by name as urgent: `fix/<slug>` from a fresh default branch, pull request into the default branch, merged at green. After any merge into the default branch, the promotion workflow brings `staging` level with it: nothing when the two hold the same files, a fast-forward where `staging`'s ruleset allows a push, else a pull request `LEVEL: <default> into staging, <date>` that merges itself at green — so the fix reaches `staging` without anyone opening that pull request by hand, and a merge into `staging` deploys nothing.
 - **A pull request opened into the wrong base is retargeted, not merged**: `gh pr edit <number> --base staging`.
 - **Nothing in the chat waits for the window.** The work log names the pull request and the branch; the deploy time is the project's setting, not the task's.
 
