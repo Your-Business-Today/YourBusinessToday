@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-25T19:17:21+00:00",
-  "kitVersion": "1.35.1",
+  "generatedAt": "2026-10-25T19:26:15+00:00",
+  "kitVersion": "1.36.0",
   "score": {
     "overall": 100.0,
     "groups": [
@@ -330,13 +330,13 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2532,
-      "backend": 782,
-      "frontend": 659,
-      "shared": 318,
-      "tests": 221,
+      "totalFiles": 2541,
+      "backend": 786,
+      "frontend": 661,
+      "shared": 319,
+      "tests": 222,
       "api": 212,
-      "database": 135,
+      "database": 136,
       "tooling": 130,
       "docs": 59,
       "infrastructure": 16
@@ -3024,13 +3024,13 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2532,
-        "backend": 782,
-        "frontend": 659,
-        "shared": 318,
-        "tests": 221,
+        "totalFiles": 2541,
+        "backend": 786,
+        "frontend": 661,
+        "shared": 319,
+        "tests": 222,
         "api": 212,
-        "database": 135,
+        "database": 136,
         "tooling": 130,
         "docs": 59,
         "infrastructure": 16
@@ -3038,25 +3038,25 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 782,
+          "files": 786,
           "sourceFiles": 776,
           "sourceLines": 24750
         },
         {
           "area": "frontend",
-          "files": 659,
+          "files": 661,
           "sourceFiles": 531,
           "sourceLines": 18392
         },
         {
           "area": "shared",
-          "files": 318,
+          "files": 319,
           "sourceFiles": 305,
           "sourceLines": 9952
         },
         {
           "area": "tests",
-          "files": 221,
+          "files": 222,
           "sourceFiles": 208,
           "sourceLines": 8040
         },
@@ -3068,7 +3068,7 @@
         },
         {
           "area": "database",
-          "files": 135,
+          "files": 136,
           "sourceFiles": 0,
           "sourceLines": 0
         },
