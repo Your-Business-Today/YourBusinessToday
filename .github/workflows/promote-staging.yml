@@ -1,0 +1,49 @@
+# Installed by the project-process kit (re-run its bootstrap to refresh; do not edit by hand).
+# The deploy window. Every pull request merges into staging, which deploys nothing;
+# main moves only when this workflow promotes staging into it as one pull
+# request that merges itself at green, and that merge is the one deploy. Your Business Today fires it
+# at the project's deploy time (workflow_dispatch); "Run workflow" in the Actions tab does the same.
+# It needs the repository secret PROMOTION_TOKEN: a pull request opened with the Actions token runs
+# no checks and its merge deploys nothing, so the token is a person's or an app's.
+# After the promotion merges, staging is fast-forwarded to main, so an urgent
+# fix merged straight into main is on staging too.
+name: promote staging
+run-name: ${{ github.event_name == 'workflow_dispatch' && 'Promote staging to main' || 'Bring staging level with main' }}
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: promote-staging
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    name: Open the promotion pull request, merging at green
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: bash scripts/promote-staging.sh staging main
+        env:
+          GH_TOKEN: ${{ secrets.PROMOTION_TOKEN }}
+
+  level:
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged && github.event.pull_request.head.ref == 'staging'
+    runs-on: ubuntu-latest
+    name: Fast-forward staging to the promoted main
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - run: git push origin HEAD:staging || echo "::warning::staging could not be fast-forwarded to main; open a pull request from main into staging."

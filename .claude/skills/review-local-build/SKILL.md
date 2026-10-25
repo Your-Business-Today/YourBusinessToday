@@ -12,7 +12,7 @@ The local model on the Mac mini builds easy tasks on a branch and never opens a 
 `next_buildable_task` has already recorded *building* on the review task for you. Record `reviewing` on the **parent** task too (`record_lifecycle_step`, with the branch), so every AI looking at the board sees the build is under review. Then read:
 
 - The parent task in full (`read_task`), its acceptance criteria and every attachment. That is what the branch has to deliver — not what the local model says it did.
-- The diff against the default branch: `git fetch origin`, `git switch <branch>`, `git diff origin/<default>...HEAD`. Read every file it touches, and the siblings it should have copied (the sizing skill names them on the task when the work was sized as a copy).
+- The diff against the base branch (`staging` where the repository has one, else the default branch): `git fetch origin`, `git switch <branch>`, `git diff origin/<base>...HEAD`. Read every file it touches, and the siblings it should have copied (the sizing skill names them on the task when the work was sized as a copy).
 - The repository's `CLAUDE.md` and `PROJECT.md`. The rules are the same for the local model as for you.
 
 ## 2. Run the checks
@@ -40,7 +40,7 @@ Read the diff adversarially, as a reviewer who has to defend it: does it do what
 
 ## 4. Open the pull request
 
-When the checks pass: push the branch, and open the pull request into the default branch titled with the **parent** task's title, its body the work log in short — what the local model built, what review changed and why, and whether it needs a database step. Turn on auto-merge. Record the pull request on both tasks with `set_task_branch` (`pullRequestUrl`), and record `pull_request_open` on the parent task's lifecycle if GitHub has not already.
+When the checks pass: push the branch, and open the pull request into the base branch titled with the **parent** task's title, its body the work log in short — what the local model built, what review changed and why, and whether it needs a database step. Turn on auto-merge. Record the pull request on both tasks with `set_task_branch` (`pullRequestUrl`), and record `pull_request_open` on the parent task's lifecycle if GitHub has not already.
 
 When it merges, YBT marks both tasks done by themselves. If CI fails, the branch is yours to drive to green, as any pull request you open.
 
