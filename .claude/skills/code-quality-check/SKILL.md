@@ -38,7 +38,7 @@ Open `tools/refactor/audit-output/audit-report.md`. The score is only as good as
 git add README.md tools/refactor/refactor-plan.md tools/refactor/site-definition.md tools/refactor/audit-output tools/refactor/rules.json
 git commit -m "Code quality <score>%: the score box and the refactoring plan"
 git push -u origin quality/check-<YYYY-MM-DD>
-gh pr create --base <default> --title "QUALITY: <score>% on <YYYY-MM-DD>" --body "<the three group scores, the five lowest elements, the first five steps of the plan>"
+gh pr create --base <base> --title "QUALITY: <score>% on <YYYY-MM-DD>" --body "<the three group scores, the five lowest elements, the first five steps of the plan>"
 ```
 
 Without the GitHub CLI, open it with the GitHub connector. Merge it once its checks pass, as `CLAUDE.md` says.
