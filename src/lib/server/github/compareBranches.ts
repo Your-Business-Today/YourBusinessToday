@@ -1,10 +1,20 @@
 import { githubGet } from './githubRequest';
+import type { CommitMessage } from '$lib/data/mergedPullRequests';
 
-type Comparison = { ahead_by: number };
+/** How far the head branch is ahead of the base, and the commits that make the difference, as GitHub compares them. */
+export type BranchComparison = { aheadBy: number; commits: CommitMessage[] };
 
-/** How many commits the head branch holds that the base branch does not, as GitHub compares them. */
-export async function countCommitsAhead(repositoryAddress: string, base: string, head: string): Promise<number> {
+type GithubCommit = { commit: { message: string } };
+
+type GithubComparison = { ahead_by: number; commits: GithubCommit[] };
+
+export async function compareBranches(repositoryAddress: string, base: string, head: string): Promise<BranchComparison> {
 	const compareAddress = `${repositoryAddress}/compare/${encodeURIComponent(base)}...${encodeURIComponent(head)}`;
-	const comparison = await githubGet<Comparison>(compareAddress);
-	return comparison.ahead_by;
+	const comparison = await githubGet<GithubComparison>(compareAddress);
+	return { aheadBy: comparison.ahead_by, commits: comparison.commits.map(messageOf) };
+}
+
+function messageOf(entry: GithubCommit): CommitMessage {
+	const { commit } = entry;
+	return { message: commit.message };
 }

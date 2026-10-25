@@ -43,5 +43,5 @@ async function insertRun(supabase: SupabaseClient, row: Record<string, unknown>)
 }
 
 function columnsOf(promotion: Promotion): Record<string, unknown> {
-	return { outcome: promotion.outcome, pull_request_url: promotion.pullRequestUrl, note: promotion.note };
+	return { outcome: promotion.outcome, pull_request_url: promotion.pullRequestUrl, note: promotion.note, summary: promotion.summary };
 }

@@ -1,29 +1,41 @@
-import { countCommitsAhead } from '$lib/server/github/compareBranches';
+import { compareBranches } from '$lib/server/github/compareBranches';
 import { enableAutoMerge } from '$lib/server/github/enableAutoMerge';
-import { findOpenPullRequest, mergePullRequest, openPullRequest, type PullRequest } from '$lib/server/github/pullRequests';
+import {
+	findOpenPullRequest,
+	mergePullRequest,
+	openPullRequest,
+	rewritePullRequestBody,
+	type PullRequest
+} from '$lib/server/github/pullRequests';
 import { githubRepositoryAddress } from '$lib/server/kit/readRepositoryFile';
 import { stagingBranch } from '$lib/data/stagingBranch';
 import { deployWindowOutcomes, type DeployWindowOutcome } from '$lib/data/deployWindow';
-import { promotionDraft } from './promotionPullRequest';
+import { deploySummaryOf, describeDeploySummary, type DeployableTask } from '$lib/data/deploySummary';
+import { mergedPullRequestsOf } from '$lib/data/mergedPullRequests';
+import { promotionBody, promotionDraft, type PromotionWording } from './promotionPullRequest';
 import type { DeployStart } from '$lib/data/deployStart';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { UkClock } from '$lib/data/ukClock';
 
-/** What the window did for one project: the pull request it opened or found, or why nothing was promoted. */
-export type Promotion = { outcome: DeployWindowOutcome; pullRequestUrl: string; note: string };
+/** What the promotion did for one project: the pull request it opened or found and the tasks it carries, or why nothing was promoted. */
+export type Promotion = { outcome: DeployWindowOutcome; pullRequestUrl: string; note: string; summary: string };
+
+/** What a promotion is asked for: by whom, and against which tasks its merged pull requests are matched. */
+export type PromotionRequest = { start: DeployStart; tasks: DeployableTask[] };
 
 const nothingAhead = 0;
 const cleanStatusRefusal = 'clean status';
+const noSummary = '';
 
 /**
  * Opens the pull request from staging into the default branch when staging is ahead, reuses the one already open,
  * and turns auto-merge on; nothing to promote is a quiet skip, and anything GitHub refuses is kept as the note.
  */
-export async function promoteStaging(project: Project, clock: UkClock, start: DeployStart): Promise<Promotion> {
+export async function promoteStaging(project: Project, clock: UkClock, request: PromotionRequest): Promise<Promotion> {
 	const repositoryAddress = githubRepositoryAddress(project.repositoryUrl);
 	if (repositoryAddress === null) return failed(`${project.repositoryUrl} is not a GitHub repository.`);
 	try {
-		return await promoteThroughGithub(repositoryAddress, project, clock, start);
+		return await promoteThroughGithub(repositoryAddress, project, clock, request);
 	} catch (refusal) {
 		return failed(refusal instanceof Error ? refusal.message : String(refusal));
 	}
@@ -33,18 +45,26 @@ async function promoteThroughGithub(
 	repositoryAddress: string,
 	project: Project,
 	clock: UkClock,
-	start: DeployStart
+	request: PromotionRequest
 ): Promise<Promotion> {
-	const commitCount = await countCommitsAhead(repositoryAddress, project.defaultBranch, stagingBranch);
-	if (commitCount === nothingAhead) {
+	const comparison = await compareBranches(repositoryAddress, project.defaultBranch, stagingBranch);
+	if (comparison.aheadBy === nothingAhead) {
 		const note = `${project.defaultBranch} already holds everything on ${stagingBranch}.`;
-		return { outcome: deployWindowOutcomes.nothingToPromote, pullRequestUrl: '', note };
+		return { outcome: deployWindowOutcomes.nothingToPromote, pullRequestUrl: '', note, summary: noSummary };
 	}
+	const deploySummary = deploySummaryOf(mergedPullRequestsOf(comparison.commits), request.tasks);
+	const summary = describeDeploySummary(deploySummary, project.repositoryUrl);
+	const wording = { commitCount: comparison.aheadBy, start: request.start, summary };
 	const open = await findOpenPullRequest(repositoryAddress, project.defaultBranch, stagingBranch);
-	const pullRequest = open ?? (await openPullRequest(repositoryAddress, promotionDraft(project, clock, commitCount, start)));
-	const outcome = open === null ? deployWindowOutcomes.opened : deployWindowOutcomes.reused;
+	const pullRequest = open ?? (await openPullRequest(repositoryAddress, promotionDraft(project, clock, wording)));
+	const isReused = open !== null;
+	const body = promotionBody(project, wording);
+	if (isReused) {
+		await rewritePullRequestBody(repositoryAddress, pullRequest, body);
+	}
+	const outcome = isReused ? deployWindowOutcomes.reused : deployWindowOutcomes.opened;
 	const note = await mergeAtGreen(repositoryAddress, pullRequest);
-	return { outcome, pullRequestUrl: pullRequest.url, note };
+	return { outcome, pullRequestUrl: pullRequest.url, note, summary };
 }
 
 /** Auto-merge, or the merge itself when GitHub says there is nothing left to wait for; any other refusal is reported. */
@@ -61,5 +81,5 @@ async function mergeAtGreen(repositoryAddress: string, pullRequest: PullRequest)
 }
 
 function failed(note: string): Promotion {
-	return { outcome: deployWindowOutcomes.failed, pullRequestUrl: '', note };
+	return { outcome: deployWindowOutcomes.failed, pullRequestUrl: '', note, summary: noSummary };
 }

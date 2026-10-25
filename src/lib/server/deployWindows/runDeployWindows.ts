@@ -7,6 +7,7 @@ import { promoteStaging, type Promotion } from './promoteStaging';
 import { readLatestTimedWindow } from './readLatestDeployWindow';
 import { recordTimedWindow } from './recordDeployWindow';
 import { timedWindowStart } from '$lib/data/deployStart';
+import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import type { Project } from '$lib/server/projects/projectRecord';
 
 export type DeployWindowRun = Promotion & { projectId: string; projectName: string };
@@ -32,7 +33,8 @@ async function runWindowIfDue(supabase: SupabaseClient, project: Project, clock:
 		wasLastWindowFailed: lastWindow?.outcome === deployWindowOutcomes.failed
 	};
 	if (!isDeployWindowDue(reading)) return null;
-	const promotion = await promoteStaging(project, clock, timedWindowStart);
+	const tasks = await getTasksForProject(supabase, project.id);
+	const promotion = await promoteStaging(project, clock, { start: timedWindowStart, tasks });
 	await recordTimedWindow(supabase, project.id, clock.date, promotion);
 	return { projectId: project.id, projectName: project.name, ...promotion };
 }
