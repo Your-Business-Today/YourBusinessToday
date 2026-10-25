@@ -2,6 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 import { handlePushEvent } from '$lib/server/deploys/handlePushEvent';
 import { handleFinishedRun } from '$lib/server/mainRuns/handleFinishedRun';
+import { handlePromotionMerge } from '$lib/server/deploys/handlePromotionMerge';
 import { handleStartedRun } from '$lib/server/mergeDeploys/handleStartedRun';
 import { handleTaskBranchPullRequest } from '$lib/server/deploys/handleTaskBranchPullRequest';
 import { isGithubSignatureValid } from '$lib/server/deploys/verifyGithubSignature';
@@ -32,7 +33,8 @@ const runReaders = new Map<string, RunReaders>([
 ]);
 
 /**
- * GitHub tells a task its branch's pull request opened or merged (pull_request), a project it deployed (push), and
+ * GitHub tells a task its branch's pull request opened or merged and a project that staging was promoted
+ * (pull_request), a project it deployed (push), and
  * how a workflow or production deployment on it started and ended (workflow_run, deployment_status).
  */
 export const POST: RequestHandler = async ({ request }) => {
@@ -63,7 +65,10 @@ async function outcomeOf(
 async function changedPullRequest(event: unknown): Promise<Record<string, unknown>> {
 	const pullRequest = readPullRequestEvent(event);
 	if (pullRequest === null) return { ignored: true };
-	return { outcome: await handleTaskBranchPullRequest(supabaseServiceClient(), pullRequest) };
+	const supabase = supabaseServiceClient();
+	const promotion = await handlePromotionMerge(supabase, pullRequest);
+	if (promotion !== null) return { outcome: promotion };
+	return { outcome: await handleTaskBranchPullRequest(supabase, pullRequest) };
 }
 
 async function pushedDeploy(event: unknown, request: Request): Promise<Record<string, unknown>> {

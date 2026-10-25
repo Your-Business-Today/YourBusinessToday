@@ -6,6 +6,7 @@ import { findProjectsByRepository } from './findProjectsByRepository';
 import { findTasksOnBranch } from '$lib/server/projects/findTasksOnBranch';
 import { postMessage } from '$lib/server/conversations/postMessage';
 import { recordGithubStep } from '$lib/server/lifecycle/recordGithubStep';
+import { recordTaskStaged } from '$lib/server/projects/recordTaskStaged';
 import { setTaskBranch } from '$lib/server/projects/setTaskBranch';
 import { updateTaskStatus } from '$lib/server/projects/updateTaskStatus';
 import type { Project } from '$lib/server/projects/projectRecord';
@@ -20,8 +21,8 @@ const nobodySignedIn = null;
 export type BranchOutcome = { kind: 'no_task_on_branch' } | { kind: 'recorded'; taskIds: string[] };
 
 /**
- * A pull request from a task's branch is recorded on the task. Its merge into staging marks the task done at once,
- * since the promotion to the default branch is the deploy. Its merge into the default branch marks the task done
+ * A pull request from a task's branch is recorded on the task. Its merge into staging marks the task done at once
+ * and staged, since the promotion to the default branch is the deploy that takes it live. Its merge into the default branch marks the task done
  * once the merge's checks there pass, or at once on a project where no checks report there.
  */
 export async function handleTaskBranchPullRequest(
@@ -58,12 +59,16 @@ async function recordMerge(
 	pullRequest: PullRequestEvent
 ): Promise<void> {
 	const merged = `Merged: ${pullRequest.url} brought ${task.branchName} into ${mergedInto(pullRequest, project)}`;
+	const isStaged = isStagingBranch(pullRequest.baseBranch, project.defaultBranch);
+	if (isStaged) {
+		await recordTaskStaged(supabase, task.id, new Date());
+	}
 	if (task.kind === supportTaskKind) {
 		const sentence = `${merged}. Resolve this with the answer the person who raised it will read.`;
 		await postMessage(supabase, { taskId: task.id }, project.ownerId, sentence);
 		return;
 	}
-	if (isStagingBranch(pullRequest.baseBranch, project.defaultBranch)) {
+	if (isStaged) {
 		await finishTask(supabase, task, project, stagingMergeMessage(merged, project));
 		return;
 	}

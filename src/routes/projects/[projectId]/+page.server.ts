@@ -19,6 +19,7 @@ import { summariseProjectPulse } from '$lib/server/projects/summariseProjectPuls
 import { deployWindowFactsOf } from '$lib/server/deployWindows/deployWindowFactsOf';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { sequenceStandingsOf } from '$lib/data/taskSequenceStanding';
+import { stagedTasksOf } from '$lib/data/stagedTasks';
 import { taskActions } from './taskActions';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -40,6 +41,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		deployWindowFacts: await deployWindowFactsOf(locals.supabase, project),
 		pulse: summariseProjectPulse({ tasks, goals, assigneeIdsByTask, turnsByTask, viewerId: user.id }),
 		taskTree: buildTaskTree(tasks),
+		stagedTasks: stagedTasksOf(tasks),
 		goalSummaries: summariseGoals(goals, tasks),
 		goals,
 		people: await getPeopleOnProject(locals.supabase, project.id),

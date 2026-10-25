@@ -10,6 +10,10 @@ export function stagingMergeMessage(merged: string, project: Project): string {
 	return `${merged}, so this task is done. It goes live when staging is promoted to ${project.defaultBranch}.`;
 }
 
+export function promotedLiveMessage(project: Project, promotionUrl: string): string {
+	return `Staging was promoted to ${project.defaultBranch} (${promotionUrl}), so this task\u2019s work is live.`;
+}
+
 export function liveMessage(project: Project): string {
 	return `Its checks on ${project.defaultBranch} passed, so its work is live and this task is done.`;
 }
