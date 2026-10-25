@@ -19,12 +19,15 @@ export const projectWriteActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: true,
 		summary:
-			'rename a project, rewrite its description, change its status, or say where its code lives and how often it is refactored',
+			'rename a project, rewrite its description, change its status, or say where its code lives, how often it is refactored and when staging deploys to main',
 		guidance:
 			'The repository and the default branch are what the deploy count reads: every push to that ' +
 			'branch of that repository is a deploy, and at refactorEveryDeploys of them a REFACTOR round ' +
 			'is raised on the project as the reminder to run the repository’s refactor-round skill. ' +
-			'0 turns the cadence off. The database kind and details record where the project’s data ' +
+			'0 turns the cadence off. deployStagingAt is the project’s deploy window: where the repository has a ' +
+			'staging branch, every pull request merges into it and deploys nothing, and at that time each day, UK ' +
+			'time, YBT opens one pull request from staging into the default branch with auto-merge on, when staging ' +
+			'is ahead — that merge is the day’s deploy. The database kind and details record where the project’s data ' +
 			'lives and where its migrations are; the repository’s own GitHub workflow runs each ' +
 			'migration a merge adds (an Azure SQL project needs its server and name).',
 		inputSchema: objectSchema(
@@ -40,6 +43,9 @@ export const projectWriteActions: McpAction[] = [
 					type: 'number',
 					description: `Deploys between refactor rounds, 0 for none${keepText}`
 				},
+				deployStagingAt: textField(
+					`The time of day, as HH:MM UK time, staging is promoted to the default branch; an empty string clears it for no window${keepText}`
+				),
 				databaseKind: databaseKindField,
 				databaseServer: textField(`The Azure SQL server’s full host name, as sqlcmd -S takes it${keepText}`),
 				databaseName: textField(`The Azure SQL database name${keepText}`),

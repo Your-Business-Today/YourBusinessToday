@@ -1,4 +1,5 @@
 import { parseDatabaseKind } from '$lib/data/databaseKind';
+import { parseDeployTime, type DeployTime } from '$lib/data/deployTime';
 import { parseProjectStatus, type ProjectStatus } from '$lib/data/projectStatus';
 import type { ProjectDatabase } from '$lib/data/projectDatabase';
 
@@ -19,6 +20,7 @@ export type Project = {
 	environmentUrl: string;
 	defaultBranch: string;
 	refactorEveryDeploys: number;
+	deployStagingAt: DeployTime;
 	lastRefactorRaisedAt: string | null;
 	kitVersion: string;
 	kitVersionReadAt: string | null;
@@ -41,6 +43,7 @@ export function parseProjectRecord(row: Record<string, unknown>): Project {
 		environmentUrl: (row.environment_url as string) ?? '',
 		defaultBranch: (row.default_branch as string) || defaultBranchWhenUnset,
 		refactorEveryDeploys: parseRefactorEveryDeploys(row.refactor_every_deploys),
+		deployStagingAt: parseDeployTime(row.deploy_staging_at),
 		lastRefactorRaisedAt: (row.last_refactor_raised_at as string) ?? null,
 		kitVersion: (row.kit_version as string) ?? '',
 		kitVersionReadAt: (row.kit_version_read_at as string) ?? null,

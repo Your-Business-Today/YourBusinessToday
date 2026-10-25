@@ -21,6 +21,11 @@ describe('parseProjectDetailsForm', () => {
 		}
 	});
 
+	it('reads a blank deploy time as no window and a typed one as HH:MM', () => {
+		expect(parseProjectDetailsForm(formWith({ deployStagingAt: '' }))).toMatchObject({ update: { deployStagingAt: null } });
+		expect(parseProjectDetailsForm(formWith({ deployStagingAt: '18:30' }))).toMatchObject({ update: { deployStagingAt: '18:30' } });
+	});
+
 	it('refuses a status it would once have replaced with scoping', () => {
 		expect(parseProjectDetailsForm(formWith({ status: 'active' }))).toEqual({ refusal: wrongStatus });
 	});

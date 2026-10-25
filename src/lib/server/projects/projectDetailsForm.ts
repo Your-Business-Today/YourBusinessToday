@@ -12,6 +12,7 @@ export function parseProjectDetailsForm(formData: FormData): ProjectDetailsEdit 
 		environmentUrl: text(formData, 'environmentUrl'),
 		defaultBranch: text(formData, 'defaultBranch') || defaultBranchWhenUnset,
 		refactorEveryDeploys: readDeploysBetweenRefactors(text(formData, 'refactorEveryDeploys')),
+		deployStagingAt: text(formData, 'deployStagingAt'),
 		database: readDatabaseForm(formData)
 	});
 }

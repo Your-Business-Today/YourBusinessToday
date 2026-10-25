@@ -1,6 +1,7 @@
 import { databaseKindOrder } from './databaseKind';
 import { projectStatusOrder, type ProjectStatus } from './projectStatus';
 import type { ProjectDatabase } from './projectDatabase';
+import type { DeployTime } from './deployTime';
 
 /** What a project says about itself on its edit form and its update_project_details action. */
 export type ProjectDetails = {
@@ -11,12 +12,14 @@ export type ProjectDetails = {
 	environmentUrl: string;
 	defaultBranch: string;
 	refactorEveryDeploys: number;
+	deployStagingAt: DeployTime;
 	database: ProjectDatabase;
 };
 
 /** The same details as they arrive, before the status and the database kind are known to be ones the columns allow. */
-export type ProjectDetailsClaim = Omit<ProjectDetails, 'status' | 'database'> & {
+export type ProjectDetailsClaim = Omit<ProjectDetails, 'status' | 'deployStagingAt' | 'database'> & {
 	status: string;
+	deployStagingAt: string;
 	database: Omit<ProjectDatabase, 'kind'> & { kind: string };
 };
 

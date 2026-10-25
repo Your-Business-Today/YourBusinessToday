@@ -91,7 +91,8 @@ npm run dev
 | `RESEND_API_KEY` / `EMAIL_FROM` | Resend API key and sender address for transactional email |
 | `ENQUIRY_NOTIFICATION_EMAIL` | Where website enquiries from `/contact` are sent |
 | `GITHUB_WEBHOOK_SECRET` | Secret on the GitHub webhook that counts deploys and tells a task its pull request merged |
-| `GITHUB_TOKEN` | Optional read-only (contents) token so the project-process kit version of a private repository can be read; public ones need none |
+| `GITHUB_TOKEN` | Token that reads the project-process kit version of a private repository and, where a project has a deploy window, opens the staging-to-main pull request and turns auto-merge on — so it needs pull request write (`repo`) on every project repository with a window |
+| `CRON_SECRET` | Bearer token the cron door (`/api/watch/<source>`) expects; Vercel sends it on its own crons, and the `deploy windows` workflow sends the GitHub secret of the same name every quarter hour |
 
 ## Stack
 
