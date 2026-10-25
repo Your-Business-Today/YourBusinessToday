@@ -6,11 +6,16 @@
 		countOpenTasks,
 		type RegisterProject
 	} from '$lib/data/autocompleteRegister';
+	import {
+		goalsShown,
+		ownSettingTasksShown,
+		type AutocompleteRegisterFilter
+	} from '$lib/data/autocompleteRegisterFilter';
 
-	let { project }: { project: RegisterProject } = $props();
+	let { project, filter }: { project: RegisterProject; filter: AutocompleteRegisterFilter } = $props();
 
-	const { tasks, goals } = $derived(project);
-	const ownSettingTasks = $derived(tasks.filter((task) => task.setting !== null));
+	const goals = $derived(goalsShown(project, filter));
+	const ownSettingTasks = $derived(ownSettingTasksShown(project, filter));
 	const countLabel = $derived(`${countAutocomplete(project)} of ${countOpenTasks(project)} open tasks`);
 	const isEmpty = $derived(goals.length === 0 && ownSettingTasks.length === 0);
 	const projectHref = $derived(`/projects/${project.id}`);
