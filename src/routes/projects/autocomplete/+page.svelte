@@ -1,13 +1,16 @@
 <script lang="ts">
+	import AutocompleteRegisterFilter from '$lib/components/autocomplete/AutocompleteRegisterFilter.svelte';
 	import AutocompleteProjectPanel from '$lib/components/autocomplete/AutocompleteProjectPanel.svelte';
 	import EmptyState from '$lib/components/site/EmptyState.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { projectsCrumb } from '$lib/components/workspace/projectCrumbs';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { hasEntriesShown } from '$lib/data/autocompleteRegisterFilter';
 
 	let { data } = $props();
 
-	const { register } = $derived(data);
+	const { register, filter } = $derived(data);
+	const projectsShown = $derived(register.filter((project) => hasEntriesShown(project, filter)));
 </script>
 
 <svelte:head>
@@ -22,11 +25,14 @@
 </WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>
+	<AutocompleteRegisterFilter {filter} />
 	{#if register.length === 0}
 		<EmptyState message="You are on no projects yet." />
+	{:else if projectsShown.length === 0}
+		<EmptyState message="No open goal or task on your projects matches this filter." />
 	{:else}
-		{#each register as project (project.id)}
-			<AutocompleteProjectPanel {project} />
+		{#each projectsShown as project (project.id)}
+			<AutocompleteProjectPanel {project} {filter} />
 		{/each}
 	{/if}
 </div>
