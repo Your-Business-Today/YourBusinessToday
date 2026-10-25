@@ -1,6 +1,7 @@
 import { createGoalWithTasks } from '$lib/server/goals/createGoalWithTasks';
 import { goalHorizonOrder, parseGoalHorizon } from '$lib/data/goalHorizon';
 import { goalTasksField, goalTasksRefusal, listedTaskSeeds } from './goalTaskSeeds';
+import { withRaiserAutocomplete } from '$lib/data/autocompleteStanding';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { noReachableProject, reachableProject } from '../projectAccess';
 import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
@@ -41,8 +42,9 @@ export const goalWithTasksAction: McpAction = {
 		if (project === null) return noReachableProject;
 		const title = readOptionalText(input, 'title');
 		if (title === null) return 'A goal needs a title. Say what it is and try again.';
-		const seeds = listedTaskSeeds(input);
-		if (seeds === null) return goalTasksRefusal;
+		const listedSeeds = listedTaskSeeds(input);
+		if (listedSeeds === null) return goalTasksRefusal;
+		const seeds = listedSeeds.map((seed) => withRaiserAutocomplete(seed, caller.isStaff));
 		const refusal = await firstTaskRefusal(caller, project, seeds, input.raiseAnyway);
 		if (refusal !== null) return `Nothing was raised. ${refusal}`;
 		const goal = goalSeedFrom(input, title);

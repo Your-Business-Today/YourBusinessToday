@@ -6,6 +6,11 @@ import {
 	validateAutocompleteChoice,
 	validateGoalAutocompleteSwitch
 } from '$lib/data/autocomplete';
+import {
+	canChooseTaskAutocomplete,
+	canSwitchGoalAutocomplete,
+	staffOnlyAutocompleteRefusal
+} from '$lib/data/autocompleteStanding';
 import { noSuchGoal } from './describeGoal';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readText, textField } from '../actionTypes';
@@ -18,7 +23,8 @@ import type { McpAction } from '../actionTypes';
 const autocompleteGuidance =
 	'Autocomplete lets an AI running on a schedule take the work through to a merged pull ' +
 	'request without asking anyone; turn it off where a person must give input first. Every ' +
-	'goal starts on. A person who turned it off is never overridden.';
+	'goal starts on. A person who turned it off is never overridden. Only staff can turn it on; ' +
+	'anyone can turn it off.';
 
 const choiceList = Object.values(autocompleteChoices).join(', ');
 
@@ -46,6 +52,7 @@ export const autocompleteActions: McpAction[] = [
 			if (goal === null) return noSuchGoal;
 			const isAutocomplete = validateGoalAutocompleteSwitch(input.isAutocomplete);
 			if (isAutocomplete === undefined) return 'isAutocomplete is true or false.';
+			if (!canSwitchGoalAutocomplete(isAutocomplete, caller.isStaff)) return staffOnlyAutocompleteRefusal;
 			await setGoalAutocomplete(caller.supabase, goal.id, isAutocomplete);
 			return `"${goal.title}" is now autocomplete ${autocompleteWord(isAutocomplete)}.`;
 		}
@@ -66,6 +73,7 @@ export const autocompleteActions: McpAction[] = [
 			if (task === null) return noSuchTask;
 			const setting = validateAutocompleteChoice(readText(input, 'autocomplete'));
 			if (setting === undefined) return autocompleteChoiceRefusal;
+			if (!canChooseTaskAutocomplete(setting, caller.isStaff)) return staffOnlyAutocompleteRefusal;
 			await setTaskAutocomplete(caller.supabase, task.id, setting);
 			const goal = task.goalId === null ? null : await reachableGoal(caller, task.goalId);
 			return `"${task.title}": ${autocompleteSentence(setting, goal?.isAutocomplete ?? null)}`;

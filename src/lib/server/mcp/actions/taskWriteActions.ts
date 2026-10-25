@@ -5,6 +5,8 @@ import { noSuchProject } from './describeProject';
 import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
 import { taskKindOrder } from '$lib/data/taskKind';
 import { readConnectorTaskSeed } from './connectorTaskSeed';
+import { autocompleteWord, isTaskAutocomplete } from '$lib/data/autocomplete';
+import { withRaiserAutocomplete } from '$lib/data/autocompleteStanding';
 import { readRequester, requestedByField } from './requestedByField';
 import { storyFields } from './storyFields';
 import { similarTasksRefusal } from './similarTasksRefusal';
@@ -32,8 +34,8 @@ export const taskWriteActions: McpAction[] = [
 			'with requestedBy, so it is worked as their request. A series of steps done in order is a ' +
 			'task sequence: raise one task per step, give each the step before it with waitsForTaskId, ' +
 			'and assign each to whoever does it with set_task_assignees. Files the task needs go on it ' +
-			'with attach_file_to_task once it exists. A task raised here starts with autocomplete on; ' +
-			'set_task_autocomplete switches it off.',
+			'with attach_file_to_task once it exists. A task raised here by staff starts with ' +
+			'autocomplete on, and by anyone else off; set_task_autocomplete switches it.',
 		inputSchema: objectSchema(
 			{
 				projectId: textField('The project the task belongs to'),
@@ -61,13 +63,14 @@ export const taskWriteActions: McpAction[] = [
 			if (title === null) return 'A task needs a title. Say what to call it and try again.';
 			const requester = await readRequester(caller, project.id, input);
 			if ('refusal' in requester) return requester.refusal;
-			const seed = readConnectorTaskSeed(input, title, requester.accountId);
+			const seed = withRaiserAutocomplete(readConnectorTaskSeed(input, title, requester.accountId), caller.isStaff);
 			const refusal = await newTaskRefusal(caller.supabase, project.id, seed);
 			if (refusal !== null) return refusal;
 			const similarRefusal = await similarTasksRefusal(caller, project, seed, input.raiseAnyway);
 			if (similarRefusal !== null) return similarRefusal;
 			const taskId = await createTask(caller.supabase, project.id, seed, caller.accountId);
-			return `"${title}" added to ${project.name} with autocomplete on (task id: ${taskId}).`;
+			const autocomplete = autocompleteWord(isTaskAutocomplete(seed.autocomplete ?? null, null));
+			return `"${title}" added to ${project.name} with autocomplete ${autocomplete} (task id: ${taskId}).`;
 		}
 	}
 ];

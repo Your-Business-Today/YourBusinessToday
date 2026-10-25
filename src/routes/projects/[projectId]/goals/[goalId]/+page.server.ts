@@ -17,6 +17,7 @@ import { readGoalHorizon, setGoalHorizon } from '$lib/server/goals/setGoalHorizo
 import { setGoalPriority } from '$lib/server/goals/setGoalPriority';
 import { setGoalAutocompleteFromForm } from '$lib/server/autocomplete/setAutocompleteFromForm';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
+import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
@@ -34,7 +35,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		loadConversation(locals.supabase, subject, user.id),
 		getLifecycleSteps(locals.supabase, subject)
 	]);
-	return { goal, project, tasks, people, lifecycleSteps, ...conversation };
+	const canTurnOnAutocomplete = await isStaffMember(locals);
+	return { goal, project, tasks, people, lifecycleSteps, canTurnOnAutocomplete, ...conversation };
 };
 
 export const actions: Actions = {
@@ -52,7 +54,8 @@ export const actions: Actions = {
 	setGoalAutocomplete: async ({ locals, params, request }) => {
 		await requireProjectAccess(locals, params.projectId);
 		const formData = await request.formData();
-		return setGoalAutocompleteFromForm(locals.supabase, params.projectId, params.goalId, formData);
+		const isStaff = await isStaffMember(locals);
+		return setGoalAutocompleteFromForm(locals.supabase, params.projectId, params.goalId, formData, isStaff);
 	},
 	postMessage: async ({ locals, params, request }) => {
 		const { user } = await requireProjectAccess(locals, params.projectId);

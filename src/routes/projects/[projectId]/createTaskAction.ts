@@ -3,6 +3,8 @@ import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { similarTasksFailure } from '$lib/server/projects/similarTasksForNewTask';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
+import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
+import { withRaiserAutocomplete } from '$lib/data/autocompleteStanding';
 
 /**
  * Raise a task from the new-task form, unless it is refused or open tasks on the project look like it
@@ -17,6 +19,7 @@ export async function createTaskAction({ locals, params, request }: RequestEvent
 	if (refusal !== null) return fail(400, { message: refusal });
 	const similar = await similarTasksFailure(locals.supabase, params.projectId, seed, formData);
 	if (similar !== null) return similar;
-	await createTask(locals.supabase, params.projectId, seed, user.id);
+	const raised = withRaiserAutocomplete(seed, await isStaffMember(locals));
+	await createTask(locals.supabase, params.projectId, raised, user.id);
 	return {};
 }
