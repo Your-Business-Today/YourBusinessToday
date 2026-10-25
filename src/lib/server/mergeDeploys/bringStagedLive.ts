@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { findStagedTasks } from '$lib/server/projects/findStagedTasks';
-import { postMessage } from '$lib/server/conversations/postMessage';
+import { markTaskLive } from './markTaskLive';
 import type { Project } from '$lib/server/projects/projectRecord';
 import { promotedLiveMessage } from './mergeDeployMessages';
 
@@ -12,10 +12,9 @@ export async function bringStagedLive(
 ): Promise<string[]> {
 	const stagedTasks = await findStagedTasks(supabase, project.id);
 	const liveAt = new Date().toISOString();
+	const sentence = promotedLiveMessage(project, promotionUrl);
 	for (const task of stagedTasks) {
-		const { error } = await supabase.from('tasks').update({ live_at: liveAt }).eq('id', task.id);
-		if (error) throw error;
-		await postMessage(supabase, { taskId: task.id }, project.ownerId, promotedLiveMessage(project, promotionUrl));
+		await markTaskLive(supabase, task.id, project, liveAt, sentence);
 	}
 	return stagedTasks.map((task) => task.id);
 }

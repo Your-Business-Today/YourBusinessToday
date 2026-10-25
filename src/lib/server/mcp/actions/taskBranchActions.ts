@@ -3,6 +3,7 @@ import { findTasksOnBranch } from '$lib/server/projects/findTasksOnBranch';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { reachableProjectIds, reachableTaskWithProject } from '../projectAccess';
+import { recordPullRequestMergedBefore } from '$lib/server/deploys/recordPullRequestMergedBefore';
 import { setTaskBranch } from '$lib/server/projects/setTaskBranch';
 import { startTask } from '$lib/server/projects/startTask';
 import type { McpAction } from '../actionTypes';
@@ -22,7 +23,9 @@ export const taskBranchActions: McpAction[] = [
 			'when you open the pull request — then enable auto-merge on the pull request, so GitHub ' +
 			'merges it once its checks pass. When GitHub says that branch’s pull request merged, the ' +
 			'task is marked done with a message on its conversation, and the repository’s own GitHub ' +
-			'workflow runs any migration file the branch added. An empty branch clears it.',
+			'workflow runs any migration file the branch added. A pull request that had already merged ' +
+			'when it is recorded is read from GitHub and recorded as the merge would have been: done and ' +
+			'staged, and live where staging has since been promoted. An empty branch clears it.',
 		inputSchema: objectSchema(
 			{
 				taskId: textField('The task id'),
@@ -44,7 +47,11 @@ export const taskBranchActions: McpAction[] = [
 			await setTaskBranch(caller.supabase, task.id, { branchName, pullRequestUrl });
 			if (branchName === '') return `"${task.title}" no longer has a branch.`;
 			await startTask(caller.supabase, task.id, caller.accountId);
-			return `"${task.title}" is worked on ${branchName}.`;
+			const recorded = `"${task.title}" is worked on ${branchName}.`;
+			if (pullRequestUrl === undefined) return recorded;
+			const taskOnBranch = { ...task, branchName };
+			const mergedBefore = await recordPullRequestMergedBefore(caller.supabase, taskOnBranch, project, pullRequestUrl);
+			return `${recorded}${mergedBefore}`;
 		}
 	},
 	{

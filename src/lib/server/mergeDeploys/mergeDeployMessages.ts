@@ -14,6 +14,10 @@ export function promotedLiveMessage(project: Project, promotionUrl: string): str
 	return `Staging was promoted to ${project.defaultBranch} (${promotionUrl}), so this task\u2019s work is live.`;
 }
 
+export function promotedBeforeRecordedMessage(project: Project): string {
+	return `Staging had already been promoted to ${project.defaultBranch} when this pull request was recorded, so this task’s work is live.`;
+}
+
 export function liveMessage(project: Project): string {
 	return `Its checks on ${project.defaultBranch} passed, so its work is live and this task is done.`;
 }
