@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-10-24 20:04 UTC.
+Generated 2026-10-25 10:10 UTC.
 
 ## Headline
 
@@ -10,12 +10,12 @@ Generated 2026-10-24 20:04 UTC.
 
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
-| **Standard baseline checks** | | **100.0%** | **60** | |
+| **Standard baseline checks** | | **100.0%** | **52** | |
 | Files over the line limit | 0 in 1998 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
 | Functions over the line limit | 0 in 2648 functions | 100.0% | 8 | 25% of functions |
 | Else blocks | 0 in 2917 branches | 100.0% | 5 | 50% of branches |
-| Duplication % | 0 | 100.0% | 8 | 20 |
+| Duplication % | not measured | not measured | — | 20 |
 | Explanatory comment lines | 0 in 69.86 thousand lines | 100.0% | 4 | 50 per thousand lines |
 | Inline magic values | 0 in 69.86 thousand lines | 100.0% | 4 | 20 per thousand lines |
 | Orphan components and functions | 0 in 3082 components and functions | 100.0% | 4 | 10% of components and functions |
@@ -43,13 +43,13 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | backend | 767 | 757 | 24,155 |
 | frontend | 658 | 528 | 18,293 |
 | shared | 310 | 296 | 9,644 |
-| tests | 213 | 201 | 7,801 |
+| tests | 215 | 201 | 7,801 |
 | api | 211 | 211 | 9,828 |
 | database | 132 | 0 | 0 |
-| tooling | 125 | 5 | 138 |
+| tooling | 129 | 5 | 138 |
 | docs | 59 | 0 | 0 |
 | infrastructure | 14 | 0 | 0 |
-| **whole repository** | **2,489** | **1,998** | **69,859** |
+| **whole repository** | **2,495** | **1,998** | **69,859** |
 
 ## Summary
 
@@ -59,7 +59,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 2648, elseBlocks: 0, ifBlocks: 2917, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
-| duplication | clones: 0, duplicatedLines: 0, totalLines: 71294, duplicatedPercentage: 0.0 |
+| duplication | skipped: jscpd is not installed (npm install -g jscpd) |
 | naming | bannedAbbreviationHits: 32, unprefixedBooleans: 1 |
 | comments | explanatoryCommentLines: 0, filesWithComments: 0, taskMarkers: 0 |
 | magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 0 |
@@ -70,7 +70,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | inventory | pages: 49, components: 434, orphanComponents: 0, averagePageLines: 46 |
 | siteDefinition | skipped: no siteDefinition catalogue in rules.json |
 | inputValidation | schemaTables: 116, limitedColumns: 0, writeDoors: 155, unvalidatedDoors: 0, looserLimits: 0 |
-| fileAreas | totalFiles: 2489, backend: 767, frontend: 658, shared: 310, tests: 213, api: 211, database: 132, tooling: 125, docs: 59, infrastructure: 14 |
+| fileAreas | totalFiles: 2495, backend: 767, frontend: 658, shared: 310, tests: 215, api: 211, database: 132, tooling: 129, docs: 59, infrastructure: 14 |
 
 ## Against the baseline
 
@@ -81,7 +81,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | fileLength.worstFileLines | 0 | 0 | held |
 | functionShape.functionsOverLimit | 0 | 0 | held |
 | functionShape.elseBlocks | 0 | 0 | held |
-| duplication.duplicatedPercentage | 0.0 | 0.0 | held |
+| duplication.duplicatedPercentage | 0.0 | None | — |
 | comments.explanatoryCommentLines | 0 | 0 | held |
 | magicValues.inlineHexColours | 0 | 0 | held |
 | inventory.orphanComponents | 0 | 0 | held |

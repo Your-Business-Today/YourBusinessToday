@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-24T20:04:49+00:00",
-  "kitVersion": "1.34.0",
+  "generatedAt": "2026-10-25T10:10:14+00:00",
+  "kitVersion": "1.35.0",
   "score": {
     "overall": 100.0,
     "groups": [
       {
         "group": "Standard baseline checks",
         "score": 100.0,
-        "weight": 60
+        "weight": 52
       },
       {
         "group": "Design pattern file count",
@@ -86,10 +86,9 @@
         "weight": 8,
         "zeroAt": 20,
         "unit": "",
-        "isMeasured": true,
-        "offenders": 0.0,
-        "measuredAgainst": 1,
-        "score": 100.0
+        "isMeasured": false,
+        "offenders": null,
+        "score": null
       },
       {
         "key": "comments",
@@ -274,10 +273,7 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 0,
-      "duplicatedLines": 0,
-      "totalLines": 71294,
-      "duplicatedPercentage": 0.0
+      "skipped": "jscpd is not installed (npm install -g jscpd)"
     },
     "naming": {
       "bannedAbbreviationHits": 32,
@@ -333,14 +329,14 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2489,
+      "totalFiles": 2495,
       "backend": 767,
       "frontend": 658,
       "shared": 310,
-      "tests": 213,
+      "tests": 215,
       "api": 211,
       "database": 132,
-      "tooling": 125,
+      "tooling": 129,
       "docs": 59,
       "infrastructure": 14
     }
@@ -3012,14 +3008,14 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2489,
+        "totalFiles": 2495,
         "backend": 767,
         "frontend": 658,
         "shared": 310,
-        "tests": 213,
+        "tests": 215,
         "api": 211,
         "database": 132,
-        "tooling": 125,
+        "tooling": 129,
         "docs": 59,
         "infrastructure": 14
       },
@@ -3044,7 +3040,7 @@
         },
         {
           "area": "tests",
-          "files": 213,
+          "files": 215,
           "sourceFiles": 201,
           "sourceLines": 7801
         },
@@ -3062,7 +3058,7 @@
         },
         {
           "area": "tooling",
-          "files": 125,
+          "files": 129,
           "sourceFiles": 5,
           "sourceLines": 138
         },
@@ -3097,10 +3093,7 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 0,
-        "duplicatedLines": 0,
-        "totalLines": 71294,
-        "duplicatedPercentage": 0.0
+        "skipped": "jscpd is not installed (npm install -g jscpd)"
       },
       "offenders": []
     }
