@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-25T19:26:15+00:00",
+  "generatedAt": "2026-10-25T20:36:43+00:00",
   "kitVersion": "1.36.0",
   "score": {
     "overall": 100.0,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2037,
+        "measuredAgainst": 2045,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2731,
+        "measuredAgainst": 2743,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2974,
+        "measuredAgainst": 2986,
         "score": 100.0
       },
       {
@@ -99,7 +99,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 71.17,
+        "measuredAgainst": 71.39,
         "score": 100.0
       },
       {
@@ -111,7 +111,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 71.17,
+        "measuredAgainst": 71.39,
         "score": 100.0
       },
       {
@@ -123,7 +123,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3168,
+        "measuredAgainst": 3180,
         "score": 100.0
       },
       {
@@ -135,7 +135,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 71.17,
+        "measuredAgainst": 71.39,
         "score": 100.0
       },
       {
@@ -147,7 +147,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 71.17,
+        "measuredAgainst": 71.39,
         "score": 100.0
       },
       {
@@ -159,7 +159,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2731,
+        "measuredAgainst": 2743,
         "score": 100.0
       },
       {
@@ -194,7 +194,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2974,
+        "measuredAgainst": 2986,
         "score": 100.0
       },
       {
@@ -206,7 +206,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2974,
+        "measuredAgainst": 2986,
         "score": 100.0
       },
       {
@@ -218,7 +218,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2731,
+        "measuredAgainst": 2743,
         "score": 100.0
       },
       {
@@ -250,17 +250,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 2037,
-      "totalLines": 71173,
+      "totalFiles": 2045,
+      "totalLines": 71395,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 2731,
+      "totalFunctions": 2743,
       "elseBlocks": 0,
-      "ifBlocks": 2974,
+      "ifBlocks": 2986,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -303,10 +303,10 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 2731
+      "functionsExamined": 2743
     },
     "designPatterns": {
-      "roleFamilies": 113,
+      "roleFamilies": 114,
       "predictedFiles": 107,
       "predictedFilesMissing": 0,
       "entities": 0,
@@ -348,8 +348,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 2037,
-        "totalLines": 71173,
+        "totalFiles": 2045,
+        "totalLines": 71395,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -360,9 +360,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 2731,
+        "totalFunctions": 2743,
         "elseBlocks": 0,
-        "ifBlocks": 2974,
+        "ifBlocks": 2986,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -783,14 +783,14 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 2731
+        "functionsExamined": 2743
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 113,
+        "roleFamilies": 114,
         "predictedFiles": 107,
         "predictedFilesMissing": 0,
         "entities": 0,
@@ -805,6 +805,7 @@
           "access": 8,
           "action": 11,
           "actions": 114,
+          "address": 4,
           "attachment": 5,
           "badge": 5,
           "bar": 4,
@@ -880,7 +881,7 @@
           "record": 42,
           "refusal": 9,
           "register": 6,
-          "request": 15,
+          "request": 17,
           "requests": 4,
           "row": 46,
           "rule": 4,
@@ -892,7 +893,7 @@
           "sentence": 7,
           "source": 14,
           "sources": 6,
-          "standing": 5,
+          "standing": 6,
           "status": 5,
           "step": 4,
           "steps": 6,
@@ -903,7 +904,7 @@
           "table": 5,
           "task": 21,
           "tasks": 12,
-          "test": 208,
+          "test": 210,
           "text": 6,
           "title": 4,
           "tones": 4,
@@ -3039,8 +3040,8 @@
         {
           "area": "backend",
           "files": 786,
-          "sourceFiles": 776,
-          "sourceLines": 24750
+          "sourceFiles": 780,
+          "sourceLines": 24891
         },
         {
           "area": "frontend",
@@ -3051,20 +3052,20 @@
         {
           "area": "shared",
           "files": 319,
-          "sourceFiles": 305,
-          "sourceLines": 9952
+          "sourceFiles": 307,
+          "sourceLines": 9982
         },
         {
           "area": "tests",
           "files": 222,
-          "sourceFiles": 208,
-          "sourceLines": 8040
+          "sourceFiles": 210,
+          "sourceLines": 8084
         },
         {
           "area": "api",
           "files": 212,
           "sourceFiles": 212,
-          "sourceLines": 9901
+          "sourceLines": 9908
         },
         {
           "area": "database",
