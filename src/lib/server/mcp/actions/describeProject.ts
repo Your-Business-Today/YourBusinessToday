@@ -6,6 +6,7 @@ import { teamProjectLabel } from '$lib/data/teamProject';
 import { goalSectionLines } from './describeGoal';
 import { noRepositoryRecorded, repositoryPhrase } from './describeRepository';
 import { projectStatusLabels } from '$lib/data/projectStatus';
+import { isStagedNotLive, notLiveYetLabel } from '$lib/data/stagedTasks';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { Project } from '$lib/server/projects/projectRecord';
@@ -90,5 +91,6 @@ function taskLine(task: TaskTreeNode, indent: string, goals: Goal[]): string {
 	const status = taskStatusLabelFor(task.kind, task.status);
 	const goal = goals.find((candidate) => candidate.id === task.goalId);
 	const underGoal = goal === undefined ? '' : `, under "${goal.title}"`;
-	return `${indent}${task.title} — ${taskKindLabels[task.kind]} task, ${status}, ${task.storyPoints} points${underGoal} (priority ${task.priority}, id: ${task.id})`;
+	const staged = isStagedNotLive(task) ? `, ${notLiveYetLabel}` : '';
+	return `${indent}${task.title} — ${taskKindLabels[task.kind]} task, ${status}${staged}, ${task.storyPoints} points${underGoal} (priority ${task.priority}, id: ${task.id})`;
 }

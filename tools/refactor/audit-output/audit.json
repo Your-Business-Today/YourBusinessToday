@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-25T18:33:38+00:00",
+  "generatedAt": "2026-10-25T19:17:21+00:00",
   "kitVersion": "1.35.1",
   "score": {
     "overall": 100.0,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2029,
+        "measuredAgainst": 2037,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2721,
+        "measuredAgainst": 2731,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2961,
+        "measuredAgainst": 2974,
         "score": 100.0
       },
       {
@@ -99,7 +99,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 70.95,
+        "measuredAgainst": 71.17,
         "score": 100.0
       },
       {
@@ -111,7 +111,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 70.95,
+        "measuredAgainst": 71.17,
         "score": 100.0
       },
       {
@@ -123,7 +123,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3156,
+        "measuredAgainst": 3168,
         "score": 100.0
       },
       {
@@ -135,7 +135,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 70.95,
+        "measuredAgainst": 71.17,
         "score": 100.0
       },
       {
@@ -147,7 +147,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 70.95,
+        "measuredAgainst": 71.17,
         "score": 100.0
       },
       {
@@ -159,7 +159,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2721,
+        "measuredAgainst": 2731,
         "score": 100.0
       },
       {
@@ -194,7 +194,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2961,
+        "measuredAgainst": 2974,
         "score": 100.0
       },
       {
@@ -206,7 +206,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2961,
+        "measuredAgainst": 2974,
         "score": 100.0
       },
       {
@@ -218,7 +218,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2721,
+        "measuredAgainst": 2731,
         "score": 100.0
       },
       {
@@ -250,17 +250,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 2029,
-      "totalLines": 70946,
+      "totalFiles": 2037,
+      "totalLines": 71173,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 2721,
+      "totalFunctions": 2731,
       "elseBlocks": 0,
-      "ifBlocks": 2961,
+      "ifBlocks": 2974,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -273,7 +273,8 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "skipped": "jscpd is not installed (npm install -g jscpd)"
+      "skipped": "jscpd is not installed (npm install -g jscpd)",
+      "carriedFromBaseline": true
     },
     "naming": {
       "bannedAbbreviationHits": 32,
@@ -302,7 +303,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 2721
+      "functionsExamined": 2731
     },
     "designPatterns": {
       "roleFamilies": 113,
@@ -314,7 +315,7 @@
     },
     "inventory": {
       "pages": 49,
-      "components": 435,
+      "components": 437,
       "orphanComponents": 0,
       "averagePageLines": 46
     },
@@ -347,8 +348,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 2029,
-        "totalLines": 70946,
+        "totalFiles": 2037,
+        "totalLines": 71173,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -359,9 +360,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 2721,
+        "totalFunctions": 2731,
         "elseBlocks": 0,
-        "ifBlocks": 2961,
+        "ifBlocks": 2974,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -782,7 +783,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 2721
+        "functionsExamined": 2731
       },
       "offenders": []
     },
@@ -865,7 +866,7 @@
           "organisation": 12,
           "organisations": 4,
           "page": 5,
-          "panel": 28,
+          "panel": 29,
           "password": 5,
           "patch": 10,
           "people": 5,
@@ -881,7 +882,7 @@
           "register": 6,
           "request": 15,
           "requests": 4,
-          "row": 45,
+          "row": 46,
           "rule": 4,
           "rules": 19,
           "run": 4,
@@ -901,8 +902,8 @@
           "svelte": 12,
           "table": 5,
           "task": 21,
-          "tasks": 10,
-          "test": 207,
+          "tasks": 12,
+          "test": 208,
           "text": 6,
           "title": 4,
           "tones": 4,
@@ -942,7 +943,7 @@
       "name": "inventory",
       "summary": {
         "pages": 49,
-        "components": 435,
+        "components": 437,
         "orphanComponents": 0,
         "averagePageLines": 46
       },
@@ -1268,7 +1269,7 @@
           },
           {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
-            "reusedBy": 40
+            "reusedBy": 41
           },
           {
             "component": "src/lib/components/site/SmallCapsField.svelte",
@@ -2683,6 +2684,14 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/StagedTaskRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/StagedTasksPanel.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/SubtaskList.svelte",
             "reusedBy": 1
           },
@@ -3030,32 +3039,32 @@
         {
           "area": "backend",
           "files": 782,
-          "sourceFiles": 772,
-          "sourceLines": 24652
+          "sourceFiles": 776,
+          "sourceLines": 24750
         },
         {
           "area": "frontend",
           "files": 659,
-          "sourceFiles": 529,
-          "sourceLines": 18331
+          "sourceFiles": 531,
+          "sourceLines": 18392
         },
         {
           "area": "shared",
           "files": 318,
-          "sourceFiles": 304,
-          "sourceLines": 9922
+          "sourceFiles": 305,
+          "sourceLines": 9952
         },
         {
           "area": "tests",
           "files": 221,
-          "sourceFiles": 207,
-          "sourceLines": 8012
+          "sourceFiles": 208,
+          "sourceLines": 8040
         },
         {
           "area": "api",
           "files": 212,
           "sourceFiles": 212,
-          "sourceLines": 9891
+          "sourceLines": 9901
         },
         {
           "area": "database",
@@ -3100,7 +3109,8 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "skipped": "jscpd is not installed (npm install -g jscpd)"
+        "skipped": "jscpd is not installed (npm install -g jscpd)",
+        "carriedFromBaseline": true
       },
       "offenders": []
     }
