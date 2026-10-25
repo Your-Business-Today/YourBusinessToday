@@ -5,8 +5,11 @@
 # at the project's deploy time (workflow_dispatch); "Run workflow" in the Actions tab does the same.
 # It needs the repository secret PROMOTION_TOKEN: a pull request opened with the Actions token runs
 # no checks and its merge deploys nothing, so the token is a person's or an app's.
-# After the promotion merges, staging is fast-forwarded to main, so an urgent
-# fix merged straight into main is on staging too.
+# After the promotion merges, staging is brought level with main: nothing when
+# the two hold the same files (the promotion's merge commit is the only difference), a fast-forward
+# where staging's ruleset allows a push, else one pull request from main into
+# staging merging at green — so an urgent fix merged straight into main reaches
+# staging too. It runs after every merge into main, the promotion's and an urgent fix's alike.
 name: promote staging
 run-name: ${{ github.event_name == 'workflow_dispatch' && 'Promote staging to main' || 'Bring staging level with main' }}
 
@@ -33,17 +36,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - run: bash scripts/promote-staging.sh staging main
+      - run: bash scripts/promote-staging.sh promote staging main
         env:
           GH_TOKEN: ${{ secrets.PROMOTION_TOKEN }}
 
   level:
-    if: github.event_name == 'pull_request' && github.event.pull_request.merged && github.event.pull_request.head.ref == 'staging'
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged
     runs-on: ubuntu-latest
-    name: Fast-forward staging to the promoted main
+    name: Bring staging level with the promoted main
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
-      - run: git push origin HEAD:staging || echo "::warning::staging could not be fast-forwarded to main; open a pull request from main into staging."
+      - run: bash scripts/promote-staging.sh level staging main
+        env:
+          GH_TOKEN: ${{ secrets.PROMOTION_TOKEN }}
