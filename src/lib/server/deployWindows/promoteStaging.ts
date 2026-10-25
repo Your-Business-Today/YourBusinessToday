@@ -5,6 +5,7 @@ import { githubRepositoryAddress } from '$lib/server/kit/readRepositoryFile';
 import { stagingBranch } from '$lib/data/stagingBranch';
 import { deployWindowOutcomes, type DeployWindowOutcome } from '$lib/data/deployWindow';
 import { promotionDraft } from './promotionPullRequest';
+import type { DeployStart } from '$lib/data/deployStart';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { UkClock } from '$lib/data/ukClock';
 
@@ -18,24 +19,29 @@ const cleanStatusRefusal = 'clean status';
  * Opens the pull request from staging into the default branch when staging is ahead, reuses the one already open,
  * and turns auto-merge on; nothing to promote is a quiet skip, and anything GitHub refuses is kept as the note.
  */
-export async function promoteStaging(project: Project, clock: UkClock): Promise<Promotion> {
+export async function promoteStaging(project: Project, clock: UkClock, start: DeployStart): Promise<Promotion> {
 	const repositoryAddress = githubRepositoryAddress(project.repositoryUrl);
 	if (repositoryAddress === null) return failed(`${project.repositoryUrl} is not a GitHub repository.`);
 	try {
-		return await promoteThroughGithub(repositoryAddress, project, clock);
+		return await promoteThroughGithub(repositoryAddress, project, clock, start);
 	} catch (refusal) {
 		return failed(refusal instanceof Error ? refusal.message : String(refusal));
 	}
 }
 
-async function promoteThroughGithub(repositoryAddress: string, project: Project, clock: UkClock): Promise<Promotion> {
+async function promoteThroughGithub(
+	repositoryAddress: string,
+	project: Project,
+	clock: UkClock,
+	start: DeployStart
+): Promise<Promotion> {
 	const commitCount = await countCommitsAhead(repositoryAddress, project.defaultBranch, stagingBranch);
 	if (commitCount === nothingAhead) {
 		const note = `${project.defaultBranch} already holds everything on ${stagingBranch}.`;
 		return { outcome: deployWindowOutcomes.nothingToPromote, pullRequestUrl: '', note };
 	}
 	const open = await findOpenPullRequest(repositoryAddress, project.defaultBranch, stagingBranch);
-	const pullRequest = open ?? (await openPullRequest(repositoryAddress, promotionDraft(project, clock, commitCount)));
+	const pullRequest = open ?? (await openPullRequest(repositoryAddress, promotionDraft(project, clock, commitCount, start)));
 	const outcome = open === null ? deployWindowOutcomes.opened : deployWindowOutcomes.reused;
 	const note = await mergeAtGreen(repositoryAddress, pullRequest);
 	return { outcome, pullRequestUrl: pullRequest.url, note };
