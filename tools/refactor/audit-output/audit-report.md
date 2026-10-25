@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-10-25 18:33 UTC.
+Generated 2026-10-25 19:13 UTC.
 
 ## Headline
 
@@ -59,7 +59,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 2721, elseBlocks: 0, ifBlocks: 2961, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
-| duplication | skipped: jscpd is not installed (npm install -g jscpd) |
+| duplication | skipped: jscpd is not installed (npm install -g jscpd), carriedFromBaseline: True |
 | naming | bannedAbbreviationHits: 32, unprefixedBooleans: 1 |
 | comments | explanatoryCommentLines: 0, filesWithComments: 0, taskMarkers: 0 |
 | magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 0 |
