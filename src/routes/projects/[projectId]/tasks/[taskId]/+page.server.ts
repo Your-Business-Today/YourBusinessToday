@@ -17,6 +17,8 @@ import { getTaskFamily } from '$lib/server/projects/getTaskFamily';
 import { getOtherProjects } from '$lib/server/projects/getOtherProjects';
 import { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
+import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
+import { withRaiserAutocomplete } from '$lib/data/autocompleteStanding';
 import { setCriterionMet } from '$lib/server/projects/setCriterionMet';
 import { withAuthorNames } from '$lib/server/conversations/withAuthorNames';
 import { withUploaderNames } from '$lib/server/projects/uploaderNames';
@@ -34,6 +36,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		messages: withAuthorNames(workspace.messages, workspace.accounts),
 		raisedByName: accountNameLookup(workspace.accounts)(task.createdBy),
 		attachments: withUploaderNames(workspace.attachments, workspace.people),
+		canTurnOnAutocomplete: await isStaffMember(locals),
 		viewerId: user.id
 	};
 };
@@ -52,7 +55,8 @@ export const actions: Actions = {
 		if (seed === null) return fail(400, { message: 'A subtask title is required.' });
 		const refusal = await newTaskRefusal(locals.supabase, params.projectId, seed);
 		if (refusal !== null) return fail(400, { message: refusal });
-		await createTask(locals.supabase, params.projectId, seed, user.id);
+		const raised = withRaiserAutocomplete(seed, await isStaffMember(locals));
+		await createTask(locals.supabase, params.projectId, raised, user.id);
 		return {};
 	},
 	addCriterion: async ({ locals, params, request }) => {

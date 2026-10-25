@@ -74,4 +74,4 @@
 	/>
 </Modal>
 
-<TaskRowModals {dialogs} goals={data.goals} />
+<TaskRowModals {dialogs} goals={data.goals} canTurnOnAutocomplete={data.canTurnOnAutocomplete} />

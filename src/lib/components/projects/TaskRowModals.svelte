@@ -9,7 +9,11 @@
 	import type { Goal } from '$lib/server/goals/goalRecord';
 	import type { TaskRowDialogs } from '$lib/client/taskRowDialogs.svelte';
 
-	let { dialogs, goals }: { dialogs: TaskRowDialogs; goals: Goal[] } = $props();
+	let {
+		dialogs,
+		goals,
+		canTurnOnAutocomplete
+	}: { dialogs: TaskRowDialogs; goals: Goal[]; canTurnOnAutocomplete: boolean } = $props();
 
 	const { status, goal, priority, storyPoints, autocomplete } = $derived(dialogs);
 	const statusTask = $derived(status.task);
@@ -52,6 +56,7 @@
 	<TaskAutocompleteModal
 		task={autocompleteTask}
 		isGoalAutocomplete={goalAutocomplete(goals, autocompleteTask.goalId)}
+		{canTurnOnAutocomplete}
 		bind:isOpen={autocomplete.isOpen}
 	/>
 {/if}

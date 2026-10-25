@@ -3,7 +3,11 @@
 	import { autocompleteSentence } from '$lib/data/autocomplete';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
-	let { task, isGoalAutocomplete }: { task: ProjectTask; isGoalAutocomplete: boolean | null } = $props();
+	let {
+		task,
+		isGoalAutocomplete,
+		canTurnOnAutocomplete
+	}: { task: ProjectTask; isGoalAutocomplete: boolean | null; canTurnOnAutocomplete: boolean } = $props();
 
 	let isModalOpen = $state(false);
 </script>
@@ -20,4 +24,4 @@
 	</button>
 </div>
 
-<TaskAutocompleteModal {task} {isGoalAutocomplete} bind:isOpen={isModalOpen} />
+<TaskAutocompleteModal {task} {isGoalAutocomplete} {canTurnOnAutocomplete} bind:isOpen={isModalOpen} />

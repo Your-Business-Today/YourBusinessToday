@@ -7,6 +7,8 @@ import { similarTasksFailure } from '$lib/server/projects/similarTasksForNewTask
 import { validateChangeSubject } from '$lib/server/blueprint/validateChangeSubject';
 import { readProjectBlueprint } from '$lib/server/blueprint/readProjectBlueprint';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
+import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
+import { withRaiserAutocomplete } from '$lib/data/autocompleteStanding';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import type { RequestEvent } from '@sveltejs/kit';
 
@@ -32,7 +34,8 @@ export const blueprintActions = {
 		if (refusal !== null) return fail(400, { message: refusal });
 		const similar = await similarTasksFailure(locals.supabase, project.id, change, formData);
 		if (similar !== null) return similar;
-		await createTask(locals.supabase, project.id, change, user.id);
+		const raised = withRaiserAutocomplete(change, await isStaffMember(locals));
+		await createTask(locals.supabase, project.id, raised, user.id);
 		return { message: `Raised “${change.title}” on ${project.name}'s backlog.` };
 	}
 };
