@@ -74,7 +74,7 @@
 		</div>
 		<TaskAside {task} {project} {goal} {assigneeNames} people={data.people}
 			participantIds={data.participantIds} lifecycleSteps={data.lifecycleSteps}
-			buildModels={data.buildModels} />
+			buildModels={data.buildModels} canTurnOnAutocomplete={data.canTurnOnAutocomplete} />
 	</div>
 </div>
 

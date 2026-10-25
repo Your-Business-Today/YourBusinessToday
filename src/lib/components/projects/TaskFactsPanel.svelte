@@ -13,9 +13,15 @@
 		task,
 		goal,
 		assigneeNames,
-		buildModels
-	}: { task: ProjectTask; goal: Goal | null; assigneeNames: string[]; buildModels: BuildModel[] } =
-		$props();
+		buildModels,
+		canTurnOnAutocomplete
+	}: {
+		task: ProjectTask;
+		goal: Goal | null;
+		assigneeNames: string[];
+		buildModels: BuildModel[];
+		canTurnOnAutocomplete: boolean;
+	} = $props();
 
 	const queueLabel = $derived(task.globalPriority === null ? '' : ` · queue ${task.globalPriority}`);
 	const facts = $derived([
@@ -44,5 +50,5 @@
 			{/if}
 		</dd>
 	</dl>
-	<TaskAutocompleteFact {task} isGoalAutocomplete={goal?.isAutocomplete ?? null} />
+	<TaskAutocompleteFact {task} isGoalAutocomplete={goal?.isAutocomplete ?? null} {canTurnOnAutocomplete} />
 </DashboardPanel>

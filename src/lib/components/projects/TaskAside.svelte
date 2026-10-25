@@ -20,7 +20,8 @@
 		people,
 		participantIds,
 		lifecycleSteps,
-		buildModels
+		buildModels,
+		canTurnOnAutocomplete
 	}: {
 		task: ProjectTask;
 		project: ComponentProps<typeof TaskBranchPanel>['project'];
@@ -30,11 +31,12 @@
 		participantIds: Participants['participantIds'];
 		lifecycleSteps: LifecycleStep[];
 		buildModels: BuildModel[];
+		canTurnOnAutocomplete: boolean;
 	} = $props();
 </script>
 
 <aside class="flex min-w-0 flex-col gap-4">
-	<TaskFactsPanel {task} {goal} {assigneeNames} {buildModels} />
+	<TaskFactsPanel {task} {goal} {assigneeNames} {buildModels} {canTurnOnAutocomplete} />
 	<TaskComplexityPanel {task} />
 	<TaskBranchPanel {task} {project} />
 	<LifecyclePanel steps={lifecycleSteps} repositoryUrl={project.repositoryUrl} />
