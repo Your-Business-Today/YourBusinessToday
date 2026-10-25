@@ -26,6 +26,7 @@
 	}: { project: Project; organisations: Organisation[]; boardPlace?: ShownPosition; onSaved: () => void } = $props();
 
 	const tracker = new FormTracker();
+	const minuteStep = 60;
 </script>
 
 <form
@@ -77,9 +78,13 @@
 				class={fieldClasses}
 			/>
 		</SmallCapsField>
+		<SmallCapsField label="Deploy staging to main at" class="max-w-48">
+			<input name="deployStagingAt" type="time" step={minuteStep} value={project.deployStagingAt ?? ''} class={fieldClasses} />
+		</SmallCapsField>
 	</div>
 	<p class="text-sm text-chalk/50">
 		Every push to the default branch counts as a deploy. At the number above a refactor round is raised on this project as the reminder to run it; 0 turns that off.
+		Where the repository has a staging branch, work merges there and deploys nothing; at the time above, UK time, staging is promoted to the default branch as one pull request that merges itself at green. Blank means no window.
 	</p>
 	<ProjectDatabaseFields database={project.database} />
 	<FormErrorNote message={tracker.errorMessage} />
