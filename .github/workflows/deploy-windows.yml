@@ -1,0 +1,26 @@
+name: deploy windows
+
+# Vercel's Hobby plan runs a cron once a day at most, so this workflow knocks on the site's cron door every
+# quarter hour instead. The door opens the staging-to-main pull request of every project whose deploy time
+# has come. Actions minutes are free on this public repository. The knock never fails the workflow: a door
+# that answers anything but 200 is a warning in the log, because a red run here would raise a FIX task on
+# the project every quarter hour.
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  knock:
+    name: Open the deploy windows that have come
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          status="$(curl --silent --show-error --location-trusted --output answer.json --write-out '%{http_code}' \
+            --header "Authorization: Bearer $CRON_SECRET" "$DOOR")"
+          cat answer.json; echo
+          if [ "$status" != "200" ]; then echo "::warning::The cron door answered $status. Set CRON_SECRET on Vercel and as this repository's secret, the same value."; fi
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          DOOR: https://www.yourbusiness.today/api/watch/deploy_windows

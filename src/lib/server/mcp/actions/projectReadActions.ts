@@ -4,6 +4,9 @@ import { describeProject, describeProjectLine, forOrganisation, noSuchProject, o
 import { describeKitStanding, kitStanding } from '$lib/data/kitVersion';
 import { kitReadingOf } from '$lib/server/kit/kitReadingOf';
 import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
+import { describeDeployWindow } from '$lib/data/deployWindowFacts';
+import { readLatestDeployWindow } from '$lib/server/deployWindows/readLatestDeployWindow';
+import { ukClockAt } from '$lib/data/ukClock';
 import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
@@ -66,7 +69,8 @@ export const projectReadActions: McpAction[] = [
 			const goals = await getGoalsForProject(caller.supabase, project.id);
 			const cadenceLine = await cadenceLineFor(caller.supabase, project);
 			const kitLine = await kitLineFor(caller.supabase, project);
-			return describeProject(project, goals, buildTaskTree(tasks), `${cadenceLine} ${kitLine}`);
+			const deployWindowLine = await deployWindowLineFor(caller.supabase, project);
+			return describeProject(project, goals, buildTaskTree(tasks), `${cadenceLine} ${kitLine}${deployWindowLine}`);
 		}
 	}
 ];
@@ -74,6 +78,13 @@ export const projectReadActions: McpAction[] = [
 async function cadenceLineFor(supabase: SupabaseClient, project: Project): Promise<string> {
 	const deploysSinceRefactor = await countDeploysSinceRefactor(supabase, project);
 	return describeRefactorCadence({ refactorEveryDeploys: project.refactorEveryDeploys, deploysSinceRefactor });
+}
+
+/** The deploy window sentence after the kit line, or nothing for a project that deploys on every merge. */
+async function deployWindowLineFor(supabase: SupabaseClient, project: Project): Promise<string> {
+	const lastWindow = await readLatestDeployWindow(supabase, project.id);
+	const sentence = describeDeployWindow(project, lastWindow, ukClockAt(new Date()));
+	return sentence === '' ? '' : ` ${sentence}`;
 }
 
 async function kitLineFor(supabase: SupabaseClient, project: Project): Promise<string> {

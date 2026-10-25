@@ -22,6 +22,14 @@ A pull request merges by itself when CI passes; Vercel deploys main and the run 
 - **Writes are not guarded.** A write to a table that does not exist yet fails and says so; it is never quietly dropped.
 - **A migration that drops or renames something live code reads ships in two pull requests:** the first stops reading it, the second changes the schema once the first is deployed.
 
+## A project's staging branch deploys at its window
+
+Where a project's repository has a `staging` branch, every pull request merges into it and deploys nothing. The project's *Deploy staging to main at* time (UK time, blank for no window; `update_project_details` takes it as `deployStagingAt`) is its deploy window: at that time each day the `deploy_windows` watch source compares `staging` with the default branch and, when staging is ahead, opens one pull request `DEPLOY: staging to <default>, <date>` with auto-merge on (reusing one already open). That merge is the day's deploy; the existing webhook counts it and marks the tasks done. Nothing to promote is recorded as such and skipped; a window that GitHub refused is tried again at the next knock and shows on the project header.
+
+- **The cron door is knocked by `.github/workflows/deploy-windows.yml`**, every quarter hour, because Vercel's Hobby plan runs a cron once a day at most. It needs the repository secret `CRON_SECRET`, the same value as the Vercel variable; the knock never fails the workflow, so a door that answers 401 or 503 is a warning in its log, not a FIX task.
+- **The site's `GITHUB_TOKEN` opens the pull requests**, so it needs pull request write on every project repository with a window. No per-repository secret.
+- **Each day's window is one row of `project_deploy_windows`**, which is why a window runs once a day however often the door is knocked.
+
 ## Production deploys only from main
 
 Vercel project `ybt` is connected to Your-Business-Today/YourBusinessToday with `main` as its production branch, so every merged pull request deploys production by itself. What is live is always what was merged, with its checks passed.
