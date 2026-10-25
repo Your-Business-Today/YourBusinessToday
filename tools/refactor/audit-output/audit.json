@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-25T17:50:07+00:00",
+  "generatedAt": "2026-10-25T17:58:20+00:00",
   "kitVersion": "1.35.0",
   "score": {
     "overall": 100.0,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2025,
+        "measuredAgainst": 2029,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2704,
+        "measuredAgainst": 2721,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2952,
+        "measuredAgainst": 2961,
         "score": 100.0
       },
       {
@@ -99,7 +99,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 70.72,
+        "measuredAgainst": 70.95,
         "score": 100.0
       },
       {
@@ -111,7 +111,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 70.72,
+        "measuredAgainst": 70.95,
         "score": 100.0
       },
       {
@@ -123,7 +123,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3139,
+        "measuredAgainst": 3156,
         "score": 100.0
       },
       {
@@ -135,7 +135,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 70.72,
+        "measuredAgainst": 70.95,
         "score": 100.0
       },
       {
@@ -147,7 +147,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 70.72,
+        "measuredAgainst": 70.95,
         "score": 100.0
       },
       {
@@ -159,7 +159,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2704,
+        "measuredAgainst": 2721,
         "score": 100.0
       },
       {
@@ -194,7 +194,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2952,
+        "measuredAgainst": 2961,
         "score": 100.0
       },
       {
@@ -206,7 +206,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2952,
+        "measuredAgainst": 2961,
         "score": 100.0
       },
       {
@@ -218,7 +218,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2704,
+        "measuredAgainst": 2721,
         "score": 100.0
       },
       {
@@ -250,17 +250,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 2025,
-      "totalLines": 70716,
+      "totalFiles": 2029,
+      "totalLines": 70946,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 2704,
+      "totalFunctions": 2721,
       "elseBlocks": 0,
-      "ifBlocks": 2952,
+      "ifBlocks": 2961,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -293,7 +293,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 150,
+      "overlongLines": 151,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -303,10 +303,10 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 2704
+      "functionsExamined": 2721
     },
     "designPatterns": {
-      "roleFamilies": 112,
+      "roleFamilies": 113,
       "predictedFiles": 107,
       "predictedFilesMissing": 0,
       "entities": 0,
@@ -330,12 +330,12 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2523,
-      "backend": 780,
-      "frontend": 658,
+      "totalFiles": 2527,
+      "backend": 782,
+      "frontend": 659,
       "shared": 316,
       "tests": 219,
-      "api": 211,
+      "api": 212,
       "database": 134,
       "tooling": 130,
       "docs": 59,
@@ -348,8 +348,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 2025,
-        "totalLines": 70716,
+        "totalFiles": 2029,
+        "totalLines": 70946,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -360,9 +360,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 2704,
+        "totalFunctions": 2721,
         "elseBlocks": 0,
-        "ifBlocks": 2952,
+        "ifBlocks": 2961,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -557,7 +557,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 150,
+        "overlongLines": 151,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -615,6 +615,10 @@
           {
             "file": "src/lib/data/clientDocumentCatalogue.ts",
             "line": 49
+          },
+          {
+            "file": "src/lib/data/deployWindowFacts.test.ts",
+            "line": 57
           },
           {
             "file": "src/lib/data/discoveryCall.ts",
@@ -759,10 +763,6 @@
           {
             "file": "src/lib/data/legal/termsEngagementSections.ts",
             "line": 14
-          },
-          {
-            "file": "src/lib/data/legal/termsEngagementSections.ts",
-            "line": 15
           }
         ]
       }
@@ -783,14 +783,14 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 2704
+        "functionsExamined": 2721
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 112,
+        "roleFamilies": 113,
         "predictedFiles": 107,
         "predictedFilesMissing": 0,
         "entities": 0,
@@ -881,6 +881,7 @@
           "refusal": 9,
           "register": 6,
           "request": 15,
+          "requests": 4,
           "row": 45,
           "rule": 4,
           "rules": 19,
@@ -897,12 +898,12 @@
           "steps": 6,
           "styles": 5,
           "subject": 5,
-          "summary": 6,
+          "summary": 7,
           "svelte": 12,
           "table": 5,
           "task": 21,
           "tasks": 10,
-          "test": 205,
+          "test": 207,
           "text": 6,
           "title": 4,
           "tones": 4,
@@ -3015,12 +3016,12 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2523,
-        "backend": 780,
-        "frontend": 658,
+        "totalFiles": 2527,
+        "backend": 782,
+        "frontend": 659,
         "shared": 316,
         "tests": 219,
-        "api": 211,
+        "api": 212,
         "database": 134,
         "tooling": 130,
         "docs": 59,
@@ -3029,31 +3030,31 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 780,
+          "files": 782,
           "sourceFiles": 772,
-          "sourceLines": 24599
+          "sourceLines": 24652
         },
         {
           "area": "frontend",
-          "files": 658,
+          "files": 659,
           "sourceFiles": 529,
           "sourceLines": 18331
         },
         {
           "area": "shared",
           "files": 316,
-          "sourceFiles": 302,
-          "sourceLines": 9819
+          "sourceFiles": 304,
+          "sourceLines": 9922
         },
         {
           "area": "tests",
           "files": 219,
-          "sourceFiles": 205,
-          "sourceLines": 7938
+          "sourceFiles": 207,
+          "sourceLines": 8012
         },
         {
           "area": "api",
-          "files": 211,
+          "files": 212,
           "sourceFiles": 212,
           "sourceLines": 9891
         },

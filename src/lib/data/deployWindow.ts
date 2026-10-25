@@ -12,7 +12,7 @@ export const deployWindowStarts = { window: 'window', manual: 'manual' } as cons
 
 export type DeployWindowStart = (typeof deployWindowStarts)[keyof typeof deployWindowStarts];
 
-/** One run of a project's promotion: what started it, what it did, and the pull request it opened or found. */
+/** One run of a project's promotion: what started it, what it did, the pull request it opened or found, and what it carried. */
 export type DeployWindow = {
 	projectId: string;
 	windowDate: string;
@@ -21,6 +21,7 @@ export type DeployWindow = {
 	outcome: DeployWindowOutcome;
 	pullRequestUrl: string;
 	note: string;
+	summary: string;
 };
 
 /** The project's latest run of either kind, for the header, and its latest timed window, for the daily rule. */

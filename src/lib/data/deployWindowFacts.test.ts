@@ -11,7 +11,8 @@ const opened: DeployWindow = {
 	startedBy: deployWindowStarts.window,
 	outcome: deployWindowOutcomes.opened,
 	pullRequestUrl: 'https://github.com/example/ybt/pull/7',
-	note: 'Merges itself once its checks pass.'
+	note: 'Merges itself once its checks pass.',
+	summary: ''
 };
 const failed = { ...opened, outcome: deployWindowOutcomes.failed, pullRequestUrl: '', note: 'GitHub answered 403' };
 const byHand = { ...opened, startedBy: deployWindowStarts.manual, ranAt: '2026-10-25T14:30:00Z' };
@@ -48,6 +49,15 @@ describe('deployWindowFacts', () => {
 		expect(facts[0]).toMatchObject({ label: expect.stringMatching(/^staging sent to main by hand /), href: byHand.pullRequestUrl });
 		const failedByHand = { ...byHand, outcome: deployWindowOutcomes.failed, note: 'GitHub answered 403' };
 		expect(deployWindowFacts(project, { latest: failedByHand, lastTimed: null }, clock)[1].label).toMatch(/^✗ deploy by hand /);
+	});
+});
+
+describe('deployWindowFacts with a summary', () => {
+	it('carries what the last promotion deployed as the fact’s detail', () => {
+		const carried = { ...opened, summary: '- [Round the total](https://yourbusiness.today/projects/p1/tasks/t1) — [#42](https://github.com/example/ybt/pull/42)' };
+		expect(deployWindowFacts(project, { latest: carried, lastTimed: carried }, clock)[1]).toMatchObject({ detail: carried.summary });
+		expect(deployWindowFacts(project, { latest: opened, lastTimed: opened }, clock)[1]).not.toHaveProperty('detail');
+		expect(describeDeployWindow(project, { latest: carried, lastTimed: carried }, clock)).toMatch(/\.\nIt carried:\n- \[Round the total\]/);
 	});
 });
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import HeaderFact from './HeaderFact.svelte';
 
-	type Fact = { label: string; href?: string };
+	type Fact = { label: string; href?: string; detail?: string };
 
 	let { facts }: { facts: Fact[] } = $props();
 </script>

@@ -1,4 +1,4 @@
-import { githubGet, githubPost, githubPut } from './githubRequest';
+import { githubGet, githubPatch, githubPost, githubPut } from './githubRequest';
 
 export type PullRequest = { number: number; nodeId: string; url: string };
 
@@ -24,6 +24,11 @@ export async function findOpenPullRequest(
 export async function openPullRequest(repositoryAddress: string, draft: PullRequestDraft): Promise<PullRequest> {
 	const opened = await githubPost<GithubPullRequest>(`${repositoryAddress}/pulls`, draft);
 	return pullRequestOf(opened);
+}
+
+/** Rewrites the body of a pull request already open, so a reused promotion says what it carries now. */
+export async function rewritePullRequestBody(repositoryAddress: string, pullRequest: PullRequest, body: string): Promise<void> {
+	await githubPatch(`${repositoryAddress}/pulls/${pullRequest.number}`, { body });
 }
 
 /** Merges the pull request as a merge commit; GitHub refuses while a required check is pending or failing. */
