@@ -29,6 +29,8 @@ Where a project's repository has a `staging` branch, every pull request merges i
 - **The cron door is knocked by `.github/workflows/deploy-windows.yml`**, every quarter hour, because Vercel's Hobby plan runs a cron once a day at most. It needs the repository secret `CRON_SECRET`, the same value as the Vercel variable; the knock never fails the workflow, so a door that answers 401 or 503 is a warning in its log, not a FIX task.
 - **The site's `GITHUB_TOKEN` opens the pull requests**, so it needs pull request write on every project repository with a window. No per-repository secret.
 - **Each day's window is one row of `project_deploy_windows`**, which is why a window runs once a day however often the door is knocked.
+- **Deploy now promotes by hand, outside the window.** The button on the project header (and the connector's `deploy_staging_now`) runs the same promotion at once and keeps the run on `project_deploy_windows` as started by hand, a row of its own. It never takes the place of the day's timed window, which still runs at its time when `staging` has moved on again; the header shows the latest promotion of either kind.
+- **Each promotion says what it carries.** The merge commits `staging` holds ahead of the default branch name the pull requests merged into it; each is matched to the task that recorded it (by pull request address, or by branch) and the promotion pull request body lists those tasks with links, and the pull requests no task recorded. The same lines are kept on the window record (`summary`), shown as the header fact's tooltip and by the connector's `read_project`.
 
 ## Production deploys only from main
 

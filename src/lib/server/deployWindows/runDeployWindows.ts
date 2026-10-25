@@ -4,8 +4,10 @@ import { ukClockAt, type UkClock } from '$lib/data/ukClock';
 import { deployWindowOutcomes } from '$lib/data/deployWindow';
 import { findProjectsWithDeployWindow } from './findProjectsWithDeployWindow';
 import { promoteStaging, type Promotion } from './promoteStaging';
-import { readLatestDeployWindow } from './readLatestDeployWindow';
-import { recordDeployWindow } from './recordDeployWindow';
+import { readLatestTimedWindow } from './readLatestDeployWindow';
+import { recordTimedWindow } from './recordDeployWindow';
+import { timedWindowStart } from '$lib/data/deployStart';
+import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import type { Project } from '$lib/server/projects/projectRecord';
 
 export type DeployWindowRun = Promotion & { projectId: string; projectName: string };
@@ -23,7 +25,7 @@ export async function runDeployWindows(supabase: SupabaseClient, now: Date = new
 }
 
 async function runWindowIfDue(supabase: SupabaseClient, project: Project, clock: UkClock): Promise<DeployWindowRun | null> {
-	const lastWindow = await readLatestDeployWindow(supabase, project.id);
+	const lastWindow = await readLatestTimedWindow(supabase, project.id);
 	const reading = {
 		deployTime: project.deployStagingAt,
 		clock,
@@ -31,7 +33,8 @@ async function runWindowIfDue(supabase: SupabaseClient, project: Project, clock:
 		wasLastWindowFailed: lastWindow?.outcome === deployWindowOutcomes.failed
 	};
 	if (!isDeployWindowDue(reading)) return null;
-	const promotion = await promoteStaging(project, clock);
-	await recordDeployWindow(supabase, project.id, clock.date, promotion);
+	const tasks = await getTasksForProject(supabase, project.id);
+	const promotion = await promoteStaging(project, clock, { start: timedWindowStart, tasks });
+	await recordTimedWindow(supabase, project.id, clock.date, promotion);
 	return { projectId: project.id, projectName: project.name, ...promotion };
 }

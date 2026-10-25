@@ -23,6 +23,10 @@ export async function githubPost<Answer>(address: string, body: unknown): Promis
 	return requestGithub<Answer>(address, { method: 'POST', body: JSON.stringify(body) });
 }
 
+export async function githubPatch<Answer>(address: string, body: unknown): Promise<Answer> {
+	return requestGithub<Answer>(address, { method: 'PATCH', body: JSON.stringify(body) });
+}
+
 export async function githubPut<Answer>(address: string, body: unknown): Promise<Answer> {
 	return requestGithub<Answer>(address, { method: 'PUT', body: JSON.stringify(body) });
 }
