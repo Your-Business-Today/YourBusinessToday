@@ -1,13 +1,13 @@
 ---
-name: daily-autocomplete-check
-description: Daily check of the Your Business Today autocomplete list: claim every buildable autocomplete task sized for the Opus 5.5 tier with next_buildable_task and hand each to its own new thread on Opus 5.5 at extra-high effort to build it.
+name: hourly-autocomplete-check
+description: Hourly check of the Your Business Today autocomplete list: claim every buildable autocomplete task sized for the Opus 5.5 tier with next_buildable_task and hand each to its own new thread on Opus 5.5 at extra-high effort to build it.
 ---
 
-# Daily autocomplete check
+# Hourly autocomplete check
 
-Runs once a day, unattended, through the Your Business Today connector (`perform_action`). It finds the autocomplete tasks an AI may finish on its own, claims each one, and hands each to a new thread of its own that builds it. The check itself never builds, branches, merges or changes a task's flags; the threads it starts do the building, one task each, because a task is one session's work.
+Runs every hour, unattended, through the Your Business Today connector (`perform_action`). It finds the autocomplete tasks an AI may finish on its own, claims each one, and hands each to a new thread of its own that builds it. The check itself never builds, branches, merges or changes a task's flags; the threads it starts do the building, one task each, because a task is one session's work.
 
-Agent name for every claim: `Opus 5.5 xhigh autocomplete thread, run <yyyy-mm-dd> #<n>`, numbered from 1 each run. The thread that builds the task records every later step under that same name, so the claim stays one agent's.
+Agent name for every claim: `Opus 5.5 xhigh autocomplete thread, run <yyyy-mm-dd hh:mm>Z #<n>`, numbered from 1 each run; the run's time keeps two runs' threads from sharing a name, and so a claim. The thread that builds the task records every later step under that same name, so the claim stays one agent's.
 
 ## 0. Before the first task
 
@@ -40,7 +40,7 @@ A claim runs out two hours after its last step. A thread that never starts leave
 
 ## 4. Record the run
 
-Add one line to the run log (the project memory file `autocomplete-run-log`, where the run has one): the date, each task claimed with its id, and the thread asked for it. Keep the log short by folding old runs into one line. Tell the person only when threads were started or something needs them; a run that changed nothing says nothing.
+Add one line to the run log (the project memory file `autocomplete-run-log`, where the run has one): the date and time, each task claimed with its id, and the thread asked for it. Keep the log short: a run that claims nothing adds its time to one line of empty runs, and old runs fold into one line. Tell the person only when threads were started or something needs them; a run that changed nothing says nothing.
 
 ## 5. The brief each build thread follows
 
