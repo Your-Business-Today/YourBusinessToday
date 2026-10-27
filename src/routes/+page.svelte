@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BusinessAppSection from '$lib/components/home/BusinessAppSection.svelte';
 	import BuiltForSection from '$lib/components/home/BuiltForSection.svelte';
 	import DiscoveryCallSection from '$lib/components/home/DiscoveryCallSection.svelte';
 	import HeroSection from '$lib/components/home/HeroSection.svelte';
@@ -16,6 +17,7 @@
 <PageMeta title={pageTitle} description={pageDescription} path="" imageUrl={shareImageUrl} />
 
 <HeroSection />
+<BusinessAppSection />
 <WhatWeDoSection />
 <BuiltForSection />
 <TeamSection />
