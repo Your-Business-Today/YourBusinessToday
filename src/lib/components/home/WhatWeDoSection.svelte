@@ -6,7 +6,7 @@
 	import { consultancyOfferSteps } from '$lib/data/consultancyOffer';
 </script>
 
-<section class="border-y border-hairline bg-carriage/40">
+<section class="border-b border-hairline">
 	<div class="mx-auto max-w-6xl px-6 py-20 md:py-24">
 		<p class="font-display text-sm tracking-[0.3em] text-signal uppercase">Your Business Today</p>
 		<h2 class="mt-5 font-display text-4xl leading-tight font-semibold tracking-tight md:text-6xl">
