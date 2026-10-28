@@ -5,7 +5,7 @@ description: Hourly tidy of every Your Business Today project in Scoping, Buildi
 
 # Hourly project organiser
 
-Runs every hour, unattended, through the Your Business Today connector (`perform_action`). It organises boards; it never builds, merges, deletes, or changes a project's status. Every run must be **idempotent**: a board that is already in order is left exactly as it is. Move something only for a reason you can state in one sentence, and record that reason.
+Runs every hour, unattended, through the Your Business Today connector (`run_read_action` for the actions that only read, `perform_action` for the ones that write). It organises boards; it never builds, merges, deletes, or changes a project's status. Every run must be **idempotent**: a board that is already in order is left exactly as it is. Move something only for a reason you can state in one sentence, and record that reason.
 
 Agent name for every lifecycle step: `Hourly project organiser`. Model: the model this session runs on.
 

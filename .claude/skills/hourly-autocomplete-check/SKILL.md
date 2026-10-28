@@ -5,7 +5,7 @@ description: Hourly check of the Your Business Today autocomplete list: claim ev
 
 # Hourly autocomplete check
 
-Runs every hour, unattended, through the Your Business Today connector (`perform_action`). It finds the autocomplete tasks an AI may finish on its own, claims each one, and hands each to a new thread of its own that builds it. The check itself never builds, branches, merges or changes a task's flags; the threads it starts do the building, one task each, because a task is one session's work.
+Runs every hour, unattended, through the Your Business Today connector (`run_read_action` for the actions that only read, `perform_action` for the ones that write). It finds the autocomplete tasks an AI may finish on its own, claims each one, and hands each to a new thread of its own that builds it. The check itself never builds, branches, merges or changes a task's flags; the threads it starts do the building, one task each, because a task is one session's work.
 
 Agent name for every claim: `Opus 5.5 xhigh autocomplete thread, run <yyyy-mm-dd hh:mm>Z #<n>`, numbered from 1 each run; the run's time keeps two runs' threads from sharing a name, and so a claim. The thread that builds the task records every later step under that same name, so the claim stays one agent's.
 

@@ -10,7 +10,7 @@ const ybtSummaryPrompt: McpPrompt = {
 		'Everything assigned to you and waiting on you on Your Business Today, project by project: ' +
 		'the quick decisions put to you first, then the bigger work.',
 	text:
-		'Give me my YBT summary. Run the read_ybt_summary action with perform_action and walk me ' +
+		'Give me my YBT summary. Run the read_ybt_summary action with run_read_action and walk me ' +
 		'through it as its answer says: every project with what is assigned to me and waiting on ' +
 		'me, then the quick decisions one at a time, then the bigger work.'
 };

@@ -8,7 +8,7 @@ const summaryActionName = 'read_ybt_summary';
 
 /**
  * The morning question as a tool of its own, so a Claude reaches it from the plain words a person
- * uses rather than having to know that read_ybt_summary sits behind perform_action.
+ * uses rather than having to know that read_ybt_summary sits behind run_read_action.
  */
 export const outstandingTools: McpTool[] = [
 	{
