@@ -46,16 +46,17 @@ fix it there, not here.
 | Staff | to triage requests, run projects and tasks, and keep the books from Claude | the admin happens where the thinking happens |
 | Anyone | to press Connect in Claude and arrive as myself | there is no token to copy and nothing to paste |
 
-## The shape: four tools, many actions
+## The shape: five tools, many actions
 
-Claude sees four tools, the same four for everyone:
+Claude sees five tools, the same five for everyone:
 
 | Tool | What it does |
 | --- | --- |
 | `get_current_context` | who the signed-in person is, their standing, and the areas they can reach |
 | `list_actions` | every action this person may run, one line each, optionally narrowed to an area |
 | `describe_action` | one action in full — its input schema and any doctrine attached to it |
-| `perform_action` | run one action by name with its input |
+| `run_read_action` | run one action that only reads, by name with its input — marked `readOnlyHint` |
+| `perform_action` | run one action that writes, by name with its input — gated, the host asks first |
 
 The actions live in `src/lib/server/mcp/actions/`, one file per concern, gathered by area
 (`account`, `clients`, `organisations`, `projects`, `goals`, `support`, `conversations`, `tasks`,
@@ -68,6 +69,12 @@ Accounting is `admin`, matching the site.
 This shape keeps the tool list small and stable while the site grows: adding a capability
 is adding an action file, never a tool. Tool descriptions are prose the caller's Claude
 reads, so they name the domain plainly.
+
+> **28 October 2026, reads and writes run through different tools.** Claude Cowork asks the
+> person before every call to a tool not marked `readOnlyHint`, so one tool running both left
+> every read waiting on a yes. Every tool that only reads is marked read-only; `run_read_action`
+> runs the actions whose `isWrite` is false and refuses the rest, and `perform_action` runs the
+> writes and refuses the reads, naming the other tool in each refusal.
 
 > **8 October 2026, two tools beside the four.** A host draws a page for a tool, never for an
 > action, so the upload box (below) is the one capability that could not be an action.
@@ -88,7 +95,8 @@ src/lib/server/mcp/readMcpRequest.ts        parse one JSON-RPC message
 src/lib/server/mcp/mcpMethods.ts            initialize | ping | tools/list | tools/call | resources/list | resources/read
 src/lib/server/mcp/mcpResources.ts          the pages a host draws, fetched by address
 src/lib/server/mcp/mcpProtocol.ts           supported revisions and server identity
-src/lib/server/mcp/mcpTools.ts              the four tools
+src/lib/server/mcp/mcpTools.ts              the tools that browse actions
+src/lib/server/mcp/actionRunTools.ts        the two tools that run them, split read from write
 src/lib/server/mcp/actionRegistry.ts        every action, filtered by standing
 src/lib/server/mcp/actions/*.ts             one file per concern
 src/lib/server/mcp/uploadBox/*.ts           the upload box: its two tools, its steps, its page

@@ -1,7 +1,8 @@
+import { actionRunTools } from './actionRunTools';
+import { readActionToolName, writeActionToolName } from './actionToolNames';
 import { describeAction, listActions } from './browseActions';
 import { describeContext } from './describeContext';
 import { outstandingTools } from './outstandingTool';
-import { runAction } from './runAction';
 import { uploadBoxTools } from './uploadBox/uploadBoxTools';
 import type { McpCaller } from './resolveMcpCaller';
 import type { McpToolAnswer } from './mcpContent';
@@ -21,7 +22,7 @@ const areaField = {
 	description: 'Narrow to one area, as named by get_current_context'
 };
 
-const actionTools: McpTool[] = [
+const browseTools: McpTool[] = [
 	{
 		name: 'get_current_context',
 		title: 'Who you are here',
@@ -29,6 +30,7 @@ const actionTools: McpTool[] = [
 			'Start here. Says who the signed-in person is, whether they are staff or a client ' +
 			'contact, and which areas of Your Business Today they can reach.',
 		inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+		annotations: { readOnlyHint: true },
 		run: async (caller) => describeContext(caller)
 	},
 	{
@@ -36,8 +38,11 @@ const actionTools: McpTool[] = [
 		title: 'List everything you can do',
 		description:
 			'Every action this person may run, with a one-line summary each. Anything the site ' +
-			'lets them do is here. Call describe_action before running one you have not run before.',
+			'lets them do is here; one marked "writes" runs through ' +
+			`${writeActionToolName}, any other through ${readActionToolName}. Call describe_action ` +
+			'before running one you have not run before.',
 		inputSchema: { type: 'object', properties: { area: areaField }, additionalProperties: false },
+		annotations: { readOnlyHint: true },
 		run: async (caller, argumentValues) => listActions(caller, argumentValues)
 	},
 	{
@@ -52,33 +57,12 @@ const actionTools: McpTool[] = [
 			required: ['name'],
 			additionalProperties: false
 		},
+		annotations: { readOnlyHint: true },
 		run: async (caller, argumentValues) => describeAction(caller, argumentValues)
-	},
-	{
-		name: 'perform_action',
-		title: 'Run one action',
-		description:
-			'Run an action by name with its input. Writes are recorded under the signed-in ' +
-			'person, exactly as if they had done it on the site.',
-		inputSchema: {
-			type: 'object',
-			properties: {
-				name: { type: 'string', description: 'The action name' },
-				input: { type: 'object', description: 'The action input, per describe_action' }
-			},
-			required: ['name'],
-			additionalProperties: false
-		},
-		run: async (caller, argumentValues) =>
-			runAction(
-				caller,
-				String(argumentValues.name ?? ''),
-				(argumentValues.input ?? {}) as Record<string, unknown>
-			)
 	}
 ];
 
-const everyTool: McpTool[] = [...actionTools, ...outstandingTools, ...uploadBoxTools];
+const everyTool: McpTool[] = [...browseTools, ...actionRunTools, ...outstandingTools, ...uploadBoxTools];
 
 export function findMcpTool(name: unknown): McpTool | null {
 	return everyTool.find((tool) => tool.name === name) ?? null;
