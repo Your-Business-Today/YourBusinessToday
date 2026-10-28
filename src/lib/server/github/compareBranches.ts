@@ -1,19 +1,21 @@
 import { githubGet } from './githubRequest';
 import type { CommitMessage } from '$lib/data/mergedPullRequests';
+import { holdsTheSameFiles } from '$lib/data/branchDifference';
 
-/** How far the head branch is ahead of the base, and the commits that make the difference, as GitHub compares them. */
-export type BranchComparison = { aheadBy: number; commits: CommitMessage[] };
+/** How far the head branch is ahead of the base, the commits that make the difference, and whether they leave any file different, as GitHub compares them. */
+export type BranchComparison = { aheadBy: number; commits: CommitMessage[]; holdsTheSameFiles: boolean };
 
 type GithubCommit = { commit: { message: string } };
 
-type GithubComparison = { ahead_by: number; commits: GithubCommit[] };
+type GithubComparison = { ahead_by: number; commits: GithubCommit[]; files?: unknown[] };
 
 const nothingAhead = 0;
 
 export async function compareBranches(repositoryAddress: string, base: string, head: string): Promise<BranchComparison> {
 	const compareAddress = `${repositoryAddress}/compare/${encodeURIComponent(base)}...${encodeURIComponent(head)}`;
 	const comparison = await githubGet<GithubComparison>(compareAddress);
-	return { aheadBy: comparison.ahead_by, commits: comparison.commits.map(messageOf) };
+	const difference = { aheadBy: comparison.ahead_by, changedFiles: comparison.files };
+	return { aheadBy: comparison.ahead_by, commits: comparison.commits.map(messageOf), holdsTheSameFiles: holdsTheSameFiles(difference) };
 }
 
 /** Whether the branch already holds the commit: GitHub finds the commit no further ahead of the branch than the branch itself. */
