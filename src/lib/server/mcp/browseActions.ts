@@ -1,4 +1,5 @@
 import { actionsFor, findAction } from './actionRegistry';
+import { readActionToolName, writeActionToolName } from './actionToolNames';
 import type { ActionArea, McpAction } from './actionTypes';
 import type { McpCaller } from './resolveMcpCaller';
 
@@ -14,7 +15,7 @@ export function describeAction(caller: McpCaller, argumentValues: Record<string,
 	if (action === null) return 'There is no action by that name that you can run.';
 	return [
 		`${action.name} — ${action.summary}`,
-		`Area: ${action.area}. ${action.isWrite ? 'This one writes.' : 'This one only reads.'}`,
+		`Area: ${action.area}. ${runsThrough(action)}`,
 		action.guidance === undefined ? null : `\nHow we work: ${action.guidance}`,
 		`\nInput schema:\n${JSON.stringify(action.inputSchema, null, 2)}`
 	]
@@ -24,4 +25,9 @@ export function describeAction(caller: McpCaller, argumentValues: Record<string,
 
 function summariseAction(action: McpAction): string {
 	return `${action.name} [${action.area}${action.isWrite ? ', writes' : ''}] — ${action.summary}`;
+}
+
+function runsThrough(action: McpAction): string {
+	if (action.isWrite) return `This one writes: run it with ${writeActionToolName}.`;
+	return `This one only reads: run it with ${readActionToolName}.`;
 }
