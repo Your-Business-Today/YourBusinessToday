@@ -23,12 +23,11 @@ export type Promotion = { outcome: DeployWindowOutcome; pullRequestUrl: string; 
 /** What a promotion is asked for: by whom, and against which tasks its merged pull requests are matched. */
 export type PromotionRequest = { start: DeployStart; tasks: DeployableTask[] };
 
-const nothingAhead = 0;
 const cleanStatusRefusal = 'clean status';
 const noSummary = '';
 
 /**
- * Opens the pull request from staging into the default branch when staging is ahead, reuses the one already open,
+ * Opens the pull request from staging into the default branch when staging holds files the default branch lacks, reuses the one already open,
  * and turns auto-merge on; nothing to promote is a quiet skip, and anything GitHub refuses is kept as the note.
  */
 export async function promoteStaging(project: Project, clock: UkClock, request: PromotionRequest): Promise<Promotion> {
@@ -48,8 +47,8 @@ async function promoteThroughGithub(
 	request: PromotionRequest
 ): Promise<Promotion> {
 	const comparison = await compareBranches(repositoryAddress, project.defaultBranch, stagingBranch);
-	if (comparison.aheadBy === nothingAhead) {
-		const note = `${project.defaultBranch} already holds everything on ${stagingBranch}.`;
+	if (comparison.holdsTheSameFiles) {
+		const note = `${project.defaultBranch} already holds every file on ${stagingBranch}.`;
 		return { outcome: deployWindowOutcomes.nothingToPromote, pullRequestUrl: '', note, summary: noSummary };
 	}
 	const deploySummary = deploySummaryOf(mergedPullRequestsOf(comparison.commits), request.tasks);
