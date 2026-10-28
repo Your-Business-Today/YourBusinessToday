@@ -1,9 +1,9 @@
 import { githubGet } from './githubRequest';
 import type { CommitMessage } from '$lib/data/mergedPullRequests';
-import { holdsTheSameFiles } from '$lib/data/branchDifference';
+import { hasTheSameFiles } from '$lib/data/branchDifference';
 
 /** How far the head branch is ahead of the base, the commits that make the difference, and whether they leave any file different, as GitHub compares them. */
-export type BranchComparison = { aheadBy: number; commits: CommitMessage[]; holdsTheSameFiles: boolean };
+export type BranchComparison = { aheadBy: number; commits: CommitMessage[]; hasTheSameFiles: boolean };
 
 type GithubCommit = { commit: { message: string } };
 
@@ -15,7 +15,7 @@ export async function compareBranches(repositoryAddress: string, base: string, h
 	const compareAddress = `${repositoryAddress}/compare/${encodeURIComponent(base)}...${encodeURIComponent(head)}`;
 	const comparison = await githubGet<GithubComparison>(compareAddress);
 	const difference = { aheadBy: comparison.ahead_by, changedFiles: comparison.files };
-	return { aheadBy: comparison.ahead_by, commits: comparison.commits.map(messageOf), holdsTheSameFiles: holdsTheSameFiles(difference) };
+	return { aheadBy: comparison.ahead_by, commits: comparison.commits.map(messageOf), hasTheSameFiles: hasTheSameFiles(difference) };
 }
 
 /** Whether the branch already holds the commit: GitHub finds the commit no further ahead of the branch than the branch itself. */

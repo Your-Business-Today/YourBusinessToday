@@ -47,7 +47,7 @@ async function promoteThroughGithub(
 	request: PromotionRequest
 ): Promise<Promotion> {
 	const comparison = await compareBranches(repositoryAddress, project.defaultBranch, stagingBranch);
-	if (comparison.holdsTheSameFiles) {
+	if (comparison.hasTheSameFiles) {
 		const note = `${project.defaultBranch} already holds every file on ${stagingBranch}.`;
 		return { outcome: deployWindowOutcomes.nothingToPromote, pullRequestUrl: '', note, summary: noSummary };
 	}

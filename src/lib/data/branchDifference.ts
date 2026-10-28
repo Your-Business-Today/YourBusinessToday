@@ -5,7 +5,7 @@ const nothingAhead = 0;
 const noFilesChanged = 0;
 
 /** Whether the head branch carries nothing to deploy: no commit ahead, or commits ahead that change no file, such as a levelling merge. */
-export function holdsTheSameFiles(difference: BranchDifference): boolean {
+export function hasTheSameFiles(difference: BranchDifference): boolean {
 	if (difference.aheadBy === nothingAhead) return true;
 	const { changedFiles } = difference;
 	if (changedFiles === undefined) return false;
