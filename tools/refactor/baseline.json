@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-28T08:17:01+00:00",
-  "kitVersion": "1.36.0",
+  "generatedAt": "2026-10-29T20:44:55+00:00",
+  "kitVersion": "1.37.0",
   "score": {
     "overall": 100.0,
     "groups": [
       {
         "group": "Standard baseline checks",
         "score": 100.0,
-        "weight": 60
+        "weight": 52
       },
       {
         "group": "Design pattern file count",
@@ -86,10 +86,9 @@
         "weight": 8,
         "zeroAt": 20,
         "unit": "",
-        "isMeasured": true,
-        "offenders": 0.0,
-        "measuredAgainst": 1,
-        "score": 100.0
+        "isMeasured": false,
+        "offenders": null,
+        "score": null
       },
       {
         "key": "comments",
@@ -100,7 +99,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 71.9,
+        "measuredAgainst": 71.91,
         "score": 100.0
       },
       {
@@ -112,7 +111,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 71.9,
+        "measuredAgainst": 71.91,
         "score": 100.0
       },
       {
@@ -136,7 +135,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 71.9,
+        "measuredAgainst": 71.91,
         "score": 100.0
       },
       {
@@ -148,7 +147,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 71.9,
+        "measuredAgainst": 71.91,
         "score": 100.0
       },
       {
@@ -252,7 +251,7 @@
       "limit": 100,
       "filesOverLimit": 0,
       "totalFiles": 2056,
-      "totalLines": 71898,
+      "totalLines": 71907,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
@@ -274,10 +273,7 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 0,
-      "duplicatedLines": 0,
-      "totalLines": 73396,
-      "duplicatedPercentage": 0.0
+      "skipped": "jscpd is not installed (npm install -g jscpd)"
     },
     "naming": {
       "bannedAbbreviationHits": 32,
@@ -352,7 +348,7 @@
         "limit": 100,
         "filesOverLimit": 0,
         "totalFiles": 2056,
-        "totalLines": 71898,
+        "totalLines": 71907,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -3052,7 +3048,7 @@
           "area": "backend",
           "files": 790,
           "sourceFiles": 780,
-          "sourceLines": 24914
+          "sourceLines": 24921
         },
         {
           "area": "frontend",
@@ -3064,7 +3060,7 @@
           "area": "shared",
           "files": 324,
           "sourceFiles": 310,
-          "sourceLines": 10081
+          "sourceLines": 10083
         },
         {
           "area": "tests",
@@ -3121,10 +3117,7 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 0,
-        "duplicatedLines": 0,
-        "totalLines": 73396,
-        "duplicatedPercentage": 0.0
+        "skipped": "jscpd is not installed (npm install -g jscpd)"
       },
       "offenders": []
     }
