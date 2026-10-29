@@ -24,6 +24,8 @@ export const projectStatusOrder: ProjectStatus[] = [
 	'on_hold'
 ];
 
+export const onHoldProjectStatus: ProjectStatus = 'on_hold';
+
 const statusForNewProject: ProjectStatus = 'scoping';
 
 export function parseProjectStatus(value: unknown): ProjectStatus {
