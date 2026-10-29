@@ -2,17 +2,22 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { doneTaskStatus } from '$lib/data/taskStatus';
 import { isTaskAutocomplete, parseGoalAutocomplete, parseTaskAutocomplete } from '$lib/data/autocomplete';
 import { openGoalStatus } from '$lib/data/goalStatus';
+import { onHoldProjectStatus } from '$lib/data/projectStatus';
 import type { RegisterGoal, RegisterProject, RegisterTask } from '$lib/data/autocompleteRegister';
 
 type Row = Record<string, unknown>;
 
-/** Every open goal and open task on the given projects, in project priority order, each marked autocomplete or not. */
+/** Every open goal and open task on the given projects not on hold, in project priority order, each marked autocomplete or not. */
 export async function getAutocompleteRegister(
 	supabase: SupabaseClient,
 	projectIds: string[]
 ): Promise<RegisterProject[]> {
 	if (projectIds.length === 0) return [];
-	const projects = supabase.from('projects').select('id, name, priority').in('id', projectIds);
+	const projects = supabase
+		.from('projects')
+		.select('id, name, priority')
+		.in('id', projectIds)
+		.neq('status', onHoldProjectStatus);
 	const goals = supabase.from('goals').select('id, project_id, title, status, is_autocomplete');
 	const tasks = supabase.from('tasks').select('id, project_id, goal_id, title, is_autocomplete');
 	const [projectRows, goalRows, taskRows] = await Promise.all([
