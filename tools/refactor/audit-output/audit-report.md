@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-10-28 08:17 UTC.
+Generated 2026-10-29 20:44 UTC.
 
 ## Headline
 
@@ -10,17 +10,17 @@ Generated 2026-10-28 08:17 UTC.
 
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
-| **Standard baseline checks** | | **100.0%** | **60** | |
+| **Standard baseline checks** | | **100.0%** | **52** | |
 | Files over the line limit | 0 in 2056 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
 | Functions over the line limit | 0 in 2762 functions | 100.0% | 8 | 25% of functions |
 | Else blocks | 0 in 3003 branches | 100.0% | 5 | 50% of branches |
-| Duplication % | 0 | 100.0% | 8 | 20 |
-| Explanatory comment lines | 0 in 71.9 thousand lines | 100.0% | 4 | 50 per thousand lines |
-| Inline magic values | 0 in 71.9 thousand lines | 100.0% | 4 | 20 per thousand lines |
+| Duplication % | not measured | not measured | — | 20 |
+| Explanatory comment lines | 0 in 71.91 thousand lines | 100.0% | 4 | 50 per thousand lines |
+| Inline magic values | 0 in 71.91 thousand lines | 100.0% | 4 | 20 per thousand lines |
 | Orphan components and functions | 0 in 3201 components and functions | 100.0% | 4 | 10% of components and functions |
-| Long member chain lines | 0 in 71.9 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Deeply indented lines | 0 in 71.9 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Long member chain lines | 0 in 71.91 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Deeply indented lines | 0 in 71.91 thousand lines | 100.0% | 4 | 30 per thousand lines |
 | Overlong function names | 0 in 2762 functions | 100.0% | 4 | 10% of functions |
 | **Design pattern file count** | | **100.0%** | **10** | |
 | Files the patterns predict but are missing | 0 in 107 predicted files | 100.0% | 10 | 50% of predicted files |
@@ -40,26 +40,26 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| backend | 790 | 780 | 24,914 |
+| backend | 790 | 780 | 24,921 |
 | frontend | 663 | 533 | 18,486 |
-| shared | 324 | 310 | 10,081 |
+| shared | 324 | 310 | 10,083 |
 | tests | 228 | 214 | 8,273 |
 | api | 214 | 214 | 10,006 |
 | database | 136 | 0 | 0 |
 | tooling | 130 | 5 | 138 |
 | docs | 61 | 0 | 0 |
 | infrastructure | 16 | 0 | 0 |
-| **whole repository** | **2,562** | **2,056** | **71,898** |
+| **whole repository** | **2,562** | **2,056** | **71,907** |
 
 ## Summary
 
 | Check | Key figures |
 | --- | --- |
-| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 2056, totalLines: 71898, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
+| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 2056, totalLines: 71907, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
 | functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 2762, elseBlocks: 0, ifBlocks: 3003, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
-| duplication | clones: 0, duplicatedLines: 0, totalLines: 73396, duplicatedPercentage: 0.0 |
+| duplication | skipped: jscpd is not installed (npm install -g jscpd) |
 | naming | bannedAbbreviationHits: 32, unprefixedBooleans: 1 |
 | comments | explanatoryCommentLines: 0, filesWithComments: 0, taskMarkers: 0 |
 | magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 0 |
@@ -81,7 +81,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | fileLength.worstFileLines | 0 | 0 | held |
 | functionShape.functionsOverLimit | 0 | 0 | held |
 | functionShape.elseBlocks | 0 | 0 | held |
-| duplication.duplicatedPercentage | None | 0.0 | — |
+| duplication.duplicatedPercentage | 0.0 | None | — |
 | comments.explanatoryCommentLines | 0 | 0 | held |
 | magicValues.inlineHexColours | 0 | 0 | held |
 | inventory.orphanComponents | 0 | 0 | held |

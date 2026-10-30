@@ -39,5 +39,5 @@ The `review-local-build` skill sends a task back when the local model got it too
 ## What this skill never does
 
 - It never sets story points by hand — the formula sets them, and a person may still change them afterwards.
-- It never marks a task buildable when it needs a person's answer or an infrastructure change; that is the considered outcome `waiting_on_person` or `needs_infrastructure`.
+- It never marks a task buildable when it needs a person's answer or an infrastructure change; that is the considered outcome `waiting_on_person` or `needs_infrastructure`. Nor does the session wait for that answer: the question goes on the task as a message waiting on the person who answers it, the task is assigned to them, and the session ties off and moves on.
 - It never decides autocomplete — that is `autocomplete-decision`.
