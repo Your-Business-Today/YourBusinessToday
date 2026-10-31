@@ -1,7 +1,8 @@
-export type Department = 'development' | 'administration' | 'sales' | 'marketing';
+export type Department = 'development' | 'infrastructure' | 'administration' | 'sales' | 'marketing';
 
 export const departments = {
 	development: 'development',
+	infrastructure: 'infrastructure',
 	administration: 'administration',
 	sales: 'sales',
 	marketing: 'marketing'
@@ -9,6 +10,7 @@ export const departments = {
 
 export const departmentOrder: Department[] = [
 	departments.development,
+	departments.infrastructure,
 	departments.administration,
 	departments.sales,
 	departments.marketing
@@ -18,6 +20,7 @@ export const defaultDepartment: Department = departments.development;
 
 export const departmentLabels: Record<Department, string> = {
 	development: 'Development',
+	infrastructure: 'Infrastructure',
 	administration: 'Administration',
 	sales: 'Sales',
 	marketing: 'Marketing'
@@ -25,17 +28,18 @@ export const departmentLabels: Record<Department, string> = {
 
 export const departmentMeanings: Record<Department, string> = {
 	development: 'built by Claude, each task ending in a pull request',
+	infrastructure: 'the systems the project runs on, set by hand: cloud settings, secrets, servers, hosting accounts',
 	administration: 'the running of the business: insurance, accounts, registrations, contracts',
 	sales: 'winning the work: leads, calls, quotes, follow-ups',
 	marketing: 'being found: the website copy, posts, listings, campaigns'
 };
 
 export const onlyDevelopmentIsBuilt =
-	'Only a development task is built: an administration, sales or marketing task is done by ' +
+	'Only a development task is built: an infrastructure, administration, sales or marketing task is done by ' +
 	'the person it is assigned to, so it never goes in the build queue.';
 
 export const onlyDevelopmentIsAutocomplete =
-	'Only a development task can be autocomplete: an administration, sales or marketing task is done by ' +
+	'Only a development task can be autocomplete: an infrastructure, administration, sales or marketing task is done by ' +
 	'the person it is assigned to, so its autocomplete stays off.';
 
 export const departmentRefusal = `A department is one of ${departmentOrder.join(', ')}.`;

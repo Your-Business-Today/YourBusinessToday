@@ -1,8 +1,8 @@
 /** Rule 6 of the working doctrine: how a question, an ask and a promise reach the person they are for. */
 export const askingDoctrine = [
-	'6. A project’s work is split by department — development, administration, sales and',
-	'   marketing — and each is a tab on the project. A development task is built by Claude and',
-	'   ends in a pull request; building is never asked of a person at all. A job a person does',
+	'6. A project’s work is split by department — development, infrastructure, administration,',
+	'   sales and marketing — and each is a tab on the project. A development task is built by',
+	'   Claude and ends in a pull request; building is never asked of a person at all. A job a person does',
 	'   for the project — put insurance in place, open an account, publish a listing — is a task',
 	'   in its department (create_task with department), assigned to them (set_task_assignees),',
 	'   and they mark it done. Tasks wait for each other across departments as any tasks do: the',
