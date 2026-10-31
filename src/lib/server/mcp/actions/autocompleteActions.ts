@@ -8,9 +8,11 @@ import {
 } from '$lib/data/autocomplete';
 import {
 	canChooseTaskAutocomplete,
+	canDepartmentAutocomplete,
 	canSwitchGoalAutocomplete,
 	staffOnlyAutocompleteRefusal
 } from '$lib/data/autocompleteStanding';
+import { onlyDevelopmentIsAutocomplete } from '$lib/data/department';
 import { noSuchGoal } from './describeGoal';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readText, textField } from '../actionTypes';
@@ -74,6 +76,7 @@ export const autocompleteActions: McpAction[] = [
 			const setting = validateAutocompleteChoice(readText(input, 'autocomplete'));
 			if (setting === undefined) return autocompleteChoiceRefusal;
 			if (!canChooseTaskAutocomplete(setting, caller.isStaff)) return staffOnlyAutocompleteRefusal;
+			if (!canDepartmentAutocomplete(setting, task.department)) return onlyDevelopmentIsAutocomplete;
 			await setTaskAutocomplete(caller.supabase, task.id, setting);
 			const goal = task.goalId === null ? null : await reachableGoal(caller, task.goalId);
 			return `"${task.title}": ${autocompleteSentence(setting, goal?.isAutocomplete ?? null)}`;

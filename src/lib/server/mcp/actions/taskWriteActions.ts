@@ -43,8 +43,9 @@ export const taskWriteActions: McpAction[] = [
 			'with requestedBy, so it is worked as their request. A series of steps done in order is a ' +
 			'task sequence: raise one task per step, give each the step before it with waitsForTaskId, ' +
 			'so it shows as a sequence. Files the task needs go on it ' +
-			'with attach_file_to_task once it exists. A task raised here by staff starts with ' +
-			'autocomplete on, and by anyone else off; set_task_autocomplete switches it.',
+			'with attach_file_to_task once it exists. A development task raised here by staff starts ' +
+			'with autocomplete on, and by anyone else off; set_task_autocomplete switches it. An ' +
+			'administration, sales or marketing task is always off: a person does it.',
 		inputSchema: objectSchema(
 			{
 				projectId: textField('The project the task belongs to'),
