@@ -1,8 +1,7 @@
 <script lang="ts">
 	import TaskGroupHeader from './TaskGroupHeader.svelte';
-	import TaskListRow from './TaskListRow.svelte';
+	import TaskGroupList from './TaskGroupList.svelte';
 	import { openRows } from '$lib/client/openRows.svelte';
-	import type { ListReorder } from '$lib/client/listReorder.svelte';
 	import { groupKeyOf, type TaskGroup } from './taskTreeGroups';
 	import type { TaskRowActions } from './taskRowActions';
 
@@ -10,13 +9,11 @@
 		group,
 		taskCount,
 		projectId,
-		listReorder,
 		actions
 	}: {
 		group: TaskGroup;
 		taskCount: number;
 		projectId: string;
-		listReorder: ListReorder;
 		actions: TaskRowActions;
 	} = $props();
 
@@ -37,17 +34,6 @@
 		onToggle={() => openRows.toggle(openRowKey)}
 	/>
 	{#if isOpen}
-		<ol id={panelId} class="flex flex-col gap-3 p-2 sm:p-3">
-			{#each tasks as task, taskIndex (task.id)}
-				<TaskListRow
-					{task}
-					numberPath={`${task.priority}`}
-					isFirst={taskIndex === 0}
-					isLast={taskIndex === tasks.length - 1}
-					{listReorder}
-					{actions}
-				/>
-			{/each}
-		</ol>
+		<TaskGroupList {panelId} {tasks} {actions} />
 	{/if}
 </section>

@@ -3,10 +3,8 @@
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import TaskGroupSection from './TaskGroupSection.svelte';
 	import { BacklogView } from '$lib/client/backlogView.svelte';
-	import { ListReorder } from '$lib/client/listReorder.svelte';
 	import { accountNameLookup } from '$lib/data/accountNames';
 	import { backlogEmptyMessage } from './backlogEmptyMessage';
-	import { postListReorder } from '$lib/client/postListReorder';
 	import { rememberOpenRows } from '$lib/client/openRows.svelte';
 	import { createTaskRowActions, type TaskRowHandlers, type TaskRowSources } from './taskRowActions';
 	import { groupKeyOf, groupTasksByGoal } from './taskTreeGroups';
@@ -25,12 +23,6 @@
 	} = $props();
 
 	rememberOpenRows();
-
-	const listReorder = new ListReorder(
-		(movedTaskId, targetTaskId, placement) =>
-			postListReorder('?/placeTask', { movedTaskId, targetTaskId, placement }),
-		{ canNestRows: true }
-	);
 
 	const actions = $derived(createTaskRowActions(sources, handlers));
 	const backlog = new BacklogView({
@@ -72,7 +64,6 @@
 					{group}
 					taskCount={backlog.countOf(group.tasks)}
 					{projectId}
-					{listReorder}
 					{actions}
 				/>
 			{/each}

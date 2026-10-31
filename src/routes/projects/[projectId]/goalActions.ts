@@ -5,12 +5,10 @@ import { getGoal } from '$lib/server/goals/getGoal';
 import { isUuid } from '$lib/data/isUuid';
 import { moveGoal } from '$lib/server/goals/moveGoal';
 import {
-	parseDropPlacement,
 	parseMoveDirection,
 	parsePriorityNumber,
 	priorityNumberRefusal
 } from '$lib/server/ordering/rankInput';
-import { placeGoal } from '$lib/server/goals/placeGoal';
 import { setGoalPriority } from '$lib/server/goals/setGoalPriority';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import type { Actions } from './$types';
@@ -41,17 +39,6 @@ export const goalActions = {
 		const isOnProject = await isGoalOnProject(locals.supabase, goalId, params.projectId);
 		if (!isOnProject || direction === null) return fail(400, { message: goalRequired });
 		await moveGoal(locals.supabase, goalId, direction);
-		return {};
-	},
-	placeGoal: async ({ locals, params, request }) => {
-		await requireProjectAccess(locals, params.projectId);
-		const formData = await request.formData();
-		const movedGoalId = String(formData.get('movedGoalId') ?? '');
-		const targetGoalId = String(formData.get('targetGoalId') ?? '');
-		const isOnProject = await isGoalOnProject(locals.supabase, movedGoalId, params.projectId);
-		if (!isOnProject || targetGoalId === '') return fail(400, { message: goalRequired });
-		const placement = parseDropPlacement(formData.get('placement'));
-		await placeGoal(locals.supabase, movedGoalId, targetGoalId, placement);
 		return {};
 	},
 	setGoalPriority: async ({ locals, params, request }) => {

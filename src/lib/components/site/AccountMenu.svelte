@@ -1,7 +1,9 @@
 <script lang="ts">
 	import AccountMenuGroup from './AccountMenuGroup.svelte';
+	import { fly } from 'svelte/transition';
 	import type { NavigationGroup } from './siteNavigation';
 	import { keyboardKeys } from '$lib/client/keyboardKeys';
+	import { menuDrop } from '$lib/client/motion';
 
 	let { menuGroups }: { menuGroups: NavigationGroup[] } = $props();
 
@@ -53,6 +55,7 @@
 		></button>
 		<nav
 			aria-label="Account menu"
+			transition:fly={menuDrop}
 			class="absolute right-0 z-50 mt-3 w-56 rounded-2xl border border-hairline bg-carriage p-2
 				shadow-2xl"
 		>

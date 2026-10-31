@@ -1,41 +1,12 @@
 <script lang="ts">
 	import GlobalTaskFilter from '$lib/components/tasks/GlobalTaskFilter.svelte';
-	import GlobalTaskDetail from '$lib/components/tasks/GlobalTaskDetail.svelte';
-	import GlobalTaskModals from '$lib/components/tasks/GlobalTaskModals.svelte';
+	import GlobalTaskList from '$lib/components/tasks/GlobalTaskList.svelte';
 	import GlobalTaskPagination from '$lib/components/tasks/GlobalTaskPagination.svelte';
-	import GlobalTaskRow from '$lib/components/tasks/GlobalTaskRow.svelte';
 	import TasksPageHeader from '$lib/components/tasks/TasksPageHeader.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
-	import { ListReorder } from '$lib/client/listReorder.svelte';
-	import { postListReorder } from '$lib/client/postListReorder';
 	import { filterForAssignedTasks, filterForEveryTask } from '$lib/data/taskListFilter';
-	import type { GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 
 	let { data } = $props();
-
-	const listReorder = new ListReorder((movedTaskId, targetTaskId, placement) =>
-		postListReorder('?/placeTask', { movedTaskId, targetTaskId, placement })
-	);
-
-	let isStatusModalOpen = $state(false);
-	let isPriorityModalOpen = $state(false);
-	let statusTask = $state<GlobalTask | null>(null);
-	let priorityTask = $state<GlobalTask | null>(null);
-	let expandedTaskId = $state<string | null>(null);
-
-	function toggleDetail(task: GlobalTask) {
-		expandedTaskId = expandedTaskId === task.id ? null : task.id;
-	}
-
-	function openStatusModal(task: GlobalTask) {
-		statusTask = task;
-		isStatusModalOpen = true;
-	}
-
-	function openPriorityModal(task: GlobalTask) {
-		priorityTask = task;
-		isPriorityModalOpen = true;
-	}
 
 	const { tasks, taskCount, firstTaskNumber, pageNumber, pageCount } = $derived(data.taskPage);
 	const shouldIncludeDone = $derived(data.filter === filterForEveryTask);
@@ -68,26 +39,7 @@
 			{emptyMessages[data.filter]}
 		</p>
 	{:else}
-		<ol class="flex flex-col divide-y divide-hairline overflow-hidden rounded-xl border border-hairline bg-carriage">
-			{#each tasks as task, taskIndex (task.id)}
-				<GlobalTaskRow
-					{task}
-					{listReorder}
-					positionNumber={task.globalPriority ?? firstTaskNumber + taskIndex}
-					isFirst={firstTaskNumber + taskIndex === 1}
-					isLast={firstTaskNumber + taskIndex === taskCount}
-					{shouldIncludeDone}
-					{canReorder}
-					onChangeStatus={openStatusModal}
-					onSetPriority={openPriorityModal}
-					isExpanded={expandedTaskId === task.id}
-					onToggleDetail={toggleDetail}
-				/>
-				{#if expandedTaskId === task.id}
-					<GlobalTaskDetail {task} />
-				{/if}
-			{/each}
-		</ol>
+		<GlobalTaskList {tasks} {firstTaskNumber} {taskCount} {shouldIncludeDone} {canReorder} />
 		<GlobalTaskPagination
 			pageNumber={pageNumber}
 			pageCount={pageCount}
@@ -95,5 +47,3 @@
 		/>
 	{/if}
 </div>
-
-<GlobalTaskModals {statusTask} {priorityTask} bind:isStatusModalOpen bind:isPriorityModalOpen />

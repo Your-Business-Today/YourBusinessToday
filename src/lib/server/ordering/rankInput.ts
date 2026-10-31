@@ -1,15 +1,4 @@
-import {
-	dropPlacements,
-	moveDirections,
-	topRank,
-	type DropPlacement,
-	type MoveDirection
-} from './rankedSet';
-
-export function parseDropPlacement(value: unknown): DropPlacement {
-	if (value === dropPlacements.after || value === dropPlacements.inside) return value;
-	return dropPlacements.before;
-}
+import { moveDirections, topRank, type MoveDirection } from './rankedSet';
 
 export function parseMoveDirection(value: unknown): MoveDirection | null {
 	if (value === moveDirections.up || value === moveDirections.down) return value;

@@ -2,13 +2,8 @@ import { fail } from '@sveltejs/kit';
 import { findTaskOnProject, taskOnProjectRequired } from '$lib/server/projects/findTaskOnProject';
 import { getTask } from '$lib/server/projects/getTask';
 import { moveTask, type TaskMoveDirection } from '$lib/server/projects/moveTask';
-import {
-	parseDropPlacement,
-	parsePriorityNumber,
-	priorityNumberRefusal
-} from '$lib/server/ordering/rankInput';
+import { parsePriorityNumber, priorityNumberRefusal } from '$lib/server/ordering/rankInput';
 import { parseTaskStatus } from '$lib/data/taskStatus';
-import { placeTask } from '$lib/server/projects/placeTask';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { readExactStoryPoints, storyPointsRefusal } from '$lib/data/storyPoints';
 import { setTaskPriority } from '$lib/server/projects/setTaskPriority';
@@ -28,18 +23,6 @@ export const taskActions = {
 		const direction = String(formData.get('direction')) as TaskMoveDirection;
 		if (taskId === '') return fail(400, { message: 'A task is required.' });
 		await moveTask(locals.supabase, taskId, direction);
-		return {};
-	},
-	placeTask: async ({ locals, params, request }) => {
-		await requireProjectAccess(locals, params.projectId);
-		const formData = await request.formData();
-		const movedTaskId = String(formData.get('movedTaskId') ?? '');
-		const targetTaskId = String(formData.get('targetTaskId') ?? '');
-		if (movedTaskId === '' || targetTaskId === '') {
-			return fail(400, { message: 'A task to move and a drop target are required.' });
-		}
-		const placement = parseDropPlacement(formData.get('placement'));
-		await placeTask(locals.supabase, movedTaskId, targetTaskId, placement);
 		return {};
 	},
 	setStatus: async ({ locals, params, request }) => {

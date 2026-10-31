@@ -8,6 +8,9 @@ declare global {
 			resolvedUser?: User | null;
 			portalOrganisationId: string | null;
 		}
+		interface PageState {
+			taskSheet?: { projectId: string; taskId: string };
+		}
 	}
 }
 

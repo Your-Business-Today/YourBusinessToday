@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ProjectFilterBar from './ProjectFilterBar.svelte';
 	import ProjectPagination from './ProjectPagination.svelte';
-	import ProjectTileGrid from './ProjectTileGrid.svelte';
+	import ProjectTable from './ProjectTable.svelte';
 	import type { ProjectListView } from '$lib/client/projectListView.svelte';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
@@ -32,7 +32,7 @@
 		No projects match — adjust the filters or create one.
 	</p>
 {:else}
-	<ProjectTileGrid
+	<ProjectTable
 		projects={listView.pagedProjects}
 		{latestKitVersion}
 		firstPositionNumber={listView.firstPositionNumber}

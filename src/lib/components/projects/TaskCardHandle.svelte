@@ -1,10 +1,8 @@
 <script lang="ts">
 	import PriorityControls from './PriorityControls.svelte';
 	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
-	import type { Snippet } from 'svelte';
 
 	let {
-		dragHandle,
 		taskId,
 		taskTitle,
 		numberPath,
@@ -12,7 +10,6 @@
 		isLast,
 		onSetPriority
 	}: {
-		dragHandle: Snippet;
 		taskId: string;
 		taskTitle: string;
 		numberPath: string;
@@ -23,7 +20,6 @@
 </script>
 
 <div class="-ml-1 flex shrink-0 items-center gap-0.5">
-	{@render dragHandle()}
 	<PriorityControls moveAction="?/moveTask" fieldName="taskId" id={taskId} {isFirst} {isLast} />
 	<PriorityNumberButton
 		label={numberPath}
