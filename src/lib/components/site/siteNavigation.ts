@@ -26,13 +26,7 @@ export const primaryNavigationLinks: NavigationLink[] = [
 	{ href: discoveryCallPath, label: discoveryCallShortLabel }
 ];
 
-const workLinks: NavigationLink[] = [
-	{ href: '/my-work', label: 'My work' },
-	{ href: '/projects', label: 'Projects' },
-	{ href: '/projects/feed', label: 'Feed' },
-	{ href: '/tasks', label: 'Tasks' },
-	{ href: '/support', label: 'Support' }
-];
+const workLinks: NavigationLink[] = [{ href: '/projects', label: 'Projects' }];
 
 const organisationsLink: NavigationLink = { href: '/organisations', label: 'Organisations' };
 

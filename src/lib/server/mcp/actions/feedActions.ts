@@ -17,7 +17,7 @@ export const feedActions: McpAction[] = [
 		summary:
 			'what has happened across your projects, newest first: each task raised, started, put on hold, sent for review or done, and by whom',
 		guidance:
-			'This is the live record of the work moving, the same one the site shows at /projects/feed. ' +
+			'This is the live record of the work moving. ' +
 			'Read it to tell your person what landed since they last looked. An event marked "yours" is ' +
 			'on a task they asked for; scope "mine" keeps only those. A task done by a merged pull ' +
 			'request names the merge, not a person.',
