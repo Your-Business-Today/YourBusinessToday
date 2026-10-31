@@ -1,8 +1,8 @@
 import { goto, preloadData } from '$app/navigation';
+import { isPlainClick } from './plainClick';
 import type { Action } from 'svelte/action';
 
 const controlSelector = 'a, button, form, input, select, textarea, [role="menu"]';
-const primaryMouseButton = 0;
 
 /**
  * A row that opens its record on a plain click anywhere on it. The controls inside the row keep
@@ -37,11 +37,6 @@ export const rowLink: Action<HTMLElement, string> = (row, href) => {
 		}
 	};
 };
-
-function isPlainClick(event: MouseEvent): boolean {
-	const hasModifier = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
-	return event.button === primaryMouseButton && !hasModifier;
-}
 
 function hasSelectedText(): boolean {
 	const selection = window.getSelection();

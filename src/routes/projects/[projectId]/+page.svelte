@@ -6,6 +6,7 @@
 	import DepartmentTabs from '$lib/components/projects/DepartmentTabs.svelte';
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
 	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
+	import TaskSheet from './TaskSheet.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { openSiblingsOf } from '$lib/components/projects/openSiblings';
 	import { TaskRowDialogs } from '$lib/client/taskRowDialogs.svelte';
@@ -78,3 +79,4 @@
 </Modal>
 
 <TaskRowModals {dialogs} goals={data.goals} canTurnOnAutocomplete={data.canTurnOnAutocomplete} />
+<TaskSheet />
