@@ -11,7 +11,7 @@ const oneTask = 1;
  * The deploys that carried the tasks, newest first. A promotion marks every task it carries live at the same
  * moment, so the tasks sharing a live moment are the ones that went live together.
  */
-export function deployHistoryOf<Task extends StagingDates>(tasks: Task[], deployCount = recentDeployCount): Deploy<Task>[] {
+export function deployHistoryOf<Task extends StagingDates>(tasks: Task[]): Deploy<Task>[] {
 	const tasksByLiveAt = new Map<string, Task[]>();
 	for (const task of tasks) {
 		if (task.liveAt === null) continue;
@@ -19,7 +19,12 @@ export function deployHistoryOf<Task extends StagingDates>(tasks: Task[], deploy
 		tasksByLiveAt.set(task.liveAt, [...carried, task]);
 	}
 	const deploys = [...tasksByLiveAt].map(([liveAt, carried]) => ({ liveAt, tasks: carried }));
-	return deploys.sort(byLatestDeploy).slice(0, deployCount);
+	return deploys.sort(byLatestDeploy);
+}
+
+/** The last few deploys, as the project page shows them beside what is staged. */
+export function recentDeploysOf<Task extends StagingDates>(tasks: Task[]): Deploy<Task>[] {
+	return deployHistoryOf(tasks).slice(0, recentDeployCount);
 }
 
 function byLatestDeploy<Task>(first: Deploy<Task>, second: Deploy<Task>): number {

@@ -24,6 +24,7 @@
 				{view.label}
 			</a>
 		{/each}
+		<a href={`/projects/${project.id}/deploys`} role="menuitem" class={menuItemClasses}>Deployment history</a>
 		<DeployNowButton defaultBranch={project.defaultBranch} isMenuItem />
 	{/if}
 </ActionsMenu>
