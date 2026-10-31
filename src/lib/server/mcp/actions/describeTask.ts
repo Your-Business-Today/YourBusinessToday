@@ -11,6 +11,7 @@ import { accountNameLookup } from '$lib/data/accountNames';
 import { goalHorizonLabels } from '$lib/data/goalHorizon';
 import { supportTaskKind, taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import { threadLines } from './describeMessages';
+import { departmentLine } from '$lib/data/department';
 import type { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -24,6 +25,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 	return [
 		headline(task),
 		`Project: ${project.name} (id: ${project.id})`,
+		departmentLine(task.department),
 		repositoryLine(project),
 		priorityLine(task),
 		`Goal: ${goalTitle(workspace)}. Due: ${task.dueDate ?? 'no date set'}.`,

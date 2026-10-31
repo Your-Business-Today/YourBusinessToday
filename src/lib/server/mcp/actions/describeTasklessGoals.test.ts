@@ -10,6 +10,7 @@ const goal: TasklessGoal = {
 	measure: '',
 	status: 'open',
 	horizon: 'current',
+	department: 'development',
 	priority: 1,
 	isAutocomplete: false,
 	createdBy: 'jeremy',

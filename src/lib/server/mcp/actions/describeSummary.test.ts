@@ -8,7 +8,7 @@ describe('the YBT summary', () => {
 
 	it('opens with the totals by kind, and leaves building to Claude', () => {
 		expect(described).toContain(
-			"In all: one answer to give, one thing to set up, no features to test, one to-do. Everything to be built is Claude's."
+			"In all: one answer to give, one thing to set up, no features to test, one task to do, one to-do. Everything to be built is Claude's."
 		);
 	});
 
@@ -31,9 +31,16 @@ describe('the YBT summary', () => {
 		expect(described).toContain('Put insurance in place — To do, for "Get the website presentable"');
 	});
 
-	it('shows older tasks still in the person’s name, to be turned into asks or to-dos', () => {
-		expect(described).toContain('Still on a board in your name');
-		expect(described).toContain('"Move the enquiries backlog", Backlog (Jewel Property Serve Portal, task id: backlog)');
+	it('lists the business tasks assigned to the person as theirs to do, before their to-dos', () => {
+		const tasksAt = described.indexOf('## Your tasks (1)');
+		expect(tasksAt).toBeGreaterThan(described.indexOf('## Things you need to set up'));
+		expect(described.indexOf('## Your to-dos')).toBeGreaterThan(tasksAt);
+		expect(described).toContain('"Put public liability insurance in place", Backlog (Jewel Property Serve Portal, Administration');
+	});
+
+	it('shows development tasks still in the person’s name, to be turned into asks', () => {
+		expect(described).toContain('Development tasks in your name');
+		expect(described).toContain('"Move the enquiries backlog", Backlog (Jewel Property Serve Portal, Development, task id: backlog)');
 		expect(described).toContain('Jeremy: ask Xero for the bank statement scope');
 	});
 

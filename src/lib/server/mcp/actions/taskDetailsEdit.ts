@@ -1,6 +1,7 @@
 import { fibonacciStoryPoints } from '$lib/data/storyPoints';
 import { parseCompletionPercent } from '$lib/data/completionClamp';
 import { parseTaskKind } from '$lib/data/taskKind';
+import { parseDepartment } from '$lib/data/department';
 import { readOptionalText } from '../actionTypes';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 import type { TaskDetailsUpdate } from '$lib/server/projects/updateTaskDetails';
@@ -21,6 +22,7 @@ export function readTaskDetailsEdit(
 		dueDate: readOptionalText(input, 'dueDate') ?? task.dueDate,
 		goalId: readOptionalText(input, 'goalId') ?? task.goalId,
 		kind: readKind(input, task),
+		department: parseDepartment(input.department) ?? task.department,
 		storyPoints,
 		completionPercent: readCompletionPercent(input, task)
 	};

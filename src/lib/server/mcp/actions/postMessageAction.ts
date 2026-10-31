@@ -19,8 +19,8 @@ const postMessageGuidance =
 	'Anything asked of a person is posted here as a message waiting on them, never only on ' +
 	'WhatsApp, email or a call: an ask that is not on the task is one their Claude cannot see. ' +
 	'Say with askKind what the ask wants: information, setup or testing. ' +
-	'An ask is how anything a person must give reaches them — never a task raised for them or ' +
-	'assigned to them: a task is development work ending in a pull request, and building is ' +
+	'An ask is how anything a person must give reaches them — never a task raised for it. A job ' +
+	'a person does for the project is a task in its department, assigned to them; building is ' +
 	'never asked of a person. ' +
 	'Anything else waits on nobody — the default. A question for the person you are with ' +
 	'goes to them in chat, never into a message here: every other Claude on the project ' +

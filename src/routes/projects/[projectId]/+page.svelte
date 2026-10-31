@@ -3,6 +3,7 @@
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewTaskForm from '$lib/components/projects/NewTaskForm.svelte';
 	import ProjectDashboard from '$lib/components/projects/ProjectDashboard.svelte';
+	import DepartmentTabs from '$lib/components/projects/DepartmentTabs.svelte';
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
 	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
@@ -51,6 +52,7 @@
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
+	<DepartmentTabs tabs={data.departmentTabs} selected={data.department} />
 	<ProjectDashboard
 		projectId={project.id}
 		sources={data}
@@ -70,6 +72,7 @@
 		parentTaskId={subtaskParent?.id ?? null}
 		goals={data.goals}
 		{sequenceChoices}
+		hiddenFields={{ department: data.department }}
 		onCreated={() => (isTaskModalOpen = false)}
 	/>
 </Modal>

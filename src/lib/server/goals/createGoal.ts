@@ -1,11 +1,14 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { nextGoalRank } from '$lib/server/projects/nextRanks';
 import { parseGoalHorizon, type GoalHorizon } from '$lib/data/goalHorizon';
+import { parseDepartment, type Department } from '$lib/data/department';
+import { departmentColumns } from '$lib/server/departments/departmentColumns';
 
 export type NewGoalSeed = {
 	title: string;
 	measure: string;
 	horizon: GoalHorizon;
+	department?: Department;
 };
 
 export function readNewGoalSeed(formData: FormData): NewGoalSeed | null {
@@ -14,7 +17,8 @@ export function readNewGoalSeed(formData: FormData): NewGoalSeed | null {
 	return {
 		title,
 		measure: String(formData.get('measure') ?? '').trim(),
-		horizon: parseGoalHorizon(formData.get('horizon'))
+		horizon: parseGoalHorizon(formData.get('horizon')),
+		department: parseDepartment(formData.get('department')) ?? undefined
 	};
 }
 
@@ -32,7 +36,8 @@ export async function createGoal(
 			measure: seed.measure,
 			horizon: seed.horizon,
 			priority: await nextGoalRank(supabase, projectId, seed.horizon),
-			created_by: createdBy
+			created_by: createdBy,
+			...departmentColumns(seed.department)
 		})
 		.select('id')
 		.single();

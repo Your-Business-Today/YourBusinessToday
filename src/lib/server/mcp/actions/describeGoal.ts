@@ -2,6 +2,7 @@ import { autocompleteWord } from '$lib/data/autocomplete';
 import { goalHorizonLabels, goalHorizonOrder, goalsOnHorizon, type GoalHorizon } from '$lib/data/goalHorizon';
 import { goalStatusLabels } from '$lib/data/goalStatus';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
+import { departmentTag } from '$lib/data/department';
 import { lifecycleLines, lifecycleMarkSuffix } from './describeLifecycle';
 import { threadLines } from './describeMessages';
 import type { Account } from '$lib/server/accounts/accountRecord';
@@ -67,5 +68,5 @@ export function taskLine(task: ProjectTask, mark?: LifecycleMark): string {
 	const kind = taskKindLabels[task.kind];
 	const status = taskStatusLabelFor(task.kind, task.status);
 	const place = `priority ${task.priority}, id: ${task.id}`;
-	return `- ${task.title} — ${kind} task, ${status}${lifecycleMarkSuffix(mark)} (${place})`;
+	return `- ${task.title}${departmentTag(task.department)} — ${kind} task, ${status}${lifecycleMarkSuffix(mark)} (${place})`;
 }

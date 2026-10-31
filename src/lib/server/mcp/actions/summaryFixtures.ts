@@ -10,9 +10,9 @@ const scarlett = { id: 'scarlett', name: 'Scarlett', email: 'scarlett@example.co
 const propertyServe = { id: 'jewel-ps-portal', name: 'Jewel Property Serve Portal' };
 const passiveFire = { id: 'jewel-pfp-portal', name: 'Jewel PFP Portal' };
 
-function taskOn(project: typeof propertyServe, id: string, title: string) {
+function taskOn(project: typeof propertyServe, id: string, title: string, department = 'development') {
 	const projects = { name: project.name };
-	const row = { id, title, status: 'backlog', kind: 'work', project_id: project.id, projects };
+	const row = { id, title, status: 'backlog', kind: 'work', department, project_id: project.id, projects };
 	return parseGlobalTaskRow(row);
 }
 
@@ -63,7 +63,10 @@ export const jeremyOwes: SummarySources = {
 	waiting: { questions: [termsQuestion, informationQuestion], askers: [scarlett] },
 	todos: [insuranceTodo],
 	owed: {
-		assigned: [taskOn(propertyServe, 'backlog', 'Move the enquiries backlog')],
+		assigned: [
+			taskOn(propertyServe, 'backlog', 'Move the enquiries backlog'),
+			taskOn(propertyServe, 'insurance', 'Put public liability insurance in place', 'administration')
+		],
 		named: [taskOn(passiveFire, 'xero', 'Jeremy: ask Xero for the bank statement scope')],
 		name: 'Jeremy',
 		latestByTask: new Map(),

@@ -1,4 +1,5 @@
 import { supportTaskKind, type TaskKind } from './taskKind';
+import { defaultDepartment, isDevelopment, type Department } from './department';
 
 export type UserStory = {
 	role: string;
@@ -6,7 +7,12 @@ export type UserStory = {
 	benefit: string;
 };
 
-export type StoryCandidate = { kind: TaskKind; title: string; parentTaskId: string | null };
+export type StoryCandidate = {
+	kind: TaskKind;
+	title: string;
+	parentTaskId: string | null;
+	department?: Department;
+};
 
 export const bugFixTitlePrefix = 'FIX:';
 const refactorRoundTitlePrefix = 'REFACTOR:';
@@ -18,9 +24,11 @@ export const storyRequiredRefusal =
 
 /**
  * A top level work task is a user story. A bug fix, a refactor round, a support
- * task (somebody waiting on an answer) and a subtask (a step of a story) are not.
+ * task (somebody waiting on an answer), a subtask (a step of a story) and a business
+ * department's job are not.
  */
 export function needsUserStory(task: StoryCandidate): boolean {
+	if (!isDevelopment(task.department ?? defaultDepartment)) return false;
 	if (task.kind === supportTaskKind) return false;
 	if (task.parentTaskId !== null) return false;
 	return !hasStoryExemptTitle(task.title);
