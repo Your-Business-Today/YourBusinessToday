@@ -16,6 +16,7 @@ import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companies
 import { listObservationsForCompany } from '$lib/server/observations/listObservations';
 import { personFormActions } from '$lib/server/people/personFormActions';
 import { profileActions } from './profileActions';
+import { continuityCopyActions } from './continuityCopyActions';
 import { registerActions } from './registerActions';
 import { jobAdvertFormActions } from '$lib/server/jobAdverts/jobAdvertFormActions';
 import { requireStaff } from '$lib/server/auth/requireStaff';
@@ -47,6 +48,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 export const actions: Actions = {
 	...registerActions,
 	...profileActions,
+	...continuityCopyActions,
 	...personFormActions,
 	...approachFormActions,
 	...groupActions,
