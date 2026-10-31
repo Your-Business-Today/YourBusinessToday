@@ -42,7 +42,7 @@
 	const people = $derived(sources.people);
 
 	const panelTabs = $derived([
-		{ key: 'backlog', label: 'Backlog', count: pulse.openTaskCount },
+		{ key: 'backlog', label: 'Backlog', count: pulse.openCurrentTaskCount },
 		{ key: 'staged', label: 'Staged', count: stagedTasks.length },
 		{ key: 'goals', label: 'Goals', count: goalSummaries.length },
 		{ key: 'people', label: 'People', count: people.length }

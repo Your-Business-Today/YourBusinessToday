@@ -1,4 +1,5 @@
 import { isTaskDone, type TaskStatus } from './taskStatus';
+import { currentWork, type HorizonedGoal, type PlacedTask } from './taskHorizons';
 import { departmentLabels, departmentOrder, readStoredDepartment, type Department } from './department';
 
 type Departmental = { department: Department };
@@ -14,9 +15,11 @@ export function inDepartment<Item extends Departmental>(items: Item[], departmen
 	return items.filter((item) => item.department === department);
 }
 
-/** One tab per department, each with how many of its tasks are still open. */
-export function departmentTabs(tasks: (Departmental & { status: TaskStatus })[]): DepartmentTab[] {
-	const openTasks = tasks.filter((task) => !isTaskDone(task.status));
+type TabbedTask = Departmental & PlacedTask & { status: TaskStatus };
+
+/** One tab per department, each with how many of its current tasks are still open: long term work is not scoped enough to count. */
+export function departmentTabs(tasks: TabbedTask[], goals: HorizonedGoal[]): DepartmentTab[] {
+	const openTasks = currentWork(tasks, goals).filter((task) => !isTaskDone(task.status));
 	return departmentOrder.map((department) => ({
 		department,
 		label: departmentLabels[department],

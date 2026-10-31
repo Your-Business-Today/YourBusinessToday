@@ -39,7 +39,7 @@ describe('summariseProjectPulse', () => {
 			turnsByTask: new Map(),
 			viewerId
 		});
-		expect(pulse).toMatchObject({ taskCount: 4, currentTaskCount: 4, openTaskCount: 3, openCurrentTaskCount: 3, inProgressCount: 1 });
+		expect(pulse).toMatchObject({ taskCount: 4, currentTaskCount: 4, openCurrentTaskCount: 3, inProgressCount: 1 });
 		expect(pulse.completionPercent).toBe(25);
 	});
 
@@ -54,7 +54,7 @@ describe('summariseProjectPulse', () => {
 			turnsByTask: new Map(),
 			viewerId
 		});
-		expect(pulse).toMatchObject({ taskCount: 6, currentTaskCount: 4, openTaskCount: 5, openCurrentTaskCount: 3, inProgressCount: 1 });
+		expect(pulse).toMatchObject({ taskCount: 6, currentTaskCount: 4, openCurrentTaskCount: 3, inProgressCount: 1 });
 		expect(pulse.completionPercent).toBe(25);
 		expect(pulse.assignedToViewerCount).toBe(1);
 	});
