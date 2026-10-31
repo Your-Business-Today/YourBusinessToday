@@ -65,7 +65,7 @@ function todoSection(todos: Todo[]): string[] {
 	return [`## Your to-dos (${todos.length})`, ...todos.map(todoLine), ''];
 }
 
-/** The administration, sales and marketing tasks assigned to the person: theirs to do and mark done. */
+/** The infrastructure, administration, sales and marketing tasks assigned to the person: theirs to do and mark done. */
 function businessTasksOf(owed: OwedTasks): GlobalTask[] {
 	return owed.assigned.filter((task) => !isDevelopment(task.department));
 }

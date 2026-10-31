@@ -14,11 +14,12 @@ Agent name for every lifecycle step: `Hourly project organiser`. Model: the mode
 A project is a business project with a large development part. Every goal and task has a **department**, and the project page shows one tab for each, Development first:
 
 - **Development**: a change to the repository, a bug titled `FIX: …` or a user story, that Claude builds and that ends in a pull request. It is Claude's: nobody is assigned to it, and it is the only department that goes in the build queue.
+- **Infrastructure**: the systems the project runs on, set by hand by a developer and never built into a pull request (cloud and app settings, secrets and key vaults, servers, DNS, hosting and CI accounts, running a setup script against live infrastructure, applying a migration by hand).
 - **Administration**: the running of the business (insurance, accounts, registrations, contracts, testing what was built).
 - **Sales**: winning the work (leads, calls, quotes, follow-ups).
 - **Marketing**: being found (site copy, posts, listings, campaigns, launches).
 
-A business task is a job a person does. It is assigned to that person, is titled with the job and never with their name, and they mark it done. Tasks wait for each other across departments with `set_task_waits_for`, for example the site page that publishes the insurance waits for the Administration task that buys it. What a person has to *give* for a task (an answer, a file, a credential, a test) is not a task: it is a message on the task waiting on them, with `askKind` set to `information`, `setup` or `testing`. Personal to-dos are only for jobs that belong to no project.
+An Infrastructure or business task is a job a person does. It is assigned to that person, is titled with the job and never with their name, and they mark it done. Tasks wait for each other across departments with `set_task_waits_for`, for example the site page that publishes the insurance waits for the Administration task that buys it. What a person has to *give* for a task (an answer, a file, a credential, a test) is not a task: it is a message on the task waiting on them, with `askKind` set to `information`, `setup` or `testing`. Personal to-dos are only for jobs that belong to no project.
 
 ## 0. Before the first project
 
@@ -40,8 +41,8 @@ Work the projects in board priority order. For each project, do steps 1–7 belo
 
 For each open task, read its title and details and ask whether it ends in a pull request.
 
-1. **A person's job filed in Development** (deciding, confirming, choosing, a call, an account, testing against live services, a launch, a purchase): move it with `update_task_details` `department` to Administration, Sales or Marketing by the list above (testing goes to Administration), and keep its assignee. If it carries a person's name in the title (`Jeremy: …`, `Directors: …`), retitle it to the job and assign that person instead (step 7).
-2. **A code change filed in a business department**: move it to Development.
+1. **A person's job filed in Development** (deciding, confirming, choosing, a call, an account, testing against live services, a launch, a purchase): move it with `update_task_details` `department` to Infrastructure, Administration, Sales or Marketing by the list above (testing goes to Administration, even of infrastructure), and keep its assignee. If it carries a person's name in the title (`Jeremy: …`, `Directors: …`), retitle it to the job and assign that person instead (step 7).
+2. **A code change filed in a business department or Infrastructure**: move it to Development. **Infrastructure work filed in Administration** (an Azure, Vercel, Supabase or GitHub setting, a secret, a script run against live systems): move it to Infrastructure and keep its assignee.
 3. **A Development task asking a person for something** (an answer, a file, a key, a test): leave the task in Development and post the ask on it as a message waiting on that person with its `askKind`; never raise a task for it. The connector refuses an ask that waits on the signed-in person; leave those as they are.
 4. **A goal's department** is where most of its open tasks sit. A goal whose measure is a business outcome (insurance in force, apps on the stores, the first client signed) sits in that business department even when a Development task serves it; `update_goal` with `department` moves it. A goal shows on every tab that holds one of its tasks, so never split a goal to tidy its tabs.
 5. When the department is not clear from the task, leave it and record why in the goal's `released` note. Never move a task a person placed and explained.
@@ -84,7 +85,7 @@ Met goals can sit anywhere; do not move them. Record each move's reason in the g
 
 The flag says whether a scheduled AI may take a task to a merged pull request with nobody reviewing it. Set it per task with `set_task_autocomplete` (`on` or `off`). Do not change goal flags.
 
-**A business task is always off.** Administration, Sales and Marketing tasks are done by a person and never built, so set them `off` and record `Autocomplete off: a person does it ({department}).` A task moved out of Development by step 2 gets this even if a decision was recorded before.
+**A person's task is always off.** Infrastructure, Administration, Sales and Marketing tasks are done by a person and never built, so set them `off` and record `Autocomplete off: a person does it ({department}).` A task moved out of Development by step 2 gets this even if a decision was recorded before.
 
 **Decide each Development task once, and never override a person.**
 
@@ -122,7 +123,7 @@ Last, for the project's open tasks:
 
 - Never deletes a task or goal, changes a project's status, or moves goals between current and long term.
 - Never puts a task under a long-term goal.
-- Never puts an Administration, Sales or Marketing task in the build queue or turns its autocomplete on.
+- Never puts an Infrastructure, Administration, Sales or Marketing task in the build queue or turns its autocomplete on.
 - Never raises a task for what a person must give; that is an ask on the task it serves.
 - Never overrides an autocomplete flag a person set.
 - Never builds, branches or opens a pull request.

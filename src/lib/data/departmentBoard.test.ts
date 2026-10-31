@@ -23,6 +23,7 @@ describe('the department board', () => {
 		const counts = tabs.map((tab) => [tab.department, tab.openTaskCount]);
 		expect(counts).toEqual([
 			[departments.development, 1],
+			[departments.infrastructure, 0],
 			[departments.administration, 1],
 			[departments.sales, 0],
 			[departments.marketing, 0]

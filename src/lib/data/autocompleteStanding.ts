@@ -27,7 +27,7 @@ type RaisedTask = { autocomplete?: AutocompleteSetting; department?: Department 
 
 /**
  * A task raised by someone who is not staff starts off, set on the task, whatever it would have followed;
- * so does an administration, sales or marketing task, which a person does and nothing builds.
+ * so does an infrastructure, administration, sales or marketing task, which a person does and nothing builds.
  */
 export function withRaiserAutocomplete<Seed extends RaisedTask>(seed: Seed, isStaff: boolean): Seed {
 	const isBuilt = isDevelopment(seed.department ?? defaultDepartment);
