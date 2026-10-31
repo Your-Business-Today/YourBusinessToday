@@ -3,6 +3,7 @@ import { parseStoryPoints } from '$lib/data/storyPoints';
 import { parseTaskRoles } from '$lib/data/taskRoles';
 import { parseTaskKind } from '$lib/data/taskKind';
 import { parseTaskStatus } from '$lib/data/taskStatus';
+import { readStoredDepartment } from '$lib/data/department';
 import type { TaskDetailsUpdate } from '$lib/server/projects/updateTaskDetails';
 
 export type TaskDetailsSubmission = TaskDetailsUpdate & {
@@ -21,6 +22,7 @@ export function parseTaskDetailsForm(formData: FormData): TaskDetailsSubmission 
 		dueDate: emptyAsNull(String(formData.get('dueDate') ?? '')),
 		goalId: emptyAsNull(String(formData.get('goalId') ?? '')),
 		kind: parseTaskKind(formData.get('kind')),
+		department: readStoredDepartment(formData.get('department')),
 		storyPoints: parseStoryPoints(formData.get('storyPoints')),
 		completionPercent: parseCompletionPercent(formData.get('completionPercent')),
 		isUserStory: formData.get('isUserStory') === 'on',

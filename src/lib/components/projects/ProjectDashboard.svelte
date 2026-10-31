@@ -8,6 +8,7 @@
 	import { currentGoalHorizon, longTermGoalHorizon } from '$lib/data/goalHorizon';
 	import { dashboardGridClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { GoalSummary } from '$lib/server/goals/summariseGoals';
+	import type { Department } from '$lib/data/department';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 	import type { ProjectPulse } from '$lib/server/projects/summariseProjectPulse';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -21,6 +22,7 @@
 		goalSummaries: GoalSummary[];
 		people: ProjectPerson[];
 		isOwner: boolean;
+		department: Department;
 	};
 
 	let {
@@ -60,8 +62,8 @@
 			<StagedTasksPanel {stagedTasks} />
 		</div>
 		<div class={panelVisibility('goals')}>
-			<GoalListPanel {goalSummaries} horizon={currentGoalHorizon} />
-			<GoalListPanel {goalSummaries} horizon={longTermGoalHorizon} />
+			<GoalListPanel {goalSummaries} horizon={currentGoalHorizon} department={sources.department} />
+			<GoalListPanel {goalSummaries} horizon={longTermGoalHorizon} department={sources.department} />
 		</div>
 		<div class={panelVisibility('people')}>
 			<ProjectPeoplePanel {people} isOwner={sources.isOwner} />

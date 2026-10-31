@@ -31,3 +31,11 @@ describe('titleWithoutExemptPrefix', () => {
 		expect(titleWithoutExemptPrefix('Weekly cashflow grid')).toBe('Weekly cashflow grid');
 	});
 });
+
+describe('a business department’s task', () => {
+	it('needs no user story', () => {
+		const insurance = { kind: 'work', title: 'Put insurance in place', parentTaskId: null } as const;
+		expect(needsUserStory({ ...insurance, department: 'administration' })).toBe(false);
+		expect(needsUserStory({ ...insurance, department: 'development' })).toBe(true);
+	});
+});

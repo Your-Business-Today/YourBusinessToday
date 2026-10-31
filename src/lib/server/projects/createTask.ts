@@ -3,6 +3,8 @@ import { isStoryComplete, type UserStory } from '$lib/data/userStoryRule';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
 import { nextQueueRank, nextSiblingRank } from '$lib/server/projects/nextRanks';
 import type { AutocompleteSetting } from '$lib/data/autocomplete';
+import { departmentColumns } from '$lib/server/departments/departmentColumns';
+import { parseDepartment, type Department } from '$lib/data/department';
 
 export type NewTaskSeed = {
 	title: string;
@@ -15,6 +17,7 @@ export type NewTaskSeed = {
 	story?: UserStory;
 	requestedBy?: string;
 	autocomplete?: AutocompleteSetting;
+	department?: Department;
 };
 
 export function readNewTaskSeed(formData: FormData): NewTaskSeed | null {
@@ -28,6 +31,7 @@ export function readNewTaskSeed(formData: FormData): NewTaskSeed | null {
 		waitsForTaskId: emptyAsNull(String(formData.get('waitsForTaskId') ?? '')),
 		goalId: emptyAsNull(String(formData.get('goalId') ?? '')),
 		kind: parseTaskKind(formData.get('kind')),
+		department: parseDepartment(formData.get('department')) ?? undefined,
 		story: {
 			role: String(formData.get('storyRole') ?? '').trim(),
 			want: String(formData.get('storyWant') ?? '').trim(),
@@ -68,7 +72,8 @@ export async function createTask(
 }
 
 function requestColumns(seed: NewTaskSeed): Record<string, unknown> {
-	return { requested_by: seed.requestedBy ?? null, is_autocomplete: seed.autocomplete ?? null };
+	const requester = { requested_by: seed.requestedBy ?? null, is_autocomplete: seed.autocomplete ?? null };
+	return { ...requester, ...departmentColumns(seed.department) };
 }
 
 function storyColumns(story: UserStory | undefined): Record<string, unknown> {

@@ -4,6 +4,7 @@ import { objectSchema, proseField, readText, textField } from '../actionTypes';
 import { reachableTask } from '../projectAccess';
 import { readTaskDetailsEdit, wrongStoryPoints } from './taskDetailsEdit';
 import { taskKindOrder } from '$lib/data/taskKind';
+import { departmentOrder, departmentRefusal, parseDepartment } from '$lib/data/department';
 import { updateTaskDetails } from '$lib/server/projects/updateTaskDetails';
 import type { McpAction } from '../actionTypes';
 
@@ -22,7 +23,7 @@ export const taskUpdateActions: McpAction[] = [
 		area: 'tasks',
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'change a task title, details, due date, goal, kind, story points or percent done',
+		summary: 'change a task title, details, due date, goal, kind, department, story points or percent done',
 		guidance:
 			`Story points are the Fibonacci run ${fibonacciStoryPoints.join(', ')}, with ` +
 			'nothing in between. A support task carries the words the person who raised it used, ' +
@@ -35,6 +36,7 @@ export const taskUpdateActions: McpAction[] = [
 				dueDate: textField(`A new due date, as YYYY-MM-DD${keepText}`),
 				goalId: textField(`The goal it serves${keepText}`),
 				kind: textField(`${taskKindOrder.join(' or ')}${keepText}`),
+				department: textField(`${departmentOrder.join(', ')}: the tab it sits on${keepText}`),
 				storyPoints: storyPointsField,
 				completionPercent: { type: 'number', description: 'How far through it is, 0 to 100' }
 			},
@@ -43,6 +45,8 @@ export const taskUpdateActions: McpAction[] = [
 		run: async (caller, input) => {
 			const task = await reachableTask(caller, readText(input, 'taskId'));
 			if (task === null) return noSuchTask;
+			const isUnknownDepartment = input.department !== undefined && parseDepartment(input.department) === null;
+			if (isUnknownDepartment) return departmentRefusal;
 			const edit = readTaskDetailsEdit(input, task);
 			if (edit === null) return wrongStoryPoints;
 			await updateTaskDetails(caller.supabase, task.id, edit, caller.accountId);

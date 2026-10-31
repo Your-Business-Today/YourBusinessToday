@@ -21,7 +21,7 @@ export async function createGoalWithTasks(
 	const taskIds: string[] = [];
 	try {
 		for (const task of tasks) {
-			const seed = { ...task, goalId };
+			const seed = { ...task, goalId, department: goal.department };
 			taskIds.push(await createTask(supabase, projectId, seed, createdBy));
 		}
 		return { goalId, taskIds };

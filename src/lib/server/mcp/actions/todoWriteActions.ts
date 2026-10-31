@@ -9,10 +9,10 @@ import { todoLine } from './describeTodos';
 import type { McpAction } from '../actionTypes';
 
 const todoGuidance =
-	'A to-do is a job a person has to do that must not hold development up — put insurance in ' +
-	'place, open an account, call a supplier. It lives on their own list, linked to the ' +
-	'development task it serves, never as a task on the project. What a person has to give before ' +
-	'a build can go on is an ask instead (post_message with waitingOn).';
+	'A to-do is a personal job on a person’s own list: one that belongs to no project. A job ' +
+	'done for a project — insurance, an account, a listing — is a task in its department ' +
+	'(create_task with department), assigned to them, so other tasks can wait for it. What a ' +
+	'person has to give before a build can go on is an ask instead (post_message with waitingOn).';
 
 const takeItField = textField('"yes" to make a to-do nobody has taken yet yours');
 

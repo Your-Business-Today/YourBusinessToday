@@ -20,9 +20,10 @@ export const taskTeamActions: McpAction[] = [
 		guidance:
 			'This replaces the whole list, so name everyone who should be on the task, not ' +
 			'only the person joining. An empty list leaves the task unassigned. Only people on the ' +
-			'project can be assigned; list_project_people gives their ids. A task is development ' +
-			'work, so its assignees are whoever builds it: what a person has to give is a message ' +
-			'waiting on them (post_message with waitingOn), never a task assigned to them.',
+			'project can be assigned; list_project_people gives their ids. A development task’s ' +
+			'assignees are whoever builds it; an administration, sales or marketing task’s are ' +
+			'whoever does the job. What a person has to give is a message waiting on them ' +
+			'(post_message with waitingOn), never a task assigned to them.',
 		inputSchema: objectSchema(
 			{
 				taskId: taskIdField,

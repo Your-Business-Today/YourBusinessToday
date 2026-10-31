@@ -81,7 +81,8 @@ describe('the working doctrine', () => {
 	});
 
 	it('keeps the board to development work and puts what a person gives in a message', () => {
-		expect(workingDoctrine).toContain('A project task is development work ending in a pull request');
+		expect(workingDoctrine).toContain('A development task is built by Claude and');
+		expect(workingDoctrine).toContain('Tasks wait for each other across departments');
 		expect(workingDoctrine).toContain('Nobody waits for a person to test');
 		expect(workingDoctrine).not.toContain('Something a person has to do is not a wait');
 		expect(raisingDoctrine).toContain('never raised as a task');

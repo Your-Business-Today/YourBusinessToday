@@ -11,6 +11,7 @@ import { readRequester, requestedByField } from './requestedByField';
 import { storyFields } from './storyFields';
 import { similarTasksRefusal } from './similarTasksRefusal';
 import { raiseAnywayField } from './similarTaskCheck';
+import { chooseTaskDepartment, departmentField } from './departmentChoice';
 import type { McpAction } from '../actionTypes';
 
 export const taskWriteActions: McpAction[] = [
@@ -22,15 +23,19 @@ export const taskWriteActions: McpAction[] = [
 		summary: 'add a task to a project, at the end of the backlog',
 		guidance:
 			'Search first: call find_tasks for the matter and work on the task you find. Raise one only ' +
-			'when nothing matches. Every top level work task is a user story — give storyRole, ' +
+			'when nothing matches. Every top level development task is a user story — give storyRole, ' +
 			'storyWant and storyBenefit, and title it with the story — unless it is a bug, titled ' +
 			'"FIX: <what is wrong>". Subtasks are steps of a story and need none. A task is one ' +
 			'session’s work: size it so one Claude session finishes it and ties it off, and raise ' +
 			'anything larger as tasks of that size. When a session stops short, the rest is raised ' +
 			'here as tasks of its own — subtasks of the task — never left in prose or for a next ' +
-			'chat. A task is development work ending in a pull request: never raise one for a ' +
-			'person to do or answer, and never title one with a person’s name — what they must ' +
-			'give is a message waiting on them (post_message with waitingOn). Tasks titled ' +
+			'chat. Give its department: a development task is built by Claude and ends in a pull ' +
+			'request; a job a person does for the project — insurance, an account, a listing — is ' +
+			'an administration, sales or marketing task, needs no story, and is assigned to them ' +
+			'(set_task_assignees). Never raise a task for what a person must give — an answer, a ' +
+			'file, a test — and never title one with a person’s name: that is a message waiting on ' +
+			'them (post_message with waitingOn). Without a department the task takes its goal’s, ' +
+			'else development. Tasks titled ' +
 			'"REFACTOR: round N" are raised by the deploy count, never by hand. When you raise it ' +
 			'for someone else on the project — passed on in a message, a call or a chat — name them ' +
 			'with requestedBy, so it is worked as their request. A series of steps done in order is a ' +
@@ -52,6 +57,7 @@ export const taskWriteActions: McpAction[] = [
 				kind: textField(
 					`${taskKindOrder.join(' or ')} — work unless somebody is waiting on an answer`
 				),
+				department: departmentField,
 				requestedBy: requestedByField,
 				raiseAnyway: raiseAnywayField,
 				...storyFields
@@ -65,7 +71,10 @@ export const taskWriteActions: McpAction[] = [
 			if (title === null) return 'A task needs a title. Say what to call it and try again.';
 			const requester = await readRequester(caller, project.id, input);
 			if ('refusal' in requester) return requester.refusal;
-			const seed = withRaiserAutocomplete(readConnectorTaskSeed(input, title, requester.accountId), caller.isStaff);
+			const department = await chooseTaskDepartment(caller, input);
+			if (typeof department === 'string') return department;
+			const raised = readConnectorTaskSeed(input, title, requester.accountId);
+			const seed = withRaiserAutocomplete({ ...raised, department }, caller.isStaff);
 			const refusal = await newTaskRefusal(caller.supabase, project.id, seed);
 			if (refusal !== null) return refusal;
 			const similarRefusal = await similarTasksRefusal(caller, project, seed, input.raiseAnyway);

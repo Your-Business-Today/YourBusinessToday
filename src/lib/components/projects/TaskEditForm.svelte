@@ -4,6 +4,7 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import PriorityField from '$lib/components/site/PriorityField.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
+	import TaskDepartmentField from './TaskDepartmentField.svelte';
 	import TaskGoalAndKindFields from './TaskGoalAndKindFields.svelte';
 	import TaskMoveFields from './TaskMoveFields.svelte';
 	import TaskPlanningFields from './TaskPlanningFields.svelte';
@@ -69,6 +70,7 @@
 	<TaskSequenceField waitsForTaskId={task.waitsForTaskId} {sequenceChoices} />
 	<PriorityField priority={task.priority} among={priorityScope} />
 	<TaskGoalAndKindFields {goals} goalId={task.goalId} kind={task.kind} />
+	<TaskDepartmentField department={task.department} />
 	<TaskMoveFields {parentTask} {siblingTasks} {otherProjects} />
 	<UserStoryFields {task} />
 	<TeamPickerFieldset {people} {assigneeIds} {roles} />

@@ -8,6 +8,7 @@ import { objectSchema, proseField, readOptionalText, readText, textField } from 
 import { projectIdField } from './goalReadActions';
 import { raiseAnywayField } from './similarTaskCheck';
 import { similarTasksRefusal } from './similarTasksRefusal';
+import { departmentField, readDepartment } from './departmentChoice';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { NewGoalSeed } from '$lib/server/goals/createGoal';
@@ -25,13 +26,15 @@ export const goalWithTasksAction: McpAction = {
 		'yes raise them all in this one call. Either everything is raised or nothing is, so a goal ' +
 		'is never left standing without its tasks. Call find_goals and find_tasks first; when open ' +
 		'tasks look like these, nothing is raised until you have shown them and the person has ' +
-		'chosen raiseAnyway. Each task is a user story under the goal, or "FIX: <what is wrong>".',
+		'chosen raiseAnyway. A development goal’s tasks are each a user story, or "FIX: <what is ' +
+		'wrong>"; the tasks take the goal’s department.',
 	inputSchema: objectSchema(
 		{
 			projectId: projectIdField,
 			title: textField('The goal in one line'),
 			measure: proseField('How we will know it is met'),
 			horizon: textField(`One of ${goalHorizonOrder.join(', ')} — current unless said otherwise`),
+			department: departmentField,
 			tasks: goalTasksField,
 			raiseAnyway: raiseAnywayField
 		},
@@ -42,12 +45,14 @@ export const goalWithTasksAction: McpAction = {
 		if (project === null) return noReachableProject;
 		const title = readOptionalText(input, 'title');
 		if (title === null) return 'A goal needs a title. Say what it is and try again.';
+		const department = readDepartment(input);
+		if (typeof department === 'string') return department;
 		const listedSeeds = listedTaskSeeds(input);
 		if (listedSeeds === null) return goalTasksRefusal;
-		const seeds = listedSeeds.map((seed) => withRaiserAutocomplete(seed, caller.isStaff));
+		const seeds = listedSeeds.map((seed) => withRaiserAutocomplete({ ...seed, department }, caller.isStaff));
 		const refusal = await firstTaskRefusal(caller, project, seeds, input.raiseAnyway);
 		if (refusal !== null) return `Nothing was raised. ${refusal}`;
-		const goal = goalSeedFrom(input, title);
+		const goal = { ...goalSeedFrom(input, title), department };
 		const raised = await createGoalWithTasks(caller.supabase, project.id, goal, seeds, caller.accountId);
 		const heading = `"${title}" added to ${project.name} as a ${goal.horizon} goal (goal id: ${raised.goalId}), with:`;
 		return [heading, ...seeds.map((seed, index) => raisedTaskLine(seed, raised.taskIds[index]))].join('\n');
