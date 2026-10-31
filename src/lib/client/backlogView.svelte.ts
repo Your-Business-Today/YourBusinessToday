@@ -46,6 +46,10 @@ export class BacklogView {
 		return countTasksWhere(visibleTasks, (task) => this.#isWanted(task));
 	}
 
+	countAcross(taskLists: TaskTreeNode[][]): number {
+		return taskLists.reduce((count, tasks) => count + this.countOf(tasks), 0);
+	}
+
 	assignedCountFor(personId: string): number {
 		return countTasksWhere(this.#openTasks(), this.#isAssignedTo(personId));
 	}

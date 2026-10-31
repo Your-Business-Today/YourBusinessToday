@@ -7,7 +7,6 @@ import type { ProjectTask } from './taskRecord';
 export type ProjectPulse = {
 	taskCount: number;
 	currentTaskCount: number;
-	openTaskCount: number;
 	openCurrentTaskCount: number;
 	inProgressCount: number;
 	completionPercent: number;
@@ -32,7 +31,6 @@ export function summariseProjectPulse(sources: PulseSources): ProjectPulse {
 	return {
 		taskCount: tasks.length,
 		currentTaskCount: currentTasks.length,
-		openTaskCount: openTasks.length,
 		openCurrentTaskCount: openCurrentTasks.length,
 		inProgressCount: openCurrentTasks.filter((task) => task.status === inProgressTaskStatus).length,
 		completionPercent: weightedCompletionPercent(currentTasks),

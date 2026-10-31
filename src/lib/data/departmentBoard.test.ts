@@ -2,10 +2,16 @@ import { describe, expect, it } from 'vitest';
 import { chosenDepartment, departmentTabs, goalsForDepartment, inDepartment } from './departmentBoard';
 import { departments } from './department';
 import { taskStatuses } from './taskStatus';
+import { longTermGoalHorizon } from './goalHorizon';
 
-const insurance = { department: departments.administration, status: taskStatuses.backlog };
-const website = { department: departments.development, status: taskStatuses.backlog };
-const doneWebsite = { department: departments.development, status: taskStatuses.done };
+const unplaced = { goalId: null, parentTaskId: null };
+const backlogged = { status: taskStatuses.backlog, ...unplaced };
+const insurance = { id: 'insurance', department: departments.administration, ...backlogged };
+const website = { id: 'website', department: departments.development, ...backlogged };
+const doneWebsite = { ...website, id: 'done-website', status: taskStatuses.done };
+const accounts = { ...website, id: 'accounts', goalId: 'fold-accounts' };
+const ledger = { ...website, id: 'ledger', parentTaskId: 'accounts' };
+const foldAccounts = { id: 'fold-accounts', horizon: longTermGoalHorizon };
 
 describe('the department board', () => {
 	it('shows development unless the address names another department', () => {
@@ -19,7 +25,7 @@ describe('the department board', () => {
 	});
 
 	it('counts each department’s open tasks, development first', () => {
-		const tabs = departmentTabs([insurance, website, doneWebsite]);
+		const tabs = departmentTabs([insurance, website, doneWebsite], []);
 		const counts = tabs.map((tab) => [tab.department, tab.openTaskCount]);
 		expect(counts).toEqual([
 			[departments.development, 1],
@@ -28,6 +34,12 @@ describe('the department board', () => {
 			[departments.sales, 0],
 			[departments.marketing, 0]
 		]);
+	});
+
+	it('leaves long term work out of a tab’s count, subtasks and all', () => {
+		const tabs = departmentTabs([website, accounts, ledger], [foldAccounts]);
+		const development = tabs.find((tab) => tab.department === departments.development);
+		expect(development?.openTaskCount).toBe(1);
 	});
 });
 

@@ -16,6 +16,6 @@ export async function loadDepartmentWork(supabase: SupabaseClient, projectId: st
 		tasks,
 		goals: goalsForDepartment(projectGoals, tasks, department),
 		department,
-		departmentTabs: departmentTabs(projectTasks)
+		departmentTabs: departmentTabs(projectTasks, projectGoals)
 	};
 }

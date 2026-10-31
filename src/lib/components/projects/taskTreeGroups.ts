@@ -1,4 +1,9 @@
-import { goalHorizonOrder, goalsOnHorizon } from '$lib/data/goalHorizon';
+import {
+	currentGoalHorizon,
+	goalHorizonOrder,
+	goalsOnHorizon,
+	type GoalHorizon
+} from '$lib/data/goalHorizon';
 import { settledGoalIds } from '$lib/data/settledGoalIds';
 import { tasksKeptWhere } from './taskTreeFilters';
 import type { Goal } from '$lib/server/goals/goalRecord';
@@ -36,6 +41,16 @@ export function groupTasksByGoal(
 export function groupKeyOf(group: TaskGroup): string {
 	const { goal } = group;
 	return goal?.id ?? ungroupedKey;
+}
+
+/** The groups on one horizon: the unassigned tasks are current work, and a goal's group takes its goal's horizon. */
+export function groupsOnHorizon(groups: TaskGroup[], horizon: GoalHorizon): TaskGroup[] {
+	return groups.filter((group) => horizonOfGroup(group) === horizon);
+}
+
+function horizonOfGroup(group: TaskGroup): GoalHorizon {
+	const { goal } = group;
+	return goal?.horizon ?? currentGoalHorizon;
 }
 
 function hasTasks(group: TaskGroup): boolean {
