@@ -63,7 +63,7 @@
 	<aside class="flex min-w-0 flex-col gap-4">
 		<div class={panelVisibility('staged')}>
 			<StagedTasksPanel {stagedTasks} />
-			<DeployHistoryPanel deploys={sources.deploys} />
+			<DeployHistoryPanel {projectId} deploys={sources.deploys} />
 		</div>
 		<div class={panelVisibility('goals')}>
 			<GoalListPanel {goalSummaries} horizon={currentGoalHorizon} department={sources.department} />

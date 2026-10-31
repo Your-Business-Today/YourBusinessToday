@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { deployHistoryOf } from './deployHistory';
+import { deployHistoryOf, recentDeploysOf } from './deployHistory';
 
 const lastNight = '2026-10-31T00:00:12+00:00';
 const nightBefore = '2026-10-30T00:00:09+00:00';
@@ -15,7 +15,8 @@ describe('deployHistoryOf', () => {
 		expect(deploys[0].tasks.map((task) => task.id)).toEqual(['first', 'second']);
 	});
 
-	it('keeps only as many deploys as asked for', () => {
-		expect(deployHistoryOf([older, first], 1).map((deploy) => deploy.liveAt)).toEqual([lastNight]);
+	it('keeps every deploy in the history and only the latest few among the recent ones', () => {
+		expect(deployHistoryOf([older, first])).toHaveLength(2);
+		expect(recentDeploysOf([older, first]).map((deploy) => deploy.liveAt)).toEqual([lastNight, nightBefore]);
 	});
 });
