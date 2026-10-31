@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { defaultAskKind, type AskKind } from '$lib/data/askKind';
 import { siteMessage, type HandOff, type MessageOrigin } from '$lib/data/conversationTurn';
 import { subjectColumns, type ConversationSubject } from './conversationSubject';
 
@@ -16,11 +17,12 @@ export async function postMessage(
 		author_account_id: authorAccountId,
 		body,
 		posted_via: origin.postedVia,
-		...handOffColumns(origin.awaiting)
+		...handOffColumns(origin.awaiting, origin.askKind ?? defaultAskKind)
 	});
 	if (error) throw error;
 }
 
-function handOffColumns(awaiting: HandOff | null) {
-	return { awaiting_account_id: awaiting?.accountId ?? null, awaiting_kind: awaiting?.kind ?? null };
+function handOffColumns(awaiting: HandOff | null, askKind: AskKind) {
+	if (awaiting === null) return { awaiting_account_id: null, awaiting_kind: null, ask_kind: null };
+	return { awaiting_account_id: awaiting.accountId, awaiting_kind: awaiting.kind, ask_kind: askKind };
 }

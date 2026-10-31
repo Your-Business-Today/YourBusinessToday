@@ -18,6 +18,7 @@ const postMessageGuidance =
 	'Their Claude picks it up through read_latest_messages and posts the answer here. ' +
 	'Anything asked of a person is posted here as a message waiting on them, never only on ' +
 	'WhatsApp, email or a call: an ask that is not on the task is one their Claude cannot see. ' +
+	'Say with askKind what the ask wants: information, setup or testing. ' +
 	'An ask is how anything a person must give reaches them — never a task raised for them or ' +
 	'assigned to them: a task is development work ending in a pull request, and building is ' +
 	'never asked of a person. ' +
@@ -69,7 +70,11 @@ export const postMessageAction: McpAction = {
 		if (progress === undefined || isProgressOffTask) return progressRefusal;
 		const choice = await chooseHandOff(caller, input, resolved);
 		if ('refusal' in choice) return choice.refusal;
-		const origin = { postedVia: postedViaChannels.claude, awaiting: choice.handOff };
+		const origin = {
+			postedVia: postedViaChannels.claude,
+			awaiting: choice.handOff,
+			askKind: choice.askKind
+		};
 		await postMessage(caller.supabase, resolved.subject, caller.accountId, body, origin);
 		if (choice.isSettlingThread) await settleOpenQuestions(caller.supabase, resolved.subject);
 		const baton = await batonSentence(caller, resolved.subject);
