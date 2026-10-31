@@ -4,13 +4,14 @@ import { getChaseList } from './chaseList';
 import { getOwedTasks } from './owedTasks';
 import { getWaitingQuestionsFor } from './waitingQuestionsFor';
 import { objectSchema, readOptionalText } from '../actionTypes';
-import { reachableProjectIds } from '../projectAccess';
+import { getTodosOwnedBy } from '$lib/server/todos/getTodos';
+import { isTodoOpen } from '$lib/data/todo';
 import { summaryWalkthrough } from './summaryWalkthrough';
 import { titleNameField } from './waitingActions';
 import type { McpAction } from '../actionTypes';
 
 const summaryHeading =
-	'# What needs you\nYour YBT summary: every action item assigned to you and waiting on you, project by project.';
+	'# What needs you\nYour YBT summary: the information, setup and testing waiting on you, and your to-dos.';
 
 export const summaryActions: McpAction[] = [
 	{
@@ -19,25 +20,24 @@ export const summaryActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'the YBT summary — every project you are on, each with the decisions waiting on you and ' +
-			'the work assigned to you, then who to chase for what you are waiting on, and how to walk ' +
-			'the person through them',
+			'the YBT summary — the information, setup and testing waiting on you and your to-dos, ' +
+			'across every project, then who to chase, and how to walk the person through them',
 		guidance:
 			'Use it whenever the person asks for their YBT summary, what is outstanding for them, what ' +
 			'they have on, what needs them or who to chase across their projects. Its answer opens with ' +
-			'how to give the summary: the list project by project, then who to chase person by person, ' +
-			'then the quick decisions put to the person one at a time and answered with post_message, ' +
-			'then the bigger work one task at a time. It holds what list_waiting_on_me holds, grouped ' +
-			'by project, and the goals and tasks whose baton is with someone else.',
+			'how to give the summary: information one question at a time, setup as a checklist, testing ' +
+			'as one bulk pass, then their to-dos, then who to chase. Building is never listed: it is ' +
+			'Claude’s. It holds what list_waiting_on_me holds, by kind.',
 		inputSchema: objectSchema({ name: titleNameField }),
 		run: async (caller, input) => {
-			const [waiting, owed, chaseList] = await Promise.all([
+			const [waiting, owed, chaseList, everyTodo] = await Promise.all([
 				getWaitingQuestionsFor(caller),
 				getOwedTasks(caller, readOptionalText(input, 'name')),
-				getChaseList(caller)
+				getChaseList(caller),
+				getTodosOwnedBy(caller.supabase, caller.accountId)
 			]);
-			const projectOrder = reachableProjectIds(caller);
-			const summary = describeSummary({ waiting, owed, viewerId: caller.accountId, projectOrder });
+			const todos = everyTodo.filter((todo) => isTodoOpen(todo.status));
+			const summary = describeSummary({ waiting, todos, owed, viewerId: caller.accountId });
 			const chase = describeChaseList(chaseList, caller.accountId);
 			return [summaryWalkthrough, '', summaryHeading, '', ...summary, '', ...chase].join('\n');
 		}
