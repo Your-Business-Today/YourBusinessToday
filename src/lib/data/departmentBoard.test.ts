@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { chosenDepartment, departmentTabs, inDepartment } from './departmentBoard';
+import { chosenDepartment, departmentTabs, goalsForDepartment, inDepartment } from './departmentBoard';
 import { departments } from './department';
 import { taskStatuses } from './taskStatus';
 
@@ -27,5 +27,16 @@ describe('the department board', () => {
 			[departments.sales, 0],
 			[departments.marketing, 0]
 		]);
+	});
+});
+
+describe('the goals a department tab shows', () => {
+	it('keeps its own goals and the ones its tasks serve from other departments', () => {
+		const signClient = { id: 'sign', department: departments.administration };
+		const process = { id: 'process', department: departments.development };
+		const marketing = { id: 'listings', department: departments.marketing };
+		const continuityBuild = { goalId: 'sign' };
+		const shown = goalsForDepartment([signClient, process, marketing], [continuityBuild], departments.development);
+		expect(shown).toEqual([signClient, process]);
 	});
 });
