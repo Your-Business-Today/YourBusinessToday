@@ -3,12 +3,14 @@
 	import PanelTabs from '$lib/components/workspace/PanelTabs.svelte';
 	import ProjectPeoplePanel from '$lib/components/members/ProjectPeoplePanel.svelte';
 	import ProjectPulseStrip from './ProjectPulseStrip.svelte';
+	import DeployHistoryPanel from './DeployHistoryPanel.svelte';
 	import StagedTasksPanel from './StagedTasksPanel.svelte';
 	import TaskTreePanel from './TaskTreePanel.svelte';
 	import { currentGoalHorizon, longTermGoalHorizon } from '$lib/data/goalHorizon';
 	import { dashboardGridClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { GoalSummary } from '$lib/server/goals/summariseGoals';
 	import type { Department } from '$lib/data/department';
+	import type { Deploy } from '$lib/data/deployHistory';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 	import type { ProjectPulse } from '$lib/server/projects/summariseProjectPulse';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -19,6 +21,7 @@
 		pulse: ProjectPulse;
 		taskTree: TaskTreeNode[];
 		stagedTasks: ProjectTask[];
+		deploys: Deploy<ProjectTask>[];
 		goalSummaries: GoalSummary[];
 		people: ProjectPerson[];
 		isOwner: boolean;
@@ -60,6 +63,7 @@
 	<aside class="flex min-w-0 flex-col gap-4">
 		<div class={panelVisibility('staged')}>
 			<StagedTasksPanel {stagedTasks} />
+			<DeployHistoryPanel deploys={sources.deploys} />
 		</div>
 		<div class={panelVisibility('goals')}>
 			<GoalListPanel {goalSummaries} horizon={currentGoalHorizon} department={sources.department} />
