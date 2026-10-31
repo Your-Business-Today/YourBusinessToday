@@ -1,20 +1,21 @@
 <script lang="ts">
 	import '../app.css';
+	import { fly } from 'svelte/transition';
 	import { page } from '$app/state';
+	import NavigationSpinner from '$lib/components/site/NavigationSpinner.svelte';
 	import PortalHeader from '$lib/components/portal/PortalHeader.svelte';
-	import NavigationProgressBar from '$lib/components/site/NavigationProgressBar.svelte';
 	import SiteFooter from '$lib/components/site/SiteFooter.svelte';
 	import SiteHeader from '$lib/components/site/SiteHeader.svelte';
-	import { SlowNavigation } from '$lib/client/slowNavigation.svelte';
+	import { viewEntrance, viewKeyOf } from '$lib/client/viewTransition';
 	import { isPortalPage } from '$lib/portal/portalPaths';
 
 	let { children, data } = $props();
 
-	const slowNavigation = new SlowNavigation();
 	const isPortal = $derived(isPortalPage(page.url));
+	const viewKey = $derived(viewKeyOf(page.route, page.params));
 </script>
 
-<NavigationProgressBar />
+<NavigationSpinner />
 
 <div class="flex min-h-screen flex-col">
 	{#if isPortal}
@@ -29,13 +30,12 @@
 			unreadNotificationCount={data.unreadNotificationCount}
 		/>
 	{/if}
-	<main
-		class={[
-			'flex-1 transition-opacity duration-300',
-			slowNavigation.isActive && 'pointer-events-none opacity-40'
-		]}
-	>
-		{@render children()}
+	<main class="flex flex-1 flex-col">
+		{#key viewKey}
+			<div in:fly={viewEntrance} class="flex flex-1 flex-col">
+				{@render children()}
+			</div>
+		{/key}
 	</main>
 	<SiteFooter />
 </div>
