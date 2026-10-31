@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TeamProjectGrid from './TeamProjectGrid.svelte';
+	import TeamProjectTable from './TeamProjectTable.svelte';
 	import type { TeamProject } from '$lib/server/members/getTeamProjects';
 
 	let {
@@ -17,6 +17,6 @@
 			Nobody has brought you on to a project yet.
 		</p>
 	{:else}
-		<TeamProjectGrid {projects} {onSetPriority} />
+		<TeamProjectTable {projects} {onSetPriority} />
 	{/if}
 </section>

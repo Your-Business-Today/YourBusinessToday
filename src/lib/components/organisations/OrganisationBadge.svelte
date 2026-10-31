@@ -9,7 +9,7 @@
 	}: { organisationId: string | null; organisationName: string; isTeamProject?: boolean } = $props();
 
 	const badgeClasses =
-		'relative z-10 max-w-full truncate rounded-full border border-hairline px-2.5 py-0.5 font-display text-xs text-chalk/60';
+		'max-w-full truncate rounded-full border border-hairline px-2.5 py-0.5 font-display text-xs text-chalk/60';
 </script>
 
 {#if isTeamProject}

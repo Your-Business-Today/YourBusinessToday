@@ -1,6 +1,8 @@
 <script lang="ts">
-	import ProjectTile from './ProjectTile.svelte';
-	import { projectTileGridClasses } from './projectTileStyles';
+	import ProjectRow from './ProjectRow.svelte';
+	import ProjectTableHeader from './ProjectTableHeader.svelte';
+	import { projectColumns, projectRowClasses, projectTableClasses } from './projectTableStyles';
+	import { rowLink } from '$lib/client/rowLink';
 	import { topRank } from '$lib/data/topRank';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
@@ -25,19 +27,22 @@
 	} = $props();
 </script>
 
-<ul class={projectTileGridClasses}>
+<ul class={projectTableClasses}>
+	<ProjectTableHeader columns={projectColumns} />
 	{#each projects as project, projectIndex (project.id)}
 		{@const position = firstPositionNumber + projectIndex}
-		<ProjectTile
-			{project}
-			{latestKitVersion}
-			{position}
-			{shownIds}
-			isFirst={position === topRank}
-			isLast={position === projectCount}
-			{onEdit}
-			{onDelete}
-			{onSetPriority}
-		/>
+		<li use:rowLink={`/projects/${project.id}`} class={projectRowClasses}>
+			<ProjectRow
+				{project}
+				{latestKitVersion}
+				{position}
+				{shownIds}
+				isFirst={position === topRank}
+				isLast={position === projectCount}
+				{onEdit}
+				{onDelete}
+				{onSetPriority}
+			/>
+		</li>
 	{/each}
 </ul>

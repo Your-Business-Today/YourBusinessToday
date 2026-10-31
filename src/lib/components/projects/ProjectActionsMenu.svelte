@@ -15,7 +15,7 @@
 	}
 </script>
 
-<ActionsMenu subjectName={projectName} menuWidthClass="w-44" bind:isOpen>
+<ActionsMenu subjectName={projectName} menuWidthClass="w-44" isCompact bind:isOpen>
 	<button
 		type="button"
 		onclick={() => choose(onEdit)}
