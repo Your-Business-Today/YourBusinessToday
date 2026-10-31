@@ -7,11 +7,13 @@
 	import type { TaskAssignee, TaskTurn } from './taskRowActions';
 
 	let {
+		projectId,
 		isDone,
 		assignees,
 		turn,
 		standing
 	}: {
+		projectId: string;
 		isDone: boolean;
 		assignees: TaskAssignee[];
 		turn: TaskTurn | null;
@@ -31,7 +33,7 @@
 	</TaskCardFact>
 	{#if standing !== null}
 		<TaskCardFact label={standing.isWaiting ? 'Blocked by' : 'Follows'}>
-			<TaskSequenceNote {standing} />
+			<TaskSequenceNote {standing} {projectId} />
 		</TaskCardFact>
 	{/if}
 	{#if turn !== null && !isDone}

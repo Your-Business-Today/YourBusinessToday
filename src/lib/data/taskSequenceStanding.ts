@@ -1,11 +1,17 @@
 import { isTaskDone, type TaskStatus } from './taskStatus';
 import { comesAfter, type SequencedTask } from './taskSequence';
 import { taskWaitedFor } from './taskSequenceSteps';
+import type { Department } from './department';
 
 /** The task another waits for, as a list shows it: its name, and whether it still holds the task up. */
-export type SequenceStanding = { waitedForId: string; waitedForTitle: string; isWaiting: boolean };
+export type SequenceStanding = {
+	waitedForId: string;
+	waitedForTitle: string;
+	waitedForDepartment: Department;
+	isWaiting: boolean;
+};
 
-type WaitedForTask = { id: string; title: string; status: TaskStatus };
+type WaitedForTask = { id: string; title: string; status: TaskStatus; department: Department };
 
 export const startsWhenever = 'Starts whenever — waits for no task';
 
@@ -17,12 +23,13 @@ export function sequenceStandingOf(
 	return {
 		waitedForId: waitedFor.id,
 		waitedForTitle: waitedFor.title,
+		waitedForDepartment: waitedFor.department,
 		isWaiting: !isTaskDone(waitedFor.status)
 	};
 }
 
 /** Each task's standing in its sequence, keyed by task id, for the tasks that wait for one. */
-export function sequenceStandingsOf<Task extends SequencedTask>(
+export function sequenceStandingsOf<Task extends SequencedTask & { department: Department }>(
 	tasks: Task[]
 ): Record<string, SequenceStanding> {
 	const standings: Record<string, SequenceStanding> = {};

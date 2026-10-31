@@ -1,4 +1,5 @@
 <script lang="ts">
+	import TaskReferenceLink from '$lib/components/projects/TaskReferenceLink.svelte';
 	import { taskStatusLabelFor } from '$lib/data/taskKind';
 	import { waitingNoteSentence } from './waitingNoteSentence';
 	import type { TaskSequence } from '$lib/data/taskSequence';
@@ -27,12 +28,12 @@
 	<div class={`flex flex-col gap-1 rounded-xl border px-4 py-3 text-sm ${toneClasses}`}>
 		<p class="font-display">{note.headline}</p>
 		{#if waitedFor !== null}
-			<a
-				href={`/projects/${waitedFor.projectId}/tasks/${waitedFor.id}`}
+			<TaskReferenceLink
+				reference={{ projectId: waitedFor.projectId, taskId: waitedFor.id, department: waitedFor.department }}
 				class="truncate text-chalk/80 underline underline-offset-4 transition hover:text-chalk"
 			>
 				{waitedFor.title} — {taskStatusLabelFor(waitedFor.kind, waitedFor.status)}{note.withWhom}
-			</a>
+			</TaskReferenceLink>
 		{/if}
 	</div>
 {/if}

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { comesAfter, readTaskSequence, taskWaitingFor } from './taskSequence';
 import { followersOf } from './taskSequenceSteps';
 import { sequenceChoicesFor, sequenceStandingsOf, waitsForRefusal } from './taskSequenceStanding';
+import { departments } from './department';
 import type { SequencedTask } from './taskSequence';
 import type { TaskStatus } from './taskStatus';
 
@@ -86,8 +87,13 @@ describe('sequenceChoicesFor', () => {
 
 describe('sequenceStandingsOf', () => {
 	it('says which tasks are held up and which merely follow a finished step', () => {
-		const standings = sequenceStandingsOf(sequence);
-		expect(standings['2']).toEqual({ waitedForId: '1', waitedForTitle: 'Step 1', isWaiting: false });
+		const standings = sequenceStandingsOf(sequence.map((task) => ({ ...task, department: departments.sales })));
+		expect(standings['2']).toEqual({
+			waitedForId: '1',
+			waitedForTitle: 'Step 1',
+			waitedForDepartment: departments.sales,
+			isWaiting: false
+		});
 		expect(standings['3'].isWaiting).toBe(true);
 		expect(standings['1']).toBeUndefined();
 	});
