@@ -27,13 +27,15 @@ export const taskWriteActions: McpAction[] = [
 			'"FIX: <what is wrong>". Subtasks are steps of a story and need none. A task is one ' +
 			'session’s work: size it so one Claude session finishes it and ties it off, and raise ' +
 			'anything larger as tasks of that size. When a session stops short, the rest is raised ' +
-			'here as tasks of its own — subtasks of the task, each assigned with set_task_assignees — ' +
-			'never left in prose or for a next chat. Tasks titled ' +
+			'here as tasks of its own — subtasks of the task — never left in prose or for a next ' +
+			'chat. A task is development work ending in a pull request: never raise one for a ' +
+			'person to do or answer, and never title one with a person’s name — what they must ' +
+			'give is a message waiting on them (post_message with waitingOn). Tasks titled ' +
 			'"REFACTOR: round N" are raised by the deploy count, never by hand. When you raise it ' +
 			'for someone else on the project — passed on in a message, a call or a chat — name them ' +
 			'with requestedBy, so it is worked as their request. A series of steps done in order is a ' +
 			'task sequence: raise one task per step, give each the step before it with waitsForTaskId, ' +
-			'and assign each to whoever does it with set_task_assignees. Files the task needs go on it ' +
+			'so it shows as a sequence. Files the task needs go on it ' +
 			'with attach_file_to_task once it exists. A task raised here by staff starts with ' +
 			'autocomplete on, and by anyone else off; set_task_autocomplete switches it.',
 		inputSchema: objectSchema(
