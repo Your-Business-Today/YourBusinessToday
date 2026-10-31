@@ -1,16 +1,15 @@
 <script lang="ts">
-	import DeployNowButton from './DeployNowButton.svelte';
 	import EditProjectForm from './EditProjectForm.svelte';
 	import KitVersionBadge from './KitVersionBadge.svelte';
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
+	import ProjectHeaderMenu from './ProjectHeaderMenu.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
-	import { headerButtonClasses, headerPrimaryButtonClasses } from '$lib/components/workspace/workspaceStyles';
+	import { headerPrimaryButtonClasses } from '$lib/components/workspace/workspaceStyles';
 	import { projectsCrumb } from '$lib/components/workspace/projectCrumbs';
 	import OrganisationBadge from '$lib/components/organisations/OrganisationBadge.svelte';
 	import { organisationNameLookup } from '$lib/data/organisationFamilies';
-	import { blueprintViewHref, blueprintViews } from '$lib/components/blueprint/blueprintViews';
 	import { mainRunFacts } from '$lib/data/mainRunFacts';
 	import { stagingBranch } from '$lib/data/stagingBranch';
 	import { webAddressLabel } from '$lib/data/webAddressLabel';
@@ -77,15 +76,7 @@
 		</a>
 	{/snippet}
 	{#snippet actions()}
-		{#if hasRepository}
-			{#each blueprintViews as view (view.key)}
-				<a href={blueprintViewHref(project.id, view.path)} class={headerButtonClasses}>{view.label}</a>
-			{/each}
-			<DeployNowButton defaultBranch={project.defaultBranch} />
-		{/if}
-		<button type="button" onclick={() => (isEditModalOpen = true)} class={headerButtonClasses}>
-			Edit
-		</button>
+		<ProjectHeaderMenu {project} onEdit={() => (isEditModalOpen = true)} />
 		<button type="button" onclick={onAddTask} class={headerPrimaryButtonClasses}>Add task</button>
 	{/snippet}
 	{#if project.description !== ''}
