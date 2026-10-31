@@ -9,6 +9,7 @@ import { summariseProjectPulse } from '$lib/server/projects/summariseProjectPuls
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { sequenceStandingsOf } from '$lib/data/taskSequenceStanding';
 import { stagedTasksOf } from '$lib/data/stagedTasks';
+import { deployHistoryOf } from '$lib/data/deployHistory';
 import { taskActions } from './taskActions';
 import { readBoard } from './readBoard';
 import type { Actions, PageServerLoad } from './$types';
@@ -27,6 +28,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 		pulse: summariseProjectPulse({ tasks, goals, assigneeIdsByTask, turnsByTask, viewerId: user.id }),
 		taskTree: buildTaskTree(tasks),
 		stagedTasks: stagedTasksOf(tasks),
+		deploys: deployHistoryOf(tasks),
 		goalSummaries: summariseGoals(goals, tasks),
 		goals,
 		assigneeIdsByTask: Object.fromEntries(assigneeIdsByTask),
