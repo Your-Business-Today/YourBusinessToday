@@ -18,18 +18,20 @@ const postMessageGuidance =
 	'Their Claude picks it up through read_latest_messages and posts the answer here. ' +
 	'Anything asked of a person is posted here as a message waiting on them, never only on ' +
 	'WhatsApp, email or a call: an ask that is not on the task is one their Claude cannot see. ' +
+	'An ask is how anything a person must give reaches them — never a task raised for them or ' +
+	'assigned to them: a task is development work ending in a pull request, and building is ' +
+	'never asked of a person. ' +
 	'Anything else waits on nobody — the default. A question for the person you are with ' +
 	'goes to them in chat, never into a message here: every other Claude on the project ' +
 	'reads this conversation and would take it as theirs to answer. A decision needed from ' +
-	'someone is a message waiting on them, or a subtask assigned to them, never a line in ' +
-	'the task details. Something a person has to do is a task ' +
-	'assigned to them (set_task_assignees) or a subtask, not a wait; a task held up by ' +
+	'someone is a message waiting on them, never a line in ' +
+	'the task details. A task held up by ' +
 	'another waits for it (set_task_waits_for), never on hold with a note. Marking a task done ' +
 	'is never asked of someone else: whoever finishes the work marks it done (update_task_status). ' +
 	'When the person you are with promises something in the message ("I’ll do X"), give it ' +
 	'as promise: it becomes a subtask assigned to them, so it is never lost in prose. ' +
 	'When the message reports work done on the task — by the person you are with or by anyone ' +
-	'they tell you about — give progress, started or finished, without asking: the task moves ' +
+	'they tell you about — give progress, started or finished: the task moves ' +
 	'to In progress or Done with the message. ' +
 	'When work on a task stops, the work log goes here: ' +
 	'what changed, the branch and pull request it is on, which files or records, the ' +

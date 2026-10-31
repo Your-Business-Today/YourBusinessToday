@@ -10,8 +10,7 @@ export const handOffFields = {
 	waitingOn: textField(
 		'Only when this message asks someone else on the project a question they must answer: ' +
 			'their email or account id, as list_project_people gives it. Leave it out for anything ' +
-			'else — a work log, an answer, a status, or something a person has to do, which is a ' +
-			'task assigned to them (set_task_assignees) or a subtask, not a wait — and any question ' +
+			'else — a work log, an answer, a status — and any question ' +
 			`still open on the thread stays open. Say "${nobodyWaiting}" when nothing on the thread ` +
 			'is waiting on anyone any more: every open question on it is settled. Never yourself'
 	),

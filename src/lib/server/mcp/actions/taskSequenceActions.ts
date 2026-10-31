@@ -14,8 +14,9 @@ export const taskSequenceActions: McpAction[] = [
 		guidance:
 			'A task waits for one task: the step before it. Chain a series of steps by giving each ' +
 			'the one before, and every step shows the whole sequence, where it has got to and what it ' +
-			'waits for; when a step is done, the next is told on its conversation. Assign each step to ' +
-			'whoever does it with set_task_assignees. Leave waitsForTaskId out to let the task start ' +
+			'waits for; when a step is done, the next is told on its conversation. Each step is ' +
+			'development work; what a person must give before a step can start is a message waiting ' +
+			'on them on that step. Leave waitsForTaskId out to let the task start ' +
 			'whenever. A task cannot wait for itself, for a task on another project, or for a task ' +
 			'that comes after it.',
 		inputSchema: objectSchema(

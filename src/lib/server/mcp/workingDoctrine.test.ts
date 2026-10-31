@@ -79,4 +79,17 @@ describe('the working doctrine', () => {
 		expect(raisingDoctrine).toContain('Never raise a goal and leave its tasks for later');
 		expect(raisingDoctrine).toContain('list_waiting_on_me');
 	});
+
+	it('keeps the board to development work and puts what a person gives in a message', () => {
+		expect(workingDoctrine).toContain('A project task is development work ending in a pull request');
+		expect(workingDoctrine).toContain('Nobody waits for a person to test');
+		expect(workingDoctrine).not.toContain('Something a person has to do is not a wait');
+		expect(raisingDoctrine).toContain('never raised as a task');
+	});
+
+	it('tells a chat session from a build session and posts once at the end of a chat', () => {
+		expect(workingDoctrine).toContain('tell a build session from a chat session');
+		expect(workingDoctrine).toContain('record considering on a');
+		expect(workingDoctrine).toContain('post it on their yes');
+	});
 });
