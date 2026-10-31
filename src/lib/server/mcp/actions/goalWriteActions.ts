@@ -6,7 +6,7 @@ import { noSuchGoal } from './describeGoal';
 import { noReachableProject, reachableGoal, reachableProject } from '../projectAccess';
 import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
 import { updateGoalStatus } from '$lib/server/goals/updateGoal';
-import { departmentField, readDepartment } from './departmentChoice';
+import { departmentField, readDepartment, isDepartmentRefused } from './departmentChoice';
 import type { McpAction } from '../actionTypes';
 
 export const goalWriteActions: McpAction[] = [
@@ -42,7 +42,7 @@ export const goalWriteActions: McpAction[] = [
 			if (title === null) return 'A goal needs a title. Say what it is and try again.';
 			const horizon = parseGoalHorizon(readText(input, 'horizon'));
 			const department = readDepartment(input);
-			if (typeof department === 'string') return department;
+			if (isDepartmentRefused(department)) return department.refusal;
 			const seed = { title, measure: readText(input, 'measure'), horizon, department };
 			const goalId = await createGoal(caller.supabase, project.id, seed, caller.accountId);
 			return `"${title}" added to ${project.name} as a ${horizon} goal (goal id: ${goalId}).`;

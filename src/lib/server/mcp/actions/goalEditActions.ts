@@ -6,7 +6,7 @@ import { noSuchGoal } from './describeGoal';
 import { setGoalHorizon } from '$lib/server/goals/setGoalHorizon';
 import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
 import { updateGoal } from '$lib/server/goals/updateGoal';
-import { departmentField, readDepartment } from './departmentChoice';
+import { departmentField, readDepartment, isDepartmentRefused } from './departmentChoice';
 import { setGoalDepartment } from '$lib/server/departments/setGoalDepartment';
 import type { McpAction } from '../actionTypes';
 
@@ -38,7 +38,7 @@ export const goalEditActions: McpAction[] = [
 			const goal = await reachableGoal(caller, readText(input, 'goalId'));
 			if (goal === null) return noSuchGoal;
 			const department = readDepartment(input);
-			if (typeof department === 'string') return department;
+			if (isDepartmentRefused(department)) return department.refusal;
 			const title = readOptionalText(input, 'title') ?? goal.title;
 			const measure = readOptionalText(input, 'measure') ?? goal.measure;
 			const askedHorizon = readOptionalText(input, 'horizon');

@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { doneTaskStatus, isTaskDone, parseTaskStatus } from '$lib/data/taskStatus';
 import { onHoldProjectStatus } from '$lib/data/projectStatus';
+import { departments } from '$lib/data/department';
 import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskRecord';
 
 const candidatesRead = 200;
@@ -18,7 +19,7 @@ export type BuildCandidate = {
 	queuePlace: number;
 };
 
-/** Every open buildable task on the projects not on hold, in the order the queue will take them. */
+/** Every open buildable development task on the projects not on hold, in the order the queue will take them. */
 export async function readBuildCandidates(
 	supabase: SupabaseClient,
 	projectIds: string[]
@@ -29,6 +30,7 @@ export async function readBuildCandidates(
 		.select(candidateColumns)
 		.in('project_id', projectIds)
 		.eq('is_buildable', true)
+		.eq('department', departments.development)
 		.neq('status', doneTaskStatus)
 		.neq('project.status', onHoldProjectStatus)
 		.order('priority', { ascending: true })

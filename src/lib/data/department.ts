@@ -30,6 +30,10 @@ export const departmentMeanings: Record<Department, string> = {
 	marketing: 'being found: the website copy, posts, listings, campaigns'
 };
 
+export const onlyDevelopmentIsBuilt =
+	'Only a development task is built: an administration, sales or marketing task is done by ' +
+	'the person it is assigned to, so it never goes in the build queue.';
+
 export const departmentRefusal = `A department is one of ${departmentOrder.join(', ')}.`;
 
 /** The department named, or null when the value names none. */

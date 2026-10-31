@@ -8,7 +8,7 @@ import { objectSchema, proseField, readOptionalText, readText, textField } from 
 import { projectIdField } from './goalReadActions';
 import { raiseAnywayField } from './similarTaskCheck';
 import { similarTasksRefusal } from './similarTasksRefusal';
-import { departmentField, readDepartment } from './departmentChoice';
+import { departmentField, readDepartment, isDepartmentRefused } from './departmentChoice';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { NewGoalSeed } from '$lib/server/goals/createGoal';
@@ -46,7 +46,7 @@ export const goalWithTasksAction: McpAction = {
 		const title = readOptionalText(input, 'title');
 		if (title === null) return 'A goal needs a title. Say what it is and try again.';
 		const department = readDepartment(input);
-		if (typeof department === 'string') return department;
+		if (isDepartmentRefused(department)) return department.refusal;
 		const listedSeeds = listedTaskSeeds(input);
 		if (listedSeeds === null) return goalTasksRefusal;
 		const seeds = listedSeeds.map((seed) => withRaiserAutocomplete({ ...seed, department }, caller.isStaff));
