@@ -1,6 +1,6 @@
 # Schedule 4 — Exit and Continuity
 
-**Version 1.1 — 12 October 2026**
+**Version 1.2 — 31 October 2026**
 
 This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It says how the Client gets its data and its system back — when the Run service ends normally, and if YBT cannot continue.
 
@@ -10,9 +10,13 @@ This schedule forms part of the Master Services Agreement between Your Business 
 
 ## 2. Export at any time
 
-2.1 While the Run service continues, the Client may ask for a full export of the Client Data at any time, and YBT will provide it within 10 Business Days of a written request, at no charge for up to four exports a year.
+2.1 **Self-service.** The Client's authorised administrator can export the Client Data from the Solution at any time, as often as the Client wishes, without asking YBT and at no charge. Every export is logged in the Solution.
 
-2.2 An export contains:
+2.2 **On request.** If the Solution cannot be used to export for any reason, the Client may instead ask YBT in writing for a full export, and YBT will provide it within 10 Business Days of the request, at no charge.
+
+2.3 **After the Run service ends.** The self-service export stays available to the Client's authorised administrator for 30 days after the Run service ends.
+
+2.4 An export contains:
 
 - a full database backup (a SQL Server .bak or .bacpac file, or the native backup format of the database used);
 - the same data as CSV files, one per table;
@@ -21,7 +25,7 @@ This schedule forms part of the Master Services Agreement between Your Business 
 
 ## 3. When the Run service ends
 
-3.1 **Export.** Within 10 Business Days of the end of the Run service (or of the Client's written request, if later), YBT provides a final export as in section 2.2.
+3.1 **Export.** Within 10 Business Days of the end of the Run service (or of the Client's written request, if later), YBT provides a final export as in section 2.4. This is in addition to the self-service export under section 2.3.
 
 3.2 **Source and hand-over.** For every stage that has been paid for, YBT hands over the source code, infrastructure definitions, configuration (without secrets, which are handed over separately and securely), and the documentation needed to run the Solution elsewhere.
 
