@@ -17,6 +17,7 @@ function message(body: string, awaiting: string | null): NamedMessage {
 		isInternal: false,
 		postedVia: postedViaChannels.claude,
 		awaiting: awaiting === null ? null : { accountId: awaiting, kind: awaitingKinds.person },
+		askKind: null,
 		pickedUpAt: null,
 		createdAt: '2026-10-09'
 	};

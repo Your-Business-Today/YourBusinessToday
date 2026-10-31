@@ -1,11 +1,13 @@
 export type PostedVia = 'site' | 'claude';
 
+import type { AskKind } from './askKind';
+
 export type AwaitingKind = 'person' | 'claude';
 
 /** Who must answer next: a person themselves, or their Claude on their behalf. */
 export type HandOff = { accountId: string; kind: AwaitingKind };
 
-export type MessageOrigin = { postedVia: PostedVia; awaiting: HandOff | null };
+export type MessageOrigin = { postedVia: PostedVia; awaiting: HandOff | null; askKind?: AskKind };
 
 /** How a hand-off travels in a form field: the account id, then person or claude. */
 export const handOffSeparator = ':';

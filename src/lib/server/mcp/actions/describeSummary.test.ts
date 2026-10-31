@@ -26,6 +26,7 @@ const termsQuestion: WaitingQuestion = {
 	isInternal: false,
 	postedVia: postedViaChannels.claude,
 	awaiting: { accountId: jeremy, kind: awaitingKinds.person },
+	askKind: 'setup',
 	pickedUpAt: null,
 	createdAt: '2026-10-20T09:00:00Z',
 	subjectKind: 'task',
@@ -69,7 +70,7 @@ describe('the YBT summary', () => {
 		const namedAt = passiveFireSection.indexOf('Work that names Jeremy, not assigned to you (1):');
 		expect(decisionsAt).toBeGreaterThanOrEqual(0);
 		expect(namedAt).toBeGreaterThan(decisionsAt);
-		expect(passiveFireSection).toContain('[waiting on the person you are with]');
+		expect(passiveFireSection).toContain('[setup ask, waiting on the person you are with]');
 	});
 
 	it('lists the work assigned to the person with where it stands', () => {
