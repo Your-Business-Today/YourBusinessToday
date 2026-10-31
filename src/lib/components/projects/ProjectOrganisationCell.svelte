@@ -1,6 +1,6 @@
 <script lang="ts">
 	import OrganisationBadge from '$lib/components/organisations/OrganisationBadge.svelte';
-	import { wideScreenOnlyClasses } from './projectTableStyles';
+	import { organisationCellClasses } from './projectTableStyles';
 
 	let {
 		organisationId,
@@ -13,6 +13,6 @@
 	} = $props();
 </script>
 
-<div class={wideScreenOnlyClasses}>
+<div class={organisationCellClasses}>
 	<OrganisationBadge {organisationId} {organisationName} {isTeamProject} />
 </div>
