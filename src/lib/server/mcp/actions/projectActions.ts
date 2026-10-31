@@ -1,4 +1,5 @@
 import { deployActions } from './deployActions';
+import { deployHistoryActions } from './deployHistoryActions';
 import { feedActions } from './feedActions';
 import { projectBlueprintActions } from './projectBlueprintActions';
 import { projectCreateActions } from './projectCreateActions';
@@ -17,6 +18,7 @@ export const projectActions: McpAction[] = [
 	...projectCreateActions,
 	...projectWriteActions,
 	...deployActions,
+	...deployHistoryActions,
 	...projectRemovalActions,
 	...projectOrderActions,
 	...projectOwnershipActions,

@@ -1,4 +1,4 @@
-const londonTimeZone = 'Europe/London';
+export const londonTimeZone = 'Europe/London';
 
 const londonClock = new Intl.DateTimeFormat('en-GB', {
 	timeZone: londonTimeZone,

@@ -6,8 +6,10 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 /** A project's work as one department tab shows it, with every task kept for waits that cross departments. */
 export async function loadDepartmentWork(supabase: SupabaseClient, projectId: string, url: URL) {
 	const department = chosenDepartment(url);
-	const projectTasks = await getTasksForProject(supabase, projectId);
-	const projectGoals = await getGoalsForProject(supabase, projectId);
+	const [projectTasks, projectGoals] = await Promise.all([
+		getTasksForProject(supabase, projectId),
+		getGoalsForProject(supabase, projectId)
+	]);
 	const tasks = inDepartment(projectTasks, department);
 	return {
 		projectTasks,

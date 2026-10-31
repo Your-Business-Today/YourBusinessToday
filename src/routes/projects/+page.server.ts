@@ -22,14 +22,16 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = await requireUser(locals);
-	const assignedTaskCounts = await getAssignedTaskCounts(locals.supabase, user.id);
-	return {
-		waitingTasks: await getTasksWaitingOnYou(locals.supabase, user.id),
-		projects: await getProjectsForOwner(locals.supabase, user.id, assignedTaskCounts),
-		teamProjects: await getTeamProjects(locals.supabase, user.id, assignedTaskCounts),
-		organisations: await getOrganisations(locals.supabase),
-		latestKitVersion: await getLatestKitVersion(locals.supabase)
-	};
+	const { supabase } = locals;
+	const assignedTaskCounts = getAssignedTaskCounts(supabase, user.id);
+	const [waitingTasks, projects, teamProjects, organisations, latestKitVersion] = await Promise.all([
+		getTasksWaitingOnYou(supabase, user.id),
+		getProjectsForOwner(supabase, user.id, assignedTaskCounts),
+		getTeamProjects(supabase, user.id, assignedTaskCounts),
+		getOrganisations(supabase),
+		getLatestKitVersion(supabase)
+	]);
+	return { waitingTasks, projects, teamProjects, organisations, latestKitVersion };
 };
 
 export const actions: Actions = {

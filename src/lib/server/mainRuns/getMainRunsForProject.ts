@@ -31,7 +31,9 @@ export async function getMainRunsForProject(
 
 /** The latest run of every check on the project's default branch and on its staging branch. */
 export async function getBranchRunsForProject(supabase: SupabaseClient, projectId: string) {
-	const mainRuns = await getMainRunsForProject(supabase, projectId);
-	const stagingRuns = await getMainRunsForProject(supabase, projectId, branchRunTables.staging);
+	const [mainRuns, stagingRuns] = await Promise.all([
+		getMainRunsForProject(supabase, projectId),
+		getMainRunsForProject(supabase, projectId, branchRunTables.staging)
+	]);
 	return { mainRuns, stagingRuns };
 }

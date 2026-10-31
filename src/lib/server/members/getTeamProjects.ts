@@ -14,9 +14,10 @@ export type TeamProject = Project & {
 export async function getTeamProjects(
 	supabase: SupabaseClient,
 	accountId: string,
-	assignedTaskCounts: AssignedTaskCounts
+	assignedTaskCounts: AssignedTaskCounts | Promise<AssignedTaskCounts>
 ): Promise<TeamProject[]> {
-	const { data, error } = await supabase.rpc('team_projects', { member: accountId });
+	const teamProjectsRead = supabase.rpc('team_projects', { member: accountId });
+	const [{ data, error }, countsByProject] = await Promise.all([teamProjectsRead, assignedTaskCounts]);
 	if (error) throw error;
 	return data.map((row: Record<string, unknown>) => {
 		const project = parseProjectRecord(row.project as Record<string, unknown>);
@@ -26,7 +27,7 @@ export async function getTeamProjects(
 			ownerName: row.owner_name as string,
 			organisationName: (row.organisation_name as string) ?? '',
 			openTaskCount: row.open_task_count as number,
-			assignedTaskCount: assignedTaskCounts.forProject(project.id)
+			assignedTaskCount: countsByProject.forProject(project.id)
 		};
 	});
 }

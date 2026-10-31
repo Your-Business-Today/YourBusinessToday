@@ -5,10 +5,11 @@ import { deployWindowStarts, type DeployWindow, type DeployWindowHistory } from 
 
 /** The project's latest run of either kind and its latest timed window; neither until the migration runs. */
 export async function readDeployWindowHistory(supabase: SupabaseClient, projectId: string): Promise<DeployWindowHistory> {
-	return {
-		latest: await readLatestRun(supabase, projectId),
-		lastTimed: await readLatestTimedWindow(supabase, projectId)
-	};
+	const [latest, lastTimed] = await Promise.all([
+		readLatestRun(supabase, projectId),
+		readLatestTimedWindow(supabase, projectId)
+	]);
+	return { latest, lastTimed };
 }
 
 /** The project's most recent timed window, or null when none has run; none until the migration runs. */

@@ -6,6 +6,7 @@ import { getUserModelOverride } from '$lib/server/anthropic/getUserModelOverride
 import { reportServerError } from '$lib/server/http/reportServerError';
 import { runWithModelResolver } from '$lib/server/anthropic/modelContext';
 import { portalOrganisationCookie } from '$lib/portal/portalVisitor';
+import { onceForThisRequest } from '$lib/server/http/onceForThisRequest';
 import type { Cookies, Handle } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -20,7 +21,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const { locals } = event;
 	locals.supabase = supabaseClientFor(event.cookies);
 	locals.portalOrganisationId = event.cookies.get(portalOrganisationCookie) ?? null;
-	locals.safeGetSession = () => readSession(locals);
+	locals.safeGetSession = onceForThisRequest(() => readSession(locals));
 	return runWithModelResolver(modelOverrideResolver(locals.supabase), () =>
 		resolve(event, {
 			filterSerializedResponseHeaders: (headerName) =>
@@ -52,9 +53,5 @@ async function readSession(locals: App.Locals) {
 }
 
 function modelOverrideResolver(supabase: SupabaseClient): () => Promise<string | null> {
-	let overrideLookup: Promise<string | null> | null = null;
-	return () => {
-		overrideLookup = overrideLookup ?? getUserModelOverride(supabase);
-		return overrideLookup;
-	};
+	return onceForThisRequest(() => getUserModelOverride(supabase));
 }
