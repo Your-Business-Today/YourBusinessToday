@@ -1,4 +1,4 @@
-import { chosenDepartment, departmentTabs, inDepartment } from '$lib/data/departmentBoard';
+import { chosenDepartment, departmentTabs, goalsForDepartment, inDepartment } from '$lib/data/departmentBoard';
 import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
 import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -8,10 +8,11 @@ export async function loadDepartmentWork(supabase: SupabaseClient, projectId: st
 	const department = chosenDepartment(url);
 	const projectTasks = await getTasksForProject(supabase, projectId);
 	const projectGoals = await getGoalsForProject(supabase, projectId);
+	const tasks = inDepartment(projectTasks, department);
 	return {
 		projectTasks,
-		tasks: inDepartment(projectTasks, department),
-		goals: inDepartment(projectGoals, department),
+		tasks,
+		goals: goalsForDepartment(projectGoals, tasks, department),
 		department,
 		departmentTabs: departmentTabs(projectTasks)
 	};

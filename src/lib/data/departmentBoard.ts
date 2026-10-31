@@ -23,3 +23,13 @@ export function departmentTabs(tasks: (Departmental & { status: TaskStatus })[])
 		openTaskCount: inDepartment(openTasks, department).length
 	}));
 }
+
+/** The goals a department's tab shows: its own, and any goal one of its tasks serves from another department. */
+export function goalsForDepartment<Goal extends Departmental & { id: string }>(
+	goals: Goal[],
+	departmentTasks: { goalId: string | null }[],
+	department: Department
+): Goal[] {
+	const servedGoalIds = new Set(departmentTasks.map((task) => task.goalId));
+	return goals.filter((goal) => goal.department === department || servedGoalIds.has(goal.id));
+}
