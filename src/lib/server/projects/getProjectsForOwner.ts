@@ -23,15 +23,16 @@ type TaskProgress = PlacedTask & CompletionInput & { isDone: boolean };
 export async function getProjectsForOwner(
 	supabase: SupabaseClient,
 	ownerId: string,
-	assignedTaskCounts: AssignedTaskCounts
+	assignedTaskCounts: AssignedTaskCounts | Promise<AssignedTaskCounts>
 ): Promise<ProjectSummary[]> {
-	const { data, error } = await supabase
+	const projectsRead = supabase
 		.from('projects')
 		.select(
 			'*, organisations(name), tasks(id, parent_task_id, goal_id, status, story_points, completion_percent), goals(id, horizon)'
 		)
 		.eq('owner_id', ownerId)
 		.order('priority', { ascending: true });
+	const [{ data, error }, countsByProject] = await Promise.all([projectsRead, assignedTaskCounts]);
 	if (error) throw error;
 	return data.map((row: Record<string, unknown>) => {
 		const project = parseProjectRecord(row);
@@ -40,7 +41,7 @@ export async function getProjectsForOwner(
 		return {
 			...project,
 			...tallyTasks(currentWork(tasks, goals)),
-			assignedTaskCount: assignedTaskCounts.forProject(project.id),
+			assignedTaskCount: countsByProject.forProject(project.id),
 			longTermGoalCount: goalsOnHorizon(goals, longTermGoalHorizon).length,
 			organisationName: organisationNameOf(row)
 		};
