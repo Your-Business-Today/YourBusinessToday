@@ -6,18 +6,15 @@
 	import ProjectTileFrame from './ProjectTileFrame.svelte';
 	import ProjectTileHeading from './ProjectTileHeading.svelte';
 	import ProjectTilePriority from './ProjectTilePriority.svelte';
-	import type { ListReorder } from '$lib/client/listReorder.svelte';
 	import type { TeamProject } from '$lib/server/members/getTeamProjects';
 
 	let {
 		project,
-		listReorder,
 		isFirst,
 		isLast,
 		onSetPriority
 	}: {
 		project: TeamProject;
-		listReorder: ListReorder;
 		isFirst: boolean;
 		isLast: boolean;
 		onSetPriority: (project: TeamProject) => void;
@@ -28,8 +25,8 @@
 	);
 </script>
 
-<ProjectTileFrame {listReorder} projectId={project.id} projectName={project.name}>
-	{#snippet content(dragHandle)}
+<ProjectTileFrame projectId={project.id} projectName={project.name}>
+	{#snippet content()}
 		<div class="flex items-center justify-between gap-3">
 			<div class="flex items-center gap-2">
 				<ProjectTilePriority
@@ -56,7 +53,6 @@
 			<AssignedToYouNote assignedTaskCount={project.assignedTaskCount} />
 		</div>
 		<div class="relative flex items-center gap-1 border-t border-hairline pt-3">
-			{@render dragHandle()}
 			<PriorityControls
 				moveAction="?/moveProject"
 				fieldName="projectId"

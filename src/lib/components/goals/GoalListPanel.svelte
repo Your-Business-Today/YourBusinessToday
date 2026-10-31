@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AddGoalForm from './AddGoalForm.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
-	import GoalRow from './GoalRow.svelte';
+	import GoalList from './GoalList.svelte';
 	import GoalStatusFilter from './GoalStatusFilter.svelte';
 	import { openGoalsOnly } from './goalStatusFilters';
 	import {
@@ -13,9 +13,7 @@
 	} from '$lib/data/goalHorizon';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import PriorityModal from '$lib/components/site/PriorityModal.svelte';
-	import { ListReorder } from '$lib/client/listReorder.svelte';
-	import { panelButtonClasses, panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
-	import { postListReorder } from '$lib/client/postListReorder';
+	import { panelButtonClasses, panelEmptyClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { GoalSummary } from '$lib/server/goals/summariseGoals';
 	import type { Department } from '$lib/data/department';
 
@@ -29,10 +27,6 @@
 	let isPriorityModalOpen = $state(false);
 	let priorityGoal = $state<GoalSummary | null>(null);
 	let shouldIncludeClosed = $state(false);
-
-	const listReorder = new ListReorder((movedGoalId, targetGoalId, placement) =>
-		postListReorder('?/placeGoal', { movedGoalId, targetGoalId, placement })
-	);
 
 	const goalsOnThisHorizon = $derived(goalsOnHorizon(goalSummaries, horizon));
 	const shownGoalSummaries = $derived(
@@ -65,17 +59,7 @@
 			No open goals — press All to see the goals that are met or dropped.
 		</p>
 	{:else}
-		<ul class={panelListClasses}>
-			{#each shownGoalSummaries as goalSummary, goalIndex (goalSummary.id)}
-				<GoalRow
-					{goalSummary}
-					{listReorder}
-					isFirst={goalIndex === 0}
-					isLast={goalIndex === shownGoalSummaries.length - 1}
-					onSetPriority={openPriorityModal}
-				/>
-			{/each}
-		</ul>
+		<GoalList goalSummaries={shownGoalSummaries} onSetPriority={openPriorityModal} />
 	{/if}
 </DashboardPanel>
 

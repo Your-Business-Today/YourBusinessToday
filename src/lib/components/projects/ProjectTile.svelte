@@ -9,13 +9,11 @@
 	import ProjectTilePriority from './ProjectTilePriority.svelte';
 	import ProjectTileProgress from './ProjectTileProgress.svelte';
 	import { shownIdsField } from '$lib/data/shownIds';
-	import type { ListReorder } from '$lib/client/listReorder.svelte';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
 	let {
 		project,
 		latestKitVersion,
-		listReorder,
 		position,
 		shownIds,
 		isFirst,
@@ -26,7 +24,6 @@
 	}: {
 		project: ProjectSummary;
 		latestKitVersion: string;
-		listReorder: ListReorder;
 		position: number;
 		shownIds: string;
 		isFirst: boolean;
@@ -37,8 +34,8 @@
 	} = $props();
 </script>
 
-<ProjectTileFrame {listReorder} projectId={project.id} projectName={project.name}>
-	{#snippet content(dragHandle)}
+<ProjectTileFrame projectId={project.id} projectName={project.name}>
+	{#snippet content()}
 		<div class="flex items-center justify-between gap-3">
 			<ProjectTilePriority
 				priority={position}
@@ -74,7 +71,6 @@
 		/>
 		<div class="relative flex items-center justify-between gap-2 border-t border-hairline pt-2">
 			<div class="flex items-center gap-1">
-				{@render dragHandle()}
 				<PriorityControls
 					moveAction="?/moveProject"
 					fieldName="projectId"

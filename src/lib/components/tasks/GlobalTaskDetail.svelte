@@ -8,7 +8,7 @@
 	const createdOn = $derived(new Date(task.createdAt).toLocaleDateString());
 </script>
 
-<li class="bg-night/40 px-4 py-4 sm:px-5">
+<div class="border-t border-hairline bg-night/40 px-4 py-4 sm:px-5">
 	<div class="ml-8 flex flex-col gap-3 border-l-2 border-hairline pl-4">
 		{#if hasStory}
 			<p class="text-sm text-chalk/80">
@@ -39,4 +39,4 @@
 			Open the full task — subtasks, checklists, comments →
 		</a>
 	</div>
-</li>
+</div>

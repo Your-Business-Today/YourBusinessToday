@@ -2,13 +2,8 @@ import { fail } from '@sveltejs/kit';
 import { getTask } from '$lib/server/projects/getTask';
 import { isQueued } from '$lib/server/projects/taskQueue';
 import { moveGlobalTask } from '$lib/server/projects/moveGlobalTask';
-import {
-	parseDropPlacement,
-	parsePriorityNumber,
-	priorityNumberRefusal
-} from '$lib/server/ordering/rankInput';
+import { parsePriorityNumber, priorityNumberRefusal } from '$lib/server/ordering/rankInput';
 import { parseTaskStatus } from '$lib/data/taskStatus';
-import { placeGlobalTask } from '$lib/server/projects/placeGlobalTask';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireProjectOwner } from '$lib/server/auth/requireProjectOwner';
 import { setQueuePriority } from '$lib/server/projects/setQueuePriority';
@@ -30,19 +25,6 @@ export const taskQueueActions = {
 		if (task === null) return fail(400, { message: taskRequired });
 		await requireProjectOwner(locals, task.projectId);
 		await moveGlobalTask(locals.supabase, task.id, direction, shouldIncludeDone);
-		return {};
-	},
-	placeTask: async ({ locals, request }) => {
-		const formData = await request.formData();
-		const movedTaskId = String(formData.get('movedTaskId') ?? '');
-		const targetTaskId = String(formData.get('targetTaskId') ?? '');
-		const movedTask = await getTask(locals.supabase, movedTaskId);
-		if (movedTask === null || targetTaskId === '') {
-			return fail(400, { message: 'A task to move and a drop target are required.' });
-		}
-		await requireProjectOwner(locals, movedTask.projectId);
-		const placement = parseDropPlacement(formData.get('placement'));
-		await placeGlobalTask(locals.supabase, movedTask.id, targetTaskId, placement);
 		return {};
 	},
 	setQueuePriority: async ({ locals, request }) => {

@@ -1,7 +1,5 @@
 <script lang="ts">
 	import ProjectTile from './ProjectTile.svelte';
-	import { ListReorder } from '$lib/client/listReorder.svelte';
-	import { postListReorder } from '$lib/client/postListReorder';
 	import { projectTileGridClasses } from './projectTileStyles';
 	import { topRank } from '$lib/data/topRank';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
@@ -25,10 +23,6 @@
 		onDelete: (project: ProjectSummary) => void;
 		onSetPriority: (project: ProjectSummary) => void;
 	} = $props();
-
-	const listReorder = new ListReorder((movedProjectId, targetProjectId, placement) =>
-		postListReorder('?/placeProject', { movedProjectId, targetProjectId, placement })
-	);
 </script>
 
 <ul class={projectTileGridClasses}>
@@ -37,7 +31,6 @@
 		<ProjectTile
 			{project}
 			{latestKitVersion}
-			{listReorder}
 			{position}
 			{shownIds}
 			isFirst={position === topRank}
