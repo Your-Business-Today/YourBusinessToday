@@ -1,4 +1,5 @@
 import { buildableSentence } from '$lib/data/taskModel';
+import { isDevelopment, onlyDevelopmentIsBuilt } from '$lib/data/department';
 import { buildQueueAction } from './buildQueueAction';
 import { getBuildModelSettings } from '$lib/server/buildModels/getBuildModelSettings';
 import { nextBuildableAction } from './nextBuildableAction';
@@ -20,7 +21,8 @@ export const buildableActions: McpAction[] = [
 			'tag a task buildable or not, and name the model it needs or let its story points choose',
 		guidance:
 			'A task is buildable when it needs nothing from a person and no infrastructure change, so ' +
-			'a model may build it unattended. Recording it considered as buildable tags it for you. ' +
+			'a model may build it unattended. Only a development task is built. Recording it ' +
+			'considered as buildable tags it for you. ' +
 			'Leave the model out to let its story points choose through read_model_settings.',
 		inputSchema: objectSchema(
 			{
@@ -33,6 +35,8 @@ export const buildableActions: McpAction[] = [
 		run: async (caller, input) => {
 			const task = await reachableTask(caller, readText(input, 'taskId'));
 			if (task === null) return noSuchTask;
+			const isBuiltByClaude = isDevelopment(task.department);
+			if (input.isBuildable === true && !isBuiltByClaude) return onlyDevelopmentIsBuilt;
 			const { models } = await getBuildModelSettings(caller.supabase);
 			const fields = { isBuildable: input.isBuildable, modelId: input.modelId };
 			const buildable = validateTaskBuildable(fields, models);

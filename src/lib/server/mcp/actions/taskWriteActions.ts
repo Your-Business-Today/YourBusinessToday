@@ -11,7 +11,7 @@ import { readRequester, requestedByField } from './requestedByField';
 import { storyFields } from './storyFields';
 import { similarTasksRefusal } from './similarTasksRefusal';
 import { raiseAnywayField } from './similarTaskCheck';
-import { chooseTaskDepartment, departmentField } from './departmentChoice';
+import { chooseTaskDepartment, departmentField, isDepartmentRefused } from './departmentChoice';
 import { isPersonLedTitle, personLedTitleRefusal } from '$lib/data/personLedTitle';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import type { McpAction } from '../actionTypes';
@@ -76,7 +76,7 @@ export const taskWriteActions: McpAction[] = [
 			const requester = await readRequester(caller, project.id, input);
 			if ('refusal' in requester) return requester.refusal;
 			const department = await chooseTaskDepartment(caller, input);
-			if (typeof department === 'string') return department;
+			if (isDepartmentRefused(department)) return department.refusal;
 			const raised = readConnectorTaskSeed(input, title, requester.accountId);
 			const seed = withRaiserAutocomplete({ ...raised, department }, caller.isStaff);
 			const refusal = await newTaskRefusal(caller.supabase, project.id, seed);
