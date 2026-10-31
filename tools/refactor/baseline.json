@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-31T12:38:34+00:00",
+  "generatedAt": "2026-10-31T23:24:59+00:00",
   "kitVersion": "1.37.0",
   "score": {
     "overall": 100.0,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2081,
+        "measuredAgainst": 2099,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2801,
+        "measuredAgainst": 2832,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3049,
+        "measuredAgainst": 3068,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 72.74,
+        "measuredAgainst": 73.42,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 72.74,
+        "measuredAgainst": 73.42,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3233,
+        "measuredAgainst": 3269,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 72.74,
+        "measuredAgainst": 73.42,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 72.74,
+        "measuredAgainst": 73.42,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2801,
+        "measuredAgainst": 2832,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 101,
+        "measuredAgainst": 103,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3049,
+        "measuredAgainst": 3068,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3049,
+        "measuredAgainst": 3068,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 2801,
+        "measuredAgainst": 2832,
         "score": 100.0
       },
       {
@@ -242,7 +242,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 164,
+        "measuredAgainst": 165,
         "score": 100.0
       }
     ]
@@ -251,17 +251,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 2081,
-      "totalLines": 72738,
+      "totalFiles": 2099,
+      "totalLines": 73422,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 2801,
+      "totalFunctions": 2832,
       "elseBlocks": 0,
-      "ifBlocks": 3049,
+      "ifBlocks": 3068,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -276,7 +276,7 @@
     "duplication": {
       "clones": 0,
       "duplicatedLines": 0,
-      "totalLines": 74213,
+      "totalLines": 74892,
       "duplicatedPercentage": 0.0
     },
     "naming": {
@@ -296,7 +296,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 155,
+      "overlongLines": 156,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -306,19 +306,19 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 2801
+      "functionsExamined": 2832
     },
     "designPatterns": {
-      "roleFamilies": 115,
-      "predictedFiles": 101,
+      "roleFamilies": 116,
+      "predictedFiles": 103,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 46,
-      "components": 432,
+      "pages": 47,
+      "components": 437,
       "orphanComponents": 0,
       "averagePageLines": 45
     },
@@ -328,20 +328,20 @@
     "inputValidation": {
       "schemaTables": 118,
       "limitedColumns": 0,
-      "writeDoors": 164,
+      "writeDoors": 165,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 2589,
-      "backend": 796,
-      "frontend": 654,
-      "shared": 332,
-      "tests": 238,
-      "api": 224,
-      "database": 138,
+      "totalFiles": 2610,
+      "backend": 800,
+      "frontend": 660,
+      "shared": 335,
+      "tests": 242,
+      "api": 225,
+      "database": 140,
       "tooling": 130,
-      "docs": 61,
+      "docs": 62,
       "infrastructure": 16
     }
   },
@@ -351,8 +351,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 2081,
-        "totalLines": 72738,
+        "totalFiles": 2099,
+        "totalLines": 73422,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -363,9 +363,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 2801,
+        "totalFunctions": 2832,
         "elseBlocks": 0,
-        "ifBlocks": 3049,
+        "ifBlocks": 3068,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -572,7 +572,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 155,
+        "overlongLines": 156,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -585,11 +585,11 @@
           },
           {
             "file": "src/lib/components/projects/projectTableStyles.ts",
-            "line": 8
+            "line": 9
           },
           {
             "file": "src/lib/components/projects/projectTableStyles.ts",
-            "line": 10
+            "line": 11
           },
           {
             "file": "src/lib/components/site/lineIcons.ts",
@@ -798,15 +798,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 2801
+        "functionsExamined": 2832
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 115,
-        "predictedFiles": 101,
+        "roleFamilies": 116,
+        "predictedFiles": 103,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -814,17 +814,18 @@
       },
       "offenders": {
         "roleFamilies": {
-          "+page.server.ts": 39,
-          "+page.svelte": 46,
+          "+page.server.ts": 40,
+          "+page.svelte": 47,
           "+server.ts": 20,
           "access": 9,
           "action": 11,
-          "actions": 118,
+          "actions": 119,
           "address": 4,
           "attachment": 5,
           "badge": 5,
+          "bar": 4,
           "blueprint": 5,
-          "board": 4,
+          "board": 5,
           "bounds": 4,
           "branch": 5,
           "brief": 5,
@@ -851,7 +852,7 @@
           "field": 11,
           "fields": 22,
           "file": 6,
-          "filter": 6,
+          "filter": 7,
           "for": 5,
           "form": 58,
           "goal": 8,
@@ -862,7 +863,7 @@
           "kind": 7,
           "lead": 7,
           "line": 4,
-          "link": 13,
+          "link": 14,
           "links": 4,
           "list": 25,
           "map": 10,
@@ -882,7 +883,7 @@
           "organisation": 12,
           "organisations": 4,
           "page": 5,
-          "panel": 30,
+          "panel": 31,
           "password": 5,
           "patch": 10,
           "people": 5,
@@ -896,14 +897,14 @@
           "record": 43,
           "refusal": 9,
           "register": 6,
-          "request": 17,
+          "request": 18,
           "requests": 4,
           "row": 44,
           "rule": 4,
           "rules": 19,
           "run": 4,
           "section": 32,
-          "sections": 11,
+          "sections": 12,
           "sector": 4,
           "sentence": 7,
           "source": 14,
@@ -919,8 +920,8 @@
           "table": 7,
           "tabs": 4,
           "task": 21,
-          "tasks": 12,
-          "test": 224,
+          "tasks": 13,
+          "test": 228,
           "text": 6,
           "title": 5,
           "tones": 4,
@@ -943,12 +944,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 39,
+            "predicted": 40,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 46,
+            "predicted": 47,
             "missing": []
           }
         ],
@@ -959,8 +960,8 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 46,
-        "components": 432,
+        "pages": 47,
+        "components": 437,
         "orphanComponents": 0,
         "averagePageLines": 45
       },
@@ -1057,6 +1058,13 @@
             "page": "src/routes/projects/[projectId]/site-map/+page.svelte",
             "lines": 50,
             "widgets": []
+          },
+          {
+            "page": "src/routes/projects/[projectId]/deploys/+page.svelte",
+            "lines": 49,
+            "widgets": [
+              "list"
+            ]
           },
           {
             "page": "src/routes/account/sign-in/+page.svelte",
@@ -1266,7 +1274,7 @@
           },
           {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
-            "reusedBy": 42
+            "reusedBy": 44
           },
           {
             "component": "src/lib/components/site/SmallCapsField.svelte",
@@ -1286,7 +1294,7 @@
           },
           {
             "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
-            "reusedBy": 13
+            "reusedBy": 14
           },
           {
             "component": "src/lib/components/site/EmptyState.svelte",
@@ -1390,6 +1398,10 @@
           },
           {
             "component": "src/lib/components/projects/TaskKindPill.svelte",
+            "reusedBy": 3
+          },
+          {
+            "component": "src/lib/components/projects/TaskReferenceLink.svelte",
             "reusedBy": 3
           },
           {
@@ -1581,6 +1593,10 @@
             "reusedBy": 2
           },
           {
+            "component": "src/lib/components/projects/DeployHistoryEntry.svelte",
+            "reusedBy": 2
+          },
+          {
             "component": "src/lib/components/projects/EditProjectForm.svelte",
             "reusedBy": 2
           },
@@ -1590,6 +1606,10 @@
           },
           {
             "component": "src/lib/components/projects/ProjectOrganisationCell.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/projects/ProjectPagination.svelte",
             "reusedBy": 2
           },
           {
@@ -1614,6 +1634,10 @@
           },
           {
             "component": "src/lib/components/projects/TaskGoalAndKindFields.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/projects/TaskGroupSection.svelte",
             "reusedBy": 2
           },
           {
@@ -2565,6 +2589,14 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/DeployHistoryFilterBar.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/DeployHistoryPanel.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/DeployNowButton.svelte",
             "reusedBy": 1
           },
@@ -2638,10 +2670,6 @@
           },
           {
             "component": "src/lib/components/projects/ProjectHeaderMenu.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/projects/ProjectPagination.svelte",
             "reusedBy": 1
           },
           {
@@ -2777,7 +2805,7 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/projects/TaskGroupSection.svelte",
+            "component": "src/lib/components/projects/TaskGroupSections.svelte",
             "reusedBy": 1
           },
           {
@@ -3001,51 +3029,51 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 2589,
-        "backend": 796,
-        "frontend": 654,
-        "shared": 332,
-        "tests": 238,
-        "api": 224,
-        "database": 138,
+        "totalFiles": 2610,
+        "backend": 800,
+        "frontend": 660,
+        "shared": 335,
+        "tests": 242,
+        "api": 225,
+        "database": 140,
         "tooling": 130,
-        "docs": 61,
+        "docs": 62,
         "infrastructure": 16
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 796,
-          "sourceFiles": 786,
-          "sourceLines": 25159
+          "files": 800,
+          "sourceFiles": 790,
+          "sourceLines": 25225
         },
         {
           "area": "frontend",
-          "files": 654,
-          "sourceFiles": 524,
-          "sourceLines": 18098
+          "files": 660,
+          "sourceFiles": 530,
+          "sourceLines": 18314
         },
         {
           "area": "shared",
-          "files": 332,
-          "sourceFiles": 318,
-          "sourceLines": 10166
+          "files": 335,
+          "sourceFiles": 321,
+          "sourceLines": 10359
         },
         {
           "area": "tests",
-          "files": 238,
-          "sourceFiles": 224,
-          "sourceLines": 8587
+          "files": 242,
+          "sourceFiles": 228,
+          "sourceLines": 8716
         },
         {
           "area": "api",
-          "files": 224,
-          "sourceFiles": 224,
-          "sourceLines": 10590
+          "files": 225,
+          "sourceFiles": 225,
+          "sourceLines": 10670
         },
         {
           "area": "database",
-          "files": 138,
+          "files": 140,
           "sourceFiles": 0,
           "sourceLines": 0
         },
@@ -3057,7 +3085,7 @@
         },
         {
           "area": "docs",
-          "files": 61,
+          "files": 62,
           "sourceFiles": 0,
           "sourceLines": 0
         },
@@ -3074,7 +3102,7 @@
       "summary": {
         "schemaTables": 118,
         "limitedColumns": 0,
-        "writeDoors": 164,
+        "writeDoors": 165,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },
@@ -3088,7 +3116,7 @@
       "summary": {
         "clones": 0,
         "duplicatedLines": 0,
-        "totalLines": 74213,
+        "totalLines": 74892,
         "duplicatedPercentage": 0.0
       },
       "offenders": []
