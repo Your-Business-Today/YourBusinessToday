@@ -1,10 +1,28 @@
-import { pushState } from '$app/navigation';
+import { goto, pushState } from '$app/navigation';
+import { page } from '$app/state';
+import { chosenDepartment } from '$lib/data/departmentBoard';
 import { isPlainClick } from './plainClick';
+import type { Department } from '$lib/data/department';
 
 export type TaskSheetTarget = { projectId: string; taskId: string };
 
+/** A task named from another task — the one it waits for, a step in its sequence — with the tab it sits on. */
+export type TaskReference = TaskSheetTarget & { department: Department };
+
+const projectBoardRoute = '/projects/[projectId]';
+
 export function taskPagePath({ projectId, taskId }: TaskSheetTarget): string {
 	return `/projects/${projectId}/tasks/${taskId}`;
+}
+
+function boardTabPath({ projectId, department }: TaskReference): string {
+	return `/projects/${projectId}?department=${department}`;
+}
+
+function isShowingBoardTab({ projectId, department }: TaskReference): boolean {
+	const { url } = page;
+	const isThisProject = url.pathname === `/projects/${projectId}`;
+	return isThisProject && chosenDepartment(url) === department;
 }
 
 /**
@@ -19,6 +37,32 @@ class TaskSheet {
 	openOnPlainClick(event: MouseEvent, target: TaskSheetTarget): void {
 		if (!isPlainClick(event)) return;
 		event.preventDefault();
+		this.show(target);
+	}
+
+	/**
+	 * On a board, a plain click on a task named from another task brings up the tab it sits on and
+	 * opens it as the sheet; anywhere else the link goes to the task's page as any link does.
+	 */
+	openReferenceOnPlainClick(event: MouseEvent, reference: TaskReference): void {
+		const { route } = page;
+		const isOnABoard = route.id === projectBoardRoute;
+		if (!isOnABoard) return;
+		if (!isPlainClick(event)) return;
+		event.preventDefault();
+		void this.openOnItsTab(reference);
+	}
+
+	private async openOnItsTab(reference: TaskReference): Promise<void> {
+		const isAlreadyOpen = this.target?.taskId === reference.taskId;
+		if (isAlreadyOpen) return;
+		const isOnItsTab = isShowingBoardTab(reference);
+		const tabPath = boardTabPath(reference);
+		if (!isOnItsTab) await goto(tabPath, { noScroll: true });
+		this.show({ projectId: reference.projectId, taskId: reference.taskId });
+	}
+
+	private show(target: TaskSheetTarget): void {
 		this.target = target;
 		pushState(taskPagePath(target), { taskSheet: target });
 	}
