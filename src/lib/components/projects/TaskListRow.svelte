@@ -49,6 +49,7 @@
 		<TaskCardActions {task} {actions} />
 	</div>
 	<TaskCardFacts
+		projectId={task.projectId}
 		{isDone}
 		assignees={actions.assigneesFor(task.id)}
 		turn={actions.turnFor(task.id)}
