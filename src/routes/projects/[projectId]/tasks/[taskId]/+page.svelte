@@ -12,6 +12,7 @@
 	import TaskSequencePanel from '$lib/components/sequences/TaskSequencePanel.svelte';
 	import TaskStoryPanel from '$lib/components/projects/TaskStoryPanel.svelte';
 	import TaskWaitingNote from '$lib/components/sequences/TaskWaitingNote.svelte';
+	import TaskTodosPanel from '$lib/components/todos/TaskTodosPanel.svelte';
 	import { namesOfPeople } from '$lib/components/projects/namesOfPeople';
 	import { openSiblingsOf } from '$lib/components/projects/openSiblings';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
@@ -60,6 +61,7 @@
 			<AcceptanceCriteriaSection criteria={data.criteria} />
 			<SubtaskList subtasks={data.subtasks} onAddSubtask={() => (isSubtaskModalOpen = true)} />
 			<TaskSequencePanel sequence={data.sequence} />
+			<TaskTodosPanel todos={data.todos} people={data.people} />
 			<ChecklistSection checklists={data.checklists} />
 			<TaskAttachmentsSection
 				attachments={data.attachments}

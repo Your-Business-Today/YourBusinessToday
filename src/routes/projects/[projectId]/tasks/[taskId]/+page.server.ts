@@ -8,6 +8,7 @@ import { complexityActions } from './complexityActions';
 import { checklistActions } from './checklistActions';
 import { saveTaskActions } from './saveTaskActions';
 import { conversationActions } from './conversationActions';
+import { todoFormActions } from '$lib/server/todos/todoFormActions';
 import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { deleteAcceptanceCriterion } from '$lib/server/projects/deleteAcceptanceCriterion';
@@ -49,6 +50,7 @@ export const actions: Actions = {
 	...complexityActions,
 	...autocompleteActions,
 	...conversationActions,
+	updateTodo: todoFormActions.updateTodo,
 	addSubtask: async ({ locals, params, request }) => {
 		const { user } = await requireProjectAccess(locals, params.projectId);
 		const seed = readNewTaskSeed(await request.formData());

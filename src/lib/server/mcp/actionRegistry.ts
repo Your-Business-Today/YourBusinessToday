@@ -25,6 +25,8 @@ import { sightingLeadActions } from './actions/sightingLeadActions';
 import { summaryActions } from './actions/summaryActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
+import { todoReadActions } from './actions/todoReadActions';
+import { todoWriteActions } from './actions/todoWriteActions';
 import { waitingActions } from './actions/waitingActions';
 import { actionAudiences, type ActionArea, type McpAction } from './actionTypes';
 import type { AccountStanding } from './resolveAccountStanding';
@@ -57,7 +59,9 @@ const everyAction: McpAction[] = [
 	...conversationActions,
 	...waitingActions,
 	...summaryActions,
-	...taskActions
+	...taskActions,
+	...todoReadActions,
+	...todoWriteActions
 ];
 
 export function actionsFor(standing: AccountStanding, area: ActionArea | null): McpAction[] {

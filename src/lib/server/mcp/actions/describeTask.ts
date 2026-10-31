@@ -1,4 +1,5 @@
 import { attachmentLines } from './describeAttachments';
+import { taskTodoLines } from './describeTaskTodos';
 import { autocompleteSentence } from '$lib/data/autocomplete';
 import { buildableLine, complexityLine, storyLine } from './describeTaskWork';
 import { branchLine } from './describeBranch';
@@ -37,6 +38,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 		...criterionLines(workspace.criteria),
 		...checklistLines(workspace.checklists),
 		...attachmentLines(workspace.attachments, workspace.people),
+		...taskTodoLines(workspace.todos, workspace.people),
 		...lifecycleLines(workspace.lifecycleSteps),
 		...threadLines(workspace.messages, workspace.accounts)
 	]
