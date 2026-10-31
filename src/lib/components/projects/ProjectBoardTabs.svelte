@@ -3,6 +3,8 @@
 	import ProjectBoard from './ProjectBoard.svelte';
 	import TabStrip from '$lib/components/workspace/TabStrip.svelte';
 	import TeamProjectsSection from './TeamProjectsSection.svelte';
+	import { fade } from 'svelte/transition';
+	import { tabSwap } from '$lib/client/motion';
 	import { RememberedChoice } from '$lib/client/rememberedChoice.svelte';
 	import { matchesOrganisationFilter } from '$lib/data/organisationFilter';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
@@ -53,8 +55,12 @@
 
 <OrganisationFilterChips {organisations} {hasProjectsUnderNone} bind:selectedFilter={listView.selectedOrganisation} />
 <TabStrip {tabs} bind:selectedKey={chosenTab.key} />
-{#if isTeamTab}
-	<TeamProjectsSection projects={teamProjectsUnderFilter} onSetPriority={onSetTeamPriority} />
-{:else}
-	<ProjectBoard {listView} {latestKitVersion} {onEdit} {onDelete} {onSetPriority} />
-{/if}
+{#key chosenTab.key}
+	<div in:fade={tabSwap} class="flex flex-col gap-4">
+		{#if isTeamTab}
+			<TeamProjectsSection projects={teamProjectsUnderFilter} onSetPriority={onSetTeamPriority} />
+		{:else}
+			<ProjectBoard {listView} {latestKitVersion} {onEdit} {onDelete} {onSetPriority} />
+		{/if}
+	</div>
+{/key}

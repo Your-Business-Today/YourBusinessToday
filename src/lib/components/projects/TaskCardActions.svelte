@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ActionsMenu from '$lib/components/site/ActionsMenu.svelte';
+	import ActionsMenu, { menuItemClasses } from '$lib/components/site/ActionsMenu.svelte';
 	import TaskStatusChip from './TaskStatusChip.svelte';
 	import type { TaskRowActions } from './taskRowActions';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
@@ -9,8 +9,6 @@
 	let isOpen = $state(false);
 
 	const editHref = $derived(`/projects/${task.projectId}/tasks/${task.id}?edit`);
-	const itemClasses =
-		'block w-full rounded-xl px-3 py-2 text-left font-display text-sm text-chalk/80 transition hover:bg-hairline/40 hover:text-chalk';
 
 	function choose(menuAction: (chosenTask: TaskTreeNode) => void) {
 		isOpen = false;
@@ -19,7 +17,7 @@
 </script>
 
 {#snippet menuItem(label: string, menuAction: (chosenTask: TaskTreeNode) => void)}
-	<button type="button" role="menuitem" onclick={() => choose(menuAction)} class={itemClasses}>
+	<button type="button" role="menuitem" onclick={() => choose(menuAction)} class={menuItemClasses}>
 		{label}
 	</button>
 {/snippet}
@@ -32,6 +30,6 @@
 		{@render menuItem('Story points…', actions.onChangeStoryPoints)}
 		{@render menuItem('Autocomplete…', actions.onChangeAutocomplete)}
 		{@render menuItem('Add subtask…', actions.onAddSubtask)}
-		<a href={editHref} role="menuitem" class={itemClasses}>Edit…</a>
+		<a href={editHref} role="menuitem" class={menuItemClasses}>Edit…</a>
 	</ActionsMenu>
 </div>

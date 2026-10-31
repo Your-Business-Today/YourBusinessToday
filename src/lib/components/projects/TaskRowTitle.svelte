@@ -1,5 +1,6 @@
 <script lang="ts">
 	import TaskFoldButton from './TaskFoldButton.svelte';
+	import { taskPagePath, taskSheet } from '$lib/client/taskSheet.svelte';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 	let {
@@ -11,6 +12,7 @@
 
 	const titleWeight = $derived(task.parentTaskId === null ? 'text-base font-medium' : 'text-sm');
 	const subtasks = $derived(task.subtasks);
+	const sheetTarget = $derived({ projectId: task.projectId, taskId: task.id });
 </script>
 
 <div
@@ -19,7 +21,8 @@
 >
 	<TaskFoldButton subtaskCount={subtasks.length} {isOpen} {panelId} {onToggle} />
 	<a
-		href={`/projects/${task.projectId}/tasks/${task.id}`}
+		href={taskPagePath(sheetTarget)}
+		onclick={(event) => taskSheet.openOnPlainClick(event, sheetTarget)}
 		title={task.title}
 		class={`line-clamp-2 font-display leading-snug transition hover:text-go ${titleWeight}`}
 	>

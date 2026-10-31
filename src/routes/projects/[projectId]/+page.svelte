@@ -6,6 +6,9 @@
 	import DepartmentTabs from '$lib/components/projects/DepartmentTabs.svelte';
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
 	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
+	import TaskSheet from './TaskSheet.svelte';
+	import { fade } from 'svelte/transition';
+	import { tabSwap } from '$lib/client/motion';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { openSiblingsOf } from '$lib/components/projects/openSiblings';
 	import { TaskRowDialogs } from '$lib/client/taskRowDialogs.svelte';
@@ -53,18 +56,22 @@
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
 	<DepartmentTabs tabs={data.departmentTabs} selected={data.department} />
-	<ProjectDashboard
-		projectId={project.id}
-		sources={data}
-		handlers={{
-			onAddSubtask: openSubtaskModal,
-			onChangeStatus: (task) => dialogs.status.open(task),
-			onChangeGoal: (task) => dialogs.goal.open(task),
-			onSetPriority: (task) => dialogs.priority.open(task),
-			onChangeStoryPoints: (task) => dialogs.storyPoints.open(task),
-			onChangeAutocomplete: (task) => dialogs.autocomplete.open(task)
-		}}
-	/>
+	{#key data.department}
+		<div in:fade={tabSwap} class="flex flex-col gap-4">
+			<ProjectDashboard
+				projectId={project.id}
+				sources={data}
+				handlers={{
+					onAddSubtask: openSubtaskModal,
+					onChangeStatus: (task) => dialogs.status.open(task),
+					onChangeGoal: (task) => dialogs.goal.open(task),
+					onSetPriority: (task) => dialogs.priority.open(task),
+					onChangeStoryPoints: (task) => dialogs.storyPoints.open(task),
+					onChangeAutocomplete: (task) => dialogs.autocomplete.open(task)
+				}}
+			/>
+		</div>
+	{/key}
 </div>
 
 <Modal title={taskModalTitle} bind:isOpen={isTaskModalOpen}>
@@ -78,3 +85,4 @@
 </Modal>
 
 <TaskRowModals {dialogs} goals={data.goals} canTurnOnAutocomplete={data.canTurnOnAutocomplete} />
+<TaskSheet />

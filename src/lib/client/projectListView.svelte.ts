@@ -6,7 +6,7 @@ import { writeShownIds, type ShownPosition } from '$lib/data/shownIds';
 import type { OrganisationPlace } from '$lib/data/organisationAccess';
 import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
-const projectsPerPage = 12;
+const projectsPerPage = 20;
 
 /** The projects list as one person has narrowed and paged it; changing a filter returns to the first page. */
 export class ProjectListView extends ProjectFilterChoices {
