@@ -1,6 +1,8 @@
 <script lang="ts">
 	import DangerConfirmForm from './DangerConfirmForm.svelte';
+	import { fade, fly } from 'svelte/transition';
 	import { keyboardKeys } from '$lib/client/keyboardKeys';
+	import { backdropFade, dialogRise } from '$lib/client/motion';
 
 	let {
 		title,
@@ -34,11 +36,12 @@
 <svelte:window onkeydown={closeOnEscape} />
 
 {#if isOpen}
-	<div class="fixed inset-0 z-50 flex items-center justify-center bg-night/80 p-6">
+	<div transition:fade={backdropFade} class="fixed inset-0 z-50 flex items-center justify-center bg-night/80 p-6">
 		<div
 			role="alertdialog"
 			aria-modal="true"
 			aria-label={title}
+			in:fly={dialogRise}
 			class="w-full max-w-md rounded-2xl border border-signal/40 bg-carriage p-6 shadow-2xl"
 		>
 			<h2 class="font-display text-xl font-medium text-signal">{title}</h2>

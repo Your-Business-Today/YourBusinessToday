@@ -6,7 +6,8 @@
 	import PortalHeader from '$lib/components/portal/PortalHeader.svelte';
 	import SiteFooter from '$lib/components/site/SiteFooter.svelte';
 	import SiteHeader from '$lib/components/site/SiteHeader.svelte';
-	import { viewEntrance, viewKeyOf } from '$lib/client/viewTransition';
+	import { viewEntrance } from '$lib/client/motion';
+	import { viewKeyOf } from '$lib/client/viewTransition';
 	import { isPortalPage } from '$lib/portal/portalPaths';
 
 	let { children, data } = $props();

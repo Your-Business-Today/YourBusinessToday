@@ -4,7 +4,9 @@
 </script>
 
 <script lang="ts">
+	import { fly } from 'svelte/transition';
 	import type { Snippet } from 'svelte';
+	import { menuDrop } from '$lib/client/motion';
 
 	let {
 		subjectName,
@@ -55,6 +57,7 @@
 	{#if isOpen}
 		<div
 			role="menu"
+			transition:fly={menuDrop}
 			class={`absolute top-full right-0 z-10 mt-2 flex ${menuWidthClass} flex-col rounded-2xl border
 				border-hairline bg-night p-2 shadow-xl`}
 		>

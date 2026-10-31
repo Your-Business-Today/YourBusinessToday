@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
 	import { keyboardKeys } from '$lib/client/keyboardKeys';
+	import { backdropFade, sheetSlide } from '$lib/client/motion';
 	import type { Snippet } from 'svelte';
 
 	let {
@@ -12,8 +13,6 @@
 
 	let sheetElement: HTMLElement | undefined = $state();
 
-	const backdropFade = { duration: 150 };
-	const panelSlide = { x: 64, duration: 240 };
 	const chromeButtonClasses =
 		'rounded-full border border-hairline px-3 py-1 font-display text-xs text-chalk/60 transition hover:border-go hover:text-go';
 
@@ -51,7 +50,7 @@
 		role="dialog"
 		aria-modal="true"
 		aria-label={label}
-		transition:fly={panelSlide}
+		transition:fly={sheetSlide}
 		class="relative flex h-full w-full max-w-6xl flex-col overflow-y-auto border-l border-hairline bg-night shadow-2xl"
 	>
 		<div class="flex items-center justify-between gap-3 border-b border-hairline bg-carriage/50 px-4 py-2 sm:px-6">

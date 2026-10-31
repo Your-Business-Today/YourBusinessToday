@@ -1,5 +1,7 @@
 <script lang="ts">
 	import ProseText from '$lib/components/site/ProseText.svelte';
+	import { slide } from 'svelte/transition';
+	import { foldOpen } from '$lib/client/motion';
 	import type { GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 
 	let { task }: { task: GlobalTask } = $props();
@@ -8,7 +10,7 @@
 	const createdOn = $derived(new Date(task.createdAt).toLocaleDateString());
 </script>
 
-<div class="border-t border-hairline bg-night/40 px-4 py-4 sm:px-5">
+<div transition:slide={foldOpen} class="border-t border-hairline bg-night/40 px-4 py-4 sm:px-5">
 	<div class="ml-8 flex flex-col gap-3 border-l-2 border-hairline pl-4">
 		{#if hasStory}
 			<p class="text-sm text-chalk/80">

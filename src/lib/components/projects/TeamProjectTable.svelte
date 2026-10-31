@@ -2,6 +2,8 @@
 	import ProjectTableHeader from './ProjectTableHeader.svelte';
 	import TeamProjectRow from './TeamProjectRow.svelte';
 	import { projectRowClasses, teamProjectColumns, teamProjectTableClasses } from './projectTableStyles';
+	import { flip } from 'svelte/animate';
+	import { rowMove } from '$lib/client/motion';
 	import { rowLink } from '$lib/client/rowLink';
 	import type { TeamProject } from '$lib/server/members/getTeamProjects';
 
@@ -14,7 +16,7 @@
 <ul class={teamProjectTableClasses}>
 	<ProjectTableHeader columns={teamProjectColumns} />
 	{#each projects as project, projectIndex (project.id)}
-		<li use:rowLink={`/projects/${project.id}`} class={projectRowClasses}>
+		<li animate:flip={rowMove} use:rowLink={`/projects/${project.id}`} class={projectRowClasses}>
 			<TeamProjectRow
 				{project}
 				isFirst={projectIndex === 0}

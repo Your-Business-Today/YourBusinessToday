@@ -1,5 +1,7 @@
 <script lang="ts">
 	import GoalRow from './GoalRow.svelte';
+	import { flip } from 'svelte/animate';
+	import { rowMove } from '$lib/client/motion';
 	import { panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { GoalSummary } from '$lib/server/goals/summariseGoals';
 
@@ -11,7 +13,7 @@
 
 <ul class={panelListClasses}>
 	{#each goalSummaries as goalSummary, goalIndex (goalSummary.id)}
-		<li>
+		<li animate:flip={rowMove}>
 			<GoalRow
 				{goalSummary}
 				isFirst={goalIndex === 0}

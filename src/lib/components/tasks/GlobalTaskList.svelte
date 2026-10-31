@@ -2,6 +2,8 @@
 	import GlobalTaskDetail from './GlobalTaskDetail.svelte';
 	import GlobalTaskModals from './GlobalTaskModals.svelte';
 	import GlobalTaskRow from './GlobalTaskRow.svelte';
+	import { flip } from 'svelte/animate';
+	import { rowMove } from '$lib/client/motion';
 	import { topRank } from '$lib/data/topRank';
 	import type { GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 
@@ -43,7 +45,7 @@
 <ol class="flex flex-col divide-y divide-hairline overflow-hidden rounded-xl border border-hairline bg-carriage">
 	{#each tasks as task, taskIndex (task.id)}
 		{@const positionNumber = firstTaskNumber + taskIndex}
-		<li class="flex flex-col">
+		<li animate:flip={rowMove} class="flex flex-col">
 			<GlobalTaskRow
 				{task}
 				positionNumber={task.globalPriority ?? positionNumber}

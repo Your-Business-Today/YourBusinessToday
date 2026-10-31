@@ -2,6 +2,8 @@
 	import ProjectRow from './ProjectRow.svelte';
 	import ProjectTableHeader from './ProjectTableHeader.svelte';
 	import { projectColumns, projectRowClasses, projectTableClasses } from './projectTableStyles';
+	import { flip } from 'svelte/animate';
+	import { rowMove } from '$lib/client/motion';
 	import { rowLink } from '$lib/client/rowLink';
 	import { topRank } from '$lib/data/topRank';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
@@ -31,7 +33,7 @@
 	<ProjectTableHeader columns={projectColumns} />
 	{#each projects as project, projectIndex (project.id)}
 		{@const position = firstPositionNumber + projectIndex}
-		<li use:rowLink={`/projects/${project.id}`} class={projectRowClasses}>
+		<li animate:flip={rowMove} use:rowLink={`/projects/${project.id}`} class={projectRowClasses}>
 			<ProjectRow
 				{project}
 				{latestKitVersion}
