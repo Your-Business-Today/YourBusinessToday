@@ -32,8 +32,9 @@ export const taskWriteActions: McpAction[] = [
 			'anything larger as tasks of that size. When a session stops short, the rest is raised ' +
 			'here as tasks of its own — subtasks of the task — never left in prose or for a next ' +
 			'chat. Give its department: a development task is built by Claude and ends in a pull ' +
-			'request; a job a person does for the project — insurance, an account, a listing — is ' +
-			'an administration, sales or marketing task, needs no story, and is assigned to them ' +
+			'request; a job a person does for the project — a cloud setting or secret, insurance, an ' +
+			'account, a listing — is an infrastructure, administration, sales or marketing task, ' +
+			'needs no story, and is assigned to them ' +
 			'(set_task_assignees). Never raise a task for what a person must give — an answer, a ' +
 			'file, a test — and never title one with a person’s name: that is a message waiting on ' +
 			'them (post_message with waitingOn). Without a department the task takes its goal’s, ' +
@@ -45,7 +46,7 @@ export const taskWriteActions: McpAction[] = [
 			'so it shows as a sequence. Files the task needs go on it ' +
 			'with attach_file_to_task once it exists. A development task raised here by staff starts ' +
 			'with autocomplete on, and by anyone else off; set_task_autocomplete switches it. An ' +
-			'administration, sales or marketing task is always off: a person does it.',
+			'infrastructure, administration, sales or marketing task is always off: a person does it.',
 		inputSchema: objectSchema(
 			{
 				projectId: textField('The project the task belongs to'),

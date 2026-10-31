@@ -57,6 +57,7 @@ describe('canDepartmentAutocomplete', () => {
 		expect(canDepartmentAutocomplete(true, departments.development)).toBe(true);
 		expect(canDepartmentAutocomplete(true, departments.sales)).toBe(false);
 		expect(canDepartmentAutocomplete(null, departments.marketing)).toBe(false);
+		expect(canDepartmentAutocomplete(true, departments.infrastructure)).toBe(false);
 		expect(canDepartmentAutocomplete(false, departments.administration)).toBe(true);
 	});
 });
