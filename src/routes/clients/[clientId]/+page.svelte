@@ -6,6 +6,7 @@
 	import ClientEventLedger from '$lib/components/clients/ClientEventLedger.svelte';
 	import ClientGroupSection from '$lib/components/clients/ClientGroupSection.svelte';
 	import ClientPeopleSection from '$lib/components/clients/ClientPeopleSection.svelte';
+	import ClientContinuityCopySection from '$lib/components/clients/ClientContinuityCopySection.svelte';
 	import ClientProjectList from '$lib/components/clients/ClientProjectList.svelte';
 	import CompanyProfileForm from '$lib/components/clients/CompanyProfileForm.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
@@ -69,6 +70,8 @@
 			<ClientProjectList {projects} />
 		{/if}
 	</section>
+
+	<ClientContinuityCopySection continuityCopy={client.continuityCopy} />
 
 	<section class="flex flex-col gap-4">
 		<h2 class="font-display text-xl">Support</h2>

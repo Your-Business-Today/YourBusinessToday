@@ -1,6 +1,8 @@
 import { parseClientStage, type ClientStage } from '$lib/data/clientLifecycle';
 import { parseLeadSource, type LeadSource } from '$lib/data/leadSources';
 import { parseCompanyProfileRecord, type CompanyProfile } from './companyProfile';
+import { parseContinuityCopyRecord } from './continuityCopyColumns';
+import type { ContinuityCopy } from '$lib/data/continuityCopy';
 
 export type Client = {
 	id: string;
@@ -10,6 +12,7 @@ export type Client = {
 	stage: ClientStage;
 	leadSource: LeadSource;
 	profile: CompanyProfile;
+	continuityCopy: ContinuityCopy;
 	ownerId: string | null;
 	parentClientId: string | null;
 	isArchived: boolean;
@@ -25,6 +28,7 @@ export function parseClientRecord(row: Record<string, unknown>): Client {
 		stage: parseClientStage(row.lifecycle_stage),
 		leadSource: parseLeadSource(row.lead_source),
 		profile: parseCompanyProfileRecord(row),
+		continuityCopy: parseContinuityCopyRecord(row),
 		ownerId: (row.owner_id ?? null) as string | null,
 		parentClientId: (row.parent_client_id ?? null) as string | null,
 		isArchived: row.is_archived as boolean,
