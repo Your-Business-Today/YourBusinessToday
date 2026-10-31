@@ -105,10 +105,10 @@ All code follows the conventions in [CLAUDE.md](./CLAUDE.md).
 
 <table><tr><td align="center">
 <strong>Code quality score</strong><h2>100.0%</h2>
-<sub>measured 2026-10-28 · project-process kit 1.36.0</sub>
+<sub>measured 2026-10-31 · project-process kit 1.37.0</sub>
 </td></tr></table>
 
-2,562 files · backend 790 · frontend 663 · shared 324 · tests 228 · api 214 · database 136 · tooling 130 · docs 61 · infrastructure 16
+2,589 files · backend 796 · frontend 654 · shared 332 · tests 238 · api 224 · database 138 · tooling 130 · docs 61 · infrastructure 16
 
 <details>
 <summary><strong>How the 100.0% is made up</strong></summary>
@@ -116,48 +116,48 @@ All code follows the conventions in [CLAUDE.md](./CLAUDE.md).
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
 | **Standard baseline checks** | | **100.0%** | **60** | |
-| Files over the line limit | 0 in 2056 files | 100.0% | 10 | 50% of files |
+| Files over the line limit | 0 in 2081 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
-| Functions over the line limit | 0 in 2762 functions | 100.0% | 8 | 25% of functions |
-| Else blocks | 0 in 3003 branches | 100.0% | 5 | 50% of branches |
+| Functions over the line limit | 0 in 2801 functions | 100.0% | 8 | 25% of functions |
+| Else blocks | 0 in 3049 branches | 100.0% | 5 | 50% of branches |
 | Duplication % | 0 | 100.0% | 8 | 20 |
-| Explanatory comment lines | 0 in 71.9 thousand lines | 100.0% | 4 | 50 per thousand lines |
-| Inline magic values | 0 in 71.9 thousand lines | 100.0% | 4 | 20 per thousand lines |
-| Orphan components and functions | 0 in 3201 components and functions | 100.0% | 4 | 10% of components and functions |
-| Long member chain lines | 0 in 71.9 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Deeply indented lines | 0 in 71.9 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Overlong function names | 0 in 2762 functions | 100.0% | 4 | 10% of functions |
+| Explanatory comment lines | 0 in 72.74 thousand lines | 100.0% | 4 | 50 per thousand lines |
+| Inline magic values | 0 in 72.74 thousand lines | 100.0% | 4 | 20 per thousand lines |
+| Orphan components and functions | 0 in 3233 components and functions | 100.0% | 4 | 10% of components and functions |
+| Long member chain lines | 0 in 72.74 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Deeply indented lines | 0 in 72.74 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Overlong function names | 0 in 2801 functions | 100.0% | 4 | 10% of functions |
 | **Design pattern file count** | | **100.0%** | **10** | |
-| Files the patterns predict but are missing | 0 in 107 predicted files | 100.0% | 10 | 50% of predicted files |
+| Files the patterns predict but are missing | 0 in 101 predicted files | 100.0% | 10 | 50% of predicted files |
 | Entities outside their expected file count | not measured | not measured | — | 50% of entities |
 | **Prose** | | **100.0%** | **20** | |
-| Conditions with calls tangled inside calls | 0 in 3003 branches | 100.0% | 8 | 25% of branches |
-| Conditions compared to a raw literal | 0 in 3003 branches | 100.0% | 6 | 25% of branches |
-| Accessor names that want to be a property | 0 in 2762 functions | 100.0% | 6 | 10% of functions |
+| Conditions with calls tangled inside calls | 0 in 3049 branches | 100.0% | 8 | 25% of branches |
+| Conditions compared to a raw literal | 0 in 3049 branches | 100.0% | 6 | 25% of branches |
+| Accessor names that want to be a property | 0 in 2801 functions | 100.0% | 6 | 10% of functions |
 | **Widget adoption** | | **not measured** | **0** | |
 | Markup written by hand where a widget should be | not measured | not measured | — | 50% of widget slots |
 | **Input validation** | | **100.0%** | **8** | |
-| Doors that write without checking their input against the columns | 0 in 157 write doors | 100.0% | 8 | 50% of write doors |
+| Doors that write without checking their input against the columns | 0 in 164 write doors | 100.0% | 8 | 50% of write doors |
 
 Each element scores 100% with no offenders and falls in a straight line to 0% when its offenders, measured against the size of the codebase, reach the figure in the last column. The score is the weighted average of the elements that could be measured; an element that could not be measured lends its weight to the rest. Weights and zero points are set in `tools/refactor/rules.json` under `score.elements`. The offenders behind every reading are in `tools/refactor/audit-output/audit.json`.
 
 </details>
 
 <details>
-<summary><strong>The repository by area: 2,562 files</strong></summary>
+<summary><strong>The repository by area: 2,589 files</strong></summary>
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| backend | 790 | 780 | 24,914 |
-| frontend | 663 | 533 | 18,486 |
-| shared | 324 | 310 | 10,081 |
-| tests | 228 | 214 | 8,273 |
-| api | 214 | 214 | 10,006 |
-| database | 136 | 0 | 0 |
+| backend | 796 | 786 | 25,159 |
+| frontend | 654 | 524 | 18,098 |
+| shared | 332 | 318 | 10,166 |
+| tests | 238 | 224 | 8,587 |
+| api | 224 | 224 | 10,590 |
+| database | 138 | 0 | 0 |
 | tooling | 130 | 5 | 138 |
 | docs | 61 | 0 | 0 |
 | infrastructure | 16 | 0 | 0 |
-| **whole repository** | **2,562** | **2,056** | **71,898** |
+| **whole repository** | **2,589** | **2,081** | **72,738** |
 
 </details>
 

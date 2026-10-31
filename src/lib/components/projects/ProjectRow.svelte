@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CompletionBar from './CompletionBar.svelte';
 	import KitVersionBadge from './KitVersionBadge.svelte';
-	import OrganisationBadge from '$lib/components/organisations/OrganisationBadge.svelte';
+	import ProjectOrganisationCell from './ProjectOrganisationCell.svelte';
 	import PriorityControls from './PriorityControls.svelte';
 	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ProjectActionsMenu from './ProjectActionsMenu.svelte';
@@ -69,13 +69,11 @@
 		{@render tally()}
 	</span>
 </div>
-<div class={wideScreenOnlyClasses}>
-	<OrganisationBadge
-		organisationId={project.organisationId}
-		organisationName={project.organisationName}
-		isTeamProject={project.isTeamProject}
-	/>
-</div>
+<ProjectOrganisationCell
+	organisationId={project.organisationId}
+	organisationName={project.organisationName}
+	isTeamProject={project.isTeamProject}
+/>
 <div class={wideScreenOnlyClasses}>
 	<KitVersionBadge
 		repositoryUrl={project.repositoryUrl}

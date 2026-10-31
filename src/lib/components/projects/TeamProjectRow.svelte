@@ -1,10 +1,10 @@
 <script lang="ts">
 	import AssignedToYouNote from './AssignedToYouNote.svelte';
-	import OrganisationBadge from '$lib/components/organisations/OrganisationBadge.svelte';
+	import ProjectOrganisationCell from './ProjectOrganisationCell.svelte';
 	import PriorityControls from './PriorityControls.svelte';
 	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
-	import { projectNameClasses, projectNumberClasses, wideScreenOnlyClasses } from './projectTableStyles';
+	import { projectNameClasses, projectNumberClasses } from './projectTableStyles';
 	import { openTaskLine } from '$lib/data/projectTaskTally';
 	import type { TeamProject } from '$lib/server/members/getTeamProjects';
 
@@ -47,12 +47,10 @@
 		{@render tally()}
 	</span>
 </div>
-<div class={wideScreenOnlyClasses}>
-	<OrganisationBadge
-		organisationId={project.organisationId}
-		organisationName={project.organisationName}
-		isTeamProject={project.isTeamProject}
-	/>
-</div>
+<ProjectOrganisationCell
+	organisationId={project.organisationId}
+	organisationName={project.organisationName}
+	isTeamProject={project.isTeamProject}
+/>
 <div class="hidden md:block"><ProjectStatusBadge status={project.status} /></div>
 <div class="hidden md:block">{@render tally()}</div>
