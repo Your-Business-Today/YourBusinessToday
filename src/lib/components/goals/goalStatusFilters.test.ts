@@ -11,6 +11,7 @@ function goalSummary(id: string, status: GoalStatus): GoalSummary {
 		measure: 'A measure both sides can check',
 		status,
 		horizon: 'current',
+		department: 'development',
 		priority: 1,
 		isAutocomplete: true,
 		createdBy: null,

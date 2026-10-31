@@ -6,9 +6,14 @@
 	import GoalHorizonField from './GoalHorizonField.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import type { GoalHorizon } from '$lib/data/goalHorizon';
+	import type { Department } from '$lib/data/department';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 
-	let { horizon, onCreated }: { horizon: GoalHorizon; onCreated: () => void } = $props();
+	let {
+		horizon,
+		department,
+		onCreated
+	}: { horizon: GoalHorizon; department: Department; onCreated: () => void } = $props();
 
 	const tracker = new FormTracker();
 </script>
@@ -19,6 +24,7 @@
 	use:enhance={tracker.submit(onCreated)}
 	class="flex flex-col gap-4"
 >
+	<input type="hidden" name="department" value={department} />
 	<SmallCapsField label="Goal">
 		<input name="title" required placeholder="What the project must achieve" class={fieldClasses} />
 	</SmallCapsField>

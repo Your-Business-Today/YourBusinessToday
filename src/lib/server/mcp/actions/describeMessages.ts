@@ -1,3 +1,4 @@
+import { askKindLabels, type AskKind } from '$lib/data/askKind';
 import { accountNameLookup } from '$lib/data/accountNames';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { handOffLabel } from '$lib/data/turnLabels';
@@ -26,8 +27,14 @@ export function messageLine(message: NamedMessage, viewerId: string): string {
 function batonNote(message: NamedMessage, viewerId: string): string {
 	const awaiting = message.awaiting;
 	if (awaiting === null || awaiting.accountId !== viewerId) return '';
-	if (awaiting.kind === awaitingKinds.claude) return ' [waiting on you, the Claude, to answer]';
-	return ' [waiting on the person you are with]';
+	const kind = askKindNote(message.askKind);
+	if (awaiting.kind === awaitingKinds.claude) return ` [${kind}waiting on you, the Claude, to answer]`;
+	return ` [${kind}waiting on the person you are with]`;
+}
+
+function askKindNote(askKind: AskKind | null): string {
+	if (askKind === null) return '';
+	return `${askKindLabels[askKind].toLowerCase()} ask, `;
 }
 
 function batonLine(messages: ConversationMessage[], accounts: Account[]): string {

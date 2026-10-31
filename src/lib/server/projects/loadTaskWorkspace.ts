@@ -15,6 +15,7 @@ import { getTaskSequence } from '$lib/server/projects/getTaskSequence';
 import { getConversationParticipantIds } from '$lib/server/conversations/getConversationParticipantIds';
 import { getThread } from '$lib/server/conversations/getThread';
 import { getLifecycleSteps } from '$lib/server/lifecycle/getLifecycleSteps';
+import { getTodosForTask } from '$lib/server/todos/getTodos';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 export async function loadTaskWorkspace(
@@ -69,15 +70,16 @@ async function loadConversationRecords(supabase: SupabaseClient, taskId: string)
 
 async function loadPlanRecords(supabase: SupabaseClient, task: ProjectTask) {
 	const taskId = task.id;
-	const [criteria, checklists, attachments, assigneeIdsByTask, roles, sequencePlace] = await Promise.all([
+	const [criteria, checklists, attachments, assigneeIdsByTask, roles, sequencePlace, todos] = await Promise.all([
 		getTaskAcceptanceCriteria(supabase, taskId),
 		getTaskChecklists(supabase, taskId),
 		getTaskAttachments(supabase, taskId),
 		getAssigneeIdsByTask(supabase, taskIdsWithWaitedFor(task)),
 		getTaskRoles(supabase, taskId),
-		getTaskSequence(supabase, task)
+		getTaskSequence(supabase, task),
+		getTodosForTask(supabase, taskId)
 	]);
-	return { criteria, checklists, attachments, assigneeIdsByTask, roles, sequencePlace };
+	return { criteria, checklists, attachments, assigneeIdsByTask, roles, sequencePlace, todos };
 }
 
 function taskIdsWithWaitedFor(task: ProjectTask): string[] {

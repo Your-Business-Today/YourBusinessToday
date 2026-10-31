@@ -26,7 +26,7 @@ export async function postMessageFromForm(
 		const isOnProject = people.some((person) => person.id === awaiting.accountId);
 		if (!isOnProject) return fail(400, { message: handOffRefusal });
 	}
-	const origin = { postedVia: postedViaChannels.site, awaiting };
+	const origin = { postedVia: postedViaChannels.site, awaiting, askKind: submission.askKind };
 	await postMessage(supabase, subject, authorAccountId, submission.body, origin);
 	return {};
 }

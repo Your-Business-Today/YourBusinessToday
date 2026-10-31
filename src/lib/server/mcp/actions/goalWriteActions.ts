@@ -6,6 +6,7 @@ import { noSuchGoal } from './describeGoal';
 import { noReachableProject, reachableGoal, reachableProject } from '../projectAccess';
 import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
 import { updateGoalStatus } from '$lib/server/goals/updateGoal';
+import { departmentField, readDepartment } from './departmentChoice';
 import type { McpAction } from '../actionTypes';
 
 export const goalWriteActions: McpAction[] = [
@@ -29,7 +30,8 @@ export const goalWriteActions: McpAction[] = [
 				projectId: projectIdField,
 				title: textField('The goal in one line'),
 				measure: proseField('How we will know it is met'),
-				horizon: textField(`One of ${goalHorizonOrder.join(', ')} — current unless said otherwise`)
+				horizon: textField(`One of ${goalHorizonOrder.join(', ')} — current unless said otherwise`),
+				department: departmentField
 			},
 			['projectId', 'title']
 		),
@@ -39,7 +41,9 @@ export const goalWriteActions: McpAction[] = [
 			const title = readOptionalText(input, 'title');
 			if (title === null) return 'A goal needs a title. Say what it is and try again.';
 			const horizon = parseGoalHorizon(readText(input, 'horizon'));
-			const seed = { title, measure: readText(input, 'measure'), horizon };
+			const department = readDepartment(input);
+			if (typeof department === 'string') return department;
+			const seed = { title, measure: readText(input, 'measure'), horizon, department };
 			const goalId = await createGoal(caller.supabase, project.id, seed, caller.accountId);
 			return `"${title}" added to ${project.name} as a ${horizon} goal (goal id: ${goalId}).`;
 		}

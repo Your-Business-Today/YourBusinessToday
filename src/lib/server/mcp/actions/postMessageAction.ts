@@ -5,7 +5,7 @@ import { longestMessageBody, postMessage } from '$lib/server/conversations/postM
 import { objectSchema, proseField, readOptionalText, textField } from '../actionTypes';
 import { settleOpenQuestions } from '$lib/server/conversations/settleOpenQuestions';
 import { applyProgress, progressField, progressRefusal, readProgress } from './progressField';
-import { promiseField, promiseOnGoalRefusal, raisePromise, readPromise } from './promiseField';
+import { promiseField, promiseOnGoalRefusal, promiseRefusal, raisePromise, readPromise } from './promiseField';
 import { resolveSubject, noSuchSubject } from './resolveSubject';
 import type { McpAction } from '../actionTypes';
 
@@ -18,8 +18,9 @@ const postMessageGuidance =
 	'Their Claude picks it up through read_latest_messages and posts the answer here. ' +
 	'Anything asked of a person is posted here as a message waiting on them, never only on ' +
 	'WhatsApp, email or a call: an ask that is not on the task is one their Claude cannot see. ' +
-	'An ask is how anything a person must give reaches them — never a task raised for them or ' +
-	'assigned to them: a task is development work ending in a pull request, and building is ' +
+	'Say with askKind what the ask wants: information, setup or testing. ' +
+	'An ask is how anything a person must give reaches them — never a task raised for it. A job ' +
+	'a person does for the project is a task in its department, assigned to them; building is ' +
 	'never asked of a person. ' +
 	'Anything else waits on nobody — the default. A question for the person you are with ' +
 	'goes to them in chat, never into a message here: every other Claude on the project ' +
@@ -29,7 +30,7 @@ const postMessageGuidance =
 	'another waits for it (set_task_waits_for), never on hold with a note. Marking a task done ' +
 	'is never asked of someone else: whoever finishes the work marks it done (update_task_status). ' +
 	'When the person you are with promises something in the message ("I’ll do X"), give it ' +
-	'as promise: it becomes a subtask assigned to them, so it is never lost in prose. ' +
+	'as promise: it goes on their own to-do list, linked to this task, so it is never lost in prose. ' +
 	'When the message reports work done on the task — by the person you are with or by anyone ' +
 	'they tell you about — give progress, started or finished: the task moves ' +
 	'to In progress or Done with the message. ' +
@@ -64,12 +65,18 @@ export const postMessageAction: McpAction = {
 		if (resolved === null) return noSuchSubject;
 		const promise = readPromise(input);
 		if (promise !== null && !('taskId' in resolved.subject)) return promiseOnGoalRefusal;
+		const unfitPromise = promiseRefusal(promise);
+		if (unfitPromise !== null) return unfitPromise;
 		const progress = readProgress(input);
 		const isProgressOffTask = progress !== null && !('taskId' in resolved.subject);
 		if (progress === undefined || isProgressOffTask) return progressRefusal;
 		const choice = await chooseHandOff(caller, input, resolved);
 		if ('refusal' in choice) return choice.refusal;
-		const origin = { postedVia: postedViaChannels.claude, awaiting: choice.handOff };
+		const origin = {
+			postedVia: postedViaChannels.claude,
+			awaiting: choice.handOff,
+			askKind: choice.askKind
+		};
 		await postMessage(caller.supabase, resolved.subject, caller.accountId, body, origin);
 		if (choice.isSettlingThread) await settleOpenQuestions(caller.supabase, resolved.subject);
 		const baton = await batonSentence(caller, resolved.subject);

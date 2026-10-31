@@ -17,6 +17,7 @@ const questionOnDoneTask: WaitingQuestion = {
 	isInternal: false,
 	postedVia: postedViaChannels.claude,
 	awaiting: { accountId: jeremy, kind: awaitingKinds.person },
+	askKind: 'information',
 	pickedUpAt: null,
 	createdAt: '2026-10-10T09:00:00Z',
 	subjectKind: 'task',
@@ -35,7 +36,7 @@ describe('the questions waiting on the reader', () => {
 		expect(described).toContain('task id: invoiced-jobs, Done');
 		expect(described).toContain('James (by their Claude)');
 		expect(described).toContain('should the invoiced jobs move across?');
-		expect(described).toContain('[waiting on the person you are with]');
+		expect(described).toContain('information ask, waiting on the person you are with]');
 	});
 
 	it('says so when nothing waits on the reader', () => {

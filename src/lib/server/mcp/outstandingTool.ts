@@ -18,8 +18,8 @@ export const outstandingTools: McpTool[] = [
 			'Use this whenever the person asks what is outstanding for them, what they need to do, ' +
 			'what is on today, what needs them, what they owe, what they are waiting on or who to ' +
 			'chase — the morning check-in. One read-only answer across every project they are on: ' +
-			'every action item that needs them (questions waiting on them, tasks assigned to them ' +
-			'with their own promises among them, tasks titled with their name) and who to chase, ' +
+			'the information they need to give, the things to set up, the features to test and their ' +
+			'to-dos, each in a section of its own (building is never theirs), and who to chase, ' +
 			'person by person, for the answers and work they are waiting on. The answer opens with ' +
 			'how to walk them through it.',
 		inputSchema: objectSchema({ name: titleNameField }),

@@ -2,6 +2,7 @@ import { parseTaskBuildFields, type TaskBuildFields } from './taskBuildFields';
 import { parseStoryPoints } from '$lib/data/storyPoints';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
 import { parseTaskStatus, type TaskStatus } from '$lib/data/taskStatus';
+import { readStoredDepartment, type Department } from '$lib/data/department';
 
 export type ProjectTask = TaskBuildFields & {
 	id: string;
@@ -10,6 +11,7 @@ export type ProjectTask = TaskBuildFields & {
 	waitsForTaskId: string | null;
 	goalId: string | null;
 	kind: TaskKind;
+	department: Department;
 	title: string;
 	details: string;
 	status: TaskStatus;
@@ -37,6 +39,7 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		waitsForTaskId: (row.waits_for_task_id as string) ?? null,
 		goalId: (row.goal_id as string) ?? null,
 		kind: parseTaskKind(row.kind),
+		department: readStoredDepartment(row.department),
 		title: row.title as string,
 		details: row.details as string,
 		status: parseTaskStatus(row.status),

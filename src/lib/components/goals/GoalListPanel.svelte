@@ -17,8 +17,13 @@
 	import { panelButtonClasses, panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import { postListReorder } from '$lib/client/postListReorder';
 	import type { GoalSummary } from '$lib/server/goals/summariseGoals';
+	import type { Department } from '$lib/data/department';
 
-	let { goalSummaries, horizon }: { goalSummaries: GoalSummary[]; horizon: GoalHorizon } = $props();
+	let {
+		goalSummaries,
+		horizon,
+		department
+	}: { goalSummaries: GoalSummary[]; horizon: GoalHorizon; department: Department } = $props();
 
 	let isAddGoalModalOpen = $state(false);
 	let isPriorityModalOpen = $state(false);
@@ -75,7 +80,7 @@
 </DashboardPanel>
 
 <Modal title={`Add ${goalHorizonLabels[horizon].toLowerCase()} goal`} bind:isOpen={isAddGoalModalOpen}>
-	<AddGoalForm {horizon} onCreated={() => (isAddGoalModalOpen = false)} />
+	<AddGoalForm {horizon} {department} onCreated={() => (isAddGoalModalOpen = false)} />
 </Modal>
 
 {#if priorityGoal !== null}

@@ -1,91 +1,55 @@
 import { describe, expect, it } from 'vitest';
-import { describeSummary, nothingOwed, type SummarySources } from './describeSummary';
+import { describeSummary, nothingOwed } from './describeSummary';
 import { unnamedAccountNotice } from './describeOwedTasks';
-import { awaitingKinds, postedViaChannels } from '$lib/data/conversationTurn';
-import { parseGlobalTaskRow } from '$lib/server/projects/getGlobalTaskPage';
-import { taskStatuses } from '$lib/data/taskStatus';
-import type { WaitingQuestion } from '$lib/server/conversations/waitingQuestion';
-
-const jeremy = 'jeremy';
-const scarlett = { id: 'scarlett', name: 'Scarlett', email: 'scarlett@example.com' };
-const propertyServe = { id: 'jewel-ps-portal', name: 'Jewel Property Serve Portal' };
-const passiveFire = { id: 'jewel-pfp-portal', name: 'Jewel PFP Portal' };
-
-function taskOn(project: typeof propertyServe, id: string, title: string) {
-	const projects = { name: project.name };
-	const row = { id, title, status: 'backlog', kind: 'work', project_id: project.id, projects };
-	return parseGlobalTaskRow(row);
-}
-
-const termsQuestion: WaitingQuestion = {
-	id: 'message',
-	goalId: null,
-	taskId: 'terms',
-	authorAccountId: scarlett.id,
-	body: 'Jeremy, are terms v0.2 signed off?',
-	isInternal: false,
-	postedVia: postedViaChannels.claude,
-	awaiting: { accountId: jeremy, kind: awaitingKinds.person },
-	pickedUpAt: null,
-	createdAt: '2026-10-20T09:00:00Z',
-	subjectKind: 'task',
-	subjectId: 'terms',
-	subjectTitle: 'Sign off the door survey terms',
-	taskStatus: taskStatuses.inProgress,
-	projectId: passiveFire.id,
-	projectName: passiveFire.name
-};
-
-const jeremyOwes: SummarySources = {
-	waiting: { questions: [termsQuestion], askers: [scarlett] },
-	owed: {
-		assigned: [taskOn(propertyServe, 'backlog', 'Move the enquiries backlog')],
-		named: [taskOn(passiveFire, 'xero', 'Jeremy: ask Xero for the bank statement scope')],
-		name: 'Jeremy',
-		latestByTask: new Map(),
-		accounts: []
-	},
-	viewerId: jeremy,
-	projectOrder: [propertyServe.id, passiveFire.id]
-};
+import { jeremyOwes, nothingAtAll } from './summaryFixtures';
 
 describe('the YBT summary', () => {
 	const described = describeSummary(jeremyOwes).join('\n');
 
-	it('opens with the totals', () => {
-		expect(described).toContain('In all: one decision waiting on you and 2 tasks for you to work.');
+	it('opens with the totals by kind, and leaves building to Claude', () => {
+		expect(described).toContain(
+			"In all: one answer to give, one thing to set up, no features to test, one task to do, one to-do. Everything to be built is Claude's."
+		);
 	});
 
-	it('goes project by project in the order of the person’s projects', () => {
-		const propertyServeAt = described.indexOf(`## ${propertyServe.name}`);
-		const passiveFireAt = described.indexOf(`## ${passiveFire.name}`);
-		expect(propertyServeAt).toBeGreaterThanOrEqual(0);
-		expect(passiveFireAt).toBeGreaterThan(propertyServeAt);
+	it('keeps information, setup and to-dos in sections of their own, in that order', () => {
+		const informationAt = described.indexOf('## Information you need to give (1)');
+		const setupAt = described.indexOf('## Things you need to set up (1)');
+		const todosAt = described.indexOf('## Your to-dos (1)');
+		expect(informationAt).toBeGreaterThanOrEqual(0);
+		expect(setupAt).toBeGreaterThan(informationAt);
+		expect(todosAt).toBeGreaterThan(setupAt);
+		expect(described).not.toContain('Things you need to test');
 	});
 
-	it('puts the quick decisions above the work on the same project', () => {
-		const passiveFireSection = described.slice(described.indexOf(`## ${passiveFire.name}`));
-		const decisionsAt = passiveFireSection.indexOf('Quick decisions waiting on you (1):');
-		const namedAt = passiveFireSection.indexOf('Work that names Jeremy, not assigned to you (1):');
-		expect(decisionsAt).toBeGreaterThanOrEqual(0);
-		expect(namedAt).toBeGreaterThan(decisionsAt);
-		expect(passiveFireSection).toContain('[waiting on the person you are with]');
+	it('reads an ask posted before kinds existed as information', () => {
+		const informationSection = described.slice(0, described.indexOf('## Things you need to set up'));
+		expect(informationSection).toContain('which bank feeds do you use?');
 	});
 
-	it('lists the work assigned to the person with where it stands', () => {
-		expect(described).toContain('Work assigned to you (1):');
-		expect(described).toContain('- "Move the enquiries backlog", Backlog (task id: backlog). Nothing said on it yet.');
+	it('lists each to-do with the task it serves', () => {
+		expect(described).toContain('Put insurance in place — To do, for "Get the website presentable"');
+	});
+
+	it('lists the business tasks assigned to the person as theirs to do, before their to-dos', () => {
+		const tasksAt = described.indexOf('## Your tasks (1)');
+		expect(tasksAt).toBeGreaterThan(described.indexOf('## Things you need to set up'));
+		expect(described.indexOf('## Your to-dos')).toBeGreaterThan(tasksAt);
+		expect(described).toContain('"Put public liability insurance in place", Backlog (Jewel Property Serve Portal, Administration');
+	});
+
+	it('shows development tasks still in the person’s name, to be turned into asks', () => {
+		expect(described).toContain('Development tasks in your name');
+		expect(described).toContain('"Move the enquiries backlog", Backlog (Jewel Property Serve Portal, Development, task id: backlog)');
+		expect(described).toContain('Jeremy: ask Xero for the bank statement scope');
 	});
 
 	it('says so when nothing needs the person', () => {
-		const owed = { ...jeremyOwes.owed, assigned: [], named: [] };
-		const waiting = { questions: [], askers: [] };
-		expect(describeSummary({ ...jeremyOwes, owed, waiting })).toEqual([nothingOwed]);
+		expect(describeSummary(nothingAtAll)).toEqual([nothingOwed]);
 	});
 
 	it('says when tasks titled with the person’s name were not looked for, even with nothing owed', () => {
-		const owed = { ...jeremyOwes.owed, assigned: [], named: [], name: null };
-		const waiting = { questions: [], askers: [] };
-		expect(describeSummary({ ...jeremyOwes, owed, waiting })).toEqual([unnamedAccountNotice, '', nothingOwed]);
+		const owed = { ...nothingAtAll.owed, name: null };
+		expect(describeSummary({ ...nothingAtAll, owed })).toEqual([unnamedAccountNotice, '', nothingOwed]);
 	});
 });

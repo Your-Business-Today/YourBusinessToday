@@ -3,6 +3,7 @@
 	import { formatBritishDateTime } from '$lib/data/britishDate';
 	import { postedViaChannels } from '$lib/data/conversationTurn';
 	import { handOffLabel, type NameOf } from '$lib/data/turnLabels';
+	import { askKindLabels } from '$lib/data/askKind';
 	import type { NamedMessage } from '$lib/server/conversations/withAuthorNames';
 
 	let {
@@ -34,6 +35,14 @@
 		{/if}
 		{#if handOff !== null}
 			<span class="font-display text-chalk/60" title="Who this message waits on">→ {handOff}</span>
+			{#if message.askKind !== null}
+				<span
+					title="What this ask wants from them"
+					class="rounded-full border border-hairline px-1.5 font-display text-chalk/70"
+				>
+					{askKindLabels[message.askKind]}
+				</span>
+			{/if}
 		{/if}
 	</p>
 	<ProseText text={message.body} class="text-chalk/90" />
