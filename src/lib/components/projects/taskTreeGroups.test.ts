@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { groupTasksByGoal, type TaskGroup } from './taskTreeGroups';
+import { groupTasksByGoal, groupsOnHorizon, type TaskGroup } from './taskTreeGroups';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
@@ -70,5 +70,16 @@ describe('groupTasksByGoal', () => {
 		const groups = groupTasksByGoal([doneParent as TaskTreeNode], [launch], withoutParent);
 		expect(groups[0].goal).toBe(launch);
 		expect(idsOf(groups[0].tasks)).toEqual(['child']);
+	});
+});
+
+describe('groupsOnHorizon', () => {
+	it('keeps the unassigned tasks and current goals in the backlog, and long term goals apart', () => {
+		const groups = groupTasksByGoal(
+			[task('a', null), task('b', 'goal-launch'), task('c', 'goal-someday')],
+			[launch, someday]
+		);
+		expect(groupsOnHorizon(groups, 'current').map(goalTitleOf)).toEqual([undefined, 'Launch']);
+		expect(groupsOnHorizon(groups, 'long_term').map(goalTitleOf)).toEqual(['Someday']);
 	});
 });
