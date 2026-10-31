@@ -11,8 +11,7 @@ export async function requireProjectAccess(
 	locals: App.Locals,
 	projectId: string
 ): Promise<ProjectAccess> {
-	const user = await requireUser(locals);
-	const project = await getProject(locals.supabase, projectId);
+	const [user, project] = await Promise.all([requireUser(locals), getProject(locals.supabase, projectId)]);
 	if (project === null) error(404, 'Project not found');
 	return { user, project, isOwner: project.ownerId === user.id };
 }

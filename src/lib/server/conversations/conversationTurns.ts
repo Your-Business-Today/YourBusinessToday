@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { idBatches } from "$lib/server/schema/idBatches";
+import { isSchemaNotYetMigrated } from "$lib/server/schema/schemaNotYetMigrated";
 import {
   parseHandOff,
   parsePostedVia,
@@ -14,15 +15,34 @@ export async function getTaskTurns(
   supabase: SupabaseClient,
   taskIds: string[],
 ): Promise<Map<string, ConversationTurn>> {
-  const batches = await Promise.all(
-    idBatches(taskIds).map((batch) => readTurnRows(supabase, batch)),
-  );
-  return new Map(
-    batches.flat().map((row) => [row.task_id as string, parseTurn(row)]),
-  );
+  if (taskIds.length === 0) return new Map();
+  const rows = await readTurnRows(supabase, taskIds);
+  return new Map(rows.map((row) => [row.task_id as string, parseTurn(row)]));
 }
 
 async function readTurnRows(
+  supabase: SupabaseClient,
+  taskIds: string[],
+): Promise<Record<string, unknown>[]> {
+  const { data, error } = await supabase
+    .rpc("conversation_turns_on_tasks", { task_ids: taskIds })
+    .select(turnColumns);
+  if (isSchemaNotYetMigrated(error)) return readViewTurns(supabase, taskIds);
+  if (error) throw error;
+  return data as unknown as Record<string, unknown>[];
+}
+
+async function readViewTurns(
+  supabase: SupabaseClient,
+  taskIds: string[],
+): Promise<Record<string, unknown>[]> {
+  const batches = await Promise.all(
+    idBatches(taskIds).map((batch) => readViewTurnBatch(supabase, batch)),
+  );
+  return batches.flat();
+}
+
+async function readViewTurnBatch(
   supabase: SupabaseClient,
   taskIds: string[],
 ): Promise<Record<string, unknown>[]> {
