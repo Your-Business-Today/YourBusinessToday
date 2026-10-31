@@ -5,7 +5,7 @@ import { longestMessageBody, postMessage } from '$lib/server/conversations/postM
 import { objectSchema, proseField, readOptionalText, textField } from '../actionTypes';
 import { settleOpenQuestions } from '$lib/server/conversations/settleOpenQuestions';
 import { applyProgress, progressField, progressRefusal, readProgress } from './progressField';
-import { promiseField, promiseOnGoalRefusal, raisePromise, readPromise } from './promiseField';
+import { promiseField, promiseOnGoalRefusal, promiseRefusal, raisePromise, readPromise } from './promiseField';
 import { resolveSubject, noSuchSubject } from './resolveSubject';
 import type { McpAction } from '../actionTypes';
 
@@ -30,7 +30,7 @@ const postMessageGuidance =
 	'another waits for it (set_task_waits_for), never on hold with a note. Marking a task done ' +
 	'is never asked of someone else: whoever finishes the work marks it done (update_task_status). ' +
 	'When the person you are with promises something in the message ("I’ll do X"), give it ' +
-	'as promise: it becomes a subtask assigned to them, so it is never lost in prose. ' +
+	'as promise: it goes on their own to-do list, linked to this task, so it is never lost in prose. ' +
 	'When the message reports work done on the task — by the person you are with or by anyone ' +
 	'they tell you about — give progress, started or finished: the task moves ' +
 	'to In progress or Done with the message. ' +
@@ -65,6 +65,8 @@ export const postMessageAction: McpAction = {
 		if (resolved === null) return noSuchSubject;
 		const promise = readPromise(input);
 		if (promise !== null && !('taskId' in resolved.subject)) return promiseOnGoalRefusal;
+		const unfitPromise = promiseRefusal(promise);
+		if (unfitPromise !== null) return unfitPromise;
 		const progress = readProgress(input);
 		const isProgressOffTask = progress !== null && !('taskId' in resolved.subject);
 		if (progress === undefined || isProgressOffTask) return progressRefusal;

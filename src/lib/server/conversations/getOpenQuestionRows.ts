@@ -5,13 +5,15 @@ import {
 	type ThreadMessage
 } from '$lib/data/openQuestion';
 import { getDoneTaskIds } from './getDoneTaskIds';
+import { askKinds } from '$lib/data/askKind';
 
 type QuestionRow = Record<string, unknown> & ThreadMessage;
 
 /**
  * Every question still open for one account, read with the columns the caller asks for: on each
  * goal and task, the latest message waiting on them that they have not spoken after, even when a
- * later message on it waits on someone else. A question on a done task is no longer open.
+ * later message on it waits on someone else. A question on a done task is no longer open, except a
+ * testing ask: it is posted after the merge that marked the task done.
  */
 export async function getOpenQuestionRows(
 	supabase: SupabaseClient,
@@ -21,7 +23,9 @@ export async function getOpenQuestionRows(
 	const everyQuestion = await getQuestionsPutTo(supabase, accountId, columns);
 	const taskIds = [...new Set(everyQuestion.flatMap((question) => question.taskId ?? []))];
 	const doneTaskIds = await getDoneTaskIds(supabase, taskIds);
-	const questions = questionsOnOpenTasks(everyQuestion, doneTaskIds);
+	const testingAsks = everyQuestion.filter(isTestingAsk);
+	const otherAsks = everyQuestion.filter((question) => !isTestingAsk(question));
+	const questions = [...questionsOnOpenTasks(otherAsks, doneTaskIds), ...testingAsks];
 	if (questions.length === 0) return [];
 	const replies = await getRepliesOnThreads(supabase, accountId, questions);
 	return openQuestionsAmong(questions, replies);
@@ -73,4 +77,8 @@ function threadMessageOf(row: Record<string, unknown>): ThreadMessage {
 		goalId: (row.goal_id as string) ?? null,
 		createdAt: row.created_at as string
 	};
+}
+
+function isTestingAsk(question: QuestionRow): boolean {
+	return question.ask_kind === askKinds.testing;
 }

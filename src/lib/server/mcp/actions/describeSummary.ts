@@ -1,88 +1,75 @@
+import { askSections, asksOfKind } from './describeAskSections';
 import { latestMessageSentence, unnamedAccountNotice } from './describeOwedTasks';
-import { messageLine } from './describeMessages';
-import { subjectHeading } from './describeWaitingQuestions';
-import { accountNameLookup } from '$lib/data/accountNames';
+import { todoLine } from './describeTodos';
+import { askKinds } from '$lib/data/askKind';
 import { countOf } from '$lib/data/countOf';
 import { taskStatusLabels } from '$lib/data/taskStatus';
-import type { Account } from '$lib/server/accounts/accountRecord';
 import type { GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 import type { OwedTasks } from './owedTasks';
-import type { WaitingQuestion } from '$lib/server/conversations/waitingQuestion';
+import type { Todo } from '$lib/server/todos/todoRecord';
 import type { WaitingQuestions } from './waitingQuestionsFor';
 
-/** Everything a summary is made from: what waits on the person, what they owe, and their projects in order. */
+/** Everything a summary is made from: the asks waiting on the person, their to-dos, and what is still in their name. */
 export type SummarySources = {
 	waiting: WaitingQuestions;
+	todos: Todo[];
 	owed: OwedTasks;
 	viewerId: string;
-	projectOrder: string[];
 };
 
-export const nothingOwed = 'Nothing waits on you and nothing is assigned to you on any project.';
+export const nothingOwed = 'Nothing waits on you, nothing is on your to-do list, and no task is in your name.';
 
-/** The person's projects one by one, each with the decisions waiting on them and the work they owe. */
+const stillInYourName =
+	'Still on a board in your name (older tasks that are really asks or to-dos: offer to turn each ' +
+	'into one, and building is never theirs)';
+
+/** What the person has to do, by kind: information, setup, testing, then their to-dos. Building is Claude's. */
 export function describeSummary(sources: SummarySources): string[] {
-	return [...unnamedLines(sources.owed), ...projectLines(sources)];
-}
-
-function unnamedLines(owed: OwedTasks): string[] {
-	if (owed.name !== null) return [];
-	return [unnamedAccountNotice, ''];
-}
-
-function projectLines(sources: SummarySources): string[] {
-	const projectIds = projectsWithSomething(sources);
-	if (projectIds.length === 0) return [nothingOwed];
-	return [totalsLine(sources), '', ...projectIds.flatMap((id) => projectSection(sources, id))];
-}
-
-function projectsWithSomething(sources: SummarySources): string[] {
-	const { waiting, owed, projectOrder } = sources;
-	const subjects = [...waiting.questions, ...owed.assigned, ...owed.named];
-	const touched = new Set(subjects.map((subject) => subject.projectId));
-	const unordered = [...touched].filter((id) => !projectOrder.includes(id));
-	return [...projectOrder.filter((id) => touched.has(id)), ...unordered];
-}
-
-function totalsLine(sources: SummarySources): string {
-	const { questions } = sources.waiting;
-	const { assigned, named } = sources.owed;
-	const decisions = countOf(questions.length, 'decision');
-	const tasks = countOf(assigned.length + named.length, 'task');
-	return `In all: ${decisions} waiting on you and ${tasks} for you to work.`;
-}
-
-function projectSection(sources: SummarySources, projectId: string): string[] {
-	const { waiting, owed } = sources;
-	const questions = waiting.questions.filter((question) => question.projectId === projectId);
-	const assigned = owed.assigned.filter((task) => task.projectId === projectId);
-	const named = owed.named.filter((task) => task.projectId === projectId);
-	const [firstSubject] = [...questions, ...assigned, ...named];
+	const { owed } = sources;
+	const unnamed = owed.name === null ? [unnamedAccountNotice, ''] : [];
+	if (isNothingOwed(sources)) return [...unnamed, nothingOwed];
 	return [
-		`## ${firstSubject.projectName}`,
-		...decisionLines(questions, waiting.askers, sources.viewerId),
-		...workLines('Work assigned to you', assigned, owed),
-		...workLines(`Work that names ${owed.name}, not assigned to you`, named, owed),
-		''
+		...unnamed,
+		totalsLine(sources),
+		'',
+		...askSections(sources.waiting, sources.viewerId),
+		...todoSection(sources.todos),
+		...inYourNameSection(sources.owed)
 	];
 }
 
-function decisionLines(questions: WaitingQuestion[], askers: Account[], viewerId: string): string[] {
-	if (questions.length === 0) return [];
-	const nameOf = accountNameLookup(askers);
-	const blocks = questions.flatMap((question) => {
-		const authorName = nameOf(question.authorAccountId);
-		return [subjectHeading(question), messageLine({ ...question, authorName }, viewerId)];
-	});
-	return [`Quick decisions waiting on you (${questions.length}):`, ...blocks];
+function isNothingOwed({ waiting, todos, owed }: SummarySources): boolean {
+	const { questions } = waiting;
+	const { assigned, named } = owed;
+	return questions.length + todos.length + assigned.length + named.length === 0;
 }
 
-function workLines(heading: string, tasks: GlobalTask[], owed: OwedTasks): string[] {
+function totalsLine({ waiting, todos }: SummarySources): string {
+	const information = asksOfKind(waiting, askKinds.information).length;
+	const setup = asksOfKind(waiting, askKinds.setup).length;
+	const testing = asksOfKind(waiting, askKinds.testing).length;
+	const parts = [
+		`${countOf(information, 'answer')} to give`,
+		`${countOf(setup, 'thing')} to set up`,
+		`${countOf(testing, 'feature')} to test`,
+		`${countOf(todos.length, 'to-do')}`
+	];
+	return `In all: ${parts.join(', ')}. Everything to be built is Claude's.`;
+}
+
+function todoSection(todos: Todo[]): string[] {
+	if (todos.length === 0) return [];
+	return [`## Your to-dos (${todos.length})`, ...todos.map(todoLine), ''];
+}
+
+function inYourNameSection(owed: OwedTasks): string[] {
+	const tasks = [...owed.assigned, ...owed.named];
 	if (tasks.length === 0) return [];
-	return [`${heading} (${tasks.length}):`, ...tasks.map((task) => workLine(task, owed))];
+	return [`## ${stillInYourName} (${tasks.length})`, ...tasks.map((task) => workLine(task, owed)), ''];
 }
 
 function workLine(task: GlobalTask, owed: OwedTasks): string {
 	const status = taskStatusLabels[task.status];
-	return `- "${task.title}", ${status} (task id: ${task.id}). ${latestMessageSentence(task, owed)}`;
+	const where = `${task.projectName}, task id: ${task.id}`;
+	return `- "${task.title}", ${status} (${where}). ${latestMessageSentence(task, owed)}`;
 }

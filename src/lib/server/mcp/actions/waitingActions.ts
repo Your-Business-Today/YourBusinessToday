@@ -2,7 +2,11 @@ import { describeOwedTasks } from './describeOwedTasks';
 import { describeTasklessGoals } from './describeTasklessGoals';
 import { getTasklessGoalsRaisedBy } from '$lib/server/goals/getTasklessGoalsRaisedBy';
 import { reachableProjectIds } from '../projectAccess';
-import { describeWaitingQuestions } from './describeWaitingQuestions';
+import { askSections } from './describeAskSections';
+import { nothingWaiting } from './describeWaitingQuestions';
+import { describeTodos } from './describeTodos';
+import { getTodosOwnedBy } from '$lib/server/todos/getTodos';
+import { isTodoOpen } from '$lib/data/todo';
 import { getOwedTasks } from './owedTasks';
 import { getWaitingQuestionsFor } from './waitingQuestionsFor';
 import { objectSchema, readOptionalText, textField } from '../actionTypes';
@@ -23,9 +27,8 @@ export const waitingActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'everything that needs you in one answer — the questions waiting on you, the open tasks ' +
-			'assigned to you (your own promises among them) and the open tasks titled with your name — ' +
-			'without moving the read marker',
+			'everything that needs you in one answer — the information, setup and testing asked of you, ' +
+			'your to-dos, and any open task still in your name — without moving the read marker',
 		guidance:
 			'Use it on a routine check, or whenever the person asks what needs them or what they owe: ' +
 			'it reads only, so calling it again gives the same answer until something changes. Each ' +
@@ -41,10 +44,12 @@ export const waitingActions: McpAction[] = [
 		}),
 		run: async (caller, input) => {
 			const questions = await describeQuestions(caller);
+			const todos = await describeOpenTodos(caller);
 			const owed = await getOwedTasks(caller, readOptionalText(input, 'name'));
 			const unfinished = describeTasklessGoals(await getTasklessGoals(caller));
 			const owedLines = describeOwedTasks(owed);
-			return [everythingHeading, '', ...unfinished, questions, '', ...owedLines].join('\n');
+			const sections = [...unfinished, ...questions, '## Your to-dos', ...todos, '', ...owedLines];
+			return [everythingHeading, '', ...sections].join('\n');
 		}
 	}
 ];
@@ -53,7 +58,14 @@ async function getTasklessGoals(caller: McpCaller) {
 	return getTasklessGoalsRaisedBy(caller.supabase, reachableProjectIds(caller), caller.accountId);
 }
 
-async function describeQuestions(caller: McpCaller): Promise<string> {
-	const { questions, askers } = await getWaitingQuestionsFor(caller);
-	return describeWaitingQuestions(questions, askers, caller.accountId);
+async function describeQuestions(caller: McpCaller): Promise<string[]> {
+	const waiting = await getWaitingQuestionsFor(caller);
+	const { questions } = waiting;
+	if (questions.length === 0) return [nothingWaiting, ''];
+	return askSections(waiting, caller.accountId);
+}
+
+async function describeOpenTodos(caller: McpCaller): Promise<string[]> {
+	const todos = await getTodosOwnedBy(caller.supabase, caller.accountId);
+	return describeTodos(todos.filter((todo) => isTodoOpen(todo.status)));
 }
