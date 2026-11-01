@@ -1,6 +1,6 @@
 # Data Subject Requests and Erasure Procedure
 
-**Internal — Your Business Today Ltd — Version 1.0 — 24 September 2026**
+**Internal — Your Business Today Ltd — Version 1.1 — 1 November 2026**
 
 How YBT helps a client when someone asks to see, correct, move or delete their personal data held in a Solution YBT runs.
 
@@ -29,17 +29,17 @@ Search every place the Solution keeps personal data:
 | ---------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | Live database                | Query by name, email and any identifiers the client gives                  | Include records where the person is mentioned, not just their own account       |
 | Stored files and attachments | Search file metadata and linked records                                    |                                                                                 |
-| Application and access logs  | Search by user id and email                                                | Logs roll off after [90] days                                                   |
+| Application and access logs  | Search by user id and email                                                | Logs roll off after 30 to 90 days, depending on the Solution                    |
 | Exports held by YBT          | Check the export folder for that client                                    | Delete old exports once delivered                                               |
 | Email sent by the Solution   | Check the email provider's log                                             | Metadata only                                                                   |
 | AI requests                  | Check whether the Solution stores AI requests or responses for that client | The AI provider does not keep API data for training; retention is per its terms |
-| Backups                      | Cannot be edited — see section 4                                           | Expire after [35] days                                                          |
+| Backups                      | Cannot be edited — see section 4                                           | Point-in-time backups expire after 35 days, long-term ones after 12 months      |
 
 ## 4. Erasure
 
 1. Delete the person's records from the live database and file storage, or anonymise them where the client needs to keep the record of the transaction (for example, accounting records).
 2. Delete from logs and exports where practicable.
-3. **Backups cannot be edited.** Put the data beyond use: add the person's identifier to that client's **suppression list**, so that if a backup is ever restored, the suppressed records are deleted again straight after the restore, before the Solution goes back into use. The data then disappears from backups when they expire after [35] days.
+3. **Backups cannot be edited.** Put the data beyond use: add the person's identifier to that client's **suppression list**, so that if a backup is ever restored, the suppressed records are deleted again straight after the restore, before the Solution goes back into use. The data then disappears from backups as they expire: within 35 days from point-in-time backups, and within 12 months from long-term ones.
 4. Confirm to the client in writing what was deleted, what was anonymised, what remains in backups and when it will expire.
 
 ## 5. Request log

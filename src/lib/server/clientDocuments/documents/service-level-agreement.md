@@ -1,6 +1,6 @@
 # Schedule 2 — Service Levels and Support
 
-**Version 1.1 — 12 October 2026**
+**Version 1.2 — 1 November 2026**
 
 This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It applies while the Client takes the Run service.
 
@@ -29,11 +29,11 @@ This schedule forms part of the Master Services Agreement between Your Business 
 
 ## 3. Backup and recovery
 
-3.1 Recovery point objective: no more than 24 hours of data lost, from automated geo-redundant backups taken at least daily within the United Kingdom.
+3.1 Recovery point objective: no more than 24 hours of data lost, from automated geo-redundant backups taken at least daily and replicated to the paired Azure region.
 
 3.2 Recovery time objective: the Solution restored within 8 support hours of a decision to restore.
 
-3.3 Backups are kept for 35 days. YBT tests a restore at least every six months and records the result.
+3.3 Point-in-time backups are kept for 35 days, weekly long-term backups for 12 weeks and monthly long-term backups for 12 months. YBT tests a restore at least every six months and records the result.
 
 ## 4. Service credits
 
