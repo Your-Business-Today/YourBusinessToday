@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { rankChanges } from '$lib/server/ordering/rankChanges';
+import { rankColumnsOf, saveRanks } from '$lib/server/ordering/saveRanks';
 import type { BoardPlace } from '$lib/server/projects/boardPlace';
 import type { RankedScope } from '$lib/server/ordering/rankedScope';
 
@@ -31,15 +32,10 @@ async function saveTeamBoard(
 	memberId: string,
 	placesInOrder: BoardPlace[]
 ): Promise<void> {
-	const changes = rankChanges(placesInOrder, (place) => place.priority);
-	await Promise.all(
-		changes.map(async (change) => {
-			const { error } = await supabase
-				.from('project_members')
-				.update({ priority: change.rank })
-				.eq('account_id', memberId)
-				.eq('project_id', change.id);
-			if (error) throw error;
-		})
-	);
+	const changes = rankColumnsOf(rankChanges(placesInOrder, (place) => place.priority));
+	await saveRanks(supabase, 'save_team_board_ranks', {
+		board_member: memberId,
+		project_ids: changes.ids,
+		ranks: changes.ranks
+	});
 }

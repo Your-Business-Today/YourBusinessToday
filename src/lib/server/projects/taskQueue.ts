@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskRecord';
 import { rankChanges, redealtRanks } from '$lib/server/ordering/rankChanges';
-import { updateTaskColumns } from '$lib/server/projects/taskSiblings';
+import { saveTaskRanks } from '$lib/server/projects/taskSiblings';
 import type { RankedScope } from '$lib/server/ordering/rankedScope';
 
 /**
@@ -59,14 +59,7 @@ async function saveQueueOrder(supabase: SupabaseClient, queueInOrder: ProjectTas
 			(task) => task.priority
 		)
 	);
-	await Promise.all([
-		...queueChanges.map((change) =>
-			updateTaskColumns(supabase, change.id, { global_priority: change.rank })
-		),
-		...priorityChanges.map((change) =>
-			updateTaskColumns(supabase, change.id, { priority: change.rank })
-		)
-	]);
+	await saveTaskRanks(supabase, priorityChanges, queueChanges);
 }
 
 function projectIdsIn(tasks: ProjectTask[]): string[] {

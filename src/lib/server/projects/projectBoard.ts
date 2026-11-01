@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseProjectRecord, type Project } from '$lib/server/projects/projectRecord';
 import { rankChanges } from '$lib/server/ordering/rankChanges';
+import { rankColumnsOf, saveRanks } from '$lib/server/ordering/saveRanks';
 import { teamBoard } from '$lib/server/members/teamBoard';
 import type { BoardPlace } from '$lib/server/projects/boardPlace';
 import type { RankedScope } from '$lib/server/ordering/rankedScope';
@@ -10,7 +11,7 @@ export function projectBoard(supabase: SupabaseClient, ownerId: string): RankedS
 	return {
 		load: () => loadBoard(supabase, ownerId),
 		readRank: (place) => place.priority,
-		save: (placesInOrder) => saveBoard(supabase, placesInOrder)
+		save: (placesInOrder) => saveBoard(supabase, ownerId, placesInOrder)
 	};
 }
 
@@ -35,15 +36,15 @@ async function loadBoard(supabase: SupabaseClient, ownerId: string): Promise<Boa
 	return data.map(parseProjectRecord).map((project) => ({ id: project.id, priority: project.priority }));
 }
 
-async function saveBoard(supabase: SupabaseClient, placesInOrder: BoardPlace[]): Promise<void> {
-	const changes = rankChanges(placesInOrder, (place) => place.priority);
-	await Promise.all(
-		changes.map(async (change) => {
-			const { error } = await supabase
-				.from('projects')
-				.update({ priority: change.rank })
-				.eq('id', change.id);
-			if (error) throw error;
-		})
-	);
+async function saveBoard(
+	supabase: SupabaseClient,
+	ownerId: string,
+	placesInOrder: BoardPlace[]
+): Promise<void> {
+	const changes = rankColumnsOf(rankChanges(placesInOrder, (place) => place.priority));
+	await saveRanks(supabase, 'save_project_board_ranks', {
+		board_owner: ownerId,
+		project_ids: changes.ids,
+		ranks: changes.ranks
+	});
 }
