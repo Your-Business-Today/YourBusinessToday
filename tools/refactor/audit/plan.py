@@ -13,8 +13,9 @@ from .repository_layout import AUDIT_FILE, PLAN_DOCUMENT, PLAN_FILE
 from .source_files import loadRules, resolveSourceFiles
 from .worklist.adoption_steps import adoptionSteps
 from .worklist.function_usage import FunctionUsage
+from .worklist.pattern_steps import patternSteps
 from .worklist.render import renderPlan
-from .worklist.steps import breakoutSteps, patternSteps, utilitySteps
+from .worklist.steps import breakoutSteps, utilitySteps
 from .worklist.sweep_steps import sweepSteps
 from .worklist.unboxing_steps import unboxingSteps
 from .worklist.targets import describeTarget, worstFiles

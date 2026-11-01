@@ -12,6 +12,12 @@ and the longest subject wins (`HandoverPackDocumentRow.cs` is the handover pack 
 The band is three times the expected count either way, because the patterns give every entity a floor of
 files whatever its size, so files per property runs from many times the median for a one-column entity to a
 fraction of it for a thirty-column one; a band of two flagged the floor-sized entities as too many.
+
+An entity listed under `acceptedEntityCounts`, with the reason, is one a round has judged: its count is what its
+pattern makes of it, such as a small table given the full slice for every command, or a child table whose work
+its parent's files do. It keeps its measured row, marked accepted, and leaves the out-of-range count and the
+plan, as an accepted gap leaves its pattern. It still counts toward the median, so accepting one entity never
+moves another in or out of range.
 """
 from __future__ import annotations
 
@@ -52,21 +58,30 @@ def fileCounts(sourceFiles: list[SourceFile], entities: list[str], suffixes: lis
     return counts
 
 
+def shouldBringIntoRange(row: dict) -> bool:
+    return not row["isInRange"] and not row["isAccepted"]
+
+
 def measure(sourceFiles: list[SourceFile], patternRules: dict) -> dict:
     properties = entityProperties(sourceFiles, patternRules.get("entityGlobs", []))
     if len(properties) < patternRules.get("minimumEntities", MINIMUM_ENTITIES):
-        return {"entities": 0, "entitiesOutOfRange": 0, "rows": []}
+        return {"entities": 0, "entitiesOutOfRange": 0, "entitiesAccepted": 0, "rows": []}
     counts = fileCounts(sourceFiles, list(properties), patternRules.get("entitySuffixes", ENTITY_SUFFIXES))
     filesPerProperty = median(counts[entity] / properties[entity] for entity in properties)
     band = patternRules.get("fileCountBand", FILE_COUNT_BAND)
+    acceptedCounts = patternRules.get("acceptedEntityCounts", {})
     rows = []
     for entity, propertyCount in sorted(properties.items()):
         expected = max(1, round(filesPerProperty * propertyCount))
         isInRange = expected / band <= counts[entity] <= expected * band
-        rows.append({"entity": entity, "properties": propertyCount, "files": counts[entity], "expectedFiles": expected, "isInRange": isInRange})
+        rows.append({
+            "entity": entity, "properties": propertyCount, "files": counts[entity], "expectedFiles": expected,
+            "isInRange": isInRange, "isAccepted": entity in acceptedCounts,
+        })
     return {
         "entities": len(rows),
-        "entitiesOutOfRange": sum(1 for row in rows if not row["isInRange"]),
+        "entitiesOutOfRange": sum(1 for row in rows if shouldBringIntoRange(row)),
+        "entitiesAccepted": sum(1 for row in rows if row["isAccepted"]),
         "filesPerProperty": round(filesPerProperty, 2),
         "rows": rows,
     }
