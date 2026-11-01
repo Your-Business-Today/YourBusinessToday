@@ -1,21 +1,21 @@
 # Refactor audit
 
-Generated 2026-11-01 06:33 UTC.
+Generated 2026-11-01 08:07 UTC.
 
 ## Headline
 
-**Code quality score 100.0%.** **0 of 2,109 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
+**Code quality score 99.9%.** **0 of 2,109 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
 
 ## Code quality score
 
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
-| **Standard baseline checks** | | **100.0%** | **52** | |
+| **Standard baseline checks** | | **99.9%** | **60** | |
 | Files over the line limit | 0 in 2109 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
 | Functions over the line limit | 0 in 2844 functions | 100.0% | 8 | 25% of functions |
 | Else blocks | 0 in 3086 branches | 100.0% | 5 | 50% of branches |
-| Duplication % | not measured | not measured | — | 20 |
+| Duplication % | 0.01 | 100.0% | 8 | 20 |
 | Explanatory comment lines | 0 in 73.72 thousand lines | 100.0% | 4 | 50 per thousand lines |
 | Inline magic values | 0 in 73.72 thousand lines | 100.0% | 4 | 20 per thousand lines |
 | Orphan components and functions | 0 in 3282 components and functions | 100.0% | 4 | 10% of components and functions |
@@ -59,14 +59,14 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 2844, elseBlocks: 0, ifBlocks: 3086, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
-| duplication | skipped: jscpd is not installed (npm install -g jscpd), carriedFromBaseline: True |
+| duplication | clones: 1, duplicatedLines: 8, totalLines: 75184, duplicatedPercentage: 0.01 |
 | naming | bannedAbbreviationHits: 35, unprefixedBooleans: 1 |
 | comments | explanatoryCommentLines: 0, filesWithComments: 0, taskMarkers: 0 |
 | magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 0 |
 | prose | longMemberChainLines: 0, deeplyIndentedLines: 0, overlongLines: 156, measurementIsHeuristic: True |
 | conditions | tangledConditionLines: 0, literalComparisonLines: 0, measurementIsHeuristic: True |
 | orphans | orphanFunctions: 0, functionsExamined: 2844 |
-| designPatterns | roleFamilies: 117, predictedFiles: 103, predictedFilesMissing: 0, entities: 0, entitiesOutOfRange: 0, measurementIsHeuristic: True |
+| designPatterns | roleFamilies: 117, predictedFiles: 103, predictedFilesMissing: 0, entities: 0, entitiesOutOfRange: 0, entitiesAccepted: 0, measurementIsHeuristic: True |
 | inventory | pages: 47, components: 438, orphanComponents: 0, averagePageLines: 45 |
 | siteDefinition | skipped: no siteDefinition catalogue in rules.json |
 | inputValidation | schemaTables: 118, limitedColumns: 0, writeDoors: 166, unvalidatedDoors: 0, looserLimits: 0 |
@@ -76,12 +76,12 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Ratcheted figure | Baseline | Now | Verdict |
 | --- | --- | --- | --- |
-| code quality score | 100.0% | 100.0% | — |
+| code quality score | 100.0% | 99.9% | — |
 | fileLength.filesOverLimit | 0 | 0 | held |
 | fileLength.worstFileLines | 0 | 0 | held |
 | functionShape.functionsOverLimit | 0 | 0 | held |
 | functionShape.elseBlocks | 0 | 0 | held |
-| duplication.duplicatedPercentage | None | None | — |
+| duplication.duplicatedPercentage | None | 0.01 | — |
 | comments.explanatoryCommentLines | 0 | 0 | held |
 | magicValues.inlineHexColours | 0 | 0 | held |
 | inventory.orphanComponents | 0 | 0 | held |

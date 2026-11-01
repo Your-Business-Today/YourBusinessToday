@@ -4,7 +4,7 @@ from __future__ import annotations
 import unittest
 
 from ..checks.entity_files import fileCounts, measure
-from .fixtures import sourceFile
+from .fixtures import ENTITY_GLOBS, oneColumnEntity, sourceFile
 
 QUOTE_ENTITY = """
 public sealed class QuoteEntity
@@ -43,20 +43,8 @@ class EntityFileCountTests(unittest.TestCase):
         self.assertEqual(fileCounts(files, ["TodoItemEntity"])["TodoItemEntity"], len(files))
 
 
-ONE_COLUMN_ENTITY = """
-public sealed class {name}Entity
-{{
-    public string Reference {{ get; set; }} = "";
-}}
-"""
-PATTERN_RULES = {"entityGlobs": ["api/Data/Entities/*.cs"]}
+PATTERN_RULES = {"entityGlobs": ENTITY_GLOBS}
 FLOOR_OF_PATTERN_FILES = 6
-
-
-def oneColumnEntity(name: str, roleCount: int) -> list:
-    files = [sourceFile(f"api/Data/Entities/{name}Entity.cs", ONE_COLUMN_ENTITY.format(name=name))]
-    files += [sourceFile(f"api/Features/{name}Role{index}.cs") for index in range(roleCount - 1)]
-    return files
 
 
 class EntityFileBandTests(unittest.TestCase):
