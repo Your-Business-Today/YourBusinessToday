@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseGoalRecord, type Goal } from '$lib/server/goals/goalRecord';
 import { rankChanges } from '$lib/server/ordering/rankChanges';
+import { rankColumnsOf, saveRanks } from '$lib/server/ordering/saveRanks';
 import type { GoalHorizon } from '$lib/data/goalHorizon';
 import type { RankedScope } from '$lib/server/ordering/rankedScope';
 
@@ -34,14 +35,6 @@ async function loadGoals(
 }
 
 async function saveGoalOrder(supabase: SupabaseClient, goalsInOrder: Goal[]): Promise<void> {
-	const changes = rankChanges(goalsInOrder, (goal) => goal.priority);
-	await Promise.all(
-		changes.map(async (change) => {
-			const { error } = await supabase
-				.from('goals')
-				.update({ priority: change.rank })
-				.eq('id', change.id);
-			if (error) throw error;
-		})
-	);
+	const changes = rankColumnsOf(rankChanges(goalsInOrder, (goal) => goal.priority));
+	await saveRanks(supabase, 'save_goal_ranks', { goal_ids: changes.ids, ranks: changes.ranks });
 }

@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskRecord';
-import { rankChanges, redealtRanks } from '$lib/server/ordering/rankChanges';
+import { rankChanges, redealtRanks, type RankChange } from '$lib/server/ordering/rankChanges';
+import { rankColumnsOf, saveRanks } from '$lib/server/ordering/saveRanks';
 import type { RankedScope } from '$lib/server/ordering/rankedScope';
 
 /**
@@ -48,14 +49,23 @@ async function saveSiblingOrder(
 ): Promise<void> {
 	const priorityChanges = rankChanges(siblingsInOrder, (task) => task.priority);
 	const queueChanges = redealtRanks(siblingsInOrder, (task) => task.globalPriority);
-	await Promise.all([
-		...priorityChanges.map((change) =>
-			updateTaskColumns(supabase, change.id, { priority: change.rank })
-		),
-		...queueChanges.map((change) =>
-			updateTaskColumns(supabase, change.id, { global_priority: change.rank })
-		)
-	]);
+	await saveTaskRanks(supabase, priorityChanges, queueChanges);
+}
+
+/** A task's place among its siblings and its place in the queue, written together. */
+export async function saveTaskRanks(
+	supabase: SupabaseClient,
+	priorityChanges: RankChange[],
+	queueChanges: RankChange[]
+): Promise<void> {
+	const priorities = rankColumnsOf(priorityChanges);
+	const queuePlaces = rankColumnsOf(queueChanges);
+	await saveRanks(supabase, 'save_task_ranks', {
+		priority_task_ids: priorities.ids,
+		priorities: priorities.ranks,
+		queue_task_ids: queuePlaces.ids,
+		queue_ranks: queuePlaces.ranks
+	});
 }
 
 export async function updateTaskColumns(
