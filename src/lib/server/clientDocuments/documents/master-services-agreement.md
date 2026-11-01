@@ -1,6 +1,6 @@
 # Master Services Agreement
 
-**Version 1.0 — 24 September 2026**
+**Version 1.1 — 1 November 2026**
 
 This agreement is made on [date] between:
 
@@ -86,7 +86,7 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 8.1 While you take the Run service, YBT provides the Solution as a single managed service. YBT contracts for all of the infrastructure and platform services underneath it (including Microsoft Azure) in its own name and at its own risk, and is your only counterparty for them. You acquire the Solution, not any underlying cloud service, and nothing in this agreement is a resale, sub-licence or redistribution of a third-party service.
 
-8.2 The Solution runs in a Microsoft Azure subscription held by YBT and dedicated to you alone, in UK regions, separated from every other client's systems. The monthly fee is a single inclusive figure; we do not pass through or itemise the cost of underlying services.
+8.2 The Solution runs in a Microsoft Azure subscription held by YBT and dedicated to you alone, in the Microsoft Azure regions the Order Form names, in the United Kingdom or the European Economic Area, separated from every other client's systems. The monthly fee is a single inclusive figure; we do not pass through or itemise the cost of underlying services.
 
 8.3 Schedule 4 sets out how the Solution and its subscription can be transferred to you, or to someone you nominate, when the Run service ends or if YBT cannot continue.
 

@@ -1,6 +1,6 @@
 # Schedule 1 — Data Processing Agreement
 
-**Version 1.0 — 24 September 2026**
+**Version 1.1 — 1 November 2026**
 
 This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It is the contract required by Article 28(3) of the UK GDPR. Where it conflicts with anything else in the agreement about personal data, this schedule wins.
 
@@ -50,7 +50,7 @@ YBT will:
 
 ## 4. International transfers
 
-4.1 The Client's personal data is hosted in the United Kingdom (Microsoft Azure UK South, with backups in UK West).
+4.1 The Client's personal data is hosted in the Microsoft Azure regions the Order Form names. They are in the United Kingdom or the European Economic Area, and backups are replicated to the region Azure pairs with the one the database runs in. Hosting in the European Economic Area is covered by the United Kingdom's adequacy regulations, so it needs no further transfer safeguard.
 
 4.2 Some sub-processors in Annex C may access personal data from outside the United Kingdom, including for support. Where they do, YBT will make sure the transfer is covered by UK adequacy regulations or by the International Data Transfer Agreement or the UK Addendum to the EU Standard Contractual Clauses, supported by a documented transfer risk assessment.
 
@@ -62,24 +62,24 @@ YBT will:
 
 ## Annex A — Details of the processing
 
-|                                           |                                                                                                                                                                                                                                             |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Subject matter                            | Hosting and operating the Solution built for the Client, and providing the services in each Order Form.                                                                                                                                     |
-| Duration                                  | For the term of the agreement, and afterwards until the data is returned and deleted under Schedule 4.                                                                                                                                      |
-| Nature of the processing                  | Collection through the Solution, storage, hosting, backup, retrieval, organisation, display, transmission, export, correction and deletion; and, where the Order Form says so, sending records to an AI service to generate text from them. |
-| Purpose                                   | To provide the Solution and the services to the Client.                                                                                                                                                                                     |
-| Types of personal data                    | [Names; work contact details (email, phone); job titles; records of work done, messages and files that the Client's users put into the Solution; sign-in and access logs. Add anything specific to this client.]                            |
-| Special category or criminal offence data | [None. If the Solution will hold any, list it here and the additional measures agreed.]                                                                                                                                                     |
-| Categories of data subject                | [The Client's staff and contractors; the Client's customers and suppliers; other people named in records the Client keeps in the Solution.]                                                                                                 |
-| Retention                                 | As set by the Client. By default, records are kept while the Solution is live and deleted under Schedule 4 when the agreement ends. Backups expire [35] days after they are taken.                                                          |
+|                                           |                                                                                                                                                                                                                                                                                        |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Subject matter                            | Hosting and operating the Solution built for the Client, and providing the services in each Order Form.                                                                                                                                                                                |
+| Duration                                  | For the term of the agreement, and afterwards until the data is returned and deleted under Schedule 4.                                                                                                                                                                                 |
+| Nature of the processing                  | Collection through the Solution, storage, hosting, backup, retrieval, organisation, display, transmission, export, correction and deletion; and, where the Order Form says so, sending records to an AI service to generate text from them.                                            |
+| Purpose                                   | To provide the Solution and the services to the Client.                                                                                                                                                                                                                                |
+| Types of personal data                    | [Names; work contact details (email, phone); job titles; records of work done, messages and files that the Client's users put into the Solution; sign-in and access logs. Add anything specific to this client.]                                                                       |
+| Special category or criminal offence data | [None. If the Solution will hold any, list it here and the additional measures agreed.]                                                                                                                                                                                                |
+| Categories of data subject                | [The Client's staff and contractors; the Client's customers and suppliers; other people named in records the Client keeps in the Solution.]                                                                                                                                            |
+| Retention                                 | As set by the Client. By default, records are kept while the Solution is live and deleted under Schedule 4 when the agreement ends. Point-in-time backups expire 35 days after they are taken; weekly long-term backups after 12 weeks, and monthly long-term backups after 12 months. |
 
 ## Annex B — Security measures
 
 1. **Separation between clients.** Each client's Solution runs in its own Azure subscription with its own database, storage and credentials. No sign-in or administrative session spans more than one client.
 2. **Access control.** Access is on a least-privilege basis and granted to named individuals only. Every administrative and privileged account uses multi-factor authentication. Access is removed on the day someone stops working on the Client's Solution.
 3. **Encryption.** Data is encrypted in transit (TLS 1.2 or higher) and at rest, including in backups, using Azure platform encryption.
-4. **Logging.** Administrative access and changes to production are logged, and the logs are kept for [90] days.
-5. **Backups and recovery.** Automated backups are geo-redundant within the United Kingdom and kept for [35] days. Restores are tested at least every six months, and each test is recorded against the recovery targets in Schedule 2.
+4. **Logging.** Changes to production are recorded in the Azure activity log and kept for 90 days. The Solution's application logs, including sign-ins to the Solution, are kept for at least 30 days.
+5. **Backups and recovery.** Automated backups are geo-redundant, replicated to the paired Azure region, and kept for 35 days for point-in-time restore, with weekly backups kept for 12 weeks and monthly backups for 12 months. Restores are tested at least every six months, and each test is recorded against the recovery targets in Schedule 2.
 6. **Secure development and updates.** Code is reviewed by a person before release. Security updates are applied to the platform and dependencies promptly, and critical ones within 14 days.
 7. **Staff.** Everyone with access is bound by confidentiality and briefed on this schedule and the breach procedure.
 8. **Breach notification content.** A notification under section 2.7 will describe, as far as known: the nature of the breach, the categories and approximate number of individuals and records concerned, the likely consequences, the measures taken or proposed to deal with it, and a contact at YBT. Further information will follow as it becomes available.
@@ -87,13 +87,13 @@ YBT will:
 
 ## Annex C — Sub-processor register
 
-| Sub-processor                                          | What it does for the Solution                                                              | Where the data is                                                                                  | Transfer safeguard                                                                                          |
-| ------------------------------------------------------ | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Microsoft Ireland Operations Limited (Microsoft Azure) | Hosting, database, file storage, backups and monitoring                                    | United Kingdom (UK South and UK West). Microsoft support staff may access remotely from elsewhere. | Microsoft Products and Services Data Protection Addendum, including the UK Addendum                         |
-| Anthropic, PBC                                         | AI text generation from records — only where the Order Form says AI services are used      | United States                                                                                      | Anthropic's data processing addendum with the UK Addendum. Anthropic does not train its models on API data. |
-| Resend, Inc.                                           | Sending the Solution's emails, such as notifications — only where the Solution sends email | United States                                                                                      | Resend's data processing agreement with the UK Addendum                                                     |
+| Sub-processor                                          | What it does for the Solution                                                              | Where the data is                                                                                                                                  | Transfer safeguard                                                                                          |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Microsoft Ireland Operations Limited (Microsoft Azure) | Hosting, database, file storage, backups and monitoring                                    | The United Kingdom or the European Economic Area, in the regions the Order Form names. Microsoft support staff may access remotely from elsewhere. | Microsoft Products and Services Data Protection Addendum, including the UK Addendum                         |
+| Anthropic, PBC                                         | AI text generation from records — only where the Order Form says AI services are used      | United States                                                                                                                                      | Anthropic's data processing addendum with the UK Addendum. Anthropic does not train its models on API data. |
+| Resend, Inc.                                           | Sending the Solution's emails, such as notifications — only where the Solution sends email | United States                                                                                                                                      | Resend's data processing agreement with the UK Addendum                                                     |
 
-_Last updated 24 September 2026. YBT keeps this register current and gives notice of changes under section 3.2._
+_Last updated 1 November 2026. YBT keeps this register current and gives notice of changes under section 3.2._
 
 ## Signed
 

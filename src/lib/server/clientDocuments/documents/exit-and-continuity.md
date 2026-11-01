@@ -1,6 +1,6 @@
 # Schedule 4 — Exit and Continuity
 
-**Version 1.2 — 31 October 2026**
+**Version 1.3 — 1 November 2026**
 
 This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It says how the Client gets its data and its system back — when the Run service ends normally, and if YBT cannot continue.
 
@@ -29,7 +29,7 @@ This schedule forms part of the Master Services Agreement between Your Business 
 
 3.2 **Source and hand-over.** For every stage that has been paid for, YBT hands over the source code, infrastructure definitions, configuration (without secrets, which are handed over separately and securely), and the documentation needed to run the Solution elsewhere.
 
-3.3 **Deletion.** Unless the Client asks otherwise in writing, YBT deletes the Client Data from the live Solution within 30 days after the final export is delivered, and gives the Client a written certificate of deletion. Copies in backups expire and are destroyed automatically within 35 days after that, the period backups are kept for under Schedule 2 section 3.3. YBT keeps nothing longer except where the law requires it.
+3.3 **Deletion.** Unless the Client asks otherwise in writing, YBT deletes the Client Data from the live Solution within 30 days after the final export is delivered, and gives the Client a written certificate of deletion. Copies in point-in-time backups expire and are destroyed automatically within 35 days after that, and YBT deletes the weekly and monthly long-term backups kept under Schedule 2 section 3.3 when it deletes the live Solution. YBT keeps nothing longer except where the law requires it.
 
 3.4 **Transition help.** If the Client asks, YBT will help move the Solution to the Client or to a new supplier, at the day rate in the Order Form, capped at 5 days unless agreed otherwise in writing.
 
