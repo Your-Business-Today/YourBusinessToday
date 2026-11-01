@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-11-01 08:07 UTC.
+Generated 2026-11-01 10:20 UTC.
 
 ## Headline
 
@@ -43,13 +43,13 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | backend | 804 | 794 | 25,312 |
 | frontend | 661 | 531 | 18,359 |
 | shared | 337 | 323 | 10,423 |
-| tests | 243 | 229 | 8,752 |
+| tests | 244 | 229 | 8,752 |
 | api | 227 | 227 | 10,732 |
 | database | 142 | 0 | 0 |
-| tooling | 130 | 5 | 138 |
+| tooling | 115 | 5 | 138 |
 | docs | 62 | 0 | 0 |
 | infrastructure | 16 | 0 | 0 |
-| **whole repository** | **2,622** | **2,109** | **73,716** |
+| **whole repository** | **2,608** | **2,109** | **73,716** |
 
 ## Summary
 
@@ -70,18 +70,18 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | inventory | pages: 47, components: 438, orphanComponents: 0, averagePageLines: 45 |
 | siteDefinition | skipped: no siteDefinition catalogue in rules.json |
 | inputValidation | schemaTables: 118, limitedColumns: 0, writeDoors: 166, unvalidatedDoors: 0, looserLimits: 0 |
-| fileAreas | totalFiles: 2622, backend: 804, frontend: 661, shared: 337, tests: 243, api: 227, database: 142, tooling: 130, docs: 62, infrastructure: 16 |
+| fileAreas | totalFiles: 2608, backend: 804, frontend: 661, shared: 337, tests: 244, api: 227, database: 142, tooling: 115, docs: 62, infrastructure: 16 |
 
 ## Against the baseline
 
 | Ratcheted figure | Baseline | Now | Verdict |
 | --- | --- | --- | --- |
-| code quality score | 100.0% | 99.9% | — |
+| code quality score | 99.9% | 99.9% | — |
 | fileLength.filesOverLimit | 0 | 0 | held |
 | fileLength.worstFileLines | 0 | 0 | held |
 | functionShape.functionsOverLimit | 0 | 0 | held |
 | functionShape.elseBlocks | 0 | 0 | held |
-| duplication.duplicatedPercentage | None | 0.01 | — |
+| duplication.duplicatedPercentage | 0.01 | 0.01 | held |
 | comments.explanatoryCommentLines | 0 | 0 | held |
 | magicValues.inlineHexColours | 0 | 0 | held |
 | inventory.orphanComponents | 0 | 0 | held |
