@@ -1,5 +1,5 @@
 <!-- project-process:begin -->
-<!-- project-process kit v1.38.0 — replaced whole by bootstrap.sh; edit the kit, and write this repository's own instructions in PROJECT.md -->
+<!-- project-process kit v1.39.0 — replaced whole by bootstrap.sh; edit the kit, and write this repository's own instructions in PROJECT.md -->
 
 # How We Work
 
@@ -300,7 +300,7 @@ A design pattern turns the backend and the API into understandable, predictable 
 
 - **New code lands in the pattern's shape from birth.** Adding an entity or an operation means adding the files the pattern predicts for it, named the way its siblings are named. If you are adding a file with no sibling anywhere in the codebase, say so.
 - **File counts should be consistent.** An entity's properties are its complexity, and its complexity dictates how many views it needs and how large the files the patterns force on it are. Across a consistent codebase the number of files per entity sits within a rough, acceptable range of that complexity. An entity far below the range has its work piled into too few files; one far above has a pattern being repeated by hand. Either is a finding.
-- **An exception is written down.** A subject that truly has no need of a file its pattern predicts is recorded as an accepted gap, not left to look like an oversight, and never satisfied with an empty file.
+- **An exception is written down.** A subject that truly has no need of a file its pattern predicts is recorded as an accepted gap, not left to look like an oversight, and never satisfied with an empty file. An entity whose file count is what its pattern makes of it is recorded as an accepted count, with the reason, and never brought into range by renaming or merging files to suit the count.
 
 ## Architecture Bias
 

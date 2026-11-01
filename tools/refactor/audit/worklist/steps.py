@@ -1,10 +1,10 @@
-"""Orders the refactor for this repository: component breakout, then utility functions, then design patterns."""
+"""The component breakout and utility function passes of the plan, and the shape every step of the plan takes."""
 from __future__ import annotations
 
 from .handler_evidence import LOCAL, UNDECIDED
 
 
-BREAKOUT, UTILITIES, PATTERNS = "Pass 2 — Component breakout", "Pass 3 — Utility function identification", "Pass 4 — Design pattern identification"
+BREAKOUT, UTILITIES = "Pass 2 — Component breakout", "Pass 3 — Utility function identification"
 SHOWN_BLOCKS = 4
 SHOWN_FILES = 4
 SHOWN_REPEATS = 15
@@ -67,33 +67,4 @@ def utilitySteps(views: list[dict], repeatedBodies: list[dict], audit: dict) -> 
     if orphanCount:
         title = f"Remove the {orphanCount} components and functions nothing calls"
         steps.append(step(UTILITIES, title, ORPHANS_DETAIL))
-    return steps
-
-
-def describeGaps(pattern: dict) -> str:
-    predicted = "; ".join(pattern["missing"][:SHOWN_FILES])
-    return (
-        f"{len(pattern['missing'])} of {pattern['predicted']} lack it. Predicted: {predicted}. "
-        "Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
-    )
-
-
-def patternSteps(others: list[dict], designPatterns: dict) -> list[dict]:
-    offenders = designPatterns["offenders"]
-    steps = [
-        step(PATTERNS, f"Complete the pattern: {pattern['pattern']}", describeGaps(pattern))
-        for pattern in offenders["patterns"]
-        if pattern["missing"]
-    ]
-    steps += [
-        step(PATTERNS, f"Bring `{row['entity']}` into range",
-             f"{row['properties']} properties, {row['files']} file(s) named for it, about {row['expectedFiles']} expected.")
-        for row in offenders["entityFileCounts"]
-        if not row["isInRange"]
-    ]
-    steps += [
-        step(PATTERNS, f"Divide `{target['file']}` ({target['lines']} lines) into the units its pattern names",
-             f"{len(target['functions'])} functions; the longest is {max((function['lines'] for function in target['functions']), default=0)} lines.")
-        for target in others
-    ]
     return steps

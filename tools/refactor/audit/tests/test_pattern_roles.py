@@ -4,7 +4,7 @@ from __future__ import annotations
 import unittest
 
 from ..checks import design_patterns, pattern_roles
-from ..worklist.steps import patternSteps
+from ..worklist.pattern_steps import patternSteps
 from .fixtures import sourceFile
 
 SUBJECTS_WITH_HANDLERS = ["CreateProject", "ArchiveProject", "RenameProject", "DeleteProject", "ShareProject"]

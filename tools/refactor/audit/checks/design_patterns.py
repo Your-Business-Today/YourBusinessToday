@@ -19,6 +19,7 @@ def check(sourceFiles: list[SourceFile], rules: dict) -> dict:
             "predictedFilesMissing": roles["predictedFilesMissing"],
             "entities": entities["entities"],
             "entitiesOutOfRange": entities["entitiesOutOfRange"],
+            "entitiesAccepted": entities["entitiesAccepted"],
             "measurementIsHeuristic": True,
         },
         {

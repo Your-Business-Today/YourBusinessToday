@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-01T06:33:21+00:00",
-  "kitVersion": "1.38.0",
+  "generatedAt": "2026-11-01T08:07:42+00:00",
+  "kitVersion": "1.39.0",
   "score": {
-    "overall": 100.0,
+    "overall": 99.9,
     "groups": [
       {
         "group": "Standard baseline checks",
-        "score": 100.0,
-        "weight": 52
+        "score": 99.9,
+        "weight": 60
       },
       {
         "group": "Design pattern file count",
@@ -86,9 +86,10 @@
         "weight": 8,
         "zeroAt": 20,
         "unit": "",
-        "isMeasured": false,
-        "offenders": null,
-        "score": null
+        "isMeasured": true,
+        "offenders": 0.01,
+        "measuredAgainst": 1,
+        "score": 100.0
       },
       {
         "key": "comments",
@@ -273,8 +274,10 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "skipped": "jscpd is not installed (npm install -g jscpd)",
-      "carriedFromBaseline": true
+      "clones": 1,
+      "duplicatedLines": 8,
+      "totalLines": 75184,
+      "duplicatedPercentage": 0.01
     },
     "naming": {
       "bannedAbbreviationHits": 35,
@@ -311,6 +314,7 @@
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
+      "entitiesAccepted": 0,
       "measurementIsHeuristic": true
     },
     "inventory": {
@@ -807,6 +811,7 @@
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
+        "entitiesAccepted": 0,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -3116,10 +3121,21 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "skipped": "jscpd is not installed (npm install -g jscpd)",
-        "carriedFromBaseline": true
+        "clones": 1,
+        "duplicatedLines": 8,
+        "totalLines": 75184,
+        "duplicatedPercentage": 0.01
       },
-      "offenders": []
+      "offenders": [
+        {
+          "file": "src/lib/data/continuityCopy.ts",
+          "duplicatedLineInstances": 8
+        },
+        {
+          "file": "src/lib/data/validateTodo.ts",
+          "duplicatedLineInstances": 8
+        }
+      ]
     }
   }
 }

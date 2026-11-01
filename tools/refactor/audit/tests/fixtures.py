@@ -6,8 +6,23 @@ from pathlib import Path
 from ..source_files import SourceFile
 
 
+ONE_COLUMN_ENTITY = """
+public sealed class {name}Entity
+{{
+    public string Reference {{ get; set; }} = "";
+}}
+"""
+ENTITY_GLOBS = ["api/Data/Entities/*.cs"]
+
+
 def sourceFile(relative: str, text: str = "") -> SourceFile:
     return SourceFile(Path(relative), relative, text.splitlines())
+
+
+def oneColumnEntity(name: str, fileCount: int) -> list:
+    files = [sourceFile(f"api/Data/Entities/{name}Entity.cs", ONE_COLUMN_ENTITY.format(name=name))]
+    files += [sourceFile(f"api/Features/{name}Role{index}.cs") for index in range(fileCount - 1)]
+    return files
 
 
 def csharpHandler(className: str, methodBody: str) -> str:
