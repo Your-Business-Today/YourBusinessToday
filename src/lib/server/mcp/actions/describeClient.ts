@@ -1,6 +1,7 @@
 import { clientEventLabels } from '$lib/data/clientEventLabels';
 import { clientStageLabels } from '$lib/data/clientLifecycle';
 import { formatBritishDate } from '$lib/data/britishDate';
+import { describeContinuityCopy } from './describeContinuityCopy';
 import type { Client } from '$lib/server/clients/clientRecord';
 import type { ClientContact } from '$lib/server/clients/clientContactRecord';
 import type { ClientEvent } from '$lib/server/clients/clientEventRecord';
@@ -33,6 +34,7 @@ export function describeClientInFull(
 		`${client.name} — ${clientStageLabels[client.stage]} — id ${client.id}`,
 		client.website === '' ? null : `Website: ${client.website}`,
 		`On the register since ${formatBritishDate(client.createdAt)}`,
+		describeContinuityCopy(client.continuityCopy),
 		'',
 		'Contacts:',
 		contacts.length === 0 ? 'None yet.' : contacts.map(describeContactLine).join('\n'),
