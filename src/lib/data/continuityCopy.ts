@@ -1,3 +1,5 @@
+import { readDay } from './days';
+
 /** The continuity copy as the client record holds it: when the client's storage was connected, when they
  * confirmed opening a copy, and who at the client confirmed it. Each is blank until it happens. */
 export type ContinuityCopy = {
@@ -10,7 +12,6 @@ export const continuityCopyLimits = { longestConfirmedBy: 200 } as const;
 
 export const noContinuityCopy: ContinuityCopy = { storageConnectedOn: null, copyOpenedOn: null, copyConfirmedBy: null };
 
-const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 const dayRefusal = (field: string) => `The ${field} is a real day written YYYY-MM-DD.`;
 const futureRefusal = (field: string) => `The ${field} cannot be after today.`;
 const confirmedByRefusal = `Who confirmed the copy is 1 to ${continuityCopyLimits.longestConfirmedBy} characters.`;
@@ -34,13 +35,4 @@ export function validateContinuityCopy(fields: Record<string, unknown>, today: s
 
 function isAfter(day: string | null, today: string): boolean {
 	return day !== null && day > today;
-}
-
-function readDay(value: unknown): string | null | undefined {
-	const text = String(value ?? '').trim();
-	if (text === '') return null;
-	if (!isoDatePattern.test(text)) return undefined;
-	const day = new Date(`${text}T00:00:00Z`);
-	const isRealDay = !Number.isNaN(day.getTime()) && day.toISOString().startsWith(text);
-	return isRealDay ? text : undefined;
 }
