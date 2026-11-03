@@ -1,5 +1,6 @@
 import { findAction } from './actionRegistry';
 import { readActionToolName, writeActionToolName } from './actionToolNames';
+import { recordIdRefusal } from './recordIdRefusal';
 import { refuseUnknownFields } from './unknownFieldRefusal';
 import type { McpAction } from './actionTypes';
 import type { McpCaller } from './resolveMcpCaller';
@@ -56,5 +57,7 @@ async function runGatedAction(
 	const refusal = gate(action);
 	if (refusal !== null) return refusal;
 	refuseUnknownFields(action.name, action.inputSchema, input);
+	const idRefusal = recordIdRefusal(action.name, action.inputSchema, input);
+	if (idRefusal !== null) return idRefusal;
 	return action.run(caller, input);
 }
