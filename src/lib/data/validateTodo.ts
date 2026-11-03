@@ -1,3 +1,4 @@
+import { readDay } from './days';
 import { parseTodoStatus, todoLimits, todoStatusOrder, type TodoStatus } from './todo';
 
 export type TodoChanges = {
@@ -7,7 +8,6 @@ export type TodoChanges = {
 	dueDate?: string | null;
 };
 
-const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 const titleRefusal = `A to-do's title is 1 to ${todoLimits.longestTitle} characters.`;
 const notesRefusal = `A to-do's notes are at most ${todoLimits.longestNotes} characters.`;
 const statusRefusal = `A to-do's status is one of ${todoStatusOrder.join(', ')}.`;
@@ -32,18 +32,9 @@ export function validateTodoChanges(fields: Record<string, unknown>): TodoChange
 		changes.status = status;
 	}
 	if ('dueDate' in fields) {
-		const dueDate = readDueDate(fields.dueDate);
+		const dueDate = readDay(fields.dueDate);
 		if (dueDate === undefined) return dueDateRefusal;
 		changes.dueDate = dueDate;
 	}
 	return changes;
-}
-
-function readDueDate(value: unknown): string | null | undefined {
-	const text = String(value ?? '').trim();
-	if (text === '') return null;
-	if (!isoDatePattern.test(text)) return undefined;
-	const day = new Date(`${text}T00:00:00Z`);
-	const isRealDay = !Number.isNaN(day.getTime()) && day.toISOString().startsWith(text);
-	return isRealDay ? text : undefined;
 }
