@@ -3,6 +3,17 @@ import { McpErrorCode, McpRequestRefusal } from './mcpErrors';
 /** A prompt the person picks from their Claude's menu, which asks their Claude to do one thing. */
 type McpPrompt = { name: string; title: string; description: string; text: string };
 
+const nextTurnPrompt: McpPrompt = {
+	name: 'what_do_i_need_to_do',
+	title: 'What do I need to do?',
+	description:
+		'Talk your Your Business Today work through one thing at a time, bugs first: the agent raises ' +
+		'one item, records your answer and moves on.',
+	text:
+		'What do I need to do? Run the next_turn action with run_read_action and work as the YBT agent: ' +
+		'raise its one item, record my answer with answer_turn on my yes, and carry on one item at a time.'
+};
+
 const ybtSummaryPrompt: McpPrompt = {
 	name: 'ybt_summary',
 	title: 'YBT summary',
@@ -27,7 +38,7 @@ const outstandingPrompt: McpPrompt = {
 		'one at a time, then the bigger work.'
 };
 
-const everyPrompt: McpPrompt[] = [outstandingPrompt, ybtSummaryPrompt];
+const everyPrompt: McpPrompt[] = [nextTurnPrompt, outstandingPrompt, ybtSummaryPrompt];
 
 export function describeMcpPrompts(): Record<string, unknown>[] {
 	return everyPrompt.map(({ name, title, description }) => ({ name, title, description }));

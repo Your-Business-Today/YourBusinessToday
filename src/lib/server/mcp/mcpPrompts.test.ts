@@ -28,4 +28,13 @@ describe('the connector’s prompts', () => {
 		const [{ content }] = messages;
 		expect(content.text).toContain('whats_outstanding_for_me');
 	});
+
+	it('offers the turn-based agent first, through next_turn and answer_turn', () => {
+		const [first] = describeMcpPrompts();
+		expect(first.title).toBe('What do I need to do?');
+		const { messages } = getMcpPrompt(first.name) as { messages: { content: { text: string } }[] };
+		const [{ content }] = messages;
+		expect(content.text).toContain('next_turn');
+		expect(content.text).toContain('answer_turn');
+	});
 });

@@ -1,4 +1,4 @@
-import { agendaKindOrder, type AgendaItem } from './agendaItem';
+import { agendaKey, agendaKindOrder, agendaKinds, type AgendaItem } from './agendaItem';
 
 const undatedLast = '\uffff';
 
@@ -8,11 +8,19 @@ export type AgendaFocus = { projectId: string | null; isBugsOnly: boolean };
 /**
  * The agenda in the order the agent raises it: every bug first, then each kind in its turn, the
  * longest waiting first within a kind, and the key last so the same board always gives the same order.
- * Items put off until a later day are left out, and so is anything outside the focus.
+ * Items put off until a later day are left out, with the promises made on a task that was put off,
+ * and so is anything outside the focus.
  */
 export function orderAgenda(items: AgendaItem[], focus: AgendaFocus, snoozedKeys: Set<string>): AgendaItem[] {
-	const inFocus = items.filter((item) => isInFocus(item, focus) && !snoozedKeys.has(item.key));
+	const inFocus = items.filter((item) => isInFocus(item, focus) && !isPutOff(item, snoozedKeys));
 	return [...inFocus].sort(byAgendaOrder);
+}
+
+function isPutOff(item: AgendaItem, snoozedKeys: Set<string>): boolean {
+	if (snoozedKeys.has(item.key)) return true;
+	const { kind, subjectId } = item;
+	const isPromise = kind === agendaKinds.promise && subjectId !== null;
+	return isPromise && snoozedKeys.has(agendaKey('task', subjectId));
 }
 
 function isInFocus(item: AgendaItem, focus: AgendaFocus): boolean {

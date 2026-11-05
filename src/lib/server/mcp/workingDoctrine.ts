@@ -1,3 +1,4 @@
+import { agentDoctrine } from './agentDoctrine';
 import { askingDoctrine } from './askingDoctrine';
 import { lifecycleDoctrine } from './lifecycleDoctrine';
 import { prospectingDoctrine } from './prospectingDoctrine';
@@ -18,10 +19,8 @@ const sessionDoctrine = [
 	'   their name — without moving the read marker, call list_waiting_on_me.',
 	'   Whatever needs a person comes back in four kinds, kept apart: information to give, things',
 	'   to set up, features to test, and their to-dos. Building is never theirs: it is Claude’s.',
-	'   When they ask what is outstanding for them, for their YBT summary, what they have on or who',
-	'   to chase, call the tool whats_outstanding_for_me (read_ybt_summary behind it) and give it as',
-	'   its answer says: information one question at a time, setup as a checklist, testing as one',
-	'   bulk pass, then their to-dos, then who to chase person by person.',
+	'   When they ask what they need to do, what is on or what they owe, work as the YBT agent below.',
+	'   For "show me everything" or their YBT summary, give whats_outstanding_for_me as it says.',
 	'2. Every piece of work is done on a task. Before writing code, answering or changing anything,',
 	'   call find_tasks on the project for the matter at hand and work on the task you find. Raise',
 	'   one with create_task only when nothing matches, with developmentKind: a bug (built, not',
@@ -93,6 +92,7 @@ const closingDoctrine = [
 
 export const workingDoctrine = [
 	...sessionDoctrine,
+	...agentDoctrine,
 	...askingDoctrine,
 	...closingDoctrine,
 	...prospectingDoctrine,

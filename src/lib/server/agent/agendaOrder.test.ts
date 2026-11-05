@@ -37,4 +37,10 @@ describe('the order the agent raises things', () => {
 		expect(orderAgenda(items, { projectId: 'pfp', isBugsOnly: false }, new Set())).toHaveLength(1);
 		expect(orderAgenda(items, { projectId: null, isBugsOnly: true }, new Set())).toHaveLength(1);
 	});
+
+	it('leaves out a promise made on a task that was put off', () => {
+		const promise = item('todo:1', { kind: 'promise', subjectId: 'task-9' });
+		const kept = orderAgenda([promise, item('todo:2', { kind: 'promise' })], everyFocus, new Set(['task:task-9']));
+		expect(kept.map(({ key }) => key)).toEqual(['todo:2']);
+	});
 });

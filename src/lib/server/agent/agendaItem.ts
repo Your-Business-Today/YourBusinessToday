@@ -27,6 +27,9 @@ export const agendaKindLabels: Record<AgendaKind, string> = {
 	chase: 'Someone to chase'
 };
 
+/** What an item is said on: a goal or a task. */
+export const subjectKinds = { goal: 'goal', task: 'task' } as const;
+
 /** One thing to raise. Its key names it across chats, so a snooze or an answer finds it again. */
 export type AgendaItem = {
 	key: string;
@@ -42,7 +45,14 @@ export type AgendaItem = {
 	since: string | null;
 };
 
+const keySeparator = ':';
+
 /** The key of an item: its kind of record and the record's id, such as message:… or task:…. */
 export function agendaKey(recordKind: string, recordId: string): string {
-	return `${recordKind}:${recordId}`;
+	return `${recordKind}${keySeparator}${recordId}`;
+}
+
+/** The record an item's key names: the to-do, message, task or person after its kind. */
+export function agendaRecordId(key: string): string {
+	return key.slice(key.indexOf(keySeparator) + 1);
 }

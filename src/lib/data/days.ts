@@ -19,3 +19,7 @@ export function readDay(value: unknown): string | null | undefined {
 	const isRealDay = !Number.isNaN(day.getTime()) && day.toISOString().startsWith(text);
 	return isRealDay ? text : undefined;
 }
+
+export function daysAhead(days: number, now: number = Date.now()): string {
+	return dayOf(now + days * millisecondsPerDay);
+}

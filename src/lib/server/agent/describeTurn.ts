@@ -3,6 +3,7 @@ import { countOf } from '$lib/data/countOf';
 import { excerpt } from '$lib/server/mcp/actions/describeOwedTasks';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { goodAnswers, quietMinutesBeforeOpening } from './goodAnswers';
+import { outcomesByKind } from './turnOutcome';
 import { waitedFor, wholeDaysSince } from '$lib/data/ageInDays';
 import type { Agenda } from './buildAgenda';
 
@@ -11,7 +12,8 @@ type TurnReading = { agenda: Agenda; nameOf: NameOf; now: Date };
 
 export const nothingToRaise =
 	'Nothing needs this person right now: no ask, job, promise or to-do waits on them, and nobody owes them anything. ' +
-	'Say so in a line. If they ask how a project is doing, call read_project_state.';
+	'Next, any open to-dos for them in a client portal their Claude reaches, one at a time; if there are none, ' +
+	'say so in a line. If they ask how a project is doing, call read_project_state.';
 
 /** One turn of the conversation: an opener when it starts afresh, then the one item to raise now and how to record its answer. */
 export function describeTurn({ agenda, nameOf, now }: TurnReading): string[] {
@@ -46,7 +48,8 @@ function itemLines(item: AgendaItem, nameOf: NameOf, now: Date): string[] {
 		`- Item key: ${item.key}`,
 		`- Why it matters: ${whyItMatters(item, nameOf, now)}`,
 		`- The ask: ${excerpt(item.ask === '' ? item.subjectTitle : item.ask)}`,
-		`- A good answer: ${goodAnswers[item.kind]}`
+		`- A good answer: ${goodAnswers[item.kind]}`,
+		`- Record it: answer_turn with itemKey ${item.key} and outcome ${outcomesByKind[item.kind].join(', ')}`
 	];
 }
 
