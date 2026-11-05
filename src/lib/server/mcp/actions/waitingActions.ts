@@ -5,13 +5,13 @@ import { reachableProjectIds } from '../projectAccess';
 import { askSections } from './describeAskSections';
 import { nothingWaiting } from './describeWaitingQuestions';
 import { describeTodos } from './describeTodos';
-import { getTodosOwnedBy } from '$lib/server/todos/getTodos';
-import { isTodoOpen } from '$lib/data/todo';
 import { getOwedTasks } from './owedTasks';
-import { getWaitingQuestionsFor } from './waitingQuestionsFor';
+import { getWhatCallerOwes } from '$lib/server/owed/callerOwes';
+import { withAskers } from './waitingQuestionsFor';
 import { objectSchema, readOptionalText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
+import type { WhatPersonOwes } from '$lib/server/owed/whatPersonOwes';
 
 export const titleNameField = textField(
 	'The first name people write in task titles for the person, such as Jeremy — leave ' +
@@ -43,9 +43,10 @@ export const waitingActions: McpAction[] = [
 			name: titleNameField
 		}),
 		run: async (caller, input) => {
-			const questions = await describeQuestions(caller);
-			const todos = await describeOpenTodos(caller);
-			const owed = await getOwedTasks(caller, readOptionalText(input, 'name'));
+			const owes = await getWhatCallerOwes(caller, readOptionalText(input, 'name'));
+			const questions = await describeQuestions(caller, owes);
+			const todos = describeTodos(owes.todos);
+			const owed = await getOwedTasks(caller, owes);
 			const unfinished = describeTasklessGoals(await getTasklessGoals(caller));
 			const owedLines = describeOwedTasks(owed);
 			const sections = [...unfinished, ...questions, '## Your to-dos', ...todos, '', ...owedLines];
@@ -58,14 +59,9 @@ async function getTasklessGoals(caller: McpCaller) {
 	return getTasklessGoalsRaisedBy(caller.supabase, reachableProjectIds(caller), caller.accountId);
 }
 
-async function describeQuestions(caller: McpCaller): Promise<string[]> {
-	const waiting = await getWaitingQuestionsFor(caller);
-	const { questions } = waiting;
+async function describeQuestions(caller: McpCaller, owes: WhatPersonOwes): Promise<string[]> {
+	const { questions } = owes;
 	if (questions.length === 0) return [nothingWaiting, ''];
+	const waiting = await withAskers(caller.supabase, questions);
 	return askSections(waiting, caller.accountId);
-}
-
-async function describeOpenTodos(caller: McpCaller): Promise<string[]> {
-	const todos = await getTodosOwnedBy(caller.supabase, caller.accountId);
-	return describeTodos(todos.filter((todo) => isTodoOpen(todo.status)));
 }

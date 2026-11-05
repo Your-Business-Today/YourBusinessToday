@@ -1,74 +1,42 @@
+import { chaseItemsOwedBy } from './chaseItems';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
-import { getAssigneeIdsByTask } from '$lib/server/projects/getAssigneeIdsByTask';
-import { getBatonsWithOthers, type Baton } from '$lib/server/conversations/getBatonsWithOthers';
-import { getMessageBodies } from '$lib/server/conversations/getMessageBodies';
-import { getOpenGoalsAmong, getOpenTasksAmong } from '$lib/server/conversations/getOpenSubjects';
-import { getOpenTasksRaisedBy } from '$lib/server/projects/getOpenTasksRaisedBy';
+import { getOtherPeopleOnProjects } from '$lib/server/owed/peopleOnProjects';
+import { getWhatPersonOwes } from '$lib/server/owed/whatPersonOwes';
 import { reachableProjectIds } from '../projectAccess';
 import type { Account } from '$lib/server/accounts/accountRecord';
+import type { AskKind } from '$lib/data/askKind';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { OpenSubject } from '$lib/server/conversations/getOpenSubjects';
 
-/** Why someone is chased: an answer the baton waits on, or work they hold that the viewer asked for. */
-export type ChaseReason = 'answer' | 'work';
+/** Why someone is chased: an ask waiting on them, work in their name, or a to-do they promised on a task. */
+export type ChaseReason = 'answer' | 'work' | 'promise';
 
-/** One thing the viewer waits on from one person. */
+/** One thing someone owes on the viewer's projects; askedById is who asked for it, when that is known. */
 export type ChaseItem = {
 	personId: string;
 	subject: OpenSubject;
 	reason: ChaseReason;
+	askKind: AskKind | null;
 	askedById: string | null;
 	question: string | null;
 	since: string | null;
 };
 
-/** Everything the viewer waits on from other people, with the people named. */
-export type ChaseList = { items: ChaseItem[]; people: Account[] };
+/** Everything other people owe on the viewer's projects, with the people named. */
+export type ChaseList = { items: ChaseItem[]; people: Account[]; isOnlyAskedByViewer: boolean };
 
-export async function getChaseList(caller: McpCaller): Promise<ChaseList> {
-	const answers = await getAnswersAwaited(caller);
-	const chasedIds = new Set(answers.map(({ subject }) => subject.id));
-	const work = await getWorkAwaited(caller, chasedIds);
-	const items = [...answers, ...work];
-	const askerIds = items.flatMap((item) => item.askedById ?? []);
-	const chasedPeopleIds = items.map((item) => item.personId);
-	const people = await getAccountsById(caller.supabase, [...chasedPeopleIds, ...askerIds]);
-	return { items, people };
-}
-
-async function getAnswersAwaited(caller: McpCaller): Promise<ChaseItem[]> {
-	const { supabase, accountId, isStaff } = caller;
-	const projectIds = reachableProjectIds(caller);
-	const batons = await getBatonsWithOthers(supabase, accountId);
-	const [tasks, goals, questions] = await Promise.all([
-		getOpenTasksAmong(supabase, batons.flatMap((baton) => baton.taskId ?? []), projectIds),
-		getOpenGoalsAmong(supabase, batons.flatMap((baton) => baton.goalId ?? []), projectIds),
-		getMessageBodies(supabase, batons.map((baton) => baton.messageId), isStaff)
-	]);
-	return batons.flatMap((baton) => {
-		const subject = tasks.get(baton.taskId ?? '') ?? goals.get(baton.goalId ?? '');
-		if (subject === undefined) return [];
-		return [answerAwaited(baton, subject, questions.get(baton.messageId) ?? null)];
-	});
-}
-
-function answerAwaited(baton: Baton, subject: OpenSubject, question: string | null): ChaseItem {
-	const { waitingOnId: personId, askedById, since } = baton;
-	return { personId, subject, reason: 'answer', askedById, question, since };
-}
-
-async function getWorkAwaited(caller: McpCaller, chasedIds: Set<string>): Promise<ChaseItem[]> {
+/**
+ * Who to chase reads, for everyone else on the viewer's projects, the same calculation of what a
+ * person owes that their own summary reads, so the two always agree. Narrowed to what the viewer
+ * asked for, it keeps only the asks they posted and the tasks they asked for.
+ */
+export async function getChaseList(caller: McpCaller, isOnlyAskedByViewer: boolean): Promise<ChaseList> {
 	const { supabase, accountId } = caller;
-	const raised = await getOpenTasksRaisedBy(supabase, accountId, reachableProjectIds(caller));
-	const notChased = raised.filter((task) => !chasedIds.has(task.id));
-	const assigneesByTask = await getAssigneeIdsByTask(supabase, notChased.map((task) => task.id));
-	return notChased.flatMap((subject) => {
-		const assigneeIds = assigneesByTask.get(subject.id) ?? [];
-		const others = assigneeIds.filter((assigneeId) => assigneeId !== accountId);
-		return others.map((personId) => workAwaited(personId, subject));
-	});
-}
-
-function workAwaited(personId: string, subject: OpenSubject): ChaseItem {
-	return { personId, subject, reason: 'work', askedById: null, question: null, since: null };
+	const projectIds = reachableProjectIds(caller);
+	const { people, accounts } = await getOtherPeopleOnProjects(supabase, projectIds, accountId);
+	const owings = await Promise.all(people.map((person) => getWhatPersonOwes(supabase, person, projectIds)));
+	const everyItem = owings.flatMap((owes) => chaseItemsOwedBy(owes, projectIds));
+	const items = isOnlyAskedByViewer ? everyItem.filter((item) => item.askedById === accountId) : everyItem;
+	const askers = await getAccountsById(supabase, items.flatMap((item) => item.askedById ?? []));
+	return { items, people: [...accounts, ...askers], isOnlyAskedByViewer };
 }

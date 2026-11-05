@@ -2,10 +2,10 @@ import { describeChaseList } from './describeChaseList';
 import { describeSummary } from './describeSummary';
 import { getChaseList } from './chaseList';
 import { getOwedTasks } from './owedTasks';
-import { getWaitingQuestionsFor } from './waitingQuestionsFor';
+import { getWhatCallerOwes } from '$lib/server/owed/callerOwes';
+import { withAskers } from './waitingQuestionsFor';
 import { objectSchema, readOptionalText } from '../actionTypes';
-import { getTodosOwnedBy } from '$lib/server/todos/getTodos';
-import { isTodoOpen } from '$lib/data/todo';
+import { onlyWhatIAskedForField, isNarrowedToOwnAsks } from './chaseScopeField';
 import { summaryWalkthrough } from './summaryWalkthrough';
 import { titleNameField } from './waitingActions';
 import type { McpAction } from '../actionTypes';
@@ -27,17 +27,18 @@ export const summaryActions: McpAction[] = [
 			'they have on, what needs them or who to chase across their projects. Its answer opens with ' +
 			'how to give the summary: information one question at a time, setup as a checklist, testing ' +
 			'as one bulk pass, then their to-dos, then who to chase. Building is never listed: it is ' +
-			'Claude’s. It holds what list_waiting_on_me holds, by kind.',
-		inputSchema: objectSchema({ name: titleNameField }),
+			'Claude’s. It holds what list_waiting_on_me holds, by kind, bugs first. Who to chase is read ' +
+			'from the same calculation for everyone else on their projects, so it lists exactly what each ' +
+			'person’s own summary lists; onlyWhatIAskedFor narrows it to what they asked for.',
+		inputSchema: objectSchema({ name: titleNameField, onlyWhatIAskedFor: onlyWhatIAskedForField }),
 		run: async (caller, input) => {
-			const [waiting, owed, chaseList, everyTodo] = await Promise.all([
-				getWaitingQuestionsFor(caller),
-				getOwedTasks(caller, readOptionalText(input, 'name')),
-				getChaseList(caller),
-				getTodosOwnedBy(caller.supabase, caller.accountId)
+			const owes = await getWhatCallerOwes(caller, readOptionalText(input, 'name'));
+			const [waiting, owed, chaseList] = await Promise.all([
+				withAskers(caller.supabase, owes.questions),
+				getOwedTasks(caller, owes),
+				getChaseList(caller, isNarrowedToOwnAsks(input))
 			]);
-			const todos = everyTodo.filter((todo) => isTodoOpen(todo.status));
-			const summary = describeSummary({ waiting, todos, owed, viewerId: caller.accountId });
+			const summary = describeSummary({ waiting, todos: owes.todos, owed, viewerId: caller.accountId });
 			const chase = describeChaseList(chaseList, caller.accountId);
 			return [summaryWalkthrough, '', summaryHeading, '', ...summary, '', ...chase].join('\n');
 		}
