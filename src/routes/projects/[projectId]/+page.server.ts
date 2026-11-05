@@ -6,6 +6,7 @@ import { goalActions } from './goalActions';
 import { memberActions } from './memberActions';
 import { projectActions } from './projectActions';
 import { summariseProjectPulse } from '$lib/server/projects/summariseProjectPulse';
+import { projectStateOf } from '$lib/server/projects/projectState';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { sequenceStandingsOf } from '$lib/data/taskSequenceStanding';
 import { stagedTasksOf } from '$lib/data/stagedTasks';
@@ -18,13 +19,14 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const { project, isOwner, user } = await requireProjectAccess(locals, params.projectId);
 	const { work, assigneeIdsByTask, turnsByTask, deploysSinceRefactor, branchRuns, buildBoard, ...reads } =
 		await readBoard(locals, project, url);
-	const { projectTasks, tasks, goals, ...board } = work;
+	const { projectTasks, projectGoals, tasks, goals, ...board } = work;
 	return {
 		project,
 		...reads,
 		...branchRuns,
 		isOwner,
 		cadenceLine: describeRefactorCadence({ refactorEveryDeploys: project.refactorEveryDeploys, deploysSinceRefactor }),
+		projectState: projectStateOf({ tasks: projectTasks, goals: projectGoals, turnsByTask, now: new Date() }),
 		pulse: summariseProjectPulse({ tasks, goals, assigneeIdsByTask, turnsByTask, viewerId: user.id }),
 		taskTree: buildTaskTree(tasks),
 		stagedTasks: stagedTasksOf(tasks),
