@@ -4,7 +4,7 @@ import type { AgendaItem } from './agendaItem';
 
 const item = (key: string, fields: Partial<AgendaItem>): AgendaItem => ({
 	key, kind: 'information', isBug: false, projectId: 'ybt', projectName: 'YBT', subjectKind: 'task',
-	subjectId: key, subjectTitle: key, ask: '', askedById: null, since: '2026-11-01T09:00:00Z', ...fields
+	subjectId: key, subjectTitle: key, ask: '', askedById: null, since: '2026-11-01T09:00:00Z', goal: null, ...fields
 });
 
 const everyFocus = { projectId: null, isBugsOnly: false };
@@ -42,5 +42,13 @@ describe('the order the agent raises things', () => {
 		const promise = item('todo:1', { kind: 'promise', subjectId: 'task-9' });
 		const kept = orderAgenda([promise, item('todo:2', { kind: 'promise' })], everyFocus, new Set(['task:task-9']));
 		expect(kept.map(({ key }) => key)).toEqual(['todo:2']);
+	});
+
+	it('raises only current work, never what counts toward a long term goal', () => {
+		const parked = item('parked', { goal: { id: 'g-later', title: 'Office chat', horizon: 'long_term' } });
+		const live = item('live', { goal: { id: 'g-now', title: 'Launch', horizon: 'current' } });
+		const loose = item('loose', { goal: null });
+		const keys = orderAgenda([parked, live, loose], everyFocus, new Set()).map(({ key }) => key);
+		expect(keys).toEqual(['live', 'loose']);
 	});
 });

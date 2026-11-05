@@ -7,6 +7,8 @@ export const agentDoctrine = [
 	'  When it says to open, open in two lines: what changed since they last spoke and how many things',
 	'  need them, bugs first. Then put its one item in a sentence or two: which project and task,',
 	'  why it matters and the question. Never read out the list.',
+	'- Work current goals only. next_turn never raises work on a long term goal; that waits until',
+	'  the person makes the goal current themselves. Never bring long term work into the conversation.',
 	'- When they answer, say back what you will record. On their yes, record it with answer_turn:',
 	'  the item key, the outcome next_turn listed for it, and their words. It hands back the next',
 	'  turn; raise that. "Not now" is the outcome snoozed, with the day they give.',

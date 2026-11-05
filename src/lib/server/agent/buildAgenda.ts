@@ -4,6 +4,7 @@ import { getChaseList } from '$lib/server/mcp/actions/chaseList';
 import { getConversationRecord, type ConversationRecord } from './conversationRecord';
 import { getWhatCallerOwes } from '$lib/server/owed/callerOwes';
 import { orderAgenda, type AgendaFocus } from './agendaOrder';
+import { placeOnGoals } from './agendaGoals';
 import { dayOf } from '$lib/data/days';
 import type { AgendaItem } from './agendaItem';
 import type { McpCaller } from '$lib/server/mcp/resolveMcpCaller';
@@ -14,6 +15,7 @@ export type Agenda = { items: AgendaItem[]; record: ConversationRecord };
 /**
  * Worked out fresh from the board on every turn, so the same board always gives the same next item,
  * however and wherever the conversation starts. Who to chase joins it for anyone who owns a project.
+ * Each item is placed on its goal, so work on a long term goal waits until nothing current is left.
  */
 export async function buildAgenda(caller: McpCaller, focus: AgendaFocus, now: Date): Promise<Agenda> {
 	const owes = await getWhatCallerOwes(caller, null);
@@ -25,6 +27,7 @@ export async function buildAgenda(caller: McpCaller, focus: AgendaFocus, now: Da
 		getConversationRecord(caller.supabase, person.accountIds, dayOf(now.getTime()))
 	]);
 	const chaseItems = chase === null ? [] : agendaFromChase(chase);
-	const items = orderAgenda([...agendaFromOwes(owes), ...chaseItems], focus, record.snoozedKeys);
+	const placed = await placeOnGoals(caller.supabase, [...agendaFromOwes(owes), ...chaseItems]);
+	const items = orderAgenda(placed, focus, record.snoozedKeys);
 	return { items, record };
 }
