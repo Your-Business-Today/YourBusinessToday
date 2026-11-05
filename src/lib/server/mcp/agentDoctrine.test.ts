@@ -13,4 +13,9 @@ describe('the YBT agent’s script in the working doctrine', () => {
 		expect(workingDoctrine).toContain('"show me everything"');
 		expect(workingDoctrine).toContain('read_project_state');
 	});
+
+	it('brings the person’s client portal to-dos in with their own, each with its portal and link', () => {
+		expect(workingDoctrine).toContain('Their client portals are part of the board');
+		expect(workingDoctrine).toContain('naming the portal and its section with the link');
+	});
 });
