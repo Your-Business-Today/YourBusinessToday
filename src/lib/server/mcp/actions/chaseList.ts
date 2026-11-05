@@ -1,6 +1,7 @@
 import { chaseItemsOwedBy } from './chaseItems';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { getOtherPeopleOnProjects } from '$lib/server/owed/peopleOnProjects';
+import { getOwingPerson } from '$lib/server/owed/owingPerson';
 import { getWhatPersonOwes } from '$lib/server/owed/whatPersonOwes';
 import { reachableProjectIds } from '../projectAccess';
 import type { Account } from '$lib/server/accounts/accountRecord';
@@ -33,10 +34,12 @@ export type ChaseList = { items: ChaseItem[]; people: Account[]; isOnlyAskedByVi
 export async function getChaseList(caller: McpCaller, isOnlyAskedByViewer: boolean): Promise<ChaseList> {
 	const { supabase, accountId } = caller;
 	const projectIds = reachableProjectIds(caller);
-	const { people, accounts } = await getOtherPeopleOnProjects(supabase, projectIds, accountId);
+	const viewer = await getOwingPerson(supabase, accountId, null);
+	const { people, accounts } = await getOtherPeopleOnProjects(supabase, projectIds, viewer.accountIds);
 	const owings = await Promise.all(people.map((person) => getWhatPersonOwes(supabase, person, projectIds)));
 	const everyItem = owings.flatMap((owes) => chaseItemsOwedBy(owes, projectIds));
-	const items = isOnlyAskedByViewer ? everyItem.filter((item) => item.askedById === accountId) : everyItem;
+	const isAskedByViewer = (item: ChaseItem) => viewer.accountIds.includes(item.askedById ?? '');
+	const items = isOnlyAskedByViewer ? everyItem.filter(isAskedByViewer) : everyItem;
 	const askers = await getAccountsById(supabase, items.flatMap((item) => item.askedById ?? []));
 	return { items, people: [...accounts, ...askers], isOnlyAskedByViewer };
 }
