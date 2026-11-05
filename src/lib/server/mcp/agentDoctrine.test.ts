@@ -4,7 +4,7 @@ import { workingDoctrine } from './workingDoctrine';
 describe('the YBT agent’s script in the working doctrine', () => {
 	it('works one item per turn through next_turn and answer_turn', () => {
 		expect(workingDoctrine).toContain('one item per turn');
-		expect(workingDoctrine).toContain('call next_turn');
+		expect(workingDoctrine).toContain('call the tool');
 		expect(workingDoctrine).toContain('record it with answer_turn');
 	});
 

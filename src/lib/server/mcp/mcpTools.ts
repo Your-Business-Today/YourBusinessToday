@@ -2,6 +2,7 @@ import { actionRunTools } from './actionRunTools';
 import { readActionToolName, writeActionToolName } from './actionToolNames';
 import { describeAction, listActions } from './browseActions';
 import { describeContext } from './describeContext';
+import { nextTurnTools } from './nextTurnTool';
 import { outstandingTools } from './outstandingTool';
 import { uploadBoxTools } from './uploadBox/uploadBoxTools';
 import type { McpCaller } from './resolveMcpCaller';
@@ -62,7 +63,7 @@ const browseTools: McpTool[] = [
 	}
 ];
 
-const everyTool: McpTool[] = [...browseTools, ...actionRunTools, ...outstandingTools, ...uploadBoxTools];
+const everyTool: McpTool[] = [...browseTools, ...actionRunTools, ...nextTurnTools, ...outstandingTools, ...uploadBoxTools];
 
 export function findMcpTool(name: unknown): McpTool | null {
 	return everyTool.find((tool) => tool.name === name) ?? null;
