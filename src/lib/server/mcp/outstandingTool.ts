@@ -1,6 +1,7 @@
 import { objectSchema } from './actionTypes';
 import { outstandingToolName } from './outstandingToolName';
 import { titleNameField } from './actions/waitingActions';
+import { onlyWhatIAskedForField } from './actions/chaseScopeField';
 import { runAction } from './runAction';
 import type { McpTool } from './mcpTools';
 
@@ -20,9 +21,10 @@ export const outstandingTools: McpTool[] = [
 			'chase — the morning check-in. One read-only answer across every project they are on: ' +
 			'the information they need to give, the things to set up, the features to test and their ' +
 			'to-dos, each in a section of its own (building is never theirs), and who to chase, ' +
-			'person by person, for the answers and work they are waiting on. The answer opens with ' +
-			'how to walk them through it.',
-		inputSchema: objectSchema({ name: titleNameField }),
+			'person by person, for everything anyone else on their projects owes (onlyWhatIAskedFor ' +
+			'narrows it to what they asked for). Bugs come first. The answer opens with how to walk ' +
+			'them through it.',
+		inputSchema: objectSchema({ name: titleNameField, onlyWhatIAskedFor: onlyWhatIAskedForField }),
 		annotations: { readOnlyHint: true },
 		run: async (caller, argumentValues) => runAction(caller, summaryActionName, argumentValues)
 	}

@@ -2,7 +2,7 @@
 export const summaryWalkthrough = [
 	'How to give the YBT summary — it answers "what is outstanding for me" and "what do I need to',
 	'do" too. Keep the kinds apart, in this order, and never list anything to build: building is',
-	'Claude’s.',
+	'Claude’s. Bugs (titled FIX:) come first in every section: raise them before anything else.',
 	'1. Open with the totals, then name each section below under "What needs you" in a line.',
 	'2. Information you need to give: put each question to the person one at a time, in a',
 	'   sentence or two with what they need to answer it, and post their answer on the same goal',
@@ -22,7 +22,9 @@ export const summaryWalkthrough = [
 	'   offer to turn each into one, and change it only on their say. If the answer says tasks',
 	'   titled with their name were not looked for, ask their first name and call again with name.',
 	'8. Who to chase, as below under "Who to chase": person by person, most items first, one line',
-	'   per person with the oldest or most pressing one, then the rest on request. Chase someone',
+	'   per person with a bug or the oldest item, then the rest on request. It lists what each',
+	'   person owes exactly as their own summary does, tests and other people’s asks included,',
+	'   unless the person asked only for what they asked for (onlyWhatIAskedFor). Chase someone',
 	'   with post_message, waiting on them, only when the person asks for it.',
 	'9. This reads only: it moves no read marker, and calling it again gives the same answer',
 	'   until something changes.'

@@ -1,28 +1,53 @@
 import { accountNameLookup } from '$lib/data/accountNames';
+import { askKinds, defaultAskKind, type AskKind } from '$lib/data/askKind';
 import { countOf } from '$lib/data/countOf';
 import { excerpt } from './describeOwedTasks';
 import { formatBritishDate } from '$lib/data/britishDate';
 import type { ChaseItem, ChaseList } from './chaseList';
 
 type NameOf = (accountId: string) => string;
+type Section = { heading: string; isIn: (item: ChaseItem) => boolean; line: (item: ChaseItem) => string };
 
 export const chaseHeading = '# Who to chase';
-export const nobodyToChase =
-	'Nobody: no question on your projects waits on anyone else, and nothing you asked for is with someone else.';
+export const nobodyToChase = 'Nobody: no one else on your projects owes an answer, a setup, a test, a task or a promise.';
+export const nothingYouAskedFor = 'Nobody: nothing you asked for waits on anyone else.';
+const onlyYourAsks = 'Only what you asked for. Leave out onlyWhatIAskedFor to see everything everyone owes.';
 
-/** The people the viewer waits on, most items first, each with the answers and the work awaited from them. */
+/** Everyone who owes something on the viewer's projects, most items first, bugs first, by kind of thing owed. */
 export function describeChaseList(chase: ChaseList, viewerId: string): string[] {
-	const { items, people: accounts } = chase;
-	if (items.length === 0) return [chaseHeading, nobodyToChase];
+	const { items, people: accounts, isOnlyAskedByViewer } = chase;
+	const scope = isOnlyAskedByViewer ? [onlyYourAsks] : [];
+	if (items.length === 0) return [chaseHeading, ...scope, nobodyLine(isOnlyAskedByViewer)];
 	const nameOf = accountNameLookup(accounts);
 	const itemsByPerson = groupByPerson(items);
 	const people = [...itemsByPerson.keys()].sort(byMostItems(itemsByPerson));
 	const totals = `${countOf(items.length, 'item')} waiting on ${peopleCount(people.length)}.`;
-	const sections = people.flatMap((personId) => {
+	const sectionsFor = sectionsSeenBy(nameOf, viewerId);
+	const personSections = people.flatMap((personId) => {
 		const personItems = itemsByPerson.get(personId) ?? [];
-		return personSection(nameOf(personId), personItems, nameOf, viewerId);
+		return [`## ${nameOf(personId)} (${personItems.length})`, ...sectionsFor.flatMap((section) => listed(section, personItems)), ''];
 	});
-	return [chaseHeading, totals, '', ...sections];
+	return [chaseHeading, ...scope, totals, '', ...personSections];
+}
+
+function sectionsSeenBy(nameOf: NameOf, viewerId: string): Section[] {
+	const asked = (item: ChaseItem) => answerLine(item, nameOf, viewerId);
+	return [
+		{ heading: 'Answers to give', isIn: isAskOf(askKinds.information), line: asked },
+		{ heading: 'Things to set up', isIn: isAskOf(askKinds.setup), line: asked },
+		{ heading: 'Features to test', isIn: isAskOf(askKinds.testing), line: asked },
+		{ heading: 'Tasks in their name', isIn: (item) => item.reason === 'work', line: subjectWhere },
+		{ heading: 'To-dos they promised', isIn: (item) => item.reason === 'promise', line: promiseLine }
+	];
+}
+
+function nobodyLine(isOnlyAskedByViewer: boolean): string {
+	if (isOnlyAskedByViewer) return nothingYouAskedFor;
+	return nobodyToChase;
+}
+
+function isAskOf(kind: AskKind) {
+	return (item: ChaseItem) => item.reason === 'answer' && (item.askKind ?? defaultAskKind) === kind;
 }
 
 function peopleCount(count: number): string {
@@ -41,20 +66,10 @@ function byMostItems(itemsByPerson: Map<string, ChaseItem[]>) {
 	return (left: string, right: string) => countFor(right) - countFor(left);
 }
 
-function personSection(personName: string, items: ChaseItem[], nameOf: NameOf, viewerId: string): string[] {
-	const answers = items.filter((item) => item.reason === 'answer');
-	const work = items.filter((item) => item.reason === 'work');
-	return [
-		`## ${personName} (${items.length})`,
-		...listed('Waiting on an answer from them', answers.map((item) => answerLine(item, nameOf, viewerId))),
-		...listed('Work you asked for that is with them', work.map(subjectWhere)),
-		''
-	];
-}
-
-function listed(heading: string, lines: string[]): string[] {
+function listed(section: Section, items: ChaseItem[]): string[] {
+	const lines = items.filter(section.isIn).map(section.line);
 	if (lines.length === 0) return [];
-	return [`${heading} (${lines.length}):`, ...lines.map((line) => `- ${line}`)];
+	return [`${section.heading} (${lines.length}):`, ...lines.map((line) => `- ${line}`)];
 }
 
 function answerLine(item: ChaseItem, nameOf: NameOf, viewerId: string): string {
@@ -62,6 +77,10 @@ function answerLine(item: ChaseItem, nameOf: NameOf, viewerId: string): string {
 	const asked = `${asker} asked on ${formatBritishDate(item.since ?? '')}`;
 	const question = item.question === null ? '' : `: ${excerpt(item.question)}`;
 	return `${subjectWhere(item)}. ${asked}${question}`;
+}
+
+function promiseLine(item: ChaseItem): string {
+	return `${excerpt(item.question ?? '')}, promised on ${formatBritishDate(item.since ?? '')} for ${subjectWhere(item)}`;
 }
 
 function subjectWhere(item: ChaseItem): string {
