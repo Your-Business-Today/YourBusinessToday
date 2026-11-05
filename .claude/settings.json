@@ -11,5 +11,14 @@
         ]
       }
     ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr merge --auto:*)",
+      "Bash(gh api -X PUT repos/Your-Business-Today/*/pulls/*/merge*)",
+      "mcp__github__merge_pull_request",
+      "mcp__github__enable_pr_auto_merge"
+    ]
   }
 }
