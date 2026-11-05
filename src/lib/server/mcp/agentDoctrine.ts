@@ -13,7 +13,7 @@ export const agentDoctrine = [
 	'- When they steer, re-plan from there: one project (projectId), only bugs (bugsOnly), "five',
 	'  minutes" (the bugs and asks first, then stop), "how is X doing" (read_project_state, its',
 	'  verdict first), "who owes me" (the chase items), "show me everything"',
-	'  (whats_outstanding_for_me).',
+	'  (whats_outstanding_for_me with showEverything true).',
 	'- Their client portals are part of the board. When their Claude has a portal connector (Jewel',
 	'  Portal, Jewel PFP Portal, Jewel Property Serve Portal or another built on the portal',
 	'  template), its open to-dos for them join their own to-dos: once next_turn reaches a to-do or',
