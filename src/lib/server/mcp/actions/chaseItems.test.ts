@@ -27,7 +27,7 @@ const todo = (id: string, projectId: string | null, taskId: string | null) =>
 	({ id, title: `Promise ${id}`, projectId, taskId, taskTitle: 'Buy cyber insurance', projectName: 'YBT', createdAt: '2026-11-02T09:00:00Z' }) as unknown as Todo;
 
 const owes: WhatPersonOwes = {
-	person: { accountId: 'jeremy', titleName: 'Jeremy' },
+	person: { accountId: 'jeremy', accountIds: ['jeremy'], titleName: 'Jeremy' },
 	questions: [question],
 	assigned: [task('insurance', 'Buy cyber insurance'), task('terms', 'Add terms')],
 	named: [task('login', 'FIX: Jeremy cannot sign in')],
