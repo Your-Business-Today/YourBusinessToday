@@ -1,3 +1,5 @@
+import type { GoalHorizon } from '$lib/data/goalHorizon';
+
 /**
  * What the YBT agent can raise with a person, one at a time: an ask of each kind, a task in their
  * name, a to-do they promised on a task, one on their own list, or someone to chase.
@@ -30,6 +32,9 @@ export const agendaKindLabels: Record<AgendaKind, string> = {
 /** What an item is said on: a goal or a task. */
 export const subjectKinds = { goal: 'goal', task: 'task' } as const;
 
+/** The goal an item's work counts toward, and whether that is current or long term. */
+export type AgendaGoal = { id: string; title: string; horizon: GoalHorizon };
+
 /** One thing to raise. Its key names it across chats, so a snooze or an answer finds it again. */
 export type AgendaItem = {
 	key: string;
@@ -43,6 +48,7 @@ export type AgendaItem = {
 	ask: string;
 	askedById: string | null;
 	since: string | null;
+	goal: AgendaGoal | null;
 };
 
 const keySeparator = ':';
