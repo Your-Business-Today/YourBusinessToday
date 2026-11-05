@@ -24,6 +24,7 @@ import { sightingActions } from './actions/sightingActions';
 import { sightingLeadActions } from './actions/sightingLeadActions';
 import { summaryActions } from './actions/summaryActions';
 import { projectStateActions } from './actions/projectStateActions';
+import { nextTurnActions } from './actions/nextTurnActions';
 import { linkPersonActions } from './actions/linkPersonActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
@@ -63,6 +64,7 @@ const everyAction: McpAction[] = [
 	...waitingActions,
 	...summaryActions,
 	...projectStateActions,
+	...nextTurnActions,
 	...linkPersonActions,
 	...taskActions,
 	...todoReadActions,
