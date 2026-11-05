@@ -34,7 +34,7 @@ describe('the connector’s prompts', () => {
 		expect(first.title).toBe('What do I need to do?');
 		const { messages } = getMcpPrompt(first.name) as { messages: { content: { text: string } }[] };
 		const [{ content }] = messages;
-		expect(content.text).toContain('next_turn');
+		expect(content.text).toContain('what_do_i_need_to_do');
 		expect(content.text).toContain('answer_turn');
 	});
 });

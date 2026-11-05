@@ -10,7 +10,7 @@ const nextTurnPrompt: McpPrompt = {
 		'Talk your Your Business Today work through one thing at a time, bugs first: the agent raises ' +
 		'one item, records your answer and moves on.',
 	text:
-		'What do I need to do? Run the next_turn action with run_read_action and work as the YBT agent: ' +
+		'What do I need to do? Call the what_do_i_need_to_do tool and work as the YBT agent: ' +
 		'raise its one item, record my answer with answer_turn on my yes, and carry on one item at a time.'
 };
 
