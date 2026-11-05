@@ -1,4 +1,5 @@
-import { departmentMeanings, departmentOrder, departmentRefusal, parseDepartment, type Department } from '$lib/data/department';
+import { departments, departmentMeanings, departmentOrder, departmentRefusal, parseDepartment, type Department } from '$lib/data/department';
+import { parseDevelopmentKind } from '$lib/data/developmentKind';
 import { readOptionalText, textField } from '../actionTypes';
 import { reachableGoal } from '../projectAccess';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -6,7 +7,8 @@ import type { McpCaller } from '../resolveMcpCaller';
 const meaningsInBrief = departmentOrder.map((department) => `${department} (${departmentMeanings[department]})`);
 
 export const departmentField = textField(
-	`The project tab it sits on: ${meaningsInBrief.join('; ')}. Development unless said otherwise`
+	`The department it sits in: ${meaningsInBrief.join('; ')}. Development unless said otherwise; ` +
+		'development shows as two tabs, Bugs and Features, chosen by developmentKind'
 );
 
 export type DepartmentRefusal = { refusal: string };
@@ -21,6 +23,8 @@ export function isDepartmentRefused(reading: DepartmentReading): reading is Depa
 export function readDepartment(input: Record<string, unknown>): DepartmentReading {
 	const named = readOptionalText(input, 'department');
 	if (named === null) return undefined;
+	const isDevelopmentTab = parseDevelopmentKind(named) !== null;
+	if (isDevelopmentTab) return departments.development;
 	return parseDepartment(named) ?? { refusal: departmentRefusal };
 }
 

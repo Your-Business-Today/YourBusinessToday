@@ -1,6 +1,7 @@
 <script lang="ts">
 	import TaskReferenceLink from '$lib/components/projects/TaskReferenceLink.svelte';
 	import { stepLook } from './sequenceStepLook';
+	import { boardTabOfReference } from '$lib/data/boardTab';
 	import type { SequenceStep } from '$lib/data/taskSequence';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
@@ -8,7 +9,7 @@
 
 	const task = $derived(step.task);
 	const look = $derived(stepLook({ ...step, status: task.status }));
-	const reference = $derived({ projectId: task.projectId, taskId: task.id, department: task.department });
+	const reference = $derived({ projectId: task.projectId, taskId: task.id, tab: boardTabOfReference(task) });
 	const titleClasses = $derived(step.isThisTask ? 'text-chalk' : 'text-chalk/70 hover:text-go');
 </script>
 

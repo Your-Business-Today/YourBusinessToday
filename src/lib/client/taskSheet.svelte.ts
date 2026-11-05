@@ -1,13 +1,12 @@
 import { goto, pushState } from '$app/navigation';
 import { page } from '$app/state';
-import { chosenDepartment } from '$lib/data/departmentBoard';
 import { isPlainClick } from './plainClick';
-import type { Department } from '$lib/data/department';
+import type { BoardTab } from '$lib/data/boardTab';
 
 export type TaskSheetTarget = { projectId: string; taskId: string };
 
 /** A task named from another task — the one it waits for, a step in its sequence — with the tab it sits on. */
-export type TaskReference = TaskSheetTarget & { department: Department };
+export type TaskReference = TaskSheetTarget & { tab: BoardTab };
 
 const projectBoardRoute = '/projects/[projectId]';
 
@@ -15,14 +14,14 @@ export function taskPagePath({ projectId, taskId }: TaskSheetTarget): string {
 	return `/projects/${projectId}/tasks/${taskId}`;
 }
 
-function boardTabPath({ projectId, department }: TaskReference): string {
-	return `/projects/${projectId}?department=${department}`;
+function boardTabPath({ projectId, tab }: TaskReference): string {
+	return `/projects/${projectId}?department=${tab}`;
 }
 
-function isShowingBoardTab({ projectId, department }: TaskReference): boolean {
-	const { url } = page;
+function isShowingBoardTab({ projectId, tab }: TaskReference): boolean {
+	const { url, data } = page;
 	const isThisProject = url.pathname === `/projects/${projectId}`;
-	return isThisProject && chosenDepartment(url) === department;
+	return isThisProject && data.boardTab === tab;
 }
 
 /**

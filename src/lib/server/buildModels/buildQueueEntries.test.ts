@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildQueueEntries } from './buildQueueEntries';
 import { parseTaskRecord } from '$lib/server/projects/taskRecord';
-import type { BuildCandidate } from './readBuildCandidates';
+import { byQueuePlace, type BuildCandidate } from './readBuildCandidates';
 import type { BuildModel } from '$lib/data/buildModels';
 import type { LifecycleMark } from '$lib/server/lifecycle/getLifecycleMarks';
 
@@ -22,7 +22,7 @@ const task = parseTaskRecord({
 });
 
 function candidate(queuePlace: number): BuildCandidate {
-	return { task, projectName: 'YourBusinessToday', isGoalAutocomplete: true, isWaiting: false, queuePlace };
+	return { task, projectName: 'YourBusinessToday', isGoalAutocomplete: true, isWaiting: false, queuePlace, isBug: false };
 }
 
 describe('buildQueueEntries', () => {
@@ -36,5 +36,15 @@ describe('buildQueueEntries', () => {
 		const marks = new Map([['goal-1', goalHold as unknown as LifecycleMark]]);
 		const [entry] = buildQueueEntries([candidate(Number.POSITIVE_INFINITY)], marks, models);
 		expect(entry).toMatchObject({ heldBy: 'Claude cloud session', queuePlace: null, latestStep: null });
+	});
+});
+
+describe('the build queue order', () => {
+	it('takes bugs before features, then by place in the queue', () => {
+		const feature = candidate(1);
+		const laterBug = { ...candidate(9), isBug: true };
+		const earlierBug = { ...candidate(5), isBug: true };
+		const ordered = [feature, laterBug, earlierBug].sort(byQueuePlace);
+		expect(ordered).toEqual([earlierBug, laterBug, feature]);
 	});
 });

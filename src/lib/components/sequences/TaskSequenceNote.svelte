@@ -1,5 +1,6 @@
 <script lang="ts">
 	import TaskReferenceLink from '$lib/components/projects/TaskReferenceLink.svelte';
+	import { boardTabOfReference } from '$lib/data/boardTab';
 	import type { SequenceStanding } from '$lib/data/taskSequenceStanding';
 
 	let { standing, projectId }: { standing: SequenceStanding; projectId: string } = $props();
@@ -7,7 +8,7 @@
 	const reference = $derived({
 		projectId,
 		taskId: standing.waitedForId,
-		department: standing.waitedForDepartment
+		tab: boardTabOfReference({ department: standing.waitedForDepartment, title: standing.waitedForTitle })
 	});
 
 	const noteClasses = $derived(

@@ -1,21 +1,26 @@
-import { chosenDepartment, departmentTabs, goalsForDepartment, inDepartment } from '$lib/data/departmentBoard';
+import { chosenBoardTab, departmentTabs, goalsForBoardTab, inBoardTab } from '$lib/data/departmentBoard';
+import { departmentOfBoardTab, developmentKindOfBoardTab } from '$lib/data/boardTab';
 import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
 import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-/** A project's work as one department tab shows it, with every task kept for waits that cross departments. */
+/** A project's work as one tab shows it, with every task kept for waits that cross tabs. */
 export async function loadDepartmentWork(supabase: SupabaseClient, projectId: string, url: URL) {
-	const department = chosenDepartment(url);
 	const [projectTasks, projectGoals] = await Promise.all([
 		getTasksForProject(supabase, projectId),
 		getGoalsForProject(supabase, projectId)
 	]);
-	const tasks = inDepartment(projectTasks, department);
+	const tabs = departmentTabs(projectTasks, projectGoals);
+	const boardTab = chosenBoardTab(url, tabs);
+	const tasks = inBoardTab(projectTasks, boardTab);
 	return {
 		projectTasks,
+		projectGoals,
 		tasks,
-		goals: goalsForDepartment(projectGoals, tasks, department),
-		department,
-		departmentTabs: departmentTabs(projectTasks, projectGoals)
+		goals: goalsForBoardTab(projectGoals, tasks, boardTab),
+		boardTab,
+		department: departmentOfBoardTab(boardTab),
+		developmentKind: developmentKindOfBoardTab(boardTab),
+		departmentTabs: tabs
 	};
 }

@@ -6,12 +6,14 @@
 	import TaskGoalAndKindFields from './TaskGoalAndKindFields.svelte';
 	import TaskSequenceField from '$lib/components/sequences/TaskSequenceField.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
-	import { bugFixTitlePrefix, needsUserStory } from '$lib/data/userStoryRule';
+	import { needsUserStory } from '$lib/data/userStoryRule';
 	import type { TaskKind } from '$lib/data/taskKind';
 	import type { Goal } from '$lib/server/goals/goalRecord';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
 	import { readSimilarTasks } from '$lib/data/similarTasks';
+	import { newTaskTitle } from './newTaskTitle';
+	import type { DevelopmentKind } from '$lib/data/developmentKind';
 
 	let {
 		createAction = '?/createTask',
@@ -21,6 +23,7 @@
 		sequenceChoices = [],
 		hiddenFields = {},
 		submitLabel = 'Add task',
+		developmentKind = null,
 		onCreated
 	}: {
 		createAction?: string;
@@ -30,6 +33,7 @@
 		sequenceChoices?: ProjectTask[];
 		hiddenFields?: Record<string, string>;
 		submitLabel?: string;
+		developmentKind?: DevelopmentKind | null;
 		onCreated: () => void;
 	} = $props();
 
@@ -38,7 +42,8 @@
 	let title = $state('');
 	let kind = $state<TaskKind>('work');
 
-	const isStoryRequired = $derived(needsUserStory({ kind, title, parentTaskId }));
+	const titleHint = $derived(newTaskTitle(title, parentTaskId, developmentKind));
+	const isStoryRequired = $derived(needsUserStory({ kind, title: titleHint.raisedTitle, parentTaskId }));
 	const isSubtask = $derived(parentTaskId !== null);
 	const similarTasks = $derived(readSimilarTasks(tracker.failureData));
 </script>
@@ -60,7 +65,7 @@
 			name="title"
 			required
 			bind:value={title}
-			placeholder={isSubtask ? 'What needs doing' : `The story, or ${bugFixTitlePrefix} what is wrong`}
+			placeholder={titleHint.placeholder}
 			class={fieldClasses}
 		/>
 	</SmallCapsField>

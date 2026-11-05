@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describeChaseList, nobodyToChase } from './describeChaseList';
+import { describeChaseList, nobodyToChase, nothingYouAskedFor } from './describeChaseList';
 import type { ChaseItem, ChaseList } from './chaseList';
 
 const jeremy = { id: 'jeremy', name: 'Jeremy', email: 'jeremy@example.com' };
@@ -14,47 +14,59 @@ const insuranceAnswer: ChaseItem = {
 	personId: nigel.id,
 	subject: insuranceTask,
 	reason: 'answer',
+	askKind: 'information',
 	askedById: jeremy.id,
 	question: 'Nigel, which insurer do we go with?',
 	since: '2026-10-20T09:00:00Z'
 };
 
-const exportAnswer: ChaseItem = { ...insuranceAnswer, subject: exportGoal, askedById: scarlett.id, question: 'Download a real export?' };
+const exportTest: ChaseItem = { ...insuranceAnswer, subject: exportGoal, askKind: 'testing', askedById: scarlett.id, question: 'Download a real export?' };
 
 const termsWork: ChaseItem = {
 	personId: scarlett.id,
 	subject: termsTask,
 	reason: 'work',
-	askedById: null,
+	askKind: null,
+	askedById: nigel.id,
 	question: null,
 	since: null
 };
 
-const jeremyWaitsOn: ChaseList = { items: [termsWork, insuranceAnswer, exportAnswer], people: [jeremy, nigel, scarlett] };
+const termsPromise: ChaseItem = { ...termsWork, reason: 'promise', question: 'Send the terms to legal', since: '2026-11-01T09:00:00Z' };
+
+const everything: ChaseList = {
+	items: [termsWork, insuranceAnswer, exportTest, termsPromise],
+	people: [jeremy, nigel, scarlett],
+	isOnlyAskedByViewer: false
+};
 
 describe('who to chase', () => {
-	const described = describeChaseList(jeremyWaitsOn, jeremy.id).join('\n');
+	const described = describeChaseList(everything, jeremy.id).join('\n');
 
 	it('opens with how much is waiting on how many people', () => {
-		expect(described).toContain('3 items waiting on 2 people.');
+		expect(described).toContain('4 items waiting on 2 people.');
 	});
 
-	it('puts the person with the most items first', () => {
-		expect(described.indexOf('## Nigel Reilly (2)')).toBeLessThan(described.indexOf('## Scarlett (1)'));
-	});
-
-	it('says who asked each question, and what it asks', () => {
-		expect(described).toContain('Waiting on an answer from them (2):');
+	it('lists each kind of thing owed apart, tests included, whoever asked', () => {
+		expect(described).toContain('Answers to give (1):');
 		expect(described).toContain('"Buy cyber insurance" on YourBusinessToday (task id: insurance). You asked on 20 Oct 2026: Nigel, which insurer do we go with?');
+		expect(described).toContain('Features to test (1):');
 		expect(described).toContain('(goal id: export). Scarlett asked on 20 Oct 2026');
 	});
 
-	it('lists the work the viewer asked for that someone else holds', () => {
-		expect(described).toContain('Work you asked for that is with them (1):');
+	it('lists the tasks in their name, whoever raised them, and the to-dos they promised', () => {
+		expect(described).toContain('Tasks in their name (1):');
 		expect(described).toContain('- "Add terms to the register" on Jewel PFP Portal (task id: terms)');
+		expect(described).toContain('To-dos they promised (1):');
+		expect(described).toContain('- Send the terms to legal, promised on 1 Nov 2026 for "Add terms to the register"');
 	});
 
-	it('says so when nobody needs chasing', () => {
-		expect(describeChaseList({ items: [], people: [] }, jeremy.id)).toContain(nobodyToChase);
+	it('says so when nobody owes anything', () => {
+		expect(describeChaseList({ items: [], people: [], isOnlyAskedByViewer: false }, jeremy.id)).toContain(nobodyToChase);
+	});
+
+	it('says when it is narrowed to what the viewer asked for', () => {
+		const narrowed = describeChaseList({ items: [], people: [], isOnlyAskedByViewer: true }, jeremy.id);
+		expect(narrowed).toContain(nothingYouAskedFor);
 	});
 });

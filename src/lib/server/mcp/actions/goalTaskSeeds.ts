@@ -2,6 +2,8 @@ import { connectorTaskAutocomplete } from '$lib/data/autocomplete';
 import { taskKinds } from '$lib/data/taskKind';
 import { proseField, readOptionalText, readText, textField } from '../actionTypes';
 import { readStory, storyFields } from './storyFields';
+import { developmentKindField } from './developmentKindField';
+import { parseDevelopmentKind, titleForDevelopmentKind } from '$lib/data/developmentKind';
 import type { NewTaskSeed } from '$lib/server/projects/createTask';
 
 export const mostTasksRaisedWithGoal = 12;
@@ -9,6 +11,7 @@ export const mostTasksRaisedWithGoal = 12;
 const goalTaskProperties = {
 	title: textField('What the task is called: the user story, or "FIX: <what is wrong>"'),
 	details: proseField('What the task involves'),
+	developmentKind: developmentKindField,
 	...storyFields
 };
 
@@ -45,8 +48,12 @@ function listedTaskSeed(task: unknown): NewTaskSeed | null {
 	const fields = task as Record<string, unknown>;
 	const hasOnlyKnownFields = Object.keys(fields).every((name) => goalTaskFieldNames.includes(name));
 	if (!hasOnlyKnownFields) return null;
-	const title = readOptionalText(fields, 'title');
-	if (title === null) return null;
+	const typedTitle = readOptionalText(fields, 'title');
+	if (typedTitle === null) return null;
+	const kindNamed = readOptionalText(fields, 'developmentKind');
+	const kind = parseDevelopmentKind(kindNamed);
+	if (kindNamed !== null && kind === null) return null;
+	const title = titleForDevelopmentKind(typedTitle, kind);
 	return {
 		title,
 		details: readText(fields, 'details'),
