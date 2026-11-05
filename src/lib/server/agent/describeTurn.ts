@@ -3,6 +3,7 @@ import { countOf } from '$lib/data/countOf';
 import { excerpt } from '$lib/server/mcp/actions/describeOwedTasks';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { goodAnswers, quietMinutesBeforeOpening } from './goodAnswers';
+import { outcomesByKind } from './turnOutcome';
 import { waitedFor, wholeDaysSince } from '$lib/data/ageInDays';
 import type { Agenda } from './buildAgenda';
 
@@ -46,7 +47,8 @@ function itemLines(item: AgendaItem, nameOf: NameOf, now: Date): string[] {
 		`- Item key: ${item.key}`,
 		`- Why it matters: ${whyItMatters(item, nameOf, now)}`,
 		`- The ask: ${excerpt(item.ask === '' ? item.subjectTitle : item.ask)}`,
-		`- A good answer: ${goodAnswers[item.kind]}`
+		`- A good answer: ${goodAnswers[item.kind]}`,
+		`- Record it: answer_turn with itemKey ${item.key} and outcome ${outcomesByKind[item.kind].join(', ')}`
 	];
 }
 
