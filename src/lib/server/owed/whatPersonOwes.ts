@@ -30,11 +30,12 @@ export async function getWhatPersonOwes(
 	projectIds: string[]
 ): Promise<WhatPersonOwes> {
 	const isOnTheseProjects = (projectId: string | null) => projectIds.includes(projectId ?? '');
+	const { accountIds } = person;
 	const [everyQuestion, everyAssigned, everyNamed, everyTodo] = await Promise.all([
-		getQuestionsWaitingOn(supabase, person.accountId),
-		getAssignedTasks(supabase, person.accountId),
+		readAcrossLogins(accountIds, (accountId) => getQuestionsWaitingOn(supabase, accountId)),
+		readAcrossLogins(accountIds, (accountId) => getAssignedTasks(supabase, accountId)),
 		getTasksNamedFor(supabase, projectIds, person),
-		getTodosOwnedBy(supabase, person.accountId)
+		readAcrossLogins(accountIds, (accountId) => getTodosOwnedBy(supabase, accountId))
 	]);
 	const questions = everyQuestion.filter((question) => isOnTheseProjects(question.projectId));
 	const assigned = everyAssigned.filter((task) => isOnTheseProjects(task.projectId));
@@ -47,6 +48,16 @@ export async function getWhatPersonOwes(
 		named: bugsFirst(named, taskTitle),
 		todos: everyTodo.filter((todo) => isTodoOpen(todo.status))
 	};
+}
+
+/** What one read finds for each of a person's logins, each record once however many logins find it. */
+async function readAcrossLogins<Found extends { id: string }>(
+	accountIds: string[],
+	read: (accountId: string) => Promise<Found[]>
+): Promise<Found[]> {
+	const foundPerLogin = await Promise.all(accountIds.map(read));
+	const byId = new Map(foundPerLogin.flat().map((found) => [found.id, found]));
+	return [...byId.values()];
 }
 
 async function getTasksNamedFor(
