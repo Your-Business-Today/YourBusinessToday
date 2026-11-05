@@ -15,6 +15,7 @@ export async function loadDepartmentWork(supabase: SupabaseClient, projectId: st
 	const tasks = inBoardTab(projectTasks, boardTab);
 	return {
 		projectTasks,
+		projectGoals,
 		tasks,
 		goals: goalsForBoardTab(projectGoals, tasks, boardTab),
 		boardTab,

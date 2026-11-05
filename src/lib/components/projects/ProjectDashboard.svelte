@@ -3,6 +3,7 @@
 	import PanelTabs from '$lib/components/workspace/PanelTabs.svelte';
 	import ProjectPeoplePanel from '$lib/components/members/ProjectPeoplePanel.svelte';
 	import ProjectPulseStrip from './ProjectPulseStrip.svelte';
+	import ProjectStatePanel from './ProjectStatePanel.svelte';
 	import DeployHistoryPanel from './DeployHistoryPanel.svelte';
 	import StagedTasksPanel from './StagedTasksPanel.svelte';
 	import TaskTreePanel from './TaskTreePanel.svelte';
@@ -13,12 +14,14 @@
 	import type { Deploy } from '$lib/data/deployHistory';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 	import type { ProjectPulse } from '$lib/server/projects/summariseProjectPulse';
+	import type { ProjectState } from '$lib/server/projects/projectState';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 	import type { TaskRowHandlers, TaskRowSources } from './taskRowActions';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 	type DashboardSources = TaskRowSources & {
 		pulse: ProjectPulse;
+		projectState: ProjectState;
 		taskTree: TaskTreeNode[];
 		stagedTasks: ProjectTask[];
 		deploys: Deploy<ProjectTask>[];
@@ -54,6 +57,7 @@
 	}
 </script>
 
+<ProjectStatePanel projectState={sources.projectState} {people} />
 <ProjectPulseStrip {pulse} />
 <PanelTabs tabs={panelTabs} bind:selectedKey={selectedPanel} />
 <div class={dashboardGridClasses}>

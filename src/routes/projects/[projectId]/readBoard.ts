@@ -14,16 +14,18 @@ import type { Project } from '$lib/server/projects/projectRecord';
 
 /**
  * Everything the project page reads, started at once: only the tasks' assignees and turns wait,
- * for the tasks they belong to, and every other read runs beside them.
+ * for the tasks they belong to, and every other read runs beside them. Turns are read for every task
+ * on the project, so how the project stands is read whole whichever tab is open.
  */
 export function readBoard(locals: App.Locals, project: Project, url: URL) {
 	const { supabase } = locals;
 	const workRead = loadDepartmentWork(supabase, project.id, url);
 	const taskIdsRead = workRead.then(({ tasks }) => tasks.map((task) => task.id));
+	const projectTaskIdsRead = workRead.then(({ projectTasks }) => projectTasks.map((task) => task.id));
 	return readTogether({
 		work: workRead,
 		assigneeIdsByTask: taskIdsRead.then((taskIds) => getAssigneeIdsByTask(supabase, taskIds)),
-		turnsByTask: taskIdsRead.then((taskIds) => getTaskTurns(supabase, taskIds)),
+		turnsByTask: projectTaskIdsRead.then((taskIds) => getTaskTurns(supabase, taskIds)),
 		deploysSinceRefactor: countDeploysSinceRefactor(supabase, project),
 		latestKitVersion: getLatestKitVersion(supabase),
 		branchRuns: getBranchRunsForProject(supabase, project.id),
