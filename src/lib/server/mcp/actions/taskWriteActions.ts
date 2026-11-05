@@ -14,6 +14,7 @@ import { raiseAnywayField } from './similarTaskCheck';
 import { chooseTaskDepartment, departmentField, isDepartmentRefused } from './departmentChoice';
 import { isPersonLedTitle, personLedTitleRefusal } from '$lib/data/personLedTitle';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
+import { developmentKindField, isTitleRefused, validateDevelopmentKind } from './developmentKindField';
 import type { McpAction } from '../actionTypes';
 
 export const taskWriteActions: McpAction[] = [
@@ -25,9 +26,10 @@ export const taskWriteActions: McpAction[] = [
 		summary: 'add a task to a project, at the end of the backlog',
 		guidance:
 			'Search first: call find_tasks for the matter and work on the task you find. Raise one only ' +
-			'when nothing matches. Every top level development task is a user story — give storyRole, ' +
-			'storyWant and storyBenefit, and title it with the story — unless it is a bug, titled ' +
-			'"FIX: <what is wrong>". Subtasks are steps of a story and need none. A task is one ' +
+			'when nothing matches. A top level development task is a feature or a bug (developmentKind). ' +
+			'A bug — built, not working — is "FIX: <what is wrong>" and built before any feature: ask ' +
+			'what was expected and what happened. A feature is a user story — give storyRole, ' +
+			'storyWant and storyBenefit, and title it with the story. Subtasks are steps of a story and need none. A task is one ' +
 			'session’s work: size it so one Claude session finishes it and ties it off, and raise ' +
 			'anything larger as tasks of that size. When a session stops short, the rest is raised ' +
 			'here as tasks of its own — subtasks of the task — never left in prose or for a next ' +
@@ -62,6 +64,7 @@ export const taskWriteActions: McpAction[] = [
 					`${taskKindOrder.join(' or ')} — work unless somebody is waiting on an answer`
 				),
 				department: departmentField,
+				developmentKind: developmentKindField,
 				requestedBy: requestedByField,
 				raiseAnyway: raiseAnywayField,
 				...storyFields
@@ -71,14 +74,17 @@ export const taskWriteActions: McpAction[] = [
 		run: async (caller, input) => {
 			const project = await reachableProject(caller, readText(input, 'projectId'));
 			if (project === null) return noSuchProject;
-			const title = readOptionalText(input, 'title');
-			if (title === null) return 'A task needs a title. Say what to call it and try again.';
+			const typedTitle = readOptionalText(input, 'title');
+			if (typedTitle === null) return 'A task needs a title. Say what to call it and try again.';
 			const people = await getPeopleOnProject(caller.supabase, project.id);
-			if (isPersonLedTitle(title, people)) return personLedTitleRefusal;
+			if (isPersonLedTitle(typedTitle, people)) return personLedTitleRefusal;
 			const requester = await readRequester(caller, project.id, input);
 			if ('refusal' in requester) return requester.refusal;
 			const department = await chooseTaskDepartment(caller, input);
 			if (isDepartmentRefused(department)) return department.refusal;
+			const titleChoice = validateDevelopmentKind(input, typedTitle, department);
+			if (isTitleRefused(titleChoice)) return titleChoice.refusal;
+			const { title } = titleChoice;
 			const raised = readConnectorTaskSeed(input, title, requester.accountId);
 			const seed = withRaiserAutocomplete({ ...raised, department }, caller.isStaff);
 			const refusal = await newTaskRefusal(caller.supabase, project.id, seed);

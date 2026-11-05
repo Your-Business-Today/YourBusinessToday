@@ -2,12 +2,13 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { doneTaskStatus, isTaskDone, parseTaskStatus } from '$lib/data/taskStatus';
 import { onHoldProjectStatus } from '$lib/data/projectStatus';
 import { departments } from '$lib/data/department';
+import { isBugTitle } from '$lib/data/developmentKind';
 import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskRecord';
 
 const candidatesRead = 200;
 
 const candidateColumns =
-	'*, project:project_id!inner(name, status), goal:goal_id(is_autocomplete), waits_for:waits_for_task_id(status), parent:parent_task_id(global_priority)';
+	'*, project:project_id!inner(name, status), goal:goal_id(is_autocomplete), waits_for:waits_for_task_id(status), parent:parent_task_id(global_priority, title)';
 
 const unqueued = Number.POSITIVE_INFINITY;
 
@@ -17,6 +18,7 @@ export type BuildCandidate = {
 	isGoalAutocomplete: boolean | null;
 	isWaiting: boolean;
 	queuePlace: number;
+	isBug: boolean;
 };
 
 /** Every open buildable development task on the projects not on hold, in the order the queue will take them. */
@@ -47,15 +49,20 @@ function parseCandidate(row: Record<string, unknown>): BuildCandidate {
 	const project = row.project as { name?: string } | null;
 	const goal = row.goal as { is_autocomplete?: boolean } | null;
 	const waitedFor = row.waits_for as { status?: string } | null;
-	const parent = row.parent as { global_priority?: number | null } | null;
+	const parent = row.parent as { global_priority?: number | null; title?: string } | null;
 	const isWaiting = waitedFor !== null && !isTaskDone(parseTaskStatus(waitedFor.status));
 	const task = parseTaskRecord(row);
 	const queuePlace = task.globalPriority ?? parent?.global_priority ?? unqueued;
 	const projectName = project?.name ?? '';
-	return { task, projectName, isGoalAutocomplete: goal?.is_autocomplete ?? null, isWaiting, queuePlace };
+	const isBug = isBugTitle(parent?.title ?? task.title);
+	return { task, projectName, isGoalAutocomplete: goal?.is_autocomplete ?? null, isWaiting, queuePlace, isBug };
 }
 
-/** A subtask takes its parent's place in the queue, so a review follows the work it reviews. */
-function byQueuePlace(first: BuildCandidate, second: BuildCandidate): number {
+/**
+ * Bugs before features, because a bug is something already built that has stopped working; then
+ * by place in the queue, a subtask taking its parent's, so a review follows the work it reviews.
+ */
+export function byQueuePlace(first: BuildCandidate, second: BuildCandidate): number {
+	if (first.isBug !== second.isBug) return first.isBug ? -1 : 1;
 	return first.queuePlace - second.queuePlace;
 }
