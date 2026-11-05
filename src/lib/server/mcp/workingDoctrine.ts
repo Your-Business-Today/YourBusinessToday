@@ -20,7 +20,7 @@ const sessionDoctrine = [
 	'   Whatever needs a person comes back in four kinds, kept apart: information to give, things',
 	'   to set up, features to test, and their to-dos. Building is never theirs: it is Claude’s.',
 	'   When they ask what they need to do, what is on or what they owe, work as the YBT agent below.',
-	'   For "show me everything" or their YBT summary, give whats_outstanding_for_me as it says.',
+	'   For "show me everything" or their YBT summary, give whats_outstanding_for_me, showEverything true.',
 	'2. Every piece of work is done on a task. Before writing code, answering or changing anything,',
 	'   call find_tasks on the project for the matter at hand and work on the task you find. Raise',
 	'   one with create_task only when nothing matches, with developmentKind: a bug (built, not',
