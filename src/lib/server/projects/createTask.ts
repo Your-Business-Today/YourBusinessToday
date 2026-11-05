@@ -1,3 +1,4 @@
+import { parseDevelopmentKind, titleForDevelopmentKind } from '$lib/data/developmentKind';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { isStoryComplete, type UserStory } from '$lib/data/userStoryRule';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
@@ -21,13 +22,16 @@ export type NewTaskSeed = {
 };
 
 export function readNewTaskSeed(formData: FormData): NewTaskSeed | null {
-	const title = String(formData.get('title') ?? '').trim();
-	if (title === '') return null;
+	const typedTitle = String(formData.get('title') ?? '').trim();
+	if (typedTitle === '') return null;
+	const parentTaskId = emptyAsNull(String(formData.get('parentTaskId') ?? ''));
+	const developmentKind = parentTaskId === null ? parseDevelopmentKind(formData.get('developmentKind')) : null;
+	const title = titleForDevelopmentKind(typedTitle, developmentKind);
 	return {
 		title,
 		details: String(formData.get('details') ?? '').trim(),
 		dueDate: emptyAsNull(String(formData.get('dueDate') ?? '')),
-		parentTaskId: emptyAsNull(String(formData.get('parentTaskId') ?? '')),
+		parentTaskId,
 		waitsForTaskId: emptyAsNull(String(formData.get('waitsForTaskId') ?? '')),
 		goalId: emptyAsNull(String(formData.get('goalId') ?? '')),
 		kind: parseTaskKind(formData.get('kind')),

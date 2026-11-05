@@ -2,6 +2,7 @@
 	import TaskReferenceLink from '$lib/components/projects/TaskReferenceLink.svelte';
 	import { taskStatusLabelFor } from '$lib/data/taskKind';
 	import { waitingNoteSentence } from './waitingNoteSentence';
+	import { boardTabOfReference } from '$lib/data/boardTab';
 	import type { TaskSequence } from '$lib/data/taskSequence';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
@@ -29,7 +30,7 @@
 		<p class="font-display">{note.headline}</p>
 		{#if waitedFor !== null}
 			<TaskReferenceLink
-				reference={{ projectId: waitedFor.projectId, taskId: waitedFor.id, department: waitedFor.department }}
+				reference={{ projectId: waitedFor.projectId, taskId: waitedFor.id, tab: boardTabOfReference(waitedFor) }}
 				class="truncate text-chalk/80 underline underline-offset-4 transition hover:text-chalk"
 			>
 				{waitedFor.title} — {taskStatusLabelFor(waitedFor.kind, waitedFor.status)}{note.withWhom}

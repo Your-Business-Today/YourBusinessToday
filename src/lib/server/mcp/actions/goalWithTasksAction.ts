@@ -26,8 +26,9 @@ export const goalWithTasksAction: McpAction = {
 		'yes raise them all in this one call. Either everything is raised or nothing is, so a goal ' +
 		'is never left standing without its tasks. Call find_goals and find_tasks first; when open ' +
 		'tasks look like these, nothing is raised until you have shown them and the person has ' +
-		'chosen raiseAnyway. A development goal’s tasks are each a user story, or "FIX: <what is ' +
-		'wrong>"; the tasks take the goal’s department.',
+		'chosen raiseAnyway. A development goal’s tasks are each a feature, a user story, or a bug, ' +
+		'"FIX: <what is wrong>" — say which with each task’s developmentKind; bugs are built first. ' +
+		'The tasks take the goal’s department.',
 	inputSchema: objectSchema(
 		{
 			projectId: projectIdField,

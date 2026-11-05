@@ -35,6 +35,7 @@
 	const taskModalTitle = $derived(
 		subtaskParent === null ? 'New task' : `New subtask of “${subtaskParent.title}”`
 	);
+	const newTaskHiddenFields = $derived({ department: data.department, developmentKind: data.developmentKind ?? '' });
 	const sequenceChoices = $derived(openSiblingsOf(subtaskParent?.subtasks ?? data.taskTree));
 </script>
 
@@ -55,8 +56,8 @@
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
-	<DepartmentTabs tabs={data.departmentTabs} selected={data.department} />
-	{#key data.department}
+	<DepartmentTabs tabs={data.departmentTabs} selected={data.boardTab} />
+	{#key data.boardTab}
 		<div in:fade={tabSwap} class="flex flex-col gap-4">
 			<ProjectDashboard
 				projectId={project.id}
@@ -79,7 +80,8 @@
 		parentTaskId={subtaskParent?.id ?? null}
 		goals={data.goals}
 		{sequenceChoices}
-		hiddenFields={{ department: data.department }}
+		hiddenFields={newTaskHiddenFields}
+		developmentKind={data.developmentKind}
 		onCreated={() => (isTaskModalOpen = false)}
 	/>
 </Modal>
