@@ -24,7 +24,9 @@ export const outcomesByKind: Record<AgendaKind, TurnOutcome[]> = {
 	task: [turnOutcomes.started, turnOutcomes.finished, turnOutcomes.promised, turnOutcomes.answered, turnOutcomes.snoozed],
 	promise: [turnOutcomes.done, turnOutcomes.snoozed],
 	todo: [turnOutcomes.done, turnOutcomes.snoozed],
-	chase: [turnOutcomes.snoozed]
+	chase: [turnOutcomes.snoozed],
+	build: [turnOutcomes.started, turnOutcomes.snoozed],
+	goal: [turnOutcomes.answered, turnOutcomes.snoozed]
 };
 
 /** Outcomes that carry no words of the person's: a tick, or putting it off. */

@@ -11,7 +11,8 @@ type NameOf = (accountId: string) => string;
 type TurnReading = { agenda: Agenda; nameOf: NameOf; now: Date };
 
 export const nothingToRaise =
-	'Nothing needs this person right now: no ask, job, promise or to-do waits on them, and nobody owes them anything. ' +
+	'Nothing needs this person right now on their first three active projects: no ask, job, promise or to-do waits ' +
+	'on them, nothing is ready to build, and everything left waits on someone else, directly or through a task that does. ' +
 	'Next, any open to-dos for them in a client portal their Claude reaches, one at a time; if there are none, ' +
 	'say so in a line. If they ask how a project is doing, call read_project_state.';
 

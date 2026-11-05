@@ -10,7 +10,10 @@ export const goodAnswers: Record<AgendaKind, string> = {
 	promise: 'Done (done); or a day to come back to it (snoozed, with untilDay).',
 	todo: 'Done (done); or a day to come back to it (snoozed, with untilDay).',
 	chase:
-		'Whether to chase them now. If yes, post one message on the oldest item waiting on them with post_message, waitingOn them, never on WhatsApp or by email alone; then snoozed.'
+		'Whether to chase them now. If yes, post one message on the oldest item waiting on them with post_message, waitingOn them, never on WhatsApp or by email alone; then snoozed.',
+	build:
+		'Whether to build it now. If yes, start a build thread for the task and record started, then raise the next item while it builds; or snoozed.',
+	goal: 'Make it current (answered, after update_goal moves it to current); or leave it long term for now (snoozed).'
 };
 
 /** How long a conversation may go quiet before the agent opens it afresh with what changed. */
