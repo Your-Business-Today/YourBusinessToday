@@ -27,7 +27,9 @@ function askItem(question: WaitingQuestion): AgendaItem {
 		ask: question.body,
 		askedById: question.authorAccountId,
 		since: question.createdAt,
-		goal: null
+		goal: null,
+		taskPriority: null,
+		storyPoints: null
 	};
 }
 
@@ -44,7 +46,9 @@ function taskItem(task: GlobalTask): AgendaItem {
 		ask: task.details,
 		askedById: task.requestedBy,
 		since: task.createdAt,
-		goal: null
+		goal: null,
+		taskPriority: null,
+		storyPoints: null
 	};
 }
 
@@ -62,6 +66,8 @@ function todoItem(todo: Todo): AgendaItem {
 		ask: todo.title,
 		askedById: todo.createdBy,
 		since: todo.dueDate ?? todo.createdAt,
-		goal: null
+		goal: null,
+		taskPriority: null,
+		storyPoints: null
 	};
 }
