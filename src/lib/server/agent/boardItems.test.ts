@@ -19,13 +19,14 @@ const idsOf = (items: { subjectId: string | null }[]) => items.map(({ subjectId 
 describe('work the agent can start building', () => {
 	const goals = [goal('now', {}), goal('later', { horizon: 'long_term' })];
 
-	it('raises open, buildable development work on current goals', () => {
+	it('raises buildable development work on current goals that nobody has started', () => {
 		const tasks = [
 			task('ready', {}),
 			task('parked', { goalId: 'later' }),
 			task('not-buildable', { isBuildable: false }),
 			task('admin', { department: 'administration' }),
-			task('finished', { status: 'done' })
+			task('finished', { status: 'done' }),
+			task('building', { status: 'in_progress' })
 		];
 		expect(idsOf(buildItems(board(goals, tasks)))).toEqual(['ready']);
 	});

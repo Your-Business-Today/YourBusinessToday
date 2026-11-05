@@ -11,7 +11,7 @@ const buildAsk = 'Start a build thread for it now and carry on with the next ite
 const makeCurrentAsk =
 	'Every current goal on the active projects is complete. Make this long term goal current to start on it, or leave it long term.';
 
-/** Development work on current goals that can be built now: buildable, open, and not waiting for an unfinished task. */
+/** Development work on current goals that can be built now: buildable, not yet started, and not waiting for an unfinished task. */
 export function buildItems(board: AgendaBoard): AgendaItem[] {
 	const tasks = [...board.tasksById.values()];
 	return tasks.filter((task) => isReadyToBuild(task, board)).map((task) => buildItem(task, board.projectNamesById));
@@ -27,8 +27,8 @@ export function longTermGoalItems(board: AgendaBoard): AgendaItem[] {
 }
 
 function isReadyToBuild(task: BoardTask, board: AgendaBoard): boolean {
-	const isOpen = task.status === taskStatuses.backlog || task.status === taskStatuses.inProgress;
-	if (!isOpen || !task.isBuildable || !isDevelopment(task.department)) return false;
+	const isNotStarted = task.status === taskStatuses.backlog;
+	if (!isNotStarted || !task.isBuildable || !isDevelopment(task.department)) return false;
 	const goal = goalOfTask(task, board);
 	if (goal?.horizon === longTermGoalHorizon) return false;
 	return !isWaitingForAnotherTask(task, board);
