@@ -31,6 +31,15 @@ describe('work the agent can start building', () => {
 		expect(idsOf(buildItems(board(goals, tasks)))).toEqual(['ready']);
 	});
 
+	it('raises a bug nobody has tagged buildable, since bugs come first', () => {
+		const tasks = [
+			task('FIX: overdue follow-ups show lost quotes', { isBuildable: false }),
+			task('FIX: already being fixed', { isBuildable: false, status: 'in_progress' }),
+			task('FIX: on a long term goal', { isBuildable: false, goalId: 'later' })
+		];
+		expect(idsOf(buildItems(board(goals, tasks)))).toEqual(['FIX: overdue follow-ups show lost quotes']);
+	});
+
 	it('holds back work waiting for a task that is not done, through its parent goal too', () => {
 		const tasks = [
 			task('blocker', { isBuildable: false }),
