@@ -34,7 +34,8 @@ function isReadyToBuild(task: BoardTask, board: AgendaBoard): boolean {
 	return !isWaitingForAnotherTask(task, board);
 }
 
-function isWaitingForAnotherTask(task: BoardTask, board: AgendaBoard): boolean {
+/** Whether the task follows another that is not done yet. */
+export function isWaitingForAnotherTask(task: BoardTask, board: AgendaBoard): boolean {
 	if (task.waitsForTaskId === null) return false;
 	const awaited = board.tasksById.get(task.waitsForTaskId);
 	return awaited !== undefined && awaited.status !== doneTaskStatus;
