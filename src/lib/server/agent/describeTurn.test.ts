@@ -7,7 +7,7 @@ const nameOf = (accountId: string) => (accountId === 'james' ? 'James' : 'Someon
 const insurance: AgendaItem = {
 	key: 'message:ask-1', kind: 'information', isBug: false, projectId: 'ybt', projectName: 'YourBusinessToday',
 	subjectKind: 'task', subjectId: 'insurance', subjectTitle: 'Buy cyber insurance', ask: 'Which insurer do we go with?',
-	askedById: 'james', since: '2026-11-02T09:00:00Z'
+	askedById: 'james', since: '2026-11-02T09:00:00Z', goal: null, taskPriority: null, storyPoints: null
 };
 const record = (lastSpokeAt: string | null) => ({ lastSpokeAt, lastItemKey: null, snoozedKeys: new Set<string>() });
 

@@ -29,6 +29,9 @@ function chaseItem(personId: string, personName: string, owed: ChaseItem[]): Age
 		subjectTitle: personName,
 		ask: `${countOf(owed.length, 'thing')} wait on ${personName}: ${titles.map((title) => `"${title}"`).join(', ')}`,
 		askedById: null,
-		since: moments.at(0) ?? null
+		since: moments.at(0) ?? null,
+		goal: null,
+		taskPriority: null,
+		storyPoints: null
 	};
 }

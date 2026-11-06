@@ -26,7 +26,10 @@ function askItem(question: WaitingQuestion): AgendaItem {
 		subjectTitle: question.subjectTitle,
 		ask: question.body,
 		askedById: question.authorAccountId,
-		since: question.createdAt
+		since: question.createdAt,
+		goal: null,
+		taskPriority: null,
+		storyPoints: null
 	};
 }
 
@@ -42,7 +45,10 @@ function taskItem(task: GlobalTask): AgendaItem {
 		subjectTitle: task.title,
 		ask: task.details,
 		askedById: task.requestedBy,
-		since: task.createdAt
+		since: task.createdAt,
+		goal: null,
+		taskPriority: null,
+		storyPoints: null
 	};
 }
 
@@ -59,6 +65,9 @@ function todoItem(todo: Todo): AgendaItem {
 		subjectTitle: todo.taskTitle ?? todo.title,
 		ask: todo.title,
 		askedById: todo.createdBy,
-		since: todo.dueDate ?? todo.createdAt
+		since: todo.dueDate ?? todo.createdAt,
+		goal: null,
+		taskPriority: null,
+		storyPoints: null
 	};
 }

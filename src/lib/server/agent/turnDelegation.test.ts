@@ -5,7 +5,7 @@ import type { TurnAnswer } from './turnAnswer';
 
 const item = (fields: Partial<AgendaItem>): AgendaItem => ({
 	key: 'message:m1', kind: 'information', isBug: false, projectId: 'ybt', projectName: 'YBT', subjectKind: 'task',
-	subjectId: 't1', subjectTitle: 'Export', ask: '', askedById: null, since: null, ...fields
+	subjectId: 't1', subjectTitle: 'Export', ask: '', askedById: null, since: null, goal: null, taskPriority: null, storyPoints: null, ...fields
 });
 const answer = (fields: Partial<TurnAnswer>): TurnAnswer => ({
 	itemKey: 'message:m1', outcome: 'answered', text: 'Yes', fault: null, untilDay: null, ...fields
