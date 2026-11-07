@@ -1,6 +1,6 @@
 # Processor Position and Records of Processing
 
-**Internal — Your Business Today Ltd — Version 1.1 — 1 November 2026**
+**Internal — Your Business Today Ltd — Version 1.2 — 7 November 2026**
 
 The short version of how YBT holds client data, written down so the position is fixed and can be shown to a client or the ICO. The last part is the record of processing activities that Article 30(2) of the UK GDPR requires, with one entry per client.
 
@@ -32,10 +32,10 @@ Breaking any of these would make YBT a controller of client data in its own righ
 
 ## 4. ICO registration
 
-|                         |                                  |
-| ----------------------- | -------------------------------- |
-| ICO registration number | [ZB000000 — add once registered] |
-| Renewal date            | [date]                           |
+|                         |                   |
+| ----------------------- | ----------------- |
+| ICO registration number | ZC253740          |
+| Renewal date            | 20 September 2027 |
 
 ## 5. Log of signed processor contracts
 

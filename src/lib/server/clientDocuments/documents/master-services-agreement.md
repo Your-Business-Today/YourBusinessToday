@@ -1,6 +1,6 @@
 # Master Services Agreement
 
-**Version 1.1 — 1 November 2026**
+**Version 1.2 — 7 November 2026**
 
 This agreement is made on [date] between:
 
@@ -136,7 +136,7 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 12.4 **General cap.** Subject to clauses 12.1 and 12.5, each party's total liability arising under or in connection with this agreement in any contract year is limited to the greater of (a) the fees paid and payable by the Client in the 12 months before the event giving rise to the claim, and (b) for a claim arising from a Build stage, the fee for that stage.
 
-12.5 **Data protection and confidentiality cap.** Subject to clause 12.1, each party's total liability for breach of clause 11, Schedule 1 or data protection law is limited to £[250,000] in aggregate in any contract year. This separate cap is set by reference to the insurance YBT carries under clause 14.
+12.5 **Data protection and confidentiality cap.** Subject to clause 12.1, each party's total liability for breach of clause 11, Schedule 1 or data protection law is limited to £250,000 in aggregate in any contract year. This separate cap is set by reference to the insurance YBT carries under clause 14.
 
 12.6 Each party will take reasonable steps to mitigate any loss it claims for. Service credits under Schedule 2 are the sole remedy for failing to meet an availability target, but not for any other breach.
 
@@ -156,12 +156,14 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 14.1 YBT will maintain, with a reputable insurer, for the term of this agreement and for six years afterwards:
 
-- professional indemnity insurance on a technology wording with a limit of not less than £[2,000,000] for any one claim;
-- cyber liability insurance with a limit of not less than £[250,000];
-- public liability insurance with a limit of not less than £[2,000,000] for any one event; and
+- professional indemnity insurance on a technology wording with a limit of not less than £2,000,000 in the aggregate in any policy year, including costs;
+- cyber and data insurance with a limit of not less than £250,000 in the aggregate in any policy year, including costs;
+- public and products liability insurance with a limit of not less than £2,000,000 for any one claim; and
 - employers' liability insurance as the law requires, from the time YBT employs anyone.
 
-  14.2 YBT will give the Client a copy of its insurance certificates on request.
+  14.2 Professional indemnity and cyber insurance are written on a claims-made basis, so YBT keeps the cover in place for the six years after this agreement ends by renewing those policies each year, not by buying run-off cover. The cyber insurance does not cover stolen funds or income YBT loses while it cannot trade.
+
+  14.3 YBT will give the Client a copy of its insurance certificates on request.
 
 ## 15. Data protection, subcontracting and people
 
@@ -196,7 +198,7 @@ YBT learns how a business runs and then builds and runs the software that runs i
 |               | For Your Business Today Ltd   | For [Client legal name] |
 | ------------- | ----------------------------- | ----------------------- |
 | Signature     |                               |                         |
-| Name          | Nigel Reilly                  | [Name]                  |
+| Name          | Jeremy Ferendinos             | [Name]                  |
 | Position      | Director                      | [Position]              |
 | Date          |                               |                         |
 | Notices email | consulting@yourbusiness.today | [Email]                 |
