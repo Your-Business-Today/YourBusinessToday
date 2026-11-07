@@ -2,8 +2,7 @@ import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
-import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { filmCut, filmLength, openFilm, recordSoundtrack, type FilmCut, type FilmSettings } from './filmCut.ts';
 
 /**
@@ -12,7 +11,8 @@ import { filmCut, filmLength, openFilm, recordSoundtrack, type FilmCut, type Fil
  *   npm run dev                       (in another terminal)
  *   node scripts/promo/renderPromoVideo.ts [output.mp4] [page url] [workers]
  *
- * Needs ffmpeg and Playwright's Chromium on the machine; it draws with SwiftShader, so no GPU is needed.
+ * Needs ffmpeg and Playwright's full Chromium on the machine, which films more steadily than its headless shell;
+ * it draws with SwiftShader, so no GPU is needed.
  */
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
@@ -23,6 +23,7 @@ const settings: FilmSettings = { pageUrl, width: 1920, height: 1080, framesPerSe
 const { env } = process;
 const proxyServer = env.HTTPS_PROXY;
 const browserOptions = {
+	channel: 'chromium',
 	args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
 	proxy: proxyServer ? { server: proxyServer, bypass: '127.0.0.1,localhost' } : undefined
 };
@@ -55,7 +56,7 @@ async function filmInItsOwnBrowser(cut: FilmCut, report: () => void): Promise<vo
 
 async function render(): Promise<void> {
 	const outputPath = resolve(outputArgument);
-	const folder = await mkdtemp(join(tmpdir(), 'promo-film-'));
+	const folder = await mkdtemp(join(dirname(outputPath), 'promo-film-'));
 	const browser = await chromium.launch(browserOptions);
 	const soundtrackPage = await openFilm(browser, settings);
 	const soundtrackPath = join(folder, 'soundtrack.wav');
