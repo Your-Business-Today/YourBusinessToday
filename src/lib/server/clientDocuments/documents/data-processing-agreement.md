@@ -1,6 +1,6 @@
 # Schedule 1 — Data Processing Agreement
 
-**Version 1.1 — 1 November 2026**
+**Version 1.2 — 7 November 2026**
 
 This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It is the contract required by Article 28(3) of the UK GDPR. Where it conflicts with anything else in the agreement about personal data, this schedule wins.
 
@@ -100,5 +100,5 @@ _Last updated 1 November 2026. YBT keeps this register current and gives notice 
 |           | For Your Business Today Ltd | For [Client legal name] |
 | --------- | --------------------------- | ----------------------- |
 | Signature |                             |                         |
-| Name      | Nigel Reilly                | [Name]                  |
+| Name      | Jeremy Ferendinos           | [Name]                  |
 | Date      |                             |                         |
