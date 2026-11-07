@@ -3,9 +3,13 @@ export type LineIconKind =
 	| 'briefcase'
 	| 'calendar'
 	| 'check'
+	| 'mute'
+	| 'pause'
+	| 'play'
 	| 'refresh'
 	| 'rocket'
-	| 'shield';
+	| 'shield'
+	| 'sound';
 
 /** Stroke paths on a 24 by 24 grid, one icon per kind. */
 export const lineIconPaths: Record<LineIconKind, string[]> = {
@@ -21,6 +25,9 @@ export const lineIconPaths: Record<LineIconKind, string[]> = {
 		'M3 10h18'
 	],
 	check: ['M21.8 10A10 10 0 1 1 17 3.34', 'm9 11 3 3L22 4'],
+	mute: ['M11 5 6 9H2v6h4l5 4z', 'm22 9-6 6', 'm16 9 6 6'],
+	pause: ['M8 5v14', 'M16 5v14'],
+	play: ['M7 4.5v15l12-7.5z'],
 	refresh: [
 		'M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8',
 		'M21 3v5h-5',
@@ -36,5 +43,6 @@ export const lineIconPaths: Record<LineIconKind, string[]> = {
 	shield: [
 		'M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z',
 		'm9 12 2 2 4-4'
-	]
+	],
+	sound: ['M11 5 6 9H2v6h4l5 4z', 'M15.54 8.46a5 5 0 0 1 0 7.07', 'M19.07 4.93a10 10 0 0 1 0 14.14']
 };
