@@ -19,8 +19,12 @@ type Filming = { durationSeconds: number; frame: (seconds: number) => Promise<vo
 
 type FilmingWindow = { promoFilming?: Filming };
 
+type FilmCamera = { browser: FilmingBrowser; settings: FilmSettings; page: FilmingPage };
+
 const loadTimeout = { timeout: 180000 };
-const photographTimeout = { timeout: 180000 };
+const photographTimeout = { timeout: 30000 };
+const drawingTimeoutMilliseconds = 30000;
+const attemptsPerFrame = 3;
 const segmentQuality = ['-c:v', 'libx264', '-preset', 'medium', '-crf', '15', '-pix_fmt', 'yuv420p'];
 
 /** Opens the page in filming mode and waits until the film has offered itself to the recorder. */
@@ -51,20 +55,42 @@ function startEncoder(settings: FilmSettings, segmentPath: string) {
 	});
 }
 
+function stoppedAnswering(milliseconds: number): Promise<never> {
+	return new Promise((_, reject) => {
+		const timer = setTimeout(() => reject(new Error(`The page stopped answering for ${milliseconds} ms`)), milliseconds);
+		timer.unref();
+	});
+}
+
+async function photographOnce(page: FilmingPage, settings: FilmSettings, seconds: number): Promise<Buffer> {
+	const drawing = page.evaluate((moment) => (globalThis as unknown as FilmingWindow).promoFilming?.frame(moment), seconds);
+	await Promise.race([drawing, stoppedAnswering(drawingTimeoutMilliseconds)]);
+	return page.screenshot({ type: 'jpeg', quality: settings.jpegQuality, ...photographTimeout });
+}
+
+/** Photographs one moment, on a fresh page if the old one stops answering, as headless Chromium now and then does. */
+async function photographMoment(camera: FilmCamera, seconds: number, attemptsLeft = attemptsPerFrame): Promise<Buffer> {
+	try {
+		return await photographOnce(camera.page, camera.settings, seconds);
+	} catch (error) {
+		const isLastAttempt = attemptsLeft === 1;
+		if (isLastAttempt) throw error;
+		camera.page = await openFilm(camera.browser, camera.settings);
+		return photographMoment(camera, seconds, attemptsLeft - 1);
+	}
+}
+
 /** Films one run of frames into a video segment: each frame drawn at its exact moment, then photographed. */
 export async function filmCut(browser: FilmingBrowser, settings: FilmSettings, cut: FilmCut, report: (frame: number) => void): Promise<void> {
-	const page = await openFilm(browser, settings);
+	const camera = { browser, settings, page: await openFilm(browser, settings) };
 	const encoder = startEncoder(settings, cut.segmentPath);
 	const { stdin } = encoder;
 	for (let frame = cut.firstFrame; frame < cut.firstFrame + cut.frameCount; frame += 1) {
-		const seconds = frame / settings.framesPerSecond;
-		await page.evaluate((moment) => (globalThis as unknown as FilmingWindow).promoFilming?.frame(moment), seconds);
-		const photograph = await page.screenshot({ type: 'jpeg', quality: settings.jpegQuality, ...photographTimeout });
+		const photograph = await photographMoment(camera, frame / settings.framesPerSecond);
 		const isFull = !stdin.write(photograph);
 		if (isFull) await once(stdin, 'drain');
 		report(frame);
 	}
 	stdin.end();
 	await once(encoder, 'close');
-	await page.close();
 }
