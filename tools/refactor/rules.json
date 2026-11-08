@@ -216,6 +216,7 @@
       "src/routes/company/+page.server.ts",
       "src/routes/offer/+page.server.ts",
       "src/routes/privacy/+page.server.ts",
+      "src/routes/promo/+page.server.ts",
       "src/routes/terms/+page.server.ts"
     ]
   },

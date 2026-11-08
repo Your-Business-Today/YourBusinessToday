@@ -1,6 +1,6 @@
 # Order Form
 
-**Order number:** [YBT-0001] — **Version 1.2 — 1 November 2026**
+**Order number:** [YBT-0001] — **Version 1.3 — 7 November 2026**
 
 This Order Form is made under, and incorporates by reference, the Master Services Agreement between Your Business Today Ltd and the Client dated [date of MSA] (the "**MSA**"). Words defined in the MSA have the same meaning here. It changes a clause of the MSA only where section 9 below names that clause.
 
@@ -11,7 +11,7 @@ This Order Form is made under, and incorporates by reference, the Master Service
 | Legal name             | Your Business Today Ltd                     | [Client legal name] |
 | Company number         | 17329446 (registered in England and Wales)  | [number]            |
 | Registered office      | 8 Eastleigh Close, Sutton, England, SM2 6QY | [address]           |
-| Contact who can decide | Nigel Reilly                                | [Name, role, email] |
+| Contact who can decide | Jeremy Ferendinos, Director                 | [Name, role, email] |
 
 ## 2. What is being ordered
 
@@ -85,7 +85,7 @@ By signing, each party agrees to this Order Form and to the MSA it incorporates.
 |           | For Your Business Today Ltd | For [Client legal name] |
 | --------- | --------------------------- | ----------------------- |
 | Signature |                             |                         |
-| Name      | Nigel Reilly                | [Name]                  |
+| Name      | Jeremy Ferendinos           | [Name]                  |
 | Position  | Director                    | [Position]              |
 | Date      |                             |                         |
 
