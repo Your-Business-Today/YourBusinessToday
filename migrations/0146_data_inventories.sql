@@ -1,4 +1,4 @@
--- 0145: every table's row count, taken around each migration run.
+-- 0146: every table's row count, taken around each migration run.
 --
 -- The run migrations workflow counts the rows of every table in the public
 -- schema before the first migration a merge added and after the last, and
