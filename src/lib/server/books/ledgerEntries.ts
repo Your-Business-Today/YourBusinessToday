@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { LedgerEntry } from '$lib/data/books/ledgerEntry';
 import type { LedgerAccountType } from '$lib/data/books/ledgerAccountTypes';
+import { readEveryPage } from './everyPage';
 
 export type LedgerEntryRow = {
 	id: string;
@@ -14,26 +15,26 @@ export type LedgerEntryRow = {
 
 const ledgerEntryColumns =
 	'id, account_id, cost_centre_id, debit, credit, books_journals!inner(journal_date), books_ledger_accounts!inner(code, name, account_type)';
-const pageSize = 1000;
 
 /** Every line posted in an organisation's books on or before the day, with its journal's date and its account. */
 export async function findLedgerEntriesUpTo(supabase: SupabaseClient, organisationId: string, throughDate: string): Promise<LedgerEntry[]> {
-	const entries: LedgerEntry[] = [];
-	for (let pageStart = 0; ; pageStart += pageSize) {
-		const page = await findEntriesPage(supabase, organisationId, throughDate, pageStart);
-		entries.push(...page);
-		if (page.length < pageSize) return entries;
-	}
+	return readEveryPage((pageStart, pageEnd) => findEntriesPage(supabase, organisationId, throughDate, pageStart, pageEnd));
 }
 
-async function findEntriesPage(supabase: SupabaseClient, organisationId: string, throughDate: string, pageStart: number): Promise<LedgerEntry[]> {
+async function findEntriesPage(
+	supabase: SupabaseClient,
+	organisationId: string,
+	throughDate: string,
+	pageStart: number,
+	pageEnd: number
+): Promise<LedgerEntry[]> {
 	const { data, error } = await supabase
 		.from('books_journal_lines')
 		.select(ledgerEntryColumns)
 		.eq('organisation_id', organisationId)
 		.lte('books_journals.journal_date', throughDate)
 		.order('id')
-		.range(pageStart, pageStart + pageSize - 1);
+		.range(pageStart, pageEnd);
 	if (error !== null) throw error;
 	return (data as unknown as LedgerEntryRow[]).map(fromLedgerEntryRow);
 }
