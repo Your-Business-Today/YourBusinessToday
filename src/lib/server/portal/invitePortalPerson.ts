@@ -1,12 +1,12 @@
 import { addClientContact, addContactOutcomes } from '$lib/server/clients/addClientContact';
 import { getContactsForClient } from '$lib/server/clients/getContactsForClient';
 import { inviteClientContact, inviteOutcomes } from '$lib/server/clients/inviteClientContact';
+import { makePortalAdministrator } from '$lib/server/clients/makePortalAdministrator';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { tooManyInvitesMessage } from '$lib/server/email/inviteAllowance';
 import type { PortalInvite } from './validatePortalPerson';
 import type { PortalVisitor } from '$lib/portal/portalVisitor';
 import type { Refusal } from './portalFormReading';
-import type { SupabaseClient } from '@supabase/supabase-js';
 
 const alreadyListed: Refusal = {
 	refusal: 'That email address is already on your organisation’s list.'
@@ -36,16 +36,8 @@ export async function invitePortalPerson(
 	const contacts = await getContactsForClient(service, visitor.clientId);
 	const contact = contacts.find((candidate) => candidate.email === invite.email);
 	if (contact === undefined) return alreadyListed;
-	if (invite.isAdministrator) await makeAdministrator(service, contact.id);
+	if (invite.isAdministrator) await makePortalAdministrator(service, contact.id);
 	const delivery = await inviteClientContact(service, contact, origin, actorAccountId);
 	if (delivery === inviteOutcomes.tooManyInvites) return { refusal: tooManyInvitesMessage };
 	return null;
-}
-
-async function makeAdministrator(service: SupabaseClient, contactId: string): Promise<void> {
-	const { error } = await service
-		.from('client_contacts')
-		.update({ is_portal_administrator: true })
-		.eq('id', contactId);
-	if (error) throw error;
 }

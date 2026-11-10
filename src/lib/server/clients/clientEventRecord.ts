@@ -19,7 +19,8 @@ export type ClientEventKind =
 	| 'officers_imported'
 	| 'grouped_under'
 	| 'person_researched'
-	| 'sighted';
+	| 'sighted'
+	| 'client_set_up';
 
 export type ClientEvent = {
 	id: string;

@@ -1,4 +1,4 @@
--- 0150: an organisation's directors are named, and only they enter its
+-- 0153: an organisation's directors are named, and only they enter its
 -- boardroom.
 --
 -- One row per directorship: an administrator names a director from the

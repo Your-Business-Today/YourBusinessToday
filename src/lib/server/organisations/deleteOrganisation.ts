@@ -1,17 +1,19 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-const foreignKeyViolation = '23503';
-
-export const keepsBoardRecords =
-	'This organisation, or a business under it, keeps a board record — its named directors — which is never deleted, so the organisation cannot be deleted.';
+const PostgresErrorCode = { ForeignKeyViolation: '23503' } as const;
 
 /**
- * Deleting an organisation takes its sub-organisations and the project memberships it granted with it; its projects stay,
- * under no organisation. One that keeps board records is refused by the database, and the refusal is returned.
+ * Deletes an organisation and answers null; its sub-organisations and its projects stay, under no organisation,
+ * and the project memberships it granted go with it. An organisation still holding records that are always kept,
+ * such as its books, its Your Business Brain or the directors named to its board, is refused by the database and answers why, deleting nothing.
  */
 export async function deleteOrganisation(supabase: SupabaseClient, organisationId: string): Promise<string | null> {
 	const { error } = await supabase.from('organisations').delete().eq('id', organisationId);
-	if (error?.code === foreignKeyViolation) return keepsBoardRecords;
-	if (error) throw error;
-	return null;
+	if (error === null) return null;
+	const isStillHoldingKeptRecords = error.code === PostgresErrorCode.ForeignKeyViolation;
+	if (isStillHoldingKeptRecords) return refusalWhileHoldingKeptRecords;
+	throw error;
 }
+
+const refusalWhileHoldingKeptRecords =
+	'This organisation still holds records that are always kept, such as its books, its Your Business Brain or the directors named to its board, so it was not deleted.';

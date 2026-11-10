@@ -1,4 +1,4 @@
-/** The limit of boardroom_directors.director_name (migration 0150), stated once for the service and the form. */
+/** The limit of boardroom_directors.director_name (migration 0153), stated once for the service and the form. */
 export const directorNameMaximumLength = 320;
 
 export const boardroomDirectorRefusals = {

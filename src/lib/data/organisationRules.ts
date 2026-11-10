@@ -13,6 +13,11 @@ export const longestAccountsContactPhone = 40;
 
 export const emptyAccountsContact: AccountsContact = { name: '', email: '', phone: '' };
 
+/** Whether a name fits an organisation's name column. */
+export function fitsOrganisationName(name: string): boolean {
+	return name.length <= longestOrganisationName;
+}
+
 export const organisationNeedsName = 'An organisation needs a name.';
 export const accountsContactEmailRefusal =
 	'The accounts contact email does not read as an email address.';

@@ -1,5 +1,5 @@
 import { belongsAtPortal } from './belongsAtPortal';
-import { isConnectorDestination, isSignUpDestination } from './connectorDestination';
+import { isConnectorDestination } from './connectorDestination';
 import { getMemberProjectIds } from '$lib/server/members/getMemberProjectIds';
 import { getOwnedProjectIds } from '$lib/server/projects/getOwnedProjectIds';
 import { isPathForClientContact, isPortalPath, portalHomePath } from '$lib/portal/portalPaths';
@@ -26,7 +26,6 @@ export async function destinationAfterSignIn(
 	if (user === null) return defaultDestination;
 	const localDestination = isLocalPath(requestedDestination) ? requestedDestination : null;
 	if (isConnectorDestination(localDestination)) return localDestination;
-	if (isSignUpDestination(localDestination)) return localDestination;
 	if (await belongsAtPortal(locals.supabase, user.id)) return portalDestinationFor(localDestination);
 	if (localDestination !== null && !isPortalPath(localDestination)) return localDestination;
 	return homeDestinationFor(locals.supabase, user.id);

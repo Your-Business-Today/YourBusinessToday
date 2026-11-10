@@ -3,7 +3,7 @@ import { boardroomDirectorColumns, parseBoardroomDirectorRecord } from './boardr
 import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
 import type { BoardroomDirector } from '$lib/data/boardroomDirector';
 
-/** Everyone ever named to an organisation's board, sitting or stood down, in the order they were named; none until migration 0150 has run. */
+/** Everyone ever named to an organisation's board, sitting or stood down, in the order they were named; none until migration 0153 has run. */
 export async function getDirectorsOfOrganisation(
 	supabase: SupabaseClient,
 	organisationId: string

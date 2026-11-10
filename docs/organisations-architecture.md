@@ -127,7 +127,7 @@ down to its companies leave everyone on the same projects, with each grant marke
 marks it, and still on them once the grouping is no longer read; a filled company is invoiced as
 before, with or without its parent.
 
-## Directors, and who enters the boardroom (migration `0150`)
+## Directors, and who enters the boardroom (migration `0153`)
 
 An administrator names an organisation's directors from the people on the organisation itself, on
 the organisation's page (the Directors panel, shown once Boardroom is switched on) or through the
