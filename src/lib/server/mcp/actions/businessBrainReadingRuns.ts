@@ -52,7 +52,8 @@ export async function readPage(caller: McpCaller, input: Record<string, unknown>
 	return describeBusinessBrainRevision(organisation, page, revision);
 }
 
-async function readCurrentPage(supabase: SupabaseClient, organisation: Organisation, page: BusinessBrainPageRead): Promise<string> {
+/** The page as it now reads, with the page above it, its links and its history. */
+export async function readCurrentPage(supabase: SupabaseClient, organisation: Organisation, page: BusinessBrainPageRead): Promise<string> {
 	const surroundings = await readSurroundings(supabase, organisation.id, page);
 	return describeBusinessBrainPage(organisation, page, surroundings);
 }

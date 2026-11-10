@@ -5,23 +5,10 @@ import {
 	isFittingPaperByteCount,
 	isFittingPaperText
 } from './boardroomPaperRules';
+import { isGiven, readTrimmed, validateItemNumber } from './boardPaperInput';
 import type { BoardPaperContent, BoardPaperDraft } from './boardroomPaper';
 
 const fileFields = ['filename', 'mimeType', 'byteCount'];
-
-function readTrimmed(input: Record<string, unknown>, field: string): string {
-	return String(input[field] ?? '').trim();
-}
-
-function isGiven(input: Record<string, unknown>, field: string): boolean {
-	const value = input[field];
-	return value !== undefined && value !== null && value !== '';
-}
-
-function validateItemNumber(value: unknown): number | null {
-	if (typeof value !== 'number' || !Number.isInteger(value) || value < 1) return null;
-	return value;
-}
 
 function validateNote(input: Record<string, unknown>): BoardPaperContent | string {
 	const note = readTrimmed(input, 'note');

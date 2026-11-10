@@ -37,7 +37,7 @@ function addPaper(draft: BoardPaperDraft, caller = nigel) {
 describe('putting a paper on an agenda item', () => {
 	beforeEach(() => {
 		const items = [agendaItem(1, '2026-11-10T19:00:00Z'), agendaItem(2), agendaItem(3)];
-		board.record = { meeting: calledMeeting, directors: [nigelsSeat], items, papers: [] };
+		board.record = { meeting: calledMeeting, directors: [nigelsSeat], items, papers: [], recordPapers: [] };
 		board.notes = [];
 		board.grants = [];
 	});
