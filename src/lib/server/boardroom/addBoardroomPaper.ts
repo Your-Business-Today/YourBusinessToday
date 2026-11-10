@@ -11,7 +11,10 @@ import type { MeetingCaller } from './callBoardroomMeeting';
 import type { MeetingRecord } from '$lib/data/describeBoardroomMeeting';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
-function placePaper(record: MeetingRecord, draft: BoardPaperDraft, caller: MeetingCaller): PaperPlacing | string {
+type PaperOnItem = { itemNumber: number; title: string };
+
+/** Where a paper goes on the meeting, by the item's number now, and the seat adding it; or why it cannot go there. */
+export function placePaper(record: MeetingRecord, draft: PaperOnItem, caller: MeetingCaller): PaperPlacing | string {
 	if (meetingStage(record.meeting, caller.now) === meetingStages.closed) return boardPaperRefusals.meetingHasClosed;
 	const item = standingAgenda(record.items)[draft.itemNumber - 1];
 	if (item === undefined) return boardPaperRefusals.itemNotOnAgenda;

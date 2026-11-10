@@ -1,12 +1,7 @@
-import { describeProjectState } from './describeProjectState';
-import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
-import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
-import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
-import { getTaskTurns } from '$lib/server/conversations/conversationTurns';
 import { noSuchProject } from './describeProject';
 import { objectSchema, readText, textField } from '../actionTypes';
-import { projectStateOf } from '$lib/server/projects/projectState';
 import { reachableProject } from '../projectAccess';
+import { describeHowProjectStands } from './projectStateReading';
 import type { McpAction } from '../actionTypes';
 
 export const projectStateActions: McpAction[] = [
@@ -26,16 +21,7 @@ export const projectStateActions: McpAction[] = [
 		run: async (caller, input) => {
 			const project = await reachableProject(caller, readText(input, 'projectId'));
 			if (project === null) return noSuchProject;
-			const { supabase } = caller;
-			const [tasks, goals, people] = await Promise.all([
-				getTasksForProject(supabase, project.id),
-				getGoalsForProject(supabase, project.id),
-				getPeopleOnProject(supabase, project.id)
-			]);
-			const turnsByTask = await getTaskTurns(supabase, tasks.map((task) => task.id));
-			const now = new Date();
-			const state = projectStateOf({ tasks, goals, turnsByTask, now });
-			return describeProjectState({ projectName: project.name, state, people, now }).join('\n');
+			return describeHowProjectStands(caller.supabase, project, new Date());
 		}
 	}
 ];

@@ -48,8 +48,13 @@ export async function readPage(caller: McpCaller, input: Record<string, unknown>
 	const door = organisationDoor(organisation);
 	const { revisionId } = asked;
 	if (revisionId !== null) return readRevisionOfPage(supabase, door, page, { organisationId: organisation.id, revisionId });
+	return readCurrentPage(supabase, organisation, page);
+}
+
+/** The page as it now reads, with the page above it, its links and its history. */
+export async function readCurrentPage(supabase: SupabaseClient, organisation: Organisation, page: BusinessBrainPageRead): Promise<string> {
 	const surroundings = await readSurroundings(supabase, organisation.id, page);
-	return describeBusinessBrainPage(door, page, surroundings);
+	return describeBusinessBrainPage(organisationDoor(organisation), page, surroundings);
 }
 
 /** One earlier version of the page, or a plain word that its history holds none by that id. */

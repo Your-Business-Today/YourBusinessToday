@@ -206,6 +206,7 @@
     "acceptedGaps": [
       "src/lib/server/boardroom/callBoardroomPaper.ts",
       "src/lib/server/mcp/actions/businessBrainRequest.ts",
+      "src/lib/server/mcp/actions/businessBrainRuns.ts",
       "src/lib/server/agent/goodActions.ts",
       "src/lib/server/goals/updateProject.ts",
       "src/lib/server/goals/updateTask.ts",

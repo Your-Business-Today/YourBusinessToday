@@ -1,6 +1,6 @@
 import { consultancyOfferSteps } from '$lib/data/consultancyOffer';
 import { contextGaps } from '$lib/server/companyContext/contextGaps';
-import { reviewStates } from '$lib/data/companyContext/companyContext';
+import { notRightLines } from './describeContextReview';
 import type { CompanyContextVersion } from '$lib/data/companyContext/companyContext';
 
 const firstStage = consultancyOfferSteps[0];
@@ -26,10 +26,9 @@ function emptyStanding(organisationName: string): string {
 	);
 }
 
-function notRightSection({ parts }: CompanyContextVersion): string {
-	const notRight = parts.filter((part) => part.reviewState === reviewStates.notRight);
-	if (notRight.length === 0) return 'Nothing is marked not right.';
-	const lines = notRight.map((part) => `   - ${part.name} (${part.key}): ${part.whatIsWrong}`);
+function notRightSection(context: CompanyContextVersion): string {
+	const lines = notRightLines(context);
+	if (lines.length === 0) return 'Nothing is marked not right.';
 	return ['Put these right first, as the client marked them not right:', ...lines].join('\n');
 }
 
