@@ -9,7 +9,9 @@ import { isStillToSpeak, type ItemTalk } from './boardroomRoomTurns';
 import { numberOf, saidSoFarLines } from './describeBoardContribution';
 import { outcomeLine, positionLines, talkingLine } from './describeBoardroomRoom';
 import { seatControlLines } from './describeSeatControls';
+import { decisionLines } from './describeBoardDecision';
 import type { AgendaItem } from './boardroomMeeting';
+import type { DecisionOnItem } from './boardDecisionOnItem';
 
 /** One item as a director's Claude reads it in the room: the item, its number now, and what is known of it. */
 export type ItemReading = {
@@ -19,6 +21,7 @@ export type ItemReading = {
 	talk: ItemTalk;
 	outcome: ItemOutcome | null;
 	seatId: string | null;
+	decision?: DecisionOnItem | null;
 };
 
 function papersLines({ record, item }: ItemReading): string[] {
@@ -60,7 +63,8 @@ export function describeBoardItem(organisationName: string, reading: ItemReading
 	const heading = `Item ${itemNumber} of the board meeting of ${organisationName}, ${when} (UK time): ${item.title} — ${agendaPurposeWords[item.purpose]}.`;
 	const said = saidSoFarLines(talk.contributions, record.directors);
 	const ownDirector = [...ownBriefLines(reading), ...seatControlLines(record.controls, item.id)];
-	return [heading, '', ...papersLines(reading), '', ...ownDirector, '', ...said, '', ...standingLines(reading)].join('\n');
+	const decision = decisionLines(reading.decision ?? null, record.directors);
+	return [heading, '', ...papersLines(reading), '', ...ownDirector, '', ...said, '', ...standingLines(reading), ...decision].join('\n');
 }
 
 /** The answer when a contribution is kept: its number and round, and where the item stands now. */

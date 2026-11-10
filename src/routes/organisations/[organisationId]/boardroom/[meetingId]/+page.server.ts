@@ -3,6 +3,7 @@ import { getBriefedMeetingRecord } from '$lib/server/boardroom/readBoardroomMeet
 import { briefBoardroomItem } from '$lib/server/boardroom/briefBoardroomItem';
 import { changeOwnClaudeSetting, steerOwnClaude, type SeatAnswer } from '$lib/server/boardroom/steerOwnClaude';
 import { answerHeldContribution } from '$lib/server/boardroom/answerHeldContribution';
+import { answerBoardDecision } from '$lib/server/boardroom/answerBoardDecision';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { requireBoardroomDirector } from '$lib/server/auth/requireBoardroomDirector';
 import { requireUser } from '$lib/server/auth/requireUser';
@@ -12,6 +13,8 @@ import { boardBriefInputOf } from '$lib/data/boardBriefForm';
 import { boardMeetingDependency, seatControlInputOf } from '$lib/data/boardSeatControlForm';
 import { validateBoardroomBrief } from '$lib/data/validateBoardroomBrief';
 import { validateHeldAnswer, validateSeatSetting, validateSteerNote } from '$lib/data/validateSeatControl';
+import { validateDecisionAnswer } from '$lib/data/validateDecisionAnswer';
+import { decisionAnswerInputOf } from '$lib/data/boardDecisionForm';
 import type { Actions, PageServerLoad } from './$types';
 
 const notFoundStatus = 404;
@@ -62,5 +65,12 @@ export const actions = {
 		const director = { accountId: user.id, now: new Date() };
 		const answered = await answerHeldContribution(supabaseServiceClient(), organisation, params.meetingId, draft, director);
 		return answerOf(answered);
+	},
+	answerDecision: async ({ locals, params, request }) => {
+		const { user, organisation } = await requireBoardroomDirector(locals, params.organisationId);
+		const draft = validateDecisionAnswer(decisionAnswerInputOf(await request.formData()));
+		if (typeof draft === 'string') return fail(refusedStatus, { message: draft });
+		const director = { accountId: user.id, now: new Date() };
+		return answerOf(await answerBoardDecision(supabaseServiceClient(), organisation, params.meetingId, draft, director));
 	}
 } satisfies Actions;

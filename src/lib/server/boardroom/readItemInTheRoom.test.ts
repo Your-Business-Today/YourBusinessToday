@@ -15,6 +15,10 @@ vi.mock('./getDirectorsOfOrganisation', () => ({ getDirectorsOfOrganisation: asy
 vi.mock('./getBoardroomPapers', () => ({ getKeptPapersOfMeeting: async () => [] }));
 vi.mock('./getBoardroomRecordPapers', () => ({ getRecordPapersOfMeeting: async () => [] }));
 vi.mock('./getBoardroomRoom', () => ({ getRoomOfMeeting: async () => ({ ...meetingInRoom().room, contributions: inRoom.said }) }));
+vi.mock('./getBoardroomDecisions', async () => {
+	const { noMeetingDecisions } = await import('$lib/data/boardroomDecision');
+	return { getDecisionsOfMeeting: async () => noMeetingDecisions };
+});
 
 describe('reading an item in the room keeps every brief to its own director', () => {
 	it('gives Nigel his own latest brief and what Jeremy’s Claude said, and nothing of Jeremy’s brief', async () => {

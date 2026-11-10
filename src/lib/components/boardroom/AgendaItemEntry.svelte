@@ -4,6 +4,7 @@
 	import AgendaItemBriefing from './AgendaItemBriefing.svelte';
 	import ItemRoomTalk from './ItemRoomTalk.svelte';
 	import HeldPieceCard from './HeldPieceCard.svelte';
+	import ItemDecision from './ItemDecision.svelte';
 	import type { BoardAgendaItemView } from '$lib/data/boardMeetingView';
 
 	let { item }: { item: BoardAgendaItemView } = $props();
@@ -31,5 +32,8 @@
 	<ItemRoomTalk room={item.room} />
 	{#if item.held !== null}
 		<HeldPieceCard held={item.held} />
+	{/if}
+	{#if item.decision !== null}
+		<ItemDecision decision={item.decision} itemNumber={item.number} />
 	{/if}
 </li>

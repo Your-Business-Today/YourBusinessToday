@@ -4,6 +4,9 @@ import { paperViewsOfItem, type BoardPaperView } from './boardPaperViews';
 import { itemBriefingViewOf, type ItemBriefingView } from './boardBriefViews';
 import { itemRoomViewOf, type ItemRoomView } from './boardRoomViews';
 import { heldPieceViewOf, ownClaudeViewOf, type HeldPieceView, type OwnClaudeView } from './boardSeatControlViews';
+import { itemDecisionViewOf, type ItemDecisionView } from './boardDecisionViews';
+import { decisionRuleSentence } from './describeDecisionRule';
+import { noMeetingDecisions } from './boardroomDecision';
 import { ukMeetingTime } from './ukMeetingTime';
 
 /** One item on the agenda as a meeting's page shows it, numbered as the directors' Claudes number it. */
@@ -17,6 +20,7 @@ export type BoardAgendaItemView = {
 	briefing: ItemBriefingView;
 	room: ItemRoomView;
 	held: HeldPieceView | null;
+	decision: ItemDecisionView | null;
 };
 
 /** One meeting as its own page shows it: when, who chairs it, who is on it, its agenda, each item's papers and room, and the reader's own Claude. */
@@ -31,6 +35,7 @@ export type BoardMeetingView = {
 	agenda: BoardAgendaItemView[];
 	withdrawnTitles: string[];
 	ownClaude: OwnClaudeView | null;
+	decisionRuleWords: string;
 };
 
 function agendaItemView(record: MeetingRecord, item: AgendaItem, index: number, now: Date): BoardAgendaItemView {
@@ -43,7 +48,8 @@ function agendaItemView(record: MeetingRecord, item: AgendaItem, index: number, 
 		papers: paperViewsOfItem(record, item.id),
 		briefing: itemBriefingViewOf(record, item.id, now),
 		room: itemRoomViewOf(record, item, now),
-		held: heldPieceViewOf(record, item)
+		held: heldPieceViewOf(record, item),
+		decision: itemDecisionViewOf(record, item, now)
 	};
 }
 
@@ -53,6 +59,7 @@ function withdrawnTitlesOf(items: AgendaItem[]): string[] {
 
 export function boardMeetingViewOf(record: MeetingRecord, now: Date): BoardMeetingView {
 	const { meeting, directors } = record;
+	const { ruleInForce } = record.decisions ?? noMeetingDecisions;
 	const agenda = standingAgenda(record.items).map((item, index) => agendaItemView(record, item, index, now));
 	return {
 		id: meeting.id,
@@ -64,6 +71,7 @@ export function boardMeetingViewOf(record: MeetingRecord, now: Date): BoardMeeti
 		directorNames: directorsOnMeeting(directors, meeting, now).map((director) => director.name),
 		agenda,
 		withdrawnTitles: withdrawnTitlesOf(record.items),
-		ownClaude: ownClaudeViewOf(record, now)
+		ownClaude: ownClaudeViewOf(record, now),
+		decisionRuleWords: decisionRuleSentence(ruleInForce)
 	};
 }
