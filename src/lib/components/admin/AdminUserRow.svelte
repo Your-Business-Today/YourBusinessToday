@@ -1,6 +1,5 @@
 <script lang="ts">
 	import AdminActionsMenu from '$lib/components/admin/AdminActionsMenu.svelte';
-	import UserModelSelect from '$lib/components/admin/UserModelSelect.svelte';
 	import type { AdminUserSummary } from '$lib/server/admin/getAdminUserList';
 
 	let { user }: { user: AdminUserSummary } = $props();
@@ -25,7 +24,6 @@
 		</p>
 	</div>
 	<div class="flex items-center gap-3">
-		<UserModelSelect {user} />
 		<AdminActionsMenu {user} />
 	</div>
 </li>

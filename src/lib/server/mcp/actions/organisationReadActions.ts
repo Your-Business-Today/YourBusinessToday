@@ -5,6 +5,8 @@ import { getMembersOfOrganisation } from '$lib/server/organisations/getMembersOf
 import { getOrganisationsWithCounts } from '$lib/server/organisations/getOrganisationsWithCounts';
 import { getProjectsForOrganisation } from '$lib/server/organisations/getProjectsForOrganisation';
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
+import { getDirectorsOfOrganisation } from '$lib/server/boardroom/getDirectorsOfOrganisation';
+import { directorListSentence } from '$lib/data/boardroomDirector';
 import { moduleListSentence } from '$lib/data/organisationModules';
 import { usableModules } from '$lib/data/organisationModuleAccess';
 import { canReachOrganisation, noSuchOrganisation, reachableOrganisation } from '../organisationAccess';
@@ -34,7 +36,7 @@ export const organisationReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'one organisation in full: how it is invoiced, which modules are switched on, its people and their standing, its sub-organisations and its projects',
+			'one organisation in full: how it is invoiced, which modules are switched on, its directors when Boardroom is on, its people and their standing, its sub-organisations and its projects',
 		inputSchema: objectSchema({ organisationId: organisationIdField }, ['organisationId']),
 		run: async (caller, input) => {
 			const organisation = await reachableOrganisation(caller, readText(input, 'organisationId'));
@@ -45,17 +47,20 @@ export const organisationReadActions: McpAction[] = [
 ];
 
 async function describeInFull(caller: McpCaller, organisation: Organisation): Promise<string> {
-	const [parent, family, members, projects, switchedOn] = await Promise.all([
+	const [parent, family, members, projects, switchedOn, directors] = await Promise.all([
 		parentOf(caller, organisation),
 		getOrganisationFamily(caller.supabase, organisation.id),
 		getMembersOfOrganisation(caller.supabase, organisation.id),
 		getProjectsForOrganisation(caller.supabase, organisation.id),
-		getSwitchedOnModules(caller.supabase, organisation.id)
+		getSwitchedOnModules(caller.supabase, organisation.id),
+		getDirectorsOfOrganisation(caller.supabase, organisation.id)
 	]);
 	const children = family.filter((candidate) => candidate.parentOrganisationId === organisation.id);
 	const modules = usableModules(caller, { organisation, switchedOn });
 	const modulesLine = `Modules switched on: ${moduleListSentence(modules)}`;
-	return [describeOrganisationInFull(organisation, parent, children, members, projects), '', modulesLine].join('\n');
+	const directorsLines = modules.includes('boardroom') ? [`Directors: ${directorListSentence(directors)}`] : [];
+	const description = describeOrganisationInFull(organisation, parent, children, members, projects);
+	return [description, '', modulesLine, ...directorsLines].join('\n');
 }
 
 function parentOf(caller: McpCaller, organisation: Organisation): Promise<Organisation | null> {

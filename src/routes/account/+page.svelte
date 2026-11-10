@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import DisplayNameForm from '$lib/components/account/DisplayNameForm.svelte';
-	import ModelChoicePanel from '$lib/components/account/ModelChoicePanel.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
@@ -54,7 +53,6 @@
 			Edit profile
 		</button>
 	</div>
-	<ModelChoicePanel modelId={data.modelId} adminPinnedModel={data.adminPinnedModel} />
 </div>
 
 <Modal title="Edit profile" bind:isOpen={isProfileModalOpen}>
