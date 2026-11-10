@@ -1,4 +1,4 @@
-import { directorsOnMeeting, isStanding, type AgendaItem } from './boardroomMeeting';
+import { directorsOnMeeting, isStanding, meetingStage, meetingStages, type AgendaItem } from './boardroomMeeting';
 import { isSitting } from './boardroomDirector';
 import { emptyMeetingRoom, outcomeKinds, outcomeOfItem, type BoardContribution } from './boardroomRoom';
 import { answersTo, decisionOfItem, noMeetingDecisions, type BoardDecision, type DecisionAnswer } from './boardroomDecision';
@@ -10,11 +10,15 @@ const decisionPurpose = 'decision';
 /** A decision as it is put to the directors: as kept once the first of them answers, and with no id before. */
 export type PutDecision = Omit<BoardDecision, 'id' | 'openedAt'> & { id: string | null };
 
-/** A decision on one item: what is put, every answer so far, who is still to answer, and how it stands. */
+/**
+ * A decision on one item: what is put, every answer so far, who is still to answer, and how it stands. Once the
+ * meeting has closed nobody is still to answer: a director who gave no answer is recorded as giving none.
+ */
 export type DecisionOnItem = {
 	decision: PutDecision;
 	answers: DecisionAnswer[];
 	waitingFor: string[];
+	gaveNoAnswer: string[];
 	result: DecisionResult;
 };
 
@@ -51,8 +55,11 @@ export function decisionOnItem(record: MeetingRecord, item: AgendaItem, now: Dat
 	if (decision === null) return null;
 	const answers = decision.id === null ? [] : answersTo(meetingDecisions, decision.id);
 	const hasAnswered = (seatId: string) => answers.some((answer) => answer.directorId === seatId);
-	const waitingFor = answeringSeatsOf(record, now).filter((seatId) => !hasAnswered(seatId));
+	const unanswered = answeringSeatsOf(record, now).filter((seatId) => !hasAnswered(seatId));
+	const isClosed = meetingStage(record.meeting, now) === meetingStages.closed;
+	const waitingFor = isClosed ? [] : unanswered;
+	const gaveNoAnswer = isClosed ? unanswered : [];
 	const directorCount = directorsOnMeeting(record.directors, record.meeting, now).length;
 	const count = { rule: decision.rule, chairDirectorId: decision.chairDirectorId, answers, waitingFor, directorsOnMeeting: directorCount };
-	return { decision, answers, waitingFor, result: decisionResultOf(count) };
+	return { decision, answers, waitingFor, gaveNoAnswer, result: decisionResultOf(count) };
 }

@@ -1,14 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { changeBoardroomAgenda } from './changeBoardroomAgenda';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
-import {
-	agendaItem,
-	calledMeeting,
-	dayBeforeTheMeeting,
-	duringTheMeeting,
-	meetingId,
-	yourBusinessToday
-} from '$lib/data/boardroomMeeting.fixtures';
+import { agendaItem, calledMeeting, dayBeforeTheMeeting, duringTheMeeting, meetingId, yourBusinessToday } from '$lib/data/boardroomMeeting.fixtures';
 import type { AgendaItem, BoardroomMeeting } from '$lib/data/boardroomMeeting';
 import type { AgendaChange } from '$lib/data/validateAgendaChange';
 
@@ -29,6 +22,7 @@ vi.mock('./getBoardroomPapers', () => ({ getKeptPapersOfMeeting: async () => [] 
 vi.mock('./getBoardroomRecordPapers', () => ({ getRecordPapersOfMeeting: async () => [] }));
 vi.mock('./getBoardroomBriefs', () => ({ getMeetingBriefing: async () => ({ seatId: null, ownBriefs: [], briefsIn: [] }) }));
 vi.mock('./getBoardroomRoom', () => ({ getRoomOfMeeting: async () => ({ room: null, contributions: [], outcomes: [] }) }));
+vi.mock('./getBoardroomMinutes', () => ({ getMinutesOfMeeting: async () => ({ closing: null, versions: [], answers: [] }) }));
 vi.mock('./getBoardroomDecisions', async () => {
 	const { noMeetingDecisions } = await import('$lib/data/boardroomDecision');
 	return { getDecisionsOfMeeting: async () => noMeetingDecisions };
