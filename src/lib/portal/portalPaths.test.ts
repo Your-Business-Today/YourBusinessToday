@@ -41,6 +41,10 @@ describe('isPortalPage', () => {
 	it('is not the staff sign-in page', () => {
 		expect(isPortalPage(new URL('https://yourbusiness.today/account/sign-in'))).toBe(false);
 	});
+
+	it('is every page at the portal address, the sign-in page among them', () => {
+		expect(isPortalPage(new URL('https://portal.yourbusiness.today/account/sign-in'))).toBe(true);
+	});
 });
 
 describe('portalProjectPath', () => {

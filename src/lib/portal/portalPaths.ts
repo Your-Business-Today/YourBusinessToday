@@ -1,3 +1,5 @@
+import { isAtPortalAddress } from './portalAddress';
+
 export const portalHomePath = '/portal';
 export const portalPeoplePath = `${portalHomePath}/people`;
 export const portalConnectPath = `${portalHomePath}/connect`;
@@ -21,10 +23,10 @@ export function isPathForClientContact(path: string): boolean {
 	return isPortalPath(pathname) || accountPathsServedToClients.has(pathname);
 }
 
-/** A portal page, or the sign-in page on the way to one, wears the portal's header. */
+/** A portal page, the sign-in page on the way to one, and every page at the portal's own address wear the portal's header. */
 export function isPortalPage(url: URL): boolean {
 	const destination = url.searchParams.get(destinationParameter) ?? '';
-	return isPortalPath(url.pathname) || isPortalPath(destination);
+	return isAtPortalAddress(url) || isPortalPath(url.pathname) || isPortalPath(destination);
 }
 
 export function portalProjectPath(projectId: string): string {
