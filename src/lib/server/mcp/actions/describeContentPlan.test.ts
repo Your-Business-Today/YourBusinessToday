@@ -9,7 +9,7 @@ const everywhere: PostingRhythm = { mediumPath: 'all', medium: 'Everywhere', day
 const linkedIn: PostingRhythm = { mediumPath: 'text.post.linkedin', medium: 'LinkedIn post', days: null, time: null, postsAWeek: 1 };
 
 function piece(id: string, plannedFor: string): PlannedPiece {
-	return { id, postId: id, mediumPath: 'image.post.instagram', kind: 'tip', title: `Post ${id}`, hook: '', stage: 'idea', plannedFor, scheduledFor: null, updatedAt: '' };
+	return { id, postId: id, mediumPath: 'image.post.instagram', kind: 'tip', title: `Post ${id}`, hook: '', caption: '', stage: 'idea', plannedFor, scheduledFor: null, updatedAt: '' };
 }
 
 const pieces = [piece('mon', '2026-11-02T19:30:00Z'), piece('wed', '2026-11-04T19:30:00Z'), piece('sat', '2026-11-07T19:30:00Z')];

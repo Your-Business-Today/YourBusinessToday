@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/site/Button.svelte';
+	import ContentPlanApprovalTable from '$lib/components/brand/ContentPlanApprovalTable.svelte';
+	import ContentPlanApproveForm from '$lib/components/brand/ContentPlanApproveForm.svelte';
 	import ContentPlanCounts from '$lib/components/brand/ContentPlanCounts.svelte';
 	import ContentPlanKindTable from '$lib/components/brand/ContentPlanKindTable.svelte';
 	import ContentPlanMoveModal from '$lib/components/brand/ContentPlanMoveModal.svelte';
@@ -8,6 +10,7 @@
 	import ContentPlanWeekTable from '$lib/components/brand/ContentPlanWeekTable.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
+	import { approvalPanelTitle } from '$lib/components/brand/contentApprovalWords';
 	import { brandCrumbsFor } from '$lib/components/brand/brandKitPageWords';
 	import { contentPlanPathOf } from '$lib/components/brand/contentPlanPageWords';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
@@ -15,7 +18,12 @@
 
 	let { data, form } = $props();
 
-	const { brandOrganisation: organisation, plan } = $derived(data);
+	const nothingAwaiting = 0;
+
+	const { brandOrganisation: organisation, plan, approval } = $derived(data);
+	const { pieces: piecesAwaiting } = $derived(approval);
+	const awaitingCount = $derived(piecesAwaiting.length);
+	const isAnyAwaitingApproval = $derived(awaitingCount > nothingAwaiting);
 	const answer = $derived(form?.message ?? null);
 	const { rhythms } = $derived(plan);
 	const hasRhythm = $derived(rhythms.length > 0);
@@ -48,6 +56,14 @@
 </WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>
+	{#if isAnyAwaitingApproval}
+		<DashboardPanel title={approvalPanelTitle} count={awaitingCount}>
+			<div class="p-4">
+				<ContentPlanApproveForm monthKey={plan.monthKey} pieces={approval.pieces} />
+			</div>
+			<ContentPlanApprovalTable organisationId={organisation.id} posts={approval.posts} />
+		</DashboardPanel>
+	{/if}
 	<DashboardPanel title="This month" isPadded>
 		<ContentPlanCounts counts={plan.counts} awaitingPictureCount={plan.awaitingPictureCount} />
 	</DashboardPanel>

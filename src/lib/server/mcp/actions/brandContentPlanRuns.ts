@@ -1,3 +1,4 @@
+import { approvePiecesOfMonth } from '$lib/server/brandContent/approvePiecesOfMonth';
 import { checkContentIdea } from '$lib/brand/content/contentIdea';
 import { checkMoment } from '$lib/brand/content/checkMoment';
 import { checkPostKind } from '$lib/brand/postKinds/checkPostKind';
@@ -10,7 +11,7 @@ import { noBrandYet } from './brandKitWriteAnswers';
 import { findContentPlan } from '$lib/server/brandContent/findContentPlan';
 import { readText } from '../actionTypes';
 import { replanContentPiece } from '$lib/server/brandContent/replanContentPiece';
-import { replanAnswers } from './brandContentPlanAnswers';
+import { monthApprovalAnswerOf, replanAnswers } from './brandContentPlanAnswers';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
@@ -49,4 +50,10 @@ export async function moveContentToDay(caller: McpCaller, input: Input, organisa
 	const piece = { organisationId: organisation.id, contentPieceId: readText(input, 'contentPieceId'), plannedFor: check.moment };
 	const outcome = await replanContentPiece(caller.supabase, piece);
 	return replanAnswers[outcome](check.moment);
+}
+
+/** Approves together the month's pieces the client was shown, each still as it was read; a change to one is asked for on its own. */
+export async function approveContentMonth(caller: McpCaller, input: Input, organisation: Organisation) {
+	const approver = { organisationId: organisation.id, authorId: caller.accountId };
+	return monthApprovalAnswerOf(await approvePiecesOfMonth(caller.supabase, approver, input));
 }

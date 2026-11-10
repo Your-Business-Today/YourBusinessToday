@@ -1,9 +1,8 @@
 import { findPostIdsOfPieces } from './findPostIdsOfPieces';
+import { PlanListing } from '$lib/brand/plan/contentPlan';
 import type { ContentStage, PlannedPiece } from '$lib/brand/content/contentPiece';
 import type { MonthBounds } from '$lib/brand/plan/planMonth';
 import type { SupabaseClient } from '@supabase/supabase-js';
-
-export const PlanListing = { mostPieces: 500 } as const;
 
 const everyColumn = '*';
 
@@ -41,6 +40,7 @@ function plannedPieceOf(row: Record<string, unknown>, postIds: Map<string, strin
 		mediumPath: row.medium_path as string,
 		title: row.title as string,
 		hook: row.hook as string,
+		caption: row.caption as string,
 		stage: row.stage as ContentStage,
 		plannedFor: row.planned_for as string | null,
 		scheduledFor: row.scheduled_for as string | null,

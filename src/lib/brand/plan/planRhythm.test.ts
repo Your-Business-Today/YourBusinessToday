@@ -10,7 +10,7 @@ const everywhere: PostingRhythm = { mediumPath: 'all', medium: 'Everywhere', day
 const linkedIn: PostingRhythm = { mediumPath: 'text.post.linkedin', medium: 'LinkedIn post', days, time: '19:30', postsAWeek: 1 };
 
 function piece(id: string, plannedFor: string, mediumPath = 'image.post.instagram'): PlannedPiece {
-	return { id, postId: id, mediumPath, kind: 'tip', title: `Post ${id}`, hook: '', stage: 'idea', plannedFor, scheduledFor: null, updatedAt: '' };
+	return { id, postId: id, mediumPath, kind: 'tip', title: `Post ${id}`, hook: '', caption: '', stage: 'idea', plannedFor, scheduledFor: null, updatedAt: '' };
 }
 
 const weekOfTheSecond = [
