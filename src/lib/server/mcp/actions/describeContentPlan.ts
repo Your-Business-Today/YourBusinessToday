@@ -41,10 +41,11 @@ function dueOn(awaitedOn: string[]): string[] {
 
 /** A post on one channel reads as one line; a post on several names its words once, then each channel on a line of its own. */
 function postLines(post: PlanPost): string {
-	const [onlyChannel] = post.channels;
-	if (post.channels.length === 1) return entryLine(onlyChannel);
-	const heading = `${post.time} ${post.title} (${kindOf(post.kind)})${hookOf(post.hook)} — one post on ${post.channels.length} channels:`;
-	const channelLines = post.channels.map((channel) => `    - ${channel.time} [${channel.stage}] @ ${channel.mediumPath} (id ${channel.id})${extraOf(channel)}`);
+	const { channels } = post;
+	const [onlyChannel] = channels;
+	if (channels.length === 1) return entryLine(onlyChannel);
+	const heading = `${post.time} ${post.title} (${kindOf(post.kind)})${hookOf(post.hook)} — one post on ${channels.length} channels:`;
+	const channelLines = channels.map((channel) => `    - ${channel.time} [${channel.stage}] @ ${channel.mediumPath} (id ${channel.id})${extraOf(channel)}`);
 	return [heading, ...channelLines].join('\n');
 }
 

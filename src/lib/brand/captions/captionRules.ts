@@ -22,8 +22,9 @@ export function captionRulesOf(brand: ResolvedBrand): CaptionRules {
 	const fewestHashtags = resolvedValueOf(brand, CaptionRuleKeys.fewestHashtags);
 	const mostHashtags = resolvedValueOf(brand, CaptionRuleKeys.mostHashtags);
 	const linkPlacement = resolvedValueOf(brand, CaptionRuleKeys.linkPlacement);
+	const { medium } = brand;
 	return {
-		channel: brand.medium.label,
+		channel: medium.label,
 		fewestHashtags: typeof fewestHashtags === 'number' ? fewestHashtags : null,
 		mostHashtags: typeof mostHashtags === 'number' ? mostHashtags : null,
 		isLinkInBio: linkPlacement === LinkPlacements.bio

@@ -15,6 +15,7 @@
 	let { data, form } = $props();
 
 	const { brandOrganisation: organisation, piece } = $derived(data);
+	const channels = $derived(piece.channels);
 	const answer = $derived(form?.message ?? null);
 </script>
 
@@ -41,9 +42,9 @@
 			<DashboardPanel title="The piece" isPadded>
 				<ContentPieceText {piece} />
 			</DashboardPanel>
-			<DashboardPanel title={channelsPanelTitle} count={piece.channels.length}>
+			<DashboardPanel title={channelsPanelTitle} count={channels.length}>
 				<p class="px-6 pt-4 text-sm text-chalk-muted">{channelsExplained}</p>
-				<ContentPostChannelTable organisationId={organisation.id} channels={piece.channels} />
+				<ContentPostChannelTable organisationId={organisation.id} {channels} />
 			</DashboardPanel>
 			<DashboardPanel title="Storyboard">
 				<ContentStoryboardTable shots={piece.shots} />

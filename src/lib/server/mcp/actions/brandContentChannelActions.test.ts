@@ -16,6 +16,7 @@ const world = vi.hoisted(() => ({
 	switchedOn: [] as string[],
 	decisions: [] as unknown[],
 	otherChannels: [] as unknown[],
+	isPostKept: false,
 	kept: [] as Record<string, unknown>[]
 }));
 vi.mock('$lib/server/organisations/getOrganisation', async () => {
@@ -33,7 +34,7 @@ vi.mock('$lib/server/brandContent/findContentPost', () => ({
 	findContentPost: async (_supabase: unknown, _organisationId: string, piece: { id: string }) => ({
 		id: piece.id,
 		channels: [piece, ...world.otherChannels],
-		isKept: world.otherChannels.length > 0
+		isKept: world.isPostKept
 	})
 }));
 vi.mock('$lib/server/brandContent/keepPostChannel', () => ({
@@ -78,9 +79,8 @@ describe('sending a post out on one more channel', () => {
 	});
 
 	it('refuses a channel the post already goes out on, and a medium there is not', async () => {
-		expect(await runContentAction('add_content_channel', { ...instagram, medium: 'video.short.tiktok' })).toContain(
-			'the post already goes out on TikTok'
-		);
+		const tiktok = await runContentAction('add_content_channel', { ...instagram, medium: 'video.short.tiktok' });
+		expect(tiktok).toContain('the post already goes out on TikTok');
 		expect(await runContentAction('add_content_channel', { ...instagram, medium: 'smoke.signal' })).toContain('smoke.signal is not a medium');
 		expect(world.kept).toHaveLength(0);
 	});

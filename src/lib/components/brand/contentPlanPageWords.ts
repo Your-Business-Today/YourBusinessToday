@@ -1,6 +1,5 @@
 import { brandPathOf } from './brandKitPageWords';
 import type { PlanEntry } from '$lib/brand/plan/contentPlan';
-import type { PlanPost } from '$lib/brand/plan/planPosts';
 import type { RhythmTally } from '$lib/brand/plan/planRhythm';
 
 export const nothingPlanned = 'Nothing planned';
@@ -39,7 +38,7 @@ export const channelListClasses = 'flex flex-col gap-1';
 const onlyChannel = 1;
 
 /** A post on several channels moves one channel at a time, each to its own day. */
-export function moveLabelOf(channel: PlanEntry, post: PlanPost): string {
-	if (post.channels.length === onlyChannel) return 'Move';
+export function moveLabelOf(channel: PlanEntry, channelCount: number): string {
+	if (channelCount === onlyChannel) return 'Move';
 	return `Move ${channel.medium}`;
 }

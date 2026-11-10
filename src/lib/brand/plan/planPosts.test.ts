@@ -29,7 +29,8 @@ describe('a post on several channels in the month’s plan', () => {
 	it('gives the post one row of the week, its day named once', () => {
 		const [, week] = contentPlanOf(november, pieces).weeks;
 		const tuesdayRows = planRowsOf(week).filter((row) => row.post !== null);
-		expect(tuesdayRows.map((row) => [row.dayLabel, row.post?.title, row.post?.channels.length])).toEqual([
+		const postRows = tuesdayRows.map(({ dayLabel, post }) => [dayLabel, post?.title, post?.channels]);
+		expect(postRows.map(([dayLabel, title, channels]) => [dayLabel, title, (channels as unknown[]).length])).toEqual([
 			['Tue 3 Nov', 'Post doors', 2],
 			['', 'Post roofs', 1]
 		]);

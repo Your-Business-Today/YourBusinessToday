@@ -1,12 +1,13 @@
 <script lang="ts">
 	import Badge from '$lib/components/site/Badge.svelte';
-	import Button from '$lib/components/site/Button.svelte';
-	import ContentStageBadge from './ContentStageBadge.svelte';
+	import ContentPlanChannelLinks from './ContentPlanChannelLinks.svelte';
+	import ContentPlanChannelMoves from './ContentPlanChannelMoves.svelte';
+	import ContentPlanChannelStages from './ContentPlanChannelStages.svelte';
 	import RecordsCell from '$lib/components/workspace/RecordsCell.svelte';
 	import RecordsTable from '$lib/components/workspace/RecordsTable.svelte';
 	import { contentPiecePathOf } from './brandKitPageWords';
 	import { noKindYet } from '$lib/brand/plan/planCounts';
-	import { channelListClasses, extraPost, moveLabelOf, nothingPlanned, postDue } from './contentPlanPageWords';
+	import { nothingPlanned, postDue } from './contentPlanPageWords';
 	import { planRowsOf, type PlanRow } from '$lib/brand/plan/planRows';
 	import type { PlanEntry, PlanWeek } from '$lib/brand/plan/contentPlan';
 	import type { RecordsColumn } from '$lib/components/workspace/recordsTable';
@@ -48,35 +49,12 @@
 				{@const post = row.post}
 				{@const [firstChannel] = post.channels}
 				<RecordsCell kind="status">{post.time}</RecordsCell>
-				<RecordsCell>
-					<ul class={channelListClasses}>
-						{#each post.channels as channel (channel.id)}
-							<li><a href={contentPiecePathOf(organisationId, channel.id)} class="hover:underline">{channel.medium}</a></li>
-						{/each}
-					</ul>
-				</RecordsCell>
+				<RecordsCell><ContentPlanChannelLinks {organisationId} channels={post.channels} /></RecordsCell>
 				<RecordsCell>{post.kind ?? noKindYet}</RecordsCell>
 				<RecordsCell kind="link" href={contentPiecePathOf(organisationId, firstChannel.id)}>{post.title}</RecordsCell>
 				<RecordsCell isWideOnly>{post.hook}</RecordsCell>
-				<RecordsCell kind="status">
-					<ul class={channelListClasses}>
-						{#each post.channels as channel (channel.id)}
-							<li>
-								<ContentStageBadge stage={channel.stage} />
-								{#if channel.isExtra}<Badge label={extraPost} />{/if}
-							</li>
-						{/each}
-					</ul>
-				</RecordsCell>
-				<RecordsCell kind="actions">
-					<ul class={channelListClasses}>
-						{#each post.channels as channel (channel.id)}
-							<li>
-								{#if channel.canMove}<Button onclick={() => onMove(channel)}>{moveLabelOf(channel, post)}</Button>{/if}
-							</li>
-						{/each}
-					</ul>
-				</RecordsCell>
+				<RecordsCell kind="status"><ContentPlanChannelStages channels={post.channels} /></RecordsCell>
+				<RecordsCell kind="actions"><ContentPlanChannelMoves channels={post.channels} {onMove} /></RecordsCell>
 			{/if}
 		{/snippet}
 	</RecordsTable>

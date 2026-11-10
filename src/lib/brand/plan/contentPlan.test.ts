@@ -72,7 +72,8 @@ describe('the month’s plan', () => {
 		const [, week] = contentPlanOf(november, pieces).weeks;
 		const rows = planRowsOf(week);
 		expect(rows).toHaveLength(7);
-		expect(rows.map((row) => row.post?.channels[0].canMove ?? null)).toEqual([true, false, null, null, null, null, null]);
+		const firstChannels = rows.map(({ post }) => post?.channels[0] ?? null);
+		expect(firstChannels.map((channel) => channel?.canMove ?? null)).toEqual([true, false, null, null, null, null, null]);
 		expect(rows[2]).toMatchObject({ dayLabel: 'Wed 4 Nov', post: null });
 	});
 });

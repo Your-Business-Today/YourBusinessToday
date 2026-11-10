@@ -3,7 +3,7 @@ import { captionRulesOf } from '$lib/brand/captions/captionRules';
 import { checkNewChannel, type NewChannel } from '$lib/brand/posts/checkNewChannel';
 import { findContentPiece } from '$lib/server/brandContent/findContentPiece';
 import { findContentPost } from '$lib/server/brandContent/findContentPost';
-import { hasChannel } from '$lib/brand/posts/contentPost';
+import { hasChannel, type ContentPost } from '$lib/brand/posts/contentPost';
 import { isUuid } from '$lib/data/isUuid';
 import { keepPostChannel } from '$lib/server/brandContent/keepPostChannel';
 import { noSuchPiece } from './brandContentAnswers';
@@ -36,11 +36,11 @@ export async function addContentChannel(caller: McpCaller, input: Record<string,
 	const brandSnapshot = brandSnapshotOf(organisation.name, resolved);
 	const given = { organisationId: organisation.id, accountId: caller.accountId, post, source, ...channel, invitedAction, brandSnapshot };
 	const newPieceId = await keepPostChannel(caller.supabase, given);
-	return addedAnswer(source, channel, newPieceId, post.channels.length);
+	return addedAnswer(source, channel, newPieceId, post);
 }
 
-function addedAnswer(source: ContentPiece, { medium }: NewChannel, newPieceId: string, channelsBefore: number): string {
-	const channelCount = channelsBefore + 1;
+function addedAnswer(source: ContentPiece, { medium }: NewChannel, newPieceId: string, { channels }: ContentPost): string {
+	const channelCount = channels.length + 1;
 	return (
 		`Added ${medium.label} to the post “${source.title}”, which now goes out on ${channelCount} channels (id ${newPieceId}). ` +
 		'It shares the post’s words, kind and planned day, with its own caption, and is approved, scheduled and published on its own.'
