@@ -5,7 +5,8 @@ import type { BoardroomDirector } from './boardroomDirector';
 
 const paperIndent = '   ';
 
-function asTaken(paper: BoardroomRecordPaper): string {
+/** Where a paper from the records was read from, and when. */
+export function asTaken(paper: BoardroomRecordPaper): string {
 	return `${boardRecordSourceWords[paper.source]}, as it stood on ${ukMeetingTime(paper.takenAt)}`;
 }
 

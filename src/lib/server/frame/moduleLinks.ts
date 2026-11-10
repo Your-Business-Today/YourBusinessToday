@@ -2,6 +2,7 @@ import { getMembershipsForAccount } from '$lib/server/organisations/getMembershi
 import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
 import { usableModules } from '$lib/data/organisationModuleAccess';
+import { enterableModules } from './enterableModules';
 import {
 	organisationModuleLabels,
 	organisationModuleRouteSegments,
@@ -35,7 +36,8 @@ export async function readModuleLinks(
 	]);
 	const place = { organisation: { id: organisationId }, switchedOn };
 	const usable = usableModules(visitor, place).filter((module) => modulesWithPages.includes(module));
-	return usable.map((module) => moduleLinkFor(organisationId, module));
+	const enterable = await enterableModules(locals, visitor, place, usable);
+	return enterable.map((module) => moduleLinkFor(organisationId, module));
 }
 
 function moduleLinkFor(organisationId: string, module: OrganisationModule): NavigationLink {

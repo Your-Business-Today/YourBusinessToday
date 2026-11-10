@@ -11,6 +11,7 @@ import { booksInvoicePostingActions } from './booksInvoicePostingActions';
 import { booksExpenseActions } from './booksExpenseActions';
 import { booksExpenseReadActions } from './booksExpenseReadActions';
 import { booksPeriodEndActions } from './booksPeriodEndActions';
+import { booksOverviewActions } from './booksOverviewActions';
 import type { McpAction } from '../actionTypes';
 
 export const booksActions: McpAction[] = [
@@ -26,5 +27,6 @@ export const booksActions: McpAction[] = [
 	...booksInvoicePostingActions,
 	...booksExpenseActions,
 	...booksExpenseReadActions,
-	...booksPeriodEndActions
+	...booksPeriodEndActions,
+	...booksOverviewActions
 ];

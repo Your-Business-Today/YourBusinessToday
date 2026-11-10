@@ -25,10 +25,11 @@ export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNa
 /** The invoices shown, newest first, each on one line, or that the books hold none the filter lets through. */
 export function describeInvoiceList(organisationName: string, invoices: InvoiceSummary[], namings: InvoiceNamings): string {
 	if (invoices.length === 0) return `${organisationName}'s books hold no invoices that match.`;
-	return [`Invoices of ${organisationName}, newest first:`, ...invoices.map((invoice) => describeSummary(invoice, namings))].join('\n');
+	return [`Invoices of ${organisationName}, newest first:`, ...invoices.map((invoice) => describeInvoiceSummary(invoice, namings))].join('\n');
 }
 
-function describeSummary(invoice: InvoiceSummary, namings: InvoiceNamings): string {
+/** One invoice on one line: its number, customer, status, dates, total and what is owed, with its id. */
+export function describeInvoiceSummary(invoice: InvoiceSummary, namings: InvoiceNamings): string {
 	const number = invoiceNumberAsPrinted(namings, invoice.invoiceNumber);
 	const customer = nameOf(namings.customerNames, invoice.customerId);
 	const dates = `dated ${formatBritishDate(invoice.issueDate)}, due ${formatBritishDate(invoice.dueDate)}`;
