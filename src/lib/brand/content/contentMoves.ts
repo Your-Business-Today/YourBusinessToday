@@ -11,6 +11,11 @@ const { idea, drafted, awaitingApproval, approved, scheduled, published } = Cont
 
 /** Every step a piece may take, as yourbrand.today allowed them. Asking for changes sends it back to drafted. */
 export const ContentMoves = {
+	writeUpIdea: {
+		from: [idea],
+		to: drafted,
+		refusal: 'Only an idea is written up as a draft'
+	},
 	sendForApproval: {
 		from: [idea, drafted],
 		to: awaitingApproval,

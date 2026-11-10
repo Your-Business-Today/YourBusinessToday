@@ -3,11 +3,12 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 export type ContentPieceWithReviews = { piece: ContentPiece; reviews: ContentReview[] };
 
-const pieceColumns =
-	'id, medium_path, title, hook, script, storyboard, caption, invited_action, stage, ' +
-	'brand_snapshot, scheduled_for, published_url, updated_at';
+const everyColumn = '*';
 
-/** One piece of the organisation's brand content in full, with every review, or null when it holds none of that id. */
+/**
+ * One piece of the organisation's brand content in full, with every review, or null when it holds none of that id.
+ * Every column is read, so the piece still reads in the moments before a new column's migration has run.
+ */
 export async function findContentPiece(
 	supabase: SupabaseClient,
 	organisationId: string,
@@ -15,7 +16,7 @@ export async function findContentPiece(
 ): Promise<ContentPieceWithReviews | null> {
 	const { data, error } = await supabase
 		.from('brand_content_pieces')
-		.select(pieceColumns)
+		.select(everyColumn)
 		.eq('organisation_id', organisationId)
 		.eq('id', contentPieceId)
 		.maybeSingle();
@@ -49,6 +50,7 @@ function pieceOf(row: Record<string, unknown>): ContentPiece {
 		stage: row.stage as ContentStage,
 		brandSnapshot: row.brand_snapshot as ContentPiece['brandSnapshot'],
 		scheduledFor: row.scheduled_for as string | null,
+		plannedFor: (row.planned_for as string | null | undefined) ?? null,
 		publishedUrl: row.published_url as string,
 		updatedAt: row.updated_at as string
 	};

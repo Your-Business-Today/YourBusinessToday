@@ -19,6 +19,7 @@ const shotItem = objectSchema(
 export const draftContentSchema = objectSchema(
 	{
 		organisationId: organisationIdField,
+		contentPieceId: textField('An idea’s id, as plan_content_idea or read_content_plan gives it, to write that idea up — leave out for a new piece'),
 		medium: textField('The medium the piece is for, such as video.short.tiktok or text.email, as read_brand_catalogue lists'),
 		title: textField(`A working title, at most ${titleCharacters} characters`),
 		hook: textField(`The first line or the first second, at most ${hookCharacters} characters`),

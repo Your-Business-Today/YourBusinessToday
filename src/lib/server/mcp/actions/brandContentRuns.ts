@@ -11,6 +11,7 @@ import { noBrandYet } from './brandKitWriteAnswers';
 import { noSuchPiece } from './brandContentAnswers';
 import { readText } from '../actionTypes';
 import { resolveBrandKitFor } from '$lib/server/brandKits/resolveBrandKitFor';
+import { writeUpIdea } from './brandContentIdeaDraft';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
@@ -27,6 +28,8 @@ export async function draftContent(caller: McpCaller, input: Record<string, unkn
 	const resolved = await resolveBrandKitFor(caller.supabase, organisation.id, medium);
 	const brandSnapshot = { brief: brandBriefOf(organisation.name, resolved), variables: cssVariablesOf(resolved) };
 	const piece = { organisationId: organisation.id, accountId: caller.accountId, draft, brandSnapshot };
+	const ideaId = readText(input, 'contentPieceId');
+	if (ideaId !== '') return writeUpIdea(caller, { ...piece, contentPieceId: ideaId });
 	const contentPieceId = await keepContentPiece(caller.supabase, piece);
 	return `Drafted “${title}” for ${medium.label} in ${organisation.name}’s brand (id ${contentPieceId}). It is at drafted.`;
 }
