@@ -35,13 +35,16 @@ async function recordMeeting(
 	return meeting;
 }
 
-/** Call a meeting of an organisation's board with its agenda, and give every director a to-do to brief their Claude. */
-export async function callBoardroomMeeting(
+/** A meeting just called, and how many directors were given a to-do to brief their Claude. */
+export type CalledMeeting = { meeting: BoardroomMeeting; briefedCount: number };
+
+/** Record a meeting of an organisation's board with its agenda, and give every director a to-do to brief their Claude. */
+export async function recordMeetingCall(
 	supabase: SupabaseClient,
 	organisation: Organisation,
 	call: MeetingCall,
 	caller: MeetingCaller
-): Promise<string> {
+): Promise<CalledMeeting | string> {
 	const directors = await getDirectorsOfOrganisation(supabase, organisation.id);
 	const callerSeat = sittingSeatOf(directors, caller.accountId);
 	if (callerSeat === null) return boardroomMeetingRefusals.callerHasNoSeat;
@@ -49,9 +52,21 @@ export async function callBoardroomMeeting(
 	const chairSeat = call.chair === null ? callerSeat : named;
 	if (chairSeat === null) return boardroomMeetingRefusals.chairNotADirector;
 	const meeting = await recordMeeting(supabase, call, { caller: callerSeat, chair: chairSeat }, caller.accountId);
-	const calledByName = callerSeat.name;
-	const occasion = { meeting, organisationName: organisation.name, calledByName, calledBy: caller.accountId };
-	const briefed = await addBriefingTodos(occasion, sittingDirectors(directors));
+	const occasion = { meeting, organisationName: organisation.name, calledByName: callerSeat.name, calledBy: caller.accountId };
+	const briefedCount = await addBriefingTodos(occasion, sittingDirectors(directors));
+	return { meeting, briefedCount };
+}
+
+/** Call a meeting as the connector does: the answer says who was briefed and reads the meeting back. */
+export async function callBoardroomMeeting(
+	supabase: SupabaseClient,
+	organisation: Organisation,
+	call: MeetingCall,
+	caller: MeetingCaller
+): Promise<string> {
+	const called = await recordMeetingCall(supabase, organisation, call, caller);
+	if (typeof called === 'string') return called;
+	const { meeting, briefedCount } = called;
 	const record = await readBoardroomMeeting(supabase, organisation, meeting.id, caller.now);
-	return [`Called. ${briefed} directors have a to-do to brief their Claude.`, '', record].join('\n');
+	return [`Called. ${briefedCount} directors have a to-do to brief their Claude.`, '', record].join('\n');
 }

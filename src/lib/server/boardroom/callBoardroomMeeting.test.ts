@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { callBoardroomMeeting } from './callBoardroomMeeting';
+import { callBoardroomMeeting, recordMeetingCall } from './callBoardroomMeeting';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
 import { formerSeat, jeremysSeat, nigelsSeat, yourBusinessToday } from '$lib/data/boardroomMeeting.fixtures';
 import type { BoardroomDirector } from '$lib/data/boardroomDirector';
@@ -75,5 +75,11 @@ describe('a director calls a board meeting', () => {
 	it('refuses a caller with no seat', async () => {
 		expect(await callMeeting(null, 'old')).toBe(boardroomMeetingRefusals.callerHasNoSeat);
 		expect(board.meetings).toEqual([]);
+	});
+
+	it('hands the page the meeting it called, to open it, and how many directors were briefed', async () => {
+		const call = { meetsAt: '2026-11-12T10:00:00.000Z', chair: null, agenda };
+		const called = await recordMeetingCall({} as never, yourBusinessToday, call, { accountId: 'nigel', now });
+		expect(called).toMatchObject({ meeting: { id: 'meeting' }, briefedCount: 2 });
 	});
 });

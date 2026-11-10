@@ -7,7 +7,8 @@ import type { BoardroomDirector } from './boardroomDirector';
 
 const paperIndent = '   ';
 
-function whatItIs(paper: BoardroomPaper): string {
+/** What a kept paper holds, in words: a written note, or a file by its kind, name and size. */
+export function whatItIs(paper: BoardroomPaper): string {
 	if (paper.kind === boardPaperKinds.note) return 'a written note';
 	const kind = boardPaperFileKinds[paper.mimeType ?? ''] ?? 'file';
 	return `${kind}, ${paper.filename}, ${describeByteCount(paper.byteCount ?? 0)}`;

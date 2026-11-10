@@ -22,12 +22,12 @@ export type MeetingRecord = {
 	recordPapers: BoardroomRecordPaper[];
 };
 
-const purposeWords = { decision: 'for decision', noting: 'to note' } as const;
+export const agendaPurposeWords = { decision: 'for decision', noting: 'to note' } as const;
 const anyOtherBusinessWords = ' (any other business)';
 
 function agendaLine(item: AgendaItem, index: number): string {
 	const aside = item.isAnyOtherBusiness ? anyOtherBusinessWords : '';
-	return `${index + 1}. ${item.title} — ${purposeWords[item.purpose]}${aside}`;
+	return `${index + 1}. ${item.title} — ${agendaPurposeWords[item.purpose]}${aside}`;
 }
 
 function itemLines(record: MeetingRecord, item: AgendaItem, index: number): string[] {
