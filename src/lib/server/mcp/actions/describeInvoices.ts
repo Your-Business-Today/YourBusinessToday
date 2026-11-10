@@ -5,8 +5,7 @@ import type { InvoiceInFull, InvoiceSummary } from '$lib/server/books/invoices';
 import type { InvoiceLine } from '$lib/server/books/invoiceRecord';
 import type { InvoicePayment } from '$lib/server/books/invoicePayments';
 import { invoiceNumberAsPrinted, type InvoiceNamings } from '$lib/server/books/invoiceNamings';
-
-const unnamed = 'a record no longer in the books';
+import { nameOf } from '$lib/server/books/chartNamings';
 
 /** One invoice in full: who it is to, its dates, every line with its account and cost centre, and its totals. */
 export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNamings): string {
@@ -65,8 +64,4 @@ function describePayments(payments: InvoicePayment[]): string[] {
 function printedOnlyWhenGiven(label: string, value: string): string[] {
 	if (value === '') return [];
 	return [`${label}: ${value}`];
-}
-
-function nameOf(names: Map<string, string>, id: string): string {
-	return names.get(id) ?? unnamed;
 }
