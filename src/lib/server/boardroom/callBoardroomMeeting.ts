@@ -67,6 +67,6 @@ export async function callBoardroomMeeting(
 	const called = await recordMeetingCall(supabase, organisation, call, caller);
 	if (typeof called === 'string') return called;
 	const { meeting, briefedCount } = called;
-	const record = await readBoardroomMeeting(supabase, organisation, meeting.id, caller.now);
+	const record = await readBoardroomMeeting(supabase, organisation, meeting.id, caller);
 	return [`Called. ${briefedCount} directors have a to-do to brief their Claude.`, '', record].join('\n');
 }
