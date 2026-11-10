@@ -4,7 +4,8 @@ import type { McpToolAnswer } from '../mcpContent';
 export const booksRefusalOpenings = {
 	reading: 'No reading was taken.',
 	posting: 'Nothing was posted.',
-	saving: 'Nothing was saved.'
+	saving: 'Nothing was saved.',
+	deleting: 'Nothing was deleted.'
 } as const;
 
 /** The answer of a books reading or write, or the refusal it met, named by field and limit, for the caller to act on. */

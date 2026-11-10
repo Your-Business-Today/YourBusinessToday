@@ -1,5 +1,6 @@
 import { draftInvoice } from '$lib/server/books/draftInvoice';
 import { changeDraftInvoice } from '$lib/server/books/changeDraftInvoice';
+import { deleteInvoice } from '$lib/server/books/deleteInvoice';
 import { readInvoiceInFull } from './booksInvoiceReading';
 import { moduleAction } from '../organisationModuleGate';
 import { objectSchema } from '../actionTypes';
@@ -20,6 +21,10 @@ const changeOnlyWhatThePersonAsked =
 	'Give only what the person asked to change and leave the rest out, so the draft keeps it. lines takes the place of ' +
 	'every line the draft holds: read_invoice first, then send every line that is to stay as it reads there, with only ' +
 	'the change the person asked for. Only a draft can be changed; an issued invoice never is. Read the answer back.';
+
+const deleteOnlyWhenThePersonSaysSo =
+	'Delete an invoice only when the person says to. Only a draft or a void invoice is deleted; an issued or paid one ' +
+	'has posted to the ledger and is voided instead. A void invoice keeps its journals in the ledger after it is deleted.';
 
 export const booksInvoiceActions: McpAction[] = [
 	moduleAction('books', {
@@ -56,6 +61,20 @@ export const booksInvoiceActions: McpAction[] = [
 				await changeDraftInvoice(caller.supabase, organisation.id, input);
 				const invoice = await readInvoiceInFull(caller.supabase, organisation.id, String(input.invoiceId));
 				return `Saved. The draft now reads:\n${invoice}`;
+			})
+	}),
+	moduleAction('books', {
+		name: 'delete_invoice',
+		area: 'books',
+		audience: 'everyone',
+		isWrite: true,
+		summary: "delete one of an organisation's draft or void invoices",
+		guidance: deleteOnlyWhenThePersonSaysSo,
+		inputSchema: objectSchema({ organisationId: booksOrganisationField, invoiceId: invoiceIdField }, ['organisationId', 'invoiceId']),
+		run: async (caller, input, organisation) =>
+			answerOrRefusal(booksRefusalOpenings.deleting, async () => {
+				const invoice = await deleteInvoice(caller.supabase, organisation.id, input.invoiceId);
+				return `Deleted ${invoice.status} invoice ${invoice.printedNumber} to ${invoice.customerName} from ${organisation.name}'s books.`;
 			})
 	})
 ];

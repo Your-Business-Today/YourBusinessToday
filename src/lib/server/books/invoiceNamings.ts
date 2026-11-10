@@ -26,3 +26,13 @@ export async function findInvoiceNamings(supabase: SupabaseClient, organisationI
 		costCentreNames: new Map(chart.costCentres.map((costCentre) => [costCentre.id, costCentre.name]))
 	};
 }
+
+/** The name the organisation's books give the customer, or its id when they no longer hold it. */
+export function customerNameOf(namings: InvoiceNamings, customerId: string): string {
+	return namings.customerNames.get(customerId) ?? `customer ${customerId}`;
+}
+
+/** The number as it prints on the invoice, such as INV-7. */
+export function invoiceNumberAsPrinted(namings: InvoiceNamings, invoiceNumber: number): string {
+	return `${namings.invoicePrefix}-${invoiceNumber}`;
+}
