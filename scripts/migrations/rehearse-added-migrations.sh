@@ -31,7 +31,7 @@ readonly rehearsalDatabase='ybt_rehearsal'
 readonly readingsPerRun=2
 readonly runsInRehearsal=2
 
-readonly deployedCommit="${1:?Give the default branch's commit, the one the live database stands at}"
+readonly deployedCommit="${1:?Give the commit of the default branch, where the live database stands}"
 readonly nextCommit="$(git rev-parse HEAD)"
 
 failWith() {
