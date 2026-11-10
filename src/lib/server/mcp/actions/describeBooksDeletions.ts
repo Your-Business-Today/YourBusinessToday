@@ -8,7 +8,10 @@ type NameOfAccount = (accountId: string) => string;
 
 type Row = Record<string, unknown>;
 
-export const keptRecordOfIt = 'A record of what was deleted is kept; list_books_deletions reads it.';
+/** The line that tells the caller a record of the deletion is kept, naming it. */
+export function keptRecordOf(deletionId: string): string {
+	return `A record of what was deleted is kept as deletion ${deletionId}; read_books_deletion reads it.`;
+}
 
 /** The deletions shown, newest first, each on one line: what went, who deleted it and when. */
 export function describeDeletionList(organisationName: string, deletions: BooksDeletion[], nameOf: NameOfAccount): string {

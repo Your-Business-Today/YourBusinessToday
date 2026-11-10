@@ -5,14 +5,12 @@ export const BooksDeletionKinds = { invoice: 'invoice', cost: 'cost' } as const;
 
 export type BooksDeletionKind = (typeof BooksDeletionKinds)[keyof typeof BooksDeletionKinds];
 
-/** A row of books_deletions as the server writes it, before the database gives it its id and its moment. */
+/** What the server gives books_deletions for a deletion; the database takes the copy itself, from what it deletes. */
 export type BooksDeletionEntry = {
 	organisationId: string;
 	kind: BooksDeletionKind;
 	recordId: string;
 	knownAs: string;
-	record: Record<string, unknown>;
-	journals: Record<string, unknown>[];
 	deletedByAccountId: string;
 };
 

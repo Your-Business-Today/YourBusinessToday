@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { moduleNotSwitchedOn } from '../organisationModuleGate';
 import { ledgerTables, ledgerWrites } from './booksLedgerDatabase.fixture';
-import { costDeleteFailure, nigelAccountId } from './booksLedgerCalls.fixture';
+import { deletionStepStanding, nigelAccountId, standDeletionStepsDown } from './booksLedgerCalls.fixture';
 import { holdDraftInvoice, invoiceId, organisationId, runOnTheLedger as run } from './booksInvoicePostingWorld.fixture';
 import { heldExpense, holdChartForCosts, softwareId } from './booksExpenseWorld.fixture';
 
@@ -28,7 +28,7 @@ async function recordAndPayAdobe(): Promise<string> {
 describe('the record of what is deleted from the books', () => {
 	beforeEach(() => {
 		standing.switchedOn = ['books'];
-		costDeleteFailure.error = null;
+		standDeletionStepsDown();
 		holdDraftInvoice();
 	});
 
@@ -38,15 +38,16 @@ describe('the record of what is deleted from the books', () => {
 		expect(await run('read_books_deletion', { deletionId: invoiceId })).toBe(moduleNotSwitchedOn('books'));
 	});
 
-	it('keeps a draft invoice with its lines, who deleted it and when, before the invoice goes', async () => {
-		await run('delete_invoice', { invoiceId });
+	it('keeps a draft invoice with its lines, who deleted it and when, in the one step that deletes it', async () => {
+		const answer = await run('delete_invoice', { invoiceId });
 		const [deletion] = heldDeletions();
+		expect(answer).toContain(`A record of what was deleted is kept as deletion ${deletion.id}; read_books_deletion reads it.`);
 		expect(deletion).toEqual(expect.objectContaining({ organisation_id: organisationId, kind: 'invoice', record_id: invoiceId, known_as: 'INV-6' }));
 		expect(deletion).toEqual(expect.objectContaining({ deleted_by_account_id: nigelAccountId, journals: [] }));
 		const record = deletion.record as Record<string, unknown>;
 		expect(record).toEqual(expect.objectContaining({ invoice_number: 6, status: 'draft', customer_name: 'Jewel Bespoke Build' }));
 		expect((record.lines as { description: string }[]).map((line) => line.description)).toEqual(['Website build', 'Hosting']);
-		expect(ledgerWrites.map((write) => `${write.kind} ${write.table}`)).toEqual(['insert books_deletions', 'delete books_invoices']);
+		expect(ledgerWrites.map((write) => `${write.kind} ${write.table}`)).toEqual(['rpc delete_books_invoice_keeping_record']);
 		const listed = await run('list_books_deletions', {});
 		expect(listed).toContain("Deleted from Jewel Enterprises's books, newest first. 1 shown.");
 		expect(listed).toContain('- 10 Nov 2026 at 20:15: draft invoice INV-6 to Jewel Bespoke Build dated 1 Nov 2026, with 2 lines; deleted by Nigel.');
@@ -71,12 +72,12 @@ describe('the record of what is deleted from the books', () => {
 		expect(copy).toContain('"kind": "expense_payment"');
 	});
 
-	it('takes the record back when the database refuses the delete, leaving the cost and its journals as they were', async () => {
+	it('reports a refused delete as an error, leaving the cost and its journals as they were and no record', async () => {
 		holdChartForCosts();
 		const adobeId = await recordAndPayAdobe();
-		costDeleteFailure.error = { message: 'refused' };
+		deletionStepStanding.refusal = { message: 'refused' };
 		await expect(run('delete_expense', { expenseId: adobeId })).rejects.toEqual({ message: 'refused' });
-		expect(ledgerTables.books_deletions).toEqual([]);
+		expect(ledgerTables.books_deletions ?? []).toEqual([]);
 		expect(heldExpense(adobeId)).toBeDefined();
 		expect(ledgerTables.books_journals).toHaveLength(2);
 	});

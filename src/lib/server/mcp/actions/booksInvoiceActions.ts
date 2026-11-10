@@ -7,7 +7,7 @@ import { objectSchema } from '../actionTypes';
 import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
 import { booksOrganisationField } from './booksFields';
 import { invoiceHeadingFields, invoiceIdField, invoiceLinesField } from './booksInvoiceFields';
-import { keptRecordOfIt } from './describeBooksDeletions';
+import { keptRecordOf } from './describeBooksDeletions';
 import type { McpAction } from '../actionTypes';
 
 const draftOnlyWhatThePersonSaid =
@@ -77,7 +77,7 @@ export const booksInvoiceActions: McpAction[] = [
 			answerOrRefusal(booksRefusalOpenings.deleting, async () => {
 				const invoice = await deleteInvoice(caller.supabase, organisation.id, input.invoiceId, caller.accountId);
 				const deleted = `Deleted ${invoice.status} invoice ${invoice.printedNumber} to ${invoice.customerName} from ${organisation.name}'s books.`;
-				return `${deleted} ${keptRecordOfIt}`;
+				return `${deleted} ${keptRecordOf(invoice.deletionId)}`;
 			})
 	})
 ];
