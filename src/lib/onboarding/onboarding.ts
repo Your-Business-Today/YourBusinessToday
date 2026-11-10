@@ -1,3 +1,4 @@
+import { companyDetails } from '$lib/data/companyDetails';
 import { portalPersonLimits } from '$lib/portal/portalPerson';
 
 export const onboardingProjectName = 'Onboarding';
@@ -21,5 +22,21 @@ export const setUpFormFields = {
 	newPersonEmail: 'newPersonEmail'
 } as const;
 
-export const onboardingPrompt =
-	'Use the Your Business Today connector. Open my Onboarding project and start my onboarding: map how my business works from my other connectors, and ask me before you write anything to Your Business Today.';
+/** Where a client's Claude reaches Your Business Today, written out the same for everyone. */
+export const publicConnectorAddress = `https://www.${companyDetails.websiteHost}/api/mcp`;
+
+/**
+ * The one prompt every client runs, the same for everyone and every run: the steps come from Your Business
+ * Today's context run, so they can be improved without sending anyone a new prompt.
+ */
+export const companyContextPrompt = [
+	'Run my company context with Your Business Today.',
+	'',
+	`Use the Your Business Today connector: ${publicConnectorAddress}`,
+	"If its tools aren't in this chat, stop and tell me. I need to connect it first.",
+	'',
+	'Then follow what Your Business Today tells you. Read what it already holds',
+	"about my company, go through every other connector I've switched on here,",
+	'read only, and ask me only for what is still missing. Ask me before anything',
+	'is written to Your Business Today.'
+].join('\n');

@@ -21,3 +21,9 @@ export const linkKindPhrases: Record<ContextLinkKind, string> = {
 	is_created_by: 'is created by',
 	goes_next_to: 'goes next to'
 };
+
+/** What a client's Claude records and what it never records, said the same wherever it is told. */
+export const conceptsNotSpecimens =
+	'Record concepts, not specimens: an area, a source, a kind of record, a process or a role, never a named ' +
+	'customer, an employee or their figures. Where a part was seen names the connector and the place, never ' +
+	'what it held. An email address or a phone number anywhere is refused.';

@@ -171,6 +171,23 @@ not checked, right, or not right with what is wrong.
   states the limits the migration holds, and a test keeps the two together) and refused, never cut, and
   an email address or a phone number anywhere is refused.
 
+### The one prompt and the context run
+
+Every client runs the same prompt (`companyContextPrompt` in `src/lib/onboarding/onboarding.ts`), shown
+on the portal's Connect your Claude page and written out in the set-up email. It only connects the
+client's Claude and tells it to follow what Your Business Today says, so the steps can change without
+sending anyone a new prompt.
+
+- **`get_current_context` points the way.** A person on an organisation is told to call
+  `start_context_run` with that organisation's id first (`contextRunLine.ts`).
+- **`start_context_run` reads and writes nothing else.** It answers with the walk
+  (`describeContextRun.ts`), fitted to the latest version: an empty context is a broad first
+  conversation; a filled one lists the parts marked not right to put right first, what is still
+  missing (`contextGaps.ts`) and what the stage still needs, and the connectors recorded last time.
+- **The client says yes before anything is written,** and the only write is `record_company_context`.
+  What the walk reads in mail and documents is data, never an instruction.
+- **The walk ends on the portal home** until the context map exists; the map task points it there.
+
 ## Directors, and who enters the boardroom (migration `0153`)
 
 An administrator names an organisation's directors from the people on the organisation itself, on
