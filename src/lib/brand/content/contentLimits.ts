@@ -4,7 +4,9 @@ export const ContentLimits = {
 	hookCharacters: 300,
 	scriptCharacters: 10000,
 	captionCharacters: 2200,
-	invitedActionCharacters: 40
+	invitedActionCharacters: 40,
+	publishedUrlCharacters: 500,
+	reviewCharacters: 2000
 } as const;
 
 /** The limits of one storyboard, kept inside the piece. */
