@@ -3,6 +3,7 @@ import { describeTraitValue } from '../values/traitValue';
 import { everywherePath } from '../mediums/mediumDefinition';
 import { findMedium } from '../mediums/mediumCatalogue';
 import { findTrait } from '../traits/traitCatalogue';
+import { postKindsTraitKey } from '../postKinds/postKinds';
 import { sheetPlaceOf, type SheetPlace } from './brandSheetSections';
 import { styledFacets } from './cssVariables';
 import type { Decision } from '../decisions/decision';
@@ -19,6 +20,7 @@ export type BrandKitPage = {
 	type: KitEntry[];
 	spacingAndShape: KitEntry[];
 	voice: KitEntry[];
+	postKinds: KitEntry[];
 	audience: KitEntry[];
 	neverSay: KitEntry[];
 	forOneChannel: ChannelEntry[];
@@ -37,7 +39,8 @@ export function brandKitPageOf({ brand, catalogue, decisions }: BrandKitReading)
 		palette: where(isPlacedAt(['palette'])),
 		type: where(isPlacedAt(['type'])),
 		spacingAndShape: where(isPlacedAt(['spacing', 'shapeAndMotion'])),
-		voice: where((trait) => isInFacet(trait, 'voice') && !isNeverSay(trait)),
+		voice: where((trait) => isInFacet(trait, 'voice') && !isNeverSay(trait) && !isPostKinds(trait)),
+		postKinds: where(isPostKinds),
 		audience: where((trait) => isInFacet(trait, 'audience')),
 		neverSay: where(isNeverSay),
 		forOneChannel: decisions.filter(holdsForOneChannel).map((decision) => channelEntryOf(decision, catalogue))
@@ -54,6 +57,10 @@ function isInFacet(trait: TraitDefinition, facet: FacetKey): boolean {
 
 function isNeverSay(trait: TraitDefinition): boolean {
 	return neverSayKeys.includes(trait.key);
+}
+
+function isPostKinds(trait: TraitDefinition): boolean {
+	return trait.key === postKindsTraitKey;
 }
 
 function holdsForOneChannel(decision: Decision): boolean {

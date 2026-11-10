@@ -13,6 +13,7 @@ export function describeContentSummary(piece: ContentSummary): string {
 export function describeContentPiece({ piece, reviews }: ContentPieceWithReviews): string {
 	const sections = [
 		`${piece.title} — ${piece.stage} — ${piece.mediumPath} (id ${piece.id})`,
+		piece.kind === null ? null : `Kind of post: ${piece.kind}`,
 		`Hook: ${piece.hook}`,
 		`Script:\n${piece.script}`,
 		storyboardSection(piece.storyboard),

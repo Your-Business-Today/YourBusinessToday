@@ -1,7 +1,7 @@
 import { ContentStages, type PlannedPiece } from '../content/contentPiece';
 import { mediumLabelOf } from '../projections/contentPiecePage';
 import { monthAfter, monthBefore, planMonthKeyOf, planMonthLabelOf, type PlanMonth } from './planMonth';
-import { planCountsOf } from './planCounts';
+import { kindCountsOf, planCountsOf } from './planCounts';
 import { ukClockAt } from '$lib/data/ukClock';
 import { weeksOfMonth, type PlanDayDate } from './planDays';
 import type { ContentPlan, PlanDay, PlanEntry, PlanWeek } from './contentPlan';
@@ -21,6 +21,7 @@ export function contentPlanOf(month: PlanMonth, pieces: PlannedPiece[]): Content
 		previousMonthKey: planMonthKeyOf(monthBefore(month)),
 		nextMonthKey: planMonthKeyOf(monthAfter(month)),
 		counts: planCountsOf(entries),
+		kindCounts: kindCountsOf(entries),
 		weeks: weeksOfMonth(month).map((days) => weekOf(days, entries))
 	};
 }
@@ -34,9 +35,9 @@ function entryOf(piece: PlannedPiece): PlanEntry | null {
 	const goesOutAt = goesOutAtOf(piece);
 	if (goesOutAt === null) return null;
 	const { date, time } = ukClockAt(new Date(goesOutAt));
-	const { id, mediumPath, title, hook, stage } = piece;
+	const { id, mediumPath, kind, title, hook, stage } = piece;
 	const canMove = stage !== ContentStages.published;
-	return { id, date, time, mediumPath, medium: mediumLabelOf(mediumPath), title, hook, stage, canMove };
+	return { id, date, time, mediumPath, medium: mediumLabelOf(mediumPath), kind, title, hook, stage, canMove };
 }
 
 function weekOf(days: PlanDayDate[], entries: PlanEntry[]): PlanWeek {

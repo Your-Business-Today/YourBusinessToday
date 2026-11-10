@@ -51,6 +51,7 @@ function pieceOf(row: Record<string, unknown>): ContentPiece {
 		brandSnapshot: row.brand_snapshot as ContentPiece['brandSnapshot'],
 		scheduledFor: row.scheduled_for as string | null,
 		plannedFor: (row.planned_for as string | null | undefined) ?? null,
+		kind: (row.kind as string | null | undefined) ?? null,
 		publishedUrl: row.published_url as string,
 		updatedAt: row.updated_at as string
 	};

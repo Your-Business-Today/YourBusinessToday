@@ -36,6 +36,13 @@ describe('the brand kit page', () => {
 		expect(labelsOf(page.audience)).toEqual(['Who they are']);
 	});
 
+	it('shows the brand’s kinds of post in a section of their own, apart from the voice', () => {
+		const page = pageOf([...kitDecisions, adoptedDecision('voice.postKinds', everywherePath, ['patient story', 'tip'])]);
+		expect(page.postKinds).toEqual([expect.objectContaining({ label: 'Kinds of post', value: 'patient story, tip' })]);
+		expect(labelsOf(page.voice)).toEqual(['Tone']);
+		expect(pageOf().postKinds).toEqual([]);
+	});
+
 	it('keeps the words to avoid out of the voice and in the never-say list', () => {
 		const page = pageOf();
 		expect(page.neverSay).toEqual([expect.objectContaining({ label: 'Words to avoid', value: 'synergy, leverage' })]);

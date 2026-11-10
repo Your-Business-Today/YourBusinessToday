@@ -14,4 +14,4 @@ const shot = { description: 'A door closes', seconds: 3, onScreenText: '' };
 
 export const contentSummary = { ...summary, updatedAt: '' };
 
-export const contentPiece = { ...contentSummary, ...words, storyboard: [shot], brandSnapshot: { brief: 'Brand brief: Jewel' }, plannedFor: null };
+export const contentPiece = { ...contentSummary, ...words, storyboard: [shot], brandSnapshot: { brief: 'Brand brief: Jewel' }, plannedFor: null, kind: 'tip' };
