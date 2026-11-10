@@ -44,14 +44,21 @@ export async function findExpenses(supabase: SupabaseClient, organisationId: str
 /** The organisation's cost with that id, or a refusal when the id is not one or its books hold no such cost. */
 export async function findExpense(supabase: SupabaseClient, organisationId: string, expenseId: unknown): Promise<Expense> {
 	refuseWhen(validateRecordId('expense', String(expenseId ?? '')));
+	const expense = await findExpenseIfHeld(supabase, organisationId, expenseId as string);
+	if (expense === null) throw new BooksRefusal(`No cost ${expenseId} is in this organisation's books; list_expenses lists them.`);
+	return expense;
+}
+
+/** The organisation's cost with that id as the books hold it now, or null when they no longer hold it. */
+export async function findExpenseIfHeld(supabase: SupabaseClient, organisationId: string, expenseId: string): Promise<Expense | null> {
 	const { data, error } = await supabase
 		.from(expensesTable)
 		.select(expenseColumns)
 		.eq('organisation_id', organisationId)
-		.eq('id', expenseId as string)
+		.eq('id', expenseId)
 		.maybeSingle();
 	if (error !== null) throw error;
-	if (data === null) throw new BooksRefusal(`No cost ${expenseId} is in this organisation's books; list_expenses lists them.`);
+	if (data === null) return null;
 	return fromExpenseRow(data as unknown as ExpenseRow);
 }
 
