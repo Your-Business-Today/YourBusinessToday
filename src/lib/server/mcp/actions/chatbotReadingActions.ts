@@ -8,6 +8,7 @@ import { listMyChatbotsSchema, readChatbotIndexSchema, readChatbotPageSchema, se
 import { listChatbotsToUse, readChatbotIndex, searchChatbot } from './chatbotReadingRuns';
 import { readChatbotPage } from './chatbotPageRuns';
 import { chatbotAction } from '../chatbotGate';
+import { chatbotReadingKinds } from '$lib/data/businessBrainChatbotTrailRules';
 import type { McpAction } from '../actionTypes';
 
 /** A person's Claude reading Your Business Brain through a chatbot it is named on: only what that chatbot covers, and only reading. */
@@ -24,6 +25,7 @@ export const chatbotReadingActions: McpAction[] = [
 	},
 	chatbotAction({
 		name: 'read_chatbot_index',
+		kind: chatbotReadingKinds.index,
 		area: 'business_brain',
 		audience: 'everyone',
 		summary: 'list the pages a chatbot you may use reads, by part and title, with their ids, to choose which to read',
@@ -33,6 +35,7 @@ export const chatbotReadingActions: McpAction[] = [
 	}),
 	chatbotAction({
 		name: 'search_chatbot',
+		kind: chatbotReadingKinds.search,
 		area: 'business_brain',
 		audience: 'everyone',
 		summary: 'search the pages a chatbot you may use reads for words, best match first, with an excerpt of each',
@@ -42,6 +45,7 @@ export const chatbotReadingActions: McpAction[] = [
 	}),
 	chatbotAction({
 		name: 'read_chatbot_page',
+		kind: chatbotReadingKinds.page,
 		area: 'business_brain',
 		audience: 'everyone',
 		summary: 'read one page a chatbot you may use reads, whole, with its source, related pages and history, or one earlier version of it',

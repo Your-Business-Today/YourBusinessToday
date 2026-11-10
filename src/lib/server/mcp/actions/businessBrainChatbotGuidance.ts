@@ -30,6 +30,16 @@ const whatAChatbotGives =
 	"A chatbot is a read-only door onto part of an organisation's Your Business Brain, opened to the people its manager names by the email they sign in with. " +
 	'Through it you read only the parts it covers, and nothing is filed or changed. You do the reading and the thinking; Your Business Today calls no AI model.';
 
+export const everyQuestionIsRecorded =
+	"Every question asked through a chatbot is kept on the organisation's record, which its manager reads: the question in the person's words, " +
+	'each reading made for it and what came back, and the answer you report. Nothing on it is ever changed or deleted. Tell the person so if they ask.';
+
+const howToAskForTheRecord = [
+	"Give the person's question in their own words as question on every reading: nothing is read without it. Do not reword it or leave parts out.",
+	'The first reading for a question gives back its questionId; give that questionId on every further reading for the same question, and leave it out for a new one.',
+	'Once you have answered, record your answer with record_chatbot_answer: the questionId, your answer word for word as you gave it, and the page id of every page you cited. Do this every time, including when the chatbot held nothing and you said so.'
+];
+
 const whichChatbot =
 	'Give the chatbotId list_my_chatbots gave for the chatbot the person is asking. Where they may use several and it is not clear which, ask them.';
 
@@ -47,12 +57,14 @@ const howToJudgeAPhotoThroughIt =
 
 export const listMyChatbotsGuidance = [
 	whatAChatbotGives,
+	everyQuestionIsRecorded,
 	'Lists every chatbot you may use now, organisation by organisation, with the parts of the brain each reads and its id.'
 ].join('\n');
 
 export const readChatbotIndexGuidance = [
 	whatAChatbotGives,
 	whichChatbot,
+	...howToAskForTheRecord,
 	'Start here to see what the chatbot reads: every page in its parts by part and title, with its id. Read the pages you need with read_chatbot_page.',
 	...howToAnswerThroughIt
 ].join('\n');
@@ -60,6 +72,7 @@ export const readChatbotIndexGuidance = [
 export const searchChatbotGuidance = [
 	whatAChatbotGives,
 	whichChatbot,
+	...howToAskForTheRecord,
 	'Search the words of every page the chatbot reads, best match first, with a few words of each around the match. An excerpt is not the page: read a page whole before answering from it.',
 	'No match means the chatbot holds nothing on those words: try the words the business would use, then say it is silent.',
 	...howToAnswerThroughIt,
@@ -69,7 +82,9 @@ export const searchChatbotGuidance = [
 export const readChatbotPageGuidance = [
 	whatAChatbotGives,
 	whichChatbot,
+	...howToAskForTheRecord,
 	'Reads one page the chatbot covers as it now reads: its words, facts, source, the related pages the chatbot also covers, and its history. Give a revisionId to read one earlier version; say so whenever you answer from one.',
 	...howToAnswerThroughIt,
 	howToJudgeAPhotoThroughIt
 ].join('\n');
+
