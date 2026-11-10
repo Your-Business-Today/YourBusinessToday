@@ -23,26 +23,9 @@ export async function insertInvoiceLines(supabase: SupabaseClient, organisationI
 	return (data as { id: string }[]).map((row) => row.id);
 }
 
-/**
- * Puts the lines given in place of the ones the draft held. The new lines are kept before the old ones are taken
- * away, and when the old ones cannot be taken away the new ones are, so the draft never holds no lines or both sets.
- */
-export async function replaceInvoiceLines(
-	supabase: SupabaseClient,
-	organisationId: string,
-	invoiceId: string,
-	lines: InvoiceLineInput[]
-): Promise<void> {
-	const heldLines = await findInvoiceLines(supabase, organisationId, invoiceId);
-	const newLineIds = await insertInvoiceLines(supabase, organisationId, invoiceId, lines);
-	const error = await deleteLines(supabase, organisationId, invoiceId, heldLines.map((line) => line.id));
-	if (error === null) return;
-	await deleteLines(supabase, organisationId, invoiceId, newLineIds);
-	throw error;
-}
-
-async function deleteLines(supabase: SupabaseClient, organisationId: string, invoiceId: string, lineIds: string[]) {
-	if (lineIds.length === 0) return null;
-	const { error } = await supabase.from(invoiceLinesTable).delete().eq('organisation_id', organisationId).eq('invoice_id', invoiceId).in('id', lineIds);
-	return error;
+/** Whether the invoice holds the line with that id: the sign that the step which put it there happened. */
+export async function isInvoiceLineKept(supabase: SupabaseClient, organisationId: string, invoiceId: string, lineId: string): Promise<boolean> {
+	const { data, error } = await supabase.from(invoiceLinesTable).select('id').eq('organisation_id', organisationId).eq('invoice_id', invoiceId).eq('id', lineId);
+	if (error !== null) throw error;
+	return (data ?? []).length > 0;
 }

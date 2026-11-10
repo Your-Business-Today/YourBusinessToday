@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { moduleNotSwitchedOn } from '../organisationModuleGate';
 import { ledgerTables, ledgerWrites } from './booksLedgerDatabase.fixture';
-import { deletionStepStanding, nigelAccountId, standDeletionStepsDown } from './booksLedgerCalls.fixture';
+import { databaseStepStanding, nigelAccountId, standDatabaseStepsDown } from './booksLedgerCalls.fixture';
 import { holdDraftInvoice, invoiceId, organisationId, runOnTheLedger as run } from './booksInvoicePostingWorld.fixture';
 import { heldExpense, holdChartForCosts, softwareId } from './booksExpenseWorld.fixture';
 
@@ -28,7 +28,7 @@ async function recordAndPayAdobe(): Promise<string> {
 describe('the record of what is deleted from the books', () => {
 	beforeEach(() => {
 		standing.switchedOn = ['books'];
-		standDeletionStepsDown();
+		standDatabaseStepsDown();
 		holdDraftInvoice();
 	});
 
@@ -75,7 +75,7 @@ describe('the record of what is deleted from the books', () => {
 	it('reports a refused delete as an error, leaving the cost and its journals as they were and no record', async () => {
 		holdChartForCosts();
 		const adobeId = await recordAndPayAdobe();
-		deletionStepStanding.refusal = { message: 'refused' };
+		databaseStepStanding.refusal = { message: 'refused' };
 		await expect(run('delete_expense', { expenseId: adobeId })).rejects.toEqual({ message: 'refused' });
 		expect(ledgerTables.books_deletions ?? []).toEqual([]);
 		expect(heldExpense(adobeId)).toBeDefined();

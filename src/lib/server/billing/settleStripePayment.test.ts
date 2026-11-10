@@ -1,14 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readStripeNotice, type StripeEventDelivery, type StripeNotice } from '$lib/data/billing/stripeNotice';
-import { ledgerDatabase } from '$lib/server/mcp/actions/booksLedgerDatabase.fixture';
 import {
 	heldInvoice,
 	holdDraftInvoice,
 	invoiceId,
 	journalsOfKind,
 	organisationId,
-	runOnTheLedger
+	runOnTheLedger,
+	ledgerSupabase
 } from '$lib/server/mcp/actions/booksInvoicePostingWorld.fixture';
+import { databaseStepStanding, standDatabaseStepsDown } from '$lib/server/mcp/actions/booksLedgerCalls.fixture';
 import { receiveStripeNotice } from './receiveStripeNotice';
 import { stripeBooksPoster } from './stripeBooksPoster';
 import { stripeEventBookStandIn } from './stripeEventBook.fixture';
@@ -21,11 +22,12 @@ vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOn
 const theInvoice = { invoiceId, organisationId };
 const wholeInvoicePence = 102050;
 let events = stripeEventBookStandIn();
-const poster = stripeBooksPoster(ledgerDatabase as unknown as SupabaseClient);
+const poster = stripeBooksPoster(ledgerSupabase as unknown as SupabaseClient);
 const receive = (delivery: StripeEventDelivery) => receiveStripeNotice(events.book, poster, readStripeNotice(delivery) as StripeNotice);
 
 describe('a payment made through Stripe that the books cannot post', () => {
 	beforeEach(async () => {
+		standDatabaseStepsDown();
 		holdDraftInvoice();
 		await runOnTheLedger('issue_invoice', { invoiceId });
 		events = stripeEventBookStandIn();
@@ -53,5 +55,13 @@ describe('a payment made through Stripe that the books cannot post', () => {
 			'Checkout cs_test_paid paid, but the books refused it: Invoice INV-6 owes £1,020.50, and £1,021.50 is more than that.'
 		);
 		expect(heldInvoice().status).toBe('issued');
+	});
+
+	it('keeps a payment whose posting could not be told as unmatched, for an administrator, so it is never posted twice', async () => {
+		databaseStepStanding.refusal = { message: 'TypeError: fetch failed' };
+		expect(await receive(paidCheckout('evt_lost', theInvoice, 5000))).toEqual({ outcome: 'unmatched' });
+		const [kept] = events.kept;
+		expect(kept.reason).toContain('Checkout cs_test_paid paid: It could not be told whether invoice INV-6 was paid £50.00 (TypeError: fetch failed).');
+		expect(journalsOfKind('invoice_payment')).toEqual([]);
 	});
 });
