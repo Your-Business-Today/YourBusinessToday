@@ -62,7 +62,8 @@ describe('the record of what is deleted from the books', () => {
 		const [deletion] = heldDeletions();
 		expect(deletion).toEqual(expect.objectContaining({ kind: 'cost', record_id: adobeId, known_as: 'Adobe', deleted_by_account_id: nigelAccountId }));
 		const journals = deletion.journals as { kind: string; lines: unknown[] }[];
-		expect(journals.map((journal) => [journal.kind, journal.lines.length])).toEqual([['expense', 2], ['expense_payment', 2]]);
+		const lineCounts = journals.map(({ kind, lines }) => [kind, lines.length]);
+		expect(lineCounts).toEqual([['expense', 2], ['expense_payment', 2]]);
 		expect(await run('list_books_deletions', {})).toContain('cost from Adobe dated 5 Nov 2026, £84.99, with 2 journals; deleted by Nigel.');
 		const copy = await run('read_books_deletion', { deletionId: deletion.id });
 		expect(copy).toContain('The copy, as the books held it:');
