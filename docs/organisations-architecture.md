@@ -15,7 +15,7 @@ later accounts integration will read (`organisations`, migration `0075`), and it
 itself. Nothing is grouped beneath anything else: James, 10 Nov 2026, "we invoice by customer and
 if we need to roll things up to a parent org we can do that as we require". The old grouping column,
 `parent_organisation_id`, is still in the database with its values, unread by the site, the
-connector and the reach functions (migration `0155`, below).
+connector and the reach functions (migration `0156`, below).
 
 **A project names its organisation** (`projects.organisation_id`), or none. A project under no
 organisation is a personal one: reached by its owner and the people invited to it, as before.
@@ -130,7 +130,7 @@ Enterprises alone reaches the same projects through the people copied down to ea
 reached through the grouping, would have lost the companies' projects without the copy, and is
 granted each company's project through that company.
 
-## Every organisation is one company (migration `0155`)
+## Every organisation is one company (migration `0156`)
 
 The second half: nothing reads the grouping any more.
 

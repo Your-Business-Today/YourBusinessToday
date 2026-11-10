@@ -1,4 +1,4 @@
--- 0155: every organisation is one company, and nothing reads the grouping.
+-- 0156: every organisation is one company, and nothing reads the grouping.
 --
 -- Group companies are dropped (James, 10 Nov 2026: "we invoice by customer").
 -- Migration 0148 copied each parent's people, project access and invoicing
