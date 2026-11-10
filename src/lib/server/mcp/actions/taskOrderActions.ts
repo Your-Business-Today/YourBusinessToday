@@ -2,23 +2,19 @@ import { reachableTask } from '../projectAccess';
 import { moveTask } from '$lib/server/projects/moveTask';
 import { noSuchTask } from './describeTask';
 import { objectSchema, readText, textField } from '../actionTypes';
-import { placeTask } from '$lib/server/projects/placeTask';
+import { placeTaskAction } from './placeTaskAction';
 import { setTaskPriority } from '$lib/server/projects/setTaskPriority';
 import {
-	besidePlacementField,
 	directionField,
 	priorityField,
-	readBesidePlacement,
 	readMoveDirection,
 	readPriority,
 	sayWhichDirection,
-	sayWhichPlacement,
 	sayWhichPriority
 } from './orderingFields';
 import type { McpAction } from '../actionTypes';
 
 const taskIdField = textField('The task id');
-const bothTasksNeeded = 'Name the task to move and the task to place it beside.';
 
 export const taskOrderActions: McpAction[] = [
 	{
@@ -66,32 +62,5 @@ export const taskOrderActions: McpAction[] = [
 			return `"${task.title}" moved ${direction}.`;
 		}
 	},
-	{
-		name: 'place_task',
-		area: 'tasks',
-		audience: 'everyone',
-		isWrite: true,
-		summary: 'place a task directly before or after another task in the same project',
-		guidance:
-			'If the target sits under a different parent or goal, the moved task joins it there. ' +
-			'To set a number without a target, use set_task_priority.',
-		inputSchema: objectSchema(
-			{
-				taskId: taskIdField,
-				targetTaskId: textField('The task to place it beside'),
-				placement: besidePlacementField
-			},
-			['taskId', 'targetTaskId', 'placement']
-		),
-		run: async (caller, input) => {
-			const task = await reachableTask(caller, readText(input, 'taskId'));
-			const targetTask = await reachableTask(caller, readText(input, 'targetTaskId'));
-			if (task === null || targetTask === null) return bothTasksNeeded;
-			if (task.projectId !== targetTask.projectId) return 'Both tasks must be on one project.';
-			const placement = readBesidePlacement(input);
-			if (placement === null) return sayWhichPlacement;
-			await placeTask(caller.supabase, task.id, targetTask.id, placement);
-			return `"${task.title}" now sits ${placement} "${targetTask.title}".`;
-		}
-	}
+	placeTaskAction
 ];
