@@ -1,41 +1,21 @@
-import { isOnJobBoard } from './jobBoards';
 import { matchedRoleFor } from './rolesWeReplaceOrAmplify';
-import type { WebSearchSource } from '$lib/server/anthropic/webSearchResults';
+import { postedDateNotShown, type JobAdvert } from '$lib/data/jobAdvertRules';
 
-/** One open advert, read on a job board: matchedRole names the role we replace or amplify, when it is one. */
-export type JobAdvert = { title: string; url: string; postedOn: string; matchedRole: string | null };
+export const jobAdvertColumns = 'title, url, posted_on, found_at';
 
-export type CompanyJobAdverts = { companyName: string; adverts: JobAdvert[] };
-
-const isoDate = /^\d{4}-\d{2}-\d{2}$/;
-const notShown = '';
-
-/**
- * Only a board page the search actually read is kept, so an advert Claude
- * misremembered, or one found off the boards, never reaches staff.
- */
-export function parseJobAdverts(toolInput: Record<string, unknown>, sources: WebSearchSource[]): JobAdvert[] {
-	const readUrls = new Set(sources.map((source) => source.url));
-	const { adverts } = toolInput;
-	if (!Array.isArray(adverts)) return [];
-	return adverts
-		.map(advertFrom)
-		.filter((advert) => advert.title !== '' && readUrls.has(advert.url) && isOnJobBoard(advert.url))
-		.sort(rolesWeServeFirst);
-}
-
-function advertFrom(value: unknown): JobAdvert {
-	const fields = (value ?? {}) as Record<string, unknown>;
-	const title = String(fields.title ?? '').trim();
-	const postedOn = String(fields.posted_on ?? '').trim();
+/** An advert as its client_job_adverts row holds it, with the role we replace or amplify read from its title. */
+export function jobAdvertFromRow(row: Record<string, unknown>): JobAdvert {
+	const title = String(row.title);
 	return {
 		title,
-		url: String(fields.url ?? '').trim(),
-		postedOn: isoDate.test(postedOn) ? postedOn : notShown,
+		url: String(row.url),
+		postedOn: row.posted_on === null ? postedDateNotShown : String(row.posted_on),
+		foundAt: String(row.found_at),
 		matchedRole: matchedRoleFor(title)
 	};
 }
 
-function rolesWeServeFirst(first: JobAdvert, second: JobAdvert): number {
+/** Adverts for roles we replace or amplify come first; otherwise the order found is kept. */
+export function rolesWeServeFirst(first: JobAdvert, second: JobAdvert): number {
 	return Number(second.matchedRole !== null) - Number(first.matchedRole !== null);
 }

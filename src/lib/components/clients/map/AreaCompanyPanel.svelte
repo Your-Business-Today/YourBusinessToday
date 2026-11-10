@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CompanyJobAdverts from '$lib/components/clients/CompanyJobAdverts.svelte';
+	import FindJobAdvertsButton from '$lib/components/clients/FindJobAdvertsButton.svelte';
 	import ProspectSeedFields from '$lib/components/clients/ProspectSeedFields.svelte';
 	import RegisterStandingLink from '$lib/components/clients/RegisterStandingLink.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
@@ -62,7 +62,7 @@
 			{/if}
 		</div>
 		{#if isOneCompany}
-			<CompanyJobAdverts companyName={pin.name} place={pin.postcode} />
+			<FindJobAdvertsButton company={{ name: pin.name, place: pin.postcode, clientId: registerStanding?.clientId ?? null }} />
 		{/if}
 		{#if registerStanding !== null}
 			<RegisterStandingLink standing={registerStanding} />

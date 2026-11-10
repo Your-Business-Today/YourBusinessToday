@@ -1,12 +1,12 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 const clientWithEverythingItTakes =
-	'*, client_contacts(*, contact_notes(*), contact_links(*)), client_events(*)';
+	'*, client_contacts(*, contact_notes(*), contact_links(*)), client_events(*), client_job_adverts(*)';
 
 /**
  * Writes the deletion into the record that outlives the client, under the person deleting it, with a copy
- * of the client row and everything its deletion takes with it: its ledger, its contacts and their notes
- * and links. Written before the client goes, so a deletion is never left unrecorded.
+ * of the client row and everything its deletion takes with it: its ledger, its job adverts, its contacts
+ * and their notes and links. Written before the client goes, so a deletion is never left unrecorded.
  */
 export async function recordClientDeletion(
 	service: SupabaseClient,

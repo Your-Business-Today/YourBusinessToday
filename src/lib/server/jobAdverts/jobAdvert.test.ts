@@ -1,40 +1,31 @@
 import { describe, expect, it } from 'vitest';
-import { parseJobAdverts } from './jobAdvert';
+import { jobAdvertFromRow, rolesWeServeFirst } from './jobAdvert';
 
-const reedPage = 'https://www.reed.co.uk/jobs/quantity-surveyor/123';
-const indeedPage = 'https://uk.indeed.com/viewjob?jk=abc';
-const linkedInPage = 'https://www.linkedin.com/jobs/view/789';
-const sources = [reedPage, indeedPage, linkedInPage].map((url) => ({ title: url, url }));
+const foundAt = '2026-11-10T17:00:00+00:00';
+const surveyorRow = { title: 'Quantity Surveyor', url: 'https://www.reed.co.uk/jobs/1', posted_on: '2026-09-30', found_at: foundAt };
+const labourerRow = { title: 'Site Labourer', url: 'https://uk.indeed.com/viewjob?jk=2', posted_on: null, found_at: foundAt };
 
-describe('parseJobAdverts', () => {
-	it('keeps adverts read on a board, roles we replace or amplify first, with the date when one is shown', () => {
-		const adverts = parseJobAdverts(
-			{
-				adverts: [
-					{ title: 'Site Labourer', url: indeedPage, posted_on: 'a week ago' },
-					{ title: 'Quantity Surveyor', url: reedPage, posted_on: '2026-09-30' }
-				]
-			},
-			sources
-		);
-		expect(adverts).toEqual([
-			{ title: 'Quantity Surveyor', url: reedPage, postedOn: '2026-09-30', matchedRole: 'Quantity surveyor' },
-			{ title: 'Site Labourer', url: indeedPage, postedOn: '', matchedRole: null }
-		]);
+describe('jobAdvertFromRow', () => {
+	it('reads a kept advert with its posted date and the role we replace or amplify', () => {
+		expect(jobAdvertFromRow(surveyorRow)).toEqual({
+			title: 'Quantity Surveyor',
+			url: 'https://www.reed.co.uk/jobs/1',
+			postedOn: '2026-09-30',
+			foundAt,
+			matchedRole: 'Quantity surveyor'
+		});
 	});
 
-	it('leaves out a page the search never read, a page off the boards and an advert with no title', () => {
-		const adverts = parseJobAdverts(
-			{
-				adverts: [
-					{ title: 'Operations Manager', url: 'https://www.reed.co.uk/jobs/invented/1' },
-					{ title: 'Contracts Manager', url: linkedInPage },
-					{ title: '', url: reedPage }
-				]
-			},
-			sources
-		);
-		expect(adverts).toEqual([]);
-		expect(parseJobAdverts({}, sources)).toEqual([]);
+	it('reads an advert whose page showed no date, for a role we do not touch', () => {
+		const advert = jobAdvertFromRow(labourerRow);
+		expect(advert.postedOn).toBe('');
+		expect(advert.matchedRole).toBeNull();
+	});
+});
+
+describe('rolesWeServeFirst', () => {
+	it('puts the roles we replace or amplify ahead of the rest', () => {
+		const adverts = [jobAdvertFromRow(labourerRow), jobAdvertFromRow(surveyorRow)].sort(rolesWeServeFirst);
+		expect(adverts.map((advert) => advert.title)).toEqual(['Quantity Surveyor', 'Site Labourer']);
 	});
 });
