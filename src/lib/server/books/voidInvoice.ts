@@ -6,7 +6,7 @@ import { InvoiceJournalKinds } from '$lib/data/books/journalKinds';
 import { ukClockAt } from '$lib/data/ukClock';
 import { refuseWhen } from './booksRefusal';
 import { findHeldInvoice, type HeldInvoice } from './heldInvoice';
-import { invoicesTable } from './invoiceRecord';
+import { findIssuedJournalId } from './issuedJournal';
 import { moveInvoiceOrWithdraw } from './invoiceStatusMoves';
 import { findJournalLines } from './journalLines';
 import { postJournal } from './postJournal';
@@ -39,16 +39,4 @@ async function postReversal(supabase: SupabaseClient, organisationId: string, in
 		reversesJournalId: issuedJournalId,
 		lines: reversedLines(issuedLines)
 	});
-}
-
-async function findIssuedJournalId(supabase: SupabaseClient, organisationId: string, invoiceId: string): Promise<string | null> {
-	const { data, error } = await supabase
-		.from(invoicesTable)
-		.select('issued_journal_id')
-		.eq('organisation_id', organisationId)
-		.eq('id', invoiceId)
-		.maybeSingle();
-	if (error !== null) throw error;
-	const held = data as { issued_journal_id: string | null } | null;
-	return held?.issued_journal_id ?? null;
 }

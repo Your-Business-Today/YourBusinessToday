@@ -16,6 +16,12 @@
 			<PageTitle>Admin</PageTitle>
 			<div class="flex items-baseline gap-4">
 				<a
+					href="/admin/stripe-payments"
+					class="font-display text-xs text-chalk/50 underline transition hover:text-chalk"
+				>
+					Stripe payments to check ({data.stripePaymentsToCheck})
+				</a>
+				<a
 					href="/admin/documents"
 					class="font-display text-xs text-chalk/50 underline transition hover:text-chalk"
 				>

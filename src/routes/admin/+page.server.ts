@@ -7,13 +7,17 @@ import { passwordActions } from './passwordActions';
 import { requireAdmin } from '$lib/server/admin/requireAdmin';
 import { setAccountRestriction } from '$lib/server/admin/setAccountRestriction';
 import { setStaffAccess } from '$lib/server/admin/setStaffAccess';
+import { findStripeEventsToCheck } from '$lib/server/billing/stripeEventsToCheck';
+import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	await requireAdmin(locals);
+	const stripeEventsToCheck = await findStripeEventsToCheck(supabaseServiceClient());
 	return {
 		users: await getAdminUserList(locals.supabase),
-		buildModels: await getBuildModelSettings(locals.supabase)
+		buildModels: await getBuildModelSettings(locals.supabase),
+		stripePaymentsToCheck: stripeEventsToCheck.length
 	};
 };
 
