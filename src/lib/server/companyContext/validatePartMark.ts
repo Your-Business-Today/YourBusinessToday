@@ -41,7 +41,7 @@ export function validatePartMark(formData: FormData): PartMark | Refusal {
 	return { versionNumber, partKey, reviewState, whatIsWrong };
 }
 
-function readVersionNumber(text: string): number | Refusal {
+export function readVersionNumber(text: string): number | Refusal {
 	const versionNumber = Number(text);
 	const isWholeNumber = wholeNumberShape.test(text);
 	const isInRange = versionNumber >= 1 && versionNumber <= limits.largestVersionNumber;

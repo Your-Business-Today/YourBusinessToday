@@ -93,7 +93,7 @@ npm run dev
 | `SUPABASE_SECRET_KEY` | Supabase secret key — used by the MCP server and to sign upload links |
 | `COMPANIES_HOUSE_API_KEY` | Companies House company and officer search |
 | `RESEND_API_KEY` / `EMAIL_FROM` | Resend API key and sender address for transactional email |
-| `ENQUIRY_NOTIFICATION_EMAIL` | Where website enquiries from `/contact` are sent |
+| `ENQUIRY_NOTIFICATION_EMAIL` | Where website enquiries from `/contact` are sent, and where staff are told a client has confirmed their company context |
 | `GITHUB_WEBHOOK_SECRET` | Secret on the GitHub webhook that counts deploys and tells a task its pull request merged |
 | `GITHUB_TOKEN` | Token that reads the project-process kit version of a private repository and, where a project has a deploy window, opens the staging-to-main pull request and turns auto-merge on — so it needs pull request write (`repo`) on every project repository with a window |
 | `CRON_SECRET` | Bearer token the cron door (`/api/watch/<source>`) expects; Vercel sends it on its own crons, and the `deploy windows` workflow sends the GitHub secret of the same name every quarter hour |
