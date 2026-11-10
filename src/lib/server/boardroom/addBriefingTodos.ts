@@ -21,7 +21,8 @@ function briefingNotes(occasion: BriefingOccasion): string {
 	return (
 		`${occasion.calledByName} called a meeting of the board of ${occasion.organisationName} for ` +
 		`${ukMeetingTime(meeting.meetsAt)} (UK time). Read its agenda with read_board_meeting ` +
-		`(organisation ${meeting.organisationId}, meeting ${meeting.id}) and tell your Claude what you want said on each item.`
+		`(organisation ${meeting.organisationId}, meeting ${meeting.id}) and tell your Claude what you want said on each item; ` +
+		'it keeps each brief, private to you, with brief_board_item.'
 	);
 }
 
