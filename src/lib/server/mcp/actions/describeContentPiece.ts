@@ -1,6 +1,8 @@
 import type { ContentPieceWithReviews } from '$lib/server/brandContent/findContentPiece';
 import type { BrandSnapshot, ContentPiece, ContentReview, ContentSummary, StoryboardShot } from '$lib/brand/content/contentPiece';
 import type { ContentPost } from '$lib/brand/posts/contentPost';
+import { describePostPictures } from './describePostPictures';
+import { noPictures, type PostPictures } from '$lib/brand/pictures/postPictures';
 
 const firstShotNumber = 1;
 const nothingInvited = 'nothing in particular';
@@ -10,8 +12,15 @@ export function describeContentSummary(piece: ContentSummary): string {
 	return `- [${piece.stage}] ${piece.title} @ ${piece.mediumPath} (id ${piece.id})`;
 }
 
-/** One piece in full: its words, its storyboard, where it stands, every review, the brand it was drafted to and every channel of its post. */
-export function describeContentPiece({ piece, reviews }: ContentPieceWithReviews, post: ContentPost): string {
+/**
+ * One piece in full: its words, its storyboard, where it stands, every review, the brand it was drafted to, every
+ * channel of its post and the post's picture.
+ */
+export function describeContentPiece(
+	{ piece, reviews }: ContentPieceWithReviews,
+	post: ContentPost,
+	pictures: PostPictures = noPictures
+): string {
 	const sections = [
 		`${piece.title} — ${piece.stage} — ${piece.mediumPath} (id ${piece.id})`,
 		piece.kind === null ? null : `Kind of post: ${piece.kind}`,
@@ -25,6 +34,7 @@ export function describeContentPiece({ piece, reviews }: ContentPieceWithReviews
 		piece.publishedUrl === '' ? null : `Published at ${piece.publishedUrl}`,
 		reviewsSection(reviews),
 		channelsSection(post, piece.id),
+		describePostPictures(pictures),
 		snapshotSection(piece.brandSnapshot)
 	];
 	return sections.filter((section) => section !== null).join('\n\n');

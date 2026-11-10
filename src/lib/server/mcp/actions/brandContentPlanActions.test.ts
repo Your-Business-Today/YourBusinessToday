@@ -32,6 +32,7 @@ vi.mock('$lib/server/brandContent/keepContentIdea', () => ({
 vi.mock('$lib/server/brandContent/replanContentPiece', () => ({
 	replanContentPiece: async (_supabase: unknown, piece: unknown) => (world.replanned.push(piece), world.replanOutcome)
 }));
+vi.mock('$lib/server/brandContent/findPostPictures', () => ({ findPostPictures: async () => new Map() }));
 vi.mock('$lib/server/brandContent/findPlannedPieces', () => ({
 	findPlannedPieces: async (_supabase: unknown, _organisationId: string, bounds: unknown) => {
 		world.bounds = bounds;

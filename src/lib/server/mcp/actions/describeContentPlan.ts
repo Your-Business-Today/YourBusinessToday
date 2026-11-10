@@ -2,6 +2,7 @@ import { describePostingRhythms, describeTally } from './describePostingRhythm';
 import { noKindYet, type KindCount } from '$lib/brand/plan/planCounts';
 import type { ContentPlan, PlanDay, PlanEntry, PlanWeek } from '$lib/brand/plan/contentPlan';
 import type { PlanPost } from '$lib/brand/plan/planPosts';
+import { pictureMarkOf } from './describePostPictures';
 
 /**
  * The month's plan as the connector reads it out: the counts, the mix of kinds and the posting rhythm, then each week
@@ -43,8 +44,9 @@ function dueOn(awaitedOn: string[]): string[] {
 function postLines(post: PlanPost): string {
 	const { channels } = post;
 	const [onlyChannel] = channels;
-	if (channels.length === 1) return entryLine(onlyChannel);
-	const heading = `${post.time} ${post.title} (${kindOf(post.kind)})${hookOf(post.hook)} — one post on ${channels.length} channels:`;
+	const pictureMark = pictureMarkOf(post.picture);
+	if (channels.length === 1) return `${entryLine(onlyChannel)}${pictureMark}`;
+	const heading = `${post.time} ${post.title} (${kindOf(post.kind)})${hookOf(post.hook)}${pictureMark} — one post on ${channels.length} channels:`;
 	const channelLines = channels.map((channel) => `    - ${channel.time} [${channel.stage}] @ ${channel.mediumPath} (id ${channel.id})${extraOf(channel)}`);
 	return [heading, ...channelLines].join('\n');
 }
