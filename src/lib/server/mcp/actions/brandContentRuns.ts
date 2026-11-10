@@ -8,13 +8,13 @@ import { findContentPieces } from '$lib/server/brandContent/findContentPieces';
 import { isContentStage, contentStages } from '$lib/brand/content/contentPiece';
 import { keepContentPiece } from '$lib/server/brandContent/keepContentPiece';
 import { noBrandYet } from './brandKitWriteAnswers';
+import { noSuchPiece } from './brandContentAnswers';
 import { readText } from '../actionTypes';
 import { resolveBrandKitFor } from '$lib/server/brandKits/resolveBrandKitFor';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
 const stageRefusal = `stage is one of ${contentStages.join(', ')}, or left out for every piece.`;
-const noSuchPiece = 'No piece of that id is in this brand’s content. Call list_content for the ids.';
 
 /** Drafts a piece for one medium, checked against its columns, with a snapshot of the brand as it holds there. */
 export async function draftContent(caller: McpCaller, input: Record<string, unknown>, organisation: Organisation) {
