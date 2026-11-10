@@ -1,12 +1,10 @@
-import { canTakeMove, ContentMoves } from '$lib/brand/content/contentMoves';
-import { checkContentReview } from '$lib/brand/content/checkContentReview';
 import { checkPublishedUrl } from '$lib/server/brandContent/checkPublishedUrl';
 import { checkScheduledFor } from '$lib/brand/content/checkScheduledFor';
-import { keepContentReview } from '$lib/server/brandContent/keepContentReview';
-import { moveAfterVerdict } from '$lib/brand/content/contentReview';
-import { moveContentPiece } from '$lib/server/brandContent/moveContentPiece';
-import { noSuchPiece } from './brandContentAnswers';
-import { nothingChanged, pieceAsked, stageOf, takeMove } from './brandContentPieceMoves';
+import { contentReviewAnswers } from './brandContentReviewAnswers';
+import { ContentMoves } from '$lib/brand/content/contentMoves';
+import { nothingChanged, pieceAsked, takeMove } from './brandContentPieceMoves';
+import { reviewContentPiece } from '$lib/server/brandContent/reviewContentPiece';
+import { wordsForOutcome } from '$lib/brand/content/contentReviewOutcome';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
@@ -16,7 +14,6 @@ const sentForApproval =
 	'Sent for approval: the piece is at awaiting_approval. Anyone on the organisation with Brand ' +
 	'approves it, or asks for changes, with review_content.';
 const postByHand = 'Nothing posts it; post it by hand, then call record_publication with its link.';
-const movedOnAlready = 'Your review is kept, but the piece had moved on already, so it stays where it is.';
 
 /** Sends a drafted piece to the organisation to be approved. */
 export async function sendContentForApproval(caller: McpCaller, input: Input, organisation: Organisation) {
@@ -48,19 +45,7 @@ export async function recordPublication(caller: McpCaller, input: Input, organis
 
 /** Keeps a person's review of a piece; an approval or a change asked for moves the piece as well. */
 export async function reviewContent(caller: McpCaller, input: Input, organisation: Organisation) {
-	const check = checkContentReview(input);
-	if ('problem' in check) return `The review was not kept: ${check.problem}. Nothing was kept.`;
-	const { review } = check;
-	const asked = pieceAsked(caller, input, organisation);
-	const stage = await stageOf(asked);
-	if (stage === null) return noSuchPiece;
-	const rule = moveAfterVerdict[review.verdict];
-	const isRefused = rule !== null && !canTakeMove(rule, stage);
-	if (isRefused) return `The review was not kept: ${rule.refusal}, and this one is at ${stage}. Nothing was kept.`;
-	const { organisationId, contentPieceId } = asked;
-	await keepContentReview(caller.supabase, { organisationId, contentPieceId, authorId: caller.accountId, review });
-	if (rule === null) return `Your ${review.verdict} is kept on the piece, which stays at ${stage}.`;
-	const hasMoved = await moveContentPiece(caller.supabase, organisationId, contentPieceId, { rule });
-	if (!hasMoved) return movedOnAlready;
-	return `Your review is kept and the piece is now at ${rule.to}.`;
+	const reviewer = { ...pieceAsked(caller, input, organisation), authorId: caller.accountId };
+	const outcome = await reviewContentPiece(caller.supabase, reviewer, input);
+	return wordsForOutcome(contentReviewAnswers, outcome);
 }
