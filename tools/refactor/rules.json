@@ -234,7 +234,15 @@
       "**/routes/**/+page.svelte"
     ],
     "ignoredTags": [],
-    "catalogue": [],
+    "catalogue": [
+      "DashboardPanel",
+      "Modal",
+      "Sheet",
+      "FormField",
+      "TabStrip",
+      "PageTitle",
+      "EmptyState"
+    ],
     "handRolled": [
       {
         "element": "table",
@@ -263,15 +271,7 @@
       },
       {
         "element": "h1",
-        "ownedBy": "PageHeader"
-      },
-      {
-        "element": "h2",
-        "ownedBy": "SectionHeader"
-      },
-      {
-        "element": "h3",
-        "ownedBy": "SectionHeader"
+        "ownedBy": "PageTitle"
       }
     ],
     "horizontalClasses": [
@@ -281,7 +281,12 @@
     "verticalClasses": [
       "flex-col"
     ],
-    "document": "tools/refactor/site-definition.md"
+    "document": "tools/refactor/site-definition.md",
+    "containerWidgets": [
+      "DashboardPanel",
+      "Modal",
+      "Sheet"
+    ]
   },
   "score": {
     "elements": {}

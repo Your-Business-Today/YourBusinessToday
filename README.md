@@ -108,67 +108,87 @@ All code follows the conventions in [CLAUDE.md](./CLAUDE.md).
 ## Code quality
 
 <table><tr><td align="center">
-<strong>Code quality score</strong><h2>100.0%</h2>
-<sub>measured 2026-11-03 · project-process kit 1.40.0</sub>
+<strong>Code quality score</strong><h2>96.5%</h2>
+<sub>measured 2026-11-10 · project-process kit 1.41.0</sub>
 </td></tr></table>
 
-2,615 files · backend 805 · frontend 661 · shared 337 · tests 246 · api 228 · database 144 · tooling 116 · docs 62 · infrastructure 16
+3,425 files · backend 943 · frontend 752 · shared 575 · tests 403 · api 370 · database 177 · tooling 123 · docs 65 · infrastructure 17
+
+The site by route: 49 routes, 510 components, 35 pieces of markup written by hand where a widget should be — [`tools/refactor/site-definition.md`](tools/refactor/site-definition.md), refreshed alone by *"Run the widget identification"*.
+
+Brand and widget designs: brand checked never, 4 widget sheets checked never — say *"Check the site against the brand"* or *"Check the widgets against their designs"* (the `widget-design` skill; every widget's standing is in [`tools/refactor/site-definition.md`](tools/refactor/site-definition.md)).
 
 <details>
-<summary><strong>How the 100.0% is made up</strong></summary>
+<summary><strong>How the 96.5% is made up</strong></summary>
 
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
-| **Standard baseline checks** | | **100.0%** | **60** | |
-| Files over the line limit | 0 in 2113 files | 100.0% | 10 | 50% of files |
+| **Standard baseline checks** | | **99.9%** | **52** | |
+| Files over the line limit | 0 in 2888 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
-| Functions over the line limit | 0 in 2850 functions | 100.0% | 8 | 25% of functions |
-| Else blocks | 0 in 3089 branches | 100.0% | 5 | 50% of branches |
-| Duplication % | 0 | 100.0% | 8 | 20 |
-| Explanatory comment lines | 0 in 73.88 thousand lines | 100.0% | 4 | 50 per thousand lines |
-| Inline magic values | 0 in 73.88 thousand lines | 100.0% | 4 | 20 per thousand lines |
-| Orphan components and functions | 0 in 3288 components and functions | 100.0% | 4 | 10% of components and functions |
-| Long member chain lines | 0 in 73.88 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Deeply indented lines | 0 in 73.88 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Overlong function names | 0 in 2850 functions | 100.0% | 4 | 10% of functions |
-| **Design pattern file count** | | **100.0%** | **10** | |
-| Files the patterns predict but are missing | 0 in 103 predicted files | 100.0% | 10 | 50% of predicted files |
+| Functions over the line limit | 0 in 4251 functions | 100.0% | 8 | 25% of functions |
+| Else blocks | 0 in 4263 branches | 100.0% | 5 | 50% of branches |
+| Duplication % | not measured | not measured | — | 20 |
+| Explanatory comment lines | 0 in 106.52 thousand lines | 100.0% | 4 | 50 per thousand lines |
+| Inline magic values | 6 in 106.52 thousand lines | 99.7% | 4 | 20 per thousand lines |
+| Orphan components and functions | 0 in 4765 components and functions | 100.0% | 4 | 10% of components and functions |
+| Long member chain lines | 0 in 106.52 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Deeply indented lines | 0 in 106.52 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Overlong function names | 0 in 4251 functions | 100.0% | 4 | 10% of functions |
+| **Design pattern file count** | | **97.3%** | **10** | |
+| Files the patterns predict but are missing | 2 in 146 predicted files | 97.3% | 10 | 50% of predicted files |
 | Entities outside their expected file count | not measured | not measured | — | 50% of entities |
-| **Prose** | | **100.0%** | **20** | |
-| Conditions with calls tangled inside calls | 0 in 3089 branches | 100.0% | 8 | 25% of branches |
-| Conditions compared to a raw literal | 0 in 3089 branches | 100.0% | 6 | 25% of branches |
-| Accessor names that want to be a property | 0 in 2850 functions | 100.0% | 6 | 10% of functions |
-| **Widget adoption** | | **not measured** | **0** | |
-| Markup written by hand where a widget should be | not measured | not measured | — | 50% of widget slots |
+| **Prose** | | **99.8%** | **20** | |
+| Conditions with calls tangled inside calls | 0 in 4263 branches | 100.0% | 8 | 25% of branches |
+| Conditions compared to a raw literal | 0 in 4263 branches | 100.0% | 6 | 25% of branches |
+| Accessor names that want to be a property | 3 in 4251 functions | 99.3% | 6 | 10% of functions |
+| **Widget adoption** | | **61.7%** | **8** | |
+| Markup written by hand where a widget should be | 35 in 183 widget slots | 61.7% | 8 | 50% of widget slots |
 | **Input validation** | | **100.0%** | **8** | |
-| Doors that write without checking their input against the columns | 0 in 166 write doors | 100.0% | 8 | 50% of write doors |
+| Doors that write without checking their input against the columns | 0 in 253 write doors | 100.0% | 8 | 50% of write doors |
 
 Each element scores 100% with no offenders and falls in a straight line to 0% when its offenders, measured against the size of the codebase, reach the figure in the last column. The score is the weighted average of the elements that could be measured; an element that could not be measured lends its weight to the rest. Weights and zero points are set in `tools/refactor/rules.json` under `score.elements`. The offenders behind every reading are in `tools/refactor/audit-output/audit.json`.
 
 </details>
 
 <details>
-<summary><strong>The repository by area: 2,615 files</strong></summary>
+<summary><strong>The repository by area: 3,425 files</strong></summary>
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| backend | 805 | 795 | 25,330 |
-| frontend | 661 | 531 | 18,359 |
-| shared | 337 | 323 | 10,417 |
-| tests | 246 | 231 | 8,848 |
-| api | 228 | 228 | 10,784 |
-| database | 144 | 0 | 0 |
-| tooling | 116 | 5 | 138 |
-| docs | 62 | 0 | 0 |
-| infrastructure | 16 | 0 | 0 |
-| **whole repository** | **2,615** | **2,113** | **73,876** |
+| backend | 943 | 933 | 30,387 |
+| frontend | 752 | 622 | 21,238 |
+| shared | 575 | 561 | 19,677 |
+| tests | 403 | 388 | 17,343 |
+| api | 370 | 369 | 17,322 |
+| database | 177 | 7 | 212 |
+| tooling | 123 | 8 | 344 |
+| docs | 65 | 0 | 0 |
+| infrastructure | 17 | 0 | 0 |
+| **whole repository** | **3,425** | **2,888** | **106,523** |
 
 </details>
 
 <details>
-<summary><strong>The refactoring plan: 0 steps, in order</strong></summary>
+<summary><strong>The refactoring plan: 15 steps, in order</strong></summary>
 
-Nothing is left to refactor: every figure is at zero.
+**Pass 1 — Widget adoption**
+
+1. Adopt `FormField` in 4 file(s) that write its markup by hand. 7 place(s): `src/lib/components/clients/map/AreaSearchForm.svelte` (3), `src/lib/components/organisations/OrganisationDetailsFields.svelte` (2), `src/lib/components/admin/PointsSelect.svelte`, `src/lib/components/admin/ReviewModelForm.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
+2. Adopt `FormField` in 4 file(s) that write its markup by hand. 4 place(s): `src/lib/components/clients/AskClaudeToResearch.svelte`, `src/lib/components/clients/ProspectSearchForm.svelte`, `src/lib/components/contact/DiscoveryCallForm.svelte`, `src/lib/components/conversations/HandOffPicker.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
+3. Adopt `FormField` in 4 file(s) that write its markup by hand. 4 place(s): `src/lib/components/organisations/NameDirectorForm.svelte`, `src/lib/components/people/AppointmentImportForm.svelte`, `src/lib/components/projects/DeployHistoryFilterBar.svelte`, `src/lib/components/projects/TaskComplexityCount.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
+4. Adopt `FormField` in 4 file(s) that write its markup by hand. 4 place(s): `src/lib/components/projects/UserStoryFields.svelte`, `src/lib/components/taxCalculator/LivingCostsCard.svelte`, `src/lib/components/taxCalculator/MileageAndHomeFields.svelte`, `src/lib/components/taxCalculator/PensionField.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
+5. Adopt `FormField` in 4 file(s) that write its markup by hand. 4 place(s): `src/lib/components/taxCalculator/StudentLoanFields.svelte`, `src/lib/components/taxCalculator/TaxRegionField.svelte`, `src/lib/components/taxCalculator/TaxYearSelect.svelte`, `src/lib/components/taxCalculator/WhatIfCard.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
+6. Adopt `PageTitle` in 4 file(s) that write its markup by hand. 4 place(s): `src/lib/components/about/AboutStorySection.svelte`, `src/lib/components/case-study/CaseStudyIntroSection.svelte`, `src/lib/components/demo/DemoConnectSection.svelte`, `src/lib/components/demo/DemoStartSection.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
+7. Adopt `PageTitle` in 4 file(s) that write its markup by hand. 4 place(s): `src/lib/components/home/HeroSection.svelte`, `src/lib/components/offer/OfferStepsSection.svelte`, `src/lib/components/promo/PromoIntro.svelte`, `src/lib/components/site/LegalArticle.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
+8. Adopt `PageTitle` in 3 file(s) that write its markup by hand. 3 place(s): `src/lib/components/taxCalculator/CalculatorHero.svelte`, `src/lib/components/workspace/WorkspaceHeader.svelte`, `src/routes/contact/+page.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
+9. Build, from the best of these, then adopt `RecordsTable` in 1 file(s) that write its markup by hand. 1 place(s): `src/lib/components/taxCalculator/BreakdownTable.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
+
+**Pass 3 — Utility function identification**
+
+10. Give `decayingLevel / fadingLevel` one home. The same function, word for word: 6 lines, identical in 2 files: src/lib/promo/sound/drumVoices.ts, src/lib/promo/sound/effectVoices.ts. Evidence: 0/2 bound from their own markup, 0/2 framework-invoked, 0/2 imported elsewhere.
+
+… and 5 more steps. The whole plan, with the measured detail, is in [`tools/refactor/refactor-plan.md`](tools/refactor/refactor-plan.md).
 
 </details>
 
