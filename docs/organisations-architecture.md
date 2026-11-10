@@ -9,26 +9,33 @@ projects under no client at all.
 
 ## The abstraction
 
-**An organisation is the party a set of projects belongs to.** A client, or Your Business Today
-itself. It carries the address and the accounts contact a later accounts integration will read
-(`organisations`, migration `0075`), and it can have **sub-organisations**: the businesses under
-it, each able to override those details field by field so it is invoiced on its own
-(`invoicingDetailsOf` in `src/lib/data/organisationInvoicing.ts`). A sub-organisation has no
-sub-organisations of its own; the database refuses a deeper tree.
+**An organisation is the party a set of projects belongs to, and it is one company.** A client
+company, or Your Business Today itself. It carries its own address and accounts contact, which a
+later accounts integration will read (`organisations`, migration `0075`), and it is invoiced as
+itself. Nothing is grouped beneath anything else: James, 10 Nov 2026, "we invoice by customer and
+if we need to roll things up to a parent org we can do that as we require". The old grouping column,
+`parent_organisation_id`, is still in the database with its values, unread by the site, the
+connector and the reach functions (migration `0153`, below).
 
 **A project names its organisation** (`projects.organisation_id`), or none. A project under no
 organisation is a personal one: reached by its owner and the people invited to it, as before.
 
 **People are on an organisation as members or as project managers** (`organisation_members`).
-A member reaches every project under the organisation; a member of a parent reaches every
-project under its sub-organisations too. A project manager also brings people on and takes them
-off — on the organisation they manage and on everything under it, never above. Staff and
+A member reaches every project under the organisation. A project manager also brings people on and
+takes them off. Both stand on the organisation by their own row on it, and on no other. Staff and
 administrators reach and manage every organisation.
+
+**The reach rule is one function on each side.** On the site, `reachesOrganisation` in
+`src/lib/data/organisationAccess.ts` (which the connector's `canReachOrganisation` and the module
+rule `canUseOrganisationModule` call), with `managesOrganisation` and `deriveProjectMemberships`
+beside it. In the database, `can_reach_organisation` and `can_manage_organisation`, standing on
+`is_organisation_member` and `is_organisation_manager`, which every policy and
+`can_use_organisation_module` ask.
 
 **Reach is materialised, not inferred.** Every project membership an organisation grants is a
 `project_members` row marked with `via_organisation_id`. The rule is one pure function,
 `deriveProjectMemberships` in `src/lib/data/organisationAccess.ts`: each person on a project's
-organisation or on the one above it is on the project, unless they own it. `syncOrganisationAccess`
+organisation is on the project, unless they own it. `syncOrganisationAccess`
 runs it as the service role after every door that changes who reaches what — someone added to or
 removed from an organisation, a project put under one or taken out, a project created under one —
 and writes the difference. So every existing door works unchanged: row level security, the team
@@ -41,33 +48,30 @@ through an organisation cannot be removed from the project, only from the organi
 | As | I want | So that |
 | --- | --- | --- |
 | Staff | to create an organisation with its address and accounts contact | invoices have somewhere to read who pays |
-| Staff or a project manager | to add a sub-organisation that overrides those details | one business of a client is invoiced separately |
-| Staff | to make someone the project manager of an organisation or sub-organisation | the client runs its own access |
-| Project manager | to bring people on to the organisation, a sub-organisation or one project, by email | they see what they should and nothing else |
+| Person on an organisation | to see every organisation as one company, with nothing grouped beneath another | I see each business as it is, and each is invoiced as itself |
+| Staff | to make someone the project manager of an organisation | the client runs its own access |
+| Project manager | to bring people on to the organisation or to one project, by email | they see what they should and nothing else |
 | Member of an organisation | to be on every project under it, including each new one, at once | nobody invites me project by project |
 | Anyone with projects | to filter the projects page by organisation | I see one client's work at a time |
 
 ## The views
 
-- `/organisations` — the register: every organisation the person is on (staff: every one), each
-  parent with its businesses indented beneath it, counting projects, people and sub-organisations.
-  Staff create an organisation here.
-- `/organisations/[organisationId]` — one organisation: its projects (its own and its businesses'),
-  its sub-organisations (a top-level organisation only; a manager adds one), its people with their
-  standing (a manager invites by email, makes or unmakes a manager, removes), and how it is invoiced,
-  each inherited field marked with the parent it comes from. Staff delete here; the projects stay,
-  under no organisation.
+- `/organisations` — the register: every organisation the person is on (staff: every one), one row
+  each in name order, counting projects and people. Staff create an organisation here.
+- `/organisations/[organisationId]` — one organisation: its own projects, its people with their
+  standing (a manager invites by email, makes or unmakes a manager, removes), its own invoicing
+  details and its modules. Staff delete here; the projects stay, under no organisation.
 - `/projects` — an organisation chip row above the boards narrows both My projects and Team
-  projects to one organisation and its businesses; every tile carries its organisation; the new and
-  edit forms choose one.
+  projects to one organisation; every tile carries its organisation; the new and edit forms choose
+  one.
 - `/projects/[projectId]` — the organisation beside the status; a person on the project through an
   organisation is marked with it in the People panel and cannot be removed there.
 - The Organisations link joins the Work menu for staff and for anyone an organisation has brought on.
 
 ## The connector
 
-Area `organisations`: `list_organisations`, `read_organisation` (invoicing, people, businesses,
-projects), `create_organisation` (staff), `create_sub_organisation`, `update_organisation_details`,
+Area `organisations`: `list_organisations` (one line each), `read_organisation` (invoicing, people,
+projects, modules), `create_organisation` (staff), `update_organisation_details`,
 `invite_to_organisation`, `set_organisation_manager`, `remove_organisation_member` and
 `set_project_organisation`. `create_project` names an organisation; `list_projects` narrows to one;
 `list_project_people` says which organisation brought a member; `remove_project_member` refuses one.
@@ -88,12 +92,11 @@ organisation page.
 
 ## Tests
 
-`src/lib/data/organisationAccess.test.ts` is the model: lineage, who manages what, who reaches
-which project. `src/lib/data/jewelPassiveFireAccess.test.ts` is Jeremy adding someone to Jewel
+`src/lib/data/organisationAccess.test.ts` is the model: who manages what, who reaches which
+project, and that an organisation is reached through itself alone. `src/lib/data/jewelPassiveFireAccess.test.ts` is Jeremy adding someone to Jewel
 Passive Fire Protection and that person passing the gate every task action stands behind on the
-Passive Fire projects, and being refused everywhere else. `organisationInvoicing.test.ts`,
-`organisationRules.test.ts` and `organisationFilter.test.ts` cover the override, the column rules
-and the projects filter. The database side — the policies, the functions, the seed — is proved by
+Passive Fire projects, and being refused everywhere else. `organisationRules.test.ts` and
+`organisationFilter.test.ts` cover the column rules and the projects filter. The database side — the policies, the functions, the seed — is proved by
 hand once the migration has run, against the checklist on the task.
 
 ## Each company keeps its parent's details (migration `0148`)
@@ -122,7 +125,28 @@ be put back. The copy is one function, `copy_organisation_groups_down()`, run by
 callable only by the service role; running it again changes nothing. The task that stops reading the
 link runs it once more first, for anyone put on a parent in between. Nobody is emailed.
 
-`src/lib/data/organisationCopyDown.test.ts` proves the model side: Jewel Enterprises' people copied
-down to its companies leave everyone on the same projects, with each grant marked as the migration
-marks it, and still on them once the grouping is no longer read; a filled company is invoiced as
-before, with or without its parent.
+`src/lib/data/organisationCopyDown.test.ts` proves the model side: a person who was on Jewel
+Enterprises alone reaches the same projects through the people copied down to each company as they
+reached through the grouping, would have lost the companies' projects without the copy, and is
+granted each company's project through that company.
+
+## Every organisation is one company (migration `0153`)
+
+The second half: nothing reads the grouping any more.
+
+- **The copy-down runs once more first**, for anyone put on a parent since `0148` ran, and every
+  person on a project's organisation who is missing from that project is added to it. Rows are only
+  added, so nobody loses a project in the moment the site and the migration deploy together.
+- **The database's reach stands on a person's own row.** `is_organisation_member` and
+  `is_organisation_manager` no longer look at the organisation above; `organisation_lineage` answers
+  the organisation itself; `organisation_projects` lists one organisation's own projects. The
+  insert policy is `staff create organisations`: nobody adds an organisation beneath another.
+- **The site and the connector read no parent.** The register is one row per organisation; the
+  organisation page has no businesses panel, no form to add one and no inherited invoicing note;
+  the projects filter narrows to one organisation; `list_organisations` and `read_organisation`
+  say the same; `create_sub_organisation` is gone; `syncOrganisationAccess` reads the organisation
+  it is given and no family.
+- **The column stays.** `parent_organisation_id`, its index, its trigger and its values are left
+  where they are, unread, so the grouping can be read again if a roll-up is ever wanted. No table,
+  column or row is dropped. The clients register's own "Group under" note for sales is a different
+  thing and is untouched.
