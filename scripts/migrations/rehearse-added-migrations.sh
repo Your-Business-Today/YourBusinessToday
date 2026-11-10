@@ -48,11 +48,20 @@ readingsKept() {
 		--set ON_ERROR_STOP=on --set commit="$nextCommit" --file "$here/readings-kept-for-commit.sql"
 }
 
+whyTheRunWentRed() {
+	local runNumber="$1"
+	if [ "$runNumber" -eq 1 ]; then
+		echo "The first run went red, so the live deploy would too. The runner's lines above name the file or the table."
+		return 0
+	fi
+	echo "Run $runNumber went red after the first ran clean, so a file is not safe to run twice. The runner's lines above name it."
+}
+
 runTheDeploy() {
 	local runNumber="$1"
 	echo "::group::Run $runNumber of $runsInRehearsal, by the deploy's own runner"
 	SUPABASE_DB_URL="$server/$rehearsalDatabase" "$runner" "$deployedCommit" "$nextCommit" \
-		|| failWith "Run $runNumber of $runsInRehearsal went red, so the live deploy would too. The runner's lines above name the file or the table."
+		|| failWith "$(whyTheRunWentRed "$runNumber")"
 	echo "::endgroup::"
 }
 
