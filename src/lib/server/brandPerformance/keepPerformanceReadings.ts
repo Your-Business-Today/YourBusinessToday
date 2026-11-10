@@ -23,6 +23,8 @@ function rowOf(reading: PerformanceReading, { organisationId, accountId }: Readi
 		saves: reading.saves,
 		clicks: reading.clicks,
 		conversions: reading.conversions,
+		impressions: reading.impressions,
+		reach: reading.reach,
 		spend_pence: reading.spendPence,
 		recorded_by: accountId
 	};

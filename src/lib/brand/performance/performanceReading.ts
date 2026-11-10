@@ -1,5 +1,16 @@
-/** The figures a platform counts on a reading, each kept in a whole-number column of its own (migration 0179). */
-export const countedFigures = ['views', 'watchSeconds', 'likes', 'comments', 'shares', 'saves', 'clicks', 'conversions'] as const;
+/** The figures a platform counts on a reading, each kept in a whole-number column of its own (migrations 0179 and 0180). */
+export const countedFigures = [
+	'views',
+	'watchSeconds',
+	'likes',
+	'comments',
+	'shares',
+	'saves',
+	'clicks',
+	'conversions',
+	'impressions',
+	'reach'
+] as const;
 
 export type CountedFigure = (typeof countedFigures)[number];
 

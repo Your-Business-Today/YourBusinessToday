@@ -5,7 +5,8 @@ type Row = Record<string, unknown>;
 
 const PageOfReadings = { rows: 1000 } as const;
 
-const figureColumns = 'medium_path, views, watch_seconds, likes, comments, shares, saves, clicks, conversions, spend_pence';
+const figureColumns =
+	'medium_path, views, watch_seconds, likes, comments, shares, saves, clicks, conversions, impressions, reach, spend_pence';
 
 /** Every reading of the organisation's brand on or after the day, page by page so none is left out. */
 export async function findReadingsSince(
@@ -45,6 +46,8 @@ function figuresOf(row: Row): ReadingFigures {
 		saves: Number(row.saves),
 		clicks: Number(row.clicks),
 		conversions: Number(row.conversions),
+		impressions: Number(row.impressions),
+		reach: Number(row.reach),
 		spendPence: Number(row.spend_pence)
 	};
 }

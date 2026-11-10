@@ -11,7 +11,9 @@ const figureDescriptions: Record<string, string> = {
 	shares: 'Shares that day',
 	saves: 'Saves that day',
 	clicks: 'Clicks that day',
-	conversions: 'Conversions that day'
+	conversions: 'Conversions that day',
+	impressions: 'Times the platform showed it that day',
+	reach: 'People the platform says saw it in the span it reports; for a paid campaign, the reach of the whole run as one reading'
 };
 
 const countFields = Object.fromEntries(
