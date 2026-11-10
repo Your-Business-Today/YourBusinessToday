@@ -18,7 +18,8 @@ export const organisationDetailsActions = {
 	},
 	deleteOrganisation: async ({ locals, params }) => {
 		await requireStaff(locals);
-		await deleteOrganisation(locals.supabase, params.organisationId);
+		const refusal = await deleteOrganisation(locals.supabase, params.organisationId);
+		if (refusal !== null) return fail(409, { message: refusal });
 		redirect(303, '/organisations');
 	}
 } satisfies Actions;
