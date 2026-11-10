@@ -59,20 +59,14 @@ describe('copying Jewel Enterprises’ people down to each company beneath it', 
 });
 
 describe('filling a company’s blank invoicing details from its parent', () => {
-	const jewelEnterprises = {
-		name: 'Jewel Enterprises',
-		address: 'Jewel House, London',
-		accountsContact: { name: 'Jeremy Ferendinos', email: 'accounts@jewel.example', phone: '' }
-	};
-	const passiveFire = {
-		name: 'Jewel Passive Fire Protection',
-		address: '',
-		accountsContact: { ...emptyAccountsContact, name: 'Stuart Barrance' }
-	};
+	const jewelAccountsContact = { name: 'Jeremy Ferendinos', email: 'accounts@jewel.example', phone: '' };
+	const passiveFireAccountsContact = { ...emptyAccountsContact, name: 'Stuart Barrance' };
+	const jewelEnterprises = { name: 'Jewel Enterprises', address: 'Jewel House, London', accountsContact: jewelAccountsContact };
+	const passiveFire = { name: 'Jewel Passive Fire Protection', address: '', accountsContact: passiveFireAccountsContact };
 	const filled = {
 		...passiveFire,
 		address: jewelEnterprises.address,
-		accountsContact: { ...passiveFire.accountsContact, email: jewelEnterprises.accountsContact.email }
+		accountsContact: { ...passiveFireAccountsContact, email: jewelAccountsContact.email }
 	};
 
 	it('invoices the company exactly as before, with or without its parent', () => {
