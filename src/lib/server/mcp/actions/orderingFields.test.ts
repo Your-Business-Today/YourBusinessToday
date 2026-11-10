@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { readBesidePlacement, readMoveDirection } from './orderingFields';
+import { readBesidePlacement, readMoveDirection, readShouldJoinTargetGoal } from './orderingFields';
 
 describe('readMoveDirection', () => {
 	it('accepts up and down and nothing else', () => {
@@ -16,5 +16,14 @@ describe('readBesidePlacement', () => {
 		expect(readBesidePlacement({ placement: 'after' })).toBe('after');
 		expect(readBesidePlacement({ placement: 'inside' })).toBeNull();
 		expect(readBesidePlacement({})).toBeNull();
+	});
+});
+
+describe('readShouldJoinTargetGoal', () => {
+	it('keeps the goal when left out, and takes only true or false', () => {
+		expect(readShouldJoinTargetGoal({})).toBe(false);
+		expect(readShouldJoinTargetGoal({ shouldJoinTargetGoal: true })).toBe(true);
+		expect(readShouldJoinTargetGoal({ shouldJoinTargetGoal: false })).toBe(false);
+		expect(readShouldJoinTargetGoal({ shouldJoinTargetGoal: 'yes' })).toBeNull();
 	});
 });
