@@ -7,6 +7,7 @@ import { clientContinuityCopyActions } from './clientContinuityCopyActions';
 import { clientProjectActions } from './clientProjectActions';
 import { clientRegisterActions } from './clientRegisterActions';
 import { clientSetUpActions } from './clientSetUpActions';
+import { clientRemovalActions } from './clientRemovalActions';
 import type { McpAction } from '../actionTypes';
 
 export const clientActions: McpAction[] = [
@@ -18,5 +19,6 @@ export const clientActions: McpAction[] = [
 	...clientSetUpActions,
 	...personResearchActions,
 	...personApproachActions,
-	...clientProjectActions
+	...clientProjectActions,
+	...clientRemovalActions
 ];
