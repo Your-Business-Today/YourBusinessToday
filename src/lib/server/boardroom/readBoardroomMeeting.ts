@@ -5,6 +5,7 @@ import { getDirectorsOfOrganisation } from './getDirectorsOfOrganisation';
 import { getKeptPapersOfMeeting } from './getBoardroomPapers';
 import { getRecordPapersOfMeeting } from './getBoardroomRecordPapers';
 import { getMeetingBriefing } from './getBoardroomBriefs';
+import { getRoomOfMeeting } from './getBoardroomRoom';
 import { isUuid } from '$lib/data/isUuid';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
 import {
@@ -15,7 +16,7 @@ import {
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 import type { MeetingCaller } from './callBoardroomMeeting';
 
-/** One meeting of an organisation's board with its board, agenda and papers, or null when it has none with that id. */
+/** One meeting of an organisation's board with its board, agenda, papers and room, or null when it has none with that id. */
 export async function getMeetingRecord(
 	supabase: SupabaseClient,
 	organisationId: string,
@@ -24,13 +25,14 @@ export async function getMeetingRecord(
 	if (!isUuid(meetingId)) return null;
 	const meeting = await getBoardroomMeeting(supabase, organisationId, meetingId);
 	if (meeting === null) return null;
-	const [directors, items, papers, recordPapers] = await Promise.all([
+	const [directors, items, papers, recordPapers, room] = await Promise.all([
 		getDirectorsOfOrganisation(supabase, organisationId),
 		getAgendaItemsOfMeetings(supabase, [meeting.id]),
 		getKeptPapersOfMeeting(supabase, meeting.id),
-		getRecordPapersOfMeeting(supabase, meeting.id)
+		getRecordPapersOfMeeting(supabase, meeting.id),
+		getRoomOfMeeting(supabase, meeting.id)
 	]);
-	return { meeting, directors, items, papers, recordPapers };
+	return { meeting, directors, items, papers, recordPapers, room };
 }
 
 /** One meeting as its reader sees it: the record, with their own briefs and only whose others are in. */
