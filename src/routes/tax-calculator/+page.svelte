@@ -5,6 +5,7 @@
 	import BiggerPictureSection from '$lib/components/taxCalculator/BiggerPictureSection.svelte';
 	import CalculatorHero from '$lib/components/taxCalculator/CalculatorHero.svelte';
 	import CalculatorSubNavigation from '$lib/components/taxCalculator/CalculatorSubNavigation.svelte';
+	import DeadlinesEmailCard from '$lib/components/taxCalculator/DeadlinesEmailCard.svelte';
 	import ClosingStrip from '$lib/components/taxCalculator/ClosingStrip.svelte';
 	import ComparisonsSection from '$lib/components/taxCalculator/ComparisonsSection.svelte';
 	import EarningsForm from '$lib/components/taxCalculator/EarningsForm.svelte';
@@ -57,6 +58,7 @@
 		<BiggerPictureSection {estimate} bind:extraIncome={page.extraIncome} bind:livingCosts={page.livingCosts} />
 		<EveryPoundSection {estimate} period={page.period} tradingRouteChoices={form.tradingRoutes} />
 		{#if bill}<SelfAssessmentSection stepNumber={4} {estimate} {bill} />{/if}
+		<div class="grid gap-5 md:grid-cols-2"><DeadlinesEmailCard {estimate} /></div>
 	{/if}
 	<ComparisonsSection
 		stepNumber={laterStepNumber}
