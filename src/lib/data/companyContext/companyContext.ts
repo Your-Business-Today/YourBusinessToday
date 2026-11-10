@@ -21,6 +21,9 @@ export type Confidence = (typeof confidenceLevels)[number];
 export type ReviewState = (typeof reviewStates)[keyof typeof reviewStates];
 export type ContextLinkKind = (typeof contextLinkKinds)[number];
 
+/** The confidence Claude records when it is unsure, so the client is asked about the part. */
+export const lowConfidence: Confidence = 'low';
+
 export const contextStages = consultancyOfferSteps.map((step) => step.id);
 
 /** Where Claude saw a part: the connector and the place in it, never what it read there. */

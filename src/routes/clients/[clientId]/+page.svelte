@@ -37,7 +37,10 @@
 	<section class="flex flex-col gap-4">
 		<div class="flex items-center justify-between gap-4">
 			<h2 class="font-display text-xl">Company profile</h2>
-			<a href={researchAgainHref} class={quietButtonClasses}>Ask your Claude to research</a>
+			<div class="flex flex-wrap gap-2">
+				<a href={`/clients/${client.id}/context`} class={quietButtonClasses}>Company context map</a>
+				<a href={researchAgainHref} class={quietButtonClasses}>Ask your Claude to research</a>
+			</div>
 		</div>
 		<CompanyJobAdverts company={{ name: client.name, place: client.address, clientId: client.id }} adverts={data.jobAdverts} />
 		<CompanyProfileForm {client} />
