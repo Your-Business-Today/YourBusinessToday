@@ -2,20 +2,14 @@ import { readLatestCompanyContext } from '$lib/server/companyContext/readLatestC
 import { recordCompanyContext } from '$lib/server/companyContext/recordCompanyContext';
 import { validateCompanyContext } from '$lib/server/companyContext/validateCompanyContext';
 import { isRefused } from '$lib/server/companyContext/contextText';
-import { validateRecordId } from '$lib/data/isUuid';
-import { noSuchOrganisation, reachableOrganisation } from '../organisationAccess';
-import { objectSchema, readText } from '../actionTypes';
+import { objectSchema } from '../actionTypes';
 import { companyContextFields } from './companyContextFields';
+import { contextOrganisation } from './contextOrganisation';
+import { conceptsNotSpecimens } from '$lib/data/companyContext/companyContextWords';
 import { describeCompanyContext, noCompanyContextYet } from './describeCompanyContext';
 import { organisationIdField } from './organisationDetailsFields';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
-import type { Organisation } from '$lib/server/organisations/organisationRecord';
-
-const conceptsNotSpecimens =
-	'Record concepts, not specimens: an area, a source, a kind of record, a process or a role, never a named ' +
-	'customer, an employee or their figures. Where a part was seen names the connector and the place, never ' +
-	'what it held. An email address or a phone number anywhere is refused.';
 
 export const companyContextActions: McpAction[] = [
 	{
@@ -69,12 +63,4 @@ async function readContext(caller: McpCaller, input: Record<string, unknown>): P
 	const context = await readLatestCompanyContext(caller.supabase, organisation.id);
 	if (context === null) return noCompanyContextYet(organisation.name);
 	return describeCompanyContext(organisation.name, context);
-}
-
-async function contextOrganisation(caller: McpCaller, input: Record<string, unknown>): Promise<Organisation | string> {
-	const organisationId = readText(input, 'organisationId');
-	const refusal = validateRecordId('organisationId', organisationId);
-	if (refusal !== null) return refusal;
-	const organisation = await reachableOrganisation(caller, organisationId);
-	return organisation ?? noSuchOrganisation;
 }

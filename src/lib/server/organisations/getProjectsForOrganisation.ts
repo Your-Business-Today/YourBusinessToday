@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseProjectStatus, type ProjectStatus } from '$lib/data/projectStatus';
 
-/** A project as an organisation lists it: under which of its businesses, and how far along. */
+/** A project as an organisation lists it: under which organisation, and how far along. */
 export type OrganisationProject = {
 	id: string;
 	name: string;
@@ -11,7 +11,7 @@ export type OrganisationProject = {
 	organisationName: string;
 };
 
-/** The projects under an organisation and its sub-organisations — or, with no organisation named, under every one the caller reaches. */
+/** The projects under one organisation — or, with no organisation named, under every one the caller reaches. */
 export async function getProjectsForOrganisation(
 	supabase: SupabaseClient,
 	organisationId: string | null

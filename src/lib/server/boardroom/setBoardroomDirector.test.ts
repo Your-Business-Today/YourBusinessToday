@@ -23,7 +23,7 @@ vi.mock('./standDownBoardroomDirector', () => ({
 }));
 
 const supabase = {} as never;
-const ybt = { id: 'ybt', parentOrganisationId: null, name: 'Your Business Today' } as never;
+const ybt = { id: 'ybt', name: 'Your Business Today' } as never;
 const jeremysSeat: BoardroomDirector = {
 	id: 'seat',
 	organisationId: 'ybt',

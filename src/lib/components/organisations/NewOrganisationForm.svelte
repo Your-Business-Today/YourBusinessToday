@@ -7,27 +7,17 @@
 	import { emptyAccountsContact } from '$lib/data/organisationRules';
 	import { organisationSubmitClasses } from './organisationFormStyles';
 
-	let {
-		action,
-		parentName = null,
-		onCreated
-	}: { action: string; parentName?: string | null; onCreated: () => void } = $props();
+	let { action, onCreated }: { action: string; onCreated: () => void } = $props();
 
 	const tracker = new FormTracker();
 	const blankDetails = { name: '', address: '', accountsContact: emptyAccountsContact };
-	const namePlaceholder = $derived(parentName === null ? 'The Construction Company Ltd' : `A business of ${parentName}`);
-	const submitLabel = $derived(parentName === null ? 'Create organisation' : 'Add sub-organisation');
+	const namePlaceholder = 'The Construction Company Ltd';
 </script>
 
 <form method="POST" {action} use:enhance={tracker.submit(onCreated)} class="flex flex-col gap-4">
 	<OrganisationDetailsFields details={blankDetails} {namePlaceholder} />
-	{#if parentName !== null}
-		<p class="text-xs text-chalk/50">
-			Leave blank whatever it shares with {parentName}; set only what differs, so it is invoiced on its own.
-		</p>
-	{/if}
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton isSaving={tracker.isSaving} savingLabel="Creating…" class={organisationSubmitClasses}>
-		{submitLabel}
+		Create organisation
 	</SubmitButton>
 </form>

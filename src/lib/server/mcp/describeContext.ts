@@ -1,17 +1,22 @@
 import { actionsFor, areasFor } from './actionRegistry';
 import { clientContactsOf } from './clientContactAccess';
+import { contextRunLine } from './contextRunLine';
 import { countOf } from '$lib/data/countOf';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
-import { organisationNameLookup } from '$lib/data/organisationFamilies';
+import { organisationNameLookup } from '$lib/data/organisationNames';
 import { raisingDoctrine } from './raisingDoctrine';
 import { workingDoctrine } from './workingDoctrine';
 import type { McpCaller } from './resolveMcpCaller';
+import type { OrganisationMembership } from '$lib/data/organisationAccess';
 
 export async function describeContext(caller: McpCaller): Promise<string> {
+	const memberships = caller.organisationMemberships;
+	const nameOf = await organisationNamesFor(caller, memberships);
 	return [
 		`Signed in as ${caller.email}.`,
 		projectsLine(caller),
-		await organisationsLine(caller),
+		organisationsLine(memberships, nameOf),
+		contextRunLine(memberships, nameOf),
 		await clientContactLine(caller),
 		staffLine(caller),
 		`Areas you can reach: ${areasFor(caller).join(', ')}.`,
@@ -25,6 +30,15 @@ export async function describeContext(caller: McpCaller): Promise<string> {
 		.join('\n');
 }
 
+async function organisationNamesFor(
+	caller: McpCaller,
+	memberships: OrganisationMembership[]
+): Promise<(organisationId: string) => string> {
+	const isOnNoOrganisation = memberships.length === 0;
+	if (isOnNoOrganisation) return () => '';
+	return organisationNameLookup(await getOrganisations(caller.supabase));
+}
+
 function projectsLine(caller: McpCaller): string {
 	const { ownedProjectIds, memberProjectIds } = caller;
 	const owned = countOf(ownedProjectIds.length, 'project');
@@ -32,10 +46,11 @@ function projectsLine(caller: McpCaller): string {
 	return `You own ${owned} and are on the team of ${joined}. Everyone on a project works and manages it; only its owner can hand it on.`;
 }
 
-async function organisationsLine(caller: McpCaller): Promise<string | null> {
-	const memberships = caller.organisationMemberships;
+function organisationsLine(
+	memberships: OrganisationMembership[],
+	nameOf: (organisationId: string) => string
+): string | null {
 	if (memberships.length === 0) return null;
-	const nameOf = organisationNameLookup(await getOrganisations(caller.supabase));
 	const standings = memberships.map((membership) => {
 		const standing = membership.isManager ? ' (project manager)' : '';
 		return `${nameOf(membership.organisationId)}${standing}`;
