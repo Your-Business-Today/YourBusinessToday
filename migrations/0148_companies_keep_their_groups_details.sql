@@ -1,4 +1,4 @@
--- 0147: each company keeps its own people, project access and invoicing
+-- 0148: each company keeps its own people, project access and invoicing
 -- details, copied down from the organisation above it.
 --
 -- Group companies are being dropped (James, 10 Nov 2026: "we invoice by

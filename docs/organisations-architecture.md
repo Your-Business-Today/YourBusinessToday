@@ -96,10 +96,10 @@ Passive Fire projects, and being refused everywhere else. `organisationInvoicing
 and the projects filter. The database side — the policies, the functions, the seed — is proved by
 hand once the migration has run, against the checklist on the task.
 
-## Each company keeps its parent's details (migration `0147`)
+## Each company keeps its parent's details (migration `0148`)
 
 Group companies are being dropped: James, 10 Nov 2026, "we invoice by customer". Before anything
-stops reading `parent_organisation_id`, migration `0147` copies down to each company the three
+stops reading `parent_organisation_id`, migration `0148` copies down to each company the three
 things that were read through it, so no person, project access or invoicing detail is lost when the
 link is no longer read:
 
