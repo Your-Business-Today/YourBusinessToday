@@ -13,6 +13,7 @@ The `run migrations` workflow (`.github/workflows/run-migrations.yml`, calling `
 - **The connection is the repository secret `SUPABASE_DB_URL`** (the Session pooler string). When a push adds a migration and the secret is not set, the workflow fails and says so, so nobody takes it for run. A push with no migration passes whether or not the secret is set.
 - **No one is at the keyboard when a migration runs, so it protects the data already there.** Additive (`create table if not exists`, `add column if not exists`), safe to run twice, never dropping or rewriting a table, column or row that holds data in use. The database backups are the safety net, not the plan.
 - **A green run is the record that a migration ran.** There is no list to confirm it on; a red run is the one thing to act on.
+- **A migration that would take away data is refused before it merges.** *Run test suite* reads every migration file a pull request adds (`scripts/migrations/check-added-migrations.mjs`, rules in `src/lib/server/migrations/`) and fails when one drops or renames a table or a column, empties a table, deletes rows, or drops a type or domain with cascade, naming the file, the line and the statement. Statements inside a `do` block count; a function's body does not, since defining it runs nothing. The answer is a new table or column beside the old one with the rows copied in, never moved. Files already merged are never read again.
 
 ## The site stands before its migration runs
 
@@ -20,7 +21,7 @@ A pull request merges by itself when CI passes; Vercel deploys main and the run 
 
 - **Every reader of the new schema on a path every request runs** — a layout load, a hook, the connector's account standing — answers empty when the schema is not there yet: `if (isSchemaNotYetMigrated(error)) return <empty>;` before the `throw`, from `$lib/server/schema/schemaNotYetMigrated`. Readers behind a page of their own may fail until the migration runs; the connector already tells the caller a migration is missing.
 - **Writes are not guarded.** A write to a table that does not exist yet fails and says so; it is never quietly dropped.
-- **A migration that drops or renames something live code reads ships in two pull requests:** the first stops reading it, the second changes the schema once the first is deployed.
+- **Nothing live code reads is dropped or renamed.** A rename is a new table or column beside the old one, with the rows copied in and the code moved over to it; the old one stays where it is, unread, because CI refuses a migration that drops or renames it.
 
 ## A project's staging branch deploys at its window
 
