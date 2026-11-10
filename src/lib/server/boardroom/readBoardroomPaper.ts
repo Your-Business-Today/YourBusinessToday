@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { boardroomPapersBucket } from './boardroomPaperStorage';
+import { signFetchLink } from '$lib/server/storage/signFetchLink';
 import { getBoardroomPaper } from './getBoardroomPapers';
 import { getDirectorsOfOrganisation } from './getDirectorsOfOrganisation';
 import { boardPaperRefusals } from '$lib/data/boardroomPaperRules';
@@ -7,20 +8,8 @@ import { describeNotePaper, filePaperLink } from '$lib/data/describeBoardroomPap
 import { isFilePaper, isKept, type BoardroomFilePaper } from '$lib/data/boardroomPaper';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
-/** A signed link lasts ten minutes: long enough for a Claude to fetch the file, too short to pass around. */
-export const paperLinkLifetimeSeconds = 10 * 60;
-
-async function signPaperLink(supabase: SupabaseClient, paper: BoardroomFilePaper): Promise<string> {
-	const options = { download: paper.filename };
-	const { data, error } = await supabase.storage
-		.from(boardroomPapersBucket)
-		.createSignedUrl(paper.storagePath, paperLinkLifetimeSeconds, options);
-	if (error !== null) throw error;
-	return data.signedUrl;
-}
-
 async function readFilePaper(supabase: SupabaseClient, paper: BoardroomFilePaper): Promise<string> {
-	const link = await signPaperLink(supabase, paper);
+	const link = await signFetchLink(supabase, boardroomPapersBucket, paper);
 	return filePaperLink(paper, link);
 }
 

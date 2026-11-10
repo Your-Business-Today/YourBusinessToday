@@ -1,6 +1,17 @@
 import { businessBrainFileRecordings, recordBusinessBrainFile } from '$lib/server/businessBrain/recordBusinessBrainFile';
-import { fileAlreadyRecorded, fileNotArrived, fileRecorded, linkLapsedUnused, noSuchBusinessBrainFile, uploadGranted } from './businessBrainFileAnswers';
-import { findSentFile } from '$lib/server/businessBrain/findBusinessBrainFiles';
+import {
+	fileAlreadyRecorded,
+	fileNotArrived,
+	fileRecorded,
+	keptFileOpened,
+	linkLapsedUnused,
+	noSuchBusinessBrainFile,
+	noSuchKeptFile,
+	uploadGranted
+} from './businessBrainFileAnswers';
+import { findKeptFile, findSentFile } from '$lib/server/businessBrain/findBusinessBrainFiles';
+import { businessBrainFilesBucket } from '$lib/server/businessBrain/businessBrainFileStorage';
+import { signFetchLink } from '$lib/server/storage/signFetchLink';
 import { grantBusinessBrainFileUpload } from '$lib/server/businessBrain/grantBusinessBrainFileUpload';
 import { readText } from '../actionTypes';
 import { validateBusinessBrainFile } from '$lib/data/businessBrainFileRules';
@@ -30,4 +41,15 @@ export async function recordFileUpload(caller: McpCaller, input: Record<string, 
 	if (recording.status === businessBrainFileRecordings.notArrived) return fileNotArrived;
 	if (recording.status === businessBrainFileRecordings.lapsed) return linkLapsedUnused;
 	return fileAlreadyRecorded(file);
+}
+
+/** A short-lived link to fetch one file the organisation's brain keeps; a file still awaited is not opened. */
+export async function openKeptFile(caller: McpCaller, input: Record<string, unknown>, organisation: Organisation): Promise<string> {
+	const fileId = readText(input, 'fileId');
+	const idRefusal = validateRecordId('fileId', fileId);
+	if (idRefusal !== null) return idRefusal;
+	const file = await findKeptFile(caller.supabase, organisation.id, fileId);
+	if (file === null) return noSuchKeptFile;
+	const link = await signFetchLink(caller.supabase, businessBrainFilesBucket, file);
+	return keptFileOpened(organisation, file, link);
 }
