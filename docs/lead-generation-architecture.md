@@ -272,6 +272,14 @@ does about what they are building and what they might want automated.
   `read_person`, searches the web itself, shows what it found and saves it with
   `save_person_research`. Saving adds the links the person does not have yet and writes
   the summary as a note of kind `research`, with the roles and sources beneath it.
+- `/people/[personId]` and each person card on `/clients/[clientId]` — Draft approach
+  becomes Ask your Claude to draft the approach. Since 10 Nov 2026 YBT calls no model for
+  it either: the modal gives the words to paste, the staff member's Claude reads the
+  person with `read_person` (which now gives their seniority, warmth, last contact, next
+  action and our standing with each company, as the old brief did), writes the opening
+  message and call plan under the old prompt's rules (carried as the action's guidance),
+  shows it for editing and saves it with `save_person_approach`. Saving adds a note of
+  kind `approach` laid out as before and records `approach_drafted` on each company.
 - `/clients` and `/clients/prospect` gain a Map an area link; the company profile on
   `/clients/[clientId]` gains a postcode field.
 
@@ -281,6 +289,7 @@ does about what they are building and what they might want automated.
 /clients ──▶ /clients/map ──(add)──▶ /clients/[clientId]
 /clients/prospect ──▶ /clients/map
 /people/[personId] ──(Ask your Claude to research)──▶ the words to paste ──▶ the staff member's Claude ──(save_person_research)──▶ /people/[personId]
+/people/[personId] ──(Ask your Claude to draft the approach)──▶ the words to paste ──▶ the staff member's Claude ──(save_person_approach)──▶ /people/[personId]
 ```
 
 ### The entities
@@ -306,6 +315,7 @@ not saved is gone when the modal closes.
 | --- | --- |
 | `addProspectAsLead`, `importCompanyOfficers` | unchanged; the map posts to the same actions as the prospect table, now carrying the postcode |
 | `save_person_research` (connector) | the staff member's Claude sends its findings, each value checked and refused if it does not fit; new links become person links, the summary, roles and sources become a research note, and `person_researched` is recorded on each company |
+| `save_person_approach` (connector) | the staff member's Claude sends the approach it drafted, the opening message and call plan each checked against its limit and refused if it does not fit; it becomes an `approach` note and `approach_drafted` is recorded on each company. It replaces `draftApproach`, which called Anthropic |
 
 | Query | Story it serves |
 | --- | --- |

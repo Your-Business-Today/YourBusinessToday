@@ -47,7 +47,7 @@ export const personResearchActions: McpAction[] = [
 		area: 'clients',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'one person on the People register in full: their links, notes and every company they sit on, with its profile',
+		summary: 'one person on the People register in full: their standing with us, links, notes and research, and every company they sit on, with its profile',
 		guidance: readPersonGuidance,
 		inputSchema: objectSchema({ personId: personIdField }, ['personId']),
 		run: async (caller, input) => readPersonInFull(caller, readText(input, 'personId'))
