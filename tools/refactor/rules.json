@@ -330,6 +330,7 @@
       "src/lib/server/mcp/actions/dataInventoryActions.ts",
       "src/lib/server/mcp/actions/storyFields.ts",
       "src/lib/server/mcp/actions/businessBrainSchemas.ts",
+      "src/lib/server/mcp/actions/businessBrainChatbotSchemas.ts",
       "src/lib/server/mcp/actions/companyContextFields.ts",
       "src/lib/server/mcp/actions/booksFields.ts",
       "src/lib/server/mcp/actions/clientDetailActions.ts",
