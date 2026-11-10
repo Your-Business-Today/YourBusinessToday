@@ -66,8 +66,9 @@ The books live in their own house, Your Books Today.
 - The MCP server at `/api/mcp` is the same product as the site: OAuth sign-in from the
   Connect button, every action gated by the caller's standing on each project;
   [docs/mcp-architecture.md](./docs/mcp-architecture.md) is the design.
-- Admins (`/admin`) can set the site model — the Claude model behind every agent reply —
-  restrict accounts, and delete accounts. The first admin is bootstrapped by email on signup.
+- Admins (`/admin`) can set the models that build each task, restrict accounts, and delete
+  accounts. The site calls no AI model itself: every piece of AI work runs in the signed-in
+  person's own Claude through the MCP server. The first admin is bootstrapped by email on signup.
 
 The product this consultancy sells and implements — Knowledge Bases, the brains inside
 them, chatbots, the marketplace and the hive mind — lives separately in
@@ -85,8 +86,7 @@ npm run dev
 | --- | --- |
 | `PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable API key |
-| `ANTHROPIC_API_KEY` | Claude API key — company and person research, and drafted approaches |
-| `SUPABASE_SECRET_KEY` | Supabase secret key — used by the MCP server, to read the site model, and to sign upload links |
+| `SUPABASE_SECRET_KEY` | Supabase secret key — used by the MCP server and to sign upload links |
 | `COMPANIES_HOUSE_API_KEY` | Companies House company and officer search |
 | `RESEND_API_KEY` / `EMAIL_FROM` | Resend API key and sender address for transactional email |
 | `ENQUIRY_NOTIFICATION_EMAIL` | Where website enquiries from `/contact` are sent |

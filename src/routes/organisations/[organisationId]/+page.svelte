@@ -2,6 +2,7 @@
 	import DangerConfirmModal from '$lib/components/site/DangerConfirmModal.svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import InvoicingDetailsPanel from '$lib/components/organisations/InvoicingDetailsPanel.svelte';
+	import OrganisationDirectorsPanel from '$lib/components/organisations/OrganisationDirectorsPanel.svelte';
 	import OrganisationModulesPanel from '$lib/components/organisations/OrganisationModulesPanel.svelte';
 	import OrganisationPeoplePanel from '$lib/components/organisations/OrganisationPeoplePanel.svelte';
 	import OrganisationProjectsPanel from '$lib/components/organisations/OrganisationProjectsPanel.svelte';
@@ -41,6 +42,9 @@
 			<OrganisationPeoplePanel {organisation} members={data.members} canManage={data.canManage} />
 			<InvoicingDetailsPanel {organisation} canManage={data.canManage} />
 			<OrganisationModulesPanel modules={data.modules} canSwitch={data.isStaff} />
+			{#if data.modules.includes('boardroom')}
+				<OrganisationDirectorsPanel directors={data.directors} members={data.members} canName={data.isStaff} />
+			{/if}
 		</aside>
 	</div>
 </div>

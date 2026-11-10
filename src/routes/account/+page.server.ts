@@ -1,13 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { defaultSiteModel } from '$lib/data/siteModels';
 import { displayNameMaxLength } from '$lib/data/displayNameRules';
-import { getAdminPinnedModel } from '$lib/server/anthropic/getAdminPinnedModel';
-import { getSiteModel } from '$lib/server/anthropic/getSiteModel';
-import {
-	getUserModelPreference,
-	saveUserModelPreference
-} from '$lib/server/anthropic/userModelPreference';
-import { validateModelPreference } from '$lib/data/validateModelPreference';
 import { getDisplayName } from '$lib/server/auth/getDisplayName';
 import { requireUser } from '$lib/server/auth/requireUser';
 import { saveDisplayName } from '$lib/server/auth/saveDisplayName';
@@ -16,30 +8,11 @@ import type { Actions, PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ locals }) => {
 	await requireUser(locals);
 	return {
-		modelId: (await getUserModelPreference(locals.supabase)) ?? (await siteModelOrDefault()),
-		adminPinnedModel: await getAdminPinnedModel(locals.supabase),
 		displayName: await getDisplayName(locals.supabase)
 	};
 };
 
-async function siteModelOrDefault(): Promise<string> {
-	try {
-		return await getSiteModel();
-	} catch {
-		return defaultSiteModel;
-	}
-}
-
 export const actions: Actions = {
-	saveModel: async ({ locals, request }) => {
-		const user = await requireUser(locals);
-		const formData = await request.formData();
-		const modelId = String(formData.get('modelId') ?? '');
-		const modelRefusal = validateModelPreference(modelId);
-		if (modelRefusal !== null) return fail(400, { message: modelRefusal });
-		await saveUserModelPreference(locals.supabase, user.id, modelId);
-		return { message: 'Model saved.' };
-	},
 	signOut: async ({ locals }) => {
 		const { auth } = locals.supabase;
 		await auth.signOut();
