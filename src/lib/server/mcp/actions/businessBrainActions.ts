@@ -13,6 +13,7 @@ import {
 	searchBusinessBrainSchema
 } from './businessBrainSchemas';
 import { fileNewPage, fileRevision } from './businessBrainFilingRuns';
+import { businessBrainFileActions } from './businessBrainFileActions';
 import { readIndex, readPage, searchBrain } from './businessBrainReadingRuns';
 import { moduleAction } from '../organisationModuleGate';
 import type { McpAction } from '../actionTypes';
@@ -69,5 +70,6 @@ export const businessBrainActions: McpAction[] = [
 		guidance: readBusinessBrainPageGuidance,
 		inputSchema: readBusinessBrainPageSchema,
 		run: readPage
-	})
+	}),
+	...businessBrainFileActions
 ];

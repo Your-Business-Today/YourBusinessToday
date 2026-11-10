@@ -1,4 +1,5 @@
 import { businessBrainLimits, businessBrainPartKinds, businessBrainReadLimits } from '$lib/data/businessBrainRules';
+import { businessBrainFileLimits } from '$lib/data/businessBrainFileRules';
 import { objectSchema, proseField, textField } from '../actionTypes';
 
 const { longestTitle, longestSummary, longestSlug, longestKind, longestSourceTitle, longestOrigin, longestSourceSummary } =
@@ -10,7 +11,12 @@ const sourceFields = {
 	sourceTitle: textField(`What you read it in, such as "Email from Nigel, 3 Nov 2026" — at most ${longestSourceTitle} characters; leave out when giving sourceId`),
 	sourceOrigin: textField(`Where the source can be found: a web address, a file name or a mailbox — at most ${longestOrigin} characters`),
 	sourceSummary: textField(`What the source is, in a sentence — at most ${longestSourceSummary} characters`),
-	sourceId: textField('A source filed before, as an earlier filing gave it back; leave out when naming a new source')
+	sourceId: textField('A source filed before, as an earlier filing gave it back; leave out when naming a new source'),
+	sourceFileIds: {
+		type: 'array',
+		items: { type: 'string' },
+		description: `The files the page was written from, each fileId as record_business_brain_file_upload gave it back — at most ${businessBrainFileLimits.mostFilesPerPage}`
+	}
 };
 
 const pageWordFields = {
