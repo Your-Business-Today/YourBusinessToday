@@ -27,12 +27,14 @@ export const uploadPageActions: SignedUploadActions = {
 
 const unknownMimeType = 'application/octet-stream';
 
+/** Sends a file through a link the page's grant action signs; describedAs travels with the grant, such as what the file shows. */
 export async function uploadThroughSignedLink(
 	file: File,
-	actions: SignedUploadActions
+	actions: SignedUploadActions,
+	describedAs: Record<string, string> = {}
 ): Promise<AttachmentUploadOutcome> {
 	const upload = describeUpload(file);
-	const grant = await postAction(actions.grant, upload);
+	const grant = await postAction(actions.grant, { ...describedAs, ...upload });
 	if (grant.type !== actionResultTypes.success) return failureFrom(grant, 'The upload could not be started.');
 	const grantData = grant.data ?? {};
 	const storageResponse = await fetch(String(grantData.uploadUrl), {
