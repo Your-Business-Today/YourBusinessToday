@@ -33,6 +33,13 @@ const howToAnswerFromTheBrain = [
 	'Where two pages disagree, say so and name both; where a page may be out of date, give the date it was last filed.'
 ];
 
+const howToJudgeAPhotoAgainstTheBrain = [
+	'When the person gives you a photo to check against the brain, you look at it and Your Business Today never sees it: describe in words everything in it that a rule could bear on before you search, and send only those words. Never upload or file a photo you are judging.',
+	'Judge one observation at a time: search for it in the words the business would use (ladders, end of the day, put away), and read whole every page that bears on it before judging.',
+	'Give each observation one of three findings: in order, with the rule it meets; not in order, with the rule it breaks; or cannot be judged, because the photo does not show enough to tell. Name the title and page id of the page behind every finding.',
+	'Judge only against rules the brain holds. Where the brain is silent on what the photo shows, say the brain is silent on it and give no verdict, not even what is usual elsewhere; offer to file the rule once the person states it.'
+];
+
 export const readBusinessBrainIndexGuidance = [
 	whatTheBrainIs,
 	'Start here to see what the brain holds: every page by part and title, with its id. Read the pages you need with read_business_brain_page.',
@@ -43,11 +50,13 @@ export const searchBusinessBrainGuidance = [
 	whatTheBrainIs,
 	'Search the words of every page, best match first, with a few words of each around the match. An excerpt is not the page: read a page whole before answering from it.',
 	'No match means the brain holds nothing on those words: try the words the business would use, then say the brain is silent.',
-	...howToAnswerFromTheBrain
+	...howToAnswerFromTheBrain,
+	...howToJudgeAPhotoAgainstTheBrain
 ].join('\n');
 
 export const readBusinessBrainPageGuidance = [
 	whatTheBrainIs,
 	"Reads one page as it now reads: its words, facts, source, the pages it relates to and its history. Give a revisionId to read one earlier version; say so whenever you answer from one.",
-	...howToAnswerFromTheBrain
+	...howToAnswerFromTheBrain,
+	...howToJudgeAPhotoAgainstTheBrain
 ].join('\n');
