@@ -148,3 +148,36 @@ Boardroom is on.
   wraps `moduleAction`; `organisationModuleRoutes.test.ts` and `boardroomGate.test.ts` fail when one
   does not. `read_boardroom` is the first such action: a director entering sees who sits on the board,
   and who once did.
+
+## Board meetings (migration `0154`)
+
+Any sitting director calls a meeting of their organisation's board through their Claude, as the model
+articles allow any director to (article 9; a company with its own articles follows those). The
+connector's `boardroom` area carries four actions, each built by `boardroomAction`, so each asks the
+one module rule and then the director check: `call_board_meeting`, `list_board_meetings`,
+`read_board_meeting` and `change_board_agenda`.
+
+- **A meeting** (`boardroom_meetings`) has its time (`meets_at`, given as a day and a time on the UK
+  clock and refused once past), the seat in the chair (the caller's unless another sitting director is
+  named) and the seat that called it. Both seats are keyed with the organisation, so neither can be
+  another board's.
+- **Its stage is read, not stored**: called until its time comes (or `opened_at` is set), then open
+  until `closed_at` is set. `meetingStage` (`src/lib/data/boardroomMeeting.ts`) and the database's
+  `boardroom_meeting_stage` say the same. Later steps open and close a meeting; this one only calls it.
+- **The agenda** (`boardroom_agenda_items`) is numbered items, each a title and a purpose (`decision`
+  or `noting`). While the meeting is called, items are added, reworded or withdrawn; a withdrawn item
+  is dated, never deleted, and listed beneath the agenda. Once it has opened an item is only added, as
+  any other business; once it has closed nothing changes. The trigger
+  `boardroom_agenda_keeps_to_its_meeting` holds that whatever writes the row. The limits are stated
+  once in `boardroomMeetingRules.ts`, and every value is refused, never repaired.
+- **Who is on a meeting is read from the board**: the directors sitting when it meets, or sitting now
+  while it is still to come (`directorsOnMeeting`), so a director stood down later keeps their place
+  on it.
+- **Every sitting director gets a to-do** on their own list to brief their Claude, due on the day it
+  meets. A to-do on someone else's list hangs under a project task in the to-do rule (migration
+  `0136`), so these are written on the server with the service client, after the director gate
+  (`addBriefingTodos`), and the to-do rule is unchanged.
+- Nothing deletes a meeting or an agenda item, and a directorship or organisation with a meeting on
+  record cannot be deleted. `boardroomMeetingRequest.ts`, which the guidance-and-request pattern
+  predicts, is an accepted gap: nothing on the site hands a director a request to give their Claude
+  yet.

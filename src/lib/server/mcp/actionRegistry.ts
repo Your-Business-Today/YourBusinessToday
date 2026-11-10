@@ -1,5 +1,6 @@
 import { accountActions } from './actions/accountActions';
 import { areaFeedActions } from './actions/areaFeedActions';
+import { boardroomMeetingActions } from './actions/boardroomMeetingActions';
 import { claimActions } from './actions/claimActions';
 import { clientActions } from './actions/clientActions';
 import { conversationActions } from './actions/conversationActions';
@@ -41,6 +42,7 @@ const everyAction: McpAction[] = [
 	...accountActions,
 	...clientActions,
 	...organisationActions,
+	...boardroomMeetingActions,
 	...patchActions,
 	...patchCompanyActions,
 	...jobAdvertActions,
