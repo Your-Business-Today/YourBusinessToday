@@ -16,6 +16,7 @@ import {
 	noSuchRevision,
 	type BusinessBrainPageSurroundings
 } from './describeBusinessBrainPage';
+import { organisationDoor, type BusinessBrainDoor } from './businessBrainDoor';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -25,7 +26,7 @@ export async function readIndex(caller: McpCaller, input: Record<string, unknown
 	const asked = validateBusinessBrainPart(input);
 	if (typeof asked === 'string') return asked;
 	const index = await readBusinessBrainIndex(caller.supabase, organisation.id, asked.part);
-	return describeBusinessBrainIndex(organisation, index);
+	return describeBusinessBrainIndex(organisationDoor(organisation), index);
 }
 
 /** The pages that match the words, best first. */
@@ -34,7 +35,7 @@ export async function searchBrain(caller: McpCaller, input: Record<string, unkno
 	if (typeof asked === 'string') return asked;
 	const matches = await searchBusinessBrain(caller.supabase, organisation.id, asked.searchText);
 	if (matches === null) return searchNotReadyYet;
-	return describeBusinessBrainSearch(organisation, asked.searchText, matches);
+	return describeBusinessBrainSearch(organisationDoor(organisation), asked.searchText, matches);
 }
 
 /** One page with its history, or one earlier version of it when a revision is named. */
@@ -44,20 +45,28 @@ export async function readPage(caller: McpCaller, input: Record<string, unknown>
 	const { supabase } = caller;
 	const page = await readBusinessBrainPageWhole(supabase, organisation.id, asked.pageId);
 	if (page === null) return noSuchPageToRead;
+	const door = organisationDoor(organisation);
 	const { revisionId } = asked;
-	if (revisionId === null) return readCurrentPage(supabase, organisation, page);
-	const place = { organisationId: organisation.id, pageId: page.pageId };
-	const revision = await readBusinessBrainRevision(supabase, place, revisionId);
-	if (revision === null) return noSuchRevision;
-	return describeBusinessBrainRevision(organisation, page, revision);
-}
-
-async function readCurrentPage(supabase: SupabaseClient, organisation: Organisation, page: BusinessBrainPageRead): Promise<string> {
+	if (revisionId !== null) return readRevisionOfPage(supabase, door, page, { organisationId: organisation.id, revisionId });
 	const surroundings = await readSurroundings(supabase, organisation.id, page);
-	return describeBusinessBrainPage(organisation, page, surroundings);
+	return describeBusinessBrainPage(door, page, surroundings);
 }
 
-async function readSurroundings(
+/** One earlier version of the page, or a plain word that its history holds none by that id. */
+export async function readRevisionOfPage(
+	supabase: SupabaseClient,
+	door: BusinessBrainDoor,
+	page: BusinessBrainPageRead,
+	asked: { organisationId: string; revisionId: number }
+): Promise<string> {
+	const place = { organisationId: asked.organisationId, pageId: page.pageId };
+	const revision = await readBusinessBrainRevision(supabase, place, asked.revisionId);
+	if (revision === null) return noSuchRevision;
+	return describeBusinessBrainRevision(door, page, revision);
+}
+
+/** What a page is read with: the page it sits under, the pages linked to and from it, and its history. */
+export async function readSurroundings(
 	supabase: SupabaseClient,
 	organisationId: string,
 	page: BusinessBrainPageRead

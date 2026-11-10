@@ -64,29 +64,26 @@ export const fileBusinessBrainRevisionSchema = objectSchema(
 
 const { longestSearch } = businessBrainReadLimits;
 
-export const readBusinessBrainIndexSchema = objectSchema(
-	{
-		organisationId: organisationField,
-		part: { type: 'string', enum: [...businessBrainPartKinds], description: 'One part of the business to list; leave out for the whole brain' }
-	},
-	['organisationId']
+/** The fields a reading of Your Business Brain takes, the same whether the brain is read whole or through a chatbot. */
+export const partToListField = {
+	type: 'string',
+	enum: [...businessBrainPartKinds],
+	description: 'One part of the business to list; leave out for all of it'
+};
+
+export const searchField = textField(
+	`The words to look for, at most ${longestSearch} characters: "a phrase in quotes" must appear as it is, -word leaves pages with it out, OR finds either`
 );
 
-export const searchBusinessBrainSchema = objectSchema(
-	{
-		organisationId: organisationField,
-		search: textField(
-			`The words to look for, at most ${longestSearch} characters: "a phrase in quotes" must appear as it is, -word leaves pages with it out, OR finds either`
-		)
-	},
-	['organisationId', 'search']
-);
+export const pageToReadField = textField('The page, as the index, a search or filing gave it');
+
+export const revisionToReadField = textField('One earlier version of the page, as its history lists it; leave out for the page as it now reads');
+
+export const readBusinessBrainIndexSchema = objectSchema({ organisationId: organisationField, part: partToListField }, ['organisationId']);
+
+export const searchBusinessBrainSchema = objectSchema({ organisationId: organisationField, search: searchField }, ['organisationId', 'search']);
 
 export const readBusinessBrainPageSchema = objectSchema(
-	{
-		organisationId: organisationField,
-		pageId: textField('The page, as the index, a search or filing gave it'),
-		revisionId: textField("One earlier version of the page, as its history lists it; leave out for the page as it now reads")
-	},
+	{ organisationId: organisationField, pageId: pageToReadField, revisionId: revisionToReadField },
 	['organisationId', 'pageId']
 );

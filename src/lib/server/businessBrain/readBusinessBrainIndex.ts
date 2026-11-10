@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { businessBrainReadLimits, type BusinessBrainPartKind } from '$lib/data/businessBrainRules';
+import { businessBrainPartKinds, businessBrainReadLimits, type BusinessBrainPartKind } from '$lib/data/businessBrainRules';
 
 /** One page as the index lists it: enough to choose which pages to read. */
 export type BusinessBrainIndexEntry = {
@@ -23,8 +23,18 @@ export async function readBusinessBrainIndex(
 	organisationId: string,
 	part: BusinessBrainPartKind | null
 ): Promise<BusinessBrainIndex> {
+	const parts = part === null ? [...businessBrainPartKinds] : [part];
+	return readBrainIndexOfParts(supabase, organisationId, parts);
+}
+
+/** The index of the parts named of the organisation's brain, as a chatbot that reads only those parts lists it. */
+export async function readBrainIndexOfParts(
+	supabase: SupabaseClient,
+	organisationId: string,
+	parts: BusinessBrainPartKind[]
+): Promise<BusinessBrainIndex> {
 	const partKinds = await readPartKinds(supabase, organisationId);
-	const partIds = [...partKinds.keys()].filter((partId) => part === null || partKinds.get(partId) === part);
+	const partIds = [...partKinds.keys()].filter((partId) => parts.includes(partKinds.get(partId) as BusinessBrainPartKind));
 	if (partIds.length === 0) return { entries: [], pageCount: 0 };
 	const { data, error, count } = await supabase
 		.from('business_brain_pages')
