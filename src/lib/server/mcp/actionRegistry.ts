@@ -28,7 +28,7 @@ import { summaryActions } from './actions/summaryActions';
 import { projectStateActions } from './actions/projectStateActions';
 import { nextTurnActions } from './actions/nextTurnActions';
 import { answerTurnActions } from './actions/answerTurnActions';
-import { brandKitReadActions } from './actions/brandKitReadActions';
+import { brandKitActions } from './actions/brandKitActions';
 import { linkPersonActions } from './actions/linkPersonActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
@@ -43,7 +43,7 @@ const everyAction: McpAction[] = [
 	...accountActions,
 	...clientActions,
 	...organisationActions,
-	...brandKitReadActions,
+	...brandKitActions,
 	...businessBrainActions,
 	...patchActions,
 	...patchCompanyActions,
