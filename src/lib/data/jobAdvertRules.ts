@@ -7,7 +7,7 @@ export type CompanyJobAdvertsFound = { clientId: string; adverts: JobAdvertFound
 /** One advert kept on a client: matchedRole names the role we replace or amplify, when it is one. */
 export type JobAdvert = JobAdvertFound & { foundAt: string; matchedRole: string | null };
 
-/** The limits on what may be kept of an advert, stated once and mirrored by migration 0151. */
+/** The limits on what may be kept of an advert, stated once and mirrored by migration 0152. */
 export const jobAdvertLimits = {
 	mostAdverts: 30,
 	longestTitle: 200,

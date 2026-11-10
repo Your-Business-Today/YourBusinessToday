@@ -1,4 +1,4 @@
--- 0151: a company's job adverts are kept on its client record.
+-- 0152: a company's job adverts are kept on its client record.
 --
 -- Until now the job adverts panel and read_company_job_adverts searched the job
 -- boards through Anthropic with YBT's own key, and nothing was kept: each look
