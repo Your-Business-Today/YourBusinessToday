@@ -210,7 +210,7 @@ Boardroom is on.
   does not. `read_boardroom` is the first such action: a director entering sees who sits on the board,
   and who once did.
 
-## Board meetings (migration `0158`)
+## Board meetings (migration `0159`)
 
 Any sitting director calls a meeting of their organisation's board through their Claude, as the model
 articles allow any director to (article 9; a company with its own articles follows those). The
