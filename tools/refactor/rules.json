@@ -326,6 +326,7 @@
       "src/lib/server/mcp/actions/dataInventoryActions.ts",
       "src/lib/server/mcp/actions/storyFields.ts",
       "src/lib/server/mcp/actions/businessBrainSchemas.ts",
+      "src/lib/server/mcp/actions/companyContextFields.ts",
       "src/lib/server/mcp/actions/clientDetailActions.ts",
       "src/lib/server/mcp/actions/describeInbox.ts",
       "src/routes/projects/kit-versions/+page.server.ts"

@@ -126,3 +126,45 @@ link runs it once more first, for anyone put on a parent in between. Nobody is e
 down to its companies leave everyone on the same projects, with each grant marked as the migration
 marks it, and still on them once the grouping is no longer read; a filled company is invoiced as
 before, with or without its parent.
+
+## The company context
+
+Each organisation has one company context: what its client's Claude has worked out about the business
+(its areas, the sources where work is created, the kinds of record it keeps, its processes with their
+steps, and its roles, with the links between them), which connectors the client has switched on in
+Claude, and the step of the offer (`consultancyOffer.ts`) the client is on. Each part carries where it
+was seen (the connector and the place, never the content), how sure Claude is, and its review state:
+not checked, right, or not right with what is wrong.
+
+- **Kept as versions.** Migration 0154 adds `company_context_versions` and the parts, steps, links and
+  connectors of each. `record_company_context` writes a whole new version, numbered from 1 for each
+  organisation, in one transaction through the database function of the same name; no version is ever
+  changed or deleted. Parts keep their keys from one version to the next, so a part's review travels with it.
+- **Read by the people on the organisation.** The connector's `record_company_context` and
+  `read_company_context` work for anyone who reaches the organisation (its people, or staff); the tables
+  are read and written by the server only.
+- **Concepts, not specimens.** Every value is checked against its column (`companyContextLimits.ts`
+  states the limits the migration holds, and a test keeps the two together) and refused, never cut, and
+  an email address or a phone number anywhere is refused.
+
+## Directors, and who enters the boardroom (migration `0153`)
+
+An administrator names an organisation's directors from the people on the organisation itself, on
+the organisation's page (the Directors panel, shown once Boardroom is switched on) or through the
+connector's `set_organisation_director`. `read_organisation` lists the sitting directors when
+Boardroom is on.
+
+- **One row per directorship** in `boardroom_directors`, with the organisation it belongs to and the
+  director's name as it was when named. Standing a director down dates the row (`stood_down_at`);
+  nothing deletes one, so a stood-down director keeps their name on every meeting they took part in.
+  A trigger refuses any other change to a row, and an organisation holding a board record cannot be
+  deleted (the refusal is shown on its page).
+- **Who enters** is `canEnterBoardroom` (`src/lib/data/boardroomAccess.ts`), and in the database
+  `is_boardroom_director`, which every later `boardroom_…` table's row-level security asks: the one
+  module rule first, then a sitting director who is on the organisation itself. Naming the directors
+  does not let an administrator in, and being on the organisation above does not either.
+- **No page or action skips it.** A Boardroom page sits under a layout calling
+  `requireBoardroomDirector`, and a Boardroom connector action is built by `boardroomAction`, which
+  wraps `moduleAction`; `organisationModuleRoutes.test.ts` and `boardroomGate.test.ts` fail when one
+  does not. `read_boardroom` is the first such action: a director entering sees who sits on the board,
+  and who once did.
