@@ -211,6 +211,7 @@
       "src/lib/server/projects/updateTaskTask.ts",
       "src/lib/server/projects/updateTaskActions.ts",
       "src/lib/server/projects/updateTaskRecord.ts",
+      "src/lib/server/mcp/actions/boardroomMeetingRequest.ts",
       "src/routes/+page.server.ts",
       "src/routes/about/+page.server.ts",
       "src/routes/case-study/+page.server.ts",
