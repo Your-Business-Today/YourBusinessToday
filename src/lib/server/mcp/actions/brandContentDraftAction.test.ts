@@ -24,7 +24,7 @@ vi.mock('$lib/server/brandContent/keepContentPiece', () => ({
 	keepContentPiece: async (_supabase: unknown, piece: unknown) => `piece-${world.kept.push(piece)}`
 }));
 
-const tiktokDraft = { medium: 'video.short.tiktok', title: 'Fire doors' };
+const tiktokDraft = { medium: 'video.short.tiktok', kind: 'before and after', title: 'Fire doors' };
 
 describe('drafting a piece of a brand’s content', () => {
 	beforeEach(() => {
@@ -43,7 +43,15 @@ describe('drafting a piece of a brand’s content', () => {
 		expect(answer).toContain('Drafted “Fire doors”');
 		expect(answer).toContain('(id piece-1)');
 		const snapshot = { brief: expect.stringContaining('Jewel Enterprises') };
-		expect(world.kept[0]).toMatchObject({ organisationId: 'jewel', accountId: 'nigel', brandSnapshot: snapshot });
+		expect(world.kept[0]).toMatchObject({ organisationId: 'jewel', accountId: 'nigel', kind: 'before and after', brandSnapshot: snapshot });
+	});
+
+	it('drafts a new piece only as a kind of post the brand keeps, the starter list while it keeps none', async () => {
+		const answer = await runContentAction('draft_content', { ...tiktokDraft, kind: 'dish of the week' });
+		expect(answer).toContain('The piece was not drafted: “dish of the week” is not a kind of post this brand keeps');
+		expect(answer).toContain('the starter list (tip, showcase, before and after');
+		expect(await runContentAction('draft_content', { ...tiktokDraft, kind: undefined })).toContain('kind is missing');
+		expect(world.kept).toHaveLength(0);
 	});
 
 	it('refuses a piece that does not fit by name, keeping nothing', async () => {

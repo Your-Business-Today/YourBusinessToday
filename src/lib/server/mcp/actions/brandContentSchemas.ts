@@ -3,6 +3,7 @@ import { contentStages } from '$lib/brand/content/contentPiece';
 import { ContentLimits, StoryboardLimits } from '$lib/brand/content/contentLimits';
 import { objectSchema, textField } from '../actionTypes';
 import { organisationIdField } from './organisationDetailsFields';
+import { postKindsTraitKey, starterPostKinds } from '$lib/brand/postKinds/postKinds';
 
 const { titleCharacters, hookCharacters, scriptCharacters, captionCharacters } = ContentLimits;
 const { shots, descriptionCharacters, onScreenTextCharacters, longestShotSeconds } = StoryboardLimits;
@@ -16,11 +17,18 @@ const shotItem = objectSchema(
 	['description']
 );
 
+/** The kind of post a piece is, offered to drafting and planning alike. */
+export const postKindField = textField(
+	`The kind of post it is, one the brand keeps as ${postKindsTraitKey} in its kit; while it keeps none, one of the ` +
+		`starter list: ${starterPostKinds.join(', ')}. The format is not the kind: a tips carousel is a tip on a carousel medium`
+);
+
 export const draftContentSchema = objectSchema(
 	{
 		organisationId: organisationIdField,
 		contentPieceId: textField('An idea’s id, as plan_content_idea or read_content_plan gives it, to write that idea up — leave out for a new piece'),
 		medium: textField('The medium the piece is for, such as video.short.tiktok or text.email, as read_brand_catalogue lists'),
+		kind: postKindField,
 		title: textField(`A working title, at most ${titleCharacters} characters`),
 		hook: textField(`The first line or the first second, at most ${hookCharacters} characters`),
 		script: textField(`The full script or copy, at most ${scriptCharacters} characters`),

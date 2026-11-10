@@ -17,7 +17,8 @@ export const brandContentActions: McpAction[] = [
 			'draft a piece of the brand’s content for one medium: its title, hook, script, storyboard, caption and the action it invites',
 		guidance:
 			'Call resolve_brand for the medium first and write to its brief. The piece keeps a snapshot of the brand as it holds ' +
-			'for that medium now, and starts at drafted. Give an idea’s contentPieceId to write that idea up on its planned day. ' +
+			'for that medium now, and starts at drafted. A new piece is one of the brand’s kinds of post; a kind it does not keep ' +
+			'is refused by name. Give an idea’s contentPieceId to write that idea up on its planned day, keeping its kind unless you give one. ' +
 			'A value that does not fit its column is refused by name and nothing is kept.',
 		inputSchema: draftContentSchema,
 		run: draftContent

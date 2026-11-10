@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/site/Button.svelte';
 	import ContentPlanCounts from '$lib/components/brand/ContentPlanCounts.svelte';
+	import ContentPlanKindTable from '$lib/components/brand/ContentPlanKindTable.svelte';
 	import ContentPlanMoveModal from '$lib/components/brand/ContentPlanMoveModal.svelte';
 	import ContentPlanWeekTable from '$lib/components/brand/ContentPlanWeekTable.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
@@ -44,6 +45,9 @@
 <div class={workspaceBodyClasses}>
 	<DashboardPanel title="This month" isPadded>
 		<ContentPlanCounts counts={plan.counts} />
+	</DashboardPanel>
+	<DashboardPanel title="Kinds of post this month" count={plan.kindCounts.length}>
+		<ContentPlanKindTable kindCounts={plan.kindCounts} />
 	</DashboardPanel>
 	{#each plan.weeks as week (week.key)}
 		<DashboardPanel title={week.label} count={week.entryCount}>

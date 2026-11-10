@@ -1,8 +1,10 @@
 import { checkContentIdea } from '$lib/brand/content/contentIdea';
 import { checkMoment } from '$lib/brand/content/checkMoment';
+import { checkPostKind } from '$lib/brand/postKinds/checkPostKind';
 import { planMonthAsked } from '$lib/brand/plan/planMonth';
 import { describeContentPlan } from './describeContentPlan';
 import { findBrandSummary } from '$lib/server/brandKits/keepBrandSummary';
+import { findPostKindsOnOffer } from '$lib/server/brandKits/findPostKindsOnOffer';
 import { keepContentIdea } from '$lib/server/brandContent/keepContentIdea';
 import { noBrandYet } from './brandKitWriteAnswers';
 import { findContentPlan } from '$lib/server/brandContent/findContentPlan';
@@ -30,9 +32,12 @@ export async function planContentIdea(caller: McpCaller, input: Input, organisat
 	if (summary === null) return noBrandYet(organisation);
 	const { idea } = check;
 	const { medium, title, plannedFor } = idea;
-	const contentPieceId = await keepContentIdea(caller.supabase, { organisationId: organisation.id, accountId: caller.accountId, idea });
+	const kindCheck = checkPostKind(input.kind, await findPostKindsOnOffer(caller.supabase, organisation.id, medium));
+	if ('problem' in kindCheck) return `The idea was not planned: ${kindCheck.problem}. Nothing was kept.`;
+	const { kind } = kindCheck;
+	const contentPieceId = await keepContentIdea(caller.supabase, { organisationId: organisation.id, accountId: caller.accountId, idea, kind });
 	return (
-		`Planned the idea “${title}” for ${medium.label} on ${plannedFor} (id ${contentPieceId}). ` +
+		`Planned the idea “${title}” (${kind}) for ${medium.label} on ${plannedFor} (id ${contentPieceId}). ` +
 		'It is at idea; write it up with draft_content, giving this contentPieceId.'
 	);
 }

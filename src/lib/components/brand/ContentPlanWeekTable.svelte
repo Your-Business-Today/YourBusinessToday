@@ -4,6 +4,7 @@
 	import RecordsCell from '$lib/components/workspace/RecordsCell.svelte';
 	import RecordsTable from '$lib/components/workspace/RecordsTable.svelte';
 	import { contentPiecePathOf } from './brandKitPageWords';
+	import { noKindYet } from '$lib/brand/plan/planCounts';
 	import { nothingPlanned } from './contentPlanPageWords';
 	import { planRowsOf, type PlanRow } from '$lib/brand/plan/planRows';
 	import type { PlanEntry, PlanWeek } from '$lib/brand/plan/contentPlan';
@@ -18,6 +19,7 @@
 		{ key: 'day', label: 'Goes live' },
 		{ key: 'time', label: 'Time' },
 		{ key: 'medium', label: 'Post on' },
+		{ key: 'kind', label: 'Kind' },
 		{ key: 'title', label: 'Idea' },
 		{ key: 'hook', label: 'Opening line', isWideOnly: true },
 		{ key: 'stage', label: 'Status' },
@@ -32,6 +34,7 @@
 			{#if row.entry === null}
 				<RecordsCell>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
+				<RecordsCell>{blank}</RecordsCell>
 				<RecordsCell><span class="text-chalk-subtle">{nothingPlanned}</span></RecordsCell>
 				<RecordsCell isWideOnly>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
@@ -40,6 +43,7 @@
 				{@const entry = row.entry}
 				<RecordsCell kind="status">{entry.time}</RecordsCell>
 				<RecordsCell>{entry.medium}</RecordsCell>
+				<RecordsCell>{entry.kind ?? noKindYet}</RecordsCell>
 				<RecordsCell kind="link" href={contentPiecePathOf(organisationId, entry.id)}>{entry.title}</RecordsCell>
 				<RecordsCell isWideOnly>{entry.hook}</RecordsCell>
 				<RecordsCell kind="status"><ContentStageBadge stage={entry.stage} /></RecordsCell>

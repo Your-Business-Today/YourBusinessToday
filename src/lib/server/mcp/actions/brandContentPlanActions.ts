@@ -13,7 +13,7 @@ export const brandContentPlanActions: McpAction[] = [
 		area: brandArea,
 		audience: 'everyone',
 		isWrite: false,
-		summary: 'one month of the brand’s content, week by week, on the day each piece goes out, with the counts above it',
+		summary: 'one month of the brand’s content, week by week, on the day each piece goes out, with the counts and kinds of post above it',
 		guidance:
 			'A piece sits on the day it is scheduled for once it is scheduled, otherwise on the day it is planned for. ' +
 			'Days with nothing on them are listed too, so the gaps show.',
@@ -27,7 +27,8 @@ export const brandContentPlanActions: McpAction[] = [
 		isWrite: true,
 		summary: 'write an idea down for the day and time it goes out, before any script exists',
 		guidance:
-			'The idea starts at idea with its medium, working title and opening line. Write it up later with draft_content, ' +
+			'The idea starts at idea with its medium, its kind of post, working title and opening line. The kind is one the brand ' +
+			'keeps, or the starter list while it keeps none, so the month has a mix. Write it up later with draft_content, ' +
 			'giving its contentPieceId; it keeps its day. A value that does not fit its column is refused by name.',
 		inputSchema: planContentIdeaSchema,
 		run: planContentIdea

@@ -31,8 +31,15 @@ describe('writing up an idea already on the plan', () => {
 
 	it('writes the draft onto the idea, so it keeps its day, rather than starting a new piece', async () => {
 		expect(await runContentAction('draft_content', draft)).toContain('Wrote up the idea as “Fire doors”');
-		expect(world.writtenUp[0]).toMatchObject({ organisationId: 'jewel', contentPieceId, draft: { script: 'A door closes.' } });
+		expect(world.writtenUp[0]).toMatchObject({ organisationId: 'jewel', contentPieceId, kind: null, draft: { script: 'A door closes.' } });
 		expect(world.kept).toHaveLength(0);
+	});
+
+	it('keeps the idea’s kind unless another the brand keeps is given', async () => {
+		await runContentAction('draft_content', { ...draft, kind: 'Review' });
+		expect(world.writtenUp[0]).toMatchObject({ kind: 'review' });
+		expect(await runContentAction('draft_content', { ...draft, kind: 'dish of the week' })).toContain('is not a kind of post this brand keeps');
+		expect(world.writtenUp).toHaveLength(1);
 	});
 
 	it('writes up only an idea, and says when the piece is not there', async () => {

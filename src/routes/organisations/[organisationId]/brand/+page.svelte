@@ -7,7 +7,7 @@
 	import Button from '$lib/components/site/Button.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
-	import { brandKitCrumbsFor, nothingDecidedYet } from '$lib/components/brand/brandKitPageWords';
+	import { brandKitCrumbsFor, nothingDecidedYet, starterKindsOffered } from '$lib/components/brand/brandKitPageWords';
 	import { brandLibraryPathOf } from '$lib/brand/library/libraryWords';
 	import { contentPlanPathOf } from '$lib/components/brand/contentPlanPageWords';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
@@ -57,6 +57,9 @@
 		<aside class="flex min-w-0 flex-col gap-6">
 			<DashboardPanel title="Tone of voice" isPadded>
 				<BrandKitList entries={kit.voice} emptyMessage={nothingDecidedYet} />
+			</DashboardPanel>
+			<DashboardPanel title="Kinds of post" isPadded>
+				<BrandKitList entries={kit.postKinds} emptyMessage={starterKindsOffered} />
 			</DashboardPanel>
 			<DashboardPanel title="Never say" isPadded>
 				<BrandKitList entries={kit.neverSay} emptyMessage={nothingDecidedYet} />

@@ -13,6 +13,7 @@ const piece: ContentPiece = {
 	script: 'All of it',
 	storyboard: [{ description: 'A roof', seconds: 3, onScreenText: '' }],
 	caption: 'Book now',
+	kind: 'seasonal',
 	invitedAction: 'replyToUs',
 	publishedUrl: '',
 	brandSnapshot: {},

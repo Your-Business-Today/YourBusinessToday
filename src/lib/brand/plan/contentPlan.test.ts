@@ -6,7 +6,8 @@ import type { PlannedPiece } from '../content/contentPiece';
 const november = { year: 2026, month: 11 };
 
 function piece(id: string, stage: PlannedPiece['stage'], plannedFor: string | null, scheduledFor: string | null = null): PlannedPiece {
-	return { id, mediumPath: 'image.post.facebook', title: `Post ${id}`, hook: 'Hear that?', stage, plannedFor, scheduledFor, updatedAt: '' };
+	const kind = 'tip';
+	return { id, mediumPath: 'image.post.facebook', kind, title: `Post ${id}`, hook: 'Hear that?', stage, plannedFor, scheduledFor, updatedAt: '' };
 }
 
 describe('the month’s plan', () => {
@@ -46,6 +47,24 @@ describe('the month’s plan', () => {
 			piece('d', 'approved', '2026-11-07T09:00:00Z')
 		];
 		expect(contentPlanOf(november, pieces).counts).toEqual({ planned: 4, scheduled: 1, published: 1, stillToDo: 2 });
+	});
+
+	it('shows each piece’s kind and how many of each kind the month holds, the most first', () => {
+		const pieces = [
+			{ ...piece('a', 'idea', '2026-11-03T09:00:00Z'), kind: 'review' },
+			piece('b', 'idea', '2026-11-04T09:00:00Z'),
+			piece('c', 'drafted', '2026-11-05T09:00:00Z'),
+			{ ...piece('d', 'idea', '2026-11-06T09:00:00Z'), kind: null },
+			{ ...piece('e', 'idea', '2026-10-06T09:00:00Z'), kind: 'our story' }
+		];
+		const plan = contentPlanOf(november, pieces);
+		const [entry] = plan.weeks.flatMap((week) => week.days).flatMap((day) => day.entries);
+		expect(entry.kind).toBe('review');
+		expect(plan.kindCounts).toEqual([
+			{ kind: 'tip', count: 2 },
+			{ kind: 'No kind yet', count: 1 },
+			{ kind: 'review', count: 1 }
+		]);
 	});
 
 	it('lets every piece but a published one be moved, and shows the empty days as rows', () => {
