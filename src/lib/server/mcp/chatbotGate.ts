@@ -8,7 +8,7 @@ type ChatbotRun = (caller: McpCaller, input: Record<string, unknown>, reach: Cha
 
 export type ChatbotActionDefinition = Omit<McpAction, 'run' | 'module' | 'isWrite'> & { run: ChatbotRun };
 
-export const chatbotField = 'chatbotId';
+export const chatbotInputKey = 'chatbotId';
 
 export const notAChatbotYouUse =
 	'You may not use a chatbot by that chatbotId. Call list_my_chatbots for the chatbots you may use.';
@@ -22,8 +22,8 @@ const gatedRuns = new WeakSet<McpAction['run']>();
  */
 export function chatbotAction(definition: ChatbotActionDefinition): McpAction {
 	const run: McpAction['run'] = async (caller, input) => {
-		const chatbotId = readText(input, chatbotField);
-		const idRefusal = validateRecordId(chatbotField, chatbotId);
+		const chatbotId = readText(input, chatbotInputKey);
+		const idRefusal = validateRecordId(chatbotInputKey, chatbotId);
 		if (idRefusal !== null) return idRefusal;
 		const reach = await readChatbotReach(caller.supabase, chatbotId, caller.email);
 		if (reach === null) return notAChatbotYouUse;
