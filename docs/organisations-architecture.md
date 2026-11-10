@@ -95,3 +95,34 @@ Passive Fire projects, and being refused everywhere else. `organisationInvoicing
 `organisationRules.test.ts` and `organisationFilter.test.ts` cover the override, the column rules
 and the projects filter. The database side — the policies, the functions, the seed — is proved by
 hand once the migration has run, against the checklist on the task.
+
+## Each company keeps its parent's details (migration `0147`)
+
+Group companies are being dropped: James, 10 Nov 2026, "we invoice by customer". Before anything
+stops reading `parent_organisation_id`, migration `0147` copies down to each company the three
+things that were read through it, so no person, project access or invoicing detail is lost when the
+link is no longer read:
+
+- **People.** Each person on a parent is put on each company beneath it, with the standing they hold
+  on the parent. A person already on the company keeps their row, and is made a project manager there
+  if they manage the parent.
+- **Project access.** A `project_members` row granted through a parent, on a project of a company
+  beneath it, is marked as granted through that company (`via_organisation_id`), for each person now
+  on that company. The same rows: none is added and none removed, so `syncOrganisationAccess` finds
+  nothing to change.
+- **Invoicing.** A company's blank address and accounts contact details are filled from its parent; a
+  detail the company set itself is left alone. Each company is invoiced exactly as before; its page no
+  longer marks those details as inherited, since they are now its own.
+- **Deleting.** The parent link's delete rule is `set null`, not `cascade`, so deleting one
+  organisation can never delete another.
+
+What each changed row held before is kept in `organisation_copy_downs` (which company, which parent,
+which person or project, and the value before; nothing before for a person added), so any of it can
+be put back. The copy is one function, `copy_organisation_groups_down()`, run by the migration and
+callable only by the service role; running it again changes nothing. The task that stops reading the
+link runs it once more first, for anyone put on a parent in between. Nobody is emailed.
+
+`src/lib/data/organisationCopyDown.test.ts` proves the model side: Jewel Enterprises' people copied
+down to its companies leave everyone on the same projects, with each grant marked as the migration
+marks it, and still on them once the grouping is no longer read; a filled company is invoiced as
+before, with or without its parent.
