@@ -6,6 +6,7 @@ import { roomLinesOnAgenda } from './describeBoardroomRoom';
 import { decisionLineOnAgenda } from './describeBoardDecision';
 import { meetingHeading } from './describeMeetingHeading';
 import { decisionOnItem } from './boardDecisionOnItem';
+import { minutesLinesOnMeeting } from './describeBoardMinutes';
 import type { MeetingRoom } from './boardroomRoom';
 import { directorsOnMeeting, meetingStage, standingAgenda, type AgendaItem, type BoardroomMeeting } from './boardroomMeeting';
 import type { BoardroomDirector } from './boardroomDirector';
@@ -14,6 +15,7 @@ import type { BoardroomRecordPaper } from './boardroomRecordPaper';
 import type { MeetingBriefing } from './boardroomBrief';
 import type { SeatControls } from './boardroomSeatControls';
 import type { MeetingDecisions } from './boardroomDecision';
+import type { MeetingMinutes } from './boardroomMinutes';
 
 /**
  * Everything a director reads of one meeting: the meeting, its board, every item ever put on its agenda and
@@ -29,6 +31,7 @@ export type MeetingRecord = {
 	room?: MeetingRoom;
 	controls?: SeatControls;
 	decisions?: MeetingDecisions;
+	minutes?: MeetingMinutes;
 };
 
 export const agendaPurposeWords = { decision: 'for decision', noting: 'to note' } as const;
@@ -64,7 +67,8 @@ function withdrawnLines(items: AgendaItem[]): string[] {
 export function describeBoardroomMeeting(organisationName: string, record: MeetingRecord, now: Date): string {
 	const agenda = agendaLines(record, now);
 	const heading = meetingHeading(organisationName, record, now);
-	return [...heading, '', 'Agenda:', ...agenda, ...withdrawnLines(record.items)].join('\n');
+	const minutes = minutesLinesOnMeeting(record, now);
+	return [...heading, '', 'Agenda:', ...agenda, ...withdrawnLines(record.items), ...minutes].join('\n');
 }
 
 export type MeetingSummary = {

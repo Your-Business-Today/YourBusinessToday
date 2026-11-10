@@ -8,6 +8,7 @@ import { getMeetingBriefing } from './getBoardroomBriefs';
 import { getRoomOfMeeting } from './getBoardroomRoom';
 import { getControlsOfReader } from './getBoardroomSeatControls';
 import { getDecisionsOfMeeting } from './getBoardroomDecisions';
+import { getMinutesOfMeeting } from './getBoardroomMinutes';
 import { isUuid } from '$lib/data/isUuid';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
 import {
@@ -18,7 +19,7 @@ import {
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 import type { MeetingCaller } from './callBoardroomMeeting';
 
-/** One meeting of an organisation's board with its board, agenda, papers, room and decisions, or null when it has none with that id. */
+/** One meeting of an organisation's board with its board, agenda, papers, room, decisions and minutes, or null when it has none with that id. */
 export async function getMeetingRecord(
 	supabase: SupabaseClient,
 	organisationId: string,
@@ -27,15 +28,16 @@ export async function getMeetingRecord(
 	if (!isUuid(meetingId)) return null;
 	const meeting = await getBoardroomMeeting(supabase, organisationId, meetingId);
 	if (meeting === null) return null;
-	const [directors, items, papers, recordPapers, room, decisions] = await Promise.all([
+	const [directors, items, papers, recordPapers, room, decisions, minutes] = await Promise.all([
 		getDirectorsOfOrganisation(supabase, organisationId),
 		getAgendaItemsOfMeetings(supabase, [meeting.id]),
 		getKeptPapersOfMeeting(supabase, meeting.id),
 		getRecordPapersOfMeeting(supabase, meeting.id),
 		getRoomOfMeeting(supabase, meeting.id),
-		getDecisionsOfMeeting(supabase, organisationId, meeting.id)
+		getDecisionsOfMeeting(supabase, organisationId, meeting.id),
+		getMinutesOfMeeting(supabase, meeting.id)
 	]);
-	return { meeting, directors, items, papers, recordPapers, room, decisions };
+	return { meeting, directors, items, papers, recordPapers, room, decisions, minutes };
 }
 
 /** One meeting as its reader sees it: the record, with their own briefs, only whose others are in, and their own Claude's controls. */

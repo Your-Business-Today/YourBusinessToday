@@ -4,6 +4,8 @@ import { briefBoardroomItem } from '$lib/server/boardroom/briefBoardroomItem';
 import { changeOwnClaudeSetting, steerOwnClaude, type SeatAnswer } from '$lib/server/boardroom/steerOwnClaude';
 import { answerHeldContribution } from '$lib/server/boardroom/answerHeldContribution';
 import { answerBoardDecision } from '$lib/server/boardroom/answerBoardDecision';
+import { closeBoardroomMeeting } from '$lib/server/boardroom/closeBoardroomMeeting';
+import { answerBoardroomMinutes } from '$lib/server/boardroom/answerBoardroomMinutes';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { requireBoardroomDirector } from '$lib/server/auth/requireBoardroomDirector';
 import { requireUser } from '$lib/server/auth/requireUser';
@@ -15,6 +17,10 @@ import { validateBoardroomBrief } from '$lib/data/validateBoardroomBrief';
 import { validateHeldAnswer, validateSeatSetting, validateSteerNote } from '$lib/data/validateSeatControl';
 import { validateDecisionAnswer } from '$lib/data/validateDecisionAnswer';
 import { decisionAnswerInputOf } from '$lib/data/boardDecisionForm';
+import { meetingCloseInputOf, minutesAnswerInputOf } from '$lib/data/boardMinutesForm';
+import { meetingCloseViewOf, meetingMinutesViewOf } from '$lib/data/boardMinutesViews';
+import { validateMeetingClose } from '$lib/data/validateMeetingClose';
+import { validateMinutesAnswer } from '$lib/data/validateMinutesAnswer';
 import type { Actions, PageServerLoad } from './$types';
 
 const notFoundStatus = 404;
@@ -26,7 +32,8 @@ export const load: PageServerLoad = async ({ locals, params, parent, depends }) 
 	const user = await requireUser(locals);
 	const record = await getBriefedMeetingRecord(locals.supabase, organisation.id, params.meetingId, user.id);
 	if (record === null) error(notFoundStatus, boardroomMeetingRefusals.noSuchMeeting);
-	return { meeting: boardMeetingViewOf(record, new Date()) };
+	const reader = { accountId: user.id, organisationId: organisation.id, organisationName: organisation.name, now: new Date() };
+	return { meeting: boardMeetingViewOf(record, reader.now), close: meetingCloseViewOf(record, reader), minutes: meetingMinutesViewOf(record, reader) };
 };
 
 function answerOf(seatAnswer: SeatAnswer) {
@@ -72,5 +79,19 @@ export const actions = {
 		if (typeof draft === 'string') return fail(refusedStatus, { message: draft });
 		const director = { accountId: user.id, now: new Date() };
 		return answerOf(await answerBoardDecision(supabaseServiceClient(), organisation, params.meetingId, draft, director));
+	},
+	closeMeeting: async ({ locals, params, request }) => {
+		const { user, organisation } = await requireBoardroomDirector(locals, params.organisationId);
+		const draft = validateMeetingClose(meetingCloseInputOf(await request.formData()));
+		if (typeof draft === 'string') return fail(refusedStatus, { message: draft });
+		const chair = { accountId: user.id, now: new Date() };
+		return answerOf(await closeBoardroomMeeting(supabaseServiceClient(), organisation, params.meetingId, draft, chair));
+	},
+	answerMinutes: async ({ locals, params, request }) => {
+		const { user, organisation } = await requireBoardroomDirector(locals, params.organisationId);
+		const draft = validateMinutesAnswer(minutesAnswerInputOf(await request.formData()));
+		if (typeof draft === 'string') return fail(refusedStatus, { message: draft });
+		const director = { accountId: user.id, now: new Date() };
+		return answerOf(await answerBoardroomMinutes(supabaseServiceClient(), organisation, params.meetingId, draft, director));
 	}
 } satisfies Actions;

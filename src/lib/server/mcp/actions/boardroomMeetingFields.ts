@@ -24,7 +24,7 @@ const agendaListField = (description: string) => ({
 	description
 });
 
-const meetingIdField = textField('The meeting id, as list_board_meetings gives it');
+export const meetingIdField = textField('The meeting id, as list_board_meetings gives it');
 
 export const organisationOnlySchema = objectSchema({ organisationId: organisationIdField }, ['organisationId']);
 

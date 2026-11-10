@@ -29,10 +29,16 @@ function replacesLines(onItem: DecisionOnItem): string[] {
 	return [`It replaces the earlier decision ${decision.replacesDecisionId}, if it carries.`];
 }
 
-/** Where a decision stands: its result, or who is still to answer it. */
+function gaveNoAnswerWords(onItem: DecisionOnItem, directors: BoardroomDirector[]): string {
+	const { gaveNoAnswer } = onItem;
+	if (gaveNoAnswer.length === 0) return '';
+	return ` Gave no answer before the meeting closed: ${namesOf(directors, gaveNoAnswer)}.`;
+}
+
+/** Where a decision stands: its result, or who is still to answer it, and who gave no answer once it closed. */
 export function decisionStandingWords(onItem: DecisionOnItem, directors: BoardroomDirector[]): string {
 	const { waitingFor } = onItem;
-	const result = decisionResultSentence(onItem.result);
+	const result = decisionResultSentence(onItem.result) + gaveNoAnswerWords(onItem, directors);
 	if (waitingFor.length === 0) return result;
 	return `${result} Still to answer: ${namesOf(directors, waitingFor)}.`;
 }
