@@ -1,4 +1,4 @@
--- 0153: an organisation's brand and its kit sit in YBT's own tables.
+-- 0155: an organisation's brand and its kit sit in YBT's own tables.
 --
 -- The kit of yourbrand.today (Your-Business-Today/YourBrandToday,
 -- migrations/0002_brands.sql) is folded in as one brand per organisation, in

@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-const migration = readFileSync('migrations/0153_brand_kits.sql', 'utf8');
+const migration = readFileSync('migrations/0155_brand_kits.sql', 'utf8');
 const statements = migration.replace(/--.*$/gm, '');
 const moduleRule = "public.can_use_organisation_module(organisation_id, 'brand')";
 const yourBrandTodayTables = /\b(?:brands|brand_members|brand_traits|brand_decisions)\b/g;
