@@ -1,13 +1,14 @@
 <script lang="ts">
-	import Button from '$lib/components/site/Button.svelte';
 	import BrandAwaitingTable from '$lib/components/brand/BrandAwaitingTable.svelte';
 	import BrandCampaignTable from '$lib/components/brand/BrandCampaignTable.svelte';
 	import BrandChannelTable from '$lib/components/brand/BrandChannelTable.svelte';
 	import BrandKitList from '$lib/components/brand/BrandKitList.svelte';
 	import BrandSwatches from '$lib/components/brand/BrandSwatches.svelte';
+	import Button from '$lib/components/site/Button.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { brandKitCrumbsFor, nothingDecidedYet } from '$lib/components/brand/brandKitPageWords';
+	import { brandLibraryPathOf } from '$lib/brand/library/libraryWords';
 	import { contentPlanPathOf } from '$lib/components/brand/contentPlanPageWords';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
@@ -21,7 +22,10 @@
 </svelte:head>
 
 <WorkspaceHeader crumbs={brandKitCrumbsFor(organisation)} title="Brand kit">
-	{#snippet actions()}<Button href={contentPlanPathOf(organisation.id)}>The month’s plan</Button>{/snippet}
+	{#snippet actions()}
+		<Button href={contentPlanPathOf(organisation.id)}>The month’s plan</Button>
+		<Button href={brandLibraryPathOf(organisation.id)}>Photos and videos</Button>
+	{/snippet}
 	<p class="text-sm text-chalk-muted">
 		{organisation.name}’s brand as it holds everywhere, and why each part was decided. Your Claude changes it through the
 		Your Business Today connector; this page shows it.
