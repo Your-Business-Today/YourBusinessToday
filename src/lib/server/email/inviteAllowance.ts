@@ -11,3 +11,8 @@ export function inviteWindowStart(): string {
 export function isInviteAllowanceSpent(invitesThisHour: number): boolean {
 	return invitesThisHour >= mostInvitesPerHour;
 }
+
+/** Whether this many more invitations still fit in the hour's allowance. */
+export function hasRoomForInvites(invitesThisHour: number, invitesToSend: number): boolean {
+	return invitesThisHour + invitesToSend <= mostInvitesPerHour;
+}

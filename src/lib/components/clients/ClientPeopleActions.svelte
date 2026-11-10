@@ -4,8 +4,9 @@
 
 	let {
 		canImportOfficers,
-		onAddContact
-	}: { canImportOfficers: boolean; onAddContact: () => void } = $props();
+		onAddContact,
+		onSetUp
+	}: { canImportOfficers: boolean; onAddContact: () => void; onSetUp: () => void } = $props();
 </script>
 
 <div class="flex flex-wrap gap-2">
@@ -16,5 +17,6 @@
 			</SubmitButton>
 		</form>
 	{/if}
-	<button class={primaryButtonClasses} onclick={onAddContact}>Add contact</button>
+	<button class={quietButtonClasses} onclick={onAddContact}>Add contact</button>
+	<button class={primaryButtonClasses} onclick={onSetUp}>Set up on YBT</button>
 </div>

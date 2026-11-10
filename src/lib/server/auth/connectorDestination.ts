@@ -1,5 +1,3 @@
-import { onboardingStartPath } from '$lib/onboarding/onboarding';
-
 const connectorAuthorizationPath = '/oauth/';
 
 /**
@@ -10,7 +8,3 @@ export function isConnectorDestination(destination: string | null): destination 
 	return destination !== null && destination.startsWith(connectorAuthorizationPath);
 }
 
-/** Signing a business up finishes at yourbusiness.today too, even for someone already on the portal. */
-export function isSignUpDestination(destination: string | null): destination is string {
-	return destination === onboardingStartPath;
-}
