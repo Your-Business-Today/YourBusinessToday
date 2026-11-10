@@ -1,6 +1,7 @@
 import { reviewStateLabels } from '$lib/data/companyContext/companyContextWords';
 import { reviewStates } from '$lib/data/companyContext/companyContext';
-import type { ContextPart, ProcessStep, SeenIn } from '$lib/data/companyContext/companyContext';
+import { seenSentence } from '$lib/data/companyContext/partSentences';
+import type { ContextPart, ProcessStep } from '$lib/data/companyContext/companyContext';
 
 /** One part as a list line: its name and key, what it is, where it was seen, how sure Claude is and its review. */
 export function describeContextPart(part: ContextPart, steps: ProcessStep[], roleNames: Map<string, string>): string {
@@ -10,12 +11,6 @@ export function describeContextPart(part: ContextPart, steps: ProcessStep[], rol
 	const partLine = `- **${part.name}** (\`${part.key}\`${core}).${description} ${facts.join(' ')}`;
 	const stepLines = steps.map((step) => stepLine(step, roleNames));
 	return [partLine, ...stepLines].join('\n');
-}
-
-function seenSentence(seenIn: SeenIn | null): string {
-	if (seenIn === null) return 'Not seen in a connector.';
-	if (seenIn.place === null) return `Seen in ${seenIn.connector}.`;
-	return `Seen in ${seenIn.connector}, at ${seenIn.place}.`;
 }
 
 function reviewSentence(part: ContextPart): string {

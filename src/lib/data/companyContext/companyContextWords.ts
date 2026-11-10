@@ -27,3 +27,19 @@ export const conceptsNotSpecimens =
 	'Record concepts, not specimens: an area, a source, a kind of record, a process or a role, never a named ' +
 	'customer, an employee or their figures. Where a part was seen names the connector and the place, never ' +
 	'what it held. An email address or a phone number anywhere is refused.';
+
+/** What one part of each kind is called on the map, beside its name. */
+export const partKindNames: Record<ContextPartKind, string> = {
+	context: 'area',
+	source: 'source',
+	record: 'record',
+	process: 'process',
+	role: 'role'
+};
+
+/** The mark before a part's name on the map, once the client has said whether it is right. */
+export const reviewStateMarks: Record<ReviewState, string> = {
+	not_checked: '',
+	right: '✓ ',
+	not_right: '✕ '
+};
