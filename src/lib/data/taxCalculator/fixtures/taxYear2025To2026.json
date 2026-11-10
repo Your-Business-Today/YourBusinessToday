@@ -1,0 +1,2306 @@
+{
+	"taxYear": "2025/26",
+	"defaultInputs": {
+		"taxRegion": "restOfUk",
+		"earningType": "employed",
+		"annualSalary": 0,
+		"annualBonus": 0,
+		"pensionPercentage": 0,
+		"studentLoans": {
+			"undergraduatePlan": null,
+			"hasPostgraduateLoan": false
+		},
+		"selfEmployment": {
+			"tradingStatus": "soleTrader",
+			"annualIncome": 0,
+			"annualExpenses": 0,
+			"annualCisDeductions": 0,
+			"annualBusinessMiles": 0,
+			"vehicleType": "none",
+			"homeWorkingBand": "under25Hours"
+		}
+	},
+	"cases": [
+		{
+			"name": "Employed on nothing: nothing to pay and nothing kept",
+			"inputs": {},
+			"working": [
+				"Pay: £0 salary",
+				"Personal allowance: £0 of the £12,570 is used, as that is all the income",
+				"Taxable income: £0 − £0 = £0",
+				"Income tax: nothing, as no income is above the allowance",
+				"Class 1 NI: nothing, as £0 is not above the £12,570 lower limit",
+				"Take-home: £0.00, with nothing deducted"
+			],
+			"expected": {
+				"personalAllowance": 0,
+				"taxableIncome": 0,
+				"incomeTax": 0,
+				"class1": 0,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 0,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £12,570: the whole personal allowance, nothing to pay",
+			"inputs": {
+				"annualSalary": 12570
+			},
+			"working": [
+				"Pay: £12,570 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £12,570 − £12,570 = £0",
+				"Income tax: nothing, as no income is above the allowance",
+				"Class 1 NI: nothing, as £12,570 is not above the £12,570 lower limit",
+				"Take-home: £12,570.00, with nothing deducted"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 0,
+				"incomeTax": 0,
+				"class1": 0,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 12570,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £12,571: the first pound over the allowance pays 20% tax and 8% NI",
+			"inputs": {
+				"annualSalary": 12571
+			},
+			"working": [
+				"Pay: £12,571 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £12,571 − £12,570 = £1",
+				"Basic rate: 20% × £1 = £0.20",
+				"Class 1 NI: 8% × (£12,571 − £12,570) = £0.08",
+				"Take-home: £12,571 − £0.20 − £0.08 = £12,570.72"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 1,
+				"incomeTax": 0.2,
+				"class1": 0.08,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 12570.72,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £45,000: inside the basic rate band",
+			"inputs": {
+				"annualSalary": 45000
+			},
+			"working": [
+				"Pay: £45,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £45,000 − £12,570 = £32,430",
+				"Basic rate: 20% × £32,430 = £6,486.00",
+				"Class 1 NI: 8% × (£45,000 − £12,570) = £2,594.40",
+				"Take-home: £45,000 − £6,486.00 − £2,594.40 = £35,919.60"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 32430,
+				"incomeTax": 6486,
+				"class1": 2594.4,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 35919.6,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £40,000 with a £5,000 bonus: taxed like £45,000",
+			"inputs": {
+				"annualSalary": 40000,
+				"annualBonus": 5000
+			},
+			"working": [
+				"Pay: £40,000 salary + £5,000 bonus = £45,000",
+				"Personal allowance: £12,570",
+				"Taxable income: £45,000 − £12,570 = £32,430",
+				"Basic rate: 20% × £32,430 = £6,486.00",
+				"Class 1 NI: 8% × (£45,000 − £12,570) = £2,594.40",
+				"Take-home: £45,000 − £6,486.00 − £2,594.40 = £35,919.60"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 32430,
+				"incomeTax": 6486,
+				"class1": 2594.4,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 35919.6,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £50,270: the top of the basic rate band and the Class 1 upper limit",
+			"inputs": {
+				"annualSalary": 50270
+			},
+			"working": [
+				"Pay: £50,270 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £50,270 − £12,570 = £37,700",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00",
+				"Take-home: £50,270 − £7,540.00 − £3,016.00 = £39,714.00"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 37700,
+				"incomeTax": 7540,
+				"class1": 3016,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 39714,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £50,271: the first pound at 40% tax and 2% NI",
+			"inputs": {
+				"annualSalary": 50271
+			},
+			"working": [
+				"Pay: £50,271 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £50,271 − £12,570 = £37,701",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £1 = £0.40",
+				"Income tax: £7,540.00 + £0.40 = £7,540.40",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£50,271 − £50,270) = £0.02, £3,016.02 in all",
+				"Take-home: £50,271 − £7,540.40 − £3,016.02 = £39,714.58"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 37701,
+				"incomeTax": 7540.4,
+				"class1": 3016.02,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 39714.58,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £60,000: higher rate, and 2% NI above the upper limit",
+			"inputs": {
+				"annualSalary": 60000
+			},
+			"working": [
+				"Pay: £60,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £9,730 = £3,892.00",
+				"Income tax: £7,540.00 + £3,892.00 = £11,432.00",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£60,000 − £50,270) = £194.60, £3,210.60 in all",
+				"Take-home: £60,000 − £11,432.00 − £3,210.60 = £45,357.40"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 47430,
+				"incomeTax": 11432,
+				"class1": 3210.6,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 45357.4,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £100,000: the last pound with the whole allowance",
+			"inputs": {
+				"annualSalary": 100000
+			},
+			"working": [
+				"Pay: £100,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £100,000 − £12,570 = £87,430",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £49,730 = £19,892.00",
+				"Income tax: £7,540.00 + £19,892.00 = £27,432.00",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£100,000 − £50,270) = £994.60, £4,010.60 in all",
+				"Take-home: £100,000 − £27,432.00 − £4,010.60 = £68,557.40"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 87430,
+				"incomeTax": 27432,
+				"class1": 4010.6,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 68557.4,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £100,001: one pound over £100,000 keeps the whole allowance, as it goes £1 per whole £2",
+			"inputs": {
+				"annualSalary": 100001
+			},
+			"working": [
+				"Pay: £100,001 salary",
+				"Personal allowance: £100,001 is £1 over £100,000, losing £1 per whole £2 = £0, so £12,570 − £0 = £12,570",
+				"Taxable income: £100,001 − £12,570 = £87,431",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £49,731 = £19,892.40",
+				"Income tax: £7,540.00 + £19,892.40 = £27,432.40",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£100,001 − £50,270) = £994.62, £4,010.62 in all",
+				"Take-home: £100,001 − £27,432.40 − £4,010.62 = £68,557.98"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 87431,
+				"incomeTax": 27432.4,
+				"class1": 4010.62,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 68557.98,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £100,002: two pounds over £100,000 lose £1 of allowance",
+			"inputs": {
+				"annualSalary": 100002
+			},
+			"working": [
+				"Pay: £100,002 salary",
+				"Personal allowance: £100,002 is £2 over £100,000, losing £1 per whole £2 = £1, so £12,570 − £1 = £12,569",
+				"Taxable income: £100,002 − £12,569 = £87,433",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £49,733 = £19,893.20",
+				"Income tax: £7,540.00 + £19,893.20 = £27,433.20",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£100,002 − £50,270) = £994.64, £4,010.64 in all",
+				"Take-home: £100,002 − £27,433.20 − £4,010.64 = £68,558.16"
+			],
+			"expected": {
+				"personalAllowance": 12569,
+				"taxableIncome": 87433,
+				"incomeTax": 27433.2,
+				"class1": 4010.64,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 68558.16,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £110,000: the allowance tapers to £7,570 while the basic band stays £37,700",
+			"inputs": {
+				"annualSalary": 110000
+			},
+			"working": [
+				"Pay: £110,000 salary",
+				"Personal allowance: £110,000 is £10,000 over £100,000, losing £1 per whole £2 = £5,000, so £12,570 − £5,000 = £7,570",
+				"Taxable income: £110,000 − £7,570 = £102,430",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £64,730 = £25,892.00",
+				"Income tax: £7,540.00 + £25,892.00 = £33,432.00",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£110,000 − £50,270) = £1,194.60, £4,210.60 in all",
+				"Take-home: £110,000 − £33,432.00 − £4,210.60 = £72,357.40"
+			],
+			"expected": {
+				"personalAllowance": 7570,
+				"taxableIncome": 102430,
+				"incomeTax": 33432,
+				"class1": 4210.6,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 72357.4,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £125,140: the allowance is gone and the additional rate starts here",
+			"inputs": {
+				"annualSalary": 125140
+			},
+			"working": [
+				"Pay: £125,140 salary",
+				"Personal allowance: £125,140 is £25,140 over £100,000, losing £1 per whole £2 = £12,570, so £12,570 − £12,570 = £0",
+				"Taxable income: £125,140 − £0 = £125,140",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £87,440 = £34,976.00",
+				"Income tax: £7,540.00 + £34,976.00 = £42,516.00",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£125,140 − £50,270) = £1,497.40, £4,513.40 in all",
+				"Take-home: £125,140 − £42,516.00 − £4,513.40 = £78,110.60"
+			],
+			"expected": {
+				"personalAllowance": 0,
+				"taxableIncome": 125140,
+				"incomeTax": 42516,
+				"class1": 4513.4,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 78110.6,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £125,141: the first pound at the 45% additional rate",
+			"inputs": {
+				"annualSalary": 125141
+			},
+			"working": [
+				"Pay: £125,141 salary",
+				"Personal allowance: £125,141 is £25,141 over £100,000, losing £1 per whole £2 = £12,570, so £12,570 − £12,570 = £0",
+				"Taxable income: £125,141 − £0 = £125,141",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £87,440 = £34,976.00",
+				"Additional rate: 45% × £1 = £0.45",
+				"Income tax: £7,540.00 + £34,976.00 + £0.45 = £42,516.45",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£125,141 − £50,270) = £1,497.42, £4,513.42 in all",
+				"Take-home: £125,141 − £42,516.45 − £4,513.42 = £78,111.13"
+			],
+			"expected": {
+				"personalAllowance": 0,
+				"taxableIncome": 125141,
+				"incomeTax": 42516.45,
+				"class1": 4513.42,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 78111.13,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £130,000: £4,860 at the additional rate",
+			"inputs": {
+				"annualSalary": 130000
+			},
+			"working": [
+				"Pay: £130,000 salary",
+				"Personal allowance: £130,000 is £30,000 over £100,000, losing £1 per whole £2 = £12,570, so £12,570 − £12,570 = £0",
+				"Taxable income: £130,000 − £0 = £130,000",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £87,440 = £34,976.00",
+				"Additional rate: 45% × £4,860 = £2,187.00",
+				"Income tax: £7,540.00 + £34,976.00 + £2,187.00 = £44,703.00",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£130,000 − £50,270) = £1,594.60, £4,610.60 in all",
+				"Take-home: £130,000 − £44,703.00 − £4,610.60 = £80,686.40"
+			],
+			"expected": {
+				"personalAllowance": 0,
+				"taxableIncome": 130000,
+				"incomeTax": 44703,
+				"class1": 4610.6,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 80686.4,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £150,000: well into the additional rate",
+			"inputs": {
+				"annualSalary": 150000
+			},
+			"working": [
+				"Pay: £150,000 salary",
+				"Personal allowance: £150,000 is £50,000 over £100,000, losing £1 per whole £2 = £12,570, so £12,570 − £12,570 = £0",
+				"Taxable income: £150,000 − £0 = £150,000",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £87,440 = £34,976.00",
+				"Additional rate: 45% × £24,860 = £11,187.00",
+				"Income tax: £7,540.00 + £34,976.00 + £11,187.00 = £53,703.00",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£150,000 − £50,270) = £1,994.60, £5,010.60 in all",
+				"Take-home: £150,000 − £53,703.00 − £5,010.60 = £91,286.40"
+			],
+			"expected": {
+				"personalAllowance": 0,
+				"taxableIncome": 150000,
+				"incomeTax": 53703,
+				"class1": 5010.6,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 91286.4,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £45,000 paying 5% into a workplace pension: less income tax, the same NI",
+			"inputs": {
+				"annualSalary": 45000,
+				"pensionPercentage": 5
+			},
+			"working": [
+				"Pay: £45,000 salary",
+				"Workplace pension: 5% × £45,000 = £2,250.00, taken before income tax but not before NI",
+				"Pay taxed: £45,000 − £2,250 = £42,750",
+				"Personal allowance: £12,570",
+				"Taxable income: £42,750 − £12,570 = £30,180",
+				"Basic rate: 20% × £30,180 = £6,036.00",
+				"Class 1 NI: 8% × (£45,000 − £12,570) = £2,594.40",
+				"Take-home: £45,000 − £6,036.00 − £2,594.40 − £2,250.00 = £34,119.60"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 30180,
+				"incomeTax": 6036,
+				"class1": 2594.4,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 2250,
+				"takeHome": 34119.6,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £110,000 paying 10% into a workplace pension: the pension brings back the whole allowance",
+			"inputs": {
+				"annualSalary": 110000,
+				"pensionPercentage": 10
+			},
+			"working": [
+				"Pay: £110,000 salary",
+				"Workplace pension: 10% × £110,000 = £11,000.00, taken before income tax but not before NI",
+				"Pay taxed: £110,000 − £11,000 = £99,000",
+				"Personal allowance: £12,570",
+				"Taxable income: £99,000 − £12,570 = £86,430",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £48,730 = £19,492.00",
+				"Income tax: £7,540.00 + £19,492.00 = £27,032.00",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£110,000 − £50,270) = £1,194.60, £4,210.60 in all",
+				"Take-home: £110,000 − £27,032.00 − £4,210.60 − £11,000.00 = £67,757.40"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 86430,
+				"incomeTax": 27032,
+				"class1": 4210.6,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 11000,
+				"takeHome": 67757.4,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Scotland, employed on £15,397: the top of the starter rate band",
+			"inputs": {
+				"taxRegion": "scotland",
+				"annualSalary": 15397
+			},
+			"working": [
+				"Pay: £15,397 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £15,397 − £12,570 = £2,827",
+				"Starter rate: 19% × £2,827 = £537.13",
+				"Class 1 NI: 8% × (£15,397 − £12,570) = £226.16",
+				"Take-home: £15,397 − £537.13 − £226.16 = £14,633.71"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 2827,
+				"incomeTax": 537.13,
+				"class1": 226.16,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 14633.71,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Scotland, employed on £27,491: the top of the basic rate band",
+			"inputs": {
+				"taxRegion": "scotland",
+				"annualSalary": 27491
+			},
+			"working": [
+				"Pay: £27,491 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £27,491 − £12,570 = £14,921",
+				"Starter rate: 19% × £2,827 = £537.13",
+				"Basic rate: 20% × £12,094 = £2,418.80",
+				"Income tax: £537.13 + £2,418.80 = £2,955.93",
+				"Class 1 NI: 8% × (£27,491 − £12,570) = £1,193.68",
+				"Take-home: £27,491 − £2,955.93 − £1,193.68 = £23,341.39"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 14921,
+				"incomeTax": 2955.93,
+				"class1": 1193.68,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 23341.39,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Scotland, employed on £43,662: the top of the intermediate rate band",
+			"inputs": {
+				"taxRegion": "scotland",
+				"annualSalary": 43662
+			},
+			"working": [
+				"Pay: £43,662 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £43,662 − £12,570 = £31,092",
+				"Starter rate: 19% × £2,827 = £537.13",
+				"Basic rate: 20% × £12,094 = £2,418.80",
+				"Intermediate rate: 21% × £16,171 = £3,395.91",
+				"Income tax: £537.13 + £2,418.80 + £3,395.91 = £6,351.84",
+				"Class 1 NI: 8% × (£43,662 − £12,570) = £2,487.36",
+				"Take-home: £43,662 − £6,351.84 − £2,487.36 = £34,822.80"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 31092,
+				"incomeTax": 6351.84,
+				"class1": 2487.36,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 34822.8,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Scotland, employed on £75,000: the top of the higher rate band",
+			"inputs": {
+				"taxRegion": "scotland",
+				"annualSalary": 75000
+			},
+			"working": [
+				"Pay: £75,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £75,000 − £12,570 = £62,430",
+				"Starter rate: 19% × £2,827 = £537.13",
+				"Basic rate: 20% × £12,094 = £2,418.80",
+				"Intermediate rate: 21% × £16,171 = £3,395.91",
+				"Higher rate: 42% × £31,338 = £13,161.96",
+				"Income tax: £537.13 + £2,418.80 + £3,395.91 + £13,161.96 = £19,513.80",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£75,000 − £50,270) = £494.60, £3,510.60 in all",
+				"Take-home: £75,000 − £19,513.80 − £3,510.60 = £51,975.60"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 62430,
+				"incomeTax": 19513.8,
+				"class1": 3510.6,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 51975.6,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Scotland, employed on £45,000: four Scottish bands in use",
+			"inputs": {
+				"taxRegion": "scotland",
+				"annualSalary": 45000
+			},
+			"working": [
+				"Pay: £45,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £45,000 − £12,570 = £32,430",
+				"Starter rate: 19% × £2,827 = £537.13",
+				"Basic rate: 20% × £12,094 = £2,418.80",
+				"Intermediate rate: 21% × £16,171 = £3,395.91",
+				"Higher rate: 42% × £1,338 = £561.96",
+				"Income tax: £537.13 + £2,418.80 + £3,395.91 + £561.96 = £6,913.80",
+				"Class 1 NI: 8% × (£45,000 − £12,570) = £2,594.40",
+				"Take-home: £45,000 − £6,913.80 − £2,594.40 = £35,491.80"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 32430,
+				"incomeTax": 6913.8,
+				"class1": 2594.4,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 35491.8,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Scotland, employed on £100,000: the advanced rate",
+			"inputs": {
+				"taxRegion": "scotland",
+				"annualSalary": 100000
+			},
+			"working": [
+				"Pay: £100,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £100,000 − £12,570 = £87,430",
+				"Starter rate: 19% × £2,827 = £537.13",
+				"Basic rate: 20% × £12,094 = £2,418.80",
+				"Intermediate rate: 21% × £16,171 = £3,395.91",
+				"Higher rate: 42% × £31,338 = £13,161.96",
+				"Advanced rate: 45% × £25,000 = £11,250.00",
+				"Income tax: £537.13 + £2,418.80 + £3,395.91 + £13,161.96 + £11,250.00 = £30,763.80",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£100,000 − £50,270) = £994.60, £4,010.60 in all",
+				"Take-home: £100,000 − £30,763.80 − £4,010.60 = £65,225.60"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 87430,
+				"incomeTax": 30763.8,
+				"class1": 4010.6,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 65225.6,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Scotland, employed on £125,140: the allowance is gone and the top rate starts here",
+			"inputs": {
+				"taxRegion": "scotland",
+				"annualSalary": 125140
+			},
+			"working": [
+				"Pay: £125,140 salary",
+				"Personal allowance: £125,140 is £25,140 over £100,000, losing £1 per whole £2 = £12,570, so £12,570 − £12,570 = £0",
+				"Taxable income: £125,140 − £0 = £125,140",
+				"Starter rate: 19% × £2,827 = £537.13",
+				"Basic rate: 20% × £12,094 = £2,418.80",
+				"Intermediate rate: 21% × £16,171 = £3,395.91",
+				"Higher rate: 42% × £31,338 = £13,161.96",
+				"Advanced rate: 45% × £62,710 = £28,219.50",
+				"Income tax: £537.13 + £2,418.80 + £3,395.91 + £13,161.96 + £28,219.50 = £47,733.30",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£125,140 − £50,270) = £1,497.40, £4,513.40 in all",
+				"Take-home: £125,140 − £47,733.30 − £4,513.40 = £72,893.30"
+			],
+			"expected": {
+				"personalAllowance": 0,
+				"taxableIncome": 125140,
+				"incomeTax": 47733.3,
+				"class1": 4513.4,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 72893.3,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Scotland, employed on £150,000: the 48% top rate",
+			"inputs": {
+				"taxRegion": "scotland",
+				"annualSalary": 150000
+			},
+			"working": [
+				"Pay: £150,000 salary",
+				"Personal allowance: £150,000 is £50,000 over £100,000, losing £1 per whole £2 = £12,570, so £12,570 − £12,570 = £0",
+				"Taxable income: £150,000 − £0 = £150,000",
+				"Starter rate: 19% × £2,827 = £537.13",
+				"Basic rate: 20% × £12,094 = £2,418.80",
+				"Intermediate rate: 21% × £16,171 = £3,395.91",
+				"Higher rate: 42% × £31,338 = £13,161.96",
+				"Advanced rate: 45% × £62,710 = £28,219.50",
+				"Top rate: 48% × £24,860 = £11,932.80",
+				"Income tax: £537.13 + £2,418.80 + £3,395.91 + £13,161.96 + £28,219.50 + £11,932.80 = £59,666.10",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£150,000 − £50,270) = £1,994.60, £5,010.60 in all",
+				"Take-home: £150,000 − £59,666.10 − £5,010.60 = £85,323.30"
+			],
+			"expected": {
+				"personalAllowance": 0,
+				"taxableIncome": 150000,
+				"incomeTax": 59666.1,
+				"class1": 5010.6,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 85323.3,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £45,000 with a Plan 1 student loan",
+			"inputs": {
+				"annualSalary": 45000,
+				"studentLoans": {
+					"undergraduatePlan": "plan1"
+				}
+			},
+			"working": [
+				"Pay: £45,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £45,000 − £12,570 = £32,430",
+				"Basic rate: 20% × £32,430 = £6,486.00",
+				"Class 1 NI: 8% × (£45,000 − £12,570) = £2,594.40",
+				"Plan 1 student loan: 9% × (£45,000 − £26,065) = £1,704.15",
+				"Take-home: £45,000 − £6,486.00 − £2,594.40 − £1,704.15 = £34,215.45"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 32430,
+				"incomeTax": 6486,
+				"class1": 2594.4,
+				"class4": 0,
+				"studentLoans": [
+					1704.15
+				],
+				"pensionCost": 0,
+				"takeHome": 34215.45,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £45,000 with a Plan 2 student loan and a postgraduate loan",
+			"inputs": {
+				"annualSalary": 45000,
+				"studentLoans": {
+					"undergraduatePlan": "plan2",
+					"hasPostgraduateLoan": true
+				}
+			},
+			"working": [
+				"Pay: £45,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £45,000 − £12,570 = £32,430",
+				"Basic rate: 20% × £32,430 = £6,486.00",
+				"Class 1 NI: 8% × (£45,000 − £12,570) = £2,594.40",
+				"Plan 2 student loan: 9% × (£45,000 − £28,470) = £1,487.70",
+				"Postgraduate loan: 6% × (£45,000 − £21,000) = £1,440.00",
+				"Take-home: £45,000 − £6,486.00 − £2,594.40 − £1,487.70 − £1,440.00 = £32,991.90"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 32430,
+				"incomeTax": 6486,
+				"class1": 2594.4,
+				"class4": 0,
+				"studentLoans": [
+					1487.7,
+					1440
+				],
+				"pensionCost": 0,
+				"takeHome": 32991.9,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £45,000 with a Plan 4 student loan",
+			"inputs": {
+				"annualSalary": 45000,
+				"studentLoans": {
+					"undergraduatePlan": "plan4"
+				}
+			},
+			"working": [
+				"Pay: £45,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £45,000 − £12,570 = £32,430",
+				"Basic rate: 20% × £32,430 = £6,486.00",
+				"Class 1 NI: 8% × (£45,000 − £12,570) = £2,594.40",
+				"Plan 4 student loan: 9% × (£45,000 − £32,745) = £1,102.95",
+				"Take-home: £45,000 − £6,486.00 − £2,594.40 − £1,102.95 = £34,816.65"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 32430,
+				"incomeTax": 6486,
+				"class1": 2594.4,
+				"class4": 0,
+				"studentLoans": [
+					1102.95
+				],
+				"pensionCost": 0,
+				"takeHome": 34816.65,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £45,000 with a Plan 5 student loan",
+			"inputs": {
+				"annualSalary": 45000,
+				"studentLoans": {
+					"undergraduatePlan": "plan5"
+				}
+			},
+			"working": [
+				"Pay: £45,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £45,000 − £12,570 = £32,430",
+				"Basic rate: 20% × £32,430 = £6,486.00",
+				"Class 1 NI: 8% × (£45,000 − £12,570) = £2,594.40",
+				"Plan 5 student loan: no repayments in 2025/26, as Plan 5 repayments begin in April 2026",
+				"Take-home: £45,000 − £6,486.00 − £2,594.40 = £35,919.60"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 32430,
+				"incomeTax": 6486,
+				"class1": 2594.4,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 35919.6,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £28,470, exactly the Plan 2 threshold: nothing to repay",
+			"inputs": {
+				"annualSalary": 28470,
+				"studentLoans": {
+					"undergraduatePlan": "plan2"
+				}
+			},
+			"working": [
+				"Pay: £28,470 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £28,470 − £12,570 = £15,900",
+				"Basic rate: 20% × £15,900 = £3,180.00",
+				"Class 1 NI: 8% × (£28,470 − £12,570) = £1,272.00",
+				"Plan 2 student loan: nothing, as £28,470 is not above the £28,470 threshold",
+				"Take-home: £28,470 − £3,180.00 − £1,272.00 = £24,018.00"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 15900,
+				"incomeTax": 3180,
+				"class1": 1272,
+				"class4": 0,
+				"studentLoans": [
+					0
+				],
+				"pensionCost": 0,
+				"takeHome": 24018,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £30,000 with only a postgraduate loan",
+			"inputs": {
+				"annualSalary": 30000,
+				"studentLoans": {
+					"hasPostgraduateLoan": true
+				}
+			},
+			"working": [
+				"Pay: £30,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £30,000 − £12,570 = £17,430",
+				"Basic rate: 20% × £17,430 = £3,486.00",
+				"Class 1 NI: 8% × (£30,000 − £12,570) = £1,394.40",
+				"Postgraduate loan: 6% × (£30,000 − £21,000) = £540.00",
+				"Take-home: £30,000 − £3,486.00 − £1,394.40 − £540.00 = £24,579.60"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 17430,
+				"incomeTax": 3486,
+				"class1": 1394.4,
+				"class4": 0,
+				"studentLoans": [
+					540
+				],
+				"pensionCost": 0,
+				"takeHome": 24579.6,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Employed on £60,000 with a Plan 1 student loan and a postgraduate loan",
+			"inputs": {
+				"annualSalary": 60000,
+				"studentLoans": {
+					"undergraduatePlan": "plan1",
+					"hasPostgraduateLoan": true
+				}
+			},
+			"working": [
+				"Pay: £60,000 salary",
+				"Personal allowance: £12,570",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £9,730 = £3,892.00",
+				"Income tax: £7,540.00 + £3,892.00 = £11,432.00",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£60,000 − £50,270) = £194.60, £3,210.60 in all",
+				"Plan 1 student loan: 9% × (£60,000 − £26,065) = £3,054.15",
+				"Postgraduate loan: 6% × (£60,000 − £21,000) = £2,340.00",
+				"Take-home: £60,000 − £11,432.00 − £3,210.60 − £3,054.15 − £2,340.00 = £39,963.25"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 47430,
+				"incomeTax": 11432,
+				"class1": 3210.6,
+				"class4": 0,
+				"studentLoans": [
+					3054.15,
+					2340
+				],
+				"pensionCost": 0,
+				"takeHome": 39963.25,
+				"profit": null,
+				"usesTradingAllowance": null,
+				"selfAssessment": null,
+				"paymentsOnAccount": null,
+				"class2": null
+			}
+		},
+		{
+			"name": "Self-employed on £30,000 profit: income tax and Class 4 through Self Assessment, with payments on account",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 31000,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Profit: £31,000 income − £1,000 claims = £30,000 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £30,000 − £12,570 = £17,430",
+				"Basic rate: 20% × £17,430 = £3,486.00",
+				"Class 4 NI: 6% × (£30,000 − £12,570) = £1,045.80",
+				"Take-home: £30,000 − £3,486.00 − £1,045.80 = £25,468.20",
+				"Self Assessment: £3,486.00 income tax + £1,045.80 Class 4 = £4,531.80 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £3,486.00 income tax + £1,045.80 Class 4 = £4,531.80",
+				"Payments on account: £4,531.80 is £1,000 or more and nothing was collected at source, so two of £4,531.80 ÷ 2 = £2,265.90",
+				"Class 2: £30,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 17430,
+				"incomeTax": 3486,
+				"class1": 0,
+				"class4": 1045.8,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 25468.2,
+				"profit": 30000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 3486,
+					"class4": 1045.8,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 4531.8,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 2265.9,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £12,570 profit: nothing to pay",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 13570,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Profit: £13,570 income − £1,000 claims = £12,570 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £12,570 − £12,570 = £0",
+				"Income tax: nothing, as no income is above the allowance",
+				"Class 4 NI: nothing, as £12,570 is not above the £12,570 lower limit",
+				"Take-home: £12,570.00, with nothing deducted",
+				"Self Assessment: £0.00 income tax + £0.00 Class 4 = £0.00 to pay",
+				"Payments on account: none, as income tax and Class 4 still owed come to £0.00, under £1,000",
+				"Class 2: £12,570 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 0,
+				"incomeTax": 0,
+				"class1": 0,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 12570,
+				"profit": 12570,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 0,
+					"class4": 0,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 0,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": null,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £6,845 profit, exactly the small profits threshold: Class 2 is credited",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 7845,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Profit: £7,845 income − £1,000 claims = £6,845 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £6,845 of the £12,570 is used, as that is all the income",
+				"Taxable income: £6,845 − £6,845 = £0",
+				"Income tax: nothing, as no income is above the allowance",
+				"Class 4 NI: nothing, as £6,845 is not above the £12,570 lower limit",
+				"Take-home: £6,845.00, with nothing deducted",
+				"Self Assessment: £0.00 income tax + £0.00 Class 4 = £0.00 to pay",
+				"Payments on account: none, as income tax and Class 4 still owed come to £0.00, under £1,000",
+				"Class 2: £6,845 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 6845,
+				"taxableIncome": 0,
+				"incomeTax": 0,
+				"class1": 0,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 6845,
+				"profit": 6845,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 0,
+					"class4": 0,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 0,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": null,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £6,844 profit, a pound under the small profits threshold",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 7844,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Profit: £7,844 income − £1,000 claims = £6,844 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £6,844 of the £12,570 is used, as that is all the income",
+				"Taxable income: £6,844 − £6,844 = £0",
+				"Income tax: nothing, as no income is above the allowance",
+				"Class 4 NI: nothing, as £6,844 is not above the £12,570 lower limit",
+				"Take-home: £6,844.00, with nothing deducted",
+				"Self Assessment: £0.00 income tax + £0.00 Class 4 = £0.00 to pay",
+				"Payments on account: none, as income tax and Class 4 still owed come to £0.00, under £1,000",
+				"Class 2: £6,844 is below the £6,845 small profits threshold, so nothing is credited unless paid voluntarily"
+			],
+			"expected": {
+				"personalAllowance": 6844,
+				"taxableIncome": 0,
+				"incomeTax": 0,
+				"class1": 0,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 6844,
+				"profit": 6844,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 0,
+					"class4": 0,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 0,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": null,
+				"class2": "belowSmallProfitsThreshold"
+			}
+		},
+		{
+			"name": "Self-employed on £16,000 profit: a bill under £1,000 needs no payments on account",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 17000,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Profit: £17,000 income − £1,000 claims = £16,000 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £16,000 − £12,570 = £3,430",
+				"Basic rate: 20% × £3,430 = £686.00",
+				"Class 4 NI: 6% × (£16,000 − £12,570) = £205.80",
+				"Take-home: £16,000 − £686.00 − £205.80 = £15,108.20",
+				"Self Assessment: £686.00 income tax + £205.80 Class 4 = £891.80 to pay",
+				"Payments on account: none, as income tax and Class 4 still owed come to £891.80, under £1,000",
+				"Class 2: £16,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 3430,
+				"incomeTax": 686,
+				"class1": 0,
+				"class4": 205.8,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 15108.2,
+				"profit": 16000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 686,
+					"class4": 205.8,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 891.8,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": null,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £16,415 profit: £999.70 of tax and Class 4, just under the £1,000 line",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 17415,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Profit: £17,415 income − £1,000 claims = £16,415 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £16,415 − £12,570 = £3,845",
+				"Basic rate: 20% × £3,845 = £769.00",
+				"Class 4 NI: 6% × (£16,415 − £12,570) = £230.70",
+				"Take-home: £16,415 − £769.00 − £230.70 = £15,415.30",
+				"Self Assessment: £769.00 income tax + £230.70 Class 4 = £999.70 to pay",
+				"Payments on account: none, as income tax and Class 4 still owed come to £999.70, under £1,000",
+				"Class 2: £16,415 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 3845,
+				"incomeTax": 769,
+				"class1": 0,
+				"class4": 230.7,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 15415.3,
+				"profit": 16415,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 769,
+					"class4": 230.7,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 999.7,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": null,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £16,420 profit: £1,001 of tax and Class 4, just over the £1,000 line",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 17420,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Profit: £17,420 income − £1,000 claims = £16,420 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £16,420 − £12,570 = £3,850",
+				"Basic rate: 20% × £3,850 = £770.00",
+				"Class 4 NI: 6% × (£16,420 − £12,570) = £231.00",
+				"Take-home: £16,420 − £770.00 − £231.00 = £15,419.00",
+				"Self Assessment: £770.00 income tax + £231.00 Class 4 = £1,001.00 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £770.00 income tax + £231.00 Class 4 = £1,001.00",
+				"Payments on account: £1,001.00 is £1,000 or more and nothing was collected at source, so two of £1,001.00 ÷ 2 = £500.50",
+				"Class 2: £16,420 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 3850,
+				"incomeTax": 770,
+				"class1": 0,
+				"class4": 231,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 15419,
+				"profit": 16420,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 770,
+					"class4": 231,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 1001,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 500.5,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £50,270 profit: the top of the basic rate band and the Class 4 upper limit",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 51270,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Profit: £51,270 income − £1,000 claims = £50,270 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £50,270 − £12,570 = £37,700",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262.00",
+				"Take-home: £50,270 − £7,540.00 − £2,262.00 = £40,468.00",
+				"Self Assessment: £7,540.00 income tax + £2,262.00 Class 4 = £9,802.00 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £7,540.00 income tax + £2,262.00 Class 4 = £9,802.00",
+				"Payments on account: £9,802.00 is £1,000 or more and nothing was collected at source, so two of £9,802.00 ÷ 2 = £4,901.00",
+				"Class 2: £50,270 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 37700,
+				"incomeTax": 7540,
+				"class1": 0,
+				"class4": 2262,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 40468,
+				"profit": 50270,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 7540,
+					"class4": 2262,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 9802,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 4901,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £60,000 profit: 2% Class 4 above the upper limit",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 61000,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Profit: £61,000 income − £1,000 claims = £60,000 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £9,730 = £3,892.00",
+				"Income tax: £7,540.00 + £3,892.00 = £11,432.00",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262.00 + 2% × (£60,000 − £50,270) = £194.60, £2,456.60 in all",
+				"Take-home: £60,000 − £11,432.00 − £2,456.60 = £46,111.40",
+				"Self Assessment: £11,432.00 income tax + £2,456.60 Class 4 = £13,888.60 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £11,432.00 income tax + £2,456.60 Class 4 = £13,888.60",
+				"Payments on account: £13,888.60 is £1,000 or more and nothing was collected at source, so two of £13,888.60 ÷ 2 = £6,944.30",
+				"Class 2: £60,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 47430,
+				"incomeTax": 11432,
+				"class1": 0,
+				"class4": 2456.6,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 46111.4,
+				"profit": 60000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 11432,
+					"class4": 2456.6,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 13888.6,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 6944.3,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £60,000 profit paying 10% into a pension: relief at source moves £6,000 from 40% to 20%",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 61000,
+					"annualExpenses": 1000
+				},
+				"pensionPercentage": 10
+			},
+			"working": [
+				"Profit: £61,000 income − £1,000 claims = £60,000 (claims beat the £1,000 trading allowance)",
+				"Pension: 10% × £60,000 = £6,000 gross, costing £4,800 after 20% relief at source",
+				"Adjusted net income: £60,000 − £6,000 = £54,000",
+				"Personal allowance: £12,570",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Relief at source extends the higher bands by the gross contribution: higher rate starts at £43,700",
+				"Basic rate: 20% × £43,700 = £8,740.00",
+				"Higher rate: 40% × £3,730 = £1,492.00",
+				"Income tax: £8,740.00 + £1,492.00 = £10,232.00",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262.00 + 2% × (£60,000 − £50,270) = £194.60, £2,456.60 in all",
+				"Take-home: £60,000 − £10,232.00 − £2,456.60 − £4,800.00 = £42,511.40",
+				"Self Assessment: £10,232.00 income tax + £2,456.60 Class 4 = £12,688.60 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £10,232.00 income tax + £2,456.60 Class 4 = £12,688.60",
+				"Payments on account: £12,688.60 is £1,000 or more and nothing was collected at source, so two of £12,688.60 ÷ 2 = £6,344.30",
+				"Class 2: £60,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 47430,
+				"incomeTax": 10232,
+				"class1": 0,
+				"class4": 2456.6,
+				"studentLoans": [],
+				"pensionCost": 4800,
+				"takeHome": 42511.4,
+				"profit": 60000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 10232,
+					"class4": 2456.6,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 12688.6,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 6344.3,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £20,000 income with £400 of expenses: the £1,000 trading allowance is worth more",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 20000,
+					"annualExpenses": 400
+				}
+			},
+			"working": [
+				"Trading allowance: £1,000 beats £400 of claims, so £20,000 − £1,000 = £19,000 profit",
+				"Personal allowance: £12,570",
+				"Taxable income: £19,000 − £12,570 = £6,430",
+				"Basic rate: 20% × £6,430 = £1,286.00",
+				"Class 4 NI: 6% × (£19,000 − £12,570) = £385.80",
+				"Take-home: £19,000 − £1,286.00 − £385.80 = £17,328.20",
+				"Self Assessment: £1,286.00 income tax + £385.80 Class 4 = £1,671.80 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £1,286.00 income tax + £385.80 Class 4 = £1,671.80",
+				"Payments on account: £1,671.80 is £1,000 or more and nothing was collected at source, so two of £1,671.80 ÷ 2 = £835.90",
+				"Class 2: £19,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 6430,
+				"incomeTax": 1286,
+				"class1": 0,
+				"class4": 385.8,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 17328.2,
+				"profit": 19000,
+				"usesTradingAllowance": true,
+				"selfAssessment": {
+					"incomeTax": 1286,
+					"class4": 385.8,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 1671.8,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 835.9,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £20,000 income with £1,500 of expenses: real expenses beat the trading allowance",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 20000,
+					"annualExpenses": 1500
+				}
+			},
+			"working": [
+				"Profit: £20,000 income − £1,500 claims = £18,500 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £18,500 − £12,570 = £5,930",
+				"Basic rate: 20% × £5,930 = £1,186.00",
+				"Class 4 NI: 6% × (£18,500 − £12,570) = £355.80",
+				"Take-home: £18,500 − £1,186.00 − £355.80 = £16,958.20",
+				"Self Assessment: £1,186.00 income tax + £355.80 Class 4 = £1,541.80 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £1,186.00 income tax + £355.80 Class 4 = £1,541.80",
+				"Payments on account: £1,541.80 is £1,000 or more and nothing was collected at source, so two of £1,541.80 ÷ 2 = £770.90",
+				"Class 2: £18,500 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 5930,
+				"incomeTax": 1186,
+				"class1": 0,
+				"class4": 355.8,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 16958.2,
+				"profit": 18500,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 1186,
+					"class4": 355.8,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 1541.8,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 770.9,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £800 of income: all of it is covered by the trading allowance",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 800,
+					"annualExpenses": 0
+				}
+			},
+			"working": [
+				"Trading allowance: £800 beats £0 of claims, so £800 − £800 = £0 profit",
+				"Personal allowance: £0 of the £12,570 is used, as that is all the income",
+				"Taxable income: £0 − £0 = £0",
+				"Income tax: nothing, as no income is above the allowance",
+				"Class 4 NI: nothing, as £0 is not above the £12,570 lower limit",
+				"Take-home: £0.00, with nothing deducted",
+				"Self Assessment: £0.00 income tax + £0.00 Class 4 = £0.00 to pay",
+				"Payments on account: none, as income tax and Class 4 still owed come to £0.00, under £1,000",
+				"Class 2: £0 is below the £6,845 small profits threshold, so nothing is credited unless paid voluntarily"
+			],
+			"expected": {
+				"personalAllowance": 0,
+				"taxableIncome": 0,
+				"incomeTax": 0,
+				"class1": 0,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 0,
+				"profit": 0,
+				"usesTradingAllowance": true,
+				"selfAssessment": {
+					"incomeTax": 0,
+					"class4": 0,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 0,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": null,
+				"class2": "belowSmallProfitsThreshold"
+			}
+		},
+		{
+			"name": "Self-employed on £40,000 with £3,000 of expenses, 12,000 van miles and 101+ hours a month at home",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 40000,
+					"annualExpenses": 3000,
+					"vehicleType": "carOrVan",
+					"annualBusinessMiles": 12000,
+					"homeWorkingBand": "101HoursOrMore"
+				}
+			},
+			"working": [
+				"Mileage: 10,000 miles × 45p + 2,000 miles × 25p = £4,500 + £500 = £5,000",
+				"Working from home: £26 a month × 12 = £312",
+				"Allowable claims: £3,000 expenses + £5,000 mileage + £312 working from home = £8,312",
+				"Profit: £40,000 income − £8,312 claims = £31,688 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £31,688 − £12,570 = £19,118",
+				"Basic rate: 20% × £19,118 = £3,823.60",
+				"Class 4 NI: 6% × (£31,688 − £12,570) = £1,147.08",
+				"Take-home: £31,688 − £3,823.60 − £1,147.08 = £26,717.32",
+				"Self Assessment: £3,823.60 income tax + £1,147.08 Class 4 = £4,970.68 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £3,823.60 income tax + £1,147.08 Class 4 = £4,970.68",
+				"Payments on account: £4,970.68 is £1,000 or more and nothing was collected at source, so two of £4,970.68 ÷ 2 = £2,485.34",
+				"Class 2: £31,688 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 19118,
+				"incomeTax": 3823.6,
+				"class1": 0,
+				"class4": 1147.08,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 26717.32,
+				"profit": 31688,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 3823.6,
+					"class4": 1147.08,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 4970.68,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 2485.34,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £33,720 income with £1,000 of expenses, 3,000 motorcycle miles and 25 to 50 hours a month at home",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 33720,
+					"annualExpenses": 1000,
+					"vehicleType": "motorcycle",
+					"annualBusinessMiles": 3000,
+					"homeWorkingBand": "25To50Hours"
+				}
+			},
+			"working": [
+				"Mileage: 3,000 motorcycle miles × 24p = £720",
+				"Working from home: £10 a month × 12 = £120",
+				"Allowable claims: £1,000 expenses + £720 mileage + £120 working from home = £1,840",
+				"Profit: £33,720 income − £1,840 claims = £31,880 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £31,880 − £12,570 = £19,310",
+				"Basic rate: 20% × £19,310 = £3,862.00",
+				"Class 4 NI: 6% × (£31,880 − £12,570) = £1,158.60",
+				"Take-home: £31,880 − £3,862.00 − £1,158.60 = £26,859.40",
+				"Self Assessment: £3,862.00 income tax + £1,158.60 Class 4 = £5,020.60 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £3,862.00 income tax + £1,158.60 Class 4 = £5,020.60",
+				"Payments on account: £5,020.60 is £1,000 or more and nothing was collected at source, so two of £5,020.60 ÷ 2 = £2,510.30",
+				"Class 2: £31,880 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 19310,
+				"incomeTax": 3862,
+				"class1": 0,
+				"class4": 1158.6,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 26859.4,
+				"profit": 31880,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 3862,
+					"class4": 1158.6,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 5020.6,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 2510.3,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £20,000 income with 2,000 bicycle miles and 51 to 100 hours a month at home: the trading allowance is still worth more",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 20000,
+					"annualExpenses": 0,
+					"vehicleType": "bicycle",
+					"annualBusinessMiles": 2000,
+					"homeWorkingBand": "51To100Hours"
+				}
+			},
+			"working": [
+				"Mileage: 2,000 bicycle miles × 20p = £400",
+				"Working from home: £18 a month × 12 = £216",
+				"Allowable claims: £0 expenses + £400 mileage + £216 working from home = £616",
+				"Trading allowance: £1,000 beats £616 of claims, so £20,000 − £1,000 = £19,000 profit",
+				"Personal allowance: £12,570",
+				"Taxable income: £19,000 − £12,570 = £6,430",
+				"Basic rate: 20% × £6,430 = £1,286.00",
+				"Class 4 NI: 6% × (£19,000 − £12,570) = £385.80",
+				"Take-home: £19,000 − £1,286.00 − £385.80 = £17,328.20",
+				"Self Assessment: £1,286.00 income tax + £385.80 Class 4 = £1,671.80 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £1,286.00 income tax + £385.80 Class 4 = £1,671.80",
+				"Payments on account: £1,671.80 is £1,000 or more and nothing was collected at source, so two of £1,671.80 ÷ 2 = £835.90",
+				"Class 2: £19,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 6430,
+				"incomeTax": 1286,
+				"class1": 0,
+				"class4": 385.8,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 17328.2,
+				"profit": 19000,
+				"usesTradingAllowance": true,
+				"selfAssessment": {
+					"incomeTax": 1286,
+					"class4": 385.8,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 1671.8,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 835.9,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "CIS subcontractor on £30,000 profit with £6,000 deducted: a refund",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 31000,
+					"annualExpenses": 1000,
+					"tradingStatus": "cisSubcontractor",
+					"annualCisDeductions": 6000
+				}
+			},
+			"working": [
+				"Profit: £31,000 income − £1,000 claims = £30,000 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £30,000 − £12,570 = £17,430",
+				"Basic rate: 20% × £17,430 = £3,486.00",
+				"Class 4 NI: 6% × (£30,000 − £12,570) = £1,045.80",
+				"Take-home: £30,000 − £3,486.00 − £1,045.80 = £25,468.20",
+				"Self Assessment: £3,486.00 income tax + £1,045.80 Class 4 − £6,000.00 CIS already deducted = −£1,468.20, a refund",
+				"Payments on account: none, as nothing is owed",
+				"Class 2: £30,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 17430,
+				"incomeTax": 3486,
+				"class1": 0,
+				"class4": 1045.8,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 25468.2,
+				"profit": 30000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 3486,
+					"class4": 1045.8,
+					"studentLoan": 0,
+					"cisDeductions": 6000,
+					"balanceDue": -1468.2,
+					"outcome": "refund"
+				},
+				"paymentsOnAccount": null,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "CIS subcontractor on £30,000 profit with £3,000 deducted: a balance to pay, with payments on account",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 31000,
+					"annualExpenses": 1000,
+					"tradingStatus": "cisSubcontractor",
+					"annualCisDeductions": 3000
+				}
+			},
+			"working": [
+				"Profit: £31,000 income − £1,000 claims = £30,000 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £30,000 − £12,570 = £17,430",
+				"Basic rate: 20% × £17,430 = £3,486.00",
+				"Class 4 NI: 6% × (£30,000 − £12,570) = £1,045.80",
+				"Take-home: £30,000 − £3,486.00 − £1,045.80 = £25,468.20",
+				"Self Assessment: £3,486.00 income tax + £1,045.80 Class 4 − £3,000.00 CIS already deducted = £1,531.80 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £3,486.00 income tax + £1,045.80 Class 4 − £3,000.00 CIS = £1,531.80",
+				"Payments on account: £1,531.80 is £1,000 or more and £3,000.00 collected at source is under 80% of £4,531.80 (£3,625.44), so two of £1,531.80 ÷ 2 = £765.90",
+				"Class 2: £30,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 17430,
+				"incomeTax": 3486,
+				"class1": 0,
+				"class4": 1045.8,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 25468.2,
+				"profit": 30000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 3486,
+					"class4": 1045.8,
+					"studentLoan": 0,
+					"cisDeductions": 3000,
+					"balanceDue": 1531.8,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 765.9,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "CIS subcontractor on £60,000 profit with £11,110.88 deducted, exactly 80% of the bill: no payments on account",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 61000,
+					"annualExpenses": 1000,
+					"tradingStatus": "cisSubcontractor",
+					"annualCisDeductions": 11110.88
+				}
+			},
+			"working": [
+				"Profit: £61,000 income − £1,000 claims = £60,000 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £9,730 = £3,892.00",
+				"Income tax: £7,540.00 + £3,892.00 = £11,432.00",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262.00 + 2% × (£60,000 − £50,270) = £194.60, £2,456.60 in all",
+				"Take-home: £60,000 − £11,432.00 − £2,456.60 = £46,111.40",
+				"Self Assessment: £11,432.00 income tax + £2,456.60 Class 4 − £11,110.88 CIS already deducted = £2,777.72 to pay",
+				"Payments on account: none, as £11,110.88 collected at source is at least 80% of £13,888.60 (£11,110.88)",
+				"Class 2: £60,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 47430,
+				"incomeTax": 11432,
+				"class1": 0,
+				"class4": 2456.6,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 46111.4,
+				"profit": 60000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 11432,
+					"class4": 2456.6,
+					"studentLoan": 0,
+					"cisDeductions": 11110.88,
+					"balanceDue": 2777.72,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": null,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "CIS subcontractor on £60,000 profit with £11,000 deducted, under 80% of the bill: payments on account",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 61000,
+					"annualExpenses": 1000,
+					"tradingStatus": "cisSubcontractor",
+					"annualCisDeductions": 11000
+				}
+			},
+			"working": [
+				"Profit: £61,000 income − £1,000 claims = £60,000 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £9,730 = £3,892.00",
+				"Income tax: £7,540.00 + £3,892.00 = £11,432.00",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262.00 + 2% × (£60,000 − £50,270) = £194.60, £2,456.60 in all",
+				"Take-home: £60,000 − £11,432.00 − £2,456.60 = £46,111.40",
+				"Self Assessment: £11,432.00 income tax + £2,456.60 Class 4 − £11,000.00 CIS already deducted = £2,888.60 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £11,432.00 income tax + £2,456.60 Class 4 − £11,000.00 CIS = £2,888.60",
+				"Payments on account: £2,888.60 is £1,000 or more and £11,000.00 collected at source is under 80% of £13,888.60 (£11,110.88), so two of £2,888.60 ÷ 2 = £1,444.30",
+				"Class 2: £60,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 47430,
+				"incomeTax": 11432,
+				"class1": 0,
+				"class4": 2456.6,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 46111.4,
+				"profit": 60000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 11432,
+					"class4": 2456.6,
+					"studentLoan": 0,
+					"cisDeductions": 11000,
+					"balanceDue": 2888.6,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 1444.3,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "CIS subcontractor with a £2,000 loss and £2,000 deducted: all of it comes back",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 10000,
+					"annualExpenses": 12000,
+					"tradingStatus": "cisSubcontractor",
+					"annualCisDeductions": 2000
+				}
+			},
+			"working": [
+				"Profit: £10,000 income − £12,000 claims = −£2,000 (claims beat the £1,000 trading allowance)",
+				"A loss of £2,000: nothing is taxable",
+				"Personal allowance: £0 of the £12,570 is used, as that is all the income",
+				"Taxable income: £0 − £0 = £0",
+				"Income tax: nothing, as no income is above the allowance",
+				"Class 4 NI: nothing, as £0 is not above the £12,570 lower limit",
+				"Take-home: −£2,000.00, with nothing deducted",
+				"Self Assessment: £0.00 income tax + £0.00 Class 4 − £2,000.00 CIS already deducted = −£2,000.00, a loss, so the CIS comes back",
+				"Payments on account: none, as nothing is owed",
+				"Class 2: a trading loss"
+			],
+			"expected": {
+				"personalAllowance": 0,
+				"taxableIncome": 0,
+				"incomeTax": 0,
+				"class1": 0,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": -2000,
+				"profit": -2000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 0,
+					"class4": 0,
+					"studentLoan": 0,
+					"cisDeductions": 2000,
+					"balanceDue": -2000,
+					"outcome": "loss"
+				},
+				"paymentsOnAccount": null,
+				"class2": "tradingLoss"
+			}
+		},
+		{
+			"name": "Scotland, self-employed on £45,000 profit: Scottish bands with UK Class 4",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 46000,
+					"annualExpenses": 1000
+				},
+				"taxRegion": "scotland"
+			},
+			"working": [
+				"Profit: £46,000 income − £1,000 claims = £45,000 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £45,000 − £12,570 = £32,430",
+				"Starter rate: 19% × £2,827 = £537.13",
+				"Basic rate: 20% × £12,094 = £2,418.80",
+				"Intermediate rate: 21% × £16,171 = £3,395.91",
+				"Higher rate: 42% × £1,338 = £561.96",
+				"Income tax: £537.13 + £2,418.80 + £3,395.91 + £561.96 = £6,913.80",
+				"Class 4 NI: 6% × (£45,000 − £12,570) = £1,945.80",
+				"Take-home: £45,000 − £6,913.80 − £1,945.80 = £36,140.40",
+				"Self Assessment: £6,913.80 income tax + £1,945.80 Class 4 = £8,859.60 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £6,913.80 income tax + £1,945.80 Class 4 = £8,859.60",
+				"Payments on account: £8,859.60 is £1,000 or more and nothing was collected at source, so two of £8,859.60 ÷ 2 = £4,429.80",
+				"Class 2: £45,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 32430,
+				"incomeTax": 6913.8,
+				"class1": 0,
+				"class4": 1945.8,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 36140.4,
+				"profit": 45000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 6913.8,
+					"class4": 1945.8,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 8859.6,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 4429.8,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "Self-employed on £40,000 profit with a Plan 2 student loan: all of it through Self Assessment",
+			"inputs": {
+				"earningType": "selfEmployed",
+				"selfEmployment": {
+					"annualIncome": 41000,
+					"annualExpenses": 1000
+				},
+				"studentLoans": {
+					"undergraduatePlan": "plan2"
+				}
+			},
+			"working": [
+				"Profit: £41,000 income − £1,000 claims = £40,000 (claims beat the £1,000 trading allowance)",
+				"Personal allowance: £12,570",
+				"Taxable income: £40,000 − £12,570 = £27,430",
+				"Basic rate: 20% × £27,430 = £5,486.00",
+				"Class 4 NI: 6% × (£40,000 − £12,570) = £1,645.80",
+				"Plan 2 student loan: 9% × (£40,000 − £28,470) = £1,037.70",
+				"Take-home: £40,000 − £5,486.00 − £1,645.80 − £1,037.70 = £31,830.50",
+				"Self Assessment: £5,486.00 income tax + £1,645.80 Class 4 + £1,037.70 student loan = £8,169.50 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £5,486.00 income tax + £1,645.80 Class 4 = £7,131.80",
+				"Payments on account: £7,131.80 is £1,000 or more and nothing was collected at source, so two of £7,131.80 ÷ 2 = £3,565.90",
+				"Class 2: £40,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 27430,
+				"incomeTax": 5486,
+				"class1": 0,
+				"class4": 1645.8,
+				"studentLoans": [
+					1037.7
+				],
+				"pensionCost": 0,
+				"takeHome": 31830.5,
+				"profit": 40000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 5486,
+					"class4": 1645.8,
+					"studentLoan": 1037.7,
+					"cisDeductions": 0,
+					"balanceDue": 8169.5,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 3565.9,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "A £30,000 job and £20,000 of profit: the allowance goes against the job, the rest through Self Assessment",
+			"inputs": {
+				"earningType": "both",
+				"annualSalary": 30000,
+				"selfEmployment": {
+					"annualIncome": 21000,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Pay: £30,000 salary",
+				"Profit: £21,000 income − £1,000 claims = £20,000 (claims beat the £1,000 trading allowance)",
+				"Total income: £30,000 pay + £20,000 profit = £50,000",
+				"Personal allowance: £12,570",
+				"Taxable income: £50,000 − £12,570 = £37,430",
+				"Basic rate: 20% × £37,430 = £7,486.00",
+				"Class 1 NI: 8% × (£30,000 − £12,570) = £1,394.40",
+				"Class 4 NI: 6% × (£20,000 − £12,570) = £445.80",
+				"Take-home: £50,000 − £7,486.00 − £1,394.40 − £445.80 = £40,673.80",
+				"Income tax on the pay alone, collected through payroll: £3,486.00",
+				"Self Assessment: £4,000.00 income tax + £445.80 Class 4 = £4,445.80 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £4,000.00 income tax + £445.80 Class 4 = £4,445.80",
+				"Payments on account: £4,445.80 is £1,000 or more and £3,486.00 collected at source is under 80% of £7,931.80 (£6,345.44), so two of £4,445.80 ÷ 2 = £2,222.90",
+				"Class 2: £20,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 37430,
+				"incomeTax": 7486,
+				"class1": 1394.4,
+				"class4": 445.8,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 40673.8,
+				"profit": 20000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 4000,
+					"class4": 445.8,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 4445.8,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 2222.9,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "A £30,000 job and £20,000 of profit with a Plan 2 student loan: part through payroll, the rest through Self Assessment",
+			"inputs": {
+				"earningType": "both",
+				"annualSalary": 30000,
+				"studentLoans": {
+					"undergraduatePlan": "plan2"
+				},
+				"selfEmployment": {
+					"annualIncome": 21000,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Pay: £30,000 salary",
+				"Profit: £21,000 income − £1,000 claims = £20,000 (claims beat the £1,000 trading allowance)",
+				"Total income: £30,000 pay + £20,000 profit = £50,000",
+				"Personal allowance: £12,570",
+				"Taxable income: £50,000 − £12,570 = £37,430",
+				"Basic rate: 20% × £37,430 = £7,486.00",
+				"Class 1 NI: 8% × (£30,000 − £12,570) = £1,394.40",
+				"Class 4 NI: 6% × (£20,000 − £12,570) = £445.80",
+				"Plan 2 student loan: 9% × (£50,000 − £28,470) = £1,937.70",
+				"Take-home: £50,000 − £7,486.00 − £1,394.40 − £445.80 − £1,937.70 = £38,736.10",
+				"Income tax on the pay alone, collected through payroll: £3,486.00",
+				"Self Assessment: £4,000.00 income tax + £445.80 Class 4 + £1,800.00 student loan (after £137.70 through payroll) = £6,245.80 to pay",
+				"Income tax and Class 4 still owed, before any student loan: £4,000.00 income tax + £445.80 Class 4 = £4,445.80",
+				"Payments on account: £4,445.80 is £1,000 or more and £3,486.00 collected at source is under 80% of £7,931.80 (£6,345.44), so two of £4,445.80 ÷ 2 = £2,222.90",
+				"Class 2: £20,000 is at or above the £6,845 small profits threshold, so a year is credited automatically"
+			],
+			"expected": {
+				"personalAllowance": 12570,
+				"taxableIncome": 37430,
+				"incomeTax": 7486,
+				"class1": 1394.4,
+				"class4": 445.8,
+				"studentLoans": [
+					1937.7
+				],
+				"pensionCost": 0,
+				"takeHome": 38736.1,
+				"profit": 20000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 4000,
+					"class4": 445.8,
+					"studentLoan": 1800,
+					"cisDeductions": 0,
+					"balanceDue": 6245.8,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": 2222.9,
+				"class2": "creditedAutomatically"
+			}
+		},
+		{
+			"name": "A £100,000 job and £2,000 of profit: payroll collected over 80%, so no payments on account",
+			"inputs": {
+				"earningType": "both",
+				"annualSalary": 100000,
+				"selfEmployment": {
+					"annualIncome": 3000,
+					"annualExpenses": 1000
+				}
+			},
+			"working": [
+				"Pay: £100,000 salary",
+				"Profit: £3,000 income − £1,000 claims = £2,000 (claims beat the £1,000 trading allowance)",
+				"Total income: £100,000 pay + £2,000 profit = £102,000",
+				"Personal allowance: £102,000 is £2,000 over £100,000, losing £1 per whole £2 = £1,000, so £12,570 − £1,000 = £11,570",
+				"Taxable income: £102,000 − £11,570 = £90,430",
+				"Basic rate: 20% × £37,700 = £7,540.00",
+				"Higher rate: 40% × £52,730 = £21,092.00",
+				"Income tax: £7,540.00 + £21,092.00 = £28,632.00",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016.00 + 2% × (£100,000 − £50,270) = £994.60, £4,010.60 in all",
+				"Class 4 NI: nothing, as £2,000 is not above the £12,570 lower limit",
+				"Take-home: £102,000 − £28,632.00 − £4,010.60 = £69,357.40",
+				"Income tax on the pay alone, collected through payroll: £27,432.00",
+				"Self Assessment: £1,200.00 income tax + £0.00 Class 4 = £1,200.00 to pay",
+				"Payments on account: none, as £27,432.00 collected at source is at least 80% of £28,632.00 (£22,905.60)",
+				"Class 2: £2,000 is below the £6,845 small profits threshold, so nothing is credited unless paid voluntarily"
+			],
+			"expected": {
+				"personalAllowance": 11570,
+				"taxableIncome": 90430,
+				"incomeTax": 28632,
+				"class1": 4010.6,
+				"class4": 0,
+				"studentLoans": [],
+				"pensionCost": 0,
+				"takeHome": 69357.4,
+				"profit": 2000,
+				"usesTradingAllowance": false,
+				"selfAssessment": {
+					"incomeTax": 1200,
+					"class4": 0,
+					"studentLoan": 0,
+					"cisDeductions": 0,
+					"balanceDue": 1200,
+					"outcome": "taxDue"
+				},
+				"paymentsOnAccount": null,
+				"class2": "belowSmallProfitsThreshold"
+			}
+		}
+	]
+}
