@@ -5,11 +5,12 @@ export type SystemAccount = { code: string; name: string; accountType: LedgerAcc
 
 /**
  * What customers owe on issued invoices, where money arrives and leaves, what is paid up front for months to come,
- * and what is owed to suppliers for costs not yet paid.
+ * what is owed to suppliers for costs not yet paid, and costs incurred but not yet billed.
  */
 export const SystemAccounts = {
 	tradeDebtors: { code: '1100', name: 'Trade debtors', accountType: LedgerAccountTypes.asset },
 	bank: { code: '1200', name: 'Bank', accountType: LedgerAccountTypes.asset },
 	prepayments: { code: '1300', name: 'Prepayments', accountType: LedgerAccountTypes.asset },
-	tradeCreditors: { code: '2100', name: 'Trade creditors', accountType: LedgerAccountTypes.liability }
+	tradeCreditors: { code: '2100', name: 'Trade creditors', accountType: LedgerAccountTypes.liability },
+	accruals: { code: '2200', name: 'Accruals', accountType: LedgerAccountTypes.liability }
 } as const satisfies Record<string, SystemAccount>;
