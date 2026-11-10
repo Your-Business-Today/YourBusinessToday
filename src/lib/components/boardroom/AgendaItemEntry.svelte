@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Badge from '$lib/components/site/Badge.svelte';
 	import BoardPaperEntry from './BoardPaperEntry.svelte';
+	import AgendaItemBriefing from './AgendaItemBriefing.svelte';
 	import type { BoardAgendaItemView } from '$lib/data/boardMeetingView';
 
 	let { item }: { item: BoardAgendaItemView } = $props();
@@ -24,4 +25,5 @@
 			{/each}
 		</ul>
 	{/if}
+	<AgendaItemBriefing itemNumber={item.number} briefing={item.briefing} />
 </li>

@@ -1,3 +1,5 @@
+import type { CheckoutMetadataOrder } from '$lib/data/billing/checkoutMetadata';
+
 /** Where a Stripe Checkout session stands: open to be paid, paid, or expired unpaid. */
 export const CheckoutSessionStatuses = { open: 'open', complete: 'complete', expired: 'expired' } as const;
 
@@ -7,10 +9,7 @@ export type CheckoutSessionStatus = (typeof CheckoutSessionStatuses)[keyof typeo
 export type CheckoutSession = { id: string; url: string | null; status: CheckoutSessionStatus; amountPence: number };
 
 /** What a client is asked to pay for one invoice, and where Stripe sends them afterwards. */
-export type CheckoutOrder = {
-	invoiceId: string;
-	organisationId: string;
-	printedNumber: string;
+export type CheckoutOrder = CheckoutMetadataOrder & {
 	amountPence: number;
 	payerEmail: string;
 	paidUrl: string;
@@ -23,18 +22,3 @@ export type CheckoutGateway = {
 	openSession: (order: CheckoutOrder) => Promise<CheckoutSession>;
 	expireSession: (sessionId: string) => Promise<void>;
 };
-
-/** The metadata every session carries, so the payment Stripe reports back finds its invoice in the books. */
-export const checkoutMetadataKeys = {
-	invoiceId: 'books_invoice_id',
-	organisationId: 'books_organisation_id',
-	printedNumber: 'invoice_number'
-} as const;
-
-export function checkoutMetadataOf(order: CheckoutOrder): Record<string, string> {
-	return {
-		[checkoutMetadataKeys.invoiceId]: order.invoiceId,
-		[checkoutMetadataKeys.organisationId]: order.organisationId,
-		[checkoutMetadataKeys.printedNumber]: order.printedNumber
-	};
-}
