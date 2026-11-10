@@ -7,7 +7,7 @@ import type { ContributionDraft } from './validateBoardContribution';
 
 const nigel = { accountId: 'nigel', now: duringTheMeeting };
 const jeremy = { accountId: 'jeremy', now: duringTheMeeting };
-const comment: ContributionDraft = { itemNumber: 1, stance: 'comments', words: 'A word.', wording: null, proposalNumber: null, correctsNumber: null };
+const comment: ContributionDraft = { itemNumber: 1, stance: 'comments', words: 'A word.', wording: null, proposalNumber: null, correctsNumber: null, replacesDecisionId: null };
 
 describe('a Claude speaks in its turn, for its own director only', () => {
 	it('places the first turn in round 1 under the caller’s own seat', () => {

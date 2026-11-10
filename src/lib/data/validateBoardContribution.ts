@@ -1,6 +1,8 @@
 import { boardRoomLimits, boardRoomRefusals } from './boardroomRoomRules';
 import { isGiven, readTrimmed, validateItemNumber } from './boardPaperInput';
 import { contributionStances, stances, type ContributionStance } from './boardroomRoom';
+import { boardDecisionRefusals } from './boardroomDecisionRules';
+import { isUuid } from './isUuid';
 
 /** What a director's Claude says on an item, as given: numbers are the ones read_board_item gives now. */
 export type ContributionDraft = {
@@ -10,6 +12,7 @@ export type ContributionDraft = {
 	wording: string | null;
 	proposalNumber: number | null;
 	correctsNumber: number | null;
+	replacesDecisionId: string | null;
 };
 
 function readStance(value: unknown): ContributionStance | null {
@@ -35,6 +38,14 @@ function validateProposalNumber(input: Record<string, unknown>, stance: Contribu
 	return proposalNumber;
 }
 
+/** The earlier decision a proposal replaces, by its id, or null; only a proposal names one. */
+function validateReplaces(input: Record<string, unknown>, stance: ContributionStance): string | null | { refusal: string } {
+	const replaces = readTrimmed(input, 'replacesDecision');
+	if (replaces === '') return null;
+	if (stance !== stances.proposes) return { refusal: boardDecisionRefusals.replacesOnlyWithProposal };
+	return isUuid(replaces) ? replaces : { refusal: boardDecisionRefusals.replacesNotAnId };
+}
+
 /** A contribution as given, checked against the columns it goes to, or the sentence naming what does not fit. */
 export function validateBoardContribution(input: Record<string, unknown>): ContributionDraft | string {
 	const itemNumber = validateItemNumber(input.itemNumber);
@@ -49,7 +60,9 @@ export function validateBoardContribution(input: Record<string, unknown>): Contr
 	if (typeof proposalNumber === 'string') return proposalNumber;
 	const correctsNumber = optionalNumber(input, 'corrects', boardRoomRefusals.correctsNotANumber);
 	if (typeof correctsNumber === 'string') return correctsNumber;
-	return { itemNumber, stance, words, wording, proposalNumber, correctsNumber };
+	const replacesDecisionId = validateReplaces(input, stance);
+	if (typeof replacesDecisionId === 'object' && replacesDecisionId !== null) return replacesDecisionId.refusal;
+	return { itemNumber, stance, words, wording, proposalNumber, correctsNumber, replacesDecisionId };
 }
 
 /** How many rounds the room talks each item through: as given, the usual number when left out, or the refusal. */

@@ -29,7 +29,7 @@ vi.mock('./saveBoardroomRoom', () => ({
 	insertItemOutcome: async (_supabase: unknown, _meeting: unknown, _itemId: string, draft: OutcomeDraft) => room.outcomes.push(draft)
 }));
 
-const support: ContributionDraft = { itemNumber: 1, stance: 'supports', words: 'Agreed.', wording: null, proposalNumber: 1, correctsNumber: null };
+const support: ContributionDraft = { itemNumber: 1, stance: 'supports', words: 'Agreed.', wording: null, proposalNumber: 1, correctsNumber: null, replacesDecisionId: null };
 
 function speak(accountId: string, draft: ContributionDraft) {
 	return speakOnBoardroomItem({} as never, yourBusinessToday, meetingId, draft, { accountId, now: duringTheMeeting });

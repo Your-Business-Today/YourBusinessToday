@@ -40,6 +40,7 @@ export type ContributionPlacing = {
 	wording: string | null;
 	onProposalId: string | null;
 	correctsId: string | null;
+	replacesDecisionId: string | null;
 };
 
 /** Keeps a contribution as said and gives its id; null when the seat has already taken this round's turn. */
@@ -56,7 +57,8 @@ export async function insertBoardContribution(supabase: SupabaseClient, placing:
 		words: placing.words,
 		wording: placing.wording,
 		on_proposal_id: placing.onProposalId,
-		corrects_id: placing.correctsId
+		corrects_id: placing.correctsId,
+		replaces_decision_id: placing.replacesDecisionId
 	};
 	const { data, error } = await supabase.from(boardroomRoomTables.contributions).insert(row).select('id').single();
 	if (isUniqueViolation(error)) return null;

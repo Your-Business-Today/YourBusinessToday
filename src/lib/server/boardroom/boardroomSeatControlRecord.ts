@@ -18,7 +18,7 @@ export const seatControlTables = {
 
 export const steerNoteColumns = 'id, words, created_at';
 export const seatSettingColumns = 'id, setting, is_on, changed_at';
-export const heldContributionColumns = 'id, agenda_item_id, stance, words, wording, on_proposal_id, corrects_id, created_at';
+export const heldContributionColumns = 'id, agenda_item_id, stance, words, wording, on_proposal_id, corrects_id, replaces_decision_id, created_at';
 export const heldAnswerColumns = 'held_id, answer';
 
 export function parseSteerNoteRecord(row: Record<string, unknown>): SteerNote {
@@ -39,6 +39,7 @@ export function parseHeldContributionRecord(row: Record<string, unknown>, answer
 		wording: (row.wording as string | null) ?? null,
 		onProposalId: (row.on_proposal_id as string | null) ?? null,
 		correctsId: (row.corrects_id as string | null) ?? null,
+		replacesDecisionId: (row.replaces_decision_id as string | null) ?? null,
 		heldAt: row.created_at as string,
 		answer
 	};

@@ -19,6 +19,7 @@ export const boardDecisionRefusals = {
 	castingVoteNotAnAnswer: 'chairHasCastingVote says whether the chair has a casting vote when the votes are equal: true or false.',
 	articlesReferenceMissing: `articlesReference names where the company’s own articles say this: required, at most ${longestArticlesReference} characters.`,
 	replacesNotAnId: 'replacesDecision is the id of an earlier decision of this board, as read_board_meeting gives it for the meeting that took it.',
+	replacesOnlyWithProposal: 'replacesDecision is given only with the stance proposes: the proposal names the decision it replaces.',
 	noSuchEarlierDecision: 'This board took no decision with that id at an earlier meeting, so a proposal cannot replace it.',
 	itemNotOnAgenda: 'That number is not an item on the agenda as read_board_meeting gives it now.',
 	noDecisionOnItem: 'Nothing is put to the directors on this item: only an item for decision that came out of the room agreed is.',

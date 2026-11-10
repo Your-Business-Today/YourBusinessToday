@@ -17,7 +17,7 @@ vi.mock('./getBoardroomSeatControls', () => ({ getControlsOfSeat: async () => ro
 vi.mock('./saveBoardroomRoom', () => ({ insertBoardContribution: async (_supabase: unknown, placing: Record<string, unknown>) => room.keptInRoom.push(placing) }));
 vi.mock('./saveBoardroomSeatControls', () => ({ insertHeldContribution: async (_supabase: unknown, placing: Record<string, unknown>) => room.held.push(placing) }));
 
-const comment: ContributionDraft = { itemNumber: 1, stance: 'comments', words: 'Not yet.', wording: null, proposalNumber: null, correctsNumber: null };
+const comment: ContributionDraft = { itemNumber: 1, stance: 'comments', words: 'Not yet.', wording: null, proposalNumber: null, correctsNumber: null, replacesDecisionId: null };
 
 function speakAsJeremy() {
 	return speakOnBoardroomItem({} as never, yourBusinessToday, meetingId, comment, { accountId: 'jeremy', now: duringTheMeeting });

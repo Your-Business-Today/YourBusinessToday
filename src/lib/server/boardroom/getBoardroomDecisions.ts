@@ -44,3 +44,19 @@ export async function getDecisionsOfMeeting(supabase: SupabaseClient, organisati
 	]);
 	return { decisions: decisions.map(parseBoardDecisionRecord), answers: answers.map(parseDecisionAnswerRecord), ruleInForce };
 }
+
+/** Where a proposal says it replaces an earlier decision: the board, the meeting it is proposed at, and the decision named. */
+export type ReplacedDecision = { organisationId: string; meetingId: string; decisionId: string };
+
+/** Whether the board took the named decision at another, earlier meeting, so a proposal now may replace it. */
+export async function isEarlierDecisionOfBoard(supabase: SupabaseClient, replaced: ReplacedDecision): Promise<boolean> {
+	const { data, error } = await supabase
+		.from(boardDecisionTables.decisions)
+		.select('id')
+		.eq('id', replaced.decisionId)
+		.eq('organisation_id', replaced.organisationId)
+		.neq('meeting_id', replaced.meetingId)
+		.maybeSingle();
+	if (error) throw error;
+	return data !== null;
+}

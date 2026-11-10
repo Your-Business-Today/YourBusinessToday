@@ -21,6 +21,7 @@ export function heldPiece(extra: Partial<HeldContribution> = {}): HeldContributi
 		wording: null,
 		onProposalId: null,
 		correctsId: null,
+		replacesDecisionId: null,
 		heldAt: '2026-11-12T10:20:00.000Z',
 		answer: null,
 		...extra
