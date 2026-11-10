@@ -3,6 +3,11 @@
 # its name under migrations/, with a fingerprint of its contents, so a recorded
 # file that is edited later can be named. Sourced, never run; every function
 # takes the database's address first.
+#
+# A file is recorded in the same transaction as its contents, and the record is
+# written first: most files end with their own commit, which inside psql's
+# single transaction commits the runner's transaction, so the record and the
+# file commit together or not at all.
 
 readonly migrationRecordQueries="$(dirname "${BASH_SOURCE[0]}")"
 readonly migrationsFolder='migrations'
@@ -69,21 +74,37 @@ recordMigrations() {
 		--set commit="$commit" --set howApplied="$howApplied" --set fingerprints="$fingerprints"
 }
 
-recordAppliedMigration() {
+fingerprintJsonOfFile() {
+	echo "$1 $(fingerprintOfFile "$1")" | asFingerprintJson
+}
+
+applyAndRecordMigration() {
 	local databaseUrl="$1" commit="$2" fileName="$3"
-	recordMigrations "$databaseUrl" "$commit" run_by_deploy \
-		"$(echo "$fileName $(fingerprintOfFile "$fileName")" | asFingerprintJson)"
+	psql "$databaseUrl" --no-psqlrc --single-transaction --set ON_ERROR_STOP=on \
+		--set commit="$commit" --set howApplied=run_by_deploy --set fingerprints="$(fingerprintJsonOfFile "$fileName")" \
+		--file "$migrationRecordQueries/record-applied-migrations.sql" \
+		--file "$migrationsFolder/$fileName"
+}
+
+isMigrationRecorded() {
+	local databaseUrl="$1" fileName="$2" answer
+	answer=$(queryRecord "$databaseUrl" --set fileName="$fileName" \
+		<<< "select exists (select from public.applied_migrations where file_name = :'fileName')") || return 1
+	[ "$answer" = 't' ]
+}
+
+fingerprintsAtCommitAsJson() {
+	local commit="$1" fileNames="$2"
+	while IFS= read -r fileName; do
+		if [ -n "$fileName" ]; then
+			echo "$fileName $(fingerprintAtCommit "$commit" "$fileName")"
+		fi
+	done <<< "$fileNames" | asFingerprintJson
 }
 
 recordMigrationsAtCommitAsRunBefore() {
 	local databaseUrl="$1" commit="$2" fileNames="$3"
-	local fingerprints
-	fingerprints=$(while IFS= read -r fileName; do
-		if [ -n "$fileName" ]; then
-			echo "$fileName $(fingerprintAtCommit "$commit" "$fileName")"
-		fi
-	done <<< "$fileNames" | asFingerprintJson)
-	recordMigrations "$databaseUrl" "$commit" run_before_record "$fingerprints"
+	recordMigrations "$databaseUrl" "$commit" run_before_record "$(fingerprintsAtCommitAsJson "$commit" "$fileNames")"
 }
 
 listWaitingMigrations() {

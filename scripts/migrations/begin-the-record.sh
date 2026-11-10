@@ -2,8 +2,12 @@
 # migrations yet: it applies the record's own migration before any other, then
 # records every file that was on main before the push as run before the record
 # began, without running any of them, so only the files the push added are run.
-# Sourced by scripts/run-added-migrations.sh, never run; reads its beforeCommit,
-# SUPABASE_DB_URL, failWith, runMigration and readWaitingMigrations.
+# Those files and the record's own migration go on the record in one
+# transaction, so a run that stops there leaves the record empty and the next
+# run begins it again; the record's migration is safe to run twice. Sourced by
+# scripts/run-added-migrations.sh, never run; reads its beforeCommit,
+# afterCommit, SUPABASE_DB_URL, failWith, failedMigration and
+# readWaitingMigrations.
 
 readonly recordMigration='0197_applied_migrations.sql'
 readonly commitThatDoesNotExist='0000000000000000000000000000000000000000'
@@ -21,13 +25,34 @@ readMigrationsOnMainBefore() {
 	fi
 }
 
+applyTheRecordMigration() {
+	echo "Running $recordMigration"
+	if psql "$SUPABASE_DB_URL" --single-transaction --set ON_ERROR_STOP=on --file "migrations/$recordMigration"; then
+		return 0
+	fi
+	echo "::error::$recordMigration failed and was rolled back, so there is still no record; no other migration was run."
+	failedMigration="$recordMigration"
+	return 1
+}
+
+recordTheBeginning() {
+	psql "$SUPABASE_DB_URL" --no-psqlrc --quiet --single-transaction --set ON_ERROR_STOP=on \
+		--set beforeCommit="$beforeCommit" \
+		--set beforeFingerprints="$(fingerprintsAtCommitAsJson "$beforeCommit" "$migrationsOnMainBefore")" \
+		--set commit="$afterCommit" --set recordFingerprints="$(fingerprintJsonOfFile "$recordMigration")" \
+		--file "$(dirname "${BASH_SOURCE[0]}")/begin-the-record.sql" > /dev/null
+}
+
 beginTheRecord() {
 	echo "There is no record of applied migrations yet, so this run begins it with $recordMigration."
 	migrationsThisRun="$recordMigration"$'\n'
-	runMigration "$recordMigration" || return 1
-	recordMigrationsAtCommitAsRunBefore "$SUPABASE_DB_URL" "$beforeCommit" "$migrationsOnMainBefore" \
-		|| failWith "The files already on main could not be recorded as run before the record began."
-	echo "Recorded the $(wc -l <<< "$migrationsOnMainBefore") files on main before this push as run before the record began; none of them was run."
+	applyTheRecordMigration || return 1
+	if ! recordTheBeginning; then
+		echo "::error::$recordMigration applied, but the record could not be begun, so it stays empty and the next run begins it again. No other migration was run."
+		failedMigration="$recordMigration"
+		return 1
+	fi
+	echo "Applied and recorded $recordMigration, and recorded the $(wc -l <<< "$migrationsOnMainBefore") files on main before this push as run before the record began; none of them was run."
 	readWaitingMigrations
 	echo "Migrations this push added, besides the record's own:"
 	echo "${waitingMigrations:-none}"

@@ -4,6 +4,8 @@
 # runner, server, proofDatabase and proofUrl.
 
 runOutput=''
+readonly secondsTheSlowFileSleeps=120
+readonly secondsToWaitForTheSlowFile=60
 
 failWith() {
 	echo "::error::$1"
@@ -18,8 +20,12 @@ writeMigration() {
 	cat > "migrations/$1"
 }
 
+inItsOwnTransaction() {
+	printf 'begin;\n%s\ncommit;\n\nnotify pgrst, %s;\n' "$1" "'reload schema'"
+}
+
 writeTableMigration() {
-	writeMigration "$1" <<< "create table $2 (id int primary key); insert into $2 values (1);"
+	inItsOwnTransaction "create table $2 (id int primary key); insert into $2 values (1);" | writeMigration "$1"
 }
 
 commitAll() {
@@ -44,13 +50,19 @@ addTheRecordAndFiveFilesTheThirdFailing() {
 	cp "$repositoryRoot/migrations/0197_applied_migrations.sql" migrations/
 	writeTableMigration 0201_first_things.sql first_things
 	writeTableMigration 0202_second_things.sql second_things
-	writeMigration 0203_third_things.sql <<< "create table third_things (id int primary key); select 1 / 0;"
-	writeTableMigration 0204_fourth_things.sql fourth_things
+	inItsOwnTransaction "create table third_things (id int primary key); insert into third_things values (1); select 1 / 0;" \
+		| writeMigration 0203_third_things.sql
+	inItsOwnTransaction "select pg_sleep(case when current_setting('proof.slow', true) = 'on' then $secondsTheSlowFileSleeps else 0 end);
+create table fourth_things (id int primary key); insert into fourth_things values (1);" | writeMigration 0204_fourth_things.sql
 	writeTableMigration 0205_fifth_things.sql fifth_things
 }
 
 correctTheThirdFileInPlace() {
 	writeTableMigration 0203_third_things.sql third_things
+}
+
+addAFileThatFailsAfterItsOwnCommit() {
+	printf 'begin;\ncreate table sixth_things (id int primary key);\ncommit;\n\nselect 1 / 0;\n' | writeMigration 0206_sixth_things.sql
 }
 
 editARecordedFile() {
@@ -65,6 +77,34 @@ runTheDeploy() {
 	echo "$runOutput"
 	echo "::endgroup::"
 	[ "$outcome" = "$expectedOutcome" ] || failWith "The run went $outcome where $expectedOutcome was expected."
+}
+
+stopTheDeployDuringTheSlowFile() {
+	local beforeCommit="$1" afterCommit="$2" runnerGroup
+	echo "::group::The deploy's runner from ${beforeCommit:0:7} to ${afterCommit:0:7}, stopped while 0204 runs"
+	PGOPTIONS='-c proof.slow=on' SUPABASE_DB_URL="$proofUrl" setsid "$runner" "$beforeCommit" "$afterCommit" &
+	runnerGroup=$!
+	waitForTheSlowFile
+	kill -TERM -- "-$runnerGroup"
+	queryProof --command "select pg_terminate_backend(pid) from pg_stat_activity where query like '%pg_sleep%' and pid <> pg_backend_pid()" > /dev/null
+	wait "$runnerGroup" || true
+	echo "::endgroup::"
+}
+
+waitForTheSlowFile() {
+	for _ in $(seq "$secondsToWaitForTheSlowFile"); do
+		if [ "$(queryProof --command "select count(*) from pg_stat_activity where query like '%pg_sleep%' and pid <> pg_backend_pid()")" -gt 0 ]; then
+			return 0
+		fi
+		sleep 1
+	done
+	failWith "The runner never reached 0204_fourth_things.sql."
+}
+
+expectTable() {
+	local isThere
+	isThere=$(queryProof --command "select to_regclass('public.$1') is not null")
+	[ "$isThere" = "$2" ] || failWith "Whether $1 is there should be $2, and is $isThere."
 }
 
 expectRecord() {

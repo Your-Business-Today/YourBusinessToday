@@ -74,20 +74,25 @@ readWaitingMigrations() {
 	migrationsThisRun+="$waitingMigrations"$'\n'
 }
 
+sayWhyTheMigrationFailed() {
+	local fileName="$1"
+	if isMigrationRecorded "$SUPABASE_DB_URL" "$fileName"; then
+		echo "::error::$fileName committed and was recorded, then a statement after its own commit failed. What it committed stays applied and it is not run again; read the statements after its commit by hand. The migrations after it were not run."
+		return 0
+	fi
+	echo "::error::$fileName failed and was rolled back with its record, so it is not on the record; the migrations after it were not run. The next run applies it and them."
+}
+
 runMigration() {
 	local fileName="$1"
 	echo "Running $fileName"
-	if ! psql "$SUPABASE_DB_URL" --single-transaction --set ON_ERROR_STOP=on --file "migrations/$fileName"; then
-		echo "::error::$fileName failed and was rolled back, so it is not on the record; the migrations after it were not run. The next run applies it and them."
-		failedMigration="$fileName"
-		return 1
+	if applyAndRecordMigration "$SUPABASE_DB_URL" "$afterCommit" "$fileName"; then
+		echo "Applied and recorded $fileName"
+		return 0
 	fi
-	if ! recordAppliedMigration "$SUPABASE_DB_URL" "$afterCommit" "$fileName"; then
-		echo "::error::$fileName was applied but could not be recorded, so the next run applies it again; the migrations after it were not run."
-		failedMigration="$fileName"
-		return 1
-	fi
-	echo "Applied and recorded $fileName"
+	failedMigration="$fileName"
+	sayWhyTheMigrationFailed "$fileName"
+	return 1
 }
 
 runEachMigration() {
