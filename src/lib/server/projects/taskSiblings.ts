@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskRecord';
+import type { ProjectTask } from '$lib/server/projects/taskRecord';
+import { readEveryTask } from '$lib/server/projects/readEveryTask';
 import { rankChanges, redealtRanks, type RankChange } from '$lib/server/ordering/rankChanges';
 import { rankColumnsOf, saveRanks } from '$lib/server/ordering/saveRanks';
 import type { RankedScope } from '$lib/server/ordering/rankedScope';
@@ -31,16 +32,19 @@ async function loadSiblings(
 	projectId: string,
 	parentTaskId: string | null
 ): Promise<ProjectTask[]> {
-	const siblings = supabase.from('tasks').select('*').eq('project_id', projectId);
-	const scopedSiblings =
-		parentTaskId === null
-			? siblings.is('parent_task_id', null)
-			: siblings.eq('parent_task_id', parentTaskId);
-	const { data, error } = await scopedSiblings
-		.order('priority', { ascending: true })
-		.order('created_at', { ascending: true });
-	if (error) throw error;
-	return data.map(parseTaskRecord);
+	return readEveryTask((firstRow, lastRow) =>
+		siblingsUnder(supabase, projectId, parentTaskId)
+			.order('priority', { ascending: true })
+			.order('created_at', { ascending: true })
+			.order('id', { ascending: true })
+			.range(firstRow, lastRow)
+	);
+}
+
+function siblingsUnder(supabase: SupabaseClient, projectId: string, parentTaskId: string | null) {
+	const projectTasks = supabase.from('tasks').select('*').eq('project_id', projectId);
+	if (parentTaskId === null) return projectTasks.is('parent_task_id', null);
+	return projectTasks.eq('parent_task_id', parentTaskId);
 }
 
 async function saveSiblingOrder(
