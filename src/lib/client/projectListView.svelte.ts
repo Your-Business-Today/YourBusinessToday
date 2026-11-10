@@ -3,7 +3,6 @@ import { matchesProjectListFilters, type ProjectListFilters } from '$lib/data/pr
 import { projectCountLabel } from '$lib/data/projectCountLabel';
 import { topRank } from '$lib/data/topRank';
 import { writeShownIds, type ShownPosition } from '$lib/data/shownIds';
-import type { OrganisationPlace } from '$lib/data/organisationAccess';
 import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
 const projectsPerPage = 20;
@@ -12,12 +11,10 @@ const projectsPerPage = 20;
 export class ProjectListView extends ProjectFilterChoices {
 	#pageNumber = $state(1);
 	#allProjects: () => ProjectSummary[];
-	#organisations: () => OrganisationPlace[];
 
-	constructor(allProjects: () => ProjectSummary[], organisations: () => OrganisationPlace[]) {
+	constructor(allProjects: () => ProjectSummary[]) {
 		super();
 		this.#allProjects = allProjects;
-		this.#organisations = organisations;
 	}
 
 	get pageNumber(): number {
@@ -80,7 +77,6 @@ export class ProjectListView extends ProjectFilterChoices {
 	}
 
 	#projectsMatching(filters: ProjectListFilters): ProjectSummary[] {
-		const organisations = this.#organisations();
-		return this.#allProjects().filter((project) => matchesProjectListFilters(project, filters, organisations));
+		return this.#allProjects().filter((project) => matchesProjectListFilters(project, filters));
 	}
 }

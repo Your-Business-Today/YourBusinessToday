@@ -41,8 +41,8 @@ The books live in their own house, Your Books Today.
   review or done across your projects, as it happens — and the person a task was raised for is
   told on the bell when it is done;
   [docs/project-feed-architecture.md](./docs/project-feed-architecture.md) is the design.
-- Every project is for an organisation — a client such as Jewel Enterprises, with its businesses
-  as sub-organisations that can be invoiced on their own, or Your Business Today itself. Staff
+- Every project is for an organisation — a client company such as Jewel Passive Fire Protection,
+  invoiced as itself, or Your Business Today itself. Each organisation is one company. Staff
   create organisations at `/organisations`; a project manager on one brings people on by email,
   and everyone on an organisation is on every project under it, each new one included. The
   projects page filters by organisation;

@@ -9,7 +9,7 @@
 	import { headerPrimaryButtonClasses } from '$lib/components/workspace/workspaceStyles';
 	import { projectsCrumb } from '$lib/components/workspace/projectCrumbs';
 	import OrganisationBadge from '$lib/components/organisations/OrganisationBadge.svelte';
-	import { organisationNameLookup } from '$lib/data/organisationFamilies';
+	import { organisationNameLookup } from '$lib/data/organisationNames';
 	import { mainRunFacts } from '$lib/data/mainRunFacts';
 	import { stagingBranch } from '$lib/data/stagingBranch';
 	import { webAddressLabel } from '$lib/data/webAddressLabel';

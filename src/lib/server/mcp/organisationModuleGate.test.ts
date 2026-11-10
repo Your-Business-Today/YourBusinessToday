@@ -16,7 +16,7 @@ vi.mock('$env/dynamic/public', () => ({ env: {} }));
 const switchedOnModules = vi.hoisted(() => ({ current: [] as string[] }));
 vi.mock('$lib/server/organisations/getOrganisation', () => ({
 	getOrganisation: async (_supabase: unknown, organisationId: string) =>
-		organisationId === 'jewel' ? { id: 'jewel', parentOrganisationId: null, name: 'Jewel Enterprises' } : null
+		organisationId === 'jewel' ? { id: 'jewel', name: 'Jewel Enterprises' } : null
 }));
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({
 	getSwitchedOnModules: async () => switchedOnModules.current
