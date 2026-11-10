@@ -17,11 +17,10 @@ vi.mock('$lib/server/organisations/getSwitchedOnModules', async () => {
 	return { getSwitchedOnModules: async () => libraryWorld.switchedOn };
 });
 vi.mock('$lib/server/brandLibrary/findLibraryItems', async () => {
-	const { libraryWorld } = await import('./brandLibraryFixtures');
+	const { findItemInWorld, readLibraryInWorld } = await import('./brandLibraryFixtures');
 	return {
-		readKeptLibrary: async () => ({ items: libraryWorld.items, keptCount: libraryWorld.items.length }),
-		findKeptLibraryItem: async (_supabase: unknown, _organisationId: string, itemId: string) =>
-			libraryWorld.items.find((item) => item.id === itemId) ?? null
+		readKeptLibrary: async () => readLibraryInWorld(),
+		findKeptLibraryItem: async (_supabase: unknown, _organisationId: string, itemId: string) => findItemInWorld(itemId)
 	};
 });
 vi.mock('$lib/server/accounts/getAccountsById', () => ({

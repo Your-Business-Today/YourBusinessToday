@@ -32,3 +32,13 @@ export const libraryWorld = { switchedOn: ['brand'] as string[], items: [kitchen
 export function resetLibraryWorld() {
 	Object.assign(libraryWorld, { switchedOn: ['brand'], items: [kitchen, fittingVideo] });
 }
+
+export function readLibraryInWorld() {
+	const { items } = libraryWorld;
+	return { items, keptCount: items.length };
+}
+
+export function findItemInWorld(itemId: string): LibraryItem | null {
+	const { items } = libraryWorld;
+	return items.find((item) => item.id === itemId) ?? null;
+}

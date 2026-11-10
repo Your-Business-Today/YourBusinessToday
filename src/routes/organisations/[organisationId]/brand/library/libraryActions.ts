@@ -18,6 +18,10 @@ function describedItem(formData: FormData): Record<string, unknown> {
 	return { ...given, byteCount: Number(formData.get('byteCount')) };
 }
 
+function refuseItem(problem: string) {
+	return fail(badRequestStatus, { message: notAddedBecause(problem) });
+}
+
 async function requireBrandAdder(locals: App.Locals, organisationId: string) {
 	const { user } = await requireOrganisationModule(locals, organisationId, 'brand');
 	return { organisationId, accountId: user.id };
@@ -26,8 +30,9 @@ async function requireBrandAdder(locals: App.Locals, organisationId: string) {
 export const libraryActions: Actions = {
 	grantItem: async ({ locals, params, request }) => {
 		const adder = await requireBrandAdder(locals, params.organisationId);
-		const item = checkLibraryItem(describedItem(await request.formData()));
-		if (typeof item === 'string') return fail(badRequestStatus, { message: notAddedBecause(item) });
+		const described = describedItem(await request.formData());
+		const item = checkLibraryItem(described);
+		if (typeof item === 'string') return refuseItem(item);
 		const summary = await findBrandSummary(locals.supabase, adder.organisationId);
 		if (summary === null) return fail(conflictStatus, { message: libraryRefusals.noBrandYet });
 		return grantLibraryUpload(locals.supabase, adder, item);
