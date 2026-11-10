@@ -42,11 +42,7 @@
 		<CompanyProfileForm {client} />
 	</section>
 
-	<ClientPeopleSection
-		people={data.people}
-		approachDraft={form?.approachDraft ?? null}
-		canImportOfficers={data.canImportOfficers}
-	/>
+	<ClientPeopleSection people={data.people} canImportOfficers={data.canImportOfficers} />
 
 	<ClientGroupSection
 		{client}

@@ -7,7 +7,15 @@
 	import { confirmButtonClasses, panelClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import type { ClientPerson } from '$lib/server/clients/getPeopleForClient';
 
-	let { person, onEdit }: { person: ClientPerson; onEdit: (person: ClientPerson) => void } = $props();
+	let {
+		person,
+		onEdit,
+		onDraftApproach
+	}: {
+		person: ClientPerson;
+		onEdit: (person: ClientPerson) => void;
+		onDraftApproach: (person: ClientPerson) => void;
+	} = $props();
 
 	const contactLine = $derived(
 		[person.role || person.officerRole, person.email, person.phone].filter(Boolean).join(' · ')
@@ -41,10 +49,7 @@
 		</div>
 		<div class="flex flex-wrap gap-2">
 			<button type="button" class={quietButtonClasses} onclick={() => onEdit(person)}>Edit</button>
-			<form method="POST" action="?/draftApproach">
-				<input type="hidden" name="personId" value={person.id} />
-				<SubmitButton class={confirmButtonClasses} savingLabel="Drafting…">Draft approach</SubmitButton>
-			</form>
+			<button type="button" class={confirmButtonClasses} onclick={() => onDraftApproach(person)}>Ask your Claude to draft the approach</button>
 			{#if canInvite}
 				<form method="POST" action="?/inviteContact">
 					<input type="hidden" name="contactId" value={person.contactId} />
