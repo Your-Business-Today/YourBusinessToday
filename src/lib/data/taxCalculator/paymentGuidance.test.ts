@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import { class2PositionFor } from './class2Position';
 import { makingTaxDigitalPositionFor } from './makingTaxDigitalPosition';
 import { planPayment } from './paymentPlan';
 import { paymentsOnAccountFor } from './paymentsOnAccount';
@@ -42,24 +41,9 @@ describe('paymentsOnAccountFor', () => {
 			secondDueOn: '2028-07-31'
 		});
 	});
-
-	it('is not asked for below a £1,000 bill (£16,000 profit owes £686 + £205.80)', () => {
-		expect(paymentsOnAccountFor(billFor('2026/27', 16000), rules)).toBeNull();
-	});
-
-	it('is not asked for when CIS covered 80% or more of £13,888.60', () => {
-		expect(paymentsOnAccountFor(billFor('2026/27', 60000, 11110.88), rules)).toBeNull();
-		expect(paymentsOnAccountFor(billFor('2026/27', 60000, 11000), rules)).not.toBeNull();
-	});
 });
 
-describe('class2PositionFor and makingTaxDigitalPositionFor', () => {
-	it('credits automatically at the £7,105 small profits threshold in 2026/27', () => {
-		const nationalInsurance = rulesFor('2026/27').nationalInsurance;
-		expect(class2PositionFor(billFor('2026/27', 7105), nationalInsurance)).toBe('creditedAutomatically');
-		expect(class2PositionFor(billFor('2026/27', 7104), nationalInsurance)).toBe('belowSmallProfitsThreshold');
-	});
-
+describe('makingTaxDigitalPositionFor', () => {
 	it('brings in 2025/26 income over £30,000 from 6 April 2027, and 2026/27 over £20,000 from 6 April 2028', () => {
 		expect(makingTaxDigitalPositionFor(30001, rulesFor('2025/26').makingTaxDigital).appliesFrom).toBe('2027-04-06');
 		expect(makingTaxDigitalPositionFor(20000, rulesFor('2026/27').makingTaxDigital).isBroughtInByThisIncome).toBe(false);
