@@ -2,6 +2,8 @@ import { ukMeetingTime } from './ukMeetingTime';
 import { paperLinesOfItem } from './describeBoardroomPaper';
 import { recordPaperLinesOfItem } from './describeBoardroomRecordPaper';
 import { briefLinesOfItem } from './describeBoardroomBrief';
+import { roomLinesOnAgenda } from './describeBoardroomRoom';
+import type { MeetingRoom } from './boardroomRoom';
 import {
 	directorsOnMeeting,
 	meetingStage,
@@ -26,6 +28,7 @@ export type MeetingRecord = {
 	papers: BoardroomPaper[];
 	recordPapers: BoardroomRecordPaper[];
 	briefing?: MeetingBriefing;
+	room?: MeetingRoom;
 };
 
 export const agendaPurposeWords = { decision: 'for decision', noting: 'to note' } as const;
@@ -36,17 +39,17 @@ function agendaLine(item: AgendaItem, index: number): string {
 	return `${index + 1}. ${item.title} — ${agendaPurposeWords[item.purpose]}${aside}`;
 }
 
-function itemLines(record: MeetingRecord, item: AgendaItem, index: number, onIt: BoardroomDirector[]): string[] {
+function itemLines(record: MeetingRecord, item: AgendaItem, index: number, now: Date): string[] {
+	const onIt = directorsOnMeeting(record.directors, record.meeting, now);
 	const papers = paperLinesOfItem(record.papers, item.id, record.directors);
 	const recordPapers = recordPaperLinesOfItem(record.recordPapers, item.id, record.directors);
 	const briefs = briefLinesOfItem(record.briefing, item.id, onIt);
-	return [agendaLine(item, index), ...papers, ...recordPapers, ...briefs];
+	return [agendaLine(item, index), ...papers, ...recordPapers, ...briefs, ...roomLinesOnAgenda(record, item, now)];
 }
 
 function agendaLines(record: MeetingRecord, now: Date): string[] {
 	const agenda = standingAgenda(record.items);
-	const onIt = directorsOnMeeting(record.directors, record.meeting, now);
-	return agenda.flatMap((item, index) => itemLines(record, item, index, onIt));
+	return agenda.flatMap((item, index) => itemLines(record, item, index, now));
 }
 
 function withdrawnLines(items: AgendaItem[]): string[] {

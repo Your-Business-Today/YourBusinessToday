@@ -2,6 +2,7 @@ import { boardroomDirectorActions } from './boardroomDirectorActions';
 import { boardroomMeetingActions } from './boardroomMeetingActions';
 import { boardroomPaperActions } from './boardroomPaperActions';
 import { boardroomBriefActions } from './boardroomBriefActions';
+import { boardroomRoomActions } from './boardroomRoomActions';
 import { companyContextActions } from './companyContextActions';
 import { confirmedContextActions } from './confirmedContextActions';
 import { contextRunActions } from './contextRunActions';
@@ -22,6 +23,7 @@ export const organisationActions: McpAction[] = [
 	...boardroomMeetingActions,
 	...boardroomPaperActions,
 	...boardroomBriefActions,
+	...boardroomRoomActions,
 	...organisationPeopleActions,
 	...organisationProjectActions,
 	...companyContextActions,
