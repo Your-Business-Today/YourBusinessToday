@@ -2,6 +2,6 @@ import { requireOrganisationModule } from '$lib/server/auth/requireOrganisationM
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ locals, params }) => {
-	const { organisation } = await requireOrganisationModule(locals, params.organisationId, 'business_brain');
-	return { organisation };
+	const { organisation, canManage } = await requireOrganisationModule(locals, params.organisationId, 'business_brain');
+	return { organisation, canManage };
 };

@@ -2,9 +2,19 @@
 	import BusinessBrainChatbotRow from './BusinessBrainChatbotRow.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import { panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
+	import type { BusinessBrainAddresses } from '$lib/data/businessBrainAddresses';
 	import type { BusinessBrainChatbot } from '$lib/data/businessBrainChatbotRules';
 
-	let { chatbots }: { chatbots: BusinessBrainChatbot[] } = $props();
+	let {
+		chatbots,
+		canManage,
+		addresses
+	}: { chatbots: BusinessBrainChatbot[]; canManage: boolean; addresses: BusinessBrainAddresses } = $props();
+
+	function questionsHrefOf(chatbot: BusinessBrainChatbot): string | null {
+		if (!canManage) return null;
+		return addresses.chatbotQuestions(chatbot.chatbotId);
+	}
 </script>
 
 <DashboardPanel title="Chatbots" count={chatbots.length}>
@@ -15,7 +25,7 @@
 	{:else}
 		<ul class={panelListClasses}>
 			{#each chatbots as chatbot (chatbot.chatbotId)}
-				<BusinessBrainChatbotRow {chatbot} />
+				<BusinessBrainChatbotRow {chatbot} questionsHref={questionsHrefOf(chatbot)} />
 			{/each}
 		</ul>
 	{/if}

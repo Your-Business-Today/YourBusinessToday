@@ -6,7 +6,8 @@ export const chatbotTrailLimits = {
 	longestAnswer: 20000,
 	longestRefusal: 2000,
 	mostPagesCited: 50,
-	mostQuestionsListed: 100
+	mostQuestionsListed: 100,
+	mostQuestionsDownloaded: 10000
 } as const;
 
 /** The three readings a person's Claude makes through a chatbot, as business_brain_chatbot_readings.reading accepts them. */

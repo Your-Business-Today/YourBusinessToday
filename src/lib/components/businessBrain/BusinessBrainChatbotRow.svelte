@@ -5,7 +5,7 @@
 	import { peopleCountSentence } from './businessBrainSentences';
 	import type { BusinessBrainChatbot } from '$lib/data/businessBrainChatbotRules';
 
-	let { chatbot }: { chatbot: BusinessBrainChatbot } = $props();
+	let { chatbot, questionsHref }: { chatbot: BusinessBrainChatbot; questionsHref: string | null } = $props();
 
 	const { name, parts, people } = $derived(chatbot);
 </script>
@@ -22,4 +22,7 @@
 			<span class="text-xs text-chalk-subtle">Reads nothing yet.</span>
 		{/each}
 	</div>
+	{#if questionsHref !== null}
+		<a href={questionsHref} class="self-start text-sm text-go underline underline-offset-2">Questions asked</a>
+	{/if}
 </li>
