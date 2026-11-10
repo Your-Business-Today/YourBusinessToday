@@ -5,6 +5,8 @@ import type { BusinessBrainLinkRead } from '$lib/server/businessBrain/readBusine
 import type { BusinessBrainPageRead, BusinessBrainSourceRead } from '$lib/server/businessBrain/readBusinessBrainPageWhole';
 import type { BusinessBrainRevisionRead } from '$lib/server/businessBrain/readBusinessBrainPageHistory';
 import type { BusinessBrainDoor } from './businessBrainDoor';
+import { pageFilesSection } from './businessBrainKeptFileSections';
+import type { KeptBusinessBrainFile } from '$lib/server/businessBrain/readKeptBusinessBrainFiles';
 
 /** What a page is read with: the page it sits under, its links and its history. */
 export type BusinessBrainPageSurroundings = {
@@ -29,11 +31,12 @@ function citation(title: string, pageId: string, source: BusinessBrainSourceRead
 	return `Cite it as "${title}" (page id ${pageId}${from}). Answer only what it says; where it is silent, say so.`;
 }
 
-/** The page as it now reads, with where it came from, what it relates to and its history. */
+/** The page as it now reads, with where it came from, the files it names, what it relates to and its history. */
 export function describeBusinessBrainPage(
 	door: BusinessBrainDoor,
 	page: BusinessBrainPageRead,
-	surroundings: BusinessBrainPageSurroundings
+	surroundings: BusinessBrainPageSurroundings,
+	files: KeptBusinessBrainFile[] = []
 ): string {
 	const partName = businessBrainPartNames[page.partKind];
 	const placing = `${door.brainName} · ${partName} · ${page.kind} · page id ${page.pageId} · last filed ${formatBritishDate(page.updatedAt)}`;
@@ -45,6 +48,7 @@ export function describeBusinessBrainPage(
 		page.body,
 		...factsSection(page.facts),
 		...sourceSection(page.source),
+		...pageFilesSection(files),
 		...relatedSection(surroundings.parent, surroundings.links),
 		...historySection(surroundings.history, door.readPageAction),
 		'',

@@ -1,6 +1,7 @@
 import { businessBrainUploadLinkLifetimeHours } from '$lib/data/businessBrainFileRules';
 import { describeByteCount } from '$lib/data/taskAttachmentRules';
 import { formatBritishDateTime } from '$lib/data/britishDate';
+import { fetchLinkLifetimeMinutes } from '$lib/server/storage/signFetchLink';
 import type { BusinessBrainFile } from '$lib/server/businessBrain/businessBrainFileRecord';
 import type { BusinessBrainFileGiven } from '$lib/data/businessBrainFileRules';
 import type { GrantedBusinessBrainUpload } from '$lib/server/businessBrain/grantBusinessBrainFileUpload';
@@ -54,4 +55,18 @@ export function withFilesNamed(answer: string, fileIds: string[]): string {
 
 export function filesNamedOnUnchangedPage(fileIds: string[]): string {
 	return withFilesNamed('The page already reads exactly so, so its text and history are unchanged.', fileIds);
+}
+
+export const noSuchKeptFile =
+	"This organisation's brain keeps no file by that fileId. A file is kept once it has arrived: find its id on the page written from it, " +
+	'or in read_business_brain_index.';
+
+export function keptFileOpened(organisation: Organisation, file: BusinessBrainFile, link: string): string {
+	const size = describeByteCount(file.byteCount ?? 0);
+	return [
+		`"${file.filename}" (${file.mimeType}, ${size}), kept in ${organisation.name}'s Your Business Brain (file id: ${file.id}).`,
+		`Fetch it within ${fetchLinkLifetimeMinutes} minutes from:`,
+		link,
+		'The link is for you to fetch the file now, not to pass on: call again for a fresh one.'
+	].join('\n');
 }
