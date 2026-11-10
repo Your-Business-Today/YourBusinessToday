@@ -15,7 +15,8 @@ const piece: ContentPiece = {
 	caption: 'Book now',
 	invitedAction: 'replyToUs',
 	publishedUrl: '',
-	brandSnapshot: {}
+	brandSnapshot: {},
+	plannedFor: null
 };
 
 describe('a piece of a brand’s content as its page shows it', () => {

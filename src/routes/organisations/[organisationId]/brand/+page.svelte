@@ -9,6 +9,7 @@
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { brandKitCrumbsFor, nothingDecidedYet } from '$lib/components/brand/brandKitPageWords';
 	import { brandLibraryPathOf } from '$lib/brand/library/libraryWords';
+	import { contentPlanPathOf } from '$lib/components/brand/contentPlanPageWords';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
@@ -22,6 +23,7 @@
 
 <WorkspaceHeader crumbs={brandKitCrumbsFor(organisation)} title="Brand kit">
 	{#snippet actions()}
+		<Button href={contentPlanPathOf(organisation.id)}>The month’s plan</Button>
 		<Button href={brandLibraryPathOf(organisation.id)}>Photos and videos</Button>
 	{/snippet}
 	<p class="text-sm text-chalk-muted">

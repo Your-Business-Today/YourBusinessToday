@@ -21,6 +21,7 @@ export type ContentPiecePage = {
 	caption: string;
 	invitedAction: string;
 	scheduledFor: string | null;
+	plannedFor: string | null;
 	publishedUrl: string;
 	shots: ShotRow[];
 	reviews: ReviewEntry[];
@@ -40,9 +41,9 @@ export function awaitingPieceRowOf(piece: ContentSummary): AwaitingPieceRow {
 }
 
 export function contentPiecePageOf(piece: ContentPiece, reviews: ContentReview[]): ContentPiecePage {
-	const { id, title, stage, hook, script, caption, scheduledFor, publishedUrl } = piece;
+	const { id, title, stage, hook, script, caption, scheduledFor, plannedFor, publishedUrl } = piece;
 	return {
-		...{ id, title, stage, hook, script, caption, scheduledFor, publishedUrl },
+		...{ id, title, stage, hook, script, caption, scheduledFor, plannedFor, publishedUrl },
 		medium: mediumLabelOf(piece.mediumPath),
 		isAwaitingApproval: stage === ContentStages.awaitingApproval,
 		invitedAction: invitedActionLabelOf(piece.invitedAction),

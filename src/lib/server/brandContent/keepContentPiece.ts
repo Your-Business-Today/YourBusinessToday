@@ -6,15 +6,16 @@ export type ContentPieceToKeep = { organisationId: string; accountId: string; dr
 
 /** Keeps a drafted piece in the organisation's brand content and gives its id. */
 export async function keepContentPiece(supabase: SupabaseClient, piece: ContentPieceToKeep): Promise<string> {
-	const { data, error } = await supabase.from('brand_content_pieces').insert(rowOf(piece)).select('id').single();
+	const row = { ...draftColumnsOf(piece), organisation_id: piece.organisationId, created_by: piece.accountId };
+	const { data, error } = await supabase.from('brand_content_pieces').insert(row).select('id').single();
 	if (error) throw error;
 	return data.id as string;
 }
 
-function rowOf(piece: ContentPieceToKeep): Record<string, unknown> {
+/** The columns a draft writes, with the piece at drafted: a new piece's, or an idea's as it is written up. */
+export function draftColumnsOf(piece: ContentPieceToKeep): Record<string, unknown> {
 	const { medium, title, hook, script, storyboard, caption, invitedAction } = piece.draft;
 	return {
-		organisation_id: piece.organisationId,
 		medium_path: medium.path,
 		title,
 		hook,
@@ -23,7 +24,6 @@ function rowOf(piece: ContentPieceToKeep): Record<string, unknown> {
 		caption,
 		invited_action: invitedAction,
 		stage: ContentStages.drafted,
-		brand_snapshot: piece.brandSnapshot,
-		created_by: piece.accountId
+		brand_snapshot: piece.brandSnapshot
 	};
 }

@@ -18,6 +18,7 @@ export function describeContentPiece({ piece, reviews }: ContentPieceWithReviews
 		storyboardSection(piece.storyboard),
 		`Caption: ${piece.caption}`,
 		`Invites: ${piece.invitedAction || nothingInvited}`,
+		piece.plannedFor === null ? null : `Planned for ${piece.plannedFor}`,
 		piece.scheduledFor === null ? null : `Scheduled for ${piece.scheduledFor}`,
 		piece.publishedUrl === '' ? null : `Published at ${piece.publishedUrl}`,
 		reviewsSection(reviews),

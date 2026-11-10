@@ -34,7 +34,11 @@ export type ContentPiece = ContentSummary & {
 	invitedAction: string;
 	publishedUrl: string;
 	brandSnapshot: BrandSnapshot;
+	plannedFor: string | null;
 };
+
+/** A piece as the month's plan lays it out: what it is, its opening line, and the day it is planned or scheduled for. */
+export type PlannedPiece = ContentSummary & { hook: string; plannedFor: string | null };
 
 export type ContentReview = { verdict: string; body: string; createdAt: string };
 

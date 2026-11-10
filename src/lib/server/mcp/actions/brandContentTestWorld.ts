@@ -1,5 +1,6 @@
 import { brandContentActions } from './brandContentActions';
 import { brandContentFlowActions } from './brandContentFlowActions';
+import { brandContentPlanActions } from './brandContentPlanActions';
 import type { McpCaller } from '../resolveMcpCaller';
 
 const nigelOnJewel = {
@@ -10,6 +11,6 @@ const nigelOnJewel = {
 
 /** Runs one of the brand content actions as Nigel, on Jewel. */
 export function runContentAction(name: string, input: Record<string, unknown>): Promise<string> {
-	const action = [...brandContentActions, ...brandContentFlowActions].find((candidate) => candidate.name === name)!;
+	const action = [...brandContentActions, ...brandContentFlowActions, ...brandContentPlanActions].find((candidate) => candidate.name === name)!;
 	return action.run(nigelOnJewel, { organisationId: 'jewel', ...input }).then(String);
 }
