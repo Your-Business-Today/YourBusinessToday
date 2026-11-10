@@ -3,6 +3,7 @@ import { speakOnBoardroomItem } from './speakOnBoardroomItem';
 import { boardRoomRefusals } from '$lib/data/boardroomRoomRules';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
 import { meetingInRoom, said } from '$lib/data/boardroomRoom.fixtures';
+import { controlsOf } from '$lib/data/boardroomSeatControls.fixtures';
 import { duringTheMeeting, meetingId, yourBusinessToday } from '$lib/data/boardroomMeeting.fixtures';
 import type { BoardContribution, OutcomeDraft } from '$lib/data/boardroomRoom';
 import type { MeetingRecord } from '$lib/data/describeBoardroomMeeting';
@@ -17,6 +18,7 @@ const room = vi.hoisted(() => ({
 vi.mock('./readBoardroomMeeting', () => ({
 	getMeetingRecord: async (): Promise<MeetingRecord | null> => (room.isMissing ? null : meetingInRoom({ contributions: room.said }))
 }));
+vi.mock('./getBoardroomSeatControls', () => ({ getControlsOfSeat: async (_supabase: unknown, _meetingId: string, seatId: string) => controlsOf(seatId) }));
 vi.mock('./saveBoardroomRoom', () => ({
 	insertBoardContribution: async (_supabase: unknown, placing: Record<string, unknown>) => {
 		room.kept.push(placing);

@@ -1,39 +1,32 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getMeetingRecord } from './readBoardroomMeeting';
-import { insertBoardContribution } from './saveBoardroomRoom';
-import { settleBoardroomItem } from './settleBoardroomItem';
+import { getControlsOfSeat } from './getBoardroomSeatControls';
+import { insertHeldContribution } from './saveBoardroomSeatControls';
+import { placingOf, sayInTheRoom } from './sayInTheRoom';
 import { placeBoardContribution, type ContributionPlace, type RoomCaller } from '$lib/data/placeBoardContribution';
-import { itemTalkOf } from '$lib/data/boardroomRoomTurns';
+import { heldAwaitingOnItem, isAskingFirst, isPaused, type SeatControls } from '$lib/data/boardroomSeatControls';
+import { seatControlRefusals } from '$lib/data/boardroomSeatControlRules';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
-import { boardRoomRefusals } from '$lib/data/boardroomRoomRules';
-import { describeContributionKept } from '$lib/data/describeBoardItem';
+import { heldForDirectorWords } from '$lib/data/describeSeatControls';
 import type { ContributionDraft } from '$lib/data/validateBoardContribution';
 import type { MeetingRecord } from '$lib/data/describeBoardroomMeeting';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
-function placingOf(record: MeetingRecord, place: ContributionPlace, draft: ContributionDraft, caller: RoomCaller) {
-	const { item, seatId, round, onProposalId, correctsId } = place;
-	const said = { stance: draft.stance, words: draft.words, wording: draft.wording };
-	return { meeting: record.meeting, agendaItemId: item.id, seatId, spokenBy: caller.accountId, round, onProposalId, correctsId, ...said };
-}
+/** What a Claude that must ask its director first is about to say, and everything the room placed it with. */
+type HeldPiece = { record: MeetingRecord; place: ContributionPlace; draft: ContributionDraft; caller: RoomCaller };
 
-/** What was just said: its id, the item's number now, and the moment. */
-type JustSaid = { keptId: string; itemNumber: number; now: Date };
-
-async function answerAfterSpeaking(supabase: SupabaseClient, record: MeetingRecord, place: ContributionPlace, said: JustSaid) {
-	const { keptId, itemNumber, now } = said;
-	const { meeting } = record;
-	const after = (await getMeetingRecord(supabase, meeting.organisationId, meeting.id)) ?? record;
-	const talk = itemTalkOf(after, place.item, now);
-	const outcome = await settleBoardroomItem(supabase, after, place.item, talk);
-	const kept = talk.contributions.find((contribution) => contribution.id === keptId);
-	const reading = { record: after, item: place.item, itemNumber, talk, outcome, seatId: place.seatId };
-	return kept === undefined ? boardRoomRefusals.itemHasComeOut : describeContributionKept(reading, kept);
+async function holdForDirector(supabase: SupabaseClient, controls: SeatControls, piece: HeldPiece): Promise<string> {
+	const { record, place, draft, caller } = piece;
+	const { item } = place;
+	const isAlreadyHolding = heldAwaitingOnItem(controls, item.id) !== null;
+	if (isAlreadyHolding) return seatControlRefusals.alreadyHolding;
+	await insertHeldContribution(supabase, placingOf(record, place, draft, caller));
+	return heldForDirectorWords(draft.itemNumber);
 }
 
 /**
- * A director's Claude says its piece on an agenda item, for the signed-in director only, in its turn; the item
- * comes out of the room the moment every seat agrees the wording on the table, or the rounds run out.
+ * A director's Claude says its piece on an agenda item, for the signed-in director only, in its turn. A Claude
+ * its director has paused says nothing; one whose director asked to be asked first holds the piece for their yes.
  */
 export async function speakOnBoardroomItem(
 	supabase: SupabaseClient,
@@ -46,9 +39,9 @@ export async function speakOnBoardroomItem(
 	if (record === null) return boardroomMeetingRefusals.noSuchMeeting;
 	const place = placeBoardContribution(record, draft, caller);
 	if (typeof place === 'string') return place;
-	const cameOutAlready = await settleBoardroomItem(supabase, record, place.item, place.talk);
-	if (cameOutAlready !== null) return boardRoomRefusals.itemHasComeOut;
-	const keptId = await insertBoardContribution(supabase, placingOf(record, place, draft, caller));
-	if (keptId === null) return boardRoomRefusals.alreadySpokenThisRound;
-	return answerAfterSpeaking(supabase, record, place, { keptId, itemNumber: draft.itemNumber, now: caller.now });
+	const controls = await getControlsOfSeat(supabase, meetingId, place.seatId);
+	if (isPaused(controls)) return seatControlRefusals.claudeIsPaused;
+	if (isAskingFirst(controls)) return holdForDirector(supabase, controls, { record, place, draft, caller });
+	const said = await sayInTheRoom(supabase, record, place, draft, caller);
+	return said.answer;
 }

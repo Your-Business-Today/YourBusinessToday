@@ -6,6 +6,7 @@ import { getKeptPapersOfMeeting } from './getBoardroomPapers';
 import { getRecordPapersOfMeeting } from './getBoardroomRecordPapers';
 import { getMeetingBriefing } from './getBoardroomBriefs';
 import { getRoomOfMeeting } from './getBoardroomRoom';
+import { getControlsOfReader } from './getBoardroomSeatControls';
 import { isUuid } from '$lib/data/isUuid';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
 import {
@@ -35,7 +36,7 @@ export async function getMeetingRecord(
 	return { meeting, directors, items, papers, recordPapers, room };
 }
 
-/** One meeting as its reader sees it: the record, with their own briefs and only whose others are in. */
+/** One meeting as its reader sees it: the record, with their own briefs, only whose others are in, and their own Claude's controls. */
 export async function getBriefedMeetingRecord(
 	supabase: SupabaseClient,
 	organisationId: string,
@@ -44,8 +45,11 @@ export async function getBriefedMeetingRecord(
 ): Promise<MeetingRecord | null> {
 	const record = await getMeetingRecord(supabase, organisationId, meetingId);
 	if (record === null) return null;
-	const briefing = await getMeetingBriefing(supabase, record, accountId);
-	return { ...record, briefing };
+	const [briefing, controls] = await Promise.all([
+		getMeetingBriefing(supabase, record, accountId),
+		getControlsOfReader(supabase, record, accountId)
+	]);
+	return { ...record, briefing, controls };
 }
 
 export async function readBoardroomMeeting(

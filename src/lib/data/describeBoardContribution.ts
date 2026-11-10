@@ -16,13 +16,16 @@ function referenceTo(contributions: BoardContribution[], contributionId: string 
 	return number === null ? 'an earlier one' : String(number);
 }
 
-function stanceWords(contribution: BoardContribution, contributions: BoardContribution[]): string {
+/** What a piece does with the wording: what it proposes, or its stance and the contribution it speaks on. */
+export type StanceOfPiece = Pick<BoardContribution, 'stance' | 'wording' | 'onProposalId'>;
+
+export function stanceWords(contribution: StanceOfPiece, contributions: BoardContribution[]): string {
 	if (contribution.stance === stances.proposes) return `proposes: "${contribution.wording}"`;
 	if (contribution.onProposalId === null) return contribution.stance;
 	return `${contribution.stance} the wording in ${referenceTo(contributions, contribution.onProposalId)}`;
 }
 
-function correctionWords(contribution: BoardContribution, contributions: BoardContribution[]): string {
+export function correctionWords(contribution: BoardContribution, contributions: BoardContribution[]): string {
 	if (contribution.correctsId === null) return '';
 	return ` (corrects ${referenceTo(contributions, contribution.correctsId)})`;
 }
