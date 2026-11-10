@@ -10,6 +10,10 @@ export function fromPence(pence: number): number {
 	return pence / penceInPound;
 }
 
+export function roundToPence(amount: number): number {
+	return fromPence(toPence(amount));
+}
+
 export function sumMoney(amounts: number[]): number {
 	const totalPence = amounts.reduce((total, amount) => total + toPence(amount), 0);
 	return fromPence(totalPence);
