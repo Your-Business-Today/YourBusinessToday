@@ -20,8 +20,7 @@ export const organisationInviteActions: McpAction[] = [
 			'bring someone on to an organisation you manage, by email — they are on every project under it at once, and are emailed',
 		guidance:
 			'Someone new here gets a link to set a password; someone with an account is told to sign in. ' +
-			'On a parent they reach every sub-organisation’s projects as well; on a sub-organisation only ' +
-			'its own. Make them a project manager only if they are to bring people on themselves. ' +
+			'They reach the projects of that organisation alone. Make them a project manager only if they are to bring people on themselves. ' +
 			'For one project alone, call invite_to_project instead.',
 		inputSchema: objectSchema(
 			{
