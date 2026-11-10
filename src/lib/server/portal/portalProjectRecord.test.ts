@@ -60,9 +60,16 @@ describe('toPortalProject', () => {
 				title: launchGoal.title,
 				measure: launchGoal.measure,
 				completionPercent: 33,
-				openTaskCount: 2
+				openTaskCount: 2,
+				contextVersionNumber: null
 			}
 		]);
+	});
+
+	it('says which version of the confirmed company context a goal came from', () => {
+		const serviceGoal = { ...launchGoal, context_version_number: 4 };
+		const serviceProject = toPortalProject({ ...projectRow, goals: [serviceGoal] });
+		expect(serviceProject.currentGoals[0].contextVersionNumber).toBe(4);
 	});
 
 	it('counts percent done over current work only', () => {

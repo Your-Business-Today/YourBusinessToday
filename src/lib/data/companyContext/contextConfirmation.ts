@@ -35,7 +35,8 @@ export const notConfirmedYet = 'The client has not confirmed this version yet.';
 
 /** What staff do once a client confirms. */
 export const staffNextStep =
-	"Next, a staff member's Claude raises the services their business needs from it as goals on their project.";
+	"Next, a staff member's Claude reads it with read_confirmed_company_context and raises the services their " +
+	'business needs from it as goals on their project.';
 
 /** What confirming does, said beside the button. */
 export function confirmInvitation(versionNumber: number): string {
