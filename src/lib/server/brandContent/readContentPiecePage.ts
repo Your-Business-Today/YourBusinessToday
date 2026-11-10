@@ -1,9 +1,10 @@
 import { contentPiecePageOf, type ContentPiecePage } from '$lib/brand/projections/contentPiecePage';
 import { findContentPiece } from './findContentPiece';
+import { findContentPost } from './findContentPost';
 import { isUuid } from '$lib/data/isUuid';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-/** One of the organisation's pieces as its page shows it, or null when the brand holds no piece of that id. */
+/** One of the organisation's pieces as its page shows it, with every channel of its post, or null when the brand holds no piece of that id. */
 export async function readContentPiecePage(
 	supabase: SupabaseClient,
 	organisationId: string,
@@ -12,5 +13,6 @@ export async function readContentPiecePage(
 	if (!isUuid(contentPieceId)) return null;
 	const found = await findContentPiece(supabase, organisationId, contentPieceId);
 	if (found === null) return null;
-	return contentPiecePageOf(found.piece, found.reviews);
+	const post = await findContentPost(supabase, organisationId, found.piece);
+	return contentPiecePageOf(found.piece, found.reviews, post);
 }

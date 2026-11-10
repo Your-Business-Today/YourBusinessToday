@@ -49,4 +49,14 @@ describe('a piece of a brand’s content as its page shows it', () => {
 			updatedAt: '2026-11-10T10:00:00Z'
 		});
 	});
+
+	it('lists every channel of its post, this one marked, each with its own caption', () => {
+		const facebook = { ...piece, id: 'piece-2', mediumPath: 'image.post.facebook', stage: 'drafted' as const, caption: 'Book now: jewel.example' };
+		const page = contentPiecePageOf(piece, [], { id: 'piece-1', channels: [piece, facebook], isKept: true });
+		expect(page.channels.map((channel) => [channel.id, channel.caption, channel.isThisPiece])).toEqual([
+			['piece-1', 'Book now', true],
+			['piece-2', 'Book now: jewel.example', false]
+		]);
+		expect(contentPiecePageOf(piece, []).channels).toHaveLength(1);
+	});
 });
