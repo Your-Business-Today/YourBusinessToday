@@ -14,7 +14,7 @@ export const nothingNewToFile =
 export const revisedMeanwhile =
 	'Someone revised this page while you were filing, so it was left as they made it. Read it again and file your revision on top of theirs.';
 
-function brainOf(organisation: Organisation): string {
+export function brainOf(organisation: Organisation): string {
 	return `${organisation.name}'s Your Business Brain`;
 }
 
