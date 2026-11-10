@@ -1,6 +1,7 @@
 import { clientEventLabels } from '$lib/data/clientEventLabels';
 import { clientStageLabels } from '$lib/data/clientLifecycle';
 import { formatBritishDate } from '$lib/data/britishDate';
+import { describeCompanyProfile } from './describeCompanyProfile';
 import { describeContinuityCopy } from './describeContinuityCopy';
 import type { Client } from '$lib/server/clients/clientRecord';
 import type { ClientContact } from '$lib/server/clients/clientContactRecord';
@@ -36,6 +37,8 @@ export function describeClientInFull(
 		`On the register since ${formatBritishDate(client.createdAt)}`,
 		describeContinuityCopy(client.continuityCopy),
 		'',
+		...describeCompanyProfile(client),
+		'',
 		'Contacts:',
 		contacts.length === 0 ? 'None yet.' : contacts.map(describeContactLine).join('\n'),
 		'',
@@ -49,7 +52,7 @@ export function describeClientInFull(
 function describeContactLine(contact: ClientContact): string {
 	const standing = contact.accountId === null ? 'not invited yet' : 'has a sign-in';
 	const role = describeContactRole(contact);
-	return `${contact.name} (${contact.email}) — ${role} — ${standing} — id ${contact.id}`;
+	return `${contact.name} (${contact.email}) — ${role} — ${standing} — id ${contact.id} — person ${contact.personId}`;
 }
 
 function describeContactRole(contact: ClientContact): string {

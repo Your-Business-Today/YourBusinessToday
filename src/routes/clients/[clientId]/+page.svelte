@@ -37,17 +37,13 @@
 	<section class="flex flex-col gap-4">
 		<div class="flex items-center justify-between gap-4">
 			<h2 class="font-display text-xl">Company profile</h2>
-			<a href={researchAgainHref} class={quietButtonClasses}>Research again</a>
+			<a href={researchAgainHref} class={quietButtonClasses}>Ask your Claude to research</a>
 		</div>
 		<CompanyJobAdverts companyName={client.name} place={client.address} />
 		<CompanyProfileForm {client} />
 	</section>
 
-	<ClientPeopleSection
-		people={data.people}
-		approachDraft={form?.approachDraft ?? null}
-		canImportOfficers={data.canImportOfficers}
-	/>
+	<ClientPeopleSection people={data.people} canImportOfficers={data.canImportOfficers} />
 
 	<ClientGroupSection
 		{client}

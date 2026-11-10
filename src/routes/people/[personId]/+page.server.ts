@@ -4,11 +4,9 @@ import { deletePerson } from '$lib/server/people/deletePerson';
 import { getPerson } from '$lib/server/people/getPerson';
 import { getCompaniesForPerson } from '$lib/server/people/getCompaniesForPerson';
 import { getPersonEventsForClients } from '$lib/server/people/getPersonEventsForClients';
-import { approachFormActions } from '$lib/server/people/approachFormActions';
 import { importActions, pendingAppointmentsFor } from './importActions';
 import { personFormActions } from '$lib/server/people/personFormActions';
 import { requireStaff } from '$lib/server/auth/requireStaff';
-import { researchFormActions } from '$lib/server/people/research/researchFormActions';
 import type { Actions, PageServerLoad } from './$types';
 
 const importCompaniesRequest = 'companies';
@@ -30,8 +28,6 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 export const actions: Actions = {
 	...personFormActions,
 	...importActions,
-	...approachFormActions,
-	...researchFormActions,
 	deletePerson: async ({ locals, params }) => {
 		await requireStaff(locals);
 		await deletePerson(locals.supabase, params.personId);

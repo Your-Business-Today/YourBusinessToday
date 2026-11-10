@@ -4,8 +4,7 @@ import { createClient } from './createClient';
 import { getContactsForClient } from './getContactsForClient';
 import { recordClientEvent } from './recordClientEvent';
 import { updateCompanyProfile } from './updateCompanyProfile';
-import type { ReviewedLead } from './readResearchedLeadForm';
-import type { ResearchedPerson } from './researchedProfile';
+import type { ResearchedPerson, ReviewedLead } from './researchedProfile';
 
 export async function saveResearchedLead(
 	supabase: SupabaseClient,
