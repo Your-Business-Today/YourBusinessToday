@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getMeetingRecord } from './readBoardroomMeeting';
+import { raiseCarriedActions } from './raiseCarriedActions';
 import { insertBoardDecision, insertDecisionAnswer } from './saveBoardroomDecisions';
 import { placeDecisionAnswer, type DecisionAnswerPlace } from '$lib/data/placeDecisionAnswer';
 import { decisionOnItem } from '$lib/data/boardDecisionOnItem';
@@ -21,16 +22,17 @@ async function decisionIdOf(supabase: SupabaseClient, record: MeetingRecord, pla
 	return insertBoardDecision(supabase, record.meeting, decision, caller.accountId);
 }
 
-async function answerAfterKeeping(supabase: SupabaseClient, record: MeetingRecord, place: DecisionAnswerPlace, now: Date): Promise<string> {
-	const { meeting } = record;
-	const after = (await getMeetingRecord(supabase, meeting.organisationId, meeting.id)) ?? record;
-	return decisionAnswerKeptWords(place.itemNumber, decisionOnItem(after, place.item, now), after.directors);
+/** Where the decision stands after the answer, with any actions raised now that it has carried. */
+async function answerAfterKeeping(supabase: SupabaseClient, organisation: Organisation, record: MeetingRecord, place: DecisionAnswerPlace, caller: RoomCaller): Promise<string> {
+	const { record: after, words } = await raiseCarriedActions(supabase, organisation, record, caller);
+	return decisionAnswerKeptWords(place.itemNumber, decisionOnItem(after, place.item, caller.now), after.directors) + words;
 }
 
 /**
  * A director's own answer to the decision on an item: agrees, disagrees or abstains, with their reason if they
  * give one. It is kept for the signed-in director's own seat only, once, while the meeting is open. Pausing their
- * Claude does not stop the director answering. The first answer puts the decision with the rule in force.
+ * Claude does not stop the director answering. The first answer puts the decision with the rule in force, and the
+ * answer that carries it raises its actions.
  */
 export async function answerBoardDecision(
 	supabase: SupabaseClient,
@@ -47,5 +49,5 @@ export async function answerBoardDecision(
 	const placing = { meeting: record.meeting, decisionId, seatId: place.seatId, answeredBy: caller.accountId };
 	const isKept = await insertDecisionAnswer(supabase, placing, draft);
 	if (!isKept) return refused(boardDecisionRefusals.alreadyAnswered);
-	return { answer: await answerAfterKeeping(supabase, record, place, caller.now), isKept: true };
+	return { answer: await answerAfterKeeping(supabase, organisation, record, place, caller), isKept: true };
 }

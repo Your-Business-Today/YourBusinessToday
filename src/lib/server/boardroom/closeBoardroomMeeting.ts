@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getMeetingRecord } from './readBoardroomMeeting';
+import { raiseCarriedActions } from './raiseCarriedActions';
 import { insertMeetingClosing } from './saveBoardroomMinutes';
 import { placeMeetingClose } from '$lib/data/placeMeetingClose';
 import { closeWaitsForWordWords, meetingClosedWords } from '$lib/data/describeMinutesKept';
@@ -15,7 +16,8 @@ const refused = (answer: string): SeatAnswer => ({ answer, isKept: false });
 /**
  * The minute-taker closes an open meeting, once. Closing cannot be undone and ends the taking of answers, so while
  * an item has not come out of the room or a decision still waits, it closes only on the chair's word to close with
- * them waiting. A decision still waiting is then settled from the answers given; closing writes no outcome.
+ * them waiting. A decision still waiting is then settled from the answers given, and the actions of each that
+ * carried are raised; closing writes no outcome.
  */
 export async function closeBoardroomMeeting(
 	supabase: SupabaseClient,
@@ -35,5 +37,6 @@ export async function closeBoardroomMeeting(
 	const placing = { meeting: record.meeting, seatId: place.seatId, givenBy: caller.accountId };
 	const isClosed = await insertMeetingClosing(supabase, placing);
 	if (!isClosed) return refused(boardMinutesRefusals.meetingNotOpen);
-	return { answer: meetingClosedWords, isKept: true };
+	const { words } = await raiseCarriedActions(supabase, organisation, record, caller);
+	return { answer: meetingClosedWords + words, isKept: true };
 }

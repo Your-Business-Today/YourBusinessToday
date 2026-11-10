@@ -3,6 +3,7 @@ import { emptyMeetingRoom, outcomeOfItem } from './boardroomRoom';
 import { decisionOnItem, type DecisionOnItem } from './boardDecisionOnItem';
 import { decisionRuleSentence } from './describeDecisionRule';
 import { decisionStandingWords } from './describeBoardDecision';
+import { minutedActionsOf } from './minutedActions';
 import { minutedOutcomes, noMeetingMinutes, type MinutedDecision, type MinutedItem, type MinutedOutcome, type MinutesFacts } from './boardroomMinutes';
 import type { BoardroomDirector } from './boardroomDirector';
 import type { MeetingRecord } from './describeBoardroomMeeting';
@@ -49,7 +50,8 @@ function minutedItem(record: MeetingRecord, item: AgendaItem, index: number, now
 		outcome: minuted,
 		wording: outcome?.wording ?? null,
 		speakers: speakersOn(record, item),
-		decision: minutedDecision(decisionOnItem(record, item, now), record.directors)
+		decision: minutedDecision(decisionOnItem(record, item, now), record.directors),
+		actions: minutedActionsOf(record, item, now)
 	};
 }
 

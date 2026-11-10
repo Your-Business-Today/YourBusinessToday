@@ -1,5 +1,6 @@
 import { ukMeetingTime } from './ukMeetingTime';
 import { agendaPurposeWords } from './describeBoardroomMeeting';
+import { minutedActionLines } from './minutedActions';
 import { minutedOutcomes, type MinutedAnswer, type MinutedDecision, type MinutedItem, type MinutesFacts } from './boardroomMinutes';
 
 const indent = '   ';
@@ -34,7 +35,7 @@ function decisionLines(decision: MinutedDecision | null): string[] {
 function itemLines(item: MinutedItem): string[] {
 	const aside = item.isAnyOtherBusiness ? anyOtherBusinessWords : '';
 	const heading = `${item.number}. ${item.title} — ${agendaPurposeWords[item.purpose]}${aside}`;
-	return [heading, speakersLine(item), outcomeLine(item), ...decisionLines(item.decision)];
+	return [heading, speakersLine(item), outcomeLine(item), ...decisionLines(item.decision), ...minutedActionLines(item.actions)];
 }
 
 function openedWords(facts: MinutesFacts): string {

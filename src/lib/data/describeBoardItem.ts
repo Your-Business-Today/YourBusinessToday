@@ -22,6 +22,7 @@ export type ItemReading = {
 	outcome: ItemOutcome | null;
 	seatId: string | null;
 	decision?: DecisionOnItem | null;
+	actionLines?: string[];
 };
 
 function papersLines({ record, item }: ItemReading): string[] {
@@ -64,7 +65,7 @@ export function describeBoardItem(organisationName: string, reading: ItemReading
 	const said = saidSoFarLines(talk.contributions, record.directors);
 	const ownDirector = [...ownBriefLines(reading), ...seatControlLines(record.controls, item.id)];
 	const decision = decisionLines(reading.decision ?? null, record.directors);
-	return [heading, '', ...papersLines(reading), '', ...ownDirector, '', ...said, '', ...standingLines(reading), ...decision].join('\n');
+	return [heading, '', ...papersLines(reading), '', ...ownDirector, '', ...said, '', ...standingLines(reading), ...decision, ...(reading.actionLines ?? [])].join('\n');
 }
 
 /** The answer when a contribution is kept: its number and round, and where the item stands now. */
