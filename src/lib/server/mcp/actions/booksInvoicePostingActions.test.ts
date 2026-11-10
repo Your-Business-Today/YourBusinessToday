@@ -81,7 +81,8 @@ describe('issuing, voiding and deleting an invoice', () => {
 		await run('issue_invoice', { invoiceId });
 		expect(await run('delete_invoice', { invoiceId })).toBe('Nothing was deleted. Invoice INV-6 is issued and posted to the ledger, so it is voided rather than deleted.');
 		await run('void_invoice', { invoiceId });
-		expect(await run('delete_invoice', { invoiceId })).toBe("Deleted void invoice INV-6 to Jewel Bespoke Build from Jewel Enterprises's books.");
+		const deleted = "Deleted void invoice INV-6 to Jewel Bespoke Build from Jewel Enterprises's books.";
+		expect(await run('delete_invoice', { invoiceId })).toBe(`${deleted} A record of what was deleted is kept; list_books_deletions reads it.`);
 		expect(ledgerTables.books_invoices).toEqual([]);
 		expect(ledgerTables.books_journals.map((journal) => journal.kind)).toEqual(['invoice', 'invoice_void']);
 	});

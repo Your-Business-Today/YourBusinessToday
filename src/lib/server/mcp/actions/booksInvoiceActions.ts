@@ -7,6 +7,7 @@ import { objectSchema } from '../actionTypes';
 import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
 import { booksOrganisationField } from './booksFields';
 import { invoiceHeadingFields, invoiceIdField, invoiceLinesField } from './booksInvoiceFields';
+import { keptRecordOfIt } from './describeBooksDeletions';
 import type { McpAction } from '../actionTypes';
 
 const draftOnlyWhatThePersonSaid =
@@ -24,7 +25,8 @@ const changeOnlyWhatThePersonAsked =
 
 const deleteOnlyWhenThePersonSaysSo =
 	'Delete an invoice only when the person says to. Only a draft or a void invoice is deleted; an issued or paid one ' +
-	'has posted to the ledger and is voided instead. A void invoice keeps its journals in the ledger after it is deleted.';
+	'has posted to the ledger and is voided instead. A void invoice keeps its journals in the ledger after it is deleted. ' +
+	'A record of the invoice and its lines is kept, which list_books_deletions reads, so one deleted by mistake can be put back.';
 
 export const booksInvoiceActions: McpAction[] = [
 	moduleAction('books', {
@@ -73,8 +75,9 @@ export const booksInvoiceActions: McpAction[] = [
 		inputSchema: objectSchema({ organisationId: booksOrganisationField, invoiceId: invoiceIdField }, ['organisationId', 'invoiceId']),
 		run: async (caller, input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.deleting, async () => {
-				const invoice = await deleteInvoice(caller.supabase, organisation.id, input.invoiceId);
-				return `Deleted ${invoice.status} invoice ${invoice.printedNumber} to ${invoice.customerName} from ${organisation.name}'s books.`;
+				const invoice = await deleteInvoice(caller.supabase, organisation.id, input.invoiceId, caller.accountId);
+				const deleted = `Deleted ${invoice.status} invoice ${invoice.printedNumber} to ${invoice.customerName} from ${organisation.name}'s books.`;
+				return `${deleted} ${keptRecordOfIt}`;
 			})
 	})
 ];
