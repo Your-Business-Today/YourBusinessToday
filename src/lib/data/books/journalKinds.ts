@@ -32,3 +32,10 @@ export const ExpenseJournalKinds = {
 	record: 'expense',
 	payment: 'expense_payment'
 } as const satisfies Record<string, JournalKind>;
+
+/** The kinds of the journals month end posts: a cost accrued, its reversal next month, and a month's share of a prepayment. */
+export const PeriodEndJournalKinds = {
+	accrual: 'accrual',
+	accrualReversal: 'accrual_reversal',
+	prepaymentRelease: 'prepayment_release'
+} as const satisfies Record<string, JournalKind>;
