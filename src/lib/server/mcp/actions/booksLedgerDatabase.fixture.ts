@@ -44,6 +44,10 @@ export const ledgerDatabase = {
 				filters.push((row) => row[column] === undefined || row[column] === value);
 				return chain;
 			},
+			is: (column: string, value: unknown) => {
+				filters.push((row) => (row[column] ?? null) === value);
+				return chain;
+			},
 			in: (column: string, values: unknown[]) => {
 				filters.push((row) => values.includes(row[column]));
 				return chain;

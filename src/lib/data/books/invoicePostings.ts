@@ -1,4 +1,5 @@
 import type { JournalLineInput } from './journalLine';
+import { creditOf, debitOf } from './postingSides';
 
 /** A line of an invoice as it posts: the sale it makes to one income account, perhaps within a cost centre. */
 export type InvoiceSale = { incomeAccountId: string; costCentreId: string | null; amount: number };
@@ -20,12 +21,4 @@ export function paymentLines(bankAccountId: string, debtorsAccountId: string, am
 /** The same lines on the other sides, so posting them undoes the journal they came from. */
 export function reversedLines(lines: JournalLineInput[]): JournalLineInput[] {
 	return lines.map((line) => ({ ...line, debit: line.credit, credit: line.debit }));
-}
-
-function debitOf(accountId: string, amount: number): JournalLineInput {
-	return { accountId, costCentreId: null, debit: amount, credit: nothing };
-}
-
-function creditOf(accountId: string, amount: number, costCentreId: string | null): JournalLineInput {
-	return { accountId, costCentreId, debit: nothing, credit: amount };
 }
