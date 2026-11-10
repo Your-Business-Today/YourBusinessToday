@@ -9,6 +9,7 @@ const howToFile = [
 	`Put each page in the part of the business it belongs to: ${businessBrainPartKinds.join(', ')}.`,
 	'Name the source every time: what you read it in (an email, a document, a meeting, a web page) and where it can be found. File every page you take from one source with the sourceId the first filing gave back.',
 	'File what the source says and nothing it does not. Where you are unsure what it means, which part it belongs to or whether it is still true, ask the person you are working with before filing, and file their answer with them named as the source.',
+	'Where you read a file — a document, a photo, an export — keep it with the brain through grant_business_brain_file_upload and record_business_brain_file_upload, and name it in sourceFileIds on every page written from it.',
 	'A subject already filed takes a revision, never a second page: the earlier version goes into the page’s history, and nothing is overwritten or deleted.',
 	'Never file a password, a key, or personal details the business has no need to keep.'
 ];
