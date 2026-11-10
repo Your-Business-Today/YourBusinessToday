@@ -1,0 +1,25 @@
+name: connector self-check
+
+# After every production deploy, the deployed connector checks itself against the live database: it keeps every
+# promise of src/lib/server/mcp/pipelineContract.json and answers a set of reads without an error. The check runs
+# on the site, behind the cron door, so it signs in with CRON_SECRET as the deploy windows knock does. It only
+# reads. Unlike that knock, a failure here fails the workflow, so it shows red in GitHub once for the deploy.
+
+on:
+  deployment_status:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Check the connector against the live database
+    if: github.event_name == 'workflow_dispatch' || (github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          status="$(curl --silent --show-error --location-trusted --max-time 330 --output answer.json \
+            --write-out '%{http_code}' --header "Authorization: Bearer $CRON_SECRET" "$DOOR")"
+          cat answer.json; echo
+          if [ "$status" != "200" ]; then echo "::error::The connector self-check answered $status. The answer above says what failed; the site's logs have the cause."; exit 1; fi
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          DOOR: https://www.yourbusiness.today/api/watch/connector_self_check

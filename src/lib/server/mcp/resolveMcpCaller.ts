@@ -35,3 +35,22 @@ async function stampUse(supabase: SupabaseClient, tokenId: string): Promise<void
 		.eq('id', tokenId);
 	if (error) throw error;
 }
+
+/**
+ * The caller the connector's self-check reads as: an administrator, so it is offered every action the
+ * build pipeline calls and reaches a real project. It only ever reads, whoever it reads as.
+ */
+export async function resolveSelfCheckCaller(supabase: SupabaseClient): Promise<McpCaller | null> {
+	const { data, error } = await supabase
+		.from('profiles')
+		.select('id')
+		.eq('is_admin', true)
+		.order('id')
+		.limit(1)
+		.maybeSingle();
+	if (error) throw error;
+	if (data === null) return null;
+	const standing = await resolveAccountStanding(supabase, data.id as string);
+	if (standing === null) return null;
+	return { ...standing, supabase };
+}
