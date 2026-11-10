@@ -3,7 +3,7 @@ import { requireBoardroomDirector } from './requireBoardroomDirector';
 import type { BoardroomDirector } from '$lib/data/boardroomDirector';
 
 const room = vi.hoisted(() => ({ switchedOn: [] as string[], directors: [] as BoardroomDirector[], isStaff: false }));
-const ybt = { id: 'ybt', parentOrganisationId: null, name: 'Your Business Today' };
+const ybt = { id: 'ybt', name: 'Your Business Today' };
 const jeremyOnYbt = [{ organisationId: 'ybt', accountId: 'jeremy', isManager: false }];
 
 vi.mock('./requireOrganisationAccess', () => ({

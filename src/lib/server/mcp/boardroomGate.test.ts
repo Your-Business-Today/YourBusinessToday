@@ -17,7 +17,7 @@ vi.mock('$env/dynamic/public', () => ({ env: {} }));
 const board = vi.hoisted(() => ({ switchedOn: [] as string[], directors: [] as BoardroomDirector[] }));
 vi.mock('$lib/server/organisations/getOrganisation', () => ({
 	getOrganisation: async (_supabase: unknown, organisationId: string) =>
-		organisationId === 'ybt' ? { id: 'ybt', parentOrganisationId: null, name: 'Your Business Today' } : null
+		organisationId === 'ybt' ? { id: 'ybt', name: 'Your Business Today' } : null
 }));
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => board.switchedOn }));
 vi.mock('$lib/server/boardroom/getDirectorsOfOrganisation', () => ({ getDirectorsOfOrganisation: async () => board.directors }));

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { filterChipClasses } from '$lib/components/projects/filterChipClasses';
-	import { inFamilyOrder } from '$lib/data/organisationFamilies';
 	import {
 		everyOrganisationFilter,
 		noOrganisationFilter,
@@ -23,13 +22,12 @@
 
 	const chips = $derived<Chip[]>([
 		everyChip,
-		...inFamilyOrder(organisations).map(chipFor),
+		...organisations.map(chipFor),
 		...(hasProjectsUnderNone ? [noneChip] : [])
 	]);
 
 	function chipFor(organisation: Organisation): Chip {
-		const prefix = organisation.parentOrganisationId === null ? '' : '› ';
-		return { filter: organisation.id, label: `${prefix}${organisation.name}` };
+		return { filter: organisation.id, label: organisation.name };
 	}
 </script>
 

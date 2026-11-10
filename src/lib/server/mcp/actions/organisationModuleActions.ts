@@ -32,8 +32,7 @@ export const organisationModuleActions: McpAction[] = [
 		summary: 'switch Books, Brand, Your Business Brain or Boardroom on or off for an organisation',
 		guidance:
 			'Every organisation starts with all four off. A module that is off shows nowhere for that organisation, on ' +
-			'the site or in the connector. A business beneath a client is switched on its own, because each is its own ' +
-			'company. Switching off keeps everything the module holds; switching on again shows it as it was.',
+			'the site or in the connector. Each organisation is one company and is switched on its own. Switching off keeps everything the module holds; switching on again shows it as it was.',
 		inputSchema: objectSchema({ organisationId: organisationIdField, module: moduleField, isOn: isOnField }, [
 			'organisationId',
 			'module',

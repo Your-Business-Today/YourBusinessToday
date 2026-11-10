@@ -2,7 +2,7 @@ import { actionsFor, areasFor } from './actionRegistry';
 import { clientContactsOf } from './clientContactAccess';
 import { countOf } from '$lib/data/countOf';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
-import { organisationNameLookup } from '$lib/data/organisationFamilies';
+import { organisationNameLookup } from '$lib/data/organisationNames';
 import { raisingDoctrine } from './raisingDoctrine';
 import { workingDoctrine } from './workingDoctrine';
 import type { McpCaller } from './resolveMcpCaller';
