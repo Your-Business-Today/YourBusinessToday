@@ -32,6 +32,7 @@ vi.mock('$lib/server/brandContent/findContentPiece', async () => {
 	};
 });
 
+vi.mock('$lib/server/brandContent/findPostPictures', () => ({ findPostPictures: async () => new Map() }));
 vi.mock('$lib/server/brandContent/findContentPost', () => ({
 	findContentPost: async (_supabase: unknown, _organisationId: string, piece: { id: string }) => ({
 		id: piece.id,

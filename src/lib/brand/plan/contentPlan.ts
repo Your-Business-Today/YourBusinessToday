@@ -41,6 +41,7 @@ export type ContentPlan = {
 	nextMonthKey: string;
 	counts: PlanCounts;
 	kindCounts: KindCount[];
+	awaitingPictureCount: number;
 	rhythms: PostingRhythm[];
 	weeks: PlanWeek[];
 };

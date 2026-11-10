@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ContentPieceText from '$lib/components/brand/ContentPieceText.svelte';
+	import ContentPostPictures from '$lib/components/brand/ContentPostPictures.svelte';
 	import ContentPostChannelTable from '$lib/components/brand/ContentPostChannelTable.svelte';
 	import ContentReviewPanel from '$lib/components/brand/ContentReviewPanel.svelte';
 	import ContentReviewList from '$lib/components/brand/ContentReviewList.svelte';
@@ -9,12 +10,13 @@
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { brandCrumbsFor } from '$lib/components/brand/brandKitPageWords';
 	import { channelsExplained, channelsPanelTitle } from '$lib/components/brand/contentPostWords';
+	import { pictureExplained, picturePanelTitle } from '$lib/components/brand/postPictureWords';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { formatBritishDateTime, formatUkDateTime } from '$lib/data/britishDate';
 
 	let { data, form } = $props();
 
-	const { brandOrganisation: organisation, piece } = $derived(data);
+	const { brandOrganisation: organisation, piece, pictures } = $derived(data);
 	const channels = $derived(piece.channels);
 	const answer = $derived(form?.message ?? null);
 </script>
@@ -51,6 +53,10 @@
 			</DashboardPanel>
 		</div>
 		<aside class="flex min-w-0 flex-col gap-6">
+			<DashboardPanel title={picturePanelTitle} count={pictures.chosenCount} isPadded>
+				<p class="mb-4 text-sm text-chalk-muted">{pictureExplained}</p>
+				<ContentPostPictures {pictures} />
+			</DashboardPanel>
 			<ContentReviewPanel stage={piece.stage} isAwaitingApproval={piece.isAwaitingApproval} {answer} />
 			<DashboardPanel title="Reviews" isPadded>
 				<ContentReviewList reviews={piece.reviews} />

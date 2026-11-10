@@ -2,7 +2,7 @@
 	import { isVideo } from '$lib/brand/library/libraryItem';
 	import type { LibraryPageItem } from './brandLibraryPageWords';
 
-	let { item }: { item: LibraryPageItem } = $props();
+	let { item }: { item: Pick<LibraryPageItem, 'viewUrl' | 'filename' | 'mimeType' | 'shows'> } = $props();
 
 	const frameClasses = 'h-16 w-24 object-cover';
 </script>

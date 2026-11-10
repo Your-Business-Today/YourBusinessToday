@@ -6,6 +6,7 @@ import { ukClockAt } from '$lib/data/ukClock';
 import { weeksOfMonth, type PlanDayDate } from './planDays';
 import { awaitedOnOf, isOutsideRhythm, rhythmTalliesOf } from './planRhythm';
 import { postsOfDay } from './planPosts';
+import { awaitingPictureCountOf, type PlanPictures } from './planPictures';
 import type { PostingRhythm } from '../rhythm/postingRhythm';
 import type { ContentPlan, PlanDay, PlanEntry, PlanWeek } from './contentPlan';
 
@@ -13,9 +14,14 @@ const nothingOnIt = 0;
 
 /**
  * The month's plan from the brand's pieces: each on the day it goes out, the days with nothing on them left showing,
- * and each week held against the brand's posting rhythms.
+ * each week held against the brand's posting rhythms, and each post with where its picture stands.
  */
-export function contentPlanOf(month: PlanMonth, pieces: PlannedPiece[], rhythms: PostingRhythm[] = []): ContentPlan {
+export function contentPlanOf(
+	month: PlanMonth,
+	pieces: PlannedPiece[],
+	rhythms: PostingRhythm[] = [],
+	pictures: PlanPictures = new Map()
+): ContentPlan {
 	const monthKey = planMonthKeyOf(month);
 	const entries = pieces
 		.map((piece) => entryOf(piece, rhythms))
@@ -28,8 +34,9 @@ export function contentPlanOf(month: PlanMonth, pieces: PlannedPiece[], rhythms:
 		nextMonthKey: planMonthKeyOf(monthAfter(month)),
 		counts: planCountsOf(entries),
 		kindCounts: kindCountsOf(entries),
+		awaitingPictureCount: awaitingPictureCountOf(entries, pictures),
 		rhythms,
-		weeks: weeksOfMonth(month).map((days) => weekOf(days, entries, rhythms))
+		weeks: weeksOfMonth(month).map((days) => weekOf(days, entries, { rhythms, pictures }))
 	};
 }
 
@@ -48,15 +55,18 @@ function entryOf(piece: PlannedPiece, rhythms: PostingRhythm[]): PlanEntry | nul
 	return { id, postId, date, time, mediumPath, medium: mediumLabelOf(mediumPath), kind, title, hook, stage, canMove, isExtra };
 }
 
-function weekOf(days: PlanDayDate[], entries: PlanEntry[], rhythms: PostingRhythm[]): PlanWeek {
+/** What a week of the plan is held against: the brand's posting rhythms, and what each post says of its picture. */
+type WeekStandards = { rhythms: PostingRhythm[]; pictures: PlanPictures };
+
+function weekOf(days: PlanDayDate[], entries: PlanEntry[], { rhythms, pictures }: WeekStandards): PlanWeek {
 	const weekEntries = entries.filter((entry) => days.some((day) => day.date === entry.date));
 	const tallies = rhythmTalliesOf(rhythms, days, weekEntries);
-	const plannedDays = days.map((day) => dayOf(day, weekEntries, awaitedOnOf(rhythms, tallies, day, weekEntries)));
+	const plannedDays = days.map((day) => dayOf(day, weekEntries, awaitedOnOf(rhythms, tallies, day, weekEntries), pictures));
 	const [firstDay] = days;
 	return { key: firstDay.date, label: `Week of ${firstDay.label}`, days: plannedDays, entryCount: weekEntries.length, tallies };
 }
 
-function dayOf(day: PlanDayDate, entries: PlanEntry[], awaitedOn: string[]): PlanDay {
+function dayOf(day: PlanDayDate, entries: PlanEntry[], awaitedOn: string[], pictures: PlanPictures): PlanDay {
 	const dayEntries = entries.filter((entry) => entry.date === day.date);
-	return { ...day, entries: dayEntries, posts: postsOfDay(dayEntries), isEmpty: dayEntries.length === nothingOnIt, awaitedOn };
+	return { ...day, entries: dayEntries, posts: postsOfDay(dayEntries, pictures), isEmpty: dayEntries.length === nothingOnIt, awaitedOn };
 }
