@@ -2,6 +2,8 @@
 	import Badge from '$lib/components/site/Badge.svelte';
 	import BoardPaperEntry from './BoardPaperEntry.svelte';
 	import AgendaItemBriefing from './AgendaItemBriefing.svelte';
+	import ItemRoomTalk from './ItemRoomTalk.svelte';
+	import HeldPieceCard from './HeldPieceCard.svelte';
 	import type { BoardAgendaItemView } from '$lib/data/boardMeetingView';
 
 	let { item }: { item: BoardAgendaItemView } = $props();
@@ -26,4 +28,8 @@
 		</ul>
 	{/if}
 	<AgendaItemBriefing itemNumber={item.number} briefing={item.briefing} />
+	<ItemRoomTalk room={item.room} />
+	{#if item.held !== null}
+		<HeldPieceCard held={item.held} />
+	{/if}
 </li>

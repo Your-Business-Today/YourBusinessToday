@@ -16,10 +16,11 @@ import type { BoardroomDirector } from './boardroomDirector';
 import type { BoardroomPaper } from './boardroomPaper';
 import type { BoardroomRecordPaper } from './boardroomRecordPaper';
 import type { MeetingBriefing } from './boardroomBrief';
+import type { SeatControls } from './boardroomSeatControls';
 
 /**
  * Everything a director reads of one meeting: the meeting, its board, every item ever put on its agenda and
- * their papers; and, when it is read for one director, what they know of its briefs.
+ * their papers; and, when it is read for one director, what they know of its briefs and what they told their Claude.
  */
 export type MeetingRecord = {
 	meeting: BoardroomMeeting;
@@ -29,6 +30,7 @@ export type MeetingRecord = {
 	recordPapers: BoardroomRecordPaper[];
 	briefing?: MeetingBriefing;
 	room?: MeetingRoom;
+	controls?: SeatControls;
 };
 
 export const agendaPurposeWords = { decision: 'for decision', noting: 'to note' } as const;

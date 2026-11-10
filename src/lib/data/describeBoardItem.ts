@@ -8,6 +8,7 @@ import { outcomeKinds, type BoardContribution, type ItemOutcome } from './boardr
 import { isStillToSpeak, type ItemTalk } from './boardroomRoomTurns';
 import { numberOf, saidSoFarLines } from './describeBoardContribution';
 import { outcomeLine, positionLines, talkingLine } from './describeBoardroomRoom';
+import { seatControlLines } from './describeSeatControls';
 import type { AgendaItem } from './boardroomMeeting';
 
 /** One item as a director's Claude reads it in the room: the item, its number now, and what is known of it. */
@@ -58,7 +59,8 @@ export function describeBoardItem(organisationName: string, reading: ItemReading
 	const when = ukMeetingTime(meeting.meetsAt);
 	const heading = `Item ${itemNumber} of the board meeting of ${organisationName}, ${when} (UK time): ${item.title} — ${agendaPurposeWords[item.purpose]}.`;
 	const said = saidSoFarLines(talk.contributions, record.directors);
-	return [heading, '', ...papersLines(reading), '', ...ownBriefLines(reading), '', ...said, '', ...standingLines(reading)].join('\n');
+	const ownDirector = [...ownBriefLines(reading), ...seatControlLines(record.controls, item.id)];
+	return [heading, '', ...papersLines(reading), '', ...ownDirector, '', ...said, '', ...standingLines(reading)].join('\n');
 }
 
 /** The answer when a contribution is kept: its number and round, and where the item stands now. */
