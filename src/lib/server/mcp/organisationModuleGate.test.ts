@@ -60,6 +60,13 @@ describe('every connector action of a module asks the one rule', () => {
 		expect(moduleActions.filter((action) => !isGatedByModuleRule(action)).map((action) => action.name)).toEqual([]);
 	});
 
+	it('holds every books action behind the Books rule', () => {
+		const booksAreaActions = everyAction.filter((action) => action.area === 'books');
+		expect(booksAreaActions.length).toBeGreaterThan(0);
+		const ungated = booksAreaActions.filter((action) => action.module !== 'books' || !isGatedByModuleRule(action));
+		expect(ungated.map((action) => action.name)).toEqual([]);
+	});
+
 	it('names the organisation it works on', () => {
 		const moduleActions = everyAction.filter((action) => action.module !== undefined);
 		const requiredFields = (action: McpAction) => {
