@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { findDataLoss } from '$lib/server/migrations/migrationDataLoss';
 
-const migrationFile = 'migrations/0157_business_brain_search.sql';
+const migrationFile = 'migrations/0158_business_brain_search.sql';
 const migration = readFileSync(migrationFile, 'utf8');
 const statements = migration.replace(/--.*$/gm, '');
 const oldBrainTablePattern = /\b(?:brain_\w+|domain_brains|knowledge_bases|kb_\w+|chatbots?\w*|hive_mind_\w+|workspace_\w+)\b/g;

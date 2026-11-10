@@ -17,7 +17,7 @@ type SearchRow = {
 };
 
 /**
- * The organisation's pages that match the words, best first, as search_business_brain (migration 0157)
+ * The organisation's pages that match the words, best first, as search_business_brain (migration 0158)
  * ranks them; null while that migration has not run yet.
  */
 export async function searchBusinessBrain(

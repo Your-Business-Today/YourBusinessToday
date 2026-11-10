@@ -57,7 +57,7 @@ export type BusinessBrainRevisionGiven = {
 	source: BusinessBrainSourceGiven;
 };
 
-/** How much one reading of Your Business Brain gives back; search_business_brain (migration 0157) answers at most 50. */
+/** How much one reading of Your Business Brain gives back; search_business_brain (migration 0158) answers at most 50. */
 export const businessBrainReadLimits = {
 	longestSearch: 200,
 	mostPagesFound: 20,
