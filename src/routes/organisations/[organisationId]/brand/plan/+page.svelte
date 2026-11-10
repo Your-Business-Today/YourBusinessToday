@@ -46,7 +46,7 @@
 	<DashboardPanel title="This month" isPadded>
 		<ContentPlanCounts counts={plan.counts} />
 	</DashboardPanel>
-	<DashboardPanel title="Kinds of post this month" count={plan.kindCounts.length}>
+	<DashboardPanel title="Kinds of post this month">
 		<ContentPlanKindTable kindCounts={plan.kindCounts} />
 	</DashboardPanel>
 	{#each plan.weeks as week (week.key)}
