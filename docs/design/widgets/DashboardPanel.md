@@ -37,3 +37,7 @@ The panel: the square, bordered box that holds a table, a list, a form or a figu
 ## Unmapped
 - YBT's panel today is rounded (`rounded-xl`) with a small-capitals title (`text-xs tracking-widest uppercase`); the brand drops both (rules 5 and 6).
 - `panelClasses` in `formStyles.ts` (`rounded-2xl border p-5`) is a second panel written as a class string; the next task folds it into this widget.
+
+## Exceptions
+- The body is flush unless the view asks for `isPadded`. Every view that uses the panel pads its own body today, so a padded default would pad them twice; the views take up `isPadded` and drop their own padding in the refactor rounds. Checked 10 Nov 2026.
+- The scrolling variant is `scrollHeightClass` (a `max-h-*` class for the body), and the loading and error states are `isLoading` and `errorMessage`. The empty state stays the view's, composed from `EmptyState`.

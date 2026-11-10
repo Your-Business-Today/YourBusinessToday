@@ -41,3 +41,7 @@ The dialog: a panel over the page, for a form or a question. A container widget.
 ## Unmapped
 - YBT's dialog today is `rounded-2xl` on `carriage` with `p-6`; the brand makes it `rounded-lg` on `night` with `p-8` (rules 1 and 6).
 - The Jewel dialog's own shadow (`0 4px 16px` black at 80%) is not a YBT token; `shadow-2xl` is the nearest and is kept.
+
+## Exceptions
+- The footer is an optional `footer` snippet; the dialogs that draw their own buttons in the body keep them until the refactor rounds move them into it.
+- The sheet over a list keeps `night` behind its page, because it holds a whole page of panels on `carriage`; its top bar is `carriage`, as the chrome. Checked 10 Nov 2026.

@@ -36,3 +36,8 @@ A labelled control: the label, the input, select or textarea, and a hint or an e
 ## Unmapped
 - YBT's fields today are `rounded-xl` on `night` (darker than the panel); the brand turns that round: fields are lighter than the panel (rule 1).
 - `SmallCapsField` labels in small capitals with letter spacing; it folds into this widget (rule 5).
+
+## Exceptions
+- The field styles the control it holds (an input, a select or a textarea placed directly inside it), so every field takes the sheet's control look now without its view changing; the view's own class strings (`fieldClasses`, `inputClasses`) lose to it and go in the refactor rounds. The width stays the view's.
+- The `*` is added for any control marked `required`, so the label and the column's rule cannot disagree.
+- `SmallCapsField` now draws a `FormField`; the views move to `FormField` itself in the rounds. Checked 10 Nov 2026.

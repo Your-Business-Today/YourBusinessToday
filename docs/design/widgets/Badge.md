@@ -34,3 +34,6 @@ A status, a count or a small qualifier ("Draft", "Overdue", "3"). YBT has no sha
 ## Unmapped
 - `SignalBadge` (a solid `signal` fill with capitals, on the public home and offer pages) has no place in the tones; it is a public-page mark and stays there until the public pages are designed.
 - YBT's status badges today are outlined pills (`rounded-full border`); the brand makes them `rounded` tints.
+
+## Exceptions
+- Built as `Badge` (`tone`, `hasDot`, `onOpen`). Its first users are the panel's count, the tab's count and `ProjectStatusBadge`; the other status badges move to it in the refactor rounds. Checked 10 Nov 2026.

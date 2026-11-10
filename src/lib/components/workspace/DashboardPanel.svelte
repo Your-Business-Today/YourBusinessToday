@@ -1,11 +1,17 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import Badge from '$lib/components/site/Badge.svelte';
+	import BrandSpinner from '$lib/components/site/BrandSpinner.svelte';
 
 	let {
 		title,
 		count = null,
 		id = undefined,
 		class: panelClasses = '',
+		isPadded = false,
+		scrollHeightClass = '',
+		isLoading = false,
+		errorMessage = '',
 		actions,
 		toolbar,
 		children
@@ -14,31 +20,43 @@
 		count?: number | string | null;
 		id?: string;
 		class?: string;
+		isPadded?: boolean;
+		scrollHeightClass?: string;
+		isLoading?: boolean;
+		errorMessage?: string;
 		actions?: Snippet;
 		toolbar?: Snippet;
 		children: Snippet;
 	} = $props();
+
+	const bodyClasses = $derived(
+		['flex min-w-0 flex-col', isPadded ? 'p-6' : '', scrollHeightClass === '' ? '' : `overflow-auto ${scrollHeightClass}`].join(' ')
+	);
 </script>
 
-<section
-	{id}
-	class={`flex min-w-0 flex-col overflow-hidden rounded-xl border border-hairline bg-carriage ${panelClasses}`}
->
-	<div class="flex flex-wrap items-center justify-between gap-2 border-b border-hairline px-4 py-2.5">
-		<h2 class="flex items-center gap-2 font-display text-xs tracking-widest text-chalk/60 uppercase">
-			{title}
+<section {id} class={`flex min-w-0 flex-col overflow-hidden border border-hairline bg-carriage ${panelClasses}`}>
+	<div class="flex flex-wrap items-center justify-between gap-2 border-b border-hairline px-6 py-4">
+		<div class="flex min-w-0 items-center gap-2">
+			<h2 class="font-display text-lg font-semibold text-chalk">{title}</h2>
 			{#if count !== null}
-				<span class="rounded-full bg-night px-2 py-0.5 text-[0.7rem] tracking-normal text-chalk/60">
-					{count}
-				</span>
+				<Badge label={count} />
 			{/if}
-		</h2>
+		</div>
 		{#if actions !== undefined}
 			<div class="flex flex-wrap items-center gap-2">{@render actions()}</div>
 		{/if}
 	</div>
 	{#if toolbar !== undefined}
-		<div class="border-b border-hairline px-4 py-2.5">{@render toolbar()}</div>
+		<div class="border-b border-hairline px-6 py-3">{@render toolbar()}</div>
 	{/if}
-	{@render children()}
+	{#if errorMessage !== ''}
+		<p role="alert" class="border-b border-hairline px-6 py-3 text-sm text-signal">{errorMessage}</p>
+	{/if}
+	<div class={bodyClasses}>
+		{#if isLoading}
+			<div class="flex justify-center p-6"><BrandSpinner size={32} /></div>
+		{:else}
+			{@render children()}
+		{/if}
+	</div>
 </section>

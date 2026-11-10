@@ -40,3 +40,8 @@ A list of records: one row per record, one column per property. YBT has no share
 
 ## Unmapped
 - YBT's subject tables today draw their own rounded border and use opacities of `chalk` for their text; the widget takes both out (rules 3 and 6).
+
+## Exceptions
+- Built as `RecordsTable` with `RecordsCell` for its cells (`kind`: text, link, figure, status, actions), in `src/lib/components/workspace`. A column sorts when it is given a `sortValue`; the rows are sorted in the browser, among the rows the view gave it.
+- The empty row is a sentence in `chalk-subtle` rather than `EmptyState`, whose dashed box would put a box inside the table.
+- Its first user is the client page's support list (`SupportTaskTable`), so the widget has a caller from the day it lands; the other subject tables take it up in the refactor rounds. Checked 10 Nov 2026.

@@ -3,6 +3,7 @@
 	import { keyboardKeys } from '$lib/client/keyboardKeys';
 	import { backdropFade, sheetSlide } from '$lib/client/motion';
 	import type { Snippet } from 'svelte';
+	import Button from './Button.svelte';
 
 	let {
 		label,
@@ -12,9 +13,6 @@
 	}: { label: string; fullPageHref: string; onClose: () => void; children: Snippet } = $props();
 
 	let sheetElement: HTMLElement | undefined = $state();
-
-	const chromeButtonClasses =
-		'rounded-full border border-hairline px-3 py-1 font-display text-xs text-chalk/60 transition hover:border-go hover:text-go';
 
 	/** Escape closes the sheet, unless a menu or a modal open over it has claimed the key or is the top dialog. */
 	function closeOnEscape(event: KeyboardEvent) {
@@ -53,9 +51,9 @@
 		transition:fly={sheetSlide}
 		class="relative flex h-full w-full max-w-6xl flex-col overflow-y-auto border-l border-hairline bg-night shadow-2xl"
 	>
-		<div class="flex items-center justify-between gap-3 border-b border-hairline bg-carriage/50 px-4 py-2 sm:px-6">
-			<button type="button" onclick={onClose} class={chromeButtonClasses}>✕ Close</button>
-			<a href={fullPageHref} class={chromeButtonClasses}>Open full page ↗</a>
+		<div class="flex items-center justify-between gap-2 border-b border-hairline bg-carriage px-4 py-2 sm:px-6">
+			<Button onclick={onClose}>✕ Close</Button>
+			<Button href={fullPageHref}>Open full page ↗</Button>
 		</div>
 		{@render children()}
 	</div>
