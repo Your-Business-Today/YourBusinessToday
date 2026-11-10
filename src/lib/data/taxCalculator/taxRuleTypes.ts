@@ -1,3 +1,5 @@
+import type { CorporationTaxRules, DividendRules, EmployerNationalInsuranceRules } from './companyRuleTypes';
+
 export type TaxYearName = '2025/26' | '2026/27';
 
 export type TaxRegion = 'restOfUk' | 'scotland';
@@ -75,4 +77,7 @@ export type TaxYearRules = {
 	mileage: MileageRules;
 	homeWorking: HomeWorkingRules;
 	makingTaxDigital: MakingTaxDigitalRules;
+	corporationTax: CorporationTaxRules;
+	dividends: DividendRules;
+	employerNationalInsurance: EmployerNationalInsuranceRules;
 };

@@ -1,4 +1,5 @@
 import { restOfUkBands, scottishBandsFor2026To2027 } from './incomeTaxBands';
+import { dividendRulesWith, employerNationalInsuranceCitedTo, sharedCorporationTax } from './companyRules';
 import { ruleSources } from './ruleSources';
 import { incomeTaxRulesWith, sharedClass1, sharedClass4, sharedHomeWorkingRules } from './sharedRules';
 import type { TaxYearRules } from './taxRuleTypes';
@@ -42,5 +43,8 @@ export const rulesFor2026To2027: TaxYearRules = {
 		qualifyingIncomeThreshold: 20000,
 		appliesFrom: '2028-04-06',
 		sourceUrl: ruleSources.makingTaxDigital
-	}
+	},
+	corporationTax: sharedCorporationTax,
+	dividends: dividendRulesWith(0.1075, 0.3575),
+	employerNationalInsurance: employerNationalInsuranceCitedTo(ruleSources.employerRates2026To2027)
 };
