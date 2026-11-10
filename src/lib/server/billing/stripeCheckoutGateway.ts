@@ -1,7 +1,8 @@
 import Stripe from 'stripe';
 import { companyDetails } from '$lib/data/companyDetails';
 import { stripeSecretKey } from './stripeSecretKey';
-import { CheckoutSessionStatuses, checkoutMetadataOf, type CheckoutGateway, type CheckoutOrder, type CheckoutSession } from './checkoutGateway';
+import { checkoutMetadataOf } from '$lib/data/billing/checkoutMetadata';
+import { CheckoutSessionStatuses, type CheckoutGateway, type CheckoutOrder, type CheckoutSession } from './checkoutGateway';
 
 type StripeCheckoutSessions = Stripe['checkout']['sessions'];
 

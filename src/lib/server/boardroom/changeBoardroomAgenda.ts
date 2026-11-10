@@ -78,6 +78,6 @@ export async function changeBoardroomAgenda(
 		addedBy: caller.accountId
 	};
 	await insertAgendaItems(supabase, placing, change.add);
-	const meeting = await readBoardroomMeeting(supabase, organisation, meetingId, caller.now);
+	const meeting = await readBoardroomMeeting(supabase, organisation, meetingId, caller);
 	return [changedSentence, '', meeting].join('\n');
 }
