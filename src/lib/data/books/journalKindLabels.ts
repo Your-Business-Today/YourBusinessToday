@@ -6,6 +6,7 @@ export const journalKindLabels: Record<JournalKind, string> = {
 	invoice: 'Invoice',
 	invoice_void: 'Invoice voided',
 	invoice_payment: 'Invoice paid',
+	invoice_refund: 'Invoice refunded',
 	expense: 'Supplier cost',
 	expense_payment: 'Supplier cost paid',
 	accrual: 'Accrual',
