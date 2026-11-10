@@ -1,3 +1,4 @@
+import { readPartReviews, type PartReview } from './readPartReviews';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
 	Confidence,
@@ -18,7 +19,10 @@ type PartRow = Record<string, unknown>;
 const partColumns =
 	'id, part_key, kind, name, description, is_core, seen_in_connector, seen_at_place, confidence, review_state, what_is_wrong';
 
-/** One version's parts, and each process's steps in order, told by the keys the client's Claude gave them. */
+/**
+ * One version's parts, and each process's steps in order, told by the keys the client's Claude gave them. A part's
+ * review is the client's latest mark on it, or what their Claude recorded when nobody has marked it since.
+ */
 export async function readContextParts(supabase: SupabaseClient, versionId: string): Promise<StoredParts> {
 	const { data, error } = await supabase
 		.from('company_context_parts')
@@ -28,10 +32,12 @@ export async function readContextParts(supabase: SupabaseClient, versionId: stri
 	if (error) throw error;
 	const keysById = new Map(data.map((row: PartRow) => [String(row.id), String(row.part_key)]));
 	const steps = await readSteps(supabase, keysById);
-	return { parts: data.map(partOf), steps, keysById };
+	const reviews = await readPartReviews(supabase, [...keysById.keys()]);
+	const parts = data.map((row: PartRow) => partOf(row, reviews.get(String(row.id))));
+	return { parts, steps, keysById };
 }
 
-function partOf(row: PartRow): ContextPart {
+function partOf(row: PartRow, markedReview: PartReview | undefined): ContextPart {
 	const connector = row.seen_in_connector === null ? null : String(row.seen_in_connector);
 	const place = row.seen_at_place === null ? null : String(row.seen_at_place);
 	return {
@@ -42,6 +48,12 @@ function partOf(row: PartRow): ContextPart {
 		isCore: row.is_core === true,
 		seenIn: connector === null ? null : { connector, place },
 		confidence: String(row.confidence) as Confidence,
+		...(markedReview ?? recordedReview(row))
+	};
+}
+
+function recordedReview(row: PartRow): PartReview {
+	return {
 		reviewState: String(row.review_state) as ReviewState,
 		whatIsWrong: row.what_is_wrong === null ? null : String(row.what_is_wrong)
 	};

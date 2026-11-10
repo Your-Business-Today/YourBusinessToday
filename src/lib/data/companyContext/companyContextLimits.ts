@@ -1,6 +1,6 @@
 /**
- * The longest each value of a company context may be, and how many of each a version may hold. Migration
- * 0154 holds the same limits on its columns; the connector refuses anything over them before writing.
+ * The longest each value of a company context may be, and how many of each a version may hold. Migrations
+ * 0154 and 0163 hold the same limits on its columns; the connector refuses anything over them before writing.
  */
 export const companyContextLimits = {
 	keyLength: 80,
@@ -13,7 +13,8 @@ export const companyContextLimits = {
 	mostConnectors: 50,
 	mostParts: 300,
 	mostStepsInAProcess: 50,
-	mostLinks: 1000
+	mostLinks: 1000,
+	largestVersionNumber: 2147483647
 } as const;
 
 /** A part's key: lower-case words joined by hyphens, kept the same from one version to the next. */

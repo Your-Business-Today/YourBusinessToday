@@ -40,8 +40,9 @@ function connectorStep(context: CompanyContextVersion | null): string {
 function carryForward(context: CompanyContextVersion | null): string {
 	if (context === null) return 'Give every part a key of hyphenated words, kept the same in every later run.';
 	return (
-		'Carry every part forward with its key, and its review state when nothing about it changed; a part you put ' +
-		'right goes back to not checked, so the client checks it again.'
+		"Carry every part forward with its key. Leave its review state out: the client's review of every part you " +
+		'leave unchanged is kept by itself, and a part you put right goes back to not checked, so they check it ' +
+		'again on the map.'
 	);
 }
 
