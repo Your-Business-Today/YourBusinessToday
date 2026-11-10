@@ -7,7 +7,7 @@ const november = { year: 2026, month: 11 };
 
 function piece(id: string, stage: PlannedPiece['stage'], plannedFor: string | null, scheduledFor: string | null = null): PlannedPiece {
 	const kind = 'tip';
-	return { id, mediumPath: 'image.post.facebook', kind, title: `Post ${id}`, hook: 'Hear that?', stage, plannedFor, scheduledFor, updatedAt: '' };
+	return { id, postId: id, mediumPath: 'image.post.facebook', kind, title: `Post ${id}`, hook: 'Hear that?', stage, plannedFor, scheduledFor, updatedAt: '' };
 }
 
 describe('the month’s plan', () => {
@@ -72,7 +72,7 @@ describe('the month’s plan', () => {
 		const [, week] = contentPlanOf(november, pieces).weeks;
 		const rows = planRowsOf(week);
 		expect(rows).toHaveLength(7);
-		expect(rows.map((row) => row.entry).map((entry) => entry?.canMove ?? null)).toEqual([true, false, null, null, null, null, null]);
-		expect(rows[2]).toMatchObject({ dayLabel: 'Wed 4 Nov', entry: null });
+		expect(rows.map((row) => row.post?.channels[0].canMove ?? null)).toEqual([true, false, null, null, null, null, null]);
+		expect(rows[2]).toMatchObject({ dayLabel: 'Wed 4 Nov', post: null });
 	});
 });

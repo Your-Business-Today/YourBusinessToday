@@ -1,16 +1,18 @@
-import { brandBriefOf } from '$lib/brand/projections/brandBrief';
+import { brandSnapshotOf } from '$lib/brand/projections/brandSnapshot';
+import { captionRulesOf } from '$lib/brand/captions/captionRules';
 import { checkPostKind, checkPostKindIfGiven } from '$lib/brand/postKinds/checkPostKind';
 import { checkContentDraft } from '$lib/brand/content/checkContentDraft';
-import { cssVariablesOf } from '$lib/brand/projections/cssVariables';
 import { describeContentPiece, describeContentSummary } from './describeContentPiece';
 import { findBrandSummary } from '$lib/server/brandKits/keepBrandSummary';
 import { findContentPiece } from '$lib/server/brandContent/findContentPiece';
 import { findContentPieces } from '$lib/server/brandContent/findContentPieces';
+import { findContentPost } from '$lib/server/brandContent/findContentPost';
 import { isContentStage, contentStages } from '$lib/brand/content/contentPiece';
 import { keepContentPiece } from '$lib/server/brandContent/keepContentPiece';
 import { noBrandYet } from './brandKitWriteAnswers';
 import { noSuchPiece } from './brandContentAnswers';
 import { postKindsOnOfferOf } from '$lib/brand/postKinds/postKinds';
+import { problemWithCaption } from '$lib/brand/captions/checkCaptionFitsChannel';
 import { readText } from '../actionTypes';
 import { resolveBrandKitFor } from '$lib/server/brandKits/resolveBrandKitFor';
 import { writeUpIdea } from './brandContentIdeaDraft';
@@ -33,7 +35,9 @@ export async function draftContent(caller: McpCaller, input: Record<string, unkn
 	const checkKind = isNewPiece ? checkPostKind : checkPostKindIfGiven;
 	const kindCheck = checkKind(input.kind, postKindsOnOfferOf(resolved));
 	if ('problem' in kindCheck) return `The piece was not drafted: ${kindCheck.problem}. Nothing was kept.`;
-	const brandSnapshot = { brief: brandBriefOf(organisation.name, resolved), variables: cssVariablesOf(resolved) };
+	const captionProblem = problemWithCaption(draft.caption, captionRulesOf(resolved));
+	if (captionProblem !== null) return `The piece was not drafted: ${captionProblem}. Nothing was kept.`;
+	const brandSnapshot = brandSnapshotOf(organisation.name, resolved);
 	const piece = { organisationId: organisation.id, accountId: caller.accountId, draft, brandSnapshot, kind: kindCheck.kind };
 	if (!isNewPiece) return writeUpIdea(caller, { ...piece, contentPieceId: ideaId });
 	const contentPieceId = await keepContentPiece(caller.supabase, piece);
@@ -50,9 +54,10 @@ export async function listContent(caller: McpCaller, input: Record<string, unkno
 	return pieces.map(describeContentSummary).join('\n');
 }
 
-/** One piece in full, with its snapshot of the brand and every review. */
+/** One piece in full, with its snapshot of the brand, every review, and every channel of the post it is one of. */
 export async function readContent(caller: McpCaller, input: Record<string, unknown>, organisation: Organisation) {
 	const found = await findContentPiece(caller.supabase, organisation.id, readText(input, 'contentPieceId'));
 	if (found === null) return noSuchPiece;
-	return describeContentPiece(found);
+	const post = await findContentPost(caller.supabase, organisation.id, found.piece);
+	return describeContentPiece(found, post);
 }

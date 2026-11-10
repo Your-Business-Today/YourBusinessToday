@@ -1,4 +1,6 @@
 import { brandPathOf } from './brandKitPageWords';
+import type { PlanEntry } from '$lib/brand/plan/contentPlan';
+import type { PlanPost } from '$lib/brand/plan/planPosts';
 import type { RhythmTally } from '$lib/brand/plan/planRhythm';
 
 export const nothingPlanned = 'Nothing planned';
@@ -29,4 +31,15 @@ export function tallyLabelOf({ medium, count, due, isShort }: RhythmTally): stri
 
 export function extraLabelOf({ medium, extra }: RhythmTally): string {
 	return `${medium}: ${extra} extra`;
+}
+
+/** A post's channels sit one above the other in each of its cells, so a channel's stage and its Move line up. */
+export const channelListClasses = 'flex flex-col gap-1';
+
+const onlyChannel = 1;
+
+/** A post on several channels moves one channel at a time, each to its own day. */
+export function moveLabelOf(channel: PlanEntry, post: PlanPost): string {
+	if (post.channels.length === onlyChannel) return 'Move';
+	return `Move ${channel.medium}`;
 }

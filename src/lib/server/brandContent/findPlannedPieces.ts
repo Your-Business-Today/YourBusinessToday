@@ -1,3 +1,4 @@
+import { findPostIdsOfPieces } from './findPostIdsOfPieces';
 import type { ContentStage, PlannedPiece } from '$lib/brand/content/contentPiece';
 import type { MonthBounds } from '$lib/brand/plan/planMonth';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -7,7 +8,8 @@ export const PlanListing = { mostPieces: 500 } as const;
 const everyColumn = '*';
 
 /**
- * The organisation's pieces planned or scheduled to go out between the month's bounds, earliest first.
+ * The organisation's pieces planned or scheduled to go out between the month's bounds, earliest first, each with the post
+ * it is a channel of.
  * Every column is read, so the plan still reads in the moments before a new column's migration has run.
  */
 export async function findPlannedPieces(
@@ -25,12 +27,17 @@ export async function findPlannedPieces(
 		.order('planned_for', { ascending: true, nullsFirst: false })
 		.limit(PlanListing.mostPieces);
 	if (error) throw error;
-	return (data ?? []).map(plannedPieceOf);
+	const rows = (data ?? []) as Record<string, unknown>[];
+	const postIds = await findPostIdsOfPieces(supabase, organisationId, rows.map((row) => row.id as string));
+	return rows.map((row) => plannedPieceOf(row, postIds));
 }
 
-function plannedPieceOf(row: Record<string, unknown>): PlannedPiece {
+/** A piece on no post yet is a post of its own, under its own id. */
+function plannedPieceOf(row: Record<string, unknown>, postIds: Map<string, string>): PlannedPiece {
+	const id = row.id as string;
 	return {
-		id: row.id as string,
+		id,
+		postId: postIds.get(id) ?? id,
 		mediumPath: row.medium_path as string,
 		title: row.title as string,
 		hook: row.hook as string,

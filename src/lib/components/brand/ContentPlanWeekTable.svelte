@@ -6,7 +6,7 @@
 	import RecordsTable from '$lib/components/workspace/RecordsTable.svelte';
 	import { contentPiecePathOf } from './brandKitPageWords';
 	import { noKindYet } from '$lib/brand/plan/planCounts';
-	import { extraPost, nothingPlanned, postDue } from './contentPlanPageWords';
+	import { channelListClasses, extraPost, moveLabelOf, nothingPlanned, postDue } from './contentPlanPageWords';
 	import { planRowsOf, type PlanRow } from '$lib/brand/plan/planRows';
 	import type { PlanEntry, PlanWeek } from '$lib/brand/plan/contentPlan';
 	import type { RecordsColumn } from '$lib/components/workspace/recordsTable';
@@ -19,7 +19,7 @@
 	const columns: RecordsColumn<PlanRow>[] = [
 		{ key: 'day', label: 'Goes live' },
 		{ key: 'time', label: 'Time' },
-		{ key: 'medium', label: 'Post on' },
+		{ key: 'medium', label: 'Channels' },
 		{ key: 'kind', label: 'Kind' },
 		{ key: 'title', label: 'Idea' },
 		{ key: 'hook', label: 'Opening line', isWideOnly: true },
@@ -32,7 +32,7 @@
 	<RecordsTable label={week.label} {columns} {rows} keyOf={(row) => row.key} isDense>
 		{#snippet cells(row)}
 			<RecordsCell kind="status">{row.dayLabel}</RecordsCell>
-			{#if row.entry === null}
+			{#if row.post === null}
 				<RecordsCell>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
@@ -45,21 +45,38 @@
 				<RecordsCell>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
 			{:else}
-				{@const entry = row.entry}
-				<RecordsCell kind="status">{entry.time}</RecordsCell>
-				<RecordsCell>{entry.medium}</RecordsCell>
-				<RecordsCell>{entry.kind ?? noKindYet}</RecordsCell>
-				<RecordsCell kind="link" href={contentPiecePathOf(organisationId, entry.id)}>{entry.title}</RecordsCell>
-				<RecordsCell isWideOnly>{entry.hook}</RecordsCell>
-				<RecordsCell kind="status">
-					<ContentStageBadge stage={entry.stage} />
-					{#if entry.isExtra}<Badge label={extraPost} />{/if}
+				{@const post = row.post}
+				{@const [firstChannel] = post.channels}
+				<RecordsCell kind="status">{post.time}</RecordsCell>
+				<RecordsCell>
+					<ul class={channelListClasses}>
+						{#each post.channels as channel (channel.id)}
+							<li><a href={contentPiecePathOf(organisationId, channel.id)} class="hover:underline">{channel.medium}</a></li>
+						{/each}
+					</ul>
 				</RecordsCell>
-				{#if entry.canMove}
-					<RecordsCell kind="actions"><Button onclick={() => onMove(entry)}>Move</Button></RecordsCell>
-				{:else}
-					<RecordsCell>{blank}</RecordsCell>
-				{/if}
+				<RecordsCell>{post.kind ?? noKindYet}</RecordsCell>
+				<RecordsCell kind="link" href={contentPiecePathOf(organisationId, firstChannel.id)}>{post.title}</RecordsCell>
+				<RecordsCell isWideOnly>{post.hook}</RecordsCell>
+				<RecordsCell kind="status">
+					<ul class={channelListClasses}>
+						{#each post.channels as channel (channel.id)}
+							<li>
+								<ContentStageBadge stage={channel.stage} />
+								{#if channel.isExtra}<Badge label={extraPost} />{/if}
+							</li>
+						{/each}
+					</ul>
+				</RecordsCell>
+				<RecordsCell kind="actions">
+					<ul class={channelListClasses}>
+						{#each post.channels as channel (channel.id)}
+							<li>
+								{#if channel.canMove}<Button onclick={() => onMove(channel)}>{moveLabelOf(channel, post)}</Button>{/if}
+							</li>
+						{/each}
+					</ul>
+				</RecordsCell>
 			{/if}
 		{/snippet}
 	</RecordsTable>

@@ -36,7 +36,7 @@ vi.mock('$lib/server/brandContent/findPlannedPieces', () => ({
 	findPlannedPieces: async (_supabase: unknown, _organisationId: string, bounds: unknown) => {
 		world.bounds = bounds;
 		const plannedFor = '2026-11-03T09:00:00Z';
-		return [{ id: 'piece-1', mediumPath: 'image.post.facebook', kind: 'tip', title: 'Fire doors', hook: 'Hear that?', stage: 'idea', plannedFor, scheduledFor: null, updatedAt: '' }];
+		return [{ id: 'piece-1', postId: 'piece-1', mediumPath: 'image.post.facebook', kind: 'tip', title: 'Fire doors', hook: 'Hear that?', stage: 'idea', plannedFor, scheduledFor: null, updatedAt: '' }];
 	}
 }));
 

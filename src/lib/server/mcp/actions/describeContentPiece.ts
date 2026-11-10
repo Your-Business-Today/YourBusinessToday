@@ -1,5 +1,6 @@
 import type { ContentPieceWithReviews } from '$lib/server/brandContent/findContentPiece';
-import type { BrandSnapshot, ContentReview, ContentSummary, StoryboardShot } from '$lib/brand/content/contentPiece';
+import type { BrandSnapshot, ContentPiece, ContentReview, ContentSummary, StoryboardShot } from '$lib/brand/content/contentPiece';
+import type { ContentPost } from '$lib/brand/posts/contentPost';
 
 const firstShotNumber = 1;
 const nothingInvited = 'nothing in particular';
@@ -9,8 +10,8 @@ export function describeContentSummary(piece: ContentSummary): string {
 	return `- [${piece.stage}] ${piece.title} @ ${piece.mediumPath} (id ${piece.id})`;
 }
 
-/** One piece in full: its words, its storyboard, where it stands, every review and the brand it was drafted to. */
-export function describeContentPiece({ piece, reviews }: ContentPieceWithReviews): string {
+/** One piece in full: its words, its storyboard, where it stands, every review, the brand it was drafted to and every channel of its post. */
+export function describeContentPiece({ piece, reviews }: ContentPieceWithReviews, post: ContentPost): string {
 	const sections = [
 		`${piece.title} — ${piece.stage} — ${piece.mediumPath} (id ${piece.id})`,
 		piece.kind === null ? null : `Kind of post: ${piece.kind}`,
@@ -23,6 +24,7 @@ export function describeContentPiece({ piece, reviews }: ContentPieceWithReviews
 		piece.scheduledFor === null ? null : `Scheduled for ${piece.scheduledFor}`,
 		piece.publishedUrl === '' ? null : `Published at ${piece.publishedUrl}`,
 		reviewsSection(reviews),
+		channelsSection(post, piece.id),
 		snapshotSection(piece.brandSnapshot)
 	];
 	return sections.filter((section) => section !== null).join('\n\n');
@@ -43,6 +45,19 @@ function reviewsSection(reviews: ContentReview[]): string {
 	if (reviews.length === 0) return 'No reviews yet.';
 	const reviewLines = reviews.map((review) => `- ${review.createdAt} ${review.verdict}: ${review.body}`);
 	return `Reviews:\n${reviewLines.join('\n')}`;
+}
+
+function channelsSection(post: ContentPost, contentPieceId: string): string {
+	const { channels } = post;
+	if (channels.length === 1) return 'The post goes out on this channel only. add_content_channel sends it out on another.';
+	const channelLines = channels.map((channel) => channelLine(channel, channel.id === contentPieceId));
+	return `The post goes out on ${channels.length} channels, each approved, scheduled and published on its own:\n${channelLines.join('\n')}`;
+}
+
+function channelLine(channel: ContentPiece, isThisOne: boolean): string {
+	const marker = isThisOne ? ' — this one' : '';
+	const caption = channel.caption === '' ? 'no caption yet' : `caption: ${channel.caption}`;
+	return `- [${channel.stage}] ${channel.mediumPath} (id ${channel.id})${marker} — ${caption}`;
 }
 
 function snapshotSection(snapshot: BrandSnapshot): string {

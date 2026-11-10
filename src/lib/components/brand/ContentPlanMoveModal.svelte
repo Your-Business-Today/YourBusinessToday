@@ -13,7 +13,7 @@
 	const close = () => (isOpen = false);
 </script>
 
-<Modal title={`Move “${entry?.title ?? ''}”`} bind:isOpen>
+<Modal title={`Move “${entry?.title ?? ''}” on ${entry?.medium ?? ''}`} bind:isOpen>
 	{#if entry !== null}
 		<form method="POST" action="?/move" use:enhance={tracker.submit(close, { shouldKeepFields: true })} class="flex flex-col gap-4">
 			<input type="hidden" name="contentPieceId" value={entry.id} />

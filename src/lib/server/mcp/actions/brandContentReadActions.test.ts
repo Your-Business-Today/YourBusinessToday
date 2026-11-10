@@ -10,7 +10,7 @@ vi.mock('$env/static/public', () => ({
 vi.mock('$env/dynamic/private', () => ({ env: {} }));
 vi.mock('$env/dynamic/public', () => ({ env: {} }));
 
-const world = vi.hoisted(() => ({ switchedOn: [] as string[], stageAsked: null as unknown }));
+const world = vi.hoisted(() => ({ switchedOn: [] as string[], stageAsked: null as unknown, otherChannels: [] as unknown[] }));
 vi.mock('$lib/server/organisations/getOrganisation', async () => {
 	const { jewel } = await import('./brandContentFixtures');
 	return { getOrganisation: async (_supabase: unknown, organisationId: string) => (organisationId === jewel.id ? jewel : null) };
@@ -32,11 +32,20 @@ vi.mock('$lib/server/brandContent/findContentPiece', async () => {
 	};
 });
 
+vi.mock('$lib/server/brandContent/findContentPost', () => ({
+	findContentPost: async (_supabase: unknown, _organisationId: string, piece: { id: string }) => ({
+		id: piece.id,
+		channels: [piece, ...world.otherChannels],
+		isKept: true
+	})
+}));
+
 const anotherPieceId = '1b7f3c2e-4a1d-4c55-9a0e-3f1e2d4c5b6a';
 
 describe('listing and reading a brand’s content', () => {
 	beforeEach(() => {
 		world.switchedOn = ['brand'];
+		world.otherChannels = [];
 	});
 
 	it('is refused while Brand is off for the organisation', async () => {
@@ -65,5 +74,19 @@ describe('listing and reading a brand’s content', () => {
 
 	it('says when the brand holds no piece of that id', async () => {
 		expect(await runContentAction('read_content', { contentPieceId: anotherPieceId })).toContain('No piece of that id');
+	});
+
+	it('reads a post with every channel it goes out on, each with its own caption and stage', async () => {
+		const { contentPiece } = await import('./brandContentFixtures');
+		const facebook = { ...contentPiece, id: anotherPieceId, mediumPath: 'image.post.facebook', stage: 'approved', caption: 'Fitted: jewel.example' };
+		world.otherChannels = [facebook];
+		const answer = await runContentAction('read_content', { contentPieceId });
+		expect(answer).toContain('The post goes out on 2 channels');
+		expect(answer).toContain(`- [drafted] video.short.tiktok (id ${contentPieceId}) — this one — caption: Plainly`);
+		expect(answer).toContain(`- [approved] image.post.facebook (id ${anotherPieceId}) — caption: Fitted: jewel.example`);
+	});
+
+	it('says a post on one channel can go out on another', async () => {
+		expect(await runContentAction('read_content', { contentPieceId })).toContain('add_content_channel sends it out on another');
 	});
 });
