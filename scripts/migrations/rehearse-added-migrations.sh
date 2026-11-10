@@ -73,7 +73,7 @@ if [ -z "$waitingMigrations" ]; then
 	exit 0
 fi
 
-echo "The next deploy would run these $(wc -l <<< "$waitingMigrations") files, in this order:"
+echo "Files the next deploy would run, in its order ($(wc -l <<< "$waitingMigrations")):"
 echo "$waitingMigrations"
 "$here/build-stand-in-database.sh" "$rehearsalDatabase" "$deployedCommit"
 for runNumber in $(seq "$runsInRehearsal"); do
