@@ -1,8 +1,6 @@
-import { contextPartKind, contextPartKinds } from '$lib/data/companyContext/companyContext';
+import { contextPartKind, contextPartKinds, lowConfidence } from '$lib/data/companyContext/companyContext';
 import { partKindHeadings } from '$lib/data/companyContext/companyContextWords';
-import type { CompanyContextVersion, Confidence, ContextPartKind } from '$lib/data/companyContext/companyContext';
-
-const lowConfidence: Confidence = 'low';
+import type { CompanyContextVersion, ContextPartKind } from '$lib/data/companyContext/companyContext';
 
 /** What a kept version still lacks, one sentence each: the gaps a client's next run asks about. */
 export function contextGaps(context: CompanyContextVersion): string[] {

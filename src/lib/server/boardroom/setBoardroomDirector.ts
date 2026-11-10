@@ -4,7 +4,8 @@ import { getDirectorsOfOrganisation } from './getDirectorsOfOrganisation';
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
 import { nameBoardroomDirector } from './nameBoardroomDirector';
 import { standDownBoardroomDirector } from './standDownBoardroomDirector';
-import { sittingDirectors, sittingSeatOf, type BoardroomDirector } from '$lib/data/boardroomDirector';
+import { findSittingSeat } from './findSittingSeat';
+import { sittingSeatOf, type BoardroomDirector } from '$lib/data/boardroomDirector';
 import {
 	alreadySittingSentence,
 	boardroomDirectorRefusals,
@@ -55,18 +56,9 @@ async function seatDirector(supabase: SupabaseClient, board: Board, change: Dire
 
 async function standDown(supabase: SupabaseClient, board: Board, change: DirectorChange): Promise<DirectorChangeOutcome> {
 	const organisation = board.organisation;
-	const members = await getMembersOfOrganisation(supabase, organisation.id);
-	const member = findOrganisationMember(members, change.member);
-	const named = member?.id ?? change.member;
-	const seat = findSittingDirector(board.directors, named);
+	const seat = await findSittingSeat(supabase, organisation.id, board.directors, change.member);
 	const notSitting = notSittingSentence(change.member, organisation.name);
 	if (seat === null) return refusal(notSitting);
 	await standDownBoardroomDirector(supabase, seat.id, change.changedBy);
 	return done(stoodDownSentence(seat.name, organisation.name));
-}
-
-function findSittingDirector(directors: BoardroomDirector[], named: string): BoardroomDirector | null {
-	const wanted = named.toLowerCase();
-	const matches = (director: BoardroomDirector) => director.accountId === named || director.name.toLowerCase() === wanted;
-	return sittingDirectors(directors).find(matches) ?? null;
 }

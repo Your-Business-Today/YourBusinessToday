@@ -1,16 +1,11 @@
 import { connectorAddressFor } from '$lib/server/oauth/connectorAddress';
-import { portalOrganisationParameter } from '$lib/portal/portalVisitor';
-import { requirePortalVisitor } from '$lib/server/portal/requirePortalVisitor';
-import { switchPortalOrganisation } from '$lib/server/portal/switchPortalOrganisation';
+import { requireLinkedPortalVisitor } from '$lib/server/portal/requireLinkedPortalVisitor';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals, url, cookies }) => {
-	const linkedClientId = url.searchParams.get(portalOrganisationParameter);
-	if (linkedClientId !== null) locals.portalOrganisationId = linkedClientId;
-	const visitor = await requirePortalVisitor(locals);
-	if (linkedClientId !== null) switchPortalOrganisation(visitor, linkedClientId, cookies);
+export const load: PageServerLoad = async (page) => {
+	const visitor = await requireLinkedPortalVisitor(page);
 	return {
 		visitor,
-		connectorAddress: connectorAddressFor(url)
+		connectorAddress: connectorAddressFor(page.url)
 	};
 };

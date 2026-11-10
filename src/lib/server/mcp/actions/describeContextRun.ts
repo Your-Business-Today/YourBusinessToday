@@ -1,7 +1,7 @@
 import { companyDetails } from '$lib/data/companyDetails';
 import { conceptsNotSpecimens } from '$lib/data/companyContext/companyContextWords';
 import { contextRunStanding } from './contextRunStanding';
-import { portalHomePath } from '$lib/portal/portalPaths';
+import { portalContextPath } from '$lib/portal/portalPaths';
 import type { CompanyContextVersion } from '$lib/data/companyContext/companyContext';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
@@ -24,7 +24,7 @@ export function describeContextRun(organisation: Organisation, context: CompanyC
 		'4. **Ask the client where you are unsure** rather than guess, one question at a time, and only for what the context still needs.',
 		`5. **Build the context as concepts, not specimens.** ${conceptsNotSpecimens} ${carryForward(context)}`,
 		writeStep(organisation),
-		`7. **Give them the link** to their company on the portal, where their map of it will be: ${companyDetails.websiteUrl}${portalHomePath}`
+		`7. **Give them the link** to the map of their company on the portal, drawn from what you wrote: ${companyDetails.websiteUrl}${portalContextPath}`
 	].join('\n\n');
 }
 

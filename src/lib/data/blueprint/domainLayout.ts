@@ -1,3 +1,4 @@
+import { shortenedToFit } from '$lib/data/textFit';
 import { entitiesInContext, type BoundedContext, type DomainEntity, type DomainModel } from './domainModel';
 
 type Box = { x: number; y: number; width: number; height: number };
@@ -19,6 +20,7 @@ export const domainLayoutSizes = {
 } as const;
 
 const sizes = domainLayoutSizes;
+const longestTitle = 34;
 
 /** The contexts laid out as boxes in columns, each dropped into the shortest column, their entities listed inside. */
 export function layOutDomain(domain: DomainModel): DomainLayout {
@@ -41,7 +43,7 @@ function placeContext(context: BoundedContext, column: number, top: number): Pla
 	const height = sizes.heading + entityCount * sizes.row + sizes.padding;
 	const x = sizes.gap + column * (sizes.contextWidth + sizes.gap);
 	const box = { x, y: top + sizes.gap, width: sizes.contextWidth, height };
-	return { ...box, name: context.name, title: shortenedTitle(context.title), fullTitle: context.title, context };
+	return { ...box, name: context.name, title: shortenedToFit(context.title, longestTitle), fullTitle: context.title, context };
 }
 
 function placeEntities(placed: PlacedContext): PlacedEntity[] {
@@ -62,11 +64,3 @@ function placeEntities(placed: PlacedContext): PlacedEntity[] {
 	});
 }
 
-const longestTitle = 34;
-const ellipsis = '…';
-
-/** A context's title cut to fit across the top of its box. */
-function shortenedTitle(title: string): string {
-	if (title.length <= longestTitle) return title;
-	return `${title.slice(0, longestTitle - 1).trimEnd()}${ellipsis}`;
-}

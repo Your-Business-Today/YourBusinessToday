@@ -1,6 +1,20 @@
-import { fileBusinessBrainPageGuidance, fileBusinessBrainRevisionGuidance } from './businessBrainGuidance';
-import { fileBusinessBrainPageSchema, fileBusinessBrainRevisionSchema } from './businessBrainSchemas';
+import {
+	fileBusinessBrainPageGuidance,
+	fileBusinessBrainRevisionGuidance,
+	readBusinessBrainIndexGuidance,
+	readBusinessBrainPageGuidance,
+	searchBusinessBrainGuidance
+} from './businessBrainGuidance';
+import {
+	fileBusinessBrainPageSchema,
+	fileBusinessBrainRevisionSchema,
+	readBusinessBrainIndexSchema,
+	readBusinessBrainPageSchema,
+	searchBusinessBrainSchema
+} from './businessBrainSchemas';
 import { fileNewPage, fileRevision } from './businessBrainFilingRuns';
+import { businessBrainFileActions } from './businessBrainFileActions';
+import { readIndex, readPage, searchBrain } from './businessBrainReadingRuns';
 import { moduleAction } from '../organisationModuleGate';
 import type { McpAction } from '../actionTypes';
 
@@ -26,5 +40,36 @@ export const businessBrainActions: McpAction[] = [
 		guidance: fileBusinessBrainRevisionGuidance,
 		inputSchema: fileBusinessBrainRevisionSchema,
 		run: fileRevision
-	})
+	}),
+	moduleAction(businessBrainModule, {
+		name: 'read_business_brain_index',
+		area: 'business_brain',
+		audience: 'everyone',
+		isWrite: false,
+		summary: "list the pages of an organisation's Your Business Brain by part and title, with their ids, to choose which to read",
+		guidance: readBusinessBrainIndexGuidance,
+		inputSchema: readBusinessBrainIndexSchema,
+		run: readIndex
+	}),
+	moduleAction(businessBrainModule, {
+		name: 'search_business_brain',
+		area: 'business_brain',
+		audience: 'everyone',
+		isWrite: false,
+		summary: "search the pages of an organisation's Your Business Brain for words, best match first, with an excerpt of each",
+		guidance: searchBusinessBrainGuidance,
+		inputSchema: searchBusinessBrainSchema,
+		run: searchBrain
+	}),
+	moduleAction(businessBrainModule, {
+		name: 'read_business_brain_page',
+		area: 'business_brain',
+		audience: 'everyone',
+		isWrite: false,
+		summary: "read one page of an organisation's Your Business Brain whole, with its source, related pages and history, or one earlier version of it",
+		guidance: readBusinessBrainPageGuidance,
+		inputSchema: readBusinessBrainPageSchema,
+		run: readPage
+	}),
+	...businessBrainFileActions
 ];

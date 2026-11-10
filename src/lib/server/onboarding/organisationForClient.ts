@@ -21,7 +21,8 @@ export async function organisationForClient(
 	return (data?.id as string) ?? null;
 }
 
-async function findOrganisationOfClient(
+/** The organisation made for a client on the register, when one has been. */
+export async function findOrganisationOfClient(
 	service: SupabaseClient,
 	clientId: string
 ): Promise<string | null> {
