@@ -50,7 +50,7 @@ describe('frameViewFor', () => {
 	});
 
 	it('gives a client contact the portal’s links, and People to its administrators', () => {
-		const portalLabels = ['Your projects', 'Your company context', 'Connect your Claude'];
+		const portalLabels = ['Your projects', 'Your company context', 'Billing', 'Connect your Claude'];
 		expect(labelsFor(clientContact)).toEqual(portalLabels);
 		expect(labelsFor(clientAdministrator)).toEqual([...portalLabels, 'People']);
 	});
@@ -60,6 +60,7 @@ describe('frameViewFor', () => {
 		expect(patchView.currentHref).toBe('/clients/patches');
 		expect(patchView.heading).toBe('Patches');
 		expect(viewAt(clientContact, '/portal/projects/project-1').heading).toBe('Your projects');
+		expect(viewAt(clientContact, '/portal/billing').heading).toBe('Billing');
 	});
 
 	it('heads the notifications page, and falls back to the company name', () => {

@@ -2,6 +2,7 @@ export const portalHomePath = '/portal';
 export const portalPeoplePath = `${portalHomePath}/people`;
 export const portalConnectPath = `${portalHomePath}/connect`;
 export const portalContextPath = `${portalHomePath}/context`;
+export const portalBillingPath = `${portalHomePath}/billing`;
 export const portalSignInPath = `/account/sign-in?next=${encodeURIComponent(portalHomePath)}`;
 
 const destinationParameter = 'next';
