@@ -1,13 +1,14 @@
-import type { PlanDay, PlanEntry, PlanWeek } from './contentPlan';
+import type { PlanDay, PlanWeek } from './contentPlan';
+import type { PlanPost } from './planPosts';
 
 /** The day is named once, on its first line. */
 const firstOfDay = 0;
 
 /**
- * A line of a week's table: a piece on its day, a day with nothing on it, or a post the rhythm wants on the day and lacks.
- * `dueFor` names the mediums whose rhythm wants the post.
+ * A line of a week's table: a post on its day with every channel it goes out on, a day with nothing on it, or a post
+ * the rhythm wants on the day and lacks. `dueFor` names the mediums whose rhythm wants the post.
  */
-export type PlanRow = { key: string; dayLabel: string; entry: PlanEntry | null; dueFor: string | null };
+export type PlanRow = { key: string; dayLabel: string; post: PlanPost | null; dueFor: string | null };
 
 export function planRowsOf(week: PlanWeek): PlanRow[] {
 	return week.days.flatMap(rowsOfDay);
@@ -15,15 +16,15 @@ export function planRowsOf(week: PlanWeek): PlanRow[] {
 
 function rowsOfDay(day: PlanDay): PlanRow[] {
 	const dueFor = dueForOf(day.awaitedOn);
-	if (day.isEmpty) return [{ key: day.date, dayLabel: day.label, entry: null, dueFor }];
-	const entryRows = day.entries.map((entry, index) => ({
-		key: entry.id,
+	if (day.isEmpty) return [{ key: day.date, dayLabel: day.label, post: null, dueFor }];
+	const postRows = day.posts.map((post, index) => ({
+		key: `${day.date}-${post.postId}`,
 		dayLabel: index === firstOfDay ? day.label : '',
-		entry,
+		post,
 		dueFor: null
 	}));
-	if (dueFor === null) return entryRows;
-	return [...entryRows, { key: `${day.date}-due`, dayLabel: '', entry: null, dueFor }];
+	if (dueFor === null) return postRows;
+	return [...postRows, { key: `${day.date}-due`, dayLabel: '', post: null, dueFor }];
 }
 
 function dueForOf(awaitedOn: string[]): string | null {

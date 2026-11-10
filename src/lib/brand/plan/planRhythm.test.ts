@@ -10,7 +10,7 @@ const everywhere: PostingRhythm = { mediumPath: 'all', medium: 'Everywhere', day
 const linkedIn: PostingRhythm = { mediumPath: 'text.post.linkedin', medium: 'LinkedIn post', days, time: '19:30', postsAWeek: 1 };
 
 function piece(id: string, plannedFor: string, mediumPath = 'image.post.instagram'): PlannedPiece {
-	return { id, mediumPath, kind: 'tip', title: `Post ${id}`, hook: '', stage: 'idea', plannedFor, scheduledFor: null, updatedAt: '' };
+	return { id, postId: id, mediumPath, kind: 'tip', title: `Post ${id}`, hook: '', stage: 'idea', plannedFor, scheduledFor: null, updatedAt: '' };
 }
 
 const weekOfTheSecond = [
@@ -43,8 +43,8 @@ describe('the month’s plan against the posting rhythm', () => {
 		const [, week] = contentPlanOf(november, weekOfTheSecond, [everywhere, linkedIn]).weeks;
 		const rows = planRowsOf(week).filter((row) => row.dueFor !== null);
 		expect(rows).toEqual([
-			{ key: '2026-11-04-due', dayLabel: '', entry: null, dueFor: 'Everywhere' },
-			{ key: '2026-11-05', dayLabel: 'Thu 5 Nov', entry: null, dueFor: 'Everywhere' }
+			{ key: '2026-11-04-due', dayLabel: '', post: null, dueFor: 'Everywhere' },
+			{ key: '2026-11-05', dayLabel: 'Thu 5 Nov', post: null, dueFor: 'Everywhere' }
 		]);
 	});
 

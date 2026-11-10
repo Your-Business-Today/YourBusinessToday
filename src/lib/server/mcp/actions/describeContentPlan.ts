@@ -1,6 +1,7 @@
 import { describePostingRhythms, describeTally } from './describePostingRhythm';
 import { noKindYet, type KindCount } from '$lib/brand/plan/planCounts';
 import type { ContentPlan, PlanDay, PlanEntry, PlanWeek } from '$lib/brand/plan/contentPlan';
+import type { PlanPost } from '$lib/brand/plan/planPosts';
 
 /**
  * The month's plan as the connector reads it out: the counts, the mix of kinds and the posting rhythm, then each week
@@ -29,8 +30,8 @@ function weekSection(week: PlanWeek): string {
 function dayLines(day: PlanDay): string[] {
 	const due = dueOn(day.awaitedOn);
 	if (day.isEmpty) return [`- ${day.label}: nothing planned${due.map((text) => ` — ${text}`).join('')}`];
-	const entries = day.entries.map((entry) => `- ${day.label} ${entryLine(entry)}`);
-	return [...entries, ...due.map((text) => `- ${day.label}: ${text}`)];
+	const posts = day.posts.map((post) => `- ${day.label} ${postLines(post)}`);
+	return [...posts, ...due.map((text) => `- ${day.label}: ${text}`)];
 }
 
 function dueOn(awaitedOn: string[]): string[] {
@@ -38,9 +39,29 @@ function dueOn(awaitedOn: string[]): string[] {
 	return [`a post is due for ${awaitedOn.join(' and ')}`];
 }
 
+/** A post on one channel reads as one line; a post on several names its words once, then each channel on a line of its own. */
+function postLines(post: PlanPost): string {
+	const { channels } = post;
+	const [onlyChannel] = channels;
+	if (channels.length === 1) return entryLine(onlyChannel);
+	const heading = `${post.time} ${post.title} (${kindOf(post.kind)})${hookOf(post.hook)} — one post on ${channels.length} channels:`;
+	const channelLines = channels.map((channel) => `    - ${channel.time} [${channel.stage}] @ ${channel.mediumPath} (id ${channel.id})${extraOf(channel)}`);
+	return [heading, ...channelLines].join('\n');
+}
+
 function entryLine(entry: PlanEntry): string {
-	const hook = entry.hook === '' ? '' : ` — “${entry.hook}”`;
-	const kind = entry.kind ?? noKindYet.toLowerCase();
-	const extra = entry.isExtra ? ' [extra: outside the posting rhythm]' : '';
-	return `${entry.time} [${entry.stage}] ${entry.title} (${kind}) @ ${entry.mediumPath}${hook} (id ${entry.id})${extra}`;
+	const { time, stage, title, mediumPath, id } = entry;
+	return `${time} [${stage}] ${title} (${kindOf(entry.kind)}) @ ${mediumPath}${hookOf(entry.hook)} (id ${id})${extraOf(entry)}`;
+}
+
+function hookOf(hook: string): string {
+	return hook === '' ? '' : ` — “${hook}”`;
+}
+
+function kindOf(kind: string | null): string {
+	return kind ?? noKindYet.toLowerCase();
+}
+
+function extraOf(entry: PlanEntry): string {
+	return entry.isExtra ? ' [extra: outside the posting rhythm]' : '';
 }

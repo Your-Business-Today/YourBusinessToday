@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ContentPieceText from '$lib/components/brand/ContentPieceText.svelte';
+	import ContentPostChannelTable from '$lib/components/brand/ContentPostChannelTable.svelte';
 	import ContentReviewPanel from '$lib/components/brand/ContentReviewPanel.svelte';
 	import ContentReviewList from '$lib/components/brand/ContentReviewList.svelte';
 	import ContentStageBadge from '$lib/components/brand/ContentStageBadge.svelte';
@@ -7,12 +8,14 @@
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { brandCrumbsFor } from '$lib/components/brand/brandKitPageWords';
+	import { channelsExplained, channelsPanelTitle } from '$lib/components/brand/contentPostWords';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { formatBritishDateTime, formatUkDateTime } from '$lib/data/britishDate';
 
 	let { data, form } = $props();
 
 	const { brandOrganisation: organisation, piece } = $derived(data);
+	const channels = $derived(piece.channels);
 	const answer = $derived(form?.message ?? null);
 </script>
 
@@ -38,6 +41,10 @@
 		<div class="flex min-w-0 flex-col gap-6">
 			<DashboardPanel title="The piece" isPadded>
 				<ContentPieceText {piece} />
+			</DashboardPanel>
+			<DashboardPanel title={channelsPanelTitle} count={channels.length}>
+				<p class="px-6 pt-4 text-sm text-chalk-muted">{channelsExplained}</p>
+				<ContentPostChannelTable organisationId={organisation.id} {channels} />
 			</DashboardPanel>
 			<DashboardPanel title="Storyboard">
 				<ContentStoryboardTable shots={piece.shots} />

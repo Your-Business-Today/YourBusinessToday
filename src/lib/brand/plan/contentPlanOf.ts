@@ -5,6 +5,7 @@ import { kindCountsOf, planCountsOf } from './planCounts';
 import { ukClockAt } from '$lib/data/ukClock';
 import { weeksOfMonth, type PlanDayDate } from './planDays';
 import { awaitedOnOf, isOutsideRhythm, rhythmTalliesOf } from './planRhythm';
+import { postsOfDay } from './planPosts';
 import type { PostingRhythm } from '../rhythm/postingRhythm';
 import type { ContentPlan, PlanDay, PlanEntry, PlanWeek } from './contentPlan';
 
@@ -41,10 +42,10 @@ function entryOf(piece: PlannedPiece, rhythms: PostingRhythm[]): PlanEntry | nul
 	const goesOutAt = goesOutAtOf(piece);
 	if (goesOutAt === null) return null;
 	const { date, time } = ukClockAt(new Date(goesOutAt));
-	const { id, mediumPath, kind, title, hook, stage } = piece;
+	const { id, postId, mediumPath, kind, title, hook, stage } = piece;
 	const canMove = stage !== ContentStages.published;
 	const isExtra = isOutsideRhythm(rhythms, { date, mediumPath });
-	return { id, date, time, mediumPath, medium: mediumLabelOf(mediumPath), kind, title, hook, stage, canMove, isExtra };
+	return { id, postId, date, time, mediumPath, medium: mediumLabelOf(mediumPath), kind, title, hook, stage, canMove, isExtra };
 }
 
 function weekOf(days: PlanDayDate[], entries: PlanEntry[], rhythms: PostingRhythm[]): PlanWeek {
@@ -57,5 +58,5 @@ function weekOf(days: PlanDayDate[], entries: PlanEntry[], rhythms: PostingRhyth
 
 function dayOf(day: PlanDayDate, entries: PlanEntry[], awaitedOn: string[]): PlanDay {
 	const dayEntries = entries.filter((entry) => entry.date === day.date);
-	return { ...day, entries: dayEntries, isEmpty: dayEntries.length === nothingOnIt, awaitedOn };
+	return { ...day, entries: dayEntries, posts: postsOfDay(dayEntries), isEmpty: dayEntries.length === nothingOnIt, awaitedOn };
 }

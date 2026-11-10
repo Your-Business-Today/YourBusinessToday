@@ -2,6 +2,7 @@ import { booksActions } from './booksActions';
 import { brandCampaignActions } from './brandCampaignActions';
 import { brandCampaignReportActions } from './brandCampaignReportActions';
 import { brandContentActions } from './brandContentActions';
+import { brandContentChannelActions } from './brandContentChannelActions';
 import { brandContentFlowActions } from './brandContentFlowActions';
 import { brandContentPlanActions } from './brandContentPlanActions';
 import { brandKitActions } from './brandKitActions';
@@ -18,6 +19,7 @@ export const moduleAreaActions: McpAction[] = [
 	...booksActions,
 	...brandKitActions,
 	...brandContentActions,
+	...brandContentChannelActions,
 	...brandContentFlowActions,
 	...brandContentPlanActions,
 	...brandCampaignActions,

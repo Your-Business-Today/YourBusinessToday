@@ -1,3 +1,4 @@
+import { keepPostOfPiece } from './keepPostOfPiece';
 import { ContentStages, type BrandSnapshot } from '$lib/brand/content/contentPiece';
 import type { ContentDraft } from '$lib/brand/content/contentDraft';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -10,12 +11,14 @@ export type ContentPieceToKeep = {
 	kind: string | null;
 };
 
-/** Keeps a drafted piece in the organisation's brand content and gives its id. */
+/** Keeps a drafted piece in the organisation's brand content, as a post of its own on one channel, and gives its id. */
 export async function keepContentPiece(supabase: SupabaseClient, piece: ContentPieceToKeep): Promise<string> {
 	const row = { ...draftColumnsOf(piece), organisation_id: piece.organisationId, created_by: piece.accountId };
 	const { data, error } = await supabase.from('brand_content_pieces').insert(row).select('id').single();
 	if (error) throw error;
-	return data.id as string;
+	const contentPieceId = data.id as string;
+	await keepPostOfPiece(supabase, { organisationId: piece.organisationId, accountId: piece.accountId, contentPieceId });
+	return contentPieceId;
 }
 
 /** The columns a draft writes, with the piece at drafted: a new piece's, or an idea's as it is written up, which keeps its kind when none is given. */
