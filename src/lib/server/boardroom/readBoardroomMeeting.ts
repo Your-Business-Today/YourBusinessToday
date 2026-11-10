@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { getAgendaItemsOfMeetings, getBoardroomMeeting, getMeetingsOfOrganisation } from './getMeetingsOfOrganisation';
 import { getDirectorsOfOrganisation } from './getDirectorsOfOrganisation';
 import { getKeptPapersOfMeeting } from './getBoardroomPapers';
+import { getRecordPapersOfMeeting } from './getBoardroomRecordPapers';
 import { isUuid } from '$lib/data/isUuid';
 import { nameOfSeat, standingAgenda, type AgendaItem, type BoardroomMeeting } from '$lib/data/boardroomMeeting';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
@@ -22,12 +23,13 @@ export async function getMeetingRecord(
 	if (!isUuid(meetingId)) return null;
 	const meeting = await getBoardroomMeeting(supabase, organisationId, meetingId);
 	if (meeting === null) return null;
-	const [directors, items, papers] = await Promise.all([
+	const [directors, items, papers, recordPapers] = await Promise.all([
 		getDirectorsOfOrganisation(supabase, organisationId),
 		getAgendaItemsOfMeetings(supabase, [meeting.id]),
-		getKeptPapersOfMeeting(supabase, meeting.id)
+		getKeptPapersOfMeeting(supabase, meeting.id),
+		getRecordPapersOfMeeting(supabase, meeting.id)
 	]);
-	return { meeting, directors, items, papers };
+	return { meeting, directors, items, papers, recordPapers };
 }
 
 export async function readBoardroomMeeting(

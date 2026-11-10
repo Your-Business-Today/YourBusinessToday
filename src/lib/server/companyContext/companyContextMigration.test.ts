@@ -4,6 +4,7 @@ import { companyContextLimits as limits } from '$lib/data/companyContext/company
 import { contextStages } from '$lib/data/companyContext/companyContext';
 
 const migration = readFileSync('migrations/0154_company_contexts.sql', 'utf8');
+const reviewsMigration = readFileSync('migrations/0163_company_context_part_reviews.sql', 'utf8');
 
 describe('the columns of migration 0154 and the limits the connector checks', () => {
 	it('hold the same lengths', () => {
@@ -22,5 +23,10 @@ describe('the columns of migration 0154 and the limits the connector checks', ()
 
 	it('allow every step of the offer as a stage, and only those', () => {
 		for (const stage of contextStages) expect(migration).toContain(`'${stage}'`);
+	});
+
+	it("hold the same length for what is wrong on a client's mark, and only right and not right", () => {
+		expect(reviewsMigration).toContain(`char_length(what_is_wrong) between 1 and ${limits.whatIsWrongLength}`);
+		expect(reviewsMigration).toContain("review_state in ('right', 'not_right')");
 	});
 });

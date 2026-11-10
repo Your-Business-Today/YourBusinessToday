@@ -43,3 +43,9 @@ export const reviewStateMarks: Record<ReviewState, string> = {
 	right: '✓ ',
 	not_right: '✕ '
 };
+
+/** The two marks a client gives a part on the map, in the order they are offered. */
+export const partMarkChoices = [
+	{ state: 'right', label: 'Right' },
+	{ state: 'not_right', label: 'Not right' }
+] as const satisfies readonly { state: ReviewState; label: string }[];

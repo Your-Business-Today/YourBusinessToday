@@ -24,9 +24,9 @@
 <WorkspaceHeader {crumbs} title="Company context" />
 
 <div class={workspaceBodyClasses}>
-	{#if data.context === null}
+	{#if data.reading === null}
 		<EmptyState message={notYetMessage} />
 	{:else}
-		<CompanyContextView context={data.context} />
+		<CompanyContextView {...data.reading} canMark={false} />
 	{/if}
 </div>

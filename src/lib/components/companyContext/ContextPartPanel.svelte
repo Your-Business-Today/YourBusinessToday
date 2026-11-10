@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ContextPartLinkList from './ContextPartLinkList.svelte';
+	import ContextPartReviewForm from './ContextPartReviewForm.svelte';
 	import ContextProcessStepList from './ContextProcessStepList.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import { checkedSentence, confidenceSentence, seenSentence } from '$lib/data/companyContext/partSentences';
@@ -9,8 +10,14 @@
 	let {
 		part,
 		context,
+		canMark,
 		onSelect
-	}: { part: ContextPart; context: CompanyContextVersion; onSelect: (partKey: string) => void } = $props();
+	}: {
+		part: ContextPart;
+		context: CompanyContextVersion;
+		canMark: boolean;
+		onSelect: (partKey: string) => void;
+	} = $props();
 
 	const steps = $derived(context.steps.filter((step) => step.processKey === part.key));
 	const facts = $derived([seenSentence(part.seenIn), confidenceSentence(part), checkedSentence(part)]);
@@ -31,5 +38,10 @@
 			<ContextProcessStepList {steps} {context} {onSelect} />
 		{/if}
 		<ContextPartLinkList partKey={part.key} {context} {onSelect} />
+		{#if canMark}
+			{#key part.key}
+				<ContextPartReviewForm {part} versionNumber={context.versionNumber} />
+			{/key}
+		{/if}
 	</div>
 </DashboardPanel>

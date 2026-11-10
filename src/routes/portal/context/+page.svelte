@@ -21,10 +21,10 @@
 <WorkspaceHeader {crumbs} title="Your company context" />
 
 <div class={workspaceBodyClasses}>
-	{#if data.context === null}
+	{#if data.reading === null}
 		<EmptyState message={notYetMessage} />
 		<a href={portalConnectPath} class={`self-center ${headerButtonClasses}`}>Connect your Claude and run the prompt</a>
 	{:else}
-		<CompanyContextView context={data.context} />
+		<CompanyContextView {...data.reading} canMark={true} />
 	{/if}
 </div>
