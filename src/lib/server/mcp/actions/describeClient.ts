@@ -52,7 +52,7 @@ export function describeClientInFull(
 function describeContactLine(contact: ClientContact): string {
 	const standing = contact.accountId === null ? 'not invited yet' : 'has a sign-in';
 	const role = describeContactRole(contact);
-	return `${contact.name} (${contact.email}) — ${role} — ${standing} — id ${contact.id}`;
+	return `${contact.name} (${contact.email}) — ${role} — ${standing} — id ${contact.id} — person ${contact.personId}`;
 }
 
 function describeContactRole(contact: ClientContact): string {

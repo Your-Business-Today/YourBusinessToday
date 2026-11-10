@@ -266,10 +266,12 @@ does about what they are building and what they might want automated.
   table — Add as lead and Add with directors — or a link to the client when it is already
   ours. Without `COMPANIES_HOUSE_API_KEY` the map still draws the register in the area
   and says that the wider search needs the key.
-- `/people/[personId]` — gains Find on the web beside Draft approach. The findings open
-  in a modal: the summary, the roles found (each with where it was read), the links as
-  ticked checkboxes, and every source consulted. Save keeps the ticked links on the person
-  and writes the summary as a note of kind `research`, with the sources beneath it.
+- `/people/[personId]` — gains Ask your Claude to research beside Draft approach. Since
+  10 Nov 2026 YBT calls no model for it: the modal gives the words to paste into a chat
+  with the staff member's own Claude, which reads the person with the connector's
+  `read_person`, searches the web itself, shows what it found and saves it with
+  `save_person_research`. Saving adds the links the person does not have yet and writes
+  the summary as a note of kind `research`, with the roles and sources beneath it.
 - `/clients` and `/clients/prospect` gain a Map an area link; the company profile on
   `/clients/[clientId]` gains a postcode field.
 
@@ -278,7 +280,7 @@ does about what they are building and what they might want automated.
 ```
 /clients ──▶ /clients/map ──(add)──▶ /clients/[clientId]
 /clients/prospect ──▶ /clients/map
-/people/[personId] ──(Find on the web)──▶ findings modal ──(save)──▶ /people/[personId]
+/people/[personId] ──(Ask your Claude to research)──▶ the words to paste ──▶ the staff member's Claude ──(save_person_research)──▶ /people/[personId]
 ```
 
 ### The entities
@@ -303,8 +305,7 @@ not saved is gone when the modal closes.
 | Command | Story it serves |
 | --- | --- |
 | `addProspectAsLead`, `importCompanyOfficers` | unchanged; the map posts to the same actions as the prospect table, now carrying the postcode |
-| `researchPerson` | search the open web, then record the findings through a forced tool |
-| `savePersonFindings` | the ticked links become person links; the summary and sources become a research note |
+| `save_person_research` (connector) | the staff member's Claude sends its findings, each value checked and refused if it does not fit; new links become person links, the summary, roles and sources become a research note, and `person_researched` is recorded on each company |
 
 | Query | Story it serves |
 | --- | --- |
