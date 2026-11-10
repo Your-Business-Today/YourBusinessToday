@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { beginGoogleSignIn } from '$lib/server/auth/beginGoogleSignIn';
 import { createAccountWithPassword } from '$lib/server/auth/createAccountWithPassword';
 import { readEmailAndPassword } from '$lib/server/auth/emailAndPassword';
-import { destinationAfterSignIn } from '$lib/server/auth/localDestination';
+import { destinationAfterSignIn } from '$lib/server/auth/destinationAfterSignIn';
 import { problemWithCredentials, problemWithEmailAddress } from '$lib/server/auth/passwordRules';
 import { sendUserPasswordReset } from '$lib/server/admin/sendUserPasswordReset';
 import { emailSendAllowance, tooManyEmailsMessage } from '$lib/server/auth/emailSendAllowance';

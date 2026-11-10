@@ -7,23 +7,24 @@
 	import { frameViewFor } from './frameView';
 	import { isFrameDrawerOpen, withFrameDrawerOpen } from './frameDrawerState';
 	import type { FrameAccess } from './frameNavigation';
+	import type { FramePicks } from './framePicks';
 	import type { Snippet } from 'svelte';
 
 	let {
 		access,
 		personName,
 		unreadNotificationCount,
-		pickers,
+		picks,
 		children
 	}: {
 		access: FrameAccess;
 		personName: string;
 		unreadNotificationCount: number;
-		pickers?: Snippet;
+		picks: FramePicks | null;
 		children: Snippet;
 	} = $props();
 
-	const view = $derived(frameViewFor(access, page.url));
+	const view = $derived(frameViewFor(access, page.url, picks));
 	const isDrawerOpen = $derived(isFrameDrawerOpen(page.state));
 
 	const openDrawer = () => pushState('', withFrameDrawerOpen(page.state));
@@ -31,7 +32,7 @@
 </script>
 
 {#snippet sideBar()}
-	<FrameSideBar {view} {personName} {pickers} />
+	<FrameSideBar {view} {personName} {picks} />
 {/snippet}
 
 <aside

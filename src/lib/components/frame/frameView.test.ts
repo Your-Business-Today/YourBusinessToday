@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { frameViewFor } from './frameView';
 import type { FrameAccess } from './frameNavigation';
+import type { FramePicks } from './framePicks';
 
 const member: FrameAccess = {
 	isStaff: false,
@@ -14,8 +15,18 @@ const administrator: FrameAccess = { ...member, isStaff: true, isAdmin: true };
 const clientContact: FrameAccess = { ...member, isPortalAccount: true };
 const clientAdministrator: FrameAccess = { ...clientContact, isPortalAdministrator: true };
 
+const noPicks: FramePicks = {
+	organisations: [],
+	pickedOrganisationId: null,
+	projects: [],
+	pickedProjectId: null,
+	projectLinks: [],
+	moduleLinks: [],
+	homePath: null
+};
+
 const siteUrl = (path: string) => new URL(path, 'https://yourbusiness.today');
-const viewAt = (access: FrameAccess, path: string) => frameViewFor(access, siteUrl(path));
+const viewAt = (access: FrameAccess, path: string) => frameViewFor(access, siteUrl(path), null);
 const labelsFor = (access: FrameAccess) => viewAt(access, '/').links.map(({ label }) => label);
 
 describe('frameViewFor', () => {
@@ -63,4 +74,20 @@ describe('frameViewFor', () => {
 		expect(portalView.signOutPath).toBe('/portal?/signOut');
 		expect(viewAt(staff, '/projects').signOutPath).toBe('/account?/signOut');
 	});
+
+	it('puts the picked project’s pages and modules first, and opens home on the project', () => {
+		const projectLinks = [{ href: '/projects/harbour-site', label: 'Home' }];
+		const moduleLinks = [{ href: '/organisations/harbour/books', label: 'Books' }];
+		const picks = { ...noPicks, projectLinks, moduleLinks, homePath: '/projects/harbour-site' };
+		const view = frameViewFor(staff, siteUrl('/projects/harbour-site/tasks/one'), picks);
+		expect(view.links.slice(0, 3).map(({ label }) => label)).toEqual(['Home', 'Books', 'Projects']);
+		expect(view.currentHref).toBe('/projects/harbour-site');
+		expect(view.homePath).toBe('/projects/harbour-site');
+	});
+
+	it('keeps today’s home when nothing is picked', () => {
+		expect(frameViewFor(staff, siteUrl('/projects'), noPicks).homePath).toBe('/');
+		expect(frameViewFor(clientContact, siteUrl('/portal'), noPicks).homePath).toBe('/portal');
+	});
 });
+

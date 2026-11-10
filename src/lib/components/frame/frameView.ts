@@ -1,6 +1,7 @@
 import { frameLinksFor, type FrameAccess } from './frameNavigation';
 import { isAtOrUnder } from './framedPaths';
 import { portalHomePath } from '$lib/portal/portalPaths';
+import type { FramePicks } from './framePicks';
 import type { NavigationLink } from '$lib/components/site/siteNavigation';
 
 /** What the frame shows round one page: the side bar's links, the one the page sits under, and the top bar's heading. */
@@ -20,17 +21,23 @@ const headingsOutsideTheSideBar: NavigationLink[] = [
 	{ href: '/notifications', label: 'Notifications' }
 ];
 
-export function frameViewFor(access: FrameAccess, url: URL): FrameView {
+/** The picked project's pages and its organisation's modules come first, then the links each person reaches today. */
+export function frameViewFor(access: FrameAccess, url: URL, picks: FramePicks | null): FrameView {
 	const { pathname } = url;
-	const links = frameLinksFor(access);
+	const pickedLinks = picks === null ? [] : [...picks.projectLinks, ...picks.moduleLinks];
+	const links = [...pickedLinks, ...frameLinksFor(access)];
 	const currentLink = deepestLinkAt([...links, ...headingsOutsideTheSideBar], pathname);
 	return {
 		links,
 		currentHref: currentLink?.href ?? null,
 		heading: currentLink?.label ?? fallbackHeading,
-		homePath: access.isPortalAccount ? portalHomePath : siteHomePath,
+		homePath: picks?.homePath ?? defaultHomePathFor(access),
 		signOutPath: access.isPortalAccount ? portalSignOutPath : siteSignOutPath
 	};
+}
+
+function defaultHomePathFor(access: FrameAccess): string {
+	return access.isPortalAccount ? portalHomePath : siteHomePath;
 }
 
 /** The link whose section holds the page most closely: Patches, not Clients, for a patch. */
