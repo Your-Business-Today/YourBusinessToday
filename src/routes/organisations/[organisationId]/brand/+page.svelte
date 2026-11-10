@@ -1,4 +1,6 @@
 <script lang="ts">
+	import BrandAwaitingTable from '$lib/components/brand/BrandAwaitingTable.svelte';
+	import BrandCampaignTable from '$lib/components/brand/BrandCampaignTable.svelte';
 	import BrandChannelTable from '$lib/components/brand/BrandChannelTable.svelte';
 	import BrandKitList from '$lib/components/brand/BrandKitList.svelte';
 	import BrandSwatches from '$lib/components/brand/BrandSwatches.svelte';
@@ -9,7 +11,7 @@
 
 	let { data } = $props();
 
-	const { brandOrganisation: organisation, kit } = $derived(data);
+	const { brandOrganisation: organisation, kit, awaitingApproval, campaigns } = $derived(data);
 </script>
 
 <svelte:head>
@@ -26,6 +28,9 @@
 <div class={workspaceBodyClasses}>
 	<div class={dashboardGridClasses}>
 		<div class="flex min-w-0 flex-col gap-6">
+			<DashboardPanel title="Waiting for approval" count={awaitingApproval.length}>
+				<BrandAwaitingTable organisationId={organisation.id} pieces={awaitingApproval} />
+			</DashboardPanel>
 			<DashboardPanel title="Palette" isPadded>
 				<BrandSwatches entries={kit.palette} emptyMessage={nothingDecidedYet} />
 			</DashboardPanel>
@@ -37,6 +42,9 @@
 			</DashboardPanel>
 			<DashboardPanel title="Set for one channel">
 				<BrandChannelTable entries={kit.forOneChannel} />
+			</DashboardPanel>
+			<DashboardPanel title="Paid campaigns" count={campaigns.length}>
+				<BrandCampaignTable organisationId={organisation.id} {campaigns} />
 			</DashboardPanel>
 		</div>
 		<aside class="flex min-w-0 flex-col gap-6">

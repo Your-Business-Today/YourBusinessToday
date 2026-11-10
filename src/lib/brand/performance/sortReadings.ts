@@ -1,16 +1,15 @@
 import { checkPerformanceReading } from './checkPerformanceReading';
+import { isPlainRecord } from '$lib/data/isPlainRecord';
 import type { PerformanceReading } from './performanceReading';
 import { readingKey } from './readingKey';
 import { readingName, type BrandRecordsKnown, type CheckedReading, type ReadingsSorted } from './readingsSorted';
-
-type Input = Record<string, unknown>;
 
 /** Every reading given checked against its columns: the ones that fit, and each refusal named by its place. */
 export function checkReadings(given: unknown[]): { checked: CheckedReading[]; refusals: string[] } {
 	const checked: CheckedReading[] = [];
 	const refusals: string[] = [];
 	given.forEach((item, position) => {
-		const check = checkPerformanceReading(isInput(item) ? item : {});
+		const check = checkPerformanceReading(isPlainRecord(item) ? item : {});
 		if ('problem' in check) {
 			refusals.push(`${readingName(position)}: ${check.problem}`);
 			return;
@@ -48,8 +47,4 @@ function problemWithSubject(reading: PerformanceReading, known: BrandRecordsKnow
 function problemWithDay(key: string, keysTaken: Set<string>): string | null {
 	if (!keysTaken.has(key)) return null;
 	return 'that piece or campaign already has a reading for this medium on this day, so it was not added again';
-}
-
-function isInput(item: unknown): item is Input {
-	return typeof item === 'object' && item !== null && !Array.isArray(item);
 }

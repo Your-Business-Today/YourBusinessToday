@@ -12,7 +12,9 @@ export const boardroomMeetingGuidance = {
 		'come) and closed. Only the organisation’s sitting directors read them.',
 	read:
 		'The agenda’s numbers are the ones change_board_agenda takes, so read the meeting again before changing ' +
-		'it. Each item’s papers are listed beneath it by paper id; read one with read_board_paper. Items withdrawn before the ' +
+		'it. Each item’s papers are listed beneath it by paper id; read one with read_board_paper. Beneath them, whose briefs ' +
+		'are in and whose are not: your director’s own brief is read with read_board_brief, and nobody else’s is ever shown. ' +
+		'Items withdrawn before the ' +
 		'meeting are listed beneath the agenda; nothing is ever deleted.',
 	change:
 		'Read the meeting first with read_board_meeting, and number items as it does now. Until the meeting opens ' +

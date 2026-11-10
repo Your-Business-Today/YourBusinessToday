@@ -45,8 +45,10 @@ export const boardroomMeetingActions: McpAction[] = [
 		summary: 'read one board meeting: when, who chairs it, the directors on it and its numbered agenda',
 		guidance: boardroomMeetingGuidance.read,
 		inputSchema: meetingSchema,
-		run: async (caller, input, organisation) =>
-			readBoardroomMeeting(caller.supabase, organisation, readText(input, 'meetingId'), new Date())
+		run: async (caller, input, organisation) => {
+			const reader = { accountId: caller.accountId, now: new Date() };
+			return readBoardroomMeeting(caller.supabase, organisation, readText(input, 'meetingId'), reader);
+		}
 	}),
 	boardroomAction({
 		name: 'change_board_agenda',

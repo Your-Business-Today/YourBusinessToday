@@ -37,4 +37,4 @@ Every button. YBT has no shared button yet: its buttons are class strings; this 
 - `confirmButtonClasses` (a `go` outline that fills on hover) has no place in two looks; it becomes the primary or the secondary.
 
 ## Exceptions
-- Built as `Button` (`look`, `size`, `isDestructive`, `isIconOnly`, `isSaving`, `href` for a link drawn as a button). Its first users are the dialog's close button and the sheet's two buttons; the views' class strings (`primaryButtonClasses`, `panelButtonClasses` and the rest) and `SubmitButton` move to it in the refactor rounds, so the `signal` filled buttons stay until then. Checked 10 Nov 2026.
+- Built as `Button` (`look`, `size`, `isDestructive`, `isIconOnly`, `isSaving`, `href` for a link drawn as a button, `name` and `value` for a submit that says which of a form's buttons was pressed). Its first users are the dialog's close button and the sheet's two buttons; the views' class strings (`primaryButtonClasses`, `panelButtonClasses` and the rest) and `SubmitButton` move to it in the refactor rounds, so the `signal` filled buttons stay until then. Checked 10 Nov 2026.

@@ -22,15 +22,19 @@ type QuestionRow = { id: string; chatbot_id: string; asked_by_email: string; que
 
 const lastListedRow = chatbotTrailLimits.mostQuestionsListed - 1;
 
-/** The organisation's questions asked through its chatbots, narrowed by the filters; null until migration 0175 has run. */
+const firstRowOfTheTrail = 0;
+
+/** The organisation's questions asked through its chatbots, narrowed by the filters, from the row asked for; null until migration 0175 has run. */
 export async function readChatbotQuestionTrail(
 	supabase: SupabaseClient,
 	organisationId: string,
-	filters: ChatbotTrailFilters
+	filters: ChatbotTrailFilters,
+	firstRow: number = firstRowOfTheTrail
 ): Promise<ChatbotQuestionTrail | null> {
 	const { data, error, count } = await questionsQuery(supabase, organisationId, filters)
 		.order('asked_at', { ascending: false })
-		.range(0, lastListedRow);
+		.order('id')
+		.range(firstRow, firstRow + lastListedRow);
 	if (isSchemaNotYetMigrated(error)) return null;
 	if (error) throw error;
 	const rows = (data ?? []) as QuestionRow[];

@@ -1,7 +1,14 @@
+import { findCampaigns } from '$lib/server/brandCampaigns/findCampaigns';
 import { readBrandKitPage } from '$lib/server/brandKits/readBrandKitPage';
+import { readPiecesAwaitingApproval } from '$lib/server/brandContent/readPiecesAwaitingApproval';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params, parent }) => {
 	await parent();
-	return { kit: await readBrandKitPage(locals.supabase, params.organisationId) };
+	const [kit, awaitingApproval, campaigns] = await Promise.all([
+		readBrandKitPage(locals.supabase, params.organisationId),
+		readPiecesAwaitingApproval(locals.supabase, params.organisationId),
+		findCampaigns(locals.supabase, params.organisationId)
+	]);
+	return { kit, awaitingApproval, campaigns };
 };

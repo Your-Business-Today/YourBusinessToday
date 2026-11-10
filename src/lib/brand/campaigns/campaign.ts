@@ -28,7 +28,10 @@ export type PieceForCampaign = { organisationId: string; campaignId: string; con
 /** A piece of the brand's content that a campaign holds. */
 export type CampaignPiece = { contentPieceId: string; title: string; stage: string };
 
-export type Campaign = CampaignPlan & { id: string; status: CampaignStatus; pieces: CampaignPiece[] };
+/** A campaign as it stands, without the pieces behind it. */
+export type CampaignHead = CampaignPlan & { id: string; status: CampaignStatus };
+
+export type Campaign = CampaignHead & { pieces: CampaignPiece[] };
 
 export function isCampaignStatus(candidate: string): candidate is CampaignStatus {
 	return (campaignStatuses as string[]).includes(candidate);

@@ -10,6 +10,8 @@ const nothing = {
 	saves: 0,
 	clicks: 0,
 	conversions: 0,
+	impressions: 0,
+	reach: 0,
 	spendPence: 0
 };
 

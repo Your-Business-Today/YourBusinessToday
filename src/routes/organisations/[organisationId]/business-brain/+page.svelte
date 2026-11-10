@@ -9,7 +9,7 @@
 
 	let { data } = $props();
 
-	const { organisation, index, chatbots, keptFiles } = $derived(data);
+	const { organisation, canManage, index, chatbots, keptFiles } = $derived(data);
 	const addresses = $derived(businessBrainAddresses(organisation.id));
 	const hasUnnamedFiles = $derived(keptFiles.unnamedCount > 0);
 </script>
@@ -30,7 +30,7 @@
 			<BusinessBrainIndexPanel {index} {addresses} />
 		</div>
 		<aside class="flex min-w-0 flex-col gap-4">
-			<BusinessBrainChatbotsPanel {chatbots} />
+			<BusinessBrainChatbotsPanel {chatbots} {canManage} {addresses} />
 			{#if hasUnnamedFiles}
 				<BusinessBrainFilesPanel
 					title="Files no page names yet"

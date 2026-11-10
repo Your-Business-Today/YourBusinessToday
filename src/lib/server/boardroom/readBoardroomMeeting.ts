@@ -4,6 +4,7 @@ import { getMeetingSummaries } from './getMeetingSummaries';
 import { getDirectorsOfOrganisation } from './getDirectorsOfOrganisation';
 import { getKeptPapersOfMeeting } from './getBoardroomPapers';
 import { getRecordPapersOfMeeting } from './getBoardroomRecordPapers';
+import { getMeetingBriefing } from './getBoardroomBriefs';
 import { isUuid } from '$lib/data/isUuid';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
 import {
@@ -12,6 +13,7 @@ import {
 	type MeetingRecord
 } from '$lib/data/describeBoardroomMeeting';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
+import type { MeetingCaller } from './callBoardroomMeeting';
 
 /** One meeting of an organisation's board with its board, agenda and papers, or null when it has none with that id. */
 export async function getMeetingRecord(
@@ -31,15 +33,28 @@ export async function getMeetingRecord(
 	return { meeting, directors, items, papers, recordPapers };
 }
 
+/** One meeting as its reader sees it: the record, with their own briefs and only whose others are in. */
+export async function getBriefedMeetingRecord(
+	supabase: SupabaseClient,
+	organisationId: string,
+	meetingId: string,
+	accountId: string
+): Promise<MeetingRecord | null> {
+	const record = await getMeetingRecord(supabase, organisationId, meetingId);
+	if (record === null) return null;
+	const briefing = await getMeetingBriefing(supabase, record, accountId);
+	return { ...record, briefing };
+}
+
 export async function readBoardroomMeeting(
 	supabase: SupabaseClient,
 	organisation: Organisation,
 	meetingId: string,
-	now: Date
+	reader: MeetingCaller
 ): Promise<string> {
-	const record = await getMeetingRecord(supabase, organisation.id, meetingId);
+	const record = await getBriefedMeetingRecord(supabase, organisation.id, meetingId, reader.accountId);
 	if (record === null) return boardroomMeetingRefusals.noSuchMeeting;
-	return describeBoardroomMeeting(organisation.name, record, now);
+	return describeBoardroomMeeting(organisation.name, record, reader.now);
 }
 
 /** Every meeting of an organisation's board, called, open and closed, latest first. */

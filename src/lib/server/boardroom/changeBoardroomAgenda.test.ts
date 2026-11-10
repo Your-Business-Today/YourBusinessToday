@@ -27,6 +27,7 @@ vi.mock('./getMeetingsOfOrganisation', () => ({
 }));
 vi.mock('./getBoardroomPapers', () => ({ getKeptPapersOfMeeting: async () => [] }));
 vi.mock('./getBoardroomRecordPapers', () => ({ getRecordPapersOfMeeting: async () => [] }));
+vi.mock('./getBoardroomBriefs', () => ({ getMeetingBriefing: async () => ({ seatId: null, ownBriefs: [], briefsIn: [] }) }));
 vi.mock('./saveBoardroomMeeting', () => ({
 	insertAgendaItems: async (_supabase: unknown, placing: unknown, drafts: unknown[]) =>
 		drafts.length > 0 && board.added.push(placing)

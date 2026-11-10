@@ -7,6 +7,8 @@
 		look = 'secondary',
 		size = 'small',
 		type = 'button',
+		name,
+		value,
 		href,
 		label,
 		isDestructive = false,
@@ -20,6 +22,8 @@
 		look?: ButtonLook;
 		size?: ButtonSize;
 		type?: 'button' | 'submit';
+		name?: string;
+		value?: string;
 		href?: string;
 		label?: string;
 		isDestructive?: boolean;
@@ -35,7 +39,7 @@
 </script>
 
 {#if href === undefined}
-	<button {type} {onclick} disabled={isSaving || disabled} aria-busy={isSaving} aria-label={label} class={classes}>
+	<button {type} {name} {value} {onclick} disabled={isSaving || disabled} aria-busy={isSaving} aria-label={label} class={classes}>
 		{#if isSaving}
 			<span
 				class="h-3.5 w-3.5 shrink-0 animate-spin rounded-full border-2 border-current border-t-transparent"
