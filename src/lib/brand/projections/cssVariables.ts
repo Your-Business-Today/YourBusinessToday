@@ -1,7 +1,7 @@
 import type { ResolvedBrand } from '../resolution/resolvedBrand';
 import type { FacetKey } from '../facets';
 
-const styledFacets: FacetKey[] = ['look', 'motion'];
+export const styledFacets: FacetKey[] = ['look', 'motion'];
 const variablePrefix = '--brand';
 
 export function cssVariablesOf(brand: ResolvedBrand): Record<string, string> {
