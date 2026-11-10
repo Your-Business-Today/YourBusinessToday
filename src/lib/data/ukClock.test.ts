@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ukClockAt } from './ukClock';
+import { momentOnUkClock, ukClockAt } from './ukClock';
 
 describe('ukClockAt', () => {
 	it('reads a summer moment an hour ahead of UTC', () => {
@@ -13,5 +13,19 @@ describe('ukClockAt', () => {
 
 	it('rolls the date with the UK clock, not the UTC one', () => {
 		expect(ukClockAt(new Date('2026-07-01T23:30:00Z'))).toEqual({ date: '2026-07-02', time: '00:30' });
+	});
+});
+
+describe('momentOnUkClock', () => {
+	it('reads a summer time an hour behind on UTC', () => {
+		expect(momentOnUkClock({ date: '2026-07-01', time: '18:30' })?.toISOString()).toBe('2026-07-01T17:30:00.000Z');
+	});
+
+	it('reads a winter time as UTC', () => {
+		expect(momentOnUkClock({ date: '2026-12-01', time: '09:00' })?.toISOString()).toBe('2026-12-01T09:00:00.000Z');
+	});
+
+	it('has no moment for a time the clocks going forward skip', () => {
+		expect(momentOnUkClock({ date: '2027-03-28', time: '01:30' })).toBeNull();
 	});
 });

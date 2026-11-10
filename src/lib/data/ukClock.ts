@@ -19,3 +19,17 @@ export function ukClockAt(moment: Date): UkClock {
 	const time = `${parts.get('hour')}:${parts.get('minute')}`;
 	return { date, time };
 }
+
+function asIfUtc(clock: UkClock): number {
+	return new Date(`${clock.date}T${clock.time}:00Z`).getTime();
+}
+
+/** The moment a UK clock shows the given date and time, or null when the clocks going forward skip it. */
+export function momentOnUkClock(clock: UkClock): Date | null {
+	const guess = asIfUtc(clock);
+	const ukOffset = asIfUtc(ukClockAt(new Date(guess))) - guess;
+	const moment = new Date(guess - ukOffset);
+	const shown = ukClockAt(moment);
+	const isShownAsGiven = shown.date === clock.date && shown.time === clock.time;
+	return isShownAsGiven ? moment : null;
+}

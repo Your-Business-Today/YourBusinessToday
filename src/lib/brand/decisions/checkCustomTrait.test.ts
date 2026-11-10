@@ -37,6 +37,11 @@ describe('checking a trait a brand defines for itself', () => {
 		expect(checkCustomTrait({ ...seasonalColour, kind: 'choice' })).toEqual({ problem: 'a choice needs choices' });
 	});
 
+	it('refuses a key longer than its column holds', () => {
+		const overlongName = `colour.${'x'.repeat(120)}`;
+		expect(checkCustomTrait({ ...seasonalColour, name: overlongName })).toHaveProperty('problem');
+	});
+
 	it('refuses a label longer than its limit', () => {
 		const overlongLabel = 'x'.repeat(81);
 		expect(checkCustomTrait({ ...seasonalColour, label: overlongLabel })).toEqual({

@@ -1,13 +1,16 @@
 import { builtInTraits } from '../traits/traitCatalogue';
 import { isFacetKey } from '../facets';
 import { isTraitKind, TraitKinds, type TraitKind } from '../values/traitValue';
+import { KitLimits } from '../kitLimits';
 import type { TraitDefinition } from '../traits/traitDefinition';
 
 const customKeyPattern = /^[a-z]+(?:\.[a-zA-Z0-9]+)+$/;
-const labelCharacters = 80;
-const purposeCharacters = 300;
-const mostChoices = 20;
-const choiceCharacters = 60;
+const {
+	traitLabelCharacters: labelCharacters,
+	traitPurposeCharacters: purposeCharacters,
+	traitChoices: mostChoices,
+	traitChoiceCharacters: choiceCharacters
+} = KitLimits;
 
 export type CustomTraitDraft = {
 	facet: string;
@@ -25,6 +28,9 @@ export function checkCustomTrait(draft: CustomTraitDraft): CustomTraitCheck {
 	if (!isFacetKey(facet)) return { problem: `${facet} is not a facet` };
 	const key = `${facet}.${name}`;
 	if (!customKeyPattern.test(key)) return { problem: 'name it in words joined by dots, such as colour.seasonal' };
+	if (key.length > KitLimits.traitKeyCharacters) {
+		return { problem: `keep ${key} to ${KitLimits.traitKeyCharacters} characters, facet and name together` };
+	}
 	if (builtInTraits.some((trait) => trait.key === key)) return { problem: `${key} is already a trait` };
 	if (!isCustomTraitKind(kind)) return { problem: `${kind} is not a kind a custom trait can take` };
 	const isChoiceWithoutChoices = kind === TraitKinds.choice && choices.length === 0;
