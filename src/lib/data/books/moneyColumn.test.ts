@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { moneyColumnLimits, validateMoney } from './moneyColumn';
+import { moneyColumnLimits, validateMoney, validateQuantity } from './moneyColumn';
 import { formatPoundsAndPence, sumMoney } from './money';
 
 describe('validateMoney', () => {
@@ -41,5 +41,14 @@ describe('formatPoundsAndPence', () => {
 		expect(formatPoundsAndPence(1234.5)).toBe('£1,234.50');
 		expect(formatPoundsAndPence(-300.1)).toBe('-£300.10');
 		expect(formatPoundsAndPence(0)).toBe('£0.00');
+	});
+});
+
+describe('validateQuantity', () => {
+	it('accepts a quantity above zero to two places, and refuses none, a third place or what is not a number', () => {
+		expect(validateQuantity('Line 1 quantity', 1.5)).toBe(1.5);
+		expect(validateQuantity('Line 1 quantity', 0)).toBe('Line 1 quantity is above zero; 0 was given.');
+		expect(validateQuantity('Line 1 quantity', 1.005)).toBe('Line 1 quantity has at most 2 decimal places; 1.005 was given.');
+		expect(validateQuantity('Line 1 quantity', 'two')).toBe('Line 1 quantity is a number, such as 2 or 1.5.');
 	});
 });

@@ -42,7 +42,8 @@ function addInvoice(balance: CustomerBalance, invoice: InvoiceStanding, amounts:
 	return { invoiceCount, unpaidInvoiceCount: balance.unpaidInvoiceCount + 1, owed: sumMoney([balance.owed, differenceOf(total, paid)]) };
 }
 
-function sumByInvoice(amounts: InvoiceAmount[]): Map<string, number> {
+/** The amounts held against each invoice added up, by invoice id. */
+export function sumByInvoice(amounts: InvoiceAmount[]): Map<string, number> {
 	const sums = new Map<string, number>();
 	for (const held of amounts) sums.set(held.invoiceId, sumMoney([sums.get(held.invoiceId) ?? 0, held.amount]));
 	return sums;

@@ -18,6 +18,8 @@ export type BooksSetting = keyof BooksSettings;
 /** The settings a person asked to change; every one left out keeps what the books hold. */
 export type BooksSettingsChange = Partial<BooksSettings>;
 
+export const booksSettingsTable = 'books_settings';
+
 /** Each setting's column in books_settings (migration 0151), stated once for reading and writing. */
 export const booksSettingsColumns: Record<BooksSetting, string> = {
 	companyName: 'company_name',
@@ -34,3 +36,6 @@ export const booksSettingsColumns: Record<BooksSetting, string> = {
 };
 
 export const booksSettingNames = Object.keys(booksSettingsColumns) as BooksSetting[];
+
+/** What an organisation's invoices take until its settings are saved: the column defaults of books_settings (migration 0151). */
+export const invoiceSettingDefaults = { invoicePrefix: 'INV', nextInvoiceNumber: 1, paymentTermsDays: 30 } as const;
