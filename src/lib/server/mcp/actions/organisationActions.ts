@@ -1,4 +1,5 @@
 import { organisationInviteActions } from './organisationInviteActions';
+import { organisationModuleActions } from './organisationModuleActions';
 import { organisationPeopleActions } from './organisationPeopleActions';
 import { organisationProjectActions } from './organisationProjectActions';
 import { organisationReadActions } from './organisationReadActions';
@@ -9,6 +10,7 @@ export const organisationActions: McpAction[] = [
 	...organisationReadActions,
 	...organisationWriteActions,
 	...organisationInviteActions,
+	...organisationModuleActions,
 	...organisationPeopleActions,
 	...organisationProjectActions
 ];
