@@ -7,6 +7,6 @@ export function referredTraitKey(value: TraitValue): string | null {
 	return referencePattern.exec(value)?.[1] ?? null;
 }
 
-export function isTraitReference(value: unknown): boolean {
+export function isTraitReference(value: unknown): value is string {
 	return typeof value === 'string' && referencePattern.test(value);
 }

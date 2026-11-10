@@ -17,7 +17,7 @@ export function resolveBrand(
 		.map((trait) => cascade(trait, adopted, medium))
 		.filter((resolved): resolved is ResolvedTrait => resolved !== null);
 	const { traits, problems } = resolveReferences(cascaded);
-	const decidedKeys = new Set(cascaded.map((resolved) => resolved.trait.key));
+	const decidedKeys = new Set(cascaded.map((resolved) => resolved.key));
 	const gaps = expressible.filter((trait) => !decidedKeys.has(trait.key));
 	return { medium, traits, gaps, problems };
 }
@@ -28,5 +28,5 @@ function cascade(trait: TraitDefinition, adopted: Decision[], medium: Medium): R
 		.filter((decision) => isWithinPath(medium.path, decision.mediumPath))
 		.sort((left, right) => depthOf(right.mediumPath) - depthOf(left.mediumPath))[0];
 	if (nearest === undefined) return null;
-	return { trait, value: nearest.value, decidedAt: nearest.mediumPath, decisionId: nearest.id };
+	return { ...trait, value: nearest.value, decidedAt: nearest.mediumPath, decisionId: nearest.id };
 }

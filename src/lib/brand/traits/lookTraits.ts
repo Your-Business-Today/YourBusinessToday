@@ -21,5 +21,10 @@ export const lookTraits = traitsOf('look', {
 	'shape.shadow': { kind: 'choice', label: 'Shadow', purpose: 'How things lift off the surface', choices: ['none', 'soft', 'hard'] },
 	'space.unit': { kind: 'length', label: 'Spacing unit', purpose: 'The step every gap and margin is a multiple of' },
 	'imagery.style': { kind: 'phrase', label: 'Imagery style', purpose: 'What the brand’s photos and footage look like' },
-	'logo.placement': { kind: 'choice', label: 'Logo placement', purpose: 'Where the logo sits', choices: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'end-card-only', 'none'] }
+	'logo.placement': {
+		kind: 'choice',
+		label: 'Logo placement',
+		purpose: 'Where the logo sits',
+		choices: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'end-card-only', 'none']
+	}
 });

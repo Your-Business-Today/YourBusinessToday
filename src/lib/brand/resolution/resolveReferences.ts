@@ -8,11 +8,11 @@ export function resolveReferences(cascaded: ResolvedTrait[]): {
 	traits: ResolvedTrait[];
 	problems: string[];
 } {
-	const valuesByKey = new Map(cascaded.map((resolved) => [resolved.trait.key, resolved.value]));
+	const valuesByKey = new Map(cascaded.map((resolved) => [resolved.key, resolved.value]));
 	const traits: ResolvedTrait[] = [];
 	const problems: string[] = [];
 	for (const resolved of cascaded) {
-		const outcome = follow(resolved.trait.key, valuesByKey, []);
+		const outcome = follow(resolved.key, valuesByKey, []);
 		if ('problem' in outcome) problems.push(outcome.problem);
 		if ('value' in outcome) traits.push({ ...resolved, value: outcome.value });
 	}

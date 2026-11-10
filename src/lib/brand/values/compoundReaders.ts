@@ -32,10 +32,15 @@ export function readActionRule(raw: unknown): ValueReading {
 }
 
 function listItems(raw: unknown): string[] | null {
-	if (typeof raw === 'string') return withoutBlanks(raw.split('\n'));
+	if (typeof raw === 'string') return linesOf(raw);
 	if (!Array.isArray(raw)) return null;
 	if (!raw.every((item) => typeof item === 'string')) return null;
 	return withoutBlanks(raw);
+}
+
+function linesOf(text: string): string[] {
+	const lines = text.split('\n');
+	return withoutBlanks(lines);
 }
 
 function withoutBlanks(items: string[]): string[] {

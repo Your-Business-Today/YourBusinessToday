@@ -15,6 +15,12 @@ export const traitKinds = [
 
 export type TraitKind = (typeof traitKinds)[number];
 
+export const TraitKinds = {
+	choice: 'choice',
+	phraseList: 'phraseList',
+	actionRule: 'actionRule'
+} as const satisfies Record<string, TraitKind>;
+
 export const actionStances = ['always', 'often', 'sometimes', 'never'] as const;
 
 export type ActionStance = (typeof actionStances)[number];

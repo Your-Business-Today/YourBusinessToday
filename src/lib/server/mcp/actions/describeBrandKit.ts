@@ -8,12 +8,12 @@ import type { Decision } from '$lib/brand/decisions/decision';
 const everywhere = findMedium(everywherePath) as Medium;
 
 /** Every decision in force or proposed, at every medium, and the traits nothing has decided yet. */
-export function describeBrandKit(organisationName: string, kit: BrandKit): string {
-	const gaps = resolveBrand(kit.decisions, kit.catalogue, everywhere).gaps;
+export function describeBrandKit(organisationName: string, { decisions, catalogue }: BrandKit): string {
+	const gaps = resolveBrand(decisions, catalogue, everywhere).gaps;
 	const gapsLine = `Not yet decided anywhere: ${gaps.map((trait) => trait.key).join(', ')}`;
-	if (kit.decisions.length === 0) return `${emptyKitLine(organisationName)}\n\n${gapsLine}`;
-	const decisionLines = kit.decisions.map(decisionLine);
-	const heading = `${organisationName}: ${kit.decisions.length} decisions in force or proposed`;
+	if (decisions.length === 0) return `${emptyKitLine(organisationName)}\n\n${gapsLine}`;
+	const decisionLines = decisions.map(decisionLine);
+	const heading = `${organisationName}: ${decisions.length} decisions in force or proposed`;
 	const sections = [[heading, ...decisionLines].join('\n')];
 	if (gaps.length > 0) sections.push(gapsLine);
 	return sections.join('\n\n');
