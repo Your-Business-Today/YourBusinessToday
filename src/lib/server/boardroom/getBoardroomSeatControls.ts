@@ -51,8 +51,9 @@ export async function getControlsOfSeat(supabase: SupabaseClient, meetingId: str
 }
 
 /** What one reader of a meeting has told their own Claude on it; nothing at all when they hold no seat. */
-export async function getOwnSeatControls(supabase: SupabaseClient, record: MeetingRecord, accountId: string): Promise<SeatControls> {
-	const seat = sittingSeatOf(record.directors, accountId);
+export async function getControlsOfReader(supabase: SupabaseClient, record: MeetingRecord, accountId: string): Promise<SeatControls> {
+	const { meeting, directors } = record;
+	const seat = sittingSeatOf(directors, accountId);
 	if (seat === null) return noSeatControls;
-	return getControlsOfSeat(supabase, record.meeting.id, seat.id);
+	return getControlsOfSeat(supabase, meeting.id, seat.id);
 }

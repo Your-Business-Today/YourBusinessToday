@@ -17,16 +17,19 @@ describe('a director follows the meeting on its page', () => {
 	it('shows everything said on each item as it is said, and where it stands', () => {
 		const view = boardMeetingViewOf(meetingInRoom({ contributions: [proposal] }), duringTheMeeting);
 		const [first] = view.agenda;
-		expect(first.room.said).toEqual([expect.objectContaining({ number: 1, speakerName: 'Nigel’s Claude', round: 1 })]);
-		expect(first.room.said[0].stanceWords).toBe('proposes: "Approve the accounts."');
-		expect(first.room.standing).toContain('Still to speak this round: Jeremy.');
+		const { room } = first;
+		const [proposed] = room.said;
+		expect(room.said).toEqual([expect.objectContaining({ number: 1, speakerName: 'Nigel’s Claude', round: 1 })]);
+		expect(proposed.stanceWords).toBe('proposes: "Approve the accounts."');
+		expect(room.standing).toContain('Still to speak this round: Jeremy.');
 	});
 
 	it('shows the reader their own Claude, its notes and the piece it holds, and nobody without a seat sees any', () => {
 		const record = { ...meetingInRoom({ contributions: [proposal] }), controls: steered };
 		const view = boardMeetingViewOf(record, duringTheMeeting);
 		expect(view.ownClaude).toMatchObject({ isPaused: false, isAskingFirst: true, canChange: true });
-		expect(view.agenda[0].held?.words).toBe(heldPiece().words);
+		const [first] = view.agenda;
+		expect(first.held).toMatchObject({ words: heldPiece().words });
 		expect(boardMeetingViewOf(meetingInRoom(), duringTheMeeting).ownClaude).toBeNull();
 	});
 

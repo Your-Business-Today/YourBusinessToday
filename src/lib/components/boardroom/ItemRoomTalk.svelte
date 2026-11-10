@@ -7,6 +7,7 @@
 	let { room }: { room: ItemRoomView } = $props();
 
 	const badge = $derived(outcomeBadgeOf(room.outcome));
+	const said = $derived(room.said);
 </script>
 
 <section class="flex flex-col gap-2" aria-label="In the room">
@@ -16,9 +17,9 @@
 			<Badge label={badge.label} tone={badge.tone} />
 		{/if}
 	</div>
-	{#if room.said.length > 0}
+	{#if said.length > 0}
 		<ol class="flex flex-col gap-3">
-			{#each room.said as contribution (contribution.id)}
+			{#each said as contribution (contribution.id)}
 				<BoardContributionEntry {contribution} />
 			{/each}
 		</ol>

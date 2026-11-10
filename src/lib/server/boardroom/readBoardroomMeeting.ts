@@ -6,7 +6,7 @@ import { getKeptPapersOfMeeting } from './getBoardroomPapers';
 import { getRecordPapersOfMeeting } from './getBoardroomRecordPapers';
 import { getMeetingBriefing } from './getBoardroomBriefs';
 import { getRoomOfMeeting } from './getBoardroomRoom';
-import { getOwnSeatControls } from './getBoardroomSeatControls';
+import { getControlsOfReader } from './getBoardroomSeatControls';
 import { isUuid } from '$lib/data/isUuid';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
 import {
@@ -47,7 +47,7 @@ export async function getBriefedMeetingRecord(
 	if (record === null) return null;
 	const [briefing, controls] = await Promise.all([
 		getMeetingBriefing(supabase, record, accountId),
-		getOwnSeatControls(supabase, record, accountId)
+		getControlsOfReader(supabase, record, accountId)
 	]);
 	return { ...record, briefing, controls };
 }

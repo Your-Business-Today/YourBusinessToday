@@ -9,7 +9,8 @@ import type { ContributionPlacing } from './saveBoardroomRoom';
 export type SeatPlacing = { meeting: BoardroomMeeting; seatId: string; givenBy: string };
 
 function seatRowOf(placing: SeatPlacing) {
-	return { organisation_id: placing.meeting.organisationId, meeting_id: placing.meeting.id, director_id: placing.seatId };
+	const { meeting } = placing;
+	return { organisation_id: meeting.organisationId, meeting_id: meeting.id, director_id: placing.seatId };
 }
 
 async function insertRow(supabase: SupabaseClient, table: string, row: Record<string, unknown>): Promise<void> {

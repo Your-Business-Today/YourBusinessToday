@@ -39,11 +39,12 @@ export async function answerHeldContribution(
 ): Promise<SeatAnswer> {
 	const ownSeat = await findOwnSeatOnMeeting(supabase, organisation.id, meetingId, caller);
 	if (typeof ownSeat === 'string') return refused(ownSeat);
-	const controls = await getControlsOfSeat(supabase, ownSeat.record.meeting.id, ownSeat.placing.seatId);
+	const { placing } = ownSeat;
+	const controls = await getControlsOfSeat(supabase, meetingId, placing.seatId);
 	const held = heldAwaitingAnswer(controls).find((piece) => piece.id === draft.heldId);
 	if (held === undefined) return refused(seatControlRefusals.noSuchHeldPiece);
 	if (draft.isYes && isPaused(controls)) return refused(seatControlRefusals.claudeIsPaused);
 	if (draft.isYes) return sayHeld(supabase, ownSeat, held, caller);
-	await insertHeldAnswer(supabase, ownSeat.placing, { heldId: held.id, answer: heldAnswers.keptUnsaid, contributionId: null });
+	await insertHeldAnswer(supabase, placing, { heldId: held.id, answer: heldAnswers.keptUnsaid, contributionId: null });
 	return { answer: heldKeptUnsaidWords, isKept: true };
 }

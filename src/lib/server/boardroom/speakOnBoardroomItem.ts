@@ -17,7 +17,8 @@ type HeldPiece = { record: MeetingRecord; place: ContributionPlace; draft: Contr
 
 async function holdForDirector(supabase: SupabaseClient, controls: SeatControls, piece: HeldPiece): Promise<string> {
 	const { record, place, draft, caller } = piece;
-	const isAlreadyHolding = heldAwaitingOnItem(controls, place.item.id) !== null;
+	const { item } = place;
+	const isAlreadyHolding = heldAwaitingOnItem(controls, item.id) !== null;
 	if (isAlreadyHolding) return seatControlRefusals.alreadyHolding;
 	await insertHeldContribution(supabase, placingOf(record, place, draft, caller));
 	return heldForDirectorWords(draft.itemNumber);
@@ -38,7 +39,7 @@ export async function speakOnBoardroomItem(
 	if (record === null) return boardroomMeetingRefusals.noSuchMeeting;
 	const place = placeBoardContribution(record, draft, caller);
 	if (typeof place === 'string') return place;
-	const controls = await getControlsOfSeat(supabase, record.meeting.id, place.seatId);
+	const controls = await getControlsOfSeat(supabase, meetingId, place.seatId);
 	if (isPaused(controls)) return seatControlRefusals.claudeIsPaused;
 	if (isAskingFirst(controls)) return holdForDirector(supabase, controls, { record, place, draft, caller });
 	const said = await sayInTheRoom(supabase, record, place, draft, caller);
