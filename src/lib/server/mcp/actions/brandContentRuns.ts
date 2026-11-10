@@ -1,4 +1,5 @@
 import { brandBriefOf } from '$lib/brand/projections/brandBrief';
+import { checkPostKind, checkPostKindIfGiven } from '$lib/brand/postKinds/checkPostKind';
 import { checkContentDraft } from '$lib/brand/content/checkContentDraft';
 import { cssVariablesOf } from '$lib/brand/projections/cssVariables';
 import { describeContentPiece, describeContentSummary } from './describeContentPiece';
@@ -9,6 +10,7 @@ import { isContentStage, contentStages } from '$lib/brand/content/contentPiece';
 import { keepContentPiece } from '$lib/server/brandContent/keepContentPiece';
 import { noBrandYet } from './brandKitWriteAnswers';
 import { noSuchPiece } from './brandContentAnswers';
+import { postKindsOnOfferOf } from '$lib/brand/postKinds/postKinds';
 import { readText } from '../actionTypes';
 import { resolveBrandKitFor } from '$lib/server/brandKits/resolveBrandKitFor';
 import { writeUpIdea } from './brandContentIdeaDraft';
@@ -26,12 +28,16 @@ export async function draftContent(caller: McpCaller, input: Record<string, unkn
 	const { draft } = check;
 	const { medium, title } = draft;
 	const resolved = await resolveBrandKitFor(caller.supabase, organisation.id, medium);
-	const brandSnapshot = { brief: brandBriefOf(organisation.name, resolved), variables: cssVariablesOf(resolved) };
-	const piece = { organisationId: organisation.id, accountId: caller.accountId, draft, brandSnapshot };
 	const ideaId = readText(input, 'contentPieceId');
-	if (ideaId !== '') return writeUpIdea(caller, { ...piece, contentPieceId: ideaId });
+	const isNewPiece = ideaId === '';
+	const checkKind = isNewPiece ? checkPostKind : checkPostKindIfGiven;
+	const kindCheck = checkKind(input.kind, postKindsOnOfferOf(resolved));
+	if ('problem' in kindCheck) return `The piece was not drafted: ${kindCheck.problem}. Nothing was kept.`;
+	const brandSnapshot = { brief: brandBriefOf(organisation.name, resolved), variables: cssVariablesOf(resolved) };
+	const piece = { organisationId: organisation.id, accountId: caller.accountId, draft, brandSnapshot, kind: kindCheck.kind };
+	if (!isNewPiece) return writeUpIdea(caller, { ...piece, contentPieceId: ideaId });
 	const contentPieceId = await keepContentPiece(caller.supabase, piece);
-	return `Drafted “${title}” for ${medium.label} in ${organisation.name}’s brand (id ${contentPieceId}). It is at drafted.`;
+	return `Drafted “${title}” (${kindCheck.kind}) for ${medium.label} in ${organisation.name}’s brand (id ${contentPieceId}). It is at drafted.`;
 }
 
 /** The brand's pieces, newest first, or only those at one stage. */

@@ -1,14 +1,15 @@
 import type { ContentStage } from '../content/contentPiece';
-import type { PlanCounts } from './planCounts';
+import type { KindCount, PlanCounts } from './planCounts';
 import type { PlanDayDate } from './planDays';
 
-/** One piece on its day of the plan: when it goes out on the UK clock, what it is for, its working title, opening line and stage. */
+/** One piece on its day of the plan: when it goes out on the UK clock, what it is for, its kind of post, working title, opening line and stage. */
 export type PlanEntry = {
 	id: string;
 	date: string;
 	time: string;
 	mediumPath: string;
 	medium: string;
+	kind: string | null;
 	title: string;
 	hook: string;
 	stage: ContentStage;
@@ -27,5 +28,6 @@ export type ContentPlan = {
 	previousMonthKey: string;
 	nextMonthKey: string;
 	counts: PlanCounts;
+	kindCounts: KindCount[];
 	weeks: PlanWeek[];
 };

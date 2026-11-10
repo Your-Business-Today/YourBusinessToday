@@ -1,6 +1,7 @@
 import { ContentLimits } from '$lib/brand/content/contentLimits';
 import { objectSchema, textField } from '../actionTypes';
 import { organisationIdField } from './organisationDetailsFields';
+import { postKindField } from './brandContentSchemas';
 
 const { titleCharacters, hookCharacters } = ContentLimits;
 
@@ -20,11 +21,12 @@ export const planContentIdeaSchema = objectSchema(
 	{
 		organisationId: organisationIdField,
 		medium: textField('The medium the piece is for, such as image.post.facebook, as read_brand_catalogue lists'),
+		kind: postKindField,
 		title: textField(`A working title for the idea, at most ${titleCharacters} characters`),
 		hook: textField(`Its opening line, at most ${hookCharacters} characters, if there is one yet`),
 		plannedFor: plannedForField
 	},
-	['organisationId', 'medium', 'title', 'plannedFor']
+	['organisationId', 'medium', 'kind', 'title', 'plannedFor']
 );
 
 export const moveContentToDaySchema = objectSchema(
