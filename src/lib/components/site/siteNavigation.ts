@@ -38,19 +38,19 @@ export function buildMenuGroups(access: NavigationAccess): NavigationGroup[] {
 	const groups: NavigationGroup[] = [{ label: 'Explore', links: primaryNavigationLinks }];
 	const workGroup = { label: 'Work', links: workLinksFor(access) };
 	if (access.isSignedIn) groups.push(workGroup);
-	const businessGroup = { label: 'Business', links: businessLinks(access) };
+	const businessGroup = { label: 'Business', links: businessLinksFor(access) };
 	if (access.isStaff) groups.push(businessGroup);
-	groups.push({ label: 'Account', links: accountLinks(access) });
+	groups.push({ label: 'Account', links: accountLinksFor(access) });
 	return groups;
 }
 
 /** Organisations join the work links for staff and for anyone an organisation has brought on. */
-function workLinksFor(access: NavigationAccess): NavigationLink[] {
+export function workLinksFor(access: NavigationAccess): NavigationLink[] {
 	if (!access.hasOrganisations && !access.isStaff) return workLinks;
 	return [...workLinks, organisationsLink];
 }
 
-function businessLinks(access: NavigationAccess): NavigationLink[] {
+export function businessLinksFor(access: NavigationAccess): NavigationLink[] {
 	return [
 		{ href: '/clients', label: 'Clients' },
 		{ href: '/people', label: 'People' },
@@ -60,7 +60,7 @@ function businessLinks(access: NavigationAccess): NavigationLink[] {
 	];
 }
 
-function accountLinks(access: NavigationAccess): NavigationLink[] {
+export function accountLinksFor(access: NavigationAccess): NavigationLink[] {
 	if (!access.isSignedIn) return [{ href: '/account/sign-in', label: 'Sign in' }];
 	return [{ href: '/account', label: 'Account' }];
 }
