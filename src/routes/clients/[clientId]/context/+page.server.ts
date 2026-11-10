@@ -10,6 +10,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	await requireStaff(locals);
 	const client = await getClient(locals.supabase, params.clientId);
 	if (client === null) error(notFound, 'That client could not be found');
-	const context = await readCompanyContextOfClient(client.id);
-	return { client, context };
+	const reading = await readCompanyContextOfClient(client.id);
+	return { client, reading };
 };

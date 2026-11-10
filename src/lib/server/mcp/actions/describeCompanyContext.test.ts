@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { joineryContextInput } from '$lib/server/companyContext/companyContextFixtures';
 import { validateCompanyContext } from '$lib/server/companyContext/validateCompanyContext';
+import { contextChanges } from '$lib/data/companyContext/contextChanges';
 import { describeCompanyContext, noCompanyContextYet } from './describeCompanyContext';
 
 function joineryVersion() {
@@ -29,5 +30,15 @@ describe('the company context as the connector reads it out', () => {
 
 	it('says an organisation with no version yet starts empty', () => {
 		expect(noCompanyContextYet('Oak & Ash Joinery')).toContain('first run records version 1');
+	});
+
+	it('puts the parts marked not right first, in the client\'s words, and says what changed', () => {
+		const version = joineryVersion();
+		const earlier = { ...version, versionNumber: 2, parts: version.parts.slice(1) };
+		const changes = contextChanges(earlier, version);
+		const text = describeCompanyContext('Oak & Ash Joinery', version, changes);
+		expect(text).toContain('### Marked not right by the client');
+		expect(text).toContain('- Quoting (quoting): The site visit comes before the drawing, not after.');
+		expect(text).toContain('### Changed since version 2\n- New: Bespoke joinery.');
 	});
 });
