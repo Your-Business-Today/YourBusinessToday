@@ -41,4 +41,14 @@ describe('the company context as the connector reads it out', () => {
 		expect(text).toContain('- Quoting (quoting): The site visit comes before the drawing, not after.');
 		expect(text).toContain('### Changed since version 2\n- New: Bespoke joinery.');
 	});
+
+	it('says whether the client has confirmed the version, and what follows', () => {
+		const version = joineryVersion();
+		const notYet = describeCompanyContext('Oak & Ash Joinery', version);
+		expect(notYet).toContain('Not confirmed by the client yet');
+		const confirmation = { versionNumber: 3, confirmedAt: '2026-11-10T18:30:00Z' };
+		const confirmed = describeCompanyContext('Oak & Ash Joinery', version, null, confirmation);
+		expect(confirmed).toContain('Confirmed by the client on 2026-11-10: this is their confirmed context.');
+		expect(confirmed).toContain('A revised version needs confirming again.');
+	});
 });

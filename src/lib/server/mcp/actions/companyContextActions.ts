@@ -1,5 +1,6 @@
 import { carryReviewsForward } from '$lib/server/companyContext/carryReviewsForward';
 import { contextChanges } from '$lib/data/companyContext/contextChanges';
+import { readContextConfirmation } from '$lib/server/companyContext/readContextConfirmation';
 import { readLatestCompanyContext, readVersionBefore } from '$lib/server/companyContext/readLatestCompanyContext';
 import { recordCompanyContext } from '$lib/server/companyContext/recordCompanyContext';
 import { validateCompanyContext } from '$lib/server/companyContext/validateCompanyContext';
@@ -39,11 +40,12 @@ export const companyContextActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			"read the latest version of an organisation's company context, with every part's review state, what is connected, the stage and what changed since the version before",
+			"read the latest version of an organisation's company context, with every part's review state, whether the client confirmed it, what is connected, the stage and what changed since the version before",
 		guidance:
 			'An organisation starts with no version: its first run records version 1. The client marks each part ' +
 			'right or not right on the map in their portal; the parts marked not right come first, in their words, ' +
-			'for you to put right in a revised version.',
+			'for you to put right in a revised version. Once no part is marked not right, the client confirms the ' +
+			'version on the map; a revised version needs confirming again.',
 		inputSchema: objectSchema({ organisationId: organisationIdField }, ['organisationId']),
 		run: async (caller, input) => readContext(caller, input)
 	}
@@ -75,5 +77,6 @@ async function readContext(caller: McpCaller, input: Record<string, unknown>): P
 	if (context === null) return noCompanyContextYet(organisation.name);
 	const earlier = await readVersionBefore(caller.supabase, organisation.id, context);
 	const changes = earlier === null ? null : contextChanges(earlier, context);
-	return describeCompanyContext(organisation.name, context, changes);
+	const confirmation = await readContextConfirmation(caller.supabase, organisation.id, context.versionNumber);
+	return describeCompanyContext(organisation.name, context, changes, confirmation);
 }

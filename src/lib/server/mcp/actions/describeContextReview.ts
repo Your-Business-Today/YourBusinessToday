@@ -2,6 +2,7 @@ import { hasChanges } from '$lib/data/companyContext/contextChanges';
 import { reviewStates } from '$lib/data/companyContext/companyContext';
 import type { CompanyContextVersion, ContextPart } from '$lib/data/companyContext/companyContext';
 import type { ContextChanges } from '$lib/data/companyContext/contextChanges';
+import type { ContextConfirmation } from '$lib/data/companyContext/contextConfirmation';
 
 /** Each part the client marked not right, a list line in their own words, indented to sit under a numbered step. */
 export function notRightLines({ parts }: CompanyContextVersion): string[] {
@@ -37,4 +38,15 @@ export function changesSection(changes: ContextChanges | null): string {
 function changeLine(label: string, parts: ContextPart[]): string {
 	if (parts.length === 0) return '';
 	return `- ${label}: ${parts.map((part) => part.name).join(', ')}.`;
+}
+
+/** Whether the client has confirmed this version, and what follows when they have. */
+export function confirmationSentence(confirmation: ContextConfirmation | null): string {
+	if (confirmation === null)
+		return 'Not confirmed by the client yet: they confirm it on the map in their portal once no part is marked not right.';
+	const confirmedDay = confirmation.confirmedAt.slice(0, 10);
+	return (
+		`Confirmed by the client on ${confirmedDay}: this is their confirmed context. YBT raises the services it ` +
+		'shows their business needs as goals on their project. A revised version needs confirming again.'
+	);
 }

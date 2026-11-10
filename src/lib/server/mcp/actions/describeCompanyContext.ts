@@ -1,10 +1,11 @@
 import { consultancyOfferSteps } from '$lib/data/consultancyOffer';
 import { contextPartKind, contextPartKinds, reviewStates } from '$lib/data/companyContext/companyContext';
 import { linkKindPhrases, partKindHeadings, reviewStateLabels } from '$lib/data/companyContext/companyContextWords';
-import { changesSection, notRightSection } from './describeContextReview';
+import { changesSection, confirmationSentence, notRightSection } from './describeContextReview';
 import { describeContextPart } from './describeContextPart';
 import type { CompanyContextVersion, ContextPartKind } from '$lib/data/companyContext/companyContext';
 import type { ContextChanges } from '$lib/data/companyContext/contextChanges';
+import type { ContextConfirmation } from '$lib/data/companyContext/contextConfirmation';
 
 export function noCompanyContextYet(organisationName: string): string {
 	return (
@@ -14,13 +15,14 @@ export function noCompanyContextYet(organisationName: string): string {
 }
 
 /**
- * The latest version as Markdown: the stage, what is connected, what the client marked not right and what changed
- * since the version before, then every part with its review, and the links.
+ * The latest version as Markdown: the stage, what is connected, whether the client confirmed it, what they marked
+ * not right and what changed since the version before, then every part with its review, and the links.
  */
 export function describeCompanyContext(
 	organisationName: string,
 	context: CompanyContextVersion,
-	changes: ContextChanges | null = null
+	changes: ContextChanges | null = null,
+	confirmation: ContextConfirmation | null = null
 ): string {
 	const recordedDay = context.recordedAt.slice(0, 10);
 	const header = `**Company context of ${organisationName}, version ${context.versionNumber}**, recorded ${recordedDay}.`;
@@ -30,6 +32,7 @@ export function describeCompanyContext(
 		stageSentence(context.stage),
 		connectedSentence(context),
 		reviewTally(context),
+		confirmationSentence(confirmation),
 		notRightSection(context),
 		changesSection(changes),
 		...sections,

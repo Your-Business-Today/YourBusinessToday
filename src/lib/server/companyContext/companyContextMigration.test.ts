@@ -5,6 +5,8 @@ import { contextStages } from '$lib/data/companyContext/companyContext';
 
 const migration = readFileSync('migrations/0154_company_contexts.sql', 'utf8');
 const reviewsMigration = readFileSync('migrations/0163_company_context_part_reviews.sql', 'utf8');
+const confirmationsMigration = readFileSync('migrations/0170_company_context_confirmations.sql', 'utf8');
+const lastClientEventKinds = readFileSync('migrations/0150_client_set_up_event.sql', 'utf8');
 
 describe('the columns of migration 0154 and the limits the connector checks', () => {
 	it('hold the same lengths', () => {
@@ -28,5 +30,12 @@ describe('the columns of migration 0154 and the limits the connector checks', ()
 	it("hold the same length for what is wrong on a client's mark, and only right and not right", () => {
 		expect(reviewsMigration).toContain(`char_length(what_is_wrong) between 1 and ${limits.whatIsWrongLength}`);
 		expect(reviewsMigration).toContain("review_state in ('right', 'not_right')");
+	});
+
+	it('keeps one confirmation per version, and lets the client history record it beside every kind it held', () => {
+		expect(confirmationsMigration).toContain('version_id uuid primary key references public.company_context_versions');
+		const kindsBefore = [...lastClientEventKinds.matchAll(/^\t\t'([a-z_]+)'/gm)].map((match) => match[1]);
+		expect(kindsBefore.length).toBeGreaterThan(0);
+		for (const kind of [...kindsBefore, 'context_confirmed']) expect(confirmationsMigration).toContain(`'${kind}'`);
 	});
 });
