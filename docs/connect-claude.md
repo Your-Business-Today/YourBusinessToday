@@ -8,6 +8,17 @@ Your Business Brain is an organisation's own private memory: its people, clients
 2. The person adds the Your Business Today connector to Claude, as the portal's **Connect your Claude** page shows (`/portal/connect`): the connector address, then Customize › Connectors › Add custom connector, and sign in with the account they use for the portal.
 3. Claude now has the brain's reading actions: `read_business_brain_index`, `search_business_brain` and `read_business_brain_page`.
 
+## Reading through a chatbot
+
+A manager of the organisation can open part of the brain to people who are not on it, or who should read only part of it, by making a chatbot (`make_business_brain_chatbot`): its name, the parts it reads (expertise, experience, process or people) and the people who may use it, named by the email they sign in to Your Business Today with.
+
+Each of those people connects their own Claude as above and reads through the chatbot:
+
+1. `list_my_chatbots` lists the chatbots they may use now, with the parts each reads and its id.
+2. `read_chatbot_index`, `search_chatbot` and `read_chatbot_page` each take the `chatbotId` and read as the brain's own reading actions do, but only the parts that chatbot reads. A part or a page outside them is refused, and a page's related pages show only those the chatbot also reads.
+
+A chatbot only reads: nothing is filed or changed through it. A person the chatbot does not name now, or anyone at all while Your Business Brain is switched off for the organisation, is refused. Their own Claude does the asking; Your Business Today calls no AI model.
+
 ## Judging a photo against the brain
 
 Claude already sees images, so a photo is judged in the person's own Claude. Claude looks at the photo and describes what it shows in words; the brain supplies the business's rules; Claude gives the judgement and the pages it relied on. The photo never reaches Your Business Today: the connector receives words, never the picture, and nothing about the photo is stored.

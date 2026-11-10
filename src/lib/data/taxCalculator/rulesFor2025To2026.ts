@@ -10,7 +10,7 @@ export const rulesFor2025To2026: TaxYearRules = {
 	startsOn: '2025-04-06',
 	balancingPaymentDueOn: '2027-01-31',
 	secondPaymentOnAccountDueOn: '2027-07-31',
-	verifiedOn: '2026-09-23',
+	verifiedOn: '2026-11-10',
 	incomeTax: incomeTaxRulesWith(restOfUkBands, scottishBandsFor2025To2026),
 	nationalInsurance: {
 		class1: sharedClass1,

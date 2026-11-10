@@ -1,11 +1,10 @@
 import { businessBrainPartNames } from '$lib/data/businessBrainRules';
 import { formatBritishDate } from '$lib/data/britishDate';
-import { brainOf } from './businessBrainAnswers';
 import { factsSection, historySection, relatedSection, sourceSection, type BusinessBrainHistory } from './businessBrainPageSections';
 import type { BusinessBrainLinkRead } from '$lib/server/businessBrain/readBusinessBrainPageLinks';
 import type { BusinessBrainPageRead, BusinessBrainSourceRead } from '$lib/server/businessBrain/readBusinessBrainPageWhole';
 import type { BusinessBrainRevisionRead } from '$lib/server/businessBrain/readBusinessBrainPageHistory';
-import type { Organisation } from '$lib/server/organisations/organisationRecord';
+import type { BusinessBrainDoor } from './businessBrainDoor';
 
 /** What a page is read with: the page it sits under, its links and its history. */
 export type BusinessBrainPageSurroundings = {
@@ -32,12 +31,12 @@ function citation(title: string, pageId: string, source: BusinessBrainSourceRead
 
 /** The page as it now reads, with where it came from, what it relates to and its history. */
 export function describeBusinessBrainPage(
-	organisation: Organisation,
+	door: BusinessBrainDoor,
 	page: BusinessBrainPageRead,
 	surroundings: BusinessBrainPageSurroundings
 ): string {
 	const partName = businessBrainPartNames[page.partKind];
-	const placing = `${brainOf(organisation)} · ${partName} · ${page.kind} · page id ${page.pageId} · last filed ${formatBritishDate(page.updatedAt)}`;
+	const placing = `${door.brainName} · ${partName} · ${page.kind} · page id ${page.pageId} · last filed ${formatBritishDate(page.updatedAt)}`;
 	return [
 		`# ${page.title}`,
 		placing,
@@ -47,16 +46,16 @@ export function describeBusinessBrainPage(
 		...factsSection(page.facts),
 		...sourceSection(page.source),
 		...relatedSection(surroundings.parent, surroundings.links),
-		...historySection(surroundings.history),
+		...historySection(surroundings.history, door.readPageAction),
 		'',
 		citation(page.title, page.pageId, page.source)
 	].join('\n');
 }
 
 /** One earlier version of a page, said plainly to be no longer how the page reads. */
-export function describeBusinessBrainRevision(organisation: Organisation, page: BusinessBrainPageRead, revision: BusinessBrainRevisionRead): string {
+export function describeBusinessBrainRevision(door: BusinessBrainDoor, page: BusinessBrainPageRead, revision: BusinessBrainRevisionRead): string {
 	const until = formatBritishDate(revision.revisedAt);
-	const placing = `${brainOf(organisation)} · revision ${revision.revisionId} of page id ${page.pageId} · ${revision.kind}`;
+	const placing = `${door.brainName} · revision ${revision.revisionId} of page id ${page.pageId} · ${revision.kind}`;
 	const notCurrent = `This is how the page read until ${until}. It now reads as "${page.title}": answer from the page as it now reads unless the earlier version is what was asked for.`;
 	return [
 		`# ${revision.title} (earlier version)`,

@@ -1,6 +1,8 @@
 import { businessBrainChatbotLimits } from '$lib/data/businessBrainChatbotRules';
 import { businessBrainPartKinds } from '$lib/data/businessBrainRules';
 import { objectSchema, textField } from '../actionTypes';
+import { chatbotInputKey } from '../chatbotGate';
+import { pageToReadField, partToListField, revisionToReadField, searchField } from './businessBrainSchemas';
 
 const { longestName, longestEmail, mostPeopleAtOnce } = businessBrainChatbotLimits;
 
@@ -43,3 +45,16 @@ export const changeBusinessBrainChatbotSchema = objectSchema(
 );
 
 export const listBusinessBrainChatbotsSchema = objectSchema({ organisationId: organisationField }, ['organisationId']);
+
+const chatbotToReadThrough = textField('The chatbot to read through, as list_my_chatbots gives its id');
+
+export const listMyChatbotsSchema = objectSchema({});
+
+export const readChatbotIndexSchema = objectSchema({ [chatbotInputKey]: chatbotToReadThrough, part: partToListField }, [chatbotInputKey]);
+
+export const searchChatbotSchema = objectSchema({ [chatbotInputKey]: chatbotToReadThrough, search: searchField }, [chatbotInputKey, 'search']);
+
+export const readChatbotPageSchema = objectSchema(
+	{ [chatbotInputKey]: chatbotToReadThrough, pageId: pageToReadField, revisionId: revisionToReadField },
+	[chatbotInputKey, 'pageId']
+);
