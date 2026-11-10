@@ -1,5 +1,6 @@
 import {
 	fileBusinessBrainPageGuidance,
+	fileBusinessBrainPagesGuidance,
 	fileBusinessBrainRevisionGuidance,
 	readBusinessBrainIndexGuidance,
 	readBusinessBrainPageGuidance,
@@ -12,7 +13,9 @@ import {
 	readBusinessBrainPageSchema,
 	searchBusinessBrainSchema
 } from './businessBrainSchemas';
+import { fileBusinessBrainPagesSchema } from './businessBrainBatchSchema';
 import { fileNewPage, fileRevision } from './businessBrainFilingRuns';
+import { fileSeveralPages } from './businessBrainBatchRuns';
 import { businessBrainFileActions } from './businessBrainFileActions';
 import { readIndex, readPage, searchBrain } from './businessBrainReadingRuns';
 import { moduleAction } from '../organisationModuleGate';
@@ -71,5 +74,15 @@ export const businessBrainActions: McpAction[] = [
 		inputSchema: readBusinessBrainPageSchema,
 		run: readPage
 	}),
-	...businessBrainFileActions
+	...businessBrainFileActions,
+	moduleAction(businessBrainModule, {
+		name: 'file_business_brain_pages',
+		area: 'business_brain',
+		audience: 'everyone',
+		isWrite: true,
+		summary: "file several new pages into an organisation's Your Business Brain in one call, such as every subject of a folder or a mail thread, each settled on its own",
+		guidance: fileBusinessBrainPagesGuidance,
+		inputSchema: fileBusinessBrainPagesSchema,
+		run: fileSeveralPages
+	})
 ];

@@ -64,3 +64,8 @@ export const businessBrainReadLimits = {
 	mostPagesListed: 300,
 	mostRevisionsListed: 50
 } as const;
+
+/** How many pages one file_business_brain_pages call files, each settled on its own. */
+export const businessBrainFilingLimits = {
+	mostPagesPerCall: 20
+} as const;

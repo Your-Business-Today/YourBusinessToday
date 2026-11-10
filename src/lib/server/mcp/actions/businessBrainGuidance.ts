@@ -14,10 +14,25 @@ const howToFile = [
 	'Never file a password, a key, or personal details the business has no need to keep.'
 ];
 
-export const fileBusinessBrainPageGuidance = [
+const fromMicrosoft365 = [
+	"Reading the business's mail, SharePoint, OneDrive or Teams through your Microsoft 365 connector: work through one subject and a date range at a time, never a whole mailbox, site or team at once.",
+	'File one coherent piece to a page: what a mail thread settled, what a document lays down, what a channel agreed. Leave out signatures, greetings and replies that add nothing.',
+	'Title the source as a person would know it, such as "Mail thread: Roof at Elm Court, 3 to 7 Nov 2026" or "Staff handbook 2026", and put in sourceOrigin where it can be opened again: the SharePoint or OneDrive web link of the file, the mailbox and subject of the thread, or the Teams team and channel.',
+	'Several pages from one folder or thread go in one call of file_business_brain_pages, with the source named once beside them.'
+];
+
+const whenAlreadyFiled =
+	'When a page on the same subject is already in the part, filing answers with its id: file what is new about it with file_business_brain_page_revision.';
+
+export const fileBusinessBrainPageGuidance = [whatTheBrainIs, ...howToFile, ...fromMicrosoft365, whenAlreadyFiled].join('\n');
+
+export const fileBusinessBrainPagesGuidance = [
 	whatTheBrainIs,
 	...howToFile,
-	'When a page on the same subject is already in the part, filing answers with its id: file what is new about it with file_business_brain_page_revision.'
+	...fromMicrosoft365,
+	'Each page is filed on its own: one that does not fit or is already filed is answered by its number, and the others are filed all the same.',
+	'Name the source once beside pages for every page that came from it; a page that names a source of its own keeps its own.',
+	whenAlreadyFiled
 ].join('\n');
 
 export const fileBusinessBrainRevisionGuidance = [
