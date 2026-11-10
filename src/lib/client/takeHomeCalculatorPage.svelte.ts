@@ -47,7 +47,8 @@ export class TakeHomeCalculatorPage {
 		const estimate = this.form.estimate;
 		if (!estimate) return;
 		const rememberedForm = rememberForm(this.form);
-		this.savedComparisons.save(estimate, rememberedForm);
+		const routes = this.form.tradingRoutes.comparisonFor(estimate);
+		this.savedComparisons.save(estimate, rememberedForm, routes);
 	}
 
 	loadComparison(comparison: SavedComparison): void {

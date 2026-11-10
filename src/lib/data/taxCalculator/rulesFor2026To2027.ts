@@ -1,4 +1,5 @@
 import { restOfUkBands, scottishBandsFor2026To2027 } from './incomeTaxBands';
+import { dividendRulesWith, employerNationalInsuranceCitedTo, sharedCorporationTax } from './companyRules';
 import { ruleSources } from './ruleSources';
 import { incomeTaxRulesWith, sharedClass1, sharedClass4, sharedHomeWorkingRules } from './sharedRules';
 import type { TaxYearRules } from './taxRuleTypes';
@@ -42,5 +43,23 @@ export const rulesFor2026To2027: TaxYearRules = {
 		qualifyingIncomeThreshold: 20000,
 		appliesFrom: '2028-04-06',
 		sourceUrl: ruleSources.makingTaxDigital
-	}
+	},
+	filingDeadlines: {
+		registerBy: '2027-10-05',
+		paperReturnBy: '2027-10-31',
+		onlineReturnToPayThroughTaxCodeBy: '2027-12-30',
+		sourceUrl: ruleSources.selfAssessmentDeadlines
+	},
+	quarterlyUpdates: {
+		updates: [
+			{ periodEndsOn: '2026-07-05', dueOn: '2026-08-07' },
+			{ periodEndsOn: '2026-10-05', dueOn: '2026-11-07' },
+			{ periodEndsOn: '2027-01-05', dueOn: '2027-02-07' },
+			{ periodEndsOn: '2027-04-05', dueOn: '2027-05-07' }
+		],
+		sourceUrl: ruleSources.quarterlyUpdates
+	},
+	corporationTax: sharedCorporationTax,
+	dividends: dividendRulesWith(0.1075, 0.3575),
+	employerNationalInsurance: employerNationalInsuranceCitedTo(ruleSources.employerRates2026To2027)
 };

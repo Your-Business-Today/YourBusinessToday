@@ -14,5 +14,12 @@ export const ruleSources = {
 	makingTaxDigital:
 		'https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax',
 	tradingAllowance: 'https://www.gov.uk/guidance/tax-free-allowances-on-property-and-trading-income',
-	paymentsOnAccount: 'https://www.gov.uk/understand-self-assessment-bill/payments-on-account'
+	selfAssessmentDeadlines: 'https://www.gov.uk/self-assessment-tax-returns/deadlines',
+	quarterlyUpdates: 'https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates',
+	paymentsOnAccount: 'https://www.gov.uk/understand-self-assessment-bill/payments-on-account',
+	corporationTaxRates:
+		'https://www.gov.uk/government/publications/rates-and-allowances-corporation-tax/rates-and-allowances-corporation-tax',
+	corporationTaxMarginalRelief: 'https://www.gov.uk/hmrc-internal-manuals/company-taxation-manual/ctm03925',
+	singleDirectorEmploymentAllowance:
+		'https://www.gov.uk/government/publications/employment-allowance-more-detailed-guidance/single-director-companies-and-employment-allowance-further-employer-guidance'
 };

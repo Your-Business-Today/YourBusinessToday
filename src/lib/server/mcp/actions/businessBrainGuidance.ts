@@ -58,6 +58,7 @@ const howToJudgeAPhotoAgainstTheBrain = [
 export const readBusinessBrainIndexGuidance = [
 	whatTheBrainIs,
 	'Start here to see what the brain holds: every page by part and title, with its id. Read the pages you need with read_business_brain_page.',
+	'It also says how many files the brain keeps and lists any no page names yet; open one with open_business_brain_file.',
 	...howToAnswerFromTheBrain
 ].join('\n');
 
@@ -72,6 +73,7 @@ export const searchBusinessBrainGuidance = [
 export const readBusinessBrainPageGuidance = [
 	whatTheBrainIs,
 	"Reads one page as it now reads: its words, facts, source, the pages it relates to and its history. Give a revisionId to read one earlier version; say so whenever you answer from one.",
+	'It lists the files the page was written from; open one with open_business_brain_file when the page alone does not answer.',
 	...howToAnswerFromTheBrain,
 	...howToJudgeAPhotoAgainstTheBrain
 ].join('\n');

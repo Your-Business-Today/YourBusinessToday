@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { marginalReliefFormulaSourceUrl, singleDirectorEmploymentAllowanceSourceUrl } from './companyRules';
 import { earliestMakingTaxDigitalRules, paymentsOnAccountRules, pensionReliefSourceUrl } from './sharedRules';
 import type { TaxYearName } from './taxRuleTypes';
 import { currentTaxYear, taxYearNames, taxYearRules } from './taxYearRules';
@@ -19,15 +20,23 @@ describe('taxYearRules', () => {
 			rules.studentLoans,
 			rules.mileage,
 			rules.homeWorking,
-			rules.makingTaxDigital
+			rules.makingTaxDigital,
+			rules.corporationTax,
+			rules.dividends,
+			rules.employerNationalInsurance
 		];
 		ruleGroups.forEach((ruleGroup) => expect(ruleGroup.sourceUrl).toMatch(govUkPage));
 	});
 
 	it('cites gov.uk for the rules shared across years', () => {
-		[paymentsOnAccountRules.sourceUrl, earliestMakingTaxDigitalRules.sourceUrl, pensionReliefSourceUrl].forEach(
-			(sourceUrl) => expect(sourceUrl).toMatch(govUkPage)
-		);
+		const sharedSources = [
+			paymentsOnAccountRules.sourceUrl,
+			earliestMakingTaxDigitalRules.sourceUrl,
+			pensionReliefSourceUrl,
+			marginalReliefFormulaSourceUrl,
+			singleDirectorEmploymentAllowanceSourceUrl
+		];
+		sharedSources.forEach((sourceUrl) => expect(sourceUrl).toMatch(govUkPage));
 	});
 
 	it('only lets Plan 5 repay from 2026/27, when repayments start', () => {
@@ -36,6 +45,15 @@ describe('taxYearRules', () => {
 		expect(plansBefore.plan5).toBeUndefined();
 		const planFive = plansFrom.plan5;
 		expect(planFive?.threshold).toBe(25000);
+	});
+});
+
+describe('the company rates', () => {
+	it('raise the dividend ordinary and upper rates by two points from 2026/27', () => {
+		const before = taxYearRules['2025/26'].dividends;
+		const from = taxYearRules['2026/27'].dividends;
+		expect([before.ordinaryRate, before.upperRate]).toEqual([0.0875, 0.3375]);
+		expect([from.ordinaryRate, from.upperRate]).toEqual([0.1075, 0.3575]);
 	});
 });
 

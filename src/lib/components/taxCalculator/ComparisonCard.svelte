@@ -2,6 +2,7 @@
 	import type { SavedComparison } from '$lib/client/savedComparisons.svelte';
 	import { monthsPerYear } from '$lib/data/taxCalculator/resultPeriods';
 	import { formatMoney, signed } from '$lib/data/taxCalculator/taxCalculatorFormatting';
+	import SavedTradingRoutes from './SavedTradingRoutes.svelte';
 
 	let {
 		comparison,
@@ -44,6 +45,7 @@
 			</div>
 		{/each}
 	</dl>
+	{#if comparison.tradingRoutes}<SavedTradingRoutes takeHomes={comparison.tradingRoutes} />{/if}
 	<div class="mt-auto flex gap-2">
 		<button type="button" onclick={onLoad} class="min-h-11 flex-1 rounded-full bg-signal px-4 font-display text-sm font-medium text-night transition hover:brightness-110">Load these numbers</button>
 		<button type="button" onclick={onRemove} class="min-h-11 rounded-full border border-hairline px-4 text-sm text-chalk/70 transition hover:border-caution hover:text-caution" aria-label={`Remove ${comparison.label}`}>Remove</button>
