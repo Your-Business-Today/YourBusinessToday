@@ -1,11 +1,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { booksSettingNames, booksSettingsColumns, type BooksSettings, type BooksSettingsChange } from '$lib/data/books/booksSettings';
+import { booksSettingNames, booksSettingsColumns, booksSettingsTable, type BooksSettings, type BooksSettingsChange } from '$lib/data/books/booksSettings';
 import { validateBooksSettingsChange } from '$lib/data/books/booksSettingsRules';
 import { validateRecordId } from '$lib/data/isUuid';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { invoiceNumberingRefusal } from './invoiceNumbering';
-
-const booksSettingsTable = 'books_settings';
 
 const settingsColumnList = Object.values(booksSettingsColumns).join(', ');
 
