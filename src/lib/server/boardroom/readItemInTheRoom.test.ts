@@ -16,6 +16,7 @@ vi.mock('./getBoardroomPapers', () => ({ getKeptPapersOfMeeting: async () => [] 
 vi.mock('./getBoardroomRecordPapers', () => ({ getRecordPapersOfMeeting: async () => [] }));
 vi.mock('./getBoardroomRoom', () => ({ getRoomOfMeeting: async () => ({ ...meetingInRoom().room, contributions: inRoom.said }) }));
 vi.mock('./getBoardroomMinutes', () => ({ getMinutesOfMeeting: async () => ({ closing: null, versions: [], answers: [] }) }));
+vi.mock('./getBoardroomActions', () => ({ getActionsOfMeeting: async () => ({ actions: [], raisings: [], standings: {} }) }));
 vi.mock('./getBoardroomDecisions', async () => {
 	const { noMeetingDecisions } = await import('$lib/data/boardroomDecision');
 	return { getDecisionsOfMeeting: async () => noMeetingDecisions };

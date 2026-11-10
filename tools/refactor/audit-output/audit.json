@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-10T21:26:26+00:00",
+  "generatedAt": "2026-11-10T21:53:15+00:00",
   "kitVersion": "1.41.0",
   "score": {
-    "overall": 97.9,
+    "overall": 98.0,
     "groups": [
       {
         "group": "Standard baseline checks",
@@ -11,7 +11,7 @@
       },
       {
         "group": "Design pattern file count",
-        "score": 97.3,
+        "score": 97.4,
         "weight": 10
       },
       {
@@ -21,7 +21,7 @@
       },
       {
         "group": "Widget adoption",
-        "score": 76.4,
+        "score": 77.2,
         "weight": 8
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3612,
+        "measuredAgainst": 3673,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5416,
+        "measuredAgainst": 5512,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5283,
+        "measuredAgainst": 5397,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 135.19,
+        "measuredAgainst": 137.6,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 9,
-        "measuredAgainst": 135.19,
+        "measuredAgainst": 137.6,
         "score": 99.7
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6025,
+        "measuredAgainst": 6127,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 135.19,
+        "measuredAgainst": 137.6,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 135.19,
+        "measuredAgainst": 137.6,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5416,
+        "measuredAgainst": 5512,
         "score": 100.0
       },
       {
@@ -172,8 +172,8 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 3,
-        "measuredAgainst": 225,
-        "score": 97.3
+        "measuredAgainst": 229,
+        "score": 97.4
       },
       {
         "key": "entityFileCounts",
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5283,
+        "measuredAgainst": 5397,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5283,
+        "measuredAgainst": 5397,
         "score": 100.0
       },
       {
@@ -219,8 +219,8 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 3,
-        "measuredAgainst": 5416,
-        "score": 99.4
+        "measuredAgainst": 5512,
+        "score": 99.5
       },
       {
         "key": "handRolledWidgets",
@@ -231,8 +231,8 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 36,
-        "measuredAgainst": 305,
-        "score": 76.4
+        "measuredAgainst": 316,
+        "score": 77.2
       },
       {
         "key": "unvalidatedWrites",
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 308,
+        "measuredAgainst": 313,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 3612,
-      "totalLines": 135190,
+      "totalFiles": 3673,
+      "totalLines": 137597,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 5416,
+      "totalFunctions": 5512,
       "elseBlocks": 0,
-      "ifBlocks": 5283,
+      "ifBlocks": 5397,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -298,7 +298,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 301,
+      "overlongLines": 314,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,11 +308,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 5416
+      "functionsExamined": 5512
     },
     "designPatterns": {
-      "roleFamilies": 200,
-      "predictedFiles": 225,
+      "roleFamilies": 203,
+      "predictedFiles": 229,
       "predictedFilesMissing": 3,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -321,18 +321,18 @@
     },
     "inventory": {
       "pages": 64,
-      "components": 609,
+      "components": 615,
       "orphanComponents": 0,
       "averagePageLines": 46
     },
     "siteDefinition": {
       "routes": 63,
-      "views": 676,
-      "siteComponents": 602,
+      "views": 682,
+      "siteComponents": 608,
       "catalogue": 10,
-      "widgetUsages": 269,
+      "widgetUsages": 280,
       "handRolledElements": 36,
-      "widgetSlots": 305,
+      "widgetSlots": 316,
       "viewsWithHandRolled": 33,
       "boxedContentWidgets": 0,
       "designSheets": 7,
@@ -340,20 +340,20 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 190,
+      "schemaTables": 193,
       "limitedColumns": 0,
-      "writeDoors": 308,
+      "writeDoors": 313,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4181,
-      "backend": 1125,
-      "frontend": 894,
-      "shared": 760,
-      "tests": 530,
-      "api": 462,
-      "database": 193,
+      "totalFiles": 4243,
+      "backend": 1141,
+      "frontend": 902,
+      "shared": 778,
+      "tests": 540,
+      "api": 470,
+      "database": 195,
       "tooling": 123,
       "docs": 77,
       "infrastructure": 17
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 3612,
-        "totalLines": 135190,
+        "totalFiles": 3673,
+        "totalLines": 137597,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 5416,
+        "totalFunctions": 5512,
         "elseBlocks": 0,
-        "ifBlocks": 5283,
+        "ifBlocks": 5397,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -709,13 +709,17 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 301,
+        "overlongLines": 314,
         "measurementIsHeuristic": true
       },
       "offenders": {
         "memberChains": [],
         "deepIndentation": [],
         "overlongLines": [
+          {
+            "file": "src/lib/brand/plan/planPictures.test.ts",
+            "line": 10
+          },
           {
             "file": "src/lib/client/focusTrap.ts",
             "line": 5
@@ -799,6 +803,10 @@
           {
             "file": "src/lib/data/deployWindowFacts.test.ts",
             "line": 57
+          },
+          {
+            "file": "src/lib/data/describeBoardItem.ts",
+            "line": 68
           },
           {
             "file": "src/lib/data/discoveryCall.ts",
@@ -907,14 +915,6 @@
           {
             "file": "src/lib/data/legal/privacySharingSections.ts",
             "line": 30
-          },
-          {
-            "file": "src/lib/data/legal/privacySharingSections.ts",
-            "line": 31
-          },
-          {
-            "file": "src/lib/data/legal/privacySharingSections.ts",
-            "line": 32
           }
         ]
       }
@@ -935,15 +935,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 5416
+        "functionsExamined": 5512
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 200,
-        "predictedFiles": 225,
+        "roleFamilies": 203,
+        "predictedFiles": 229,
         "predictedFilesMissing": 3,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -959,15 +959,15 @@
           "access": 11,
           "account": 4,
           "accounts": 4,
-          "action": 15,
-          "actions": 180,
+          "action": 21,
+          "actions": 191,
           "address": 5,
           "adverts": 4,
           "answer": 8,
-          "answers": 12,
+          "answers": 13,
           "attachment": 5,
           "badge": 8,
-          "badges": 5,
+          "badges": 6,
           "balance": 4,
           "bar": 8,
           "blueprint": 5,
@@ -980,18 +980,19 @@
           "campaign": 4,
           "card": 22,
           "catalogue": 5,
+          "cell": 4,
           "chatbot": 5,
           "check": 7,
           "checklist": 4,
           "chip": 5,
           "chips": 4,
           "choice": 6,
-          "choices": 4,
+          "choices": 5,
           "client": 16,
           "columns": 4,
           "company": 6,
           "contact": 4,
-          "context": 10,
+          "context": 11,
           "contribution": 4,
           "controls": 6,
           "copy": 5,
@@ -1008,28 +1009,28 @@
           "draft": 4,
           "email": 12,
           "entries": 5,
-          "entry": 10,
+          "entry": 11,
           "event": 12,
           "facts": 9,
           "field": 19,
-          "fields": 43,
+          "fields": 45,
           "figures": 5,
           "file": 11,
           "files": 5,
           "filter": 7,
           "fixture": 11,
-          "fixtures": 25,
+          "fixtures": 26,
           "for": 7,
-          "form": 73,
+          "form": 74,
           "goal": 8,
           "grant": 4,
-          "guidance": 13,
+          "guidance": 14,
           "header": 18,
           "history": 4,
           "icon": 5,
           "ids": 10,
           "invoice": 7,
-          "item": 17,
+          "item": 18,
           "items": 4,
           "key": 5,
           "keys": 4,
@@ -1038,7 +1039,7 @@
           "labels": 6,
           "layout": 6,
           "lead": 6,
-          "limits": 9,
+          "limits": 10,
           "line": 8,
           "link": 18,
           "links": 15,
@@ -1064,7 +1065,7 @@
           "organisation": 16,
           "organisations": 5,
           "overview": 4,
-          "page": 14,
+          "page": 16,
           "panel": 50,
           "paper": 12,
           "part": 5,
@@ -1075,6 +1076,7 @@
           "paths": 5,
           "people": 6,
           "person": 15,
+          "pictures": 5,
           "piece": 8,
           "pill": 5,
           "placement": 5,
@@ -1086,11 +1088,12 @@
           "question": 5,
           "reading": 13,
           "readings": 4,
-          "record": 60,
+          "record": 61,
           "refusal": 12,
           "register": 6,
           "request": 23,
           "requests": 4,
+          "result": 4,
           "review": 4,
           "rhythm": 4,
           "roles": 5,
@@ -1098,10 +1101,10 @@
           "row": 53,
           "rows": 17,
           "rule": 7,
-          "rules": 53,
+          "rules": 54,
           "run": 7,
-          "runs": 19,
-          "schemas": 12,
+          "runs": 20,
+          "schemas": 13,
           "section": 38,
           "sections": 15,
           "sector": 4,
@@ -1112,7 +1115,7 @@
           "sheet": 4,
           "source": 17,
           "sources": 8,
-          "standing": 13,
+          "standing": 15,
           "state": 4,
           "statement": 4,
           "status": 8,
@@ -1129,7 +1132,7 @@
           "targets": 5,
           "task": 22,
           "tasks": 13,
-          "test": 515,
+          "test": 525,
           "text": 12,
           "tiles": 5,
           "time": 5,
@@ -1145,10 +1148,10 @@
           "upload": 8,
           "version": 4,
           "view": 4,
-          "views": 7,
+          "views": 8,
           "visitor": 4,
           "window": 4,
-          "words": 11,
+          "words": 12,
           "work": 4,
           "writer": 6,
           "xml": 4
@@ -1187,12 +1190,12 @@
           },
           {
             "pattern": "every guidance has a actions",
-            "predicted": 13,
+            "predicted": 14,
             "missing": []
           },
           {
             "pattern": "every guidance has a rules",
-            "predicted": 13,
+            "predicted": 14,
             "missing": []
           },
           {
@@ -1212,12 +1215,12 @@
           },
           {
             "pattern": "every schemas has a actions",
-            "predicted": 12,
+            "predicted": 13,
             "missing": []
           },
           {
             "pattern": "every schemas has a runs",
-            "predicted": 12,
+            "predicted": 13,
             "missing": []
           },
           {
@@ -1253,7 +1256,7 @@
       "name": "inventory",
       "summary": {
         "pages": 64,
-        "components": 609,
+        "components": 615,
         "orphanComponents": 0,
         "averagePageLines": 46
       },
@@ -1328,6 +1331,13 @@
             ]
           },
           {
+            "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
+            "lines": 66,
+            "widgets": [
+              "badge"
+            ]
+          },
+          {
             "page": "src/routes/projects/[projectId]/goals/[goalId]/+page.svelte",
             "lines": 66,
             "widgets": [
@@ -1351,13 +1361,6 @@
             ]
           },
           {
-            "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-            "lines": 60,
-            "widgets": [
-              "badge"
-            ]
-          },
-          {
             "page": "src/routes/organisations/[organisationId]/business-brain/chatbots/[chatbotId=uuid]/questions/+page.svelte",
             "lines": 58,
             "widgets": [
@@ -1373,7 +1376,7 @@
           },
           {
             "page": "src/routes/organisations/[organisationId]/boardroom/[meetingId]/+page.svelte",
-            "lines": 52,
+            "lines": 54,
             "widgets": [
               "badge"
             ]
@@ -1665,6 +1668,10 @@
             "reusedBy": 54
           },
           {
+            "component": "src/lib/components/site/FormField.svelte",
+            "reusedBy": 30
+          },
+          {
             "component": "src/lib/components/site/SmallCapsField.svelte",
             "reusedBy": 29
           },
@@ -1673,20 +1680,16 @@
             "reusedBy": 29
           },
           {
-            "component": "src/lib/components/site/FormField.svelte",
-            "reusedBy": 28
-          },
-          {
             "component": "src/lib/components/site/Modal.svelte",
             "reusedBy": 28
           },
           {
             "component": "src/lib/components/site/Badge.svelte",
-            "reusedBy": 23
+            "reusedBy": 26
           },
           {
             "component": "src/lib/components/site/Button.svelte",
-            "reusedBy": 23
+            "reusedBy": 25
           },
           {
             "component": "src/lib/components/site/PageTitle.svelte",
@@ -1898,6 +1901,10 @@
           },
           {
             "component": "src/lib/components/brand/BrandDecisionNote.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/brand/LibraryPreview.svelte",
             "reusedBy": 2
           },
           {
@@ -2329,6 +2336,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/boardroom/ActionPlaceFields.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/boardroom/AgendaItemBriefing.svelte",
             "reusedBy": 1
           },
@@ -2338,6 +2349,14 @@
           },
           {
             "component": "src/lib/components/boardroom/AgendaItemFields.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/boardroom/BoardActionEntry.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/boardroom/BoardActionForm.svelte",
             "reusedBy": 1
           },
           {
@@ -2370,6 +2389,10 @@
           },
           {
             "component": "src/lib/components/boardroom/HeldPieceCard.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/boardroom/ItemActions.svelte",
             "reusedBy": 1
           },
           {
@@ -2509,6 +2532,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/brand/ContentPlanPictureCell.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/brand/ContentPlanRhythmTable.svelte",
             "reusedBy": 1
           },
@@ -2525,6 +2552,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/brand/ContentPostPictures.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/brand/ContentReviewForm.svelte",
             "reusedBy": 1
           },
@@ -2538,10 +2569,6 @@
           },
           {
             "component": "src/lib/components/brand/ContentStoryboardTable.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/brand/LibraryPreview.svelte",
             "reusedBy": 1
           },
           {
@@ -4096,12 +4123,12 @@
       "name": "siteDefinition",
       "summary": {
         "routes": 63,
-        "views": 676,
-        "siteComponents": 602,
+        "views": 682,
+        "siteComponents": 608,
         "catalogue": 10,
-        "widgetUsages": 269,
+        "widgetUsages": 280,
         "handRolledElements": 36,
-        "widgetSlots": 305,
+        "widgetSlots": 316,
         "viewsWithHandRolled": 33,
         "boxedContentWidgets": 0,
         "designSheets": 7,
@@ -4683,7 +4710,7 @@
           "route": "/organisations/[organisationId]/boardroom/[meetingId]",
           "file": "src/routes/organisations/[organisationId]/boardroom/[meetingId]/+page.svelte",
           "definition": "WorkspaceHeader{ MeetingStageBadge }, ?minutes.isClosed: MeetingMinutesPanel, MeetingAgendaPanel, ?close.canClose: MeetingClosePanel, ?meeting.ownClaude !== null: OwnClaudePanel, MeetingFactsPanel",
-          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ MeetingStageBadge=( Badge ) }, ?minutes.isClosed: MeetingMinutesPanel=( DashboardPanel{ ?minutes.latestVersion !== null: Badge, CopyTextButton, ?minutes.canAnswer && minutes.la\u2026: MinutesAnswerForm=( FormField, [ (2) Button ] ), (n) MinutesVersionEntry=( ?answers.length > 0: (n) MinutesAnswerEntry=( Badge ) ) } ), MeetingAgendaPanel=( DashboardPanel{ (n) AgendaItemEntry=( [ Badge ?item.isAnyOtherBusiness: Badge ], ?papers.length > 0: (n) BoardPaperEntry, AgendaItemBriefing=( ?ownBrief !== null: OwnBriefSummary, ?briefing.canBrief: BoardBriefForm ), ItemRoomTalk=( ?badge !== null: Badge, ?said.length > 0: (n) BoardContributionEntry ), ?item.held !== null: HeldPieceCard=( [ (2) Button ] ), ?item.decision !== null: ItemDecision=( Badge, ?answers.length > 0: (n) DecisionAnswerEntry, ?decision.canAnswer: DecisionAnswerForm ) ), ?withdrawnTitles.length > 0: WithdrawnAgendaItems } ), ?close.canClose: MeetingClosePanel=( DashboardPanel{ Button } ), ?meeting.ownClaude !== null: OwnClaudePanel=( DashboardPanel{ [ Badge ?ownClaude.isAskingFirst: Badge ], ?ownClaude.canChange: ( [ (2) SeatSettingForm=( Button ) ], SteerNoteForm=( FormField, Button ) ), SteerNotesList } ), MeetingFactsPanel=( DashboardPanel )"
+          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ MeetingStageBadge=( Badge ) }, ?minutes.isClosed: MeetingMinutesPanel=( DashboardPanel{ ?minutes.latestVersion !== null: Badge, CopyTextButton, ?minutes.canAnswer && minutes.la\u2026: MinutesAnswerForm=( FormField, [ (2) Button ] ), (n) MinutesVersionEntry=( ?answers.length > 0: (n) MinutesAnswerEntry=( Badge ) ) } ), MeetingAgendaPanel=( DashboardPanel{ (n) AgendaItemEntry=( [ Badge ?item.isAnyOtherBusiness: Badge ], ?papers.length > 0: (n) BoardPaperEntry, AgendaItemBriefing=( ?ownBrief !== null: OwnBriefSummary, ?briefing.canBrief: BoardBriefForm ), ItemRoomTalk=( ?badge !== null: Badge, ?said.length > 0: (n) BoardContributionEntry ), ?item.held !== null: HeldPieceCard=( [ (2) Button ] ), ?item.decision !== null: ItemDecision=( Badge, ?answers.length > 0: (n) DecisionAnswerEntry, ?decision.canAnswer: DecisionAnswerForm ), ItemActions=( ?entries.length > 0 || actions.c\u2026: ( ?entries.length > 0: (n) BoardActionEntry, ?actions.canRaiseAgain: Button ), ?actions.canRecord: BoardActionForm ) ), ?withdrawnTitles.length > 0: WithdrawnAgendaItems } ), ?close.canClose: MeetingClosePanel=( DashboardPanel{ Button } ), ?meeting.ownClaude !== null: OwnClaudePanel=( DashboardPanel{ [ Badge ?ownClaude.isAskingFirst: Badge ], ?ownClaude.canChange: ( [ (2) SeatSettingForm=( Button ) ], SteerNoteForm=( FormField, Button ) ), SteerNotesList } ), MeetingFactsPanel=( DashboardPanel )"
         },
         {
           "route": "/organisations/[organisationId]/books",
@@ -4712,8 +4739,8 @@
         {
           "route": "/organisations/[organisationId]/brand/content/[contentPieceId]",
           "file": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-          "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, DashboardPanel{ ContentStoryboardTable }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
-          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (4) RecordsCell } ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
+          "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
+          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
         },
         {
           "route": "/organisations/[organisationId]/brand/library",
@@ -4725,7 +4752,7 @@
           "route": "/organisations/[organisationId]/brand/plan",
           "file": "src/routes/organisations/[organisationId]/brand/plan/+page.svelte",
           "definition": "WorkspaceHeader{ (2) Button }, DashboardPanel{ ContentPlanCounts }, DashboardPanel{ ContentPlanRhythmTable }, DashboardPanel{ ContentPlanKindTable }, (n) ( ContentPlanWeekTallies, DashboardPanel{ ContentPlanWeekTable } ), ContentPlanMoveModal",
-          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ (2) Button }, DashboardPanel{ ContentPlanCounts=( [ (4) StatTile ] ) }, DashboardPanel{ ContentPlanRhythmTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ ContentPlanKindTable=( RecordsTable{ (2) RecordsCell } ) }, (n) ( ContentPlanWeekTallies=( (n) ( Badge, ?tally.extra !== noneExtra: Badge ) ), DashboardPanel{ ContentPlanWeekTable=( RecordsTable{ RecordsCell, ?row.post === null: RecordsCell, (2) RecordsCell, ( ?row.dueFor === null: RecordsCell | RecordsCell{ Badge } ), (3) RecordsCell, ( RecordsCell, RecordsCell{ ContentPlanChannelLinks }, (3) RecordsCell, RecordsCell{ ContentPlanChannelStages=( (n) ( ContentStageBadge=( Badge ), ?channel.isExtra: Badge ) ) }, RecordsCell{ ContentPlanChannelMoves=( (n) ?channel.canMove: Button ) } ) } ) } ), ContentPlanMoveModal=( Modal{ ?entry !== null: ( (2) FormField, FormErrorNote, [ (2) Button ] ) } )"
+          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ (2) Button }, DashboardPanel{ ContentPlanCounts=( [ (5) StatTile ] ) }, DashboardPanel{ ContentPlanRhythmTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ ContentPlanKindTable=( RecordsTable{ (2) RecordsCell } ) }, (n) ( ContentPlanWeekTallies=( (n) ( Badge, ?tally.extra !== noneExtra: Badge ) ), DashboardPanel{ ContentPlanWeekTable=( RecordsTable{ RecordsCell, ?row.post === null: RecordsCell, (2) RecordsCell, ( ?row.dueFor === null: RecordsCell | RecordsCell{ Badge } ), (4) RecordsCell, ( RecordsCell, RecordsCell{ ContentPlanChannelLinks }, (3) RecordsCell, RecordsCell{ ContentPlanPictureCell=( Badge ) }, RecordsCell{ ContentPlanChannelStages=( (n) ( ContentStageBadge=( Badge ), ?channel.isExtra: Badge ) ) }, RecordsCell{ ContentPlanChannelMoves=( (n) ?channel.canMove: Button ) } ) } ) } ), ContentPlanMoveModal=( Modal{ ?entry !== null: ( (2) FormField, FormErrorNote, [ (2) Button ] ) } )"
         },
         {
           "route": "/organisations/[organisationId]/business-brain",
@@ -5252,6 +5279,12 @@
           "usedBy": 2
         },
         {
+          "component": "LibraryPreview",
+          "file": "src/lib/components/brand/LibraryPreview.svelte",
+          "definition": "",
+          "usedBy": 2
+        },
+        {
           "component": "LifecyclePanel",
           "file": "src/lib/components/lifecycle/LifecyclePanel.svelte",
           "definition": "DashboardPanel{ (n) LifecycleStepItem }",
@@ -5504,6 +5537,12 @@
           "usedBy": 1
         },
         {
+          "component": "ActionPlaceFields",
+          "file": "src/lib/components/boardroom/ActionPlaceFields.svelte",
+          "definition": "[ FormField ?hasProject: FormField ]",
+          "usedBy": 1
+        },
+        {
           "component": "AddChecklistItemForm",
           "file": "src/lib/components/projects/AddChecklistItemForm.svelte",
           "definition": "SubmitButton, FormErrorNote",
@@ -5554,7 +5593,7 @@
         {
           "component": "AgendaItemEntry",
           "file": "src/lib/components/boardroom/AgendaItemEntry.svelte",
-          "definition": "[ Badge ?item.isAnyOtherBusiness: Badge ], ?papers.length > 0: (n) BoardPaperEntry, AgendaItemBriefing, ItemRoomTalk, ?item.held !== null: HeldPieceCard, ?item.decision !== null: ItemDecision",
+          "definition": "[ Badge ?item.isAnyOtherBusiness: Badge ], ?papers.length > 0: (n) BoardPaperEntry, AgendaItemBriefing, ItemRoomTalk, ?item.held !== null: HeldPieceCard, ?item.decision !== null: ItemDecision, ItemActions",
           "usedBy": 1
         },
         {
@@ -5819,6 +5858,18 @@
           "component": "BlueprintViewSwitch",
           "file": "src/lib/components/blueprint/BlueprintViewSwitch.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "BoardActionEntry",
+          "file": "src/lib/components/boardroom/BoardActionEntry.svelte",
+          "definition": "Badge",
+          "usedBy": 1
+        },
+        {
+          "component": "BoardActionForm",
+          "file": "src/lib/components/boardroom/BoardActionForm.svelte",
+          "definition": "FormField, [ (2) FormField ], ActionPlaceFields, Button",
           "usedBy": 1
         },
         {
@@ -6274,7 +6325,7 @@
         {
           "component": "ContentPlanCounts",
           "file": "src/lib/components/brand/ContentPlanCounts.svelte",
-          "definition": "[ (4) StatTile ]",
+          "definition": "[ (5) StatTile ]",
           "usedBy": 1
         },
         {
@@ -6290,6 +6341,12 @@
           "usedBy": 1
         },
         {
+          "component": "ContentPlanPictureCell",
+          "file": "src/lib/components/brand/ContentPlanPictureCell.svelte",
+          "definition": "Badge",
+          "usedBy": 1
+        },
+        {
           "component": "ContentPlanRhythmTable",
           "file": "src/lib/components/brand/ContentPlanRhythmTable.svelte",
           "definition": "RecordsTable{ (4) RecordsCell }",
@@ -6298,7 +6355,7 @@
         {
           "component": "ContentPlanWeekTable",
           "file": "src/lib/components/brand/ContentPlanWeekTable.svelte",
-          "definition": "RecordsTable{ RecordsCell, ?row.post === null: RecordsCell, (2) RecordsCell, ( ?row.dueFor === null: RecordsCell | RecordsCell{ Badge } ), (3) RecordsCell, ( RecordsCell, RecordsCell{ ContentPlanChannelLinks }, (3) RecordsCell, RecordsCell{ ContentPlanChannelStages }, RecordsCell{ ContentPlanChannelMoves } ) }",
+          "definition": "RecordsTable{ RecordsCell, ?row.post === null: RecordsCell, (2) RecordsCell, ( ?row.dueFor === null: RecordsCell | RecordsCell{ Badge } ), (4) RecordsCell, ( RecordsCell, RecordsCell{ ContentPlanChannelLinks }, (3) RecordsCell, RecordsCell{ ContentPlanPictureCell }, RecordsCell{ ContentPlanChannelStages }, RecordsCell{ ContentPlanChannelMoves } ) }",
           "usedBy": 1
         },
         {
@@ -6311,6 +6368,12 @@
           "component": "ContentPostChannelTable",
           "file": "src/lib/components/brand/ContentPostChannelTable.svelte",
           "definition": "RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge }, RecordsCell }",
+          "usedBy": 1
+        },
+        {
+          "component": "ContentPostPictures",
+          "file": "src/lib/components/brand/ContentPostPictures.svelte",
+          "definition": "?badge !== null: Badge, (n) [ LibraryPreview Badge ]",
           "usedBy": 1
         },
         {
@@ -6920,6 +6983,12 @@
           "usedBy": 1
         },
         {
+          "component": "ItemActions",
+          "file": "src/lib/components/boardroom/ItemActions.svelte",
+          "definition": "?entries.length > 0 || actions.c\u2026: ( ?entries.length > 0: (n) BoardActionEntry, ?actions.canRaiseAgain: Button ), ?actions.canRecord: BoardActionForm",
+          "usedBy": 1
+        },
+        {
           "component": "ItemDecision",
           "file": "src/lib/components/boardroom/ItemDecision.svelte",
           "definition": "Badge, ?answers.length > 0: (n) DecisionAnswerEntry, ?decision.canAnswer: DecisionAnswerForm",
@@ -6941,12 +7010,6 @@
           "component": "KitVersionRow",
           "file": "src/lib/components/projects/KitVersionRow.svelte",
           "definition": "KitVersionBadge",
-          "usedBy": 1
-        },
-        {
-          "component": "LibraryPreview",
-          "file": "src/lib/components/brand/LibraryPreview.svelte",
-          "definition": "",
           "usedBy": 1
         },
         {
@@ -8496,13 +8559,13 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4181,
-        "backend": 1125,
-        "frontend": 894,
-        "shared": 760,
-        "tests": 530,
-        "api": 462,
-        "database": 193,
+        "totalFiles": 4243,
+        "backend": 1141,
+        "frontend": 902,
+        "shared": 778,
+        "tests": 540,
+        "api": 470,
+        "database": 195,
         "tooling": 123,
         "docs": 77,
         "infrastructure": 17
@@ -8510,37 +8573,37 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 1125,
-          "sourceFiles": 1115,
-          "sourceLines": 37141
+          "files": 1141,
+          "sourceFiles": 1131,
+          "sourceLines": 37746
         },
         {
           "area": "frontend",
-          "files": 894,
-          "sourceFiles": 764,
-          "sourceLines": 25743
+          "files": 902,
+          "sourceFiles": 773,
+          "sourceLines": 26001
         },
         {
           "area": "shared",
-          "files": 760,
-          "sourceFiles": 742,
-          "sourceLines": 26813
+          "files": 778,
+          "sourceFiles": 760,
+          "sourceLines": 27448
         },
         {
           "area": "tests",
-          "files": 530,
-          "sourceFiles": 515,
-          "sourceLines": 23752
+          "files": 540,
+          "sourceFiles": 525,
+          "sourceLines": 24324
         },
         {
           "area": "api",
-          "files": 462,
-          "sourceFiles": 461,
-          "sourceLines": 21185
+          "files": 470,
+          "sourceFiles": 469,
+          "sourceLines": 21522
         },
         {
           "area": "database",
-          "files": 193,
+          "files": 195,
           "sourceFiles": 7,
           "sourceLines": 212
         },
@@ -8567,9 +8630,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 190,
+        "schemaTables": 193,
         "limitedColumns": 0,
-        "writeDoors": 308,
+        "writeDoors": 313,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },

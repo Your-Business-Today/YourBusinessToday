@@ -5,6 +5,7 @@ import { itemBriefingViewOf, type ItemBriefingView } from './boardBriefViews';
 import { itemRoomViewOf, type ItemRoomView } from './boardRoomViews';
 import { heldPieceViewOf, ownClaudeViewOf, type HeldPieceView, type OwnClaudeView } from './boardSeatControlViews';
 import { itemDecisionViewOf, type ItemDecisionView } from './boardDecisionViews';
+import { itemActionsViewOf, type ItemActionsView } from './boardActionViews';
 import { decisionRuleSentence } from './describeDecisionRule';
 import { noMeetingDecisions } from './boardroomDecision';
 import { ukMeetingTime } from './ukMeetingTime';
@@ -21,6 +22,7 @@ export type BoardAgendaItemView = {
 	room: ItemRoomView;
 	held: HeldPieceView | null;
 	decision: ItemDecisionView | null;
+	actions: ItemActionsView;
 };
 
 /** One meeting as its own page shows it: when, who chairs it, who is on it, its agenda, each item's papers and room, and the reader's own Claude. */
@@ -49,7 +51,8 @@ function agendaItemView(record: MeetingRecord, item: AgendaItem, index: number, 
 		briefing: itemBriefingViewOf(record, item.id, now),
 		room: itemRoomViewOf(record, item, now),
 		held: heldPieceViewOf(record, item),
-		decision: itemDecisionViewOf(record, item, now)
+		decision: itemDecisionViewOf(record, item, now),
+		actions: itemActionsViewOf(record, item, now)
 	};
 }
 

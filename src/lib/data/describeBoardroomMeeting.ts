@@ -7,6 +7,7 @@ import { decisionLineOnAgenda } from './describeBoardDecision';
 import { meetingHeading } from './describeMeetingHeading';
 import { decisionOnItem } from './boardDecisionOnItem';
 import { minutesLinesOnMeeting } from './describeBoardMinutes';
+import { actionLinesOfItem } from './describeBoardActions';
 import type { MeetingRoom } from './boardroomRoom';
 import { directorsOnMeeting, meetingStage, standingAgenda, type AgendaItem, type BoardroomMeeting } from './boardroomMeeting';
 import type { BoardroomDirector } from './boardroomDirector';
@@ -16,6 +17,7 @@ import type { MeetingBriefing } from './boardroomBrief';
 import type { SeatControls } from './boardroomSeatControls';
 import type { MeetingDecisions } from './boardroomDecision';
 import type { MeetingMinutes } from './boardroomMinutes';
+import type { MeetingActions } from './boardroomAction';
 
 /**
  * Everything a director reads of one meeting: the meeting, its board, every item ever put on its agenda and
@@ -32,6 +34,7 @@ export type MeetingRecord = {
 	controls?: SeatControls;
 	decisions?: MeetingDecisions;
 	minutes?: MeetingMinutes;
+	actions?: MeetingActions;
 };
 
 export const agendaPurposeWords = { decision: 'for decision', noting: 'to note' } as const;
@@ -49,7 +52,8 @@ function itemLines(record: MeetingRecord, item: AgendaItem, index: number, now: 
 	const briefs = briefLinesOfItem(record.briefing, item.id, onIt);
 	const room = roomLinesOnAgenda(record, item, now);
 	const decision = decisionLineOnAgenda(decisionOnItem(record, item, now), record.directors);
-	return [agendaLine(item, index), ...papers, ...recordPapers, ...briefs, ...room, ...decision];
+	const actions = actionLinesOfItem(record, item, now);
+	return [agendaLine(item, index), ...papers, ...recordPapers, ...briefs, ...room, ...decision, ...actions];
 }
 
 function agendaLines(record: MeetingRecord, now: Date): string[] {

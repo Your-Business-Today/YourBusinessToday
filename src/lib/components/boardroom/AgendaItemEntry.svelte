@@ -5,6 +5,7 @@
 	import ItemRoomTalk from './ItemRoomTalk.svelte';
 	import HeldPieceCard from './HeldPieceCard.svelte';
 	import ItemDecision from './ItemDecision.svelte';
+	import ItemActions from './ItemActions.svelte';
 	import type { BoardAgendaItemView } from '$lib/data/boardMeetingView';
 
 	let { item }: { item: BoardAgendaItemView } = $props();
@@ -36,4 +37,5 @@
 	{#if item.decision !== null}
 		<ItemDecision decision={item.decision} itemNumber={item.number} />
 	{/if}
+	<ItemActions actions={item.actions} itemNumber={item.number} />
 </li>

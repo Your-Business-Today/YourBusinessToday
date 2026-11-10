@@ -1,5 +1,6 @@
 import type { AgendaPurpose } from './boardroomMeeting';
 import type { DecisionAnswerKind } from './boardroomDecision';
+import type { MinutedAction } from './minutedActions';
 
 /** How an item stood when the meeting closed: agreed or not agreed in the room, or never concluded there. */
 export type MinutedOutcome = 'agreed' | 'not_agreed' | 'not_concluded';
@@ -31,6 +32,7 @@ export type MinutedItem = {
 	wording: string | null;
 	speakers: string[];
 	decision: MinutedDecision | null;
+	actions?: MinutedAction[];
 };
 
 /** The facts of a closed meeting the service puts in each version of its minutes, so a version stands on its own. */

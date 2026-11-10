@@ -1,11 +1,14 @@
 import { error, fail } from '@sveltejs/kit';
 import { getBriefedMeetingRecord } from '$lib/server/boardroom/readBoardroomMeeting';
 import { briefBoardroomItem } from '$lib/server/boardroom/briefBoardroomItem';
-import { changeOwnClaudeSetting, steerOwnClaude, type SeatAnswer } from '$lib/server/boardroom/steerOwnClaude';
+import { changeOwnClaudeSetting, steerOwnClaude } from '$lib/server/boardroom/steerOwnClaude';
+import { answerOf, refusedStatus } from '$lib/server/boardroom/seatAnswerResult';
 import { answerHeldContribution } from '$lib/server/boardroom/answerHeldContribution';
 import { answerBoardDecision } from '$lib/server/boardroom/answerBoardDecision';
 import { closeBoardroomMeeting } from '$lib/server/boardroom/closeBoardroomMeeting';
 import { answerBoardroomMinutes } from '$lib/server/boardroom/answerBoardroomMinutes';
+import { boardActionFormActions } from '$lib/server/boardroom/boardActionFormActions';
+import { getBoardActionChoices } from '$lib/server/boardroom/getBoardActionChoices';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { requireBoardroomDirector } from '$lib/server/auth/requireBoardroomDirector';
 import { requireUser } from '$lib/server/auth/requireUser';
@@ -24,7 +27,6 @@ import { validateMinutesAnswer } from '$lib/data/validateMinutesAnswer';
 import type { Actions, PageServerLoad } from './$types';
 
 const notFoundStatus = 404;
-const refusedStatus = 400;
 
 export const load: PageServerLoad = async ({ locals, params, parent, depends }) => {
 	depends(boardMeetingDependency);
@@ -33,13 +35,10 @@ export const load: PageServerLoad = async ({ locals, params, parent, depends }) 
 	const record = await getBriefedMeetingRecord(locals.supabase, organisation.id, params.meetingId, user.id);
 	if (record === null) error(notFoundStatus, boardroomMeetingRefusals.noSuchMeeting);
 	const reader = { accountId: user.id, organisationId: organisation.id, organisationName: organisation.name, now: new Date() };
-	return { meeting: boardMeetingViewOf(record, reader.now), close: meetingCloseViewOf(record, reader), minutes: meetingMinutesViewOf(record, reader) };
+	const meeting = boardMeetingViewOf(record, reader.now);
+	const actionChoices = await getBoardActionChoices(locals.supabase, organisation.id, meeting);
+	return { meeting, close: meetingCloseViewOf(record, reader), minutes: meetingMinutesViewOf(record, reader), actionChoices };
 };
-
-function answerOf(seatAnswer: SeatAnswer) {
-	if (!seatAnswer.isKept) return fail(refusedStatus, { message: seatAnswer.answer });
-	return { message: seatAnswer.answer };
-}
 
 export const actions = {
 	briefItem: async ({ locals, params, request }) => {
@@ -93,5 +92,6 @@ export const actions = {
 		if (typeof draft === 'string') return fail(refusedStatus, { message: draft });
 		const director = { accountId: user.id, now: new Date() };
 		return answerOf(await answerBoardroomMinutes(supabaseServiceClient(), organisation, params.meetingId, draft, director));
-	}
+	},
+	...boardActionFormActions
 } satisfies Actions;

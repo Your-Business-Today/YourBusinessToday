@@ -9,6 +9,7 @@
 	import { LiveRefresh } from '$lib/client/liveRefresh.svelte';
 	import { boardMeetingDependency, boardMeetingRefreshMilliseconds } from '$lib/data/boardSeatControlForm';
 	import { boardroomCrumbsOf } from '$lib/components/boardroom/boardroomCrumbs';
+	import { provideBoardActionChoices } from '$lib/components/boardroom/boardActionChoicesContext';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
@@ -16,6 +17,7 @@
 	const liveRefresh = new LiveRefresh(boardMeetingDependency, boardMeetingRefreshMilliseconds);
 
 	const { organisation, meeting, close, minutes } = $derived(data);
+	provideBoardActionChoices(() => data.actionChoices);
 	const title = $derived(`Board meeting, ${meeting.when}`);
 	const followingWords = $derived(liveRefresh.isRefreshing ? 'Catching up with the room…' : 'Following the meeting as it happens.');
 </script>
