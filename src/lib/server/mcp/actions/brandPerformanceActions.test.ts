@@ -21,6 +21,8 @@ const campaignDay = {
 	campaignId,
 	views: 300,
 	clicks: 12,
+	impressions: 900,
+	reach: 640,
 	spendPounds: 40
 };
 
@@ -71,7 +73,8 @@ describe('recording and reading a brand’s performance over the connector', () 
 		const answer = await runPerformanceAction('read_performance', {
 			since: '2026-11-01'
 		});
-		expect(answer).toContain('- video.short.reels: 1,200 views, 0 seconds watched, 30 engagements');
+		expect(answer).toContain('- video.short.reels: 1,200 views, 0 impressions, 0 reached, 0 seconds watched, 30 engagements');
+		expect(answer).toContain('- image.post.facebook: 300 views, 900 impressions, 640 reached');
 		expect(answer).toContain('- total: 1,500 views');
 		expect(answer).toContain('12 clicks, 0 conversions, £52.50 spent');
 	});

@@ -1,11 +1,10 @@
-import type { Campaign, CampaignPiece, CampaignStatus } from '$lib/brand/campaigns/campaign';
+import { campaignColumns, campaignHeadOf } from './campaignRow';
+import type { Campaign, CampaignPiece } from '$lib/brand/campaigns/campaign';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export const CampaignListing = { mostCampaigns: 100 } as const;
 
 type Row = Record<string, unknown>;
-
-const campaignColumns = 'id, name, objective, budget_pence, starts_on, ends_on, status';
 
 /** The organisation's campaigns, latest start first, each with the pieces it holds. */
 export async function findCampaigns(supabase: SupabaseClient, organisationId: string): Promise<Campaign[]> {
@@ -44,14 +43,5 @@ function pieceOf(row: Row): CampaignPiece {
 }
 
 function campaignOf(row: Row, pieces: CampaignPiece[]): Campaign {
-	return {
-		id: row.id as string,
-		name: row.name as string,
-		objective: row.objective as string,
-		budgetPence: Number(row.budget_pence),
-		startsOn: row.starts_on as string,
-		endsOn: row.ends_on as string,
-		status: row.status as CampaignStatus,
-		pieces
-	};
+	return { ...campaignHeadOf(row), pieces };
 }

@@ -1,19 +1,20 @@
 import { countOf } from '$lib/data/countOf';
+import { formatCount } from '$lib/brand/campaigns/campaignReportWords';
 import { formatPoundsAndPence, fromPence } from '$lib/data/books/money';
 import type { MediumPerformance } from '$lib/brand/performance/performanceReading';
 import type { ReadingsSorted } from '$lib/brand/performance/readingsSorted';
 
-const wholeNumbers = new Intl.NumberFormat('en-GB');
-
 /** One medium's figures as read_performance shows them, or the total when the medium is total. */
 export function describeMediumPerformance(medium: MediumPerformance): string {
 	const figures = [
-		`${counted(medium.views)} views`,
-		`${counted(medium.watchSeconds)} seconds watched`,
-		`${counted(medium.engagements)} engagements (${counted(medium.likes)} likes, ${counted(medium.comments)} comments, ` +
-			`${counted(medium.shares)} shares, ${counted(medium.saves)} saves)`,
-		`${counted(medium.clicks)} clicks`,
-		`${counted(medium.conversions)} conversions`,
+		`${formatCount(medium.views)} views`,
+		`${formatCount(medium.impressions)} impressions`,
+		`${formatCount(medium.reach)} reached`,
+		`${formatCount(medium.watchSeconds)} seconds watched`,
+		`${formatCount(medium.engagements)} engagements (${formatCount(medium.likes)} likes, ${formatCount(medium.comments)} comments, ` +
+			`${formatCount(medium.shares)} shares, ${formatCount(medium.saves)} saves)`,
+		`${formatCount(medium.clicks)} clicks`,
+		`${formatCount(medium.conversions)} conversions`,
 		`${formatPoundsAndPence(fromPence(medium.spendPence))} spent`
 	];
 	return `- ${medium.mediumPath}: ${figures.join(', ')}`;
@@ -30,8 +31,4 @@ export function describeRecording({ kept, refusals }: ReadingsSorted, brandName:
 function describeKept(keptCount: number, brandName: string): string {
 	if (keptCount === 0) return 'No reading was recorded.';
 	return `Recorded ${countOf(keptCount, 'reading')} for ${brandName}’s brand. read_performance adds them up.`;
-}
-
-function counted(count: number): string {
-	return wholeNumbers.format(count);
 }

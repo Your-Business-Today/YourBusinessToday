@@ -4,10 +4,16 @@ import { countedFigures } from '$lib/brand/performance/performanceReading';
 import { PerformanceLimits } from '$lib/brand/performance/performanceLimits';
 
 const migration = readFileSync('migrations/0179_brand_performance_readings.sql', 'utf8');
-const statements = migration.replace(/--.*$/gm, '');
+const statements = withoutComments(migration);
+const reachMigration = readFileSync('migrations/0180_brand_campaign_reach_and_audience.sql', 'utf8');
+const bothStatements = statements + withoutComments(reachMigration);
 const moduleRule = "public.can_use_organisation_module(organisation_id, 'brand')";
 const destructiveStatement = /\b(?:drop table|drop column|delete from|truncate|alter column|rename)\b/i;
 const reachAndAudience = /\b(?:reach|impressions|audience)\b/i;
+
+function withoutComments(sql: string): string {
+	return sql.replace(/--.*$/gm, '');
+}
 
 function columnOf(figure: string): string {
 	return figure.replace(/[A-Z]/g, (capital) => `_${capital.toLowerCase()}`);
@@ -29,7 +35,7 @@ describe('the brand performance readings migration', () => {
 
 	it('holds every figure at nought or more, and spend to the limit the door checks', () => {
 		for (const figure of countedFigures) {
-			expect(statements).toContain(`${columnOf(figure)} integer not null default 0 check (${columnOf(figure)} >= 0)`);
+			expect(bothStatements).toContain(`${columnOf(figure)} integer not null default 0 check (${columnOf(figure)} >= 0)`);
 		}
 		expect(statements).toContain(`check (spend_pence between 0 and ${PerformanceLimits.largestSpendPence})`);
 	});
