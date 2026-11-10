@@ -28,7 +28,7 @@ export function moreThanListed(keptCount: number): string | null {
 }
 
 /** The badge that says at a glance whether an item may be posted. */
-export function postingBadgeOf(item: LibraryPageItem): { label: string; tone: BadgeTone } {
+export function postingBadgeOf(item: Pick<LibraryPageItem, 'posting'>): { label: string; tone: BadgeTone } {
 	if (mayBePosted(item)) return { label: 'May be posted', tone: 'positive' };
 	return { label: 'Not to be posted', tone: 'negative' };
 }

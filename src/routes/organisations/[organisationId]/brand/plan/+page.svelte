@@ -49,7 +49,7 @@
 
 <div class={workspaceBodyClasses}>
 	<DashboardPanel title="This month" isPadded>
-		<ContentPlanCounts counts={plan.counts} />
+		<ContentPlanCounts counts={plan.counts} awaitingPictureCount={plan.awaitingPictureCount} />
 	</DashboardPanel>
 	<DashboardPanel title="Posting rhythm">
 		<ContentPlanRhythmTable {rhythms} />

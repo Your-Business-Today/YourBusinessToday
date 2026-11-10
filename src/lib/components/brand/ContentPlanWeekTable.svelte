@@ -3,11 +3,13 @@
 	import ContentPlanChannelLinks from './ContentPlanChannelLinks.svelte';
 	import ContentPlanChannelMoves from './ContentPlanChannelMoves.svelte';
 	import ContentPlanChannelStages from './ContentPlanChannelStages.svelte';
+	import ContentPlanPictureCell from './ContentPlanPictureCell.svelte';
 	import RecordsCell from '$lib/components/workspace/RecordsCell.svelte';
 	import RecordsTable from '$lib/components/workspace/RecordsTable.svelte';
 	import { contentPiecePathOf } from './brandKitPageWords';
 	import { noKindYet } from '$lib/brand/plan/planCounts';
 	import { nothingPlanned, postDue } from './contentPlanPageWords';
+	import { pictureColumn } from './postPictureWords';
 	import { planRowsOf, type PlanRow } from '$lib/brand/plan/planRows';
 	import type { PlanEntry, PlanWeek } from '$lib/brand/plan/contentPlan';
 	import type { RecordsColumn } from '$lib/components/workspace/recordsTable';
@@ -24,6 +26,7 @@
 		{ key: 'kind', label: 'Kind' },
 		{ key: 'title', label: 'Idea' },
 		{ key: 'hook', label: 'Opening line', isWideOnly: true },
+		{ key: 'picture', label: pictureColumn },
 		{ key: 'stage', label: 'Status' },
 		{ key: 'move', label: '' }
 	];
@@ -45,6 +48,7 @@
 				<RecordsCell isWideOnly>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
+				<RecordsCell>{blank}</RecordsCell>
 			{:else}
 				{@const post = row.post}
 				{@const [firstChannel] = post.channels}
@@ -53,6 +57,7 @@
 				<RecordsCell>{post.kind ?? noKindYet}</RecordsCell>
 				<RecordsCell kind="link" href={contentPiecePathOf(organisationId, firstChannel.id)}>{post.title}</RecordsCell>
 				<RecordsCell isWideOnly>{post.hook}</RecordsCell>
+				<RecordsCell kind="status"><ContentPlanPictureCell picture={post.picture} /></RecordsCell>
 				<RecordsCell kind="status"><ContentPlanChannelStages channels={post.channels} /></RecordsCell>
 				<RecordsCell kind="actions"><ContentPlanChannelMoves channels={post.channels} {onMove} /></RecordsCell>
 			{/if}

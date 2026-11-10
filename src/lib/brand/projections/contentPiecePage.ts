@@ -16,6 +16,7 @@ export type PostChannelRow = { id: string; medium: string; stage: ContentPiece['
 /** One piece as its page shows it: its words, its storyboard, where it stands and what has been said of it. */
 export type ContentPiecePage = {
 	id: string;
+	postId: string;
 	title: string;
 	medium: string;
 	stage: ContentPiece['stage'];
@@ -49,6 +50,7 @@ export function contentPiecePageOf(piece: ContentPiece, reviews: ContentReview[]
 	const { id, title, stage, hook, script, caption, scheduledFor, plannedFor, publishedUrl } = piece;
 	return {
 		...{ id, title, stage, hook, script, caption, scheduledFor, plannedFor, publishedUrl },
+		postId: post.id,
 		medium: mediumLabelOf(piece.mediumPath),
 		isAwaitingApproval: stage === ContentStages.awaitingApproval,
 		invitedAction: invitedActionLabelOf(piece.invitedAction),
