@@ -3,6 +3,7 @@ import { areaFeedActions } from './actions/areaFeedActions';
 import { claimActions } from './actions/claimActions';
 import { clientActions } from './actions/clientActions';
 import { conversationActions } from './actions/conversationActions';
+import { dataInventoryActions } from './actions/dataInventoryActions';
 import { filingActions } from './actions/filingActions';
 import { goalActions } from './actions/goalActions';
 import { jobAdvertActions } from './actions/jobAdvertActions';
@@ -61,6 +62,7 @@ const everyAction: McpAction[] = [
 	...portalRequestReadActions,
 	...portalRequestWriteActions,
 	...serverErrorActions,
+	...dataInventoryActions,
 	...conversationActions,
 	...waitingActions,
 	...summaryActions,
