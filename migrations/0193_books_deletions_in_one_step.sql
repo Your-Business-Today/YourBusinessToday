@@ -44,7 +44,7 @@ begin
 	from public.books_invoices
 	where organisation_id = target_organisation_id and id = target_invoice_id
 	for update;
-	if not found or held_invoice.status <> expected_status or held_invoice.status not in ('draft', 'void') then
+	if not found or held_invoice.status is distinct from expected_status or held_invoice.status not in ('draft', 'void') then
 		return null;
 	end if;
 	if exists (
