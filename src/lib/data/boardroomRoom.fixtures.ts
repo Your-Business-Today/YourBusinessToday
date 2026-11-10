@@ -23,7 +23,7 @@ export function said(
 	const at = new Date(Date.UTC(2026, 10, 12, 10, minute)).toISOString();
 	const wording = stance === 'proposes' ? 'Approve the accounts.' : null;
 	const base = { agendaItemId: 'item-1', directorId, round, stance, words: `${directorId} speaks`, wording };
-	return { id: `said-${minute}`, onProposalId: null, correctsId: null, createdAt: at, ...base, ...extra };
+	return { id: `said-${minute}`, onProposalId: null, correctsId: null, replacesDecisionId: null, createdAt: at, ...base, ...extra };
 }
 
 /** The meeting open, both seats on it, two items on its agenda, and whatever has been said in its room. */

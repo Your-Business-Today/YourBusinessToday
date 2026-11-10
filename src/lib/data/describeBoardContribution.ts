@@ -17,10 +17,15 @@ function referenceTo(contributions: BoardContribution[], contributionId: string 
 }
 
 /** What a piece does with the wording: what it proposes, or its stance and the contribution it speaks on. */
-export type StanceOfPiece = Pick<BoardContribution, 'stance' | 'wording' | 'onProposalId'>;
+export type StanceOfPiece = Pick<BoardContribution, 'stance' | 'wording' | 'onProposalId' | 'replacesDecisionId'>;
+
+function replacesWords(contribution: StanceOfPiece): string {
+	if (contribution.replacesDecisionId === null) return '';
+	return ` (to replace the earlier decision ${contribution.replacesDecisionId})`;
+}
 
 export function stanceWords(contribution: StanceOfPiece, contributions: BoardContribution[]): string {
-	if (contribution.stance === stances.proposes) return `proposes: "${contribution.wording}"`;
+	if (contribution.stance === stances.proposes) return `proposes: "${contribution.wording}"${replacesWords(contribution)}`;
 	if (contribution.onProposalId === null) return contribution.stance;
 	return `${contribution.stance} the wording in ${referenceTo(contributions, contribution.onProposalId)}`;
 }

@@ -29,6 +29,7 @@ export type BoardContribution = {
 	wording: string | null;
 	onProposalId: string | null;
 	correctsId: string | null;
+	replacesDecisionId: string | null;
 	createdAt: string;
 };
 

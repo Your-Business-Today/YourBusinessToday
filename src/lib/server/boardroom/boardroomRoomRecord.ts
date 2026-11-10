@@ -9,7 +9,7 @@ export const boardroomRoomTables = {
 export const boardroomRoomColumns = 'meeting_id, rounds_limit, opened_by_director_id, opened_at';
 
 export const boardContributionColumns =
-	'id, agenda_item_id, director_id, round, stance, words, wording, on_proposal_id, corrects_id, created_at';
+	'id, agenda_item_id, director_id, round, stance, words, wording, on_proposal_id, corrects_id, replaces_decision_id, created_at';
 
 export const itemOutcomeColumns = 'agenda_item_id, outcome, proposal_id, wording, rounds_taken, reached_at';
 
@@ -33,6 +33,7 @@ export function parseBoardContributionRecord(row: Record<string, unknown>): Boar
 		wording: (row.wording as string | null) ?? null,
 		onProposalId: (row.on_proposal_id as string | null) ?? null,
 		correctsId: (row.corrects_id as string | null) ?? null,
+		replacesDecisionId: (row.replaces_decision_id as string | null) ?? null,
 		createdAt: row.created_at as string
 	};
 }

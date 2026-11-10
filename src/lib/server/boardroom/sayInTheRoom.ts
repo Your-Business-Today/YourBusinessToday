@@ -12,7 +12,7 @@ import type { MeetingRecord } from '$lib/data/describeBoardroomMeeting';
 /** A contribution as it is kept: where the room placed it, and what the draft says. */
 export function placingOf(record: MeetingRecord, place: ContributionPlace, draft: ContributionDraft, caller: RoomCaller): ContributionPlacing {
 	const { item, seatId, round, onProposalId, correctsId } = place;
-	const said = { stance: draft.stance, words: draft.words, wording: draft.wording };
+	const said = { stance: draft.stance, words: draft.words, wording: draft.wording, replacesDecisionId: draft.replacesDecisionId };
 	return { meeting: record.meeting, agendaItemId: item.id, seatId, spokenBy: caller.accountId, round, onProposalId, correctsId, ...said };
 }
 

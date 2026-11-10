@@ -21,6 +21,7 @@ export function draftOfHeld(record: MeetingRecord, held: HeldContribution, now: 
 		words: held.words,
 		wording: held.wording,
 		proposalNumber: numberOf(talk.contributions, held.onProposalId),
-		correctsNumber: numberOf(talk.contributions, held.correctsId)
+		correctsNumber: numberOf(talk.contributions, held.correctsId),
+		replacesDecisionId: held.replacesDecisionId
 	};
 }

@@ -26,6 +26,7 @@ export type HeldContribution = {
 	wording: string | null;
 	onProposalId: string | null;
 	correctsId: string | null;
+	replacesDecisionId: string | null;
 	heldAt: string;
 	answer: HeldAnswerKind | null;
 };

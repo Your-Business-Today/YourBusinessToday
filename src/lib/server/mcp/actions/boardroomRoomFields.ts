@@ -47,7 +47,10 @@ export const speakSchema = objectSchema(
 		proposalNumber: contributionNumberField(
 			'With supports (required) or objects: the number of the contribution whose wording you speak on, as read_board_item gives it'
 		),
-		corrects: contributionNumberField('The number of your own earlier contribution on this item that this one corrects; leave out otherwise')
+		corrects: contributionNumberField('The number of your own earlier contribution on this item that this one corrects; leave out otherwise'),
+		replacesDecision: textField(
+			'With proposes only: the id of an earlier decision of this board that the wording replaces, as read_board_meeting gives it for the meeting that took it'
+		)
 	},
 	['organisationId', 'meetingId', 'itemNumber', 'stance', 'words']
 );

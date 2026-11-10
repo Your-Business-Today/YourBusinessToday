@@ -3,20 +3,17 @@ import { paperLinesOfItem } from './describeBoardroomPaper';
 import { recordPaperLinesOfItem } from './describeBoardroomRecordPaper';
 import { briefLinesOfItem } from './describeBoardroomBrief';
 import { roomLinesOnAgenda } from './describeBoardroomRoom';
+import { decisionLineOnAgenda } from './describeBoardDecision';
+import { meetingHeading } from './describeMeetingHeading';
+import { decisionOnItem } from './boardDecisionOnItem';
 import type { MeetingRoom } from './boardroomRoom';
-import {
-	directorsOnMeeting,
-	meetingStage,
-	nameOfSeat,
-	standingAgenda,
-	type AgendaItem,
-	type BoardroomMeeting
-} from './boardroomMeeting';
+import { directorsOnMeeting, meetingStage, standingAgenda, type AgendaItem, type BoardroomMeeting } from './boardroomMeeting';
 import type { BoardroomDirector } from './boardroomDirector';
 import type { BoardroomPaper } from './boardroomPaper';
 import type { BoardroomRecordPaper } from './boardroomRecordPaper';
 import type { MeetingBriefing } from './boardroomBrief';
 import type { SeatControls } from './boardroomSeatControls';
+import type { MeetingDecisions } from './boardroomDecision';
 
 /**
  * Everything a director reads of one meeting: the meeting, its board, every item ever put on its agenda and
@@ -31,6 +28,7 @@ export type MeetingRecord = {
 	briefing?: MeetingBriefing;
 	room?: MeetingRoom;
 	controls?: SeatControls;
+	decisions?: MeetingDecisions;
 };
 
 export const agendaPurposeWords = { decision: 'for decision', noting: 'to note' } as const;
@@ -46,7 +44,9 @@ function itemLines(record: MeetingRecord, item: AgendaItem, index: number, now: 
 	const papers = paperLinesOfItem(record.papers, item.id, record.directors);
 	const recordPapers = recordPaperLinesOfItem(record.recordPapers, item.id, record.directors);
 	const briefs = briefLinesOfItem(record.briefing, item.id, onIt);
-	return [agendaLine(item, index), ...papers, ...recordPapers, ...briefs, ...roomLinesOnAgenda(record, item, now)];
+	const room = roomLinesOnAgenda(record, item, now);
+	const decision = decisionLineOnAgenda(decisionOnItem(record, item, now), record.directors);
+	return [agendaLine(item, index), ...papers, ...recordPapers, ...briefs, ...room, ...decision];
 }
 
 function agendaLines(record: MeetingRecord, now: Date): string[] {
@@ -58,18 +58,6 @@ function withdrawnLines(items: AgendaItem[]): string[] {
 	const withdrawn = items.filter((item) => item.withdrawnAt !== null).map((item) => `- ${item.title}`);
 	if (withdrawn.length === 0) return [];
 	return ['', 'Withdrawn before the meeting:', ...withdrawn];
-}
-
-function meetingHeading(organisationName: string, record: MeetingRecord, now: Date): string[] {
-	const meeting = record.meeting;
-	const onIt = directorsOnMeeting(record.directors, meeting, now).map((director) => director.name);
-	const calledBy = nameOfSeat(record.directors, meeting.calledByDirectorId);
-	return [
-		`Board meeting of ${organisationName}, ${ukMeetingTime(meeting.meetsAt)} (UK time): ${meetingStage(meeting, now)}.`,
-		`Meeting id: ${meeting.id}`,
-		`Chair: ${nameOfSeat(record.directors, meeting.chairDirectorId)}. Called by ${calledBy} on ${ukMeetingTime(meeting.calledAt)}.`,
-		`Directors on it: ${onIt.join(', ')}.`
-	];
 }
 
 /** One meeting as read_board_meeting gives it: its numbers are the ones change_board_agenda takes. */

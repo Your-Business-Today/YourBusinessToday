@@ -6,7 +6,7 @@ const proposal = { itemNumber: 1, stance: 'proposes', words: 'We should approve 
 
 describe('what a Claude says is checked against its columns, and refused rather than repaired', () => {
 	it('takes a proposal with its wording, and a support naming the wording it supports', () => {
-		expect(validateBoardContribution(proposal)).toEqual({ ...proposal, proposalNumber: null, correctsNumber: null });
+		expect(validateBoardContribution(proposal)).toEqual({ ...proposal, proposalNumber: null, correctsNumber: null, replacesDecisionId: null });
 		const support = validateBoardContribution({ itemNumber: 1, stance: 'supports', words: 'Agreed.', proposalNumber: 1 });
 		expect(support).toMatchObject({ stance: 'supports', wording: null, proposalNumber: 1 });
 	});

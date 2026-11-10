@@ -8,7 +8,8 @@
 		{ label: 'Meets (UK time)', value: meeting.when },
 		{ label: 'Chair', value: meeting.chairName },
 		{ label: 'Called by', value: `${meeting.calledByName} on ${meeting.calledWhen}` },
-		{ label: 'Directors on it', value: meeting.directorNames.join(', ') }
+		{ label: 'Directors on it', value: meeting.directorNames.join(', ') },
+		{ label: 'How its decisions carry', value: meeting.decisionRuleWords }
 	]);
 </script>
 

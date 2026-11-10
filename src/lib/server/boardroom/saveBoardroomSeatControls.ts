@@ -38,7 +38,8 @@ export async function insertHeldContribution(supabase: SupabaseClient, placing: 
 		words: placing.words,
 		wording: placing.wording,
 		on_proposal_id: placing.onProposalId,
-		corrects_id: placing.correctsId
+		corrects_id: placing.correctsId,
+		replaces_decision_id: placing.replacesDecisionId
 	};
 	await insertRow(supabase, seatControlTables.held, row);
 }

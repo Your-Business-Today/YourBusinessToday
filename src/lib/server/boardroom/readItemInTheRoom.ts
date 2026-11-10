@@ -6,6 +6,7 @@ import { itemTalkOf, seatInRoom } from '$lib/data/boardroomRoomTurns';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
 import { boardRoomRefusals } from '$lib/data/boardroomRoomRules';
 import { describeBoardItem } from '$lib/data/describeBoardItem';
+import { decisionOnItem } from '$lib/data/boardDecisionOnItem';
 import type { RoomCaller } from '$lib/data/placeBoardContribution';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
@@ -28,5 +29,6 @@ export async function readItemInTheRoom(
 	const outcome = outcomeOfItem(record.room ?? emptyMeetingRoom, item.id);
 	const seat = seatInRoom(record, caller.accountId, caller.now);
 	const seatId = seat === null ? null : seat.id;
-	return describeBoardItem(organisation.name, { record, item, itemNumber, talk, outcome, seatId });
+	const decision = decisionOnItem(record, item, caller.now);
+	return describeBoardItem(organisation.name, { record, item, itemNumber, talk, outcome, seatId, decision });
 }
