@@ -13,8 +13,9 @@
 	let {
 		person,
 		onEdit,
+		onResearch,
 		onDelete
-	}: { person: Person; onEdit: () => void; onDelete: () => void } = $props();
+	}: { person: Person; onEdit: () => void; onResearch: () => void; onDelete: () => void } = $props();
 
 	const contactLine = $derived(
 		[person.email, person.phone, leadSourceLabels[person.leadSource]].filter(Boolean).join(' · ')
@@ -33,10 +34,7 @@
 		</div>
 		<div class="flex flex-wrap gap-2">
 			<button type="button" class={quietButtonClasses} onclick={onEdit}>Edit</button>
-			<form method="POST" action="?/researchPerson">
-				<input type="hidden" name="personId" value={person.id} />
-				<SubmitButton class={quietButtonClasses} savingLabel="Searching…">Find on the web</SubmitButton>
-			</form>
+			<button type="button" class={quietButtonClasses} onclick={onResearch}>Ask your Claude to research</button>
 			<form method="POST" action="?/draftApproach">
 				<input type="hidden" name="personId" value={person.id} />
 				<SubmitButton class={confirmButtonClasses} savingLabel="Drafting…">Draft approach</SubmitButton>
