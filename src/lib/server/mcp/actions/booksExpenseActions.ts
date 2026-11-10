@@ -26,7 +26,8 @@ const payOnlyWhenThePersonSaysSo =
 const deleteOnlyAMistake =
 	'Delete a cost only when the person says it was recorded by mistake. It takes the cost out with every journal it ' +
 	'posted, its recording and its payment; a cost that was real is never deleted, so ask before deleting one that is paid. ' +
-	'A record of the cost and those journals is kept, which list_books_deletions reads, so one deleted by mistake can be put back.';
+	'A record of the cost and those journals is kept, which list_books_deletions reads, so one deleted by mistake can be put back. ' +
+	'A cost whose recording or payment another journal reverses is not deleted: it stays in the books as recorded and reversed.';
 
 export const booksExpenseActions: McpAction[] = [
 	moduleAction('books', {
