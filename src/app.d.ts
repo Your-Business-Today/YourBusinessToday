@@ -10,6 +10,7 @@ declare global {
 		}
 		interface PageState {
 			taskSheet?: { projectId: string; taskId: string };
+			isFrameDrawerOpen?: boolean;
 		}
 	}
 }
