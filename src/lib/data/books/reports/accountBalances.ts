@@ -1,4 +1,4 @@
-import { isDebitNormal } from '../ledgerAccountTypes';
+import { isDebitNormal, type LedgerAccountType } from '../ledgerAccountTypes';
 import { differenceOf, sumMoney } from '../money';
 import type { LedgerEntry } from '../ledgerEntry';
 
@@ -29,8 +29,13 @@ export function byAccountCode(first: { accountCode: string }, second: { accountC
 }
 
 function naturalAmount(entry: LedgerEntry): number {
-	if (isDebitNormal(entry.accountType)) return differenceOf(entry.debit, entry.credit);
-	return differenceOf(entry.credit, entry.debit);
+	return naturalMovement(entry.accountType, entry.debit, entry.credit);
+}
+
+/** What a debit and a credit do to an account of the type, on its natural side. */
+export function naturalMovement(accountType: LedgerAccountType, debit: number, credit: number): number {
+	if (isDebitNormal(accountType)) return differenceOf(debit, credit);
+	return differenceOf(credit, debit);
 }
 
 function emptyBalance(entry: LedgerEntry): AccountBalance {
