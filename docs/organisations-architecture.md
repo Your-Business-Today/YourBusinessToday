@@ -126,3 +126,23 @@ link runs it once more first, for anyone put on a parent in between. Nobody is e
 down to its companies leave everyone on the same projects, with each grant marked as the migration
 marks it, and still on them once the grouping is no longer read; a filled company is invoiced as
 before, with or without its parent.
+
+## The company context
+
+Each organisation has one company context: what its client's Claude has worked out about the business
+(its areas, the sources where work is created, the kinds of record it keeps, its processes with their
+steps, and its roles, with the links between them), which connectors the client has switched on in
+Claude, and the step of the offer (`consultancyOffer.ts`) the client is on. Each part carries where it
+was seen (the connector and the place, never the content), how sure Claude is, and its review state:
+not checked, right, or not right with what is wrong.
+
+- **Kept as versions.** Migration 0151 adds `company_context_versions` and the parts, steps, links and
+  connectors of each. `record_company_context` writes a whole new version, numbered from 1 for each
+  organisation, in one transaction through the database function of the same name; no version is ever
+  changed or deleted. Parts keep their keys from one version to the next, so a part's review travels with it.
+- **Read by the people on the organisation.** The connector's `record_company_context` and
+  `read_company_context` work for anyone who reaches the organisation (its people, or staff); the tables
+  are read and written by the server only.
+- **Concepts, not specimens.** Every value is checked against its column (`companyContextLimits.ts`
+  states the limits the migration holds, and a test keeps the two together) and refused, never cut, and
+  an email address or a phone number anywhere is refused.
