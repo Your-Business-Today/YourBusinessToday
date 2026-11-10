@@ -7,6 +7,6 @@ export const privacyStatement: LegalDocument = {
 	title: 'Privacy statement',
 	metaDescription:
 		'How Your Business Today collects, uses, protects and deletes your information — across the consultancy and the client portal — and the promise we make about what we learn about your business.',
-	lastUpdatedOn: '18 September 2026',
+	lastUpdatedOn: '10 November 2026',
 	sections: [...privacyCollectionSections, ...privacySharingSections, ...privacyRightsSections]
 };
