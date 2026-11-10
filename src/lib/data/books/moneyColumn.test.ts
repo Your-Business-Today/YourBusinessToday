@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { moneyColumnLimits, validateMoney } from './moneyColumn';
-import { sumMoney } from './money';
+import { formatPoundsAndPence, sumMoney } from './money';
 
 describe('validateMoney', () => {
 	it('accepts pounds and pence, written as a number or as text', () => {
@@ -33,5 +33,13 @@ describe('validateMoney', () => {
 describe('sumMoney', () => {
 	it('adds pence exactly, so 10p and 20p make 30p', () => {
 		expect(sumMoney([0.1, 0.2])).toBe(0.3);
+	});
+});
+
+describe('formatPoundsAndPence', () => {
+	it('shows pounds to the penny, with the thousands marked and a minus below zero', () => {
+		expect(formatPoundsAndPence(1234.5)).toBe('£1,234.50');
+		expect(formatPoundsAndPence(-300.1)).toBe('-£300.10');
+		expect(formatPoundsAndPence(0)).toBe('£0.00');
 	});
 });
