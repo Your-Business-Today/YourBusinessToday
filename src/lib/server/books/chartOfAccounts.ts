@@ -1,22 +1,26 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { LedgerAccountType } from '$lib/data/books/ledgerAccountTypes';
 
-export type LedgerAccount = { id: string; code: string; name: string; accountType: LedgerAccountType; isArchived: boolean };
+export type LedgerAccount = { id: string; code: string; name: string; accountType: LedgerAccountType; isSystem: boolean; isArchived: boolean };
 
 export type CostCentre = { id: string; name: string; isArchived: boolean };
 
 /** The accounts an organisation posts to, and the cost centres its lines can be kept within. */
 export type ChartOfAccounts = { accounts: LedgerAccount[]; costCentres: CostCentre[] };
 
-type LedgerAccountRow = { id: string; code: string; name: string; account_type: LedgerAccountType; is_archived: boolean };
+export type LedgerAccountRow = { id: string; code: string; name: string; account_type: LedgerAccountType; is_system: boolean; is_archived: boolean };
 
-type CostCentreRow = { id: string; name: string; is_archived: boolean };
+export type CostCentreRow = { id: string; name: string; is_archived: boolean };
+
+export const ledgerAccountColumns = 'id, code, name, account_type, is_system, is_archived';
+
+export const costCentreColumns = 'id, name, is_archived';
 
 /** Every account in an organisation's books in code order, and every cost centre by name, archived ones included. */
 export async function findChartOfAccounts(supabase: SupabaseClient, organisationId: string): Promise<ChartOfAccounts> {
 	const [accounts, costCentres] = await Promise.all([
-		supabase.from('books_ledger_accounts').select('id, code, name, account_type, is_archived').eq('organisation_id', organisationId).order('code'),
-		supabase.from('books_cost_centres').select('id, name, is_archived').eq('organisation_id', organisationId).order('name')
+		supabase.from('books_ledger_accounts').select(ledgerAccountColumns).eq('organisation_id', organisationId).order('code'),
+		supabase.from('books_cost_centres').select(costCentreColumns).eq('organisation_id', organisationId).order('name')
 	]);
 	if (accounts.error !== null) throw accounts.error;
 	if (costCentres.error !== null) throw costCentres.error;
@@ -30,7 +34,7 @@ export async function findChartOfAccounts(supabase: SupabaseClient, organisation
 export async function findLedgerAccountByCode(supabase: SupabaseClient, organisationId: string, code: string): Promise<LedgerAccount | null> {
 	const { data, error } = await supabase
 		.from('books_ledger_accounts')
-		.select('id, code, name, account_type, is_archived')
+		.select(ledgerAccountColumns)
 		.eq('organisation_id', organisationId)
 		.eq('code', code)
 		.maybeSingle();
@@ -39,10 +43,10 @@ export async function findLedgerAccountByCode(supabase: SupabaseClient, organisa
 	return fromLedgerAccountRow(data as LedgerAccountRow);
 }
 
-function fromLedgerAccountRow(row: LedgerAccountRow): LedgerAccount {
-	return { id: row.id, code: row.code, name: row.name, accountType: row.account_type, isArchived: row.is_archived };
+export function fromLedgerAccountRow(row: LedgerAccountRow): LedgerAccount {
+	return { id: row.id, code: row.code, name: row.name, accountType: row.account_type, isSystem: row.is_system, isArchived: row.is_archived };
 }
 
-function fromCostCentreRow(row: CostCentreRow): CostCentre {
+export function fromCostCentreRow(row: CostCentreRow): CostCentre {
 	return { id: row.id, name: row.name, isArchived: row.is_archived };
 }

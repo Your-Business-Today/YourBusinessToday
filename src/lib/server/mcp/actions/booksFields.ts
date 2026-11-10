@@ -11,7 +11,7 @@ export const periodStartField = textField('The first day of the period, written 
 export const periodEndField = textField('The last day of the period, written as 2026-11-30');
 
 export const costCentreIdField = textField(
-	'Leave out for the whole organisation, or narrow to one cost centre by its id, as read_chart_of_accounts gives it'
+	'Leave out for the whole organisation, or narrow to one cost centre by its id, as read_chart_of_accounts or list_cost_centres gives it'
 );
 
 const journalLineField = {
