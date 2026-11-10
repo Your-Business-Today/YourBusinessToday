@@ -3,9 +3,8 @@ import { getOrganisations } from './getOrganisations';
 import { getProjectsForOrganisation } from './getProjectsForOrganisation';
 import type { Organisation } from './organisationRecord';
 
-/** An organisation as the register lists it: how many businesses, projects and people are on it. */
+/** An organisation as the register lists it: how many projects and people are on it. */
 export type OrganisationSummary = Organisation & {
-	subOrganisationCount: number;
 	projectCount: number;
 	memberCount: number;
 };
@@ -19,7 +18,6 @@ export async function getOrganisationsWithCounts(supabase: SupabaseClient): Prom
 	]);
 	return organisations.map((organisation) => ({
 		...organisation,
-		subOrganisationCount: organisations.filter((candidate) => candidate.parentOrganisationId === organisation.id).length,
 		projectCount: projects.filter((project) => project.organisationId === organisation.id).length,
 		memberCount: memberCounts.get(organisation.id) ?? 0
 	}));

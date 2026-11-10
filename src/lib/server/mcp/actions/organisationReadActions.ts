@@ -1,6 +1,4 @@
 import { describeOrganisationInFull, describeOrganisationList } from './describeOrganisation';
-import { getOrganisation } from '$lib/server/organisations/getOrganisation';
-import { getOrganisationFamily } from '$lib/server/organisations/getOrganisationFamily';
 import { getMembersOfOrganisation } from '$lib/server/organisations/getMembersOfOrganisation';
 import { getOrganisationsWithCounts } from '$lib/server/organisations/getOrganisationsWithCounts';
 import { getProjectsForOrganisation } from '$lib/server/organisations/getProjectsForOrganisation';
@@ -21,7 +19,7 @@ export const organisationReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'the organisations you are on, each with its sub-organisations, project count and people — staff see every one',
+			'the organisations you are on, each with its project count and people — staff see every one',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
 			const register = await getOrganisationsWithCounts(caller.supabase);
@@ -34,7 +32,7 @@ export const organisationReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'one organisation in full: how it is invoiced, which modules are switched on, its people and their standing, its sub-organisations and its projects',
+			'one organisation in full: how it is invoiced, which modules are switched on, its people and their standing, and its projects',
 		inputSchema: objectSchema({ organisationId: organisationIdField }, ['organisationId']),
 		run: async (caller, input) => {
 			const organisation = await reachableOrganisation(caller, readText(input, 'organisationId'));
@@ -45,20 +43,12 @@ export const organisationReadActions: McpAction[] = [
 ];
 
 async function describeInFull(caller: McpCaller, organisation: Organisation): Promise<string> {
-	const [parent, family, members, projects, switchedOn] = await Promise.all([
-		parentOf(caller, organisation),
-		getOrganisationFamily(caller.supabase, organisation.id),
+	const [members, projects, switchedOn] = await Promise.all([
 		getMembersOfOrganisation(caller.supabase, organisation.id),
 		getProjectsForOrganisation(caller.supabase, organisation.id),
 		getSwitchedOnModules(caller.supabase, organisation.id)
 	]);
-	const children = family.filter((candidate) => candidate.parentOrganisationId === organisation.id);
 	const modules = usableModules(caller, { organisation, switchedOn });
 	const modulesLine = `Modules switched on: ${moduleListSentence(modules)}`;
-	return [describeOrganisationInFull(organisation, parent, children, members, projects), '', modulesLine].join('\n');
-}
-
-function parentOf(caller: McpCaller, organisation: Organisation): Promise<Organisation | null> {
-	if (organisation.parentOrganisationId === null) return Promise.resolve(null);
-	return getOrganisation(caller.supabase, organisation.parentOrganisationId);
+	return [describeOrganisationInFull(organisation, members, projects), '', modulesLine].join('\n');
 }

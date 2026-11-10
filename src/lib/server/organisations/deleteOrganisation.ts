@@ -3,7 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 const PostgresErrorCode = { ForeignKeyViolation: '23503' } as const;
 
 /**
- * Deletes an organisation and answers null; its sub-organisations and its projects stay, under no organisation,
+ * Deletes an organisation and answers null; its projects stay, under no organisation,
  * and the project memberships it granted go with it. An organisation still holding records that are always kept,
  * such as its books or its Your Business Brain, is refused by the database and answers why, deleting nothing.
  */

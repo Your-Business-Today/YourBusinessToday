@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { canUseOrganisationModule, usableModules } from './organisationModuleAccess';
-import { jeremy, jewelEnterprises, jewelPassiveFire, memberships, nigel, stuart, yourBusinessToday } from './organisationAccess.fixtures';
+import {
+	jeremy,
+	jewelEnterprises,
+	jewelPassiveFire,
+	memberships,
+	nigel,
+	nigelOnJewel,
+	stuart,
+	yourBusinessToday
+} from './organisationAccess.fixtures';
 import type { OrganisationVisitor } from './organisationAccess';
 import type { ModuleOrganisation } from './organisationModuleAccess';
 
@@ -32,9 +41,14 @@ describe('a module that is on', () => {
 		expect(canUseOrganisationModule(personOnTheBoard(stuart), passiveFireWithBooks, 'books')).toBe(true);
 	});
 
-	it('is used by the people on the organisation above it, as projects are reached', () => {
+	it('is used by the people put on it from Jewel Enterprises, as its projects are reached', () => {
 		expect(canUseOrganisationModule(personOnTheBoard(jeremy), passiveFireWithBooks, 'books')).toBe(true);
 		expect(canUseOrganisationModule(personOnTheBoard(nigel), passiveFireWithBooks, 'books')).toBe(true);
+	});
+
+	it('is not used by someone on Jewel Enterprises alone', () => {
+		const onJewelAlone: OrganisationVisitor = { accountId: nigel, isStaff: false, organisationMemberships: [nigelOnJewel] };
+		expect(canUseOrganisationModule(onJewelAlone, passiveFireWithBooks, 'books')).toBe(false);
 	});
 
 	it('is not used by someone on another organisation', () => {

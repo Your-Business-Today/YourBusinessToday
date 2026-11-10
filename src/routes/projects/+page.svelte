@@ -25,7 +25,7 @@
 	let selectedProject = $state<ProjectSummary | null>(null);
 	let priorityChoice = $state<PriorityChoice | null>(null);
 
-	const listView = new ProjectListView(() => data.projects, () => data.organisations);
+	const listView = new ProjectListView(() => data.projects);
 
 	function openEditModal(project: ProjectSummary) {
 		selectedProject = project;

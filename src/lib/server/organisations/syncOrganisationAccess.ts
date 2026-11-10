@@ -1,29 +1,27 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { deriveProjectMemberships, type DerivedMembership } from '$lib/data/organisationAccess';
 import { getMembershipsOfOrganisations } from './getMembershipsOfOrganisations';
-import { getOrganisationFamily } from './getOrganisationFamily';
 import { getProjectsUnderOrganisations } from './getProjectsUnderOrganisations';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 
 type DerivedRow = DerivedMembership & { addedBy: string | null };
 
 /**
- * Writes the project memberships an organisation's family grants, as project_members rows marked with
+ * Writes the project memberships an organisation grants, as project_members rows marked with
  * the organisation that granted them: rows nobody is owed any more go, rows newly owed arrive, and
  * a direct invitation (no via_organisation_id) is never touched. Runs as the service role, because the
  * person making the change need not reach every project it changes.
  */
 export async function syncOrganisationAccess(organisationId: string): Promise<void> {
 	const service = supabaseServiceClient();
-	const family = await getOrganisationFamily(service, organisationId);
-	const familyIds = family.map((organisation) => organisation.id);
+	const organisationIds = [organisationId];
 	const [memberships, projects, existing] = await Promise.all([
-		getMembershipsOfOrganisations(service, familyIds),
-		getProjectsUnderOrganisations(service, familyIds),
-		getDerivedRows(service, familyIds)
+		getMembershipsOfOrganisations(service, organisationIds),
+		getProjectsUnderOrganisations(service, organisationIds),
+		getDerivedRows(service, organisationIds)
 	]);
 	const grantedBy = new Map(memberships.map((membership) => [membership.accountId, membership.addedBy]));
-	const wanted = deriveProjectMemberships(family, memberships, projects).map((membership) => ({
+	const wanted = deriveProjectMemberships(memberships, projects).map((membership) => ({
 		...membership,
 		addedBy: grantedBy.get(membership.accountId) ?? null
 	}));

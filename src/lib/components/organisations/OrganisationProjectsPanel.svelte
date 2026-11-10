@@ -6,12 +6,6 @@
 	import type { ReachableOrganisationProject } from '$lib/server/organisations/markReachableProjects';
 
 	let { organisation, projects }: { organisation: Organisation; projects: ReachableOrganisationProject[] } = $props();
-
-	/** A project under one of the organisation's businesses says which; its own projects need no line. */
-	function underLine(project: ReachableOrganisationProject): string {
-		if (project.organisationId === organisation.id) return '';
-		return project.organisationName;
-	}
 </script>
 
 <DashboardPanel title="Projects" count={projects.length}>
@@ -22,7 +16,7 @@
 	{:else}
 		<ul class={panelListClasses}>
 			{#each projects as project (project.id)}
-				<OrganisationProjectRow {project} underLine={underLine(project)} />
+				<OrganisationProjectRow {project} />
 			{/each}
 		</ul>
 	{/if}
