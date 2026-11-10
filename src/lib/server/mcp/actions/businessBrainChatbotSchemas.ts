@@ -1,0 +1,45 @@
+import { businessBrainChatbotLimits } from '$lib/data/businessBrainChatbotRules';
+import { businessBrainPartKinds } from '$lib/data/businessBrainRules';
+import { objectSchema, textField } from '../actionTypes';
+
+const { longestName, longestEmail, mostPeopleAtOnce } = businessBrainChatbotLimits;
+
+const organisationField = textField('The organisation whose brain it is, as list_organisations gives it');
+const chatbotField = textField('The chatbot, as making it or list_business_brain_chatbots gave its id');
+
+const partListField = (description: string) => ({
+	type: 'array',
+	items: { type: 'string', enum: [...businessBrainPartKinds] },
+	description
+});
+
+const peopleListField = (description: string) => ({
+	type: 'array',
+	items: { type: 'string', maxLength: longestEmail },
+	maxItems: mostPeopleAtOnce,
+	description: `${description}, by the email they sign in to Your Business Today with — at most ${mostPeopleAtOnce} at once`
+});
+
+export const makeBusinessBrainChatbotSchema = objectSchema(
+	{
+		organisationId: organisationField,
+		name: textField(`What the chatbot is called, unique on the organisation — at most ${longestName} characters`),
+		parts: partListField('The parts of the brain it may read; at least one'),
+		people: peopleListField('The people who may use it; leave out to name them later')
+	},
+	['organisationId', 'name', 'parts']
+);
+
+export const changeBusinessBrainChatbotSchema = objectSchema(
+	{
+		organisationId: organisationField,
+		chatbotId: chatbotField,
+		addParts: partListField('Parts of the brain it may now read as well'),
+		removeParts: partListField('Parts of the brain it may no longer read; it keeps at least one'),
+		addPeople: peopleListField('People who may now use it as well'),
+		removePeople: peopleListField('People who may no longer use it')
+	},
+	['organisationId', 'chatbotId']
+);
+
+export const listBusinessBrainChatbotsSchema = objectSchema({ organisationId: organisationField }, ['organisationId']);
