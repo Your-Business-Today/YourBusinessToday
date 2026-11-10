@@ -49,10 +49,11 @@ function entryOf(piece: PlannedPiece, rhythms: PostingRhythm[]): PlanEntry | nul
 	const goesOutAt = goesOutAtOf(piece);
 	if (goesOutAt === null) return null;
 	const { date, time } = ukClockAt(new Date(goesOutAt));
-	const { id, postId, mediumPath, kind, title, hook, stage } = piece;
+	const { id, postId, mediumPath, kind, title, hook, caption, stage, updatedAt } = piece;
 	const canMove = stage !== ContentStages.published;
 	const isExtra = isOutsideRhythm(rhythms, { date, mediumPath });
-	return { id, postId, date, time, mediumPath, medium: mediumLabelOf(mediumPath), kind, title, hook, stage, canMove, isExtra };
+	const medium = mediumLabelOf(mediumPath);
+	return { id, postId, date, time, mediumPath, medium, kind, title, hook, caption, stage, updatedAt, canMove, isExtra };
 }
 
 /** What a week of the plan is held against: the brand's posting rhythms, and what each post says of its picture. */

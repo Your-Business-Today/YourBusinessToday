@@ -5,9 +5,13 @@ import type { PlanPost } from './planPosts';
 import type { PostingRhythm } from '../rhythm/postingRhythm';
 import type { RhythmTally } from './planRhythm';
 
+/** The most pieces one month of the plan reads, and so the most a client approves at once. */
+export const PlanListing = { mostPieces: 500 } as const;
+
 /**
  * One piece on its day of the plan: the post it is a channel of, when it goes out on the UK clock, what it is for, its
- * kind of post, working title, opening line and stage, and whether it is planned outside the brand's posting rhythm.
+ * kind of post, working title, opening line, caption and stage, when it was last changed, and whether it is planned
+ * outside the brand's posting rhythm.
  */
 export type PlanEntry = {
 	id: string;
@@ -19,7 +23,9 @@ export type PlanEntry = {
 	kind: string | null;
 	title: string;
 	hook: string;
+	caption: string;
 	stage: ContentStage;
+	updatedAt: string;
 	canMove: boolean;
 	isExtra: boolean;
 };

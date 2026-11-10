@@ -1,4 +1,5 @@
 import { ContentLimits } from '$lib/brand/content/contentLimits';
+import { PlanListing } from '$lib/brand/plan/contentPlan';
 import { objectSchema, textField } from '../actionTypes';
 import { organisationIdField } from './organisationDetailsFields';
 import { postKindField } from './brandContentSchemas';
@@ -36,4 +37,25 @@ export const moveContentToDaySchema = objectSchema(
 		plannedFor: plannedForField
 	},
 	['organisationId', 'contentPieceId', 'plannedFor']
+);
+
+const pieceAsShownSchema = objectSchema(
+	{
+		contentPieceId: textField('The piece’s id, as read_content_plan gives it under Waiting for approval'),
+		updatedAt: textField('When the piece was last changed, exactly as read_content_plan gave it, so only what was read is approved')
+	},
+	['contentPieceId', 'updatedAt']
+);
+
+export const approveContentMonthSchema = objectSchema(
+	{
+		organisationId: organisationIdField,
+		month: textField('The month the pieces go out in, as YYYY-MM, such as 2026-12'),
+		pieces: {
+			type: 'array',
+			items: pieceAsShownSchema,
+			description: `Every piece the client was shown and approves, at most ${PlanListing.mostPieces}`
+		}
+	},
+	['organisationId', 'month', 'pieces']
 );

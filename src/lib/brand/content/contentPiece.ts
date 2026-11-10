@@ -40,9 +40,9 @@ export type ContentPiece = ContentSummary & {
 
 /**
  * A piece as the month's plan lays it out: the post it is a channel of, what it is, its kind of post, its opening line,
- * and the day it is planned or scheduled for.
+ * its caption, and the day it is planned or scheduled for.
  */
-export type PlannedPiece = ContentSummary & { postId: string; hook: string; plannedFor: string | null; kind: string | null };
+export type PlannedPiece = ContentSummary & { postId: string; hook: string; caption: string; plannedFor: string | null; kind: string | null };
 
 export type ContentReview = { verdict: string; body: string; createdAt: string };
 

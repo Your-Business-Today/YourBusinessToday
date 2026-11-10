@@ -7,7 +7,7 @@ const november = { year: 2026, month: 11 };
 const tuesdayEvening = '2026-11-03T19:30:00Z';
 
 function channel(id: string, postId: string, mediumPath: string): PlannedPiece {
-	return { id, postId, mediumPath, kind: 'tip', title: `Post ${postId}`, hook: '', stage: 'drafted', plannedFor: tuesdayEvening, scheduledFor: null, updatedAt: '' };
+	return { id, postId, mediumPath, kind: 'tip', title: `Post ${postId}`, hook: '', caption: '', stage: 'drafted', plannedFor: tuesdayEvening, scheduledFor: null, updatedAt: '' };
 }
 
 const pieces = [channel('ig', 'doors', 'image.post.instagram'), channel('fb', 'doors', 'image.post.facebook'), channel('li', 'roofs', 'text.post.linkedin')];

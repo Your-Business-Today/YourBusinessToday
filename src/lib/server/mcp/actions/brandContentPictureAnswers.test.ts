@@ -9,7 +9,7 @@ import type { PlannedPiece } from '$lib/brand/content/contentPiece';
 const november = { year: 2026, month: 11 };
 
 function channel(id: string, postId: string, mediumPath: string): PlannedPiece {
-	return { id, postId, mediumPath, kind: 'tip', title: `Post ${postId}`, hook: '', stage: 'drafted', plannedFor: '2026-11-03T09:00:00Z', scheduledFor: null, updatedAt: '' };
+	return { id, postId, mediumPath, kind: 'tip', title: `Post ${postId}`, hook: '', caption: '', stage: 'drafted', plannedFor: '2026-11-03T09:00:00Z', scheduledFor: null, updatedAt: '' };
 }
 
 const kitchen = {

@@ -7,7 +7,8 @@ const november = { year: 2026, month: 11 };
 
 function piece(id: string, stage: PlannedPiece['stage'], plannedFor: string | null, scheduledFor: string | null = null): PlannedPiece {
 	const kind = 'tip';
-	return { id, postId: id, mediumPath: 'image.post.facebook', kind, title: `Post ${id}`, hook: 'Hear that?', stage, plannedFor, scheduledFor, updatedAt: '' };
+	const words = { title: `Post ${id}`, hook: 'Hear that?', caption: '' };
+	return { id, postId: id, mediumPath: 'image.post.facebook', kind, ...words, stage, plannedFor, scheduledFor, updatedAt: '' };
 }
 
 describe('the month’s plan', () => {

@@ -1,12 +1,20 @@
 import { moduleAction } from '../organisationModuleGate';
-import { moveContentToDay, planContentIdea, readContentPlan } from './brandContentPlanRuns';
-import { moveContentToDaySchema, planContentIdeaSchema, readContentPlanSchema } from './brandContentPlanSchemas';
+import { approveContentMonth, moveContentToDay, planContentIdea, readContentPlan } from './brandContentPlanRuns';
+import {
+	approveContentMonthSchema,
+	moveContentToDaySchema,
+	planContentIdeaSchema,
+	readContentPlanSchema
+} from './brandContentPlanSchemas';
 import type { McpAction } from '../actionTypes';
 
 const brandModule = 'brand';
 const brandArea = 'brand';
 
-/** Every connector action on the month's plan of a brand's content: reading it, writing an idea onto a day, and moving a piece. */
+/**
+ * Every connector action on the month's plan of a brand's content: reading it, writing an idea onto a day, moving a
+ * piece, and approving the month's pieces together.
+ */
 export const brandContentPlanActions: McpAction[] = [
 	moduleAction(brandModule, {
 		name: 'read_content_plan',
@@ -47,5 +55,20 @@ export const brandContentPlanActions: McpAction[] = [
 		guidance: 'A scheduled piece’s scheduled day moves with it. A published piece has gone out and is not moved.',
 		inputSchema: moveContentToDaySchema,
 		run: moveContentToDay
+	}),
+	moduleAction(brandModule, {
+		name: 'approve_content_month',
+		area: brandArea,
+		audience: 'everyone',
+		isWrite: true,
+		summary: 'approve together every piece of a month waiting for approval that the client was shown',
+		guidance:
+			'Read the month with read_content_plan first and show the client each caption and picture under Waiting for ' +
+			'approval; then give every piece they approve with its id and updatedAt exactly as read. Each is approved on its ' +
+			'own and kept as a review by the caller: one that has changed since it was read, has moved on, or is not in the ' +
+			'month is left as it is and named with the reason, and never undoes the others. A post still waiting on its ' +
+			'picture is approved with its picture described. To ask for a change to one post, use review_content on its piece instead.',
+		inputSchema: approveContentMonthSchema,
+		run: approveContentMonth
 	})
 ];
