@@ -8,6 +8,7 @@ import { validateReportPeriod } from '$lib/data/books/reports/reportPeriod';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { findLedgerEntriesUpTo } from './ledgerEntries';
 import { findFinancialYearStartMonth } from './financialYear';
+import { validatedCostCentreId } from './costCentreChoice';
 
 /** The trial balance of an organisation's books at the end of the day asAt. */
 export async function readTrialBalance(supabase: SupabaseClient, organisationId: string, asAt: unknown): Promise<TrialBalance> {
@@ -37,11 +38,5 @@ export async function readProfitAndLoss(supabase: SupabaseClient, organisationId
 function validatedDay(organisationId: string, fieldName: string, candidate: unknown): string {
 	refuseWhen(validateRecordId('organisation', organisationId));
 	refuseWhen(validateIsoDate(fieldName, candidate));
-	return candidate as string;
-}
-
-function validatedCostCentreId(candidate: unknown): string | null {
-	if (candidate === undefined || candidate === null) return null;
-	refuseWhen(validateRecordId('cost centre', String(candidate)));
 	return candidate as string;
 }
