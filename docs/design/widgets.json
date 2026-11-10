@@ -1,0 +1,22 @@
+{
+  "brand": "docs/design/brand.md",
+  "brandSources": [
+    "src/app.css",
+    "src/lib/client/motion.ts",
+    "Your-Business-Today/jewel-portal: jpms/DESIGN-SYSTEM.md",
+    "Your-Business-Today/jewel-portal: docs/ui/open-book-design-rules.md",
+    "Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css",
+    "Your-Business-Today/jewel-portal: jpms/Layout/"
+  ],
+  "brandCheckedAt": "",
+  "widgets": {
+    "PortalFrame": { "design": ["Your-Business-Today/jewel-portal: jpms/Layout/"], "sheet": "docs/design/widgets/PortalFrame.md", "checkedAt": "", "checkedAgainst": "" },
+    "DashboardPanel": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .panel"], "sheet": "docs/design/widgets/DashboardPanel.md", "checkedAt": "", "checkedAgainst": "" },
+    "RecordsTable": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .data-table"], "sheet": "docs/design/widgets/RecordsTable.md", "checkedAt": "", "checkedAgainst": "" },
+    "FormField": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .field"], "sheet": "docs/design/widgets/FormField.md", "checkedAt": "", "checkedAgainst": "" },
+    "Button": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .btn"], "sheet": "docs/design/widgets/Button.md", "checkedAt": "", "checkedAgainst": "" },
+    "Modal": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .modal-panel"], "sheet": "docs/design/widgets/Modal.md", "checkedAt": "", "checkedAgainst": "" },
+    "TabStrip": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .tab"], "sheet": "docs/design/widgets/TabStrip.md", "checkedAt": "", "checkedAgainst": "" },
+    "Badge": { "design": ["Your-Business-Today/jewel-portal: docs/ui/widget-catalogue.md Pill"], "sheet": "docs/design/widgets/Badge.md", "checkedAt": "", "checkedAgainst": "" }
+  }
+}

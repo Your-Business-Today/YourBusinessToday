@@ -6,8 +6,13 @@
 
 	--color-night: #0b0e16;
 	--color-carriage: #141927;
+	--color-carriage-raised: #1f2638;
 	--color-hairline: #242c40;
+	--color-hairline-strong: #323b50;
 	--color-chalk: #eef1f8;
+	--color-chalk-muted: #c2c6ce;
+	--color-chalk-subtle: #adb0b9;
+	--color-chalk-faint: #8c909a;
 	--color-signal: #ff4d5e;
 	--color-go: #2fd48a;
 	--color-caution: #ffc861;
