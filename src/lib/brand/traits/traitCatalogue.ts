@@ -3,6 +3,7 @@ import { behaviourTraits, responseTraits } from './actionTraits';
 import { lookTraits } from './lookTraits';
 import { motionTraits } from './motionTraits';
 import { postKindTraits } from './postKindTraits';
+import { postingRhythmTraits } from './postingRhythmTraits';
 import { soundTraits } from './soundTraits';
 import { voiceTraits } from './voiceTraits';
 import type { TraitDefinition } from './traitDefinition';
@@ -14,6 +15,7 @@ export const builtInTraits: TraitDefinition[] = [
 	...voiceTraits,
 	...postKindTraits,
 	...behaviourTraits,
+	...postingRhythmTraits,
 	...responseTraits,
 	...audienceTraits
 ];

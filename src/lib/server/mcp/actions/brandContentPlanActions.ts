@@ -13,10 +13,14 @@ export const brandContentPlanActions: McpAction[] = [
 		area: brandArea,
 		audience: 'everyone',
 		isWrite: false,
-		summary: 'one month of the brand’s content, week by week, on the day each piece goes out, with the counts and kinds of post above it',
+		summary:
+			'one month of the brand’s content, week by week, on the day each piece goes out, with the counts, kinds of post ' +
+			'and posting rhythm above it; read it before planning a month',
 		guidance:
 			'A piece sits on the day it is scheduled for once it is scheduled, otherwise on the day it is planned for. ' +
-			'Days with nothing on them are listed too, so the gaps show.',
+			'Days with nothing on them are listed too, so the gaps show. Each week gives its posts against the number the ' +
+			'rhythm makes due, marks the posting days of a short week that have nothing on them, and marks a post planned ' +
+			'outside the rhythm as extra.',
 		inputSchema: readContentPlanSchema,
 		run: readContentPlan
 	}),
@@ -28,7 +32,8 @@ export const brandContentPlanActions: McpAction[] = [
 		summary: 'write an idea down for the day and time it goes out, before any script exists',
 		guidance:
 			'The idea starts at idea with its medium, its kind of post, working title and opening line. The kind is one the brand ' +
-			'keeps, or the starter list while it keeps none, so the month has a mix. Write it up later with draft_content, ' +
+			'keeps, or the starter list while it keeps none, so the month has a mix. Put it on a posting day at the posting ' +
+			'time read_content_plan gives; a day outside the rhythm is still kept and shows as extra. Write it up later with draft_content, ' +
 			'giving its contentPieceId; it keeps its day. A value that does not fit its column is refused by name.',
 		inputSchema: planContentIdeaSchema,
 		run: planContentIdea

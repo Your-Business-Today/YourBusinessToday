@@ -6,5 +6,6 @@ export const ValueLimits = {
 	guidanceCharacters: 500,
 	lightestFontWeight: 100,
 	heaviestFontWeight: 900,
-	fontWeightStep: 100
+	fontWeightStep: 100,
+	largestWholeNumber: 999
 } as const;

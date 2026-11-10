@@ -1,6 +1,6 @@
 import { builtInTraits } from '../traits/traitCatalogue';
 import { isFacetKey } from '../facets';
-import { isTraitKind, TraitKinds, type TraitKind } from '../values/traitValue';
+import { isCustomTraitKind, TraitKinds } from '../values/traitValue';
 import { KitLimits } from '../kitLimits';
 import type { TraitDefinition } from '../traits/traitDefinition';
 
@@ -46,8 +46,4 @@ export function checkCustomTrait(draft: CustomTraitDraft): CustomTraitCheck {
 		return { problem: `keep the purpose to ${purposeCharacters} characters` };
 	}
 	return { trait: { key, facet, kind, label, purpose, choices, isCustom: true } };
-}
-
-function isCustomTraitKind(kind: string): kind is TraitKind {
-	return isTraitKind(kind) && kind !== TraitKinds.actionRule;
 }

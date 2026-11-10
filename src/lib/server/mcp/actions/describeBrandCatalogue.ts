@@ -8,7 +8,7 @@ export function describeBrandCatalogue(catalogue: TraitDefinition[]): string {
 	return [
 		'Facets:\n' + facets.map((facet) => `- ${facet.key}: ${facet.question}`).join('\n'),
 		'Traits (key [kind] — purpose):\n' + catalogue.map(traitLine).join('\n'),
-		`Kinds: ${traitKinds.join(', ')}. A colour is hex, a length is px/rem/em/% or 0, a duration is ms or s, a phraseList is a list of strings, an actionRule is { stance: always|often|sometimes|never, guidance }. Any single value may instead refer to another trait as {trait.key}.`,
+		`Kinds: ${traitKinds.join(', ')}. A colour is hex, a length is px/rem/em/% or 0, a duration is ms or s, a phraseList is a list of strings, an actionRule is { stance: always|often|sometimes|never, guidance }, weekdays is a list of days named in full (Monday to Sunday), a timeOfDay is HH:MM on the 24-hour UK clock and a wholeNumber is 0 or more. Any single value may instead refer to another trait as {trait.key}.`,
 		'Mediums (path — label: facets | actions):\n' + mediums.map(mediumLine).join('\n'),
 		'Actions:\n' + everyAction.map((action) => `- ${action.key} (${action.actor}): ${action.description}`).join('\n')
 	].join('\n\n');

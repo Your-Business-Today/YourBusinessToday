@@ -1,5 +1,5 @@
 import * as scalar from './scalarReaders';
-import { readActionRule, readPhraseList } from './compoundReaders';
+import { readActionRule, readPhraseList, readWeekdays } from './compoundReaders';
 import { isTraitReference } from './traitReference';
 import { accepted, refused, type ValueReading } from './valueReading';
 import { TraitKinds, type TraitKind } from './traitValue';
@@ -10,7 +10,8 @@ type TextReader = (text: string, shape: ValueShape) => ValueReading;
 
 const compoundReaders: Partial<Record<TraitKind, (raw: unknown) => ValueReading>> = {
 	[TraitKinds.phraseList]: readPhraseList,
-	[TraitKinds.actionRule]: readActionRule
+	[TraitKinds.actionRule]: readActionRule,
+	[TraitKinds.weekdays]: readWeekdays
 };
 
 const textReaders: Partial<Record<TraitKind, TextReader>> = {
@@ -23,6 +24,8 @@ const textReaders: Partial<Record<TraitKind, TextReader>> = {
 	fontWeight: scalar.readFontWeight,
 	number: scalar.readNumber,
 	phrase: scalar.readPhrase,
+	timeOfDay: scalar.readTimeOfDay,
+	wholeNumber: scalar.readWholeNumber,
 	choice: (text, shape) => scalar.readChoice(text, shape.choices ?? [])
 };
 
