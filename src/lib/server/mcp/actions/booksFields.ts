@@ -38,3 +38,5 @@ export const journalFields = {
 		items: journalLineField
 	}
 };
+
+export const booksDeletionIdField = textField('The deletion, by its id as list_books_deletions gives it');

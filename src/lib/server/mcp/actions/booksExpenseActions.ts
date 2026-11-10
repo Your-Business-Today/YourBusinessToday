@@ -9,6 +9,7 @@ import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
 import { booksOrganisationField } from './booksFields';
 import { costPaymentFields, expenseFields, expenseIdField } from './booksExpenseFields';
 import { describeExpense } from './describeExpenses';
+import { keptRecordOfIt } from './describeBooksDeletions';
 import type { McpAction } from '../actionTypes';
 
 const recordOnlyWhatThePersonSaid =
@@ -24,7 +25,8 @@ const payOnlyWhenThePersonSaysSo =
 
 const deleteOnlyAMistake =
 	'Delete a cost only when the person says it was recorded by mistake. It takes the cost out with every journal it ' +
-	'posted, its recording and its payment; a cost that was real is never deleted, so ask before deleting one that is paid.';
+	'posted, its recording and its payment; a cost that was real is never deleted, so ask before deleting one that is paid. ' +
+	'A record of the cost and those journals is kept, which list_books_deletions reads, so one deleted by mistake can be put back.';
 
 export const booksExpenseActions: McpAction[] = [
 	moduleAction('books', {
@@ -75,9 +77,9 @@ export const booksExpenseActions: McpAction[] = [
 		inputSchema: objectSchema({ organisationId: booksOrganisationField, expenseId: expenseIdField }, ['organisationId', 'expenseId']),
 		run: async (caller, input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.deleting, async () => {
-				const expense = await deleteExpense(caller.supabase, organisation.id, input.expenseId);
+				const expense = await deleteExpense(caller.supabase, organisation.id, input.expenseId, caller.accountId);
 				const cost = `the cost from ${expense.supplier} dated ${formatBritishDate(expense.expenseDate)}`;
-				return `Deleted ${cost} from ${organisation.name}'s books, with the journals it posted.`;
+				return `Deleted ${cost} from ${organisation.name}'s books, with the journals it posted. ${keptRecordOfIt}`;
 			})
 	})
 ];

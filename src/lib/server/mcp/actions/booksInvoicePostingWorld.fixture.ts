@@ -1,5 +1,6 @@
 import { booksActions } from './booksActions';
 import { ledgerDatabase, ledgerTables, ledgerWrites, clearLedgerTables } from './booksLedgerDatabase.fixture';
+import { ledgerCalls, nigelAccountId } from './booksLedgerCalls.fixture';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
@@ -30,7 +31,9 @@ export function holdDraftInvoice(): void {
 
 /** Runs a books action as Nigel on the organisation, against the stand-in that keeps what is written. */
 export function runOnTheLedger(name: string, input: Record<string, unknown>) {
-	const caller = { accountId: 'nigel', isStaff: false, supabase: ledgerDatabase, organisationMemberships: [{ organisationId, accountId: 'nigel', isManager: false }] };
+	const supabase = { ...ledgerDatabase, rpc: ledgerCalls };
+	const membership = { organisationId, accountId: nigelAccountId, isManager: false };
+	const caller = { accountId: nigelAccountId, isStaff: false, supabase, organisationMemberships: [membership] };
 	const action = booksActions.find((candidate) => candidate.name === name) as McpAction;
 	return action.run(caller as unknown as McpCaller, { organisationId, ...input });
 }

@@ -47,7 +47,8 @@ describe('paying, listing and deleting a supplier cost', () => {
 		await run('pay_expense', { expenseId: adobeId, paidOn: '2026-11-20' });
 		expect(ledgerTables.books_journals.map((journal) => journal.kind)).toEqual(['manual', 'expense', 'expense_payment']);
 		const deleted = await run('delete_expense', { expenseId: adobeId });
-		expect(deleted).toBe("Deleted the cost from Adobe dated 5 Nov 2026 from Jewel Enterprises's books, with the journals it posted.");
+		expect(deleted).toContain("Deleted the cost from Adobe dated 5 Nov 2026 from Jewel Enterprises's books, with the journals it posted.");
+		expect(deleted).toContain('A record of what was deleted is kept; list_books_deletions reads it.');
 		expect(heldExpense(adobeId)).toBeUndefined();
 		expect(ledgerTables.books_journals.map((journal) => journal.id)).toEqual(['manual-1']);
 		expect(await run('delete_expense', { expenseId: 'mistake' })).toContain('Nothing was deleted. The expense must be an id');
