@@ -1,9 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { validateRecordId } from '$lib/data/isUuid';
-import { validateJournal, type JournalFields, type JournalInput } from '$lib/data/books/journalRules';
+import type { JournalFields, JournalInput } from '$lib/data/books/journalRules';
 import type { JournalLineInput } from '$lib/data/books/journalLine';
-import { BooksRefusal, refuseWhen } from './booksRefusal';
-import { postingTargetRefusal } from './postingTargets';
+import { checkJournal } from './checkJournal';
 
 /**
  * Posts a journal by double entry into an organisation's books and answers its id. A journal whose debits do
@@ -11,10 +9,7 @@ import { postingTargetRefusal } from './postingTargets';
  * written; lines that fail to save take their journal with them, so no half-posted journal is left behind.
  */
 export async function postJournal(supabase: SupabaseClient, organisationId: string, fields: JournalFields): Promise<string> {
-	refuseWhen(validateRecordId('organisation', organisationId));
-	const journal = validateJournal(fields);
-	if (typeof journal === 'string') throw new BooksRefusal(journal);
-	refuseWhen(await postingTargetRefusal(supabase, organisationId, journal));
+	const journal = await checkJournal(supabase, organisationId, fields);
 	const journalId = await insertJournal(supabase, organisationId, journal);
 	const lineRows = journal.lines.map((line, position) => toLineRow(organisationId, journalId, line, position));
 	const { error } = await supabase.from('books_journal_lines').insert(lineRows);

@@ -20,15 +20,3 @@ export async function findInvoicePayments(supabase: SupabaseClient, organisation
 	if (error !== null) throw error;
 	return (data as unknown as InvoicePaymentRow[]).map((row) => ({ id: row.id, paidOn: row.paid_on, amount: Number(row.amount) }));
 }
-
-/** Keeps the payment against the invoice with the journal that posted it. */
-export async function insertInvoicePayment(
-	supabase: SupabaseClient,
-	organisationId: string,
-	invoiceId: string,
-	payment: InvoicePaymentInput & { journalId: string }
-): Promise<void> {
-	const row = { organisation_id: organisationId, invoice_id: invoiceId, paid_on: payment.paidOn, amount: payment.amount, journal_id: payment.journalId };
-	const { error } = await supabase.from(invoicePaymentsTable).insert(row);
-	if (error !== null) throw error;
-}

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ledgerTables, ledgerWrites } from './booksLedgerDatabase.fixture';
-import { deletionStepStanding, standDeletionStepsDown } from './booksLedgerCalls.fixture';
+import { databaseStepStanding, standDatabaseStepsDown } from './booksLedgerCalls.fixture';
 import { runOnTheLedger as run } from './booksInvoicePostingWorld.fixture';
 import { heldExpense, holdChartForCosts, prepaymentsId, softwareId } from './booksExpenseWorld.fixture';
 
@@ -36,7 +36,7 @@ const staysInTheBooks = 'It stays in the books as recorded and reversed.';
 
 describe('deleting a cost whose posting another journal reverses', () => {
 	beforeEach(() => {
-		standDeletionStepsDown();
+		standDatabaseStepsDown();
 		holdChartForCosts();
 	});
 
@@ -66,8 +66,8 @@ describe('deleting a cost whose posting another journal reverses', () => {
 
 	it('deletes nothing and keeps no record when the reversal is posted while the delete waits for its lock', async () => {
 		const adobeId = await recordAdobe();
-		deletionStepStanding.momentBetween = async () => {
-			deletionStepStanding.momentBetween = null;
+		databaseStepStanding.momentBetween = async () => {
+			databaseStepStanding.momentBetween = null;
 			await postReversalOf(journalOfAdobe('recorded_journal_id'), 'Adobe recorded twice');
 		};
 		const answer = await run('delete_expense', { expenseId: adobeId });
