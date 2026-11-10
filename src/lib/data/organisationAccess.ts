@@ -25,6 +25,19 @@ export function isOnOrganisation(
 	return membershipsReaching(memberships, organisations, accountId, organisationId).length > 0;
 }
 
+/** Someone who may be on organisations: staff reach every one, anyone else the ones they are on. */
+export type OrganisationVisitor = {
+	accountId: string;
+	isStaff: boolean;
+	organisationMemberships: OrganisationMembership[];
+};
+
+/** The one reach rule: staff, or a person on the organisation or on the organisation above it. */
+export function reachesOrganisation(visitor: OrganisationVisitor, organisation: OrganisationPlace): boolean {
+	if (visitor.isStaff) return true;
+	return isOnOrganisation(visitor.organisationMemberships, [organisation], visitor.accountId, organisation.id);
+}
+
 /** A project manager of the organisation, or of the organisation it sits under, manages it. */
 export function managesOrganisation(
 	memberships: OrganisationMembership[],
