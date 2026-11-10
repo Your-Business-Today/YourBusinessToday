@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describeMonth, monthEnd, monthStart, shiftMonth, validateMonthKey } from './monthKey';
+import { describeMonth, monthEnd, monthOfDay, monthStart, shiftMonth, validateMonthKey } from './monthKey';
 
 describe('a month of the books', () => {
 	it('is a month written as 2026-11, and nothing else', () => {
@@ -7,6 +7,10 @@ describe('a month of the books', () => {
 		expect(validateMonthKey('monthKey', '2026-13')).toBe('monthKey is a month written as 2026-11; "2026-13" was given.');
 		expect(validateMonthKey('monthKey', '2026-11-30')).toContain('was given');
 		expect(validateMonthKey('monthKey', 202611)).toBe('monthKey is a month written as 2026-11; 202611 was given.');
+	});
+
+	it('is the month a day falls in', () => {
+		expect(monthOfDay('2026-11-10')).toBe('2026-11');
 	});
 
 	it('starts on the first and ends on its last day, February in a leap year included', () => {
