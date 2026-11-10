@@ -6,6 +6,7 @@ import {
 	type NavigationLink
 } from '$lib/components/site/siteNavigation';
 import {
+	portalBillingPath,
 	portalConnectPath,
 	portalContextPath,
 	portalHomePath,
@@ -24,6 +25,7 @@ export type FrameAccess = {
 const portalLinks: NavigationLink[] = [
 	{ href: portalHomePath, label: 'Your projects' },
 	{ href: portalContextPath, label: 'Your company context' },
+	{ href: portalBillingPath, label: 'Billing' },
 	{ href: portalConnectPath, label: 'Connect your Claude' }
 ];
 

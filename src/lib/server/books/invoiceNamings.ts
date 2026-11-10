@@ -27,6 +27,6 @@ export function customerNameOf(namings: InvoiceNamings, customerId: string): str
 }
 
 /** The number as it prints on the invoice, such as INV-7. */
-export function invoiceNumberAsPrinted(namings: InvoiceNamings, invoiceNumber: number): string {
+export function invoiceNumberAsPrinted(namings: Pick<InvoiceNamings, 'invoicePrefix'>, invoiceNumber: number): string {
 	return `${namings.invoicePrefix}-${invoiceNumber}`;
 }
