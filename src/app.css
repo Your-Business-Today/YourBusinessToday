@@ -6,8 +6,13 @@
 
 	--color-night: #0b0e16;
 	--color-carriage: #141927;
+	--color-carriage-raised: #1f2638;
 	--color-hairline: #242c40;
+	--color-hairline-strong: #323b50;
 	--color-chalk: #eef1f8;
+	--color-chalk-muted: #c2c6ce;
+	--color-chalk-subtle: #adb0b9;
+	--color-chalk-faint: #8c909a;
 	--color-signal: #ff4d5e;
 	--color-go: #2fd48a;
 	--color-caution: #ffc861;
@@ -16,6 +21,9 @@
 	--color-platform: #eef4f8;
 	--color-etch: #a9bac7;
 	--color-slate: #2f4358;
+
+	--color-lilac: #b9a8ff;
+	--color-sky: #7cc6ff;
 
 	--color-map-paper: #fbfbf7;
 	--color-map-ink: #1c1c1b;

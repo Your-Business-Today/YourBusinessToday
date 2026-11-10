@@ -4,6 +4,7 @@ import {
 } from '$lib/server/email/clientInviteEmail';
 import { countContactInvitesThisHour } from './recentContactInviteCount';
 import { isInviteAllowanceSpent } from '$lib/server/email/inviteAllowance';
+import { linkContactToAccount } from './linkContactToAccount';
 import { recordClientEvent } from './recordClientEvent';
 import { sendTransactionalEmail } from '$lib/server/email/sendTransactionalEmail';
 import { mintSignInLink } from '$lib/server/accounts/mintSignInLink';
@@ -39,18 +40,6 @@ export async function inviteClientContact(
 		actorAccountId
 	);
 	return delivery;
-}
-
-async function linkContactToAccount(
-	supabase: SupabaseClient,
-	contactId: string,
-	accountId: string
-): Promise<void> {
-	const { error } = await supabase
-		.from('client_contacts')
-		.update({ account_id: accountId, invited_at: new Date().toISOString() })
-		.eq('id', contactId);
-	if (error) throw error;
 }
 
 /**

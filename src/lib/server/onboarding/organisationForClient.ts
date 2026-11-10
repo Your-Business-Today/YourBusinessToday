@@ -21,7 +21,8 @@ export async function organisationForClient(
 	return (data?.id as string) ?? null;
 }
 
-async function findOrganisationOfClient(
+/** The organisation made for a client on the register, when one has been. */
+export async function findOrganisationOfClient(
 	service: SupabaseClient,
 	clientId: string
 ): Promise<string | null> {
@@ -34,33 +35,3 @@ async function findOrganisationOfClient(
 	return (data?.id as string) ?? null;
 }
 
-/** Organisation names are unique among the top-level organisations, whatever their case. */
-export async function isOrganisationNameTaken(
-	service: SupabaseClient,
-	businessName: string
-): Promise<boolean> {
-	const { data, error } = await service
-		.from('organisations')
-		.select('name')
-		.is('parent_organisation_id', null);
-	if (error) throw error;
-	const wantedName = businessName.toLowerCase();
-	return data.some((row) => String(row.name).toLowerCase() === wantedName);
-}
-
-/** The client behind the organisation of that name among the given clients: the business already signed up. */
-export async function findClientWithOrganisationNamed(
-	service: SupabaseClient,
-	clientIds: string[],
-	businessName: string
-): Promise<string | null> {
-	if (clientIds.length === 0) return null;
-	const { data, error } = await service
-		.from('organisations')
-		.select('client_id, name')
-		.in('client_id', clientIds);
-	if (error) throw error;
-	const wantedName = businessName.toLowerCase();
-	const match = data.find((row) => String(row.name).toLowerCase() === wantedName);
-	return (match?.client_id as string) ?? null;
-}

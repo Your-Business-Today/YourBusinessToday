@@ -204,12 +204,18 @@
     "cooccurrenceThreshold": 0.75,
     "fileCountBand": 3.0,
     "acceptedGaps": [
+      "src/lib/server/boardroom/callBoardroomPaper.ts",
+      "src/lib/server/boardroom/callBoardroomBrief.ts",
+      "src/lib/server/mcp/actions/businessBrainRequest.ts",
+      "src/lib/server/mcp/actions/businessBrainRuns.ts",
+      "src/lib/server/agent/goodActions.ts",
       "src/lib/server/goals/updateProject.ts",
       "src/lib/server/goals/updateTask.ts",
       "src/lib/server/projects/updateTaskProject.ts",
       "src/lib/server/projects/updateTaskTask.ts",
       "src/lib/server/projects/updateTaskActions.ts",
       "src/lib/server/projects/updateTaskRecord.ts",
+      "src/lib/server/mcp/actions/boardroomMeetingRequest.ts",
       "src/routes/+page.server.ts",
       "src/routes/about/+page.server.ts",
       "src/routes/case-study/+page.server.ts",
@@ -217,6 +223,7 @@
       "src/routes/offer/+page.server.ts",
       "src/routes/privacy/+page.server.ts",
       "src/routes/promo/+page.server.ts",
+      "src/routes/tax-calculator/+page.server.ts",
       "src/routes/terms/+page.server.ts"
     ]
   },
@@ -228,7 +235,18 @@
       "**/routes/**/+page.svelte"
     ],
     "ignoredTags": [],
-    "catalogue": [],
+    "catalogue": [
+      "DashboardPanel",
+      "Modal",
+      "Sheet",
+      "FormField",
+      "TabStrip",
+      "PageTitle",
+      "EmptyState",
+      "RecordsTable",
+      "Button",
+      "Badge"
+    ],
     "handRolled": [
       {
         "element": "table",
@@ -257,15 +275,7 @@
       },
       {
         "element": "h1",
-        "ownedBy": "PageHeader"
-      },
-      {
-        "element": "h2",
-        "ownedBy": "SectionHeader"
-      },
-      {
-        "element": "h3",
-        "ownedBy": "SectionHeader"
+        "ownedBy": "PageTitle"
       }
     ],
     "horizontalClasses": [
@@ -275,7 +285,12 @@
     "verticalClasses": [
       "flex-col"
     ],
-    "document": "tools/refactor/site-definition.md"
+    "document": "tools/refactor/site-definition.md",
+    "containerWidgets": [
+      "DashboardPanel",
+      "Modal",
+      "Sheet"
+    ]
   },
   "score": {
     "elements": {}
@@ -322,7 +337,16 @@
       "src/lib/server/mcp/actions/queueFields.ts",
       "src/lib/server/mcp/actions/requestedByField.ts",
       "src/lib/server/mcp/actions/serverErrorActions.ts",
+      "src/lib/server/mcp/actions/dataInventoryActions.ts",
       "src/lib/server/mcp/actions/storyFields.ts",
+      "src/lib/server/mcp/actions/businessBrainSchemas.ts",
+      "src/lib/server/mcp/actions/businessBrainChatbotSchemas.ts",
+      "src/lib/server/mcp/actions/companyContextFields.ts",
+      "src/lib/server/mcp/actions/booksFields.ts",
+      "src/lib/server/mcp/actions/booksCustomerFields.ts",
+      "src/lib/server/mcp/actions/booksInvoiceFields.ts",
+      "src/lib/server/mcp/actions/booksExpenseFields.ts",
+      "src/lib/server/mcp/actions/booksPeriodEndFields.ts",
       "src/lib/server/mcp/actions/clientDetailActions.ts",
       "src/lib/server/mcp/actions/describeInbox.ts",
       "src/routes/projects/kit-versions/+page.server.ts"

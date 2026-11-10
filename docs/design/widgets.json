@@ -1,0 +1,22 @@
+{
+  "brand": "docs/design/brand.md",
+  "brandSources": [
+    "src/app.css",
+    "src/lib/client/motion.ts",
+    "Your-Business-Today/jewel-portal: jpms/DESIGN-SYSTEM.md",
+    "Your-Business-Today/jewel-portal: docs/ui/open-book-design-rules.md",
+    "Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css",
+    "Your-Business-Today/jewel-portal: jpms/Layout/"
+  ],
+  "brandCheckedAt": "",
+  "widgets": {
+    "PortalFrame": { "design": ["Your-Business-Today/jewel-portal: jpms/Layout/"], "sheet": "docs/design/widgets/PortalFrame.md", "checkedAt": "", "checkedAgainst": "" },
+    "DashboardPanel": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .panel"], "sheet": "docs/design/widgets/DashboardPanel.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" },
+    "RecordsTable": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .data-table"], "sheet": "docs/design/widgets/RecordsTable.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" },
+    "FormField": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .field"], "sheet": "docs/design/widgets/FormField.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" },
+    "Button": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .btn"], "sheet": "docs/design/widgets/Button.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" },
+    "Modal": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .modal-panel"], "sheet": "docs/design/widgets/Modal.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" },
+    "TabStrip": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .tab"], "sheet": "docs/design/widgets/TabStrip.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" },
+    "Badge": { "design": ["Your-Business-Today/jewel-portal: docs/ui/widget-catalogue.md Pill"], "sheet": "docs/design/widgets/Badge.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" }
+  }
+}

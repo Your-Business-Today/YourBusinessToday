@@ -15,11 +15,6 @@ export type PortalVisitor = {
 export const portalOrganisationCookie = 'portal_organisation';
 export const portalOrganisationParameter = 'organisation';
 
-export function hasSeveralOrganisations(visitor: PortalVisitor): boolean {
-	const { organisations } = visitor;
-	return organisations.length > 1;
-}
-
 export function isAmongOrganisations(visitor: PortalVisitor, clientId: string): boolean {
 	return visitor.organisations.some((organisation) => organisation.clientId === clientId);
 }

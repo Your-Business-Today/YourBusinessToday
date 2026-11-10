@@ -26,10 +26,11 @@ export async function getPortalProjects(
 	return projectsOfClient(projectRows.map(toPortalProject), clientId);
 }
 
+/** One project YBT runs for any of the contact's clients, or null when it is none of theirs. */
 export async function getPortalProject(
 	supabase: SupabaseClient,
 	projectId: string,
-	clientId: string
+	clientIds: string[]
 ): Promise<PortalProject | null> {
 	const { data, error } = await supabase
 		.from(PortalSurfaces.projects)
@@ -40,6 +41,6 @@ export async function getPortalProject(
 	if (data === null) return null;
 	const [projectRow] = await withProjectWork(supabase, [data]);
 	const project = toPortalProject(projectRow);
-	if (!isProjectOfClient(project, clientId)) return null;
-	return project;
+	const isOfTheirClients = clientIds.some((clientId) => isProjectOfClient(project, clientId));
+	return isOfTheirClients ? project : null;
 }

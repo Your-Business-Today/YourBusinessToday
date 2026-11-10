@@ -9,6 +9,7 @@ import { projectIdField } from './goalReadActions';
 import { raiseAnywayField } from './similarTaskCheck';
 import { similarTasksRefusal } from './similarTasksRefusal';
 import { departmentField, readDepartment, isDepartmentRefused } from './departmentChoice';
+import { contextLinkSentence, contextVersionIdField, isContextLinkRefused, readGoalContextLink } from './goalContextVersion';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { NewGoalSeed } from '$lib/server/goals/createGoal';
@@ -28,7 +29,8 @@ export const goalWithTasksAction: McpAction = {
 		'tasks look like these, nothing is raised until you have shown them and the person has ' +
 		'chosen raiseAnyway. A development goal’s tasks are each a feature, a user story, or a bug, ' +
 		'"FIX: <what is wrong>" — say which with each task’s developmentKind; bugs are built first. ' +
-		'The tasks take the goal’s department.',
+		'The tasks take the goal’s department. A service raised from a client’s confirmed company context gives ' +
+		'contextVersionId, so the goal links back to it.',
 	inputSchema: objectSchema(
 		{
 			projectId: projectIdField,
@@ -37,7 +39,8 @@ export const goalWithTasksAction: McpAction = {
 			horizon: textField(`One of ${goalHorizonOrder.join(', ')} — current unless said otherwise`),
 			department: departmentField,
 			tasks: goalTasksField,
-			raiseAnyway: raiseAnywayField
+			raiseAnyway: raiseAnywayField,
+			contextVersionId: contextVersionIdField
 		},
 		['projectId', 'title', 'tasks']
 	),
@@ -48,14 +51,17 @@ export const goalWithTasksAction: McpAction = {
 		if (title === null) return 'A goal needs a title. Say what it is and try again.';
 		const department = readDepartment(input);
 		if (isDepartmentRefused(department)) return department.refusal;
+		const contextLink = await readGoalContextLink(caller, project, input);
+		if (isContextLinkRefused(contextLink)) return `Nothing was raised. ${contextLink.refusal}`;
 		const listedSeeds = listedTaskSeeds(input);
 		if (listedSeeds === null) return goalTasksRefusal;
 		const seeds = listedSeeds.map((seed) => withRaiserAutocomplete({ ...seed, department }, caller.isStaff));
 		const refusal = await firstTaskRefusal(caller, project, seeds, input.raiseAnyway);
 		if (refusal !== null) return `Nothing was raised. ${refusal}`;
-		const goal = { ...goalSeedFrom(input, title), department };
+		const goal = { ...goalSeedFrom(input, title), department, contextVersionId: contextLink.contextVersionId };
 		const raised = await createGoalWithTasks(caller.supabase, project.id, goal, seeds, caller.accountId);
-		const heading = `"${title}" added to ${project.name} as a ${goal.horizon} goal (goal id: ${raised.goalId}), with:`;
+		const linked = contextLinkSentence(contextLink);
+		const heading = `"${title}" added to ${project.name} as a ${goal.horizon} goal (goal id: ${raised.goalId}).${linked} With:`;
 		return [heading, ...seeds.map((seed, index) => raisedTaskLine(seed, raised.taskIds[index]))].join('\n');
 	}
 };

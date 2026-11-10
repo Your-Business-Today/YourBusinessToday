@@ -1,7 +1,6 @@
 <script lang="ts">
 	import AdminUserRow from '$lib/components/admin/AdminUserRow.svelte';
 	import BuildModelsPanel from '$lib/components/admin/BuildModelsPanel.svelte';
-	import SiteModelPanel from '$lib/components/admin/SiteModelPanel.svelte';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data, form } = $props();
@@ -17,28 +16,27 @@
 			<PageTitle>Admin</PageTitle>
 			<div class="flex items-baseline gap-4">
 				<a
+					href="/admin/stripe-payments"
+					class="font-display text-xs text-chalk/50 underline transition hover:text-chalk"
+				>
+					Stripe payments to check ({data.stripePaymentsToCheck})
+				</a>
+				<a
 					href="/admin/documents"
 					class="font-display text-xs text-chalk/50 underline transition hover:text-chalk"
 				>
 					Client documents
 				</a>
-				<a
-					href="/admin/usage"
-					class="font-display text-xs text-chalk/50 underline transition hover:text-chalk"
-				>
-					Usage and margin
-				</a>
 			</div>
 		</div>
 		<p class="text-chalk/70">
-			The model the site runs on, every account, its credit balance, the controls to adjust
+			The models that build each task, every account, its credit balance, the controls to adjust
 			credits, restrict access, or delete an account, and every purchase made through Stripe.
 		</p>
 	</div>
 	{#if form?.message}
 		<p class="rounded-2xl border border-go/50 bg-go/10 px-5 py-4 text-go">{form.message}</p>
 	{/if}
-	<SiteModelPanel siteModel={data.siteModel} />
 	<BuildModelsPanel settings={data.buildModels} />
 	<ul class="flex flex-col divide-y divide-hairline rounded-2xl border border-hairline">
 		{#each data.users as user (user.email)}

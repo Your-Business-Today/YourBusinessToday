@@ -1,8 +1,13 @@
 import type { McpCaller } from './resolveMcpCaller';
 import type { McpToolAnswer } from './mcpContent';
+import type { OrganisationModule } from '$lib/data/organisationModules';
 
 export type ActionArea =
 	| 'account'
+	| 'boardroom'
+	| 'books'
+	| 'brand'
+	| 'business_brain'
 	| 'clients'
 	| 'organisations'
 	| 'patches'
@@ -24,6 +29,7 @@ export type McpAction = {
 	summary: string;
 	guidance?: string;
 	inputSchema: Record<string, unknown>;
+	module?: OrganisationModule;
 	run: (caller: McpCaller, input: Record<string, unknown>) => Promise<McpToolAnswer>;
 };
 

@@ -1,0 +1,1064 @@
+{
+	"taxYear": "2026/27",
+	"defaultInputs": {
+		"taxRegion": "restOfUk",
+		"directorSalary": null,
+		"companyRunningCosts": 0
+	},
+	"cases": [
+		{
+			"name": "£5,000: all of it paid as salary, under the £5,000 secondary threshold",
+			"inputs": {
+				"income": 5000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £5,000",
+				"Personal allowance: £12,570, as £5,000 is not over £100,000",
+				"Taxable income: £5,000 − £5,000 = £0",
+				"Income tax: nothing",
+				"Class 1 NI: nothing, as £5,000 is not above £12,570",
+				"Take-home: £5,000 − £0 − £0 = £5,000",
+				"Sole trader —",
+				"Profit: £5,000",
+				"Personal allowance: £12,570, as £5,000 is not over £100,000",
+				"Taxable income: £5,000 − £5,000 = £0",
+				"Income tax: nothing",
+				"Class 4 NI: nothing, as £5,000 is not above £12,570",
+				"Take-home: £5,000 − £0 − £0 = £5,000",
+				"Limited company —",
+				"Company income: £5,000",
+				"Director salary: £5,000, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: nothing, as £5,000 is not above the £5,000 secondary threshold",
+				"Company profit: £5,000 − £5,000 − £0 = £0",
+				"Corporation tax: nothing, as there is no profit",
+				"Dividends: £0 − £0 = £0, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £5,000 is not over £100,000",
+				"Taxable salary: £5,000 − £5,000 of allowance = £0",
+				"Taxable dividends: £0 − £0 of allowance left = £0",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £5,000 is not above £12,570",
+				"Dividend allowance: £0 at 0%, from £0 to £0 of taxable income",
+				"Dividend tax: nothing",
+				"Take-home: £5,000 + £0 − £0 − £0 − £0 = £5,000",
+				"Most left: employed, £5,000"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 5000,
+					"incomeTax": 0,
+					"nationalInsurance": 0,
+					"takeHome": 5000
+				},
+				"soleTrader": {
+					"personalAllowance": 5000,
+					"incomeTax": 0,
+					"nationalInsurance": 0,
+					"takeHome": 5000
+				},
+				"limitedCompany": {
+					"directorSalary": 5000,
+					"employerNationalInsurance": 0,
+					"profit": 0,
+					"corporationTaxBand": "noProfit",
+					"marginalRelief": 0,
+					"corporationTax": 0,
+					"dividends": 0,
+					"personalAllowance": 5000,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 0,
+					"takeHome": 5000
+				},
+				"bestRoute": "employed"
+			}
+		},
+		{
+			"name": "£10,000: the company can afford only £9,347 of salary once employer NI is paid",
+			"inputs": {
+				"income": 10000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £10,000",
+				"Personal allowance: £12,570, as £10,000 is not over £100,000",
+				"Taxable income: £10,000 − £10,000 = £0",
+				"Income tax: nothing",
+				"Class 1 NI: nothing, as £10,000 is not above £12,570",
+				"Take-home: £10,000 − £0 − £0 = £10,000",
+				"Sole trader —",
+				"Profit: £10,000",
+				"Personal allowance: £12,570, as £10,000 is not over £100,000",
+				"Taxable income: £10,000 − £10,000 = £0",
+				"Income tax: nothing",
+				"Class 4 NI: nothing, as £10,000 is not above £12,570",
+				"Take-home: £10,000 − £0 − £0 = £10,000",
+				"Limited company —",
+				"Company income: £10,000",
+				"Director salary: £9,347, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£9,347 − £5,000) = £652.05",
+				"Company profit: £10,000 − £9,347 − £652.05 = £0.95",
+				"Corporation tax: 19% small profits rate × £0.95 = £0.18",
+				"Dividends: £0.95 − £0.18 = £0.77, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £9,347.77 is not over £100,000",
+				"Taxable salary: £9,347 − £9,347 of allowance = £0",
+				"Taxable dividends: £0.77 − £0.77 of allowance left = £0",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £9,347 is not above £12,570",
+				"Dividend allowance: £0 at 0%, from £0 to £0 of taxable income",
+				"Dividend tax: nothing",
+				"Take-home: £9,347 + £0.77 − £0 − £0 − £0 = £9,347.77",
+				"Most left: employed, £10,000"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 10000,
+					"incomeTax": 0,
+					"nationalInsurance": 0,
+					"takeHome": 10000
+				},
+				"soleTrader": {
+					"personalAllowance": 10000,
+					"incomeTax": 0,
+					"nationalInsurance": 0,
+					"takeHome": 10000
+				},
+				"limitedCompany": {
+					"directorSalary": 9347,
+					"employerNationalInsurance": 652.05,
+					"profit": 0.95,
+					"corporationTaxBand": "smallProfitsRate",
+					"marginalRelief": 0,
+					"corporationTax": 0.18,
+					"dividends": 0.77,
+					"personalAllowance": 9347.77,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 0,
+					"takeHome": 9347.77
+				},
+				"bestRoute": "employed"
+			}
+		},
+		{
+			"name": "£30,000: profit under £50,000 pays the 19% small profits rate",
+			"inputs": {
+				"income": 30000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £30,000",
+				"Personal allowance: £12,570, as £30,000 is not over £100,000",
+				"Taxable income: £30,000 − £12,570 = £17,430",
+				"Income tax, basic rate: 20% × £17,430 = £3,486",
+				"Class 1 NI: 8% × (£30,000 − £12,570) = £1,394.40",
+				"Take-home: £30,000 − £3,486 − £1,394.40 = £25,119.60",
+				"Sole trader —",
+				"Profit: £30,000",
+				"Personal allowance: £12,570, as £30,000 is not over £100,000",
+				"Taxable income: £30,000 − £12,570 = £17,430",
+				"Income tax, basic rate: 20% × £17,430 = £3,486",
+				"Class 4 NI: 6% × (£30,000 − £12,570) = £1,045.80",
+				"Take-home: £30,000 − £3,486 − £1,045.80 = £25,468.20",
+				"Limited company —",
+				"Company income: £30,000",
+				"Director salary: £12,570, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£12,570 − £5,000) = £1,135.50",
+				"Company profit: £30,000 − £12,570 − £1,135.50 = £16,294.50",
+				"Corporation tax: 19% small profits rate × £16,294.50 = £3,095.96",
+				"Dividends: £16,294.50 − £3,095.96 = £13,198.54, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £25,768.54 is not over £100,000",
+				"Taxable salary: £12,570 − £12,570 of allowance = £0",
+				"Taxable dividends: £13,198.54 − £0 of allowance left = £13,198.54",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £12,570 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £0 to £500 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £12,698.54 = £1,365.09",
+				"Take-home: £12,570 + £13,198.54 − £0 − £0 − £1,365.09 = £24,403.45",
+				"Most left: as a sole trader, £25,468.20"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 12570,
+					"incomeTax": 3486,
+					"nationalInsurance": 1394.4,
+					"takeHome": 25119.6
+				},
+				"soleTrader": {
+					"personalAllowance": 12570,
+					"incomeTax": 3486,
+					"nationalInsurance": 1045.8,
+					"takeHome": 25468.2
+				},
+				"limitedCompany": {
+					"directorSalary": 12570,
+					"employerNationalInsurance": 1135.5,
+					"profit": 16294.5,
+					"corporationTaxBand": "smallProfitsRate",
+					"marginalRelief": 0,
+					"corporationTax": 3095.96,
+					"dividends": 13198.54,
+					"personalAllowance": 12570,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 1365.09,
+					"takeHome": 24403.45
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£50,000: sole trader against a company paying the small profits rate",
+			"inputs": {
+				"income": 50000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £50,000",
+				"Personal allowance: £12,570, as £50,000 is not over £100,000",
+				"Taxable income: £50,000 − £12,570 = £37,430",
+				"Income tax, basic rate: 20% × £37,430 = £7,486",
+				"Class 1 NI: 8% × (£50,000 − £12,570) = £2,994.40",
+				"Take-home: £50,000 − £7,486 − £2,994.40 = £39,519.60",
+				"Sole trader —",
+				"Profit: £50,000",
+				"Personal allowance: £12,570, as £50,000 is not over £100,000",
+				"Taxable income: £50,000 − £12,570 = £37,430",
+				"Income tax, basic rate: 20% × £37,430 = £7,486",
+				"Class 4 NI: 6% × (£50,000 − £12,570) = £2,245.80",
+				"Take-home: £50,000 − £7,486 − £2,245.80 = £40,268.20",
+				"Limited company —",
+				"Company income: £50,000",
+				"Director salary: £12,570, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£12,570 − £5,000) = £1,135.50",
+				"Company profit: £50,000 − £12,570 − £1,135.50 = £36,294.50",
+				"Corporation tax: 19% small profits rate × £36,294.50 = £6,895.96",
+				"Dividends: £36,294.50 − £6,895.96 = £29,398.54, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £41,968.54 is not over £100,000",
+				"Taxable salary: £12,570 − £12,570 of allowance = £0",
+				"Taxable dividends: £29,398.54 − £0 of allowance left = £29,398.54",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £12,570 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £0 to £500 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £28,898.54 = £3,106.59",
+				"Take-home: £12,570 + £29,398.54 − £0 − £0 − £3,106.59 = £38,861.95",
+				"Most left: as a sole trader, £40,268.20"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 12570,
+					"incomeTax": 7486,
+					"nationalInsurance": 2994.4,
+					"takeHome": 39519.6
+				},
+				"soleTrader": {
+					"personalAllowance": 12570,
+					"incomeTax": 7486,
+					"nationalInsurance": 2245.8,
+					"takeHome": 40268.2
+				},
+				"limitedCompany": {
+					"directorSalary": 12570,
+					"employerNationalInsurance": 1135.5,
+					"profit": 36294.5,
+					"corporationTaxBand": "smallProfitsRate",
+					"marginalRelief": 0,
+					"corporationTax": 6895.96,
+					"dividends": 29398.54,
+					"personalAllowance": 12570,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 3106.59,
+					"takeHome": 38861.95
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£63,705.50: a profit of exactly £50,000, the lower limit, still at 19%",
+			"inputs": {
+				"income": 63705.5
+			},
+			"working": [
+				"Employed —",
+				"Salary: £63,705.50",
+				"Personal allowance: £12,570, as £63,705.50 is not over £100,000",
+				"Taxable income: £63,705.50 − £12,570 = £51,135.50",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £13,435.50 = £5,374.20",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016",
+				"Class 1 NI: 2% × (£63,705.50 − £50,270) = £268.71",
+				"Take-home: £63,705.50 − £12,914.20 − £3,284.71 = £47,506.59",
+				"Sole trader —",
+				"Profit: £63,705.50",
+				"Personal allowance: £12,570, as £63,705.50 is not over £100,000",
+				"Taxable income: £63,705.50 − £12,570 = £51,135.50",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £13,435.50 = £5,374.20",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262",
+				"Class 4 NI: 2% × (£63,705.50 − £50,270) = £268.71",
+				"Take-home: £63,705.50 − £12,914.20 − £2,530.71 = £48,260.59",
+				"Limited company —",
+				"Company income: £63,705.50",
+				"Director salary: £12,570, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£12,570 − £5,000) = £1,135.50",
+				"Company profit: £63,705.50 − £12,570 − £1,135.50 = £50,000",
+				"Corporation tax: 19% small profits rate × £50,000 = £9,500",
+				"Dividends: £50,000 − £9,500 = £40,500, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £53,070 is not over £100,000",
+				"Taxable salary: £12,570 − £12,570 of allowance = £0",
+				"Taxable dividends: £40,500 − £0 of allowance left = £40,500",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £12,570 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £0 to £500 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £37,200 = £3,999",
+				"Dividend tax, upper rate: 35.75% × £2,800 = £1,001",
+				"Take-home: £12,570 + £40,500 − £0 − £0 − £5,000 = £48,070",
+				"Most left: as a sole trader, £48,260.59"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 12570,
+					"incomeTax": 12914.2,
+					"nationalInsurance": 3284.71,
+					"takeHome": 47506.59
+				},
+				"soleTrader": {
+					"personalAllowance": 12570,
+					"incomeTax": 12914.2,
+					"nationalInsurance": 2530.71,
+					"takeHome": 48260.59
+				},
+				"limitedCompany": {
+					"directorSalary": 12570,
+					"employerNationalInsurance": 1135.5,
+					"profit": 50000,
+					"corporationTaxBand": "smallProfitsRate",
+					"marginalRelief": 0,
+					"corporationTax": 9500,
+					"dividends": 40500,
+					"personalAllowance": 12570,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 5000,
+					"takeHome": 48070
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£70,000: a profit inside the marginal relief band",
+			"inputs": {
+				"income": 70000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £70,000",
+				"Personal allowance: £12,570, as £70,000 is not over £100,000",
+				"Taxable income: £70,000 − £12,570 = £57,430",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £19,730 = £7,892",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016",
+				"Class 1 NI: 2% × (£70,000 − £50,270) = £394.60",
+				"Take-home: £70,000 − £15,432 − £3,410.60 = £51,157.40",
+				"Sole trader —",
+				"Profit: £70,000",
+				"Personal allowance: £12,570, as £70,000 is not over £100,000",
+				"Taxable income: £70,000 − £12,570 = £57,430",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £19,730 = £7,892",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262",
+				"Class 4 NI: 2% × (£70,000 − £50,270) = £394.60",
+				"Take-home: £70,000 − £15,432 − £2,656.60 = £51,911.40",
+				"Limited company —",
+				"Company income: £70,000",
+				"Director salary: £12,570, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£12,570 − £5,000) = £1,135.50",
+				"Company profit: £70,000 − £12,570 − £1,135.50 = £56,294.50",
+				"Corporation tax at the main rate: 25% × £56,294.50 = £14,073.63",
+				"Marginal relief: 3/200 × (£250,000 − £56,294.50) = £2,905.58",
+				"Corporation tax: £14,073.63 − £2,905.58 = £11,168.05",
+				"Dividends: £56,294.50 − £11,168.05 = £45,126.45, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £57,696.45 is not over £100,000",
+				"Taxable salary: £12,570 − £12,570 of allowance = £0",
+				"Taxable dividends: £45,126.45 − £0 of allowance left = £45,126.45",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £12,570 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £0 to £500 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £37,200 = £3,999",
+				"Dividend tax, upper rate: 35.75% × £7,426.45 = £2,654.96",
+				"Take-home: £12,570 + £45,126.45 − £0 − £0 − £6,653.96 = £51,042.49",
+				"Most left: as a sole trader, £51,911.40"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 12570,
+					"incomeTax": 15432,
+					"nationalInsurance": 3410.6,
+					"takeHome": 51157.4
+				},
+				"soleTrader": {
+					"personalAllowance": 12570,
+					"incomeTax": 15432,
+					"nationalInsurance": 2656.6,
+					"takeHome": 51911.4
+				},
+				"limitedCompany": {
+					"directorSalary": 12570,
+					"employerNationalInsurance": 1135.5,
+					"profit": 56294.5,
+					"corporationTaxBand": "marginalRelief",
+					"marginalRelief": 2905.58,
+					"corporationTax": 11168.05,
+					"dividends": 45126.45,
+					"personalAllowance": 12570,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 6653.96,
+					"takeHome": 51042.49
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£100,000: marginal relief, with dividends reaching the upper rate",
+			"inputs": {
+				"income": 100000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £100,000",
+				"Personal allowance: £12,570, as £100,000 is not over £100,000",
+				"Taxable income: £100,000 − £12,570 = £87,430",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £49,730 = £19,892",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016",
+				"Class 1 NI: 2% × (£100,000 − £50,270) = £994.60",
+				"Take-home: £100,000 − £27,432 − £4,010.60 = £68,557.40",
+				"Sole trader —",
+				"Profit: £100,000",
+				"Personal allowance: £12,570, as £100,000 is not over £100,000",
+				"Taxable income: £100,000 − £12,570 = £87,430",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £49,730 = £19,892",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262",
+				"Class 4 NI: 2% × (£100,000 − £50,270) = £994.60",
+				"Take-home: £100,000 − £27,432 − £3,256.60 = £69,311.40",
+				"Limited company —",
+				"Company income: £100,000",
+				"Director salary: £12,570, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£12,570 − £5,000) = £1,135.50",
+				"Company profit: £100,000 − £12,570 − £1,135.50 = £86,294.50",
+				"Corporation tax at the main rate: 25% × £86,294.50 = £21,573.63",
+				"Marginal relief: 3/200 × (£250,000 − £86,294.50) = £2,455.58",
+				"Corporation tax: £21,573.63 − £2,455.58 = £19,118.05",
+				"Dividends: £86,294.50 − £19,118.05 = £67,176.45, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £79,746.45 is not over £100,000",
+				"Taxable salary: £12,570 − £12,570 of allowance = £0",
+				"Taxable dividends: £67,176.45 − £0 of allowance left = £67,176.45",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £12,570 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £0 to £500 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £37,200 = £3,999",
+				"Dividend tax, upper rate: 35.75% × £29,476.45 = £10,537.83",
+				"Take-home: £12,570 + £67,176.45 − £0 − £0 − £14,536.83 = £65,209.62",
+				"Most left: as a sole trader, £69,311.40"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 12570,
+					"incomeTax": 27432,
+					"nationalInsurance": 4010.6,
+					"takeHome": 68557.4
+				},
+				"soleTrader": {
+					"personalAllowance": 12570,
+					"incomeTax": 27432,
+					"nationalInsurance": 3256.6,
+					"takeHome": 69311.4
+				},
+				"limitedCompany": {
+					"directorSalary": 12570,
+					"employerNationalInsurance": 1135.5,
+					"profit": 86294.5,
+					"corporationTaxBand": "marginalRelief",
+					"marginalRelief": 2455.58,
+					"corporationTax": 19118.05,
+					"dividends": 67176.45,
+					"personalAllowance": 12570,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 14536.83,
+					"takeHome": 65209.62
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£150,000: the allowance is lost as employed and sole trader, and tapered for the director",
+			"inputs": {
+				"income": 150000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £150,000",
+				"Personal allowance: £12,570 − (£150,000 − £100,000) ÷ 2 = £0",
+				"Taxable income: £150,000 − £0 = £150,000",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £87,440 = £34,976",
+				"Income tax, additional rate: 45% × £24,860 = £11,187",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016",
+				"Class 1 NI: 2% × (£150,000 − £50,270) = £1,994.60",
+				"Take-home: £150,000 − £53,703 − £5,010.60 = £91,286.40",
+				"Sole trader —",
+				"Profit: £150,000",
+				"Personal allowance: £12,570 − (£150,000 − £100,000) ÷ 2 = £0",
+				"Taxable income: £150,000 − £0 = £150,000",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £87,440 = £34,976",
+				"Income tax, additional rate: 45% × £24,860 = £11,187",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262",
+				"Class 4 NI: 2% × (£150,000 − £50,270) = £1,994.60",
+				"Take-home: £150,000 − £53,703 − £4,256.60 = £92,040.40",
+				"Limited company —",
+				"Company income: £150,000",
+				"Director salary: £12,570, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£12,570 − £5,000) = £1,135.50",
+				"Company profit: £150,000 − £12,570 − £1,135.50 = £136,294.50",
+				"Corporation tax at the main rate: 25% × £136,294.50 = £34,073.63",
+				"Marginal relief: 3/200 × (£250,000 − £136,294.50) = £1,705.58",
+				"Corporation tax: £34,073.63 − £1,705.58 = £32,368.05",
+				"Dividends: £136,294.50 − £32,368.05 = £103,926.45, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570 − (£116,496.45 − £100,000) ÷ 2 = £4,322",
+				"Taxable salary: £12,570 − £4,322 of allowance = £8,248",
+				"Taxable dividends: £103,926.45 − £0 of allowance left = £103,926.45",
+				"Income tax on salary, basic rate: 20% × £8,248 = £1,649.60",
+				"Class 1 NI on salary: nothing, as £12,570 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £8,248 to £8,748 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £28,952 = £3,112.34",
+				"Dividend tax, upper rate: 35.75% × £74,474.45 = £26,624.62",
+				"Take-home: £12,570 + £103,926.45 − £1,649.60 − £0 − £29,736.96 = £85,109.89",
+				"Most left: as a sole trader, £92,040.40"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 0,
+					"incomeTax": 53703,
+					"nationalInsurance": 5010.6,
+					"takeHome": 91286.4
+				},
+				"soleTrader": {
+					"personalAllowance": 0,
+					"incomeTax": 53703,
+					"nationalInsurance": 4256.6,
+					"takeHome": 92040.4
+				},
+				"limitedCompany": {
+					"directorSalary": 12570,
+					"employerNationalInsurance": 1135.5,
+					"profit": 136294.5,
+					"corporationTaxBand": "marginalRelief",
+					"marginalRelief": 1705.58,
+					"corporationTax": 32368.05,
+					"dividends": 103926.45,
+					"personalAllowance": 4322,
+					"salaryIncomeTax": 1649.6,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 29736.96,
+					"takeHome": 85109.89
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£263,705.50: a profit of exactly £250,000, the upper limit, at the main rate",
+			"inputs": {
+				"income": 263705.5
+			},
+			"working": [
+				"Employed —",
+				"Salary: £263,705.50",
+				"Personal allowance: £12,570 − (£263,705.50 − £100,000) ÷ 2 = £0",
+				"Taxable income: £263,705.50 − £0 = £263,705.50",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £87,440 = £34,976",
+				"Income tax, additional rate: 45% × £138,565.50 = £62,354.48",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016",
+				"Class 1 NI: 2% × (£263,705.50 − £50,270) = £4,268.71",
+				"Take-home: £263,705.50 − £104,870.48 − £7,284.71 = £151,550.31",
+				"Sole trader —",
+				"Profit: £263,705.50",
+				"Personal allowance: £12,570 − (£263,705.50 − £100,000) ÷ 2 = £0",
+				"Taxable income: £263,705.50 − £0 = £263,705.50",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £87,440 = £34,976",
+				"Income tax, additional rate: 45% × £138,565.50 = £62,354.48",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262",
+				"Class 4 NI: 2% × (£263,705.50 − £50,270) = £4,268.71",
+				"Take-home: £263,705.50 − £104,870.48 − £6,530.71 = £152,304.31",
+				"Limited company —",
+				"Company income: £263,705.50",
+				"Director salary: £12,570, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£12,570 − £5,000) = £1,135.50",
+				"Company profit: £263,705.50 − £12,570 − £1,135.50 = £250,000",
+				"Corporation tax: 25% main rate × £250,000 = £62,500",
+				"Dividends: £250,000 − £62,500 = £187,500, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570 − (£200,070 − £100,000) ÷ 2 = £0",
+				"Taxable salary: £12,570 − £0 of allowance = £12,570",
+				"Taxable dividends: £187,500 − £0 of allowance left = £187,500",
+				"Income tax on salary, basic rate: 20% × £12,570 = £2,514",
+				"Class 1 NI on salary: nothing, as £12,570 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £12,570 to £13,070 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £24,630 = £2,647.73",
+				"Dividend tax, upper rate: 35.75% × £87,440 = £31,259.80",
+				"Dividend tax, additional rate: 39.35% × £74,930 = £29,484.96",
+				"Take-home: £12,570 + £187,500 − £2,514 − £0 − £63,392.49 = £134,163.51",
+				"Most left: as a sole trader, £152,304.31"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 0,
+					"incomeTax": 104870.48,
+					"nationalInsurance": 7284.71,
+					"takeHome": 151550.31
+				},
+				"soleTrader": {
+					"personalAllowance": 0,
+					"incomeTax": 104870.48,
+					"nationalInsurance": 6530.71,
+					"takeHome": 152304.31
+				},
+				"limitedCompany": {
+					"directorSalary": 12570,
+					"employerNationalInsurance": 1135.5,
+					"profit": 250000,
+					"corporationTaxBand": "mainRate",
+					"marginalRelief": 0,
+					"corporationTax": 62500,
+					"dividends": 187500,
+					"personalAllowance": 0,
+					"salaryIncomeTax": 2514,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 63392.49,
+					"takeHome": 134163.51
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£300,000: a profit over £250,000 pays the 25% main rate, dividends reach the additional rate",
+			"inputs": {
+				"income": 300000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £300,000",
+				"Personal allowance: £12,570 − (£300,000 − £100,000) ÷ 2 = £0",
+				"Taxable income: £300,000 − £0 = £300,000",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £87,440 = £34,976",
+				"Income tax, additional rate: 45% × £174,860 = £78,687",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016",
+				"Class 1 NI: 2% × (£300,000 − £50,270) = £4,994.60",
+				"Take-home: £300,000 − £121,203 − £8,010.60 = £170,786.40",
+				"Sole trader —",
+				"Profit: £300,000",
+				"Personal allowance: £12,570 − (£300,000 − £100,000) ÷ 2 = £0",
+				"Taxable income: £300,000 − £0 = £300,000",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £87,440 = £34,976",
+				"Income tax, additional rate: 45% × £174,860 = £78,687",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262",
+				"Class 4 NI: 2% × (£300,000 − £50,270) = £4,994.60",
+				"Take-home: £300,000 − £121,203 − £7,256.60 = £171,540.40",
+				"Limited company —",
+				"Company income: £300,000",
+				"Director salary: £12,570, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£12,570 − £5,000) = £1,135.50",
+				"Company profit: £300,000 − £12,570 − £1,135.50 = £286,294.50",
+				"Corporation tax: 25% main rate × £286,294.50 = £71,573.63",
+				"Dividends: £286,294.50 − £71,573.63 = £214,720.87, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570 − (£227,290.87 − £100,000) ÷ 2 = £0",
+				"Taxable salary: £12,570 − £0 of allowance = £12,570",
+				"Taxable dividends: £214,720.87 − £0 of allowance left = £214,720.87",
+				"Income tax on salary, basic rate: 20% × £12,570 = £2,514",
+				"Class 1 NI on salary: nothing, as £12,570 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £12,570 to £13,070 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £24,630 = £2,647.73",
+				"Dividend tax, upper rate: 35.75% × £87,440 = £31,259.80",
+				"Dividend tax, additional rate: 39.35% × £102,150.87 = £40,196.37",
+				"Take-home: £12,570 + £214,720.87 − £2,514 − £0 − £74,103.90 = £150,672.97",
+				"Most left: as a sole trader, £171,540.40"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 0,
+					"incomeTax": 121203,
+					"nationalInsurance": 8010.6,
+					"takeHome": 170786.4
+				},
+				"soleTrader": {
+					"personalAllowance": 0,
+					"incomeTax": 121203,
+					"nationalInsurance": 7256.6,
+					"takeHome": 171540.4
+				},
+				"limitedCompany": {
+					"directorSalary": 12570,
+					"employerNationalInsurance": 1135.5,
+					"profit": 286294.5,
+					"corporationTaxBand": "mainRate",
+					"marginalRelief": 0,
+					"corporationTax": 71573.63,
+					"dividends": 214720.87,
+					"personalAllowance": 0,
+					"salaryIncomeTax": 2514,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 74103.9,
+					"takeHome": 150672.97
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£60,000 with the salary set at the £5,000 secondary threshold: no employer NI",
+			"inputs": {
+				"income": 60000,
+				"directorSalary": 5000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £60,000",
+				"Personal allowance: £12,570, as £60,000 is not over £100,000",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £9,730 = £3,892",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016",
+				"Class 1 NI: 2% × (£60,000 − £50,270) = £194.60",
+				"Take-home: £60,000 − £11,432 − £3,210.60 = £45,357.40",
+				"Sole trader —",
+				"Profit: £60,000",
+				"Personal allowance: £12,570, as £60,000 is not over £100,000",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £9,730 = £3,892",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262",
+				"Class 4 NI: 2% × (£60,000 − £50,270) = £194.60",
+				"Take-home: £60,000 − £11,432 − £2,456.60 = £46,111.40",
+				"Limited company —",
+				"Company income: £60,000",
+				"Director salary: £5,000, as chosen",
+				"Employer NI: nothing, as £5,000 is not above the £5,000 secondary threshold",
+				"Company profit: £60,000 − £5,000 − £0 = £55,000",
+				"Corporation tax at the main rate: 25% × £55,000 = £13,750",
+				"Marginal relief: 3/200 × (£250,000 − £55,000) = £2,925",
+				"Corporation tax: £13,750 − £2,925 = £10,825",
+				"Dividends: £55,000 − £10,825 = £44,175, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £49,175 is not over £100,000",
+				"Taxable salary: £5,000 − £5,000 of allowance = £0",
+				"Taxable dividends: £44,175 − £7,570 of allowance left = £36,605",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £5,000 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £0 to £500 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £36,105 = £3,881.29",
+				"Take-home: £5,000 + £44,175 − £0 − £0 − £3,881.29 = £45,293.71",
+				"Most left: as a sole trader, £46,111.40"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 12570,
+					"incomeTax": 11432,
+					"nationalInsurance": 3210.6,
+					"takeHome": 45357.4
+				},
+				"soleTrader": {
+					"personalAllowance": 12570,
+					"incomeTax": 11432,
+					"nationalInsurance": 2456.6,
+					"takeHome": 46111.4
+				},
+				"limitedCompany": {
+					"directorSalary": 5000,
+					"employerNationalInsurance": 0,
+					"profit": 55000,
+					"corporationTaxBand": "marginalRelief",
+					"marginalRelief": 2925,
+					"corporationTax": 10825,
+					"dividends": 44175,
+					"personalAllowance": 12570,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 3881.29,
+					"takeHome": 45293.71
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£60,000 with no salary at all: everything as dividends",
+			"inputs": {
+				"income": 60000,
+				"directorSalary": 0
+			},
+			"working": [
+				"Employed —",
+				"Salary: £60,000",
+				"Personal allowance: £12,570, as £60,000 is not over £100,000",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £9,730 = £3,892",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016",
+				"Class 1 NI: 2% × (£60,000 − £50,270) = £194.60",
+				"Take-home: £60,000 − £11,432 − £3,210.60 = £45,357.40",
+				"Sole trader —",
+				"Profit: £60,000",
+				"Personal allowance: £12,570, as £60,000 is not over £100,000",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £9,730 = £3,892",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262",
+				"Class 4 NI: 2% × (£60,000 − £50,270) = £194.60",
+				"Take-home: £60,000 − £11,432 − £2,456.60 = £46,111.40",
+				"Limited company —",
+				"Company income: £60,000",
+				"Director salary: £0, as chosen",
+				"Employer NI: nothing, as £0 is not above the £5,000 secondary threshold",
+				"Company profit: £60,000 − £0 − £0 = £60,000",
+				"Corporation tax at the main rate: 25% × £60,000 = £15,000",
+				"Marginal relief: 3/200 × (£250,000 − £60,000) = £2,850",
+				"Corporation tax: £15,000 − £2,850 = £12,150",
+				"Dividends: £60,000 − £12,150 = £47,850, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £47,850 is not over £100,000",
+				"Taxable salary: £0 − £0 of allowance = £0",
+				"Taxable dividends: £47,850 − £12,570 of allowance left = £35,280",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £0 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £0 to £500 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £34,780 = £3,738.85",
+				"Take-home: £0 + £47,850 − £0 − £0 − £3,738.85 = £44,111.15",
+				"Most left: as a sole trader, £46,111.40"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 12570,
+					"incomeTax": 11432,
+					"nationalInsurance": 3210.6,
+					"takeHome": 45357.4
+				},
+				"soleTrader": {
+					"personalAllowance": 12570,
+					"incomeTax": 11432,
+					"nationalInsurance": 2456.6,
+					"takeHome": 46111.4
+				},
+				"limitedCompany": {
+					"directorSalary": 0,
+					"employerNationalInsurance": 0,
+					"profit": 60000,
+					"corporationTaxBand": "marginalRelief",
+					"marginalRelief": 2850,
+					"corporationTax": 12150,
+					"dividends": 47850,
+					"personalAllowance": 12570,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 3738.85,
+					"takeHome": 44111.15
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£60,000 with £2,000 of company running costs",
+			"inputs": {
+				"income": 60000,
+				"companyRunningCosts": 2000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £60,000",
+				"Personal allowance: £12,570, as £60,000 is not over £100,000",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £9,730 = £3,892",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016",
+				"Class 1 NI: 2% × (£60,000 − £50,270) = £194.60",
+				"Take-home: £60,000 − £11,432 − £3,210.60 = £45,357.40",
+				"Sole trader —",
+				"Profit: £60,000",
+				"Personal allowance: £12,570, as £60,000 is not over £100,000",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Income tax, basic rate: 20% × £37,700 = £7,540",
+				"Income tax, higher rate: 40% × £9,730 = £3,892",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262",
+				"Class 4 NI: 2% × (£60,000 − £50,270) = £194.60",
+				"Take-home: £60,000 − £11,432 − £2,456.60 = £46,111.40",
+				"Limited company —",
+				"Company income: £60,000, less £2,000 running costs = £58,000",
+				"Director salary: £12,570, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£12,570 − £5,000) = £1,135.50",
+				"Company profit: £58,000 − £12,570 − £1,135.50 = £44,294.50",
+				"Corporation tax: 19% small profits rate × £44,294.50 = £8,415.96",
+				"Dividends: £44,294.50 − £8,415.96 = £35,878.54, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £48,448.54 is not over £100,000",
+				"Taxable salary: £12,570 − £12,570 of allowance = £0",
+				"Taxable dividends: £35,878.54 − £0 of allowance left = £35,878.54",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £12,570 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £0 to £500 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £35,378.54 = £3,803.19",
+				"Take-home: £12,570 + £35,878.54 − £0 − £0 − £3,803.19 = £44,645.35",
+				"Most left: as a sole trader, £46,111.40"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 12570,
+					"incomeTax": 11432,
+					"nationalInsurance": 3210.6,
+					"takeHome": 45357.4
+				},
+				"soleTrader": {
+					"personalAllowance": 12570,
+					"incomeTax": 11432,
+					"nationalInsurance": 2456.6,
+					"takeHome": 46111.4
+				},
+				"limitedCompany": {
+					"directorSalary": 12570,
+					"employerNationalInsurance": 1135.5,
+					"profit": 44294.5,
+					"corporationTaxBand": "smallProfitsRate",
+					"marginalRelief": 0,
+					"corporationTax": 8415.96,
+					"dividends": 35878.54,
+					"personalAllowance": 12570,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 3803.19,
+					"takeHome": 44645.35
+				},
+				"bestRoute": "soleTrader"
+			}
+		},
+		{
+			"name": "£60,000 in Scotland: salary taxed at Scottish rates, dividends at UK rates",
+			"inputs": {
+				"income": 60000,
+				"taxRegion": "scotland"
+			},
+			"working": [
+				"Employed —",
+				"Salary: £60,000",
+				"Personal allowance: £12,570, as £60,000 is not over £100,000",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Income tax, starter rate: 19% × £3,967 = £753.73",
+				"Income tax, basic rate: 20% × £12,989 = £2,597.80",
+				"Income tax, intermediate rate: 21% × £14,136 = £2,968.56",
+				"Income tax, higher rate: 42% × £16,338 = £6,861.96",
+				"Class 1 NI: 8% × (£50,270 − £12,570) = £3,016",
+				"Class 1 NI: 2% × (£60,000 − £50,270) = £194.60",
+				"Take-home: £60,000 − £13,182.05 − £3,210.60 = £43,607.35",
+				"Sole trader —",
+				"Profit: £60,000",
+				"Personal allowance: £12,570, as £60,000 is not over £100,000",
+				"Taxable income: £60,000 − £12,570 = £47,430",
+				"Income tax, starter rate: 19% × £3,967 = £753.73",
+				"Income tax, basic rate: 20% × £12,989 = £2,597.80",
+				"Income tax, intermediate rate: 21% × £14,136 = £2,968.56",
+				"Income tax, higher rate: 42% × £16,338 = £6,861.96",
+				"Class 4 NI: 6% × (£50,270 − £12,570) = £2,262",
+				"Class 4 NI: 2% × (£60,000 − £50,270) = £194.60",
+				"Take-home: £60,000 − £13,182.05 − £2,456.60 = £44,361.35",
+				"Limited company —",
+				"Company income: £60,000",
+				"Director salary: £12,570, the suggested salary (the £12,570 primary threshold, or the most the company can pay with employer NI)",
+				"Employer NI: 15% × (£12,570 − £5,000) = £1,135.50",
+				"Company profit: £60,000 − £12,570 − £1,135.50 = £46,294.50",
+				"Corporation tax: 19% small profits rate × £46,294.50 = £8,795.96",
+				"Dividends: £46,294.50 − £8,795.96 = £37,498.54, all of the profit after tax",
+				"Personal allowance on salary and dividends: £12,570, as £50,068.54 is not over £100,000",
+				"Taxable salary: £12,570 − £12,570 of allowance = £0",
+				"Taxable dividends: £37,498.54 − £0 of allowance left = £37,498.54",
+				"Income tax on salary: nothing",
+				"Class 1 NI on salary: nothing, as £12,570 is not above £12,570",
+				"Dividend allowance: £500 at 0%, from £0 to £500 of taxable income",
+				"Dividend tax, ordinary rate: 10.75% × £36,998.54 = £3,977.34",
+				"Take-home: £12,570 + £37,498.54 − £0 − £0 − £3,977.34 = £46,091.20",
+				"Most left: through the company, £46,091.20"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 12570,
+					"incomeTax": 13182.05,
+					"nationalInsurance": 3210.6,
+					"takeHome": 43607.35
+				},
+				"soleTrader": {
+					"personalAllowance": 12570,
+					"incomeTax": 13182.05,
+					"nationalInsurance": 2456.6,
+					"takeHome": 44361.35
+				},
+				"limitedCompany": {
+					"directorSalary": 12570,
+					"employerNationalInsurance": 1135.5,
+					"profit": 46294.5,
+					"corporationTaxBand": "smallProfitsRate",
+					"marginalRelief": 0,
+					"corporationTax": 8795.96,
+					"dividends": 37498.54,
+					"personalAllowance": 12570,
+					"salaryIncomeTax": 0,
+					"employeeNationalInsurance": 0,
+					"dividendTax": 3977.34,
+					"takeHome": 46091.2
+				},
+				"bestRoute": "limitedCompany"
+			}
+		},
+		{
+			"name": "£20,000 with a £30,000 salary the company cannot pay: no company figure",
+			"inputs": {
+				"income": 20000,
+				"directorSalary": 30000
+			},
+			"working": [
+				"Employed —",
+				"Salary: £20,000",
+				"Personal allowance: £12,570, as £20,000 is not over £100,000",
+				"Taxable income: £20,000 − £12,570 = £7,430",
+				"Income tax, basic rate: 20% × £7,430 = £1,486",
+				"Class 1 NI: 8% × (£20,000 − £12,570) = £594.40",
+				"Take-home: £20,000 − £1,486 − £594.40 = £17,919.60",
+				"Sole trader —",
+				"Profit: £20,000",
+				"Personal allowance: £12,570, as £20,000 is not over £100,000",
+				"Taxable income: £20,000 − £12,570 = £7,430",
+				"Income tax, basic rate: 20% × £7,430 = £1,486",
+				"Class 4 NI: 6% × (£20,000 − £12,570) = £445.80",
+				"Take-home: £20,000 − £1,486 − £445.80 = £18,068.20",
+				"Limited company —",
+				"Company income: £20,000",
+				"Director salary: £30,000, as chosen",
+				"The company cannot pay £30,000 plus £3,750 employer NI from £20,000, so there is no company figure",
+				"Most left: as a sole trader, £18,068.20"
+			],
+			"expected": {
+				"employed": {
+					"personalAllowance": 12570,
+					"incomeTax": 1486,
+					"nationalInsurance": 594.4,
+					"takeHome": 17919.6
+				},
+				"soleTrader": {
+					"personalAllowance": 12570,
+					"incomeTax": 1486,
+					"nationalInsurance": 445.8,
+					"takeHome": 18068.2
+				},
+				"limitedCompany": null,
+				"bestRoute": "soleTrader"
+			}
+		}
+	]
+}

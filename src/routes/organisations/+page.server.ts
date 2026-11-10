@@ -24,11 +24,7 @@ export const actions: Actions = {
 		const details = readOrganisationDetails(await request.formData());
 		const refusal = validateOrganisationDetails(details);
 		if (refusal !== null) return fail(400, { message: refusal });
-		const organisationId = await createOrganisation(locals.supabase, {
-			details,
-			parentOrganisationId: null,
-			createdBy: user.id
-		});
+		const organisationId = await createOrganisation(locals.supabase, { details, createdBy: user.id });
 		if (organisationId === null) return fail(400, { message: nameTaken });
 		return { message: `${details.name} created.` };
 	}

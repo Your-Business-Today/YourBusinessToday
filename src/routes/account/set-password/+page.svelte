@@ -20,6 +20,7 @@
 		</p>
 	</div>
 	<form method="POST" action="?/setPassword" class="flex flex-col gap-4">
+		<input type="hidden" name="next" value={data.nextDestination} />
 		<SmallCapsField label="New password">
 			<input
 				name="password"

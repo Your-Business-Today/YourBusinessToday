@@ -266,10 +266,29 @@ does about what they are building and what they might want automated.
   table — Add as lead and Add with directors — or a link to the client when it is already
   ours. Without `COMPANIES_HOUSE_API_KEY` the map still draws the register in the area
   and says that the wider search needs the key.
-- `/people/[personId]` — gains Find on the web beside Draft approach. The findings open
-  in a modal: the summary, the roles found (each with where it was read), the links as
-  ticked checkboxes, and every source consulted. Save keeps the ticked links on the person
-  and writes the summary as a note of kind `research`, with the sources beneath it.
+- `/people/[personId]` — gains Ask your Claude to research beside Draft approach. Since
+  10 Nov 2026 YBT calls no model for it: the modal gives the words to paste into a chat
+  with the staff member's own Claude, which reads the person with the connector's
+  `read_person`, searches the web itself, shows what it found and saves it with
+  `save_person_research`. Saving adds the links the person does not have yet and writes
+  the summary as a note of kind `research`, with the roles and sources beneath it.
+- `/people/[personId]` and each person card on `/clients/[clientId]` — Draft approach
+  becomes Ask your Claude to draft the approach. Since 10 Nov 2026 YBT calls no model for
+  it either: the modal gives the words to paste, the staff member's Claude reads the
+  person with `read_person` (which now gives their seniority, warmth, last contact, next
+  action and our standing with each company, as the old brief did), writes the opening
+  message and call plan under the old prompt's rules (carried as the action's guidance),
+  shows it for editing and saves it with `save_person_approach`. Saving adds a note of
+  kind `approach` laid out as before and records `approach_drafted` on each company.
+- `/clients/[clientId]` — the job adverts panel lists the adverts kept on the company,
+  each with its board page, posted date, the day it was found and whether it is a role we
+  replace or amplify. Since 10 Nov 2026 YBT searches nothing for it: Find open job adverts
+  becomes Ask your Claude to find its job adverts, which gives the words to paste. The
+  staff member's Claude searches the job boards the site always read (never LinkedIn,
+  carried as the action's guidance), shows what it found and saves it with
+  `save_company_job_adverts`; `read_company_job_adverts` gives back what is kept. On
+  `/clients/map` and a patch's map the same button asks only to be shown the adverts of a
+  company not on the register, since only a client can keep them.
 - `/clients` and `/clients/prospect` gain a Map an area link; the company profile on
   `/clients/[clientId]` gains a postcode field.
 
@@ -278,7 +297,9 @@ does about what they are building and what they might want automated.
 ```
 /clients ──▶ /clients/map ──(add)──▶ /clients/[clientId]
 /clients/prospect ──▶ /clients/map
-/people/[personId] ──(Find on the web)──▶ findings modal ──(save)──▶ /people/[personId]
+/people/[personId] ──(Ask your Claude to research)──▶ the words to paste ──▶ the staff member's Claude ──(save_person_research)──▶ /people/[personId]
+/people/[personId] ──(Ask your Claude to draft the approach)──▶ the words to paste ──▶ the staff member's Claude ──(save_person_approach)──▶ /people/[personId]
+/clients/[clientId] ──(Ask your Claude to find its job adverts)──▶ the words to paste ──▶ the staff member's Claude ──(save_company_job_adverts)──▶ /clients/[clientId]
 ```
 
 ### The entities
@@ -303,8 +324,9 @@ not saved is gone when the modal closes.
 | Command | Story it serves |
 | --- | --- |
 | `addProspectAsLead`, `importCompanyOfficers` | unchanged; the map posts to the same actions as the prospect table, now carrying the postcode |
-| `researchPerson` | search the open web, then record the findings through a forced tool |
-| `savePersonFindings` | the ticked links become person links; the summary and sources become a research note |
+| `save_person_research` (connector) | the staff member's Claude sends its findings, each value checked and refused if it does not fit; new links become person links, the summary, roles and sources become a research note, and `person_researched` is recorded on each company |
+| `save_person_approach` (connector) | the staff member's Claude sends the approach it drafted, the opening message and call plan each checked against its limit and refused if it does not fit; it becomes an `approach` note and `approach_drafted` is recorded on each company. It replaces `draftApproach`, which called Anthropic |
+| `save_company_job_adverts` (connector) | the staff member's Claude sends the adverts it found on the job boards, each title, board page and posted date checked and refused if it does not fit; each is kept in `client_job_adverts`, one row per advert page, and a page already kept is left as it was. It replaces `findJobAdverts`, which searched through Anthropic and kept nothing |
 
 | Query | Story it serves |
 | --- | --- |

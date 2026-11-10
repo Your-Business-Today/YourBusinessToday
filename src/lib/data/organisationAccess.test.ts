@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { deriveProjectMemberships, isOnOrganisation, lineageOf, managesOrganisation } from './organisationAccess';
+import { deriveProjectMemberships, isOnOrganisation, managesOrganisation, reachesOrganisation } from './organisationAccess';
 import {
 	jeremy,
+	jewelPassiveFire,
 	memberships,
 	nigel,
 	nigelOnJewel,
-	organisations,
 	passiveFirePortal,
 	personalProject,
 	projects,
@@ -14,28 +14,33 @@ import {
 } from './organisationAccess.fixtures';
 
 function projectsReachedBy(accountId: string): string[] {
-	return deriveProjectMemberships(organisations, memberships, projects)
+	return deriveProjectMemberships(memberships, projects)
 		.filter((membership) => membership.accountId === accountId)
 		.map((membership) => membership.projectId);
 }
 
-describe('a sub-organisation sits under its parent', () => {
-	it('is reached through itself or through the parent, and a parent only through itself', () => {
-		expect(lineageOf(organisations, 'jewel-pfp')).toEqual(['jewel-pfp', 'jewel']);
-		expect(lineageOf(organisations, 'jewel')).toEqual(['jewel']);
+describe('every organisation is one company', () => {
+	it('is reached only by the people on it, and by staff', () => {
+		const onJewelAlone = [nigelOnJewel];
+		expect(reachesOrganisation({ accountId: nigel, isStaff: false, organisationMemberships: onJewelAlone }, jewelPassiveFire)).toBe(false);
+		expect(reachesOrganisation({ accountId: scarlett, isStaff: true, organisationMemberships: [] }, jewelPassiveFire)).toBe(true);
+	});
+
+	it('grants its projects through itself alone', () => {
+		expect(deriveProjectMemberships([nigelOnJewel], [passiveFirePortal])).toEqual([]);
 	});
 });
 
-describe('Jeremy, project manager of Jewel Enterprises', () => {
-	it('adds people to Jewel Passive Fire Protection because he manages the organisation above it', () => {
-		expect(managesOrganisation(memberships, organisations, jeremy, 'jewel-pfp')).toBe(true);
-		expect(managesOrganisation(memberships, organisations, jeremy, 'jewel-bb')).toBe(true);
-		expect(managesOrganisation(memberships, organisations, jeremy, 'jewel')).toBe(true);
+describe('Jeremy, project manager of Jewel Enterprises and of each Jewel company', () => {
+	it('adds people to each company he manages', () => {
+		expect(managesOrganisation(memberships, jeremy, 'jewel-pfp')).toBe(true);
+		expect(managesOrganisation(memberships, jeremy, 'jewel-bb')).toBe(true);
+		expect(managesOrganisation(memberships, jeremy, 'jewel')).toBe(true);
 	});
 
 	it('manages nothing at Your Business Today, where he is only a member', () => {
-		expect(isOnOrganisation(memberships, organisations, jeremy, 'ybt')).toBe(true);
-		expect(managesOrganisation(memberships, organisations, jeremy, 'ybt')).toBe(false);
+		expect(isOnOrganisation(memberships, jeremy, 'ybt')).toBe(true);
+		expect(managesOrganisation(memberships, jeremy, 'ybt')).toBe(false);
 	});
 
 	it('is on every Jewel project and every Your Business Today project, so he sees each new one', () => {
@@ -44,10 +49,10 @@ describe('Jeremy, project manager of Jewel Enterprises', () => {
 });
 
 describe('Stuart, project manager of Jewel Passive Fire Protection alone', () => {
-	it('adds people to Jewel Passive Fire Protection but not to Jewel Enterprises or its other businesses', () => {
-		expect(managesOrganisation(memberships, organisations, stuart, 'jewel-pfp')).toBe(true);
-		expect(managesOrganisation(memberships, organisations, stuart, 'jewel')).toBe(false);
-		expect(managesOrganisation(memberships, organisations, stuart, 'jewel-bb')).toBe(false);
+	it('adds people to Jewel Passive Fire Protection but not to Jewel Enterprises or another company', () => {
+		expect(managesOrganisation(memberships, stuart, 'jewel-pfp')).toBe(true);
+		expect(managesOrganisation(memberships, stuart, 'jewel')).toBe(false);
+		expect(managesOrganisation(memberships, stuart, 'jewel-bb')).toBe(false);
 	});
 
 	it('is on the Passive Fire Protection projects and no other Jewel project', () => {
@@ -55,22 +60,22 @@ describe('Stuart, project manager of Jewel Passive Fire Protection alone', () =>
 	});
 });
 
-describe('Nigel, a member of Jewel Enterprises', () => {
+describe('Nigel, a member of Jewel Enterprises and of each Jewel company', () => {
 	it('reaches every Jewel project without managing any organisation', () => {
-		expect(managesOrganisation(memberships, organisations, nigel, 'jewel')).toBe(false);
-		expect(managesOrganisation(memberships, organisations, nigel, 'jewel-pfp')).toBe(false);
+		expect(managesOrganisation(memberships, nigel, 'jewel')).toBe(false);
+		expect(managesOrganisation(memberships, nigel, 'jewel-pfp')).toBe(false);
 		expect(projectsReachedBy(nigel)).toEqual(['pfp-portal', 'pfp-website', 'bb-portal', 'phone-line']);
 	});
 
 	it('is not made a member of a project he already owns', () => {
-		const nigelOwnsPassiveFirePortal = { ...passiveFirePortal, ownerId: nigel };
-		expect(deriveProjectMemberships(organisations, [nigelOnJewel], [nigelOwnsPassiveFirePortal])).toEqual([]);
+		const nigelOwnsPhoneLine = { ...passiveFirePortal, organisationId: 'jewel', ownerId: nigel };
+		expect(deriveProjectMemberships([nigelOnJewel], [nigelOwnsPhoneLine])).toEqual([]);
 	});
 });
 
 describe('a project under no organisation', () => {
 	it('is reached by nobody through an organisation', () => {
-		expect(deriveProjectMemberships(organisations, memberships, [personalProject])).toEqual([]);
+		expect(deriveProjectMemberships(memberships, [personalProject])).toEqual([]);
 	});
 });
 
@@ -78,9 +83,9 @@ describe('Stuart and Scarlett, both project managers of Jewel Passive Fire Prote
 	const scarlettManagesPassiveFire = { organisationId: 'jewel-pfp', accountId: scarlett, isManager: true };
 	const twoManagers = [...memberships, scarlettManagesPassiveFire];
 
-	it('each manage it, while Jeremy still manages it from the organisation above', () => {
+	it('each manage it, as Jeremy does', () => {
 		const managersOfPassiveFire = [stuart, scarlett, jeremy].filter((accountId) =>
-			managesOrganisation(twoManagers, organisations, accountId, 'jewel-pfp')
+			managesOrganisation(twoManagers, accountId, 'jewel-pfp')
 		);
 		expect(managersOfPassiveFire).toEqual([stuart, scarlett, jeremy]);
 	});
@@ -88,7 +93,7 @@ describe('Stuart and Scarlett, both project managers of Jewel Passive Fire Prote
 	it('leaves Stuart a manager when Scarlett stops being one', () => {
 		const scarlettOnPassiveFire = { ...scarlettManagesPassiveFire, isManager: false };
 		const oneManager = [...memberships, scarlettOnPassiveFire];
-		expect(managesOrganisation(oneManager, organisations, scarlett, 'jewel-pfp')).toBe(false);
-		expect(managesOrganisation(oneManager, organisations, stuart, 'jewel-pfp')).toBe(true);
+		expect(managesOrganisation(oneManager, scarlett, 'jewel-pfp')).toBe(false);
+		expect(managesOrganisation(oneManager, stuart, 'jewel-pfp')).toBe(true);
 	});
 });

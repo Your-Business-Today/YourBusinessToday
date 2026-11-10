@@ -1,9 +1,12 @@
 import { describeOrganisationInFull, describeOrganisationList } from './describeOrganisation';
-import { getOrganisation } from '$lib/server/organisations/getOrganisation';
-import { getOrganisationFamily } from '$lib/server/organisations/getOrganisationFamily';
 import { getMembersOfOrganisation } from '$lib/server/organisations/getMembersOfOrganisation';
 import { getOrganisationsWithCounts } from '$lib/server/organisations/getOrganisationsWithCounts';
 import { getProjectsForOrganisation } from '$lib/server/organisations/getProjectsForOrganisation';
+import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
+import { getDirectorsOfOrganisation } from '$lib/server/boardroom/getDirectorsOfOrganisation';
+import { directorListSentence } from '$lib/data/boardroomDirector';
+import { moduleListSentence } from '$lib/data/organisationModules';
+import { usableModules } from '$lib/data/organisationModuleAccess';
 import { canReachOrganisation, noSuchOrganisation, reachableOrganisation } from '../organisationAccess';
 import { objectSchema, readText } from '../actionTypes';
 import { organisationIdField } from './organisationDetailsFields';
@@ -18,7 +21,7 @@ export const organisationReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'the organisations you are on, each with its sub-organisations, project count and people — staff see every one',
+			'the organisations you are on, each with its project count and people — staff see every one',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
 			const register = await getOrganisationsWithCounts(caller.supabase);
@@ -31,7 +34,7 @@ export const organisationReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'one organisation in full: how it is invoiced, its people and their standing, its sub-organisations and its projects',
+			'one organisation in full: how it is invoiced, which modules are switched on, its directors when Boardroom is on, its people and their standing, and its projects',
 		inputSchema: objectSchema({ organisationId: organisationIdField }, ['organisationId']),
 		run: async (caller, input) => {
 			const organisation = await reachableOrganisation(caller, readText(input, 'organisationId'));
@@ -42,17 +45,15 @@ export const organisationReadActions: McpAction[] = [
 ];
 
 async function describeInFull(caller: McpCaller, organisation: Organisation): Promise<string> {
-	const [parent, family, members, projects] = await Promise.all([
-		parentOf(caller, organisation),
-		getOrganisationFamily(caller.supabase, organisation.id),
+	const [members, projects, switchedOn, directors] = await Promise.all([
 		getMembersOfOrganisation(caller.supabase, organisation.id),
-		getProjectsForOrganisation(caller.supabase, organisation.id)
+		getProjectsForOrganisation(caller.supabase, organisation.id),
+		getSwitchedOnModules(caller.supabase, organisation.id),
+		getDirectorsOfOrganisation(caller.supabase, organisation.id)
 	]);
-	const children = family.filter((candidate) => candidate.parentOrganisationId === organisation.id);
-	return describeOrganisationInFull(organisation, parent, children, members, projects);
-}
-
-function parentOf(caller: McpCaller, organisation: Organisation): Promise<Organisation | null> {
-	if (organisation.parentOrganisationId === null) return Promise.resolve(null);
-	return getOrganisation(caller.supabase, organisation.parentOrganisationId);
+	const modules = usableModules(caller, { organisation, switchedOn });
+	const modulesLine = `Modules switched on: ${moduleListSentence(modules)}`;
+	const directorsLines = modules.includes('boardroom') ? [`Directors: ${directorListSentence(directors)}`] : [];
+	const description = describeOrganisationInFull(organisation, members, projects);
+	return [description, '', modulesLine, ...directorsLines].join('\n');
 }

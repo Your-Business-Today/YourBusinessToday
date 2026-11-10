@@ -38,9 +38,7 @@
 
 	/** The organisation chip narrows both boards at once. */
 	const teamProjectsUnderFilter = $derived(
-		teamProjects.filter((project) =>
-			matchesOrganisationFilter(project.organisationId, listView.selectedOrganisation, organisations)
-		)
+		teamProjects.filter((project) => matchesOrganisationFilter(project.organisationId, listView.selectedOrganisation))
 	);
 	const hasProjectsUnderNone = $derived(
 		[...listView.filteredProjects, ...teamProjects].some((project) => project.organisationId === null)

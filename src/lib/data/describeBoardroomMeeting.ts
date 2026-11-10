@@ -1,0 +1,96 @@
+import { ukMeetingTime } from './ukMeetingTime';
+import { paperLinesOfItem } from './describeBoardroomPaper';
+import { recordPaperLinesOfItem } from './describeBoardroomRecordPaper';
+import { briefLinesOfItem } from './describeBoardroomBrief';
+import { roomLinesOnAgenda } from './describeBoardroomRoom';
+import { decisionLineOnAgenda } from './describeBoardDecision';
+import { meetingHeading } from './describeMeetingHeading';
+import { decisionOnItem } from './boardDecisionOnItem';
+import { minutesLinesOnMeeting } from './describeBoardMinutes';
+import { actionLinesOfItem } from './describeBoardActions';
+import type { MeetingRoom } from './boardroomRoom';
+import { directorsOnMeeting, meetingStage, standingAgenda, type AgendaItem, type BoardroomMeeting } from './boardroomMeeting';
+import type { BoardroomDirector } from './boardroomDirector';
+import type { BoardroomPaper } from './boardroomPaper';
+import type { BoardroomRecordPaper } from './boardroomRecordPaper';
+import type { MeetingBriefing } from './boardroomBrief';
+import type { SeatControls } from './boardroomSeatControls';
+import type { MeetingDecisions } from './boardroomDecision';
+import type { MeetingMinutes } from './boardroomMinutes';
+import type { MeetingActions } from './boardroomAction';
+
+/**
+ * Everything a director reads of one meeting: the meeting, its board, every item ever put on its agenda and
+ * their papers; and, when it is read for one director, what they know of its briefs and what they told their Claude.
+ */
+export type MeetingRecord = {
+	meeting: BoardroomMeeting;
+	directors: BoardroomDirector[];
+	items: AgendaItem[];
+	papers: BoardroomPaper[];
+	recordPapers: BoardroomRecordPaper[];
+	briefing?: MeetingBriefing;
+	room?: MeetingRoom;
+	controls?: SeatControls;
+	decisions?: MeetingDecisions;
+	minutes?: MeetingMinutes;
+	actions?: MeetingActions;
+};
+
+export const agendaPurposeWords = { decision: 'for decision', noting: 'to note' } as const;
+const anyOtherBusinessWords = ' (any other business)';
+
+function agendaLine(item: AgendaItem, index: number): string {
+	const aside = item.isAnyOtherBusiness ? anyOtherBusinessWords : '';
+	return `${index + 1}. ${item.title} — ${agendaPurposeWords[item.purpose]}${aside}`;
+}
+
+function itemLines(record: MeetingRecord, item: AgendaItem, index: number, now: Date): string[] {
+	const onIt = directorsOnMeeting(record.directors, record.meeting, now);
+	const papers = paperLinesOfItem(record.papers, item.id, record.directors);
+	const recordPapers = recordPaperLinesOfItem(record.recordPapers, item.id, record.directors);
+	const briefs = briefLinesOfItem(record.briefing, item.id, onIt);
+	const room = roomLinesOnAgenda(record, item, now);
+	const decision = decisionLineOnAgenda(decisionOnItem(record, item, now), record.directors);
+	const actions = actionLinesOfItem(record, item, now);
+	return [agendaLine(item, index), ...papers, ...recordPapers, ...briefs, ...room, ...decision, ...actions];
+}
+
+function agendaLines(record: MeetingRecord, now: Date): string[] {
+	const agenda = standingAgenda(record.items);
+	return agenda.flatMap((item, index) => itemLines(record, item, index, now));
+}
+
+function withdrawnLines(items: AgendaItem[]): string[] {
+	const withdrawn = items.filter((item) => item.withdrawnAt !== null).map((item) => `- ${item.title}`);
+	if (withdrawn.length === 0) return [];
+	return ['', 'Withdrawn before the meeting:', ...withdrawn];
+}
+
+/** One meeting as read_board_meeting gives it: its numbers are the ones change_board_agenda takes. */
+export function describeBoardroomMeeting(organisationName: string, record: MeetingRecord, now: Date): string {
+	const agenda = agendaLines(record, now);
+	const heading = meetingHeading(organisationName, record, now);
+	const minutes = minutesLinesOnMeeting(record, now);
+	return [...heading, '', 'Agenda:', ...agenda, ...withdrawnLines(record.items), ...minutes].join('\n');
+}
+
+export type MeetingSummary = {
+	meeting: BoardroomMeeting;
+	itemCount: number;
+	chairName: string;
+};
+
+function summaryLine(summary: MeetingSummary, now: Date): string {
+	const meeting = summary.meeting;
+	const when = ukMeetingTime(meeting.meetsAt);
+	return `- ${when}, ${meetingStage(meeting, now)}: ${summary.itemCount} agenda items, chaired by ${summary.chairName} (meeting ${meeting.id})`;
+}
+
+/** An organisation's meetings as list_board_meetings gives them, latest first. */
+export function describeBoardroomMeetings(organisationName: string, summaries: MeetingSummary[], now: Date): string {
+	if (summaries.length === 0)
+		return `No board meeting of ${organisationName} has been called yet. Call one with call_board_meeting.`;
+	const lines = summaries.map((summary) => summaryLine(summary, now));
+	return [`Board meetings of ${organisationName}, latest first:`, ...lines].join('\n');
+}

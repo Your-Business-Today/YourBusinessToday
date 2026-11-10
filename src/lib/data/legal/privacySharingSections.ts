@@ -8,8 +8,8 @@ export const privacySharingSections: LegalSection[] = [
 		listItems: [
 			'Supabase — the database, the sign-in, and the storage where attachments and documents live.',
 			'Vercel — hosting of the application.',
-			'Anthropic — the AI processing described above.',
-			'Resend — sending the service’s emails, such as invitations and enquiry notifications.'
+			'Anthropic — the Claude assistant our staff work with, as described above.',
+			'Resend — sending the service’s emails, such as invitations, enquiry notifications and the tax deadlines email the calculator sends when you ask for it.'
 		]
 	},
 	{
@@ -28,7 +28,7 @@ export const privacySharingSections: LegalSection[] = [
 		heading: 'If your business named you as a contact',
 		paragraphs: [
 			'You may be reading this because somebody else brought you here: your business named you as a contact so that you could use the portal. This part is for you.',
-			'We hold your name, email address, phone number and role as your business gave them to us, along with the requests you raise, the messages you write and the files you attach. The other contacts at your business and the staff working on your projects can see them. Where the portal generates something from a thread, that thread goes to Anthropic as described above.',
+			'We hold your name, email address, phone number and role as your business gave them to us, along with the requests you raise, the messages you write and the files you attach. The other contacts at your business and the staff working on your projects can see them. Where a member of our staff asks their Claude assistant about a thread, it reads that thread as described above.',
 			`You have the same rights as anybody else named in this statement. If you would rather not be a contact, tell your business and they can remove you — or write to ${companyDetails.consultingEmail} and we will.`
 		]
 	}

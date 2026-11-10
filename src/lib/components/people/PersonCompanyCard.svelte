@@ -35,7 +35,7 @@
 			{:else}
 				<span class="text-xs text-chalk/40">Not researched yet</span>
 			{/if}
-			<a href={researchHref} class={quietButtonClasses}>Research</a>
+			<a href={researchHref} class={quietButtonClasses}>Ask your Claude to research</a>
 		</div>
 	</div>
 	{#if company.parentName === ''}

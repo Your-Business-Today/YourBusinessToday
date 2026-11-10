@@ -2,7 +2,6 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { mapArea, type AreaMap } from '$lib/server/clients/area/mapArea';
 import { prospectFormActions } from '$lib/server/clients/prospectFormActions';
 import { readAreaSearch, type AreaSearch } from '$lib/data/areaSearch';
-import { jobAdvertFormActions } from '$lib/server/jobAdverts/jobAdvertFormActions';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -30,4 +29,4 @@ async function areaFor(supabase: SupabaseClient, search: AreaSearch | null): Pro
 	}
 }
 
-export const actions: Actions = { ...prospectFormActions, ...jobAdvertFormActions };
+export const actions: Actions = { ...prospectFormActions };

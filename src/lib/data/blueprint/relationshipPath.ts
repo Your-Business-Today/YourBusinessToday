@@ -1,28 +1,33 @@
-import type { PlacedEntity } from './domainLayout';
-
 const sideBySideMargin = 8;
 const loopReach = 36;
 
 type Point = { x: number; y: number };
 
-/** A curve from one entity's box to another's, leaving and arriving on the sides that face each other. */
-export function relationshipPath(from: PlacedEntity, to: PlacedEntity): string {
+/** Any box placed on a map: where it starts and how big it is. */
+export type MapBox = Point & { width: number; height: number };
+
+/** A curve from one box on a map to another, in that direction, leaving and arriving on the sides that face each other. */
+export function relationshipPath(from: MapBox, to: MapBox): string {
 	const isToTheRight = to.x > from.x + from.width + sideBySideMargin;
 	const isToTheLeft = to.x + to.width + sideBySideMargin < from.x;
 	if (isToTheRight) return rightwardCurve(from, to);
-	if (isToTheLeft) return rightwardCurve(to, from);
+	if (isToTheLeft) return leftwardCurve(from, to);
 	return loopOnTheRight(rightMiddle(from), rightMiddle(to));
 }
 
-function rightwardCurve(left: PlacedEntity, right: PlacedEntity): string {
-	return curve(rightMiddle(left), leftMiddle(right));
+function rightwardCurve(from: MapBox, to: MapBox): string {
+	return curve(rightMiddle(from), leftMiddle(to));
 }
 
-function rightMiddle(placed: PlacedEntity): Point {
+function leftwardCurve(from: MapBox, to: MapBox): string {
+	return curve(leftMiddle(from), rightMiddle(to));
+}
+
+function rightMiddle(placed: MapBox): Point {
 	return { x: placed.x + placed.width, y: placed.y + placed.height / 2 };
 }
 
-function leftMiddle(placed: PlacedEntity): Point {
+function leftMiddle(placed: MapBox): Point {
 	return { x: placed.x, y: placed.y + placed.height / 2 };
 }
 

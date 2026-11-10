@@ -28,10 +28,15 @@ jobs:
       PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Refuse a migration that would lose data
+        if: github.event_name == 'pull_request'
+        run: node scripts/migrations/check-added-migrations.mjs "${{ github.event.pull_request.base.sha }}"
       - run: npm test
       - run: npm run build

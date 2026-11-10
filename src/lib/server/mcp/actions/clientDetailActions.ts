@@ -3,6 +3,7 @@ import { getClient } from '$lib/server/clients/getClient';
 import { getContactsForClient } from '$lib/server/clients/getContactsForClient';
 import { getEventsForClient } from '$lib/server/clients/getEventsForClient';
 import { getProjectsForClient } from '$lib/server/clients/getProjectsForClient';
+import { readClientResearchGuidance } from './companyResearchGuidance';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -15,7 +16,8 @@ export const clientDetailActions: McpAction[] = [
 		area: 'clients',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'one client in full, with their contacts and the projects we run for them',
+		summary: 'one client in full, with their company profile, their contacts and the projects we run for them',
+		guidance: readClientResearchGuidance,
 		inputSchema: objectSchema({ clientId: clientIdField }, ['clientId']),
 		run: async (caller, input) => readClientInFull(caller, readText(input, 'clientId'))
 	},

@@ -1,21 +1,20 @@
 import { getOrganisation } from '$lib/server/organisations/getOrganisation';
-import { isOnOrganisation, managesOrganisation } from '$lib/data/organisationAccess';
+import { managesOrganisation, reachesOrganisation } from '$lib/data/organisationAccess';
 import type { McpCaller } from './resolveMcpCaller';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
 export const noSuchOrganisation =
 	'No organisation you are on has that id. Call list_organisations for the ones you are on.';
 export const notAnOrganisationManager =
-	'Only a project manager of that organisation, or of the organisation above it, or staff can do that.';
+	'Only a project manager of that organisation, or staff, can do that.';
 
 export function canReachOrganisation(caller: McpCaller, organisation: Organisation): boolean {
-	if (caller.isStaff) return true;
-	return isOnOrganisation(caller.organisationMemberships, [organisation], caller.accountId, organisation.id);
+	return reachesOrganisation(caller, organisation);
 }
 
 export function canManageOrganisation(caller: McpCaller, organisation: Organisation): boolean {
 	if (caller.isStaff) return true;
-	return managesOrganisation(caller.organisationMemberships, [organisation], caller.accountId, organisation.id);
+	return managesOrganisation(caller.organisationMemberships, caller.accountId, organisation.id);
 }
 
 export async function reachableOrganisation(

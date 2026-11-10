@@ -15,6 +15,7 @@ export type Goal = {
 	isAutocomplete: boolean;
 	createdBy: string | null;
 	createdAt: string;
+	contextVersionId: string | null;
 };
 
 export function parseGoalRecord(row: Record<string, unknown>): Goal {
@@ -29,6 +30,7 @@ export function parseGoalRecord(row: Record<string, unknown>): Goal {
 		priority: row.priority as number,
 		isAutocomplete: parseGoalAutocomplete(row.is_autocomplete),
 		createdBy: (row.created_by as string) ?? null,
-		createdAt: row.created_at as string
+		createdAt: row.created_at as string,
+		contextVersionId: (row.context_version_id as string) ?? null
 	};
 }

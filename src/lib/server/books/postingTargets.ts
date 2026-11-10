@@ -1,0 +1,22 @@
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { JournalInput } from '$lib/data/books/journalRules';
+import { findOrganisationRecords, unusableRecordRefusal } from './organisationRecords';
+
+/** Why a journal's accounts, cost centres or reversed journal are not the organisation's to post to, or null. */
+export async function postingTargetRefusal(supabase: SupabaseClient, organisationId: string, journal: JournalInput): Promise<string | null> {
+	const accountIds = journal.lines.map((line) => line.accountId);
+	const accounts = await findOrganisationRecords(supabase, 'books_ledger_accounts', organisationId, accountIds);
+	const accountRefusal = unusableRecordRefusal('account', accountIds, accounts);
+	if (accountRefusal !== null) return accountRefusal;
+	const costCentreIds = journal.lines.flatMap((line) => (line.costCentreId === null ? [] : [line.costCentreId]));
+	const costCentres = await findOrganisationRecords(supabase, 'books_cost_centres', organisationId, costCentreIds);
+	const costCentreRefusal = unusableRecordRefusal('cost centre', costCentreIds, costCentres);
+	if (costCentreRefusal !== null) return costCentreRefusal;
+	return reversedJournalRefusal(supabase, organisationId, journal.reversesJournalId);
+}
+
+async function reversedJournalRefusal(supabase: SupabaseClient, organisationId: string, journalId: string | null): Promise<string | null> {
+	if (journalId === null) return null;
+	const journals = await findOrganisationRecords(supabase, 'books_journals', organisationId, [journalId], 'id');
+	return unusableRecordRefusal('reversed journal', [journalId], journals);
+}

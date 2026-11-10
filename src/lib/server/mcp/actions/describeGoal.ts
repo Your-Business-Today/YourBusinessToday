@@ -19,7 +19,8 @@ export function goalLine(goal: Goal): string {
 	const horizon = goalHorizonLabels[goal.horizon].toLowerCase();
 	const place = `priority ${goal.priority} among the ${horizon} goals, id: ${goal.id}`;
 	const autocomplete = `autocomplete ${autocompleteWord(goal.isAutocomplete)}`;
-	return `${goal.title} — ${goalStatusLabels[goal.status]}, ${horizon} goal, ${autocomplete}, ${measure} (${place})`;
+	const service = goal.contextVersionId === null ? '' : ", a service from the client's confirmed company context";
+	return `${goal.title} — ${goalStatusLabels[goal.status]}, ${horizon} goal${service}, ${autocomplete}, ${measure} (${place})`;
 }
 
 /** "Current goals, in priority order:" and the lines under it, then the long term ones. */

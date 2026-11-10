@@ -10,7 +10,6 @@ import { standingLine } from '$lib/data/standingLine';
 import { getGroupParents } from '$lib/server/clients/getGroupParents';
 import { getSupportTasksForClient } from '$lib/server/support/getOpenSupportTasks';
 import { getUnassignedProjects } from '$lib/server/projects/getUnassignedProjects';
-import { approachFormActions } from '$lib/server/people/approachFormActions';
 import { groupActions } from './groupActions';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
 import { listObservationsForCompany } from '$lib/server/observations/listObservations';
@@ -18,7 +17,8 @@ import { personFormActions } from '$lib/server/people/personFormActions';
 import { profileActions } from './profileActions';
 import { continuityCopyActions } from './continuityCopyActions';
 import { registerActions } from './registerActions';
-import { jobAdvertFormActions } from '$lib/server/jobAdverts/jobAdvertFormActions';
+import { setUpActions } from './setUpActions';
+import { getJobAdvertsForClient } from '$lib/server/jobAdverts/getJobAdvertsForClient';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	await requireStaff(locals);
 	const client = await getClient(locals.supabase, params.clientId);
 	if (client === null) error(404, 'That client could not be found');
-	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany] =
+	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany, jobAdverts] =
 		await Promise.all([
 			getPeopleForClient(locals.supabase, client.id),
 			getProjectsForClient(locals.supabase, client.id),
@@ -37,20 +37,20 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			getGroupParents(locals.supabase),
 			client.parentClientId === null ? null : getClient(locals.supabase, client.parentClientId),
 			listObservationsForCompany(locals.supabase, companyNumberOf(client)),
-			getRegisterCompany(locals.supabase, companyNumberOf(client))
+			getRegisterCompany(locals.supabase, companyNumberOf(client)),
+			getJobAdvertsForClient(locals.supabase, client.id)
 		]);
 	const canImportOfficers = hasCompanyNumber(client) && isCompaniesHouseConfigured();
 	const figures = registerCompany?.figures ?? null;
 	const standing = registerCompany === null ? '' : standingLine(registerCompany);
-	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, standing, canImportOfficers };
+	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, standing, canImportOfficers, jobAdverts };
 };
 
 export const actions: Actions = {
 	...registerActions,
+	...setUpActions,
 	...profileActions,
 	...continuityCopyActions,
 	...personFormActions,
-	...approachFormActions,
-	...groupActions,
-	...jobAdvertFormActions
+	...groupActions
 };

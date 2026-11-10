@@ -5,11 +5,17 @@ const resendEndpoint = 'https://api.resend.com/emails';
 
 export type { EmailDelivery };
 
-export async function sendTransactionalEmail(email: {
+/** A file sent with the email: its name, and its bytes in base64 as Resend takes them. */
+export type EmailAttachment = { filename: string; content: string };
+
+export type TransactionalEmail = {
 	to: string;
 	subject: string;
 	html: string;
-}): Promise<EmailDelivery> {
+	attachments?: EmailAttachment[];
+};
+
+export async function sendTransactionalEmail(email: TransactionalEmail): Promise<EmailDelivery> {
 	if (!env.RESEND_API_KEY || !env.EMAIL_FROM) return 'skipped';
 	try {
 		return await deliverThroughResend(email);
@@ -19,11 +25,7 @@ export async function sendTransactionalEmail(email: {
 	}
 }
 
-async function deliverThroughResend(email: {
-	to: string;
-	subject: string;
-	html: string;
-}): Promise<EmailDelivery> {
+async function deliverThroughResend(email: TransactionalEmail): Promise<EmailDelivery> {
 	const response = await fetch(resendEndpoint, {
 		method: 'POST',
 		headers: {
@@ -34,7 +36,8 @@ async function deliverThroughResend(email: {
 			from: env.EMAIL_FROM,
 			to: [email.to],
 			subject: email.subject,
-			html: email.html
+			html: email.html,
+			attachments: email.attachments
 		})
 	});
 	if (!response.ok) throw new Error(`Resend answered ${response.status}`);

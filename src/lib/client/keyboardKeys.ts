@@ -1,6 +1,7 @@
 export const keyboardKeys = {
-	escape: 'Escape',
-	enter: 'Enter',
-	arrowLeft: 'ArrowLeft',
-	arrowRight: 'ArrowRight'
+  escape: "Escape",
+  enter: "Enter",
+  tab: "Tab",
+  arrowLeft: "ArrowLeft",
+  arrowRight: "ArrowRight",
 } as const;

@@ -13,6 +13,8 @@ The `run migrations` workflow (`.github/workflows/run-migrations.yml`, calling `
 - **The connection is the repository secret `SUPABASE_DB_URL`** (the Session pooler string). When a push adds a migration and the secret is not set, the workflow fails and says so, so nobody takes it for run. A push with no migration passes whether or not the secret is set.
 - **No one is at the keyboard when a migration runs, so it protects the data already there.** Additive (`create table if not exists`, `add column if not exists`), safe to run twice, never dropping or rewriting a table, column or row that holds data in use. The database backups are the safety net, not the plan.
 - **A green run is the record that a migration ran.** There is no list to confirm it on; a red run is the one thing to act on.
+- **Every table's rows are counted around the run.** Before the first migration and after the last, the run counts the rows of every table in the public schema (`scripts/migrations/count-every-table.sql`) and keeps both readings in `data_inventories`, one row each, sharing the run's `migration_run_id`. It counts rows and never reads what a row holds. When any table has fewer rows after than before, a table that is gone counting as empty, the run goes red naming each table and by how many; the readings are kept either way. A table the live site empties in the seconds the run takes would show the same, so a red count is looked into before anything else merges. An administrator's Claude reads the latest reading and the one before it through the connector's read_data_inventory action, which only administrators are offered.
+- **A migration that would take away data is refused before it merges.** *Run test suite* reads every migration file a pull request adds (`scripts/migrations/check-added-migrations.mjs`, rules in `src/lib/server/migrations/`) and fails when one drops or renames a table or a column, empties a table, deletes rows, or drops a type or domain with cascade, naming the file, the line and the statement. Statements inside a `do` block count; a function's body does not, since defining it runs nothing. The answer is a new table or column beside the old one with the rows copied in, never moved. Files already merged are never read again.
 
 ## The site stands before its migration runs
 
@@ -20,7 +22,7 @@ A pull request merges by itself when CI passes; Vercel deploys main and the run 
 
 - **Every reader of the new schema on a path every request runs** — a layout load, a hook, the connector's account standing — answers empty when the schema is not there yet: `if (isSchemaNotYetMigrated(error)) return <empty>;` before the `throw`, from `$lib/server/schema/schemaNotYetMigrated`. Readers behind a page of their own may fail until the migration runs; the connector already tells the caller a migration is missing.
 - **Writes are not guarded.** A write to a table that does not exist yet fails and says so; it is never quietly dropped.
-- **A migration that drops or renames something live code reads ships in two pull requests:** the first stops reading it, the second changes the schema once the first is deployed.
+- **Nothing live code reads is dropped or renamed.** A rename is a new table or column beside the old one, with the rows copied in and the code moved over to it; the old one stays where it is, unread, because CI refuses a migration that drops or renames it.
 
 ## A project's staging branch deploys at its window
 
@@ -43,3 +45,11 @@ Vercel project `ybt` is connected to Your-Business-Today/YourBusinessToday with 
 - **A fix ships by a merged pull request**, however small, and an urgent one is still a pull request that merges at green.
 - **A rollback is Vercel's own.** Open the project's Deployments, pick an earlier `main` production deployment and use Instant Rollback, Promote or Redeploy on it; then fix forward with a pull request.
 - **A pull request waits on its Vercel preview.** The preview is a required status check on `main`, so auto-merge does not fire while it builds or when it fails.
+
+## The connector checks itself after every production deploy
+
+The pipeline contract test proves in CI, against no database, that the connector still offers what the build pipeline calls. The `connector_self_check` watch source is the same check against the real thing: `.github/workflows/connector-self-check.yml` knocks on the cron door when Vercel reports a production deployment as successful (and on *Run workflow*), with the `CRON_SECRET` the deploy windows knock already uses, so it needs no setting of its own.
+
+- **It compares the deployed connector with `src/lib/server/mcp/pipelineContract.json`**: the tools as the MCP layer lists them, and the actions as they are offered to an administrator, every promised name, input and value.
+- **Then it runs reads against the live database** through the same MCP layer a client's Claude uses: the tools that only read, and a set of read actions through `run_read_action`, which refuses any action that writes, on the first project the administrator owns or is on. It never writes to a board; the only row it leaves is its own run in the watch run log.
+- **A failure is red in GitHub.** The door answers 500 with the failures, one sentence each, and the workflow prints them and fails; a tool that failed says only what its caller would be told, and the cause is in the site's logs.

@@ -3,15 +3,11 @@
 	import GoogleSignInButton from '$lib/components/account/GoogleSignInButton.svelte';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
 	import { page } from '$app/state';
-	import { isPortalPage } from '$lib/portal/portalPaths';
+	import { signInIntroductionFor } from '$lib/components/account/signInIntroduction';
 
 	let { data, form } = $props();
 
-	const staffIntroduction =
-		'New here? Create an account with your email address, or continue with Google.';
-	const portalIntroduction =
-		'Your client portal at Your Business Today. Use the email address your invitation went to.';
-	const introduction = $derived(isPortalPage(page.url) ? portalIntroduction : staffIntroduction);
+	const introduction = $derived(signInIntroductionFor(page.url));
 </script>
 
 <svelte:head>

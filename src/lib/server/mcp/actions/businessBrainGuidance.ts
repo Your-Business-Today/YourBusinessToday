@@ -1,0 +1,79 @@
+import { businessBrainPartKinds } from '$lib/data/businessBrainRules';
+
+const whatTheBrainIs =
+	"Your Business Brain is the organisation's own private memory. You do the reading and the thinking; " +
+	'Your Business Today keeps what you file and calls no AI model.';
+
+const howToFile = [
+	'File one subject to a page: one person, client, supplier, rule, process or fact. Split a document that covers several subjects into several pages.',
+	`Put each page in the part of the business it belongs to: ${businessBrainPartKinds.join(', ')}.`,
+	'Name the source every time: what you read it in (an email, a document, a meeting, a web page) and where it can be found. File every page you take from one source with the sourceId the first filing gave back.',
+	'File what the source says and nothing it does not. Where you are unsure what it means, which part it belongs to or whether it is still true, ask the person you are working with before filing, and file their answer with them named as the source.',
+	'Where you read a file — a document, a photo, an export — keep it with the brain through grant_business_brain_file_upload and record_business_brain_file_upload, and name it in sourceFileIds on every page written from it.',
+	'A subject already filed takes a revision, never a second page: the earlier version goes into the page’s history, and nothing is overwritten or deleted.',
+	'Never file a password, a key, or personal details the business has no need to keep.'
+];
+
+const fromMicrosoft365 = [
+	"Reading the business's mail, SharePoint, OneDrive or Teams through your Microsoft 365 connector: work through one subject and a date range at a time, never a whole mailbox, site or team at once.",
+	'File one coherent piece to a page: what a mail thread settled, what a document lays down, what a channel agreed. Leave out signatures, greetings and replies that add nothing.',
+	'Title the source as a person would know it, such as "Mail thread: Roof at Elm Court, 3 to 7 Nov 2026" or "Staff handbook 2026", and put in sourceOrigin where it can be opened again: the SharePoint or OneDrive web link of the file, the mailbox and subject of the thread, or the Teams team and channel.',
+	'Several pages from one folder or thread go in one call of file_business_brain_pages, with the source named once beside them.'
+];
+
+const whenAlreadyFiled =
+	'When a page on the same subject is already in the part, filing answers with its id: file what is new about it with file_business_brain_page_revision.';
+
+export const fileBusinessBrainPageGuidance = [whatTheBrainIs, ...howToFile, ...fromMicrosoft365, whenAlreadyFiled].join('\n');
+
+export const fileBusinessBrainPagesGuidance = [
+	whatTheBrainIs,
+	...howToFile,
+	...fromMicrosoft365,
+	'Each page is filed on its own: one that does not fit or is already filed is answered by its number, and the others are filed all the same.',
+	'Name the source once beside pages for every page that came from it; a page that names a source of its own keeps its own.',
+	whenAlreadyFiled
+].join('\n');
+
+export const fileBusinessBrainRevisionGuidance = [
+	whatTheBrainIs,
+	...howToFile,
+	'Give the whole page as it should now read, not only what changed. A kind or summary left out is kept as the page has it.'
+].join('\n');
+
+const howToAnswerFromTheBrain = [
+	'Answer from the pages you read, and from nothing else when the question is about this business: its people, clients, suppliers, rules, prices and ways of working.',
+	'Cite every page you answer from by its title and page id, and name its source when it has one.',
+	'Where the brain is silent on the question, or only an excerpt touched on it, say so plainly; never fill the gap from general knowledge as if the brain said it. Offer to file the answer once the person gives it.',
+	'Where two pages disagree, say so and name both; where a page may be out of date, give the date it was last filed.'
+];
+
+const howToJudgeAPhotoAgainstTheBrain = [
+	'When the person gives you a photo to check against the brain, you look at it and Your Business Today never sees it: describe in words everything in it that a rule could bear on before you search, and send only those words. Never upload or file a photo you are judging.',
+	'Judge one observation at a time: search for it in the words the business would use (ladders, end of the day, put away), and read whole every page that bears on it before judging.',
+	'Give each observation one of three findings: in order, with the rule it meets; not in order, with the rule it breaks; or cannot be judged, because the photo does not show enough to tell. Name the title and page id of the page behind every finding.',
+	'Judge only against rules the brain holds. Where the brain is silent on what the photo shows, say the brain is silent on it and give no verdict, not even what is usual elsewhere; offer to file the rule once the person states it.'
+];
+
+export const readBusinessBrainIndexGuidance = [
+	whatTheBrainIs,
+	'Start here to see what the brain holds: every page by part and title, with its id. Read the pages you need with read_business_brain_page.',
+	'It also says how many files the brain keeps and lists any no page names yet; open one with open_business_brain_file.',
+	...howToAnswerFromTheBrain
+].join('\n');
+
+export const searchBusinessBrainGuidance = [
+	whatTheBrainIs,
+	'Search the words of every page, best match first, with a few words of each around the match. An excerpt is not the page: read a page whole before answering from it.',
+	'No match means the brain holds nothing on those words: try the words the business would use, then say the brain is silent.',
+	...howToAnswerFromTheBrain,
+	...howToJudgeAPhotoAgainstTheBrain
+].join('\n');
+
+export const readBusinessBrainPageGuidance = [
+	whatTheBrainIs,
+	"Reads one page as it now reads: its words, facts, source, the pages it relates to and its history. Give a revisionId to read one earlier version; say so whenever you answer from one.",
+	'It lists the files the page was written from; open one with open_business_brain_file when the page alone does not answer.',
+	...howToAnswerFromTheBrain,
+	...howToJudgeAPhotoAgainstTheBrain
+].join('\n');

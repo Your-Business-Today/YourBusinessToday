@@ -10,12 +10,10 @@
 
 	let {
 		organisation,
-		parent,
 		members,
 		canManage
 	}: {
 		organisation: Organisation;
-		parent: Organisation | null;
 		members: OrganisationMember[];
 		canManage: boolean;
 	} = $props();
@@ -42,13 +40,7 @@
 		{/each}
 	</ul>
 	{#if members.length === 0}
-		<p class={panelEmptyClasses}>Nobody is on {organisation.name} itself yet.</p>
-	{/if}
-	{#if parent !== null}
-		<p class="border-t border-hairline px-4 py-3 text-xs text-chalk/50">
-			Everyone on <a href={`/organisations/${parent.id}`} class="text-chalk/70 hover:text-go">{parent.name}</a>
-			reaches these projects as well.
-		</p>
+		<p class={panelEmptyClasses}>Nobody is on {organisation.name} yet.</p>
 	{/if}
 </DashboardPanel>
 

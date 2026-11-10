@@ -8,6 +8,7 @@ import { departmentColumns } from '$lib/server/departments/departmentColumns';
 import { parseDepartment, type Department } from '$lib/data/department';
 
 export type NewTaskSeed = {
+	id?: string;
 	title: string;
 	details: string;
 	dueDate: string | null;
@@ -77,7 +78,8 @@ export async function createTask(
 
 function requestColumns(seed: NewTaskSeed): Record<string, unknown> {
 	const requester = { requested_by: seed.requestedBy ?? null, is_autocomplete: seed.autocomplete ?? null };
-	return { ...requester, ...departmentColumns(seed.department) };
+	const givenId = seed.id === undefined ? {} : { id: seed.id };
+	return { ...givenId, ...requester, ...departmentColumns(seed.department) };
 }
 
 function storyColumns(story: UserStory | undefined): Record<string, unknown> {

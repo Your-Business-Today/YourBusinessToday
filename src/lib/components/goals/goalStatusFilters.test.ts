@@ -16,6 +16,7 @@ function goalSummary(id: string, status: GoalStatus): GoalSummary {
 		isAutocomplete: true,
 		createdBy: null,
 		createdAt: '2026-09-18T00:00:00.000Z',
+		contextVersionId: null,
 		taskCount: 0,
 		doneTaskCount: 0,
 		completionPercent: 0,
