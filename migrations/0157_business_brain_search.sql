@@ -1,4 +1,4 @@
--- 0156: a client's Claude searches an organisation's Your Business Brain.
+-- 0157: a client's Claude searches an organisation's Your Business Brain.
 --
 -- Each page of business_brain_pages (0152) gets its words kept as a search
 -- vector, weighted so a match in the title counts most, then the summary,
