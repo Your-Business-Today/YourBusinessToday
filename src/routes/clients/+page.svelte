@@ -24,7 +24,7 @@
 		</div>
 		<div class="flex flex-wrap gap-3">
 			<a href="/people" class={quietButtonClasses}>People</a>
-			<a href="/clients/research" class={quietButtonClasses}>Research a company</a>
+			<a href="/clients/research" class={quietButtonClasses}>Research with your Claude</a>
 			<a href="/clients/prospect" class={quietButtonClasses}>Search Companies House</a>
 			<a href="/clients/map" class={quietButtonClasses}>Map an area</a>
 			<a href="/clients/patches" class={quietButtonClasses}>Patches</a>

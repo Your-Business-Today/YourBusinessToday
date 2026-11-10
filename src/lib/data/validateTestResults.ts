@@ -1,4 +1,5 @@
 import { testOutcomeOrder, testOutcomes, testResultLimits, type TestOutcome, type TestResult } from './testResult';
+import { trimmedText } from './trimmedText';
 
 const { longestProof, longestFault, mostResults } = testResultLimits;
 
@@ -22,11 +23,11 @@ export function validateTestResults(value: unknown): TestResult[] | string {
 
 function validateTestResult(entry: unknown): TestResult | string {
 	const fields = (entry ?? {}) as Record<string, unknown>;
-	const taskId = textOf(fields.taskId);
+	const taskId = trimmedText(fields.taskId);
 	if (taskId === '') return taskRefusal;
 	const outcome = parseOutcome(fields.outcome);
 	if (outcome === null) return outcomeRefusal;
-	const proof = textOf(fields.proof);
+	const proof = trimmedText(fields.proof);
 	if (proof === '' || proof.length > longestProof) return proofRefusal;
 	const fault = readFault(fields.fault, outcome);
 	if (fault === undefined) return faultRefusal;
@@ -35,16 +36,12 @@ function validateTestResult(entry: unknown): TestResult | string {
 
 function readFault(value: unknown, outcome: TestOutcome): string | null | undefined {
 	if (outcome === testOutcomes.confirmed) return null;
-	const fault = textOf(value);
+	const fault = trimmedText(value);
 	if (fault === '' || fault.length > longestFault) return undefined;
 	return fault;
 }
 
 function parseOutcome(value: unknown): TestOutcome | null {
-	const outcome = textOf(value) as TestOutcome;
+	const outcome = trimmedText(value) as TestOutcome;
 	return testOutcomeOrder.includes(outcome) ? outcome : null;
-}
-
-function textOf(value: unknown): string {
-	return String(value ?? '').trim();
 }
