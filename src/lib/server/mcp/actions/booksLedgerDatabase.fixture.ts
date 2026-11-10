@@ -48,6 +48,7 @@ export const ledgerDatabase = {
 			select: () => chain,
 			order: () => chain,
 			range: () => chain,
+			limit: () => chain,
 			eq: (column: string, value: unknown) => {
 				filters.push((row) => row[column] === undefined || row[column] === value);
 				return chain;

@@ -9,7 +9,7 @@ import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
 import { booksOrganisationField } from './booksFields';
 import { costPaymentFields, expenseFields, expenseIdField } from './booksExpenseFields';
 import { describeExpense } from './describeExpenses';
-import { keptRecordOfIt } from './describeBooksDeletions';
+import { keptRecordOf } from './describeBooksDeletions';
 import type { McpAction } from '../actionTypes';
 
 const recordOnlyWhatThePersonSaid =
@@ -79,7 +79,7 @@ export const booksExpenseActions: McpAction[] = [
 			answerOrRefusal(booksRefusalOpenings.deleting, async () => {
 				const expense = await deleteExpense(caller.supabase, organisation.id, input.expenseId, caller.accountId);
 				const cost = `the cost from ${expense.supplier} dated ${formatBritishDate(expense.expenseDate)}`;
-				return `Deleted ${cost} from ${organisation.name}'s books, with the journals it posted. ${keptRecordOfIt}`;
+				return `Deleted ${cost} from ${organisation.name}'s books, with the journals it posted. ${keptRecordOf(expense.deletionId)}`;
 			})
 	})
 ];
