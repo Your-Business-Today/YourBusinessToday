@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ClientPeopleActions from './ClientPeopleActions.svelte';
+	import ClientSetUpForm from './ClientSetUpForm.svelte';
 	import AskClaudeToDraftApproach from '$lib/components/people/AskClaudeToDraftApproach.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewContactForm from './NewContactForm.svelte';
@@ -10,6 +11,7 @@
 	let { people, canImportOfficers }: { people: ClientPerson[]; canImportOfficers: boolean } = $props();
 
 	let isNewContactModalOpen = $state(false);
+	let isSetUpModalOpen = $state(false);
 	let personBeingEdited = $state<ClientPerson | null>(null);
 	let isEditModalOpen = $state(false);
 	let personToApproach = $state<ClientPerson | null>(null);
@@ -29,7 +31,11 @@
 <section class="flex flex-col gap-4">
 	<div class="flex flex-wrap items-center justify-between gap-4">
 		<h2 class="font-display text-xl">People</h2>
-		<ClientPeopleActions {canImportOfficers} onAddContact={() => (isNewContactModalOpen = true)} />
+		<ClientPeopleActions
+			{canImportOfficers}
+			onAddContact={() => (isNewContactModalOpen = true)}
+			onSetUp={() => (isSetUpModalOpen = true)}
+		/>
 	</div>
 	{#if people.length === 0}
 		<p class="text-sm text-chalk/50">Nobody listed yet.</p>
@@ -41,6 +47,10 @@
 
 <Modal title="New contact" bind:isOpen={isNewContactModalOpen}>
 	<NewContactForm />
+</Modal>
+
+<Modal title="Set up on Your Business Today" bind:isOpen={isSetUpModalOpen} maxWidthClass="max-w-2xl">
+	<ClientSetUpForm {people} />
 </Modal>
 
 <Modal title="Edit person" bind:isOpen={isEditModalOpen} maxWidthClass="max-w-2xl">
