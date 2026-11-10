@@ -1,5 +1,6 @@
 import { clientContactActions } from './clientContactActions';
 import { companyResearchActions } from './companyResearchActions';
+import { personApproachActions } from './personApproachActions';
 import { personResearchActions } from './personResearchActions';
 import { clientDetailActions } from './clientDetailActions';
 import { clientContinuityCopyActions } from './clientContinuityCopyActions';
@@ -14,5 +15,6 @@ export const clientActions: McpAction[] = [
 	...clientContactActions,
 	...companyResearchActions,
 	...personResearchActions,
+	...personApproachActions,
 	...clientProjectActions
 ];

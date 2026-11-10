@@ -1,31 +1,28 @@
 <script lang="ts">
 	import ClientPeopleActions from './ClientPeopleActions.svelte';
-	import DraftApproachForm from '$lib/components/people/DraftApproachForm.svelte';
+	import AskClaudeToDraftApproach from '$lib/components/people/AskClaudeToDraftApproach.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewContactForm from './NewContactForm.svelte';
 	import PersonCard from './PersonCard.svelte';
 	import PersonFieldsForm from '$lib/components/people/PersonFieldsForm.svelte';
-	import type { ApproachDraft } from '$lib/server/people/draftApproach';
 	import type { ClientPerson } from '$lib/server/clients/getPeopleForClient';
 
-	let {
-		people,
-		approachDraft,
-		canImportOfficers
-	}: { people: ClientPerson[]; approachDraft: ApproachDraft | null; canImportOfficers: boolean } = $props();
+	let { people, canImportOfficers }: { people: ClientPerson[]; canImportOfficers: boolean } = $props();
 
 	let isNewContactModalOpen = $state(false);
 	let personBeingEdited = $state<ClientPerson | null>(null);
 	let isEditModalOpen = $state(false);
+	let personToApproach = $state<ClientPerson | null>(null);
 	let isApproachModalOpen = $state(false);
-
-	$effect(() => {
-		isApproachModalOpen = approachDraft !== null;
-	});
 
 	function edit(person: ClientPerson) {
 		personBeingEdited = person;
 		isEditModalOpen = true;
+	}
+
+	function draftApproach(person: ClientPerson) {
+		personToApproach = person;
+		isApproachModalOpen = true;
 	}
 </script>
 
@@ -38,7 +35,7 @@
 		<p class="text-sm text-chalk/50">Nobody listed yet.</p>
 	{/if}
 	{#each people as person (person.contactId)}
-		<PersonCard {person} onEdit={edit} />
+		<PersonCard {person} onEdit={edit} onDraftApproach={draftApproach} />
 	{/each}
 </section>
 
@@ -56,8 +53,8 @@
 	{/if}
 </Modal>
 
-<Modal title="Draft approach" bind:isOpen={isApproachModalOpen} maxWidthClass="max-w-2xl">
-	{#if approachDraft !== null}
-		<DraftApproachForm draft={approachDraft} />
+<Modal title="Draft the approach with your Claude" bind:isOpen={isApproachModalOpen} maxWidthClass="max-w-2xl">
+	{#if personToApproach !== null}
+		<AskClaudeToDraftApproach person={{ id: personToApproach.id, name: personToApproach.name }} />
 	{/if}
 </Modal>

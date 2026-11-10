@@ -1,5 +1,7 @@
+import { clientStageLabels } from '$lib/data/clientLifecycle';
 import { describeCompanyProfile } from './describeCompanyProfile';
 import { formatBritishDate } from '$lib/data/britishDate';
+import { seniorityLabels, warmthLabels } from '$lib/data/contactProfileFields';
 import { personNoteKinds } from '$lib/data/personNoteKind';
 import type { AuthoredNote } from '$lib/server/people/authoredNotes';
 import type { PersonCompany } from '$lib/server/people/getCompaniesForPerson';
@@ -13,7 +15,7 @@ const noteKindLabels: Record<string, string> = {
 	[personNoteKinds.research]: 'Found on the web'
 };
 
-/** What the register holds on a person and each company they sit on, for a staff member's Claude to research from. */
+/** What the register holds on a person and each company they sit on, for a staff member's Claude to research from or draft an approach with. */
 export function describePersonInFull(person: PersonInFull, companies: PersonCompany[]): string {
 	const { links, notes } = person;
 	return [
@@ -21,6 +23,7 @@ export function describePersonInFull(person: PersonInFull, companies: PersonComp
 		knownFact('Email', person.email),
 		knownFact('Phone', person.phone),
 		knownFact('Companies House officer id', person.officerId ?? ''),
+		...describeStanding(person),
 		'',
 		'Links held:',
 		links.length === 0 ? 'None yet.' : links.map((link) => `- ${link.label}: ${link.url}`).join('\n'),
@@ -38,7 +41,19 @@ export function describePersonInFull(person: PersonInFull, companies: PersonComp
 function describePersonCompany(company: PersonCompany): string {
 	const part = company.officerRole || company.role || 'part not recorded';
 	const website = company.website === '' ? 'no website held' : company.website;
-	return [`${company.name} — client ${company.id} — ${part} — ${website}`, ...describeCompanyProfile(company)].join('\n');
+	const standing = `our standing: ${clientStageLabels[company.stage]}`;
+	return [`${company.name} — client ${company.id} — ${part} — ${standing} — ${website}`, ...describeCompanyProfile(company)].join('\n');
+}
+
+function describeStanding(person: PersonInFull): string[] {
+	const lastContacted = person.lastContactedOn === null ? 'never' : formatBritishDate(person.lastContactedOn);
+	return [
+		`Seniority: ${seniorityLabels[person.seniority]}`,
+		`Decision maker: ${person.isDecisionMaker ? 'yes' : 'not known to be'}`,
+		`Warmth: ${warmthLabels[person.warmth]}`,
+		`Last contacted: ${lastContacted}`,
+		`Next action: ${person.nextAction === '' ? 'none recorded' : person.nextAction}`
+	];
 }
 
 function describeNote(note: AuthoredNote): string {

@@ -6,12 +6,14 @@ const publicBusinessPresenceOnly =
 	'never guess. Use what the register holds (their companies, officer id and links) to tell them apart ' +
 	'from namesakes, and leave out any page you cannot be sure is about the same person.';
 
-/** How a staff member's Claude reads a person before researching them: it reads the web itself, so YBT calls no model. */
+/** How a staff member's Claude reads a person before researching them or drafting the approach: it does both itself, so YBT calls no model. */
 export const readPersonGuidance =
 	'Asked to research this person, you do the research yourself, with your own web search and page ' +
 	'reading; Your Business Today calls no AI model for it. ' +
 	publicBusinessPresenceOnly +
-	' Then save what you found with save_person_research. describe_action save_person_research says how.';
+	' Then save what you found with save_person_research. describe_action save_person_research says how. ' +
+	'Asked to draft the first approach to them, write it yourself from what this gives, then save it with ' +
+	'save_person_approach; describe_action save_person_approach says how.';
 
 /** How a staff member's Claude saves what it found about a person. */
 export const savePersonResearchGuidance =

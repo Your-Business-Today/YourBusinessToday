@@ -10,7 +10,6 @@ import { standingLine } from '$lib/data/standingLine';
 import { getGroupParents } from '$lib/server/clients/getGroupParents';
 import { getSupportTasksForClient } from '$lib/server/support/getOpenSupportTasks';
 import { getUnassignedProjects } from '$lib/server/projects/getUnassignedProjects';
-import { approachFormActions } from '$lib/server/people/approachFormActions';
 import { groupActions } from './groupActions';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
 import { listObservationsForCompany } from '$lib/server/observations/listObservations';
@@ -50,7 +49,6 @@ export const actions: Actions = {
 	...profileActions,
 	...continuityCopyActions,
 	...personFormActions,
-	...approachFormActions,
 	...groupActions,
 	...jobAdvertFormActions
 };

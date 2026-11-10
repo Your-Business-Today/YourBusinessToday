@@ -1,6 +1,5 @@
 <script lang="ts">
 	import PersonFacts from './PersonFacts.svelte';
-	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import {
 		confirmButtonClasses,
 		dangerButtonClasses,
@@ -14,8 +13,15 @@
 		person,
 		onEdit,
 		onResearch,
+		onDraftApproach,
 		onDelete
-	}: { person: Person; onEdit: () => void; onResearch: () => void; onDelete: () => void } = $props();
+	}: {
+		person: Person;
+		onEdit: () => void;
+		onResearch: () => void;
+		onDraftApproach: () => void;
+		onDelete: () => void;
+	} = $props();
 
 	const contactLine = $derived(
 		[person.email, person.phone, leadSourceLabels[person.leadSource]].filter(Boolean).join(' · ')
@@ -35,10 +41,7 @@
 		<div class="flex flex-wrap gap-2">
 			<button type="button" class={quietButtonClasses} onclick={onEdit}>Edit</button>
 			<button type="button" class={quietButtonClasses} onclick={onResearch}>Ask your Claude to research</button>
-			<form method="POST" action="?/draftApproach">
-				<input type="hidden" name="personId" value={person.id} />
-				<SubmitButton class={confirmButtonClasses} savingLabel="Drafting…">Draft approach</SubmitButton>
-			</form>
+			<button type="button" class={confirmButtonClasses} onclick={onDraftApproach}>Ask your Claude to draft the approach</button>
 			<button type="button" class={dangerButtonClasses} onclick={onDelete}>Delete</button>
 		</div>
 	</div>
