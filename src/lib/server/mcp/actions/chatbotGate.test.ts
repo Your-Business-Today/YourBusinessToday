@@ -13,6 +13,15 @@ const brain = vi.hoisted(() => {
 	return { switchedOn: ['business_brain'] as string[], members: [] as unknown[], readings, record, forgetReadings };
 });
 
+const trail = vi.hoisted(() => ({ questions: [] as { questionId: string; askedBy: string; question: string }[], readings: [] as Record<string, unknown>[] }));
+
+vi.mock('$lib/server/businessBrain/recordChatbotQuestion', async () => (await import('./businessBrainChatbotTrailFixtures')).trailWriters(trail));
+vi.mock('$lib/server/businessBrain/recordChatbotReading', () => ({
+	recordChatbotReading: async (_supabase: unknown, _place: unknown, made: Record<string, unknown>) => {
+		trail.readings.push(made);
+	}
+}));
+
 vi.mock('$lib/server/organisations/getOrganisation', () => ({
 	getOrganisation: async (_supabase: unknown, organisationId: string) =>
 		organisationId === 'jewel' ? { id: 'jewel', parentOrganisationId: null, name: 'Jewel Enterprises' } : null
@@ -31,7 +40,7 @@ vi.mock('$lib/server/businessBrain/readBusinessBrainPageWhole', () => ({ readBus
 const database = membersDatabase(() => brain.members as MemberRow[]);
 const stuart = personSignedInAs('stuart@example.com', database);
 const nigel = personSignedInAs('nigel@example.com', database);
-const throughSiteTeam = { chatbotId, search: 'ladders', pageId: chatbotId };
+const throughSiteTeam = { chatbotId, question: 'Do ladders stay up overnight?', search: 'ladders', pageId: chatbotId };
 const readings = ['read_chatbot_index', 'search_chatbot', 'read_chatbot_page'];
 
 describe('who may read through a chatbot', () => {
@@ -39,6 +48,8 @@ describe('who may read through a chatbot', () => {
 		brain.switchedOn = ['business_brain'];
 		brain.members = [stuartOnSiteTeam];
 		brain.forgetReadings();
+		trail.questions.splice(0);
+		trail.readings.splice(0);
 	});
 
 	it('only reads, and every reading through a chatbot asks the chatbot rule first', () => {
@@ -49,6 +60,7 @@ describe('who may read through a chatbot', () => {
 	it('refuses a person the chatbot does not name, and reads nothing for them', async () => {
 		for (const name of readings) expect(await chatbotReading(name).run(nigel, throughSiteTeam)).toBe(notAChatbotYouUse);
 		expect(brain.readings).toEqual([]);
+		expect(trail.readings.map((made) => (made.reading as { outcome: string }).outcome)).toEqual(['refused', 'refused', 'refused']);
 	});
 
 	it('refuses a person taken off the chatbot', async () => {

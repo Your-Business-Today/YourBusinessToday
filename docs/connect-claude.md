@@ -15,7 +15,18 @@ A manager of the organisation can open part of the brain to people who are not o
 Each of those people connects their own Claude as above and reads through the chatbot:
 
 1. `list_my_chatbots` lists the chatbots they may use now, with the parts each reads and its id.
-2. `read_chatbot_index`, `search_chatbot` and `read_chatbot_page` each take the `chatbotId` and read as the brain's own reading actions do, but only the parts that chatbot reads. A part or a page outside them is refused, and a page's related pages show only those the chatbot also reads.
+2. `read_chatbot_index`, `search_chatbot` and `read_chatbot_page` each take the `chatbotId` and the person's `question` in their own words, and read as the brain's own reading actions do, but only the parts that chatbot reads. A part or a page outside them is refused, and a page's related pages show only those the chatbot also reads. The first reading for a question gives back its `questionId`; further readings for the same question give it too.
+3. `record_chatbot_answer` puts the answer Claude gave on the record, under the `questionId`, word for word, with the page ids it cited.
+
+### Every question is kept on record
+
+Every question asked through a chatbot is kept on the organisation's record (migration 0175), so the business can prove what was and was not asked:
+
+- **What Your Business Today sees for itself:** who asked (their account and the email they signed in with at the time), which chatbot, the question in the words the person's Claude gave, every reading made for it (the words searched, the part listed or the page read) and the pages given back with the version of each, and the time. A refused reading, including one by a person the chatbot no longer names, and a reading that found nothing are kept as such.
+- **What the person's Claude reports:** the answer it gave and the pages it cited. A question with no answer reported shows as that, and a cited page no reading gave back is marked.
+- **Nothing on it is ever changed or deleted**, by anyone, from the app or the connector: the database refuses every change and every delete. It is kept for as long as the organisation's Your Business Brain is kept.
+
+A manager of the organisation, or staff, reads it with `list_business_brain_chatbot_questions`, narrowed by chatbot, person and days (UK time). The page on the site that searches it and downloads it is a later step.
 
 A chatbot only reads: nothing is filed or changed through it. A person the chatbot does not name now, or anyone at all while Your Business Brain is switched off for the organisation, is refused. Their own Claude does the asking; Your Business Today calls no AI model.
 
