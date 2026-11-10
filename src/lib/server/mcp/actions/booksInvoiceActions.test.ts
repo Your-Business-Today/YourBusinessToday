@@ -74,7 +74,7 @@ describe('the invoice actions', () => {
 	it('read one invoice in full, and list them with their totals', async () => {
 		expect(await run('read_invoice', { invoiceId: draftId })).toContain(`Invoice INV-6, draft. Id ${draftId}`);
 		expect(await run('read_invoice', { invoiceId: draftId })).toContain('- Old line: 1 × £10.00 = £10.00');
-		expect(await run('list_invoices', {})).toContain('- INV-6 to Jewel Bespoke Build, draft, dated 1 Nov 2026, due 1 Dec 2026; Total £10.00.');
+		expect(await run('list_invoices', {})).toContain('- INV-6 to Jewel Bespoke Build, draft, dated 1 Nov 2026, due 1 Dec 2026; Total £10.00, not owed until it is issued.');
 		expect(await run('list_invoices', { status: 'sent' })).toBe('No reading was taken. status is one of draft, issued, paid, void; "sent" was given.');
 	});
 });

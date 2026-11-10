@@ -1,16 +1,12 @@
 import { formatBritishDate } from '$lib/data/britishDate';
 import { differenceOf, formatPoundsAndPence } from '$lib/data/books/money';
-import { isInvoiceOutstanding } from '$lib/data/books/invoiceStatuses';
+import type { InvoiceStatus } from '$lib/data/books/invoiceStatuses';
 import type { InvoiceInFull, InvoiceSummary } from '$lib/server/books/invoices';
 import type { InvoiceLine } from '$lib/server/books/invoiceRecord';
-import type { InvoiceNamings } from '$lib/server/books/invoiceNamings';
+import type { InvoicePayment } from '$lib/server/books/invoicePayments';
+import { invoiceNumberAsPrinted, type InvoiceNamings } from '$lib/server/books/invoiceNamings';
 
 const unnamed = 'a record no longer in the books';
-
-/** The number as it prints on the invoice, such as INV-7. */
-export function invoiceNumberAsPrinted(namings: InvoiceNamings, invoiceNumber: number): string {
-	return `${namings.invoicePrefix}-${invoiceNumber}`;
-}
 
 /** One invoice in full: who it is to, its dates, every line with its account and cost centre, and its totals. */
 export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNamings): string {
@@ -21,6 +17,7 @@ export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNa
 		...printedOnlyWhenGiven('Reference', invoice.reference),
 		'Lines:',
 		...invoice.lines.map((line) => describeLine(line, namings)),
+		...describePayments(invoice.payments),
 		describeAmounts(invoice),
 		...printedOnlyWhenGiven('Notes', invoice.notes)
 	].join('\n');
@@ -46,11 +43,23 @@ function describeLine(line: InvoiceLine, namings: InvoiceNamings): string {
 	return `- ${line.description}: ${workings}; ${account}${costCentre}`;
 }
 
+/** What the customer owes on an invoice in each status, given what it has paid and what is left. */
+const owingInStatus: Record<InvoiceStatus, (paid: string, owed: string) => string> = {
+	draft: () => 'not owed until it is issued',
+	issued: (paid, owed) => `paid ${paid}, owed ${owed}`,
+	paid: (paid) => `paid ${paid}, nothing owed`,
+	void: () => 'void, so nothing is owed'
+};
+
 function describeAmounts(invoice: InvoiceSummary): string {
-	const total = `Total ${formatPoundsAndPence(invoice.total)}`;
-	if (!isInvoiceOutstanding(invoice.status)) return total;
 	const owed = differenceOf(invoice.total, invoice.amountPaid);
-	return `${total}, paid ${formatPoundsAndPence(invoice.amountPaid)}, owed ${formatPoundsAndPence(owed)}`;
+	const owing = owingInStatus[invoice.status](formatPoundsAndPence(invoice.amountPaid), formatPoundsAndPence(owed));
+	return `Total ${formatPoundsAndPence(invoice.total)}, ${owing}`;
+}
+
+function describePayments(payments: InvoicePayment[]): string[] {
+	if (payments.length === 0) return [];
+	return ['Payments:', ...payments.map((payment) => `- ${formatBritishDate(payment.paidOn)}: ${formatPoundsAndPence(payment.amount)}`)];
 }
 
 function printedOnlyWhenGiven(label: string, value: string): string[] {

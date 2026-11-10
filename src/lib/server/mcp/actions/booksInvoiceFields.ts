@@ -34,3 +34,8 @@ export const invoiceFilterFields = {
 	customerId: textField("Leave out for every customer's invoices, or only one customer's by its id as list_customer_balances gives it"),
 	status: textField(`Leave out for invoices in every status, or only those in one: ${invoiceStatusNames.join(', ')}`)
 };
+
+export const invoicePaymentFields = {
+	paidOn: textField('The day the money arrived, as the person said it, written as 2026-11-30'),
+	amount: { type: 'number', description: 'How much arrived in pounds, above zero and to at most two places, such as 250.50' }
+};
