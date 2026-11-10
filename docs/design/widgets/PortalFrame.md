@@ -41,11 +41,10 @@ The frame every signed-in person sees round every page: the side bar, the top ba
 ## Behaviour
 - The organisation picker defaults to the organisation last picked, else the first; the project picker defaults to that organisation's project last picked, else its first. Both picks are remembered for the person. Picking an organisation picks its last or first project.
 - The home page loads the picked project.
-- The drawer opens from the top bar's menu button, slides in from the left (the proposed `drawerSlide`, 200), takes the keyboard's focus, and closes on a pick, on its X, on a press on the scrim and on Back.
+- The drawer opens from the top bar's menu button, slides in from the left (`drawerSlide`, 200), takes the keyboard's focus, and closes on a pick, on its X, on a press on the scrim and on Back.
 - A picker's list opens with `menuDrop`, closes on a pick, on Escape and on a press outside, without swallowing that press.
 - Every row is 44px tall on a phone (`py-3.5`), a thumb's target.
 
 ## Unmapped
-- The drawer's slide has no motion token yet (the brand sheet proposes `drawerSlide`).
 - The Jewel portal shows the project's reference in a monospaced font; YBT has no monospaced token, so the caption is `text-xs text-chalk-subtle` in Inter.
 - The Jewel portal's side bar is 240 in its design and 256 in its code; the code's 256 is taken.

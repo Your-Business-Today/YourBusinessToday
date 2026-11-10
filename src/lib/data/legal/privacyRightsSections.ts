@@ -5,7 +5,8 @@ export const privacyRightsSections: LegalSection[] = [
 		heading: 'How long we keep it',
 		paragraphs: [
 			'We keep an account while it is in use, and close it when the person it belongs to leaves or the engagement ends. The record of a project — its requests, threads and attachments — is kept for the life of the engagement and for six years afterwards, because that is how long a question about the work can reasonably arrive.',
-			'Enquiries and client register records are kept while we are working with, or still hoping to work with, the business concerned, and are reviewed at least every two years. The records that tax and accounting law requires are kept for six years and no longer. Server logs are kept for no more than thirty days.'
+			'Enquiries and client register records are kept while we are working with, or still hoping to work with, the business concerned, and are reviewed at least every two years. The records that tax and accounting law requires are kept for six years and no longer. Server logs are kept for no more than thirty days.',
+			'The record of questions asked through a chatbot is kept for as long as the business keeps its Your Business Brain. Nothing in the portal changes or deletes it, not even for the business’s own managers, because its whole purpose is to show afterwards exactly what was asked and answered.'
 		]
 	},
 	{

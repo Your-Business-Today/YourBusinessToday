@@ -9,6 +9,9 @@ export const dialogRise: FlyParams = { y: 12, duration: 200, easing: cubicOut };
 
 export const sheetSlide: FlyParams = { x: 64, duration: 240, easing: cubicOut };
 
+/** The phone's side bar slides in from the left edge, as wide as the drawer. */
+export const drawerSlide: FlyParams = { x: -288, duration: 200, easing: cubicOut, opacity: 1 };
+
 export const menuDrop: FlyParams = { y: -6, duration: 150, easing: cubicOut };
 
 export const foldOpen: SlideParams = { duration: 200, easing: cubicOut };

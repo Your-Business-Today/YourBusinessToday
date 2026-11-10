@@ -4,13 +4,14 @@ import { sumMoney } from '$lib/data/books/money';
 import type { InvoiceStatus } from '$lib/data/books/invoiceStatuses';
 import { readEveryPage } from './everyPage';
 import { findInvoiceLines } from './invoiceLines';
+import { findInvoicePayments, type InvoicePayment } from './invoicePayments';
 import { fromInvoiceHeaderRow, invoiceHeaderColumns, invoicesTable, type InvoiceHeader, type InvoiceHeaderRow, type InvoiceLine } from './invoiceRecord';
 
 /** An invoice with what its lines come to and what has been paid on it. */
 export type InvoiceSummary = InvoiceHeader & { total: number; amountPaid: number };
 
-/** An invoice in full: its summary and every line, in the order they print. */
-export type InvoiceInFull = InvoiceSummary & { lines: InvoiceLine[] };
+/** An invoice in full: its summary, every line in the order they print, and the payments recorded against it. */
+export type InvoiceInFull = InvoiceSummary & { lines: InvoiceLine[]; payments: InvoicePayment[]; paymentCount: number };
 
 /** Which invoices a list holds: one customer's, or those in one status, or all of them when both are null. */
 export type InvoiceFilter = { customerId: string | null; status: InvoiceStatus | null };
@@ -41,24 +42,24 @@ export async function findInvoiceHeader(supabase: SupabaseClient, organisationId
 	return fromInvoiceHeaderRow(data as unknown as InvoiceHeaderRow);
 }
 
-/** The invoice with every line and what has been paid on it, or null when the books hold none with that id. */
+/** The invoice with every line and every payment recorded against it, or null when the books hold none with that id. */
 export async function findInvoiceInFull(supabase: SupabaseClient, organisationId: string, invoiceId: string): Promise<InvoiceInFull | null> {
 	const header = await findInvoiceHeader(supabase, organisationId, invoiceId);
 	if (header === null) return null;
 	const [lines, paid] = await Promise.all([
 		findInvoiceLines(supabase, organisationId, invoiceId),
-		readAmounts(supabase, organisationId, payments, invoiceId)
+		findInvoicePayments(supabase, organisationId, invoiceId)
 	]);
 	const total = sumMoney(lines.map((line) => line.amount));
-	return { ...header, lines, total, amountPaid: sumMoney(paid.map((payment) => payment.amount)) };
+	return { ...header, lines, total, payments: paid, paymentCount: paid.length, amountPaid: sumMoney(paid.map((payment) => payment.amount)) };
 }
 
 /** The organisation's invoices the filter lets through, newest number first, each with its total and what has been paid. */
 export async function findInvoiceSummaries(supabase: SupabaseClient, organisationId: string, filter: InvoiceFilter): Promise<InvoiceSummary[]> {
 	const [headers, lineAmounts, paidAmounts] = await Promise.all([
 		findInvoiceHeaders(supabase, organisationId, filter),
-		readAmounts(supabase, organisationId, lineTotals, null),
-		readAmounts(supabase, organisationId, payments, null)
+		readAmounts(supabase, organisationId, lineTotals),
+		readAmounts(supabase, organisationId, payments)
 	]);
 	const totals = sumByInvoice(lineAmounts);
 	const paid = sumByInvoice(paidAmounts);
@@ -77,11 +78,10 @@ async function findInvoiceHeaders(supabase: SupabaseClient, organisationId: stri
 	return rows.map(fromInvoiceHeaderRow);
 }
 
-async function readAmounts<Row>(supabase: SupabaseClient, organisationId: string, source: AmountSource<Row>, invoiceId: string | null): Promise<InvoiceAmount[]> {
+async function readAmounts<Row>(supabase: SupabaseClient, organisationId: string, source: AmountSource<Row>): Promise<InvoiceAmount[]> {
 	const rows = await readEveryPage(async (pageStart, pageEnd) => {
 		const query = supabase.from(source.table).select(source.columns).eq('organisation_id', organisationId);
-		const ofInvoice = invoiceId === null ? query : query.eq('invoice_id', invoiceId);
-		const { data, error } = await ofInvoice.order('id').range(pageStart, pageEnd);
+		const { data, error } = await query.order('id').range(pageStart, pageEnd);
 		if (error !== null) throw error;
 		return data as unknown as Row[];
 	});

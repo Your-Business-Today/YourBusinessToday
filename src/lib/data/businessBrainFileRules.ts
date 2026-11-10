@@ -5,7 +5,8 @@ import { isUuid } from './isUuid';
 export const businessBrainFileLimits = {
 	longestFilename: maxAttachmentFilenameLength,
 	largestByteCount: maxAttachmentByteCount,
-	mostFilesPerPage: 20
+	mostFilesPerPage: 20,
+	mostUnnamedFilesListed: 50
 } as const;
 
 /** Storage keeps a signed upload link open for two hours, and the grant says so. */

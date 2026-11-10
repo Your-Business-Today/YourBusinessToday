@@ -1,12 +1,15 @@
 import { businessBrainChatbotLimits } from '$lib/data/businessBrainChatbotRules';
+import { chatbotTrailLimits } from '$lib/data/businessBrainChatbotTrailRules';
 import { businessBrainPartKinds } from '$lib/data/businessBrainRules';
 import { objectSchema, textField } from '../actionTypes';
 import { chatbotInputKey } from '../chatbotGate';
+import { questionField, questionIdField } from '$lib/server/businessBrain/validateChatbotQuestion';
 import { pageToReadField, partToListField, revisionToReadField, searchField } from './businessBrainSchemas';
 
 const { longestName, longestEmail, mostPeopleAtOnce } = businessBrainChatbotLimits;
+const { longestQuestion } = chatbotTrailLimits;
 
-const organisationField = textField('The organisation whose brain it is, as list_organisations gives it');
+export const organisationField = textField('The organisation whose brain it is, as list_organisations gives it');
 const chatbotField = textField('The chatbot, as making it or list_business_brain_chatbots gave its id');
 
 const partListField = (description: string) => ({
@@ -50,11 +53,18 @@ const chatbotToReadThrough = textField('The chatbot to read through, as list_my_
 
 export const listMyChatbotsSchema = objectSchema({});
 
-export const readChatbotIndexSchema = objectSchema({ [chatbotInputKey]: chatbotToReadThrough, part: partToListField }, [chatbotInputKey]);
+const questionAsked = {
+	[questionField]: textField(`The person's question, in their own words as they asked it — at most ${longestQuestion} characters; it goes on the chatbot's record`),
+	[questionIdField]: textField("The question already on the chatbot's record this reading carries on, as an earlier reading gave it; leave out for a new question")
+};
 
-export const searchChatbotSchema = objectSchema({ [chatbotInputKey]: chatbotToReadThrough, search: searchField }, [chatbotInputKey, 'search']);
+const questionRead = [chatbotInputKey, questionField];
+
+export const readChatbotIndexSchema = objectSchema({ [chatbotInputKey]: chatbotToReadThrough, ...questionAsked, part: partToListField }, questionRead);
+
+export const searchChatbotSchema = objectSchema({ [chatbotInputKey]: chatbotToReadThrough, ...questionAsked, search: searchField }, [...questionRead, 'search']);
 
 export const readChatbotPageSchema = objectSchema(
-	{ [chatbotInputKey]: chatbotToReadThrough, pageId: pageToReadField, revisionId: revisionToReadField },
-	[chatbotInputKey, 'pageId']
+	{ [chatbotInputKey]: chatbotToReadThrough, ...questionAsked, pageId: pageToReadField, revisionId: revisionToReadField },
+	[...questionRead, 'pageId']
 );

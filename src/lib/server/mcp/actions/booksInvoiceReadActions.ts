@@ -26,7 +26,7 @@ export const booksInvoiceReadActions: McpAction[] = [
 		area: 'books',
 		audience: 'everyone',
 		isWrite: false,
-		summary: "read one of an organisation's invoices in full: its customer, dates, lines with their accounts, and totals",
+		summary: "read one of an organisation's invoices in full: its customer, dates, lines with their accounts, payments, totals and what is owed",
 		guidance: figuresAsTheBooksHoldThem,
 		inputSchema: objectSchema({ organisationId: booksOrganisationField, invoiceId: invoiceIdField }, ['organisationId', 'invoiceId']),
 		run: async (caller, input, organisation) =>

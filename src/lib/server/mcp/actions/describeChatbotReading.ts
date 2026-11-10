@@ -33,6 +33,8 @@ function chatbotLines(reach: ChatbotReach): string[] {
 export function describeChatbotsToUse(reaches: ChatbotReach[]): string {
 	if (reaches.length === 0) return noChatbotsToUse;
 	const heading = `# ${countOf(reaches.length, 'chatbot')} you may use`;
-	const footer = 'Read through one with read_chatbot_index, search_chatbot or read_chatbot_page, giving its chatbot id.';
+	const footer =
+		"Read through one with read_chatbot_index, search_chatbot or read_chatbot_page, giving its chatbot id and the person's question. " +
+		"Every question asked through a chatbot is kept on its organisation's record, which the manager reads.";
 	return [heading, ...reaches.flatMap(chatbotLines), '', footer].join('\n');
 }

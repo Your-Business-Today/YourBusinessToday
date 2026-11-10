@@ -35,3 +35,17 @@ export async function findArrivedFileIds(
 	if (error) throw error;
 	return data.map((row) => row.id as string);
 }
+
+/** The organisation's file with that id once it has arrived, whoever sent it; a file still awaited is not kept yet. */
+export async function findKeptFile(supabase: SupabaseClient, organisationId: string, fileId: string): Promise<BusinessBrainFile | null> {
+	const { data, error } = await supabase
+		.from('business_brain_files')
+		.select('*')
+		.eq('id', fileId)
+		.eq('organisation_id', organisationId)
+		.not('recorded_at', 'is', null)
+		.maybeSingle();
+	if (error) throw error;
+	if (data === null) return null;
+	return parseBusinessBrainFile(data);
+}

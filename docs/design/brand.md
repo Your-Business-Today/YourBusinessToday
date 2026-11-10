@@ -87,6 +87,7 @@ Tailwind's 4px scale. The steps in use and what each is for:
 | `backdropFade` | 150 | A scrim fading in and out |
 | `dialogRise` | 200, rises 12 | The dialog arriving |
 | `sheetSlide` | 240, from 64 right | A sheet over a list |
+| `drawerSlide` | 200, from the left | The phone's side bar sliding in as a drawer |
 | `menuDrop` | 150, drops 6 | A menu or a picker's list opening |
 | `foldOpen` | 200 | A section folding open |
 | `rowMove` | 250 | A row moving in a list |
@@ -97,7 +98,6 @@ What never animates: a figure changing, a colour flashing, anything bouncing or 
 
 ## Unmapped
 
-- **The phone drawer's slide has no motion token.** The Jewel portal slides it in 200ms, easing out. Proposed: a `drawerSlide` token (200, from the left) added to `motion.ts` when the frame is built.
 - **The primary button's hover has no token.** YBT brightens it (`hover:brightness-110`); the Jewel portal has its own darker shade. Proposed: keep `hover:brightness-110`.
 - **The Jewel portals' blue for links and neutral status has no YBT colour.** Proposed: no new colour; links in data are `chalk` with an underline on hover, and neutral status is the neutral badge.
 - **The Jewel portals' tighter line heights** (14/16, 16/20) are not taken: they would move every line of every page. Tailwind's own leadings stay.
