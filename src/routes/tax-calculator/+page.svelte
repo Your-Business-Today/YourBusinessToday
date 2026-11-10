@@ -55,7 +55,7 @@
 	</section>
 	{#if estimate}
 		<BiggerPictureSection {estimate} bind:extraIncome={page.extraIncome} bind:livingCosts={page.livingCosts} />
-		<EveryPoundSection {estimate} period={page.period} />
+		<EveryPoundSection {estimate} period={page.period} tradingRouteChoices={form.tradingRoutes} />
 		{#if bill}<SelfAssessmentSection stepNumber={4} {estimate} {bill} />{/if}
 	{/if}
 	<ComparisonsSection

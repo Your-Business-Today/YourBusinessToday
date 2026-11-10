@@ -1,5 +1,7 @@
 import { businessBrainFileLimits, businessBrainUploadLinkLifetimeHours } from '$lib/data/businessBrainFileRules';
-import { grantFileUpload, recordFileUpload } from './businessBrainFileRuns';
+import { fetchLinkLifetimeMinutes } from '$lib/server/storage/signFetchLink';
+import { grantFileUpload, openKeptFile, recordFileUpload } from './businessBrainFileRuns';
+import { openKeptFileAction } from './businessBrainKeptFileSections';
 import { moduleAction } from '../organisationModuleGate';
 import { objectSchema, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
@@ -15,6 +17,13 @@ const grantGuidance = [
 		`and lasts ${businessBrainUploadLinkLifetimeHours} hours; the answer gives the command.`,
 	'Send the file, call record_business_brain_file_upload with the fileId, then give the fileId in sourceFileIds when you file its pages.',
 	'Never send a file holding passwords, keys, or personal details the business has no need to keep.'
+].join('\n');
+
+const openGuidance = [
+	'For the document, photo or export a page was written from, when the page alone does not answer. A page read lists the files it ' +
+		'names, and read_business_brain_index lists any no page names yet.',
+	`The answer is a link that lasts ${fetchLinkLifetimeMinutes} minutes, for you to fetch the file from now. Answer from the file as you would ` +
+		'from a page, naming the file; do not pass the link on. Only a file that has arrived is opened, and opening it changes nothing.'
 ].join('\n');
 
 export const businessBrainFileActions: McpAction[] = [
@@ -50,5 +59,18 @@ export const businessBrainFileActions: McpAction[] = [
 			['organisationId', 'fileId']
 		),
 		run: recordFileUpload
+	}),
+	moduleAction(businessBrainModule, {
+		name: openKeptFileAction,
+		area: 'business_brain',
+		audience: 'everyone',
+		isWrite: false,
+		summary: "open one file kept in an organisation's Your Business Brain: a link to fetch it from that lasts a few minutes",
+		guidance: openGuidance,
+		inputSchema: objectSchema(
+			{ organisationId: organisationField, fileId: textField('The file, as a page read or read_business_brain_index lists it') },
+			['organisationId', 'fileId']
+		),
+		run: openKeptFile
 	})
 ];

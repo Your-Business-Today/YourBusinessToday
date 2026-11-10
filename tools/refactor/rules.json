@@ -344,6 +344,7 @@
       "src/lib/server/mcp/actions/booksFields.ts",
       "src/lib/server/mcp/actions/booksCustomerFields.ts",
       "src/lib/server/mcp/actions/booksInvoiceFields.ts",
+      "src/lib/server/mcp/actions/booksExpenseFields.ts",
       "src/lib/server/mcp/actions/clientDetailActions.ts",
       "src/lib/server/mcp/actions/describeInbox.ts",
       "src/routes/projects/kit-versions/+page.server.ts"

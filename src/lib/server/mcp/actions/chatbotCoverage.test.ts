@@ -45,6 +45,7 @@ vi.mock('$lib/server/businessBrain/readBusinessBrainPageHistory', () => ({
 	readBusinessBrainPageHistory: async () => ({ entries: [], revisionCount: 0 }),
 	readBusinessBrainRevision: async () => null
 }));
+vi.mock('$lib/server/businessBrain/readKeptBusinessBrainFiles', () => ({ readKeptBusinessBrainFiles: vi.fn(), readFilesNamedByPage: vi.fn() }));
 vi.mock('$lib/server/businessBrain/readPagePartKinds', () => ({
 	readPagePartKinds: async () => new Map([['page-2', 'process'], ['page-3', 'people']])
 }));
@@ -87,5 +88,6 @@ describe('reading through a chatbot gives back only what it covers', () => {
 		expect(answer).toContain('Ladders are tied off or taken down.');
 		expect(answer).toContain('This page relates to **Fire door checks**');
 		expect(answer).not.toContain('Site manager rota');
+		expect(answer).not.toContain('open_business_brain_file');
 	});
 });

@@ -8,7 +8,7 @@
 		{ name: 'Salary sacrifice', effect: 'pensions or benefits that reduce your pay before National Insurance.' },
 		{ name: 'Marriage Allowance', effect: 'moving part of a personal allowance between spouses.' },
 		{ name: 'Losses against other income', effect: 'setting a trading loss against your salary.' },
-		{ name: 'Other business types', effect: 'limited companies, partnerships and landlords.' },
+		{ name: 'Other business types', effect: 'partnerships and landlords. A limited company is compared in its own card.' },
 		{ name: 'Voluntary National Insurance', effect: 'for periods spent working abroad.' }
 	];
 </script>

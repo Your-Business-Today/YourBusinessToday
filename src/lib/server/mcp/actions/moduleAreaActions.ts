@@ -1,4 +1,5 @@
 import { booksActions } from './booksActions';
+import { brandCampaignActions } from './brandCampaignActions';
 import { brandContentActions } from './brandContentActions';
 import { brandContentFlowActions } from './brandContentFlowActions';
 import { brandKitActions } from './brandKitActions';
@@ -14,6 +15,7 @@ export const moduleAreaActions: McpAction[] = [
 	...brandKitActions,
 	...brandContentActions,
 	...brandContentFlowActions,
+	...brandCampaignActions,
 	...businessBrainActions,
 	...businessBrainChatbotActions,
 	...chatbotReadingActions,

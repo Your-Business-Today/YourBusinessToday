@@ -1,6 +1,8 @@
 import { totalOf } from '$lib/data/taxCalculator/studentLoans';
 import type { TakeHomeEstimate } from '$lib/data/taxCalculator/takeHomeEstimate';
 import { comparisonLabelFor } from '$lib/data/taxCalculator/comparisonLabel';
+import type { TradingRouteComparison, TradingRouteTakeHomes } from '$lib/data/taxCalculator/tradingRoutes';
+import { takeHomeByRoute } from '$lib/data/taxCalculator/tradingRoutes';
 import { readStored, writeStored } from './browserStorage';
 import type { RememberedTaxCalculatorForm } from './rememberedTaxCalculatorForm';
 
@@ -15,6 +17,7 @@ export type SavedComparison = {
 	studentLoan: number;
 	pension: number;
 	rememberedForm: RememberedTaxCalculatorForm;
+	tradingRoutes?: TradingRouteTakeHomes;
 };
 
 const storageKey = 'ybt-take-home-comparisons';
@@ -27,7 +30,7 @@ export class SavedComparisons {
 		this.comparisons = readStored<SavedComparison[]>('device', storageKey, []);
 	}
 
-	save(estimate: TakeHomeEstimate, rememberedForm: RememberedTaxCalculatorForm): void {
+	save(estimate: TakeHomeEstimate, rememberedForm: RememberedTaxCalculatorForm, routes: TradingRouteComparison): void {
 		const comparison: SavedComparison = {
 			id: crypto.randomUUID(),
 			label: comparisonLabelFor(estimate),
@@ -38,7 +41,8 @@ export class SavedComparisons {
 			nationalInsurance: estimate.nationalInsuranceTotal,
 			studentLoan: totalOf(estimate.studentLoans),
 			pension: estimate.pensionCost,
-			rememberedForm
+			rememberedForm,
+			tradingRoutes: takeHomeByRoute(routes)
 		};
 		this.keep([comparison, ...this.comparisons].slice(0, mostComparisonsKept));
 	}

@@ -19,6 +19,7 @@ vi.mock('$lib/server/organisations/getOrganisation', () => ({
 }));
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => brain.switchedOn }));
 vi.mock('$lib/server/businessBrain/readBusinessBrainIndex', () => ({ readBusinessBrainIndex: async () => ({ entries: [openingHours], pageCount: 1 }) }));
+vi.mock('$lib/server/businessBrain/readKeptBusinessBrainFiles', async () => (await import('./businessBrainKeptFileFixtures')).noKeptFiles);
 vi.mock('$lib/server/businessBrain/searchBusinessBrain', () => ({ searchBusinessBrain: async () => brain.matches }));
 vi.mock('$lib/server/businessBrain/readBusinessBrainPageWhole', () => ({ readBusinessBrainPageWhole: async () => brain.page }));
 vi.mock('$lib/server/businessBrain/readBusinessBrainPageLinks', () => ({

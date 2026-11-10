@@ -1,11 +1,13 @@
 <script lang="ts">
 	import type { TaxYearRules } from '$lib/data/taxCalculator/taxRuleTypes';
 	import { formatLongDate } from '$lib/data/taxCalculator/taxDates';
+	import { marginalReliefFormulaSourceUrl } from '$lib/data/taxCalculator/companyRules';
 	import { paymentsOnAccountRules, pensionReliefSourceUrl, tradingAllowanceRules } from '$lib/data/taxCalculator/sharedRules';
 
 	let { rules }: { rules: TaxYearRules } = $props();
 
 	const { incomeTax, nationalInsurance, studentLoans, mileage, homeWorking, makingTaxDigital } = $derived(rules);
+	const { corporationTax, dividends, employerNationalInsurance } = $derived(rules);
 	const sources = $derived([
 		{ topic: 'Income tax bands, including Scotland', url: incomeTax.sourceUrl },
 		{ topic: 'National Insurance: Class 1, 2 and 4', url: nationalInsurance.sourceUrl },
@@ -15,7 +17,11 @@
 		{ topic: 'Working from home flat rates', url: homeWorking.sourceUrl },
 		{ topic: 'Making Tax Digital thresholds', url: makingTaxDigital.sourceUrl },
 		{ topic: 'Trading allowance', url: tradingAllowanceRules.sourceUrl },
-		{ topic: 'Payments on account', url: paymentsOnAccountRules.sourceUrl }
+		{ topic: 'Payments on account', url: paymentsOnAccountRules.sourceUrl },
+		{ topic: 'Corporation tax rates and limits', url: corporationTax.sourceUrl },
+		{ topic: 'Corporation tax marginal relief', url: marginalReliefFormulaSourceUrl },
+		{ topic: 'Dividend allowance and rates', url: dividends.sourceUrl },
+		{ topic: 'Employer National Insurance', url: employerNationalInsurance.sourceUrl }
 	]);
 </script>
 

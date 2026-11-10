@@ -3,6 +3,8 @@ import { readBusinessBrainPageHistory, readBusinessBrainRevision } from '$lib/se
 import { readBusinessBrainPageLinks, readPageTitles } from '$lib/server/businessBrain/readBusinessBrainPageLinks';
 import { readBusinessBrainPageWhole, type BusinessBrainPageRead } from '$lib/server/businessBrain/readBusinessBrainPageWhole';
 import { searchBusinessBrain } from '$lib/server/businessBrain/searchBusinessBrain';
+import { readFilesNamedByPage, readKeptBusinessBrainFiles, type KeptBusinessBrainFile } from '$lib/server/businessBrain/readKeptBusinessBrainFiles';
+import { keptFilesSection } from './businessBrainKeptFileSections';
 import {
 	validateBusinessBrainPageAsked,
 	validateBusinessBrainPart,
@@ -21,12 +23,13 @@ import type { McpCaller } from '../resolveMcpCaller';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-/** The index of the brain, or of one part of it. */
+/** The index of the brain, or of one part of it, with the files it keeps. */
 export async function readIndex(caller: McpCaller, input: Record<string, unknown>, organisation: Organisation): Promise<string> {
 	const asked = validateBusinessBrainPart(input);
 	if (typeof asked === 'string') return asked;
 	const index = await readBusinessBrainIndex(caller.supabase, organisation.id, asked.part);
-	return describeBusinessBrainIndex(organisationDoor(organisation), index);
+	const kept = await readKeptBusinessBrainFiles(caller.supabase, organisation.id);
+	return [describeBusinessBrainIndex(organisationDoor(organisation), index), ...keptFilesSection(kept)].join('\n');
 }
 
 /** The pages that match the words, best first. */
@@ -48,13 +51,19 @@ export async function readPage(caller: McpCaller, input: Record<string, unknown>
 	const door = organisationDoor(organisation);
 	const { revisionId } = asked;
 	if (revisionId !== null) return readRevisionOfPage(supabase, door, page, { organisationId: organisation.id, revisionId });
-	return readCurrentPage(supabase, organisation, page);
+	const files = await readFilesNamedByPage(supabase, { organisationId: organisation.id, pageId: page.pageId });
+	return readCurrentPage(supabase, organisation, page, files);
 }
 
-/** The page as it now reads, with the page above it, its links and its history. */
-export async function readCurrentPage(supabase: SupabaseClient, organisation: Organisation, page: BusinessBrainPageRead): Promise<string> {
+/** The page as it now reads, with the page above it, its links, its history and any files it names. */
+export async function readCurrentPage(
+	supabase: SupabaseClient,
+	organisation: Organisation,
+	page: BusinessBrainPageRead,
+	files: KeptBusinessBrainFile[] = []
+): Promise<string> {
 	const surroundings = await readSurroundings(supabase, organisation.id, page);
-	return describeBusinessBrainPage(organisationDoor(organisation), page, surroundings);
+	return describeBusinessBrainPage(organisationDoor(organisation), page, surroundings, files);
 }
 
 /** One earlier version of the page, or a plain word that its history holds none by that id. */
