@@ -1,6 +1,6 @@
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { ukClockAt } from '$lib/data/ukClock';
-import { ukMeetingDay, ukMeetingTime } from '$lib/data/describeBoardroomMeeting';
+import { ukMeetingDay, ukMeetingTime } from '$lib/data/ukMeetingTime';
 import type { BoardroomDirector } from '$lib/data/boardroomDirector';
 import type { BoardroomMeeting } from '$lib/data/boardroomMeeting';
 

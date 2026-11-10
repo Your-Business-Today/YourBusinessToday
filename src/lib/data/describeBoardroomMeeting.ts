@@ -1,5 +1,5 @@
-import { formatBritishDate } from './britishDate';
-import { ukClockAt } from './ukClock';
+import { ukMeetingTime } from './ukMeetingTime';
+import { paperLinesOfItem } from './describeBoardroomPaper';
 import {
 	directorsOnMeeting,
 	meetingStage,
@@ -9,31 +9,27 @@ import {
 	type BoardroomMeeting
 } from './boardroomMeeting';
 import type { BoardroomDirector } from './boardroomDirector';
+import type { BoardroomPaper } from './boardroomPaper';
 
-/** Everything a director reads of one meeting: the meeting, its board and every item ever put on its agenda. */
+/** Everything a director reads of one meeting: the meeting, its board, every item ever put on its agenda and their papers. */
 export type MeetingRecord = {
 	meeting: BoardroomMeeting;
 	directors: BoardroomDirector[];
 	items: AgendaItem[];
+	papers: BoardroomPaper[];
 };
 
 const purposeWords = { decision: 'for decision', noting: 'to note' } as const;
 const anyOtherBusinessWords = ' (any other business)';
 
-/** The day a moment falls on by the UK clock: "12 Nov 2026". */
-export function ukMeetingDay(moment: string): string {
-	const clock = ukClockAt(new Date(moment));
-	return formatBritishDate(`${clock.date}T12:00:00Z`);
-}
-
-/** A moment as the UK clock shows it, with the year: "12 Nov 2026 at 10:00". */
-export function ukMeetingTime(moment: string): string {
-	return `${ukMeetingDay(moment)} at ${ukClockAt(new Date(moment)).time}`;
-}
-
 function agendaLine(item: AgendaItem, index: number): string {
 	const aside = item.isAnyOtherBusiness ? anyOtherBusinessWords : '';
 	return `${index + 1}. ${item.title} — ${purposeWords[item.purpose]}${aside}`;
+}
+
+function agendaLines(record: MeetingRecord): string[] {
+	const agenda = standingAgenda(record.items);
+	return agenda.flatMap((item, index) => [agendaLine(item, index), ...paperLinesOfItem(record.papers, item.id, record.directors)]);
 }
 
 function withdrawnLines(items: AgendaItem[]): string[] {
@@ -56,7 +52,7 @@ function meetingHeading(organisationName: string, record: MeetingRecord, now: Da
 
 /** One meeting as read_board_meeting gives it: its numbers are the ones change_board_agenda takes. */
 export function describeBoardroomMeeting(organisationName: string, record: MeetingRecord, now: Date): string {
-	const agenda = standingAgenda(record.items).map(agendaLine);
+	const agenda = agendaLines(record);
 	const heading = meetingHeading(organisationName, record, now);
 	return [...heading, '', 'Agenda:', ...agenda, ...withdrawnLines(record.items)].join('\n');
 }

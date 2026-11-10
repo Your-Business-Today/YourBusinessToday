@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { describeBoardroomMeeting, describeBoardroomMeetings, ukMeetingTime } from './describeBoardroomMeeting';
+import { describeBoardroomMeeting, describeBoardroomMeetings } from './describeBoardroomMeeting';
+import { ukMeetingTime } from './ukMeetingTime';
 import type { AgendaItem, BoardroomMeeting } from './boardroomMeeting';
 import type { BoardroomDirector } from './boardroomDirector';
 
@@ -59,7 +60,8 @@ describe('reading a board meeting', () => {
 		const record = {
 			meeting,
 			directors: [nigel, jeremy],
-			items: [accounts, pensions, balance]
+			items: [accounts, pensions, balance],
+			papers: []
 		};
 		const text = describeBoardroomMeeting('Your Business Today', record, now);
 		expect(text).toContain('Board meeting of Your Business Today, 12 Nov 2026 at 10:00 (UK time): called.');
