@@ -204,6 +204,7 @@
     "cooccurrenceThreshold": 0.75,
     "fileCountBand": 3.0,
     "acceptedGaps": [
+      "src/lib/server/boardroom/callBoardroomPaper.ts",
       "src/lib/server/mcp/actions/businessBrainRequest.ts",
       "src/lib/server/agent/goodActions.ts",
       "src/lib/server/goals/updateProject.ts",
