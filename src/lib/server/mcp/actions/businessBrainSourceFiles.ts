@@ -1,4 +1,4 @@
-import { findArrivedBusinessBrainFileIds } from '$lib/server/businessBrain/findBusinessBrainFile';
+import { findArrivedFileIds } from '$lib/server/businessBrain/findBusinessBrainFiles';
 import { sourceFilesNotArrived } from './businessBrainFileAnswers';
 import { validateSourceFileIds } from '$lib/data/businessBrainFileRules';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -11,7 +11,7 @@ export async function sourceFilesToName(
 ): Promise<string[] | string> {
 	const fileIds = validateSourceFileIds(input.sourceFileIds);
 	if (typeof fileIds === 'string') return fileIds;
-	const arrivedFileIds = await findArrivedBusinessBrainFileIds(supabase, organisationId, fileIds);
+	const arrivedFileIds = await findArrivedFileIds(supabase, organisationId, fileIds);
 	const missingFileIds = fileIds.filter((fileId) => !arrivedFileIds.includes(fileId));
 	if (missingFileIds.length > 0) return sourceFilesNotArrived(missingFileIds);
 	return fileIds;

@@ -205,6 +205,7 @@
     "fileCountBand": 3.0,
     "acceptedGaps": [
       "src/lib/server/mcp/actions/businessBrainRequest.ts",
+      "src/lib/server/agent/goodActions.ts",
       "src/lib/server/goals/updateProject.ts",
       "src/lib/server/goals/updateTask.ts",
       "src/lib/server/projects/updateTaskProject.ts",

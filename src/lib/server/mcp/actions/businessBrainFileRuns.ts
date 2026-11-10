@@ -1,6 +1,6 @@
 import { businessBrainFileRecordings, recordBusinessBrainFile } from '$lib/server/businessBrain/recordBusinessBrainFile';
 import { fileAlreadyRecorded, fileNotArrived, fileRecorded, linkLapsedUnused, noSuchBusinessBrainFile, uploadGranted } from './businessBrainFileAnswers';
-import { findBusinessBrainFileSentBy } from '$lib/server/businessBrain/findBusinessBrainFile';
+import { findSentFile } from '$lib/server/businessBrain/findBusinessBrainFiles';
 import { grantBusinessBrainFileUpload } from '$lib/server/businessBrain/grantBusinessBrainFileUpload';
 import { readText } from '../actionTypes';
 import { validateBusinessBrainFile } from '$lib/data/businessBrainFileRules';
@@ -23,7 +23,7 @@ export async function recordFileUpload(caller: McpCaller, input: Record<string, 
 	const idRefusal = validateRecordId('fileId', fileId);
 	if (idRefusal !== null) return idRefusal;
 	const sender = { organisationId: organisation.id, accountId: caller.accountId };
-	const file = await findBusinessBrainFileSentBy(caller.supabase, sender, fileId);
+	const file = await findSentFile(caller.supabase, sender, fileId);
 	if (file === null) return noSuchBusinessBrainFile;
 	const recording = await recordBusinessBrainFile(caller.supabase, file);
 	if (recording.status === businessBrainFileRecordings.recorded) return fileRecorded(organisation, file, recording.byteCount);

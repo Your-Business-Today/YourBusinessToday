@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseBusinessBrainFile, type BusinessBrainFile } from './businessBrainFileRecord';
 
 /** The organisation's file with that id, if its upload link was granted to this person. */
-export async function findBusinessBrainFileSentBy(
+export async function findSentFile(
 	supabase: SupabaseClient,
 	place: { organisationId: string; accountId: string },
 	fileId: string
@@ -20,7 +20,7 @@ export async function findBusinessBrainFileSentBy(
 }
 
 /** Which of these ids are files of the organisation that have arrived; the rest cannot be named by a page. */
-export async function findArrivedBusinessBrainFileIds(
+export async function findArrivedFileIds(
 	supabase: SupabaseClient,
 	organisationId: string,
 	fileIds: string[]

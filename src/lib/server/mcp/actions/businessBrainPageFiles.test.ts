@@ -24,8 +24,8 @@ vi.mock('$lib/server/businessBrain/reviseBusinessBrainPage', () => ({
 	readBusinessBrainPage: async () => ({ pageId: 'page-1', sourceId: null, kind: 'rule', title: 'Opening hours', summary: '', body: 'Nine to five.', facts: {}, updatedAt: 'then' }),
 	reviseBusinessBrainPage: (...given: unknown[]) => brain.revisePage(...given) ?? Promise.resolve(true)
 }));
-vi.mock('$lib/server/businessBrain/findBusinessBrainFile', () => ({
-	findArrivedBusinessBrainFileIds: async (_supabase: unknown, _organisationId: string, fileIds: string[]) =>
+vi.mock('$lib/server/businessBrain/findBusinessBrainFiles', () => ({
+	findArrivedFileIds: async (_supabase: unknown, _organisationId: string, fileIds: string[]) =>
 		fileIds.filter((fileId) => brain.arrivedFileIds.includes(fileId))
 }));
 vi.mock('$lib/server/businessBrain/nameBusinessBrainPageFiles', () => ({

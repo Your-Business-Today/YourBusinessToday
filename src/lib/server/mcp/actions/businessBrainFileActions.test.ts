@@ -24,8 +24,8 @@ vi.mock('$lib/server/businessBrain/grantBusinessBrainFileUpload', () => ({
 		return Promise.resolve({ fileId: 'file-1', uploadUrl: 'https://storage.example/upload?token=t', expiresAt: '2026-11-10T20:00:00Z' });
 	}
 }));
-vi.mock('$lib/server/businessBrain/findBusinessBrainFile', () => ({
-	findBusinessBrainFileSentBy: (...given: unknown[]) => {
+vi.mock('$lib/server/businessBrain/findBusinessBrainFiles', () => ({
+	findSentFile: (...given: unknown[]) => {
 		brain.findFile(...given);
 		return Promise.resolve(brain.fileFound);
 	}

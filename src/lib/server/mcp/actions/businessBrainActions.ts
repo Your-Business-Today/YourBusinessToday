@@ -1,6 +1,7 @@
 import { fileBusinessBrainPageGuidance, fileBusinessBrainRevisionGuidance } from './businessBrainGuidance';
 import { fileBusinessBrainPageSchema, fileBusinessBrainRevisionSchema } from './businessBrainSchemas';
 import { fileNewPage, fileRevision } from './businessBrainFilingRuns';
+import { businessBrainFileActions } from './businessBrainFileActions';
 import { moduleAction } from '../organisationModuleGate';
 import type { McpAction } from '../actionTypes';
 
@@ -26,5 +27,6 @@ export const businessBrainActions: McpAction[] = [
 		guidance: fileBusinessBrainRevisionGuidance,
 		inputSchema: fileBusinessBrainRevisionSchema,
 		run: fileRevision
-	})
+	}),
+	...businessBrainFileActions
 ];
