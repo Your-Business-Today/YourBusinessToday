@@ -1,78 +1,36 @@
 import { describe, expect, it } from 'vitest';
-import { deriveProjectMemberships, managesOrganisation, type DerivedMembership } from './organisationAccess';
-import { invoicingDetailsOf } from './organisationInvoicing';
-import { emptyAccountsContact } from './organisationRules';
-import {
-	jeremy,
-	jewelBespokeBuild,
-	jewelPassiveFire,
-	memberships,
-	nigel,
-	organisations,
-	projects
-} from './organisationAccess.fixtures';
+import { deriveProjectMemberships, managesOrganisation, type OrganisationMembership } from './organisationAccess';
+import { groupedMemberships, jeremy, jewelBespokeBuild, jewelPassiveFire, memberships, nigel, projects } from './organisationAccess.fixtures';
 
-const copiedDown = [
-	{ organisationId: jewelPassiveFire.id, accountId: jeremy, isManager: true },
-	{ organisationId: jewelPassiveFire.id, accountId: nigel, isManager: false },
-	{ organisationId: jewelBespokeBuild.id, accountId: jeremy, isManager: true },
-	{ organisationId: jewelBespokeBuild.id, accountId: nigel, isManager: false }
-];
-const membershipsAfterCopy = [...memberships, ...copiedDown];
-const organisationsWithoutGroups = organisations.map((organisation) => ({ ...organisation, parentOrganisationId: null }));
+/** What each person on Jewel Enterprises reached through the grouping, before the copy-down. */
+const reachedThroughTheGrouping: Record<string, string[]> = {
+	[jeremy]: ['pfp-portal', 'pfp-website', 'bb-portal', 'phone-line', 'carp-mania'],
+	[nigel]: ['pfp-portal', 'pfp-website', 'bb-portal', 'phone-line']
+};
 
-const reachKey = (row: DerivedMembership) => `${row.projectId} ${row.accountId}`;
-const reachOf = (rows: DerivedMembership[]) => rows.map(reachKey).sort();
-const sortedByReach = (rows: DerivedMembership[]) =>
-	[...rows].sort((left, right) => reachKey(left).localeCompare(reachKey(right)));
-
-const projectOrganisation = (projectId: string) => projects.find((project) => project.id === projectId)?.organisationId;
-
-function repointedToTheCompany(row: DerivedMembership): DerivedMembership {
-	const companyId = projectOrganisation(row.projectId);
-	const company = organisations.find((organisation) => organisation.id === companyId);
-	if (company === undefined || company.parentOrganisationId !== row.viaOrganisationId) return row;
-	return { ...row, viaOrganisationId: company.id };
+function projectsReachedBy(onOrganisations: OrganisationMembership[], accountId: string): string[] {
+	return deriveProjectMemberships(onOrganisations, projects)
+		.filter((membership) => membership.accountId === accountId)
+		.map((membership) => membership.projectId);
 }
 
-describe('copying Jewel Enterprises’ people down to each company beneath it', () => {
-	const before = deriveProjectMemberships(organisations, memberships, projects);
-	const after = deriveProjectMemberships(organisations, membershipsAfterCopy, projects);
-
-	it('leaves the same people on the same projects', () => {
-		expect(reachOf(after)).toEqual(reachOf(before));
+describe('a person who was on Jewel Enterprises alone, now that the grouping is not read', () => {
+	it('reaches the same projects as before the copy-down, through the people copied to each company', () => {
+		expect(projectsReachedBy(memberships, jeremy)).toEqual(reachedThroughTheGrouping[jeremy]);
+		expect(projectsReachedBy(memberships, nigel)).toEqual(reachedThroughTheGrouping[nigel]);
 	});
 
-	it('marks each grant on a company’s project as coming through that company, as the migration does', () => {
-		expect(sortedByReach(after)).toEqual(sortedByReach(before.map(repointedToTheCompany)));
+	it('would have lost the companies’ projects without the copy-down', () => {
+		expect(projectsReachedBy(groupedMemberships, nigel)).toEqual(['phone-line']);
 	});
 
-	it('keeps Jeremy a manager of each company he managed from above', () => {
-		expect(managesOrganisation(membershipsAfterCopy, organisationsWithoutGroups, jeremy, jewelPassiveFire.id)).toBe(true);
-		expect(managesOrganisation(membershipsAfterCopy, organisationsWithoutGroups, jeremy, jewelBespokeBuild.id)).toBe(true);
+	it('is granted each company’s project through that company, as the copy-down marked it', () => {
+		const nigelsGrants = deriveProjectMemberships(memberships, projects).filter((row) => row.accountId === nigel);
+		expect(nigelsGrants.find((row) => row.projectId === 'bb-portal')?.viaOrganisationId).toBe(jewelBespokeBuild.id);
 	});
 
-	it('loses nobody’s access once the grouping is no longer read', () => {
-		const flat = deriveProjectMemberships(organisationsWithoutGroups, membershipsAfterCopy, projects);
-		expect(reachOf(flat)).toEqual(reachOf(before));
-	});
-});
-
-describe('filling a company’s blank invoicing details from its parent', () => {
-	const jewelAccountsContact = { name: 'Jeremy Ferendinos', email: 'accounts@jewel.example', phone: '' };
-	const passiveFireAccountsContact = { ...emptyAccountsContact, name: 'Stuart Barrance' };
-	const jewelEnterprises = { name: 'Jewel Enterprises', address: 'Jewel House, London', accountsContact: jewelAccountsContact };
-	const passiveFire = { name: 'Jewel Passive Fire Protection', address: '', accountsContact: passiveFireAccountsContact };
-	const filled = {
-		...passiveFire,
-		address: jewelEnterprises.address,
-		accountsContact: { ...passiveFireAccountsContact, email: jewelAccountsContact.email }
-	};
-
-	it('invoices the company exactly as before, with or without its parent', () => {
-		const { inheritedFields, ...shownBefore } = invoicingDetailsOf(passiveFire, jewelEnterprises);
-		expect(inheritedFields).toEqual(['address', 'contactEmail']);
-		expect(invoicingDetailsOf(filled, jewelEnterprises)).toEqual({ ...shownBefore, inheritedFields: [] });
-		expect(invoicingDetailsOf(filled, null)).toEqual({ ...shownBefore, inheritedFields: [] });
+	it('still manages each company Jeremy managed from above', () => {
+		expect(managesOrganisation(memberships, jeremy, jewelPassiveFire.id)).toBe(true);
+		expect(managesOrganisation(memberships, jeremy, jewelBespokeBuild.id)).toBe(true);
 	});
 });

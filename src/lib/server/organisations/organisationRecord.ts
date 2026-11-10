@@ -6,7 +6,6 @@ export type Organisation = OrganisationPlace & OrganisationDetails & { createdAt
 export function parseOrganisationRecord(row: Record<string, unknown>): Organisation {
 	return {
 		id: row.id as string,
-		parentOrganisationId: (row.parent_organisation_id as string) ?? null,
 		name: row.name as string,
 		address: (row.address as string) ?? '',
 		accountsContact: {
@@ -27,8 +26,4 @@ export function organisationDetailColumns(details: OrganisationDetails): Record<
 		accounts_contact_email: contact.email,
 		accounts_contact_phone: contact.phone
 	};
-}
-
-export function isSubOrganisation(organisation: Organisation): boolean {
-	return organisation.parentOrganisationId !== null;
 }

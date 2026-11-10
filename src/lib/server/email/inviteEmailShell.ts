@@ -1,5 +1,14 @@
-/** The frame every invitation email shares: the wordmark, the one button, and the link spelled out beneath it. */
-export function renderInviteEmail(heading: string, body: string, openUrl: string, buttonLabel: string): string {
+/**
+ * The frame every invitation email shares: the wordmark, the one button, and the link spelled out beneath it,
+ * with anything an invitation adds after the button.
+ */
+export function renderInviteEmail(
+	heading: string,
+	body: string,
+	openUrl: string,
+	buttonLabel: string,
+	afterButtonHtml = ''
+): string {
 	return `
 <div style="margin:0;padding:32px 16px;background-color:#0b0e16;font-family:Arial,Helvetica,sans-serif;">
 	<div style="max-width:520px;margin:0 auto;background-color:#141927;border:1px solid #242c40;border-radius:16px;padding:32px;">
@@ -11,6 +20,7 @@ export function renderInviteEmail(heading: string, body: string, openUrl: string
 			${body}
 		</p>
 		${inviteButtonHtml(openUrl, buttonLabel)}
+		${afterButtonHtml}
 		${inviteFooterHtml(openUrl)}
 	</div>
 </div>`;

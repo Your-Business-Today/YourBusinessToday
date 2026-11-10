@@ -12,11 +12,11 @@ import { validateOrganisationDetails } from '$lib/data/organisationRules';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
-const nameTaken = 'An organisation of that name already sits there. Pick another name, or call list_organisations.';
+const nameTaken = 'An organisation of that name already exists. Pick another name, or call list_organisations.';
 
 const invoicingGuidance =
-	'The address and the accounts contact are what invoices carry. A sub-organisation leaves blank ' +
-	'whatever it shares with its parent and sets only what differs, so it is invoiced on its own.';
+	'The address and the accounts contact are what invoices carry. Every organisation is one company and is ' +
+	'invoiced as itself, so each holds its own details.';
 
 export const organisationWriteActions: McpAction[] = [
 	{
@@ -25,26 +25,9 @@ export const organisationWriteActions: McpAction[] = [
 		audience: 'staff',
 		isWrite: true,
 		summary: 'set up a new organisation — a client, or Your Business Today itself — with its invoicing details',
-		guidance: invoicingGuidance + ' A business of an existing organisation is a sub-organisation: call create_sub_organisation instead.',
+		guidance: invoicingGuidance,
 		inputSchema: objectSchema(organisationDetailsFields, ['name']),
-		run: async (caller, input) => addOrganisation(caller, input, null)
-	},
-	{
-		name: 'create_sub_organisation',
-		area: 'organisations',
-		audience: 'everyone',
-		isWrite: true,
-		summary: 'add a business under an organisation you manage, so its projects can be invoiced and reached on their own',
-		guidance:
-			invoicingGuidance + ' Everyone on the parent reaches the sub-organisation’s projects; people added to ' +
-			'the sub-organisation alone reach only those. A sub-organisation has no sub-organisations of its own.',
-		inputSchema: objectSchema({ parentOrganisationId: organisationIdField, ...organisationDetailsFields }, ['parentOrganisationId', 'name']),
-		run: async (caller, input) => {
-			const parent = await manageableOrganisation(caller, readText(input, 'parentOrganisationId'));
-			if (parent === null) return notAnOrganisationManager;
-			if (parent.parentOrganisationId !== null) return `${parent.name} is itself a sub-organisation, so nothing sits under it.`;
-			return addOrganisation(caller, input, parent.id);
-		}
+		run: async (caller, input) => addOrganisation(caller, input)
 	},
 	{
 		name: 'update_organisation_details',
@@ -66,19 +49,11 @@ export const organisationWriteActions: McpAction[] = [
 	}
 ];
 
-async function addOrganisation(
-	caller: McpCaller,
-	input: Record<string, unknown>,
-	parentOrganisationId: string | null
-): Promise<string> {
+async function addOrganisation(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
 	const details = editedOrganisationDetails(input, noDetailsYet);
 	const refusal = validateOrganisationDetails(details);
 	if (refusal !== null) return refusal;
-	const organisationId = await createOrganisation(caller.supabase, {
-		details,
-		parentOrganisationId,
-		createdBy: caller.accountId
-	});
+	const organisationId = await createOrganisation(caller.supabase, { details, createdBy: caller.accountId });
 	if (organisationId === null) return nameTaken;
 	return `${details.name} created (id: ${organisationId}). Call invite_to_organisation to bring its people on.`;
 }

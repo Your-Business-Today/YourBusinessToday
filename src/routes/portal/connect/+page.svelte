@@ -2,7 +2,7 @@
 	import PortalClaudeAbilities from '$lib/components/portal/PortalClaudeAbilities.svelte';
 	import PortalClaudePlanSteps from '$lib/components/portal/PortalClaudePlanSteps.svelte';
 	import PortalConnectorAddress from '$lib/components/portal/PortalConnectorAddress.svelte';
-	import PortalOnboardingPrompt from '$lib/components/portal/PortalOnboardingPrompt.svelte';
+	import PortalContextPrompt from '$lib/components/portal/PortalContextPrompt.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { portalHomePath } from '$lib/portal/portalPaths';
@@ -24,8 +24,6 @@
 		<PortalConnectorAddress address={data.connectorAddress} />
 		<PortalClaudeAbilities />
 		<PortalClaudePlanSteps />
-		{#if data.isOnboarding}
-			<PortalOnboardingPrompt />
-		{/if}
+		<PortalContextPrompt />
 	</div>
 </div>
