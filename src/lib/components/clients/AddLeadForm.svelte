@@ -52,8 +52,8 @@
 			</div>
 			<div class="flex flex-wrap items-center justify-between gap-3">
 				<p class="text-xs text-chalk/50">
-					Or let Claude do the reading:
-					<a href="/clients/research" class="text-chalk/80 hover:text-signal">research a company</a>
+					Or let your own Claude do the reading:
+					<a href="/clients/research" class="text-chalk/80 hover:text-signal">research a company with your Claude</a>
 					· <a href="/clients/prospect" class="text-chalk/80 hover:text-signal">search Companies House</a>
 				</p>
 				<SubmitButton>Add as a lead</SubmitButton>
