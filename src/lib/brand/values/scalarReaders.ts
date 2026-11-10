@@ -1,3 +1,4 @@
+import { clockTimePattern } from './clockTime';
 import { ValueLimits } from './valueLimits';
 import { accepted, refused, type ValueReading } from './valueReading';
 
@@ -8,6 +9,7 @@ const ratioPattern = /^\d+:\d+$/;
 const easingKeywords = ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'];
 const cubicBezierPattern = /^cubic-bezier\(\s*-?[\d.]+\s*(?:,\s*-?[\d.]+\s*){3}\)$/;
 const fontFamilyForbiddenCharacters = /[;{}<>]/;
+const wholeNumberPattern = /^\d+$/;
 
 export function readColour(text: string): ValueReading {
 	if (!colourPattern.test(text)) return refused('a colour is a hex value such as #ff5a36');
@@ -68,4 +70,17 @@ export function readPhrase(text: string): ValueReading {
 export function readChoice(text: string, choices: string[]): ValueReading {
 	if (choices.includes(text)) return accepted(text);
 	return refused(`choose one of ${choices.join(', ')}`);
+}
+
+export function readTimeOfDay(text: string): ValueReading {
+	if (!clockTimePattern.test(text)) return refused('a time of day is HH:MM on the 24-hour clock, such as 19:30');
+	return accepted(text);
+}
+
+export function readWholeNumber(text: string): ValueReading {
+	const number = Number(text);
+	if (!wholeNumberPattern.test(text) || number > ValueLimits.largestWholeNumber) {
+		return refused(`this needs a whole number from 0 to ${ValueLimits.largestWholeNumber}`);
+	}
+	return accepted(number);
 }

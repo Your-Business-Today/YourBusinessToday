@@ -3,10 +3,9 @@ import { facetKeys } from '$lib/brand/facets';
 import { KitLimits } from '$lib/brand/kitLimits';
 import { objectSchema, textField } from '../actionTypes';
 import { organisationIdField } from './organisationDetailsFields';
-import { traitKinds, TraitKinds } from '$lib/brand/values/traitValue';
+import { customTraitKinds } from '$lib/brand/values/traitValue';
 
 const { traitLabelCharacters, traitPurposeCharacters, traitChoices, traitChoiceCharacters } = KitLimits;
-const customTraitKinds = traitKinds.filter((kind) => kind !== TraitKinds.actionRule);
 const recordedStatuses = [DecisionStatuses.proposed, DecisionStatuses.adopted];
 
 const decisionIdField = textField('The decision’s id, as read_brand or record_brand_decisions gives it');

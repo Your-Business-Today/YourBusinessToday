@@ -10,7 +10,10 @@ export const traitKinds = [
 	'phrase',
 	'phraseList',
 	'choice',
-	'actionRule'
+	'actionRule',
+	'weekdays',
+	'timeOfDay',
+	'wholeNumber'
 ] as const;
 
 export type TraitKind = (typeof traitKinds)[number];
@@ -18,8 +21,16 @@ export type TraitKind = (typeof traitKinds)[number];
 export const TraitKinds = {
 	choice: 'choice',
 	phraseList: 'phraseList',
-	actionRule: 'actionRule'
+	actionRule: 'actionRule',
+	weekdays: 'weekdays',
+	timeOfDay: 'timeOfDay',
+	wholeNumber: 'wholeNumber'
 } as const satisfies Record<string, TraitKind>;
+
+/** The kinds only the catalogue's own traits take; a brand's own trait takes one of the rest. */
+const builtInOnlyKinds: TraitKind[] = [TraitKinds.actionRule, TraitKinds.weekdays, TraitKinds.timeOfDay, TraitKinds.wholeNumber];
+
+export const customTraitKinds = traitKinds.filter((kind) => !builtInOnlyKinds.includes(kind));
 
 export const actionStances = ['always', 'often', 'sometimes', 'never'] as const;
 
@@ -29,8 +40,8 @@ export type ActionRule = { stance: ActionStance; guidance: string };
 
 export type TraitValue = string | number | string[] | ActionRule;
 
-export function isTraitKind(candidate: string): candidate is TraitKind {
-	return (traitKinds as readonly string[]).includes(candidate);
+export function isCustomTraitKind(candidate: string): candidate is TraitKind {
+	return (customTraitKinds as readonly string[]).includes(candidate);
 }
 
 export function isActionStance(candidate: unknown): candidate is ActionStance {

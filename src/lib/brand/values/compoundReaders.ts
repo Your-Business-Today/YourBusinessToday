@@ -1,5 +1,8 @@
 import { isActionStance, actionStances } from './traitValue';
 import { ValueLimits } from './valueLimits';
+import { weekdayNamed, weekdays, type Weekday } from './weekdays';
+
+const weekdayNames = weekdays.join(', ');
 import { accepted, refused, type ValueReading } from './valueReading';
 
 export function readPhraseList(raw: unknown): ValueReading {
@@ -29,6 +32,18 @@ export function readActionRule(raw: unknown): ValueReading {
 		return refused(`keep the guidance to ${ValueLimits.guidanceCharacters} characters`);
 	}
 	return accepted({ stance: rule.stance, guidance });
+}
+
+export function readWeekdays(raw: unknown): ValueReading {
+	const items = listItems(raw);
+	if (items === null || items.length === 0) return refused('this needs a list of days of the week');
+	const named = items.map((item) => ({ item, weekday: weekdayNamed(item) }));
+	const unknown = named.find(({ weekday }) => weekday === null);
+	if (unknown !== undefined) return refused(`“${unknown.item}” is not a day of the week: give ${weekdayNames}`);
+	const days = named.map(({ weekday }) => weekday as Weekday);
+	const repeated = days.find((day, index) => days.indexOf(day) !== index);
+	if (repeated !== undefined) return refused(`${repeated} is given twice`);
+	return accepted(weekdays.filter((weekday) => days.includes(weekday)));
 }
 
 function listItems(raw: unknown): string[] | null {

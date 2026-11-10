@@ -12,5 +12,8 @@ export const valueHints: Record<TraitKind, string> = {
 	phrase: 'In a sentence',
 	phraseList: 'One per line',
 	choice: '',
-	actionRule: 'When and how — within the hour, warmly, never with a link'
+	actionRule: 'When and how — within the hour, warmly, never with a link',
+	weekdays: 'Monday, Wednesday, Thursday — one per line',
+	timeOfDay: '19:30',
+	wholeNumber: '3'
 };

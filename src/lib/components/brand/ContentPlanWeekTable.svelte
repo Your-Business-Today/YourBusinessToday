@@ -1,11 +1,12 @@
 <script lang="ts">
+	import Badge from '$lib/components/site/Badge.svelte';
 	import Button from '$lib/components/site/Button.svelte';
 	import ContentStageBadge from './ContentStageBadge.svelte';
 	import RecordsCell from '$lib/components/workspace/RecordsCell.svelte';
 	import RecordsTable from '$lib/components/workspace/RecordsTable.svelte';
 	import { contentPiecePathOf } from './brandKitPageWords';
 	import { noKindYet } from '$lib/brand/plan/planCounts';
-	import { nothingPlanned } from './contentPlanPageWords';
+	import { extraPost, nothingPlanned, postDue } from './contentPlanPageWords';
 	import { planRowsOf, type PlanRow } from '$lib/brand/plan/planRows';
 	import type { PlanEntry, PlanWeek } from '$lib/brand/plan/contentPlan';
 	import type { RecordsColumn } from '$lib/components/workspace/recordsTable';
@@ -35,7 +36,11 @@
 				<RecordsCell>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
-				<RecordsCell><span class="text-chalk-subtle">{nothingPlanned}</span></RecordsCell>
+				{#if row.dueFor === null}
+					<RecordsCell><span class="text-chalk-subtle">{nothingPlanned}</span></RecordsCell>
+				{:else}
+					<RecordsCell><Badge label={postDue} tone="warning" hasDot /> {row.dueFor}</RecordsCell>
+				{/if}
 				<RecordsCell isWideOnly>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
 				<RecordsCell>{blank}</RecordsCell>
@@ -46,7 +51,10 @@
 				<RecordsCell>{entry.kind ?? noKindYet}</RecordsCell>
 				<RecordsCell kind="link" href={contentPiecePathOf(organisationId, entry.id)}>{entry.title}</RecordsCell>
 				<RecordsCell isWideOnly>{entry.hook}</RecordsCell>
-				<RecordsCell kind="status"><ContentStageBadge stage={entry.stage} /></RecordsCell>
+				<RecordsCell kind="status">
+					<ContentStageBadge stage={entry.stage} />
+					{#if entry.isExtra}<Badge label={extraPost} />{/if}
+				</RecordsCell>
 				{#if entry.canMove}
 					<RecordsCell kind="actions"><Button onclick={() => onMove(entry)}>Move</Button></RecordsCell>
 				{:else}
