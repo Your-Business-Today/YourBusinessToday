@@ -241,7 +241,10 @@
       "FormField",
       "TabStrip",
       "PageTitle",
-      "EmptyState"
+      "EmptyState",
+      "RecordsTable",
+      "Button",
+      "Badge"
     ],
     "handRolled": [
       {

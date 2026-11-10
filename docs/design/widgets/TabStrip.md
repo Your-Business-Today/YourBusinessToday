@@ -31,3 +31,6 @@ A row of tabs, each changing the pane or the route below it. A content widget. (
 
 ## Unmapped
 - YBT's count today is a pill (`rounded-full`) on `carriage`; the brand makes it `rounded` on `carriage-raised`.
+
+## Exceptions
+- The count is the neutral `Badge` (`px-2` rather than `px-1.5`), so a count reads the same beside a tab as beside a panel's title. A tab given an `href` is a link (route tabs); without one it is a button (pane tabs). Checked 10 Nov 2026.

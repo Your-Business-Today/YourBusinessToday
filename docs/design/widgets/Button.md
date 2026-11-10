@@ -35,3 +35,6 @@ Every button. YBT has no shared button yet: its buttons are class strings; this 
 ## Unmapped
 - YBT's buttons today are pills (`rounded-full`) and its main button is filled `signal`; the brand makes them `rounded` and the main button `go` (rules 4 and 6).
 - `confirmButtonClasses` (a `go` outline that fills on hover) has no place in two looks; it becomes the primary or the secondary.
+
+## Exceptions
+- Built as `Button` (`look`, `size`, `isDestructive`, `isIconOnly`, `isSaving`, `href` for a link drawn as a button). Its first users are the dialog's close button and the sheet's two buttons; the views' class strings (`primaryButtonClasses`, `panelButtonClasses` and the rest) and `SubmitButton` move to it in the refactor rounds, so the `signal` filled buttons stay until then. Checked 10 Nov 2026.
