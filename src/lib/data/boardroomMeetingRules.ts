@@ -1,6 +1,6 @@
 import { agendaPurposes } from './boardroomMeeting';
 
-/** The limits of boardroom_agenda_items (migration 0154), stated once for the service and any form. */
+/** The limits of boardroom_agenda_items (migration 0157), stated once for the service and any form. */
 export const agendaItemTitleMaximumLength = 300;
 
 export const boardroomMeetingRefusals = {

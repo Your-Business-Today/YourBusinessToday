@@ -204,6 +204,7 @@
     "cooccurrenceThreshold": 0.75,
     "fileCountBand": 3.0,
     "acceptedGaps": [
+      "src/lib/server/mcp/actions/businessBrainRequest.ts",
       "src/lib/server/goals/updateProject.ts",
       "src/lib/server/goals/updateTask.ts",
       "src/lib/server/projects/updateTaskProject.ts",
@@ -325,6 +326,8 @@
       "src/lib/server/mcp/actions/serverErrorActions.ts",
       "src/lib/server/mcp/actions/dataInventoryActions.ts",
       "src/lib/server/mcp/actions/storyFields.ts",
+      "src/lib/server/mcp/actions/businessBrainSchemas.ts",
+      "src/lib/server/mcp/actions/companyContextFields.ts",
       "src/lib/server/mcp/actions/clientDetailActions.ts",
       "src/lib/server/mcp/actions/describeInbox.ts",
       "src/routes/projects/kit-versions/+page.server.ts"

@@ -13,7 +13,6 @@ import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCount
 import { getProjectsForOwner } from '$lib/server/projects/getProjectsForOwner';
 import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import { getTeamProjects, type TeamProject } from '$lib/server/members/getTeamProjects';
-import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { everyOrganisationFilter, matchesOrganisationFilter } from '$lib/data/organisationFilter';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { projectStatusLabels } from '$lib/data/projectStatus';
@@ -32,14 +31,13 @@ export const projectReadActions: McpAction[] = [
 			'the projects you own, in priority order, then the projects you are on as a team member, in your own order — all of them, or those under one organisation',
 		inputSchema: objectSchema({
 			organisationId: textField(
-				'Narrow to the projects under one organisation and its sub-organisations, as list_organisations gives it'
+				'Narrow to the projects under one organisation, as list_organisations gives it'
 			)
 		}),
 		run: async (caller, input) => {
 			const assignedTaskCounts = await getAssignedTaskCounts(caller.supabase, caller.accountId);
 			const filter = readOptionalText(input, 'organisationId') ?? everyOrganisationFilter;
-			const organisations = await getOrganisations(caller.supabase);
-			const underFilter = (project: Project) => matchesOrganisationFilter(project.organisationId, filter, organisations);
+			const underFilter = (project: Project) => matchesOrganisationFilter(project.organisationId, filter);
 			const owned = (await getProjectsForOwner(caller.supabase, caller.accountId, assignedTaskCounts)).filter(underFilter);
 			const team = (await getTeamProjects(caller.supabase, caller.accountId, assignedTaskCounts)).filter(underFilter);
 			if (owned.length === 0 && team.length === 0) {

@@ -5,6 +5,8 @@ import type { OrganisationModule } from '$lib/data/organisationModules';
 export type ActionArea =
 	| 'account'
 	| 'boardroom'
+	| 'brand'
+	| 'business_brain'
 	| 'clients'
 	| 'organisations'
 	| 'patches'

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { canEnterBoardroom, type Boardroom } from './boardroomAccess';
-import { jeremy, jewelEnterprises, jewelPassiveFire, memberships, nigel, stuart } from './organisationAccess.fixtures';
+import { jeremy, jeremyManagesJewel, jewelEnterprises, jewelPassiveFire, memberships, nigel, stuart } from './organisationAccess.fixtures';
 import type { BoardroomDirector } from './boardroomDirector';
 import type { OrganisationVisitor } from './organisationAccess';
 
@@ -44,13 +44,14 @@ describe('who enters a boardroom', () => {
 		expect(canEnterBoardroom(jamesAsStaff, jewelBoardroom)).toBe(false);
 	});
 
-	it('is not someone on the organisation above, even named, because a director sits on the organisation itself', () => {
+	it('is not someone on another organisation alone, even named, because a director sits on the organisation itself', () => {
 		const passiveFireBoardroom: Boardroom = {
 			organisation: jewelPassiveFire,
 			switchedOn: ['boardroom'],
 			directors: [director(jeremy, 'jewel-pfp'), director(stuart, 'jewel-pfp')]
 		};
-		expect(canEnterBoardroom(personOnTheBoard(jeremy), passiveFireBoardroom)).toBe(false);
+		const jeremyOnJewelAlone: OrganisationVisitor = { accountId: jeremy, isStaff: false, organisationMemberships: [jeremyManagesJewel] };
+		expect(canEnterBoardroom(jeremyOnJewelAlone, passiveFireBoardroom)).toBe(false);
 		expect(canEnterBoardroom(personOnTheBoard(stuart), passiveFireBoardroom)).toBe(true);
 	});
 });

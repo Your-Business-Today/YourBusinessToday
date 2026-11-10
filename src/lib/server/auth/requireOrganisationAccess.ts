@@ -25,7 +25,7 @@ export async function requireOrganisationAccess(
 	if (organisation === null) error(404, 'Organisation not found');
 	const isStaff = await isStaffMember(locals);
 	const memberships = await getMembershipsForAccount(locals.supabase, user.id);
-	const manages = managesOrganisation(memberships, [organisation], user.id, organisation.id);
+	const manages = managesOrganisation(memberships, user.id, organisation.id);
 	const visitor = { accountId: user.id, isStaff, organisationMemberships: memberships };
 	return { user, organisation, isStaff, canManage: isStaff || manages, visitor };
 }
