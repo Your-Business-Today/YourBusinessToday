@@ -61,7 +61,8 @@ describe('reading a board meeting', () => {
 			meeting,
 			directors: [nigel, jeremy],
 			items: [accounts, pensions, balance],
-			papers: []
+			papers: [],
+			recordPapers: []
 		};
 		const text = describeBoardroomMeeting('Your Business Today', record, now);
 		expect(text).toContain('Board meeting of Your Business Today, 12 Nov 2026 at 10:00 (UK time): called.');
