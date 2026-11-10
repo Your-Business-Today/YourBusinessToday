@@ -3,9 +3,9 @@ import { describe, expect, it } from 'vitest';
 import { companyContextLimits as limits } from '$lib/data/companyContext/companyContextLimits';
 import { contextStages } from '$lib/data/companyContext/companyContext';
 
-const migration = readFileSync('migrations/0151_company_contexts.sql', 'utf8');
+const migration = readFileSync('migrations/0154_company_contexts.sql', 'utf8');
 
-describe('the columns of migration 0151 and the limits the connector checks', () => {
+describe('the columns of migration 0154 and the limits the connector checks', () => {
 	it('hold the same lengths', () => {
 		const checks = [
 			`char_length(part_key) between 1 and ${limits.keyLength}`,

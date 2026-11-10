@@ -4,7 +4,7 @@ import { readContextParts } from './readContextParts';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { CompanyContextVersion } from '$lib/data/companyContext/companyContext';
 
-/** The latest version of an organisation's company context, whole; none before its first run or migration 0151. */
+/** The latest version of an organisation's company context, whole; none before its first run or migration 0154. */
 export async function readLatestCompanyContext(
 	supabase: SupabaseClient,
 	organisationId: string
