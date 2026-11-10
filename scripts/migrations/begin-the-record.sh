@@ -29,5 +29,6 @@ beginTheRecord() {
 		|| failWith "The files already on main could not be recorded as run before the record began."
 	echo "Recorded the $(wc -l <<< "$migrationsOnMainBefore") files on main before this push as run before the record began; none of them was run."
 	readWaitingMigrations
-	echo "Migrations this push added, besides the record's own: ${waitingMigrations:-none}"
+	echo "Migrations this push added, besides the record's own:"
+	echo "${waitingMigrations:-none}"
 }
