@@ -3,7 +3,7 @@
 # container that listens on 127.0.0.1 alone and trusts local connections. It
 # holds nothing but what the rehearsal builds in it: no client data, and nothing
 # from production is ever copied into it. The Postgres major version is stated
-# here and nowhere else.
+# in rehearsal-postgres.sh and nowhere else.
 #
 # Prints the server's address and, inside GitHub Actions, sets it as
 # SCRATCH_SERVER_URL for the steps after this one.
@@ -12,7 +12,9 @@
 
 set -euo pipefail
 
-readonly postgresImage='postgres:17'
+source "$(dirname "$0")/rehearsal-postgres.sh"
+
+readonly postgresImage="postgres:$rehearsalPostgresMajorVersion"
 readonly containerName='ybt-scratch-postgres'
 readonly port='54329'
 readonly serverUrl="postgresql://postgres@127.0.0.1:$port"
