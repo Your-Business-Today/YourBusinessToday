@@ -39,7 +39,7 @@
 			<h2 class="font-display text-xl">Company profile</h2>
 			<a href={researchAgainHref} class={quietButtonClasses}>Ask your Claude to research</a>
 		</div>
-		<CompanyJobAdverts companyName={client.name} place={client.address} />
+		<CompanyJobAdverts company={{ name: client.name, place: client.address, clientId: client.id }} adverts={data.jobAdverts} />
 		<CompanyProfileForm {client} />
 	</section>
 
