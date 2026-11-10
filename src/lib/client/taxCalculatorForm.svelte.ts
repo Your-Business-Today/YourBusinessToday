@@ -3,6 +3,7 @@ import type { EarningType, TakeHomeInputs, TradingStatus, VehicleType } from '$l
 import { currentTaxYear } from '$lib/data/taxCalculator/taxYearRules';
 import type { HomeWorkingBand, TaxRegion, TaxYearName, UndergraduateLoanPlan } from '$lib/data/taxCalculator/taxRuleTypes';
 import { PeriodAmount } from './periodAmount.svelte';
+import { TradingRouteChoices } from './tradingRouteChoices.svelte';
 
 const exampleSalary = 45000;
 
@@ -22,6 +23,7 @@ export class TaxCalculatorForm {
 	pensionPercentage = $state<number | null>(null);
 	undergraduatePlan = $state<UndergraduateLoanPlan | null>(null);
 	hasPostgraduateLoan = $state(false);
+	tradingRoutes = new TradingRouteChoices();
 
 	get isEmployed(): boolean {
 		return this.earningType !== 'selfEmployed';
