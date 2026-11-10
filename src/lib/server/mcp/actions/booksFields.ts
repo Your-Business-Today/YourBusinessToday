@@ -6,6 +6,8 @@ export const booksOrganisationField = textField(
 
 export const asAtField = textField('The day the reading is taken at the end of, written as 2026-11-30');
 
+export const overviewMonthField = textField('Leave out for this month, or the month to read, written as 2026-11');
+
 export const periodStartField = textField('The first day of the period, written as 2026-11-01');
 
 export const periodEndField = textField('The last day of the period, written as 2026-11-30');

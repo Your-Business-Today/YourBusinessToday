@@ -7,7 +7,7 @@ const seeOther = 303;
 const staffHomePath = '/';
 const forbidden = 403;
 
-/** The signed-in client contact; anyone signed in who is not one is sent to the staff site's home. */
+/** The signed-in client contact; anyone signed in who is not one is sent to the front door, which at the portal address opens their own home. */
 export async function requirePortalVisitor(locals: App.Locals): Promise<PortalVisitor> {
 	const { user } = await locals.safeGetSession();
 	if (user === null) redirect(seeOther, portalSignInPath);

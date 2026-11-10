@@ -33,6 +33,11 @@ export function shiftMonth(monthKey: MonthKey, monthsToAdd: number): MonthKey {
 	return firstOfShiftedMonth.toISOString().slice(0, monthKeyLength);
 }
 
+/** The month a day falls in: 2026-11 for 2026-11-10. */
+export function monthOfDay(isoDate: string): MonthKey {
+	return isoDate.slice(0, monthKeyLength);
+}
+
 /** The month as a person says it: November 2026. */
 export function describeMonth(monthKey: MonthKey): string {
 	const [year, month] = splitMonthKey(monthKey);
