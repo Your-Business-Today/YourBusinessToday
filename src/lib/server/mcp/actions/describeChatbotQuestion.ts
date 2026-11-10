@@ -1,15 +1,10 @@
 import { businessBrainPartNames } from '$lib/data/businessBrainRules';
 import { chatbotReadingKinds, chatbotReadingOutcomes, type ChatbotPageGiven } from '$lib/data/businessBrainChatbotTrailRules';
-import { ukClockAt } from '$lib/data/ukClock';
+import { whenOnUkClock } from '$lib/data/businessBrainChatbotTrailWording';
 import type { ChatbotQuestionRecord } from '$lib/server/businessBrain/readChatbotQuestionTrail';
 import type { ChatbotAnswerRecord, ChatbotReadingRecord } from '$lib/server/businessBrain/readChatbotTrailParts';
 
 const unnamedChatbot = 'a chatbot';
-
-function whenOnUkClock(moment: string): string {
-	const { date, time } = ukClockAt(new Date(moment));
-	return `${date} ${time}`;
-}
 
 function askedFor(reading: ChatbotReadingRecord): string {
 	const { kind, searchWords, part, pageId, revisionId } = reading;
