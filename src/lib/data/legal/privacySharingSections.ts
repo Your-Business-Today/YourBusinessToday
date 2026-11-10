@@ -9,7 +9,7 @@ export const privacySharingSections: LegalSection[] = [
 			'Supabase — the database, the sign-in, and the storage where attachments and documents live.',
 			'Vercel — hosting of the application.',
 			'Anthropic — the Claude assistant our staff work with, as described above.',
-			'Resend — sending the service’s emails, such as invitations and enquiry notifications.'
+			'Resend — sending the service’s emails, such as invitations, enquiry notifications and the tax deadlines email the calculator sends when you ask for it.'
 		]
 	},
 	{

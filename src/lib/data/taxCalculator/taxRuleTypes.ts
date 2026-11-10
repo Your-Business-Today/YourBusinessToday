@@ -63,6 +63,16 @@ export type MakingTaxDigitalRules = SourcedRules & {
 	appliesFrom: string;
 };
 
+export type FilingDeadlines = SourcedRules & {
+	registerBy: string;
+	paperReturnBy: string;
+	onlineReturnToPayThroughTaxCodeBy: string;
+};
+
+export type QuarterlyUpdate = { periodEndsOn: string; dueOn: string };
+
+export type QuarterlyUpdateRules = SourcedRules & { updates: QuarterlyUpdate[] };
+
 export type TaxYearRules = {
 	taxYear: TaxYearName;
 	label: string;
@@ -77,6 +87,8 @@ export type TaxYearRules = {
 	mileage: MileageRules;
 	homeWorking: HomeWorkingRules;
 	makingTaxDigital: MakingTaxDigitalRules;
+	filingDeadlines: FilingDeadlines;
+	quarterlyUpdates: QuarterlyUpdateRules;
 	corporationTax: CorporationTaxRules;
 	dividends: DividendRules;
 	employerNationalInsurance: EmployerNationalInsuranceRules;

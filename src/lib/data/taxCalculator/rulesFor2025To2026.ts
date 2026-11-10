@@ -43,6 +43,13 @@ export const rulesFor2025To2026: TaxYearRules = {
 		appliesFrom: '2027-04-06',
 		sourceUrl: ruleSources.makingTaxDigital
 	},
+	filingDeadlines: {
+		registerBy: '2026-10-05',
+		paperReturnBy: '2026-10-31',
+		onlineReturnToPayThroughTaxCodeBy: '2026-12-30',
+		sourceUrl: ruleSources.selfAssessmentDeadlines
+	},
+	quarterlyUpdates: { updates: [], sourceUrl: ruleSources.quarterlyUpdates },
 	corporationTax: sharedCorporationTax,
 	dividends: dividendRulesWith(0.0875, 0.3375),
 	employerNationalInsurance: employerNationalInsuranceCitedTo(ruleSources.employerRates2025To2026)
