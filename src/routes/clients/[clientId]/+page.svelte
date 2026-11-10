@@ -6,6 +6,7 @@
 	import ClientEventLedger from '$lib/components/clients/ClientEventLedger.svelte';
 	import ClientGroupSection from '$lib/components/clients/ClientGroupSection.svelte';
 	import ClientPeopleSection from '$lib/components/clients/ClientPeopleSection.svelte';
+	import ClientDeletion from '$lib/components/clients/ClientDeletion.svelte';
 	import ClientContinuityCopySection from '$lib/components/clients/ClientContinuityCopySection.svelte';
 	import ClientProjectList from '$lib/components/clients/ClientProjectList.svelte';
 	import CompanyProfileForm from '$lib/components/clients/CompanyProfileForm.svelte';
@@ -83,6 +84,8 @@
 		<ClientObservations observations={data.observations} />
 		<ClientEventLedger events={data.events} />
 	</section>
+
+	<ClientDeletion {client} />
 </div>
 
 <Modal title="Add project" bind:isOpen={isAssignProjectModalOpen}>
