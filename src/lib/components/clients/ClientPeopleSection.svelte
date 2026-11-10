@@ -1,11 +1,7 @@
 <script lang="ts">
 	import ClientPeopleActions from './ClientPeopleActions.svelte';
-<<<<<<< HEAD
 	import ClientSetUpForm from './ClientSetUpForm.svelte';
-	import DraftApproachForm from '$lib/components/people/DraftApproachForm.svelte';
-=======
 	import AskClaudeToDraftApproach from '$lib/components/people/AskClaudeToDraftApproach.svelte';
->>>>>>> origin/staging
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewContactForm from './NewContactForm.svelte';
 	import PersonCard from './PersonCard.svelte';
