@@ -1,4 +1,4 @@
--- 0145: a client's history records the day an administrator set it up.
+-- 0147: a client's history records the day an administrator set it up.
 --
 -- Nobody signs themselves up any more: an administrator sets a client
 -- already on the register up from its page, or through the connector, with
