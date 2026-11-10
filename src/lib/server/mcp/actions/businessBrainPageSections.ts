@@ -43,12 +43,12 @@ function revisionLine(entry: BusinessBrainRevisionEntry): string {
 }
 
 /** The page's earlier versions, latest first, and how to read one. */
-export function historySection(history: BusinessBrainHistory): string[] {
+export function historySection(history: BusinessBrainHistory, readPageAction: string): string[] {
 	const { entries, revisionCount } = history;
 	if (revisionCount === 0) return ['', '## History', 'This is the first version of the page; it has not been revised.'];
 	const unlisted = revisionCount - entries.length;
 	const cutNote = unlisted > 0 ? [`${countOf(unlisted, 'older version')} not listed.`] : [];
-	const howToRead = 'Read an earlier version with read_business_brain_page and its revisionId.';
+	const howToRead = `Read an earlier version with ${readPageAction} and its revisionId.`;
 	const heading = `## History: ${countOf(revisionCount, 'earlier version')}`;
 	return ['', heading, ...entries.map(revisionLine), ...cutNote, howToRead];
 }
