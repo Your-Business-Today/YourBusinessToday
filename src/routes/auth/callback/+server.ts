@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { destinationAfterSignIn } from '$lib/server/auth/localDestination';
+import { destinationAfterSignIn } from '$lib/server/auth/destinationAfterSignIn';
 import type { RequestHandler } from './$types';
 
 const signInPath = '/account/sign-in';

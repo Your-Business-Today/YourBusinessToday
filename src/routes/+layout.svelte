@@ -35,6 +35,7 @@
 		access={data}
 		personName={data.personName}
 		unreadNotificationCount={data.unreadNotificationCount}
+		picks={data.framePicks}
 	>
 		{@render pageView()}
 	</PortalFrame>

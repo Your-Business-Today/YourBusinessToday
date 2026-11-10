@@ -5,6 +5,7 @@ import { PUBLIC_SUPABASE_PUBLISHABLE_KEY, PUBLIC_SUPABASE_URL } from '$env/stati
 import { reportServerError } from '$lib/server/http/reportServerError';
 import { portalOrganisationCookie } from '$lib/portal/portalVisitor';
 import { onceForThisRequest } from '$lib/server/http/onceForThisRequest';
+import { readRememberedPicks } from '$lib/server/frame/rememberedPicks';
 import type { Cookies, Handle } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -19,6 +20,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const { locals } = event;
 	locals.supabase = supabaseClientFor(event.cookies);
 	locals.portalOrganisationId = event.cookies.get(portalOrganisationCookie) ?? null;
+	locals.rememberedPicks = readRememberedPicks(event.cookies);
 	locals.safeGetSession = onceForThisRequest(() => readSession(locals));
 	return resolve(event, {
 		filterSerializedResponseHeaders: (headerName) =>
