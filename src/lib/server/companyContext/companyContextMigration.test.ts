@@ -6,6 +6,8 @@ import { contextStages } from '$lib/data/companyContext/companyContext';
 const migration = readFileSync('migrations/0154_company_contexts.sql', 'utf8');
 const reviewsMigration = readFileSync('migrations/0163_company_context_part_reviews.sql', 'utf8');
 const confirmationsMigration = readFileSync('migrations/0170_company_context_confirmations.sql', 'utf8');
+const goalsMigration = readFileSync('migrations/0171_goals_raised_from_confirmed_context.sql', 'utf8');
+const portalViewsMigration = readFileSync('migrations/0100_contacts_read_their_clients_projects.sql', 'utf8');
 const lastClientEventKinds = readFileSync('migrations/0150_client_set_up_event.sql', 'utf8');
 
 describe('the columns of migration 0154 and the limits the connector checks', () => {
@@ -37,5 +39,13 @@ describe('the columns of migration 0154 and the limits the connector checks', ()
 		const kindsBefore = [...lastClientEventKinds.matchAll(/^\t\t'([a-z_]+)'/gm)].map((match) => match[1]);
 		expect(kindsBefore.length).toBeGreaterThan(0);
 		for (const kind of [...kindsBefore, 'context_confirmed']) expect(confirmationsMigration).toContain(`'${kind}'`);
+	});
+
+	it("adds the confirmed context a goal came from, and keeps every column the client's goals view held", () => {
+		expect(goalsMigration).toContain('add column if not exists context_version_id uuid references');
+		const columnsBefore = 'select goal.id, goal.project_id, goal.title, goal.measure, goal.status, goal.horizon, goal.priority';
+		expect(portalViewsMigration).toContain(columnsBefore);
+		expect(goalsMigration).toContain(`${columnsBefore},`);
+		expect(goalsMigration).toContain('version.version_number as context_version_number');
 	});
 });

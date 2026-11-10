@@ -16,7 +16,9 @@ const noGoalTitle = '';
 
 /** Only what a client reads leaves here: no repository, database, branch, estimate or staff notes. */
 export function toPortalProject(row: Record<string, unknown>): PortalProject {
-	const goals = readRows(row.goals).map(parseGoalRecord);
+	const goalRows = readRows(row.goals);
+	const goals = goalRows.map(parseGoalRecord);
+	const contextVersionOf = contextVersionsOfGoals(goalRows);
 	const currentTasks = currentWork(readRows(row.tasks).map(parseTaskRecord), goals);
 	return {
 		id: row.id as string,
@@ -25,7 +27,9 @@ export function toPortalProject(row: Record<string, unknown>): PortalProject {
 		status: parseProjectStatus(row.status),
 		environmentUrl: (row.environment_url as string) ?? '',
 		completionPercent: weightedCompletionPercent(currentTasks),
-		currentGoals: summariseGoals(goals, currentTasks).filter(isOpenCurrentGoal).map(toPortalGoal),
+		currentGoals: summariseGoals(goals, currentTasks)
+			.filter(isOpenCurrentGoal)
+			.map((goal) => toPortalGoal(goal, contextVersionOf.get(goal.id) ?? null)),
 		openTasks: openTasksOf(currentTasks, goals)
 	};
 }
@@ -38,13 +42,20 @@ function isOpenCurrentGoal(goal: GoalSummary): boolean {
 	return goal.status === openGoalStatus && isCurrentGoal(goal);
 }
 
-function toPortalGoal(goal: GoalSummary): PortalGoal {
+/** The number of the confirmed context version each goal came from, as the portal surface gives it. */
+function contextVersionsOfGoals(goalRows: Record<string, unknown>[]): Map<string, number> {
+	const linkedRows = goalRows.filter((goalRow) => typeof goalRow.context_version_number === 'number');
+	return new Map(linkedRows.map((goalRow) => [goalRow.id as string, goalRow.context_version_number as number]));
+}
+
+function toPortalGoal(goal: GoalSummary, contextVersionNumber: number | null): PortalGoal {
 	return {
 		id: goal.id,
 		title: goal.title,
 		measure: goal.measure,
 		completionPercent: goal.completionPercent,
-		openTaskCount: goal.taskCount - goal.doneTaskCount
+		openTaskCount: goal.taskCount - goal.doneTaskCount,
+		contextVersionNumber
 	};
 }
 

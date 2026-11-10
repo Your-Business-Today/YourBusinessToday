@@ -12,13 +12,24 @@ const rowsBySurface: Record<string, Row[]> = {
 	portal_tasks: [{ id: 'task-1', project_id: 'project-1' }]
 };
 
-function fakeSupabase(surfacesRead: string[]): SupabaseClient {
+const contextColumn = 'context_version_number';
+const columnMissing = { code: '42703', message: `column portal_goals.${contextColumn} does not exist` };
+
+function fakeSupabase(surfacesRead: string[], isMigrated = true): SupabaseClient {
 	const from = (surface: string) => {
 		surfacesRead.push(surface);
+		let columnsRead = '';
 		const query = {
-			select: () => query,
+			select: (columns: string) => {
+				columnsRead = columns;
+				return query;
+			},
 			in: () => query,
-			order: async () => ({ data: rowsBySurface[surface] ?? [], error: null })
+			order: async () => {
+				const isMissing = !isMigrated && columnsRead.includes(contextColumn);
+				if (isMissing) return { data: null, error: columnMissing };
+				return { data: rowsBySurface[surface] ?? [], error: null };
+			}
 		};
 		return query;
 	};
@@ -38,6 +49,11 @@ describe('withProjectWork', () => {
 		expect(projects[0].tasks).toEqual(rowsBySurface.portal_tasks);
 		expect(projects[1].goals).toEqual([rowsBySurface.portal_goals[1]]);
 		expect(projects[1].tasks).toEqual([]);
+	});
+
+	it('still reads the goals before migration 0171 adds the context each came from', async () => {
+		const projects = await withProjectWork(fakeSupabase([], false), [{ id: 'project-1' }]);
+		expect(projects[0].goals).toEqual([rowsBySurface.portal_goals[0]]);
 	});
 
 	it('reads nothing when the contact reaches no project', async () => {

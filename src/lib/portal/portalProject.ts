@@ -18,6 +18,7 @@ export type PortalGoal = {
 	measure: string;
 	completionPercent: number;
 	openTaskCount: number;
+	contextVersionNumber: number | null;
 };
 
 export type PortalTask = {
