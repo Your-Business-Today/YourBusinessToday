@@ -5,13 +5,21 @@ import { objectSchema, proseField, textField } from '../actionTypes';
 const { longestTitle, longestSummary, longestSlug, longestKind, longestSourceTitle, longestOrigin, longestSourceSummary } =
 	businessBrainLimits;
 
-const organisationField = textField('The organisation whose brain it is, as list_organisations gives it');
+export const organisationField = textField('The organisation whose brain it is, as list_organisations gives it');
+
+/** The source a page came from, named new or by an earlier filing's id. */
+export const sourceNamingFields = {
+	sourceTitle: textField(`What you read it in, such as "Email from Nigel, 3 Nov 2026" — at most ${longestSourceTitle} characters; leave out when giving sourceId`),
+	sourceOrigin: textField(
+		'Where the source can be found, so a reader can open it again: a web address such as the SharePoint or OneDrive file link, ' +
+			`the mailbox and subject of a mail thread, the Teams team and channel, or a file name — at most ${longestOrigin} characters`
+	),
+	sourceSummary: textField(`What the source is, in a sentence — at most ${longestSourceSummary} characters`),
+	sourceId: textField('A source filed before, as an earlier filing gave it back; leave out when naming a new source')
+};
 
 const sourceFields = {
-	sourceTitle: textField(`What you read it in, such as "Email from Nigel, 3 Nov 2026" — at most ${longestSourceTitle} characters; leave out when giving sourceId`),
-	sourceOrigin: textField(`Where the source can be found: a web address, a file name or a mailbox — at most ${longestOrigin} characters`),
-	sourceSummary: textField(`What the source is, in a sentence — at most ${longestSourceSummary} characters`),
-	sourceId: textField('A source filed before, as an earlier filing gave it back; leave out when naming a new source'),
+	...sourceNamingFields,
 	sourceFileIds: {
 		type: 'array',
 		items: { type: 'string' },
@@ -27,16 +35,20 @@ const pageWordFields = {
 
 const kindDescription = `What the page is, in lower-case words joined by underscores, such as person, client, rule, process or fact — at most ${longestKind} characters`;
 
+/** A new page as it is filed, without the organisation it is filed into. */
+export const newPageFields = {
+	part: { type: 'string', enum: [...businessBrainPartKinds], description: 'The part of the business the page belongs to' },
+	kind: textField(kindDescription),
+	...pageWordFields,
+	slug: textField(`The page's short name in its part, lower-case words joined by hyphens, at most ${longestSlug} characters; made from the title when left out`),
+	...sourceFields
+};
+
+export const newPageRequiredFields = ['part', 'kind', 'title', 'body'];
+
 export const fileBusinessBrainPageSchema = objectSchema(
-	{
-		organisationId: organisationField,
-		part: { type: 'string', enum: [...businessBrainPartKinds], description: 'The part of the business the page belongs to' },
-		kind: textField(kindDescription),
-		...pageWordFields,
-		slug: textField(`The page's short name in its part, lower-case words joined by hyphens, at most ${longestSlug} characters; made from the title when left out`),
-		...sourceFields
-	},
-	['organisationId', 'part', 'kind', 'title', 'body']
+	{ organisationId: organisationField, ...newPageFields },
+	['organisationId', ...newPageRequiredFields]
 );
 
 export const fileBusinessBrainRevisionSchema = objectSchema(
