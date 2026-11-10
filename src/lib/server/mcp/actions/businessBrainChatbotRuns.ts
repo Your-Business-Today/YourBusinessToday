@@ -13,7 +13,7 @@ import {
 	chatbotWouldReadNothing,
 	describeChatbots,
 	noSuchChatbot
-} from './businessBrainChatbotAnswers';
+} from './describeBusinessBrainChatbots';
 import type { BusinessBrainChatbot, BusinessBrainChatbotChange } from '$lib/data/businessBrainChatbotRules';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
@@ -61,6 +61,7 @@ async function readChatbot(supabase: SupabaseClient, organisationId: string, cha
 }
 
 function readsNothingAfter(standing: BusinessBrainChatbot, change: BusinessBrainChatbotChange): boolean {
-	const kept = standing.parts.filter((part) => !change.removeParts.includes(part));
-	return kept.length + change.addParts.length === 0;
+	const { addParts, removeParts } = change;
+	const kept = standing.parts.filter((part) => !removeParts.includes(part));
+	return kept.length + addParts.length === 0;
 }

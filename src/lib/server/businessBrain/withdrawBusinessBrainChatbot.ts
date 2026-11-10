@@ -20,7 +20,6 @@ export async function removeChatbotMembers(supabase: SupabaseClient, place: Chat
 type CurrentRows = { table: string; column: string; values: string[] };
 
 async function dateCurrentRows(supabase: SupabaseClient, place: ChatbotGrantPlace, rows: CurrentRows): Promise<void> {
-	if (rows.values.length === 0) return;
 	const removal = { removed_at: new Date().toISOString(), removed_by: place.accountId };
 	const { error } = await supabase
 		.from(rows.table)

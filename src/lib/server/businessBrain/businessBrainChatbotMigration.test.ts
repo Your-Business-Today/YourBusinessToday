@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { businessBrainChatbotLimits } from '$lib/data/businessBrainChatbotRules';
 import { findDataLoss } from '$lib/server/migrations/migrationDataLoss';
 
-const migrationFile = 'migrations/0160_business_brain_chatbots.sql';
+const migrationFile = 'migrations/0161_business_brain_chatbots.sql';
 const migration = readFileSync(migrationFile, 'utf8');
 const statements = migration.replace(/--.*$/gm, '');
 const moduleRule = "public.can_use_organisation_module(organisation_id, 'business_brain')";

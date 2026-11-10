@@ -1,4 +1,4 @@
--- 0160: a manager makes a chatbot onto the organisation's Your Business Brain
+-- 0161: a manager makes a chatbot onto the organisation's Your Business Brain
 -- and says which parts of it the chatbot may read and who may use it.
 --
 --   business_brain_chatbots          a named, read-only door onto part of the brain

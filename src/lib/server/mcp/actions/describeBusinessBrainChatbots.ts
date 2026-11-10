@@ -17,12 +17,13 @@ export function chatbotNameTaken(organisation: Organisation, name: string): stri
 
 /** One chatbot as a manager reads it: what it reads and who uses it. */
 export function describeChatbot(chatbot: BusinessBrainChatbot): string[] {
-	const partNames = chatbot.parts.map((part) => businessBrainPartNames[part]);
+	const { parts, people } = chatbot;
+	const partNames = parts.map((part) => businessBrainPartNames[part]);
 	const reads = partNames.length === 0 ? 'no part of the brain' : partNames.join(', ');
-	const people = chatbot.people.length === 0 ? 'nobody yet' : chatbot.people.join(', ');
+	const usedBy = people.length === 0 ? 'nobody yet' : people.join(', ');
 	const heading = `## ${chatbot.name}`;
 	const made = `Chatbot id ${chatbot.chatbotId}, made ${formatBritishDate(chatbot.madeAt)}.`;
-	return [heading, made, `- Reads: ${reads}`, `- Used by: ${people}`];
+	return [heading, made, `- Reads: ${reads}`, `- Used by: ${usedBy}`];
 }
 
 export function chatbotMade(organisation: Organisation, chatbot: BusinessBrainChatbot): string {

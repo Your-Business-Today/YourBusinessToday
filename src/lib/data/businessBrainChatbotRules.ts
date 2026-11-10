@@ -1,6 +1,6 @@
 import type { BusinessBrainPartKind } from './businessBrainRules';
 
-/** The limits on a chatbot of Your Business Brain, stated once and mirrored by migration 0160. */
+/** The limits on a chatbot of Your Business Brain, stated once and mirrored by migration 0161. */
 export const businessBrainChatbotLimits = {
 	longestName: 120,
 	shortestEmail: 3,
