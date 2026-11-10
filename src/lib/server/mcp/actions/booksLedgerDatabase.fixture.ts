@@ -12,6 +12,14 @@ export const ledgerWrites: LedgerWrite[] = [];
 
 let insertedCount = 0;
 
+/** The value at a column, or at a joined table's column written as books_journals.journal_date. */
+function valueAt(row: Row, column: string): unknown {
+	const [table, joinedColumn] = column.split('.');
+	if (joinedColumn === undefined) return row[column];
+	const joined = row[table] as Row | undefined;
+	return joined?.[joinedColumn];
+}
+
 const insertedIdDigits = 12;
 
 export function clearLedgerTables(): void {
@@ -42,6 +50,10 @@ export const ledgerDatabase = {
 			range: () => chain,
 			eq: (column: string, value: unknown) => {
 				filters.push((row) => row[column] === undefined || row[column] === value);
+				return chain;
+			},
+			lte: (column: string, value: string) => {
+				filters.push((row) => String(valueAt(row, column)) <= value);
 				return chain;
 			},
 			is: (column: string, value: unknown) => {
