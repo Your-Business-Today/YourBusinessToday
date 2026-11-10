@@ -4,6 +4,7 @@
 	import { companyDetails } from '$lib/data/companyDetails';
 	import { buildTimeline } from '$lib/data/consultancyOffer';
 	import { discoveryCallPath, discoveryCallShortLabel } from '$lib/data/discoveryCall';
+	import { taxCalculatorLabel, taxCalculatorPath } from '$lib/data/taxCalculator/taxCalculatorPath';
 </script>
 
 <footer class="border-t border-hairline bg-night print:hidden">
@@ -26,6 +27,9 @@
 			<a href="/offer" class="text-sm text-chalk/60 transition hover:text-chalk">The offer</a>
 			<a href={caseStudyPath} class="text-sm text-chalk/60 transition hover:text-chalk">
 				Case study
+			</a>
+			<a href={taxCalculatorPath} class="text-sm text-chalk/60 transition hover:text-chalk">
+				{taxCalculatorLabel}
 			</a>
 			<a href={discoveryCallPath} class="text-sm text-chalk/60 transition hover:text-chalk">
 				{discoveryCallShortLabel}

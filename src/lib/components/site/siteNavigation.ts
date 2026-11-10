@@ -1,5 +1,6 @@
 import { caseStudyPath } from '$lib/data/caseStudies';
 import { discoveryCallPath, discoveryCallShortLabel } from '$lib/data/discoveryCall';
+import { taxCalculatorLabel, taxCalculatorPath } from '$lib/data/taxCalculator/taxCalculatorPath';
 
 export type NavigationLink = {
 	href: string;
@@ -22,6 +23,7 @@ export const primaryNavigationLinks: NavigationLink[] = [
 	{ href: '/', label: 'Home' },
 	{ href: '/offer', label: 'The offer' },
 	{ href: caseStudyPath, label: 'Case study' },
+	{ href: taxCalculatorPath, label: taxCalculatorLabel },
 	{ href: '/about', label: 'About us' },
 	{ href: discoveryCallPath, label: discoveryCallShortLabel }
 ];

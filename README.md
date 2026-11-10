@@ -66,6 +66,10 @@ The books live in their own house, Your Books Today.
 - The MCP server at `/api/mcp` is the same product as the site: OAuth sign-in from the
   Connect button, every action gated by the caller's standing on each project;
   [docs/mcp-architecture.md](./docs/mcp-architecture.md) is the design.
+- A business feeds its Your Business Brain from Microsoft 365 through its own Claude: the
+  Microsoft 365 connector reads mail, SharePoint, OneDrive and Teams, and the Your Business
+  Today connector files each piece with the link it came from, several pages to a call;
+  [docs/connect-microsoft-365.md](./docs/connect-microsoft-365.md) is the walkthrough.
 - Admins (`/admin`) can set the models that build each task, restrict accounts, and delete
   accounts. The site calls no AI model itself: every piece of AI work runs in the signed-in
   person's own Claude through the MCP server. The first admin is bootstrapped by email on signup.
