@@ -43,3 +43,11 @@ Vercel project `ybt` is connected to Your-Business-Today/YourBusinessToday with 
 - **A fix ships by a merged pull request**, however small, and an urgent one is still a pull request that merges at green.
 - **A rollback is Vercel's own.** Open the project's Deployments, pick an earlier `main` production deployment and use Instant Rollback, Promote or Redeploy on it; then fix forward with a pull request.
 - **A pull request waits on its Vercel preview.** The preview is a required status check on `main`, so auto-merge does not fire while it builds or when it fails.
+
+## The connector checks itself after every production deploy
+
+The pipeline contract test proves in CI, against no database, that the connector still offers what the build pipeline calls. The `connector_self_check` watch source is the same check against the real thing: `.github/workflows/connector-self-check.yml` knocks on the cron door when Vercel reports a production deployment as successful (and on *Run workflow*), with the `CRON_SECRET` the deploy windows knock already uses, so it needs no setting of its own.
+
+- **It compares the deployed connector with `src/lib/server/mcp/pipelineContract.json`**: the tools as the MCP layer lists them, and the actions as they are offered to an administrator, every promised name, input and value.
+- **Then it runs reads against the live database** through the same MCP layer a client's Claude uses: the tools that only read, and a set of read actions through `run_read_action`, which refuses any action that writes, on the first project the administrator owns or is on. It never writes to a board; the only row it leaves is its own run in the watch run log.
+- **A failure is red in GitHub.** The door answers 500 with the failures, one sentence each, and the workflow prints them and fails; a tool that failed says only what its caller would be told, and the cause is in the site's logs.

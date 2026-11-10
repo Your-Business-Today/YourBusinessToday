@@ -4,9 +4,12 @@ import { isCronSecretValid } from '$lib/server/watch/isCronSecretValid';
 import { runWatchSource } from '$lib/server/watch/runWatchSource';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { validateWatchSourceName } from '$lib/server/watch/watchSources';
+import { WatchCheckFailure } from '$lib/server/watch/watchCheckFailure';
+import type { WatchSource } from '$lib/server/watch/watchSource';
 import type { RequestHandler } from './$types';
 
 const longestRunSeconds = 300;
+const checkFailedStatus = 500;
 
 export const config = { maxDuration: longestRunSeconds };
 
@@ -18,5 +21,15 @@ export const GET: RequestHandler = async ({ params, request }) => {
 	if (!isCronRunner) error(401, 'unauthorised');
 	const source = validateWatchSourceName(params.source);
 	if (source === null) error(404, 'unknown_source');
-	return json(await runWatchSource(supabaseServiceClient(), source));
+	return runAndAnswer(source);
 };
+
+/** A check that found something wanting answers with its finding, so the knock that asked for it can show it. */
+async function runAndAnswer(source: WatchSource): Promise<Response> {
+	try {
+		return json(await runWatchSource(supabaseServiceClient(), source));
+	} catch (failure) {
+		if (!(failure instanceof WatchCheckFailure)) throw failure;
+		return json({ source: source.name, note: failure.message, isFinished: false }, { status: checkFailedStatus });
+	}
+}
