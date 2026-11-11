@@ -36,6 +36,12 @@ describe('the two sides of a project page', () => {
 		]);
 	});
 
+	it('offers an internal project its Internal work side alone', () => {
+		const internalProject = boardSidesFor(everyTab, boardTabs.administration, [boardSides.internal]);
+		expect(internalProject.sideTabs.map(({ side }) => side)).toEqual([boardSides.internal]);
+		expect(internalProject.boardSide).toBe(boardSides.internal);
+	});
+
 	it('opens Development on Bugs while a bug is open', () => {
 		const withBug = [tabWith(boardTabs.bugs, 1), ...everyTab.slice(1)];
 		const [development] = sideTabsOf(withBug);

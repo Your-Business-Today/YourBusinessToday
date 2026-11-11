@@ -12,9 +12,13 @@ const deliveryPages = [
 ];
 const projectRoute = '/projects/[projectId]';
 
-/** A project's pages as the tabs under its name: its board, its domain and site map, then what is staged and what deployed. */
-export function projectPageLinks(projectId: string): NavigationLink[] {
+/**
+ * A project's pages as the tabs under its name: its board, its domain and site map, then what is staged and what
+ * deployed. An internal project is not software, so it has its board alone.
+ */
+export function projectPageLinks(projectId: string, isInternalProject = false): NavigationLink[] {
 	const boardLink = { href: `/projects/${projectId}`, label: boardLabel };
+	if (isInternalProject) return [boardLink];
 	const blueprintLinks = blueprintViews.map(({ label, path }) => ({ href: blueprintViewHref(projectId, path), label }));
 	const deliveryLinks = deliveryPages.map(({ label, segment }) => ({ href: `${boardLink.href}/${segment}`, label }));
 	return [boardLink, ...blueprintLinks, ...deliveryLinks];

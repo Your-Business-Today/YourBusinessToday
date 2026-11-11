@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { chosenBoardTab, departmentTabs, inBoardTab } from './departmentBoard';
 import { boardTabs } from './boardTab';
+import { boardSides } from './boardSide';
 import { departments } from './department';
 import { taskStatuses } from './taskStatus';
 import { longTermGoalHorizon } from './goalHorizon';
@@ -49,6 +50,16 @@ describe('the project page tabs', () => {
 		expect(chosenBoardTab(page, noBugs)).toBe(boardTabs.features);
 		const salesPage = new URL('https://ybt.test/projects/1?department=sales');
 		expect(chosenBoardTab(salesPage, withBugs)).toBe(boardTabs.sales);
+	});
+
+	it('opens an internal project on Internal work, even from a link to a Development tab', () => {
+		const internalOnly = [boardSides.internal];
+		const plainPage = new URL('https://ybt.test/projects/1');
+		const bugsPage = new URL('https://ybt.test/projects/1?department=bugs');
+		const salesPage = new URL('https://ybt.test/projects/1?department=sales');
+		expect(chosenBoardTab(plainPage, noBugs, internalOnly)).toBe(boardTabs.administration);
+		expect(chosenBoardTab(bugsPage, withBugs, internalOnly)).toBe(boardTabs.administration);
+		expect(chosenBoardTab(salesPage, withBugs, internalOnly)).toBe(boardTabs.sales);
 	});
 
 	it('opens an old link to development on Features', () => {

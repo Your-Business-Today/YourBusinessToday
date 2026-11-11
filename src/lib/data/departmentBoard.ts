@@ -11,7 +11,7 @@ import {
 	type BoardTab
 } from './boardTab';
 import { openingTabOfSide } from './boardSideTabs';
-import { boardSideOfTab, boardSides, tabsOnBoardSide } from './boardSide';
+import { boardSideOfTab, boardSideOrder, boardSides, tabsOnBoardSide, type BoardSide } from './boardSide';
 
 type Departmental = { department: Department };
 
@@ -27,11 +27,20 @@ export type DepartmentTab = {
 	openTaskCount: number;
 };
 
-/** The tab a project page shows: the one its address names, on whichever side it sits, else the tab Development opens on. */
-export function chosenBoardTab(url: URL, tabs: DepartmentTab[]): BoardTab {
+/**
+ * The tab a project page shows: the one its address names, on whichever shown side it sits, else the tab
+ * the first shown side opens on, which is Development unless the project is internal.
+ */
+export function chosenBoardTab(url: URL, tabs: DepartmentTab[], shownSides: BoardSide[] = boardSideOrder): BoardTab {
 	const named = parseBoardTab(url.searchParams.get('department'));
-	if (named !== null) return named;
-	return openingTabOfSide(boardSides.development, tabs);
+	const [firstSide] = shownSides;
+	if (isShownTab(named, shownSides)) return named;
+	return openingTabOfSide(firstSide, tabs);
+}
+
+function isShownTab(tab: BoardTab | null, shownSides: BoardSide[]): tab is BoardTab {
+	if (tab === null) return false;
+	return shownSides.includes(boardSideOfTab(tab));
 }
 
 export function inBoardTab<Item extends BoardTask>(

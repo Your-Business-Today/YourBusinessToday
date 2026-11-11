@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseProjectRecord, type Project } from '$lib/server/projects/projectRecord';
 import type { AssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
+import { findInternalProjectIds } from '$lib/server/projects/findInternalProjectIds';
 
 /** A project as one of its members sees it: `priority` is the member's own rank for it, not the owner's. */
 export type TeamProject = Project & {
@@ -8,7 +9,10 @@ export type TeamProject = Project & {
 	organisationName: string;
 	openTaskCount: number;
 	assignedTaskCount: number;
+	isInternal: boolean;
 };
+
+type TeamProjectRow = { project: Project; row: Record<string, unknown> };
 
 /** The projects one person is on but does not own, in their own order, with who owns each and how much of it is theirs. */
 export async function getTeamProjects(
@@ -19,15 +23,18 @@ export async function getTeamProjects(
 	const teamProjectsRead = supabase.rpc('team_projects', { member: accountId });
 	const [{ data, error }, countsByProject] = await Promise.all([teamProjectsRead, assignedTaskCounts]);
 	if (error) throw error;
-	return data.map((row: Record<string, unknown>) => {
-		const project = parseProjectRecord(row.project as Record<string, unknown>);
-		return {
-			...project,
-			priority: row.member_priority as number,
-			ownerName: row.owner_name as string,
-			organisationName: (row.organisation_name as string) ?? '',
-			openTaskCount: row.open_task_count as number,
-			assignedTaskCount: countsByProject.forProject(project.id)
-		};
-	});
+	const rows: TeamProjectRow[] = data.map((row: Record<string, unknown>) => ({
+		project: parseProjectRecord(row.project as Record<string, unknown>),
+		row
+	}));
+	const internalIds = await findInternalProjectIds(supabase, rows.map(({ project }) => project));
+	return rows.map(({ project, row }) => ({
+		...project,
+		priority: row.member_priority as number,
+		ownerName: row.owner_name as string,
+		organisationName: (row.organisation_name as string) ?? '',
+		openTaskCount: row.open_task_count as number,
+		assignedTaskCount: countsByProject.forProject(project.id),
+		isInternal: internalIds.has(project.id)
+	}));
 }

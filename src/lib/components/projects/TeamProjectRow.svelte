@@ -1,10 +1,11 @@
 <script lang="ts">
 	import AssignedToYouNote from './AssignedToYouNote.svelte';
+	import ProjectNameLink from './ProjectNameLink.svelte';
 	import ProjectOrganisationCell from './ProjectOrganisationCell.svelte';
 	import PriorityControls from './PriorityControls.svelte';
 	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
-	import { projectNameClasses, projectNumberClasses } from './projectTableStyles';
+	import { projectNumberClasses } from './projectTableStyles';
 	import { openTaskLine } from '$lib/data/projectTaskTally';
 	import type { TeamProject } from '$lib/server/members/getTeamProjects';
 
@@ -40,7 +41,7 @@
 	/>
 </div>
 <div class="flex min-w-0 flex-col gap-0.5 py-0.5">
-	<a href={`/projects/${project.id}`} class={projectNameClasses}>{project.name}</a>
+	<ProjectNameLink {project} />
 	<p class="truncate text-xs text-chalk/50">Owned by {project.ownerName}</p>
 	<span class="flex flex-wrap items-center gap-x-2 gap-y-1 md:hidden">
 		<ProjectStatusBadge status={project.status} />

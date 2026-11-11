@@ -3,6 +3,7 @@ import { databaseKindLabels } from '$lib/data/databaseKind';
 import { hasDatabase, migrationsFolderOf } from '$lib/data/projectDatabase';
 import { personalProjectLabel } from '$lib/data/personalProject';
 import { teamProjectLabel } from '$lib/data/teamProject';
+import { internalProjectLabel } from '$lib/data/internalProject';
 import { goalSectionLines } from './describeGoal';
 import { noRepositoryRecorded, repositoryPhrase } from './describeRepository';
 import { projectStatusLabels } from '$lib/data/projectStatus';
@@ -21,7 +22,13 @@ type OpenWork = { openTaskCount: number; assignedTaskCount: number };
 export function describeProjectLine(project: ProjectSummary): string {
 	const status = projectStatusLabels[project.status];
 	const place = `priority ${project.priority}, id: ${project.id}`;
-	return `${project.name} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)} (${place})`;
+	return `${listedName(project)} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)} (${place})`;
+}
+
+/** The project's name, marked "(internal)" when it is not software. */
+export function listedName(project: { name: string; isInternal: boolean }): string {
+	if (!project.isInternal) return project.name;
+	return `${project.name} (${internalProjectLabel.toLowerCase()})`;
 }
 
 /** " for The Construction Company", or ", personal" for a project under no organisation; a team project says so. */
@@ -53,13 +60,18 @@ export function describeProject(
 ): string {
 	return [
 		`${project.name} — ${projectStatusLabels[project.status]} (id: ${project.id})`,
-		project.description === '' ? 'No description yet.' : project.description,
+		descriptionLine(project),
 		codeLine(project, cadenceLine),
 		databaseLine(project),
 		'',
 		...goalSectionLines(goals),
 		...backlogSideLines(backlog, goals, facts)
 	].join('\n').trimEnd();
+}
+
+export function descriptionLine(project: { description: string }): string {
+	if (project.description === '') return 'No description yet.';
+	return project.description;
 }
 
 function codeLine(project: Project, cadenceLine: string): string {

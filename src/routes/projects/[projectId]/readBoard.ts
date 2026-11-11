@@ -23,7 +23,7 @@ import type { ScrumBoard } from '$lib/data/scrumBoard';
  */
 export function readBoard(locals: App.Locals, project: Project, url: URL) {
 	const { supabase } = locals;
-	const workRead = loadDepartmentWork(supabase, project.id, url);
+	const workRead = loadDepartmentWork(supabase, project, url);
 	const buildFactsRead = readBuildFacts(supabase, project.id);
 	const taskIdsRead = workRead.then(({ tasks }) => tasks.map((task) => task.id));
 	const projectTaskIdsRead = workRead.then(({ projectTasks }) => projectTasks.map((task) => task.id));

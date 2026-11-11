@@ -60,12 +60,15 @@
 	{project}
 	organisations={data.organisations}
 	latestKitVersion={data.latestKitVersion}
+	isInternalProject={data.isInternalProject}
 	onAddTask={openNewTaskModal}
 />
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
-	<BoardSideSwitch sides={data.sideTabs} selected={data.boardSide} />
+	{#if !data.isInternalProject}
+		<BoardSideSwitch sides={data.sideTabs} selected={data.boardSide} />
+	{/if}
 	{#if isDevelopmentSide}
 		<TabStrip tabs={developmentViewTabs} bind:selectedKey={developmentView.key} />
 	{/if}

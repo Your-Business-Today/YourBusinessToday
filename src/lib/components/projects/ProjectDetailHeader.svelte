@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import EditProjectForm from './EditProjectForm.svelte';
 	import KitVersionBadge from './KitVersionBadge.svelte';
+	import InternalProjectBadge from './InternalProjectBadge.svelte';
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import ProjectHeaderMenu from './ProjectHeaderMenu.svelte';
@@ -16,11 +17,13 @@
 		project,
 		organisations,
 		latestKitVersion,
+		isInternalProject,
 		onAddTask
 	}: {
 		project: Project;
 		organisations: Organisation[];
 		latestKitVersion: string;
+		isInternalProject: boolean;
 		onAddTask: () => void;
 	} = $props();
 
@@ -32,16 +35,20 @@
 	const facts = $derived(projectHeaderFacts(project, { organisationName, pickedOrganisationId }));
 </script>
 
-<ProjectPageHeader {project}>
+<ProjectPageHeader {project} {isInternalProject}>
 	{#snippet badges()}
-		<a href="/projects/kit-versions" class="inline-flex rounded">
-			<KitVersionBadge
-				repositoryUrl={project.repositoryUrl}
-				kitVersion={project.kitVersion}
-				kitVersionReadAt={project.kitVersionReadAt}
-				{latestKitVersion}
-			/>
-		</a>
+		{#if isInternalProject}
+			<InternalProjectBadge />
+		{:else}
+			<a href="/projects/kit-versions" class="inline-flex rounded">
+				<KitVersionBadge
+					repositoryUrl={project.repositoryUrl}
+					kitVersion={project.kitVersion}
+					kitVersionReadAt={project.kitVersionReadAt}
+					{latestKitVersion}
+				/>
+			</a>
+		{/if}
 	{/snippet}
 	{#snippet actions()}
 		<ProjectHeaderMenu {project} onEdit={() => (isEditModalOpen = true)} />
