@@ -4,10 +4,14 @@
 # live database as it is at the default branch's commit
 # (build-stand-in-database.sh), then runs the deploy's own runner,
 # scripts/run-added-migrations.sh, from that commit to the one checked out here:
-# every file the deploy would run, in the deploy's order. The runner reads each
+# every file the deploy would run, in the deploy's order. Once the record of
+# applied migrations is on the default branch, the stand-in's record holds every
+# file there except the ones this commit changes, as the live record would after
+# a file failed and was corrected in place. The runner reads each
 # file from the working tree, so run this from a checkout of the commit the next
 # deploy would take: in CI, the pull request's merge commit. It runs them a second time on the
-# same database, so "safe to run twice" is proved and not only promised.
+# same database, so "safe to run twice" is proved and not only promised: before
+# the second run it takes off the stand-in's record the files the first applied.
 #
 # It goes red when a file fails, when a table has fewer rows after a run than
 # before, or when a run kept no row counts in data_inventories, so a change that
@@ -34,13 +38,36 @@ readonly runsInRehearsal=2
 readonly deployedCommit="${1:?Give the commit of the default branch, where the live database stands}"
 readonly nextCommit="$(git rev-parse HEAD)"
 
+source "$here/migration-record.sh"
+
 failWith() {
 	echo "::error::$1"
 	exit 1
 }
 
-listWaitingMigrations() {
-	git diff --name-only --diff-filter=A "$deployedCommit" "$nextCommit" -- 'migrations/*.sql' | LC_ALL=C sort
+listFilesTheDeployWouldRun() {
+	git diff --name-only --no-renames --diff-filter=AM "$deployedCommit" "$nextCommit" -- 'migrations/*.sql' | LC_ALL=C sort
+}
+
+listFilesThisCommitChanges() {
+	git diff --name-only --no-renames --diff-filter=M "$deployedCommit" "$nextCommit" -- 'migrations/*.sql' | xargs -r -n1 basename | LC_ALL=C sort
+}
+
+recordTheDeployedHistory() {
+	local standIn="$server/$rehearsalDatabase"
+	if ! isRecordTableThere "$standIn"; then
+		echo "The default branch has no record of applied migrations yet, so the first run rehearses beginning it."
+		return 0
+	fi
+	local historyRecorded
+	historyRecorded=$(LC_ALL=C comm -23 <(listMigrationsAtCommit "$deployedCommit") <(listFilesThisCommitChanges))
+	recordMigrationsAtCommitAsRunBefore "$standIn" "$deployedCommit" "$historyRecorded"
+	echo "The stand-in's record holds the $(wc -l <<< "$historyRecorded") files on the default branch that this commit does not change."
+}
+
+forgetWhatTheFirstRunApplied() {
+	psql "$server/$rehearsalDatabase" --no-psqlrc --quiet --set ON_ERROR_STOP=on \
+		--set commit="$nextCommit" --file "$here/forget-migrations-run-for-commit.sql"
 }
 
 readingsKept() {
@@ -76,7 +103,7 @@ requireReadingsKept() {
 	echo "Run $runNumber passed: every file applied, no table lost a row, and its row counts were kept."
 }
 
-waitingMigrations=$(listWaitingMigrations)
+waitingMigrations=$(listFilesTheDeployWouldRun)
 if [ -z "$waitingMigrations" ]; then
 	echo "The next deploy would run no migration, so there is nothing to rehearse."
 	exit 0
@@ -85,7 +112,11 @@ fi
 echo "Files the next deploy would run, in its order ($(wc -l <<< "$waitingMigrations")):"
 echo "$waitingMigrations"
 "$here/build-stand-in-database.sh" "$rehearsalDatabase" "$deployedCommit"
+recordTheDeployedHistory
 for runNumber in $(seq "$runsInRehearsal"); do
+	if [ "$runNumber" -gt 1 ]; then
+		forgetWhatTheFirstRunApplied
+	fi
 	runTheDeploy "$runNumber"
 	requireReadingsKept "$runNumber"
 done

@@ -35,7 +35,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Refuse a migration that would lose data
+      - name: Refuse a migration that would lose data, added or changed
         if: github.event_name == 'pull_request'
         run: node scripts/migrations/check-added-migrations.mjs "${{ github.event.pull_request.base.sha }}"
       - name: Decide whether the next deploy's migrations need rehearsing
@@ -58,5 +58,10 @@ jobs:
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: ./scripts/migrations/rehearse-added-migrations.sh "$(git rev-parse "origin/$DEFAULT_BRANCH")"
+      - name: Prove the record of applied migrations finishes a run that failed part way
+        if: steps.rehearsal.outputs.is_due == 'true'
+        run: |
+          ./scripts/migrations/prove-migration-record.sh
+          ./scripts/migrations/prove-first-run-that-never-began.sh
       - run: npm test
       - run: npm run build

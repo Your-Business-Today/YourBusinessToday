@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
-# Runs, against the live Supabase database, every migration file a push to main
-# added under migrations/, in filename order. Called by the run-migrations
-# workflow; a file that was already on main is never run again, because every
-# migration before this workflow existed was run by hand.
+# Runs, against the live Supabase database, every migration file on main that
+# is not yet on the record of applied migrations (public.applied_migrations,
+# 0197), in file-name order, each in one transaction, recording each as it is
+# applied. It stops at the first file that fails; that file is not recorded, so
+# the next run applies it and then the files after it. A run that stops part
+# way, or one GitHub cancels, is finished by the next, and nothing is skipped.
+#
+# The first run finds no record. It applies the record's own migration first,
+# then records every file that was on main before this push as run before the
+# record began, without running any of them, and runs only the files this push
+# added. From then on the record decides. A recorded file whose contents have
+# changed since it ran is named in a warning and never run again.
 #
 # Around the migrations it takes the data inventory: every table's row count
 # before the first and after the last, kept in data_inventories. The run goes
@@ -13,114 +21,116 @@
 
 set -euo pipefail
 
-readonly migrationsPattern='migrations/*.sql'
-readonly commitThatDoesNotExist='0000000000000000000000000000000000000000'
-readonly inventoryQueries="$(dirname "$0")/migrations"
+readonly migrationQueries="$(dirname "$0")/migrations"
+
+source "$migrationQueries/rehearsal-postgres.sh"
+source "$migrationQueries/migration-record.sh"
+source "$migrationQueries/row-counts-around-the-run.sh"
+source "$migrationQueries/begin-the-record.sh"
 
 beforeCommit="${1:-}"
 afterCommit="${2:-}"
 failedMigration=''
+migrationsThisRun=''
 
 failWith() {
 	echo "::error::$1"
 	exit 1
 }
 
-requireCommits() {
+requireCommitsGiven() {
 	if [ -z "$beforeCommit" ] || [ -z "$afterCommit" ]; then
 		failWith "Usage: ./scripts/run-added-migrations.sh <before-sha> <after-sha>"
-	fi
-	if [ "$beforeCommit" = "$commitThatDoesNotExist" ]; then
-		failWith "This push has no previous commit to compare with, so the migrations it added cannot be told apart. Run them by hand with psql."
 	fi
 }
 
 listAddedMigrations() {
-	git diff --name-only --diff-filter=A "$beforeCommit" "$afterCommit" -- "$migrationsPattern" | LC_ALL=C sort
+	git diff --name-only --diff-filter=A "$beforeCommit" "$afterCommit" -- 'migrations/*.sql' | LC_ALL=C sort
 }
 
 requireConnection() {
-	if [ -z "${SUPABASE_DB_URL:-}" ]; then
-		failWith "The repository secret SUPABASE_DB_URL is not set, so these migrations were NOT run. Add the secret (Settings > Secrets and variables > Actions) and re-run this workflow."
+	if [ -n "${SUPABASE_DB_URL:-}" ]; then
+		return 0
 	fi
+	requireCommitBefore
+	if [ -z "$(listAddedMigrations)" ]; then
+		echo "This push added no migrations, and without SUPABASE_DB_URL the record cannot be read for any still waiting."
+		exit 0
+	fi
+	failWith "The repository secret SUPABASE_DB_URL is not set, so these migrations were NOT run. Add the secret (Settings > Secrets and variables > Actions) and re-run this workflow."
 }
 
-runQuery() {
-	psql "$SUPABASE_DB_URL" --no-psqlrc --quiet --tuples-only --no-align --set ON_ERROR_STOP=on "$@"
+warnOfChangedRecordedFiles() {
+	local changedFiles
+	changedFiles=$(listChangedSinceRecorded "$SUPABASE_DB_URL") || failWith "The record of applied migrations could not be read, so no migration was run."
+	while IFS= read -r changedFile; do
+		[ -n "$changedFile" ] || continue
+		echo "::warning::$changedFile has changed since it was applied, so it is not run again. A migration that has run is never edited; its correction is a new file."
+	done <<< "$changedFiles"
 }
 
-countEveryTable() {
-	runQuery --file "$inventoryQueries/count-every-table.sql"
+readWaitingMigrations() {
+	waitingMigrations=$(listWaitingMigrations "$SUPABASE_DB_URL") || failWith "The record of applied migrations could not be read, so no migration was run."
+	migrationsThisRun+="$waitingMigrations"$'\n'
 }
 
-currentTime() {
-	date -u +%Y-%m-%dT%H:%M:%S.%NZ
+sayWhyTheMigrationFailed() {
+	local fileName="$1"
+	if isMigrationRecorded "$SUPABASE_DB_URL" "$fileName"; then
+		echo "::error::$fileName committed and was recorded, then a statement after its own commit failed. What it committed stays applied and it is not run again; read the statements after its commit by hand. The migrations after it were not run."
+		return 0
+	fi
+	echo "::error::$fileName failed and was rolled back with its record, so it is not on the record; the migrations after it were not run. The next run applies it and them."
 }
 
 runMigration() {
-	local migrationFile="$1"
-	echo "Running $migrationFile"
-	if ! psql "$SUPABASE_DB_URL" --single-transaction --set ON_ERROR_STOP=on --file "$migrationFile"; then
-		echo "::error::$migrationFile failed and was rolled back; the migrations after it were not run."
-		failedMigration="$migrationFile"
-		return 1
+	local fileName="$1"
+	echo "Running $fileName"
+	if applyAndRecordMigration "$SUPABASE_DB_URL" "$afterCommit" "$fileName"; then
+		echo "Applied and recorded $fileName"
+		return 0
 	fi
-	echo "Applied $migrationFile"
+	failedMigration="$fileName"
+	sayWhyTheMigrationFailed "$fileName"
+	return 1
 }
 
 runEachMigration() {
-	while IFS= read -r migrationFile; do
-		runMigration "$migrationFile" || return 0
-	done <<< "$addedMigrations"
+	while IFS= read -r fileName; do
+		[ -n "$fileName" ] || continue
+		runMigration "$fileName" || return 0
+	done <<< "$waitingMigrations"
 }
 
-asTextArray() {
-	echo "{$(xargs -n1 basename <<< "$addedMigrations" | paste -sd, -)}"
-}
+requireCommitsGiven
+requireConnection
+reportPostgresVersion
+recordState=$(readRecordState "$SUPABASE_DB_URL") || failWith "Whether the record of applied migrations is there could not be read, so no migration was run."
 
-keepInventory() {
-	runQuery --file "$inventoryQueries/keep-data-inventory.sql" \
-		--set commit="$afterCommit" --set files="$(asTextArray)" \
-		--set before="$rowsBefore" --set beforeTakenAt="$beforeTakenAt" \
-		--set after="$rowsAfter" --set afterTakenAt="$afterTakenAt" \
-		|| echo "::warning::The row counts were checked but could not be kept in data_inventories."
-}
-
-listTablesWithFewerRows() {
-	runQuery --file "$inventoryQueries/tables-with-fewer-rows.sql" --set before="$rowsBefore" --set after="$rowsAfter"
-}
-
-requireNoRowsLost() {
-	local tablesWithFewerRows
-	tablesWithFewerRows=$(listTablesWithFewerRows) || failWith "The row counts before and after could not be compared."
-	if [ -z "$tablesWithFewerRows" ]; then
-		echo "No table has fewer rows than before the migrations."
-		return 0
+if [ "$recordState" = 'begun' ]; then
+	warnOfChangedRecordedFiles
+	readWaitingMigrations
+	if [ -z "$waitingMigrations" ]; then
+		echo "Every migration on main is on the record, so none is waiting."
+		exit 0
 	fi
-	while IFS= read -r tableWithFewerRows; do
-		echo "::error::$tableWithFewerRows"
-	done <<< "$tablesWithFewerRows"
-	failWith "Rows went missing while the migrations ran. Find what removed them before anything else merges; the daily backup holds them."
-}
-
-requireCommits
-addedMigrations=$(listAddedMigrations)
-
-if [ -z "$addedMigrations" ]; then
-	echo "This push added no migrations."
-	exit 0
+	echo "Migrations on main not yet on the record:"
+	echo "$waitingMigrations"
+fi
+if [ "$recordState" != 'begun' ]; then
+	requireCommitBefore
+	readMigrationsOnMainBefore
 fi
 
-echo "Migrations this push added:"
-echo "$addedMigrations"
-requireConnection
-
-beforeTakenAt=$(currentTime)
-rowsBefore=$(countEveryTable) || failWith "The row counts could not be taken, so no migration was run."
-runEachMigration
-afterTakenAt=$(currentTime)
-rowsAfter=$(countEveryTable) || failWith "The row counts after the migrations could not be taken, so nobody can tell whether rows were lost."
-keepInventory
+takeRowsBefore
+if [ "$recordState" != 'begun' ]; then
+	beginTheRecord || true
+fi
+if [ -z "$failedMigration" ]; then
+	runEachMigration
+fi
+takeRowsAfter
+keepInventory "$afterCommit" "$migrationsThisRun"
 requireNoRowsLost
 
 if [ -n "$failedMigration" ]; then
