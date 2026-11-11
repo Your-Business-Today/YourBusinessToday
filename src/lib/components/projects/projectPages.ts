@@ -1,39 +1,51 @@
-import { blueprintViewHref, blueprintViews } from '$lib/components/blueprint/blueprintViews';
-import { deepestLinkAt } from '$lib/components/frame/deepestLink';
+import { boardSideLabels, boardSideOfTab, boardSides } from '$lib/data/boardSide';
+import { boardTabs, parseBoardTab } from '$lib/data/boardTab';
 import { isAtOrUnder } from '$lib/components/frame/framedPaths';
+import { boardQueryKeys, projectHref, projectSegments } from './projectAddresses';
 import type { FramePickOption } from '$lib/components/frame/framePicks';
 import type { OpenProject } from '$lib/components/frame/frameTrail';
-import type { NavigationLink } from '$lib/components/site/siteNavigation';
 
-const boardLabel = 'Board';
-const deliveryPages = [
-	{ label: 'Staged', segment: 'staged' },
-	{ label: 'Deployments', segment: 'deploys' }
-];
+/** The top tabs of a product: building it, the team's own jobs on it, and its domain. */
+export type ProjectPage = 'development' | 'task-management' | 'domain';
+
+export const projectPages = { development: 'development', taskManagement: 'task-management', domain: 'domain' } as const;
+
+export type ProjectPageLink = { key: ProjectPage; label: string; href: string };
+
 const projectRoute = '/projects/[projectId]';
+const domainLabel = 'Domain';
+const taskManagementQuery = `?${boardQueryKeys.department}=${boardTabs.administration}`;
+const tabPageSegments = ['', ...Object.values(projectSegments)];
 
 /**
- * A project's pages as the tabs under its name: its board, its domain and site map, then what is staged and what
- * deployed. An internal project is not software, so it has its board alone.
+ * A product's top tabs: Development, holding its backlog, board, deploys and site map; Task Management, the team's
+ * own jobs; and its Domain. An internal project is not a product, so it has Task Management alone.
  */
-export function projectPageLinks(projectId: string, isInternalProject = false): NavigationLink[] {
-	const boardLink = { href: `/projects/${projectId}`, label: boardLabel };
-	if (isInternalProject) return [boardLink];
-	const blueprintLinks = blueprintViews.map(({ label, path }) => ({ href: blueprintViewHref(projectId, path), label }));
-	const deliveryLinks = deliveryPages.map(({ label, segment }) => ({ href: `${boardLink.href}/${segment}`, label }));
-	return [boardLink, ...blueprintLinks, ...deliveryLinks];
+export function projectPageLinks(projectId: string, isInternalProject = false): ProjectPageLink[] {
+	const boardHref = projectHref(projectId);
+	const taskManagement = { key: projectPages.taskManagement, label: boardSideLabels.internal, href: `${boardHref}${taskManagementQuery}` };
+	if (isInternalProject) return [taskManagement];
+	const development = { key: projectPages.development, label: boardSideLabels.development, href: boardHref };
+	const domain = { key: projectPages.domain, label: domainLabel, href: projectHref(projectId, projectSegments.domain) };
+	return [development, taskManagement, domain];
 }
 
-/** The tab the page sits under: the board for a task or a goal opened from it. */
-export function currentProjectPage(projectId: string, pathname: string): NavigationLink | undefined {
-	return deepestLinkAt(projectPageLinks(projectId), pathname);
+/** The top tab a page sits under: Domain for the domain, Task Management for the team's jobs, Development for the rest. */
+export function currentProjectPage(projectId: string, address: URL): ProjectPage {
+	const domainHref = projectHref(projectId, projectSegments.domain);
+	if (isAtOrUnder(address.pathname, domainHref)) return projectPages.domain;
+	const namedTab = parseBoardTab(address.searchParams.get(boardQueryKeys.department));
+	const isTeamWork = namedTab !== null && boardSideOfTab(namedTab) === boardSides.internal;
+	if (address.pathname === projectHref(projectId) && isTeamWork) return projectPages.taskManagement;
+	return projectPages.development;
 }
 
-/** Switching project keeps the same tab, and lands on the board from a task or a goal. */
-export function samePageInProject(projectId: string, pathname: string, switchedToId: string): string {
-	const tabIndex = projectPageLinks(projectId).findIndex(({ href }) => href === pathname);
-	const switchedToLinks = projectPageLinks(switchedToId);
-	return (switchedToLinks[tabIndex] ?? switchedToLinks[0]).href;
+/** Switching project keeps the same tab, and lands on the board from a task or a goal. The board keeps its side and view. */
+export function samePageInProject(projectId: string, address: URL, switchedToId: string): string {
+	const segment = address.pathname.slice(projectHref(projectId).length).replace(/^\//, '');
+	if (!tabPageSegments.includes(segment)) return projectHref(switchedToId);
+	if (segment === '') return `${projectHref(switchedToId)}${address.search}`;
+	return projectHref(switchedToId, segment);
 }
 
 /** The organisation's projects to switch between, with the open one among them even when it sits elsewhere. */

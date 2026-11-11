@@ -1,15 +1,4 @@
-export const blueprintViews = [
-	{ key: 'domain', label: 'Domain', path: 'domain' },
-	{ key: 'site-map', label: 'Site map', path: 'site-map' }
-] as const;
-
-export type BlueprintViewKey = (typeof blueprintViews)[number]['key'];
-
 const shortCommitLength = 7;
-
-export function blueprintViewHref(projectId: string, path: string): string {
-	return `/projects/${projectId}/${path}`;
-}
 
 /** A commit as GitHub shows it in short; a branch name stays whole. */
 export function shortCommit(ref: string): string {

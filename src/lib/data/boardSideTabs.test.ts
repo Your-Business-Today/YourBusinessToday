@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { boardSidesFor, sideTabsOf } from './boardSideTabs';
-import { boardSides, isInternalWork } from './boardSide';
+import { openingTabOfSide } from './boardSideTabs';
+import { boardSideOfTab, boardSides, isInternalWork } from './boardSide';
 import { boardTabs, type BoardTab } from './boardTab';
 import { departments } from './department';
 import type { DepartmentTab } from './departmentBoard';
@@ -19,33 +19,20 @@ const everyTab = [
 ];
 
 describe('the two sides of a project page', () => {
-	it('puts Bugs, Features and Infrastructure on Development, and the rest on Internal work', () => {
-		const developmentSide = boardSidesFor(everyTab, boardTabs.infrastructure);
-		expect(developmentSide.boardSide).toBe(boardSides.development);
-		expect(developmentSide.departmentTabs.map(({ tab }) => tab)).toEqual(['bugs', 'features', 'infrastructure']);
-		const internalSide = boardSidesFor(everyTab, boardTabs.sales);
-		expect(internalSide.boardSide).toBe(boardSides.internal);
-		expect(internalSide.departmentTabs.map(({ tab }) => tab)).toEqual(['administration', 'sales', 'marketing']);
+	it('puts Bugs, Features and Infrastructure on Development, and the rest on Task Management', () => {
+		expect(boardSideOfTab(boardTabs.infrastructure)).toBe(boardSides.development);
+		expect(boardSideOfTab(boardTabs.bugs)).toBe(boardSides.development);
+		expect(boardSideOfTab(boardTabs.sales)).toBe(boardSides.internal);
 	});
 
-	it('counts each side’s open work and opens Internal work on Administration', () => {
-		const sides = sideTabsOf(everyTab);
-		expect(sides.map(({ side, openTaskCount, openingTab }) => [side, openTaskCount, openingTab])).toEqual([
-			[boardSides.development, 4, boardTabs.features],
-			[boardSides.internal, 7, boardTabs.administration]
-		]);
-	});
-
-	it('offers an internal project its Internal work side alone', () => {
-		const internalProject = boardSidesFor(everyTab, boardTabs.administration, [boardSides.internal]);
-		expect(internalProject.sideTabs.map(({ side }) => side)).toEqual([boardSides.internal]);
-		expect(internalProject.boardSide).toBe(boardSides.internal);
+	it('opens Development on Features and Task Management on Administration', () => {
+		expect(openingTabOfSide(boardSides.development, everyTab)).toBe(boardTabs.features);
+		expect(openingTabOfSide(boardSides.internal, everyTab)).toBe(boardTabs.administration);
 	});
 
 	it('opens Development on Bugs while a bug is open', () => {
 		const withBug = [tabWith(boardTabs.bugs, 1), ...everyTab.slice(1)];
-		const [development] = sideTabsOf(withBug);
-		expect(development.openingTab).toBe(boardTabs.bugs);
+		expect(openingTabOfSide(boardSides.development, withBug)).toBe(boardTabs.bugs);
 	});
 
 	it('reads infrastructure as built work and administration, sales and marketing as internal', () => {
