@@ -4,15 +4,15 @@ import type { NavigationLink } from '$lib/components/site/siteNavigation';
 export type FramePickOption = { id: string; name: string };
 
 /**
- * What the side bar's pickers show: the person's organisations, the picked one's projects, the pages
- * of the picked project and of the organisation's modules, and the home page that opens on the project.
+ * What the side bar shows: the person's organisations, the picked one's own pages and modules, and the
+ * home page it opens on. The picked organisation's projects are what a project page's header switches between.
  */
 export type FramePicks = {
 	organisations: FramePickOption[];
 	pickedOrganisationId: string | null;
 	projects: FramePickOption[];
 	pickedProjectId: string | null;
-	projectLinks: NavigationLink[];
+	organisationLinks: NavigationLink[];
 	moduleLinks: NavigationLink[];
 	homePath: string | null;
 };

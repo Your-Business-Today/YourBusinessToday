@@ -28,11 +28,6 @@
 	function pickOrganisation(organisationId: string): Promise<void> {
 		return pick({ organisationId, projectId: null });
 	}
-
-	function pickProject(projectId: string): Promise<void> {
-		const organisationId = picks.pickedOrganisationId ?? '';
-		return pick({ organisationId, projectId });
-	}
 </script>
 
 <FramePicker
@@ -41,12 +36,5 @@
 	pickedId={picks.pickedOrganisationId}
 	emptyLabel="No organisations"
 	onPick={pickOrganisation}
-/>
-<FramePicker
-	caption="Project"
-	options={picks.projects}
-	pickedId={picks.pickedProjectId}
-	emptyLabel="No projects yet"
-	onPick={pickProject}
 />
 <FormErrorNote message={errorMessage} />

@@ -1,5 +1,5 @@
 import { pickRemembered, type FramePicks } from '$lib/components/frame/framePicks';
-import { organisationHomePathFor, projectPageLinksFor } from './projectPageLinks';
+import { organisationHomePathFor, organisationPageLinksFor } from './projectPageLinks';
 import { readModuleLinks } from './moduleLinks';
 import { readPickOrganisations, type PickOrganisation } from './pickOrganisations';
 import { readPickProjects } from './pickProjects';
@@ -14,7 +14,7 @@ const nothingToPick: FramePicks = {
 	pickedOrganisationId: null,
 	projects: [],
 	pickedProjectId: null,
-	projectLinks: [],
+	organisationLinks: [],
 	moduleLinks: [],
 	homePath: null
 };
@@ -33,16 +33,16 @@ export async function readFramePicks(
 		moduleLinksOf(locals, accountId, organisation)
 	]);
 	const project = pickRemembered(projects, remembered.projectIdByOrganisation[organisation.id] ?? null);
-	const projectLinks = project === null ? [] : projectPageLinksFor(organisation, project.id);
+	const pickedProjectId = project?.id ?? null;
 	const options = organisations.map(({ id, name }) => ({ id, name }));
 	const picks = {
 		organisations: options,
 		pickedOrganisationId: organisation.id,
 		projects,
-		pickedProjectId: project?.id ?? null,
-		projectLinks,
+		pickedProjectId,
+		organisationLinks: organisationPageLinksFor(organisation, pickedProjectId),
 		moduleLinks,
-		homePath: projectLinks[0]?.href ?? organisationHomePathFor(organisation)
+		homePath: organisationHomePathFor(organisation, pickedProjectId)
 	};
 	return { picks, organisation };
 }

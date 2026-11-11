@@ -1,24 +1,31 @@
-import { blueprintViewHref, blueprintViews } from '$lib/components/blueprint/blueprintViews';
 import { portalProjectPath } from '$lib/portal/portalPaths';
 import type { NavigationLink } from '$lib/components/site/siteNavigation';
 import type { PickOrganisation } from './pickOrganisations';
 
-const homeLabel = 'Home';
-const deployHistoryLabel = 'Deployment history';
-const deployHistorySegment = 'deploys';
+const overviewLabel = 'Overview';
+const projectsLabel = 'Projects';
+const portalHomeLabel = 'Home';
+const projectsPath = '/projects';
 
-/** The picked project's pages, its home first: its board for the people on it, its progress at the portal. */
-export function projectPageLinksFor(organisation: PickOrganisation, projectId: string): NavigationLink[] {
-	if (organisation.portalClientId !== null) return [{ href: portalProjectPath(projectId), label: homeLabel }];
-	const boardLink = { href: `/projects/${projectId}`, label: homeLabel };
-	const blueprintLinks = blueprintViews.map(({ label, path }) => ({ href: blueprintViewHref(projectId, path), label }));
-	const deployHistoryLink = { href: `${boardLink.href}/${deployHistorySegment}`, label: deployHistoryLabel };
-	return [boardLink, ...blueprintLinks, deployHistoryLink];
+/**
+ * The picked organisation's own pages in the side bar: its overview and its projects for the people on it,
+ * and the picked project's progress for a client company reached only at the portal.
+ */
+export function organisationPageLinksFor(organisation: PickOrganisation, pickedProjectId: string | null): NavigationLink[] {
+	const { organisationId, portalClientId } = organisation;
+	if (portalClientId !== null) return portalProjectLinksFor(pickedProjectId);
+	if (organisationId === null) return [];
+	const overviewLink = { href: `/organisations/${organisationId}`, label: overviewLabel };
+	return [overviewLink, { href: projectsPath, label: projectsLabel }];
 }
 
-/** Where an organisation opens when none of its projects opens for the person: its own page, which names them all. */
-export function organisationHomePathFor(organisation: PickOrganisation): string | null {
-	const { organisationId, portalClientId } = organisation;
-	if (portalClientId !== null || organisationId === null) return null;
-	return `/organisations/${organisationId}`;
+/** An organisation opens on its projects; a client company at the portal on its picked project. */
+export function organisationHomePathFor(organisation: PickOrganisation, pickedProjectId: string | null): string | null {
+	if (organisation.portalClientId === null) return projectsPath;
+	return portalProjectLinksFor(pickedProjectId)[0]?.href ?? null;
+}
+
+function portalProjectLinksFor(projectId: string | null): NavigationLink[] {
+	if (projectId === null) return [];
+	return [{ href: portalProjectPath(projectId), label: portalHomeLabel }];
 }
