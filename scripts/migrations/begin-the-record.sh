@@ -8,6 +8,10 @@
 # the files on main before the record's migration came are taken instead: main
 # moves only by merged pull requests, one commit each on its first-parent line,
 # so the commit that brought it is found by walking back along first parents.
+# A restored database is only right this way when its backup was taken after
+# every file on main before the record's migration had run: with an older
+# backup the run goes green and records as run files whose changes the restored
+# database does not hold, so after such a restore begin the record by hand.
 # Those files and the record's own migration go on the record in one
 # transaction, so a run that stops there leaves the record empty and the next
 # run begins it again; the record's migration is safe to run twice. Sourced by
