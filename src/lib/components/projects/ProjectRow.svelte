@@ -1,13 +1,14 @@
 <script lang="ts">
 	import CompletionBar from './CompletionBar.svelte';
 	import KitVersionBadge from './KitVersionBadge.svelte';
+	import ProjectNameLink from './ProjectNameLink.svelte';
 	import ProjectOrganisationCell from './ProjectOrganisationCell.svelte';
 	import PriorityControls from './PriorityControls.svelte';
 	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
 	import ProjectActionsMenu from './ProjectActionsMenu.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
 	import ProjectTaskTally from './ProjectTaskTally.svelte';
-	import { projectNameClasses, projectNumberClasses, wideScreenOnlyClasses } from './projectTableStyles';
+	import { projectNumberClasses, wideScreenOnlyClasses } from './projectTableStyles';
 	import { shownIdsField } from '$lib/data/shownIds';
 	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 
@@ -60,7 +61,7 @@
 	/>
 </div>
 <div class="flex min-w-0 flex-col gap-0.5 py-0.5">
-	<a href={`/projects/${project.id}`} class={projectNameClasses}>{project.name}</a>
+	<ProjectNameLink {project} />
 	{#if project.description !== ''}
 		<p class="hidden truncate text-xs text-chalk/50 md:block">{project.description}</p>
 	{/if}

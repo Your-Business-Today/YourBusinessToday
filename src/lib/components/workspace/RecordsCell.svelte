@@ -4,6 +4,7 @@
 		bodyCellClasses,
 		cellKindClasses,
 		figureToneClasses,
+		unlabelledCellClasses,
 		wideOnlyCellClasses,
 		type FigureTone,
 		type RecordsCellKind
@@ -14,12 +15,19 @@
 		href,
 		tone = 'plain',
 		isWideOnly = false,
+		label,
 		children
-	}: { kind?: RecordsCellKind; href?: string; tone?: FigureTone; isWideOnly?: boolean; children: Snippet } =
-		$props();
+	}: {
+		kind?: RecordsCellKind;
+		href?: string;
+		tone?: FigureTone;
+		isWideOnly?: boolean;
+		label?: string;
+		children: Snippet;
+	} = $props();
 </script>
 
-<td class={[bodyCellClasses, cellKindClasses[kind], figureToneClasses[tone], isWideOnly && wideOnlyCellClasses]}>
+<td data-label={label} class={[bodyCellClasses, cellKindClasses[kind], figureToneClasses[tone], isWideOnly && wideOnlyCellClasses, label === undefined && unlabelledCellClasses]}>
 	{#if href === undefined}
 		{@render children()}
 	{:else}

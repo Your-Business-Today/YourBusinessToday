@@ -1,36 +1,29 @@
 import { autocompleteActions } from './autocompleteActions';
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
-import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
 import { summariseGoals } from '$lib/server/goals/summariseGoals';
 import { goalActions } from './goalActions';
+import { internalWorkActions } from './internalWorkActions';
 import { memberActions } from './memberActions';
 import { projectActions } from './projectActions';
 import { summariseProjectPulse } from '$lib/server/projects/summariseProjectPulse';
 import { projectStateOf } from '$lib/server/projects/projectState';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { sequenceStandingsOf } from '$lib/data/taskSequenceStanding';
-import { stagedTasksOf } from '$lib/data/stagedTasks';
-import { recentDeploysOf } from '$lib/data/deployHistory';
 import { taskActions } from './taskActions';
 import { readBoard } from './readBoard';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const { project, isOwner, user } = await requireProjectAccess(locals, params.projectId);
-	const { work, assigneeIdsByTask, turnsByTask, deploysSinceRefactor, branchRuns, buildBoard, ...reads } =
-		await readBoard(locals, project, url);
+	const { work, assigneeIdsByTask, turnsByTask, buildBoard, ...reads } = await readBoard(locals, project, url);
 	const { projectTasks, projectGoals, tasks, goals, ...board } = work;
 	return {
 		project,
 		...reads,
-		...branchRuns,
 		isOwner,
-		cadenceLine: describeRefactorCadence({ refactorEveryDeploys: project.refactorEveryDeploys, deploysSinceRefactor }),
 		projectState: projectStateOf({ tasks: projectTasks, goals: projectGoals, turnsByTask, now: new Date() }),
 		pulse: summariseProjectPulse({ tasks, goals, assigneeIdsByTask, turnsByTask, viewerId: user.id }),
 		taskTree: buildTaskTree(tasks),
-		stagedTasks: stagedTasksOf(projectTasks),
-		deploys: recentDeploysOf(projectTasks),
 		goalSummaries: summariseGoals(goals, tasks),
 		goals,
 		assigneeIdsByTask: Object.fromEntries(assigneeIdsByTask),
@@ -47,5 +40,6 @@ export const actions = {
 	...goalActions,
 	...memberActions,
 	...taskActions,
-	...autocompleteActions
+	...autocompleteActions,
+	...internalWorkActions
 } satisfies Actions;

@@ -8,6 +8,7 @@
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
+	import { leaveRepositoryBlankForInternal } from '$lib/data/internalProject';
 
 	let { organisations, onCreated }: { organisations: Organisation[]; onCreated: () => void } = $props();
 
@@ -31,6 +32,10 @@
 			class={fieldClasses}
 		></textarea>
 	</SmallCapsField>
+	<SmallCapsField label="Repository">
+		<input name="repositoryUrl" placeholder="https://github.com/... (blank for an internal project)" class={fieldClasses} />
+	</SmallCapsField>
+	<p class="-mt-2 text-sm text-chalk/50">{leaveRepositoryBlankForInternal}</p>
 	<OrganisationSelect {organisations} selectedOrganisationId={null} />
 	<TeamProjectField isTeamProject={false} />
 	<FormErrorNote message={tracker.errorMessage} />

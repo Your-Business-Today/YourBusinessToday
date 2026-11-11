@@ -5,11 +5,16 @@ const harbour = 'harbour-site';
 const meadow = 'meadow-site';
 
 describe('projectPageLinks', () => {
-	it('opens the board first, then the project’s domain, site map and deploys', () => {
+	it('opens the board first, then the domain and site map, then what is staged and what deployed', () => {
 		const links = projectPageLinks(harbour);
-		expect(links.map(({ label }) => label)).toEqual(['Board', 'Domain', 'Site map', 'Deployment history']);
+		expect(links.map(({ label }) => label)).toEqual(['Board', 'Domain', 'Site map', 'Staged', 'Deployments']);
 		expect(links[0].href).toBe('/projects/harbour-site');
-		expect(links[3].href).toBe('/projects/harbour-site/deploys');
+		expect(links[3].href).toBe('/projects/harbour-site/staged');
+		expect(links[4].href).toBe('/projects/harbour-site/deploys');
+	});
+
+	it('gives an internal project its board alone, since it has no code, domain or deploys', () => {
+		expect(projectPageLinks(harbour, true).map(({ label }) => label)).toEqual(['Board']);
 	});
 });
 

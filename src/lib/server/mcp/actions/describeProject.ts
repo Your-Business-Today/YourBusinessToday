@@ -3,12 +3,12 @@ import { databaseKindLabels } from '$lib/data/databaseKind';
 import { hasDatabase, migrationsFolderOf } from '$lib/data/projectDatabase';
 import { personalProjectLabel } from '$lib/data/personalProject';
 import { teamProjectLabel } from '$lib/data/teamProject';
+import { internalProjectLabel } from '$lib/data/internalProject';
 import { goalSectionLines } from './describeGoal';
 import { noRepositoryRecorded, repositoryPhrase } from './describeRepository';
 import { projectStatusLabels } from '$lib/data/projectStatus';
-import { isStagedNotLive, notLiveYetLabel } from '$lib/data/stagedTasks';
-import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
-import { departmentTag } from '$lib/data/department';
+import { backlogSideLines } from './describeBacklogSides';
+import type { InternalItemFacts } from './describeInternalItems';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
@@ -17,14 +17,18 @@ import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 export const noSuchProject =
 	'No project you are on has that id. Call list_projects for the ones you own and the ones you are on.';
 
-const subtaskIndent = '  ';
-
 type OpenWork = { openTaskCount: number; assignedTaskCount: number };
 
 export function describeProjectLine(project: ProjectSummary): string {
 	const status = projectStatusLabels[project.status];
 	const place = `priority ${project.priority}, id: ${project.id}`;
-	return `${project.name} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)} (${place})`;
+	return `${listedName(project)} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)} (${place})`;
+}
+
+/** The project's name, marked "(internal)" when it is not software. */
+export function listedName(project: { name: string; isInternal: boolean }): string {
+	if (!project.isInternal) return project.name;
+	return `${project.name} (${internalProjectLabel.toLowerCase()})`;
 }
 
 /** " for The Construction Company", or ", personal" for a project under no organisation; a team project says so. */
@@ -51,18 +55,23 @@ export function describeProject(
 	project: Project,
 	goals: Goal[],
 	backlog: TaskTreeNode[],
-	cadenceLine: string
+	cadenceLine: string,
+	facts: InternalItemFacts
 ): string {
 	return [
 		`${project.name} — ${projectStatusLabels[project.status]} (id: ${project.id})`,
-		project.description === '' ? 'No description yet.' : project.description,
+		descriptionLine(project),
 		codeLine(project, cadenceLine),
 		databaseLine(project),
 		'',
 		...goalSectionLines(goals),
-		'Backlog, in priority order (a subtask\u2019s priority is its place under its parent):',
-		...backlogLines(backlog, goals)
-	].join('\n');
+		...backlogSideLines(backlog, goals, facts)
+	].join('\n').trimEnd();
+}
+
+export function descriptionLine(project: { description: string }): string {
+	if (project.description === '') return 'No description yet.';
+	return project.description;
 }
 
 function codeLine(project: Project, cadenceLine: string): string {
@@ -74,24 +83,4 @@ function databaseLine(project: Project): string {
 	const { database } = project;
 	if (!hasDatabase(database)) return 'No database recorded.';
 	return `Database: ${databaseKindLabels[database.kind]}, migrations in ${migrationsFolderOf(database)}, each run by GitHub when the merge that adds it lands.`;
-}
-
-function backlogLines(tasks: TaskTreeNode[], goals: Goal[]): string[] {
-	if (tasks.length === 0) return ['Nothing in the backlog yet.'];
-	return tasks.flatMap((task) => taskLines(task, '', goals));
-}
-
-function taskLines(task: TaskTreeNode, indent: string, goals: Goal[]): string[] {
-	return [
-		taskLine(task, indent, goals),
-		...task.subtasks.flatMap((subtask) => taskLines(subtask, `${indent}${subtaskIndent}`, goals))
-	];
-}
-
-function taskLine(task: TaskTreeNode, indent: string, goals: Goal[]): string {
-	const status = taskStatusLabelFor(task.kind, task.status);
-	const goal = goals.find((candidate) => candidate.id === task.goalId);
-	const underGoal = goal === undefined ? '' : `, under "${goal.title}"`;
-	const staged = isStagedNotLive(task) ? `, ${notLiveYetLabel}` : '';
-	return `${indent}${task.title}${departmentTag(task.department)} — ${taskKindLabels[task.kind]} task, ${status}${staged}, ${task.storyPoints} points${underGoal} (priority ${task.priority}, id: ${task.id})`;
 }

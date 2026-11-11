@@ -10,6 +10,8 @@ import {
 	parseBoardTab,
 	type BoardTab
 } from './boardTab';
+import { openingTabOfSide } from './boardSideTabs';
+import { boardSideOfTab, boardSideOrder, boardSides, tabsOnBoardSide, type BoardSide } from './boardSide';
 
 type Departmental = { department: Department };
 
@@ -26,14 +28,19 @@ export type DepartmentTab = {
 };
 
 /**
- * The tab a project page shows: the one its address names, else Bugs while any bug is open, so a
- * feature that has stopped working is the first thing seen, else Features.
+ * The tab a project page shows: the one its address names, on whichever shown side it sits, else the tab
+ * the first shown side opens on, which is Development unless the project is internal.
  */
-export function chosenBoardTab(url: URL, tabs: DepartmentTab[]): BoardTab {
+export function chosenBoardTab(url: URL, tabs: DepartmentTab[], shownSides: BoardSide[] = boardSideOrder): BoardTab {
 	const named = parseBoardTab(url.searchParams.get('department'));
-	if (named !== null) return named;
-	const bugs = tabs.find((tab) => tab.tab === boardTabs.bugs);
-	return (bugs?.openTaskCount ?? 0) > 0 ? boardTabs.bugs : boardTabs.features;
+	const [firstSide] = shownSides;
+	if (isShownTab(named, shownSides)) return named;
+	return openingTabOfSide(firstSide, tabs);
+}
+
+function isShownTab(tab: BoardTab | null, shownSides: BoardSide[]): tab is BoardTab {
+	if (tab === null) return false;
+	return shownSides.includes(boardSideOfTab(tab));
 }
 
 export function inBoardTab<Item extends BoardTask>(
@@ -41,8 +48,18 @@ export function inBoardTab<Item extends BoardTask>(
 	tab: BoardTab,
 	allTasks: BoardTask[] = items
 ): Item[] {
+	return inBoardTabs(items, [tab], allTasks);
+}
+
+export function inBoardTabs<Item extends BoardTask>(items: Item[], tabs: BoardTab[], allTasks: BoardTask[] = items): Item[] {
 	const tasksById = new Map(allTasks.map((task) => [task.id, task]));
-	return items.filter((item) => boardTabOfTask(item, tasksById) === tab);
+	return items.filter((item) => tabs.includes(boardTabOfTask(item, tasksById)));
+}
+
+/** The tabs whose work a page shows together: one Development tab, or every Internal work department, which is one board grouped by department. */
+export function tabsShownWith(tab: BoardTab): BoardTab[] {
+	if (boardSideOfTab(tab) === boardSides.internal) return tabsOnBoardSide.internal;
+	return [tab];
 }
 
 type TabbedTask = BoardTask & PlacedTask & { status: TaskStatus };
@@ -62,13 +79,13 @@ export function departmentTabs(tasks: TabbedTask[], goals: HorizonedGoal[]): Dep
  * department's own goals. Bugs shows only the goals its bugs serve: a goal is new work, raised on
  * Features.
  */
-export function goalsForBoardTab<Goal extends Departmental & { id: string }>(
+export function goalsForBoardTabs<Goal extends Departmental & { id: string }>(
 	goals: Goal[],
 	tabTasks: { goalId: string | null }[],
-	tab: BoardTab
+	tabs: BoardTab[]
 ): Goal[] {
 	const servedGoalIds = new Set(tabTasks.map((task) => task.goalId));
-	const isBugs = tab === boardTabs.bugs;
-	const department = departmentOfBoardTab(tab);
-	return goals.filter((goal) => servedGoalIds.has(goal.id) || (!isBugs && goal.department === department));
+	const raisingTabs = tabs.filter((tab) => tab !== boardTabs.bugs);
+	const departmentsRaising = raisingTabs.map(departmentOfBoardTab);
+	return goals.filter((goal) => servedGoalIds.has(goal.id) || departmentsRaising.includes(goal.department));
 }

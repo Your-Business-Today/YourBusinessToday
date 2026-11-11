@@ -9,24 +9,27 @@
 
 	let {
 		project,
+		isInternalProject = false,
 		badges,
 		actions,
 		children
-	}: { project: Project; badges?: Snippet; actions?: Snippet; children?: Snippet } = $props();
+	}: { project: Project; isInternalProject?: boolean; badges?: Snippet; actions?: Snippet; children?: Snippet } = $props();
 
 	const { url } = $derived(page);
-	const pageLinks = $derived(projectPageLinks(project.id));
+	const pageLinks = $derived(projectPageLinks(project.id, isInternalProject));
+	const hasOtherPages = $derived(pageLinks.length > 1);
 	const pageTabs = $derived(pageLinks.map(({ href, label }) => ({ key: href, label, count: null, href })));
 	const selectedKey = $derived(currentProjectPage(project.id, url.pathname)?.href ?? '');
 </script>
 
-<WorkspaceHeader crumbs={[]} title={project.name} {actions}>
+{#snippet pageTabStrip()}
+	<TabStrip tabs={pageTabs} {selectedKey} />
+{/snippet}
+
+<WorkspaceHeader crumbs={[]} title={project.name} {actions} tabs={hasOtherPages ? pageTabStrip : undefined}>
 	{#snippet badge()}
 		<ProjectStatusBadge status={project.status} />
 		{@render badges?.()}
-	{/snippet}
-	{#snippet tabs()}
-		<TabStrip tabs={pageTabs} {selectedKey} />
 	{/snippet}
 	{@render children?.()}
 </WorkspaceHeader>

@@ -48,6 +48,7 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const name = String(formData.get('name') ?? '').trim();
 		const description = String(formData.get('description') ?? '').trim();
+		const repositoryUrl = String(formData.get('repositoryUrl') ?? '').trim();
 		if (name === '') return fail(400, { message: 'A project name is required.' });
 		const choice = readOrganisationChoice(formData, await getOrganisations(locals.supabase));
 		if ('refusal' in choice) return fail(400, { message: choice.refusal });
@@ -59,6 +60,7 @@ export const actions: Actions = {
 			description,
 			organisationId: choice.organisationId,
 			isTeamProject,
+			repositoryUrl,
 			ownerId: user.id,
 			createdBy: user.id
 		});

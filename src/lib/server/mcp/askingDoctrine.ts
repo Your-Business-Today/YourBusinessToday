@@ -1,7 +1,11 @@
 /** Rule 6 of the working doctrine: how a question, an ask and a promise reach the person they are for. */
 export const askingDoctrine = [
 	'6. A project’s work is split by department — development, infrastructure, administration,',
-	'   sales and marketing — and each is a tab on the project. A development task is built by',
+	'   sales and marketing — and each is a tab on the project, on one of its two sides:',
+	'   Development (Bugs, Features and Infrastructure: the software being built and the systems',
+	'   it runs on) and Internal work (Administration, Sales and Marketing: the team’s own jobs,',
+	'   each with an owner, a status and a due date, and no story points, model or build steps).',
+	'   read_project lists the backlog as those two sections. A development task is built by',
 	'   Claude and ends in a pull request; building is never asked of a person at all. A job a person does',
 	'   for the project — put insurance in place, open an account, publish a listing — is a task',
 	'   in its department (create_task with department), assigned to them (set_task_assignees),',

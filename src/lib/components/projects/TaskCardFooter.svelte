@@ -4,6 +4,7 @@
 	import TaskKindTags from './TaskKindTags.svelte';
 	import TaskProgressMeter from './TaskProgressMeter.svelte';
 	import TaskRaisedDate from './TaskRaisedDate.svelte';
+	import { isInternalWork } from '$lib/data/boardSide';
 	import type { BuildModel } from '$lib/data/buildModels';
 	import type { LifecycleBadge } from '$lib/data/lifecycleBadge';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
@@ -25,6 +26,7 @@
 	} = $props();
 
 	const hasBranch = $derived(task.branchName !== '');
+	const isBuiltWork = $derived(!isInternalWork(task.department));
 	const chipClasses = 'rounded-full border border-hairline px-2 py-0.5 font-display text-xs text-chalk/60';
 </script>
 
@@ -35,21 +37,23 @@
 	<span title={goalTitle ?? 'Not under a goal'} class={`max-w-48 truncate ${chipClasses}`}>
 		{goalTitle ?? 'No goal'}
 	</span>
-	<span title="Story points — how big the task is" class={`whitespace-nowrap ${chipClasses}`}>
-		{task.storyPoints} pts
-	</span>
-	{#if !isAutocomplete}
-		<span title="Autocomplete is off — a person gives input before an AI completes it" class={`whitespace-nowrap ${chipClasses}`}>
-			Not autocomplete
+	{#if isBuiltWork}
+		<span title="Story points — how big the task is" class={`whitespace-nowrap ${chipClasses}`}>
+			{task.storyPoints} pts
 		</span>
-	{/if}
-	{#if buildModel !== null}
-		<span title="Buildable — a model may build it unattended" class={`whitespace-nowrap ${chipClasses}`}>
-			Buildable · {buildModel.label}
-		</span>
-	{/if}
-	{#if lifecycle !== null}
-		<LifecycleBadgeChip badge={lifecycle} />
+		{#if !isAutocomplete}
+			<span title="Autocomplete is off — a person gives input before an AI completes it" class={`whitespace-nowrap ${chipClasses}`}>
+				Not autocomplete
+			</span>
+		{/if}
+		{#if buildModel !== null}
+			<span title="Buildable — a model may build it unattended" class={`whitespace-nowrap ${chipClasses}`}>
+				Buildable · {buildModel.label}
+			</span>
+		{/if}
+		{#if lifecycle !== null}
+			<LifecycleBadgeChip badge={lifecycle} />
+		{/if}
 	{/if}
 	{#if hasBranch}
 		<span title={`Worked on ${task.branchName}`} class={`max-w-40 truncate ${chipClasses}`}>

@@ -2,10 +2,11 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseProjectRecord, type Project } from '$lib/server/projects/projectRecord';
 import type { AssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
 import { getOwnedProjectTallies, type ProjectTally, type TaskTally } from './ownedProjectTallies';
+import { findInternalProjectIds } from './findInternalProjectIds';
 
 export type ProjectProgress = TaskTally & { assignedTaskCount: number; longTermGoalCount: number };
 
-export type ProjectSummary = Project & ProjectProgress & { organisationName: string };
+export type ProjectSummary = Project & ProjectProgress & { organisationName: string; isInternal: boolean };
 
 const emptyTally: ProjectTally = { openTaskCount: 0, taskCount: 0, completionPercent: 0, longTermGoalCount: 0 };
 
@@ -25,15 +26,15 @@ export async function getProjectsForOwner(
 		assignedTaskCounts
 	]);
 	if (error) throw error;
-	return data.map((row: Record<string, unknown>) => {
-		const project = parseProjectRecord(row);
-		return {
-			...project,
-			...(tallyByProject.get(project.id) ?? emptyTally),
-			assignedTaskCount: countsByProject.forProject(project.id),
-			organisationName: organisationNameOf(row)
-		};
-	});
+	const projects = data.map((row: Record<string, unknown>) => ({ project: parseProjectRecord(row), row }));
+	const internalIds = await findInternalProjectIds(supabase, projects.map(({ project }) => project));
+	return projects.map(({ project, row }) => ({
+		...project,
+		...(tallyByProject.get(project.id) ?? emptyTally),
+		assignedTaskCount: countsByProject.forProject(project.id),
+		organisationName: organisationNameOf(row),
+		isInternal: internalIds.has(project.id)
+	}));
 }
 
 function organisationNameOf(row: Record<string, unknown>): string {
