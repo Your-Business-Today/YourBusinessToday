@@ -21,7 +21,7 @@
 	<title>Domain — {project.name} — Your Business Today</title>
 </svelte:head>
 
-<BlueprintHeader {project} {blueprint} viewKey="domain" title={`${project.name} domain`} />
+<BlueprintHeader {project} {blueprint} />
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />

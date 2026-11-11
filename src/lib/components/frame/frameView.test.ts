@@ -58,15 +58,15 @@ describe('frameViewFor', () => {
 	it('marks the link the page sits under most closely and heads the page with it', () => {
 		const patchView = viewAt(staff, '/clients/patches/patch-1');
 		expect(patchView.currentHref).toBe('/clients/patches');
-		expect(patchView.heading).toBe('Patches');
-		expect(viewAt(clientContact, '/portal/projects/project-1').heading).toBe('Your projects');
-		expect(viewAt(clientContact, '/portal/billing').heading).toBe('Billing');
+		expect(patchView.trail).toEqual({ crumbs: [], heading: 'Patches' });
+		expect(viewAt(clientContact, '/portal/projects/project-1').trail.heading).toBe('Your projects');
+		expect(viewAt(clientContact, '/portal/billing').trail.heading).toBe('Billing');
 	});
 
 	it('heads the notifications page, and falls back to the company name', () => {
-		expect(viewAt(staff, '/notifications').heading).toBe('Notifications');
+		expect(viewAt(staff, '/notifications').trail.heading).toBe('Notifications');
 		expect(viewAt(staff, '/notifications').currentHref).toBe('/notifications');
-		expect(viewAt(member, '/clients').heading).toBe('Your Business Today');
+		expect(viewAt(member, '/clients').trail.heading).toBe('Your Business Today');
 	});
 
 	it('sends a client contact home to the portal and signs them out there', () => {

@@ -46,10 +46,6 @@
 <ProjectDetailHeader
 	{project}
 	organisations={data.organisations}
-	cadenceLine={data.cadenceLine}
-	deployWindowFacts={data.deployWindowFacts}
-	mainRuns={data.mainRuns}
-	stagingRuns={data.stagingRuns}
 	latestKitVersion={data.latestKitVersion}
 	onAddTask={openNewTaskModal}
 />

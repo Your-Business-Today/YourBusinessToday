@@ -1,23 +1,16 @@
 <script lang="ts">
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
-	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
-	import BlueprintViewSwitch from './BlueprintViewSwitch.svelte';
-	import { shortCommit, type BlueprintViewKey } from './blueprintViews';
+	import ProjectPageHeader from '$lib/components/projects/ProjectPageHeader.svelte';
+	import { shortCommit } from './blueprintViews';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { enhance } from '$app/forms';
 	import { formatBritishDateTime } from '$lib/data/britishDate';
 	import { headerButtonClasses } from '$lib/components/workspace/workspaceStyles';
-	import { projectCrumbs } from '$lib/components/workspace/projectCrumbs';
 	import type { Project } from '$lib/server/projects/projectRecord';
 	import type { ProjectBlueprint } from '$lib/data/blueprint/projectBlueprint';
 
-	let {
-		project,
-		blueprint,
-		viewKey,
-		title
-	}: { project: Project; blueprint: ProjectBlueprint | null; viewKey: BlueprintViewKey; title: string } = $props();
+	let { project, blueprint }: { project: Project; blueprint: ProjectBlueprint | null } = $props();
 
 	const tracker = new FormTracker();
 
@@ -28,9 +21,8 @@
 	);
 </script>
 
-<WorkspaceHeader crumbs={projectCrumbs(project)} {title}>
+<ProjectPageHeader {project}>
 	{#snippet actions()}
-		<BlueprintViewSwitch projectId={project.id} {viewKey} />
 		<form
 			method="POST"
 			action="?/readBlueprint"
@@ -42,4 +34,4 @@
 		</form>
 	{/snippet}
 	<HeaderFacts {facts} />
-</WorkspaceHeader>
+</ProjectPageHeader>
