@@ -6,6 +6,7 @@
 	import ProjectStatePanel from './ProjectStatePanel.svelte';
 	import TaskTreePanel from './TaskTreePanel.svelte';
 	import { currentGoalHorizon, longTermGoalHorizon } from '$lib/data/goalHorizon';
+	import { isInternalWork } from '$lib/data/boardSide';
 	import { dashboardGridClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { GoalSummary } from '$lib/server/goals/summariseGoals';
 	import type { Department } from '$lib/data/department';
@@ -36,6 +37,7 @@
 	const pulse = $derived(sources.pulse);
 	const goalSummaries = $derived(sources.goalSummaries);
 	const people = $derived(sources.people);
+	const isBuiltWork = $derived(!isInternalWork(sources.department));
 
 	const panelTabs = $derived([
 		{ key: 'backlog', label: 'Backlog', count: pulse.openCurrentTaskCount },
@@ -49,7 +51,9 @@
 	}
 </script>
 
-<ProjectStatePanel projectState={sources.projectState} {people} />
+{#if isBuiltWork}
+	<ProjectStatePanel projectState={sources.projectState} {people} />
+{/if}
 <ProjectPulseStrip {pulse} />
 <PanelTabs tabs={panelTabs} bind:selectedKey={selectedPanel} />
 <div class={dashboardGridClasses}>

@@ -9,19 +9,19 @@
 		similarTasks,
 		isSaving,
 		submitLabel,
+		laterNote,
 		onCancelSimilar
 	}: {
 		errorMessage: string | null;
 		similarTasks: SimilarTask[];
 		isSaving: boolean;
 		submitLabel: string;
+		laterNote: string;
 		onCancelSimilar: () => void;
 	} = $props();
 </script>
 
-<p class="text-xs text-chalk/50">
-	Story points, assignees, and the rest are set on the task page after it's created.
-</p>
+<p class="text-xs text-chalk/50">{laterNote}</p>
 <FormErrorNote message={errorMessage} />
 {#if similarTasks.length > 0}
 	<SimilarTasksNotice {similarTasks} onCancel={onCancelSimilar} />

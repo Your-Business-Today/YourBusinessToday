@@ -6,9 +6,7 @@ import { teamProjectLabel } from '$lib/data/teamProject';
 import { goalSectionLines } from './describeGoal';
 import { noRepositoryRecorded, repositoryPhrase } from './describeRepository';
 import { projectStatusLabels } from '$lib/data/projectStatus';
-import { isStagedNotLive, notLiveYetLabel } from '$lib/data/stagedTasks';
-import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
-import { departmentTag } from '$lib/data/department';
+import { backlogSideLines } from './describeBacklogSides';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
@@ -16,8 +14,6 @@ import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 export const noSuchProject =
 	'No project you are on has that id. Call list_projects for the ones you own and the ones you are on.';
-
-const subtaskIndent = '  ';
 
 type OpenWork = { openTaskCount: number; assignedTaskCount: number };
 
@@ -60,9 +56,8 @@ export function describeProject(
 		databaseLine(project),
 		'',
 		...goalSectionLines(goals),
-		'Backlog, in priority order (a subtask\u2019s priority is its place under its parent):',
-		...backlogLines(backlog, goals)
-	].join('\n');
+		...backlogSideLines(backlog, goals)
+	].join('\n').trimEnd();
 }
 
 function codeLine(project: Project, cadenceLine: string): string {
@@ -74,24 +69,4 @@ function databaseLine(project: Project): string {
 	const { database } = project;
 	if (!hasDatabase(database)) return 'No database recorded.';
 	return `Database: ${databaseKindLabels[database.kind]}, migrations in ${migrationsFolderOf(database)}, each run by GitHub when the merge that adds it lands.`;
-}
-
-function backlogLines(tasks: TaskTreeNode[], goals: Goal[]): string[] {
-	if (tasks.length === 0) return ['Nothing in the backlog yet.'];
-	return tasks.flatMap((task) => taskLines(task, '', goals));
-}
-
-function taskLines(task: TaskTreeNode, indent: string, goals: Goal[]): string[] {
-	return [
-		taskLine(task, indent, goals),
-		...task.subtasks.flatMap((subtask) => taskLines(subtask, `${indent}${subtaskIndent}`, goals))
-	];
-}
-
-function taskLine(task: TaskTreeNode, indent: string, goals: Goal[]): string {
-	const status = taskStatusLabelFor(task.kind, task.status);
-	const goal = goals.find((candidate) => candidate.id === task.goalId);
-	const underGoal = goal === undefined ? '' : `, under "${goal.title}"`;
-	const staged = isStagedNotLive(task) ? `, ${notLiveYetLabel}` : '';
-	return `${indent}${task.title}${departmentTag(task.department)} — ${taskKindLabels[task.kind]} task, ${status}${staged}, ${task.storyPoints} points${underGoal} (priority ${task.priority}, id: ${task.id})`;
 }
