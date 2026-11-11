@@ -6,7 +6,7 @@ import type { Department } from '$lib/data/department';
 
 export type StatusChoice = { value: string; label: string; tone: BadgeTone };
 
-const taskStatusTones: Record<TaskStatus, BadgeTone> = {
+export const taskStatusTones: Record<TaskStatus, BadgeTone> = {
 	backlog: 'notStarted',
 	in_progress: 'warning',
 	on_hold: 'negative',
