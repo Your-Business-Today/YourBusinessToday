@@ -33,7 +33,7 @@ describe('what read_project says of an internal project', () => {
 
 	it('names it internal and gives its Internal work', () => {
 		expect(said).toMatch(/^Office move — .*, internal \(id: office-move\)/);
-		expect(said).toContain('Internal work —');
+		expect(said).toContain('Task Management —');
 		expect(said).toContain('Book the removal van');
 	});
 

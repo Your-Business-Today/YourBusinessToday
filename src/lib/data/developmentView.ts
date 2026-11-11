@@ -1,20 +1,12 @@
-/** The ways the Development side can be looked at: the backlog in priority order, or the scrum board by build stage. */
+import { boardQueryKeys } from '$lib/components/projects/projectAddresses';
+
+/** The ways the Development side's work can be looked at: a backlog in priority order, or the scrum board by build stage. */
 export type DevelopmentView = 'backlog' | 'board';
 
 export const developmentViews = { backlog: 'backlog', board: 'board' } as const;
 
-export const developmentViewOrder: DevelopmentView[] = [developmentViews.backlog, developmentViews.board];
-
-export const developmentViewLabels: Record<DevelopmentView, string> = {
-	backlog: 'Backlog',
-	board: 'Board'
-};
-
-export const developmentViewTabs = developmentViewOrder.map((view) => ({
-	key: view,
-	label: developmentViewLabels[view],
-	count: null
-}));
-
-/** Where the browser keeps the view a person last chose, so the side opens on it next time. */
-export const developmentViewStorageKey = 'ybt.development-view';
+/** The view the board's address names: the scrum board when it says so, else the backlog. */
+export function developmentViewOf(address: URL): DevelopmentView {
+	const isBoardNamed = address.searchParams.get(boardQueryKeys.view) === developmentViews.board;
+	return isBoardNamed ? developmentViews.board : developmentViews.backlog;
+}

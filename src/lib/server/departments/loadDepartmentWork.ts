@@ -1,6 +1,6 @@
 import { chosenBoardTab, departmentTabs, goalsForBoardTabs, inBoardTabs, tabsShownWith } from '$lib/data/departmentBoard';
 import { departmentOfBoardTab, developmentKindOfBoardTab } from '$lib/data/boardTab';
-import { boardSidesFor } from '$lib/data/boardSideTabs';
+import { boardSideOfTab } from '$lib/data/boardSide';
 import { boardSidesOfProject, isInternalProject } from '$lib/data/internalProject';
 import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
 import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
@@ -10,8 +10,8 @@ type BoardedProject = { id: string; repositoryUrl: string };
 
 /**
  * A project's work as one tab shows it, on its side of the page, with every task kept for waits that cross tabs.
- * Internal work is one board grouped by department, so any of its tabs shows all three departments.
- * An internal project shows Internal work alone.
+ * Task Management is one board grouped by department, so any of its tabs shows all three departments.
+ * An internal project shows Task Management alone.
  */
 export async function loadDepartmentWork(supabase: SupabaseClient, project: BoardedProject, url: URL) {
 	const [projectTasks, projectGoals] = await Promise.all([
@@ -33,6 +33,6 @@ export async function loadDepartmentWork(supabase: SupabaseClient, project: Boar
 		department: departmentOfBoardTab(boardTab),
 		developmentKind: developmentKindOfBoardTab(boardTab),
 		isInternalProject: isInternal,
-		...boardSidesFor(tabs, boardTab, shownSides)
+		boardSide: boardSideOfTab(boardTab)
 	};
 }

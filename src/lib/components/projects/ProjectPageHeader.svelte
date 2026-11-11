@@ -18,8 +18,8 @@
 	const { url } = $derived(page);
 	const pageLinks = $derived(projectPageLinks(project.id, isInternalProject));
 	const hasOtherPages = $derived(pageLinks.length > 1);
-	const pageTabs = $derived(pageLinks.map(({ href, label }) => ({ key: href, label, count: null, href })));
-	const selectedKey = $derived(currentProjectPage(project.id, url.pathname)?.href ?? '');
+	const pageTabs = $derived(pageLinks.map(({ key, label, href }) => ({ key, label, count: null, href })));
+	const selectedKey = $derived(currentProjectPage(project.id, url));
 </script>
 
 {#snippet pageTabStrip()}

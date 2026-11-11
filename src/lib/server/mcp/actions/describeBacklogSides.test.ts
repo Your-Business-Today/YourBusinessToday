@@ -32,7 +32,7 @@ describe('the backlog read_project gives', () => {
 	const lines = backlogSideLines(backlog, [], noFacts);
 
 	it('lists Development first, then Internal work, each task under its own side', () => {
-		const internalHeading = lines.findIndex((line) => line.startsWith('Internal work —'));
+		const internalHeading = lines.findIndex((line) => line.startsWith('Task Management —'));
 		expect(lines[0]).toMatch(/^Development — /);
 		expect(lines.slice(1, internalHeading).join('\n')).toMatch(/Task website[\s\S]*Task secrets/);
 		expect(lines.slice(internalHeading).join('\n')).toMatch(/Task insurance[\s\S]*  Task quote/);

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import DevelopmentTabs from '$lib/components/projects/DevelopmentTabs.svelte';
+	import { developmentPages } from '$lib/components/projects/developmentPages';
 	import AudienceSwitch from '$lib/components/blueprint/AudienceSwitch.svelte';
 	import BlueprintHeader from '$lib/components/blueprint/BlueprintHeader.svelte';
 	import EmptyState from '$lib/components/site/EmptyState.svelte';
@@ -29,6 +31,7 @@
 <BlueprintHeader {project} {blueprint} />
 
 <div class={workspaceBodyClasses}>
+	<DevelopmentTabs projectId={project.id} selected={developmentPages.siteMap} />
 	<FlashMessage message={form?.message} />
 	<AudienceSwitch projectId={project.id} {audience} />
 	{#if mcpMap !== null}
