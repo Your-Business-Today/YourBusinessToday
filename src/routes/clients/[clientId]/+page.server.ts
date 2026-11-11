@@ -7,7 +7,7 @@ import { getPeopleForClient } from '$lib/server/clients/getPeopleForClient';
 import { getProjectsForClient } from '$lib/server/clients/getProjectsForClient';
 import { getRegisterCompany } from '$lib/server/register/getRegisterCompany';
 import { standingLine } from '$lib/data/standingLine';
-import { getGroupParents } from '$lib/server/clients/getGroupParents';
+import { listGroupParents } from '$lib/server/clients/listGroupParents';
 import { getSupportTasksForClient } from '$lib/server/support/getOpenSupportTasks';
 import { getUnassignedProjects } from '$lib/server/projects/getUnassignedProjects';
 import { groupActions } from './groupActions';
@@ -34,7 +34,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			getUnassignedProjects(locals.supabase),
 			getEventsForClient(locals.supabase, client.id),
 			getChildrenOfClient(locals.supabase, client.id),
-			getGroupParents(locals.supabase),
+			listGroupParents(locals.supabase),
 			client.parentClientId === null ? null : getClient(locals.supabase, client.parentClientId),
 			listObservationsForCompany(locals.supabase, companyNumberOf(client)),
 			getRegisterCompany(locals.supabase, companyNumberOf(client)),

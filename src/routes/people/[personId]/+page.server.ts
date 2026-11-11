@@ -1,5 +1,5 @@
 import { error, redirect } from '@sveltejs/kit';
-import { getGroupParents } from '$lib/server/clients/getGroupParents';
+import { listGroupParents } from '$lib/server/clients/listGroupParents';
 import { deletePerson } from '$lib/server/people/deletePerson';
 import { getPerson } from '$lib/server/people/getPerson';
 import { getCompaniesForPerson } from '$lib/server/people/getCompaniesForPerson';
@@ -18,7 +18,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const companies = await getCompaniesForPerson(locals.supabase, person.id);
 	const isImportRequested = url.searchParams.get('import') === importCompaniesRequest;
 	const [parents, events, pendingAppointments] = await Promise.all([
-		getGroupParents(locals.supabase),
+		listGroupParents(locals.supabase),
 		getPersonEventsForClients(locals.supabase, companies.map((company) => company.id)),
 		isImportRequested ? pendingAppointmentsFor(person, companies) : null
 	]);

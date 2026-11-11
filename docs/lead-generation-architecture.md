@@ -229,7 +229,7 @@ only then drops the moved columns. `client_id_for_account()` is untouched.
 | `getCompaniesForPerson` | their companies, stage and research state |
 | `getPersonEventsForClients` | their ledger across companies |
 | `getPeopleForClient` | a company's people and what else each owns |
-| `getGroupParents`, `getChildrenOfClient` | the groups to choose from, and a group's companies |
+| `listGroupParents`, `getChildrenOfClient` | the groups to choose from, and a group's companies |
 | `searchOfficers`, `getOfficerAppointments`, `getCompanyOfficers` | Companies House |
 
 Companies House lives in `src/lib/server/companiesHouse/`: the advanced company search
