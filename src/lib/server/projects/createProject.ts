@@ -7,16 +7,21 @@ export type NewProjectSeed = {
 	description: string;
 	organisationId: string | null;
 	isTeamProject: boolean;
+	repositoryUrl?: string;
 	ownerId: string;
 	createdBy: string;
 };
 
-/** A project under an organisation, or a team project, is on its people's boards the moment it exists. */
+/**
+ * A project under an organisation, or a team project, is on its people's boards the moment it exists.
+ * One made with no repository is an internal project until a repository or a development task is added.
+ */
 export async function createProject(supabase: SupabaseClient, seed: NewProjectSeed): Promise<void> {
 	const { error } = await supabase.from('projects').insert({
 		name: seed.name,
 		description: seed.description,
 		organisation_id: seed.organisationId,
+		repository_url: seed.repositoryUrl ?? '',
 		priority: await nextRankOnBoard(supabase, seed.ownerId),
 		owner_id: seed.ownerId,
 		created_by: seed.createdBy,

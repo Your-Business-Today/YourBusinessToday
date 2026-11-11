@@ -27,8 +27,8 @@ export function tabsOfSide(tabs: DepartmentTab[], side: BoardSide): DepartmentTa
 	return tabs.filter((tab) => tabsOnBoardSide[side].includes(tab.tab));
 }
 
-export function sideTabsOf(tabs: DepartmentTab[]): SideTab[] {
-	return boardSideOrder.map((side) => ({
+export function sideTabsOf(tabs: DepartmentTab[], shownSides: BoardSide[] = boardSideOrder): SideTab[] {
+	return shownSides.map((side) => ({
 		side,
 		label: boardSideLabels[side],
 		openTaskCount: tabsOfSide(tabs, side).reduce((count, tab) => count + tab.openTaskCount, 0),
@@ -36,8 +36,8 @@ export function sideTabsOf(tabs: DepartmentTab[]): SideTab[] {
 	}));
 }
 
-/** The two sides and the open side's own tabs, for the tab the page shows. */
-export function boardSidesFor(tabs: DepartmentTab[], selectedTab: BoardTab) {
+/** The sides the project shows and the open side's own tabs, for the tab the page shows. */
+export function boardSidesFor(tabs: DepartmentTab[], selectedTab: BoardTab, shownSides: BoardSide[] = boardSideOrder) {
 	const boardSide = boardSideOfTab(selectedTab);
-	return { boardSide, sideTabs: sideTabsOf(tabs), departmentTabs: tabsOfSide(tabs, boardSide) };
+	return { boardSide, sideTabs: sideTabsOf(tabs, shownSides), departmentTabs: tabsOfSide(tabs, boardSide) };
 }

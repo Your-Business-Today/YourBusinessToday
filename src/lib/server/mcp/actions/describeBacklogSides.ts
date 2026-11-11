@@ -9,9 +9,14 @@ import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 type BacklogContext = { goals: Goal[]; facts: InternalItemFacts };
 
-/** The backlog as two sections, Development then Internal work, each in priority order with its subtasks beneath. */
-export function backlogSideLines(backlog: TaskTreeNode[], goals: Goal[], facts: InternalItemFacts): string[] {
-	return boardSideOrder.flatMap((side) => sideLines(side, backlog, { goals, facts }));
+/** The backlog as a section for each side shown, Development then Internal work, each in priority order with its subtasks beneath. */
+export function backlogSideLines(
+	backlog: TaskTreeNode[],
+	goals: Goal[],
+	facts: InternalItemFacts,
+	shownSides: BoardSide[] = boardSideOrder
+): string[] {
+	return shownSides.flatMap((side) => sideLines(side, backlog, { goals, facts }));
 }
 
 function sideLines(side: BoardSide, backlog: TaskTreeNode[], context: BacklogContext): string[] {

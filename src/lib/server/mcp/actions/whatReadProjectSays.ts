@@ -1,6 +1,8 @@
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
 import { describeProject } from './describeProject';
+import { describeInternalProject } from './describeInternalProject';
+import { isInternalProject } from '$lib/data/internalProject';
 import { describeScrumBoard } from './describeScrumBoard';
 import { describeKitStanding, kitStanding } from '$lib/data/kitVersion';
 import { kitReadingOf } from '$lib/server/kit/kitReadingOf';
@@ -17,17 +19,23 @@ import { readInternalItemFacts } from './readInternalItemFacts';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-/** What read_project says of a project: the project and its backlog on both sides, then its development work by build stage. */
+/**
+ * What read_project says of a project: the project and its backlog on both sides, then its development work by build stage.
+ * An internal project gives its Internal work alone.
+ */
 export async function whatReadProjectSays(supabase: SupabaseClient, project: Project): Promise<string> {
 	const tasks = await getTasksForProject(supabase, project.id);
 	const goals = await getGoalsForProject(supabase, project.id);
+	const facts = await readInternalItemFacts(supabase, project.id, tasks);
+	const isInternal = isInternalProject(project, [...tasks, ...goals]);
+	const backlog = buildTaskTree(tasks);
+	if (isInternal) return describeInternalProject(project, goals, backlog, facts);
 	const cadenceLine = await cadenceLineFor(supabase, project);
 	const kitLine = await kitLineFor(supabase, project);
 	const deployWindowLine = await deployWindowLineFor(supabase, project);
-	const facts = await readInternalItemFacts(supabase, project.id, tasks);
 	const buildFacts = await readBuildFacts(supabase, project.id);
 	const scrumBoard = await readScrumBoard(supabase, project.id, tasks, buildFacts);
-	const description = describeProject(project, goals, buildTaskTree(tasks), `${cadenceLine} ${kitLine}${deployWindowLine}`, facts);
+	const description = describeProject(project, goals, backlog, `${cadenceLine} ${kitLine}${deployWindowLine}`, facts);
 	return `${description}\n\n${describeScrumBoard(scrumBoard)}`;
 }
 

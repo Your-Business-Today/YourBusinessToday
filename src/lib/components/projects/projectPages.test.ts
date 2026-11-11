@@ -12,6 +12,10 @@ describe('projectPageLinks', () => {
 		expect(links[3].href).toBe('/projects/harbour-site/staged');
 		expect(links[4].href).toBe('/projects/harbour-site/deploys');
 	});
+
+	it('gives an internal project its board alone, since it has no code, domain or deploys', () => {
+		expect(projectPageLinks(harbour, true).map(({ label }) => label)).toEqual(['Board']);
+	});
 });
 
 describe('currentProjectPage', () => {

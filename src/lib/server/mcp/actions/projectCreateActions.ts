@@ -2,6 +2,7 @@ import { createProject } from '$lib/server/projects/createProject';
 import { noSuchOrganisation, reachableOrganisation } from '../organisationAccess';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { teamProjectAnswerRefusal, teamProjectsAreForStaff, validateTeamProjectAnswer } from '$lib/data/teamProject';
+import { internalProjectMeaning, leaveRepositoryBlankForInternal } from '$lib/data/internalProject';
 import type { McpAction } from '../actionTypes';
 
 export const projectCreateActions: McpAction[] = [
@@ -16,13 +17,15 @@ export const projectCreateActions: McpAction[] = [
 			'at the bottom of your board; call move_project or place_project to prioritise it. Name the ' +
 			'organisation it is for — a client, one of its businesses, or Your Business Today — and everyone ' +
 			'on that organisation is on the project at once; call list_organisations for the ids. Staff ' +
-			'can make it a team project, which every Your Business Today staff member is on.',
+			'can make it a team project, which every Your Business Today staff member is on. Give repositoryUrl for ' +
+			'software; leave it out for an internal project, ' + internalProjectMeaning + '. ' + leaveRepositoryBlankForInternal,
 		inputSchema: objectSchema(
 			{
 				name: textField('What the project is called'),
 				description: textField('What the project is for'),
 				organisationId: textField('The organisation it is for, as list_organisations gives it — leave out for none'),
-				isTeamProject: { type: 'boolean', description: 'true to make it a team project every staff member is on (staff only)' }
+				isTeamProject: { type: 'boolean', description: 'true to make it a team project every staff member is on (staff only)' },
+				repositoryUrl: textField('Where its code lives, such as https://github.com/owner/name — leave out for an internal project')
 			},
 			['name']
 		),
@@ -40,6 +43,7 @@ export const projectCreateActions: McpAction[] = [
 				description: readText(input, 'description'),
 				organisationId,
 				isTeamProject,
+				repositoryUrl: readText(input, 'repositoryUrl'),
 				ownerId: caller.accountId,
 				createdBy: caller.accountId
 			});

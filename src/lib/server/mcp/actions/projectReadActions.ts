@@ -1,4 +1,4 @@
-import { describeProjectLine, forOrganisation, noSuchProject, openWorkPhrase } from './describeProject';
+import { describeProjectLine, forOrganisation, listedName, noSuchProject, openWorkPhrase } from './describeProject';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
 import { getProjectsForOwner } from '$lib/server/projects/getProjectsForOwner';
 import { getTeamProjects, type TeamProject } from '$lib/server/members/getTeamProjects';
@@ -47,7 +47,7 @@ export const projectReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'read one project with its goals, its whole backlog, its development work by build stage with the weekly velocity, its refactor cadence and the project-process kit version its repository is on',
+			'read one project with its goals, its whole backlog, its development work by build stage with the weekly velocity, its refactor cadence and the project-process kit version its repository is on; an internal project, with no repository and no development work, gives its Internal work alone',
 		inputSchema: objectSchema({ projectId: textField('The project id') }, ['projectId']),
 		run: async (caller, input) => {
 			const project = await reachableProject(caller, readText(input, 'projectId'));
@@ -60,5 +60,5 @@ export const projectReadActions: McpAction[] = [
 function teamProjectLine(project: TeamProject): string {
 	const status = projectStatusLabels[project.status];
 	const place = `priority ${project.priority} among your team projects, id: ${project.id}`;
-	return `${project.name} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)}, owned by ${project.ownerName} (${place})`;
+	return `${listedName(project)} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)}, owned by ${project.ownerName} (${place})`;
 }
