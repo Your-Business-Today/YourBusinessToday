@@ -13,6 +13,7 @@ import { businessBrainActions } from './businessBrainActions';
 import { businessBrainChatbotActions } from './businessBrainChatbotActions';
 import { chatbotReadingActions } from './chatbotReadingActions';
 import { chatbotTrailActions } from './businessBrainChatbotTrailActions';
+import { myBrainsActions } from './myBrainsActions';
 import { productBrainActions } from './productBrainActions';
 import type { McpAction } from '../actionTypes';
 
@@ -33,5 +34,6 @@ export const moduleAreaActions: McpAction[] = [
 	...businessBrainChatbotActions,
 	...chatbotReadingActions,
 	...chatbotTrailActions,
-	...productBrainActions
+	...productBrainActions,
+	...myBrainsActions
 ];

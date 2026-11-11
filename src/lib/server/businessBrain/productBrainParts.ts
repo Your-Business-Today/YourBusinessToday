@@ -22,6 +22,20 @@ export async function readPartsTiedTo(supabase: SupabaseClient, place: ProductBr
 	return businessBrainPartKinds.filter((kind) => tiedKinds.includes(kind));
 }
 
+/** The products among these with any part tied to them now, each with its organisation; none before migration 0201 has run. */
+export async function readProductsWithBrains(supabase: SupabaseClient, projectIds: string[]): Promise<ProductBrainPlace[]> {
+	if (projectIds.length === 0) return [];
+	const { data, error } = await supabase
+		.from(productPartsTable)
+		.select('organisation_id, project_id')
+		.in('project_id', projectIds)
+		.is('untied_at', null);
+	if (isSchemaNotYetMigrated(error)) return [];
+	if (error) throw error;
+	const places = (data ?? []).map((row) => ({ organisationId: row.organisation_id as string, projectId: row.project_id as string }));
+	return [...new Map(places.map((place) => [place.projectId, place])).values()];
+}
+
 /** Tie each part to the product; the part is made first if nothing is filed in it yet. */
 export async function tieProductBrainParts(supabase: SupabaseClient, tying: ProductBrainTying, parts: BusinessBrainPartKind[]): Promise<void> {
 	if (parts.length === 0) return;

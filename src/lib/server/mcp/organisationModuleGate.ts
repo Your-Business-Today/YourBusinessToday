@@ -82,7 +82,8 @@ export async function usableModuleOrganisation(
 	return organisation;
 }
 
-async function organisationWithModuleOn(caller: McpCaller, organisationId: string | null, module: OrganisationModule): Promise<Organisation | null> {
+/** The organisation when the module is switched on for it, whoever asks; null otherwise. */
+export async function organisationWithModuleOn(caller: McpCaller, organisationId: string | null, module: OrganisationModule): Promise<Organisation | null> {
 	if (organisationId === null) return null;
 	const organisation = await getOrganisation(caller.supabase, organisationId);
 	if (organisation === null) return null;
