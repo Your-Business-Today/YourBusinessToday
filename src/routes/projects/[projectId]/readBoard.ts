@@ -1,7 +1,4 @@
-import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
-import { deployWindowFactsOf } from '$lib/server/deployWindows/deployWindowFactsOf';
 import { getAssigneeIdsByTask } from '$lib/server/projects/getAssigneeIdsByTask';
-import { getBranchRunsForProject } from '$lib/server/mainRuns/getMainRunsForProject';
 import { getBuildBoard } from '$lib/server/lifecycle/getBuildBoard';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
@@ -26,12 +23,9 @@ export function readBoard(locals: App.Locals, project: Project, url: URL) {
 		work: workRead,
 		assigneeIdsByTask: taskIdsRead.then((taskIds) => getAssigneeIdsByTask(supabase, taskIds)),
 		turnsByTask: projectTaskIdsRead.then((taskIds) => getTaskTurns(supabase, taskIds)),
-		deploysSinceRefactor: countDeploysSinceRefactor(supabase, project),
 		latestKitVersion: getLatestKitVersion(supabase),
-		branchRuns: getBranchRunsForProject(supabase, project.id),
 		organisations: getOrganisations(supabase),
 		canTurnOnAutocomplete: isStaffMember(locals),
-		deployWindowFacts: deployWindowFactsOf(supabase, project),
 		people: getPeopleOnProject(supabase, project.id),
 		buildBoard: getBuildBoard(supabase, project.id)
 	});

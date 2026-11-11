@@ -24,13 +24,13 @@
 </script>
 
 <svelte:head>
-	<title>Deployment history — {project.name} — Your Business Today</title>
+	<title>Deployments — {project.name} — Your Business Today</title>
 </svelte:head>
 
 <ProjectPageHeader {project} />
 
 <div class={workspaceBodyClasses}>
-	<DashboardPanel title="Deploys" count={found.length}>
+	<DashboardPanel title="Deployments" count={found.length}>
 		{#snippet toolbar()}
 			<DeployHistoryFilterBar bind:filter onchange={startFromFirstPage} />
 		{/snippet}

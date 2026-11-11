@@ -4,34 +4,26 @@
 	import ProjectPeoplePanel from '$lib/components/members/ProjectPeoplePanel.svelte';
 	import ProjectPulseStrip from './ProjectPulseStrip.svelte';
 	import ProjectStatePanel from './ProjectStatePanel.svelte';
-	import DeployHistoryPanel from './DeployHistoryPanel.svelte';
-	import StagedTasksPanel from './StagedTasksPanel.svelte';
 	import TaskTreePanel from './TaskTreePanel.svelte';
 	import { currentGoalHorizon, longTermGoalHorizon } from '$lib/data/goalHorizon';
-	import { deliveryFactsOf, type DeliverySources } from '$lib/data/deliveryFacts';
 	import { dashboardGridClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { GoalSummary } from '$lib/server/goals/summariseGoals';
 	import type { Department } from '$lib/data/department';
-	import type { Deploy } from '$lib/data/deployHistory';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 	import type { ProjectPulse } from '$lib/server/projects/summariseProjectPulse';
 	import type { ProjectState } from '$lib/server/projects/projectState';
-	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 	import type { TaskRowHandlers, TaskRowSources } from './taskRowActions';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
-	type DashboardSources = TaskRowSources &
-		DeliverySources & {
-			pulse: ProjectPulse;
-			projectState: ProjectState;
-			taskTree: TaskTreeNode[];
-			stagedTasks: ProjectTask[];
-			deploys: Deploy<ProjectTask>[];
-			goalSummaries: GoalSummary[];
-			people: ProjectPerson[];
-			isOwner: boolean;
-			department: Department;
-		};
+	type DashboardSources = TaskRowSources & {
+		pulse: ProjectPulse;
+		projectState: ProjectState;
+		taskTree: TaskTreeNode[];
+		goalSummaries: GoalSummary[];
+		people: ProjectPerson[];
+		isOwner: boolean;
+		department: Department;
+	};
 
 	let {
 		projectId,
@@ -42,14 +34,11 @@
 	let selectedPanel = $state('backlog');
 
 	const pulse = $derived(sources.pulse);
-	const stagedTasks = $derived(sources.stagedTasks);
 	const goalSummaries = $derived(sources.goalSummaries);
 	const people = $derived(sources.people);
-	const deliveryFacts = $derived(deliveryFactsOf(sources));
 
 	const panelTabs = $derived([
 		{ key: 'backlog', label: 'Backlog', count: pulse.openCurrentTaskCount },
-		{ key: 'staged', label: 'Staged', count: stagedTasks.length },
 		{ key: 'goals', label: 'Goals', count: goalSummaries.length },
 		{ key: 'people', label: 'People', count: people.length }
 	]);
@@ -68,10 +57,6 @@
 		<TaskTreePanel taskTree={sources.taskTree} {projectId} {sources} {handlers} />
 	</div>
 	<aside class="flex min-w-0 flex-col gap-4">
-		<div class={panelVisibility('staged')}>
-			<StagedTasksPanel {stagedTasks} {deliveryFacts} />
-			<DeployHistoryPanel {projectId} deploys={sources.deploys} />
-		</div>
 		<div class={panelVisibility('goals')}>
 			<GoalListPanel {goalSummaries} horizon={currentGoalHorizon} department={sources.department} />
 			<GoalListPanel {goalSummaries} horizon={longTermGoalHorizon} department={sources.department} />

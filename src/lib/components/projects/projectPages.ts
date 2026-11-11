@@ -6,16 +6,18 @@ import type { OpenProject } from '$lib/components/frame/frameTrail';
 import type { NavigationLink } from '$lib/components/site/siteNavigation';
 
 const boardLabel = 'Board';
-const deployHistoryLabel = 'Deployment history';
-const deployHistorySegment = 'deploys';
+const deliveryPages = [
+	{ label: 'Staged', segment: 'staged' },
+	{ label: 'Deployments', segment: 'deploys' }
+];
 const projectRoute = '/projects/[projectId]';
 
-/** A project's pages as the tabs under its name: its board first, then its domain, site map and deploys. */
+/** A project's pages as the tabs under its name: its board, its domain and site map, then what is staged and what deployed. */
 export function projectPageLinks(projectId: string): NavigationLink[] {
 	const boardLink = { href: `/projects/${projectId}`, label: boardLabel };
 	const blueprintLinks = blueprintViews.map(({ label, path }) => ({ href: blueprintViewHref(projectId, path), label }));
-	const deployHistoryLink = { href: `${boardLink.href}/${deployHistorySegment}`, label: deployHistoryLabel };
-	return [boardLink, ...blueprintLinks, deployHistoryLink];
+	const deliveryLinks = deliveryPages.map(({ label, segment }) => ({ href: `${boardLink.href}/${segment}`, label }));
+	return [boardLink, ...blueprintLinks, ...deliveryLinks];
 }
 
 /** The tab the page sits under: the board for a task or a goal opened from it. */
