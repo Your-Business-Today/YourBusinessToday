@@ -11,7 +11,7 @@ const picks: FramePicks = {
 	pickedOrganisationId: organisationId,
 	projects: [{ id: projectId, name: 'Harbour site' }],
 	pickedProjectId: projectId,
-	projectLinks: [],
+	organisationLinks: [],
 	moduleLinks: [],
 	homePath: `/projects/${projectId}`
 };

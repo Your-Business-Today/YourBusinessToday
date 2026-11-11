@@ -25,7 +25,7 @@ describe('hasOrganisationsToPick', () => {
 		pickedOrganisationId: null,
 		projects: [],
 		pickedProjectId: null,
-		projectLinks: [],
+		organisationLinks: [],
 		moduleLinks: [],
 		homePath: null
 	};

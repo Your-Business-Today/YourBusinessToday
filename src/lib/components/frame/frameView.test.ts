@@ -20,7 +20,7 @@ const noPicks: FramePicks = {
 	pickedOrganisationId: null,
 	projects: [],
 	pickedProjectId: null,
-	projectLinks: [],
+	organisationLinks: [],
 	moduleLinks: [],
 	homePath: null
 };
@@ -76,14 +76,19 @@ describe('frameViewFor', () => {
 		expect(viewAt(staff, '/projects').signOutPath).toBe('/account?/signOut');
 	});
 
-	it('puts the picked project’s pages and modules first, and opens home on the project', () => {
-		const projectLinks = [{ href: '/projects/harbour-site', label: 'Home' }];
+	it('puts the picked organisation’s pages and modules first, each link once, and opens home on its projects', () => {
+		const organisationLinks = [
+			{ href: '/organisations/harbour', label: 'Overview' },
+			{ href: '/projects', label: 'Projects' }
+		];
 		const moduleLinks = [{ href: '/organisations/harbour/books', label: 'Books' }];
-		const picks = { ...noPicks, projectLinks, moduleLinks, homePath: '/projects/harbour-site' };
+		const picks = { ...noPicks, organisationLinks, moduleLinks, homePath: '/projects' };
 		const view = frameViewFor(staff, siteUrl('/projects/harbour-site/tasks/one'), picks);
-		expect(view.links.slice(0, 3).map(({ label }) => label)).toEqual(['Home', 'Books', 'Projects']);
-		expect(view.currentHref).toBe('/projects/harbour-site');
-		expect(view.homePath).toBe('/projects/harbour-site');
+		const labels = view.links.map(({ label }) => label);
+		expect(labels.slice(0, 4)).toEqual(['Overview', 'Projects', 'Books', 'Organisations']);
+		expect(labels.filter((label) => label === 'Projects')).toHaveLength(1);
+		expect(view.currentHref).toBe('/projects');
+		expect(view.homePath).toBe('/projects');
 	});
 
 	it('keeps today’s home when nothing is picked', () => {

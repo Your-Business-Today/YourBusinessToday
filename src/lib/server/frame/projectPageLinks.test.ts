@@ -1,31 +1,33 @@
 import { describe, expect, it } from 'vitest';
-import { organisationHomePathFor, projectPageLinksFor } from './projectPageLinks';
+import { organisationHomePathFor, organisationPageLinksFor } from './projectPageLinks';
 
 const projectId = '33333333-3333-4333-8333-333333333333';
 const organisation = { id: 'harbour', name: 'Harbour Builders', organisationId: 'harbour', portalClientId: null };
 const clientCompany = { ...organisation, portalClientId: 'harbour-client' };
 
-describe('projectPageLinksFor', () => {
-	it('opens the board first for the people on the organisation, then the project’s other pages', () => {
-		const links = projectPageLinksFor(organisation, projectId);
-		expect(links.map(({ label }) => label)).toEqual(['Home', 'Domain', 'Site map', 'Deployment history']);
-		expect(links[0].href).toBe(`/projects/${projectId}`);
-		expect(links[3].href).toBe(`/projects/${projectId}/deploys`);
+describe('organisationPageLinksFor', () => {
+	it('gives the people on an organisation its overview and its projects, and no project’s pages', () => {
+		expect(organisationPageLinksFor(organisation, projectId)).toEqual([
+			{ href: '/organisations/harbour', label: 'Overview' },
+			{ href: '/projects', label: 'Projects' }
+		]);
 	});
 
-	it('opens the project’s progress at the portal for a client’s contact', () => {
-		expect(projectPageLinksFor(clientCompany, projectId)).toEqual([
+	it('gives a client’s contact the picked project’s progress at the portal', () => {
+		expect(organisationPageLinksFor(clientCompany, projectId)).toEqual([
 			{ href: `/portal/projects/${projectId}`, label: 'Home' }
 		]);
+		expect(organisationPageLinksFor(clientCompany, null)).toEqual([]);
 	});
 });
 
 describe('organisationHomePathFor', () => {
-	it('opens the organisation’s own page when none of its projects opens for the person', () => {
-		expect(organisationHomePathFor(organisation)).toBe('/organisations/harbour');
+	it('opens an organisation on its projects', () => {
+		expect(organisationHomePathFor(organisation, projectId)).toBe('/projects');
 	});
 
-	it('has no page to open for a client company reached only at the portal', () => {
-		expect(organisationHomePathFor(clientCompany)).toBeNull();
+	it('opens a client company on its picked project at the portal, or nowhere when none is picked', () => {
+		expect(organisationHomePathFor(clientCompany, projectId)).toBe(`/portal/projects/${projectId}`);
+		expect(organisationHomePathFor(clientCompany, null)).toBeNull();
 	});
 });
