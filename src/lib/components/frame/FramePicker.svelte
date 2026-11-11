@@ -84,7 +84,7 @@
 					type="button"
 					role="option"
 					aria-selected={option.id === pickedId}
-					class={`truncate px-3 py-3.5 text-left text-sm transition md:py-2 ${optionClasses(option)}`}
+					class={`shrink-0 truncate px-3 py-3.5 text-left text-sm transition md:py-2 ${optionClasses(option)}`}
 					onclick={() => choose(option)}
 				>
 					{option.name}
