@@ -10,6 +10,8 @@ import {
 	parseBoardTab,
 	type BoardTab
 } from './boardTab';
+import { openingTabOfSide } from './boardSideTabs';
+import { boardSides } from './boardSide';
 
 type Departmental = { department: Department };
 
@@ -25,15 +27,11 @@ export type DepartmentTab = {
 	openTaskCount: number;
 };
 
-/**
- * The tab a project page shows: the one its address names, else Bugs while any bug is open, so a
- * feature that has stopped working is the first thing seen, else Features.
- */
+/** The tab a project page shows: the one its address names, on whichever side it sits, else the tab Development opens on. */
 export function chosenBoardTab(url: URL, tabs: DepartmentTab[]): BoardTab {
 	const named = parseBoardTab(url.searchParams.get('department'));
 	if (named !== null) return named;
-	const bugs = tabs.find((tab) => tab.tab === boardTabs.bugs);
-	return (bugs?.openTaskCount ?? 0) > 0 ? boardTabs.bugs : boardTabs.features;
+	return openingTabOfSide(boardSides.development, tabs);
 }
 
 export function inBoardTab<Item extends BoardTask>(

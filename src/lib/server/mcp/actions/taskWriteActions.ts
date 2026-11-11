@@ -33,11 +33,11 @@ export const taskWriteActions: McpAction[] = [
 			'session’s work: size it so one Claude session finishes it and ties it off, and raise ' +
 			'anything larger as tasks of that size. When a session stops short, the rest is raised ' +
 			'here as tasks of its own — subtasks of the task — never left in prose or for a next ' +
-			'chat. Give its department: a development task is built by Claude and ends in a pull ' +
-			'request; a job a person does for the project — a cloud setting or secret, insurance, an ' +
-			'account, a listing — is an infrastructure, administration, sales or marketing task, ' +
-			'needs no story, and is assigned to them ' +
-			'(set_task_assignees). Never raise a task for what a person must give — an answer, a ' +
+			'chat. Give its department, which puts it on one of the project’s two sides: Development (development, ' +
+			'infrastructure) or Internal work (administration, sales, marketing). A development task is built by ' +
+			'Claude and ends in a pull request; a job a person does for the project — a cloud setting or secret, ' +
+			'insurance, an account, a listing — is an infrastructure, administration, sales or marketing task, ' +
+			'needs no story, and is assigned to them (set_task_assignees). Never raise a task for what a person must give — an answer, a ' +
 			'file, a test — and never title one with a person’s name: that is a message waiting on ' +
 			'them (post_message with waitingOn). Without a department the task takes its goal’s, ' +
 			'else development. Tasks titled ' +

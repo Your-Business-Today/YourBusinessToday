@@ -1,16 +1,15 @@
 <script lang="ts">
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
-	import Modal from '$lib/components/site/Modal.svelte';
-	import NewTaskForm from '$lib/components/projects/NewTaskForm.svelte';
 	import ProjectDashboard from '$lib/components/projects/ProjectDashboard.svelte';
+	import BoardSideSwitch from '$lib/components/projects/BoardSideSwitch.svelte';
 	import DepartmentTabs from '$lib/components/projects/DepartmentTabs.svelte';
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
+	import ProjectNewTaskModal from '$lib/components/projects/ProjectNewTaskModal.svelte';
 	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
 	import TaskSheet from './TaskSheet.svelte';
 	import { fade } from 'svelte/transition';
 	import { tabSwap } from '$lib/client/motion';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
-	import { openSiblingsOf } from '$lib/components/projects/openSiblings';
 	import { TaskRowDialogs } from '$lib/client/taskRowDialogs.svelte';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
@@ -31,12 +30,6 @@
 		subtaskParent = parentTask;
 		isTaskModalOpen = true;
 	}
-
-	const taskModalTitle = $derived(
-		subtaskParent === null ? 'New task' : `New subtask of “${subtaskParent.title}”`
-	);
-	const newTaskHiddenFields = $derived({ department: data.department, developmentKind: data.developmentKind ?? '' });
-	const sequenceChoices = $derived(openSiblingsOf(subtaskParent?.subtasks ?? data.taskTree));
 </script>
 
 <svelte:head>
@@ -52,6 +45,7 @@
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
+	<BoardSideSwitch sides={data.sideTabs} selected={data.boardSide} />
 	<DepartmentTabs tabs={data.departmentTabs} selected={data.boardTab} />
 	{#key data.boardTab}
 		<div in:fade={tabSwap} class="flex flex-col gap-4">
@@ -71,16 +65,7 @@
 	{/key}
 </div>
 
-<Modal title={taskModalTitle} bind:isOpen={isTaskModalOpen}>
-	<NewTaskForm
-		parentTaskId={subtaskParent?.id ?? null}
-		goals={data.goals}
-		{sequenceChoices}
-		hiddenFields={newTaskHiddenFields}
-		developmentKind={data.developmentKind}
-		onCreated={() => (isTaskModalOpen = false)}
-	/>
-</Modal>
+<ProjectNewTaskModal bind:isOpen={isTaskModalOpen} parentTask={subtaskParent} sources={data} />
 
 <TaskRowModals {dialogs} goals={data.goals} canTurnOnAutocomplete={data.canTurnOnAutocomplete} />
 <TaskSheet />

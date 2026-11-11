@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ActionsMenu, { menuItemClasses } from '$lib/components/site/ActionsMenu.svelte';
 	import TaskStatusChip from './TaskStatusChip.svelte';
+	import { isInternalWork } from '$lib/data/boardSide';
 	import type { TaskRowActions } from './taskRowActions';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
@@ -9,6 +10,7 @@
 	let isOpen = $state(false);
 
 	const editHref = $derived(`/projects/${task.projectId}/tasks/${task.id}?edit`);
+	const isBuiltWork = $derived(!isInternalWork(task.department));
 
 	function choose(menuAction: (chosenTask: TaskTreeNode) => void) {
 		isOpen = false;
@@ -27,8 +29,10 @@
 	<ActionsMenu subjectName={task.title} menuWidthClass="w-48" bind:isOpen>
 		{@render menuItem('Change status…', actions.onChangeStatus)}
 		{@render menuItem('Change goal…', actions.onChangeGoal)}
-		{@render menuItem('Story points…', actions.onChangeStoryPoints)}
-		{@render menuItem('Autocomplete…', actions.onChangeAutocomplete)}
+		{#if isBuiltWork}
+			{@render menuItem('Story points…', actions.onChangeStoryPoints)}
+			{@render menuItem('Autocomplete…', actions.onChangeAutocomplete)}
+		{/if}
 		{@render menuItem('Add subtask…', actions.onAddSubtask)}
 		<a href={editHref} role="menuitem" class={menuItemClasses}>Edit…</a>
 	</ActionsMenu>
