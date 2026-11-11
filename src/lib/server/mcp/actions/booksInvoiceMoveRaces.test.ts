@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ledgerTables } from './booksLedgerDatabase.fixture';
-import { databaseStepStanding, standDatabaseStepsDown } from './booksLedgerCalls.fixture';
+import { meanwhile, standDatabaseStepsDown } from './booksLedgerCalls.fixture';
 import { heldInvoice, holdDraftInvoice, invoiceId, journalsOfKind, runOnTheLedger as run, salesId } from './booksInvoicePostingWorld.fixture';
 
 vi.mock('$lib/server/organisations/getOrganisation', () => ({
@@ -10,14 +10,6 @@ vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOn
 
 const pay = (amount: number) => run('record_invoice_payment', { invoiceId, paidOn: '2026-11-20', amount });
 const newLines = [{ description: 'Website build', quantity: 3, unitPrice: 500, incomeAccountId: salesId }];
-
-/** Runs the work once, after the server has read the invoice and before the step locks it, as another caller could. */
-function meanwhile(work: () => Promise<unknown>): void {
-	databaseStepStanding.momentBetween = async () => {
-		databaseStepStanding.momentBetween = null;
-		await work();
-	};
-}
 
 describe('two moves of one invoice at once', () => {
 	beforeEach(async () => {
