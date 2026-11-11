@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-11T02:44:54+00:00",
+  "generatedAt": "2026-11-11T03:11:38+00:00",
   "kitVersion": "1.41.0",
   "score": {
-    "overall": 99.2,
+    "overall": 99.4,
     "groups": [
       {
         "group": "Standard baseline checks",
@@ -11,12 +11,12 @@
       },
       {
         "group": "Design pattern file count",
-        "score": 97.4,
+        "score": 100.0,
         "weight": 10
       },
       {
         "group": "Prose",
-        "score": 99.8,
+        "score": 100.0,
         "weight": 20
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3742,
+        "measuredAgainst": 3743,
         "score": 100.0
       },
       {
@@ -171,9 +171,9 @@
         "zeroAt": 0.5,
         "unit": "predicted files",
         "isMeasured": true,
-        "offenders": 3,
+        "offenders": 0,
         "measuredAgainst": 229,
-        "score": 97.4
+        "score": 100.0
       },
       {
         "key": "entityFileCounts",
@@ -218,9 +218,9 @@
         "zeroAt": 0.1,
         "unit": "functions",
         "isMeasured": true,
-        "offenders": 3,
+        "offenders": 0,
         "measuredAgainst": 5628,
-        "score": 99.5
+        "score": 100.0
       },
       {
         "key": "handRolledWidgets",
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 311,
+        "measuredAgainst": 312,
         "score": 100.0
       }
     ]
@@ -252,8 +252,8 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 3742,
-      "totalLines": 140107,
+      "totalFiles": 3743,
+      "totalLines": 140113,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
@@ -271,13 +271,13 @@
       "maxLength": 40
     },
     "accessorNames": {
-      "gluedAccessorNames": 3,
+      "gluedAccessorNames": 0,
       "measurementIsHeuristic": true
     },
     "duplication": {
       "clones": 66,
       "duplicatedLines": 649,
-      "totalLines": 142003,
+      "totalLines": 142009,
       "duplicatedPercentage": 0.46
     },
     "naming": {
@@ -312,7 +312,7 @@
     "designPatterns": {
       "roleFamilies": 205,
       "predictedFiles": 229,
-      "predictedFilesMissing": 3,
+      "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
       "entitiesAccepted": 0,
@@ -341,17 +341,17 @@
     "inputValidation": {
       "schemaTables": 197,
       "limitedColumns": 0,
-      "writeDoors": 311,
+      "writeDoors": 312,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4335,
+      "totalFiles": 4336,
       "backend": 1168,
       "frontend": 909,
       "shared": 788,
       "tests": 558,
-      "api": 477,
+      "api": 478,
       "database": 200,
       "tooling": 141,
       "docs": 77,
@@ -364,8 +364,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 3742,
-        "totalLines": 140107,
+        "totalFiles": 3743,
+        "totalLines": 140113,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -395,26 +395,10 @@
     "accessorNames": {
       "name": "accessorNames",
       "summary": {
-        "gluedAccessorNames": 3,
+        "gluedAccessorNames": 0,
         "measurementIsHeuristic": true
       },
-      "offenders": [
-        {
-          "file": "src/lib/server/clients/getGroupParents.ts",
-          "line": 5,
-          "name": "getGroupParents"
-        },
-        {
-          "file": "src/lib/server/places/placeRow.ts",
-          "line": 5,
-          "name": "readPlaceRow"
-        },
-        {
-          "file": "src/lib/server/places/placesWriter.ts",
-          "line": 31,
-          "name": "readPlaceIds"
-        }
-      ]
+      "offenders": []
     },
     "naming": {
       "name": "naming",
@@ -931,7 +915,7 @@
       "summary": {
         "roleFamilies": 205,
         "predictedFiles": 229,
-        "predictedFilesMissing": 3,
+        "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
         "entitiesAccepted": 0,
@@ -947,7 +931,7 @@
           "account": 4,
           "accounts": 4,
           "action": 21,
-          "actions": 191,
+          "actions": 192,
           "address": 5,
           "adverts": 4,
           "answer": 8,
@@ -1149,23 +1133,17 @@
           {
             "pattern": "every storage has a actions",
             "predicted": 5,
-            "missing": [
-              "src/lib/client/browserActions.ts"
-            ]
+            "missing": []
           },
           {
             "pattern": "every crumbs has a actions",
             "predicted": 4,
-            "missing": [
-              "src/lib/components/boardroom/boardroomActions.ts"
-            ]
+            "missing": []
           },
           {
             "pattern": "every crumbs has a access",
             "predicted": 4,
-            "missing": [
-              "src/lib/components/businessBrain/businessBrainAccess.ts"
-            ]
+            "missing": []
           },
           {
             "pattern": "every goal has a project",
@@ -1233,11 +1211,7 @@
             "missing": []
           }
         ],
-        "missingPredictedFiles": [
-          "src/lib/client/browserActions.ts",
-          "src/lib/components/boardroom/boardroomActions.ts",
-          "src/lib/components/businessBrain/businessBrainAccess.ts"
-        ],
+        "missingPredictedFiles": [],
         "entityFileCounts": []
       }
     },
@@ -8405,12 +8379,12 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4335,
+        "totalFiles": 4336,
         "backend": 1168,
         "frontend": 909,
         "shared": 788,
         "tests": 558,
-        "api": 477,
+        "api": 478,
         "database": 200,
         "tooling": 141,
         "docs": 77,
@@ -8443,9 +8417,9 @@
         },
         {
           "area": "api",
-          "files": 477,
-          "sourceFiles": 476,
-          "sourceLines": 22007
+          "files": 478,
+          "sourceFiles": 477,
+          "sourceLines": 22013
         },
         {
           "area": "database",
@@ -8478,7 +8452,7 @@
       "summary": {
         "schemaTables": 197,
         "limitedColumns": 0,
-        "writeDoors": 311,
+        "writeDoors": 312,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },
@@ -8492,7 +8466,7 @@
       "summary": {
         "clones": 66,
         "duplicatedLines": 649,
-        "totalLines": 142003,
+        "totalLines": 142009,
         "duplicatedPercentage": 0.46
       },
       "offenders": [

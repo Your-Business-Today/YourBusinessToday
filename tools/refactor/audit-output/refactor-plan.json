@@ -1,5 +1,5 @@
 {
-  "score": 99.2,
+  "score": 99.4,
   "steps": [
     {
       "pass": "Pass 1 \u2014 Widget adoption",
@@ -22,29 +22,9 @@
       "detail": "1 place(s): `src/lib/components/taxCalculator/BreakdownTable.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md."
     },
     {
-      "pass": "Pass 4 \u2014 Design pattern identification",
-      "title": "Complete the pattern: every storage has a actions",
-      "detail": "1 of 5 lack it. Predicted: src/lib/client/browserActions.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
-    },
-    {
-      "pass": "Pass 4 \u2014 Design pattern identification",
-      "title": "Complete the pattern: every crumbs has a actions",
-      "detail": "1 of 4 lack it. Predicted: src/lib/components/boardroom/boardroomActions.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
-    },
-    {
-      "pass": "Pass 4 \u2014 Design pattern identification",
-      "title": "Complete the pattern: every crumbs has a access",
-      "detail": "1 of 4 lack it. Predicted: src/lib/components/businessBrain/businessBrainAccess.ts. Find the code doing that job now and move it there; a subject that truly has no such job goes in acceptedGaps."
-    },
-    {
       "pass": "Pass 5 \u2014 The sweep to zero",
       "title": "Duplication %: 0.46 to zero",
       "detail": "Scores 97.7% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time."
-    },
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Accessor names that want to be a property: 3 to zero",
-      "detail": "Scores 99.5% at weight 6; the offenders are in audit.json under details.accessorNames, fifty at a time."
     },
     {
       "pass": "Pass 5 \u2014 The sweep to zero",
@@ -58,7 +38,7 @@
     "summary": {
       "roleFamilies": 205,
       "predictedFiles": 229,
-      "predictedFilesMissing": 3,
+      "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
       "entitiesAccepted": 0,
@@ -74,7 +54,7 @@
         "account": 4,
         "accounts": 4,
         "action": 21,
-        "actions": 191,
+        "actions": 192,
         "address": 5,
         "adverts": 4,
         "answer": 8,
@@ -276,23 +256,17 @@
         {
           "pattern": "every storage has a actions",
           "predicted": 5,
-          "missing": [
-            "src/lib/client/browserActions.ts"
-          ]
+          "missing": []
         },
         {
           "pattern": "every crumbs has a actions",
           "predicted": 4,
-          "missing": [
-            "src/lib/components/boardroom/boardroomActions.ts"
-          ]
+          "missing": []
         },
         {
           "pattern": "every crumbs has a access",
           "predicted": 4,
-          "missing": [
-            "src/lib/components/businessBrain/businessBrainAccess.ts"
-          ]
+          "missing": []
         },
         {
           "pattern": "every goal has a project",
@@ -360,11 +334,7 @@
           "missing": []
         }
       ],
-      "missingPredictedFiles": [
-        "src/lib/client/browserActions.ts",
-        "src/lib/components/boardroom/boardroomActions.ts",
-        "src/lib/components/businessBrain/businessBrainAccess.ts"
-      ],
+      "missingPredictedFiles": [],
       "entityFileCounts": []
     }
   }
