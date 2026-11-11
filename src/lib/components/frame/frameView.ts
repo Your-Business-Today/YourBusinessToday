@@ -1,5 +1,5 @@
 import { frameLinksFor, type FrameAccess } from './frameNavigation';
-import { isAtOrUnder } from './framedPaths';
+import { deepestLinkAt } from './deepestLink';
 import { portalHomePath } from '$lib/portal/portalPaths';
 import type { FramePicks } from './framePicks';
 import type { NavigationLink } from '$lib/components/site/siteNavigation';
@@ -21,11 +21,11 @@ const headingsOutsideTheSideBar: NavigationLink[] = [
 	{ href: '/notifications', label: 'Notifications' }
 ];
 
-/** The picked project's pages and its organisation's modules come first, then the links each person reaches today. */
+/** The picked organisation's own pages and modules come first, then the links each person reaches today, each once. */
 export function frameViewFor(access: FrameAccess, url: URL, picks: FramePicks | null): FrameView {
 	const { pathname } = url;
-	const pickedLinks = picks === null ? [] : [...picks.projectLinks, ...picks.moduleLinks];
-	const links = [...pickedLinks, ...frameLinksFor(access)];
+	const pickedLinks = picks === null ? [] : [...picks.organisationLinks, ...picks.moduleLinks];
+	const links = eachHrefOnce([...pickedLinks, ...frameLinksFor(access)]);
 	const currentLink = deepestLinkAt([...links, ...headingsOutsideTheSideBar], pathname);
 	return {
 		links,
@@ -40,12 +40,6 @@ function defaultHomePathFor(access: FrameAccess): string {
 	return access.isPortalAccount ? portalHomePath : siteHomePath;
 }
 
-/** The link whose section holds the page most closely: Patches, not Clients, for a patch. */
-function deepestLinkAt(links: NavigationLink[], pathname: string): NavigationLink | undefined {
-	const holdingLinks = links.filter((link) => isAtOrUnder(pathname, link.href));
-	return holdingLinks.sort((first, second) => hrefLengthOf(second) - hrefLengthOf(first))[0];
-}
-
-function hrefLengthOf({ href }: NavigationLink): number {
-	return href.length;
+function eachHrefOnce(links: NavigationLink[]): NavigationLink[] {
+	return links.filter((link, index) => links.findIndex(({ href }) => href === link.href) === index);
 }
