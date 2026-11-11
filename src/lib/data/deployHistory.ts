@@ -22,11 +22,6 @@ export function deployHistoryOf<Task extends StagingDates>(tasks: Task[]): Deplo
 	return deploys.sort(byLatestDeploy);
 }
 
-/** The last few deploys, as the project page shows them beside what is staged. */
-export function recentDeploysOf<Task extends StagingDates>(tasks: Task[]): Deploy<Task>[] {
-	return deployHistoryOf(tasks).slice(0, recentDeployCount);
-}
-
 function byLatestDeploy<Task>(first: Deploy<Task>, second: Deploy<Task>): number {
 	return Date.parse(second.liveAt) - Date.parse(first.liveAt);
 }

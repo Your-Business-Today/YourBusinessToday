@@ -5,7 +5,7 @@ import type { MainRun } from './mainRun';
 
 export type DeliveryFact = { label: string; href?: string; detail?: string };
 
-/** What a project's board has read about how its work reaches live. */
+/** What a project's Staged page has read about how its work reaches live. */
 export type DeliverySources = {
 	project: { repositoryUrl: string };
 	cadenceLine: string;
