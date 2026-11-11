@@ -13,6 +13,7 @@ import {
 	salesId,
 	ledgerSupabase
 } from '$lib/server/mcp/actions/booksInvoicePostingWorld.fixture';
+import { databaseStepStanding, standDatabaseStepsDown } from '$lib/server/mcp/actions/booksLedgerCalls.fixture';
 import { receiveStripeNotice } from './receiveStripeNotice';
 import { stripeBooksPoster } from './stripeBooksPoster';
 import { stripeEventBookStandIn } from './stripeEventBook.fixture';
@@ -30,6 +31,7 @@ const receive = (delivery: StripeEventDelivery) => receiveStripeNotice(events.bo
 
 describe('a refund made through Stripe', () => {
 	beforeEach(async () => {
+		standDatabaseStepsDown();
 		holdDraftInvoice();
 		await runOnTheLedger('issue_invoice', { invoiceId });
 		events = stripeEventBookStandIn();
@@ -63,5 +65,21 @@ describe('a refund made through Stripe', () => {
 		expect(await receive(refundedCharge('evt_refund_stray', 'pi_test_other', 5000))).toEqual({ outcome: 'unmatched' });
 		expect(events.kept.at(-1)?.reason).toBe('Charge ch_test_paid was refunded, but the books never posted its payment.');
 		expect(journalsOfKind('invoice_refund')).toEqual([]);
+	});
+
+	it('keeps a refund whose posting could not be told as unmatched, for an administrator, so it is never posted twice', async () => {
+		databaseStepStanding.refusal = { message: 'TypeError: fetch failed' };
+		expect(await receive(refundedCharge('evt_refund_lost', 'pi_test_paid', 10205))).toEqual({ outcome: 'unmatched' });
+		const reason = events.kept.at(-1)?.reason;
+		expect(reason).toContain('Charge ch_test_paid refunded: It could not be told whether invoice INV-6 was refunded £102.05 (TypeError: fetch failed).');
+		expect(journalsOfKind('invoice_refund')).toEqual([]);
+	});
+
+	it('posts a refund once when its step happened though the answer was lost', async () => {
+		databaseStepStanding.isAnswerLost = true;
+		expect(await receive(refundedCharge('evt_refund_1', 'pi_test_paid', 10205))).toEqual({ outcome: 'posted' });
+		const [refund] = journalsOfKind('invoice_refund');
+		expect(events.kept.at(-1)?.journalId).toBe(refund.id);
+		expect(journalsOfKind('invoice_refund')).toHaveLength(1);
 	});
 });
