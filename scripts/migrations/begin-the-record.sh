@@ -81,7 +81,7 @@ beginTheRecord() {
 		failedMigration="$recordMigration"
 		return 1
 	fi
-	echo "Applied and recorded $recordMigration, and recorded the $(wc -l <<< "$migrationsOnMainBefore") files on main before ${baselineCommit:0:7} as run before the record began; none of them was run."
+	echo "Applied and recorded $recordMigration, and recorded the $(wc -l <<< "$migrationsOnMainBefore") files on main at ${baselineCommit:0:7} as run before the record began; none of them was run."
 	readWaitingMigrations
 	echo "Migrations waiting besides the record's own:"
 	echo "${waitingMigrations:-none}"
