@@ -13,6 +13,7 @@ import { businessBrainActions } from './businessBrainActions';
 import { businessBrainChatbotActions } from './businessBrainChatbotActions';
 import { chatbotReadingActions } from './chatbotReadingActions';
 import { chatbotTrailActions } from './businessBrainChatbotTrailActions';
+import { productBrainActions } from './productBrainActions';
 import type { McpAction } from '../actionTypes';
 
 /** The actions of the modules an administrator switches on for an organisation, each in an area of its own. */
@@ -31,5 +32,6 @@ export const moduleAreaActions: McpAction[] = [
 	...businessBrainActions,
 	...businessBrainChatbotActions,
 	...chatbotReadingActions,
-	...chatbotTrailActions
+	...chatbotTrailActions,
+	...productBrainActions
 ];
