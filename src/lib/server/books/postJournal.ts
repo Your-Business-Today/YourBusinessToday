@@ -1,52 +1,18 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { validateRecordId } from '$lib/data/isUuid';
-import { validateJournal, type JournalFields, type JournalInput } from '$lib/data/books/journalRules';
-import type { JournalLineInput } from '$lib/data/books/journalLine';
-import { BooksRefusal, refuseWhen } from './booksRefusal';
-import { postingTargetRefusal } from './postingTargets';
+import type { JournalFields } from '$lib/data/books/journalRules';
+import { postJournalSet } from './journalSet';
+import { prepareStepJournal } from './journalStep';
+
+const whereTheLedgerStands = 'read_trial_balance and explain_account_balance say what the ledger holds';
 
 /**
- * Posts a journal by double entry into an organisation's books and answers its id. A journal whose debits do
- * not equal its credits, or any value its columns cannot hold, is refused with the reason before anything is
- * written; lines that fail to save take their journal with them, so no half-posted journal is left behind.
+ * Posts a journal by double entry into an organisation's books and answers its id. A journal whose debits do not
+ * equal their credits, or any value its columns cannot hold, is refused with the reason before anything is written;
+ * the journal and its lines are then written in one step of the database, together or not at all.
  */
 export async function postJournal(supabase: SupabaseClient, organisationId: string, fields: JournalFields): Promise<string> {
-	refuseWhen(validateRecordId('organisation', organisationId));
-	const journal = validateJournal(fields);
-	if (typeof journal === 'string') throw new BooksRefusal(journal);
-	refuseWhen(await postingTargetRefusal(supabase, organisationId, journal));
-	const journalId = await insertJournal(supabase, organisationId, journal);
-	const lineRows = journal.lines.map((line, position) => toLineRow(organisationId, journalId, line, position));
-	const { error } = await supabase.from('books_journal_lines').insert(lineRows);
-	if (error === null) return journalId;
-	await supabase.from('books_journals').delete().eq('organisation_id', organisationId).eq('id', journalId);
-	throw error;
-}
-
-async function insertJournal(supabase: SupabaseClient, organisationId: string, journal: JournalInput): Promise<string> {
-	const { data, error } = await supabase
-		.from('books_journals')
-		.insert({
-			organisation_id: organisationId,
-			journal_date: journal.journalDate,
-			description: journal.description,
-			kind: journal.kind,
-			reverses_journal_id: journal.reversesJournalId
-		})
-		.select('id')
-		.single();
-	if (error !== null) throw error;
-	return data.id;
-}
-
-function toLineRow(organisationId: string, journalId: string, line: JournalLineInput, position: number) {
-	return {
-		organisation_id: organisationId,
-		journal_id: journalId,
-		account_id: line.accountId,
-		cost_centre_id: line.costCentreId,
-		debit: line.debit,
-		credit: line.credit,
-		position
-	};
+	const journal = await prepareStepJournal(supabase, organisationId, fields);
+	const move = `the journal "${journal.description}" dated ${journal.journalDate} was posted`;
+	await postJournalSet(supabase, organisationId, [journal], { move, whereItStands: whereTheLedgerStands });
+	return journal.id;
 }

@@ -59,8 +59,12 @@ function keepInserted(table: string, given: Row | Row[]): Row[] {
 	return rows;
 }
 
-/** A stand-in for the books tables: a read answers every row its table holds; a write is recorded and answers its rows. */
+/** A stand-in for the books tables: a read answers every row its table holds; a write or a step is recorded and answers. */
 const invoiceDatabase = {
+	rpc: async (name: string, args: Row) => {
+		invoiceWrites.push({ table: name, kind: 'rpc', row: args });
+		return { data: true, error: null };
+	},
 	from: (table: string) => {
 		let answer: unknown = heldTables[table] ?? [];
 		const write = (kind: string) => (row?: Row | Row[]) => {

@@ -29,9 +29,12 @@ export function holdDraftInvoice(): void {
 	ledgerTables.books_journal_lines = [];
 }
 
+/** The stand-in that keeps what is written, with the database's steps beside its tables. */
+export const ledgerSupabase = { ...ledgerDatabase, rpc: ledgerCalls };
+
 /** Runs a books action as Nigel on the organisation, against the stand-in that keeps what is written. */
 export function runOnTheLedger(name: string, input: Record<string, unknown>) {
-	const supabase = { ...ledgerDatabase, rpc: ledgerCalls };
+	const supabase = ledgerSupabase;
 	const membership = { organisationId, accountId: nigelAccountId, isManager: false };
 	const caller = { accountId: nigelAccountId, isStaff: false, supabase, organisationMemberships: [membership] };
 	const action = booksActions.find((candidate) => candidate.name === name) as McpAction;

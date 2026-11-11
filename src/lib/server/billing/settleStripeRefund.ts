@@ -2,6 +2,7 @@ import { fromPence } from '$lib/data/books/money';
 import { StripeEventOutcomes, poundSterling } from '$lib/data/billing/stripeEventRules';
 import type { StripeRefundNotice } from '$lib/data/billing/stripeNotice';
 import { BooksRefusal } from '$lib/server/books/booksRefusal';
+import { UnsettledBooksStep } from '$lib/server/books/booksStep';
 import type { StripeBooksPoster } from './stripeBooksPoster';
 import type { PostedStripePayment, StripeEventBook, StripeEventSettlement } from './stripeEventBook';
 import { ignoredBecause, unmatchedBecause } from './stripeSettlements';
@@ -11,7 +12,8 @@ const nothing = 0;
 /**
  * Posts money refunded on a payment the books posted, as an entry of its own on the invoice it paid: only what is
  * refunded beyond the refunds already posted, since Stripe reports the total refunded on the charge each time. A
- * refund on a payment the books never posted is kept as unmatched with the reason, for an administrator.
+ * refund on a payment the books never posted is kept as unmatched with the reason, for an administrator. So is one
+ * whose posting could not be told to have happened or not, rather than letting Stripe send it again and post it twice.
  */
 export async function settleStripeRefund(
 	book: StripeEventBook,
@@ -52,6 +54,7 @@ async function postRefund(
 			journalId
 		};
 	} catch (failure) {
+		if (failure instanceof UnsettledBooksStep) return unmatchedBecause(`Charge ${notice.chargeId} refunded: ${failure.message}`, amountPence);
 		if (!(failure instanceof BooksRefusal)) throw failure;
 		return unmatchedBecause(`Charge ${notice.chargeId} refunded, but the books refused it: ${failure.message}`, amountPence);
 	}

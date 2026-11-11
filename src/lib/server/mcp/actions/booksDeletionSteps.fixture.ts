@@ -42,11 +42,19 @@ export function deleteInvoiceKeepingRecord(args: Row): string | null {
 	return keepDeletion(args, 'invoice', { ...invoice, lines, customer_name: args.customer_label }, []);
 }
 
-/** The cost step as 0193 makes it: the cost goes with its recording and payment journals and their lines, as they are now. */
+function isReversedByAnother(journalIds: unknown[]): boolean {
+	return rowsOf('books_journals').some((journal) => journalIds.includes(journal.reverses_journal_id) && !journalIds.includes(journal.id));
+}
+
+/**
+ * The cost step as 0196 makes it: the cost goes with its recording and payment journals and their lines, as they are
+ * now, unless another journal reverses one of them; then nothing goes.
+ */
 export function deleteCostKeepingRecord(args: Row): string | null {
 	const cost = rowsOf('books_expenses').find((held) => held.id === args.target_expense_id);
 	if (cost === undefined) return null;
 	const journalIds: unknown[] = [cost.recorded_journal_id, cost.payment_journal_id].filter((journalId) => journalId !== null && journalId !== undefined);
+	if (isReversedByAnother(journalIds)) return null;
 	const lines = takeOut('books_journal_lines', (line) => journalIds.includes(line.journal_id)).sort(byPosition);
 	const journals = takeOut('books_journals', (journal) => journalIds.includes(journal.id))
 		.sort((first, second) => journalIds.indexOf(first.id) - journalIds.indexOf(second.id))
