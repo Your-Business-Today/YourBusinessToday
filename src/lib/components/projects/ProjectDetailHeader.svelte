@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import EditProjectForm from './EditProjectForm.svelte';
 	import KitVersionBadge from './KitVersionBadge.svelte';
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
@@ -25,13 +26,15 @@
 
 	let isEditModalOpen = $state(false);
 
+	const { framePicks } = $derived(page.data);
+	const pickedOrganisationId = $derived(framePicks?.pickedOrganisationId ?? null);
 	const organisationName = $derived(organisationNameLookup(organisations)(project.organisationId));
-	const facts = $derived(projectHeaderFacts(project, organisationName));
+	const facts = $derived(projectHeaderFacts(project, { organisationName, pickedOrganisationId }));
 </script>
 
 <ProjectPageHeader {project}>
 	{#snippet badges()}
-		<a href="/projects/kit-versions" class="rounded-full">
+		<a href="/projects/kit-versions" class="inline-flex rounded">
 			<KitVersionBadge
 				repositoryUrl={project.repositoryUrl}
 				kitVersion={project.kitVersion}

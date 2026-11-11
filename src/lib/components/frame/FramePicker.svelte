@@ -51,7 +51,7 @@
 
 <svelte:window onpointerdown={closeOnOutsidePress} onkeydowncapture={closeOnEscape} />
 
-<div class="relative min-w-0" bind:this={pickerElement}>
+<div class={classes.picker} bind:this={pickerElement}>
 	<button
 		type="button"
 		aria-haspopup="listbox"

@@ -1,6 +1,6 @@
 <script module lang="ts">
 	export const menuItemClasses =
-		'block w-full rounded-xl px-3 py-2 text-left font-display text-sm text-chalk/80 transition hover:bg-hairline/40 hover:text-chalk';
+		'block w-full rounded px-3 py-2 text-left font-display text-sm text-chalk-muted transition hover:bg-carriage-raised hover:text-chalk';
 </script>
 
 <script lang="ts">
@@ -25,7 +25,7 @@
 	let menuElement: HTMLElement | undefined = $state();
 
 	const wideTriggerClasses =
-		'inline-flex items-center gap-1 rounded-full border border-hairline px-4 py-1.5 font-display text-sm whitespace-nowrap text-chalk/70 transition hover:border-go hover:text-go';
+		'inline-flex items-center gap-1 rounded-lg border border-hairline bg-night/60 px-3 py-1.5 font-display text-sm whitespace-nowrap text-chalk/80 transition hover:border-go hover:text-go';
 	const compactTriggerClasses =
 		'inline-flex h-8 w-8 items-center justify-center rounded-full text-lg leading-none text-chalk/50 transition hover:bg-night hover:text-go';
 	const triggerClasses = $derived(isCompact ? compactTriggerClasses : wideTriggerClasses);
@@ -58,8 +58,8 @@
 		<div
 			role="menu"
 			transition:fly={menuDrop}
-			class={`absolute top-full right-0 z-10 mt-2 flex ${menuWidthClass} flex-col rounded-2xl border
-				border-hairline bg-night p-2 shadow-xl`}
+			class={`absolute top-full right-0 z-10 mt-2 flex ${menuWidthClass} flex-col rounded-lg border
+				border-hairline-strong bg-carriage p-1`}
 		>
 			{@render children()}
 		</div>

@@ -28,6 +28,7 @@ const noPicks: FramePicks = {
 const siteUrl = (path: string) => new URL(path, 'https://yourbusiness.today');
 const viewAt = (access: FrameAccess, path: string) => frameViewFor(access, siteUrl(path), null);
 const labelsFor = (access: FrameAccess) => viewAt(access, '/').links.map(({ label }) => label);
+const trailAt = (access: FrameAccess, path: string) => viewAt(access, path).trail;
 
 describe('frameViewFor', () => {
 	it('gives a member of staff the work and business links they have today', () => {
@@ -59,14 +60,14 @@ describe('frameViewFor', () => {
 		const patchView = viewAt(staff, '/clients/patches/patch-1');
 		expect(patchView.currentHref).toBe('/clients/patches');
 		expect(patchView.trail).toEqual({ crumbs: [], heading: 'Patches' });
-		expect(viewAt(clientContact, '/portal/projects/project-1').trail.heading).toBe('Your projects');
-		expect(viewAt(clientContact, '/portal/billing').trail.heading).toBe('Billing');
+		expect(trailAt(clientContact, '/portal/projects/project-1')).toMatchObject({ heading: 'Your projects' });
+		expect(trailAt(clientContact, '/portal/billing')).toMatchObject({ heading: 'Billing' });
 	});
 
 	it('heads the notifications page, and falls back to the company name', () => {
-		expect(viewAt(staff, '/notifications').trail.heading).toBe('Notifications');
+		expect(trailAt(staff, '/notifications')).toMatchObject({ heading: 'Notifications' });
 		expect(viewAt(staff, '/notifications').currentHref).toBe('/notifications');
-		expect(viewAt(member, '/clients').trail.heading).toBe('Your Business Today');
+		expect(trailAt(member, '/clients')).toMatchObject({ heading: 'Your Business Today' });
 	});
 
 	it('sends a client contact home to the portal and signs them out there', () => {
