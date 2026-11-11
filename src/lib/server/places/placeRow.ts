@@ -2,7 +2,7 @@ import { postcodeIn } from '$lib/data/postcode';
 import type { PlaceSeed } from '$lib/data/placeRules';
 
 /** One row of the places query as a seed, or null when it carries no id, name or point. */
-export function readPlaceRow(row: Record<string, unknown>): PlaceSeed | null {
+export function placeSeedOf(row: Record<string, unknown>): PlaceSeed | null {
 	const sourceId = String(row.id ?? '').trim();
 	const businessName = String(row.name ?? '').trim();
 	const latitude = Number(row.latitude);
