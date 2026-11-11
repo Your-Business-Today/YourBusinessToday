@@ -2,6 +2,10 @@ const whatAChatbotIs =
 	"A chatbot is a named, read-only door onto part of an organisation's Your Business Brain. The people a manager names " +
 	'reach it through their own Claude, which does the asking: Your Business Today calls no AI model, and there are no credits or allowances.';
 
+const whatItIsFor =
+	'Each chatbot is one of the organisation\'s brains: give it a purpose saying what it is for and who it answers, such as "Answers the sales team from our processes and experience". ' +
+	"The organisation's Domain tab lists its brains with their purposes.";
+
 const whoMakesThem = 'Only a manager of the organisation, or staff, makes or changes a chatbot, and only while Your Business Brain is switched on for it.';
 
 const whatItReads =
@@ -14,9 +18,10 @@ const whoUsesIt =
 const nothingIsDeleted =
 	'Taking a part or a person away dates their row rather than deleting it, so who could read what, and when, stays on record.';
 
-export const makeBusinessBrainChatbotGuidance = [whatAChatbotIs, whoMakesThem, whatItReads, whoUsesIt].join('\n');
+export const makeBusinessBrainChatbotGuidance = [whatAChatbotIs, whatItIsFor, whoMakesThem, whatItReads, whoUsesIt].join('\n');
 
 export const changeBusinessBrainChatbotGuidance = [
+	whatItIsFor,
 	whoMakesThem,
 	whatItReads,
 	whoUsesIt,

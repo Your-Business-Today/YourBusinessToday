@@ -67,7 +67,7 @@ describe('a manager makes and changes a chatbot onto Your Business Brain', () =>
 		expect(answer).toContain(`Chatbot id ${chatbotId}`);
 		expect(answer).toContain('- Reads: Process');
 		expect(answer).toContain('- Used by: stuart@example.com');
-		const made = { name: 'Site team', parts: ['process'], people: ['stuart@example.com'] };
+		const made = { name: 'Site team', purpose: '', parts: ['process'], people: ['stuart@example.com'] };
 		expect(brain.makings).toEqual([[undefined, { organisationId: 'jewel', accountId: 'nigel' }, made]]);
 	});
 

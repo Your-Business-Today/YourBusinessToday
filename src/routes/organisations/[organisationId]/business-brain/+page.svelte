@@ -30,7 +30,7 @@
 			<BusinessBrainIndexPanel {index} {addresses} />
 		</div>
 		<aside class="flex min-w-0 flex-col gap-4">
-			<BusinessBrainChatbotsPanel {chatbots} {canManage} {addresses} />
+			<BusinessBrainChatbotsPanel {chatbots} {canManage} {addresses} isBrainLinked={false} />
 			{#if hasUnnamedFiles}
 				<BusinessBrainFilesPanel
 					title="Files no page names yet"
