@@ -1,5 +1,5 @@
 <script lang="ts" generics="Row">
-	import { headerCellClasses, wideOnlyCellClasses, checkboxClasses } from './recordsTableStyles';
+	import { headSectionClasses, headerCellClasses, wideOnlyCellClasses, checkboxClasses } from './recordsTableStyles';
 	import { isBoxTicked, sortDirections, type RecordsColumn, type RecordsSort, type SortDirection } from './recordsTable';
 
 	let {
@@ -30,7 +30,7 @@
 	</button>
 {/snippet}
 
-<thead>
+<thead class={headSectionClasses}>
 	<tr>
 		{#if isSelectable}
 			<th class={`${headerCellClasses} w-4`}>

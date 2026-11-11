@@ -2,6 +2,7 @@ import { autocompleteActions } from './autocompleteActions';
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { summariseGoals } from '$lib/server/goals/summariseGoals';
 import { goalActions } from './goalActions';
+import { internalWorkActions } from './internalWorkActions';
 import { memberActions } from './memberActions';
 import { projectActions } from './projectActions';
 import { summariseProjectPulse } from '$lib/server/projects/summariseProjectPulse';
@@ -39,5 +40,6 @@ export const actions = {
 	...goalActions,
 	...memberActions,
 	...taskActions,
-	...autocompleteActions
+	...autocompleteActions,
+	...internalWorkActions
 } satisfies Actions;

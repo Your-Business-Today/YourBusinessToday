@@ -7,6 +7,7 @@ import { goalSectionLines } from './describeGoal';
 import { noRepositoryRecorded, repositoryPhrase } from './describeRepository';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { backlogSideLines } from './describeBacklogSides';
+import type { InternalItemFacts } from './describeInternalItems';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
@@ -47,7 +48,8 @@ export function describeProject(
 	project: Project,
 	goals: Goal[],
 	backlog: TaskTreeNode[],
-	cadenceLine: string
+	cadenceLine: string,
+	facts: InternalItemFacts
 ): string {
 	return [
 		`${project.name} — ${projectStatusLabels[project.status]} (id: ${project.id})`,
@@ -56,7 +58,7 @@ export function describeProject(
 		databaseLine(project),
 		'',
 		...goalSectionLines(goals),
-		...backlogSideLines(backlog, goals)
+		...backlogSideLines(backlog, goals, facts)
 	].join('\n').trimEnd();
 }
 
