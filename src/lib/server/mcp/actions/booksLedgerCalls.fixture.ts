@@ -1,6 +1,8 @@
-import { ledgerWrites } from './booksLedgerDatabase.fixture';
+import { ledgerTables, ledgerWrites } from './booksLedgerDatabase.fixture';
 import { deleteCostKeepingRecord, deleteInvoiceKeepingRecord } from './booksDeletionSteps.fixture';
 import { issueInvoiceStep, recordPaymentStep, replaceLinesStep, voidInvoiceStep } from './booksInvoiceSteps.fixture';
+import { payCostStep, postJournalSetStep, recordCostStep } from './booksCostSteps.fixture';
+import { beginStep, journalRefusal } from './booksStepJournal.fixture';
 
 type Row = Record<string, unknown>;
 
@@ -27,11 +29,15 @@ const databaseSteps: Record<string, (args: Row) => unknown> = {
 	issue_books_invoice: issueInvoiceStep,
 	void_books_invoice: voidInvoiceStep,
 	record_books_invoice_payment: recordPaymentStep,
-	replace_books_invoice_lines: replaceLinesStep
+	replace_books_invoice_lines: replaceLinesStep,
+	record_books_expense: recordCostStep,
+	pay_books_expense: payCostStep,
+	post_books_journal_set: postJournalSetStep
 };
 
 export function standDatabaseStepsDown(): void {
 	Object.assign(databaseStepStanding, { refusal: null, isAnswerLost: false, momentBetween: null });
+	journalRefusal.atJournal = null;
 }
 
 /** A stand-in for the database functions the books call: the steps, each all or nothing, and the account directory. */
@@ -45,10 +51,19 @@ export async function ledgerCalls(name: string, args: Row): Promise<{ data: unkn
 	return answer;
 }
 
+/** A step is one transaction: when it raises, every table is put back as it stood before the step began. */
 function runStep(name: string, args: Row): { data: unknown; error: unknown } {
+	const before = structuredClone(ledgerTables);
+	beginStep();
 	try {
 		return { data: databaseSteps[name](args), error: null };
 	} catch (raised) {
+		putBack(before);
 		return { data: null, error: raised };
 	}
+}
+
+function putBack(before: Record<string, Row[]>): void {
+	for (const table of Object.keys(ledgerTables)) delete ledgerTables[table];
+	Object.assign(ledgerTables, before);
 }

@@ -51,7 +51,7 @@ describe('deleting a cost whose posting another journal reverses', () => {
 		expect(heldExpense(adobeId)).toBeDefined();
 		expect(ledgerTables.books_journals).toHaveLength(2);
 		expect(heldDeletions()).toEqual([]);
-		expect(ledgerWrites.filter((write) => write.kind === 'rpc')).toEqual([]);
+		expect(ledgerWrites.filter((write) => write.table === 'delete_books_cost_keeping_record')).toEqual([]);
 	});
 
 	it('refuses a cost whose payment is reversed', async () => {

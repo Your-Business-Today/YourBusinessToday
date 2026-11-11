@@ -1,25 +1,13 @@
 import { InvoiceStatuses } from '$lib/data/books/invoiceStatuses';
 import { toPence } from '$lib/data/books/money';
 import { ledgerTables } from './booksLedgerDatabase.fixture';
+import { postStepJournal, rowsOf, totalOf } from './booksStepJournal.fixture';
 
 type Row = Record<string, unknown>;
 
-let stepLineCount = 0;
-
-const rowsOf = (table: string): Row[] => ledgerTables[table] ?? [];
-const totalOf = (rows: Row[], column: string) => rows.reduce((total, row) => total + toPence(Number(row[column] ?? 0)), 0);
 const invoiceOf = (args: Row) => rowsOf('books_invoices').find((invoice) => invoice.id === args.target_invoice_id);
 const ofInvoice = (table: string, args: Row) => rowsOf(table).filter((row) => row.invoice_id === args.target_invoice_id);
-
-/** 0195's post_books_journal_in_step: the journal and its lines whole, or a raised refusal when they do not balance. */
-function postStepJournal(args: Row, journal: Row): void {
-	const lines = journal.lines as Row[];
-	if (totalOf(lines, 'debit') !== totalOf(lines, 'credit')) throw { message: `Journal ${journal.id} does not balance` };
-	const { id, journal_date, description, kind, reverses_journal_id } = journal;
-	ledgerTables.books_journals = [...rowsOf('books_journals'), { id, organisation_id: args.target_organisation_id, journal_date, description, kind, reverses_journal_id }];
-	const lineRows = lines.map((line, position) => ({ id: `step-line-${(stepLineCount += 1)}`, journal_id: id, ...line, position }));
-	ledgerTables.books_journal_lines = [...rowsOf('books_journal_lines'), ...lineRows];
-}
+const postJournalOf = (args: Row, journal: Row) => postStepJournal(args.target_organisation_id, journal);
 
 const sortedIds = (ids: unknown[]) => JSON.stringify(ids.map(String).sort());
 
@@ -30,7 +18,7 @@ export function issueInvoiceStep(args: Row): boolean {
 	const lineIds = ofInvoice('books_invoice_lines', args).map((line) => line.id);
 	if (!isAsRead || sortedIds(lineIds) !== sortedIds(args.expected_line_ids as unknown[])) return false;
 	const journal = args.issue_journal as Row;
-	postStepJournal(args, journal);
+	postJournalOf(args, journal);
 	Object.assign(invoice, { status: InvoiceStatuses.issued, issued_journal_id: journal.id });
 	return true;
 }
@@ -42,7 +30,7 @@ export function voidInvoiceStep(args: Row): boolean {
 	if (invoice === undefined) return false;
 	const isAsRead = invoice.status === args.expected_status && invoice.status !== InvoiceStatuses.void && ofInvoice('books_invoice_payments', args).length === 0;
 	if (!isAsRead || (reversal?.reverses_journal_id ?? null) !== (invoice.issued_journal_id ?? null)) return false;
-	if (reversal !== null) postStepJournal(args, reversal);
+	if (reversal !== null) postJournalOf(args, reversal);
 	invoice.status = InvoiceStatuses.void;
 	return true;
 }
@@ -56,7 +44,7 @@ export function recordPaymentStep(args: Row): boolean {
 	const amountPence = toPence(Number(args.payment_amount));
 	if (amountPence > owedPence) return false;
 	const journal = args.payment_journal as Row;
-	postStepJournal(args, journal);
+	postJournalOf(args, journal);
 	const payment = { id: `payment-of-${journal.id}`, invoice_id: invoice.id, paid_on: args.payment_paid_on, amount: args.payment_amount, journal_id: journal.id };
 	ledgerTables.books_invoice_payments = [...rowsOf('books_invoice_payments'), payment];
 	if (amountPence === owedPence) invoice.status = InvoiceStatuses.paid;

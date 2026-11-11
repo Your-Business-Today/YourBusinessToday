@@ -1,20 +1,24 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { validateExpense, type ExpenseInput } from '$lib/data/books/expenseRules';
 import { costJournalDescription, recordedCostLines } from '$lib/data/books/expensePostings';
+import { formatPoundsAndPence } from '$lib/data/books/money';
 import { ExpenseJournalKinds } from '$lib/data/books/journalKinds';
 import { SystemAccounts } from '$lib/data/books/systemAccounts';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
-import { expenseColumns, expensesTable, fromExpenseRow, type Expense } from './expenses';
+import { runBooksStep } from './booksStep';
+import { costMoveWords } from './costSteps';
+import type { Expense } from './expenses';
 import { expenseTargetRefusal } from './expenseTargets';
-import { withdrawJournal } from './invoiceStatusMoves';
-import { postJournal } from './postJournal';
+import { isJournalPosted, journalArgument, prepareStepJournal } from './journalStep';
 import { findOrOpenSystemAccount } from './systemAccounts';
+
+const recordStep = 'record_books_expense';
 
 /**
  * Records a cost from a supplier in the organisation's books and posts it on the day it is dated: debited to the
  * account it is coded to, within its cost centre, and credited to the bank when it was paid already or to trade
- * creditors until it is. The cost is kept with the journal that posted it; when it cannot be kept, the journal is
- * taken back out, so no posting is left without its cost.
+ * creditors until it is. The journal, its lines and the cost are written in one step of the database, together or not
+ * at all, so no posting is ever left without its cost, nor a cost without its posting.
  */
 export async function recordExpense(supabase: SupabaseClient, organisationId: string, fields: Record<string, unknown>): Promise<Expense> {
 	const expense = validateExpense(fields);
@@ -22,29 +26,37 @@ export async function recordExpense(supabase: SupabaseClient, organisationId: st
 	refuseWhen(await expenseTargetRefusal(supabase, organisationId, expense));
 	const settledFrom = expense.isPaid ? SystemAccounts.bank : SystemAccounts.tradeCreditors;
 	const settledFromAccountId = await findOrOpenSystemAccount(supabase, organisationId, settledFrom);
-	const journalId = await postJournal(supabase, organisationId, {
+	const journal = await prepareStepJournal(supabase, organisationId, {
 		journalDate: expense.expenseDate,
 		description: costJournalDescription(expense),
 		kind: ExpenseJournalKinds.record,
 		lines: recordedCostLines(expense, settledFromAccountId)
 	});
-	return keepExpenseOrWithdraw(supabase, organisationId, expense, journalId);
+	const recorded = recordedExpense(expense, journal.id);
+	await runBooksStep(supabase, {
+		name: recordStep,
+		inputs: { target_organisation_id: organisationId, ...stepColumns(recorded), recorded_journal: journalArgument(journal) },
+		hasHappened: () => isJournalPosted(supabase, organisationId, journal.id),
+		...costMoveWords(expense.supplier, `recorded for ${formatPoundsAndPence(expense.amount)}`)
+	});
+	return recorded;
 }
 
-async function keepExpenseOrWithdraw(supabase: SupabaseClient, organisationId: string, expense: ExpenseInput, journalId: string): Promise<Expense> {
-	const row = {
-		organisation_id: organisationId,
+function recordedExpense(expense: ExpenseInput, journalId: string): Expense {
+	const { isPaid, ...cost } = expense;
+	const paidOn = isPaid ? expense.expenseDate : null;
+	return { ...cost, id: crypto.randomUUID(), paidOn, recordedJournalId: journalId, paymentJournalId: null };
+}
+
+function stepColumns(expense: Expense) {
+	return {
+		new_expense_id: expense.id,
 		expense_date: expense.expenseDate,
 		supplier: expense.supplier,
 		description: expense.description,
 		amount: expense.amount,
 		expense_account_id: expense.expenseAccountId,
 		cost_centre_id: expense.costCentreId,
-		paid_on: expense.isPaid ? expense.expenseDate : null,
-		recorded_journal_id: journalId
+		paid_on: expense.paidOn
 	};
-	const { data, error } = await supabase.from(expensesTable).insert(row).select(expenseColumns).single();
-	if (error === null) return fromExpenseRow(data);
-	await withdrawJournal(supabase, organisationId, journalId);
-	throw error;
 }
