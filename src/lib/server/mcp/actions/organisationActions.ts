@@ -1,11 +1,4 @@
-import { boardroomDirectorActions } from './boardroomDirectorActions';
-import { boardroomMeetingActions } from './boardroomMeetingActions';
-import { boardroomPaperActions } from './boardroomPaperActions';
-import { boardroomBriefActions } from './boardroomBriefActions';
-import { boardroomRoomActions } from './boardroomRoomActions';
-import { boardroomDecisionActions } from './boardroomDecisionActions';
-import { boardroomMinutesActions } from './boardroomMinutesActions';
-import { boardroomActionActions } from './boardroomActionActions';
+import { boardroomActions } from './boardroomActions';
 import { companyContextActions } from './companyContextActions';
 import { confirmedContextActions } from './confirmedContextActions';
 import { contextRunActions } from './contextRunActions';
@@ -22,14 +15,7 @@ export const organisationActions: McpAction[] = [
 	...organisationWriteActions,
 	...organisationInviteActions,
 	...organisationModuleActions,
-	...boardroomDirectorActions,
-	...boardroomMeetingActions,
-	...boardroomPaperActions,
-	...boardroomBriefActions,
-	...boardroomRoomActions,
-	...boardroomDecisionActions,
-	...boardroomMinutesActions,
-	...boardroomActionActions,
+	...boardroomActions,
 	...organisationPeopleActions,
 	...organisationProjectActions,
 	...companyContextActions,
