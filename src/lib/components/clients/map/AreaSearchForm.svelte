@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FormField from '$lib/components/site/FormField.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { defaultRadiusMiles, radiusOrder } from '$lib/data/mapRadii';
 	import { inputClasses, panelClasses, selectClasses } from '$lib/components/site/formStyles';
@@ -9,8 +10,7 @@
 
 <form method="GET" class={panelClasses}>
 	<div class="grid gap-3 sm:grid-cols-[10rem_9rem_1fr_auto] sm:items-end">
-		<label class="flex flex-col gap-2 text-sm text-chalk/70">
-			Postcode
+		<FormField label="Postcode">
 			<input
 				name="postcode"
 				required
@@ -19,24 +19,22 @@
 				autocapitalize="characters"
 				class={inputClasses}
 			/>
-		</label>
-		<label class="flex flex-col gap-2 text-sm text-chalk/70">
-			Radius
+		</FormField>
+		<FormField label="Radius">
 			<select name="radiusMiles" value={search?.radiusMiles ?? defaultRadiusMiles} class={selectClasses}>
 				{#each radiusOrder as miles (miles)}
 					<option value={miles}>{miles} mile{miles === 1 ? '' : 's'}</option>
 				{/each}
 			</select>
-		</label>
-		<label class="flex flex-col gap-2 text-sm text-chalk/70">
-			SIC codes (optional)
+		</FormField>
+		<FormField label="SIC codes (optional)">
 			<input
 				name="sicCodes"
 				value={search?.sicCodes.join(', ') ?? ''}
 				placeholder="41100, 43390"
 				class={inputClasses}
 			/>
-		</label>
+		</FormField>
 		<SubmitButton savingLabel="Mapping…">Map the area</SubmitButton>
 	</div>
 	<p class="text-xs text-chalk/50">

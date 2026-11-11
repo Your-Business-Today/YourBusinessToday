@@ -1,6 +1,7 @@
 <script lang="ts">
+	import FormField from '$lib/components/site/FormField.svelte';
 	import type { TaxCalculatorForm } from '$lib/client/taxCalculatorForm.svelte';
-	import { fieldControlClasses, fieldLabelClasses, helperTextClasses } from './calculatorStyles';
+	import { fieldControlClasses, helperTextClasses } from './calculatorStyles';
 
 	let { form }: { form: TaxCalculatorForm } = $props();
 
@@ -11,13 +12,10 @@
 	);
 </script>
 
-<div class="flex flex-col gap-2">
-	<label for="pension-percentage" class={fieldLabelClasses}>
-		Pension contribution — % of {form.isEmployed ? 'salary' : 'profit'}
-	</label>
-	<p class={helperTextClasses}>{explanation}</p>
-	<div class="relative max-w-40">
-		<input id="pension-percentage" type="number" min="0" max="100" step="0.5" inputmode="decimal" placeholder="0" bind:value={form.pensionPercentage} class={`${fieldControlClasses} w-full pr-9 pl-4`} />
+<FormField label={`Pension contribution — % of ${form.isEmployed ? 'salary' : 'profit'}`}>
+	<span class={helperTextClasses}>{explanation}</span>
+	<span class="relative max-w-40">
+		<input type="number" min="0" max="100" step="0.5" inputmode="decimal" placeholder="0" bind:value={form.pensionPercentage} class={`${fieldControlClasses} w-full pr-9 pl-4`} />
 		<span class="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-chalk/50" aria-hidden="true">%</span>
-	</div>
-</div>
+	</span>
+</FormField>

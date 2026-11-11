@@ -1,6 +1,6 @@
 <script lang="ts" generics="Row">
 	import { headerCellClasses, wideOnlyCellClasses, checkboxClasses } from './recordsTableStyles';
-	import { isBoxTicked, type RecordsColumn, type RecordsSort, type SortDirection } from './recordsTable';
+	import { isBoxTicked, sortDirections, type RecordsColumn, type RecordsSort, type SortDirection } from './recordsTable';
 
 	let {
 		columns,
@@ -25,7 +25,7 @@
 	<button type="button" onclick={() => onSort(column.key)} class="inline-flex items-center gap-1 hover:underline">
 		{column.label}
 		<span aria-hidden="true" class={direction === undefined ? 'text-chalk-faint' : ''}>
-			{sortArrows[direction ?? 'ascending']}
+			{sortArrows[direction ?? sortDirections.ascending]}
 		</span>
 	</button>
 {/snippet}

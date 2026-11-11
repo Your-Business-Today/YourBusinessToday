@@ -1,9 +1,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { changelogPathFor, placesInBoundsQuery, placesPathFor, removedPlacesQuery } from './overtureQueries';
 import { geocodePostcodes } from '$lib/server/postcodes/geocodePostcodes';
-import { markPlacesGone, readPlaceIds, recordPlacesRun, upsertPlaces } from './placesWriter';
+import { markPlacesGone, readPlaceIdsInOutcodes, recordPlacesRun, upsertPlaces } from './placesWriter';
 import { patchBoundsOnGround } from '$lib/data/patchBounds';
-import { readPlaceRow } from './placeRow';
+import { placeSeedOf } from './placeRow';
 import { validatePlace, type PlaceSeed } from '$lib/data/placeRules';
 import type { ParquetReader } from './duckDb';
 import type { Patch } from '$lib/server/patches/patchRecord';
@@ -18,7 +18,7 @@ export async function loadOverturePlacesForPatch(supabase: SupabaseClient, reade
 	if (centre === undefined) throw new Error(`${patch.name}: the centre postcode is not located`);
 	const bounds = patchBoundsOnGround(centre, patch.radiusMiles);
 	const rows = await reader.rows(placesInBoundsQuery(placesPathFor(release), bounds));
-	const { kept, refused } = keepWhatFits(rows.map(readPlaceRow));
+	const { kept, refused } = keepWhatFits(rows.map(placeSeedOf));
 	const inOutcodes = kept.filter((place) => place.postcode === '' || patch.outcodes.some((outcode) => place.postcode.startsWith(`${outcode} `)));
 	const written = await upsertPlaces(supabase, inOutcodes, release, startedAt);
 	const removed = await markRemoved(supabase, reader, patch, release, startedAt);
@@ -27,7 +27,7 @@ export async function loadOverturePlacesForPatch(supabase: SupabaseClient, reade
 }
 
 async function markRemoved(supabase: SupabaseClient, reader: ParquetReader, patch: Patch, release: string, seenAt: string): Promise<number> {
-	const held = await readPlaceIds(supabase, patch.outcodes);
+	const held = await readPlaceIdsInOutcodes(supabase, patch.outcodes);
 	if (held.length === 0) return 0;
 	const removedRows = await reader.rows(removedPlacesQuery(changelogPathFor(release), held));
 	return markPlacesGone(supabase, removedRows.map((row) => String(row.id ?? '')), seenAt);

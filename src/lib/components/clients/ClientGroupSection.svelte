@@ -2,7 +2,7 @@
 	import GroupUnderForm from './GroupUnderForm.svelte';
 	import StagePill from './StagePill.svelte';
 	import type { Client } from '$lib/server/clients/clientRecord';
-	import type { GroupParent } from '$lib/server/clients/getGroupParents';
+	import type { GroupParent } from '$lib/server/clients/listGroupParents';
 
 	let {
 		client,

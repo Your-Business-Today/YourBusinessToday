@@ -1,4 +1,5 @@
 import { isUuid } from '$lib/data/isUuid';
+import { parsedJsonOrNull } from '$lib/data/jsonText';
 import { portalOrganisationCookie } from '$lib/portal/portalVisitor';
 import type { Cookies } from '@sveltejs/kit';
 
@@ -56,12 +57,4 @@ export function parseProjectPicks(cookieValue: string | undefined): Record<strin
 function isProjectPickEntry(entry: [string, unknown]): entry is [string, string] {
 	const [organisationId, projectId] = entry;
 	return typeof projectId === 'string' && isUuid(organisationId) && isUuid(projectId);
-}
-
-function parsedJsonOrNull(text: string): unknown {
-	try {
-		return JSON.parse(text);
-	} catch {
-		return null;
-	}
 }

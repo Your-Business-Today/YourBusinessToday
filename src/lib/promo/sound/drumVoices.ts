@@ -1,17 +1,10 @@
 import type { SoundDesk } from './soundDesk';
+import { decayingLevel } from './soundEnvelope';
 
-const silence = 0.0001;
 const kick = { from: 150, to: 42, sweep: 0.13, length: 0.5 };
 const clap = { tone: 1500, sharpness: 0.9, length: 0.22, roomShare: 0.5 };
 const hat = { tone: 8000, length: 0.06 };
 const heartbeat = { from: 90, to: 38, sweep: 0.2, length: 0.7 };
-
-function decayingLevel(desk: SoundDesk, when: number, level: number, length: number): GainNode {
-	const envelope = new GainNode(desk.context, { gain: 0 });
-	envelope.gain.setValueAtTime(level, when);
-	envelope.gain.exponentialRampToValueAtTime(silence, when + length);
-	return envelope;
-}
 
 function playDrop(desk: SoundDesk, when: number, level: number, shape: typeof kick): void {
 	const body = new OscillatorNode(desk.context, { frequency: shape.from });

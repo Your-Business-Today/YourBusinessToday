@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { inputClasses, quietButtonClasses, selectClasses } from '$lib/components/site/formStyles';
-	import type { GroupParent } from '$lib/server/clients/getGroupParents';
+	import type { GroupParent } from '$lib/server/clients/listGroupParents';
 
 	let {
 		clientId,

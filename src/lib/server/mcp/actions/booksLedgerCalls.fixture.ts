@@ -35,6 +35,14 @@ const databaseSteps: Record<string, (args: Row) => unknown> = {
 	post_books_journal_set: postJournalSetStep
 };
 
+/** Runs the work once, after the server has read the row and before the step locks it, as another caller could. */
+export function meanwhile(work: () => Promise<unknown>): void {
+	databaseStepStanding.momentBetween = async () => {
+		databaseStepStanding.momentBetween = null;
+		await work();
+	};
+}
+
 export function standDatabaseStepsDown(): void {
 	Object.assign(databaseStepStanding, { refusal: null, isAnswerLost: false, momentBetween: null });
 	journalRefusal.atJournal = null;

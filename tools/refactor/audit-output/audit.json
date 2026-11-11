@@ -1,27 +1,27 @@
 {
-  "generatedAt": "2026-11-10T21:53:15+00:00",
+  "generatedAt": "2026-11-11T03:11:38+00:00",
   "kitVersion": "1.41.0",
   "score": {
-    "overall": 98.0,
+    "overall": 99.4,
     "groups": [
       {
         "group": "Standard baseline checks",
-        "score": 99.9,
+        "score": 99.7,
         "weight": 60
       },
       {
         "group": "Design pattern file count",
-        "score": 97.4,
+        "score": 100.0,
         "weight": 10
       },
       {
         "group": "Prose",
-        "score": 99.8,
+        "score": 100.0,
         "weight": 20
       },
       {
         "group": "Widget adoption",
-        "score": 77.2,
+        "score": 94.8,
         "weight": 8
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3673,
+        "measuredAgainst": 3743,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5512,
+        "measuredAgainst": 5628,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5397,
+        "measuredAgainst": 5459,
         "score": 100.0
       },
       {
@@ -87,9 +87,9 @@
         "zeroAt": 20,
         "unit": "",
         "isMeasured": true,
-        "offenders": 0.0,
+        "offenders": 0.46,
         "measuredAgainst": 1,
-        "score": 100.0
+        "score": 97.7
       },
       {
         "key": "comments",
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 137.6,
+        "measuredAgainst": 140.11,
         "score": 100.0
       },
       {
@@ -111,9 +111,9 @@
         "zeroAt": 20,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 9,
-        "measuredAgainst": 137.6,
-        "score": 99.7
+        "offenders": 6,
+        "measuredAgainst": 140.11,
+        "score": 99.8
       },
       {
         "key": "orphans",
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6127,
+        "measuredAgainst": 6248,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 137.6,
+        "measuredAgainst": 140.11,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 137.6,
+        "measuredAgainst": 140.11,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5512,
+        "measuredAgainst": 5628,
         "score": 100.0
       },
       {
@@ -171,9 +171,9 @@
         "zeroAt": 0.5,
         "unit": "predicted files",
         "isMeasured": true,
-        "offenders": 3,
+        "offenders": 0,
         "measuredAgainst": 229,
-        "score": 97.4
+        "score": 100.0
       },
       {
         "key": "entityFileCounts",
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5397,
+        "measuredAgainst": 5459,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5397,
+        "measuredAgainst": 5459,
         "score": 100.0
       },
       {
@@ -218,9 +218,9 @@
         "zeroAt": 0.1,
         "unit": "functions",
         "isMeasured": true,
-        "offenders": 3,
-        "measuredAgainst": 5512,
-        "score": 99.5
+        "offenders": 0,
+        "measuredAgainst": 5628,
+        "score": 100.0
       },
       {
         "key": "handRolledWidgets",
@@ -230,9 +230,9 @@
         "zeroAt": 0.5,
         "unit": "widget slots",
         "isMeasured": true,
-        "offenders": 36,
-        "measuredAgainst": 316,
-        "score": 77.2
+        "offenders": 8,
+        "measuredAgainst": 306,
+        "score": 94.8
       },
       {
         "key": "unvalidatedWrites",
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 313,
+        "measuredAgainst": 312,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 3673,
-      "totalLines": 137597,
+      "totalFiles": 3743,
+      "totalLines": 140113,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 5512,
+      "totalFunctions": 5628,
       "elseBlocks": 0,
-      "ifBlocks": 5397,
+      "ifBlocks": 5459,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -271,15 +271,14 @@
       "maxLength": 40
     },
     "accessorNames": {
-      "gluedAccessorNames": 3,
+      "gluedAccessorNames": 0,
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 0,
-      "duplicatedLines": 0,
-      "totalLines": 77477,
-      "duplicatedPercentage": 0.0,
-      "carriedFromBaseline": true
+      "clones": 66,
+      "duplicatedLines": 649,
+      "totalLines": 142009,
+      "duplicatedPercentage": 0.46
     },
     "naming": {
       "bannedAbbreviationHits": 51,
@@ -293,12 +292,12 @@
     "magicValues": {
       "inlineHexColours": 0,
       "inlineStyleAttributes": 0,
-      "repeatedStringLiterals": 9
+      "repeatedStringLiterals": 6
     },
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 314,
+      "overlongLines": 327,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,12 +307,12 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 5512
+      "functionsExamined": 5628
     },
     "designPatterns": {
-      "roleFamilies": 203,
+      "roleFamilies": 205,
       "predictedFiles": 229,
-      "predictedFilesMissing": 3,
+      "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
       "entitiesAccepted": 0,
@@ -321,40 +320,40 @@
     },
     "inventory": {
       "pages": 64,
-      "components": 615,
+      "components": 620,
       "orphanComponents": 0,
       "averagePageLines": 46
     },
     "siteDefinition": {
       "routes": 63,
-      "views": 682,
-      "siteComponents": 608,
+      "views": 687,
+      "siteComponents": 613,
       "catalogue": 10,
-      "widgetUsages": 280,
-      "handRolledElements": 36,
-      "widgetSlots": 316,
-      "viewsWithHandRolled": 33,
+      "widgetUsages": 298,
+      "handRolledElements": 8,
+      "widgetSlots": 306,
+      "viewsWithHandRolled": 8,
       "boxedContentWidgets": 0,
       "designSheets": 7,
       "designsLastChecked": "2026-11-10",
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 193,
+      "schemaTables": 197,
       "limitedColumns": 0,
-      "writeDoors": 313,
+      "writeDoors": 312,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4243,
-      "backend": 1141,
-      "frontend": 902,
-      "shared": 778,
-      "tests": 540,
-      "api": 470,
-      "database": 195,
-      "tooling": 123,
+      "totalFiles": 4336,
+      "backend": 1168,
+      "frontend": 909,
+      "shared": 788,
+      "tests": 558,
+      "api": 478,
+      "database": 200,
+      "tooling": 141,
       "docs": 77,
       "infrastructure": 17
     }
@@ -365,8 +364,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 3673,
-        "totalLines": 137597,
+        "totalFiles": 3743,
+        "totalLines": 140113,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +376,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 5512,
+        "totalFunctions": 5628,
         "elseBlocks": 0,
-        "ifBlocks": 5397,
+        "ifBlocks": 5459,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -396,26 +395,10 @@
     "accessorNames": {
       "name": "accessorNames",
       "summary": {
-        "gluedAccessorNames": 3,
+        "gluedAccessorNames": 0,
         "measurementIsHeuristic": true
       },
-      "offenders": [
-        {
-          "file": "src/lib/server/clients/getGroupParents.ts",
-          "line": 5,
-          "name": "getGroupParents"
-        },
-        {
-          "file": "src/lib/server/places/placeRow.ts",
-          "line": 5,
-          "name": "readPlaceRow"
-        },
-        {
-          "file": "src/lib/server/places/placesWriter.ts",
-          "line": 31,
-          "name": "readPlaceIds"
-        }
-      ]
+      "offenders": []
     },
     "naming": {
       "name": "naming",
@@ -659,23 +642,15 @@
       "summary": {
         "inlineHexColours": 0,
         "inlineStyleAttributes": 0,
-        "repeatedStringLiterals": 9
+        "repeatedStringLiterals": 6
       },
       "offenders": {
         "hexColours": [],
         "inlineStyles": [],
         "repeatedLiterals": [
           {
-            "literal": "ascending",
-            "occurrences": 7
-          },
-          {
             "literal": "show me everything",
             "occurrences": 6
-          },
-          {
-            "literal": "descending",
-            "occurrences": 5
           },
           {
             "literal": "Bring the ledger across",
@@ -684,10 +659,6 @@
           {
             "literal": "Ship the release",
             "occurrences": 5
-          },
-          {
-            "literal": "customer",
-            "occurrences": 4
           },
           {
             "literal": "Space Grotesk",
@@ -709,7 +680,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 314,
+        "overlongLines": 327,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -718,6 +689,10 @@
         "overlongLines": [
           {
             "file": "src/lib/brand/plan/planPictures.test.ts",
+            "line": 10
+          },
+          {
+            "file": "src/lib/brand/plan/planPosts.test.ts",
             "line": 10
           },
           {
@@ -911,10 +886,6 @@
           {
             "file": "src/lib/data/legal/privacySharingSections.ts",
             "line": 24
-          },
-          {
-            "file": "src/lib/data/legal/privacySharingSections.ts",
-            "line": 30
           }
         ]
       }
@@ -935,16 +906,16 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 5512
+        "functionsExamined": 5628
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 203,
+        "roleFamilies": 205,
         "predictedFiles": 229,
-        "predictedFilesMissing": 3,
+        "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
         "entitiesAccepted": 0,
@@ -960,11 +931,12 @@
           "account": 4,
           "accounts": 4,
           "action": 21,
-          "actions": 191,
+          "actions": 192,
           "address": 5,
           "adverts": 4,
           "answer": 8,
-          "answers": 13,
+          "answers": 14,
+          "approval": 6,
           "attachment": 5,
           "badge": 8,
           "badges": 6,
@@ -982,7 +954,7 @@
           "catalogue": 5,
           "cell": 4,
           "chatbot": 5,
-          "check": 7,
+          "check": 8,
           "checklist": 4,
           "chip": 5,
           "chips": 4,
@@ -1009,7 +981,7 @@
           "draft": 4,
           "email": 12,
           "entries": 5,
-          "entry": 11,
+          "entry": 12,
           "event": 12,
           "facts": 9,
           "field": 19,
@@ -1018,14 +990,14 @@
           "file": 11,
           "files": 5,
           "filter": 7,
-          "fixture": 11,
+          "fixture": 15,
           "fixtures": 26,
           "for": 7,
-          "form": 74,
+          "form": 76,
           "goal": 8,
           "grant": 4,
           "guidance": 14,
-          "header": 18,
+          "header": 19,
           "history": 4,
           "icon": 5,
           "ids": 10,
@@ -1045,7 +1017,7 @@
           "links": 15,
           "list": 32,
           "map": 12,
-          "meeting": 8,
+          "meeting": 9,
           "member": 4,
           "menu": 5,
           "message": 4,
@@ -1054,7 +1026,6 @@
           "mocks": 5,
           "mockup": 4,
           "modal": 11,
-          "moves": 4,
           "name": 10,
           "names": 7,
           "node": 6,
@@ -1065,7 +1036,7 @@
           "organisation": 16,
           "organisations": 5,
           "overview": 4,
-          "page": 16,
+          "page": 18,
           "panel": 50,
           "paper": 12,
           "part": 5,
@@ -1078,17 +1049,18 @@
           "person": 15,
           "pictures": 5,
           "piece": 8,
+          "pieces": 4,
           "pill": 5,
           "placement": 5,
           "plan": 6,
           "priority": 4,
           "profile": 7,
           "project": 22,
-          "projects": 10,
+          "projects": 11,
           "question": 5,
           "reading": 13,
           "readings": 4,
-          "record": 61,
+          "record": 63,
           "refusal": 12,
           "register": 6,
           "request": 23,
@@ -1101,9 +1073,9 @@
           "row": 53,
           "rows": 17,
           "rule": 7,
-          "rules": 54,
+          "rules": 55,
           "run": 7,
-          "runs": 20,
+          "runs": 21,
           "schemas": 13,
           "section": 38,
           "sections": 15,
@@ -1116,24 +1088,24 @@
           "source": 17,
           "sources": 8,
           "standing": 15,
-          "state": 4,
+          "state": 5,
           "statement": 4,
           "status": 8,
-          "step": 5,
-          "steps": 7,
+          "step": 7,
+          "steps": 10,
           "storage": 5,
           "strip": 4,
           "styles": 7,
           "subject": 4,
           "summary": 9,
           "svelte": 19,
-          "table": 24,
+          "table": 25,
           "tabs": 4,
           "targets": 5,
           "task": 22,
           "tasks": 13,
-          "test": 525,
-          "text": 12,
+          "test": 543,
+          "text": 13,
           "tiles": 5,
           "time": 5,
           "title": 6,
@@ -1151,8 +1123,9 @@
           "views": 8,
           "visitor": 4,
           "window": 4,
-          "words": 12,
+          "words": 14,
           "work": 4,
+          "world": 4,
           "writer": 6,
           "xml": 4
         },
@@ -1160,23 +1133,17 @@
           {
             "pattern": "every storage has a actions",
             "predicted": 5,
-            "missing": [
-              "src/lib/client/browserActions.ts"
-            ]
+            "missing": []
           },
           {
             "pattern": "every crumbs has a actions",
             "predicted": 4,
-            "missing": [
-              "src/lib/components/boardroom/boardroomActions.ts"
-            ]
+            "missing": []
           },
           {
             "pattern": "every crumbs has a access",
             "predicted": 4,
-            "missing": [
-              "src/lib/components/businessBrain/businessBrainAccess.ts"
-            ]
+            "missing": []
           },
           {
             "pattern": "every goal has a project",
@@ -1244,11 +1211,7 @@
             "missing": []
           }
         ],
-        "missingPredictedFiles": [
-          "src/lib/client/browserActions.ts",
-          "src/lib/components/boardroom/boardroomActions.ts",
-          "src/lib/components/businessBrain/businessBrainAccess.ts"
-        ],
+        "missingPredictedFiles": [],
         "entityFileCounts": []
       }
     },
@@ -1256,7 +1219,7 @@
       "name": "inventory",
       "summary": {
         "pages": 64,
-        "components": 615,
+        "components": 620,
         "orphanComponents": 0,
         "averagePageLines": 46
       },
@@ -1305,6 +1268,14 @@
             "widgets": []
           },
           {
+            "page": "src/routes/organisations/[organisationId]/brand/plan/+page.svelte",
+            "lines": 86,
+            "widgets": [
+              "modal",
+              "list"
+            ]
+          },
+          {
             "page": "src/routes/projects/kit-versions/+page.svelte",
             "lines": 76,
             "widgets": [
@@ -1321,14 +1292,6 @@
             "page": "src/routes/organisations/[organisationId]/brand/+page.svelte",
             "lines": 72,
             "widgets": []
-          },
-          {
-            "page": "src/routes/organisations/[organisationId]/brand/plan/+page.svelte",
-            "lines": 70,
-            "widgets": [
-              "modal",
-              "list"
-            ]
           },
           {
             "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
@@ -1665,11 +1628,11 @@
           },
           {
             "component": "src/lib/components/site/FormErrorNote.svelte",
-            "reusedBy": 54
+            "reusedBy": 55
           },
           {
             "component": "src/lib/components/site/FormField.svelte",
-            "reusedBy": 30
+            "reusedBy": 45
           },
           {
             "component": "src/lib/components/site/SmallCapsField.svelte",
@@ -1684,11 +1647,11 @@
             "reusedBy": 28
           },
           {
-            "component": "src/lib/components/site/Badge.svelte",
+            "component": "src/lib/components/site/Button.svelte",
             "reusedBy": 26
           },
           {
-            "component": "src/lib/components/site/Button.svelte",
+            "component": "src/lib/components/site/Badge.svelte",
             "reusedBy": 25
           },
           {
@@ -1697,11 +1660,11 @@
           },
           {
             "component": "src/lib/components/workspace/RecordsCell.svelte",
-            "reusedBy": 18
+            "reusedBy": 19
           },
           {
             "component": "src/lib/components/workspace/RecordsTable.svelte",
-            "reusedBy": 17
+            "reusedBy": 18
           },
           {
             "component": "src/lib/components/site/EmptyState.svelte",
@@ -1828,6 +1791,10 @@
             "reusedBy": 3
           },
           {
+            "component": "src/lib/components/brand/LibraryPreview.svelte",
+            "reusedBy": 3
+          },
+          {
             "component": "src/lib/components/projects/KitVersionBadge.svelte",
             "reusedBy": 3
           },
@@ -1892,6 +1859,10 @@
             "reusedBy": 2
           },
           {
+            "component": "src/lib/components/boardroom/DirectorAnswerEntry.svelte",
+            "reusedBy": 2
+          },
+          {
             "component": "src/lib/components/boardroom/MeetingStageBadge.svelte",
             "reusedBy": 2
           },
@@ -1901,10 +1872,6 @@
           },
           {
             "component": "src/lib/components/brand/BrandDecisionNote.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/brand/LibraryPreview.svelte",
             "reusedBy": 2
           },
           {
@@ -2505,6 +2472,22 @@
           },
           {
             "component": "src/lib/components/brand/ContentPieceText.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/brand/ContentPlanApprovalChannels.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/brand/ContentPlanApprovalPicture.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/brand/ContentPlanApprovalTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/brand/ContentPlanApproveForm.svelte",
             "reusedBy": 1
           },
           {
@@ -4123,13 +4106,13 @@
       "name": "siteDefinition",
       "summary": {
         "routes": 63,
-        "views": 682,
-        "siteComponents": 608,
+        "views": 687,
+        "siteComponents": 613,
         "catalogue": 10,
-        "widgetUsages": 280,
-        "handRolledElements": 36,
-        "widgetSlots": 316,
-        "viewsWithHandRolled": 33,
+        "widgetUsages": 298,
+        "handRolledElements": 8,
+        "widgetSlots": 306,
+        "viewsWithHandRolled": 8,
         "boxedContentWidgets": 0,
         "designSheets": 7,
         "designsLastChecked": "2026-11-10",
@@ -4242,57 +4225,9 @@
       "offenders": {
         "handRolled": [
           {
-            "file": "src/lib/components/about/AboutStorySection.svelte",
-            "line": 7,
-            "element": "h1",
-            "ownedBy": "PageTitle"
-          },
-          {
             "file": "src/lib/components/admin/PointsSelect.svelte",
             "line": 9,
             "element": "select",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/admin/ReviewModelForm.svelte",
-            "line": 16,
-            "element": "select",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/case-study/CaseStudyIntroSection.svelte",
-            "line": 3,
-            "element": "h1",
-            "ownedBy": "PageTitle"
-          },
-          {
-            "file": "src/lib/components/clients/AskClaudeToResearch.svelte",
-            "line": 18,
-            "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/clients/ProspectSearchForm.svelte",
-            "line": 22,
-            "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/clients/map/AreaSearchForm.svelte",
-            "line": 14,
-            "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/clients/map/AreaSearchForm.svelte",
-            "line": 25,
-            "element": "select",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/clients/map/AreaSearchForm.svelte",
-            "line": 33,
-            "element": "input",
             "ownedBy": "FormField"
           },
           {
@@ -4302,57 +4237,9 @@
             "ownedBy": "FormField"
           },
           {
-            "file": "src/lib/components/conversations/HandOffPicker.svelte",
-            "line": 33,
-            "element": "select",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/demo/DemoConnectSection.svelte",
-            "line": 15,
-            "element": "h1",
-            "ownedBy": "PageTitle"
-          },
-          {
-            "file": "src/lib/components/demo/DemoStartSection.svelte",
-            "line": 11,
-            "element": "h1",
-            "ownedBy": "PageTitle"
-          },
-          {
-            "file": "src/lib/components/home/HeroSection.svelte",
-            "line": 10,
-            "element": "h1",
-            "ownedBy": "PageTitle"
-          },
-          {
-            "file": "src/lib/components/offer/OfferStepsSection.svelte",
-            "line": 9,
-            "element": "h1",
-            "ownedBy": "PageTitle"
-          },
-          {
             "file": "src/lib/components/organisations/NameDirectorForm.svelte",
             "line": 14,
             "element": "select",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/organisations/OrganisationDetailsFields.svelte",
-            "line": 42,
-            "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/organisations/OrganisationDetailsFields.svelte",
-            "line": 62,
-            "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/people/AppointmentImportForm.svelte",
-            "line": 43,
-            "element": "input",
             "ownedBy": "FormField"
           },
           {
@@ -4362,75 +4249,15 @@
             "ownedBy": "FormField"
           },
           {
-            "file": "src/lib/components/projects/TaskComplexityCount.svelte",
-            "line": 10,
-            "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/projects/UserStoryFields.svelte",
-            "line": 43,
-            "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/promo/PromoIntro.svelte",
-            "line": 10,
-            "element": "h1",
-            "ownedBy": "PageTitle"
-          },
-          {
-            "file": "src/lib/components/site/LegalArticle.svelte",
-            "line": 9,
-            "element": "h1",
-            "ownedBy": "PageTitle"
-          },
-          {
             "file": "src/lib/components/taxCalculator/BreakdownTable.svelte",
             "line": 14,
             "element": "table",
             "ownedBy": "RecordsTable"
           },
           {
-            "file": "src/lib/components/taxCalculator/CalculatorHero.svelte",
-            "line": 11,
-            "element": "h1",
-            "ownedBy": "PageTitle"
-          },
-          {
             "file": "src/lib/components/taxCalculator/DeadlinesEmailCard.svelte",
             "line": 68,
             "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/taxCalculator/LivingCostsCard.svelte",
-            "line": 23,
-            "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/taxCalculator/MileageAndHomeFields.svelte",
-            "line": 36,
-            "element": "select",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/taxCalculator/PensionField.svelte",
-            "line": 20,
-            "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/taxCalculator/StudentLoanFields.svelte",
-            "line": 15,
-            "element": "select",
-            "ownedBy": "FormField"
-          },
-          {
-            "file": "src/lib/components/taxCalculator/TaxRegionField.svelte",
-            "line": 16,
-            "element": "select",
             "ownedBy": "FormField"
           },
           {
@@ -4440,20 +4267,8 @@
             "ownedBy": "FormField"
           },
           {
-            "file": "src/lib/components/taxCalculator/WhatIfCard.svelte",
-            "line": 28,
-            "element": "input",
-            "ownedBy": "FormField"
-          },
-          {
             "file": "src/lib/components/workspace/WorkspaceHeader.svelte",
             "line": 33,
-            "element": "h1",
-            "ownedBy": "PageTitle"
-          },
-          {
-            "file": "src/routes/contact/+page.svelte",
-            "line": 22,
             "element": "h1",
             "ownedBy": "PageTitle"
           }
@@ -4461,46 +4276,14 @@
         "byWidget": [
           {
             "ownedBy": "FormField",
-            "count": 24,
+            "count": 6,
             "files": [
               "src/lib/components/admin/PointsSelect.svelte",
-              "src/lib/components/admin/ReviewModelForm.svelte",
-              "src/lib/components/clients/AskClaudeToResearch.svelte",
-              "src/lib/components/clients/ProspectSearchForm.svelte",
-              "src/lib/components/clients/map/AreaSearchForm.svelte",
               "src/lib/components/contact/DiscoveryCallForm.svelte",
-              "src/lib/components/conversations/HandOffPicker.svelte",
               "src/lib/components/organisations/NameDirectorForm.svelte",
-              "src/lib/components/organisations/OrganisationDetailsFields.svelte",
-              "src/lib/components/people/AppointmentImportForm.svelte",
               "src/lib/components/projects/DeployHistoryFilterBar.svelte",
-              "src/lib/components/projects/TaskComplexityCount.svelte",
-              "src/lib/components/projects/UserStoryFields.svelte",
               "src/lib/components/taxCalculator/DeadlinesEmailCard.svelte",
-              "src/lib/components/taxCalculator/LivingCostsCard.svelte",
-              "src/lib/components/taxCalculator/MileageAndHomeFields.svelte",
-              "src/lib/components/taxCalculator/PensionField.svelte",
-              "src/lib/components/taxCalculator/StudentLoanFields.svelte",
-              "src/lib/components/taxCalculator/TaxRegionField.svelte",
-              "src/lib/components/taxCalculator/TaxYearSelect.svelte",
-              "src/lib/components/taxCalculator/WhatIfCard.svelte"
-            ]
-          },
-          {
-            "ownedBy": "PageTitle",
-            "count": 11,
-            "files": [
-              "src/lib/components/about/AboutStorySection.svelte",
-              "src/lib/components/case-study/CaseStudyIntroSection.svelte",
-              "src/lib/components/demo/DemoConnectSection.svelte",
-              "src/lib/components/demo/DemoStartSection.svelte",
-              "src/lib/components/home/HeroSection.svelte",
-              "src/lib/components/offer/OfferStepsSection.svelte",
-              "src/lib/components/promo/PromoIntro.svelte",
-              "src/lib/components/site/LegalArticle.svelte",
-              "src/lib/components/taxCalculator/CalculatorHero.svelte",
-              "src/lib/components/workspace/WorkspaceHeader.svelte",
-              "src/routes/contact/+page.svelte"
+              "src/lib/components/taxCalculator/TaxYearSelect.svelte"
             ]
           },
           {
@@ -4508,6 +4291,13 @@
             "count": 1,
             "files": [
               "src/lib/components/taxCalculator/BreakdownTable.svelte"
+            ]
+          },
+          {
+            "ownedBy": "PageTitle",
+            "count": 1,
+            "files": [
+              "src/lib/components/workspace/WorkspaceHeader.svelte"
             ]
           }
         ],
@@ -4530,7 +4320,7 @@
           "route": "/about",
           "file": "src/routes/about/+page.svelte",
           "definition": "PageMeta, AboutStorySection, AboutTeamSection, DiscoveryCallSection",
-          "expanded": "PageMeta, AboutStorySection=( \u26a0h1\u2192PageTitle ), AboutTeamSection=( (n) TeamMemberProfile ), DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )"
+          "expanded": "PageMeta, AboutStorySection, AboutTeamSection=( (n) TeamMemberProfile ), DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )"
         },
         {
           "route": "/account",
@@ -4554,7 +4344,7 @@
           "route": "/admin",
           "file": "src/routes/admin/+page.svelte",
           "definition": "PageTitle, BuildModelsPanel, (n) AdminUserRow",
-          "expanded": "PageTitle, BuildModelsPanel=( ReviewModelForm=( [ \u26a0select\u2192FormField SubmitButton FormErrorNote ] ), (n) BuildModelRow=( [ (2) PointsSelect=( \u26a0select\u2192FormField ) SubmitButton ], FormErrorNote ), BuildModelRow=( [ (2) PointsSelect=( \u26a0select\u2192FormField ) SubmitButton ], FormErrorNote ) ), (n) AdminUserRow=( AdminActionsMenu=( ActionsMenu{ (3) AdminMenuAction, ?!user.isAdmin: AdminMenuAction }, SetPasswordModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ) ) )"
+          "expanded": "PageTitle, BuildModelsPanel=( ReviewModelForm=( [ FormField SubmitButton FormErrorNote ] ), (n) BuildModelRow=( [ (2) PointsSelect=( \u26a0select\u2192FormField ) SubmitButton ], FormErrorNote ), BuildModelRow=( [ (2) PointsSelect=( \u26a0select\u2192FormField ) SubmitButton ], FormErrorNote ) ), (n) AdminUserRow=( AdminActionsMenu=( ActionsMenu{ (3) AdminMenuAction, ?!user.isAdmin: AdminMenuAction }, SetPasswordModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ) ) )"
         },
         {
           "route": "/admin/documents",
@@ -4578,7 +4368,7 @@
           "route": "/case-study",
           "file": "src/routes/case-study/+page.svelte",
           "definition": "PageMeta, CaseStudyIntroSection, (n) CaseStudyBusinessSection, PortalScreensSection, CaseStudyMethodSection, DiscoveryCallSection",
-          "expanded": "PageMeta, CaseStudyIntroSection=( \u26a0h1\u2192PageTitle ), (n) CaseStudyBusinessSection=( CaseStudyOutcomes ), PortalScreensSection=( (n) PortalScreenCard ), CaseStudyMethodSection, DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )"
+          "expanded": "PageMeta, CaseStudyIntroSection, (n) CaseStudyBusinessSection=( CaseStudyOutcomes ), PortalScreensSection=( (n) PortalScreenCard ), CaseStudyMethodSection, DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )"
         },
         {
           "route": "/clients",
@@ -4608,7 +4398,7 @@
           "route": "/clients/map",
           "file": "src/routes/clients/map/+page.svelte",
           "definition": "PageTitle, AreaSearchForm, LeadOutcomeNote, ?area !== null: ( AreaSummary, AreaMapWorkspace )",
-          "expanded": "PageTitle, AreaSearchForm=( \u26a0input\u2192FormField, \u26a0select\u2192FormField, \u26a0input\u2192FormField, SubmitButton ), LeadOutcomeNote=( FormErrorNote ), ?area !== null: ( AreaSummary, AreaMapWorkspace=( AreaMapPane=( AreaMap, AreaLegend ){ AreaCompanyPanel=( ?isOneCompany: FindJobAdvertsButton=( Modal{ AskClaudeToFindJobAdverts } ), ( ?registerStanding !== null: RegisterStandingLink=( StagePill ) | ?canBecomeLead: [ (2) ( ProspectSeedFields, SubmitButton ) ] ) ), AreaCompanyList=( (n) AreaCompanyRow=( ?standing !== null: StagePill ) ) } ) )"
+          "expanded": "PageTitle, AreaSearchForm=( (3) FormField, SubmitButton ), LeadOutcomeNote=( FormErrorNote ), ?area !== null: ( AreaSummary, AreaMapWorkspace=( AreaMapPane=( AreaMap, AreaLegend ){ AreaCompanyPanel=( ?isOneCompany: FindJobAdvertsButton=( Modal{ AskClaudeToFindJobAdverts } ), ( ?registerStanding !== null: RegisterStandingLink=( StagePill ) | ?canBecomeLead: [ (2) ( ProspectSeedFields, SubmitButton ) ] ) ), AreaCompanyList=( (n) AreaCompanyRow=( ?standing !== null: StagePill ) ) } ) )"
         },
         {
           "route": "/clients/patches",
@@ -4638,37 +4428,37 @@
           "route": "/clients/prospect",
           "file": "src/routes/clients/prospect/+page.svelte",
           "definition": "PageTitle, ( ?!data.isConfigured: FormErrorNote | ProspectSearchForm ), ?companies !== null && companies\u2026: EmptyState, ?companies !== null && companies\u2026: ProspectResultTable",
-          "expanded": "PageTitle, ( ?!data.isConfigured: FormErrorNote | ProspectSearchForm=( (2) \u26a0input\u2192FormField, SubmitButton ) ), ?companies !== null && companies\u2026: EmptyState, ?companies !== null && companies\u2026: ProspectResultTable=( [ (2) ( ProspectSeedFields, SubmitButton ) ] )"
+          "expanded": "PageTitle, ( ?!data.isConfigured: FormErrorNote | ProspectSearchForm=( (2) FormField, SubmitButton ) ), ?companies !== null && companies\u2026: EmptyState, ?companies !== null && companies\u2026: ProspectResultTable=( [ (2) ( ProspectSeedFields, SubmitButton ) ] )"
         },
         {
           "route": "/clients/research",
           "file": "src/routes/clients/research/+page.svelte",
           "definition": "PageTitle, AskClaudeToResearch",
-          "expanded": "PageTitle, AskClaudeToResearch=( ?clientId === null: \u26a0input\u2192FormField, CopyTextButton )"
+          "expanded": "PageTitle, AskClaudeToResearch=( ?clientId === null: FormField, CopyTextButton )"
         },
         {
           "route": "/company",
           "file": "src/routes/company/+page.svelte",
           "definition": "LegalArticle",
-          "expanded": "LegalArticle=( \u26a0h1\u2192PageTitle )"
+          "expanded": "LegalArticle"
         },
         {
           "route": "/contact",
           "file": "src/routes/contact/+page.svelte",
-          "definition": "PageMeta, [ \u26a0h1\u2192PageTitle ( ?isSent: DiscoveryCallThankYou, ?!isSent: DiscoveryCallForm ) ]",
-          "expanded": "PageMeta, [ \u26a0h1\u2192PageTitle ( ?isSent: DiscoveryCallThankYou, ?!isSent: DiscoveryCallForm=( [ (6) FormField ], FormField, \u26a0input\u2192FormField, FormErrorNote, SubmitButton ) ) ]"
+          "definition": "PageMeta, ( ?isSent: DiscoveryCallThankYou, ?!isSent: DiscoveryCallForm )",
+          "expanded": "PageMeta, ( ?isSent: DiscoveryCallThankYou, ?!isSent: DiscoveryCallForm=( [ (6) FormField ], FormField, \u26a0input\u2192FormField, FormErrorNote, SubmitButton ) )"
         },
         {
           "route": "/demo",
           "file": "src/routes/demo/+page.svelte",
           "definition": "PageMeta, DemoStartSection",
-          "expanded": "PageMeta, DemoStartSection=( \u26a0h1\u2192PageTitle, (n) DemoKindChoiceCard=( SubmitButton ), FormErrorNote )"
+          "expanded": "PageMeta, DemoStartSection=( (n) DemoKindChoiceCard=( SubmitButton ), FormErrorNote )"
         },
         {
           "route": "/demo/[token]",
           "file": "src/routes/demo/[token]/+page.svelte",
           "definition": "PageMeta, DemoConnectSection, DemoQuestionsSection, DemoMoneySection, DemoLinkedSystemsSection, DemoBrainSection, DemoActivitySection, DemoOwnSystemSection",
-          "expanded": "PageMeta, DemoConnectSection=( \u26a0h1\u2192PageTitle, CopyTextButton ), DemoQuestionsSection, DemoMoneySection, DemoLinkedSystemsSection=( (n) DemoLinkedSystemRow ), DemoBrainSection, DemoActivitySection=( (n) DemoActivityRow, SubmitButton ), DemoOwnSystemSection"
+          "expanded": "PageMeta, DemoConnectSection=( CopyTextButton ), DemoQuestionsSection, DemoMoneySection, DemoLinkedSystemsSection=( (n) DemoLinkedSystemRow ), DemoBrainSection, DemoActivitySection=( (n) DemoActivityRow, SubmitButton ), DemoOwnSystemSection"
         },
         {
           "route": "/notifications",
@@ -4686,19 +4476,19 @@
           "route": "/offer",
           "file": "src/routes/offer/+page.svelte",
           "definition": "PageMeta, OfferStepsSection, OfferTermsSection, DiscoveryCallSection",
-          "expanded": "PageMeta, OfferStepsSection=( \u26a0h1\u2192PageTitle, (n) OfferStepCard=( ?step.isMonthlyRetainer: SignalBadge ), DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), OfferTermsSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )"
+          "expanded": "PageMeta, OfferStepsSection=( (n) OfferStepCard=( ?step.isMonthlyRetainer: SignalBadge ), DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), OfferTermsSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )"
         },
         {
           "route": "/organisations",
           "file": "src/routes/organisations/+page.svelte",
           "definition": "OrganisationsPageHeader{ FlashMessage, ( ?organisations.length === 0: EmptyState | OrganisationRegister ), Modal{ NewOrganisationForm } }",
-          "expanded": "OrganisationsPageHeader=( WorkspaceHeader=( \u26a0h1\u2192PageTitle ) ){ FlashMessage, ( ?organisations.length === 0: EmptyState | OrganisationRegister=( (n) OrganisationRow ) ), Modal{ NewOrganisationForm=( OrganisationDetailsFields=( (2) SmallCapsField=( FormField ), \u26a0input\u2192FormField, [ (2) \u26a0input\u2192FormField ] ), FormErrorNote, SubmitButton ) } }"
+          "expanded": "OrganisationsPageHeader=( WorkspaceHeader=( \u26a0h1\u2192PageTitle ) ){ FlashMessage, ( ?organisations.length === 0: EmptyState | OrganisationRegister=( (n) OrganisationRow ) ), Modal{ NewOrganisationForm=( OrganisationDetailsFields=( (2) SmallCapsField=( FormField ), FormField, [ (2) FormField ] ), FormErrorNote, SubmitButton ) } }"
         },
         {
           "route": "/organisations/[organisationId]",
           "file": "src/routes/organisations/[organisationId]/+page.svelte",
           "definition": "WorkspaceHeader, FlashMessage, OrganisationProjectsPanel, OrganisationPeoplePanel, InvoicingDetailsPanel, OrganisationModulesPanel, ?data.modules.includes('boardroo\u2026: OrganisationDirectorsPanel, DangerConfirmModal",
-          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ), FlashMessage, OrganisationProjectsPanel=( DashboardPanel{ (n) OrganisationProjectRow=( ProjectStatusBadge=( Badge ) ) } ), OrganisationPeoplePanel=( DashboardPanel{ (n) OrganisationMemberRow=( PersonInitials ) }, Modal{ InviteMemberForm=( SmallCapsField=( FormField ), FormErrorNote, SubmitButton ) }, ?memberAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), InvoicingDetailsPanel=( DashboardPanel, Modal{ OrganisationDetailsForm=( OrganisationDetailsFields=( (2) SmallCapsField, \u26a0input\u2192FormField, [ (2) \u26a0input\u2192FormField ] ), FormErrorNote, SubmitButton ) } ), OrganisationModulesPanel=( ?shownModules.length > 0: DashboardPanel{ (n) OrganisationModuleRow } ), ?data.modules.includes('boardroo\u2026: OrganisationDirectorsPanel=( DashboardPanel{ (n) OrganisationDirectorRow=( PersonInitials ), ?canNameAnother: NameDirectorForm=( \u26a0select\u2192FormField ) } ), DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) )"
+          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ), FlashMessage, OrganisationProjectsPanel=( DashboardPanel{ (n) OrganisationProjectRow=( ProjectStatusBadge=( Badge ) ) } ), OrganisationPeoplePanel=( DashboardPanel{ (n) OrganisationMemberRow=( PersonInitials ) }, Modal{ InviteMemberForm=( SmallCapsField=( FormField ), FormErrorNote, SubmitButton ) }, ?memberAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), InvoicingDetailsPanel=( DashboardPanel, Modal{ OrganisationDetailsForm=( OrganisationDetailsFields=( (2) SmallCapsField, FormField, [ (2) FormField ] ), FormErrorNote, SubmitButton ) } ), OrganisationModulesPanel=( ?shownModules.length > 0: DashboardPanel{ (n) OrganisationModuleRow } ), ?data.modules.includes('boardroo\u2026: OrganisationDirectorsPanel=( DashboardPanel{ (n) OrganisationDirectorRow=( PersonInitials ), ?canNameAnother: NameDirectorForm=( \u26a0select\u2192FormField ) } ), DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) )"
         },
         {
           "route": "/organisations/[organisationId]/boardroom",
@@ -4710,7 +4500,7 @@
           "route": "/organisations/[organisationId]/boardroom/[meetingId]",
           "file": "src/routes/organisations/[organisationId]/boardroom/[meetingId]/+page.svelte",
           "definition": "WorkspaceHeader{ MeetingStageBadge }, ?minutes.isClosed: MeetingMinutesPanel, MeetingAgendaPanel, ?close.canClose: MeetingClosePanel, ?meeting.ownClaude !== null: OwnClaudePanel, MeetingFactsPanel",
-          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ MeetingStageBadge=( Badge ) }, ?minutes.isClosed: MeetingMinutesPanel=( DashboardPanel{ ?minutes.latestVersion !== null: Badge, CopyTextButton, ?minutes.canAnswer && minutes.la\u2026: MinutesAnswerForm=( FormField, [ (2) Button ] ), (n) MinutesVersionEntry=( ?answers.length > 0: (n) MinutesAnswerEntry=( Badge ) ) } ), MeetingAgendaPanel=( DashboardPanel{ (n) AgendaItemEntry=( [ Badge ?item.isAnyOtherBusiness: Badge ], ?papers.length > 0: (n) BoardPaperEntry, AgendaItemBriefing=( ?ownBrief !== null: OwnBriefSummary, ?briefing.canBrief: BoardBriefForm ), ItemRoomTalk=( ?badge !== null: Badge, ?said.length > 0: (n) BoardContributionEntry ), ?item.held !== null: HeldPieceCard=( [ (2) Button ] ), ?item.decision !== null: ItemDecision=( Badge, ?answers.length > 0: (n) DecisionAnswerEntry, ?decision.canAnswer: DecisionAnswerForm ), ItemActions=( ?entries.length > 0 || actions.c\u2026: ( ?entries.length > 0: (n) BoardActionEntry, ?actions.canRaiseAgain: Button ), ?actions.canRecord: BoardActionForm ) ), ?withdrawnTitles.length > 0: WithdrawnAgendaItems } ), ?close.canClose: MeetingClosePanel=( DashboardPanel{ Button } ), ?meeting.ownClaude !== null: OwnClaudePanel=( DashboardPanel{ [ Badge ?ownClaude.isAskingFirst: Badge ], ?ownClaude.canChange: ( [ (2) SeatSettingForm=( Button ) ], SteerNoteForm=( FormField, Button ) ), SteerNotesList } ), MeetingFactsPanel=( DashboardPanel )"
+          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ MeetingStageBadge=( Badge ) }, ?minutes.isClosed: MeetingMinutesPanel=( DashboardPanel{ ?minutes.latestVersion !== null: Badge, CopyTextButton, ?minutes.canAnswer && minutes.la\u2026: MinutesAnswerForm=( FormField, [ (2) Button ] ), (n) MinutesVersionEntry=( ?answers.length > 0: (n) MinutesAnswerEntry=( DirectorAnswerEntry ) ) } ), MeetingAgendaPanel=( DashboardPanel{ (n) AgendaItemEntry=( [ Badge ?item.isAnyOtherBusiness: Badge ], ?papers.length > 0: (n) BoardPaperEntry, AgendaItemBriefing=( ?ownBrief !== null: OwnBriefSummary, ?briefing.canBrief: BoardBriefForm ), ItemRoomTalk=( ?badge !== null: Badge, ?said.length > 0: (n) BoardContributionEntry ), ?item.held !== null: HeldPieceCard=( [ (2) Button ] ), ?item.decision !== null: ItemDecision=( Badge, ?answers.length > 0: (n) DecisionAnswerEntry, ?decision.canAnswer: DecisionAnswerForm ), ItemActions=( ?entries.length > 0 || actions.c\u2026: ( ?entries.length > 0: (n) BoardActionEntry, ?actions.canRaiseAgain: Button ), ?actions.canRecord: BoardActionForm ) ), ?withdrawnTitles.length > 0: WithdrawnAgendaItems } ), ?close.canClose: MeetingClosePanel=( DashboardPanel{ Button } ), ?meeting.ownClaude !== null: OwnClaudePanel=( DashboardPanel{ [ Badge ?ownClaude.isAskingFirst: Badge ], ?ownClaude.canChange: ( [ (2) SeatSettingForm=( Button ) ], SteerNoteForm=( FormField, Button ) ), SteerNotesList } ), MeetingFactsPanel=( DashboardPanel )"
         },
         {
           "route": "/organisations/[organisationId]/books",
@@ -4751,8 +4541,8 @@
         {
           "route": "/organisations/[organisationId]/brand/plan",
           "file": "src/routes/organisations/[organisationId]/brand/plan/+page.svelte",
-          "definition": "WorkspaceHeader{ (2) Button }, DashboardPanel{ ContentPlanCounts }, DashboardPanel{ ContentPlanRhythmTable }, DashboardPanel{ ContentPlanKindTable }, (n) ( ContentPlanWeekTallies, DashboardPanel{ ContentPlanWeekTable } ), ContentPlanMoveModal",
-          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ (2) Button }, DashboardPanel{ ContentPlanCounts=( [ (5) StatTile ] ) }, DashboardPanel{ ContentPlanRhythmTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ ContentPlanKindTable=( RecordsTable{ (2) RecordsCell } ) }, (n) ( ContentPlanWeekTallies=( (n) ( Badge, ?tally.extra !== noneExtra: Badge ) ), DashboardPanel{ ContentPlanWeekTable=( RecordsTable{ RecordsCell, ?row.post === null: RecordsCell, (2) RecordsCell, ( ?row.dueFor === null: RecordsCell | RecordsCell{ Badge } ), (4) RecordsCell, ( RecordsCell, RecordsCell{ ContentPlanChannelLinks }, (3) RecordsCell, RecordsCell{ ContentPlanPictureCell=( Badge ) }, RecordsCell{ ContentPlanChannelStages=( (n) ( ContentStageBadge=( Badge ), ?channel.isExtra: Badge ) ) }, RecordsCell{ ContentPlanChannelMoves=( (n) ?channel.canMove: Button ) } ) } ) } ), ContentPlanMoveModal=( Modal{ ?entry !== null: ( (2) FormField, FormErrorNote, [ (2) Button ] ) } )"
+          "definition": "WorkspaceHeader{ (2) Button }, ?isAnyAwaitingApproval: DashboardPanel{ ContentPlanApproveForm, ContentPlanApprovalTable }, DashboardPanel{ ContentPlanCounts }, DashboardPanel{ ContentPlanRhythmTable }, DashboardPanel{ ContentPlanKindTable }, (n) ( ContentPlanWeekTallies, DashboardPanel{ ContentPlanWeekTable } ), ContentPlanMoveModal",
+          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ (2) Button }, ?isAnyAwaitingApproval: DashboardPanel{ ContentPlanApproveForm=( FormErrorNote, Button ), ContentPlanApprovalTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ ContentPlanApprovalChannels }, RecordsCell{ ContentPlanApprovalPicture=( (n) LibraryPreview ) } } ) }, DashboardPanel{ ContentPlanCounts=( [ (5) StatTile ] ) }, DashboardPanel{ ContentPlanRhythmTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ ContentPlanKindTable=( RecordsTable{ (2) RecordsCell } ) }, (n) ( ContentPlanWeekTallies=( (n) ( Badge, ?tally.extra !== noneExtra: Badge ) ), DashboardPanel{ ContentPlanWeekTable=( RecordsTable{ RecordsCell, ?row.post === null: RecordsCell, (2) RecordsCell, ( ?row.dueFor === null: RecordsCell | RecordsCell{ Badge } ), (4) RecordsCell, ( RecordsCell, RecordsCell{ ContentPlanChannelLinks }, (3) RecordsCell, RecordsCell{ ContentPlanPictureCell=( Badge ) }, RecordsCell{ ContentPlanChannelStages=( (n) ( ContentStageBadge=( Badge ), ?channel.isExtra: Badge ) ) }, RecordsCell{ ContentPlanChannelMoves=( (n) ?channel.canMove: Button ) } ) } ) } ), ContentPlanMoveModal=( Modal{ ?entry !== null: ( (2) FormField, FormErrorNote, [ (2) Button ] ) } )"
         },
         {
           "route": "/organisations/[organisationId]/business-brain",
@@ -4782,7 +4572,7 @@
           "route": "/people/[personId]",
           "file": "src/routes/people/[personId]/+page.svelte",
           "definition": "PersonHeader{ FormErrorNote, PersonLinkList, ?data.pendingAppointments !== nu\u2026: AppointmentImportForm, PersonCompanyList, PersonNoteTimeline, PersonEventLedger }, Modal{ PersonFieldsForm }, Modal{ AskClaudeToDraftApproach }, Modal{ AskClaudeToResearchPerson }, DangerConfirmModal",
-          "expanded": "PersonHeader=( PageTitle, PersonFacts=( WarmthPill ) ){ FormErrorNote, PersonLinkList=( (n) PersonLinkChip, SubmitButton ), ?data.pendingAppointments !== nu\u2026: AppointmentImportForm=( ?appointments.length > 0: [ \u26a0input\u2192FormField SubmitButton ] ), PersonCompanyList=( (n) PersonCompanyCard=( StagePill, ?company.parentName === '': GroupUnderForm=( SubmitButton ) ) ), PersonNoteTimeline=( ProseText, SubmitButton ), PersonEventLedger }, Modal{ PersonFieldsForm=( [ FormField ?contactId !== null: FormField (2) FormField PersonProfileFields=( (5) FormField ) ], SubmitButton ) }, Modal{ AskClaudeToDraftApproach=( CopyTextButton ) }, Modal{ AskClaudeToResearchPerson=( CopyTextButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) )"
+          "expanded": "PersonHeader=( PageTitle, PersonFacts=( WarmthPill ) ){ FormErrorNote, PersonLinkList=( (n) PersonLinkChip, SubmitButton ), ?data.pendingAppointments !== nu\u2026: AppointmentImportForm=( ?appointments.length > 0: [ FormField SubmitButton ] ), PersonCompanyList=( (n) PersonCompanyCard=( StagePill, ?company.parentName === '': GroupUnderForm=( SubmitButton ) ) ), PersonNoteTimeline=( ProseText, SubmitButton ), PersonEventLedger }, Modal{ PersonFieldsForm=( [ FormField ?contactId !== null: FormField (2) FormField PersonProfileFields=( (5) FormField ) ], SubmitButton ) }, Modal{ AskClaudeToDraftApproach=( CopyTextButton ) }, Modal{ AskClaudeToResearchPerson=( CopyTextButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) )"
         },
         {
           "route": "/portal",
@@ -4824,7 +4614,7 @@
           "route": "/privacy",
           "file": "src/routes/privacy/+page.svelte",
           "definition": "LegalArticle",
-          "expanded": "LegalArticle=( \u26a0h1\u2192PageTitle )"
+          "expanded": "LegalArticle"
         },
         {
           "route": "/projects",
@@ -4854,7 +4644,7 @@
           "route": "/projects/[projectId]/goals/[goalId]",
           "file": "src/routes/projects/[projectId]/goals/[goalId]/+page.svelte",
           "definition": "GoalDetailHeader{ FlashMessage, GoalMeasurePanel, GoalAutocompletePanel, GoalTaskList, ConversationThread, LifecyclePanel, ConversationParticipantsPanel, Modal{ EditGoalForm }, DangerConfirmModal }",
-          "expanded": "GoalDetailHeader=( WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ GoalStatusPill, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ){ FlashMessage, GoalMeasurePanel=( DashboardPanel{ ProseText } ), GoalAutocompletePanel=( DashboardPanel{ ?canSwitch: SubmitButton, FormErrorNote } ), GoalTaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) \u26a0select\u2192FormField ) SubmitButton ] ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ), Modal{ EditGoalForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) GoalHorizonField=( SmallCapsField=( FormField ) ) PriorityField=( SmallCapsField=( FormField ) ) ], FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) }"
+          "expanded": "GoalDetailHeader=( WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ GoalStatusPill, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ){ FlashMessage, GoalMeasurePanel=( DashboardPanel{ ProseText } ), GoalAutocompletePanel=( DashboardPanel{ ?canSwitch: SubmitButton, FormErrorNote } ), GoalTaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ), Modal{ EditGoalForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) GoalHorizonField=( SmallCapsField=( FormField ) ) PriorityField=( SmallCapsField=( FormField ) ) ], FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) }"
         },
         {
           "route": "/projects/[projectId]/site-map",
@@ -4866,7 +4656,7 @@
           "route": "/projects/[projectId]/tasks/[taskId]",
           "file": "src/routes/projects/[projectId]/tasks/[taskId]/+page.svelte",
           "definition": "TaskDetailHeader{ FlashMessage, TaskWaitingNote, TaskStoryPanel, ?isAwaitingResolution: ResolveSupportTaskForm, AcceptanceCriteriaSection, SubtaskList{ TaskSequencePanel, TaskTodosPanel, ChecklistSection, TaskAttachmentsSection, ConversationThread }, TaskAside, TaskPageModals }",
-          "expanded": "TaskDetailHeader=( WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ TaskKindPill } ){ FlashMessage, TaskWaitingNote=( ?waitedFor !== null: TaskReferenceLink ), TaskStoryPanel=( DashboardPanel{ ?isSupportTask: SupportTaskFacts=( ?task.resolution !== '': ProseText ), ?task.details !== '': ProseText } ), ?isAwaitingResolution: ResolveSupportTaskForm=( FormErrorNote, SubmitButton ), AcceptanceCriteriaSection=( DashboardPanel{ (n) CriterionRow }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), SubtaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ){ TaskSequencePanel=( DashboardPanel{ SequenceTrack=( (n) SequenceStepNode=( (2) TaskReferenceLink ) ) } ), TaskTodosPanel=( ?todos.length > 0: DashboardPanel, TodoStatusForm ), ChecklistSection=( DashboardPanel{ (n) ChecklistPanel=( ?items.length > 0: (n) ChecklistItemRow, AddChecklistItemForm=( SubmitButton, FormErrorNote ), RenameChecklistModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ), DangerConfirmModal=( DangerConfirmForm ) ) }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), TaskAttachmentsSection=( DashboardPanel{ (n) AttachmentRow=( AttachmentThumbnail=( ?isImage: ImageThumbnail ), ?canPreview: AttachmentPreviewModal=( Modal ), DangerConfirmModal=( DangerConfirmForm ) ), ?errorMessage !== null: FormErrorNote } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) \u26a0select\u2192FormField ) SubmitButton ] ) } ) }, TaskAside=( TaskFactsPanel=( DashboardPanel{ ?task.dueDate !== null: TaskDueDate, TaskAutocompleteFact=( TaskAutocompleteModal ) } ), TaskComplexityPanel=( DashboardPanel{ [ (3) TaskComplexityCount=( \u26a0input\u2192FormField ) ], FormErrorNote, SubmitButton } ), TaskBranchPanel=( DashboardPanel{ TaskBranchLinks, ?isEditing: TaskBranchForm=( FormErrorNote, SubmitButton ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ) ), TaskPageModals=( Modal{ TaskEditForm=( (2) SmallCapsField=( FormField ), TaskStatusAndDueFields=( [ (2) SmallCapsField ] ), TaskPlanningFields=( [ (2) SmallCapsField ] ), TaskSequenceField=( SmallCapsField ), PriorityField=( SmallCapsField ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), TaskDepartmentField=( SmallCapsField ), TaskMoveFields=( SmallCapsField, SmallCapsField ), UserStoryFields=( ?isUserStory: [ (3) \u26a0input\u2192FormField ] ), TeamPickerFieldset, FormErrorNote, SubmitButton ) }, Modal{ NewTaskForm=( (3) SmallCapsField=( FormField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ), NewTaskFormFooter=( FormErrorNote, ( ?similarTasks.length > 0: SimilarTasksNotice | SubmitButton ) ) ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ) }"
+          "expanded": "TaskDetailHeader=( WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ TaskKindPill } ){ FlashMessage, TaskWaitingNote=( ?waitedFor !== null: TaskReferenceLink ), TaskStoryPanel=( DashboardPanel{ ?isSupportTask: SupportTaskFacts=( ?task.resolution !== '': ProseText ), ?task.details !== '': ProseText } ), ?isAwaitingResolution: ResolveSupportTaskForm=( FormErrorNote, SubmitButton ), AcceptanceCriteriaSection=( DashboardPanel{ (n) CriterionRow }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), SubtaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ){ TaskSequencePanel=( DashboardPanel{ SequenceTrack=( (n) SequenceStepNode=( (2) TaskReferenceLink ) ) } ), TaskTodosPanel=( ?todos.length > 0: DashboardPanel, TodoStatusForm ), ChecklistSection=( DashboardPanel{ (n) ChecklistPanel=( ?items.length > 0: (n) ChecklistItemRow, AddChecklistItemForm=( SubmitButton, FormErrorNote ), RenameChecklistModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ), DangerConfirmModal=( DangerConfirmForm ) ) }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), TaskAttachmentsSection=( DashboardPanel{ (n) AttachmentRow=( AttachmentThumbnail=( ?isImage: ImageThumbnail ), ?canPreview: AttachmentPreviewModal=( Modal ), DangerConfirmModal=( DangerConfirmForm ) ), ?errorMessage !== null: FormErrorNote } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ) }, TaskAside=( TaskFactsPanel=( DashboardPanel{ ?task.dueDate !== null: TaskDueDate, TaskAutocompleteFact=( TaskAutocompleteModal ) } ), TaskComplexityPanel=( DashboardPanel{ [ (3) TaskComplexityCount=( FormField ) ], FormErrorNote, SubmitButton } ), TaskBranchPanel=( DashboardPanel{ TaskBranchLinks, ?isEditing: TaskBranchForm=( FormErrorNote, SubmitButton ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ) ), TaskPageModals=( Modal{ TaskEditForm=( (2) SmallCapsField=( FormField ), TaskStatusAndDueFields=( [ (2) SmallCapsField ] ), TaskPlanningFields=( [ (2) SmallCapsField ] ), TaskSequenceField=( SmallCapsField ), PriorityField=( SmallCapsField ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), TaskDepartmentField=( SmallCapsField ), TaskMoveFields=( SmallCapsField, SmallCapsField ), UserStoryFields=( ?isUserStory: [ (3) FormField ] ), TeamPickerFieldset, FormErrorNote, SubmitButton ) }, Modal{ NewTaskForm=( (3) SmallCapsField=( FormField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ), NewTaskFormFooter=( FormErrorNote, ( ?similarTasks.length > 0: SimilarTasksNotice | SubmitButton ) ) ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ) }"
         },
         {
           "route": "/projects/autocomplete",
@@ -4884,19 +4674,19 @@
           "route": "/promo",
           "file": "src/routes/promo/+page.svelte",
           "definition": "PageMeta, PromoPlayer, PromoIntro",
-          "expanded": "PageMeta, PromoPlayer=( PromoOverlay=( PromoCaptions=( (n) PromoCaptionHeadline ), ?!isReady: BrandSpinner, ?isWatching: ?clock.hasEnded: PromoEndCard=( DiscoveryCallButton, LineIcon ), LineIcon, PromoControls=( LineIcon, PromoChapterBar{ LineIcon } ) ) ), PromoIntro=( \u26a0h1\u2192PageTitle, DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )"
+          "expanded": "PageMeta, PromoPlayer=( PromoOverlay=( PromoCaptions=( (n) PromoCaptionHeadline ), ?!isReady: BrandSpinner, ?isWatching: ?clock.hasEnded: PromoEndCard=( DiscoveryCallButton, LineIcon ), LineIcon, PromoControls=( LineIcon, PromoChapterBar{ LineIcon } ) ) ), PromoIntro=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )"
         },
         {
           "route": "/tax-calculator",
           "file": "src/routes/tax-calculator/+page.svelte",
           "definition": "TakeHomePageHead, CalculatorSubNavigation, CalculatorHero, SectionHeading{ TaxYearSelect }, EarningsForm, TakeHomeEstimatePanel, ?estimate: ( BiggerPictureSection, EveryPoundSection, ?bill: SelfAssessmentSection, DeadlinesEmailCard ), ComparisonsSection{ HowItWorksSection, ClosingStrip }, ?estimate: MobileTakeHomeBar",
-          "expanded": "TakeHomePageHead=( PageMeta ), CalculatorSubNavigation, CalculatorHero=( \u26a0h1\u2192PageTitle, HeroIllustration ), SectionHeading{ TaxYearSelect=( \u26a0select\u2192FormField ) }, EarningsForm=( EarningTypeTiles=( EarningTypeIcon ), ?form.isEmployed: BigAmountField, ?form.isSelfEmployed: SelfEmploymentFields=( ( ?form.earningType === earningTyp\u2026: BigAmountField | PeriodAmountField ), PeriodAmountField, ExpenseExamples=( DisclosureMarker ), ToggleSwitch{ ?isCisSubcontractor: PeriodAmountField } ), TaxRegionField=( \u26a0select\u2192FormField ), MoreAccurateOptions=( DisclosureMarker, PensionField=( \u26a0input\u2192FormField ), StudentLoanFields=( \u26a0select\u2192FormField ), ?form.isEmployed: PeriodAmountField, ?form.isSelfEmployed: MileageAndHomeFields=( [ (2) \u26a0select\u2192FormField ], ?form.vehicleType !== vehicleTyp\u2026: PeriodAmountField ) ) ), TakeHomeEstimatePanel=( TakeHomePanel{ ?estimate: TakeHomeCard=( ResultPeriodToggle, ?!isLoss: ( TakeHomeDonut, SegmentLegend ), TakeHomeNote ), TakeHomeActions, EmptyTakeHome } ), ?estimate: ( BiggerPictureSection=( SectionHeading, [ WhatIfCard=( WidgetIcon, \u26a0input\u2192FormField ) LivingCostsCard=( WidgetIcon, \u26a0input\u2192FormField ) ] ), EveryPoundSection=( SectionHeading, [ BreakdownCard=( ?period === resultPeriods.quarte\u2026: QuarterlyViewNote, BreakdownTable=( \u26a0table\u2192RecordsTable ), BandsDisclosure=( DisclosureMarker, BreakdownTable, ?nationalInsurance.length > 0: BreakdownTable ), EstimateExclusions=( DisclosureMarker ) ) YearComparisonCard TradingRoutesCard=( TradingRouteTiles, CompanyPayFields=( [ (2) FormField ] ), ?company: CompanyWorkingDisclosure=( DisclosureMarker, BreakdownTable ), TradingRouteNotes=( DisclosureMarker ) ) ], ?isPayingHigherRates(estimate): HighIncomeNotice ), ?bill: SelfAssessmentSection=( SectionHeading, [ SelfAssessmentBillCard=( WidgetIcon, ?plan: PaymentTimeline, BreakdownTable=( \u26a0table\u2192RecordsTable ) ) ?paymentsOnAccount: PaymentsOnAccountCard=( WidgetIcon ) MakingTaxDigitalCard=( WidgetIcon, ?isInScope: QuarterlyDeadlines ) Class2Card=( WidgetIcon ) ] ), DeadlinesEmailCard=( WidgetIcon, ?isSent: DeadlinesEmailSent, ?!isSent: ( (2) \u26a0input\u2192FormField, FormErrorNote, SubmitButton ) ) ), ComparisonsSection=( SectionHeading, (n) ComparisonCard=( ?comparison.tradingRoutes: SavedTradingRoutes ) ){ HowItWorksSection=( SectionHeading, PlainEnglishExplanations=( DisclosureMarker ), FigureSources ), ClosingStrip }, ?estimate: MobileTakeHomeBar"
+          "expanded": "TakeHomePageHead=( PageMeta ), CalculatorSubNavigation, CalculatorHero=( HeroIllustration ), SectionHeading{ TaxYearSelect=( \u26a0select\u2192FormField ) }, EarningsForm=( EarningTypeTiles=( EarningTypeIcon ), ?form.isEmployed: BigAmountField, ?form.isSelfEmployed: SelfEmploymentFields=( ( ?form.earningType === earningTyp\u2026: BigAmountField | PeriodAmountField ), PeriodAmountField, ExpenseExamples=( DisclosureMarker ), ToggleSwitch{ ?isCisSubcontractor: PeriodAmountField } ), TaxRegionField=( FormField ), MoreAccurateOptions=( DisclosureMarker, PensionField=( FormField ), StudentLoanFields=( FormField ), ?form.isEmployed: PeriodAmountField, ?form.isSelfEmployed: MileageAndHomeFields=( [ (2) FormField ], ?form.vehicleType !== vehicleTyp\u2026: PeriodAmountField ) ) ), TakeHomeEstimatePanel=( TakeHomePanel{ ?estimate: TakeHomeCard=( ResultPeriodToggle, ?!isLoss: ( TakeHomeDonut, SegmentLegend ), TakeHomeNote ), TakeHomeActions, EmptyTakeHome } ), ?estimate: ( BiggerPictureSection=( SectionHeading, [ WhatIfCard=( WidgetIcon ) LivingCostsCard=( WidgetIcon, FormField ) ] ), EveryPoundSection=( SectionHeading, [ BreakdownCard=( ?period === resultPeriods.quarte\u2026: QuarterlyViewNote, BreakdownTable=( \u26a0table\u2192RecordsTable ), BandsDisclosure=( DisclosureMarker, BreakdownTable, ?nationalInsurance.length > 0: BreakdownTable ), EstimateExclusions=( DisclosureMarker ) ) YearComparisonCard TradingRoutesCard=( TradingRouteTiles, CompanyPayFields=( [ (2) FormField ] ), ?company: CompanyWorkingDisclosure=( DisclosureMarker, BreakdownTable ), TradingRouteNotes=( DisclosureMarker ) ) ], ?isPayingHigherRates(estimate): HighIncomeNotice ), ?bill: SelfAssessmentSection=( SectionHeading, [ SelfAssessmentBillCard=( WidgetIcon, ?plan: PaymentTimeline, BreakdownTable=( \u26a0table\u2192RecordsTable ) ) ?paymentsOnAccount: PaymentsOnAccountCard=( WidgetIcon ) MakingTaxDigitalCard=( WidgetIcon, ?isInScope: QuarterlyDeadlines ) Class2Card=( WidgetIcon ) ] ), DeadlinesEmailCard=( WidgetIcon, ?isSent: DeadlinesEmailSent, ?!isSent: ( FormField, \u26a0input\u2192FormField, FormErrorNote, SubmitButton ) ) ), ComparisonsSection=( SectionHeading, (n) ComparisonCard=( ?comparison.tradingRoutes: SavedTradingRoutes ) ){ HowItWorksSection=( SectionHeading, PlainEnglishExplanations=( DisclosureMarker ), FigureSources ), ClosingStrip }, ?estimate: MobileTakeHomeBar"
         },
         {
           "route": "/terms",
           "file": "src/routes/terms/+page.svelte",
           "definition": "LegalArticle",
-          "expanded": "LegalArticle=( \u26a0h1\u2192PageTitle )"
+          "expanded": "LegalArticle"
         },
         {
           "route": "/upload/[token]",
@@ -4916,7 +4706,7 @@
           "component": "FormErrorNote",
           "file": "src/lib/components/site/FormErrorNote.svelte",
           "definition": "",
-          "usedBy": 54
+          "usedBy": 55
         },
         {
           "component": "SmallCapsField",
@@ -4934,7 +4724,7 @@
           "component": "RecordsCell",
           "file": "src/lib/components/workspace/RecordsCell.svelte",
           "definition": "",
-          "usedBy": 17
+          "usedBy": 18
         },
         {
           "component": "DangerConfirmModal",
@@ -5101,7 +4891,13 @@
         {
           "component": "LegalArticle",
           "file": "src/lib/components/site/LegalArticle.svelte",
-          "definition": "\u26a0h1\u2192PageTitle",
+          "definition": "",
+          "usedBy": 3
+        },
+        {
+          "component": "LibraryPreview",
+          "file": "src/lib/components/brand/LibraryPreview.svelte",
+          "definition": "",
           "usedBy": 3
         },
         {
@@ -5243,6 +5039,12 @@
           "usedBy": 2
         },
         {
+          "component": "DirectorAnswerEntry",
+          "file": "src/lib/components/boardroom/DirectorAnswerEntry.svelte",
+          "definition": "Badge",
+          "usedBy": 2
+        },
+        {
           "component": "EditProjectForm",
           "file": "src/lib/components/projects/EditProjectForm.svelte",
           "definition": "(2) SmallCapsField, [ SmallCapsField ProjectPositionField ], OrganisationSelect, TeamProjectField, (2) SmallCapsField, [ (3) SmallCapsField ], ProjectDatabaseFields, FormErrorNote, SubmitButton",
@@ -5276,12 +5078,6 @@
           "component": "LeadOutcomeNote",
           "file": "src/lib/components/clients/map/LeadOutcomeNote.svelte",
           "definition": "FormErrorNote",
-          "usedBy": 2
-        },
-        {
-          "component": "LibraryPreview",
-          "file": "src/lib/components/brand/LibraryPreview.svelte",
-          "definition": "",
           "usedBy": 2
         },
         {
@@ -5329,7 +5125,7 @@
         {
           "component": "OrganisationDetailsFields",
           "file": "src/lib/components/organisations/OrganisationDetailsFields.svelte",
-          "definition": "(2) SmallCapsField, \u26a0input\u2192FormField, [ (2) \u26a0input\u2192FormField ]",
+          "definition": "(2) SmallCapsField, FormField, [ (2) FormField ]",
           "usedBy": 2
         },
         {
@@ -5503,7 +5299,7 @@
         {
           "component": "AboutStorySection",
           "file": "src/lib/components/about/AboutStorySection.svelte",
-          "definition": "\u26a0h1\u2192PageTitle",
+          "definition": "",
           "usedBy": 1
         },
         {
@@ -5641,7 +5437,7 @@
         {
           "component": "AppointmentImportForm",
           "file": "src/lib/components/people/AppointmentImportForm.svelte",
-          "definition": "?appointments.length > 0: [ \u26a0input\u2192FormField SubmitButton ]",
+          "definition": "?appointments.length > 0: [ FormField SubmitButton ]",
           "usedBy": 1
         },
         {
@@ -5695,7 +5491,7 @@
         {
           "component": "AreaSearchForm",
           "file": "src/lib/components/clients/map/AreaSearchForm.svelte",
-          "definition": "\u26a0input\u2192FormField, \u26a0select\u2192FormField, \u26a0input\u2192FormField, SubmitButton",
+          "definition": "(3) FormField, SubmitButton",
           "usedBy": 1
         },
         {
@@ -5719,7 +5515,7 @@
         {
           "component": "AskClaudeToResearch",
           "file": "src/lib/components/clients/AskClaudeToResearch.svelte",
-          "definition": "?clientId === null: \u26a0input\u2192FormField, CopyTextButton",
+          "definition": "?clientId === null: FormField, CopyTextButton",
           "usedBy": 1
         },
         {
@@ -6031,7 +5827,7 @@
         {
           "component": "CalculatorHero",
           "file": "src/lib/components/taxCalculator/CalculatorHero.svelte",
-          "definition": "\u26a0h1\u2192PageTitle, HeroIllustration",
+          "definition": "HeroIllustration",
           "usedBy": 1
         },
         {
@@ -6067,7 +5863,7 @@
         {
           "component": "CaseStudyIntroSection",
           "file": "src/lib/components/case-study/CaseStudyIntroSection.svelte",
-          "definition": "\u26a0h1\u2192PageTitle",
+          "definition": "",
           "usedBy": 1
         },
         {
@@ -6305,6 +6101,30 @@
           "usedBy": 1
         },
         {
+          "component": "ContentPlanApprovalChannels",
+          "file": "src/lib/components/brand/ContentPlanApprovalChannels.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "ContentPlanApprovalPicture",
+          "file": "src/lib/components/brand/ContentPlanApprovalPicture.svelte",
+          "definition": "(n) LibraryPreview",
+          "usedBy": 1
+        },
+        {
+          "component": "ContentPlanApprovalTable",
+          "file": "src/lib/components/brand/ContentPlanApprovalTable.svelte",
+          "definition": "RecordsTable{ (3) RecordsCell, RecordsCell{ ContentPlanApprovalChannels }, RecordsCell{ ContentPlanApprovalPicture } }",
+          "usedBy": 1
+        },
+        {
+          "component": "ContentPlanApproveForm",
+          "file": "src/lib/components/brand/ContentPlanApproveForm.svelte",
+          "definition": "FormErrorNote, Button",
+          "usedBy": 1
+        },
+        {
           "component": "ContentPlanChannelLinks",
           "file": "src/lib/components/brand/ContentPlanChannelLinks.svelte",
           "definition": "",
@@ -6505,7 +6325,7 @@
         {
           "component": "DeadlinesEmailCard",
           "file": "src/lib/components/taxCalculator/DeadlinesEmailCard.svelte",
-          "definition": "WidgetIcon, ?isSent: DeadlinesEmailSent, ?!isSent: ( (2) \u26a0input\u2192FormField, FormErrorNote, SubmitButton )",
+          "definition": "WidgetIcon, ?isSent: DeadlinesEmailSent, ?!isSent: ( FormField, \u26a0input\u2192FormField, FormErrorNote, SubmitButton )",
           "usedBy": 1
         },
         {
@@ -6517,7 +6337,7 @@
         {
           "component": "DecisionAnswerEntry",
           "file": "src/lib/components/boardroom/DecisionAnswerEntry.svelte",
-          "definition": "Badge",
+          "definition": "DirectorAnswerEntry",
           "usedBy": 1
         },
         {
@@ -6547,7 +6367,7 @@
         {
           "component": "DemoConnectSection",
           "file": "src/lib/components/demo/DemoConnectSection.svelte",
-          "definition": "\u26a0h1\u2192PageTitle, CopyTextButton",
+          "definition": "CopyTextButton",
           "usedBy": 1
         },
         {
@@ -6589,7 +6409,7 @@
         {
           "component": "DemoStartSection",
           "file": "src/lib/components/demo/DemoStartSection.svelte",
-          "definition": "\u26a0h1\u2192PageTitle, (n) DemoKindChoiceCard, FormErrorNote",
+          "definition": "(n) DemoKindChoiceCard, FormErrorNote",
           "usedBy": 1
         },
         {
@@ -6901,7 +6721,7 @@
         {
           "component": "HandOffPicker",
           "file": "src/lib/components/conversations/HandOffPicker.svelte",
-          "definition": "(2) \u26a0select\u2192FormField",
+          "definition": "(2) FormField",
           "usedBy": 1
         },
         {
@@ -6943,7 +6763,7 @@
         {
           "component": "HeroSection",
           "file": "src/lib/components/home/HeroSection.svelte",
-          "definition": "[ \u26a0h1\u2192PageTitle BrandWordmark ]",
+          "definition": "BrandWordmark",
           "usedBy": 1
         },
         {
@@ -7033,7 +6853,7 @@
         {
           "component": "LivingCostsCard",
           "file": "src/lib/components/taxCalculator/LivingCostsCard.svelte",
-          "definition": "WidgetIcon, \u26a0input\u2192FormField",
+          "definition": "WidgetIcon, FormField",
           "usedBy": 1
         },
         {
@@ -7099,13 +6919,13 @@
         {
           "component": "MileageAndHomeFields",
           "file": "src/lib/components/taxCalculator/MileageAndHomeFields.svelte",
-          "definition": "[ (2) \u26a0select\u2192FormField ], ?form.vehicleType !== vehicleTyp\u2026: PeriodAmountField",
+          "definition": "[ (2) FormField ], ?form.vehicleType !== vehicleTyp\u2026: PeriodAmountField",
           "usedBy": 1
         },
         {
           "component": "MinutesAnswerEntry",
           "file": "src/lib/components/boardroom/MinutesAnswerEntry.svelte",
-          "definition": "Badge",
+          "definition": "DirectorAnswerEntry",
           "usedBy": 1
         },
         {
@@ -7207,7 +7027,7 @@
         {
           "component": "OfferStepsSection",
           "file": "src/lib/components/offer/OfferStepsSection.svelte",
-          "definition": "\u26a0h1\u2192PageTitle, (n) OfferStepCard, DiscoveryCallButton",
+          "definition": "(n) OfferStepCard, DiscoveryCallButton",
           "usedBy": 1
         },
         {
@@ -7405,7 +7225,7 @@
         {
           "component": "PensionField",
           "file": "src/lib/components/taxCalculator/PensionField.svelte",
-          "definition": "\u26a0input\u2192FormField",
+          "definition": "FormField",
           "usedBy": 1
         },
         {
@@ -7759,7 +7579,7 @@
         {
           "component": "PromoIntro",
           "file": "src/lib/components/promo/PromoIntro.svelte",
-          "definition": "\u26a0h1\u2192PageTitle, DiscoveryCallButton",
+          "definition": "DiscoveryCallButton",
           "usedBy": 1
         },
         {
@@ -7783,7 +7603,7 @@
         {
           "component": "ProspectSearchForm",
           "file": "src/lib/components/clients/ProspectSearchForm.svelte",
-          "definition": "(2) \u26a0input\u2192FormField, SubmitButton",
+          "definition": "(2) FormField, SubmitButton",
           "usedBy": 1
         },
         {
@@ -7831,7 +7651,7 @@
         {
           "component": "ReviewModelForm",
           "file": "src/lib/components/admin/ReviewModelForm.svelte",
-          "definition": "[ \u26a0select\u2192FormField SubmitButton FormErrorNote ]",
+          "definition": "[ FormField SubmitButton FormErrorNote ]",
           "usedBy": 1
         },
         {
@@ -8035,7 +7855,7 @@
         {
           "component": "StudentLoanFields",
           "file": "src/lib/components/taxCalculator/StudentLoanFields.svelte",
-          "definition": "\u26a0select\u2192FormField",
+          "definition": "FormField",
           "usedBy": 1
         },
         {
@@ -8179,7 +7999,7 @@
         {
           "component": "TaskComplexityCount",
           "file": "src/lib/components/projects/TaskComplexityCount.svelte",
-          "definition": "\u26a0input\u2192FormField",
+          "definition": "FormField",
           "usedBy": 1
         },
         {
@@ -8395,7 +8215,7 @@
         {
           "component": "TaxRegionField",
           "file": "src/lib/components/taxCalculator/TaxRegionField.svelte",
-          "definition": "\u26a0select\u2192FormField",
+          "definition": "FormField",
           "usedBy": 1
         },
         {
@@ -8485,7 +8305,7 @@
         {
           "component": "UserStoryFields",
           "file": "src/lib/components/projects/UserStoryFields.svelte",
-          "definition": "?isUserStory: [ (3) \u26a0input\u2192FormField ]",
+          "definition": "?isUserStory: [ (3) FormField ]",
           "usedBy": 1
         },
         {
@@ -8503,7 +8323,7 @@
         {
           "component": "WhatIfCard",
           "file": "src/lib/components/taxCalculator/WhatIfCard.svelte",
-          "definition": "WidgetIcon, \u26a0input\u2192FormField",
+          "definition": "WidgetIcon",
           "usedBy": 1
         },
         {
@@ -8559,59 +8379,59 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4243,
-        "backend": 1141,
-        "frontend": 902,
-        "shared": 778,
-        "tests": 540,
-        "api": 470,
-        "database": 195,
-        "tooling": 123,
+        "totalFiles": 4336,
+        "backend": 1168,
+        "frontend": 909,
+        "shared": 788,
+        "tests": 558,
+        "api": 478,
+        "database": 200,
+        "tooling": 141,
         "docs": 77,
         "infrastructure": 17
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 1141,
-          "sourceFiles": 1131,
-          "sourceLines": 37746
+          "files": 1168,
+          "sourceFiles": 1158,
+          "sourceLines": 38340
         },
         {
           "area": "frontend",
-          "files": 902,
-          "sourceFiles": 773,
-          "sourceLines": 26001
+          "files": 909,
+          "sourceFiles": 779,
+          "sourceLines": 26150
         },
         {
           "area": "shared",
-          "files": 778,
-          "sourceFiles": 760,
-          "sourceLines": 27448
+          "files": 788,
+          "sourceFiles": 770,
+          "sourceLines": 27734
         },
         {
           "area": "tests",
-          "files": 540,
-          "sourceFiles": 525,
-          "sourceLines": 24324
+          "files": 558,
+          "sourceFiles": 543,
+          "sourceLines": 25282
         },
         {
           "area": "api",
-          "files": 470,
-          "sourceFiles": 469,
-          "sourceLines": 21522
+          "files": 478,
+          "sourceFiles": 477,
+          "sourceLines": 22013
         },
         {
           "area": "database",
-          "files": 195,
+          "files": 200,
           "sourceFiles": 7,
           "sourceLines": 212
         },
         {
           "area": "tooling",
-          "files": 123,
-          "sourceFiles": 8,
-          "sourceLines": 344
+          "files": 141,
+          "sourceFiles": 9,
+          "sourceLines": 382
         },
         {
           "area": "docs",
@@ -8630,9 +8450,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 193,
+        "schemaTables": 197,
         "limitedColumns": 0,
-        "writeDoors": 313,
+        "writeDoors": 312,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },
@@ -8644,13 +8464,73 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 0,
-        "duplicatedLines": 0,
-        "totalLines": 77477,
-        "duplicatedPercentage": 0.0,
-        "carriedFromBaseline": true
+        "clones": 66,
+        "duplicatedLines": 649,
+        "totalLines": 142009,
+        "duplicatedPercentage": 0.46
       },
-      "offenders": []
+      "offenders": [
+        {
+          "file": "src/lib/server/mcp/actions/brandContentChannelActions.test.ts",
+          "duplicatedLineInstances": 93
+        },
+        {
+          "file": "src/lib/server/mcp/actions/brandCampaignMocks.ts",
+          "duplicatedLineInstances": 69
+        },
+        {
+          "file": "src/lib/server/mcp/actions/brandKitWriteActions.test.ts",
+          "duplicatedLineInstances": 62
+        },
+        {
+          "file": "src/lib/server/mcp/actions/booksDeletionActions.test.ts",
+          "duplicatedLineInstances": 56
+        },
+        {
+          "file": "src/lib/server/mcp/actions/brandContentDraftAction.test.ts",
+          "duplicatedLineInstances": 55
+        },
+        {
+          "file": "src/lib/server/brandCampaigns/brandCampaignMigration.test.ts",
+          "duplicatedLineInstances": 54
+        },
+        {
+          "file": "src/lib/server/mcp/actions/businessBrainBatchFiling.test.ts",
+          "duplicatedLineInstances": 46
+        },
+        {
+          "file": "src/lib/server/mcp/actions/businessBrainActions.test.ts",
+          "duplicatedLineInstances": 41
+        },
+        {
+          "file": "src/lib/server/mcp/actions/businessBrainBatchRefusals.test.ts",
+          "duplicatedLineInstances": 40
+        },
+        {
+          "file": "src/lib/server/brandContent/brandContentMigration.test.ts",
+          "duplicatedLineInstances": 28
+        },
+        {
+          "file": "src/lib/server/mcp/actions/chatbotGate.test.ts",
+          "duplicatedLineInstances": 28
+        },
+        {
+          "file": "src/lib/server/mcp/actions/brandContentPlanActions.test.ts",
+          "duplicatedLineInstances": 27
+        },
+        {
+          "file": "src/lib/server/mcp/actions/brandSheetAction.test.ts",
+          "duplicatedLineInstances": 27
+        },
+        {
+          "file": "src/lib/server/mcp/actions/brandContentReadActions.test.ts",
+          "duplicatedLineInstances": 25
+        },
+        {
+          "file": "src/lib/server/brandKits/brandKitMigration.test.ts",
+          "duplicatedLineInstances": 24
+        }
+      ]
     }
   }
 }

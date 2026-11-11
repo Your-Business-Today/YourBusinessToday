@@ -1,3 +1,5 @@
+import { validateCompanyContext } from './validateCompanyContext';
+
 const quotingProcess = {
 	key: 'quoting',
 	kind: 'process',
@@ -31,4 +33,11 @@ export function joineryContextInput(): Record<string, unknown> {
 		{ fromKey: 'quote', kind: 'is_created_by', toKey: 'estimator' }
 	];
 	return { stage: 'map-data-sources', connectors: ['Gmail', 'Xero'], parts, links };
+}
+
+/** The joinery firm's context as it stands recorded, at its third version. */
+export function joineryVersion() {
+	const draft = validateCompanyContext(joineryContextInput());
+	if ('refusal' in draft) throw new Error(draft.refusal);
+	return { ...draft, versionNumber: 3, recordedAt: '2026-11-10T17:00:00Z' };
 }

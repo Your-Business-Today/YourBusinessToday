@@ -204,6 +204,8 @@
     "cooccurrenceThreshold": 0.75,
     "fileCountBand": 3.0,
     "acceptedGaps": [
+      "src/lib/client/browserActions.ts",
+      "src/lib/components/businessBrain/businessBrainAccess.ts",
       "src/lib/server/boardroom/callBoardroomPaper.ts",
       "src/lib/server/boardroom/callBoardroomBrief.ts",
       "src/lib/server/mcp/actions/businessBrainRequest.ts",
@@ -259,7 +261,8 @@
           "type=\"checkbox\"",
           "type=\"radio\"",
           "type=\"file\"",
-          "type=\"hidden\""
+          "type=\"hidden\"",
+          "type=\"range\""
         ],
         "unlessUnlabelled": true
       },
@@ -275,7 +278,18 @@
       },
       {
         "element": "h1",
-        "ownedBy": "PageTitle"
+        "ownedBy": "PageTitle",
+        "unlessGlobs": [
+          "src/lib/components/about/*",
+          "src/lib/components/case-study/*",
+          "src/lib/components/demo/*",
+          "src/lib/components/home/*",
+          "src/lib/components/offer/*",
+          "src/lib/components/promo/*",
+          "src/lib/components/site/LegalArticle.svelte",
+          "src/lib/components/taxCalculator/CalculatorHero.svelte",
+          "src/routes/contact/+page.svelte"
+        ]
       }
     ],
     "horizontalClasses": [

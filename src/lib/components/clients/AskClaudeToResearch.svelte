@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
 	import CopyTextButton from '$lib/components/site/CopyTextButton.svelte';
+	import FormField from '$lib/components/site/FormField.svelte';
 	import { companyResearchRequest } from '$lib/data/companyResearchRequest';
 	import { inputClasses, panelClasses } from '$lib/components/site/formStyles';
 
@@ -13,10 +14,9 @@
 
 <section class={panelClasses}>
 	{#if clientId === null}
-		<label class="flex flex-col gap-2 text-sm text-chalk/70">
-			Company name or website
+		<FormField label="Company name or website">
 			<input bind:value={companyName} placeholder="Acme Joinery, or https://acmejoinery.co.uk" class={inputClasses} />
-		</label>
+		</FormField>
 	{/if}
 	<p class="text-sm text-chalk/70">Paste this into a chat with your Claude, connected to Your Business Today:</p>
 	<div class="flex flex-wrap items-start gap-3">
