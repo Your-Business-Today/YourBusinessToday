@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T23:38:24+00:00",
+  "generatedAt": "2026-11-10T21:53:15+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 98.0,
@@ -21,7 +21,7 @@
       },
       {
         "group": "Widget adoption",
-        "score": 77.4,
+        "score": 77.2,
         "weight": 8
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3702,
+        "measuredAgainst": 3673,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5566,
+        "measuredAgainst": 5512,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5434,
+        "measuredAgainst": 5397,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 138.8,
+        "measuredAgainst": 137.6,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 9,
-        "measuredAgainst": 138.8,
+        "measuredAgainst": 137.6,
         "score": 99.7
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6185,
+        "measuredAgainst": 6127,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 138.8,
+        "measuredAgainst": 137.6,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 138.8,
+        "measuredAgainst": 137.6,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5566,
+        "measuredAgainst": 5512,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5434,
+        "measuredAgainst": 5397,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5434,
+        "measuredAgainst": 5397,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 3,
-        "measuredAgainst": 5566,
+        "measuredAgainst": 5512,
         "score": 99.5
       },
       {
@@ -231,8 +231,8 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 36,
-        "measuredAgainst": 319,
-        "score": 77.4
+        "measuredAgainst": 316,
+        "score": 77.2
       },
       {
         "key": "unvalidatedWrites",
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 3702,
-      "totalLines": 138800,
+      "totalFiles": 3673,
+      "totalLines": 137597,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 5566,
+      "totalFunctions": 5512,
       "elseBlocks": 0,
-      "ifBlocks": 5434,
+      "ifBlocks": 5397,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -298,7 +298,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 318,
+      "overlongLines": 314,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,10 +308,10 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 5566
+      "functionsExamined": 5512
     },
     "designPatterns": {
-      "roleFamilies": 206,
+      "roleFamilies": 203,
       "predictedFiles": 229,
       "predictedFilesMissing": 3,
       "entities": 0,
@@ -321,18 +321,18 @@
     },
     "inventory": {
       "pages": 64,
-      "components": 619,
+      "components": 615,
       "orphanComponents": 0,
       "averagePageLines": 46
     },
     "siteDefinition": {
       "routes": 63,
-      "views": 686,
-      "siteComponents": 612,
+      "views": 682,
+      "siteComponents": 608,
       "catalogue": 10,
-      "widgetUsages": 283,
+      "widgetUsages": 280,
       "handRolledElements": 36,
-      "widgetSlots": 319,
+      "widgetSlots": 316,
       "viewsWithHandRolled": 33,
       "boxedContentWidgets": 0,
       "designSheets": 7,
@@ -340,21 +340,21 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 197,
+      "schemaTables": 193,
       "limitedColumns": 0,
       "writeDoors": 313,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4283,
-      "backend": 1143,
-      "frontend": 908,
-      "shared": 785,
-      "tests": 545,
-      "api": 474,
-      "database": 197,
-      "tooling": 137,
+      "totalFiles": 4243,
+      "backend": 1141,
+      "frontend": 902,
+      "shared": 778,
+      "tests": 540,
+      "api": 470,
+      "database": 195,
+      "tooling": 123,
       "docs": 77,
       "infrastructure": 17
     }
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 3702,
-        "totalLines": 138800,
+        "totalFiles": 3673,
+        "totalLines": 137597,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 5566,
+        "totalFunctions": 5512,
         "elseBlocks": 0,
-        "ifBlocks": 5434,
+        "ifBlocks": 5397,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -709,7 +709,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 318,
+        "overlongLines": 314,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -718,10 +718,6 @@
         "overlongLines": [
           {
             "file": "src/lib/brand/plan/planPictures.test.ts",
-            "line": 10
-          },
-          {
-            "file": "src/lib/brand/plan/planPosts.test.ts",
             "line": 10
           },
           {
@@ -915,6 +911,10 @@
           {
             "file": "src/lib/data/legal/privacySharingSections.ts",
             "line": 24
+          },
+          {
+            "file": "src/lib/data/legal/privacySharingSections.ts",
+            "line": 30
           }
         ]
       }
@@ -935,14 +935,14 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 5566
+        "functionsExamined": 5512
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 206,
+        "roleFamilies": 203,
         "predictedFiles": 229,
         "predictedFilesMissing": 3,
         "entities": 0,
@@ -964,8 +964,7 @@
           "address": 5,
           "adverts": 4,
           "answer": 8,
-          "answers": 14,
-          "approval": 6,
+          "answers": 13,
           "attachment": 5,
           "badge": 8,
           "badges": 6,
@@ -1019,10 +1018,10 @@
           "file": 11,
           "files": 5,
           "filter": 7,
-          "fixture": 12,
+          "fixture": 11,
           "fixtures": 26,
           "for": 7,
-          "form": 76,
+          "form": 74,
           "goal": 8,
           "grant": 4,
           "guidance": 14,
@@ -1066,7 +1065,7 @@
           "organisation": 16,
           "organisations": 5,
           "overview": 4,
-          "page": 18,
+          "page": 16,
           "panel": 50,
           "paper": 12,
           "part": 5,
@@ -1079,7 +1078,6 @@
           "person": 15,
           "pictures": 5,
           "piece": 8,
-          "pieces": 4,
           "pill": 5,
           "placement": 5,
           "plan": 6,
@@ -1090,7 +1088,7 @@
           "question": 5,
           "reading": 13,
           "readings": 4,
-          "record": 63,
+          "record": 61,
           "refusal": 12,
           "register": 6,
           "request": 23,
@@ -1118,7 +1116,7 @@
           "source": 17,
           "sources": 8,
           "standing": 15,
-          "state": 5,
+          "state": 4,
           "statement": 4,
           "status": 8,
           "step": 5,
@@ -1129,12 +1127,12 @@
           "subject": 4,
           "summary": 9,
           "svelte": 19,
-          "table": 25,
+          "table": 24,
           "tabs": 4,
           "targets": 5,
           "task": 22,
           "tasks": 13,
-          "test": 531,
+          "test": 525,
           "text": 12,
           "tiles": 5,
           "time": 5,
@@ -1153,9 +1151,8 @@
           "views": 8,
           "visitor": 4,
           "window": 4,
-          "words": 14,
+          "words": 12,
           "work": 4,
-          "world": 4,
           "writer": 6,
           "xml": 4
         },
@@ -1259,7 +1256,7 @@
       "name": "inventory",
       "summary": {
         "pages": 64,
-        "components": 619,
+        "components": 615,
         "orphanComponents": 0,
         "averagePageLines": 46
       },
@@ -1308,14 +1305,6 @@
             "widgets": []
           },
           {
-            "page": "src/routes/organisations/[organisationId]/brand/plan/+page.svelte",
-            "lines": 86,
-            "widgets": [
-              "modal",
-              "list"
-            ]
-          },
-          {
             "page": "src/routes/projects/kit-versions/+page.svelte",
             "lines": 76,
             "widgets": [
@@ -1332,6 +1321,14 @@
             "page": "src/routes/organisations/[organisationId]/brand/+page.svelte",
             "lines": 72,
             "widgets": []
+          },
+          {
+            "page": "src/routes/organisations/[organisationId]/brand/plan/+page.svelte",
+            "lines": 70,
+            "widgets": [
+              "modal",
+              "list"
+            ]
           },
           {
             "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
@@ -1668,7 +1665,7 @@
           },
           {
             "component": "src/lib/components/site/FormErrorNote.svelte",
-            "reusedBy": 55
+            "reusedBy": 54
           },
           {
             "component": "src/lib/components/site/FormField.svelte",
@@ -1692,7 +1689,7 @@
           },
           {
             "component": "src/lib/components/site/Button.svelte",
-            "reusedBy": 26
+            "reusedBy": 25
           },
           {
             "component": "src/lib/components/site/PageTitle.svelte",
@@ -1700,11 +1697,11 @@
           },
           {
             "component": "src/lib/components/workspace/RecordsCell.svelte",
-            "reusedBy": 19
+            "reusedBy": 18
           },
           {
             "component": "src/lib/components/workspace/RecordsTable.svelte",
-            "reusedBy": 18
+            "reusedBy": 17
           },
           {
             "component": "src/lib/components/site/EmptyState.svelte",
@@ -1831,10 +1828,6 @@
             "reusedBy": 3
           },
           {
-            "component": "src/lib/components/brand/LibraryPreview.svelte",
-            "reusedBy": 3
-          },
-          {
             "component": "src/lib/components/projects/KitVersionBadge.svelte",
             "reusedBy": 3
           },
@@ -1908,6 +1901,10 @@
           },
           {
             "component": "src/lib/components/brand/BrandDecisionNote.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/brand/LibraryPreview.svelte",
             "reusedBy": 2
           },
           {
@@ -2508,22 +2505,6 @@
           },
           {
             "component": "src/lib/components/brand/ContentPieceText.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/brand/ContentPlanApprovalChannels.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/brand/ContentPlanApprovalPicture.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/brand/ContentPlanApprovalTable.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/brand/ContentPlanApproveForm.svelte",
             "reusedBy": 1
           },
           {
@@ -4142,12 +4123,12 @@
       "name": "siteDefinition",
       "summary": {
         "routes": 63,
-        "views": 686,
-        "siteComponents": 612,
+        "views": 682,
+        "siteComponents": 608,
         "catalogue": 10,
-        "widgetUsages": 283,
+        "widgetUsages": 280,
         "handRolledElements": 36,
-        "widgetSlots": 319,
+        "widgetSlots": 316,
         "viewsWithHandRolled": 33,
         "boxedContentWidgets": 0,
         "designSheets": 7,
@@ -4770,8 +4751,8 @@
         {
           "route": "/organisations/[organisationId]/brand/plan",
           "file": "src/routes/organisations/[organisationId]/brand/plan/+page.svelte",
-          "definition": "WorkspaceHeader{ (2) Button }, ?isAnyAwaitingApproval: DashboardPanel{ ContentPlanApproveForm, ContentPlanApprovalTable }, DashboardPanel{ ContentPlanCounts }, DashboardPanel{ ContentPlanRhythmTable }, DashboardPanel{ ContentPlanKindTable }, (n) ( ContentPlanWeekTallies, DashboardPanel{ ContentPlanWeekTable } ), ContentPlanMoveModal",
-          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ (2) Button }, ?isAnyAwaitingApproval: DashboardPanel{ ContentPlanApproveForm=( FormErrorNote, Button ), ContentPlanApprovalTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ ContentPlanApprovalChannels }, RecordsCell{ ContentPlanApprovalPicture=( (n) LibraryPreview ) } } ) }, DashboardPanel{ ContentPlanCounts=( [ (5) StatTile ] ) }, DashboardPanel{ ContentPlanRhythmTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ ContentPlanKindTable=( RecordsTable{ (2) RecordsCell } ) }, (n) ( ContentPlanWeekTallies=( (n) ( Badge, ?tally.extra !== noneExtra: Badge ) ), DashboardPanel{ ContentPlanWeekTable=( RecordsTable{ RecordsCell, ?row.post === null: RecordsCell, (2) RecordsCell, ( ?row.dueFor === null: RecordsCell | RecordsCell{ Badge } ), (4) RecordsCell, ( RecordsCell, RecordsCell{ ContentPlanChannelLinks }, (3) RecordsCell, RecordsCell{ ContentPlanPictureCell=( Badge ) }, RecordsCell{ ContentPlanChannelStages=( (n) ( ContentStageBadge=( Badge ), ?channel.isExtra: Badge ) ) }, RecordsCell{ ContentPlanChannelMoves=( (n) ?channel.canMove: Button ) } ) } ) } ), ContentPlanMoveModal=( Modal{ ?entry !== null: ( (2) FormField, FormErrorNote, [ (2) Button ] ) } )"
+          "definition": "WorkspaceHeader{ (2) Button }, DashboardPanel{ ContentPlanCounts }, DashboardPanel{ ContentPlanRhythmTable }, DashboardPanel{ ContentPlanKindTable }, (n) ( ContentPlanWeekTallies, DashboardPanel{ ContentPlanWeekTable } ), ContentPlanMoveModal",
+          "expanded": "WorkspaceHeader=( \u26a0h1\u2192PageTitle ){ (2) Button }, DashboardPanel{ ContentPlanCounts=( [ (5) StatTile ] ) }, DashboardPanel{ ContentPlanRhythmTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ ContentPlanKindTable=( RecordsTable{ (2) RecordsCell } ) }, (n) ( ContentPlanWeekTallies=( (n) ( Badge, ?tally.extra !== noneExtra: Badge ) ), DashboardPanel{ ContentPlanWeekTable=( RecordsTable{ RecordsCell, ?row.post === null: RecordsCell, (2) RecordsCell, ( ?row.dueFor === null: RecordsCell | RecordsCell{ Badge } ), (4) RecordsCell, ( RecordsCell, RecordsCell{ ContentPlanChannelLinks }, (3) RecordsCell, RecordsCell{ ContentPlanPictureCell=( Badge ) }, RecordsCell{ ContentPlanChannelStages=( (n) ( ContentStageBadge=( Badge ), ?channel.isExtra: Badge ) ) }, RecordsCell{ ContentPlanChannelMoves=( (n) ?channel.canMove: Button ) } ) } ) } ), ContentPlanMoveModal=( Modal{ ?entry !== null: ( (2) FormField, FormErrorNote, [ (2) Button ] ) } )"
         },
         {
           "route": "/organisations/[organisationId]/business-brain",
@@ -4935,7 +4916,7 @@
           "component": "FormErrorNote",
           "file": "src/lib/components/site/FormErrorNote.svelte",
           "definition": "",
-          "usedBy": 55
+          "usedBy": 54
         },
         {
           "component": "SmallCapsField",
@@ -4953,7 +4934,7 @@
           "component": "RecordsCell",
           "file": "src/lib/components/workspace/RecordsCell.svelte",
           "definition": "",
-          "usedBy": 18
+          "usedBy": 17
         },
         {
           "component": "DangerConfirmModal",
@@ -5121,12 +5102,6 @@
           "component": "LegalArticle",
           "file": "src/lib/components/site/LegalArticle.svelte",
           "definition": "\u26a0h1\u2192PageTitle",
-          "usedBy": 3
-        },
-        {
-          "component": "LibraryPreview",
-          "file": "src/lib/components/brand/LibraryPreview.svelte",
-          "definition": "",
           "usedBy": 3
         },
         {
@@ -5301,6 +5276,12 @@
           "component": "LeadOutcomeNote",
           "file": "src/lib/components/clients/map/LeadOutcomeNote.svelte",
           "definition": "FormErrorNote",
+          "usedBy": 2
+        },
+        {
+          "component": "LibraryPreview",
+          "file": "src/lib/components/brand/LibraryPreview.svelte",
+          "definition": "",
           "usedBy": 2
         },
         {
@@ -6321,30 +6302,6 @@
           "component": "ContentPieceText",
           "file": "src/lib/components/brand/ContentPieceText.svelte",
           "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "ContentPlanApprovalChannels",
-          "file": "src/lib/components/brand/ContentPlanApprovalChannels.svelte",
-          "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "ContentPlanApprovalPicture",
-          "file": "src/lib/components/brand/ContentPlanApprovalPicture.svelte",
-          "definition": "(n) LibraryPreview",
-          "usedBy": 1
-        },
-        {
-          "component": "ContentPlanApprovalTable",
-          "file": "src/lib/components/brand/ContentPlanApprovalTable.svelte",
-          "definition": "RecordsTable{ (3) RecordsCell, RecordsCell{ ContentPlanApprovalChannels }, RecordsCell{ ContentPlanApprovalPicture } }",
-          "usedBy": 1
-        },
-        {
-          "component": "ContentPlanApproveForm",
-          "file": "src/lib/components/brand/ContentPlanApproveForm.svelte",
-          "definition": "FormErrorNote, Button",
           "usedBy": 1
         },
         {
@@ -8602,59 +8559,59 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4283,
-        "backend": 1143,
-        "frontend": 908,
-        "shared": 785,
-        "tests": 545,
-        "api": 474,
-        "database": 197,
-        "tooling": 137,
+        "totalFiles": 4243,
+        "backend": 1141,
+        "frontend": 902,
+        "shared": 778,
+        "tests": 540,
+        "api": 470,
+        "database": 195,
+        "tooling": 123,
         "docs": 77,
         "infrastructure": 17
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 1143,
-          "sourceFiles": 1138,
-          "sourceLines": 37927
+          "files": 1141,
+          "sourceFiles": 1131,
+          "sourceLines": 37746
         },
         {
           "area": "frontend",
-          "files": 908,
-          "sourceFiles": 778,
-          "sourceLines": 26143
+          "files": 902,
+          "sourceFiles": 773,
+          "sourceLines": 26001
         },
         {
           "area": "shared",
-          "files": 785,
-          "sourceFiles": 767,
-          "sourceLines": 27704
+          "files": 778,
+          "sourceFiles": 760,
+          "sourceLines": 27448
         },
         {
           "area": "tests",
-          "files": 545,
-          "sourceFiles": 531,
-          "sourceLines": 24664
+          "files": 540,
+          "sourceFiles": 525,
+          "sourceLines": 24324
         },
         {
           "area": "api",
-          "files": 474,
-          "sourceFiles": 473,
-          "sourceLines": 21805
+          "files": 470,
+          "sourceFiles": 469,
+          "sourceLines": 21522
         },
         {
           "area": "database",
-          "files": 197,
+          "files": 195,
           "sourceFiles": 7,
           "sourceLines": 212
         },
         {
           "area": "tooling",
-          "files": 137,
+          "files": 123,
           "sourceFiles": 8,
-          "sourceLines": 345
+          "sourceLines": 344
         },
         {
           "area": "docs",
@@ -8673,7 +8630,7 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 197,
+        "schemaTables": 193,
         "limitedColumns": 0,
         "writeDoors": 313,
         "unvalidatedDoors": 0,
