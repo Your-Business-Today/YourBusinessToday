@@ -8,8 +8,9 @@
 	let {
 		backlog,
 		people,
-		viewerId
-	}: { backlog: BacklogView; people: ProjectPerson[]; viewerId: string } = $props();
+		viewerId,
+		isDoneFilterShown = true
+	}: { backlog: BacklogView; people: ProjectPerson[]; viewerId: string; isDoneFilterShown?: boolean } = $props();
 </script>
 
 <div class="flex flex-wrap items-center gap-2">
@@ -28,5 +29,7 @@
 		countFor={(personId) => backlog.assignedCountFor(personId)}
 		onToggle={(personId) => backlog.toggleAssignee(personId)}
 	/>
-	<DoneTaskFilter bind:shouldIncludeDone={backlog.shouldIncludeDone} />
+	{#if isDoneFilterShown}
+		<DoneTaskFilter bind:shouldIncludeDone={backlog.shouldIncludeDone} />
+	{/if}
 </div>
