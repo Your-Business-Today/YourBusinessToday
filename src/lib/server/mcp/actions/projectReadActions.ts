@@ -1,26 +1,14 @@
-import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
-import { countDeploysSinceRefactor } from '$lib/server/deploys/countDeploysSinceRefactor';
-import { describeProject, describeProjectLine, forOrganisation, noSuchProject, openWorkPhrase } from './describeProject';
-import { describeKitStanding, kitStanding } from '$lib/data/kitVersion';
-import { kitReadingOf } from '$lib/server/kit/kitReadingOf';
-import { describeRefactorCadence } from '$lib/server/refactor/isRefactorRoundDue';
-import { describeDeployWindow } from '$lib/data/deployWindowFacts';
-import { readDeployWindowHistory } from '$lib/server/deployWindows/readLatestDeployWindow';
-import { ukClockAt } from '$lib/data/ukClock';
-import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
-import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
+import { describeProjectLine, forOrganisation, noSuchProject, openWorkPhrase } from './describeProject';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
 import { getProjectsForOwner } from '$lib/server/projects/getProjectsForOwner';
-import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import { getTeamProjects, type TeamProject } from '$lib/server/members/getTeamProjects';
 import { everyOrganisationFilter, matchesOrganisationFilter } from '$lib/data/organisationFilter';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { reachableProject } from '../projectAccess';
-import { readInternalItemFacts } from './readInternalItemFacts';
+import { whatReadProjectSays } from './whatReadProjectSays';
 import type { McpAction } from '../actionTypes';
 import type { Project } from '$lib/server/projects/projectRecord';
-import type { SupabaseClient } from '@supabase/supabase-js';
 
 export const projectReadActions: McpAction[] = [
 	{
@@ -59,39 +47,15 @@ export const projectReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'read one project with its goals, its whole backlog, its refactor cadence and the project-process kit version its repository is on',
+			'read one project with its goals, its whole backlog, its development work by build stage with the weekly velocity, its refactor cadence and the project-process kit version its repository is on',
 		inputSchema: objectSchema({ projectId: textField('The project id') }, ['projectId']),
 		run: async (caller, input) => {
 			const project = await reachableProject(caller, readText(input, 'projectId'));
 			if (project === null) return noSuchProject;
-			const tasks = await getTasksForProject(caller.supabase, project.id);
-			const goals = await getGoalsForProject(caller.supabase, project.id);
-			const cadenceLine = await cadenceLineFor(caller.supabase, project);
-			const kitLine = await kitLineFor(caller.supabase, project);
-			const deployWindowLine = await deployWindowLineFor(caller.supabase, project);
-			const facts = await readInternalItemFacts(caller.supabase, project.id, tasks);
-			return describeProject(project, goals, buildTaskTree(tasks), `${cadenceLine} ${kitLine}${deployWindowLine}`, facts);
+			return whatReadProjectSays(caller.supabase, project);
 		}
 	}
 ];
-
-async function cadenceLineFor(supabase: SupabaseClient, project: Project): Promise<string> {
-	const deploysSinceRefactor = await countDeploysSinceRefactor(supabase, project);
-	return describeRefactorCadence({ refactorEveryDeploys: project.refactorEveryDeploys, deploysSinceRefactor });
-}
-
-/** The deploy window sentence after the kit line, or nothing for a project that deploys on every merge. */
-async function deployWindowLineFor(supabase: SupabaseClient, project: Project): Promise<string> {
-	const history = await readDeployWindowHistory(supabase, project.id);
-	const sentence = describeDeployWindow(project, history, ukClockAt(new Date()));
-	return sentence === '' ? '' : ` ${sentence}`;
-}
-
-async function kitLineFor(supabase: SupabaseClient, project: Project): Promise<string> {
-	const latestKitVersion = await getLatestKitVersion(supabase);
-	const reading = kitReadingOf(project, latestKitVersion);
-	return describeKitStanding(kitStanding(reading), reading);
-}
 
 function teamProjectLine(project: TeamProject): string {
 	const status = projectStatusLabels[project.status];

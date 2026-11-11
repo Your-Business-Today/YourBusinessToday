@@ -3,6 +3,8 @@
 	import ProjectDashboard from '$lib/components/projects/ProjectDashboard.svelte';
 	import BoardSideSwitch from '$lib/components/projects/BoardSideSwitch.svelte';
 	import DepartmentTabs from '$lib/components/projects/DepartmentTabs.svelte';
+	import ScrumBoardPanel from '$lib/components/projects/scrumBoard/ScrumBoardPanel.svelte';
+	import TabStrip from '$lib/components/workspace/TabStrip.svelte';
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
 	import ProjectNewTaskModal from '$lib/components/projects/ProjectNewTaskModal.svelte';
 	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
@@ -11,6 +13,8 @@
 	import { tabSwap } from '$lib/client/motion';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { TaskRowDialogs } from '$lib/client/taskRowDialogs.svelte';
+	import { RememberedChoice } from '$lib/client/rememberedChoice.svelte';
+	import { developmentViewOrder, developmentViews, developmentViewStorageKey, developmentViewTabs } from '$lib/data/developmentView';
 	import { boardSides } from '$lib/data/boardSide';
 	import type { Department } from '$lib/data/department';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
@@ -24,6 +28,10 @@
 	let newItemDepartment = $state<Department | null>(null);
 	const dialogs = new TaskRowDialogs();
 	const isDevelopmentSide = $derived(data.boardSide === boardSides.development);
+	const developmentView = new RememberedChoice(developmentViewStorageKey, developmentViews.backlog);
+	developmentView.remember(developmentViewOrder);
+	const isBoardChosen = $derived(developmentView.key === developmentViews.board);
+	const scrumBoard = $derived(isDevelopmentSide && isBoardChosen ? data.scrumBoard : null);
 	const newTaskSources = $derived({ ...data, department: newItemDepartment ?? data.department });
 
 	function openNewTaskModal() {
@@ -59,25 +67,25 @@
 	<FlashMessage message={form?.message} />
 	<BoardSideSwitch sides={data.sideTabs} selected={data.boardSide} />
 	{#if isDevelopmentSide}
-		<DepartmentTabs tabs={data.departmentTabs} selected={data.boardTab} />
+		<TabStrip tabs={developmentViewTabs} bind:selectedKey={developmentView.key} />
 	{/if}
-	{#key data.boardTab}
-		<div in:fade={tabSwap} class="flex flex-col gap-4">
-			<ProjectDashboard
-				projectId={project.id}
-				sources={data}
-				handlers={{
-					onAddSubtask: openSubtaskModal,
-					onChangeStatus: (task) => dialogs.status.open(task),
-					onChangeGoal: (task) => dialogs.goal.open(task),
-					onSetPriority: (task) => dialogs.priority.open(task),
-					onChangeStoryPoints: (task) => dialogs.storyPoints.open(task),
-					onChangeAutocomplete: (task) => dialogs.autocomplete.open(task)
-				}}
-				onAddItem={openNewItemModal}
-			/>
-		</div>
-	{/key}
+	{#if scrumBoard !== null}
+		<div in:fade={tabSwap}><ScrumBoardPanel board={scrumBoard} /></div>
+	{:else}
+		{#if isDevelopmentSide}
+			<DepartmentTabs tabs={data.departmentTabs} selected={data.boardTab} />
+		{/if}
+		{#key data.boardTab}
+			<div in:fade={tabSwap} class="flex flex-col gap-4">
+				<ProjectDashboard
+					projectId={project.id}
+					sources={data}
+					handlers={dialogs.handlersWith(openSubtaskModal)}
+					onAddItem={openNewItemModal}
+				/>
+			</div>
+		{/key}
+	{/if}
 </div>
 
 <ProjectNewTaskModal bind:isOpen={isTaskModalOpen} parentTask={subtaskParent} sources={newTaskSources} />
