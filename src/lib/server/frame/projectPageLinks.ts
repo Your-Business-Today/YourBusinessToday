@@ -15,3 +15,10 @@ export function projectPageLinksFor(organisation: PickOrganisation, projectId: s
 	const deployHistoryLink = { href: `${boardLink.href}/${deployHistorySegment}`, label: deployHistoryLabel };
 	return [boardLink, ...blueprintLinks, deployHistoryLink];
 }
+
+/** Where an organisation opens when none of its projects opens for the person: its own page, which names them all. */
+export function organisationHomePathFor(organisation: PickOrganisation): string | null {
+	const { organisationId, portalClientId } = organisation;
+	if (portalClientId !== null || organisationId === null) return null;
+	return `/organisations/${organisationId}`;
+}
