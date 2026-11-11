@@ -1,5 +1,5 @@
 import { pickRemembered, type FramePicks } from '$lib/components/frame/framePicks';
-import { projectPageLinksFor } from './projectPageLinks';
+import { organisationHomePathFor, projectPageLinksFor } from './projectPageLinks';
 import { readModuleLinks } from './moduleLinks';
 import { readPickOrganisations, type PickOrganisation } from './pickOrganisations';
 import { readPickProjects } from './pickProjects';
@@ -29,7 +29,7 @@ export async function readFramePicks(
 	const organisation = pickRemembered(organisations, remembered.organisationId);
 	if (organisation === null) return { picks: nothingToPick, organisation };
 	const [projects, moduleLinks] = await Promise.all([
-		readPickProjects(locals.supabase, organisation),
+		readPickProjects(locals.supabase, accountId, organisation),
 		moduleLinksOf(locals, accountId, organisation)
 	]);
 	const project = pickRemembered(projects, remembered.projectIdByOrganisation[organisation.id] ?? null);
@@ -42,7 +42,7 @@ export async function readFramePicks(
 		pickedProjectId: project?.id ?? null,
 		projectLinks,
 		moduleLinks,
-		homePath: projectLinks[0]?.href ?? null
+		homePath: projectLinks[0]?.href ?? organisationHomePathFor(organisation)
 	};
 	return { picks, organisation };
 }
