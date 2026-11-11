@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { currentProjectPage, projectPageLinks, projectSwitchOptions, samePageInProject } from './projectBar';
+import { currentProjectPage, openProjectOn, projectPageLinks, projectSwitchOptions, samePageInProject } from './projectPages';
 
 const harbour = 'harbour-site';
 const meadow = 'meadow-site';
@@ -34,10 +34,27 @@ describe('projectSwitchOptions', () => {
 	const projects = [{ id: meadow, name: 'Meadow' }];
 
 	it('offers the organisation’s projects', () => {
-		expect(projectSwitchOptions([{ id: harbour, name: 'Harbour' }, ...projects], harbour, 'Harbour')).toHaveLength(2);
+		expect(projectSwitchOptions([{ id: harbour, name: 'Harbour' }, ...projects], { id: harbour, name: 'Harbour' })).toHaveLength(2);
 	});
 
 	it('adds the open project when it sits under another organisation', () => {
-		expect(projectSwitchOptions(projects, harbour, 'Harbour')[0]).toEqual({ id: harbour, name: 'Harbour' });
+		expect(projectSwitchOptions(projects, { id: harbour, name: 'Harbour' })[0]).toEqual({ id: harbour, name: 'Harbour' });
+	});
+});
+
+describe('openProjectOn', () => {
+	const project = { id: harbour, name: 'Harbour', organisationId: null, status: 'building' };
+	const openProject = { id: harbour, name: 'Harbour', organisationId: null };
+
+	it('finds the project on its board and on a page beneath it', () => {
+		expect(openProjectOn('/projects/[projectId]', { project })).toEqual(openProject);
+		expect(openProjectOn('/projects/[projectId]/tasks/[taskId]', { project })).toEqual(openProject);
+	});
+
+	it('finds none on the client portal, on the projects list or on a page that failed to load', () => {
+		expect(openProjectOn('/portal/projects/[projectId]', { project })).toBeNull();
+		expect(openProjectOn('/projects', {})).toBeNull();
+		expect(openProjectOn(null, { project })).toBeNull();
+		expect(openProjectOn('/projects/[projectId]', {})).toBeNull();
 	});
 });

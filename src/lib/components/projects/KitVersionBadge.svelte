@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Badge from '$lib/components/site/Badge.svelte';
+	import type { BadgeTone } from '$lib/components/site/badgeTones';
 	import { describeKitStanding, kitStanding, kitStandings, type KitStanding } from '$lib/data/kitVersion';
 
 	let {
@@ -21,13 +23,13 @@
 	});
 	const standing = $derived(kitStanding(reading));
 
-	const standingStyles: Record<KitStanding, string> = {
-		no_repository: '',
-		not_read: 'border-hairline text-chalk/60',
-		no_kit: 'border-signal/60 text-signal',
-		unknown_latest: 'border-hairline text-chalk/60',
-		current: 'border-go/40 text-go/80',
-		behind: 'border-caution/70 bg-caution/10 text-caution'
+	const standingTones: Record<KitStanding, BadgeTone> = {
+		no_repository: 'neutral',
+		not_read: 'neutral',
+		no_kit: 'negative',
+		unknown_latest: 'neutral',
+		current: 'positive',
+		behind: 'warning'
 	};
 
 	const standingLabels: Record<KitStanding, string> = $derived({
@@ -41,10 +43,7 @@
 </script>
 
 {#if standing !== kitStandings.noRepository}
-	<span
-		title={describeKitStanding(standing, reading)}
-		class={`rounded-full border px-2.5 py-0.5 font-display text-xs whitespace-nowrap ${standingStyles[standing]}`}
-	>
-		{standingLabels[standing]}
+	<span title={describeKitStanding(standing, reading)} class="inline-flex">
+		<Badge label={standingLabels[standing]} tone={standingTones[standing]} />
 	</span>
 {/if}

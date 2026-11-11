@@ -26,7 +26,7 @@
 	<title>Site map — {project.name} — Your Business Today</title>
 </svelte:head>
 
-<BlueprintHeader {project} {blueprint} viewKey="site-map" title={`${project.name} site map`} />
+<BlueprintHeader {project} {blueprint} />
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
