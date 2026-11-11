@@ -8,7 +8,6 @@
 	import OrganisationProjectsPanel from '$lib/components/organisations/OrganisationProjectsPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { dashboardGridClasses, headerDangerButtonClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
-	import { organisationsCrumb } from '$lib/components/organisations/organisationCrumbs';
 
 	let { data, form } = $props();
 
@@ -21,7 +20,7 @@
 	<title>{organisation.name} — Organisations — Your Business Today</title>
 </svelte:head>
 
-<WorkspaceHeader crumbs={[organisationsCrumb]} title={organisation.name}>
+<WorkspaceHeader crumbs={[]} title={organisation.name}>
 	{#snippet actions()}
 		{#if data.isStaff}
 			<button type="button" onclick={() => (isDeleteModalOpen = true)} class={headerDangerButtonClasses}>
@@ -29,7 +28,7 @@
 			</button>
 		{/if}
 	{/snippet}
-	<p class="text-sm text-chalk/60">Everyone on {organisation.name} is on every project under it.</p>
+	<p class="text-sm text-chalk-subtle">Everyone on {organisation.name} is on every project under it.</p>
 </WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>

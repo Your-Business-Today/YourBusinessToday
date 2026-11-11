@@ -1,12 +1,14 @@
 import { blueprintViewHref, blueprintViews } from '$lib/components/blueprint/blueprintViews';
 import { deepestLinkAt } from '$lib/components/frame/deepestLink';
+import { isAtOrUnder } from '$lib/components/frame/framedPaths';
 import type { FramePickOption } from '$lib/components/frame/framePicks';
+import type { OpenProject } from '$lib/components/frame/frameTrail';
 import type { NavigationLink } from '$lib/components/site/siteNavigation';
 
 const boardLabel = 'Board';
 const deployHistoryLabel = 'Deployment history';
 const deployHistorySegment = 'deploys';
-const unnamedProject = 'This project';
+const projectRoute = '/projects/[projectId]';
 
 /** A project's pages as the tabs under its name: its board first, then its domain, site map and deploys. */
 export function projectPageLinks(projectId: string): NavigationLink[] {
@@ -29,11 +31,14 @@ export function samePageInProject(projectId: string, pathname: string, switchedT
 }
 
 /** The organisation's projects to switch between, with the open one among them even when it sits elsewhere. */
-export function projectSwitchOptions(
-	projects: FramePickOption[],
-	projectId: string,
-	projectName: string | null
-): FramePickOption[] {
-	if (projects.some(({ id }) => id === projectId)) return projects;
-	return [{ id: projectId, name: projectName ?? unnamedProject }, ...projects];
+export function projectSwitchOptions(projects: FramePickOption[], openProject: FramePickOption): FramePickOption[] {
+	if (projects.some(({ id }) => id === openProject.id)) return projects;
+	return [{ id: openProject.id, name: openProject.name }, ...projects];
+}
+
+/** The project a page under a project's route has loaded; none on any other page, the client portal's among them. */
+export function openProjectOn(routeId: string | null, pageData: { project?: OpenProject }): OpenProject | null {
+	const { project } = pageData;
+	if (routeId === null || project === undefined || !isAtOrUnder(routeId, projectRoute)) return null;
+	return { id: project.id, name: project.name, organisationId: project.organisationId };
 }

@@ -45,7 +45,7 @@
 	<button
 		type="submit"
 		disabled={tracker.isSaving}
-		class={`w-full rounded-xl px-3 py-2 text-left font-display text-sm transition
+		class={`w-full rounded px-3 py-2 text-left font-display text-sm transition
 			disabled:opacity-50 ${tracker.isSaving ? 'animate-pulse' : ''} ${toneClasses}`}
 	>
 		{tracker.isSaving ? 'Working…' : label}

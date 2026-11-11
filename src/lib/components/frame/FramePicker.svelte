@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
-	import ChevronIcon from '$lib/components/site/ChevronIcon.svelte';
+	import FramePickerList from './FramePickerList.svelte';
+	import LineIcon from '$lib/components/site/LineIcon.svelte';
+	import { framePickerLooks, type FramePickerLook } from './framePickerLooks';
 	import { keyboardKeys } from '$lib/client/keyboardKeys';
-	import { menuDrop } from '$lib/client/motion';
 	import type { FramePickOption } from './framePicks';
 
 	let {
@@ -10,12 +10,14 @@
 		options,
 		pickedId,
 		emptyLabel,
+		look = 'field',
 		onPick
 	}: {
 		caption: string;
 		options: FramePickOption[];
 		pickedId: string | null;
 		emptyLabel: string;
+		look?: FramePickerLook;
 		onPick: (id: string) => void;
 	} = $props();
 
@@ -23,15 +25,11 @@
 	let isOpen = $state(false);
 	let pickerElement: HTMLElement | undefined = $state();
 
+	const classes = $derived(framePickerLooks[look]);
 	const picked = $derived(options.find((option) => option.id === pickedId));
 	const hasOptions = $derived(options.length > 0);
 	const pickedName = $derived(picked?.name ?? emptyLabel);
 	const pickedNameTone = $derived(picked === undefined ? 'text-chalk-faint' : 'text-chalk');
-
-	function optionClasses(option: FramePickOption): string {
-		if (option.id === pickedId) return 'bg-carriage-raised font-semibold text-chalk';
-		return 'text-chalk-muted hover:bg-carriage-raised hover:text-chalk';
-	}
 
 	function closeOnOutsidePress(event: PointerEvent): void {
 		if (!isOpen || pickerElement?.contains(event.target as Node)) return;
@@ -53,43 +51,23 @@
 
 <svelte:window onpointerdown={closeOnOutsidePress} onkeydowncapture={closeOnEscape} />
 
-<div class="relative" bind:this={pickerElement}>
+<div class={classes.picker} bind:this={pickerElement}>
 	<button
 		type="button"
 		aria-haspopup="listbox"
 		aria-expanded={isOpen}
 		aria-controls={listId}
 		disabled={!hasOptions}
-		class="flex w-full items-center gap-2 rounded border border-hairline bg-carriage-raised px-3 py-2
-			text-left transition hover:border-hairline-strong disabled:hover:border-hairline"
+		class={classes.toggle}
 		onclick={() => (isOpen = !isOpen)}
 	>
 		<span class="flex min-w-0 flex-1 flex-col">
-			<span class="text-xs text-chalk-subtle">{caption}</span>
-			<span class={`truncate text-sm font-semibold ${pickedNameTone}`}>{pickedName}</span>
+			<span class={classes.caption}>{caption}</span>
+			<span class={`truncate ${classes.name} ${pickedNameTone}`}>{pickedName}</span>
 		</span>
-		<span class="text-chalk-subtle"><ChevronIcon {isOpen} /></span>
+		<LineIcon kind="selector" class="h-4 w-4 shrink-0 text-chalk-faint" />
 	</button>
 	{#if isOpen}
-		<div
-			id={listId}
-			role="listbox"
-			aria-label={caption}
-			transition:fly={menuDrop}
-			class="absolute inset-x-0 top-full z-40 mt-1 flex max-h-80 flex-col overflow-y-auto rounded-lg border
-				border-hairline-strong bg-carriage py-1"
-		>
-			{#each options as option (option.id)}
-				<button
-					type="button"
-					role="option"
-					aria-selected={option.id === pickedId}
-					class={`shrink-0 truncate px-3 py-3.5 text-left text-sm transition md:py-2 ${optionClasses(option)}`}
-					onclick={() => choose(option)}
-				>
-					{option.name}
-				</button>
-			{/each}
-		</div>
+		<FramePickerList {listId} {caption} {options} {pickedId} placementClasses={classes.list} onChoose={choose} />
 	{/if}
 </div>

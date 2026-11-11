@@ -3,10 +3,9 @@
 	import DeployHistoryEntry from '$lib/components/projects/DeployHistoryEntry.svelte';
 	import DeployHistoryFilterBar from '$lib/components/projects/DeployHistoryFilterBar.svelte';
 	import ProjectPagination from '$lib/components/projects/ProjectPagination.svelte';
-	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
+	import ProjectPageHeader from '$lib/components/projects/ProjectPageHeader.svelte';
 	import { deployPageCount, deploysOnPage, everyDeploy, filterDeploys } from '$lib/data/deployHistoryFilter';
 	import { panelEmptyClasses, panelListClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
-	import { projectCrumbs } from '$lib/components/workspace/projectCrumbs';
 
 	let { data } = $props();
 
@@ -28,7 +27,7 @@
 	<title>Deployment history — {project.name} — Your Business Today</title>
 </svelte:head>
 
-<WorkspaceHeader crumbs={projectCrumbs(project)} title={`${project.name} deployment history`} />
+<ProjectPageHeader {project} />
 
 <div class={workspaceBodyClasses}>
 	<DashboardPanel title="Deploys" count={found.length}>
