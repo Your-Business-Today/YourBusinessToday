@@ -2,6 +2,8 @@
  * The entity manifest the portal-from-folders method writes (docs/05-data-model/entities.json): areas of
  * entities, each with its parent, its status enum and its fields, beside the route each entity's pages live at.
  */
+import { parsedJsonOrNull } from '$lib/data/jsonText';
+
 export type ManifestField = {
 	name: string;
 	label?: string;
@@ -33,19 +35,11 @@ type Shape = Record<string, unknown>;
 
 /** The manifest when the text is one, or null for anything else. */
 export function readEntityManifest(text: string): EntityManifest | null {
-	const parsed = parseJson(text);
+	const parsed = parsedJsonOrNull(text);
 	if (!isShape(parsed) || !Array.isArray(parsed.areas)) return null;
 	const areas = parsed.areas.filter(isArea);
 	if (areas.length === 0) return null;
 	return { areas, routes: textRecord(parsed.routes), enums: listRecord(parsed.enums) };
-}
-
-function parseJson(text: string): unknown {
-	try {
-		return JSON.parse(text);
-	} catch {
-		return null;
-	}
 }
 
 function isShape(value: unknown): value is Shape {

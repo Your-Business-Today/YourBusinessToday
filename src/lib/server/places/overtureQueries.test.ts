@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { DuckDBInstance, type DuckDBConnection } from '@duckdb/node-api';
 import { placesInBoundsQuery, removedPlacesQuery } from './overtureQueries';
-import { readPlaceRow } from './placeRow';
+import { placeSeedOf } from './placeRow';
 import { validatePlace } from '$lib/data/placeRules';
 
 /** A parquet file shaped like a release's places partition, written by DuckDB itself, so the query is proven against the engine. */
@@ -44,7 +44,7 @@ describe('placesInBoundsQuery', () => {
 		const reader = await connection.runAndReadAll(placesInBoundsQuery(join(folder, 'places.parquet'), bounds));
 		const rows = reader.getRowObjectsJson() as Record<string, unknown>[];
 		expect(rows).toHaveLength(1);
-		const place = readPlaceRow(rows[0]);
+		const place = placeSeedOf(rows[0]);
 		expect(place).toEqual({
 			sourceId: 'abc-1',
 			businessName: 'Kingston Osteopaths',
@@ -65,7 +65,7 @@ describe('placesInBoundsQuery', () => {
 		const bounds = { north: 53, south: 52, east: 2, west: 1 };
 		const reader = await connection.runAndReadAll(placesInBoundsQuery(join(folder, 'places.parquet'), bounds));
 		const [row] = reader.getRowObjectsJson() as Record<string, unknown>[];
-		const place = readPlaceRow(row);
+		const place = placeSeedOf(row);
 		expect(validatePlace(place!)).toContain('share-alike');
 		expect(validatePlace({ ...place!, sourceLicence: '', confidence: 0.5 })).toContain('below');
 	});

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FormField from '$lib/components/site/FormField.svelte';
 	import { enhance } from '$app/forms';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
@@ -8,7 +9,7 @@
 	import type { TakeHomeEstimate } from '$lib/data/taxCalculator/takeHomeEstimate';
 	import DeadlinesEmailSent from './DeadlinesEmailSent.svelte';
 	import WidgetIcon from './WidgetIcon.svelte';
-	import { choiceTileClasses, fieldControlClasses, fieldLabelClasses, helperTextClasses, widgetCardClasses } from './calculatorStyles';
+	import { choiceTileClasses, fieldControlClasses, helperTextClasses, widgetCardClasses } from './calculatorStyles';
 
 	let { estimate }: { estimate: TakeHomeEstimate } = $props();
 
@@ -38,8 +39,7 @@
 			class="relative flex flex-col gap-4"
 		>
 			<input type="hidden" name={deadlinesEmailFields.taxYear} value={taxYear} />
-			<label class="flex flex-col gap-2">
-				<span class={fieldLabelClasses}>Your email address</span>
+			<FormField label="Your email address">
 				<input
 					name={deadlinesEmailFields.email}
 					type="email"
@@ -48,7 +48,7 @@
 					maxlength={deadlinesEmailLimits.longestEmail}
 					class={`${fieldControlClasses} w-full px-4`}
 				/>
-			</label>
+			</FormField>
 			<label class={choiceTileClasses}>
 				<input type="checkbox" bind:checked={shouldIncludeEstimate} class="size-4 accent-go" />
 				Include my estimate in the email

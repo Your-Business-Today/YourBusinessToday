@@ -1,9 +1,9 @@
 import { noteFrequency } from './musicalScale';
 import type { SoundDesk } from './soundDesk';
+import { silence } from './soundEnvelope';
 
 export type Note = { midi: number; when: number; length: number; level: number; pan?: number };
 
-const silence = 0.0001;
 const pad = { voices: [{ detune: -9, pan: -0.5 }, { detune: 9, pan: 0.5 }], tone: 2400, attack: 0.9, release: 1.4, hallShare: 0.6 };
 const bass = { tone: 520, length: 0.22 };
 const pluck = { tone: 3600, echoShare: 0.8 };

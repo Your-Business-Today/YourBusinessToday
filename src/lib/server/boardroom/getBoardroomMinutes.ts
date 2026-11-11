@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
+import { rowsOfMeeting } from './rowsOfMeeting';
 import {
 	boardMinutesTables,
 	meetingClosingColumns,
@@ -17,12 +18,6 @@ async function getClosingOfMeeting(supabase: SupabaseClient, meetingId: string):
 	if (isSchemaNotYetMigrated(error)) return undefined;
 	if (error) throw error;
 	return data === null ? null : parseMeetingClosingRecord(data);
-}
-
-async function rowsOfMeeting(supabase: SupabaseClient, table: string, columns: string, meetingId: string) {
-	const { data, error } = await supabase.from(table).select(columns).eq('meeting_id', meetingId);
-	if (error) throw error;
-	return (data ?? []) as unknown as Record<string, unknown>[];
 }
 
 /**

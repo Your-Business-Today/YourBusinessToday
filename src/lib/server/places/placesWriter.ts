@@ -28,7 +28,7 @@ export async function markPlacesGone(supabase: SupabaseClient, sourceIds: string
 }
 
 /** The ids of every place still held in the patch's outcodes, for the changelog to be asked about. */
-export async function readPlaceIds(supabase: SupabaseClient, outcodes: string[]): Promise<string[]> {
+export async function readPlaceIdsInOutcodes(supabase: SupabaseClient, outcodes: string[]): Promise<string[]> {
 	if (outcodes.length === 0) return [];
 	const { data, error } = await supabase.from('premises').select('source_id').eq('source', 'places_dataset').eq('is_gone', false).in('outcode', outcodes);
 	if (error) throw error;

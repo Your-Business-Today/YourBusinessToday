@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ledgerTables } from './booksLedgerDatabase.fixture';
-import { databaseStepStanding, standDatabaseStepsDown } from './booksLedgerCalls.fixture';
+import { meanwhile, standDatabaseStepsDown } from './booksLedgerCalls.fixture';
 import { journalsOfKind, runOnTheLedger as run } from './booksInvoicePostingWorld.fixture';
 import { expenseId, heldExpense, holdUnpaidHosting } from './booksExpenseWorld.fixture';
 
@@ -11,14 +11,6 @@ vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOn
 
 const payHosting = (paidOn: string) => run('pay_expense', { expenseId, paidOn });
 const refused = 'Nothing was posted. The cost from Vercel was marked paid, or deleted, while this payment was being recorded; list_expenses says where it stands.';
-
-/** Runs the work once, after the server has read the cost and before the step locks it, as another caller could. */
-function meanwhile(work: () => Promise<unknown>): void {
-	databaseStepStanding.momentBetween = async () => {
-		databaseStepStanding.momentBetween = null;
-		await work();
-	};
-}
 
 describe('two moves of one cost at once', () => {
 	beforeEach(() => {

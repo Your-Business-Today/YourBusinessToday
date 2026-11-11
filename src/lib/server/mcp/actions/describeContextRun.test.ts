@@ -1,16 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { joineryContextInput } from '$lib/server/companyContext/companyContextFixtures';
-import { validateCompanyContext } from '$lib/server/companyContext/validateCompanyContext';
+import { joineryVersion } from '$lib/server/companyContext/companyContextFixtures';
 import { describeContextRun } from './describeContextRun';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
 const joinery = { id: '6b1d5c1e-2f4a-4a8e-9d3c-0e7f1a2b3c4d', name: 'Oak & Ash Joinery' } as Organisation;
-
-function joineryVersion() {
-	const draft = validateCompanyContext(joineryContextInput());
-	if ('refusal' in draft) throw new Error(draft.refusal);
-	return { ...draft, versionNumber: 3, recordedAt: '2026-11-10T17:00:00Z' };
-}
 
 describe('the context run a client’s one prompt starts', () => {
 	it('opens a broad first conversation when nothing is held yet', () => {

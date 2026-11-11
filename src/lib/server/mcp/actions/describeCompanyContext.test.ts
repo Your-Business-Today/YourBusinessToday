@@ -1,14 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { joineryContextInput } from '$lib/server/companyContext/companyContextFixtures';
-import { validateCompanyContext } from '$lib/server/companyContext/validateCompanyContext';
+import { joineryVersion } from '$lib/server/companyContext/companyContextFixtures';
 import { contextChanges } from '$lib/data/companyContext/contextChanges';
 import { describeCompanyContext, noCompanyContextYet } from './describeCompanyContext';
-
-function joineryVersion() {
-	const draft = validateCompanyContext(joineryContextInput());
-	if ('refusal' in draft) throw new Error(draft.refusal);
-	return { ...draft, versionNumber: 3, recordedAt: '2026-11-10T17:00:00Z' };
-}
 
 describe('the company context as the connector reads it out', () => {
 	it('says the version, the stage, what is connected and how far the review has got', () => {

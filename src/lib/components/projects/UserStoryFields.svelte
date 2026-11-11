@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FormField from '$lib/components/site/FormField.svelte';
 	import { fieldClasses } from '$lib/components/site/formStyles';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
@@ -29,33 +30,30 @@
 	</label>
 	{#if isUserStory}
 		<div class="grid gap-4 sm:grid-cols-3">
-			<label class="flex flex-col gap-1">
-				<span class="font-display text-xs tracking-widest text-chalk/50 uppercase">As a…</span>
+			<FormField label="As a…">
 				<input
 					name="storyRole"
 					value={task.storyRole}
 					placeholder="workspace owner"
 					class={fieldClasses}
 				/>
-			</label>
-			<label class="flex flex-col gap-1">
-				<span class="font-display text-xs tracking-widest text-chalk/50 uppercase">I want…</span>
+			</FormField>
+			<FormField label="I want…">
 				<input
 					name="storyWant"
 					value={task.storyWant}
 					placeholder="to share my map"
 					class={fieldClasses}
 				/>
-			</label>
-			<label class="flex flex-col gap-1">
-				<span class="font-display text-xs tracking-widest text-chalk/50 uppercase">So that…</span>
+			</FormField>
+			<FormField label="So that…">
 				<input
 					name="storyBenefit"
 					value={task.storyBenefit}
 					placeholder="my team sees progress"
 					class={fieldClasses}
 				/>
-			</label>
+			</FormField>
 		</div>
 	{/if}
 </div>

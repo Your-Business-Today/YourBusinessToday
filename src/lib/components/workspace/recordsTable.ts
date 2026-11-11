@@ -6,7 +6,12 @@ export type RecordsColumn<Row> = {
   sortValue?: (row: Row) => string | number;
 };
 
-export type SortDirection = "ascending" | "descending";
+export const sortDirections = {
+  ascending: "ascending",
+  descending: "descending",
+} as const;
+
+export type SortDirection = (typeof sortDirections)[keyof typeof sortDirections];
 
 export type RecordsSort = { key: string; direction: SortDirection };
 
@@ -20,8 +25,11 @@ export function sortAfterPress(
   key: string,
 ): RecordsSort {
   const isSameColumnAscending =
-    current?.key === key && current.direction === "ascending";
-  return { key, direction: isSameColumnAscending ? "descending" : "ascending" };
+    current?.key === key && current.direction === sortDirections.ascending;
+  const direction = isSameColumnAscending
+    ? sortDirections.descending
+    : sortDirections.ascending;
+  return { key, direction };
 }
 
 export function rowsInOrder<Row>(

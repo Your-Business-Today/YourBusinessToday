@@ -1,8 +1,9 @@
 <script lang="ts">
+	import FormField from '$lib/components/site/FormField.svelte';
 	import type { TaxCalculatorForm } from '$lib/client/taxCalculatorForm.svelte';
 	import { vehicleTypes } from '$lib/data/taxCalculator/takeHomeInputs';
 	import { formatMiles } from '$lib/data/taxCalculator/taxCalculatorFormatting';
-	import { fieldLabelClasses, fieldSelectClasses, helperTextClasses } from './calculatorStyles';
+	import { fieldSelectClasses, helperTextClasses } from './calculatorStyles';
 	import PeriodAmountField from './PeriodAmountField.svelte';
 
 	let { form }: { form: TaxCalculatorForm } = $props();
@@ -23,22 +24,20 @@
 </script>
 
 <div class="grid gap-5 sm:grid-cols-2">
-	<div class="flex flex-col gap-2">
-		<label for="vehicle-type" class={fieldLabelClasses}>Business vehicle</label>
-		<select id="vehicle-type" bind:value={form.vehicleType} class={fieldSelectClasses}>
+	<FormField label="Business vehicle">
+		<select bind:value={form.vehicleType} class={fieldSelectClasses}>
 			{#each vehicleOptions as option (option.vehicleType)}
 				<option value={option.vehicleType}>{option.label}</option>
 			{/each}
 		</select>
-	</div>
-	<div class="flex flex-col gap-2">
-		<label for="home-working" class={fieldLabelClasses}>Working from home</label>
-		<select id="home-working" bind:value={form.homeWorkingBand} class={fieldSelectClasses}>
+	</FormField>
+	<FormField label="Working from home">
+		<select bind:value={form.homeWorkingBand} class={fieldSelectClasses}>
 			{#each homeWorkingOptions as option (option.band)}
 				<option value={option.band}>{option.label}</option>
 			{/each}
 		</select>
-	</div>
+	</FormField>
 </div>
 {#if form.vehicleType !== vehicleTypes.none}
 	<PeriodAmountField id="business-miles" label="Business miles" helperText="Ordinary commuting to a regular workplace doesn’t count." periodAmount={form.businessMiles} formatAnnual={formatMiles} isCurrency={false} />

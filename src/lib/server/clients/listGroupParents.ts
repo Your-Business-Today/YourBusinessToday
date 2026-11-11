@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 export type GroupParent = { id: string; name: string };
 
-export async function getGroupParents(supabase: SupabaseClient): Promise<GroupParent[]> {
+export async function listGroupParents(supabase: SupabaseClient): Promise<GroupParent[]> {
 	const parentIds = await parentIdsInUse(supabase);
 	if (parentIds.length === 0) return [];
 	const { data, error } = await supabase
