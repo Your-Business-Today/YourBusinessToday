@@ -8,13 +8,13 @@
 	let {
 		project,
 		projects,
-		pathname
-	}: { project: OpenProject; projects: FramePickOption[]; pathname: string } = $props();
+		address
+	}: { project: OpenProject; projects: FramePickOption[]; address: URL } = $props();
 
 	const options = $derived(projectSwitchOptions(projects, project));
 
 	function switchProject(switchedToId: string): void {
-		goto(samePageInProject(project.id, pathname, switchedToId));
+		goto(samePageInProject(project.id, address, switchedToId));
 	}
 </script>
 

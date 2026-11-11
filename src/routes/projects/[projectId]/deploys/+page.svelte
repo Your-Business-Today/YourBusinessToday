@@ -1,4 +1,6 @@
 <script lang="ts">
+	import DevelopmentTabs from '$lib/components/projects/DevelopmentTabs.svelte';
+	import { developmentPages } from '$lib/components/projects/developmentPages';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import DeployHistoryEntry from '$lib/components/projects/DeployHistoryEntry.svelte';
 	import DeployHistoryFilterBar from '$lib/components/projects/DeployHistoryFilterBar.svelte';
@@ -30,6 +32,7 @@
 <ProjectPageHeader {project} />
 
 <div class={workspaceBodyClasses}>
+	<DevelopmentTabs projectId={project.id} selected={developmentPages.deploys} />
 	<DashboardPanel title="Deployments" count={found.length}>
 		{#snippet toolbar()}
 			<DeployHistoryFilterBar bind:filter onchange={startFromFirstPage} />

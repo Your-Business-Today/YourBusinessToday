@@ -1,10 +1,8 @@
 <script lang="ts">
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import ProjectDashboard from '$lib/components/projects/ProjectDashboard.svelte';
-	import BoardSideSwitch from '$lib/components/projects/BoardSideSwitch.svelte';
-	import DepartmentTabs from '$lib/components/projects/DepartmentTabs.svelte';
 	import ScrumBoardPanel from '$lib/components/projects/scrumBoard/ScrumBoardPanel.svelte';
-	import TabStrip from '$lib/components/workspace/TabStrip.svelte';
+	import DevelopmentTabs from '$lib/components/projects/DevelopmentTabs.svelte';
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
 	import ProjectNewTaskModal from '$lib/components/projects/ProjectNewTaskModal.svelte';
 	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
@@ -13,8 +11,8 @@
 	import { tabSwap } from '$lib/client/motion';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { TaskRowDialogs } from '$lib/client/taskRowDialogs.svelte';
-	import { RememberedChoice } from '$lib/client/rememberedChoice.svelte';
-	import { developmentViewOrder, developmentViews, developmentViewStorageKey, developmentViewTabs } from '$lib/data/developmentView';
+	import { developmentViews } from '$lib/data/developmentView';
+	import { developmentPages } from '$lib/components/projects/developmentPages';
 	import { boardSides } from '$lib/data/boardSide';
 	import type { Department } from '$lib/data/department';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
@@ -28,10 +26,9 @@
 	let newItemDepartment = $state<Department | null>(null);
 	const dialogs = new TaskRowDialogs();
 	const isDevelopmentSide = $derived(data.boardSide === boardSides.development);
-	const developmentView = new RememberedChoice(developmentViewStorageKey, developmentViews.backlog);
-	developmentView.remember(developmentViewOrder);
-	const isBoardChosen = $derived(developmentView.key === developmentViews.board);
-	const scrumBoard = $derived(isDevelopmentSide && isBoardChosen ? data.scrumBoard : null);
+	const isBoardChosen = $derived(data.developmentView === developmentViews.board);
+	const developmentPage = $derived(isBoardChosen ? developmentPages.board : data.boardTab);
+	const scrumBoard = $derived(isDevelopmentSide ? data.scrumBoard : null);
 	const newTaskSources = $derived({ ...data, department: newItemDepartment ?? data.department });
 
 	function openNewTaskModal() {
@@ -65,19 +62,13 @@
 />
 
 <div class={workspaceBodyClasses}>
-	<FlashMessage message={form?.message} />
-	{#if !data.isInternalProject}
-		<BoardSideSwitch sides={data.sideTabs} selected={data.boardSide} />
-	{/if}
 	{#if isDevelopmentSide}
-		<TabStrip tabs={developmentViewTabs} bind:selectedKey={developmentView.key} />
+		<DevelopmentTabs projectId={project.id} selected={developmentPage} />
 	{/if}
+	<FlashMessage message={form?.message} />
 	{#if scrumBoard !== null}
 		<div in:fade={tabSwap}><ScrumBoardPanel board={scrumBoard} /></div>
 	{:else}
-		{#if isDevelopmentSide}
-			<DepartmentTabs tabs={data.departmentTabs} selected={data.boardTab} />
-		{/if}
 		{#key data.boardTab}
 			<div in:fade={tabSwap} class="flex flex-col gap-4">
 				<ProjectDashboard

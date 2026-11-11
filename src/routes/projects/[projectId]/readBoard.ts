@@ -10,6 +10,7 @@ import { loadDepartmentWork } from '$lib/server/departments/loadDepartmentWork';
 import { readScrumBoard } from '$lib/server/scrumBoard/readScrumBoard';
 import { readTogether } from '$lib/server/http/readTogether';
 import { boardSides, type BoardSide } from '$lib/data/boardSide';
+import { developmentViewOf, developmentViews } from '$lib/data/developmentView';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -19,7 +20,7 @@ import type { ScrumBoard } from '$lib/data/scrumBoard';
  * Everything the project page reads, started at once: only the tasks' assignees and turns wait,
  * for the tasks they belong to, and every other read runs beside them. Turns are read for every task
  * on the project, so how the project stands is read whole whichever tab is open. To-dos are read
- * only for Internal work, where each item shows its to-dos beneath it, and the scrum board only for Development.
+ * only for Task Management, where each item shows its to-dos beneath it, and the scrum board only when Development's Board is open.
  */
 export function readBoard(locals: App.Locals, project: Project, url: URL) {
 	const { supabase } = locals;
@@ -27,6 +28,8 @@ export function readBoard(locals: App.Locals, project: Project, url: URL) {
 	const buildFactsRead = readBuildFacts(supabase, project.id);
 	const taskIdsRead = workRead.then(({ tasks }) => tasks.map((task) => task.id));
 	const projectTaskIdsRead = workRead.then(({ projectTasks }) => projectTasks.map((task) => task.id));
+	const isScrumBoardOpen = developmentViewOf(url) === developmentViews.board;
+	const readScrumBoardShown = () => Promise.all([workRead, buildFactsRead]).then(([work, build]) => scrumBoardShownOn(supabase, project.id, work, build));
 	return readTogether({
 		work: workRead,
 		assigneeIdsByTask: taskIdsRead.then((taskIds) => getAssigneeIdsByTask(supabase, taskIds)),
@@ -37,7 +40,7 @@ export function readBoard(locals: App.Locals, project: Project, url: URL) {
 		canTurnOnAutocomplete: isStaffMember(locals),
 		people: getPeopleOnProject(supabase, project.id),
 		buildBoard: buildFactsRead.then(buildBoardOf),
-		scrumBoard: Promise.all([workRead, buildFactsRead]).then(([work, build]) => scrumBoardShownOn(supabase, project.id, work, build))
+		scrumBoard: isScrumBoardOpen ? readScrumBoardShown() : Promise.resolve(null)
 	});
 }
 

@@ -13,7 +13,7 @@ export const boardSideOrder: BoardSide[] = [boardSides.development, boardSides.i
 
 export const boardSideLabels: Record<BoardSide, string> = {
 	development: 'Development',
-	internal: 'Internal work'
+	internal: 'Task Management'
 };
 
 export const boardSideMeanings: Record<BoardSide, string> = {

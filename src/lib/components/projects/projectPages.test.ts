@@ -1,37 +1,52 @@
 import { describe, expect, it } from 'vitest';
-import { currentProjectPage, openProjectOn, projectPageLinks, projectSwitchOptions, samePageInProject } from './projectPages';
+import { currentProjectPage, openProjectOn, projectPageLinks, projectPages, projectSwitchOptions, samePageInProject } from './projectPages';
 
 const harbour = 'harbour-site';
 const meadow = 'meadow-site';
 
+function addressOf(path: string): URL {
+	return new URL(path, 'https://portal.example');
+}
+
 describe('projectPageLinks', () => {
-	it('opens the board first, then the domain and site map, then what is staged and what deployed', () => {
+	it('gives a product Development, Task Management and its Domain', () => {
 		const links = projectPageLinks(harbour);
-		expect(links.map(({ label }) => label)).toEqual(['Board', 'Domain', 'Site map', 'Staged', 'Deployments']);
+		expect(links.map(({ label }) => label)).toEqual(['Development', 'Task Management', 'Domain']);
 		expect(links[0].href).toBe('/projects/harbour-site');
-		expect(links[3].href).toBe('/projects/harbour-site/staged');
-		expect(links[4].href).toBe('/projects/harbour-site/deploys');
+		expect(links[1].href).toBe('/projects/harbour-site?department=administration');
+		expect(links[2].href).toBe('/projects/harbour-site/domain');
 	});
 
-	it('gives an internal project its board alone, since it has no code, domain or deploys', () => {
-		expect(projectPageLinks(harbour, true).map(({ label }) => label)).toEqual(['Board']);
+	it('gives an internal project its Task Management alone, since it has no code, domain or deploys', () => {
+		expect(projectPageLinks(harbour, true).map(({ label }) => label)).toEqual(['Task Management']);
 	});
 });
 
 describe('currentProjectPage', () => {
-	it('puts a task opened from the board under the board, and the site map under its own tab', () => {
-		expect(currentProjectPage(harbour, '/projects/harbour-site/tasks/one')?.label).toBe('Board');
-		expect(currentProjectPage(harbour, '/projects/harbour-site/site-map')?.label).toBe('Site map');
+	it('puts the backlogs, the board, the deploys and the site map under Development', () => {
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site'))).toBe(projectPages.development);
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site?department=bugs'))).toBe(projectPages.development);
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site?view=board'))).toBe(projectPages.development);
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/staged'))).toBe(projectPages.development);
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/site-map'))).toBe(projectPages.development);
+	});
+
+	it('puts the team’s own departments under Task Management and the domain under Domain', () => {
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site?department=sales'))).toBe(projectPages.taskManagement);
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/domain?entity=Task'))).toBe(projectPages.domain);
 	});
 });
 
 describe('samePageInProject', () => {
-	it('keeps the tab when switching project', () => {
-		expect(samePageInProject(harbour, '/projects/harbour-site/site-map', meadow)).toBe('/projects/meadow-site/site-map');
+	it('keeps the page when switching project', () => {
+		expect(samePageInProject(harbour, addressOf('/projects/harbour-site/site-map?screen=%2F'), meadow)).toBe('/projects/meadow-site/site-map');
+		expect(samePageInProject(harbour, addressOf('/projects/harbour-site?department=sales'), meadow)).toBe(
+			'/projects/meadow-site?department=sales'
+		);
 	});
 
 	it('lands on the board when switching from a task', () => {
-		expect(samePageInProject(harbour, '/projects/harbour-site/tasks/one', meadow)).toBe('/projects/meadow-site');
+		expect(samePageInProject(harbour, addressOf('/projects/harbour-site/tasks/one'), meadow)).toBe('/projects/meadow-site');
 	});
 });
 

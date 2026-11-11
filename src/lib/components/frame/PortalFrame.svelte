@@ -53,7 +53,7 @@
 <div class="flex min-h-screen flex-col md:pl-64 print:pl-0">
 	<FrameTopBar trail={view.trail} {unreadNotificationCount} onOpenMenu={openDrawer}>
 		{#if openProject !== null}
-			<ProjectSwitcher project={openProject} projects={picks?.projects ?? []} pathname={url.pathname} />
+			<ProjectSwitcher project={openProject} projects={picks?.projects ?? []} address={url} />
 		{/if}
 	</FrameTopBar>
 	<main class="flex flex-1 flex-col">{@render children()}</main>
