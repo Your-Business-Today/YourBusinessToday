@@ -62,8 +62,16 @@ export class BacklogView {
 		this.assigneeId = this.assigneeId === personId ? null : personId;
 	}
 
+	/** What the waiting and person filters leave, done or not: a status board's Done column and a calendar show both. */
+	get visibleTasksDoneOrNot(): TaskTreeNode[] {
+		return this.#narrowed(this.#sources.taskTree());
+	}
+
 	visibleTasksOf(taskTree: TaskTreeNode[]): TaskTreeNode[] {
-		const tasks = this.shouldIncludeDone ? taskTree : withoutDoneTasks(taskTree);
+		return this.#narrowed(this.shouldIncludeDone ? taskTree : withoutDoneTasks(taskTree));
+	}
+
+	#narrowed(tasks: TaskTreeNode[]): TaskTreeNode[] {
 		if (!this.#isNarrowed) return tasks;
 		return onlyTasksWhere(tasks, (task) => this.#isWanted(task));
 	}
