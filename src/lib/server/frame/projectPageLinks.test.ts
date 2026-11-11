@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { projectPageLinksFor } from './projectPageLinks';
+import { organisationHomePathFor, projectPageLinksFor } from './projectPageLinks';
 
 const projectId = '33333333-3333-4333-8333-333333333333';
 const organisation = { id: 'harbour', name: 'Harbour Builders', organisationId: 'harbour', portalClientId: null };
@@ -17,5 +17,15 @@ describe('projectPageLinksFor', () => {
 		expect(projectPageLinksFor(clientCompany, projectId)).toEqual([
 			{ href: `/portal/projects/${projectId}`, label: 'Home' }
 		]);
+	});
+});
+
+describe('organisationHomePathFor', () => {
+	it('opens the organisation’s own page when none of its projects opens for the person', () => {
+		expect(organisationHomePathFor(organisation)).toBe('/organisations/harbour');
+	});
+
+	it('has no page to open for a client company reached only at the portal', () => {
+		expect(organisationHomePathFor(clientCompany)).toBeNull();
 	});
 });
