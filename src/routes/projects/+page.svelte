@@ -55,7 +55,6 @@
 	<ProjectBoardTabs
 		{listView}
 		teamProjects={data.teamProjects}
-		organisations={data.organisations}
 		latestKitVersion={data.latestKitVersion}
 		onEdit={openEditModal}
 		onDelete={openDeleteModal}
