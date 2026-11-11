@@ -4,6 +4,7 @@ import { deleteProject } from '$lib/server/projects/deleteProject';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
+import { matchesOrganisationFilter, pickedOrganisationFilter } from '$lib/data/organisationFilter';
 import { getProjectsForOwner } from '$lib/server/projects/getProjectsForOwner';
 import { getTeamProjects } from '$lib/server/members/getTeamProjects';
 import { getTasksWaitingOnYou } from '$lib/server/conversations/getTasksWaitingOnYou';
@@ -20,17 +21,23 @@ import { parseProjectDetailsForm } from '$lib/server/projects/projectDetailsForm
 import { saveProjectDetails } from '$lib/server/projects/saveProjectDetails';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, parent }) => {
 	const user = await requireUser(locals);
 	const { supabase } = locals;
 	const assignedTaskCounts = getAssignedTaskCounts(supabase, user.id);
-	const [waitingTasks, projects, teamProjects, organisations, latestKitVersion] = await Promise.all([
+	const [waitingTasks, everyProject, everyTeamProject, organisations, latestKitVersion, layout] = await Promise.all([
 		getTasksWaitingOnYou(supabase, user.id),
 		getProjectsForOwner(supabase, user.id, assignedTaskCounts),
 		getTeamProjects(supabase, user.id, assignedTaskCounts),
 		getOrganisations(supabase),
-		getLatestKitVersion(supabase)
+		getLatestKitVersion(supabase),
+		parent()
 	]);
+	const pickedOrganisation = pickedOrganisationFilter(layout.framePicks);
+	const projects = everyProject.filter((project) => matchesOrganisationFilter(project.organisationId, pickedOrganisation));
+	const teamProjects = everyTeamProject.filter((project) =>
+		matchesOrganisationFilter(project.organisationId, pickedOrganisation)
+	);
 	return { waitingTasks, projects, teamProjects, organisations, latestKitVersion };
 };
 
