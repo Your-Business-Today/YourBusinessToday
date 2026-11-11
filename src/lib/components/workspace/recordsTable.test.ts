@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   rowsInOrder,
   sortAfterPress,
+  sortDirections,
   type RecordsColumn,
 } from "./recordsTable";
 
@@ -13,9 +14,11 @@ const invoices: Invoice[] = [
   { id: "c", customer: "Kingston Glass", total: 45 },
 ];
 
+const customerKey = "customer";
+
 const columns: RecordsColumn<Invoice>[] = [
   {
-    key: "customer",
+    key: customerKey,
     label: "Customer",
     sortValue: (invoice) => invoice.customer,
   },
@@ -43,12 +46,12 @@ describe("a records table in order", () => {
 
   it("sorts words alphabetically and figures by size", () => {
     const byCustomer = rowsInOrder(invoices, columns, {
-      key: "customer",
-      direction: "ascending",
+      key: customerKey,
+      direction: sortDirections.ascending,
     });
     const byTotalDescending = rowsInOrder(invoices, columns, {
       key: "total",
-      direction: "descending",
+      direction: sortDirections.descending,
     });
     expect(idsOf(byCustomer)).toEqual(["b", "c", "a"]);
     expect(idsOf(byTotalDescending)).toEqual(["b", "a", "c"]);
@@ -59,7 +62,7 @@ describe("a records table in order", () => {
       idsOf(
         rowsInOrder(invoices, columns, {
           key: "status",
-          direction: "ascending",
+          direction: sortDirections.ascending,
         }),
       ),
     ).toEqual(["a", "b", "c"]);
@@ -70,15 +73,15 @@ describe("pressing a column header", () => {
   it("sorts upwards first, then turns the order round on a second press", () => {
     const firstPress = sortAfterPress(null, "total");
     const secondPress = sortAfterPress(firstPress, "total");
-    expect(firstPress).toEqual({ key: "total", direction: "ascending" });
-    expect(secondPress).toEqual({ key: "total", direction: "descending" });
+    expect(firstPress).toEqual({ key: "total", direction: sortDirections.ascending });
+    expect(secondPress).toEqual({ key: "total", direction: sortDirections.descending });
   });
 
   it("starts upwards again on another column", () => {
     const pressed = sortAfterPress(
-      { key: "total", direction: "descending" },
-      "customer",
+      { key: "total", direction: sortDirections.descending },
+      customerKey,
     );
-    expect(pressed).toEqual({ key: "customer", direction: "ascending" });
+    expect(pressed).toEqual({ key: customerKey, direction: sortDirections.ascending });
   });
 });
