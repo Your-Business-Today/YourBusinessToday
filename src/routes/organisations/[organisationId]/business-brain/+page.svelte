@@ -12,6 +12,7 @@
 	const { organisation, canManage, index, chatbots, keptFiles } = $derived(data);
 	const addresses = $derived(businessBrainAddresses(organisation.id));
 	const hasUnnamedFiles = $derived(keptFiles.unnamedCount > 0);
+	const nothingFiledYet = 'Nothing is filed yet. Ask your Claude to file what the business knows through the connector.';
 </script>
 
 <svelte:head>
@@ -27,10 +28,10 @@
 <div class={workspaceBodyClasses}>
 	<div class={dashboardGridClasses}>
 		<div class="flex min-w-0 flex-col gap-4">
-			<BusinessBrainIndexPanel {index} {addresses} />
+			<BusinessBrainIndexPanel title="Pages" {index} {addresses} emptyMessage={nothingFiledYet} />
 		</div>
 		<aside class="flex min-w-0 flex-col gap-4">
-			<BusinessBrainChatbotsPanel {chatbots} {canManage} {addresses} />
+			<BusinessBrainChatbotsPanel {chatbots} {canManage} {addresses} isBrainLinked={false} />
 			{#if hasUnnamedFiles}
 				<BusinessBrainFilesPanel
 					title="Files no page names yet"

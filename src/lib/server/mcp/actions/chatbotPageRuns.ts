@@ -31,9 +31,10 @@ async function readCurrentVersion(
 	asked: BusinessBrainPageAsked
 ): Promise<ChatbotReading> {
 	const { supabase } = caller;
-	const { organisation } = reach;
+	const { organisation, chatbot } = reach;
 	const surroundings = await readSurroundings(supabase, organisation.id, page);
-	const covered = await keepCoveredSurroundings(supabase, reach, surroundings);
+	const coveredParts = { organisationId: organisation.id, parts: chatbot.parts };
+	const covered = await keepCoveredSurroundings(supabase, coveredParts, surroundings);
 	const answer = describeBusinessBrainPage(chatbotDoor(reach), page, covered);
 	return readingThatGave(answer, asked, [pageAsListed(page)]);
 }

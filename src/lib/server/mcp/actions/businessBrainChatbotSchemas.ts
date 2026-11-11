@@ -6,7 +6,7 @@ import { chatbotInputKey } from '../chatbotGate';
 import { questionField, questionIdField } from '$lib/server/businessBrain/validateChatbotQuestion';
 import { pageToReadField, partToListField, revisionToReadField, searchField } from './businessBrainSchemas';
 
-const { longestName, longestEmail, mostPeopleAtOnce } = businessBrainChatbotLimits;
+const { longestName, longestPurpose, longestEmail, mostPeopleAtOnce } = businessBrainChatbotLimits;
 const { longestQuestion } = chatbotTrailLimits;
 
 export const organisationField = textField('The organisation whose brain it is, as list_organisations gives it');
@@ -17,6 +17,8 @@ const partListField = (description: string) => ({
 	items: { type: 'string', enum: [...businessBrainPartKinds] },
 	description
 });
+
+const purposeField = (description: string) => ({ type: 'string', maxLength: longestPurpose, description: `${description} — at most ${longestPurpose} characters` });
 
 const peopleListField = (description: string) => ({
 	type: 'array',
@@ -29,6 +31,7 @@ export const makeBusinessBrainChatbotSchema = objectSchema(
 	{
 		organisationId: organisationField,
 		name: textField(`What the chatbot is called, unique on the organisation — at most ${longestName} characters`),
+		purpose: purposeField('What this brain is for and who it answers, such as "Answers the sales team from our processes and experience"'),
 		parts: partListField('The parts of the brain it may read; at least one'),
 		people: peopleListField('The people who may use it; leave out to name them later')
 	},
@@ -39,6 +42,7 @@ export const changeBusinessBrainChatbotSchema = objectSchema(
 	{
 		organisationId: organisationField,
 		chatbotId: chatbotField,
+		purpose: purposeField('What this brain is for now; leave out to keep it, give "" to clear it'),
 		addParts: partListField('Parts of the brain it may now read as well'),
 		removeParts: partListField('Parts of the brain it may no longer read; it keeps at least one'),
 		addPeople: peopleListField('People who may now use it as well'),

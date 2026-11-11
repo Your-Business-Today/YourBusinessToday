@@ -20,9 +20,16 @@ export async function requireOrganisationAccess(
 	locals: App.Locals,
 	organisationId: string
 ): Promise<OrganisationAccess> {
+	const access = await readOrganisationAccess(locals, organisationId);
+	if (access === null) error(404, 'Organisation not found');
+	return access;
+}
+
+/** The signed-in person's access to the organisation, or null when row level security hides it from them. */
+export async function readOrganisationAccess(locals: App.Locals, organisationId: string): Promise<OrganisationAccess | null> {
 	const user = await requireUser(locals);
 	const organisation = await getOrganisation(locals.supabase, organisationId);
-	if (organisation === null) error(404, 'Organisation not found');
+	if (organisation === null) return null;
 	const isStaff = await isStaffMember(locals);
 	const memberships = await getMembershipsForAccount(locals.supabase, user.id);
 	const manages = managesOrganisation(memberships, user.id, organisation.id);

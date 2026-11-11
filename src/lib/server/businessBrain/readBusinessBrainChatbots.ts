@@ -1,9 +1,13 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { businessBrainPartKinds, type BusinessBrainPartKind } from '$lib/data/businessBrainRules';
 import { readPartKinds } from './readBusinessBrainIndex';
+import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
 import type { BusinessBrainChatbot } from '$lib/data/businessBrainChatbotRules';
 
-type ChatbotRow = { id: string; name: string; made_at: string };
+type ChatbotRow = { id: string; name: string; purpose?: string; made_at: string };
+
+const chatbotColumns = 'id, name, purpose, made_at';
+const columnsBeforePurpose = 'id, name, made_at';
 type CurrentGrants = { partsByChatbot: Map<string, BusinessBrainPartKind[]>; peopleByChatbot: Map<string, string[]> };
 
 /** The organisation's chatbots by name, or the one named, each with the parts it reads and the people who use it now. */
@@ -12,21 +16,30 @@ export async function readBusinessBrainChatbots(
 	organisationId: string,
 	chatbotId: string | null
 ): Promise<BusinessBrainChatbot[]> {
-	let query = supabase.from('business_brain_chatbots').select('id, name, made_at').eq('organisation_id', organisationId);
-	if (chatbotId !== null) query = query.eq('id', chatbotId);
-	const { data, error } = await query.order('name');
-	if (error) throw error;
-	const rows = (data ?? []) as ChatbotRow[];
+	const rows = await readChatbotRows(supabase, organisationId, chatbotId);
 	if (rows.length === 0) return [];
 	const grants = await readCurrentGrants(supabase, organisationId, rows.map((row) => row.id));
 	return rows.map((row) => chatbotOf(row, grants));
+}
+
+async function readChatbotRows(supabase: SupabaseClient, organisationId: string, chatbotId: string | null): Promise<ChatbotRow[]> {
+	const read = (columns: string) => {
+		const query = supabase.from('business_brain_chatbots').select(columns).eq('organisation_id', organisationId);
+		const chosen = chatbotId === null ? query : query.eq('id', chatbotId);
+		return chosen.order('name');
+	};
+	const withPurpose = await read(chatbotColumns);
+	const isPurposeMissing = isSchemaNotYetMigrated(withPurpose.error);
+	const { data, error } = isPurposeMissing ? await read(columnsBeforePurpose) : withPurpose;
+	if (error) throw error;
+	return (data ?? []) as unknown as ChatbotRow[];
 }
 
 function chatbotOf(row: ChatbotRow, grants: CurrentGrants): BusinessBrainChatbot {
 	const parts = grants.partsByChatbot.get(row.id) ?? [];
 	const inPartOrder = businessBrainPartKinds.filter((kind) => parts.includes(kind));
 	const people = [...(grants.peopleByChatbot.get(row.id) ?? [])].sort();
-	return { chatbotId: row.id, name: row.name, madeAt: row.made_at, parts: inPartOrder, people };
+	return { chatbotId: row.id, name: row.name, purpose: row.purpose ?? '', madeAt: row.made_at, parts: inPartOrder, people };
 }
 
 async function readCurrentGrants(supabase: SupabaseClient, organisationId: string, chatbotIds: string[]): Promise<CurrentGrants> {
