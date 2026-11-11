@@ -46,11 +46,11 @@ failWith() {
 }
 
 listFilesTheDeployWouldRun() {
-	git diff --name-only --diff-filter=AM "$deployedCommit" "$nextCommit" -- 'migrations/*.sql' | LC_ALL=C sort
+	git diff --name-only --no-renames --diff-filter=AM "$deployedCommit" "$nextCommit" -- 'migrations/*.sql' | LC_ALL=C sort
 }
 
 listFilesThisCommitChanges() {
-	git diff --name-only --diff-filter=M "$deployedCommit" "$nextCommit" -- 'migrations/*.sql' | xargs -r -n1 basename | LC_ALL=C sort
+	git diff --name-only --no-renames --diff-filter=M "$deployedCommit" "$nextCommit" -- 'migrations/*.sql' | xargs -r -n1 basename | LC_ALL=C sort
 }
 
 recordTheDeployedHistory() {

@@ -5,7 +5,8 @@ import { describeDataLoss, findDataLoss } from '$lib/server/migrations/migration
 /**
  * Refuses a change whose new or changed migrations would drop, rename or empty a table or a column, or delete rows.
  * The files the change adds or changes under migrations/ are read: the run migrations workflow runs every file
- * not on its record, and a file that failed is corrected in place, so a changed file can run too.
+ * not on its record, and a file that failed is corrected in place, so a changed file can run too. Renames are
+ * read as a file added under its new name, since the record goes by name and the deploy runs it again.
  *
  *   node scripts/migrations/check-added-migrations.mjs <base commit>
  */
@@ -18,7 +19,7 @@ if (baseCommit === undefined) {
 	process.exit(failed);
 }
 
-const gitDiff = ['diff', '--name-only', '--diff-filter=AM', baseCommit, 'HEAD', '--', migrationsPattern];
+const gitDiff = ['diff', '--name-only', '--no-renames', '--diff-filter=AM', baseCommit, 'HEAD', '--', migrationsPattern];
 const migrationsToRead = execFileSync('git', gitDiff, { encoding: 'utf8' }).split('\n').filter(Boolean).sort();
 const findings = migrationsToRead.flatMap((file) => findDataLoss(file, readFileSync(file, 'utf8')));
 const migrationsNamed = migrationsToRead.length === 0 ? 'none' : migrationsToRead.join(', ');
