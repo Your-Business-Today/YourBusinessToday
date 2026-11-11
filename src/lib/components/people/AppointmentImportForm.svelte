@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FormField from '$lib/components/site/FormField.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { formatBritishDate } from '$lib/data/britishDate';
 	import { inputClasses, panelClasses } from '$lib/components/site/formStyles';
@@ -38,10 +39,9 @@
 	{/each}
 	{#if appointments.length > 0}
 		<div class="flex flex-wrap items-end justify-between gap-3">
-			<label class="flex flex-col gap-2 text-sm text-chalk/70">
-				Group them under (leave blank for none)
+			<FormField label="Group them under (leave blank for none)">
 				<input name="groupName" value={suggestedGroupName} class={inputClasses} />
-			</label>
+			</FormField>
 			<SubmitButton savingLabel="Adding…">Add selected companies as leads</SubmitButton>
 		</div>
 	{/if}

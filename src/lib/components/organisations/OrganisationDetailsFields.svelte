@@ -10,6 +10,7 @@
 	} from '$lib/data/organisationRules';
 	import { organisationLabelClasses } from './organisationFormStyles';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
+	import FormField from '$lib/components/site/FormField.svelte';
 
 	let { details, namePlaceholder }: { details: OrganisationDetails; namePlaceholder: string } = $props();
 
@@ -37,18 +38,16 @@
 </SmallCapsField>
 <fieldset class="flex flex-col gap-3 rounded-xl border border-hairline p-4">
 	<legend class={`px-1 ${organisationLabelClasses}`}>Accounts contact</legend>
-	<label class="flex flex-col gap-1">
-		<span class="text-xs text-chalk/50">Name</span>
+	<FormField label="Name">
 		<input
 			name="accountsContactName"
 			value={contact.name}
 			maxlength={longestAccountsContactName}
 			class={fieldClasses}
 		/>
-	</label>
+	</FormField>
 	<div class="flex flex-wrap gap-3">
-		<label class="flex min-w-48 flex-1 flex-col gap-1">
-			<span class="text-xs text-chalk/50">Email</span>
+		<FormField label="Email" class="min-w-48 flex-1">
 			<input
 				name="accountsContactEmail"
 				type="email"
@@ -56,15 +55,14 @@
 				maxlength={longestAccountsContactEmail}
 				class={fieldClasses}
 			/>
-		</label>
-		<label class="flex max-w-48 flex-col gap-1">
-			<span class="text-xs text-chalk/50">Phone</span>
+		</FormField>
+		<FormField label="Phone" class="max-w-48">
 			<input
 				name="accountsContactPhone"
 				value={contact.phone}
 				maxlength={longestAccountsContactPhone}
 				class={fieldClasses}
 			/>
-		</label>
+		</FormField>
 	</div>
 </fieldset>

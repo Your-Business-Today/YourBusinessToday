@@ -26,7 +26,7 @@
 		class="rounded-xl border border-hairline bg-carriage px-4 py-2.5 text-chalk outline-none
 			focus:border-go"
 	></textarea>
-	<div class="flex flex-wrap items-center justify-between gap-3">
+	<div class="flex flex-wrap items-end justify-between gap-3">
 		<HandOffPicker {people} {viewerId} />
 		<SubmitButton
 			isSaving={tracker.isSaving}

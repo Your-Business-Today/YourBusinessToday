@@ -1,4 +1,5 @@
 <script lang="ts">
+	import FormField from '$lib/components/site/FormField.svelte';
 	import { accountNameLookup } from '$lib/data/accountNames';
 	import { claudeLabel } from '$lib/data/turnLabels';
 	import { handOffSeparator } from '$lib/data/conversationTurn';
@@ -11,8 +12,7 @@
 	const nameOf = $derived(accountNameLookup(people));
 </script>
 
-<label class="flex flex-wrap items-center gap-2 text-sm text-chalk/60">
-	<span class="font-display text-xs tracking-widest uppercase">Waiting on an answer from</span>
+<FormField label="Waiting on an answer from">
 	<select
 		name="handOff"
 		title="Only when you are asking them for something: information, setup or testing"
@@ -27,9 +27,8 @@
 			</option>
 		{/each}
 	</select>
-</label>
-<label class="flex flex-wrap items-center gap-2 text-sm text-chalk/60">
-	<span class="font-display text-xs tracking-widest uppercase">Asking for</span>
+</FormField>
+<FormField label="Asking for">
 	<select
 		name="askKind"
 		title="What the ask wants from them, when it waits on someone"
@@ -40,4 +39,4 @@
 			<option value={kind} title={askKindMeanings[kind]}>{askKindLabels[kind]}</option>
 		{/each}
 	</select>
-</label>
+</FormField>
