@@ -4,14 +4,14 @@ import { InvoiceStatuses } from '$lib/data/books/invoiceStatuses';
 import { validateRecordId } from '$lib/data/isUuid';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { findInvoiceHeader } from './invoices';
-import { replaceInvoiceLines } from './invoiceLines';
+import { replaceDraftLines } from './draftLines';
 import { invoicesTable, toInvoiceHeadingColumns, type InvoiceHeader } from './invoiceRecord';
 import { invoiceTargetRefusal } from './invoiceTargets';
 
 /**
  * Changes only what was given of one of the organisation's draft invoices; everything left out keeps what the draft
- * holds, and lines given take the place of every line it held. An invoice that is no longer a draft is refused, as is
- * any value its columns cannot hold, before anything is written.
+ * holds, and lines given take the place of every line it held, together, while it is still a draft. An invoice that is
+ * no longer a draft is refused, as is any value its columns cannot hold, before anything is written.
  */
 export async function changeDraftInvoice(supabase: SupabaseClient, organisationId: string, fields: Record<string, unknown>): Promise<void> {
 	const change = validateInvoiceDraftChange(fields);
@@ -21,7 +21,7 @@ export async function changeDraftInvoice(supabase: SupabaseClient, organisationI
 	refuseWhen(await invoiceTargetRefusal(supabase, organisationId, change));
 	await changeHeading(supabase, organisationId, invoice, change);
 	if (change.lines === undefined) return;
-	await replaceInvoiceLines(supabase, organisationId, invoice.id, change.lines);
+	await replaceDraftLines(supabase, organisationId, invoice, change.lines);
 }
 
 async function findDraft(supabase: SupabaseClient, organisationId: string, invoiceId: unknown): Promise<InvoiceHeader> {

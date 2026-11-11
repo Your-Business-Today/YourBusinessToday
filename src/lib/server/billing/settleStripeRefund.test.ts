@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readStripeNotice, type StripeEventDelivery, type StripeNotice } from '$lib/data/billing/stripeNotice';
-import { ledgerDatabase } from '$lib/server/mcp/actions/booksLedgerDatabase.fixture';
 import {
 	accountIdOfCode,
 	heldInvoice,
@@ -11,7 +10,8 @@ import {
 	postedLines,
 	projectsId,
 	runOnTheLedger,
-	salesId
+	salesId,
+	ledgerSupabase
 } from '$lib/server/mcp/actions/booksInvoicePostingWorld.fixture';
 import { receiveStripeNotice } from './receiveStripeNotice';
 import { stripeBooksPoster } from './stripeBooksPoster';
@@ -25,7 +25,7 @@ vi.mock('$lib/server/organisations/getOrganisation', () => ({
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['books'] }));
 
 let events = stripeEventBookStandIn();
-const poster = stripeBooksPoster(ledgerDatabase as unknown as SupabaseClient);
+const poster = stripeBooksPoster(ledgerSupabase as unknown as SupabaseClient);
 const receive = (delivery: StripeEventDelivery) => receiveStripeNotice(events.book, poster, readStripeNotice(delivery) as StripeNotice);
 
 describe('a refund made through Stripe', () => {

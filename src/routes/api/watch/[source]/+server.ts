@@ -1,5 +1,6 @@
 import { error, json } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
+import { deployedCommitHeaders } from '$lib/server/watch/deployedCommit';
 import { isCronSecretValid } from '$lib/server/watch/isCronSecretValid';
 import { runWatchSource } from '$lib/server/watch/runWatchSource';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
@@ -13,8 +14,12 @@ const checkFailedStatus = 500;
 
 export const config = { maxDuration: longestRunSeconds };
 
-/** Vercel's cron runner knocks here on its schedule; the named watcher runs on the service client and reports where it got to. */
-export const GET: RequestHandler = async ({ params, request }) => {
+/**
+ * Vercel's cron runner knocks here on its schedule; the named watcher runs on the service client and reports where it got to.
+ * Every answer names the commit this deployment was built from, so a knock fired for one deploy can tell whether it reached it.
+ */
+export const GET: RequestHandler = async ({ params, request, setHeaders }) => {
+	setHeaders(deployedCommitHeaders());
 	if (!env.CRON_SECRET) error(503, 'watch_not_configured');
 	const authorisation = request.headers.get('authorization');
 	const isCronRunner = isCronSecretValid(authorisation, env.CRON_SECRET);

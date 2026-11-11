@@ -62,7 +62,10 @@ describe('the invoice actions', () => {
 	it('change only what was given of a draft, and put the lines given in place of the ones it held', async () => {
 		expect(await run('update_draft_invoice', { invoiceId: draftId, notes: 'Thank you', lines: [websiteBuild] })).toContain('Saved. The draft now reads:');
 		expect(writesTo('books_invoices')).toEqual([{ table: 'books_invoices', kind: 'update', row: { notes: 'Thank you' } }]);
-		expect(writesTo('books_invoice_lines').map((write) => write.kind)).toEqual(['insert', 'delete']);
+		expect(writesTo('books_invoice_lines')).toEqual([]);
+		const [replaced] = writesTo('replace_books_invoice_lines');
+		const newLine = { description: 'Website build', quantity: 2, unit_price: 500, income_account_id: salesId, cost_centre_id: null, position: 0 };
+		expect(replaced.row).toEqual({ target_organisation_id: organisationId, target_invoice_id: draftId, new_lines: [expect.objectContaining(newLine)] });
 	});
 
 	it('refuse to change an invoice that is no longer a draft', async () => {

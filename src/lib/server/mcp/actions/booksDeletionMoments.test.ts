@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ledgerTables } from './booksLedgerDatabase.fixture';
-import { deletionStepStanding, standDeletionStepsDown } from './booksLedgerCalls.fixture';
+import { databaseStepStanding, standDatabaseStepsDown } from './booksLedgerCalls.fixture';
 import { heldInvoice, holdDraftInvoice, invoiceId, runOnTheLedger as run } from './booksInvoicePostingWorld.fixture';
 import { heldExpense, holdChartForCosts, softwareId } from './booksExpenseWorld.fixture';
 
@@ -23,14 +23,14 @@ async function recordAdobe(): Promise<string> {
 
 describe('the record kept at the moment of deleting from the books', () => {
 	beforeEach(() => {
-		standDeletionStepsDown();
+		standDatabaseStepsDown();
 		holdDraftInvoice();
 	});
 
 	it('keeps the payment journal of a cost paid between reading it and deleting it', async () => {
 		const adobeId = await recordAdobe();
-		deletionStepStanding.momentBetween = async () => {
-			deletionStepStanding.momentBetween = null;
+		databaseStepStanding.momentBetween = async () => {
+			databaseStepStanding.momentBetween = null;
 			await run('pay_expense', { expenseId: adobeId, paidOn: '2026-11-20' });
 		};
 		await run('delete_expense', { expenseId: adobeId });
@@ -43,7 +43,7 @@ describe('the record kept at the moment of deleting from the books', () => {
 	});
 
 	it('keeps the lines a draft invoice has at the moment it goes, not the ones it had when it was read', async () => {
-		deletionStepStanding.momentBetween = async () => {
+		databaseStepStanding.momentBetween = async () => {
 			ledgerTables.books_invoice_lines = ledgerTables.books_invoice_lines.filter((line) => line.description === 'Hosting');
 		};
 		await run('delete_invoice', { invoiceId });
@@ -53,7 +53,7 @@ describe('the record kept at the moment of deleting from the books', () => {
 
 	it('says a cost was deleted, naming its record, when the delete happened but its answer never came back', async () => {
 		const adobeId = await recordAdobe();
-		deletionStepStanding.isAnswerLost = true;
+		databaseStepStanding.isAnswerLost = true;
 		const answer = await run('delete_expense', { expenseId: adobeId });
 		const [deletion] = heldDeletions();
 		expect(answer).toContain("Deleted the cost from Adobe dated 5 Nov 2026 from Jewel Enterprises's books");
@@ -62,21 +62,21 @@ describe('the record kept at the moment of deleting from the books', () => {
 	});
 
 	it('says an invoice was deleted, naming its record, when the answer was lost', async () => {
-		deletionStepStanding.isAnswerLost = true;
+		databaseStepStanding.isAnswerLost = true;
 		const answer = await run('delete_invoice', { invoiceId });
 		expect(answer).toContain(`Deleted draft invoice INV-6 to Jewel Bespoke Build from Jewel Enterprises's books. A record`);
 		expect(answer).toContain(`kept as deletion ${heldDeletions()[0].id}`);
 	});
 
 	it('reports an error that leaves nothing deleted as the error, never as deleted meanwhile', async () => {
-		deletionStepStanding.refusal = { message: 'TypeError: fetch failed' };
+		databaseStepStanding.refusal = { message: 'TypeError: fetch failed' };
 		await expect(run('delete_invoice', { invoiceId })).rejects.toEqual({ message: 'TypeError: fetch failed' });
 		expect(heldInvoice()).toEqual(expect.objectContaining({ status: 'draft' }));
 		expect(heldDeletions()).toEqual([]);
 	});
 
 	it('deletes nothing and keeps no record when an invoice takes a payment or is issued before it goes', async () => {
-		deletionStepStanding.momentBetween = async () => {
+		databaseStepStanding.momentBetween = async () => {
 			ledgerTables.books_invoice_payments = [{ id: 'payment-1', invoice_id: invoiceId, paid_on: '2026-11-03', amount: 10 }];
 		};
 		const answer = await run('delete_invoice', { invoiceId });
