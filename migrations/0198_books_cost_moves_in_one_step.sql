@@ -142,7 +142,10 @@ as $$
 declare
 	given_journal jsonb;
 begin
-	if jsonb_typeof(journals) is distinct from 'array' or jsonb_array_length(journals) = 0 then
+	if jsonb_typeof(journals) is distinct from 'array' then
+		raise exception 'A set of journals is a list of journals.' using errcode = '22023';
+	end if;
+	if jsonb_array_length(journals) = 0 then
 		raise exception 'A set of journals holds at least one journal.' using errcode = '22023';
 	end if;
 
