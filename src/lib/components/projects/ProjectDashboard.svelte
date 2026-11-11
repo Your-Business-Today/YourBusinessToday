@@ -5,6 +5,7 @@
 	import ProjectPulseStrip from './ProjectPulseStrip.svelte';
 	import ProjectStatePanel from './ProjectStatePanel.svelte';
 	import TaskTreePanel from './TaskTreePanel.svelte';
+	import InternalWorkBoard from './internalWork/InternalWorkBoard.svelte';
 	import { currentGoalHorizon, longTermGoalHorizon } from '$lib/data/goalHorizon';
 	import { isInternalWork } from '$lib/data/boardSide';
 	import { dashboardGridClasses } from '$lib/components/workspace/workspaceStyles';
@@ -15,6 +16,7 @@
 	import type { ProjectState } from '$lib/server/projects/projectState';
 	import type { TaskRowHandlers, TaskRowSources } from './taskRowActions';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
+	import type { Todo } from '$lib/server/todos/todoRecord';
 
 	type DashboardSources = TaskRowSources & {
 		pulse: ProjectPulse;
@@ -24,13 +26,20 @@
 		people: ProjectPerson[];
 		isOwner: boolean;
 		department: Department;
+		todosByTask: Record<string, Todo[]>;
 	};
 
 	let {
 		projectId,
 		sources,
-		handlers
-	}: { projectId: string; sources: DashboardSources; handlers: TaskRowHandlers } = $props();
+		handlers,
+		onAddItem
+	}: {
+		projectId: string;
+		sources: DashboardSources;
+		handlers: TaskRowHandlers;
+		onAddItem: (department: Department) => void;
+	} = $props();
 
 	let selectedPanel = $state('backlog');
 
@@ -38,6 +47,8 @@
 	const goalSummaries = $derived(sources.goalSummaries);
 	const people = $derived(sources.people);
 	const isBuiltWork = $derived(!isInternalWork(sources.department));
+	const gridClasses = $derived(isBuiltWork ? dashboardGridClasses : 'grid grid-cols-1 items-start gap-4');
+	const asideClasses = $derived(isBuiltWork ? 'flex min-w-0 flex-col gap-4' : 'grid min-w-0 items-start gap-4 lg:grid-cols-2');
 
 	const panelTabs = $derived([
 		{ key: 'backlog', label: 'Backlog', count: pulse.openCurrentTaskCount },
@@ -56,11 +67,15 @@
 {/if}
 <ProjectPulseStrip {pulse} />
 <PanelTabs tabs={panelTabs} bind:selectedKey={selectedPanel} />
-<div class={dashboardGridClasses}>
+<div class={gridClasses}>
 	<div class={panelVisibility('backlog')}>
-		<TaskTreePanel taskTree={sources.taskTree} {projectId} {sources} {handlers} />
+		{#if isBuiltWork}
+			<TaskTreePanel taskTree={sources.taskTree} {projectId} {sources} {handlers} />
+		{:else}
+			<InternalWorkBoard taskTree={sources.taskTree} {sources} {handlers} {onAddItem} />
+		{/if}
 	</div>
-	<aside class="flex min-w-0 flex-col gap-4">
+	<aside class={asideClasses}>
 		<div class={panelVisibility('goals')}>
 			<GoalListPanel {goalSummaries} horizon={currentGoalHorizon} department={sources.department} />
 			<GoalListPanel {goalSummaries} horizon={longTermGoalHorizon} department={sources.department} />

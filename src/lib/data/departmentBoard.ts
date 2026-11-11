@@ -11,7 +11,7 @@ import {
 	type BoardTab
 } from './boardTab';
 import { openingTabOfSide } from './boardSideTabs';
-import { boardSides } from './boardSide';
+import { boardSideOfTab, boardSides, tabsOnBoardSide } from './boardSide';
 
 type Departmental = { department: Department };
 
@@ -39,8 +39,18 @@ export function inBoardTab<Item extends BoardTask>(
 	tab: BoardTab,
 	allTasks: BoardTask[] = items
 ): Item[] {
+	return inBoardTabs(items, [tab], allTasks);
+}
+
+export function inBoardTabs<Item extends BoardTask>(items: Item[], tabs: BoardTab[], allTasks: BoardTask[] = items): Item[] {
 	const tasksById = new Map(allTasks.map((task) => [task.id, task]));
-	return items.filter((item) => boardTabOfTask(item, tasksById) === tab);
+	return items.filter((item) => tabs.includes(boardTabOfTask(item, tasksById)));
+}
+
+/** The tabs whose work a page shows together: one Development tab, or every Internal work department, which is one board grouped by department. */
+export function tabsShownWith(tab: BoardTab): BoardTab[] {
+	if (boardSideOfTab(tab) === boardSides.internal) return tabsOnBoardSide.internal;
+	return [tab];
 }
 
 type TabbedTask = BoardTask & PlacedTask & { status: TaskStatus };
@@ -60,13 +70,13 @@ export function departmentTabs(tasks: TabbedTask[], goals: HorizonedGoal[]): Dep
  * department's own goals. Bugs shows only the goals its bugs serve: a goal is new work, raised on
  * Features.
  */
-export function goalsForBoardTab<Goal extends Departmental & { id: string }>(
+export function goalsForBoardTabs<Goal extends Departmental & { id: string }>(
 	goals: Goal[],
 	tabTasks: { goalId: string | null }[],
-	tab: BoardTab
+	tabs: BoardTab[]
 ): Goal[] {
 	const servedGoalIds = new Set(tabTasks.map((task) => task.goalId));
-	const isBugs = tab === boardTabs.bugs;
-	const department = departmentOfBoardTab(tab);
-	return goals.filter((goal) => servedGoalIds.has(goal.id) || (!isBugs && goal.department === department));
+	const raisingTabs = tabs.filter((tab) => tab !== boardTabs.bugs);
+	const departmentsRaising = raisingTabs.map(departmentOfBoardTab);
+	return goals.filter((goal) => servedGoalIds.has(goal.id) || departmentsRaising.includes(goal.department));
 }

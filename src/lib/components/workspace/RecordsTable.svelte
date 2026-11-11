@@ -4,7 +4,7 @@
 	import RecordsTableHead from './RecordsTableHead.svelte';
 	import { rowLink } from '$lib/client/rowLink';
 	import { isBoxTicked, rowsInOrder, sortAfterPress, type RecordsColumn, type RecordsSort } from './recordsTable';
-	import { checkboxClasses, clickableRowClasses, rowClasses, selectedRowClasses } from './recordsTableStyles';
+	import { bodySectionClasses, checkboxClasses, clickableRowClasses, rowClasses, selectedRowClasses, tableClasses } from './recordsTableStyles';
 
 	let {
 		label,
@@ -13,10 +13,12 @@
 		keyOf,
 		hrefOf,
 		isDense = false,
+		isCardsOnPhone = false,
 		isLoading = false,
 		emptyMessage = 'Nothing here yet.',
 		selectedKeys = $bindable(),
 		cells,
+		subRows,
 		totals
 	}: {
 		label: string;
@@ -25,10 +27,12 @@
 		keyOf: (row: Row) => string;
 		hrefOf?: (row: Row) => string;
 		isDense?: boolean;
+		isCardsOnPhone?: boolean;
 		isLoading?: boolean;
 		emptyMessage?: string;
 		selectedKeys?: string[];
 		cells: Snippet<[Row]>;
+		subRows?: Snippet<[Row]>;
 		totals?: Snippet;
 	} = $props();
 
@@ -63,9 +67,9 @@
 	{@render cells(row)}
 {/snippet}
 
-<table aria-label={label} data-dense={isDense} class="group/records w-full border-collapse text-left text-sm">
+<table aria-label={label} data-dense={isDense} data-cards={isCardsOnPhone} class={tableClasses}>
 	<RecordsTableHead {columns} {sort} {isSelectable} {isEverythingSelected} onSort={(key) => (sort = sortAfterPress(sort, key))} onSelectEverything={selectEverything} />
-	<tbody class="bg-carriage">
+	<tbody class={bodySectionClasses}>
 		{#if isLoading}
 			<tr><td colspan={columnCount} class="py-6"><div class="flex justify-center"><BrandSpinner size={32} /></div></td></tr>
 		{:else if shownRows.length === 0}
@@ -80,6 +84,7 @@
 			{:else}
 				<tr use:rowLink={hrefOf(row)} class={[classes, clickableRowClasses]}>{@render rowContent(row, key, isSelected)}</tr>
 			{/if}
+			{@render subRows?.(row)}
 		{/each}
 	</tbody>
 	{#if totals !== undefined}

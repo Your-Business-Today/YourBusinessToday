@@ -17,6 +17,7 @@ import { everyOrganisationFilter, matchesOrganisationFilter } from '$lib/data/or
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { reachableProject } from '../projectAccess';
+import { readInternalItemFacts } from './readInternalItemFacts';
 import type { McpAction } from '../actionTypes';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -68,7 +69,8 @@ export const projectReadActions: McpAction[] = [
 			const cadenceLine = await cadenceLineFor(caller.supabase, project);
 			const kitLine = await kitLineFor(caller.supabase, project);
 			const deployWindowLine = await deployWindowLineFor(caller.supabase, project);
-			return describeProject(project, goals, buildTaskTree(tasks), `${cadenceLine} ${kitLine}${deployWindowLine}`);
+			const facts = await readInternalItemFacts(caller.supabase, project.id, tasks);
+			return describeProject(project, goals, buildTaskTree(tasks), `${cadenceLine} ${kitLine}${deployWindowLine}`, facts);
 		}
 	}
 ];

@@ -31,12 +31,14 @@ A list of records: one row per record, one column per property. YBT has no share
 ## Variants
 - Dense: rows `h-10 py-2`, for long registers of figures.
 - Selectable: a 16px checkbox leads each row and the header.
+- Cards on a phone (`isCardsOnPhone`): below the `md` breakpoint the header row is hidden and each row becomes a block of its cells, one to a line, each cell led by its column's name (`RecordsCell`'s `label`) in `text-xs text-chalk-subtle`. Rows keep their bottom hairline and draw no box.
+- Sub-rows (`subRows`): a snippet drawn straight after a record's row, for the lines that belong to it (an Internal work item's to-dos). The view draws them as rows of `RecordsCell`s with the table's `rowClasses`.
 
 ## Behaviour
 - A row opens its record on a plain click (YBT's `rowLink` action), over the list where YBT opens records that way (the task sheet over the board).
 - The header sticks to the top of a scrolling panel.
 - A column sorts on a press on its header; the arrow shows the direction.
-- On a phone the table scrolls sideways inside its panel rather than squeezing its columns.
+- On a phone the table scrolls sideways inside its panel rather than squeezing its columns, unless it is drawn as cards.
 
 ## Unmapped
 - YBT's subject tables today draw their own rounded border and use opacities of `chalk` for their text; the widget takes both out (rules 3 and 6).

@@ -26,7 +26,8 @@ export const tabsOnBoardSide: Record<BoardSide, BoardTab[]> = {
 	internal: [boardTabs.administration, boardTabs.sales, boardTabs.marketing]
 };
 
-const internalDepartments: Department[] = [departments.administration, departments.sales, departments.marketing];
+/** The departments of Internal work, in the order its board groups them. */
+export const internalDepartments: Department[] = [departments.administration, departments.sales, departments.marketing];
 
 export function boardSideOfTab(tab: BoardTab): BoardSide {
 	if (tabsOnBoardSide.internal.includes(tab)) return boardSides.internal;

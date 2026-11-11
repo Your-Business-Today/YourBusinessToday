@@ -11,6 +11,8 @@
 	import { tabSwap } from '$lib/client/motion';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { TaskRowDialogs } from '$lib/client/taskRowDialogs.svelte';
+	import { boardSides } from '$lib/data/boardSide';
+	import type { Department } from '$lib/data/department';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 	let { data, form } = $props();
@@ -19,10 +21,20 @@
 
 	let isTaskModalOpen = $state(false);
 	let subtaskParent = $state<TaskTreeNode | null>(null);
+	let newItemDepartment = $state<Department | null>(null);
 	const dialogs = new TaskRowDialogs();
+	const isDevelopmentSide = $derived(data.boardSide === boardSides.development);
+	const newTaskSources = $derived({ ...data, department: newItemDepartment ?? data.department });
 
 	function openNewTaskModal() {
 		subtaskParent = null;
+		newItemDepartment = null;
+		isTaskModalOpen = true;
+	}
+
+	function openNewItemModal(department: Department) {
+		subtaskParent = null;
+		newItemDepartment = department;
 		isTaskModalOpen = true;
 	}
 
@@ -46,7 +58,9 @@
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
 	<BoardSideSwitch sides={data.sideTabs} selected={data.boardSide} />
-	<DepartmentTabs tabs={data.departmentTabs} selected={data.boardTab} />
+	{#if isDevelopmentSide}
+		<DepartmentTabs tabs={data.departmentTabs} selected={data.boardTab} />
+	{/if}
 	{#key data.boardTab}
 		<div in:fade={tabSwap} class="flex flex-col gap-4">
 			<ProjectDashboard
@@ -60,12 +74,13 @@
 					onChangeStoryPoints: (task) => dialogs.storyPoints.open(task),
 					onChangeAutocomplete: (task) => dialogs.autocomplete.open(task)
 				}}
+				onAddItem={openNewItemModal}
 			/>
 		</div>
 	{/key}
 </div>
 
-<ProjectNewTaskModal bind:isOpen={isTaskModalOpen} parentTask={subtaskParent} sources={data} />
+<ProjectNewTaskModal bind:isOpen={isTaskModalOpen} parentTask={subtaskParent} sources={newTaskSources} />
 
 <TaskRowModals {dialogs} goals={data.goals} canTurnOnAutocomplete={data.canTurnOnAutocomplete} />
 <TaskSheet />

@@ -1,12 +1,15 @@
 import { addTodo, updateTodo } from '$lib/server/todos/saveTodo';
 import { todoStatuses } from '$lib/data/todo';
 import { validateTodoChanges } from '$lib/data/validateTodo';
-import { objectSchema, textField } from '../actionTypes';
+import { objectSchema, readOptionalText, textField } from '../actionTypes';
+import { chooseTodoOwner, type TodoOwnerChoice } from '$lib/server/todos/chooseTodoOwner';
 import { chooseTodoPlace } from './todoPlace';
 import { noSuchTodo, reachableTodo } from './todoAccess';
 import { todoFields, todoIdField, todoPlaceFields } from '$lib/server/todos/todoConnectorFields';
 import { todoLine } from './describeTodos';
 import type { McpAction } from '../actionTypes';
+import type { McpCaller } from '../resolveMcpCaller';
+import type { Todo } from '$lib/server/todos/todoRecord';
 
 const todoGuidance =
 	'A to-do is a personal job on a person’s own list: one that belongs to no project. A job ' +
@@ -15,6 +18,10 @@ const todoGuidance =
 	'person has to give before a build can go on is an ask instead (post_message with waitingOn).';
 
 const takeItField = textField('"yes" to make a to-do nobody has taken yet yours');
+const ownerField = textField(
+	'Hand a to-do under a task to someone on its project: their email or account id, as ' +
+		'list_project_people gives it, or the word nobody for anyone on the project to take'
+);
 
 export const todoWriteActions: McpAction[] = [
 	{
@@ -40,16 +47,16 @@ export const todoWriteActions: McpAction[] = [
 		area: 'tasks',
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'change a to-do’s title, notes, status or due date, or take one nobody has yet',
+		summary: 'change a to-do’s title, notes, status, due date or owner, or take one nobody has yet',
 		guidance: `${todoGuidance} Give only the fields that change.`,
-		inputSchema: objectSchema({ todoId: todoIdField, ...todoFields, takeIt: takeItField }, ['todoId']),
+		inputSchema: objectSchema({ todoId: todoIdField, ...todoFields, takeIt: takeItField, owner: ownerField }, ['todoId']),
 		run: async (caller, input) => {
 			const todo = await reachableTodo(caller, input);
 			if (todo === null) return noSuchTodo;
 			const changes = validateTodoChanges(withoutIds(input));
 			if (typeof changes === 'string') return changes;
-			const isTaking = input.takeIt !== undefined && todo.ownerAccountId === null;
-			const owner = isTaking ? { ownerAccountId: caller.accountId } : {};
+			const owner = await ownerChange(caller, todo, input);
+			if (typeof owner === 'string') return owner;
 			const saved = await updateTodo(caller.supabase, todo.id, { ...changes, ...owner });
 			return `Saved:\n${todoLine(saved)}`;
 		}
@@ -72,6 +79,19 @@ export const todoWriteActions: McpAction[] = [
 ];
 
 function withoutIds(input: Record<string, unknown>): Record<string, unknown> {
-	const { todoId: _todoId, takeIt: _takeIt, ...fields } = input;
+	const { todoId: _todoId, takeIt: _takeIt, owner: _owner, ...fields } = input;
 	return fields;
+}
+
+/** Whose the to-do becomes, if anyone's: the owner named, or the caller taking one nobody has. */
+async function ownerChange(
+	caller: McpCaller,
+	todo: Todo,
+	input: Record<string, unknown>
+): Promise<TodoOwnerChoice | Record<string, never> | string> {
+	const owner = readOptionalText(input, 'owner');
+	if (owner !== null) return chooseTodoOwner(caller.supabase, todo, owner);
+	const isTaking = input.takeIt !== undefined && todo.ownerAccountId === null;
+	if (isTaking) return { ownerAccountId: caller.accountId };
+	return {};
 }
