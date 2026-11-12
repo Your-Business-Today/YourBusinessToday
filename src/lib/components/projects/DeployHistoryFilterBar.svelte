@@ -1,4 +1,5 @@
 <script lang="ts">
+	import InlineField from '$lib/components/site/InlineField.svelte';
 	import type { DeployFilter } from '$lib/data/deployHistoryFilter';
 
 	let { filter = $bindable(), onchange }: { filter: DeployFilter; onchange: () => void } = $props();
@@ -16,12 +17,10 @@
 		aria-label="Search the tasks each deploy carried"
 		class={`${inputClasses} w-full sm:flex-1`}
 	/>
-	<label class="flex items-center gap-2 text-xs text-chalk/60">
-		From
+	<InlineField label="From">
 		<input bind:value={filter.fromDate} onchange={onchange} type="date" max={filter.toDate} class={inputClasses} />
-	</label>
-	<label class="flex items-center gap-2 text-xs text-chalk/60">
-		To
+	</InlineField>
+	<InlineField label="To">
 		<input bind:value={filter.toDate} onchange={onchange} type="date" min={filter.fromDate} class={inputClasses} />
-	</label>
+	</InlineField>
 </div>

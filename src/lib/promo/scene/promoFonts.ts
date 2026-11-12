@@ -1,12 +1,14 @@
+const displayFamily = '"Space Grotesk"';
+
 export const promoFonts = {
-	display: '"Space Grotesk", "Inter", sans-serif',
+	display: `${displayFamily}, "Inter", sans-serif`,
 	body: '"Inter", sans-serif'
 };
 
 const facesDrawnOnCanvas = [
-	'700 64px "Space Grotesk"',
-	'500 64px "Space Grotesk"',
-	'400 64px "Space Grotesk"',
+	`700 64px ${displayFamily}`,
+	`500 64px ${displayFamily}`,
+	`400 64px ${displayFamily}`,
 	'600 48px "Inter"',
 	'500 48px "Inter"',
 	'400 48px "Inter"'

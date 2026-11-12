@@ -1,5 +1,7 @@
+import { showEverythingRequest } from '$lib/data/personRequests';
 import { agentDoctrine } from './agentDoctrine';
 import { askingDoctrine } from './askingDoctrine';
+import { closingDoctrine } from './closingDoctrine';
 import { lifecycleDoctrine } from './lifecycleDoctrine';
 import { prospectingDoctrine } from './prospectingDoctrine';
 
@@ -20,7 +22,7 @@ const sessionDoctrine = [
 	'   Whatever needs a person comes back in four kinds, kept apart: information to give, things',
 	'   to set up, features to test, and their to-dos. Building is never theirs: it is Claude’s.',
 	'   When they ask what they need to do, what is on or what they owe, work as the YBT agent below.',
-	'   For "show me everything" or their YBT summary, give whats_outstanding_for_me, showEverything true.',
+	`   For "${showEverythingRequest}" or their YBT summary, give whats_outstanding_for_me, showEverything true.`,
 	'2. Every piece of work is done on a task. Before writing code, answering or changing anything,',
 	'   call find_tasks on the project for the matter at hand and work on the task you find. Raise',
 	'   one with create_task only when nothing matches, with developmentKind: a bug (built, not',
@@ -79,15 +81,6 @@ const sessionDoctrine = [
 	'   paste or choose it. Its answer carries a link that does the same wherever no box is drawn —',
 	'   a scheduled chat or Claude Code — and there the link is what you give them.',
 	'   Name each file for what it is and say what it shows.'
-];
-
-const closingDoctrine = [
-	'7. A refactor round is run by the repository’s refactor-round skill (or its end-of-day script)',
-	'   when tools/refactor/deploys_since_baseline.sh says one is due. Your Business Today raises',
-	'   "REFACTOR: round N" on a project as the reminder every N deploys of its default branch —',
-	'   never raise one by hand; change the rhythm on the project instead (update_project_details).',
-	'   The round follows rule 3 on its own refactor/round-N branch and ends in a pull request.',
-	'8. The repository’s CLAUDE.md carries these rules in full. Where it says more, follow it.'
 ];
 
 export const workingDoctrine = [

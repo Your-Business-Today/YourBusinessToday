@@ -110,81 +110,73 @@ All code follows the conventions in [CLAUDE.md](./CLAUDE.md).
 ## Code quality
 
 <table><tr><td align="center">
-<strong>Code quality score</strong><h2>99.4%</h2>
-<sub>measured 2026-11-11 · project-process kit 1.41.0</sub>
+<strong>Code quality score</strong><h2>99.8%</h2>
+<sub>measured 2026-11-12 · project-process kit 1.41.0</sub>
 </td></tr></table>
 
-4,336 files · backend 1,168 · frontend 909 · shared 788 · tests 558 · api 478 · database 200 · tooling 141 · docs 77 · infrastructure 17
+4,592 files · backend 1,205 · frontend 975 · shared 827 · tests 624 · api 519 · database 207 · tooling 141 · docs 77 · infrastructure 17
 
-The site by route: 63 routes, 613 components, 8 pieces of markup written by hand where a widget should be — [`tools/refactor/site-definition.md`](tools/refactor/site-definition.md), refreshed alone by *"Run the widget identification"*.
+The site by route: 68 routes, 649 components, 0 pieces of markup written by hand where a widget should be — [`tools/refactor/site-definition.md`](tools/refactor/site-definition.md), refreshed alone by *"Run the widget identification"*.
 
 Brand and widget designs: brand checked never, 7 widget sheets checked 2026-11-10 — say *"Check the site against the brand"* or *"Check the widgets against their designs"* (the `widget-design` skill; every widget's standing is in [`tools/refactor/site-definition.md`](tools/refactor/site-definition.md)).
 
 <details>
-<summary><strong>How the 99.4% is made up</strong></summary>
+<summary><strong>How the 99.8% is made up</strong></summary>
 
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
 | **Standard baseline checks** | | **99.7%** | **60** | |
-| Files over the line limit | 0 in 3743 files | 100.0% | 10 | 50% of files |
+| Files over the line limit | 0 in 3992 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
-| Functions over the line limit | 0 in 5628 functions | 100.0% | 8 | 25% of functions |
-| Else blocks | 0 in 5459 branches | 100.0% | 5 | 50% of branches |
-| Duplication % | 0.46 | 97.7% | 8 | 20 |
-| Explanatory comment lines | 0 in 140.11 thousand lines | 100.0% | 4 | 50 per thousand lines |
-| Inline magic values | 6 in 140.11 thousand lines | 99.8% | 4 | 20 per thousand lines |
-| Orphan components and functions | 0 in 6248 components and functions | 100.0% | 4 | 10% of components and functions |
-| Long member chain lines | 0 in 140.11 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Deeply indented lines | 0 in 140.11 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Overlong function names | 0 in 5628 functions | 100.0% | 4 | 10% of functions |
+| Functions over the line limit | 0 in 5944 functions | 100.0% | 8 | 25% of functions |
+| Else blocks | 0 in 5707 branches | 100.0% | 5 | 50% of branches |
+| Duplication % | 0.41 | 98.0% | 8 | 20 |
+| Explanatory comment lines | 0 in 149.15 thousand lines | 100.0% | 4 | 50 per thousand lines |
+| Inline magic values | 0 in 149.15 thousand lines | 100.0% | 4 | 20 per thousand lines |
+| Orphan components and functions | 0 in 6604 components and functions | 100.0% | 4 | 10% of components and functions |
+| Long member chain lines | 0 in 149.15 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Deeply indented lines | 0 in 149.15 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Overlong function names | 0 in 5944 functions | 100.0% | 4 | 10% of functions |
 | **Design pattern file count** | | **100.0%** | **10** | |
-| Files the patterns predict but are missing | 0 in 229 predicted files | 100.0% | 10 | 50% of predicted files |
+| Files the patterns predict but are missing | 0 in 255 predicted files | 100.0% | 10 | 50% of predicted files |
 | Entities outside their expected file count | not measured | not measured | — | 50% of entities |
 | **Prose** | | **100.0%** | **20** | |
-| Conditions with calls tangled inside calls | 0 in 5459 branches | 100.0% | 8 | 25% of branches |
-| Conditions compared to a raw literal | 0 in 5459 branches | 100.0% | 6 | 25% of branches |
-| Accessor names that want to be a property | 0 in 5628 functions | 100.0% | 6 | 10% of functions |
-| **Widget adoption** | | **94.8%** | **8** | |
-| Markup written by hand where a widget should be | 8 in 306 widget slots | 94.8% | 8 | 50% of widget slots |
+| Conditions with calls tangled inside calls | 0 in 5707 branches | 100.0% | 8 | 25% of branches |
+| Conditions compared to a raw literal | 0 in 5707 branches | 100.0% | 6 | 25% of branches |
+| Accessor names that want to be a property | 0 in 5944 functions | 100.0% | 6 | 10% of functions |
+| **Widget adoption** | | **100.0%** | **8** | |
+| Markup written by hand where a widget should be | 0 in 372 widget slots | 100.0% | 8 | 50% of widget slots |
 | **Input validation** | | **100.0%** | **8** | |
-| Doors that write without checking their input against the columns | 0 in 312 write doors | 100.0% | 8 | 50% of write doors |
+| Doors that write without checking their input against the columns | 0 in 339 write doors | 100.0% | 8 | 50% of write doors |
 
 Each element scores 100% with no offenders and falls in a straight line to 0% when its offenders, measured against the size of the codebase, reach the figure in the last column. The score is the weighted average of the elements that could be measured; an element that could not be measured lends its weight to the rest. Weights and zero points are set in `tools/refactor/rules.json` under `score.elements`. The offenders behind every reading are in `tools/refactor/audit-output/audit.json`.
 
 </details>
 
 <details>
-<summary><strong>The repository by area: 4,336 files</strong></summary>
+<summary><strong>The repository by area: 4,592 files</strong></summary>
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| backend | 1,168 | 1,158 | 38,340 |
-| frontend | 909 | 779 | 26,150 |
-| shared | 788 | 770 | 27,734 |
-| tests | 558 | 543 | 25,282 |
-| api | 478 | 477 | 22,013 |
-| database | 200 | 7 | 212 |
+| backend | 1,205 | 1,195 | 39,761 |
+| frontend | 975 | 845 | 28,033 |
+| shared | 827 | 809 | 29,096 |
+| tests | 624 | 609 | 28,170 |
+| api | 519 | 518 | 23,498 |
+| database | 207 | 7 | 212 |
 | tooling | 141 | 9 | 382 |
 | docs | 77 | 0 | 0 |
 | infrastructure | 17 | 0 | 0 |
-| **whole repository** | **4,336** | **3,743** | **140,113** |
+| **whole repository** | **4,592** | **3,992** | **149,152** |
 
 </details>
 
 <details>
-<summary><strong>The refactoring plan: 6 steps, in order</strong></summary>
-
-**Pass 1 — Widget adoption**
-
-1. Adopt `FormField` in 4 file(s) that write its markup by hand. 4 place(s): `src/lib/components/admin/PointsSelect.svelte`, `src/lib/components/contact/DiscoveryCallForm.svelte`, `src/lib/components/organisations/NameDirectorForm.svelte`, `src/lib/components/projects/DeployHistoryFilterBar.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
-2. Adopt `FormField` in 2 file(s) that write its markup by hand. 2 place(s): `src/lib/components/taxCalculator/DeadlinesEmailCard.svelte`, `src/lib/components/taxCalculator/TaxYearSelect.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
-3. Adopt `PageTitle` in 1 file(s) that write its markup by hand. 1 place(s): `src/lib/components/workspace/WorkspaceHeader.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
-4. Adopt `RecordsTable` in 1 file(s) that write its markup by hand. 1 place(s): `src/lib/components/taxCalculator/BreakdownTable.svelte`. Each is listed with its line in audit.json under details.siteDefinition.offenders.handRolled; the route it reaches is in tools/refactor/site-definition.md.
+<summary><strong>The refactoring plan: 1 steps, in order</strong></summary>
 
 **Pass 5 — The sweep to zero**
 
-5. Duplication %: 0.46 to zero. Scores 97.7% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time.
-6. Inline magic values: 6 to zero. Scores 99.8% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time.
+1. Duplication %: 0.41 to zero. Scores 98.0% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time.
 
 The whole plan, with the measured detail, is in [`tools/refactor/refactor-plan.md`](tools/refactor/refactor-plan.md).
 

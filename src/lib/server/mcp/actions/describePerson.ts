@@ -2,7 +2,7 @@ import { clientStageLabels } from '$lib/data/clientLifecycle';
 import { describeCompanyProfile } from './describeCompanyProfile';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { seniorityLabels, warmthLabels } from '$lib/data/contactProfileFields';
-import { personNoteKinds } from '$lib/data/personNoteKind';
+import { personNoteKinds, personNoteTitles } from '$lib/data/personNoteKind';
 import type { AuthoredNote } from '$lib/server/people/authoredNotes';
 import type { PersonCompany } from '$lib/server/people/getCompaniesForPerson';
 import type { PersonInFull } from '$lib/server/people/getPerson';
@@ -10,9 +10,9 @@ import type { PersonInFull } from '$lib/server/people/getPerson';
 export const noSuchPerson = 'No person on the People register has that id. read_client lists the people at a company, each with their person id.';
 
 const noteKindLabels: Record<string, string> = {
-	[personNoteKinds.note]: 'Note',
-	[personNoteKinds.approach]: 'Drafted approach',
-	[personNoteKinds.research]: 'Found on the web'
+	[personNoteKinds.note]: personNoteTitles.note,
+	[personNoteKinds.approach]: personNoteTitles.approach,
+	[personNoteKinds.research]: personNoteTitles.research
 };
 
 /** What the register holds on a person and each company they sit on, for a staff member's Claude to research from or draft an approach with. */

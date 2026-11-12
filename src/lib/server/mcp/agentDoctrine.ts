@@ -1,3 +1,5 @@
+import { showEverythingRequest } from '$lib/data/personRequests';
+
 /** The turn-based script the YBT agent follows in a chat session about the person's own work. */
 export const agentDoctrine = [
 	'The YBT agent: in a chat session about the person’s own work, go one item per turn.',
@@ -22,7 +24,7 @@ export const agentDoctrine = [
 	'  turn; raise that. "Not now" is the outcome snoozed, with the day they give.',
 	'- When they steer, re-plan from there: one project (projectId), only bugs (bugsOnly), "five',
 	'  minutes" (the bugs and asks first, then stop), "how is X doing" (read_project_state, its',
-	'  verdict first), "who owes me" (the chase items), "show me everything"',
+	`  verdict first), "who owes me" (the chase items), "${showEverythingRequest}"`,
 	'  (whats_outstanding_for_me with showEverything true).',
 	'- Their client portals are part of the board. When their Claude has a portal connector (Jewel',
 	'  Portal, Jewel PFP Portal, Jewel Property Serve Portal or another built on the portal',
