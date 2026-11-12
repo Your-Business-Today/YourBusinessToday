@@ -63,7 +63,7 @@
 </script>
 
 {#if isBuiltWork}
-	<ProjectStatePanel projectState={sources.projectState} {people} />
+	<ProjectStatePanel projectState={sources.projectState} {people} {projectId} />
 {/if}
 <ProjectPulseStrip {pulse} />
 <PanelTabs tabs={panelTabs} bind:selectedKey={selectedPanel} />

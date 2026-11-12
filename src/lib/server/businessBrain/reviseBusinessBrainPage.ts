@@ -41,10 +41,8 @@ export async function reviseBusinessBrainPage(
 	standing: BusinessBrainPageStanding & { organisationId: string; reviserAccountId: string },
 	revision: BusinessBrainRevisionGiven & { sourceId: string }
 ): Promise<boolean> {
-	const { organisationId, pageId, sourceId, kind, title, summary, body, facts, reviserAccountId } = standing;
-	const earlierVersion = { organisation_id: organisationId, page_id: pageId, source_id: sourceId, kind, title, summary, body, facts, revised_by: reviserAccountId };
-	const { error: historyError } = await supabase.from('business_brain_page_revisions').insert(earlierVersion);
-	if (historyError) throw historyError;
+	const { organisationId, pageId } = standing;
+	await keepEarlierVersion(supabase, standing);
 	const { data, error } = await supabase
 		.from('business_brain_pages')
 		.update(revisedValues(standing, revision))
@@ -54,6 +52,17 @@ export async function reviseBusinessBrainPage(
 		.select('id');
 	if (error) throw error;
 	return (data ?? []).length > 0;
+}
+
+/** Keeps the page as it stands in its history, before anything about it changes. */
+export async function keepEarlierVersion(
+	supabase: SupabaseClient,
+	standing: BusinessBrainPageStanding & { organisationId: string; reviserAccountId: string }
+): Promise<void> {
+	const { organisationId, pageId, sourceId, kind, title, summary, body, facts, reviserAccountId } = standing;
+	const earlierVersion = { organisation_id: organisationId, page_id: pageId, source_id: sourceId, kind, title, summary, body, facts, revised_by: reviserAccountId };
+	const { error } = await supabase.from('business_brain_page_revisions').insert(earlierVersion);
+	if (error) throw error;
 }
 
 function revisedValues(standing: BusinessBrainPageStanding, revision: BusinessBrainRevisionGiven & { sourceId: string }) {

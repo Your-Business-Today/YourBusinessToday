@@ -2,6 +2,7 @@ import { actionsFor, areasFor } from './actionRegistry';
 import { clientContactsOf } from './clientContactAccess';
 import { contextRunLine } from './contextRunLine';
 import { countOf } from '$lib/data/countOf';
+import { domainRunLine } from './domainRunLine';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { organisationNameLookup } from '$lib/data/organisationNames';
 import { raisingDoctrine } from './raisingDoctrine';
@@ -17,6 +18,7 @@ export async function describeContext(caller: McpCaller): Promise<string> {
 		projectsLine(caller),
 		organisationsLine(memberships, nameOf),
 		contextRunLine(memberships, nameOf),
+		await domainRunLine(caller),
 		await clientContactLine(caller),
 		staffLine(caller),
 		`Areas you can reach: ${areasFor(caller).join(', ')}.`,

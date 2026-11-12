@@ -7,7 +7,8 @@ import { getBranchRunsForProject } from '$lib/server/mainRuns/getMainRunsForProj
 import { readTogether } from '$lib/server/http/readTogether';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { stagedTasksOf } from '$lib/data/stagedTasks';
-import type { PageServerLoad } from './$types';
+import { deployActions } from './deployActions';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const { project } = await requireProjectAccess(locals, params.projectId);
@@ -25,3 +26,5 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		deliveryFacts: deliveryFactsOf({ project, cadenceLine, deployWindowFacts, ...branchRuns })
 	};
 };
+
+export const actions = { ...deployActions } satisfies Actions;

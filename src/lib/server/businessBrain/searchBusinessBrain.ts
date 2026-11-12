@@ -45,6 +45,23 @@ export async function searchBusinessBrainParts(
 	return matchesOf(await supabase.rpc('search_business_brain_parts', search));
 }
 
+/**
+ * A product's own pages that match the words, then the organisation's pages in the parts tied to it, best first
+ * within each, as search_product_brain (migration 0203) ranks them; before that migration, the parts alone.
+ */
+export async function searchProductBrainPages(
+	supabase: SupabaseClient,
+	scope: { organisationId: string; projectId: string },
+	searchText: string,
+	parts: BusinessBrainPartKind[]
+): Promise<BusinessBrainPageMatch[] | null> {
+	const { organisationId, projectId } = scope;
+	const search = { target_organisation: organisationId, target_project: projectId, search_text: searchText, part_kinds: parts, most_pages: mostPagesFound };
+	const matches = matchesOf(await supabase.rpc('search_product_brain', search));
+	if (matches !== null) return matches;
+	return searchBusinessBrainParts(supabase, organisationId, searchText, parts);
+}
+
 function matchesOf(answer: { data: unknown; error: unknown }): BusinessBrainPageMatch[] | null {
 	const { data, error } = answer;
 	if (isSchemaNotYetMigrated(error)) return null;
