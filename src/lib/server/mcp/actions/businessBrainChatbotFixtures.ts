@@ -6,6 +6,7 @@ export const chatbotId = '00000000-0000-0000-0000-0000000000b0';
 export const siteTeam: BusinessBrainChatbot = {
 	chatbotId,
 	name: 'Site team',
+	purpose: 'Answers the site team from our processes',
 	madeAt: '2026-11-10T18:00:00Z',
 	parts: ['process'],
 	people: ['stuart@example.com']
