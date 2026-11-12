@@ -1,5 +1,5 @@
 import { brainOf } from './businessBrainAnswers';
-import { domainRunActionName } from './domainRunActionName';
+import { domainRunActionName, productDomainRunActionName } from './domainRunActionName';
 import { portalAddress } from '$lib/portal/portalAddress';
 import type { DomainScope } from '$lib/server/businessBrain/domainScope';
 import type { ModuleProduct } from '../organisationModuleGate';
@@ -37,6 +37,6 @@ export function productDomainHolder({ organisation, project }: ModuleProduct): D
 		brainName: `the brain of ${name}, in ${brainOf(organisation)}`,
 		address: `https://${portalAddress.hostName}/projects/${id}/domain`,
 		readAction: 'read_product_brain_domain',
-		setAction: 'file_product_brain_domain'
+		setAction: productDomainRunActionName
 	};
 }
