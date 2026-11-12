@@ -2,7 +2,7 @@ import { businessBrainPartKinds } from '$lib/data/businessBrainRules';
 import { objectSchema, textField } from '../actionTypes';
 import { organisationField, pageToReadField, partToListField, revisionToReadField, searchField } from './businessBrainSchemas';
 
-const productField = textField('The product, as list_projects gives its id');
+export const productField = textField('The product, as list_projects gives its id');
 
 const partListField = (description: string) => ({
 	type: 'array',

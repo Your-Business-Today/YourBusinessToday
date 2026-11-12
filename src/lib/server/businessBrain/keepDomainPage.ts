@@ -1,11 +1,12 @@
 import { everyDomainPageKind } from '$lib/data/businessBrainDomain';
 import { keepEarlierVersion } from './reviseBusinessBrainPage';
-import { readDomainPageStanding, readsAsFiled, type DomainPageStanding, type DomainPageValues } from './domainPageStanding';
+import { productColumnOf } from './domainScope';
+import { readDomainPageStanding, readsAsFiled, type DomainPageShelf, type DomainPageStanding, type DomainPageValues } from './domainPageStanding';
 import { supersededPageKind } from '$lib/data/businessBrainDomainRules';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 /** Where a domain page is kept, the source it is filed from and who files it. */
-export type DomainPagePlace = { organisationId: string; partId: string; sourceId: string; filerAccountId: string };
+export type DomainPagePlace = DomainPageShelf & { sourceId: string; filerAccountId: string };
 
 export const domainPageOutcomes = {
 	filed: 'filed',
@@ -25,7 +26,7 @@ const kindsAFilingMayRevise: string[] = [...everyDomainPageKind, supersededPageK
 /** Files the page under its slug, or revises the page already there, keeping its earlier version in its history. */
 export async function keepDomainPage(supabase: SupabaseClient, place: DomainPagePlace, values: DomainPageValues): Promise<DomainPageKept> {
 	const kept = { slug: values.slug, title: values.title };
-	const standing = await readDomainPageStanding(supabase, place.partId, values.slug);
+	const standing = await readDomainPageStanding(supabase, place, values.slug);
 	if (standing === null) return { ...kept, pageId: await insertDomainPage(supabase, place, values), outcome: domainPageOutcomes.filed };
 	const { pageId } = standing;
 	if (!kindsAFilingMayRevise.includes(standing.kind)) return { ...kept, pageId, outcome: domainPageOutcomes.notInDomain };
@@ -37,7 +38,8 @@ export async function keepDomainPage(supabase: SupabaseClient, place: DomainPage
 async function insertDomainPage(supabase: SupabaseClient, place: DomainPagePlace, values: DomainPageValues): Promise<string> {
 	const { organisationId, partId, sourceId } = place;
 	const { kind, slug, title, summary, body, facts, parentPageId } = values;
-	const row = { organisation_id: organisationId, part_id: partId, source_id: sourceId, parent_page_id: parentPageId, kind, slug, title, summary, body, facts };
+	const placing = { organisation_id: organisationId, part_id: partId, source_id: sourceId, parent_page_id: parentPageId, ...productColumnOf(place) };
+	const row = { ...placing, kind, slug, title, summary, body, facts };
 	const { data, error } = await supabase.from('business_brain_pages').insert(row).select('id').single();
 	if (error) throw error;
 	return data.id as string;

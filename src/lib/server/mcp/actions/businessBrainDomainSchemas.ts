@@ -3,6 +3,7 @@ import { contextMapSlug } from '$lib/data/businessBrainDomain';
 import { domainFilingLimits, domainReferenceType, domainWritableKinds } from '$lib/data/businessBrainDomainRules';
 import { objectSchema, proseField, textField } from '../actionTypes';
 import { organisationField, sourceNamingFields } from './businessBrainSchemas';
+import { productField } from './productBrainSchemas';
 
 const { longestTitle, longestSummary, longestSlug } = businessBrainLimits;
 const { mostContexts, mostPages, mostRetires, mostFields, longestFieldName, longestFieldType, mostStatuses, longestStatus } = domainFilingLimits;
@@ -55,15 +56,17 @@ const retireEntry = objectSchema(
 	['slug', 'foldedIntoSlug']
 );
 
-export const fileBusinessBrainDomainSchema = objectSchema(
-	{
-		organisationId: organisationField,
-		...sourceNamingFields,
-		contexts: { type: 'array', items: contextEntry, description: `The bounded contexts this source creates or reshapes, at most ${mostContexts}` },
-		pages: { type: 'array', items: pageEntry, description: `The pages this source demands, created or revised by slug, at most ${mostPages}` },
-		retires: { type: 'array', items: retireEntry, description: `The pages this modelling supersedes, at most ${mostRetires}` }
-	},
-	['organisationId']
-);
+const filingFields = {
+	...sourceNamingFields,
+	contexts: { type: 'array', items: contextEntry, description: `The bounded contexts this source creates or reshapes, at most ${mostContexts}` },
+	pages: { type: 'array', items: pageEntry, description: `The pages this source demands, created or revised by slug, at most ${mostPages}` },
+	retires: { type: 'array', items: retireEntry, description: `The pages this modelling supersedes, at most ${mostRetires}` }
+};
+
+export const fileBusinessBrainDomainSchema = objectSchema({ organisationId: organisationField, ...filingFields }, ['organisationId']);
+
+export const fileProductBrainDomainSchema = objectSchema({ projectId: productField, ...filingFields }, ['projectId']);
 
 export const readBusinessBrainDomainSchema = objectSchema({ organisationId: organisationField }, ['organisationId']);
+
+export const readProductBrainDomainSchema = objectSchema({ projectId: productField }, ['projectId']);

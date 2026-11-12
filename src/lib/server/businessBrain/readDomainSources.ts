@@ -1,5 +1,6 @@
-import { domainBrainPart, everyDomainPageKind } from '$lib/data/businessBrainDomain';
-import { readPartKinds } from './readBusinessBrainIndex';
+import { everyDomainPageKind } from '$lib/data/businessBrainDomain';
+import { readDomainPartId } from './readDomainPages';
+import { readInScope, type DomainScope } from './domainScope';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 /** A source the domain was filed from, and when. */
@@ -7,9 +8,10 @@ export type DomainSource = { sourceId: string; title: string; origin: string; fi
 
 const mostSourcesListed = 50;
 
-/** The sources the organisation's domain pages were last filed from, newest first. */
-export async function readDomainSources(supabase: SupabaseClient, organisationId: string): Promise<DomainSource[]> {
-	const sourceIds = await readSourcesFiledFrom(supabase, organisationId);
+/** The sources the scope's domain pages were last filed from, newest first. */
+export async function readDomainSources(supabase: SupabaseClient, scope: DomainScope): Promise<DomainSource[]> {
+	const { organisationId } = scope;
+	const sourceIds = await readSourcesFiledFrom(supabase, scope);
 	if (sourceIds.length === 0) return [];
 	const { data, error } = await supabase
 		.from('business_brain_sources')
@@ -22,17 +24,19 @@ export async function readDomainSources(supabase: SupabaseClient, organisationId
 	return (data ?? []).map((row) => ({ sourceId: row.id as string, title: row.title as string, origin: row.origin as string, filedAt: row.filed_at as string }));
 }
 
-async function readSourcesFiledFrom(supabase: SupabaseClient, organisationId: string): Promise<string[]> {
-	const partKinds = await readPartKinds(supabase, organisationId);
-	const partId = [...partKinds.keys()].find((candidate) => partKinds.get(candidate) === domainBrainPart);
-	if (partId === undefined) return [];
-	const { data, error } = await supabase
-		.from('business_brain_pages')
-		.select('source_id')
-		.eq('organisation_id', organisationId)
-		.eq('part_id', partId)
-		.in('kind', everyDomainPageKind)
-		.not('source_id', 'is', null);
-	if (error) throw error;
+async function readSourcesFiledFrom(supabase: SupabaseClient, scope: DomainScope): Promise<string[]> {
+	const { organisationId } = scope;
+	const partId = await readDomainPartId(supabase, organisationId);
+	if (partId === null) return [];
+	const data = await readInScope(scope, (filter) =>
+		supabase
+			.from('business_brain_pages')
+			.select('source_id')
+			.eq('organisation_id', organisationId)
+			.eq('part_id', partId)
+			.in('kind', everyDomainPageKind)
+			.not('source_id', 'is', null)
+			.filter(...filter)
+	);
 	return [...new Set((data ?? []).map((row) => row.source_id as string))];
 }

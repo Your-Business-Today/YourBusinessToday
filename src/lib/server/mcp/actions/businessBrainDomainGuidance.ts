@@ -20,3 +20,13 @@ export const readBusinessBrainDomainGuidance = [
 	whereItIsKept,
 	'Read it before filing from a new source, so a concept already modelled is written to its own slug, and when someone asks how the business is organised or what a word means in it.'
 ].join('\n');
+
+const whereAProductsIsKept =
+	"A product's own domain is kept as pages of the Expertise part of its organisation's Your Business Brain that carry the product, apart from the organisation's own domain and every other product's: a slug names one page of each. It is drawn on the product's Domain tab in place of what its repository gives, and listed first in its product brain.";
+
+export const fileProductBrainDomainGuidance = [whereAProductsIsKept, ...domainModellingDoctrine, showBeforeFiling].join('\n');
+
+export const readProductBrainDomainGuidance = [
+	whereAProductsIsKept,
+	"Read it before filing from a new source, so a concept already modelled is written to its own slug; read_business_brain_domain gives the organisation's words, which a product's domain borrows rather than repeats."
+].join('\n');

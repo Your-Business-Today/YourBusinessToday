@@ -1,3 +1,4 @@
+import { organisationOwnPages, readInScope } from './domainScope';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { BusinessBrainPageGiven } from '$lib/data/businessBrainRules';
 
@@ -9,19 +10,15 @@ export type BusinessBrainPageFiling = { isNew: true; pageId: string } | ({ isNew
 
 const uniqueViolation = '23505';
 
-/** The page of the part already filed under the slug, or null when the subject is new to it. */
+/** The organisation's own page of the part filed under the slug, or null when the subject is new to it. */
 export async function findBusinessBrainPage(
 	supabase: SupabaseClient,
 	partId: string,
 	slug: string
 ): Promise<BusinessBrainPageFound | null> {
-	const { data, error } = await supabase
-		.from('business_brain_pages')
-		.select('id, title')
-		.eq('part_id', partId)
-		.eq('slug', slug)
-		.maybeSingle();
-	if (error) throw error;
+	const data = await readInScope(organisationOwnPages, (filter) =>
+		supabase.from('business_brain_pages').select('id, title').eq('part_id', partId).eq('slug', slug).filter(...filter).maybeSingle()
+	);
 	if (data === null) return null;
 	return { pageId: data.id as string, title: data.title as string };
 }

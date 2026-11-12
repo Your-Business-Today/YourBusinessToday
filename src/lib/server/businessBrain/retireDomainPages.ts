@@ -28,7 +28,7 @@ async function retireDomainPage(
 	slug: string,
 	foldedInto: DomainPageKept | undefined
 ): Promise<DomainPageKept> {
-	const standing = await readDomainPageStanding(supabase, place.partId, slug);
+	const standing = await readDomainPageStanding(supabase, place, slug);
 	const isRetirable = standing !== null && isDomainPageStanding(standing) && foldedInto?.pageId != null;
 	if (!isRetirable) return { slug, title: slug, pageId: standing?.pageId ?? null, outcome: domainPageOutcomes.notInDomain };
 	const body = `Superseded: what this page knew was folded into "${foldedInto.title}" (${foldedInto.slug}).`;

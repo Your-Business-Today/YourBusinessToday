@@ -3,6 +3,7 @@ import { ensureBusinessBrainPart } from './ensureBusinessBrainPart';
 import { fileBusinessBrainSource } from './fileBusinessBrainSource';
 import { keepDomainPage, type DomainPageKept, type DomainPagePlace } from './keepDomainPage';
 import { moveCoreDomainTo } from './moveCoreDomain';
+import type { DomainScope } from './domainScope';
 import { readDomainPages } from './readDomainPages';
 import { retireDomainPages } from './retireDomainPages';
 import type { DomainContextGiven, DomainFilingGiven, DomainPageWriteGiven } from '$lib/data/businessBrainDomainRules';
@@ -18,26 +19,26 @@ export type DomainFilingDone = {
 	coreMovedFrom: DomainPageKept[];
 };
 
-/** Who files, into which organisation's brain. */
-export type DomainFiler = { organisationId: string; filerAccountId: string };
+/** Who files, into the organisation's own domain or one product's. */
+export type DomainFiler = DomainScope & { filerAccountId: string };
 
 /** The answer when a page names a context neither filed before nor in this call. */
 export type UnknownContext = { unknownContextSlug: string };
 
 /** Files what one source teaches: its contexts first, then the pages beneath them, then the pages it supersedes. */
-export async function fileOrganisationDomain(
+export async function fileDomainFromSource(
 	supabase: SupabaseClient,
 	filer: DomainFiler,
 	filing: DomainFilingGiven
 ): Promise<DomainFilingDone | UnknownContext | null> {
-	const { organisationId, filerAccountId } = filer;
-	const filedPages = await readDomainPages(supabase, organisationId);
+	const { organisationId, projectId, filerAccountId } = filer;
+	const filedPages = await readDomainPages(supabase, filer);
 	const unknownContextSlug = firstUnknownContext(filing, filedPages);
 	if (unknownContextSlug !== null) return { unknownContextSlug };
 	const sourceId = await fileBusinessBrainSource(supabase, organisationId, filing.source, filerAccountId);
 	if (sourceId === null) return null;
 	const partId = await ensureBusinessBrainPart(supabase, organisationId, domainBrainPart);
-	const place: DomainPagePlace = { organisationId, partId, sourceId, filerAccountId };
+	const place: DomainPagePlace = { organisationId, projectId, partId, sourceId, filerAccountId };
 	const contexts = await keepEach(filing.contexts, (context) => keepDomainPage(supabase, place, contextValues(context)));
 	const coreMovedFrom = await moveCoreDomainTo(supabase, place, filing.contexts, filedPages);
 	const contextIds = contextIdsOf(filedPages, contexts);

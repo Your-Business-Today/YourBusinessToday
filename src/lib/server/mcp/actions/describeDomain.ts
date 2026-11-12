@@ -1,32 +1,30 @@
-import { brainOf } from './businessBrainAnswers';
-import { domainRunActionName } from './domainRunActionName';
 import { describeAggregates } from './describeBlueprint';
-import { domainAddressOf } from './businessBrainDomainAnswers';
 import { domainBlockNames, domainPageKinds } from '$lib/data/businessBrainDomain';
 import { entitiesOf, type BoundedContext } from '$lib/data/blueprint/domainModel';
 import { readBodiesByPageId } from '$lib/server/businessBrain/readBodiesByPageId';
 import type { DomainBlock, DomainContextSummary, OrganisationDomain } from '$lib/data/organisationDomain';
-import type { Organisation } from '$lib/server/organisations/organisationRecord';
+import type { DomainHolder } from './domainHolder';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-export function noDomainYet(organisation: Organisation): string {
-	return `${brainOf(organisation)} holds no domain yet: no bounded context has been filed. Set it with ${domainRunActionName}.`;
+export function noDomainYet(holder: DomainHolder): string {
+	return `${holder.brainName} holds no domain yet: no bounded context has been filed. Set it with ${holder.setAction}.`;
 }
 
 /** The domain as Markdown: the context map, then each context with its aggregates, entities, other blocks and glossary. */
-export async function describeOrganisationDomain(
+export async function describeDomain(
 	supabase: SupabaseClient,
-	organisation: Organisation,
+	holder: DomainHolder,
 	domain: OrganisationDomain | null
 ): Promise<string> {
-	if (domain === null) return noDomainYet(organisation);
+	if (domain === null) return noDomainYet(holder);
 	const { model, contexts, contextMap } = domain;
-	const bodies = await readBodiesByPageId(supabase, organisation.id, writtenOutPageIds(domain));
+	const { organisationId } = holder.scope;
+	const bodies = await readBodiesByPageId(supabase, organisationId, writtenOutPageIds(domain));
 	const { relationships } = model;
 	const counts = `${contexts.length} contexts, ${entitiesOf(model).length} entities, ${relationships.length} relationships`;
 	const mapSection = contextMap === null ? [] : [`## Context map\n${bodies.get(contextMap.pageId) ?? ''}`];
 	const contextSections = model.contexts.map((context) => describeContext(context, contexts, bodies));
-	return [`# ${organisation.name} domain\n${counts}. Drawn at ${domainAddressOf(organisation)}.`, ...mapSection, ...contextSections].join('\n\n');
+	return [`# ${holder.name} domain\n${counts}. Drawn at ${holder.address}.`, ...mapSection, ...contextSections].join('\n\n');
 }
 
 function writtenOutPageIds({ contexts, contextMap }: OrganisationDomain): string[] {
