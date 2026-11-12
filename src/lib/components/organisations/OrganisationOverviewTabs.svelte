@@ -1,5 +1,5 @@
 <script lang="ts">
-	import InvoicingDetailsPanel from './InvoicingDetailsPanel.svelte';
+	import OrganisationDetailsPanel from './OrganisationDetailsPanel.svelte';
 	import OrganisationDirectorsPanel from './OrganisationDirectorsPanel.svelte';
 	import OrganisationModulesPanel from './OrganisationModulesPanel.svelte';
 	import OrganisationPeoplePanel from './OrganisationPeoplePanel.svelte';
@@ -47,7 +47,7 @@
 {#if shownTab === organisationOverviewTabs.people}
 	<OrganisationPeoplePanel {organisation} {members} {canManage} />
 {:else if shownTab === organisationOverviewTabs.details}
-	<InvoicingDetailsPanel {organisation} {canManage} />
+	<OrganisationDetailsPanel {organisation} {canManage} />
 {:else if shownTab === organisationOverviewTabs.modules}
 	<OrganisationModulesPanel {modules} canSwitch={isStaff} />
 {:else if shownTab === organisationOverviewTabs.directors}

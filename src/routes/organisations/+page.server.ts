@@ -5,7 +5,7 @@ import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
 import { readOrganisationDetails } from '$lib/server/organisations/organisationDetailsForm';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { requireUser } from '$lib/server/auth/requireUser';
-import { validateOrganisationDetails } from '$lib/data/organisationRules';
+import { blankOrganisationDetails, validateOrganisationDetails } from '$lib/data/organisationRules';
 import type { Actions, PageServerLoad } from './$types';
 
 const nameTaken = 'An organisation of that name already exists.';
@@ -21,7 +21,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 export const actions: Actions = {
 	createOrganisation: async ({ locals, request }) => {
 		const user = await requireStaff(locals);
-		const details = readOrganisationDetails(await request.formData());
+		const details = readOrganisationDetails(await request.formData(), blankOrganisationDetails);
 		const refusal = validateOrganisationDetails(details);
 		if (refusal !== null) return fail(400, { message: refusal });
 		const organisationId = await createOrganisation(locals.supabase, { details, createdBy: user.id });
