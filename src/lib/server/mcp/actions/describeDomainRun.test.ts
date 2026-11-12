@@ -3,7 +3,7 @@ import { describeDomainRun } from './describeDomainRun';
 import type { DomainRunStanding } from './domainRunStanding';
 import type { OrganisationDomain } from '$lib/data/organisationDomain';
 
-const organisation = { id: 'org-1', parentOrganisationId: null, name: 'Oak & Ash Joinery' } as DomainRunStanding['organisation'];
+const organisation = { id: 'org-1', parentOrganisationId: null, name: 'Oak & Ash Joinery' } as unknown as DomainRunStanding['organisation'];
 
 const firstRun: DomainRunStanding = { organisation, domain: null, sources: [], context: null, products: [], switchedOn: ['business_brain'] };
 
@@ -11,7 +11,7 @@ const filedDomain = {
 	model: { contexts: [], relationships: [] },
 	contexts: [{ pageId: 'p1', slug: 'joinery', title: 'Joinery', summary: '', isCoreDomain: true, blocks: [] }],
 	contextMap: null
-} as OrganisationDomain;
+} as unknown as OrganisationDomain;
 
 describe('the domain run', () => {
 	it('starts a first run broad, and ends by filing on the person’s yes and giving the Domain tab', () => {

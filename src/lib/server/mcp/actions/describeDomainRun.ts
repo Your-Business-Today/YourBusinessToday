@@ -1,6 +1,6 @@
-import { domainAddressOf } from './businessBrainDomainAnswers';
 import { domainModellingDoctrine } from './domainModellingDoctrine';
 import { domainRunStanding, type DomainRunStanding } from './domainRunStanding';
+import { organisationDomainHolder } from './domainHolder';
 
 const placesToRead = 'mail, documents and SharePoint or OneDrive libraries, Teams, spreadsheets, the accounts package, the calendar and the website';
 
@@ -19,6 +19,6 @@ export function describeDomainRun(standing: DomainRunStanding): string {
 		['4. **Model each source by these rules:**', ...domainModellingDoctrine.map((rule) => `   - ${rule}`)].join('\n'),
 		"5. **Ask the person where you are unsure** rather than guess, one question at a time, in the business's own words.",
 		`6. **Show the person what you will file from each source** — the contexts, the pages, what you supersede — and file it only once they say yes: file_business_brain_domain with organisationId ${organisation.id}, one call per source, naming the source.`,
-		`7. **Give them the link** to the domain drawn from what you filed: ${domainAddressOf(organisation)}`
+		`7. **Give them the link** to the domain drawn from what you filed: ${organisationDomainHolder(organisation).address}`
 	].join('\n\n');
 }

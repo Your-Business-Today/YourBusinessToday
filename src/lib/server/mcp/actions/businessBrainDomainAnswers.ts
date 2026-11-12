@@ -1,19 +1,12 @@
-import { brainOf } from './businessBrainAnswers';
 import { domainPageOutcomes, type DomainPageKept, type DomainPageOutcome } from '$lib/server/businessBrain/keepDomainPage';
-import { portalAddress } from '$lib/portal/portalAddress';
-import type { DomainFilingDone } from '$lib/server/businessBrain/fileOrganisationDomain';
-import type { Organisation } from '$lib/server/organisations/organisationRecord';
+import type { DomainFilingDone } from '$lib/server/businessBrain/fileDomainFromSource';
+import type { DomainHolder } from './domainHolder';
 
 export const nothingTaught =
 	'Nothing was filed: no context, page or retire was given. A source that teaches the domain nothing is a valid outcome; say so to the person.';
 
-export function unknownContext(contextSlug: string): string {
-	return `No bounded context ${contextSlug} is filed or given in contexts. Give it in contexts, or place the page in a context the domain has (read_business_brain_domain). Nothing was filed.`;
-}
-
-/** Where the organisation's domain is drawn on the site. */
-export function domainAddressOf(organisation: Organisation): string {
-	return `https://${portalAddress.hostName}/organisations/${organisation.id}/domain`;
+export function unknownContext(holder: DomainHolder, contextSlug: string): string {
+	return `No bounded context ${contextSlug} is filed or given in contexts. Give it in contexts, or place the page in a context the domain has (${holder.readAction}). Nothing was filed.`;
 }
 
 const outcomeWords: Record<DomainPageOutcome, string> = {
@@ -38,14 +31,14 @@ function section(heading: string, lines: string[]): string[] {
 	return lines.length === 0 ? [] : [heading, ...lines];
 }
 
-export function domainFiled(organisation: Organisation, done: DomainFilingDone): string {
+export function domainFiled(holder: DomainHolder, done: DomainFilingDone): string {
 	const { sourceId, contexts, pages, retires, coreMovedFrom } = done;
 	return [
-		`Filed into the domain in ${brainOf(organisation)}. Source id: ${sourceId}.`,
+		`Filed into the domain in ${holder.brainName}. Source id: ${sourceId}.`,
 		...section('Contexts:', contexts.map(keptLine)),
 		...section('No longer the core domain:', coreMovedFrom.map(keptLine)),
 		...section('Pages:', pages.map(keptLine)),
 		...section('Superseded:', retires.map(retiredLine)),
-		`The domain is drawn at ${domainAddressOf(organisation)}; give the person the link.`
+		`The domain is drawn at ${holder.address}; give the person the link.`
 	].join('\n');
 }

@@ -20,7 +20,7 @@ export async function moveCoreDomainTo(
 	const formerCores = filedPages.filter((page) => isCoreElsewhere(page, newCore.slug));
 	const unmarked: DomainPageKept[] = [];
 	for (const formerCore of formerCores) {
-		const standing = await readDomainPageStanding(supabase, place.partId, formerCore.slug);
+		const standing = await readDomainPageStanding(supabase, place, formerCore.slug);
 		if (standing === null) continue;
 		const values = { ...valuesOfStanding(standing), facts: { ...standing.facts, isCoreDomain: false } };
 		unmarked.push(await keepDomainPage(supabase, place, values));

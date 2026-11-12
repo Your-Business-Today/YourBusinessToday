@@ -1,4 +1,5 @@
 import { everyDomainPageKind } from '$lib/data/businessBrainDomain';
+import { readInScope, type DomainScope } from './domainScope';
 import type { BusinessBrainPageStanding } from './reviseBusinessBrainPage';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -16,15 +17,20 @@ export type DomainPageValues = {
 	parentPageId: string | null;
 };
 
-/** The page filed under the slug in the part, or null when the part has none. */
-export async function readDomainPageStanding(supabase: SupabaseClient, partId: string, slug: string): Promise<DomainPageStanding | null> {
-	const { data, error } = await supabase
-		.from('business_brain_pages')
-		.select('id, source_id, kind, slug, title, summary, body, facts, parent_page_id, updated_at')
-		.eq('part_id', partId)
-		.eq('slug', slug)
-		.maybeSingle();
-	if (error) throw error;
+/** Where a domain page is kept: the scope's pages of one part. */
+export type DomainPageShelf = DomainScope & { partId: string };
+
+/** The page of the scope filed under the slug in the part, or null when it has none. */
+export async function readDomainPageStanding(supabase: SupabaseClient, shelf: DomainPageShelf, slug: string): Promise<DomainPageStanding | null> {
+	const data = await readInScope(shelf, (filter) =>
+		supabase
+			.from('business_brain_pages')
+			.select('id, source_id, kind, slug, title, summary, body, facts, parent_page_id, updated_at')
+			.eq('part_id', shelf.partId)
+			.eq('slug', slug)
+			.filter(...filter)
+			.maybeSingle()
+	);
 	if (data === null) return null;
 	const { id, source_id: sourceId, parent_page_id: parentPageId, updated_at: updatedAt, ...words } = data;
 	return { pageId: id, sourceId, parentPageId, updatedAt, ...words } as DomainPageStanding;

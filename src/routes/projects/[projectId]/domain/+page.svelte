@@ -1,12 +1,14 @@
 <script lang="ts">
 	import BusinessBrainIndexPanel from '$lib/components/businessBrain/BusinessBrainIndexPanel.svelte';
 	import BlueprintHeader from '$lib/components/blueprint/BlueprintHeader.svelte';
+	import DomainContextsPanel from '$lib/components/organisations/domain/DomainContextsPanel.svelte';
 	import DomainExplorer from '$lib/components/blueprint/DomainExplorer.svelte';
 	import EmptyState from '$lib/components/site/EmptyState.svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import { blueprintEmptyMessages } from '$lib/components/blueprint/blueprintEmptyMessages';
 	import { blueprintQueryKeys, linkedValueOf } from '$lib/components/blueprint/blueprintViews';
 	import { businessBrainAddresses } from '$lib/data/businessBrainAddresses';
+	import { domainDrawnFrom } from '$lib/components/blueprint/productDomainMessages';
 	import { page } from '$app/state';
 	import { productBrainEmptyMessage } from '$lib/components/businessBrain/productBrainMessages';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
@@ -15,6 +17,10 @@
 
 	const { project, blueprint, goals, productBrain } = $derived(data);
 	const domain = $derived(blueprint?.domain ?? null);
+	const ownDomain = $derived(productBrain?.domain ?? null);
+	const addresses = $derived(productBrain === null ? null : businessBrainAddresses(productBrain.organisationId));
+	const drawnFrom = $derived(domainDrawnFrom(ownDomain !== null, domain !== null));
+	const linkedEntityName = $derived(linkedValueOf(page.url, blueprintQueryKeys.entity));
 	const emptyMessage = $derived(
 		project.repositoryUrl === '' ? blueprintEmptyMessages.noRepository : blueprintEmptyMessages.noDomain
 	);
@@ -24,27 +30,24 @@
 	<title>Domain — {project.name} — Your Business Today</title>
 </svelte:head>
 
-<BlueprintHeader {project} {blueprint} />
+<BlueprintHeader {project} {blueprint} {drawnFrom} />
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
-	{#if productBrain !== null}
+	{#if productBrain !== null && addresses !== null}
 		<BusinessBrainIndexPanel
 			title="Product brain"
 			index={productBrain.index}
-			addresses={businessBrainAddresses(productBrain.organisationId)}
+			{addresses}
 			emptyMessage={productBrainEmptyMessage(productBrain.parts)}
 		/>
 	{/if}
-	{#if domain === null}
+	{#if ownDomain !== null && addresses !== null}
+		<DomainExplorer domain={ownDomain.model} siteMap={null} projectId={project.id} {goals} {linkedEntityName} />
+		<DomainContextsPanel domain={ownDomain} {addresses} />
+	{:else if domain === null}
 		<EmptyState message={emptyMessage} />
 	{:else}
-		<DomainExplorer
-			{domain}
-			siteMap={blueprint?.siteMap ?? null}
-			projectId={project.id}
-			{goals}
-			linkedEntityName={linkedValueOf(page.url, blueprintQueryKeys.entity)}
-		/>
+		<DomainExplorer {domain} siteMap={blueprint?.siteMap ?? null} projectId={project.id} {goals} {linkedEntityName} />
 	{/if}
 </div>

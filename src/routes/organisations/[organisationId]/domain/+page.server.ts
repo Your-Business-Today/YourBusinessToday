@@ -9,6 +9,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const { organisation, canManage } = access;
 	const brains = await readBrainsOf(locals.supabase, access);
 	if (brains === null) return { organisation, canManage, brains, domain: null };
-	const domain = organisationDomainOf(await readDomainPages(locals.supabase, organisation.id));
+	const domain = organisationDomainOf(await readDomainPages(locals.supabase, { organisationId: organisation.id, projectId: null }));
 	return { organisation, canManage, brains, domain };
 };
