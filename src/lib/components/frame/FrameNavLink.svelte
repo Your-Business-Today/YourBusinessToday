@@ -1,7 +1,8 @@
 <script lang="ts">
-	import type { NavigationLink } from '$lib/components/site/siteNavigation';
+	import LineIcon from '$lib/components/site/LineIcon.svelte';
+	import type { FrameSectionLink } from './frameGroups';
 
-	let { link, isCurrent }: { link: NavigationLink; isCurrent: boolean } = $props();
+	let { link, isCurrent }: { link: FrameSectionLink; isCurrent: boolean } = $props();
 
 	const toneClasses = $derived(
 		isCurrent ? 'font-semibold text-chalk' : 'font-medium text-chalk-subtle'
@@ -14,5 +15,6 @@
 	class={`flex items-center gap-3 rounded px-3 py-3.5 text-sm transition hover:bg-carriage-raised
 		hover:text-chalk md:py-2 ${toneClasses}`}
 >
-	{link.label}
+	<LineIcon kind={link.icon} class="h-4 w-4 shrink-0" />
+	<span class="truncate">{link.label}</span>
 </a>

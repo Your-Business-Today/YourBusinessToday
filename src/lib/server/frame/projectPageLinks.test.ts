@@ -8,15 +8,15 @@ const clientCompany = { ...organisation, portalClientId: 'harbour-client' };
 describe('organisationPageLinksFor', () => {
 	it('gives the people on an organisation its overview, and its projects and tasks under Work, and no project’s pages', () => {
 		expect(organisationPageLinksFor(organisation, projectId)).toEqual([
-			{ href: '/organisations/harbour', label: 'Overview' },
-			{ href: '/projects', label: 'Projects', group: 'work' },
-			{ href: '/organisations/harbour/task-management', label: 'Tasks', group: 'work' }
+			{ href: '/organisations/harbour', label: 'Overview', icon: 'layoutDashboard' },
+			{ href: '/projects', label: 'Projects', icon: 'folderKanban', group: 'work' },
+			{ href: '/organisations/harbour/task-management', label: 'Tasks', icon: 'listChecks', group: 'work' }
 		]);
 	});
 
 	it('gives a client’s contact the picked project’s progress at the portal', () => {
 		expect(organisationPageLinksFor(clientCompany, projectId)).toEqual([
-			{ href: `/portal/projects/${projectId}`, label: 'Home' }
+			{ href: `/portal/projects/${projectId}`, label: 'Home', icon: 'house' }
 		]);
 		expect(organisationPageLinksFor(clientCompany, null)).toEqual([]);
 	});

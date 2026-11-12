@@ -1,4 +1,7 @@
+import { navigationIconPaths, type NavigationIconKind } from './navigationIcons';
+
 export type LineIconKind =
+	| NavigationIconKind
 	| 'arrow'
 	| 'briefcase'
 	| 'calendar'
@@ -15,6 +18,7 @@ export type LineIconKind =
 
 /** Stroke paths on a 24 by 24 grid, one icon per kind. */
 export const lineIconPaths: Record<LineIconKind, string[]> = {
+	...navigationIconPaths,
 	arrow: ['M5 12h14', 'm12 5 7 7-7 7'],
 	briefcase: [
 		'M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16',

@@ -27,20 +27,20 @@ export type FrameAccess = {
 	isPortalAdministrator: boolean;
 };
 
-const portalLinks: NavigationLink[] = [
-	{ href: portalHomePath, label: 'Your projects' },
-	{ href: portalContextPath, label: 'Your company context' },
-	{ href: portalBillingPath, label: 'Billing' },
-	{ href: portalConnectPath, label: 'Connect your Claude' }
+const portalLinks: FrameLink[] = [
+	{ href: portalHomePath, label: 'Your projects', icon: 'folderKanban' },
+	{ href: portalContextPath, label: 'Your company context', icon: 'fileText' },
+	{ href: portalBillingPath, label: 'Billing', icon: 'creditCard' },
+	{ href: portalConnectPath, label: 'Connect your Claude', icon: 'plug' }
 ];
 
-const portalPeopleLink: NavigationLink = { href: portalPeoplePath, label: 'People' };
+const portalPeopleLink: FrameLink = { href: portalPeoplePath, label: 'People', icon: 'users' };
 
-const workProjectsLink: FrameLink = { ...projectsLink, group: 'work' };
+const workProjectsLink: FrameLink = { ...projectsLink, icon: 'folderKanban', group: 'work' };
 
 const salesRegisterLinks: FrameLink[] = [
-	{ ...leadsLink, group: 'sales' },
-	{ ...clientsLink, group: 'sales' }
+	{ ...leadsLink, icon: 'target', group: 'sales' },
+	{ ...clientsLink, icon: 'building', group: 'sales' }
 ];
 
 /** The side bar's links beyond the picked organisation's own: work inside an organisation, and nothing above one. */
@@ -60,7 +60,7 @@ export function frameMenuLinksFor(access: FrameAccess): NavigationLink[] {
 	return [...organisationLinks, ...adminLinks, ...accountLinksFor(siteAccess)];
 }
 
-function portalLinksFor(isPortalAdministrator: boolean): NavigationLink[] {
+function portalLinksFor(isPortalAdministrator: boolean): FrameLink[] {
 	if (!isPortalAdministrator) return portalLinks;
 	return [...portalLinks, portalPeopleLink];
 }
