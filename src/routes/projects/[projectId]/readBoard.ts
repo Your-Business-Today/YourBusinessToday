@@ -15,21 +15,19 @@ import type { Project } from '$lib/server/projects/projectRecord';
 
 /**
  * Everything the project page reads, started at once: only the tasks' assignees and turns wait,
- * for the tasks they belong to, and every other read runs beside them. Turns are read for every task
- * on the project, so how the project stands is read whole whichever tab is open. To-dos are read
- * only for Task Management, where each item shows its to-dos beneath it.
+ * for the tasks they belong to, and every other read runs beside them. To-dos are read only for
+ * Task Management, where each item shows its to-dos beneath it.
  */
 export function readBoard(locals: App.Locals, project: Project, url: URL) {
 	const { supabase } = locals;
 	const workRead = loadDepartmentWork(supabase, project, url);
 	const buildFactsRead = readBuildFacts(supabase, project.id);
 	const taskIdsRead = workRead.then(({ tasks }) => tasks.map((task) => task.id));
-	const projectTaskIdsRead = workRead.then(({ projectTasks }) => projectTasks.map((task) => task.id));
 	return readTogether({
 		work: workRead,
 		assigneeIdsByTask: taskIdsRead.then((taskIds) => getAssigneeIdsByTask(supabase, taskIds)),
 		todosByTask: workRead.then((work) => todosShownOn(supabase, work)),
-		turnsByTask: projectTaskIdsRead.then((taskIds) => getTaskTurns(supabase, taskIds)),
+		turnsByTask: taskIdsRead.then((taskIds) => getTaskTurns(supabase, taskIds)),
 		latestKitVersion: getLatestKitVersion(supabase),
 		organisations: getOrganisations(supabase),
 		canTurnOnAutocomplete: isStaffMember(locals),

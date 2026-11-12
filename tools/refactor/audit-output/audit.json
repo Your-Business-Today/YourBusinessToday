@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T17:24:23+00:00",
+  "generatedAt": "2026-11-12T18:04:11+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3995,
+        "measuredAgainst": 3999,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5944,
+        "measuredAgainst": 5947,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5707,
+        "measuredAgainst": 5703,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.22,
+        "measuredAgainst": 149.29,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.22,
+        "measuredAgainst": 149.29,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6605,
+        "measuredAgainst": 6607,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.22,
+        "measuredAgainst": 149.29,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.22,
+        "measuredAgainst": 149.29,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5944,
+        "measuredAgainst": 5947,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 255,
+        "measuredAgainst": 259,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5707,
+        "measuredAgainst": 5703,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5707,
+        "measuredAgainst": 5703,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5944,
+        "measuredAgainst": 5947,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 339,
+        "measuredAgainst": 341,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 3995,
-      "totalLines": 149218,
+      "totalFiles": 3999,
+      "totalLines": 149295,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 5944,
+      "totalFunctions": 5947,
       "elseBlocks": 0,
-      "ifBlocks": 5707,
+      "ifBlocks": 5703,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -308,11 +308,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 5944
+      "functionsExamined": 5947
     },
     "designPatterns": {
-      "roleFamilies": 215,
-      "predictedFiles": 255,
+      "roleFamilies": 216,
+      "predictedFiles": 259,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -320,15 +320,15 @@
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 69,
-      "components": 661,
+      "pages": 71,
+      "components": 660,
       "orphanComponents": 0,
       "averagePageLines": 44
     },
     "siteDefinition": {
-      "routes": 68,
-      "views": 733,
-      "siteComponents": 650,
+      "routes": 70,
+      "views": 734,
+      "siteComponents": 649,
       "catalogue": 13,
       "widgetUsages": 372,
       "handRolledElements": 0,
@@ -342,17 +342,17 @@
     "inputValidation": {
       "schemaTables": 198,
       "limitedColumns": 0,
-      "writeDoors": 339,
+      "writeDoors": 341,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4593,
-      "backend": 1205,
-      "frontend": 975,
+      "totalFiles": 4600,
+      "backend": 1208,
+      "frontend": 978,
       "shared": 827,
       "tests": 625,
-      "api": 519,
+      "api": 520,
       "database": 207,
       "tooling": 141,
       "docs": 77,
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 3995,
-        "totalLines": 149218,
+        "totalFiles": 3999,
+        "totalLines": 149295,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 5944,
+        "totalFunctions": 5947,
         "elseBlocks": 0,
-        "ifBlocks": 5707,
+        "ifBlocks": 5703,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -882,15 +882,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 5944
+        "functionsExamined": 5947
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 215,
-        "predictedFiles": 255,
+        "roleFamilies": 216,
+        "predictedFiles": 259,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -900,8 +900,8 @@
       "offenders": {
         "roleFamilies": {
           "+layout.server.ts": 6,
-          "+page.server.ts": 61,
-          "+page.svelte": 69,
+          "+page.server.ts": 63,
+          "+page.svelte": 71,
           "+server.ts": 26,
           "access": 11,
           "account": 4,
@@ -972,6 +972,7 @@
           "for": 7,
           "form": 77,
           "goal": 8,
+          "goals": 4,
           "grant": 4,
           "groups": 4,
           "guidance": 17,
@@ -992,7 +993,7 @@
           "layout": 6,
           "lead": 6,
           "limits": 10,
-          "line": 12,
+          "line": 11,
           "link": 22,
           "links": 15,
           "list": 37,
@@ -1188,12 +1189,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 61,
+            "predicted": 63,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 69,
+            "predicted": 71,
             "missing": []
           }
         ],
@@ -1204,8 +1205,8 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 69,
-        "components": 661,
+        "pages": 71,
+        "components": 660,
         "orphanComponents": 0,
         "averagePageLines": 44
       },
@@ -1256,7 +1257,7 @@
           },
           {
             "page": "src/routes/projects/[projectId]/+page.svelte",
-            "lines": 78,
+            "lines": 79,
             "widgets": [
               "modal"
             ]
@@ -1532,6 +1533,11 @@
             "widgets": []
           },
           {
+            "page": "src/routes/projects/[projectId]/goals/+page.svelte",
+            "lines": 31,
+            "widgets": []
+          },
+          {
             "page": "src/routes/clients/patches/[patchId]/sightings/+page.svelte",
             "lines": 30,
             "widgets": [
@@ -1577,6 +1583,11 @@
           },
           {
             "page": "src/routes/+page.svelte",
+            "lines": 24,
+            "widgets": []
+          },
+          {
+            "page": "src/routes/projects/[projectId]/people/+page.svelte",
             "lines": 24,
             "widgets": []
           },
@@ -1682,11 +1693,11 @@
             "reusedBy": 17
           },
           {
-            "component": "src/lib/components/site/DangerConfirmModal.svelte",
-            "reusedBy": 11
+            "component": "src/lib/components/workspace/FlashMessage.svelte",
+            "reusedBy": 13
           },
           {
-            "component": "src/lib/components/workspace/FlashMessage.svelte",
+            "component": "src/lib/components/site/DangerConfirmModal.svelte",
             "reusedBy": 11
           },
           {
@@ -1727,6 +1738,14 @@
           },
           {
             "component": "src/lib/components/blueprint/EntityLink.svelte",
+            "reusedBy": 6
+          },
+          {
+            "component": "src/lib/components/projects/DevelopmentTabs.svelte",
+            "reusedBy": 6
+          },
+          {
+            "component": "src/lib/components/projects/ProjectPageHeader.svelte",
             "reusedBy": 6
           },
           {
@@ -1790,14 +1809,6 @@
             "reusedBy": 4
           },
           {
-            "component": "src/lib/components/projects/DevelopmentTabs.svelte",
-            "reusedBy": 4
-          },
-          {
-            "component": "src/lib/components/projects/ProjectPageHeader.svelte",
-            "reusedBy": 4
-          },
-          {
             "component": "src/lib/components/projects/ProjectStatusBadge.svelte",
             "reusedBy": 4
           },
@@ -1823,6 +1834,10 @@
           },
           {
             "component": "src/lib/components/brand/LibraryPreview.svelte",
+            "reusedBy": 3
+          },
+          {
+            "component": "src/lib/components/goals/GoalList.svelte",
             "reusedBy": 3
           },
           {
@@ -1875,10 +1890,6 @@
           },
           {
             "component": "src/lib/components/taxCalculator/PeriodAmountField.svelte",
-            "reusedBy": 3
-          },
-          {
-            "component": "src/lib/components/workspace/ProgressTrack.svelte",
             "reusedBy": 3
           },
           {
@@ -2002,7 +2013,7 @@
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/goals/GoalList.svelte",
+            "component": "src/lib/components/goals/GoalListPanel.svelte",
             "reusedBy": 2
           },
           {
@@ -2015,6 +2026,10 @@
           },
           {
             "component": "src/lib/components/members/PersonRow.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/members/ProjectPeoplePanel.svelte",
             "reusedBy": 2
           },
           {
@@ -2171,6 +2186,10 @@
           },
           {
             "component": "src/lib/components/workspace/PersonLine.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/workspace/ProgressTrack.svelte",
             "reusedBy": 2
           },
           {
@@ -3094,10 +3113,6 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/goals/GoalListPanel.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/goals/GoalMeasurePanel.svelte",
             "reusedBy": 1
           },
@@ -3195,10 +3210,6 @@
           },
           {
             "component": "src/lib/components/members/InvitePersonForm.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/members/ProjectPeoplePanel.svelte",
             "reusedBy": 1
           },
           {
@@ -3495,10 +3506,6 @@
           },
           {
             "component": "src/lib/components/projects/FinishedProjectsToggle.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/projects/GoalProgressLine.svelte",
             "reusedBy": 1
           },
           {
@@ -4280,9 +4287,9 @@
     "siteDefinition": {
       "name": "siteDefinition",
       "summary": {
-        "routes": 68,
-        "views": 733,
-        "siteComponents": 650,
+        "routes": 70,
+        "views": 734,
+        "siteComponents": 649,
         "catalogue": 13,
         "widgetUsages": 372,
         "handRolledElements": 0,
@@ -4769,8 +4776,8 @@
         {
           "route": "/projects/[projectId]",
           "file": "src/routes/projects/[projectId]/+page.svelte",
-          "definition": "ProjectDetailHeader, ?isDevelopmentSide: DevelopmentTabs, FlashMessage, ProjectDashboard, ProjectNewTaskModal, TaskRowModals, TaskSheet",
-          "expanded": "ProjectDetailHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ ( ?isInternalProject: InternalProjectBadge=( Badge ) | KitVersionBadge=( ?standing !== kitStandings.noRep\u2026: Badge ) ), ProjectHeaderMenu=( ActionsMenu ){ HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } }, Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), TeamProjectField, (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) } ), ?isDevelopmentSide: DevelopmentTabs=( TabStrip ), FlashMessage, ProjectDashboard=( ?isBuiltWork: ProjectStatePanel=( DashboardPanel{ ?goals.length > 0: (n) GoalProgressLine=( ProgressTrack ) } ), ProjectPulseStrip=( [ (4) StatTile ] ), PanelTabs=( TabStrip ), ( ?isBuiltWork: TaskTreePanel=( DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips{ ?isDoneFilterShown: DoneTaskFilter } } ), TaskGroupSections=( (n) TaskGroupSection ) }, ?longTermGroups.length > 0: DashboardPanel{ TaskGroupSections=( (n) TaskGroupSection ) } ) | InternalWorkBoard=( TabStrip, DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips{ ?isDoneFilterShown: DoneTaskFilter } } ), ( ?isTableShown: InternalWorkTable=( (n) InternalWorkGroupTable ) | ?chosenView.key === internalWork\u2026: InternalStatusBoard=( [ (n) Badge ?column.items as item (item.id): StatusBoardCard ] ) | InternalWorkCalendar=( CalendarNavigation{ CalendarGrid }, UndatedEntries ) ) } ) ), (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow ) }, Modal{ AddGoalForm=( (2) SmallCapsField, GoalHorizonField, FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) ), ProjectPeoplePanel=( DashboardPanel{ (n) PersonRow=( PersonInitials ) }, Modal{ InvitePersonForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, Modal{ TransferOwnershipForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, ?personAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm ) ) ), ProjectNewTaskModal=( Modal{ ( ?isInternalSide: NewInternalTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), TaskOwnerField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) | NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) ) } ), TaskRowModals=( ?statusTask !== null: TaskStatusModal=( Modal{ FormErrorNote, (n) TaskStatusOption } ), ?goalTask !== null: TaskGoalModal=( Modal{ FormErrorNote, (n) TaskGoalChoiceForm } ), ?priorityTask !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ), ?storyPointsTask !== null: TaskStoryPointsModal=( Modal{ FormErrorNote, (n) TaskStoryPointsOption } ), ?autocompleteTask !== null: TaskAutocompleteModal=( Modal{ FormErrorNote, (n) TaskAutocompleteOption } ) ), TaskSheet=( ?target !== null && href !== null: Sheet, ( ?taskData === null: BrandSpinner | TaskPage ) )"
+          "definition": "ProjectDetailHeader, ?isDevelopmentSide: DevelopmentTabs, FlashMessage, ( ?isDevelopmentSide: TaskTreePanel | ProjectDashboard ), ProjectNewTaskModal, TaskRowModals, TaskSheet",
+          "expanded": "ProjectDetailHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ ( ?isInternalProject: InternalProjectBadge=( Badge ) | KitVersionBadge=( ?standing !== kitStandings.noRep\u2026: Badge ) ), ProjectHeaderMenu=( ActionsMenu ){ HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } }, Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), TeamProjectField, (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) } ), ?isDevelopmentSide: DevelopmentTabs=( TabStrip ), FlashMessage, ( ?isDevelopmentSide: TaskTreePanel=( DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips=( (n) CountedFilterChip ){ ?isDoneFilterShown: DoneTaskFilter } } ), TaskGroupSections=( (n) TaskGroupSection=( TaskGroupHeader{ ?isOpen: TaskGroupList } ) ) }, ?longTermGroups.length > 0: DashboardPanel{ TaskGroupSections=( (n) TaskGroupSection=( TaskGroupHeader{ ?isOpen: TaskGroupList } ) ) } ) | ProjectDashboard=( ProjectPulseStrip=( [ (4) StatTile ] ), PanelTabs=( TabStrip ), InternalWorkBoard=( TabStrip, DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips{ ?isDoneFilterShown: DoneTaskFilter } } ), ( ?isTableShown: InternalWorkTable=( (n) InternalWorkGroupTable ) | ?chosenView.key === internalWork\u2026: InternalStatusBoard=( [ (n) Badge ?column.items as item (item.id): StatusBoardCard ] ) | InternalWorkCalendar=( CalendarNavigation{ CalendarGrid }, UndatedEntries ) ) } ), [ (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow ) }, Modal{ AddGoalForm=( (2) SmallCapsField, GoalHorizonField, FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) ) ProjectPeoplePanel=( DashboardPanel{ (n) PersonRow=( PersonInitials ) }, Modal{ InvitePersonForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, Modal{ TransferOwnershipForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, ?personAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm ) ) ] ) ), ProjectNewTaskModal=( Modal{ ( ?isInternalSide: NewInternalTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), TaskOwnerField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) | NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) ) } ), TaskRowModals=( ?statusTask !== null: TaskStatusModal=( Modal{ FormErrorNote, (n) TaskStatusOption } ), ?goalTask !== null: TaskGoalModal=( Modal{ FormErrorNote, (n) TaskGoalChoiceForm } ), ?priorityTask !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ), ?storyPointsTask !== null: TaskStoryPointsModal=( Modal{ FormErrorNote, (n) TaskStoryPointsOption } ), ?autocompleteTask !== null: TaskAutocompleteModal=( Modal{ FormErrorNote, (n) TaskAutocompleteOption } ) ), TaskSheet=( ?target !== null && href !== null: Sheet, ( ?taskData === null: BrandSpinner | TaskPage ) )"
         },
         {
           "route": "/projects/[projectId]/deploys",
@@ -4785,10 +4792,22 @@
           "expanded": "BlueprintHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ SubmitButton, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ), FlashMessage, ?productBrain !== null && addres\u2026: BusinessBrainIndexPanel=( DashboardPanel{ RecordsTable{ RecordsCell, RecordsCell{ Badge }, (2) RecordsCell } } ), ( ?ownDomain !== null && addresses\u2026: ( DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton=( RaiseChangeModal ), EntityPlacement=( EntityLink ), EntityFieldList=( (n) EntityFieldRow ), ?relationships.length > 0: EntityRelationshipList=( EntityLink ), ?projectId !== null && screens.l\u2026: EntityScreenLinks } ) ) ), DomainContextsPanel=( DashboardPanel{ (n) DomainContextRow=( ?context.isCoreDomain: Badge ) } ) ) | ?domain === null: EmptyState | DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton=( RaiseChangeModal ), EntityPlacement=( EntityLink ), EntityFieldList=( (n) EntityFieldRow ), ?relationships.length > 0: EntityRelationshipList=( EntityLink ), ?projectId !== null && screens.l\u2026: EntityScreenLinks } ) ) ) )"
         },
         {
+          "route": "/projects/[projectId]/goals",
+          "file": "src/routes/projects/[projectId]/goals/+page.svelte",
+          "definition": "ProjectPageHeader, DevelopmentTabs, FlashMessage, ProjectStatePanel, [ (2) GoalListPanel ]",
+          "expanded": "ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), DevelopmentTabs=( TabStrip ), FlashMessage, ProjectStatePanel=( DashboardPanel ), [ (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow=( [ [ PriorityControls PriorityNumberButton ] ( ?!isOpen: GoalStatusPill, ?shouldShowCompletion: ProgressTrack ) ] ) ) }, Modal{ AddGoalForm=( (2) SmallCapsField=( FormField ), GoalHorizonField=( SmallCapsField ), FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) ) ]"
+        },
+        {
           "route": "/projects/[projectId]/goals/[goalId]",
           "file": "src/routes/projects/[projectId]/goals/[goalId]/+page.svelte",
           "definition": "GoalDetailHeader{ FlashMessage, GoalMeasurePanel, GoalAutocompletePanel, GoalTaskList, ConversationThread, LifecyclePanel, ConversationParticipantsPanel, Modal{ EditGoalForm }, DangerConfirmModal }",
           "expanded": "GoalDetailHeader=( WorkspaceHeader{ GoalStatusPill, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ){ FlashMessage, GoalMeasurePanel=( DashboardPanel{ ProseText } ), GoalAutocompletePanel=( DashboardPanel{ ?canSwitch: SubmitButton, FormErrorNote } ), GoalTaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ), Modal{ EditGoalForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) GoalHorizonField=( SmallCapsField=( FormField ) ) PriorityField ], FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) }"
+        },
+        {
+          "route": "/projects/[projectId]/people",
+          "file": "src/routes/projects/[projectId]/people/+page.svelte",
+          "definition": "ProjectPageHeader, DevelopmentTabs, FlashMessage, ProjectPeoplePanel",
+          "expanded": "ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), DevelopmentTabs=( TabStrip ), FlashMessage, ProjectPeoplePanel=( DashboardPanel{ (n) PersonRow=( PersonInitials ) }, Modal{ InvitePersonForm=( SmallCapsField=( FormField ), FormErrorNote, SubmitButton ) }, Modal{ TransferOwnershipForm=( SmallCapsField=( FormField ), FormErrorNote, SubmitButton ) }, ?personAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) )"
         },
         {
           "route": "/projects/[projectId]/site-map",
@@ -4877,15 +4896,15 @@
           "usedBy": 25
         },
         {
-          "component": "DangerConfirmModal",
-          "file": "src/lib/components/site/DangerConfirmModal.svelte",
-          "definition": "DangerConfirmForm",
-          "usedBy": 11
-        },
-        {
           "component": "FlashMessage",
           "file": "src/lib/components/workspace/FlashMessage.svelte",
           "definition": "",
+          "usedBy": 13
+        },
+        {
+          "component": "DangerConfirmModal",
+          "file": "src/lib/components/site/DangerConfirmModal.svelte",
+          "definition": "DangerConfirmForm",
           "usedBy": 11
         },
         {
@@ -4937,9 +4956,21 @@
           "usedBy": 6
         },
         {
+          "component": "DevelopmentTabs",
+          "file": "src/lib/components/projects/DevelopmentTabs.svelte",
+          "definition": "TabStrip",
+          "usedBy": 6
+        },
+        {
           "component": "EntityLink",
           "file": "src/lib/components/blueprint/EntityLink.svelte",
           "definition": "",
+          "usedBy": 6
+        },
+        {
+          "component": "ProjectPageHeader",
+          "file": "src/lib/components/projects/ProjectPageHeader.svelte",
+          "definition": "TabStrip, WorkspaceHeader{ ProjectStatusBadge }",
           "usedBy": 6
         },
         {
@@ -4991,21 +5022,9 @@
           "usedBy": 4
         },
         {
-          "component": "DevelopmentTabs",
-          "file": "src/lib/components/projects/DevelopmentTabs.svelte",
-          "definition": "TabStrip",
-          "usedBy": 4
-        },
-        {
           "component": "DiscoveryCallSection",
           "file": "src/lib/components/home/DiscoveryCallSection.svelte",
           "definition": "DiscoveryCallButton",
-          "usedBy": 4
-        },
-        {
-          "component": "ProjectPageHeader",
-          "file": "src/lib/components/projects/ProjectPageHeader.svelte",
-          "definition": "TabStrip, WorkspaceHeader{ ProjectStatusBadge }",
           "usedBy": 4
         },
         {
@@ -5071,12 +5090,6 @@
         {
           "component": "PriorityNumberButton",
           "file": "src/lib/components/site/PriorityNumberButton.svelte",
-          "definition": "",
-          "usedBy": 3
-        },
-        {
-          "component": "ProgressTrack",
-          "file": "src/lib/components/workspace/ProgressTrack.svelte",
           "definition": "",
           "usedBy": 3
         },
@@ -5297,6 +5310,12 @@
           "usedBy": 2
         },
         {
+          "component": "GoalListPanel",
+          "file": "src/lib/components/goals/GoalListPanel.svelte",
+          "definition": "DashboardPanel{ GoalStatusFilter, GoalList }, Modal{ AddGoalForm }, ?priorityGoal !== null: PriorityModal",
+          "usedBy": 2
+        },
+        {
           "component": "GoalStatusPill",
           "file": "src/lib/components/goals/GoalStatusPill.svelte",
           "definition": "",
@@ -5435,9 +5454,21 @@
           "usedBy": 2
         },
         {
+          "component": "ProgressTrack",
+          "file": "src/lib/components/workspace/ProgressTrack.svelte",
+          "definition": "",
+          "usedBy": 2
+        },
+        {
           "component": "ProjectPagination",
           "file": "src/lib/components/projects/ProjectPagination.svelte",
           "definition": "",
+          "usedBy": 2
+        },
+        {
+          "component": "ProjectPeoplePanel",
+          "file": "src/lib/components/members/ProjectPeoplePanel.svelte",
+          "definition": "DashboardPanel{ (n) PersonRow }, Modal{ InvitePersonForm }, Modal{ TransferOwnershipForm }, ?personAwaitingRemoval !== null: DangerConfirmModal",
           "usedBy": 2
         },
         {
@@ -6899,21 +6930,9 @@
           "usedBy": 1
         },
         {
-          "component": "GoalListPanel",
-          "file": "src/lib/components/goals/GoalListPanel.svelte",
-          "definition": "DashboardPanel{ GoalStatusFilter, GoalList }, Modal{ AddGoalForm }, ?priorityGoal !== null: PriorityModal",
-          "usedBy": 1
-        },
-        {
           "component": "GoalMeasurePanel",
           "file": "src/lib/components/goals/GoalMeasurePanel.svelte",
           "definition": "DashboardPanel{ ProseText }",
-          "usedBy": 1
-        },
-        {
-          "component": "GoalProgressLine",
-          "file": "src/lib/components/projects/GoalProgressLine.svelte",
-          "definition": "ProgressTrack",
           "usedBy": 1
         },
         {
@@ -7771,7 +7790,7 @@
         {
           "component": "ProjectDashboard",
           "file": "src/lib/components/projects/ProjectDashboard.svelte",
-          "definition": "?isBuiltWork: ProjectStatePanel, ProjectPulseStrip, PanelTabs, ( ?isBuiltWork: TaskTreePanel | InternalWorkBoard ), (2) GoalListPanel, ProjectPeoplePanel",
+          "definition": "ProjectPulseStrip, PanelTabs, InternalWorkBoard, [ (2) GoalListPanel ProjectPeoplePanel ]",
           "usedBy": 1
         },
         {
@@ -7829,12 +7848,6 @@
           "usedBy": 1
         },
         {
-          "component": "ProjectPeoplePanel",
-          "file": "src/lib/components/members/ProjectPeoplePanel.svelte",
-          "definition": "DashboardPanel{ (n) PersonRow }, Modal{ InvitePersonForm }, Modal{ TransferOwnershipForm }, ?personAwaitingRemoval !== null: DangerConfirmModal",
-          "usedBy": 1
-        },
-        {
           "component": "ProjectPositionField",
           "file": "src/lib/components/projects/ProjectPositionField.svelte",
           "definition": "PriorityField",
@@ -7861,7 +7874,7 @@
         {
           "component": "ProjectStatePanel",
           "file": "src/lib/components/projects/ProjectStatePanel.svelte",
-          "definition": "DashboardPanel{ ?goals.length > 0: (n) GoalProgressLine }",
+          "definition": "DashboardPanel",
           "usedBy": 1
         },
         {
@@ -8757,12 +8770,12 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4593,
-        "backend": 1205,
-        "frontend": 975,
+        "totalFiles": 4600,
+        "backend": 1208,
+        "frontend": 978,
         "shared": 827,
         "tests": 625,
-        "api": 519,
+        "api": 520,
         "database": 207,
         "tooling": 141,
         "docs": 77,
@@ -8771,31 +8784,31 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 1205,
-          "sourceFiles": 1195,
-          "sourceLines": 39764
+          "files": 1208,
+          "sourceFiles": 1198,
+          "sourceLines": 39835
         },
         {
           "area": "frontend",
-          "files": 975,
-          "sourceFiles": 846,
-          "sourceLines": 28057
+          "files": 978,
+          "sourceFiles": 847,
+          "sourceLines": 28061
         },
         {
           "area": "shared",
           "files": 827,
           "sourceFiles": 809,
-          "sourceLines": 29103
+          "sourceLines": 29101
         },
         {
           "area": "tests",
           "files": 625,
           "sourceFiles": 610,
-          "sourceLines": 28193
+          "sourceLines": 28197
         },
         {
           "area": "api",
-          "files": 519,
+          "files": 520,
           "sourceFiles": 519,
           "sourceLines": 23507
         },
@@ -8830,7 +8843,7 @@
       "summary": {
         "schemaTables": 198,
         "limitedColumns": 0,
-        "writeDoors": 339,
+        "writeDoors": 341,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },
