@@ -4,7 +4,7 @@ import { cardCountPhrase, workKindLabels, type ScrumBoard, type ScrumCard, type 
 import { velocityWeekCount, weekLabelOf, type Velocity } from '$lib/data/weeklyVelocity';
 
 const boardHeading =
-	'Development by build stage — where each bug, feature and infrastructure task stands, as the Board on the project page shows it, bugs first in each column:';
+	'Development by build stage — where each bug, feature and infrastructure task stands, bugs first in each column:';
 
 /** The Development side as its scrum board shows it: each column with its count and points, then the weekly velocity. */
 export function describeScrumBoard(board: ScrumBoard): string {
