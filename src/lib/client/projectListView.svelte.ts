@@ -1,6 +1,8 @@
 import { ProjectFilterChoices } from './projectFilterChoices.svelte';
 import { matchesProjectListFilters, type ProjectListFilters } from '$lib/data/projectListFilter';
 import { projectCountLabel } from '$lib/data/projectCountLabel';
+import { countByStatusFilter } from '$lib/data/projectStatusCounts';
+import type { ProjectStatusFilter } from '$lib/data/projectStatusFilter';
 import { topRank } from '$lib/data/topRank';
 import { writeShownIds, type ShownPosition } from '$lib/data/shownIds';
 import { boardEdgesOf, type BoardEdges } from '$lib/data/projectBoardEdges';
@@ -44,6 +46,10 @@ export class ProjectListView extends ProjectFilterChoices {
 		return withFinished.length - withoutFinished.length;
 	}
 
+	get statusCounts(): Map<ProjectStatusFilter, number> {
+		return countByStatusFilter(this.#allProjects(), this.filters);
+	}
+
 	/** The shown projects' ids in order, as the board's arrows and priority box send them. */
 	get shownIds(): string {
 		return writeShownIds(this.filteredProjects.map((project) => project.id));
@@ -78,12 +84,8 @@ export class ProjectListView extends ProjectFilterChoices {
 		}));
 	}
 
-	get projectCount(): number {
-		return this.#allProjects().length;
-	}
-
 	get countLabel(): string {
-		return projectCountLabel(this.projectCount, this.matchCount);
+		return projectCountLabel(this.#allProjects().length, this.matchCount);
 	}
 
 	protected onRefilter(): void {

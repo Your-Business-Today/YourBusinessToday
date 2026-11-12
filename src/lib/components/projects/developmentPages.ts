@@ -1,3 +1,4 @@
+import { countShownOnTab } from '$lib/components/workspace/countShownOnTab';
 import { boardTabLabels, boardTabs, type BoardTab } from '$lib/data/boardTab';
 import { tabsOnBoardSide } from '$lib/data/boardSide';
 import { boardQueryKeys, projectHref, projectSegments } from './projectAddresses';
@@ -21,7 +22,6 @@ export type DevelopmentPageLink = {
 	countTone: BadgeTone;
 };
 
-const emptyTabCount = 0;
 const bugCountTone: BadgeTone = 'negative';
 const itemCountTone: BadgeTone = 'neutral';
 
@@ -54,11 +54,9 @@ export function developmentPageLinks(projectId: string, counts: DevelopmentTabCo
 }
 
 function countOnTab(page: DevelopmentPage, counts: DevelopmentTabCounts) {
-	const count = counts[page] ?? emptyTabCount;
-	const hasItems = count > emptyTabCount;
 	const isBugs = page === boardTabs.bugs;
 	return {
-		count: hasItems ? count : null,
+		count: countShownOnTab(counts[page]),
 		countTone: isBugs ? bugCountTone : itemCountTone
 	};
 }
