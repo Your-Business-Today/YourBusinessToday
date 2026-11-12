@@ -28,7 +28,7 @@ export function describePersonInFull(person: PersonInFull, companies: PersonComp
 		...describeStanding(person),
 		'',
 		'Links held:',
-		links.length === 0 ? 'None yet.' : links.map((link) => `- ${link.label}: ${link.url}`).join('\n'),
+		links.length === 0 ? 'None yet.' : links.map((link) => `- ${link.label}: ${link.url} — link ${link.id}`).join('\n'),
 		'',
 		`Companies (${companies.length}):`,
 		companies.length === 0 ? 'None yet.' : companies.map(describePersonCompany).join('\n\n'),

@@ -108,8 +108,8 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-092 | find an officer on Companies House and add them as a person | staff | write | `addOfficer` | — | `/people` |
 | US-093 | read a person in full, with their companies, links, notes and history | staff | read | `/people/{personId}` load | `read_person` | `/people/{personId}` |
 | US-094 | change a person's details and standing | staff | write | `updatePerson` | `update_person` | `/people/{personId}` `/clients/{clientId}` |
-| US-095 | keep links on a person | staff | write | `addLink` `removeLink` | — | `/people/{personId}` `/clients/{clientId}` |
-| US-096 | add a note to a person | staff | write | `addNote` | — | `/people/{personId}` `/clients/{clientId}` |
+| US-095 | keep links on a person | staff | write | `addLink` `removeLink` | `add_person_link` `remove_person_link` | `/people/{personId}` `/clients/{clientId}` |
+| US-096 | add a note to a person | staff | write | `addNote` | `add_person_note` | `/people/{personId}` `/clients/{clientId}` |
 | US-097 | import a person's current appointments as leads, grouped | staff | write | `importAppointments` `groupUnder` | — | `/people/{personId}` |
 | US-098 | research a person on the web and save it, or draft the approach | staff | write | `/people/{personId}` modals | `save_person_research` `save_person_approach` | `/people/{personId}` |
 | US-099 | delete a person added by mistake | staff | write | `deletePerson` | `delete_person` | `/people/{personId}` |
@@ -231,7 +231,6 @@ These have no screen because the person's Claude is the only one who needs them:
 
 | Task | Stories | Actions to add |
 | --- | --- | --- |
-| Links and notes on a person through the connector | US-095 US-096 | `add_person_link` `remove_person_link` `add_person_note` |
 | Companies House officers through the connector | US-092 US-097 | `search_officers` `add_officer_as_person` `read_person_appointments` `import_person_appointments` |
 | Client profile, groups and Companies House companies through the connector | US-076 US-078 US-081 | `update_company_profile` `group_client_under` `import_company_officers` `search_companies_house` `add_company_as_lead` |
 | Notifications and the display name through the connector | US-002 US-003 US-004 US-005 | `set_display_name` `list_notifications` `mark_notification_read` `mark_all_notifications_read` |

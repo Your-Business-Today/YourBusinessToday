@@ -1,8 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { isWebAddress } from '$lib/data/webAddress';
 
 export type NewPersonLink = { label: string; url: string };
-
-const acceptedProtocols = ['http:', 'https:'];
 
 export function readNewPersonLink(formData: FormData): NewPersonLink | null {
 	const label = String(formData.get('label') ?? '').trim();
@@ -20,12 +19,4 @@ export async function addPersonLink(
 		.from('person_links')
 		.insert({ person_id: personId, label: link.label, url: link.url });
 	if (error) throw error;
-}
-
-function isWebAddress(candidate: string): boolean {
-	try {
-		return acceptedProtocols.includes(new URL(candidate).protocol);
-	} catch {
-		return false;
-	}
 }
