@@ -10,8 +10,8 @@
 				The build is one fixed price, agreed before it starts: the map, the harness, your web
 				app and your AI connector. After launch it is one monthly fee for hosting, backups,
 				support and the changes you ask for, and you can cancel on a month’s notice. Nothing
-				is added on top. Book a discovery call and we send you the written offer with the
-				figures on it. There is nothing to negotiate your way into.
+				is added on top. Book a discovery call and we send you the figures in
+				writing. There is nothing to negotiate your way into.
 			</p>
 			<DiscoveryCallButton class="self-start" />
 		</div>

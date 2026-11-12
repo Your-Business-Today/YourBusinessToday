@@ -1,11 +1,12 @@
 import { caseStudyPath } from '$lib/data/caseStudies';
+import { whatWeDoPath } from '$lib/data/consultancyOffer';
 import { taxCalculatorPath } from '$lib/data/taxCalculator/taxCalculatorPath';
 import type { RequestHandler } from './$types';
 
 const publicPagePaths = [
 	'/',
 	'/about',
-	'/offer',
+	whatWeDoPath,
 	caseStudyPath,
 	taxCalculatorPath,
 	'/demo',

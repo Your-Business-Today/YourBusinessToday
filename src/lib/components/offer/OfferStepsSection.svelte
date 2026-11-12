@@ -5,7 +5,7 @@
 </script>
 
 <section class="mx-auto max-w-6xl px-6 py-20 md:py-24">
-	<p class="font-display text-sm tracking-[0.3em] text-signal uppercase">The offer</p>
+	<p class="font-display text-sm tracking-[0.3em] text-signal uppercase">Your Business Today</p>
 	<h1 class="mt-5 font-display text-4xl leading-tight font-semibold tracking-tight md:text-6xl">
 		What we do for<br />your business<span class="text-signal">.</span>
 	</h1>
@@ -23,7 +23,7 @@
 			class="font-display text-sm text-chalk/50 underline-offset-4 transition hover:text-chalk
 				hover:underline"
 		>
-			Download the offer as a PDF
+			Download this as a PDF
 		</a>
 	</div>
 </section>

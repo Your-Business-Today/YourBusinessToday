@@ -19,7 +19,7 @@ export function isAtOrUnder(pathname: string, sectionPath: string): boolean {
 }
 
 /**
- * The pages a signed-in person works in wear the portal frame; the public pages (home, the offer,
+ * The pages a signed-in person works in wear the portal frame; the public pages (home, What we do,
  * the case study, About, sign-in and the rest) keep the public header and footer.
  */
 export function isFramedPath(pathname: string): boolean {

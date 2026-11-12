@@ -1,4 +1,5 @@
 <script lang="ts">
+	import NavGroupHeading from './NavGroupHeading.svelte';
 	import type { NavigationGroup } from './siteNavigation';
 
 	let {
@@ -10,6 +11,7 @@
 
 {#if !isFirst}
 	<div class="my-2 border-t border-hairline"></div>
+	<NavGroupHeading label={menuGroup.label} class="pt-1" />
 {/if}
 {#each menuGroup.links as menuLink (menuLink.href)}
 	<a
