@@ -1,4 +1,5 @@
 import { brainOf } from './businessBrainAnswers';
+import { domainRunActionName } from './domainRunActionName';
 import { describeAggregates } from './describeBlueprint';
 import { domainAddressOf } from './businessBrainDomainAnswers';
 import { domainBlockNames, domainPageKinds } from '$lib/data/businessBrainDomain';
@@ -9,7 +10,7 @@ import type { Organisation } from '$lib/server/organisations/organisationRecord'
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export function noDomainYet(organisation: Organisation): string {
-	return `${brainOf(organisation)} holds no domain yet: no bounded context has been filed. File what each source teaches about it with file_business_brain_domain.`;
+	return `${brainOf(organisation)} holds no domain yet: no bounded context has been filed. Set it with ${domainRunActionName}.`;
 }
 
 /** The domain as Markdown: the context map, then each context with its aggregates, entities, other blocks and glossary. */
