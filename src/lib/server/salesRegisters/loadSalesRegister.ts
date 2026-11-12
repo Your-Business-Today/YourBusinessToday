@@ -3,13 +3,16 @@ import { requireStaff } from '$lib/server/auth/requireStaff';
 import { stageOnRegister, type SalesRegister } from '$lib/data/salesRegisters';
 import type { ClientStage } from '$lib/data/clientLifecycle';
 import type { FramePicks } from '$lib/components/frame/framePicks';
+import { getStaffDirectory, type StaffMember } from '$lib/server/projects/getStaffDirectory';
 
-/** A register's records, those at the stage its tab asks for, and how many sit at each of its stages. */
+/** A register's records, those at the stage its tab asks for, how many sit at each of its stages, and the staff who bring them in. */
 export type SalesRegisterReading = {
 	clients: ClientSummary[];
 	stage: ClientStage | null;
 	stageCounts: Record<ClientStage, number>;
 	totalCount: number;
+	staffMembers: StaffMember[];
+	viewerId: string;
 };
 
 const stageParameter = 'stage';
@@ -21,15 +24,20 @@ export async function loadSalesRegister(
 	register: SalesRegister,
 	framePicks: FramePicks | null
 ): Promise<SalesRegisterReading> {
-	await requireStaff(locals);
+	const viewer = await requireStaff(locals);
 	const stage = stageOnRegister(register, url.searchParams.get(stageParameter));
 	const pickedOrganisationId = framePicks?.pickedOrganisationId ?? null;
-	const everyRecord = await recordsKeptBy(locals, pickedOrganisationId, register);
+	const [everyRecord, staffMembers] = await Promise.all([
+		recordsKeptBy(locals, pickedOrganisationId, register),
+		getStaffDirectory(locals.supabase)
+	]);
 	return {
 		clients: everyRecord.filter((client) => stage === null || client.stage === stage),
 		stage,
 		stageCounts: countByStage(everyRecord),
-		totalCount: everyRecord.length
+		totalCount: everyRecord.length,
+		staffMembers,
+		viewerId: viewer.id
 	};
 }
 

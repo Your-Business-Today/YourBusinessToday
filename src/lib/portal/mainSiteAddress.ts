@@ -9,6 +9,7 @@ export const sectionsServedOnlyAtThePortal = new Set([
 	'account',
 	'admin',
 	'clients',
+	'leaderboard',
 	'leads',
 	'notifications',
 	'organisations',

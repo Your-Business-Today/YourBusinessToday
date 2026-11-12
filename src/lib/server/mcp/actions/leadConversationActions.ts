@@ -1,8 +1,7 @@
 import { conversationChannels, leadConversationLimits } from '$lib/data/leadConversationRules';
-import { findStaffMember } from '$lib/server/leadConversations/findStaffMember';
+import { resolveStaffMember } from '$lib/server/projects/resolveStaffMember';
 import { getClient } from '$lib/server/clients/getClient';
 import { getContactsForClient } from '$lib/server/clients/getContactsForClient';
-import { getStaffDirectory, type StaffMember } from '$lib/server/projects/getStaffDirectory';
 import { logLeadConversation } from '$lib/server/leadConversations/logLeadConversation';
 import { noSuchClient } from './describeClient';
 import { objectSchema, readText, textField } from '../actionTypes';
@@ -43,7 +42,7 @@ export const leadConversationActions: McpAction[] = [
 ];
 
 async function logConversation(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
-	const heldBy = await resolveHeldBy(caller, readText(input, 'heldBy'));
+	const heldBy = await resolveStaffMember(caller.supabase, readText(input, 'heldBy'), caller.accountId);
 	if (heldBy === null) return 'heldBy names nobody on the staff, or more than one of them. Give their whole name.';
 	const conversation = validateLeadConversation(input, heldBy.id);
 	if (typeof conversation === 'string') return conversation;
@@ -55,10 +54,4 @@ async function logConversation(caller: McpCaller, input: Record<string, unknown>
 	if (isWithSomeoneUnlisted) return `That person is not listed at ${client.name}. read_client lists who is.`;
 	await logLeadConversation(caller.supabase, conversation, caller.accountId);
 	return `Logged on ${client.name}: ${conversation.heldOn}, ${heldBy.name}, ${conversation.summary}`;
-}
-
-async function resolveHeldBy(caller: McpCaller, givenName: string): Promise<StaffMember | null> {
-	const staffMembers = await getStaffDirectory(caller.supabase);
-	if (givenName !== '') return findStaffMember(staffMembers, givenName);
-	return staffMembers.find((member) => member.id === caller.accountId) ?? null;
 }

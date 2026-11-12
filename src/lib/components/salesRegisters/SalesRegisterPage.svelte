@@ -49,6 +49,6 @@
 	{#if clients.length === 0}
 		<EmptyState message={emptyMessage} />
 	{:else}
-		<ClientTable {clients} />
+		<ClientTable {clients} staffMembers={reading.staffMembers} />
 	{/if}
 </div>

@@ -22,5 +22,5 @@
 			<a href={tool.href} class={headerButtonClasses}>{tool.label}</a>
 		{/each}
 	{/snippet}
-	<AddLeadForm />
+	<AddLeadForm staffMembers={data.staffMembers} viewerId={data.viewerId} />
 </SalesRegisterPage>
