@@ -24,11 +24,11 @@
 	} = $props();
 
 	const columns = [
+		{ key: 'priority', label: '#' },
 		{ key: 'item', label: 'Item' },
 		{ key: 'owner', label: 'Owner' },
 		{ key: 'status', label: 'Status' },
 		{ key: 'dueDate', label: 'Due date' },
-		{ key: 'priority', label: 'Priority' },
 		{ key: 'goal', label: 'Goal' }
 	];
 

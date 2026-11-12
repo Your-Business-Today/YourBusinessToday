@@ -33,6 +33,9 @@
 	const goalTitle = $derived(actions.goalTitleFor(task.goalId));
 </script>
 
+<RecordsCell label="Priority">
+	<PriorityField taskId={task.id} place={item.place} />
+</RecordsCell>
 <RecordsCell kind="link">
 	<InternalItemTitle {task} depth={item.depth} {todoCount} {isOpen} {onToggle} />
 </RecordsCell>
@@ -45,11 +48,13 @@
 <RecordsCell label="Due date">
 	<DueDateField action="?/setDueDate" {record} dueDate={task.dueDate} isFinished={isTaskDone(task.status)} label="When this item is due" />
 </RecordsCell>
-<RecordsCell label="Priority">
-	<PriorityField taskId={task.id} priority={task.priority} />
-</RecordsCell>
 <RecordsCell label="Goal">
-	<button type="button" onclick={() => actions.onChangeGoal(task)} class="text-left text-sm hover:text-chalk">
+	<button
+		type="button"
+		onclick={() => actions.onChangeGoal(task)}
+		title={goalTitle ?? 'Choose a goal'}
+		class={['line-clamp-2 max-w-64 text-left text-sm transition hover:text-chalk', goalTitle === null && 'text-chalk-subtle']}
+	>
 		{goalTitle ?? 'No goal'}
 	</button>
 </RecordsCell>

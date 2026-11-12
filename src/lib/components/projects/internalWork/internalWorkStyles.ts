@@ -49,3 +49,15 @@ export const departmentDotClasses: Partial<Record<Department, string>> = {
 
 export const inPlaceFieldClasses =
 	'rounded border border-transparent bg-transparent px-1.5 py-1 text-sm text-chalk-muted hover:border-hairline focus:border-hairline-strong';
+
+/** An item's place number: a quiet figure that is also the box a new place is typed into. */
+export const placeNumberClasses =
+	'w-9 appearance-none rounded border border-transparent bg-transparent px-1 py-1 text-center font-display text-sm ' +
+	'tabular-nums text-chalk-subtle [appearance:textfield] hover:border-hairline focus:border-hairline-strong focus:text-chalk ' +
+	'[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none';
+
+/** A date box with no browser calendar icon: a press anywhere on it opens the picker. */
+export const dateFieldClasses = 'cursor-pointer [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden';
+
+/** An empty date box hides the browser's dd/mm/yyyy until it is focused, so a row with no date reads as no date. */
+export const emptyDateFieldClasses = 'text-transparent focus:text-chalk-muted';

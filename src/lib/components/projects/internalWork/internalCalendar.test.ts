@@ -8,7 +8,7 @@ import type { Todo } from '$lib/server/todos/todoRecord';
 
 function itemDue(id: string, status: TaskStatus, dueDate: string | null): InternalItem {
 	const task = { id, projectId: 'project', title: id, status, dueDate, subtasks: [] } as unknown as TaskTreeNode;
-	return { id, task, depth: 0 };
+	return { id, task, depth: 0, place: { position: 1, count: 1, shownIds: id } };
 }
 
 function todoDue(id: string, dueDate: string | null, status: Todo['status'] = 'to_do'): Todo {
