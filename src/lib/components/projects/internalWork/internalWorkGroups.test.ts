@@ -27,6 +27,19 @@ describe('the Internal work board', () => {
 		]);
 	});
 
+	it('numbers each item among the items shown beside it, not among every task in the project', () => {
+		const leads = itemOn('leads', departments.administration, 'backlog');
+		const [administration] = internalWorkGroups([insurance, listing, leads]);
+		const places = administration.items.map(({ id, place }) => [id, place.position, place.count]);
+		expect(places).toEqual([
+			['insurance', 1, 2],
+			['quote', 1, 1],
+			['leads', 2, 2]
+		]);
+		const [{ place: firstPlace }] = administration.items;
+		expect(firstPlace.shownIds).toBe('insurance,leads');
+	});
+
 	it('counts only the open items', () => {
 		expect(groups[0].openItemCount).toBe(1);
 		expect(groups[2].openItemCount).toBe(1);

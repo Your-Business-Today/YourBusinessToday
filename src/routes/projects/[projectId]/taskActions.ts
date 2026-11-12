@@ -1,12 +1,12 @@
 import { fail } from '@sveltejs/kit';
 import { findTaskOnProject, taskOnProjectRequired } from '$lib/server/projects/findTaskOnProject';
 import { getTask } from '$lib/server/projects/getTask';
-import { moveTask, type TaskMoveDirection } from '$lib/server/projects/moveTask';
-import { parsePriorityNumber, priorityNumberRefusal } from '$lib/server/ordering/rankInput';
+import { moveTaskAmongShown, setTaskPosition } from '$lib/server/projects/taskShownOrder';
+import { parseMoveDirection, parsePriorityNumber, priorityNumberRefusal } from '$lib/server/ordering/rankInput';
+import { readShownIds, shownIdsField } from '$lib/data/shownIds';
 import { parseTaskStatus } from '$lib/data/taskStatus';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { readExactStoryPoints, storyPointsRefusal } from '$lib/data/storyPoints';
-import { setTaskPriority } from '$lib/server/projects/setTaskPriority';
 import { setTaskStoryPoints } from '$lib/server/projects/setTaskStoryPoints';
 import { statusChangeRefusal } from '$lib/server/support/statusChangeRefusal';
 import { updateTaskGoal } from '$lib/server/projects/updateTaskGoal';
@@ -14,15 +14,18 @@ import { updateTaskStatus } from '$lib/server/projects/updateTaskStatus';
 import { createTaskAction } from './createTaskAction';
 import type { Actions } from './$types';
 
+const moveDirectionRefusal = 'A move is up or down.';
+
 export const taskActions = {
 	createTask: createTaskAction,
 	moveTask: async ({ locals, params, request }) => {
 		await requireProjectAccess(locals, params.projectId);
 		const formData = await request.formData();
-		const taskId = String(formData.get('taskId') ?? '');
-		const direction = String(formData.get('direction')) as TaskMoveDirection;
-		if (taskId === '') return fail(400, { message: 'A task is required.' });
-		await moveTask(locals.supabase, taskId, direction);
+		const task = await findTaskOnProject(locals.supabase, formData, params.projectId);
+		if (task === null) return fail(400, { message: taskOnProjectRequired });
+		const direction = parseMoveDirection(formData.get('direction'));
+		if (direction === null) return fail(400, { message: moveDirectionRefusal });
+		await moveTaskAmongShown(locals.supabase, task, direction, readShownIds(formData.get(shownIdsField)));
 		return {};
 	},
 	setStatus: async ({ locals, params, request }) => {
@@ -43,7 +46,7 @@ export const taskActions = {
 		if (task === null) return fail(400, { message: taskOnProjectRequired });
 		const priority = parsePriorityNumber(formData.get('priority'));
 		if (priority === null) return fail(400, { message: priorityNumberRefusal });
-		await setTaskPriority(locals.supabase, task.id, priority);
+		await setTaskPosition(locals.supabase, task, priority, readShownIds(formData.get(shownIdsField)));
 		return {};
 	},
 	setStoryPoints: async ({ locals, params, request }) => {
