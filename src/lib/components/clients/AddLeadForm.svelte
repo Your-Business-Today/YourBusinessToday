@@ -1,7 +1,8 @@
 <script lang="ts">
 	import AddPersonForm from '$lib/components/people/AddPersonForm.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
-	import { inputClasses, panelClasses, selectClasses } from '$lib/components/site/formStyles';
+	import BroughtInBySelect from './BroughtInBySelect.svelte';
+	import { inputClasses, panelClasses } from '$lib/components/site/formStyles';
 	import type { StaffMember } from '$lib/server/projects/getStaffDirectory';
 
 	let { staffMembers, viewerId }: { staffMembers: StaffMember[]; viewerId: string } = $props();
@@ -52,11 +53,7 @@
 					aria-label="First contact email"
 					class={inputClasses}
 				/>
-				<select name="ownerId" value={viewerId} aria-label="Brought in by" class={selectClasses}>
-					{#each staffMembers as member (member.id)}
-						<option value={member.id}>Brought in by {member.name}</option>
-					{/each}
-				</select>
+				<BroughtInBySelect chosenId={viewerId} {staffMembers} optionPrefix="Brought in by " />
 			</div>
 			<div class="flex flex-wrap items-center justify-between gap-3">
 				<p class="text-xs text-chalk/50">
