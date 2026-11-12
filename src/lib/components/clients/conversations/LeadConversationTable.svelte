@@ -13,7 +13,7 @@
 		{ key: 'channel', label: 'How', isWideOnly: true },
 		{ key: 'heldBy', label: 'Ours', isWideOnly: true },
 		{ key: 'person', label: 'With' },
-		{ key: 'summary', label: 'What it came to' },
+		{ key: 'summary', label: 'Summary' },
 		{ key: 'read', label: '' }
 	];
 </script>
@@ -31,7 +31,7 @@
 		<RecordsCell label="How" isWideOnly>{conversationChannelLabels[conversation.channel]}</RecordsCell>
 		<RecordsCell label="Ours" isWideOnly>{conversation.heldByName}</RecordsCell>
 		<RecordsCell label="With">{conversation.personName}</RecordsCell>
-		<RecordsCell label="What it came to">{conversation.summary}</RecordsCell>
+		<RecordsCell label="Summary"><span class="line-clamp-2">{conversation.summary}</span></RecordsCell>
 		<RecordsCell kind="actions">
 			<button class={quietButtonClasses} onclick={() => onRead(conversation)}>Read</button>
 		</RecordsCell>

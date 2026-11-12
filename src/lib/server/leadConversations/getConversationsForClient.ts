@@ -5,7 +5,7 @@ import type { ConversationChannel, LeadConversation } from '$lib/data/leadConver
 
 const someoneUnnamed = 'Someone';
 const nobodyNamed = '';
-const conversationColumns = 'id, person_id, held_by_account_id, held_on, channel, summary, what_was_said, logged_at, people (name)';
+const conversationColumns = 'id, person_id, held_by_account_id, held_on, channel, summary, deal_points, logged_at, people (name)';
 
 /** Every conversation kept on a lead, the latest first, with who had it on each side. */
 export async function getConversationsForClient(supabase: SupabaseClient, clientId: string): Promise<LeadConversation[]> {
@@ -35,7 +35,7 @@ function parseConversation(row: Record<string, unknown>, staffNames: Map<string,
 		heldOn: row.held_on as string,
 		channel: row.channel as ConversationChannel,
 		summary: row.summary as string,
-		whatWasSaid: row.what_was_said as string,
+		dealPoints: row.deal_points as string,
 		loggedAt: row.logged_at as string
 	};
 }
