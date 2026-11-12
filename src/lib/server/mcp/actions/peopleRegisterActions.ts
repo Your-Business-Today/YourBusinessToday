@@ -31,7 +31,7 @@ export const peopleRegisterActions: McpAction[] = [
 		guidance:
 			'A director or an owner is a lead in their own right; their companies come next, listed with ' +
 			'add_client_contact at each. A person already on the register under that email is given back, ' +
-			'not added twice. Someone found on Companies House is added from their officer record instead.',
+			'not added twice. Someone found on Companies House is added with add_officer_as_person instead.',
 		inputSchema: objectSchema(newPersonFields, ['name']),
 		run: async (caller, input) => addToRegister(caller, input)
 	},

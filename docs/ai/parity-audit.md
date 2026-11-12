@@ -11,10 +11,10 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | Id | Story | Who | Kind | Site door | Connector | Screens |
 | --- | --- | --- | --- | --- | --- | --- |
 | US-001 | see who I am signed in as and what I can reach | anyone | read | `/account` load | `get_current_context` `who_am_i` | `/account` |
-| US-002 | change the name I go by | anyone | write | `saveDisplayName` | — | `/account` |
-| US-003 | read my notifications, newest first | anyone | read | `/notifications` load | — | `/notifications` |
-| US-004 | open one notification and have it marked read | anyone | write | `openNotification` | — | `/notifications` |
-| US-005 | mark every notification read | anyone | write | `markAllRead` | — | `/notifications` |
+| US-002 | change the name I go by | anyone | write | `saveDisplayName` | `set_display_name` | `/account` |
+| US-003 | read my notifications, newest first | anyone | read | `/notifications` load | `list_notifications` | `/notifications` |
+| US-004 | open one notification and have it marked read | anyone | write | `openNotification` | `mark_notification_read` | `/notifications` |
+| US-005 | mark every notification read | anyone | write | `markAllRead` | `mark_all_notifications_read` | `/notifications` |
 | US-006 | see everything that needs me in one answer | anyone | read | `/` and `/projects` | `list_waiting_on_me` `read_ybt_summary` | `/projects` |
 
 ## 02-projects
@@ -30,11 +30,11 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-016 | invite someone to a project, take them off it, or hand it on | member | write | `invitePerson` `removeMember` `transferOwnership` | `invite_to_project` `remove_project_member` `transfer_project_ownership` `list_project_people` | `/projects/{projectId}` |
 | US-017 | say which organisation and client a project belongs to | member | write | `updateProject` | `set_project_organisation` `set_project_client` `set_team_project` | `/projects/{projectId}` |
 | US-018 | see which goals and tasks go autocomplete and switch one | member | write | `/projects/autocomplete` load, `setGoalAutocomplete` `setAutocomplete` | `read_autocomplete_register` `set_goal_autocomplete` `set_task_autocomplete` | `/projects/autocomplete` `/projects/{projectId}/tasks/{taskId}` |
-| US-019 | see which kit version each project runs and refresh the register | anyone | read | `/projects/kit-versions` load, `readKitVersions` | — | `/projects/kit-versions` |
+| US-019 | see which kit version each project runs and refresh the register | anyone | read | `/projects/kit-versions` load, `readKitVersions` | `read_kit_versions` `refresh_kit_versions` | `/projects/kit-versions` |
 | US-020 | read a project's deploy history | member | read | `/projects/{projectId}/deploys` load | `read_deploy_history` | `/projects/{projectId}/deploys` |
 | US-021 | see what is staged and deploy it now | member | write | `deployNow` | `deploy_staging_now` | `/projects/{projectId}/staged` |
 | US-022 | read a project's domain and site map | member | read | `/projects/{projectId}/domain` load | `read_project_domain` `read_project_site_map` `read_project_mcp_map` | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
-| US-023 | refresh a project's domain and site map from its repository | member | write | opening the page | — | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
+| US-023 | refresh a project's domain and site map from its repository | member | write | opening the page | `refresh_project_blueprint` | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
 | US-024 | assign internal work and give it a due date | member | write | `setAssignees` `setDueDate` | `set_task_assignees` `update_task_details` | `/projects/{projectId}` |
 
 ## 03-goals
@@ -46,7 +46,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-032 | change a goal, its status, its priority and its order | member | write | `saveGoal` `moveGoal` `setGoalPriority` | `update_goal` `set_goal_status` `set_goal_priority` `move_goal` `place_goal` | `/projects/{projectId}/goals/{goalId}` `/projects/{projectId}` |
 | US-033 | delete a goal | member | write | `deleteGoal` | `delete_goal` | `/projects/{projectId}/goals/{goalId}` |
 | US-034 | post on a goal's conversation | member | write | `postMessage` | `post_message` | `/projects/{projectId}/goals/{goalId}` |
-| US-035 | add someone to a goal's conversation, or take them off it | member | write | `addParticipant` `removeParticipant` | — | `/projects/{projectId}/goals/{goalId}` |
+| US-035 | add someone to a goal's conversation, or take them off it | member | write | `addParticipant` `removeParticipant` | `add_conversation_participant` `remove_conversation_participant` | `/projects/{projectId}/goals/{goalId}` |
 
 ## 04-tasks
 
@@ -64,7 +64,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-049 | record the branch and pull request a task is on | member | write | `setBranch` | `set_task_branch` `find_task_by_branch` | `/projects/{projectId}/tasks/{taskId}` |
 | US-050 | say who is working on a task and what roles it needs | member | write | `setAssignees` | `set_task_assignees` `set_task_roles` | `/projects/{projectId}/tasks/{taskId}` |
 | US-051 | post on a task's conversation and resolve a support task | member | write | `postMessage` `resolve` | `post_message` `resolve_support_task` | `/projects/{projectId}/tasks/{taskId}` |
-| US-052 | add someone to a task's conversation, or take them off it | member | write | `addParticipant` `removeParticipant` | — | `/projects/{projectId}/tasks/{taskId}` |
+| US-052 | add someone to a task's conversation, or take them off it | member | write | `addParticipant` `removeParticipant` | `add_conversation_participant` `remove_conversation_participant` | `/projects/{projectId}/tasks/{taskId}` |
 | US-053 | delete a task | member | write | `deleteTask` | `delete_task` | `/projects/{projectId}/tasks/{taskId}` |
 | US-054 | see the open tasks in my name and the build queue | member | read | `/projects/{projectId}` load | `read_team_tasks` `read_task_queue` `read_build_queue` | `/projects/{projectId}` |
 | US-055 | raise a support task and see the open ones | member | write | `createTask` | `create_support_task` `list_open_support_tasks` | `/projects/{projectId}` |
@@ -87,12 +87,12 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-073 | read a client in full, with its history | staff | read | `/clients/{clientId}` load | `read_client` `read_client_history` | `/clients/{clientId}` |
 | US-074 | list a contact at a client, invite them, assign a project | staff | write | `addContact` `inviteContact` `assignProject` | `add_client_contact` `invite_client_contact` `assign_project_to_client` | `/clients/{clientId}` |
 | US-075 | set a new client up on Your Business Today | staff | write | `setUpClient` | `set_up_client` | `/clients/{clientId}` |
-| US-076 | change a client's company profile | staff | write | `updateProfile` | — | `/clients/{clientId}` |
+| US-076 | change a client's company profile | staff | write | `updateProfile` | `update_company_profile` | `/clients/{clientId}` |
 | US-077 | record a client's continuity copy | staff | write | `recordContinuityCopy` | `record_client_continuity_copy` | `/clients/{clientId}` |
-| US-078 | group a client under a parent and import its officers from Companies House | staff | write | `groupUnder` `importOfficers` | — | `/clients/{clientId}` |
+| US-078 | group a client under a parent and import its officers from Companies House | staff | write | `groupUnder` `importOfficers` | `group_client_under` `import_company_officers` | `/clients/{clientId}` |
 | US-079 | delete a mistaken client record | staff | write | `deleteClient` | `delete_client` | `/clients/{clientId}` |
 | US-080 | research a company and save the findings, its filings and its job adverts | staff | write | `/clients/research` | `save_company_research` `read_company_filings` `read_company_job_adverts` `save_company_job_adverts` | `/clients/{clientId}` `/clients/research` |
-| US-081 | search Companies House by name and add a company as a lead, with its directors | staff | write | `addLead` `addLeadWithDirectors` | — | `/clients/prospect` `/clients/map` |
+| US-081 | search Companies House by SIC code and place and add a company as a lead, with its directors | staff | write | `addLead` `addLeadWithDirectors` | `search_companies_house` `add_company_as_lead` | `/clients/prospect` `/clients/map` |
 | US-082 | see the companies around a postcode on the map | staff | read | `/clients/map` load | — | `/clients/map` |
 | US-083 | read the feed of what changed across the register | staff | read | `/clients/feed` load | `read_patch_feed` | `/clients/feed` |
 | US-084 | read, run and record a client's company context | staff | write | `/clients/{clientId}/context` load | `read_company_context` `start_context_run` `record_company_context` `read_confirmed_company_context` | `/clients/{clientId}/context` |
@@ -105,12 +105,12 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | --- | --- | --- | --- | --- | --- | --- |
 | US-090 | see everyone on the People register, with their warmth and companies | staff | read | `/people` load | `list_people` | `/people` |
 | US-091 | add a person as a lead | staff | write | `addPerson` | `add_person` | `/people` |
-| US-092 | find an officer on Companies House and add them as a person | staff | write | `addOfficer` | — | `/people` |
+| US-092 | find an officer on Companies House and add them as a person | staff | write | `addOfficer` | `search_officers` `add_officer_as_person` | `/people` |
 | US-093 | read a person in full, with their companies, links, notes and history | staff | read | `/people/{personId}` load | `read_person` | `/people/{personId}` |
 | US-094 | change a person's details and standing | staff | write | `updatePerson` | `update_person` | `/people/{personId}` `/clients/{clientId}` |
-| US-095 | keep links on a person | staff | write | `addLink` `removeLink` | — | `/people/{personId}` `/clients/{clientId}` |
-| US-096 | add a note to a person | staff | write | `addNote` | — | `/people/{personId}` `/clients/{clientId}` |
-| US-097 | import a person's current appointments as leads, grouped | staff | write | `importAppointments` `groupUnder` | — | `/people/{personId}` |
+| US-095 | keep links on a person | staff | write | `addLink` `removeLink` | `add_person_link` `remove_person_link` | `/people/{personId}` `/clients/{clientId}` |
+| US-096 | add a note to a person | staff | write | `addNote` | `add_person_note` | `/people/{personId}` `/clients/{clientId}` |
+| US-097 | import a person's current appointments as leads, grouped | staff | write | `importAppointments` `groupUnder` | `read_person_appointments` `import_person_appointments` | `/people/{personId}` |
 | US-098 | research a person on the web and save it, or draft the approach | staff | write | `/people/{personId}` modals | `save_person_research` `save_person_approach` | `/people/{personId}` |
 | US-099 | delete a person added by mistake | staff | write | `deletePerson` | `delete_person` | `/people/{personId}` |
 
@@ -136,7 +136,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-113 | switch a module on or off for an organisation | staff | write | `setModule` | `set_organisation_module` | `/organisations/{organisationId}` |
 | US-114 | name a director of an organisation | staff | write | `setDirector` | `set_organisation_director` | `/organisations/{organisationId}` |
 | US-115 | delete an organisation | staff | write | `deleteOrganisation` | — | `/organisations/{organisationId}` |
-| US-116 | see the open work of an organisation's team, department by department | member | read | `/organisations/{organisationId}/task-management` load | — | `/organisations/{organisationId}/task-management` |
+| US-116 | see the open work of an organisation's team, department by department | member | read | `/organisations/{organisationId}/task-management` load | `read_team_work` | `/organisations/{organisationId}/task-management` |
 | US-117 | read and set an organisation's domain | manager | write | `/organisations/{organisationId}/domain` load | `read_business_brain_domain` `file_business_brain_domain` `start_business_brain_domain_run` | `/organisations/{organisationId}/domain` |
 
 ## 10-boardroom
@@ -202,11 +202,11 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 
 | Id | Story | Who | Kind | Site door | Connector | Screens |
 | --- | --- | --- | --- | --- | --- | --- |
-| US-170 | see every account, with its standing | admin | read | `/admin` load | — | `/admin` |
-| US-171 | make an account staff or not | admin | write | `setStaff` | — | `/admin` |
-| US-172 | restrict an account, or lift the restriction | admin | write | `setRestriction` | — | `/admin` |
-| US-173 | send someone a password reset | admin | write | `sendPasswordReset` | — | `/admin` |
-| US-174 | delete an account | admin | write | `deleteUser` | — | `/admin` |
+| US-170 | see every account, with its standing | admin | read | `/admin` load | `list_accounts` | `/admin` |
+| US-171 | make an account staff or not | admin | write | `setStaff` | `set_staff_access` | `/admin` |
+| US-172 | restrict an account, or lift the restriction | admin | write | `setRestriction` | `set_account_restriction` | `/admin` |
+| US-173 | send someone a password reset | admin | write | `sendPasswordReset` | `send_password_reset` | `/admin` |
+| US-174 | delete an account | admin | write | `deleteUser` | `delete_account` | `/admin` |
 | US-175 | read and set the build models and the review model | admin | write | `saveBuildModel` `removeBuildModel` `setReviewModel` | `read_model_settings` `save_build_model` | `/admin` |
 | US-176 | see the Stripe payments to check and mark one dealt with | admin | write | `dealtWith` | `read_stripe_payments_to_check` | `/admin/stripe-payments` |
 | US-177 | read the client documents and download one | admin | read | `/admin/documents/{slug}` load | — | `/admin/documents` `/admin/documents/{slug}` |
@@ -231,12 +231,6 @@ These have no screen because the person's Claude is the only one who needs them:
 
 | Task | Stories | Actions to add |
 | --- | --- | --- |
-| Links and notes on a person through the connector | US-095 US-096 | `add_person_link` `remove_person_link` `add_person_note` |
-| Companies House officers through the connector | US-092 US-097 | `search_officers` `add_officer_as_person` `read_person_appointments` `import_person_appointments` |
-| Client profile, groups and Companies House companies through the connector | US-076 US-078 US-081 | `update_company_profile` `group_client_under` `import_company_officers` `search_companies_house` `add_company_as_lead` |
-| Notifications and the display name through the connector | US-002 US-003 US-004 US-005 | `set_display_name` `list_notifications` `mark_notification_read` `mark_all_notifications_read` |
-| Conversation participants, team work, kit versions and the blueprint refresh through the connector | US-019 US-023 US-035 US-052 US-116 | `add_conversation_participant` `remove_conversation_participant` `read_team_work` `read_kit_versions` `refresh_project_blueprint` |
-| Accounts through the connector | US-170 US-171 US-172 US-173 US-174 | `list_accounts` `set_staff_access` `set_account_restriction` `send_password_reset` `delete_account` |
 | Models, Stripe payments, client documents and organisation deletion through the connector | US-115 US-175 US-176 US-177 | `remove_build_model` `set_review_model` `mark_stripe_payment_dealt_with` `list_client_documents` `read_client_document` `delete_organisation` |
 | The client portal through the connector | US-162 US-163 US-164 US-165 | `read_my_company_context` `mark_context_part` `confirm_company_context` `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` `list_my_invoices` `pay_invoice` |
 | Boardroom seat controls through the connector | US-124 US-125 | `steer_own_claude` `change_own_claude_setting` `answer_held_contribution` |

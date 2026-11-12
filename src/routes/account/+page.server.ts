@@ -1,5 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { displayNameMaxLength } from '$lib/data/displayNameRules';
+import { validateDisplayName } from '$lib/data/displayNameRules';
 import { getDisplayName } from '$lib/server/auth/getDisplayName';
 import { requireUser } from '$lib/server/auth/requireUser';
 import { saveDisplayName } from '$lib/server/auth/saveDisplayName';
@@ -22,9 +22,8 @@ export const actions: Actions = {
 		await requireUser(locals);
 		const formData = await request.formData();
 		const displayName = String(formData.get('displayName') ?? '').trim();
-		if (displayName.length > displayNameMaxLength) {
-			return fail(400, { message: `Display names are ${displayNameMaxLength} characters at most.` });
-		}
+		const refusal = validateDisplayName(displayName);
+		if (refusal !== null) return fail(400, { message: refusal });
 		await saveDisplayName(locals.supabase, displayName);
 		return { message: 'Profile saved.' };
 	}

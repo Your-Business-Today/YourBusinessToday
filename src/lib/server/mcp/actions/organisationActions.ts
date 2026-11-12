@@ -8,6 +8,7 @@ import { organisationPeopleActions } from './organisationPeopleActions';
 import { organisationProjectActions } from './organisationProjectActions';
 import { organisationReadActions } from './organisationReadActions';
 import { organisationWriteActions } from './organisationWriteActions';
+import { teamWorkActions } from './teamWorkActions';
 import type { McpAction } from '../actionTypes';
 
 export const organisationActions: McpAction[] = [
@@ -18,6 +19,7 @@ export const organisationActions: McpAction[] = [
 	...boardroomActions,
 	...organisationPeopleActions,
 	...organisationProjectActions,
+	...teamWorkActions,
 	...companyContextActions,
 	...confirmedContextActions,
 	...contextRunActions

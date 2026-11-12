@@ -1,6 +1,8 @@
+import { blueprintRefreshActions } from './blueprintRefreshActions';
 import { deployActions } from './deployActions';
 import { deployHistoryActions } from './deployHistoryActions';
 import { feedActions } from './feedActions';
+import { kitVersionActions } from './kitVersionActions';
 import { projectBlueprintActions } from './projectBlueprintActions';
 import { projectCreateActions } from './projectCreateActions';
 import { projectOrderActions } from './projectOrderActions';
@@ -14,6 +16,8 @@ import type { McpAction } from '../actionTypes';
 export const projectActions: McpAction[] = [
 	...projectReadActions,
 	...projectBlueprintActions,
+	...blueprintRefreshActions,
+	...kitVersionActions,
 	...feedActions,
 	...projectCreateActions,
 	...projectWriteActions,
