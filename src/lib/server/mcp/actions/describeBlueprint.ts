@@ -9,10 +9,12 @@ export function describeDomain(domain: DomainModel, projectName: string): string
 }
 
 function describeContext(context: BoundedContext): string {
-	const aggregates = context.aggregates.map(
-		(aggregate) => `Aggregate ${aggregate.rootName}:\n${aggregate.entities.map(describeEntity).join('\n')}`
-	);
-	return [`## ${context.title}`, ...aggregates].join('\n');
+	return [`## ${context.title}`, ...describeAggregates(context)].join('\n');
+}
+
+/** Each aggregate of the context with its entities, the root first. */
+export function describeAggregates(context: BoundedContext): string[] {
+	return context.aggregates.map((aggregate) => `Aggregate ${aggregate.rootName}:\n${aggregate.entities.map(describeEntity).join('\n')}`);
 }
 
 function describeEntity(entity: DomainEntity): string {
