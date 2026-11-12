@@ -75,9 +75,10 @@ The books live in their own house, Your Books Today.
   accounts. The site calls no AI model itself: every piece of AI work runs in the signed-in
   person's own Claude through the MCP server. The first admin is bootstrapped by email on signup.
 
-The product this consultancy sells and implements — Knowledge Bases, the brains inside
-them, chatbots, the marketplace and the hive mind — lives separately in
-[YourBrainToday](https://github.com/jamesbeadle/YourBrainToday).
+Your Business Brain is each organisation's private knowledge base, kept here in YBT under the
+Knowledge folder of the side nav: its pages and source files, the brains of its products, and
+the chatbots that are read-only doors onto it. It replaced the separate Your Brain Today, which
+is switched off; nothing was copied from it.
 
 ## Running locally
 

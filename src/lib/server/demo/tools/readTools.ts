@@ -8,6 +8,7 @@ import {
 import { pounds } from '$lib/data/demo/demoMoney';
 import { findMoneyAndOpportunity } from '$lib/data/demo/moneyAndOpportunity';
 import type { DemoBusiness } from '$lib/data/demo/demoBusiness';
+import { organisationModuleLabels } from '$lib/data/organisationModules';
 import { noInput, readsOnly, type DemoTool } from './demoTool';
 
 export const readTools: DemoTool[] = [
@@ -64,7 +65,7 @@ export const readTools: DemoTool[] = [
 		name: 'read_brain',
 		title: 'What the business remembers',
 		description:
-			'Everything the business has taught its Your Brain Today brain about how it works. Read ' +
+			`Everything the business has taught its ${organisationModuleLabels.business_brain} about how it works. Read ` +
 			'this before chasing, pricing or invoicing: it holds the rules the people follow.',
 		inputSchema: noInput,
 		annotations: readsOnly,
