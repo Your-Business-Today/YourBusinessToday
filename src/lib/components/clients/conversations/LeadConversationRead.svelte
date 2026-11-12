@@ -12,10 +12,9 @@
 
 <div class="flex flex-col gap-4">
 	<p class="text-sm text-chalk-subtle">{heading}</p>
-	<p class="text-chalk">{conversation.summary}</p>
-	{#if conversation.whatWasSaid === ''}
-		<p class="text-sm text-chalk-faint">Nothing of what was said was kept.</p>
-	{:else}
-		<p class="max-h-[60vh] overflow-y-auto text-sm whitespace-pre-wrap text-chalk-muted">{conversation.whatWasSaid}</p>
+	<p class="whitespace-pre-wrap text-chalk">{conversation.summary}</p>
+	{#if conversation.dealPoints !== ''}
+		<h3 class="font-display text-base">Key information about the deal</h3>
+		<p class="text-sm whitespace-pre-wrap text-chalk-muted">{conversation.dealPoints}</p>
 	{/if}
 </div>

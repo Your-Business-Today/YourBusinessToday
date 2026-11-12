@@ -14,7 +14,7 @@ export async function logLeadConversation(
 		held_on: conversation.heldOn,
 		channel: conversation.channel,
 		summary: conversation.summary,
-		what_was_said: conversation.whatWasSaid,
+		deal_points: conversation.dealPoints,
 		logged_by_account_id: loggedByAccountId
 	});
 	if (error) throw error;

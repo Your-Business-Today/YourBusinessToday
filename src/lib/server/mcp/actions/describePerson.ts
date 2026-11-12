@@ -2,9 +2,11 @@ import { clientStageLabels } from '$lib/data/clientLifecycle';
 import { describeCompanyProfile } from './describeCompanyProfile';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { seniorityLabels, warmthLabels } from '$lib/data/contactProfileFields';
+import { describePersonHistory } from './describePeople';
 import { personNoteKinds, personNoteTitles } from '$lib/data/personNoteKind';
 import type { AuthoredNote } from '$lib/server/people/authoredNotes';
 import type { PersonCompany } from '$lib/server/people/getCompaniesForPerson';
+import type { PersonEvent } from '$lib/server/people/getPersonEventsForClients';
 import type { PersonInFull } from '$lib/server/people/getPerson';
 
 export const noSuchPerson = 'No person on the People register has that id. read_client lists the people at a company, each with their person id.';
@@ -15,8 +17,8 @@ const noteKindLabels: Record<string, string> = {
 	[personNoteKinds.research]: personNoteTitles.research
 };
 
-/** What the register holds on a person and each company they sit on, for a staff member's Claude to research from or draft an approach with. */
-export function describePersonInFull(person: PersonInFull, companies: PersonCompany[]): string {
+/** What the register holds on a person, each company they sit on and what happened there, as the person's page shows it. */
+export function describePersonInFull(person: PersonInFull, companies: PersonCompany[], events: PersonEvent[]): string {
 	const { links, notes } = person;
 	return [
 		`${person.name} — person ${person.id}`,
@@ -32,7 +34,10 @@ export function describePersonInFull(person: PersonInFull, companies: PersonComp
 		companies.length === 0 ? 'None yet.' : companies.map(describePersonCompany).join('\n\n'),
 		'',
 		'Notes, newest first:',
-		notes.length === 0 ? 'None yet.' : notes.map(describeNote).join('\n\n')
+		notes.length === 0 ? 'None yet.' : notes.map(describeNote).join('\n\n'),
+		'',
+		'History, newest first:',
+		describePersonHistory(events)
 	]
 		.filter((line) => line !== null)
 		.join('\n');

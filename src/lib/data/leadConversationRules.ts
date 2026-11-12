@@ -13,8 +13,8 @@ export const conversationChannels = Object.keys(conversationChannelLabels) as Co
 
 /** The limits on a logged conversation, stated once and mirrored by migration 0208. */
 export const leadConversationLimits = {
-	longestSummary: 300,
-	longestWhatWasSaid: 20000
+	longestSummary: 2000,
+	longestDealPoints: 2000
 } as const;
 
 /** A conversation as staff log it, checked by validateLeadConversation before anything is written. */
@@ -25,7 +25,7 @@ export type LeadConversationLogged = {
 	heldOn: string;
 	channel: ConversationChannel;
 	summary: string;
-	whatWasSaid: string;
+	dealPoints: string;
 };
 
 /** A conversation kept on a lead, with the names of who had it on each side. */

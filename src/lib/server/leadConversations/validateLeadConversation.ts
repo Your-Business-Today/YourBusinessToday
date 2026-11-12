@@ -8,14 +8,14 @@ import {
 	type LeadConversationLogged
 } from '$lib/data/leadConversationRules';
 
-const { longestSummary, longestWhatWasSaid } = leadConversationLimits;
+const { longestSummary, longestDealPoints } = leadConversationLimits;
 const noPersonNamed = '';
 
 export const leadConversationRefusals = {
 	heldOn: 'The heldOn is the day the conversation happened, as YYYY-MM-DD.',
 	channel: `The channel is one of ${conversationChannels.join(', ')}.`,
-	summary: `The summary is 1 to ${longestSummary} characters: what the conversation came to, in a line.`,
-	whatWasSaid: `What was said is at most ${longestWhatWasSaid} characters.`
+	summary: `The summary is 1 to ${longestSummary} characters: what the conversation came to, with nothing personal.`,
+	dealPoints: `The key information about the deal is at most ${longestDealPoints} characters.`
 } as const;
 
 /** The conversation as given, each field checked against its column, or the sentence naming the one that does not fit. */
@@ -37,7 +37,7 @@ export function validateLeadConversation(
 	if (!isConversationChannel(channel)) return leadConversationRefusals.channel;
 	const summary = trimmedText(input.summary);
 	if (summary === '' || summary.length > longestSummary) return leadConversationRefusals.summary;
-	const whatWasSaid = trimmedText(input.whatWasSaid);
-	if (whatWasSaid.length > longestWhatWasSaid) return leadConversationRefusals.whatWasSaid;
-	return { clientId, personId, heldByAccountId, heldOn, channel, summary, whatWasSaid };
+	const dealPoints = trimmedText(input.dealPoints);
+	if (dealPoints.length > longestDealPoints) return leadConversationRefusals.dealPoints;
+	return { clientId, personId, heldByAccountId, heldOn, channel, summary, dealPoints };
 }
