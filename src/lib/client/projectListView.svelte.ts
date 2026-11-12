@@ -3,6 +3,7 @@ import { matchesProjectListFilters, type ProjectListFilters } from '$lib/data/pr
 import { projectCountLabel } from '$lib/data/projectCountLabel';
 import { countByStatusFilter } from '$lib/data/projectStatusCounts';
 import type { ProjectStatusFilter } from '$lib/data/projectStatusFilter';
+import { statusOnFirstVisit } from '$lib/data/projectsTab';
 import { topRank } from '$lib/data/topRank';
 import { writeShownIds, type ShownPosition } from '$lib/data/shownIds';
 import { boardEdgesOf, type BoardEdges } from '$lib/data/projectBoardEdges';
@@ -18,8 +19,8 @@ export class ProjectListView extends ProjectFilterChoices {
 	#pageNumber = $state(1);
 	#allProjects: () => ListedProject[];
 
-	constructor(allProjects: () => ListedProject[]) {
-		super();
+	constructor(allProjects: () => ListedProject[], rememberedTab: string | null) {
+		super(rememberedTab, statusOnFirstVisit(allProjects()));
 		this.#allProjects = allProjects;
 	}
 
