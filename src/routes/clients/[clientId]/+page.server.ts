@@ -23,6 +23,7 @@ import { requireStaff } from '$lib/server/auth/requireStaff';
 import { getConversationsForClient } from '$lib/server/leadConversations/getConversationsForClient';
 import { getStaffDirectory } from '$lib/server/projects/getStaffDirectory';
 import { leadConversationActions } from './leadConversationActions';
+import { broughtInByActions } from './broughtInByActions';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
@@ -58,5 +59,6 @@ export const actions: Actions = {
 	...continuityCopyActions,
 	...personFormActions,
 	...groupActions,
-	...leadConversationActions
+	...leadConversationActions,
+	...broughtInByActions
 };

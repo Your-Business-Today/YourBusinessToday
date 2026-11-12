@@ -21,7 +21,8 @@ export type ClientEventKind =
 	| 'person_researched'
 	| 'sighted'
 	| 'client_set_up'
-	| 'context_confirmed';
+	| 'context_confirmed'
+	| 'owner_changed';
 
 export type ClientEvent = {
 	id: string;

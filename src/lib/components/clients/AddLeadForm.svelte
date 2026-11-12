@@ -1,7 +1,10 @@
 <script lang="ts">
 	import AddPersonForm from '$lib/components/people/AddPersonForm.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
-	import { inputClasses, panelClasses } from '$lib/components/site/formStyles';
+	import { inputClasses, panelClasses, selectClasses } from '$lib/components/site/formStyles';
+	import type { StaffMember } from '$lib/server/projects/getStaffDirectory';
+
+	let { staffMembers, viewerId }: { staffMembers: StaffMember[]; viewerId: string } = $props();
 
 	type LeadKind = 'company' | 'person';
 
@@ -38,7 +41,7 @@
 		<AddPersonForm action="/people?/addPerson" />
 	{:else}
 		<form method="POST" action="?/addLead" class="flex flex-col gap-4">
-			<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+			<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
 				<input name="name" required placeholder="Company" aria-label="Company" class={inputClasses} />
 				<input name="website" placeholder="https://" aria-label="Website" class={inputClasses} />
 				<input name="contactName" placeholder="First contact" aria-label="First contact name" class={inputClasses} />
@@ -49,6 +52,11 @@
 					aria-label="First contact email"
 					class={inputClasses}
 				/>
+				<select name="ownerId" value={viewerId} aria-label="Brought in by" class={selectClasses}>
+					{#each staffMembers as member (member.id)}
+						<option value={member.id}>Brought in by {member.name}</option>
+					{/each}
+				</select>
 			</div>
 			<div class="flex flex-wrap items-center justify-between gap-3">
 				<p class="text-xs text-chalk/50">

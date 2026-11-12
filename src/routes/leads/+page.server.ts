@@ -5,6 +5,8 @@ import { loadSalesRegister } from '$lib/server/salesRegisters/loadSalesRegister'
 import { moveStageAction } from '$lib/server/salesRegisters/moveStageAction';
 import { readPickedOrganisationId } from '$lib/server/frame/pickedOrganisation';
 import { requireStaff } from '$lib/server/auth/requireStaff';
+import { broughtInByRefusal, staffMemberWithId } from '$lib/data/broughtInByName';
+import { getStaffDirectory } from '$lib/server/projects/getStaffDirectory';
 import type { Actions, PageServerLoad } from './$types';
 
 const noOrganisationPicked = 'Pick an organisation in the side bar to add a lead to its register.';
@@ -19,10 +21,13 @@ export const actions: Actions = {
 		const user = await requireStaff(locals);
 		const organisationId = await readPickedOrganisationId(locals, user.id);
 		if (organisationId === null) return fail(400, { message: noOrganisationPicked });
-		const seed = readLeadSeed(await request.formData(), user.id, organisationId);
+		const formData = await request.formData();
+		const owner = staffMemberWithId(await getStaffDirectory(locals.supabase), String(formData.get('ownerId') ?? ''));
+		if (owner === null) return fail(400, { message: broughtInByRefusal });
+		const seed = readLeadSeed(formData, owner.id, organisationId);
 		if (seed === null) return fail(400, { message: 'A company name is required.' });
 		await addLead(locals.supabase, seed, user.id);
-		return { message: `${seed.name} added as a lead.` };
+		return { message: `${seed.name} added as a lead, brought in by ${owner.name}.` };
 	},
 	moveStage: moveStageAction
 };

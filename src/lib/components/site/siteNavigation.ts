@@ -39,6 +39,8 @@ export const leadsLink: NavigationLink = { href: '/leads', label: 'Leads' };
 
 export const clientsLink: NavigationLink = { href: '/clients', label: 'Clients' };
 
+export const leaderboardLink: NavigationLink = { href: '/leaderboard', label: 'Leaderboard' };
+
 export const adminLink: NavigationLink = { href: '/admin', label: 'Admin' };
 
 const accountLink: NavigationLink = { href: '/account', label: 'Account' };

@@ -4,6 +4,7 @@ import {
 	canSeeOrganisations,
 	clientsLink,
 	leadsLink,
+	leaderboardLink,
 	organisationsLink,
 	projectsLink,
 	type NavigationAccess,
@@ -40,7 +41,8 @@ const workProjectsLink: FrameLink = { ...projectsLink, icon: 'folderKanban', gro
 
 const salesRegisterLinks: FrameLink[] = [
 	{ ...leadsLink, icon: 'target', group: 'sales' },
-	{ ...clientsLink, icon: 'building', group: 'sales' }
+	{ ...clientsLink, icon: 'building', group: 'sales' },
+	{ ...leaderboardLink, icon: 'trophy', group: 'sales' }
 ];
 
 /** The side bar's links beyond the picked organisation's own: work inside an organisation, and nothing above one. */
