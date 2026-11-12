@@ -2,6 +2,7 @@ import { personNoteTitles } from '$lib/data/personNoteKind';
 import { describePersonInFull, noSuchPerson } from './describePerson';
 import { getCompaniesForPerson } from '$lib/server/people/getCompaniesForPerson';
 import { getPerson } from '$lib/server/people/getPerson';
+import { getPersonEventsForClients } from '$lib/server/people/getPersonEventsForClients';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { personResearchLimits } from '$lib/data/personResearchRules';
 import { readPersonGuidance, savePersonResearchGuidance } from './personResearchGuidance';
@@ -12,7 +13,7 @@ import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
 const limits = personResearchLimits;
-const personIdField = textField('The person id, as read_client gives it beside each of a company\'s people');
+const personIdField = textField('The person id, as list_people and read_client give it');
 
 const roleSchema = objectSchema(
 	{
@@ -48,7 +49,7 @@ export const personResearchActions: McpAction[] = [
 		area: 'clients',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'one person on the People register in full: their standing with us, links, notes and research, and every company they sit on, with its profile',
+		summary: 'one person on the People register in full: their standing with us, links, notes, research and history, and every company they sit on, with its profile',
 		guidance: readPersonGuidance,
 		inputSchema: objectSchema({ personId: personIdField }, ['personId']),
 		run: async (caller, input) => readPersonInFull(caller, readText(input, 'personId'))
@@ -70,7 +71,9 @@ async function readPersonInFull(caller: McpCaller, personId: string): Promise<st
 	if (idRefusal !== null) return idRefusal;
 	const person = await getPerson(caller.supabase, personId);
 	if (person === null) return noSuchPerson;
-	return describePersonInFull(person, await getCompaniesForPerson(caller.supabase, person.id));
+	const companies = await getCompaniesForPerson(caller.supabase, person.id);
+	const events = await getPersonEventsForClients(caller.supabase, companies.map((company) => company.id));
+	return describePersonInFull(person, companies, events);
 }
 
 async function saveResearchOnPerson(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
