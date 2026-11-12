@@ -9,13 +9,8 @@ export type PriorityChoice = {
 	fields: Record<string, string>;
 };
 
-/** On a person's own board the number is the project's place among the projects shown. */
+/** The number is the project's place among the projects shown. */
 export function boardPriorityChoice(project: Project, boardPlace: ShownPosition): PriorityChoice {
 	const fields = { projectId: project.id, [shownIdsField]: boardPlace.shownIds };
-	return { project, among: 'of your board', priority: boardPlace.position, fields };
-}
-
-export function teamPriorityChoice(project: Project): PriorityChoice {
-	const fields = { projectId: project.id };
-	return { project, among: 'of your team projects', priority: project.priority, fields };
+	return { project, among: 'of your projects', priority: boardPlace.position, fields };
 }

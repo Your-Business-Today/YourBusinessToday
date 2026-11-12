@@ -8,17 +8,32 @@ import type { ProjectTally, TaskTally } from './ownedProjectTallies';
 
 type TaskProgress = PlacedTask & CompletionInput & { isDone: boolean };
 
+const projectTallyColumns =
+	'id, tasks(id, parent_task_id, goal_id, status, story_points, completion_percent), goals(id, horizon)';
+
 /** The projects list's figures worked out here from every task and goal, until migration 0139 counts them. */
 export async function tallyOwnedProjectsInSite(
 	supabase: SupabaseClient,
 	ownerId: string
 ): Promise<Map<string, ProjectTally>> {
-	const { data, error } = await supabase
-		.from('projects')
-		.select('id, tasks(id, parent_task_id, goal_id, status, story_points, completion_percent), goals(id, horizon)')
-		.eq('owner_id', ownerId);
+	const { data, error } = await supabase.from('projects').select(projectTallyColumns).eq('owner_id', ownerId);
 	if (error) throw error;
-	return new Map(data.map((row: Record<string, unknown>) => [row.id as string, tallyProject(row)]));
+	return tallyEachProject(data);
+}
+
+/** The same figures for projects someone else owns, worked out from the tasks and goals the reader can see. */
+export async function tallyProjectsInSite(
+	supabase: SupabaseClient,
+	projectIds: string[]
+): Promise<Map<string, ProjectTally>> {
+	if (projectIds.length === 0) return new Map();
+	const { data, error } = await supabase.from('projects').select(projectTallyColumns).in('id', projectIds);
+	if (error) throw error;
+	return tallyEachProject(data);
+}
+
+function tallyEachProject(rows: Record<string, unknown>[]): Map<string, ProjectTally> {
+	return new Map(rows.map((row) => [row.id as string, tallyProject(row)]));
 }
 
 function tallyProject(row: Record<string, unknown>): ProjectTally {
