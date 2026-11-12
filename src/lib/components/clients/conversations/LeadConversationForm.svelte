@@ -35,11 +35,11 @@
 			{/each}
 		</select>
 	</FormField>
-	<FormField label="What it came to">
-		<input name="summary" required maxlength={leadConversationLimits.longestSummary} class={inputClasses} />
+	<FormField label="Summary" hint="What the conversation came to. Nothing personal.">
+		<textarea name="summary" rows="4" required maxlength={leadConversationLimits.longestSummary} class={inputClasses}></textarea>
 	</FormField>
-	<FormField label="What was said" hint="Word for word where you have it, such as a pasted chat.">
-		<textarea name="whatWasSaid" rows="8" maxlength={leadConversationLimits.longestWhatWasSaid} class={inputClasses}></textarea>
+	<FormField label="Key information about the deal" hint="What they spend now, what they need, the next step: one point to a line.">
+		<textarea name="dealPoints" rows="5" maxlength={leadConversationLimits.longestDealPoints} class={inputClasses}></textarea>
 	</FormField>
 	<SubmitButton>Log conversation</SubmitButton>
 </form>

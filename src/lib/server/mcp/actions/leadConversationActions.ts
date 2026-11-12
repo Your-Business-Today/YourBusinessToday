@@ -11,9 +11,10 @@ import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
 const conversationGuidance =
-	'Log a conversation once it has happened, as it happened: a chat, a call, a meeting or a message thread with ' +
-	"someone at a lead. Put what was said word for word in whatWasSaid when you have it, such as a chat the person " +
-	'pasted or a screenshot they shared, and say whose words each line is. read_client gives every conversation back.';
+	'Log a conversation once it has happened: a chat, a call, a meeting or a message thread with someone at a lead. ' +
+	'Keep only a summary of it and the key information about the deal, such as what they spend now, what they need, ' +
+	'what they asked about and the next step. Never copy the conversation word for word and never keep anything ' +
+	'personal, even when the person pastes a chat or shares screenshots of it. read_client gives every conversation back.';
 
 const conversationSchema = objectSchema(
 	{
@@ -22,8 +23,8 @@ const conversationSchema = objectSchema(
 		heldBy: textField("Who on our side had it: a staff member's name. Leave it out when it was you"),
 		heldOn: textField('The day it happened, as YYYY-MM-DD'),
 		channel: textField(`How it was had: one of ${conversationChannels.join(', ')}`),
-		summary: textField(`What it came to, in a line of at most ${leadConversationLimits.longestSummary} characters`),
-		whatWasSaid: textField(`What was said, word for word where you have it, at most ${leadConversationLimits.longestWhatWasSaid} characters`)
+		summary: textField(`A summary of the conversation, nothing personal, at most ${leadConversationLimits.longestSummary} characters`),
+		dealPoints: textField(`The key information about the deal, one point to a line, at most ${leadConversationLimits.longestDealPoints} characters`)
 	},
 	['clientId', 'heldOn', 'channel', 'summary']
 );
@@ -34,7 +35,7 @@ export const leadConversationActions: McpAction[] = [
 		area: 'clients',
 		audience: 'staff',
 		isWrite: true,
-		summary: "log a conversation with a lead's people — a chat, a call, a meeting or messages — so everyone selling to them sees what was said",
+		summary: "log a conversation with a lead's people — a chat, a call, a meeting or messages — as a summary and the key information about the deal, so everyone selling to them knows where it stands",
 		guidance: conversationGuidance,
 		inputSchema: conversationSchema,
 		run: async (caller, input) => logConversation(caller, input)

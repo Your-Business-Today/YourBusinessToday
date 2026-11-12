@@ -10,7 +10,7 @@ const chat: LeadConversation = {
 	heldOn: '2026-11-10',
 	channel: 'message',
 	summary: 'Unhappy with her agency',
-	whatWasSaid: 'Joanne: it is not working\nNigel: when suits you?',
+	dealPoints: '- Pays an agency about £3k a month\n- Wants a visit one afternoon',
 	loggedAt: '2026-11-12T19:00:00Z'
 };
 
@@ -19,15 +19,15 @@ describe('describeLeadConversations', () => {
 		expect(describeLeadConversations([])[0]).toContain('log_lead_conversation');
 	});
 
-	it('gives the day, the channel, both sides and the summary, then what was said beneath', () => {
+	it('gives the day, the channel, both sides and the summary, then the deal points beneath', () => {
 		expect(describeLeadConversations([chat])).toEqual([
 			'- 2026-11-10, Messages, Nigel Reilly with Joanne Jackman: Unhappy with her agency',
-			'    Joanne: it is not working\n    Nigel: when suits you?'
+			'    - Pays an agency about £3k a month\n    - Wants a visit one afternoon'
 		]);
 	});
 
 	it('leaves out who at the lead when nobody was named', () => {
-		const [heading] = describeLeadConversations([{ ...chat, personName: '', whatWasSaid: '' }]);
+		const [heading] = describeLeadConversations([{ ...chat, personName: '', dealPoints: '' }]);
 		expect(heading).toBe('- 2026-11-10, Messages, Nigel Reilly: Unhappy with her agency');
 	});
 });
