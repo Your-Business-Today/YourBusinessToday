@@ -33,7 +33,7 @@ describe('deploySummaryOf', () => {
 describe('describeDeploySummary', () => {
 	it('links each task and its pull request, and names the pull requests no task recorded', () => {
 		const lines = describeDeploySummary(deploySummaryOf(merged, [byNumber]), repositoryUrl).split('\n');
-		expect(lines[0]).toBe('- [Round the invoice total once](https://yourbusiness.today/projects/p1/tasks/t1) — [#42](https://github.com/example/ybt/pull/42)');
+		expect(lines[0]).toBe('- [Round the invoice total once](https://portal.yourbusiness.today/projects/p1/tasks/t1) — [#42](https://github.com/example/ybt/pull/42)');
 		expect(lines[1]).toBe('- [#43](https://github.com/example/ybt/pull/43) (no task recorded it)');
 		expect(lines).toHaveLength(3);
 		expect(describeDeploySummary(deploySummaryOf([], []), repositoryUrl)).toBe('');

@@ -1,8 +1,11 @@
 import { companyDetails } from '$lib/data/companyDetails';
 
-/** The portal's own address. Until it points at the site, no request arrives on it and nothing here changes anything. */
+const portalHostName = `portal.${companyDetails.websiteHost}`;
+
+/** The portal's own address, where sign-in and every signed-in page live. */
 export const portalAddress = {
-	hostName: `portal.${companyDetails.websiteHost}`,
+	hostName: portalHostName,
+	origin: `https://${portalHostName}`,
 	frontPagePath: '/',
 	accountPath: '/account'
 };

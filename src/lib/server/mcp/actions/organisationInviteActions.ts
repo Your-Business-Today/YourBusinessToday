@@ -1,4 +1,4 @@
-import { companyDetails } from '$lib/data/companyDetails';
+import { portalAddress } from '$lib/portal/portalAddress';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { getMembersOfOrganisation } from '$lib/server/organisations/getMembersOfOrganisation';
 import { inviteToOrganisation } from '$lib/server/organisations/inviteToOrganisation';
@@ -44,7 +44,7 @@ async function invitePerson(caller: McpCaller, input: Record<string, unknown>): 
 		email,
 		isManager: input.isManager === true,
 		inviter: await callerAccount(caller),
-		origin: companyDetails.websiteUrl,
+		origin: portalAddress.origin,
 		memberIds: members.map((member) => member.id)
 	});
 	return organisationInviteOutcomeMessage(outcome, email).message;
