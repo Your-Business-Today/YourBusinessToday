@@ -3,25 +3,27 @@
 	import DomainContextsPanel from '$lib/components/organisations/domain/DomainContextsPanel.svelte';
 	import DomainExplorer from '$lib/components/blueprint/DomainExplorer.svelte';
 	import EmptyState from '$lib/components/site/EmptyState.svelte';
-	import OrganisationPageHeader from '$lib/components/organisations/OrganisationPageHeader.svelte';
+	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { businessBrainAddresses } from '$lib/data/businessBrainAddresses';
+	import { framePageLabels } from '$lib/components/frame/moduleFolders';
 	import { organisationDomainMessages } from '$lib/components/organisations/domain/organisationDomainMessages';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
 
+	const domainTitle = framePageLabels.domain;
 	const { organisation, canManage, brains, domain } = $derived(data);
 	const addresses = $derived(businessBrainAddresses(organisation.id));
 	const messages = $derived(organisationDomainMessages(organisation.name));
 </script>
 
 <svelte:head>
-	<title>Domain — {organisation.name} — Your Business Today</title>
+	<title>{domainTitle} — {organisation.name} — Your Business Today</title>
 </svelte:head>
 
-<OrganisationPageHeader {organisation}>
+<WorkspaceHeader crumbs={[]} title={domainTitle}>
 	<p class="text-sm text-chalk-subtle">{messages.introduction}</p>
-</OrganisationPageHeader>
+</WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>
 	{#if brains === null}

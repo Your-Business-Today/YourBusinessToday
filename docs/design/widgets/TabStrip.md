@@ -1,7 +1,7 @@
 # TabStrip — design
 Source: the Jewel portals' `TabRow` and `.tab` / `.tab-active` / `.chip-count` recipes (`jpms/Styles/app.tailwind.css`) and YBT's `TabStrip.svelte`, read 10 Nov 2026. Read from code: values mapped to YBT's tokens.
 
-A row of tabs, each changing the pane or the route below it. A content widget. (A filter of local state is a chip, not a tab.)
+A row of tabs, each changing the pane or the route below it. A content widget. A page's one main filter is its tab row too, each tab counting what it holds, as Projects' statuses and Tasks' departments are (James, 12 Nov 2026); a lesser filter beside it is a chip or a search box.
 
 ## Anatomy
 1. **Row**, with a hairline along its foot.
@@ -28,6 +28,7 @@ A row of tabs, each changing the pane or the route below it. A content widget. (
 ## Behaviour
 - The pane changes with `tabSwap`.
 - On a phone the row scrolls sideways; a tab is 44 tall.
+- A page the side bar lists has one row of tabs at most, first in its body under the page header, and no row inside a tab's pane (James, 12 Nov 2026).
 
 ## Unmapped
 - YBT's count today is a pill (`rounded-full`) on `carriage`; the brand makes it `rounded` on `carriage-raised`.

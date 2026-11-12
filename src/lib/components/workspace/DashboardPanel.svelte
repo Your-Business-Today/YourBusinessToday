@@ -4,7 +4,7 @@
 	import BrandSpinner from '$lib/components/site/BrandSpinner.svelte';
 
 	let {
-		title,
+		title = '',
 		count = null,
 		id = undefined,
 		class: panelClasses = '',
@@ -16,7 +16,7 @@
 		toolbar,
 		children
 	}: {
-		title: string;
+		title?: string;
 		count?: number | string | null;
 		id?: string;
 		class?: string;
@@ -35,17 +35,19 @@
 </script>
 
 <section {id} class={`flex min-w-0 flex-col overflow-hidden border border-hairline bg-carriage ${panelClasses}`}>
-	<div class="flex flex-wrap items-center justify-between gap-2 border-b border-hairline px-6 py-4">
-		<div class="flex min-w-0 items-center gap-2">
-			<h2 class="font-display text-lg font-semibold text-chalk">{title}</h2>
-			{#if count !== null}
-				<Badge label={count} />
+	{#if title !== ''}
+		<div class="flex flex-wrap items-center justify-between gap-2 border-b border-hairline px-6 py-4">
+			<div class="flex min-w-0 items-center gap-2">
+				<h2 class="font-display text-lg font-semibold text-chalk">{title}</h2>
+				{#if count !== null}
+					<Badge label={count} />
+				{/if}
+			</div>
+			{#if actions !== undefined}
+				<div class="flex flex-wrap items-center gap-2">{@render actions()}</div>
 			{/if}
 		</div>
-		{#if actions !== undefined}
-			<div class="flex flex-wrap items-center gap-2">{@render actions()}</div>
-		{/if}
-	</div>
+	{/if}
 	{#if toolbar !== undefined}
 		<div class="border-b border-hairline px-6 py-3">{@render toolbar()}</div>
 	{/if}

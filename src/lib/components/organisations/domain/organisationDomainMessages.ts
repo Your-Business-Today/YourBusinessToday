@@ -1,4 +1,4 @@
-/** What the organisation's Domain tab says about the domain it draws, and when it has none to draw. */
+/** What the organisation's Domain page says about the domain it draws, and when it has none to draw. */
 export function organisationDomainMessages(organisationName: string) {
 	return {
 		introduction:

@@ -4,13 +4,13 @@
 	import AccountEntriesTable from '$lib/components/books/AccountEntriesTable.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { formatBritishDate } from '$lib/data/britishDate';
-	import { organisationModuleLabels } from '$lib/data/organisationModules';
+	import { framePageLabels } from '$lib/components/frame/moduleFolders';
 
 	let { data } = $props();
 
 	const { account, period, booksOrganisation, rows, closingBalance, booksHref } = $derived(data);
 	const accountTitle = $derived(`${account.code} ${account.name}`);
-	const crumbs = $derived([{ label: organisationModuleLabels.books, href: booksHref }]);
+	const crumbs = $derived([{ label: framePageLabels.reports, href: booksHref }]);
 	const firstDay = $derived(period.start === null ? 'the start of the books' : formatBritishDate(period.start));
 </script>
 

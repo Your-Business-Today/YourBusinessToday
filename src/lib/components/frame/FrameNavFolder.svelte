@@ -10,6 +10,8 @@
 	let isOpen = $state(true);
 
 	const folderId = $derived(`frame-folder-${section.key}`);
+	const holdsCurrentPage = $derived(section.links.some((link) => link.href === currentHref));
+	const toneClasses = $derived(holdsCurrentPage ? 'text-chalk' : 'text-chalk-subtle');
 </script>
 
 <div class="flex flex-col gap-1">
@@ -18,14 +20,14 @@
 		aria-expanded={isOpen}
 		aria-controls={folderId}
 		onclick={() => (isOpen = !isOpen)}
-		class="flex items-center gap-2 rounded px-3 pt-3 pb-1 font-display text-xs font-medium tracking-wide
-			text-chalk-faint uppercase transition hover:text-chalk"
+		class={`flex items-center justify-between gap-3 rounded px-3 py-3.5 text-left text-sm font-medium transition
+			hover:bg-carriage-raised hover:text-chalk md:py-2 ${toneClasses}`}
 	>
-		<ChevronIcon {isOpen} />
 		{section.label}
+		<ChevronIcon {isOpen} />
 	</button>
 	{#if isOpen}
-		<div id={folderId} class="flex flex-col gap-1" transition:slide={foldOpen}>
+		<div id={folderId} class="ml-3 flex flex-col gap-1 border-l border-hairline pl-2" transition:slide={foldOpen}>
 			{#each section.links as link (link.href)}
 				<FrameNavLink {link} isCurrent={link.href === currentHref} />
 			{/each}

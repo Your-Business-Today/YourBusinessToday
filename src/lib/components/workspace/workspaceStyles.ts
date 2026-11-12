@@ -5,6 +5,8 @@ export const workspaceBodyClasses = `${workspaceWidthClasses} flex flex-col gap-
 export const dashboardGridClasses =
 	'grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] xl:grid-cols-[minmax(0,1fr)_24rem]';
 
+export const paneToolbarClasses = 'flex flex-wrap items-center justify-end gap-3';
+
 export const panelButtonClasses =
 	'rounded-full border border-hairline px-3 py-1 font-display text-xs text-chalk/70 transition hover:border-go hover:text-go disabled:opacity-60';
 
