@@ -31,20 +31,19 @@
 	<title>{register.title} — Your Business Today</title>
 </svelte:head>
 
-{#snippet stageTabs()}
-	<RegisterStageTabs
-		{register}
-		chosenStage={reading.stage}
-		stageCounts={reading.stageCounts}
-		totalCount={reading.totalCount}
-	/>
-{/snippet}
-
-<WorkspaceHeader crumbs={[]} title={register.title} {actions} tabs={stageTabs}>
+<WorkspaceHeader crumbs={[]} title={register.title} {actions}>
 	<p class="text-sm text-chalk-subtle">{register.description}</p>
 </WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>
+	<nav aria-label="Stages">
+		<RegisterStageTabs
+			{register}
+			chosenStage={reading.stage}
+			stageCounts={reading.stageCounts}
+			totalCount={reading.totalCount}
+		/>
+	</nav>
 	<FormErrorNote {message} />
 	{@render children?.()}
 	{#if clients.length === 0}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FinishedProjectsToggle from './FinishedProjectsToggle.svelte';
+	import { paneToolbarClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let {
 		searchText = $bindable(),
@@ -14,7 +15,7 @@
 	} = $props();
 </script>
 
-<div class="flex flex-wrap items-center justify-end gap-3">
+<div class={paneToolbarClasses}>
 	<FinishedProjectsToggle bind:isShowingFinished {finishedCount} />
 	<span class="shrink-0 font-display text-xs text-chalk/50">{countLabel}</span>
 	<input

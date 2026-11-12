@@ -15,6 +15,6 @@ export async function markReachableProjects(
 	return markReachable(projects, new Set(reachableIds));
 }
 
-export function markReachable(projects: OrganisationProject[], reachableIds: Set<string>): ReachableOrganisationProject[] {
+function markReachable(projects: OrganisationProject[], reachableIds: Set<string>): ReachableOrganisationProject[] {
 	return projects.map((project) => ({ ...project, isReachable: reachableIds.has(project.id) }));
 }

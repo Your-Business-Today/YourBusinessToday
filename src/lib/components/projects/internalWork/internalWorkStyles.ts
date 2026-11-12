@@ -40,5 +40,12 @@ export const groupToneClasses: Partial<Record<Department, string>> = {
 	marketing: 'border-caution text-caution'
 };
 
+/** The same colours as a dot beside a department's name, where its jobs are listed in one table with the others'. */
+export const departmentDotClasses: Partial<Record<Department, string>> = {
+	administration: 'bg-daylight',
+	sales: 'bg-go',
+	marketing: 'bg-caution'
+};
+
 export const inPlaceFieldClasses =
 	'rounded border border-transparent bg-transparent px-1.5 py-1 text-sm text-chalk-muted hover:border-hairline focus:border-hairline-strong';

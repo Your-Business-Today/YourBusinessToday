@@ -1,14 +1,18 @@
 <script lang="ts">
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
-	import TeamWorkGroupTable from '$lib/components/organisations/teamWork/TeamWorkGroupTable.svelte';
+	import TabStrip from '$lib/components/workspace/TabStrip.svelte';
+	import TeamWorkTable from '$lib/components/organisations/teamWork/TeamWorkTable.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
+	import { everyDepartmentTab, teamWorkOnTab, teamWorkTabsFor } from '$lib/components/organisations/teamWork/teamWorkTabs';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
 
 	const tasksTitle = 'Tasks';
 	const { organisation, groups } = $derived(data);
-	const openItemCount = $derived(groups.flatMap(({ items }) => items).length);
+	let selectedTab = $state(everyDepartmentTab);
+	const tabs = $derived(teamWorkTabsFor(groups));
+	const shownItems = $derived(teamWorkOnTab(groups, selectedTab));
 </script>
 
 <svelte:head>
@@ -20,9 +24,10 @@
 </WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>
-	<DashboardPanel title="Open jobs" count={openItemCount}>
-		{#each groups as group (group.department)}
-			<TeamWorkGroupTable {group} />
-		{/each}
+	<nav aria-label="Departments">
+		<TabStrip {tabs} bind:selectedKey={selectedTab} />
+	</nav>
+	<DashboardPanel>
+		<TeamWorkTable items={shownItems} />
 	</DashboardPanel>
 </div>

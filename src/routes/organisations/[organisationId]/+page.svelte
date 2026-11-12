@@ -2,7 +2,7 @@
 	import DangerConfirmModal from '$lib/components/site/DangerConfirmModal.svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import OrganisationOverviewTabs from '$lib/components/organisations/OrganisationOverviewTabs.svelte';
-	import OrganisationPageHeader from '$lib/components/organisations/OrganisationPageHeader.svelte';
+	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { headerDangerButtonClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data, form } = $props();
@@ -16,7 +16,7 @@
 	<title>{organisation.name} — Organisations — Your Business Today</title>
 </svelte:head>
 
-<OrganisationPageHeader {organisation}>
+<WorkspaceHeader crumbs={[]} title={organisation.name}>
 	{#snippet actions()}
 		{#if data.isStaff}
 			<button type="button" onclick={() => (isDeleteModalOpen = true)} class={headerDangerButtonClasses}>
@@ -25,13 +25,12 @@
 		{/if}
 	{/snippet}
 	<p class="text-sm text-chalk-subtle">Everyone on {organisation.name} is on every project under it.</p>
-</OrganisationPageHeader>
+</WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
 	<OrganisationOverviewTabs
 		{organisation}
-		projects={data.projects}
 		members={data.members}
 		modules={data.modules}
 		directors={data.directors}

@@ -4,7 +4,7 @@ Source: the Jewel portals' `Panel` and `.panel` / `.panel-header` recipes (`jpms
 The panel: the square, bordered box that holds a table, a list, a form or a figure. It is a container widget, so it draws the box that the content widgets inside it do not.
 
 ## Anatomy
-1. **Header**: the title, with a count beside it; the panel's actions on the right.
+1. **Header** (optional): the title, with a count beside it; the panel's actions on the right.
 2. **Toolbar** (optional): a row of filters or a search under the header.
 3. **Body**: the content, padded, or flush when it is a table or a list that runs to the edges.
 
@@ -30,6 +30,7 @@ The panel: the square, bordered box that holds a table, a list, a form or a figu
 ## Variants
 - Scrolling: the body scrolls inside a maximum height (`max-h-*` on the body), and a table's header sticks to its top.
 - Flush: the body has no padding, for a table or a list.
+- Untitled: no header, where the page's heading or the tab above already says what the panel holds; a title there would say it twice. Its filters and its one action then sit in a row above the box, on the right (`paneToolbarClasses`), never inside it.
 
 ## Behaviour
 - Nothing of its own: it frames what it holds.

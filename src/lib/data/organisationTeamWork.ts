@@ -2,10 +2,11 @@ import { departmentLabels, type Department } from './department';
 import { internalDepartments } from './boardSide';
 import type { TaskStatus } from './taskStatus';
 
-/** One of the team's jobs as the organisation's Task Management lists it: what it is, on which product, and when it is due. */
+/** One of the team's jobs as the organisation's Tasks page lists it: what it is, whose department does it, on which product, and when it is due. */
 export type TeamWorkItem = {
 	id: string;
 	title: string;
+	department: Department;
 	status: TaskStatus;
 	dueDate: string | null;
 	productName: string;
@@ -30,9 +31,15 @@ export function teamWorkGroups(tasks: TeamTask[], products: Product[]): TeamWork
 	});
 }
 
+/** Every department's jobs as one list, the soonest due first. */
+export function teamWorkAcross(groups: TeamWorkGroup[]): TeamWorkItem[] {
+	return groups.flatMap(({ items }) => items).sort(bySoonestDue);
+}
+
 function teamWorkItemOf(task: TeamTask, productName: string): TeamWorkItem {
-	const href = `/projects/${task.projectId}/tasks/${task.id}`;
-	return { id: task.id, title: task.title, status: task.status, dueDate: task.dueDate, productName, href };
+	const { id, title, department, status, dueDate } = task;
+	const href = `/projects/${task.projectId}/tasks/${id}`;
+	return { id, title, department, status, dueDate, productName, href };
 }
 
 function bySoonestDue(first: TeamWorkItem, second: TeamWorkItem): number {

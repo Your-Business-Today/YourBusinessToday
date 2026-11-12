@@ -1,19 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { currentOrganisationPage, organisationPageLinks, organisationPages } from './organisationPages';
+import { organisationHref, organisationPages } from './organisationPages';
 
 const harbour = 'harbour-group';
 
-describe('organisationPageLinks', () => {
-	it('gives an organisation Overview and Domain, and leaves its tasks to the side bar', () => {
-		const links = organisationPageLinks(harbour);
-		expect(links.map(({ label }) => label)).toEqual(['Overview', 'Domain']);
-		expect(links.map(({ href }) => href)).toEqual(['/organisations/harbour-group', '/organisations/harbour-group/domain']);
+describe('organisationHref', () => {
+	it('gives the overview the organisation’s own address', () => {
+		expect(organisationHref(harbour)).toBe('/organisations/harbour-group');
+		expect(organisationHref(harbour, organisationPages.overview)).toBe('/organisations/harbour-group');
 	});
-});
 
-describe('currentOrganisationPage', () => {
-	it('finds the tab a page sits under', () => {
-		expect(currentOrganisationPage(harbour, '/organisations/harbour-group')).toBe(organisationPages.overview);
-		expect(currentOrganisationPage(harbour, '/organisations/harbour-group/domain')).toBe(organisationPages.domain);
+	it('gives each other page its own address beneath it, for the side bar to link to', () => {
+		expect(organisationHref(harbour, organisationPages.domain)).toBe('/organisations/harbour-group/domain');
+		expect(organisationHref(harbour, organisationPages.taskManagement)).toBe('/organisations/harbour-group/task-management');
 	});
 });
