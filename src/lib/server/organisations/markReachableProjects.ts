@@ -11,6 +11,10 @@ export async function markReachableProjects(
 	viewerId: string,
 	projects: OrganisationProject[]
 ): Promise<ReachableOrganisationProject[]> {
-	const reachableIds = new Set(await getReachableProjectIds(supabase, viewerId));
+	const reachableIds = await getReachableProjectIds(supabase, viewerId);
+	return markReachable(projects, new Set(reachableIds));
+}
+
+export function markReachable(projects: OrganisationProject[], reachableIds: Set<string>): ReachableOrganisationProject[] {
 	return projects.map((project) => ({ ...project, isReachable: reachableIds.has(project.id) }));
 }
