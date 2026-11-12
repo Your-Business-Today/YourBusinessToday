@@ -1,16 +1,17 @@
 /**
  * The modules an administrator switches on for an organisation. The values are the ones the
- * organisation_modules.module column accepts (migration 0145): a new module is added to both.
+ * organisation_modules.module column accepts (migrations 0145 and 0202): a new module is added to both.
  */
-export const organisationModules = ['books', 'brand', 'business_brain', 'boardroom'] as const;
+export const organisationModules = ['books', 'brand', 'business_brain', 'boardroom', 'sales'] as const;
 
 export type OrganisationModule = (typeof organisationModules)[number];
 
 export const organisationModuleLabels: Record<OrganisationModule, string> = {
-	books: 'Books',
+	books: 'Accounts',
 	brand: 'Brand',
 	business_brain: 'Your Business Brain',
-	boardroom: 'Boardroom'
+	boardroom: 'Boardroom',
+	sales: 'Sales'
 };
 
 /** The route segment each module's pages live under, beneath /organisations/<id>/. */
@@ -18,7 +19,8 @@ export const organisationModuleRouteSegments: Record<OrganisationModule, string>
 	books: 'books',
 	brand: 'brand',
 	business_brain: 'business-brain',
-	boardroom: 'boardroom'
+	boardroom: 'boardroom',
+	sales: 'sales'
 };
 
 export function isOrganisationModule(value: string): value is OrganisationModule {

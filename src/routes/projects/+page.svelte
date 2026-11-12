@@ -3,18 +3,14 @@
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewProjectForm from '$lib/components/projects/NewProjectForm.svelte';
 	import PriorityModal from '$lib/components/site/PriorityModal.svelte';
-	import ProjectBoardTabs from '$lib/components/projects/ProjectBoardTabs.svelte';
+	import ProjectBoard from '$lib/components/projects/ProjectBoard.svelte';
 	import ProjectEditModals from '$lib/components/projects/ProjectEditModals.svelte';
 	import ProjectsPageHeader from '$lib/components/projects/ProjectsPageHeader.svelte';
 	import WaitingOnYouSection from '$lib/components/projects/WaitingOnYouSection.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { ProjectListView } from '$lib/client/projectListView.svelte';
-	import {
-		boardPriorityChoice,
-		teamPriorityChoice,
-		type PriorityChoice
-	} from '$lib/client/projectPriorityChoice';
-	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
+	import { boardPriorityChoice, type PriorityChoice } from '$lib/client/projectPriorityChoice';
+	import type { ListedProject } from '$lib/server/projects/getProjectsForUser';
 
 	let { data, form } = $props();
 
@@ -22,17 +18,17 @@
 	let isEditModalOpen = $state(false);
 	let isDeleteModalOpen = $state(false);
 	let isPriorityModalOpen = $state(false);
-	let selectedProject = $state<ProjectSummary | null>(null);
+	let selectedProject = $state<ListedProject | null>(null);
 	let priorityChoice = $state<PriorityChoice | null>(null);
 
 	const listView = new ProjectListView(() => data.projects);
 
-	function openEditModal(project: ProjectSummary) {
+	function openEditModal(project: ListedProject) {
 		selectedProject = project;
 		isEditModalOpen = true;
 	}
 
-	function openDeleteModal(project: ProjectSummary) {
+	function openDeleteModal(project: ListedProject) {
 		selectedProject = project;
 		isDeleteModalOpen = true;
 	}
@@ -52,14 +48,12 @@
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
 	<WaitingOnYouSection waitingTasks={data.waitingTasks} />
-	<ProjectBoardTabs
+	<ProjectBoard
 		{listView}
-		teamProjects={data.teamProjects}
 		latestKitVersion={data.latestKitVersion}
 		onEdit={openEditModal}
 		onDelete={openDeleteModal}
 		onSetPriority={(project) => openPriorityModal(boardPriorityChoice(project, listView.placeOf(project.id)))}
-		onSetTeamPriority={(project) => openPriorityModal(teamPriorityChoice(project))}
 	/>
 </div>
 

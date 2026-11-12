@@ -5,46 +5,31 @@
 	import { flip } from 'svelte/animate';
 	import { rowMove } from '$lib/client/motion';
 	import { rowLink } from '$lib/client/rowLink';
-	import { topRank } from '$lib/data/topRank';
-	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
+	import type { ProjectListRow } from '$lib/client/projectListView.svelte';
+	import type { ListedProject } from '$lib/server/projects/getProjectsForUser';
 
 	let {
-		projects,
+		rows,
 		latestKitVersion,
-		firstPositionNumber,
-		projectCount,
 		shownIds,
 		onEdit,
 		onDelete,
 		onSetPriority
 	}: {
-		projects: ProjectSummary[];
+		rows: ProjectListRow[];
 		latestKitVersion: string;
-		firstPositionNumber: number;
-		projectCount: number;
 		shownIds: string;
-		onEdit: (project: ProjectSummary) => void;
-		onDelete: (project: ProjectSummary) => void;
-		onSetPriority: (project: ProjectSummary) => void;
+		onEdit: (project: ListedProject) => void;
+		onDelete: (project: ListedProject) => void;
+		onSetPriority: (project: ListedProject) => void;
 	} = $props();
 </script>
 
 <ul class={projectTableClasses}>
 	<ProjectTableHeader columns={projectColumns} />
-	{#each projects as project, projectIndex (project.id)}
-		{@const position = firstPositionNumber + projectIndex}
-		<li animate:flip={rowMove} use:rowLink={`/projects/${project.id}`} class={projectRowClasses}>
-			<ProjectRow
-				{project}
-				{latestKitVersion}
-				{position}
-				{shownIds}
-				isFirst={position === topRank}
-				isLast={position === projectCount}
-				{onEdit}
-				{onDelete}
-				{onSetPriority}
-			/>
+	{#each rows as row (row.id)}
+		<li animate:flip={rowMove} use:rowLink={`/projects/${row.id}`} class={projectRowClasses}>
+			<ProjectRow {row} {latestKitVersion} {shownIds} {onEdit} {onDelete} {onSetPriority} />
 		</li>
 	{/each}
 </ul>

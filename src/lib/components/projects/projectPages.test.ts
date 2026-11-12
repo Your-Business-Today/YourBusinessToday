@@ -23,10 +23,9 @@ describe('projectPageLinks', () => {
 });
 
 describe('currentProjectPage', () => {
-	it('puts the backlogs, the board, the deploys and the site map under Development', () => {
+	it('puts the backlogs, the deploys and the site map under Development', () => {
 		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site'))).toBe(projectPages.development);
 		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site?department=bugs'))).toBe(projectPages.development);
-		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site?view=board'))).toBe(projectPages.development);
 		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/staged'))).toBe(projectPages.development);
 		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/site-map'))).toBe(projectPages.development);
 	});

@@ -3,7 +3,7 @@
 	import ProjectPagination from './ProjectPagination.svelte';
 	import ProjectTable from './ProjectTable.svelte';
 	import type { ProjectListView } from '$lib/client/projectListView.svelte';
-	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
+	import type { ListedProject } from '$lib/server/projects/getProjectsForUser';
 
 	let {
 		listView,
@@ -14,9 +14,9 @@
 	}: {
 		listView: ProjectListView;
 		latestKitVersion: string;
-		onEdit: (project: ProjectSummary) => void;
-		onDelete: (project: ProjectSummary) => void;
-		onSetPriority: (project: ProjectSummary) => void;
+		onEdit: (project: ListedProject) => void;
+		onDelete: (project: ListedProject) => void;
+		onSetPriority: (project: ListedProject) => void;
 	} = $props();
 </script>
 
@@ -33,10 +33,8 @@
 	</p>
 {:else}
 	<ProjectTable
-		projects={listView.pagedProjects}
+		rows={listView.pagedRows}
 		{latestKitVersion}
-		firstPositionNumber={listView.firstPositionNumber}
-		projectCount={listView.matchCount}
 		shownIds={listView.shownIds}
 		{onEdit}
 		{onDelete}
