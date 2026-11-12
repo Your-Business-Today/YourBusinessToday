@@ -1,13 +1,14 @@
 <script lang="ts">
 	import AskClaudeToResearch from '$lib/components/clients/AskClaudeToResearch.svelte';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
+	import { leadsRegister } from '$lib/data/salesRegisters';
 
 	let { data } = $props();
 
 	const { existingClient } = $derived(data);
 	const clientId = $derived(existingClient?.id ?? null);
-	const backHref = $derived(clientId === null ? '/clients' : `/clients/${clientId}`);
-	const backLabel = $derived(existingClient === null ? 'Clients' : existingClient.name);
+	const backHref = $derived(clientId === null ? leadsRegister.path : `/clients/${clientId}`);
+	const backLabel = $derived(existingClient === null ? leadsRegister.title : existingClient.name);
 </script>
 
 <svelte:head>

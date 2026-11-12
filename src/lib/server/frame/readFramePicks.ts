@@ -3,7 +3,7 @@ import { organisationHomePathFor, organisationPageLinksFor } from './projectPage
 import { readModuleLinks } from './moduleLinks';
 import { readPickOrganisations, type PickOrganisation } from './pickOrganisations';
 import { readPickProjects } from './pickProjects';
-import type { NavigationLink } from '$lib/components/site/siteNavigation';
+import type { FrameLink } from '$lib/components/frame/frameGroups';
 import type { RememberedPicks } from './rememberedPicks';
 
 /** The side bar's picks, with the organisation picked, which says how to remember the pick. */
@@ -51,7 +51,7 @@ async function moduleLinksOf(
 	locals: App.Locals,
 	accountId: string,
 	organisation: PickOrganisation
-): Promise<NavigationLink[]> {
+): Promise<FrameLink[]> {
 	const { organisationId } = organisation;
 	if (organisationId === null) return [];
 	return readModuleLinks(locals, accountId, organisationId);

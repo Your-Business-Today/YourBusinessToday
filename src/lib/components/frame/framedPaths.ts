@@ -3,6 +3,7 @@ const pathSeparator = '/';
 const framedSections = [
 	'/admin',
 	'/clients',
+	'/leads',
 	'/notifications',
 	'/organisations',
 	'/people',

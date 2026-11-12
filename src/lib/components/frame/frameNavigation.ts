@@ -3,6 +3,7 @@ import {
 	adminLink,
 	canSeeOrganisations,
 	clientsLink,
+	leadsLink,
 	organisationsLink,
 	projectsLink,
 	type NavigationAccess,
@@ -15,6 +16,7 @@ import {
 	portalHomePath,
 	portalPeoplePath
 } from '$lib/portal/portalPaths';
+import type { FrameLink } from './frameGroups';
 
 /** What a signed-in person may open, as the site's layout reads it. */
 export type FrameAccess = {
@@ -34,12 +36,19 @@ const portalLinks: NavigationLink[] = [
 
 const portalPeopleLink: NavigationLink = { href: portalPeoplePath, label: 'People' };
 
+const workProjectsLink: FrameLink = { ...projectsLink, group: 'work' };
+
+const salesRegisterLinks: FrameLink[] = [
+	{ ...leadsLink, group: 'sales' },
+	{ ...clientsLink, group: 'sales' }
+];
+
 /** The side bar's links beyond the picked organisation's own: work inside an organisation, and nothing above one. */
-export function frameLinksFor(access: FrameAccess): NavigationLink[] {
+export function frameLinksFor(access: FrameAccess): FrameLink[] {
 	if (access.isPortalAccount) return portalLinksFor(access.isPortalAdministrator);
 	const { isStaff } = siteAccessOf(access);
-	if (!isStaff) return [projectsLink];
-	return [projectsLink, clientsLink];
+	if (!isStaff) return [workProjectsLink];
+	return [workProjectsLink, ...salesRegisterLinks];
 }
 
 /** The top-right menu's links: what sits above any one organisation, and the person's own account. */

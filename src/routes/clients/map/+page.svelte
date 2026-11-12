@@ -21,7 +21,7 @@
 
 <div class="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-16">
 	<div class="flex flex-col gap-2">
-		<a href="/clients" class="font-display text-sm text-chalk/50 hover:text-chalk">← Clients</a>
+		<a href="/leads" class="font-display text-sm text-chalk/50 hover:text-chalk">← Leads</a>
 		<PageTitle>Map an area</PageTitle>
 		<p class="text-chalk/70">A postcode and a radius: every company registered there, and where we stand with each.</p>
 	</div>
