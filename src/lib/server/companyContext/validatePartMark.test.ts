@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { companyContextLimits } from '$lib/data/companyContext/companyContextLimits';
-import { validatePartMark } from './validatePartMark';
+import { validatePartMark, validatePartMarkValues } from './validatePartMark';
 
 function markForm(values: Record<string, string>): FormData {
 	const form = new FormData();
@@ -44,5 +44,15 @@ describe("a client's mark on a part, read from the portal's form", () => {
 		expect(refusalFor({ reviewState: 'right', versionNumber: '2.5' })).toContain('whole number');
 		expect(refusalFor({ reviewState: 'right', versionNumber: '0' })).toContain('whole number');
 		expect(refusalFor({ reviewState: 'right', partKey: 'Quoting Process' })).toContain('lower-case words');
+	});
+
+	it('reads the same mark from the values a connector call gives, the version as a number', () => {
+		expect(validatePartMarkValues({ versionNumber: 3, partKey: 'quoting', reviewState: 'right' })).toEqual({
+			versionNumber: 3,
+			partKey: 'quoting',
+			reviewState: 'right',
+			whatIsWrong: null
+		});
+		expect(validatePartMarkValues({ partKey: 'quoting', reviewState: 'right' })).toHaveProperty('refusal');
 	});
 });

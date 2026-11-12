@@ -93,7 +93,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-079 | delete a mistaken client record | staff | write | `deleteClient` | `delete_client` | `/clients/{clientId}` |
 | US-080 | research a company and save the findings, its filings and its job adverts | staff | write | `/clients/research` | `save_company_research` `read_company_filings` `read_company_job_adverts` `save_company_job_adverts` | `/clients/{clientId}` `/clients/research` |
 | US-081 | search Companies House by SIC code and place and add a company as a lead, with its directors | staff | write | `addLead` `addLeadWithDirectors` | `search_companies_house` `add_company_as_lead` | `/clients/prospect` `/clients/map` |
-| US-082 | see the companies around a postcode on the map | staff | read | `/clients/map` load | — | `/clients/map` |
+| US-082 | see the companies around a postcode on the map | staff | read | `/clients/map` load | `read_area_map` | `/clients/map` |
 | US-083 | read the feed of what changed across the register | staff | read | `/clients/feed` load | `read_patch_feed` | `/clients/feed` |
 | US-084 | read, run and record a client's company context | staff | write | `/clients/{clientId}/context` load | `read_company_context` `start_context_run` `record_company_context` `read_confirmed_company_context` | `/clients/{clientId}/context` |
 | US-085 | name who brought a lead or client in | staff | write | `setBroughtInBy` | `set_client_brought_in_by` | `/clients/{clientId}` |
@@ -135,7 +135,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-112 | invite a person to an organisation, make them its manager, take them off it | staff | write | `invitePerson` `setManager` `removeMember` | `invite_to_organisation` `set_organisation_manager` `remove_organisation_member` | `/organisations/{organisationId}` |
 | US-113 | switch a module on or off for an organisation | staff | write | `setModule` | `set_organisation_module` | `/organisations/{organisationId}` |
 | US-114 | name a director of an organisation | staff | write | `setDirector` | `set_organisation_director` | `/organisations/{organisationId}` |
-| US-115 | delete an organisation | staff | write | `deleteOrganisation` | — | `/organisations/{organisationId}` |
+| US-115 | delete an organisation | staff | write | `deleteOrganisation` | `delete_organisation` | `/organisations/{organisationId}` |
 | US-116 | see the open work of an organisation's team, department by department | member | read | `/organisations/{organisationId}/task-management` load | `read_team_work` | `/organisations/{organisationId}/task-management` |
 | US-117 | read and set an organisation's domain | manager | write | `/organisations/{organisationId}/domain` load | `read_business_brain_domain` `file_business_brain_domain` `start_business_brain_domain_run` | `/organisations/{organisationId}/domain` |
 
@@ -147,8 +147,8 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-121 | call a meeting with its agenda, and change the agenda | director | write | `callMeeting` | `call_board_meeting` `change_board_agenda` | `/organisations/{organisationId}/boardroom` |
 | US-122 | open the room, read an item, brief it and speak on it | director | write | `briefItem` | `open_board_room` `read_board_meeting` `read_board_item` `brief_board_item` `speak_on_board_item` | `/organisations/{organisationId}/boardroom/{meetingId}` |
 | US-123 | put a paper before the board and read one | director | write | `/organisations/{organisationId}/boardroom/{meetingId}` | `add_board_paper` `add_board_paper_from_records` `record_board_paper_upload` `read_board_paper` `read_board_brief` | `/organisations/{organisationId}/boardroom/{meetingId}` |
-| US-124 | steer my own Claude in the room and change its seat settings | director | write | `steerClaude` `changeSetting` | — | `/organisations/{organisationId}/boardroom/{meetingId}` |
-| US-125 | answer a contribution my Claude held back | director | write | `answerHeld` | — | `/organisations/{organisationId}/boardroom/{meetingId}` |
+| US-124 | steer my own Claude in the room and change its seat settings | director | write | `steerClaude` `changeSetting` | `steer_own_claude` `change_own_claude_setting` | `/organisations/{organisationId}/boardroom/{meetingId}` |
+| US-125 | answer a contribution my Claude held back | director | write | `answerHeld` | `answer_held_contribution` | `/organisations/{organisationId}/boardroom/{meetingId}` |
 | US-126 | answer a decision and set a decision rule | director | write | `answerDecision` | `answer_board_decision` `record_board_decision_rule` | `/organisations/{organisationId}/boardroom/{meetingId}` |
 | US-127 | close the meeting, write and answer the minutes, record the actions | director | write | `closeMeeting` `answerMinutes` `recordAction` `raiseActions` | `close_board_meeting` `write_board_minutes` `read_board_minutes` `answer_board_minutes` `record_board_action` `raise_board_actions` | `/organisations/{organisationId}/boardroom/{meetingId}` |
 
@@ -193,10 +193,10 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | --- | --- | --- | --- | --- | --- | --- |
 | US-160 | see my company's projects and raise a request on one | client contact | write | `/portal/projects/{projectId}` load | `list_portal_projects` `raise_portal_request` | `/portal` `/portal/projects/{projectId}` |
 | US-161 | read where my requests stand and reply on one | client contact | write | `/portal/projects/{projectId}` load | `list_portal_requests` `reply_to_portal_request` | `/portal/projects/{projectId}` |
-| US-162 | read my company's context and mark each part right or wrong | client contact | write | `markPart` | — | `/portal/context` |
-| US-163 | confirm my company's context | client contact | write | `confirmContext` | — | `/portal/context` |
-| US-164 | see who at my company can sign in, invite someone, take them off, make them administrator | client contact | write | `invitePerson` `removePerson` `setAdministrator` | — | `/portal/people` |
-| US-165 | see my company's invoices and pay one | client contact | write | `pay` | — | `/portal/billing` |
+| US-162 | read my company's context and mark each part right or wrong | client contact | write | `markPart` | `read_my_company_context` `mark_context_part` | `/portal/context` |
+| US-163 | confirm my company's context | client contact | write | `confirmContext` | `confirm_company_context` | `/portal/context` |
+| US-164 | see who at my company can sign in, invite someone, take them off, make them administrator | client contact | write | `invitePerson` `removePerson` `setAdministrator` | `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` | `/portal/people` |
+| US-165 | see my company's invoices and pay one | client contact | write | `pay` | `list_my_invoices` `pay_invoice` | `/portal/billing` |
 
 ## 15-admin
 
@@ -207,9 +207,9 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-172 | restrict an account, or lift the restriction | admin | write | `setRestriction` | `set_account_restriction` | `/admin` |
 | US-173 | send someone a password reset | admin | write | `sendPasswordReset` | `send_password_reset` | `/admin` |
 | US-174 | delete an account | admin | write | `deleteUser` | `delete_account` | `/admin` |
-| US-175 | read and set the build models and the review model | admin | write | `saveBuildModel` `removeBuildModel` `setReviewModel` | `read_model_settings` `save_build_model` | `/admin` |
-| US-176 | see the Stripe payments to check and mark one dealt with | admin | write | `dealtWith` | `read_stripe_payments_to_check` | `/admin/stripe-payments` |
-| US-177 | read the client documents and download one | admin | read | `/admin/documents/{slug}` load | — | `/admin/documents` `/admin/documents/{slug}` |
+| US-175 | read and set the build models and the review model | admin | write | `saveBuildModel` `removeBuildModel` `setReviewModel` | `read_model_settings` `save_build_model` `remove_build_model` `set_review_model` | `/admin` |
+| US-176 | see the Stripe payments to check and mark one dealt with | admin | write | `dealtWith` | `read_stripe_payments_to_check` `mark_stripe_payment_dealt_with` | `/admin/stripe-payments` |
+| US-177 | read the client documents and download one | admin | read | `/admin/documents/{slug}` load | `list_client_documents` `read_client_document` (the Word pack stays a page download) | `/admin/documents` `/admin/documents/{slug}` |
 | US-178 | read a server error by its reference and the data inventory | admin | read | the error page | `read_server_error` `read_data_inventory` | `/admin` |
 
 ## Connector only, by design
@@ -229,9 +229,4 @@ These have no screen because the person's Claude is the only one who needs them:
 
 ## The gaps, as the build list
 
-| Task | Stories | Actions to add |
-| --- | --- | --- |
-| Models, Stripe payments, client documents and organisation deletion through the connector | US-115 US-175 US-176 US-177 | `remove_build_model` `set_review_model` `mark_stripe_payment_dealt_with` `list_client_documents` `read_client_document` `delete_organisation` |
-| The client portal through the connector | US-162 US-163 US-164 US-165 | `read_my_company_context` `mark_context_part` `confirm_company_context` `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` `list_my_invoices` `pay_invoice` |
-| Boardroom seat controls through the connector | US-124 US-125 | `steer_own_claude` `change_own_claude_setting` `answer_held_contribution` |
-| The area map through the connector | US-082 | `read_area_map` |
+None. Every story the site serves has its connector door above, and the rest is listed under *By design, not for the connector*. A story added to the site is added here with its door, or with `—` and a row in this list until the door is built.

@@ -25,14 +25,24 @@ const whatIsWrongField = 'What is wrong';
 
 /** Reads a mark from the portal's form and refuses the first value that does not fit its column. */
 export function validatePartMark(formData: FormData): PartMark | Refusal {
-	const versionNumber = readVersionNumber(textOf(formData, partMarkFields.versionNumber));
+	return validatePartMarkValues({
+		versionNumber: textOf(formData, partMarkFields.versionNumber),
+		partKey: textOf(formData, partMarkFields.partKey),
+		reviewState: formData.get(partMarkFields.reviewState),
+		whatIsWrong: formData.get(partMarkFields.whatIsWrong)
+	});
+}
+
+/** The same reading from the values a connector call gives, so the two doors keep one check. */
+export function validatePartMarkValues(values: Record<string, unknown>): PartMark | Refusal {
+	const versionNumber = readVersionNumber(String(values.versionNumber ?? '').trim());
 	if (isRefused(versionNumber)) return versionNumber;
-	const partKey = readPartKey(textOf(formData, partMarkFields.partKey));
+	const partKey = readPartKey(String(values.partKey ?? '').trim());
 	if (isRefused(partKey)) return partKey;
-	const reviewState = readChoice(formData.get(partMarkFields.reviewState), markChoices, 'The mark');
+	const reviewState = readChoice(values.reviewState, markChoices, 'The mark');
 	if (isRefused(reviewState)) return reviewState;
 	const rule = { field: whatIsWrongField, limit: limits.whatIsWrongLength };
-	const whatIsWrong = readOptionalText(formData.get(partMarkFields.whatIsWrong), rule);
+	const whatIsWrong = readOptionalText(values.whatIsWrong, rule);
 	if (isRefused(whatIsWrong)) return whatIsWrong;
 	const isNotRight = reviewState === reviewStates.notRight;
 	if (isNotRight && whatIsWrong === null) return { refusal: 'Say what is wrong, so your Claude can put it right.' };

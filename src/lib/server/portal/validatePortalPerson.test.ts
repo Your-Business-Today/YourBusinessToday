@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { validateAdministratorChoice, validatePortalInvite } from './validatePortalPerson';
+import { validateAdministratorChoice, validatePortalInvite, validatePortalInviteValues } from './validatePortalPerson';
 
 function formWith(fields: Record<string, string>): FormData {
 	const formData = new FormData();
@@ -27,6 +27,13 @@ describe('validatePortalInvite', () => {
 	it('refuses a name longer than the limit rather than cutting it short', () => {
 		const invite = validatePortalInvite(formWith({ ...stuart, name: 'S'.repeat(201) }));
 		expect(invite).toEqual({ refusal: 'The name is too long: keep it to 200 characters.' });
+	});
+
+	it('reads the same person from the values a connector call gives', () => {
+		const values: Record<string, string> = { ...stuart };
+		const invite = validatePortalInviteValues((field) => values[field] ?? '', false);
+		expect(invite).toEqual({ ...stuart, email: 'stuart@jewelpfp.co.uk', isAdministrator: false });
+		expect(validatePortalInviteValues(() => '', true)).toEqual({ refusal: 'Give the person’s name.' });
 	});
 });
 

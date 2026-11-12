@@ -14,6 +14,7 @@ import { complexityActions } from './complexityActions';
 import { taskSequenceActions } from './taskSequenceActions';
 import { lifecycleActions } from './lifecycleActions';
 import { localBuildActions } from './localBuildActions';
+import { buildModelAdminActions } from './buildModelAdminActions';
 import { modelSettingsActions } from './modelSettingsActions';
 import { saveBuildModelAction } from './saveBuildModelAction';
 import { taskAttachmentReadActions } from './taskAttachmentReadActions';
@@ -44,6 +45,7 @@ export const taskActions: McpAction[] = [
 	...lifecycleActions,
 	...modelSettingsActions,
 	saveBuildModelAction,
+	...buildModelAdminActions,
 	...buildableActions,
 	...localBuildActions,
 	...taskOrderActions,

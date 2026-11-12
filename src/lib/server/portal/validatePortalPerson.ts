@@ -1,7 +1,7 @@
 import { isEmailShaped } from '$lib/data/emailShape';
 import { isUuid } from '$lib/data/isUuid';
 import { portalPersonLimits } from '$lib/portal/portalPerson';
-import { textOf, tooLong, type Refusal } from './portalFormReading';
+import { formValues, textOf, tooLong, type Refusal, type ValueReader } from './portalFormReading';
 
 export type PortalInvite = { name: string; email: string; role: string; isAdministrator: boolean };
 
@@ -12,9 +12,15 @@ const administratorValue = 'true';
 
 /** The person an administrator typed in to invite, or why they cannot be invited as typed. */
 export function validatePortalInvite(formData: FormData): PortalInvite | Refusal {
-	const name = textOf(formData, 'name');
-	const email = textOf(formData, 'email').toLowerCase();
-	const role = textOf(formData, 'role');
+	const isAdministrator = formData.get('isAdministrator') === checkedBox;
+	return validatePortalInviteValues(formValues(formData), isAdministrator);
+}
+
+/** The same reading from the values a connector call gives, so the two doors keep one check. */
+export function validatePortalInviteValues(read: ValueReader, isAdministrator: boolean): PortalInvite | Refusal {
+	const name = read('name');
+	const email = read('email').toLowerCase();
+	const role = read('role');
 	if (name === '') return { refusal: 'Give the person’s name.' };
 	if (name.length > portalPersonLimits.nameLength)
 		return tooLong('The name', portalPersonLimits.nameLength);
@@ -23,7 +29,6 @@ export function validatePortalInvite(formData: FormData): PortalInvite | Refusal
 	if (!isEmailShaped(email)) return { refusal: 'Give an email address the invitation can go to.' };
 	if (role.length > portalPersonLimits.roleLength)
 		return tooLong('The role', portalPersonLimits.roleLength);
-	const isAdministrator = formData.get('isAdministrator') === checkedBox;
 	return { name, email, role, isAdministrator };
 }
 
