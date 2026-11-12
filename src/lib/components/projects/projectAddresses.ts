@@ -6,8 +6,8 @@ export const projectSegments = {
 	deploys: 'deploys'
 } as const;
 
-/** What the board's address can name: the department open on it, and whether the scrum board is shown. */
-export const boardQueryKeys = { department: 'department', view: 'view' } as const;
+/** What the board's address can name: the department open on it. */
+export const boardQueryKeys = { department: 'department' } as const;
 
 export function projectHref(projectId: string, segment?: string): string {
 	const boardHref = `/projects/${projectId}`;

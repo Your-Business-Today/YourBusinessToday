@@ -11,7 +11,6 @@ import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { sequenceStandingsOf } from '$lib/data/taskSequenceStanding';
 import { taskActions } from './taskActions';
 import { readBoard } from './readBoard';
-import { developmentViewOf } from '$lib/data/developmentView';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
@@ -32,7 +31,6 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 		sequenceByTask: sequenceStandingsOf(projectTasks),
 		...board,
 		...buildBoard,
-		developmentView: developmentViewOf(url),
 		viewerId: user.id
 	};
 };
