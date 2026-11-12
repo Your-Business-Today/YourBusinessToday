@@ -1,7 +1,10 @@
 import {
 	accountLinksFor,
-	businessLinksFor,
-	workLinksFor,
+	adminLink,
+	canSeeOrganisations,
+	clientsLink,
+	organisationsLink,
+	projectsLink,
 	type NavigationAccess,
 	type NavigationLink
 } from '$lib/components/site/siteNavigation';
@@ -31,12 +34,21 @@ const portalLinks: NavigationLink[] = [
 
 const portalPeopleLink: NavigationLink = { href: portalPeoplePath, label: 'People' };
 
-/** The side bar's links: the same ones each person reaches today, and no others. */
+/** The side bar's links beyond the picked organisation's own: work inside an organisation, and nothing above one. */
 export function frameLinksFor(access: FrameAccess): NavigationLink[] {
 	if (access.isPortalAccount) return portalLinksFor(access.isPortalAdministrator);
+	const { isStaff } = siteAccessOf(access);
+	if (!isStaff) return [projectsLink];
+	return [projectsLink, clientsLink];
+}
+
+/** The top-right menu's links: what sits above any one organisation, and the person's own account. */
+export function frameMenuLinksFor(access: FrameAccess): NavigationLink[] {
+	if (access.isPortalAccount) return [];
 	const siteAccess = siteAccessOf(access);
-	const businessLinks = siteAccess.isStaff ? businessLinksFor(siteAccess) : [];
-	return [...workLinksFor(siteAccess), ...businessLinks, ...accountLinksFor(siteAccess)];
+	const organisationLinks = canSeeOrganisations(siteAccess) ? [organisationsLink] : [];
+	const adminLinks = siteAccess.isAdmin ? [adminLink] : [];
+	return [...organisationLinks, ...adminLinks, ...accountLinksFor(siteAccess)];
 }
 
 function portalLinksFor(isPortalAdministrator: boolean): NavigationLink[] {

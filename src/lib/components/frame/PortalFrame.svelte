@@ -14,13 +14,13 @@
 
 	let {
 		access,
-		personName,
+		signedInAs,
 		unreadNotificationCount,
 		picks,
 		children
 	}: {
 		access: FrameAccess;
-		personName: string;
+		signedInAs: string;
 		unreadNotificationCount: number;
 		picks: FramePicks | null;
 		children: Snippet;
@@ -36,7 +36,7 @@
 </script>
 
 {#snippet sideBar()}
-	<FrameSideBar {view} {personName} {picks} />
+	<FrameSideBar {view} {signedInAs} {picks} />
 {/snippet}
 
 <aside
@@ -51,7 +51,7 @@
 {/if}
 
 <div class="flex min-h-screen flex-col md:pl-64 print:pl-0">
-	<FrameTopBar trail={view.trail} {unreadNotificationCount} onOpenMenu={openDrawer}>
+	<FrameTopBar {view} {signedInAs} {unreadNotificationCount} onOpenMenu={openDrawer}>
 		{#if openProject !== null}
 			<ProjectSwitcher project={openProject} projects={picks?.projects ?? []} address={url} />
 		{/if}

@@ -1,15 +1,25 @@
 <script lang="ts">
 	import MobileMenuButton from '$lib/components/site/MobileMenuButton.svelte';
 	import NotificationsBell from '$lib/components/site/NotificationsBell.svelte';
-	import type { FrameTrail } from './frameTrail';
+	import FrameMenu from './FrameMenu.svelte';
+	import type { FrameView } from './frameView';
 	import type { Snippet } from 'svelte';
 
 	let {
-		trail,
+		view,
+		signedInAs,
 		unreadNotificationCount,
 		onOpenMenu,
 		children
-	}: { trail: FrameTrail; unreadNotificationCount: number; onOpenMenu: () => void; children?: Snippet } = $props();
+	}: {
+		view: FrameView;
+		signedInAs: string;
+		unreadNotificationCount: number;
+		onOpenMenu: () => void;
+		children?: Snippet;
+	} = $props();
+
+	const { trail } = $derived(view);
 </script>
 
 <header
@@ -32,4 +42,5 @@
 		{@render children?.()}
 	</nav>
 	<NotificationsBell unreadCount={unreadNotificationCount} />
+	<FrameMenu links={view.menuLinks} {signedInAs} signOutPath={view.signOutPath} />
 </header>

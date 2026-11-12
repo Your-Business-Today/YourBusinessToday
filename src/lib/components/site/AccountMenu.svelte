@@ -2,10 +2,15 @@
 	import AccountMenuGroup from './AccountMenuGroup.svelte';
 	import { fly } from 'svelte/transition';
 	import type { NavigationGroup } from './siteNavigation';
+	import type { Snippet } from 'svelte';
 	import { keyboardKeys } from '$lib/client/keyboardKeys';
 	import { menuDrop } from '$lib/client/motion';
 
-	let { menuGroups }: { menuGroups: NavigationGroup[] } = $props();
+	let {
+		menuGroups,
+		heading,
+		children
+	}: { menuGroups: NavigationGroup[]; heading?: Snippet; children?: Snippet } = $props();
 
 	let isOpen = $state(false);
 
@@ -59,9 +64,11 @@
 			class="absolute right-0 z-50 mt-3 w-56 rounded-2xl border border-hairline bg-carriage p-2
 				shadow-2xl"
 		>
+			{@render heading?.()}
 			{#each menuGroups as menuGroup, groupIndex (menuGroup.label)}
 				<AccountMenuGroup {menuGroup} isFirst={groupIndex === 0} onNavigate={closeMenu} />
 			{/each}
+			{@render children?.()}
 		</nav>
 	{/if}
 </div>

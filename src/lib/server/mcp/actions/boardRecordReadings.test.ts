@@ -30,10 +30,10 @@ describe('taking a reading from the records for a board paper', () => {
 		records.booksRead = 0;
 	});
 
-	it('reads the books only when Books is switched on for the organisation and the director', async () => {
+	it('reads the books only when Accounts is switched on for the organisation and the director', async () => {
 		expect(await takeBoardRecordReading(caller, yourBusinessToday, trialBalance)).toEqual({ reading: 'Trial balance 1' });
 		records.usableModules = ['boardroom'];
-		expect(await takeBoardRecordReading(caller, yourBusinessToday, trialBalance)).toBe(moduleSwitchedOffForSource('trial_balance', 'Books'));
+		expect(await takeBoardRecordReading(caller, yourBusinessToday, trialBalance)).toBe(moduleSwitchedOffForSource('trial_balance', 'Accounts'));
 		expect(records.booksRead).toBe(1);
 	});
 

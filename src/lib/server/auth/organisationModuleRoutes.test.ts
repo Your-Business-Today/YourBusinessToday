@@ -31,7 +31,8 @@ const gateOf: Record<OrganisationModule, (source: string) => boolean> = {
 	books: asksTheModuleRule('books'),
 	brand: asksTheModuleRule('brand'),
 	business_brain: asksTheModuleRule('business_brain'),
-	boardroom: (source) => source.includes(boardroomGateCall)
+	boardroom: (source) => source.includes(boardroomGateCall),
+	sales: asksTheModuleRule('sales')
 };
 
 function gatesItsModule(module: OrganisationModule, directory: string): boolean {

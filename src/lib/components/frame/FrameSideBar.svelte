@@ -8,9 +8,9 @@
 
 	let {
 		view,
-		personName,
+		signedInAs,
 		picks
-	}: { view: FrameView; personName: string; picks: FramePicks | null } = $props();
+	}: { view: FrameView; signedInAs: string; picks: FramePicks | null } = $props();
 </script>
 
 <div class="flex h-full flex-col gap-6 px-4 py-6">
@@ -26,5 +26,5 @@
 			<FrameNavLink {link} isCurrent={link.href === view.currentHref} />
 		{/each}
 	</nav>
-	<FrameSignedIn {personName} signOutPath={view.signOutPath} />
+	<FrameSignedIn {signedInAs} />
 </div>
