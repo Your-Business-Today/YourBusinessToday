@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import HeaderFacts from '$lib/components/workspace/HeaderFacts.svelte';
 	import StagedTaskRow from './StagedTaskRow.svelte';
@@ -6,7 +7,11 @@
 	import type { DeliveryFact } from '$lib/data/deliveryFacts';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
-	let { stagedTasks, deliveryFacts }: { stagedTasks: ProjectTask[]; deliveryFacts: DeliveryFact[] } = $props();
+	let {
+		stagedTasks,
+		deliveryFacts,
+		actions
+	}: { stagedTasks: ProjectTask[]; deliveryFacts: DeliveryFact[]; actions?: Snippet } = $props();
 
 	const hasDeliveryFacts = $derived(deliveryFacts.length > 0);
 </script>
@@ -15,7 +20,12 @@
 	<HeaderFacts facts={deliveryFacts} />
 {/snippet}
 
-<DashboardPanel title="Staged, not live" count={stagedTasks.length} toolbar={hasDeliveryFacts ? delivery : undefined}>
+<DashboardPanel
+	title="Staged, not live"
+	count={stagedTasks.length}
+	{actions}
+	toolbar={hasDeliveryFacts ? delivery : undefined}
+>
 	{#if stagedTasks.length === 0}
 		<p class={panelEmptyClasses}>
 			Nothing is waiting for a deploy: every task merged into staging has been promoted.
