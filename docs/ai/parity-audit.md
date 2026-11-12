@@ -82,7 +82,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | Id | Story | Who | Kind | Site door | Connector | Screens |
 | --- | --- | --- | --- | --- | --- | --- |
 | US-070 | see the clients and the leads, stage by stage | staff | read | `/clients` and `/leads` load | `list_clients` | `/clients` `/leads` |
-| US-071 | add a lead by name, with its first contact | staff | write | `addLead` | `create_client` `add_client_contact` | `/leads` |
+| US-071 | add a lead by name, with its first contact and who brought it in | staff | write | `addLead` | `create_client` `add_client_contact` | `/leads` |
 | US-072 | move a client to another stage | staff | write | `moveStage` | `move_client_stage` | `/clients` `/leads` `/clients/{clientId}` |
 | US-073 | read a client in full, with its history | staff | read | `/clients/{clientId}` load | `read_client` `read_client_history` | `/clients/{clientId}` |
 | US-074 | list a contact at a client, invite them, assign a project | staff | write | `addContact` `inviteContact` `assignProject` | `add_client_contact` `invite_client_contact` `assign_project_to_client` | `/clients/{clientId}` |
@@ -96,6 +96,8 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-082 | see the companies around a postcode on the map | staff | read | `/clients/map` load | — | `/clients/map` |
 | US-083 | read the feed of what changed across the register | staff | read | `/clients/feed` load | `read_patch_feed` | `/clients/feed` |
 | US-084 | read, run and record a client's company context | staff | write | `/clients/{clientId}/context` load | `read_company_context` `start_context_run` `record_company_context` `read_confirmed_company_context` | `/clients/{clientId}/context` |
+| US-085 | name who brought a lead or client in | staff | write | `setBroughtInBy` | `set_client_brought_in_by` | `/clients/{clientId}` |
+| US-086 | see each person's leads and won sales on the leaderboard | staff | read | `/leaderboard` load | `read_leaderboard` | `/leaderboard` |
 
 ## 07-people-register
 
