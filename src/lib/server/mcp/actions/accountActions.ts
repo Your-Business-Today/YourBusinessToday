@@ -1,3 +1,4 @@
+import { accountAdminActions } from './accountAdminActions';
 import { getDisplayNameOf } from '$lib/server/auth/getDisplayNameOf';
 import { displayNameMaxLength, validateDisplayName } from '$lib/data/displayNameRules';
 import { notificationActions } from './notificationActions';
@@ -28,7 +29,8 @@ export const accountActions: McpAction[] = [
 		inputSchema: objectSchema({ displayName: textField(`The name, at most ${displayNameMaxLength} characters`) }, ['displayName']),
 		run: async (caller, input) => changeDisplayName(caller, readText(input, 'displayName'))
 	},
-	...notificationActions
+	...notificationActions,
+	...accountAdminActions
 ];
 
 async function describeAccount(caller: McpCaller): Promise<string> {

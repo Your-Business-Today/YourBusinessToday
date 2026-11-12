@@ -202,11 +202,11 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 
 | Id | Story | Who | Kind | Site door | Connector | Screens |
 | --- | --- | --- | --- | --- | --- | --- |
-| US-170 | see every account, with its standing | admin | read | `/admin` load | — | `/admin` |
-| US-171 | make an account staff or not | admin | write | `setStaff` | — | `/admin` |
-| US-172 | restrict an account, or lift the restriction | admin | write | `setRestriction` | — | `/admin` |
-| US-173 | send someone a password reset | admin | write | `sendPasswordReset` | — | `/admin` |
-| US-174 | delete an account | admin | write | `deleteUser` | — | `/admin` |
+| US-170 | see every account, with its standing | admin | read | `/admin` load | `list_accounts` | `/admin` |
+| US-171 | make an account staff or not | admin | write | `setStaff` | `set_staff_access` | `/admin` |
+| US-172 | restrict an account, or lift the restriction | admin | write | `setRestriction` | `set_account_restriction` | `/admin` |
+| US-173 | send someone a password reset | admin | write | `sendPasswordReset` | `send_password_reset` | `/admin` |
+| US-174 | delete an account | admin | write | `deleteUser` | `delete_account` | `/admin` |
 | US-175 | read and set the build models and the review model | admin | write | `saveBuildModel` `removeBuildModel` `setReviewModel` | `read_model_settings` `save_build_model` | `/admin` |
 | US-176 | see the Stripe payments to check and mark one dealt with | admin | write | `dealtWith` | `read_stripe_payments_to_check` | `/admin/stripe-payments` |
 | US-177 | read the client documents and download one | admin | read | `/admin/documents/{slug}` load | — | `/admin/documents` `/admin/documents/{slug}` |
@@ -231,7 +231,6 @@ These have no screen because the person's Claude is the only one who needs them:
 
 | Task | Stories | Actions to add |
 | --- | --- | --- |
-| Accounts through the connector | US-170 US-171 US-172 US-173 US-174 | `list_accounts` `set_staff_access` `set_account_restriction` `send_password_reset` `delete_account` |
 | Models, Stripe payments, client documents and organisation deletion through the connector | US-115 US-175 US-176 US-177 | `remove_build_model` `set_review_model` `mark_stripe_payment_dealt_with` `list_client_documents` `read_client_document` `delete_organisation` |
 | The client portal through the connector | US-162 US-163 US-164 US-165 | `read_my_company_context` `mark_context_part` `confirm_company_context` `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` `list_my_invoices` `pay_invoice` |
 | Boardroom seat controls through the connector | US-124 US-125 | `steer_own_claude` `change_own_claude_setting` `answer_held_contribution` |

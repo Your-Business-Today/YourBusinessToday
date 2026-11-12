@@ -5,6 +5,8 @@ import type { McpCaller } from '../resolveMcpCaller';
 
 const { profile, nameSaved } = vi.hoisted(() => ({ profile: { displayName: '' }, nameSaved: vi.fn() }));
 
+vi.mock('$env/static/public', () => ({ PUBLIC_SUPABASE_URL: 'https://x.example', PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'x' }));
+vi.mock('$env/dynamic/private', () => ({ env: {} }));
 vi.mock('$lib/server/auth/getDisplayNameOf', () => ({ getDisplayNameOf: async () => profile.displayName }));
 vi.mock('$lib/server/auth/saveDisplayNameFor', () => ({ saveDisplayNameFor: nameSaved }));
 
