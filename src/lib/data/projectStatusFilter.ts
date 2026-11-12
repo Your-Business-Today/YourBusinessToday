@@ -1,30 +1,17 @@
 import { projectStatusLabels, projectStatusOrder, type ProjectStatus } from './projectStatus';
 
-export type ProjectStatusFilter = ProjectStatus | 'open' | 'all';
+export type ProjectStatusFilter = ProjectStatus | 'all';
 
-export const projectStatusFilters = { open: 'open', all: 'all' } as const;
+export const everyProjectStatus = 'all';
 
-export const projectStatusFilterOrder: ProjectStatusFilter[] = [
-	'open',
-	'all',
-	...projectStatusOrder
-];
-
-export const filterWhenProjectsOpen = projectStatusFilters.open;
-
-const completeProjectStatus: ProjectStatus = 'complete';
+/** The status tabs as they read: each status in the order work moves through them, then all of them. */
+export const projectStatusFilterOrder: ProjectStatusFilter[] = [...projectStatusOrder, everyProjectStatus];
 
 export function projectStatusFilterLabel(filter: ProjectStatusFilter): string {
-	if (filter === projectStatusFilters.open) return 'Open';
-	if (filter === projectStatusFilters.all) return 'All';
+	if (filter === everyProjectStatus) return 'All';
 	return projectStatusLabels[filter];
 }
 
-export function matchesProjectStatusFilter(
-	status: ProjectStatus,
-	filter: ProjectStatusFilter
-): boolean {
-	if (filter === projectStatusFilters.all) return true;
-	if (filter === projectStatusFilters.open) return status !== completeProjectStatus;
-	return status === filter;
+export function matchesProjectStatusFilter(status: ProjectStatus, filter: ProjectStatusFilter): boolean {
+	return filter === everyProjectStatus || status === filter;
 }

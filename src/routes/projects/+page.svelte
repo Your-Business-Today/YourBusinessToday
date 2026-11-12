@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewProjectForm from '$lib/components/projects/NewProjectForm.svelte';
@@ -20,7 +21,8 @@
 	let selectedProject = $state<ListedProject | null>(null);
 	let priorityChoice = $state<PriorityChoice | null>(null);
 
-	const listView = new ProjectListView(() => data.projects);
+	const tabLastUsed = untrack(() => data.rememberedTab);
+	const listView = new ProjectListView(() => data.projects, tabLastUsed);
 
 	function openEditModal(project: ListedProject) {
 		selectedProject = project;

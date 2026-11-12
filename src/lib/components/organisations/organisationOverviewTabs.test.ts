@@ -9,7 +9,7 @@ describe('organisationOverviewTabsFor', () => {
 	it('opens on People, and leaves the projects to the side bar’s own page', () => {
 		expect(tabsOf(staffedWithBoardroom)).toEqual([
 			['People', 4],
-			['Invoicing', null],
+			['Details', null],
 			['Modules', 3],
 			['Directors', 2]
 		]);
@@ -19,7 +19,7 @@ describe('organisationOverviewTabsFor', () => {
 		const memberWithoutModules = { ...staffedWithBoardroom, hasModulesTab: false, directorCount: null };
 		expect(tabsOf(memberWithoutModules)).toEqual([
 			['People', 4],
-			['Invoicing', null]
+			['Details', null]
 		]);
 	});
 

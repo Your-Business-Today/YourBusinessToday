@@ -8,6 +8,7 @@ import { matchesOrganisationFilter, pickedOrganisationFilter } from '$lib/data/o
 import { getProjectsForUser } from '$lib/server/projects/getProjectsForUser';
 import { getTasksWaitingOnYou } from '$lib/server/conversations/getTasksWaitingOnYou';
 import { parseRank } from '$lib/server/ordering/rankInput';
+import { projectsTabCookie, rememberedProjectsTab } from '$lib/data/projectsTab';
 import { projectOrderActions } from './projectOrderActions';
 import { readOrganisationChoice } from '$lib/server/organisations/organisationChoiceForm';
 import { setProjectPosition } from '$lib/server/projects/projectShownOrder';
@@ -20,7 +21,7 @@ import { parseProjectDetailsForm } from '$lib/server/projects/projectDetailsForm
 import { saveProjectDetails } from '$lib/server/projects/saveProjectDetails';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals, parent }) => {
+export const load: PageServerLoad = async ({ locals, parent, cookies }) => {
 	const user = await requireUser(locals);
 	const { supabase } = locals;
 	const assignedTaskCounts = getAssignedTaskCounts(supabase, user.id);
@@ -33,7 +34,8 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 	]);
 	const pickedOrganisation = pickedOrganisationFilter(layout.framePicks);
 	const projects = everyProject.filter((project) => matchesOrganisationFilter(project.organisationId, pickedOrganisation));
-	return { waitingTasks, projects, organisations, latestKitVersion };
+	const rememberedTab = rememberedProjectsTab(cookies.get(projectsTabCookie));
+	return { waitingTasks, projects, organisations, latestKitVersion, rememberedTab };
 };
 
 export const actions: Actions = {

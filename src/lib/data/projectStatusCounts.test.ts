@@ -9,9 +9,10 @@ const projects = [
 
 describe('counting projects for each status tab', () => {
 	it('counts each tab with the search and the finished choice as they stand', () => {
-		const counts = countByStatusFilter(projects, { status: 'open', searchText: 'mania', isShowingFinished: false });
-		expect(counts.get('open')).toBe(2);
+		const counts = countByStatusFilter(projects, { status: 'building', searchText: 'mania', isShowingFinished: false });
+		expect(counts.get('all')).toBe(2);
 		expect(counts.get('building')).toBe(1);
+		expect(counts.get('on_hold')).toBe(1);
 		expect(counts.get('maintenance')).toBe(0);
 	});
 
