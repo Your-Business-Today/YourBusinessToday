@@ -1,10 +1,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { boardOf } from '$lib/server/projects/projectBoard';
-import { getProject } from '$lib/server/projects/getProject';
+import { projectList } from '$lib/server/projects/projectList';
 import { placeBeside } from '$lib/server/ordering/rankedScope';
 import { dropPlacements, type DropPlacement } from '$lib/server/ordering/rankedSet';
 
-/** Drop a project beside another on the viewer's board; the target must be on that same board. */
+/** Drop a project beside another in the viewer's projects list, whoever owns either. */
 export async function placeProject(
 	supabase: SupabaseClient,
 	movedProjectId: string,
@@ -13,12 +12,5 @@ export async function placeProject(
 	viewerId: string
 ): Promise<void> {
 	if (placement === dropPlacements.inside) return;
-	const movedProject = await getProject(supabase, movedProjectId);
-	if (movedProject === null) return;
-	await placeBeside(
-		boardOf(supabase, movedProject, viewerId),
-		movedProject.id,
-		targetProjectId,
-		placement
-	);
+	await placeBeside(projectList(supabase, viewerId), movedProjectId, targetProjectId, placement);
 }
