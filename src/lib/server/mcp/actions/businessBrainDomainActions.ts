@@ -1,6 +1,7 @@
-import { fileBusinessBrainDomainGuidance, readBusinessBrainDomainGuidance } from './businessBrainDomainGuidance';
+import { domainRunActionName } from './domainRunActionName';
+import { fileBusinessBrainDomainGuidance, readBusinessBrainDomainGuidance, startDomainRunGuidance } from './businessBrainDomainGuidance';
 import { fileBusinessBrainDomainSchema, readBusinessBrainDomainSchema } from './businessBrainDomainSchemas';
-import { fileDomain, readDomain } from './businessBrainDomainRuns';
+import { fileDomain, readDomain, startDomainRun } from './businessBrainDomainRuns';
 import { moduleAction } from '../organisationModuleGate';
 import type { McpAction } from '../actionTypes';
 
@@ -28,5 +29,16 @@ export const businessBrainDomainActions: McpAction[] = [
 		guidance: readBusinessBrainDomainGuidance,
 		inputSchema: readBusinessBrainDomainSchema,
 		run: readDomain
+	}),
+	moduleAction(businessBrainModule, {
+		name: domainRunActionName,
+		area: 'business_brain',
+		audience: 'everyone',
+		isWrite: false,
+		summary:
+			"start a run that sets an organisation's own domain: the steps to follow, fitted to what Your Business Today already holds, to gather from the connectors in the chat and model the business",
+		guidance: startDomainRunGuidance,
+		inputSchema: readBusinessBrainDomainSchema,
+		run: startDomainRun
 	})
 ];
