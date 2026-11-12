@@ -87,12 +87,12 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-073 | read a client in full, with its history | staff | read | `/clients/{clientId}` load | `read_client` `read_client_history` | `/clients/{clientId}` |
 | US-074 | list a contact at a client, invite them, assign a project | staff | write | `addContact` `inviteContact` `assignProject` | `add_client_contact` `invite_client_contact` `assign_project_to_client` | `/clients/{clientId}` |
 | US-075 | set a new client up on Your Business Today | staff | write | `setUpClient` | `set_up_client` | `/clients/{clientId}` |
-| US-076 | change a client's company profile | staff | write | `updateProfile` | — | `/clients/{clientId}` |
+| US-076 | change a client's company profile | staff | write | `updateProfile` | `update_company_profile` | `/clients/{clientId}` |
 | US-077 | record a client's continuity copy | staff | write | `recordContinuityCopy` | `record_client_continuity_copy` | `/clients/{clientId}` |
-| US-078 | group a client under a parent and import its officers from Companies House | staff | write | `groupUnder` `importOfficers` | — | `/clients/{clientId}` |
+| US-078 | group a client under a parent and import its officers from Companies House | staff | write | `groupUnder` `importOfficers` | `group_client_under` `import_company_officers` | `/clients/{clientId}` |
 | US-079 | delete a mistaken client record | staff | write | `deleteClient` | `delete_client` | `/clients/{clientId}` |
 | US-080 | research a company and save the findings, its filings and its job adverts | staff | write | `/clients/research` | `save_company_research` `read_company_filings` `read_company_job_adverts` `save_company_job_adverts` | `/clients/{clientId}` `/clients/research` |
-| US-081 | search Companies House by name and add a company as a lead, with its directors | staff | write | `addLead` `addLeadWithDirectors` | — | `/clients/prospect` `/clients/map` |
+| US-081 | search Companies House by SIC code and place and add a company as a lead, with its directors | staff | write | `addLead` `addLeadWithDirectors` | `search_companies_house` `add_company_as_lead` | `/clients/prospect` `/clients/map` |
 | US-082 | see the companies around a postcode on the map | staff | read | `/clients/map` load | — | `/clients/map` |
 | US-083 | read the feed of what changed across the register | staff | read | `/clients/feed` load | `read_patch_feed` | `/clients/feed` |
 | US-084 | read, run and record a client's company context | staff | write | `/clients/{clientId}/context` load | `read_company_context` `start_context_run` `record_company_context` `read_confirmed_company_context` | `/clients/{clientId}/context` |
@@ -231,7 +231,6 @@ These have no screen because the person's Claude is the only one who needs them:
 
 | Task | Stories | Actions to add |
 | --- | --- | --- |
-| Client profile, groups and Companies House companies through the connector | US-076 US-078 US-081 | `update_company_profile` `group_client_under` `import_company_officers` `search_companies_house` `add_company_as_lead` |
 | Notifications and the display name through the connector | US-002 US-003 US-004 US-005 | `set_display_name` `list_notifications` `mark_notification_read` `mark_all_notifications_read` |
 | Conversation participants, team work, kit versions and the blueprint refresh through the connector | US-019 US-023 US-035 US-052 US-116 | `add_conversation_participant` `remove_conversation_participant` `read_team_work` `read_kit_versions` `refresh_project_blueprint` |
 | Accounts through the connector | US-170 US-171 US-172 US-173 US-174 | `list_accounts` `set_staff_access` `set_account_restriction` `send_password_reset` `delete_account` |

@@ -6,6 +6,9 @@ import { personLinkActions } from './personLinkActions';
 import { personResearchActions } from './personResearchActions';
 import { personUpdateActions } from './personUpdateActions';
 import { clientDetailActions } from './clientDetailActions';
+import { clientGroupActions } from './clientGroupActions';
+import { clientProfileActions } from './clientProfileActions';
+import { companySearchActions } from './companySearchActions';
 import { clientContinuityCopyActions } from './clientContinuityCopyActions';
 import { clientProjectActions } from './clientProjectActions';
 import { clientRegisterActions } from './clientRegisterActions';
@@ -20,6 +23,9 @@ import type { McpAction } from '../actionTypes';
 export const clientActions: McpAction[] = [
 	...clientRegisterActions,
 	...clientDetailActions,
+	...clientProfileActions,
+	...clientGroupActions,
+	...companySearchActions,
 	...clientContinuityCopyActions,
 	...clientContactActions,
 	...leadConversationActions,
