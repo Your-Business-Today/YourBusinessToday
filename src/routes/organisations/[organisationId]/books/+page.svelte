@@ -5,10 +5,11 @@
 	import BooksPeriodForm from '$lib/components/books/BooksPeriodForm.svelte';
 	import StatementTable from '$lib/components/books/StatementTable.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { organisationModuleLabels } from '$lib/data/organisationModules';
 
 	let { data } = $props();
 
-	const booksTitle = 'Books';
+	const booksTitle = organisationModuleLabels.books;
 	const { asked, period, statements, refusal, booksOrganisation } = $derived(data);
 	const tabs = $derived(statements.map(({ key, title }) => ({ key, label: title, count: null })));
 	let pickedKey = $state('');
@@ -24,7 +25,7 @@
 
 <WorkspaceHeader crumbs={[]} title={booksTitle}>
 	<p class="text-sm text-chalk-subtle">
-		{booksOrganisation.name}'s books, to read. Your Claude posts the entries through the Your Business Today connector.
+		{booksOrganisation.name}'s accounts, to read. Your Claude posts the entries through the Your Business Today connector.
 	</p>
 </WorkspaceHeader>
 

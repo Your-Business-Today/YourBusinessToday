@@ -28,11 +28,15 @@ export const primaryNavigationLinks: NavigationLink[] = [
 	{ href: discoveryCallPath, label: discoveryCallShortLabel }
 ];
 
-const workLinks: NavigationLink[] = [{ href: '/projects', label: 'Projects' }];
+export const projectsLink: NavigationLink = { href: '/projects', label: 'Projects' };
 
-const organisationsLink: NavigationLink = { href: '/organisations', label: 'Organisations' };
+export const organisationsLink: NavigationLink = { href: '/organisations', label: 'Organisations' };
 
-const adminLinks: NavigationLink[] = [{ href: '/admin', label: 'Admin' }];
+export const clientsLink: NavigationLink = { href: '/clients', label: 'Clients' };
+
+export const adminLink: NavigationLink = { href: '/admin', label: 'Admin' };
+
+const accountLink: NavigationLink = { href: '/account', label: 'Account' };
 
 export function buildMenuGroups(access: NavigationAccess): NavigationGroup[] {
 	const groups: NavigationGroup[] = [{ label: 'Explore', links: primaryNavigationLinks }];
@@ -44,23 +48,23 @@ export function buildMenuGroups(access: NavigationAccess): NavigationGroup[] {
 	return groups;
 }
 
-/** Organisations join the work links for staff and for anyone an organisation has brought on. */
-export function workLinksFor(access: NavigationAccess): NavigationLink[] {
-	if (!access.hasOrganisations && !access.isStaff) return workLinks;
-	return [...workLinks, organisationsLink];
+/** Staff, and anyone an organisation has brought on, reach the organisations. */
+export function canSeeOrganisations(access: NavigationAccess): boolean {
+	return access.hasOrganisations || access.isStaff;
 }
 
+export function workLinksFor(access: NavigationAccess): NavigationLink[] {
+	if (!canSeeOrganisations(access)) return [projectsLink];
+	return [projectsLink, organisationsLink];
+}
+
+/** The sales pages sit in an organisation's Sales module, not here. */
 export function businessLinksFor(access: NavigationAccess): NavigationLink[] {
-	return [
-		{ href: '/clients', label: 'Clients' },
-		{ href: '/people', label: 'People' },
-		{ href: '/clients/patches', label: 'Patches' },
-		{ href: '/clients/feed', label: 'Patch feed' },
-		...(access.isAdmin ? adminLinks : [])
-	];
+	if (!access.isAdmin) return [clientsLink];
+	return [clientsLink, adminLink];
 }
 
 export function accountLinksFor(access: NavigationAccess): NavigationLink[] {
 	if (!access.isSignedIn) return [{ href: '/account/sign-in', label: 'Sign in' }];
-	return [{ href: '/account', label: 'Account' }];
+	return [accountLink];
 }

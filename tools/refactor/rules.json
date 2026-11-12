@@ -226,7 +226,8 @@
       "src/routes/privacy/+page.server.ts",
       "src/routes/promo/+page.server.ts",
       "src/routes/tax-calculator/+page.server.ts",
-      "src/routes/terms/+page.server.ts"
+      "src/routes/terms/+page.server.ts",
+      "src/routes/organisations/[organisationId]/sales/+page.server.ts"
     ]
   },
   "siteDefinition": {

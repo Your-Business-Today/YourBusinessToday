@@ -33,7 +33,7 @@
 {#if isFramed}
 	<PortalFrame
 		access={data}
-		personName={data.personName}
+		signedInAs={data.userEmail ?? data.personName}
 		unreadNotificationCount={data.unreadNotificationCount}
 		picks={data.framePicks}
 	>
