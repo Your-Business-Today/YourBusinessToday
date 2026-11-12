@@ -47,13 +47,7 @@
 			<PortalHeader {isSignedIn} />
 		{/if}
 		{#if !isPortal}
-			<SiteHeader
-				userEmail={data.userEmail}
-				isAdmin={data.isAdmin}
-				isStaff={data.isStaff}
-				hasOrganisations={data.hasOrganisations}
-				unreadNotificationCount={data.unreadNotificationCount}
-			/>
+			<SiteHeader />
 		{/if}
 		<main class="flex flex-1 flex-col">{@render pageView()}</main>
 		<SiteFooter />

@@ -1,16 +1,15 @@
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
 	import MobileNavGroup from './MobileNavGroup.svelte';
+	import PortalLink from './PortalLink.svelte';
 	import type { NavigationGroup } from './siteNavigation';
 	import { keyboardKeys } from '$lib/client/keyboardKeys';
 
 	let {
 		menuGroups,
-		isSignedIn,
 		onClose
 	}: {
 		menuGroups: NavigationGroup[];
-		isSignedIn: boolean;
 		onClose: () => void;
 	} = $props();
 
@@ -65,4 +64,6 @@
 	{#each menuGroups as menuGroup (menuGroup.label)}
 		<MobileNavGroup group={menuGroup} onNavigate={onClose} />
 	{/each}
+	<div class="my-2 border-t border-hairline"></div>
+	<PortalLink class="rounded-lg px-3 py-2 hover:bg-night/60" />
 </nav>

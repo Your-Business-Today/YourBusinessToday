@@ -6,7 +6,7 @@ import {
 	formatShare,
 	objectiveLabelOf
 } from '$lib/brand/campaigns/campaignReportWords';
-import { companyDetails } from '$lib/data/companyDetails';
+import { portalAddress } from '$lib/portal/portalAddress';
 import { countOf } from '$lib/data/countOf';
 import type { AudienceRowsSorted } from '$lib/brand/audience/sortAudienceRows';
 import type { AudienceShare } from '$lib/brand/audience/audienceBreakdown';
@@ -17,7 +17,7 @@ const noBreakdown = 'Who it reached: no breakdown has been recorded yet; record_
 /** One campaign's report as read_campaign_report gives it, with the address of the page that prints it. */
 export function describeCampaignReport(report: CampaignReport, organisationId: string): string {
 	const { campaign, figures } = report;
-	const pageAddress = `${companyDetails.websiteUrl}${campaignPagePath(organisationId, campaign.id)}`;
+	const pageAddress = `${portalAddress.origin}${campaignPagePath(organisationId, campaign.id)}`;
 	return [
 		`${campaign.name} [${campaign.status}]: paid for “${objectiveLabelOf(campaign.objective)}”, ${campaign.startsOn} to ${campaign.endsOn}`,
 		`- Budget ${formatPence(campaign.budgetPence)}, spent ${formatPence(figures.spendPence)}`,

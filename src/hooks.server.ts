@@ -3,6 +3,7 @@ import { text } from '@sveltejs/kit';
 import { isForbiddenCrossSiteForm } from '$lib/server/http/crossSiteFormSubmission';
 import { PUBLIC_SUPABASE_PUBLISHABLE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { reportServerError } from '$lib/server/http/reportServerError';
+import { portalPageInsteadOf } from '$lib/portal/mainSiteAddress';
 import { portalOrganisationCookie } from '$lib/portal/portalVisitor';
 import { onceForThisRequest } from '$lib/server/http/onceForThisRequest';
 import { readRememberedPicks } from '$lib/server/frame/rememberedPicks';
@@ -10,6 +11,7 @@ import type { Cookies, Handle } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 const forbidden = 403;
+const permanentRedirect = 308;
 
 export const handleError = reportServerError;
 
@@ -17,6 +19,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (isForbiddenCrossSiteForm(event.request, event.url)) {
 		return text('Cross-site form submissions are forbidden', { status: forbidden });
 	}
+	const portalPage = portalPageInsteadOf(event.url);
+	if (portalPage !== null) return movedTo(portalPage);
 	const { locals } = event;
 	locals.supabase = supabaseClientFor(event.cookies);
 	locals.portalOrganisationId = event.cookies.get(portalOrganisationCookie) ?? null;
@@ -27,6 +31,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 			headerName === 'content-range' || headerName === 'x-supabase-api-version'
 	});
 };
+
+function movedTo(location: string): Response {
+	return new Response(null, { status: permanentRedirect, headers: { location } });
+}
 
 function supabaseClientFor(cookies: Cookies): SupabaseClient {
 	return createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY, {

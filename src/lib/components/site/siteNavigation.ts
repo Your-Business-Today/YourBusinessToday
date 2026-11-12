@@ -40,30 +40,12 @@ export const adminLink: NavigationLink = { href: '/admin', label: 'Admin' };
 
 const accountLink: NavigationLink = { href: '/account', label: 'Account' };
 
-export function buildMenuGroups(access: NavigationAccess): NavigationGroup[] {
-	const groups: NavigationGroup[] = [{ label: 'Explore', links: primaryNavigationLinks }];
-	const workGroup = { label: 'Work', links: workLinksFor(access) };
-	if (access.isSignedIn) groups.push(workGroup);
-	const businessGroup = { label: 'Business', links: businessLinksFor(access) };
-	if (access.isStaff) groups.push(businessGroup);
-	groups.push({ label: 'Account', links: accountLinksFor(access) });
-	return groups;
-}
+/** The main site's menu: its public pages alone, since everything signed in lives at the portal. */
+export const siteMenuGroups: NavigationGroup[] = [{ label: 'Explore', links: primaryNavigationLinks }];
 
 /** Staff, and anyone an organisation has brought on, reach the organisations. */
 export function canSeeOrganisations(access: NavigationAccess): boolean {
 	return access.hasOrganisations || access.isStaff;
-}
-
-export function workLinksFor(access: NavigationAccess): NavigationLink[] {
-	if (!canSeeOrganisations(access)) return [projectsLink];
-	return [projectsLink, organisationsLink];
-}
-
-/** The sales pages sit in an organisation's Sales module, not here. */
-export function businessLinksFor(access: NavigationAccess): NavigationLink[] {
-	if (!access.isAdmin) return [leadsLink, clientsLink];
-	return [leadsLink, clientsLink, adminLink];
 }
 
 export function accountLinksFor(access: NavigationAccess): NavigationLink[] {

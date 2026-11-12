@@ -4,29 +4,9 @@
 	import DiscoveryCallButton from './DiscoveryCallButton.svelte';
 	import MobileMenuButton from './MobileMenuButton.svelte';
 	import MobileNavDrawer from './MobileNavDrawer.svelte';
-	import NotificationsBell from './NotificationsBell.svelte';
-	import SignInLink from './SignInLink.svelte';
-	import { buildMenuGroups } from './siteNavigation';
+	import PortalLink from './PortalLink.svelte';
+	import { siteMenuGroups } from './siteNavigation';
 	import { discoveryCallShortLabel } from '$lib/data/discoveryCall';
-
-	let {
-		userEmail,
-		isAdmin,
-		isStaff,
-		hasOrganisations,
-		unreadNotificationCount
-	}: {
-		userEmail: string | null;
-		isAdmin: boolean;
-		isStaff: boolean;
-		hasOrganisations: boolean;
-		unreadNotificationCount: number;
-	} = $props();
-
-	const isSignedIn = $derived(userEmail !== null);
-	const menuGroups = $derived(
-		buildMenuGroups({ isSignedIn, isStaff: isStaff || isAdmin, isAdmin, hasOrganisations })
-	);
 
 	let isMobileMenuOpen = $state(false);
 
@@ -44,24 +24,16 @@
 			</a>
 		</div>
 		<nav class="hidden shrink-0 items-center gap-6 md:flex">
-			{#if isSignedIn}
-				<NotificationsBell unreadCount={unreadNotificationCount} />
-			{/if}
-			{#if !isSignedIn}
-				<SignInLink />
-				<DiscoveryCallButton isSolid label={discoveryCallShortLabel} class="px-4 py-2 text-sm" />
-			{/if}
-			<AccountMenu {menuGroups} />
+			<PortalLink />
+			<DiscoveryCallButton isSolid label={discoveryCallShortLabel} class="px-4 py-2 text-sm" />
+			<AccountMenu menuGroups={siteMenuGroups} />
 		</nav>
 		<div class="flex shrink-0 items-center gap-4 md:hidden">
-			{#if isSignedIn}
-				<NotificationsBell unreadCount={unreadNotificationCount} />
-			{/if}
 			<MobileMenuButton onOpen={openMobileMenu} />
 		</div>
 	</div>
 </header>
 
 {#if isMobileMenuOpen}
-	<MobileNavDrawer {menuGroups} {isSignedIn} onClose={closeMobileMenu} />
+	<MobileNavDrawer menuGroups={siteMenuGroups} onClose={closeMobileMenu} />
 {/if}

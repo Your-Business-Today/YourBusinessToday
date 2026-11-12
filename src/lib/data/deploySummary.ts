@@ -1,4 +1,4 @@
-import { companyDetails } from './companyDetails';
+import { portalAddress } from '$lib/portal/portalAddress';
 import type { MergedPullRequest } from './mergedPullRequests';
 
 /** What a task carries that ties it to a pull request merged into staging. */
@@ -45,7 +45,7 @@ function pullRequestNumberOf(pullRequestUrl: string): number | null {
 }
 
 function deployedTaskLine({ task, pullRequest }: DeployedTask, repositoryUrl: string): string {
-	const taskLink = `[${task.title}](${companyDetails.websiteUrl}/projects/${task.projectId}/tasks/${task.id})`;
+	const taskLink = `[${task.title}](${portalAddress.origin}/projects/${task.projectId}/tasks/${task.id})`;
 	return `- ${taskLink} — ${pullRequestLink(pullRequest, repositoryUrl)}`;
 }
 

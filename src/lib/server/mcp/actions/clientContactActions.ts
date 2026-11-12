@@ -1,4 +1,4 @@
-import { companyDetails } from '$lib/data/companyDetails';
+import { portalAddress } from '$lib/portal/portalAddress';
 import { addClientContact, addContactOutcomes } from '$lib/server/clients/addClientContact';
 import { getClient } from '$lib/server/clients/getClient';
 import { getClientContact } from '$lib/server/clients/getContactsForClient';
@@ -47,7 +47,7 @@ export const clientContactActions: McpAction[] = [
 			{
 				contactId: textField('The contact id, as given by read_client'),
 				origin: textField(
-					`Where the invitation link should point, defaulting to ${companyDetails.websiteUrl}`
+					`Where the invitation link should point, defaulting to ${portalAddress.origin}`
 				)
 			},
 			['contactId']
@@ -83,7 +83,7 @@ async function inviteContact(caller: McpCaller, input: Record<string, unknown>):
 	if (refusal !== null) return refusal;
 	const contact = await getClientContact(caller.supabase, contactId);
 	if (contact === null) return noSuchContact;
-	const origin = readOptionalText(input, 'origin') ?? companyDetails.websiteUrl;
+	const origin = readOptionalText(input, 'origin') ?? portalAddress.origin;
 	const outcome = await inviteClientContact(caller.supabase, contact, origin, caller.accountId);
 	if (outcome === inviteOutcomes.alreadyInvited)
 		return `${contact.name} already has a sign-in, so nothing was sent.`;
