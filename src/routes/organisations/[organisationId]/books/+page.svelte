@@ -4,12 +4,12 @@
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import BooksPeriodForm from '$lib/components/books/BooksPeriodForm.svelte';
 	import StatementTable from '$lib/components/books/StatementTable.svelte';
+	import { framePageLabels } from '$lib/components/frame/moduleFolders';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
-	import { organisationModuleLabels } from '$lib/data/organisationModules';
 
 	let { data } = $props();
 
-	const booksTitle = organisationModuleLabels.books;
+	const reportsTitle = framePageLabels.reports;
 	const { asked, period, statements, refusal, booksOrganisation } = $derived(data);
 	const tabs = $derived(statements.map(({ key, title }) => ({ key, label: title, count: null })));
 	let pickedKey = $state('');
@@ -20,10 +20,10 @@
 </script>
 
 <svelte:head>
-	<title>{booksTitle} — {booksOrganisation.name}</title>
+	<title>{reportsTitle} — {booksOrganisation.name}</title>
 </svelte:head>
 
-<WorkspaceHeader crumbs={[]} title={booksTitle}>
+<WorkspaceHeader crumbs={[]} title={reportsTitle}>
 	<p class="text-sm text-chalk-subtle">
 		{booksOrganisation.name}'s accounts, to read. Your Claude posts the entries through the Your Business Today connector.
 	</p>
@@ -31,14 +31,16 @@
 
 <div class={workspaceBodyClasses}>
 	{#if tabs.length > 0}
-		<TabStrip {tabs} bind:selectedKey={() => selectedKey, (key) => (pickedKey = key)} />
+		<nav aria-label="Statements">
+			<TabStrip {tabs} bind:selectedKey={() => selectedKey, (key) => (pickedKey = key)} />
+		</nav>
 	{/if}
-	<DashboardPanel title={shownStatement?.title ?? booksTitle} errorMessage={refusal ?? ''}>
-		{#snippet toolbar()}
-			<BooksPeriodForm start={formStart} end={formEnd} />
-		{/snippet}
+	<div class="flex flex-wrap items-center justify-between gap-3">
+		<p class="text-sm text-chalk-subtle">{shownStatement?.caption}</p>
+		<BooksPeriodForm start={formStart} end={formEnd} />
+	</div>
+	<DashboardPanel errorMessage={refusal ?? ''}>
 		{#if shownStatement !== undefined}
-			<p class="border-b border-hairline px-6 py-3 text-sm text-chalk-subtle">{shownStatement.caption}</p>
 			<div class="overflow-x-auto">
 				<StatementTable statement={shownStatement} />
 			</div>
