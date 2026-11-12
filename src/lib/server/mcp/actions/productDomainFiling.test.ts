@@ -58,6 +58,7 @@ describe("a product's own domain", () => {
 		const answer = await readAction.run(stuartOnPortal as unknown as McpCaller, { projectId: productId });
 		expect(answer).toContain('the brain of Jewel portal, in Jewel');
 		expect(answer).toContain('holds no domain yet');
+		expect(answer).toContain('Set it with start_product_brain_domain_run');
 		expect(brain.scopesRead).toEqual([expect.objectContaining(productScope)]);
 	});
 });

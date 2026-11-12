@@ -20,6 +20,8 @@ describe('what get_current_context tells a person about setting a domain', () =>
 		expect(line).toContain('run_read_action with start_business_brain_domain_run');
 		expect(line).toContain('Organisation with-brain (with-brain)');
 		expect(line).not.toContain('books-only');
+		expect(line).toContain('"set the product domain"');
+		expect(line).toContain('start_product_brain_domain_run and the projectId');
 	});
 
 	it('says nothing when no organisation of theirs has the brain on', async () => {
