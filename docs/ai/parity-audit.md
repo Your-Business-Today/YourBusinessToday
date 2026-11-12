@@ -207,8 +207,8 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-172 | restrict an account, or lift the restriction | admin | write | `setRestriction` | `set_account_restriction` | `/admin` |
 | US-173 | send someone a password reset | admin | write | `sendPasswordReset` | `send_password_reset` | `/admin` |
 | US-174 | delete an account | admin | write | `deleteUser` | `delete_account` | `/admin` |
-| US-175 | read and set the build models and the review model | admin | write | `saveBuildModel` `removeBuildModel` `setReviewModel` | `read_model_settings` `save_build_model` | `/admin` |
-| US-176 | see the Stripe payments to check and mark one dealt with | admin | write | `dealtWith` | `read_stripe_payments_to_check` | `/admin/stripe-payments` |
+| US-175 | read and set the build models and the review model | admin | write | `saveBuildModel` `removeBuildModel` `setReviewModel` | `read_model_settings` `save_build_model` `remove_build_model` `set_review_model` | `/admin` |
+| US-176 | see the Stripe payments to check and mark one dealt with | admin | write | `dealtWith` | `read_stripe_payments_to_check` `mark_stripe_payment_dealt_with` | `/admin/stripe-payments` |
 | US-177 | read the client documents and download one | admin | read | `/admin/documents/{slug}` load | — | `/admin/documents` `/admin/documents/{slug}` |
 | US-178 | read a server error by its reference and the data inventory | admin | read | the error page | `read_server_error` `read_data_inventory` | `/admin` |
 
@@ -231,7 +231,7 @@ These have no screen because the person's Claude is the only one who needs them:
 
 | Task | Stories | Actions to add |
 | --- | --- | --- |
-| Models, Stripe payments, client documents and organisation deletion through the connector | US-115 US-175 US-176 US-177 | `remove_build_model` `set_review_model` `mark_stripe_payment_dealt_with` `list_client_documents` `read_client_document` `delete_organisation` |
+| Client documents and organisation deletion through the connector | US-115 US-177 | `list_client_documents` `read_client_document` `delete_organisation` |
 | The client portal through the connector | US-162 US-163 US-164 US-165 | `read_my_company_context` `mark_context_part` `confirm_company_context` `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` `list_my_invoices` `pay_invoice` |
 | Boardroom seat controls through the connector | US-124 US-125 | `steer_own_claude` `change_own_claude_setting` `answer_held_contribution` |
 | The area map through the connector | US-082 | `read_area_map` |
