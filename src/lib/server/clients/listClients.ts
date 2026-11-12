@@ -10,16 +10,27 @@ export type ClientSummary = Client & {
 	awaitingAnswerCount: number;
 };
 
-/** The register's records at the stages given, or every record when no stages are given. */
-export async function listClients(
+const summaryColumns = '*, client_contacts(is_primary, people(name)), projects(id, tasks(kind, status))';
+
+/** Every record on every organisation's register. */
+export async function listClients(supabase: SupabaseClient): Promise<ClientSummary[]> {
+	const { data, error } = await supabase.from('clients').select(summaryColumns).order('name');
+	if (error) throw error;
+	return data.map(toSummary);
+}
+
+/** The records one organisation's register keeps at the stages given. */
+export async function listClientsKeptBy(
 	supabase: SupabaseClient,
-	stages: ClientStage[] | null = null
+	organisationId: string,
+	stages: ClientStage[]
 ): Promise<ClientSummary[]> {
-	const query = supabase
+	const { data, error } = await supabase
 		.from('clients')
-		.select('*, client_contacts(is_primary, people(name)), projects(id, tasks(kind, status))')
+		.select(summaryColumns)
+		.eq('kept_by_organisation_id', organisationId)
+		.in('lifecycle_stage', stages)
 		.order('name');
-	const { data, error } = stages === null ? await query : await query.in('lifecycle_stage', stages);
 	if (error) throw error;
 	return data.map(toSummary);
 }

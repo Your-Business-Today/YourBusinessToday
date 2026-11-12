@@ -7,6 +7,7 @@ export type NewClientSeed = {
 	name: string;
 	website: string;
 	ownerId: string | null;
+	keptByOrganisationId?: string;
 	source?: LeadSource;
 	profile?: CompanyProfile;
 };
@@ -23,6 +24,7 @@ export async function createClient(
 			name: seed.name,
 			website: seed.website,
 			owner_id: seed.ownerId,
+			kept_by_organisation_id: seed.keptByOrganisationId,
 			lead_source: source,
 			...toCompanyProfileColumns(seed.profile ?? emptyCompanyProfile)
 		})

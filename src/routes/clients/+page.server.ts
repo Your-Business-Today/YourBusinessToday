@@ -3,7 +3,10 @@ import { loadSalesRegister } from '$lib/server/salesRegisters/loadSalesRegister'
 import { moveStageAction } from '$lib/server/salesRegisters/moveStageAction';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals, url }) => loadSalesRegister(locals, url, clientsRegister);
+export const load: PageServerLoad = async ({ locals, url, parent }) => {
+	const { framePicks } = await parent();
+	return loadSalesRegister(locals, url, clientsRegister, framePicks);
+};
 
 export const actions: Actions = {
 	moveStage: moveStageAction
