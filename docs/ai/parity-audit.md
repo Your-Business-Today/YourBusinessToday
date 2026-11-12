@@ -93,7 +93,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-079 | delete a mistaken client record | staff | write | `deleteClient` | `delete_client` | `/clients/{clientId}` |
 | US-080 | research a company and save the findings, its filings and its job adverts | staff | write | `/clients/research` | `save_company_research` `read_company_filings` `read_company_job_adverts` `save_company_job_adverts` | `/clients/{clientId}` `/clients/research` |
 | US-081 | search Companies House by SIC code and place and add a company as a lead, with its directors | staff | write | `addLead` `addLeadWithDirectors` | `search_companies_house` `add_company_as_lead` | `/clients/prospect` `/clients/map` |
-| US-082 | see the companies around a postcode on the map | staff | read | `/clients/map` load | — | `/clients/map` |
+| US-082 | see the companies around a postcode on the map | staff | read | `/clients/map` load | `read_area_map` | `/clients/map` |
 | US-083 | read the feed of what changed across the register | staff | read | `/clients/feed` load | `read_patch_feed` | `/clients/feed` |
 | US-084 | read, run and record a client's company context | staff | write | `/clients/{clientId}/context` load | `read_company_context` `start_context_run` `record_company_context` `read_confirmed_company_context` | `/clients/{clientId}/context` |
 | US-085 | name who brought a lead or client in | staff | write | `setBroughtInBy` | `set_client_brought_in_by` | `/clients/{clientId}` |
@@ -147,8 +147,8 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-121 | call a meeting with its agenda, and change the agenda | director | write | `callMeeting` | `call_board_meeting` `change_board_agenda` | `/organisations/{organisationId}/boardroom` |
 | US-122 | open the room, read an item, brief it and speak on it | director | write | `briefItem` | `open_board_room` `read_board_meeting` `read_board_item` `brief_board_item` `speak_on_board_item` | `/organisations/{organisationId}/boardroom/{meetingId}` |
 | US-123 | put a paper before the board and read one | director | write | `/organisations/{organisationId}/boardroom/{meetingId}` | `add_board_paper` `add_board_paper_from_records` `record_board_paper_upload` `read_board_paper` `read_board_brief` | `/organisations/{organisationId}/boardroom/{meetingId}` |
-| US-124 | steer my own Claude in the room and change its seat settings | director | write | `steerClaude` `changeSetting` | — | `/organisations/{organisationId}/boardroom/{meetingId}` |
-| US-125 | answer a contribution my Claude held back | director | write | `answerHeld` | — | `/organisations/{organisationId}/boardroom/{meetingId}` |
+| US-124 | steer my own Claude in the room and change its seat settings | director | write | `steerClaude` `changeSetting` | `steer_own_claude` `change_own_claude_setting` | `/organisations/{organisationId}/boardroom/{meetingId}` |
+| US-125 | answer a contribution my Claude held back | director | write | `answerHeld` | `answer_held_contribution` | `/organisations/{organisationId}/boardroom/{meetingId}` |
 | US-126 | answer a decision and set a decision rule | director | write | `answerDecision` | `answer_board_decision` `record_board_decision_rule` | `/organisations/{organisationId}/boardroom/{meetingId}` |
 | US-127 | close the meeting, write and answer the minutes, record the actions | director | write | `closeMeeting` `answerMinutes` `recordAction` `raiseActions` | `close_board_meeting` `write_board_minutes` `read_board_minutes` `answer_board_minutes` `record_board_action` `raise_board_actions` | `/organisations/{organisationId}/boardroom/{meetingId}` |
 
@@ -229,7 +229,4 @@ These have no screen because the person's Claude is the only one who needs them:
 
 ## The gaps, as the build list
 
-| Task | Stories | Actions to add |
-| --- | --- | --- |
-| Boardroom seat controls through the connector | US-124 US-125 | `steer_own_claude` `change_own_claude_setting` `answer_held_contribution` |
-| The area map through the connector | US-082 | `read_area_map` |
+None. Every story the site serves has its connector door above, and the rest is listed under *By design, not for the connector*. A story added to the site is added here with its door, or with `—` and a row in this list until the door is built.

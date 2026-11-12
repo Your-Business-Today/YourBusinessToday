@@ -1,3 +1,4 @@
+import { areaMapActions } from './areaMapActions';
 import { clientContactActions } from './clientContactActions';
 import { clientDocumentActions } from './clientDocumentActions';
 import { companyResearchActions } from './companyResearchActions';
@@ -42,5 +43,6 @@ export const clientActions: McpAction[] = [
 	...personApproachActions,
 	...clientProjectActions,
 	...clientRemovalActions,
-	...clientDocumentActions
+	...clientDocumentActions,
+	...areaMapActions
 ];
