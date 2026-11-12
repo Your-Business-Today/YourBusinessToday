@@ -1,3 +1,4 @@
+import { personNoteTitles } from '$lib/data/personNoteKind';
 import { getCompaniesForPerson } from '$lib/server/people/getCompaniesForPerson';
 import { getPerson } from '$lib/server/people/getPerson';
 import { noSuchPerson } from './describePerson';
@@ -40,5 +41,5 @@ async function saveApproachOnPerson(caller: McpCaller, input: Record<string, unk
 	if (person === null) return noSuchPerson;
 	const companies = await getCompaniesForPerson(caller.supabase, person.id);
 	await savePersonApproach(caller.supabase, approach, person.name, companies, caller.accountId);
-	return `${person.name}'s approach is saved to their notes as a "Drafted approach", and the draft recorded on ${companies.length} company(ies).`;
+	return `${person.name}'s approach is saved to their notes as a "${personNoteTitles.approach}", and the draft recorded on ${companies.length} company(ies).`;
 }

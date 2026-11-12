@@ -10,17 +10,17 @@ const placedAfterRelease: PlacementStory = {
 	goalKeptBesideAnother: null
 };
 
+const sitsAfterRelease = '"Bring the ledger across" now sits after "Ship the release".';
+
 describe('describeTaskPlacement', () => {
 	it('says only the new position when nothing else changed', () => {
-		expect(describeTaskPlacement(placedAfterRelease)).toBe(
-			'"Bring the ledger across" now sits after "Ship the release".'
-		);
+		expect(describeTaskPlacement(placedAfterRelease)).toBe(sitsAfterRelease);
 	});
 
 	it('says which parent the task left when it comes back to the top level', () => {
 		const parentMove = { leftName: 'Close the year', joinedName: null };
 		expect(describeTaskPlacement({ ...placedAfterRelease, parentMove })).toBe(
-			'"Bring the ledger across" now sits after "Ship the release".\n' +
+			`${sitsAfterRelease}\n` +
 				'It left "Close the year" and is a top level task again, because a task is ordered ' +
 				'among the tasks that share its parent.'
 		);
@@ -31,7 +31,7 @@ describe('describeTaskPlacement', () => {
 		const goalMove = { leftName: 'Accounts', joinedName: null };
 		const answer = describeTaskPlacement({ ...placedAfterRelease, parentMove, goalMove });
 		expect(answer.split('\n')).toEqual([
-			'"Bring the ledger across" now sits after "Ship the release".',
+			sitsAfterRelease,
 			'It left "Close the year" and is now a subtask of "Ship the release", because a task is ' +
 				'ordered among the tasks that share its parent.',
 			'Its goal changed from "Accounts" to no goal.'
