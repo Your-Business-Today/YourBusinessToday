@@ -24,12 +24,12 @@
 	{/if}
 	<nav aria-label="Portal" class="-mx-1 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-1">
 		{#each view.sections as section (section.key)}
-			{#if section.label === null}
+			{#if section.folder === null}
 				{#each section.links as link (link.href)}
 					<FrameNavLink {link} isCurrent={link.href === view.currentHref} />
 				{/each}
 			{:else}
-				<FrameNavFolder {section} currentHref={view.currentHref} />
+				<FrameNavFolder {section} folder={section.folder} currentHref={view.currentHref} />
 			{/if}
 		{/each}
 	</nav>

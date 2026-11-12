@@ -1,28 +1,28 @@
 import { organisationHref, organisationPages } from '$lib/components/organisations/organisationPages';
 import type { FrameGroupKey, FrameLink } from './frameGroups';
+import type { LineIconKind } from '$lib/components/site/lineIcons';
 import type { OrganisationModule } from '$lib/data/organisationModules';
 
-/** Where a module's page sits in the side bar, and what it is called inside its folder. */
-type ModuleFolder = { group: FrameGroupKey; label: string };
+/** Where a module's page sits in the side bar, what it is called inside its folder, and the icon it is drawn with. */
+type ModuleFolder = { group: FrameGroupKey; label: string; icon: LineIconKind };
 
 /** What the side bar calls the pages that take the same words as their own heading. */
 export const framePageLabels = { reports: 'Reports', domain: 'Domain' } as const;
 
 const moduleFolders: Record<OrganisationModule, ModuleFolder> = {
-	books: { group: 'accounts', label: framePageLabels.reports },
-	sales: { group: 'sales', label: 'Prospecting' },
-	business_brain: { group: 'knowledge', label: 'Your Business Brain' },
-	brand: { group: 'more', label: 'Brand' },
-	boardroom: { group: 'more', label: 'Boardroom' }
+	books: { group: 'accounts', label: framePageLabels.reports, icon: 'chartColumn' },
+	sales: { group: 'sales', label: 'Prospecting', icon: 'compass' },
+	business_brain: { group: 'knowledge', label: 'Your Business Brain', icon: 'brain' },
+	brand: { group: 'more', label: 'Brand', icon: 'swatchBook' },
+	boardroom: { group: 'more', label: 'Boardroom', icon: 'presentation' }
 };
 
-const domainFolder: ModuleFolder = { group: 'knowledge', label: framePageLabels.domain };
+const domainFolder: ModuleFolder = { group: 'knowledge', label: framePageLabels.domain, icon: 'network' };
 const domainKeeper: OrganisationModule = 'business_brain';
 
 /** A module's page as the side bar lists it, in its folder. */
 export function moduleFrameLink(module: OrganisationModule, href: string): FrameLink {
-	const { group, label } = moduleFolders[module];
-	return { href, label, group };
+	return { href, ...moduleFolders[module] };
 }
 
 /** The organisation's domain as the side bar lists it: under Knowledge, beside the brain that keeps it. */
