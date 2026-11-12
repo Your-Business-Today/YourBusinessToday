@@ -1,40 +1,39 @@
 import { describe, expect, it } from 'vitest';
 import { McpRequestRefusal } from './mcpErrors';
 import { describeMcpPrompts, getMcpPrompt } from './mcpPrompts';
+import { ybtCommands } from './ybtCommands';
 
-const summaryPromptName = 'ybt_summary';
+function textOf(name: string): string {
+	const { messages } = getMcpPrompt(name) as { messages: { content: { text: string } }[] };
+	const [{ content }] = messages;
+	return content.text;
+}
 
-describe('the connector’s prompts', () => {
-	it('offers the YBT summary by name', () => {
-		const names = describeMcpPrompts().map((prompt) => prompt.name);
-		expect(names).toContain(summaryPromptName);
+describe('the connector’s prompts are the /ybt- commands', () => {
+	it('offers one prompt per command, named for it, the chat first', () => {
+		const prompts = describeMcpPrompts();
+		expect(prompts.map((prompt) => prompt.name)).toEqual(ybtCommands.map((command) => command.name));
+		const [first] = prompts;
+		expect(first.name).toBe('ybt-chat');
+		expect(first.title).toBe('YBT chat: what do I need to do?');
 	});
 
-	it('asks the Claude to run the summary action and walk the person through it', () => {
-		const { messages } = getMcpPrompt(summaryPromptName) as { messages: { content: { text: string } }[] };
-		const [{ content }] = messages;
-		expect(content.text).toContain('read_ybt_summary');
-		expect(content.text).toContain('quick decisions');
+	it('asks the Claude to run the summary as read_latest_messages and then the summary action, walked through', () => {
+		expect(textOf('ybt-summary')).toContain('read_latest_messages');
+		expect(textOf('ybt-summary')).toContain('read_ybt_summary');
+		expect(textOf('ybt-summary')).toContain('quick decisions');
+	});
+
+	it('runs the turn-based chat through what_do_i_need_to_do and answer_turn, and what is outstanding through its tool', () => {
+		expect(textOf('ybt-chat')).toContain('what_do_i_need_to_do');
+		expect(textOf('ybt-chat')).toContain('answer_turn');
+		expect(textOf('ybt-bugs')).toContain('bugsOnly true');
+		expect(textOf('ybt-outstanding')).toContain('whats_outstanding_for_me');
+		expect(textOf('ybt-chase')).toContain('who to chase');
 	});
 
 	it('refuses a prompt it does not have', () => {
 		expect(() => getMcpPrompt('constructor')).toThrow(McpRequestRefusal);
-	});
-
-	it('offers what is outstanding by its plain words, through the tool of the same question', () => {
-		const titles = describeMcpPrompts().map((prompt) => prompt.title);
-		expect(titles).toContain('What is outstanding for me');
-		const { messages } = getMcpPrompt('whats_outstanding') as { messages: { content: { text: string } }[] };
-		const [{ content }] = messages;
-		expect(content.text).toContain('whats_outstanding_for_me');
-	});
-
-	it('offers the turn-based agent first, through next_turn and answer_turn', () => {
-		const [first] = describeMcpPrompts();
-		expect(first.title).toBe('What do I need to do?');
-		const { messages } = getMcpPrompt(first.name) as { messages: { content: { text: string } }[] };
-		const [{ content }] = messages;
-		expect(content.text).toContain('what_do_i_need_to_do');
-		expect(content.text).toContain('answer_turn');
+		expect(() => getMcpPrompt('ybt_summary')).toThrow(McpRequestRefusal);
 	});
 });

@@ -87,6 +87,38 @@ not the gate here — the action code is. A member's projects come from `project
 at token resolution, never from input, and every shared action refuses a project that is
 not among them.
 
+## The /ybt- commands
+
+A person types a command in any chat with their Claude, or picks it from the prompt menu
+their Claude draws for the connector; either way their Claude does the one thing it asks.
+The family lives in `src/lib/server/mcp/ybtCommands.ts`, and two things read it so the
+commands work in every client:
+
+- `prompts/list` and `prompts/get` offer one MCP prompt per command, named for it
+  (`ybt-chat`, `ybt-summary`, …), whose message is the command's text. Claude Code lists
+  them as slash commands; claude.ai lists them in the connector's menu.
+- `get_current_context` carries a *Commands* line naming every tag, so a Claude that is
+  told `/ybt-summary` in plain text knows it is a command and does what its prompt does.
+
+| Command | What it does |
+| --- | --- |
+| `/ybt-chat` | the turn-based chat: `what_do_i_need_to_do`, one item at a time, answers recorded with `answer_turn` |
+| `/ybt-summary` | what is new since they last spoke (`read_latest_messages`), then `read_ybt_summary` walked through |
+| `/ybt-outstanding` | `whats_outstanding_for_me` with everything shown: every action item, then who to chase |
+| `/ybt-bugs` | the turn-based chat on the bugs alone (`bugsOnly`) |
+| `/ybt-chase` | who owes them, person by person, with the words to send |
+| `/ybt-project` | `read_project_state` for the project they name, its verdict first |
+| `/ybt-raise` | what they just described as a task, on their yes, as the doctrine's rule 2 says |
+| `/ybt-tie-off` | the session's task tied off as rule 4 says, so the chat can be archived |
+| `/ybt-help` | this list |
+
+A new command is a new entry in the family, nothing more: the menu, the context line and
+the help list all read it.
+
+> **12 November 2026.** The three earlier prompts (`what_do_i_need_to_do`, `whats_outstanding`,
+> `ybt_summary`) became `ybt-chat`, `ybt-outstanding` and `ybt-summary`, so a prompt's name is
+> the tag a person types.
+
 ## The route
 
 ```
