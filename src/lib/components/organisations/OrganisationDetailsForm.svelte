@@ -4,6 +4,7 @@
 	import OrganisationDetailsFields from './OrganisationDetailsFields.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import { organisationDetailGroups } from '$lib/data/organisationDetailGroups';
 	import { organisationSubmitClasses } from './organisationFormStyles';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
@@ -12,8 +13,8 @@
 	const tracker = new FormTracker();
 </script>
 
-<form method="POST" action="?/updateDetails" use:enhance={tracker.submit(onSaved)} class="flex flex-col gap-4">
-	<OrganisationDetailsFields details={organisation} namePlaceholder={organisation.name} />
+<form method="POST" action="?/updateDetails" use:enhance={tracker.submit(onSaved)} class="flex flex-col gap-8">
+	<OrganisationDetailsFields details={organisation} groups={organisationDetailGroups} namePlaceholder={organisation.name} />
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton isSaving={tracker.isSaving} class={organisationSubmitClasses}>Save</SubmitButton>
 </form>

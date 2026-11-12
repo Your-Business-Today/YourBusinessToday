@@ -1,29 +1,20 @@
+import { organisationDetailFields, readEveryDetail } from '$lib/data/organisationDetailGroups';
 import type { OrganisationPlace } from '$lib/data/organisationAccess';
 import type { OrganisationDetails } from '$lib/data/organisationRules';
 
 export type Organisation = OrganisationPlace & OrganisationDetails & { createdAt: string };
 
+/** A detail whose column the row does not carry reads blank, so the page stands before the column is added. */
 export function parseOrganisationRecord(row: Record<string, unknown>): Organisation {
 	return {
 		id: row.id as string,
 		name: row.name as string,
-		address: (row.address as string) ?? '',
-		accountsContact: {
-			name: (row.accounts_contact_name as string) ?? '',
-			email: (row.accounts_contact_email as string) ?? '',
-			phone: (row.accounts_contact_phone as string) ?? ''
-		},
+		...readEveryDetail((field) => (row[field.column] as string) ?? ''),
 		createdAt: row.created_at as string
 	};
 }
 
 export function organisationDetailColumns(details: OrganisationDetails): Record<string, string> {
-	const contact = details.accountsContact;
-	return {
-		name: details.name,
-		address: details.address,
-		accounts_contact_name: contact.name,
-		accounts_contact_email: contact.email,
-		accounts_contact_phone: contact.phone
-	};
+	const columns = organisationDetailFields.map((field) => [field.column, details[field.key]]);
+	return { name: details.name, ...Object.fromEntries(columns) };
 }

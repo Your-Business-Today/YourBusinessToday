@@ -34,7 +34,8 @@ export const organisationReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'one organisation in full: how it is invoiced, which modules are switched on, its directors when Boardroom is on, its people and their standing, and its projects',
+			'one organisation in full: the details we hold about it (company, invoicing, contract and data protection), ' +
+			'which modules are switched on, its directors when Boardroom is on, its people and their standing, and its projects',
 		inputSchema: objectSchema({ organisationId: organisationIdField }, ['organisationId']),
 		run: async (caller, input) => {
 			const organisation = await reachableOrganisation(caller, readText(input, 'organisationId'));

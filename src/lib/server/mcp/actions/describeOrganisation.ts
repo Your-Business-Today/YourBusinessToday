@@ -1,4 +1,4 @@
-import { invoicingFieldLabels } from '$lib/data/organisationInvoicing';
+import { organisationDetailGroups, type DetailGroup } from '$lib/data/organisationDetailGroups';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { standingLabelOf } from '$lib/data/organisationStanding';
 import type { OrganisationMember } from '$lib/server/organisations/organisationMemberRecord';
@@ -23,7 +23,7 @@ export function describeOrganisationInFull(
 ): string {
 	return [
 		`${organisation.name} (id: ${organisation.id})`,
-		...invoicingLines(organisation),
+		...organisationDetailGroups.flatMap((group) => describeDetailGroup(group, organisation)),
 		'',
 		'People:',
 		members.length === 0 ? 'Nobody yet.' : members.map(describeMemberLine).join('\n'),
@@ -33,15 +33,11 @@ export function describeOrganisationInFull(
 	].join('\n');
 }
 
-function invoicingLines(organisation: Organisation): string[] {
-	const contact = organisation.accountsContact;
-	return [
-		'Invoicing:',
-		`${invoicingFieldLabels.address}: ${organisation.address || 'not set'}`,
-		`${invoicingFieldLabels.contactName}: ${contact.name || 'not set'}`,
-		`${invoicingFieldLabels.contactEmail}: ${contact.email || 'not set'}`,
-		`${invoicingFieldLabels.contactPhone}: ${contact.phone || 'not set'}`
-	];
+const notSet = 'not set';
+
+function describeDetailGroup(group: DetailGroup, organisation: Organisation): string[] {
+	const details = group.fields.map((field) => `${field.label}: ${organisation[field.key] || notSet}`);
+	return [`${group.title}:`, ...details];
 }
 
 function describeMemberLine(member: OrganisationMember): string {

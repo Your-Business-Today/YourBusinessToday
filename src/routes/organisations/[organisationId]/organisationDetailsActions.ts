@@ -10,7 +10,7 @@ import type { Actions } from './$types';
 export const organisationDetailsActions = {
 	updateDetails: async ({ locals, params, request }) => {
 		const { organisation } = await requireOrganisationManager(locals, params.organisationId);
-		const details = readOrganisationDetails(await request.formData());
+		const details = readOrganisationDetails(await request.formData(), organisation);
 		const refusal = validateOrganisationDetails(details);
 		if (refusal !== null) return fail(400, { message: refusal });
 		await updateOrganisationDetails(locals.supabase, organisation.id, details);

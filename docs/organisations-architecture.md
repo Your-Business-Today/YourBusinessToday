@@ -12,7 +12,8 @@ projects under no client at all.
 **An organisation is the party a set of projects belongs to, and it is one company.** A client
 company, or Your Business Today itself. It carries its own address and accounts contact, which a
 later accounts integration will read (`organisations`, migration `0075`), and it is invoiced as
-itself. Nothing is grouped beneath anything else: James, 10 Nov 2026, "we invoice by customer and
+itself. Since 12 Nov 2026 it also carries everything we must hold about a client we sign up
+(migration `0205`, "What we hold about a client" below). Nothing is grouped beneath anything else: James, 10 Nov 2026, "we invoice by customer and
 if we need to roll things up to a parent org we can do that as we require". The old grouping column,
 `parent_organisation_id`, is still in the database with its values, unread by the site, the
 connector and the reach functions (migration `0156`, below).
@@ -59,8 +60,8 @@ through an organisation cannot be removed from the project, only from the organi
 - `/organisations` — the register: every organisation the person is on (staff: every one), one row
   each in name order, counting projects and people. Staff create an organisation here.
 - `/organisations/[organisationId]` — one organisation: its own projects, its people with their
-  standing (a manager invites by email, makes or unmakes a manager, removes), its own invoicing
-  details and its modules. Staff delete here; the projects stay, under no organisation.
+  standing (a manager invites by email, makes or unmakes a manager, removes), its Details (what we
+  hold about it as a client) and its modules. Staff delete here; the projects stay, under no organisation.
 - `/projects` — an organisation chip row above the boards narrows both My projects and Team
   projects to one organisation; every tile carries its organisation; the new and edit forms choose
   one.
@@ -70,7 +71,7 @@ through an organisation cannot be removed from the project, only from the organi
 
 ## The connector
 
-Area `organisations`: `list_organisations` (one line each), `read_organisation` (invoicing, people,
+Area `organisations`: `list_organisations` (one line each), `read_organisation` (details, people,
 projects, modules), `create_organisation` (staff), `update_organisation_details`,
 `invite_to_organisation`, `set_organisation_manager`, `remove_organisation_member` and
 `set_project_organisation`. `create_project` names an organisation; `list_projects` narrows to one;
@@ -78,6 +79,34 @@ projects, modules), `create_organisation` (staff), `update_organisation_details`
 `get_current_context` tells a connected Claude which organisations its person is on and whether
 they manage them. The gate is the same pure model the site uses (`isOnOrganisation`,
 `managesOrganisation`), read against the caller's `organisationMemberships`.
+
+## What we hold about a client
+
+James, 12 Nov 2026, of the organisation's Details tab (it was Invoicing): "since we are signing up clients
+invoicing is actually all the client information" and "ensure everything legally required to be collected
+can be done here". The tab shows four groups, and each field is there because the law or our own contract
+asks for it:
+
+| Group | Fields | Why we hold it |
+| --- | --- | --- |
+| Company | Legal name, company number, registered in, VAT number, registered office | The party the contract and every invoice name: the Master Services Agreement's parties clause, and the customer's name on an invoice (VAT Regulations 1995, regulation 14). The VAT number is the evidence that a customer outside the UK is in business (VAT Notice 741A). |
+| Invoicing | Invoice address, accounts contact, email and phone | An invoice carries the customer's address (the same regulation); the contact is who it is sent to. These are the columns of `0075`, unchanged. |
+| Contract | Signatory, their position and email, notices email | The agreement's signature block and its notices clause; the Order Form's contact who can decide. |
+| Data protection | Contact name, email and phone, representative or DPO | Our record of processing names each controller's contact and, where it has one, its representative and data protection officer (UK GDPR, Article 30(2)); a personal data breach is told to the controller without undue delay (Article 33(2)), by phone and in writing. |
+
+No identity documents are held. The Money Laundering Regulations 2017 ask for them only of a business that
+does a client's bookkeeping, tax or company filings for it; supplying the software does not.
+
+- **Stated once.** `organisationDetailGroups` in `src/lib/data` lists every field with its column, label,
+  longest length and kind, a file for each group. The record, the form, the rules, the connector's fields and
+  its description of an organisation all read that list, and a test holds migration `0205` to it.
+- **Both doors check.** The page's action and the connector's `create_organisation` and
+  `update_organisation_details` refuse a value longer than its column, or an email address that does not
+  read as one, by the field's name. An email address is held in lower case.
+- **A field left out keeps what is there**, at both doors (`editedOrganisationDetails`), so a page opened
+  before a field was added never blanks it.
+- **Additive.** `0205` adds thirteen columns, text, not null and blank by default; the address and the
+  accounts contact stay where they were, and the record reads blank for a column that is not there yet.
 
 ## The seed
 
