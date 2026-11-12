@@ -33,7 +33,7 @@ const trailAt = (access: FrameAccess, path: string) => viewAt(access, path).trai
 
 describe('frameViewFor', () => {
 	it('gives a member of staff the work inside an organisation, and leaves the sales pages to the Sales module', () => {
-		expect(labelsFor(staff)).toEqual(['Projects', 'Clients']);
+		expect(labelsFor(staff)).toEqual(['Projects', 'Leads', 'Clients']);
 	});
 
 	it('puts what sits above an organisation in the top-right menu, with Admin for an administrator only', () => {
@@ -85,7 +85,7 @@ describe('frameViewFor', () => {
 		const picks = { ...noPicks, organisationLinks, moduleLinks, homePath: '/projects' };
 		const view = frameViewFor(staff, siteUrl('/projects/harbour-site/tasks/one'), picks);
 		const labels = view.links.map(({ label }) => label);
-		expect(labels).toEqual(['Overview', 'Projects', 'Accounts', 'Clients']);
+		expect(labels).toEqual(['Overview', 'Projects', 'Accounts', 'Leads', 'Clients']);
 		expect(labels.filter((label) => label === 'Projects')).toHaveLength(1);
 		expect(view.currentHref).toBe('/projects');
 		expect(view.homePath).toBe('/projects');

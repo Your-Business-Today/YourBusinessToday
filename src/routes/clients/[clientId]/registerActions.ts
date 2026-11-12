@@ -12,6 +12,7 @@ import { inviteClientContact, inviteOutcomes } from '$lib/server/clients/inviteC
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { validateRecordId } from '$lib/data/isUuid';
+import { registerOfStage } from '$lib/data/salesRegisters';
 import { tooManyInvitesMessage } from '$lib/server/email/inviteAllowance';
 import type { Actions } from './$types';
 
@@ -53,6 +54,6 @@ export const registerActions: Actions = {
 		if (client === null) return fail(404, { message: 'That client could not be found.' });
 		const refusal = await deleteClientRecord(supabaseServiceClient(), client, user.id);
 		if (refusal !== null) return fail(409, { message: refusal });
-		redirect(303, '/clients');
+		redirect(303, registerOfStage(client.stage).path);
 	}
 };

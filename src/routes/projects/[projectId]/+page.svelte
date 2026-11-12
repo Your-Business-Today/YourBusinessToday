@@ -57,7 +57,7 @@
 
 <div class={workspaceBodyClasses}>
 	{#if isDevelopmentSide}
-		<DevelopmentTabs projectId={project.id} selected={data.boardTab} />
+		<DevelopmentTabs projectId={project.id} selected={data.boardTab} counts={data.developmentTabCounts} />
 	{/if}
 	<FlashMessage message={form?.message} />
 	{#key data.boardTab}

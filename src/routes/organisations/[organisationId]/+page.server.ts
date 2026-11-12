@@ -5,7 +5,7 @@ import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnMod
 import { getDirectorsOfOrganisation } from '$lib/server/boardroom/getDirectorsOfOrganisation';
 import { sittingDirectors } from '$lib/data/boardroomDirector';
 import { organisationDirectorActions } from './organisationDirectorActions';
-import { markReachableProjects } from '$lib/server/organisations/markReachableProjects';
+import { getProjectsInViewerOrder } from '$lib/server/organisations/getProjectsInViewerOrder';
 import { organisationMemberActions } from './organisationMemberActions';
 import { organisationModuleActions } from './organisationModuleActions';
 import { requireOrganisationAccess } from '$lib/server/auth/requireOrganisationAccess';
@@ -24,7 +24,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	return {
 		organisation,
 		members,
-		projects: await markReachableProjects(locals.supabase, user.id, projects),
+		projects: await getProjectsInViewerOrder(locals.supabase, user.id, projects),
 		modules,
 		directors: modules.includes('boardroom') ? sittingDirectors(directors) : [],
 		canManage,

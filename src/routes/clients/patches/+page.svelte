@@ -23,7 +23,7 @@
 			<p class="text-chalk/70">The ground we are working, patch by patch, across the whole country.</p>
 		</div>
 		<div class="flex flex-wrap gap-3">
-			<a href="/clients" class={quietButtonClasses}>Clients</a>
+			<a href="/leads" class={quietButtonClasses}>Leads</a>
 			<a href="/clients/map" class={quietButtonClasses}>Map an area</a>
 		</div>
 	</div>

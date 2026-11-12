@@ -31,7 +31,7 @@
 <BlueprintHeader {project} {blueprint} />
 
 <div class={workspaceBodyClasses}>
-	<DevelopmentTabs projectId={project.id} selected={developmentPages.siteMap} />
+	<DevelopmentTabs projectId={project.id} selected={developmentPages.siteMap} counts={data.developmentTabCounts} />
 	<FlashMessage message={form?.message} />
 	<AudienceSwitch projectId={project.id} {audience} />
 	{#if mcpMap !== null}

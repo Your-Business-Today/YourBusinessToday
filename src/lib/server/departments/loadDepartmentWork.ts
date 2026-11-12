@@ -30,6 +30,7 @@ export async function loadDepartmentWork(supabase: SupabaseClient, project: Boar
 		tasks,
 		goals: goalsForBoardTabs(projectGoals, tasks, shownTabs),
 		boardTab,
+		departmentTabs: tabs,
 		department: departmentOfBoardTab(boardTab),
 		developmentKind: developmentKindOfBoardTab(boardTab),
 		isInternalProject: isInternal,

@@ -1,4 +1,4 @@
-import type { NavigationLink } from '$lib/components/site/siteNavigation';
+import type { FrameLink } from './frameGroups';
 
 /** One choice in a side bar picker: an organisation, or a project of the picked organisation. */
 export type FramePickOption = { id: string; name: string };
@@ -12,8 +12,8 @@ export type FramePicks = {
 	pickedOrganisationId: string | null;
 	projects: FramePickOption[];
 	pickedProjectId: string | null;
-	organisationLinks: NavigationLink[];
-	moduleLinks: NavigationLink[];
+	organisationLinks: FrameLink[];
+	moduleLinks: FrameLink[];
 	homePath: string | null;
 };
 

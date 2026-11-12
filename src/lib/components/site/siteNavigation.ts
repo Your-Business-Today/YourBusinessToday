@@ -32,6 +32,8 @@ export const projectsLink: NavigationLink = { href: '/projects', label: 'Project
 
 export const organisationsLink: NavigationLink = { href: '/organisations', label: 'Organisations' };
 
+export const leadsLink: NavigationLink = { href: '/leads', label: 'Leads' };
+
 export const clientsLink: NavigationLink = { href: '/clients', label: 'Clients' };
 
 export const adminLink: NavigationLink = { href: '/admin', label: 'Admin' };
@@ -60,8 +62,8 @@ export function workLinksFor(access: NavigationAccess): NavigationLink[] {
 
 /** The sales pages sit in an organisation's Sales module, not here. */
 export function businessLinksFor(access: NavigationAccess): NavigationLink[] {
-	if (!access.isAdmin) return [clientsLink];
-	return [clientsLink, adminLink];
+	if (!access.isAdmin) return [leadsLink, clientsLink];
+	return [leadsLink, clientsLink, adminLink];
 }
 
 export function accountLinksFor(access: NavigationAccess): NavigationLink[] {

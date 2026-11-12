@@ -6,10 +6,11 @@ const organisation = { id: 'harbour', name: 'Harbour Builders', organisationId: 
 const clientCompany = { ...organisation, portalClientId: 'harbour-client' };
 
 describe('organisationPageLinksFor', () => {
-	it('gives the people on an organisation its overview and its projects, and no project’s pages', () => {
+	it('gives the people on an organisation its overview, and its projects and tasks under Work, and no project’s pages', () => {
 		expect(organisationPageLinksFor(organisation, projectId)).toEqual([
 			{ href: '/organisations/harbour', label: 'Overview' },
-			{ href: '/projects', label: 'Projects' }
+			{ href: '/projects', label: 'Projects', group: 'work' },
+			{ href: '/organisations/harbour/task-management', label: 'Tasks', group: 'work' }
 		]);
 	});
 

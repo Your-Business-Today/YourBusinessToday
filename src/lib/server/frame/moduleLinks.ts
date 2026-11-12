@@ -3,13 +3,13 @@ import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
 import { usableModules } from '$lib/data/organisationModuleAccess';
 import { enterableModules } from './enterableModules';
+import { moduleFrameLink } from '$lib/components/frame/moduleFolders';
 import {
-	organisationModuleLabels,
 	organisationModuleRouteSegments,
 	organisationModules,
 	type OrganisationModule
 } from '$lib/data/organisationModules';
-import type { NavigationLink } from '$lib/components/site/siteNavigation';
+import type { FrameLink } from '$lib/components/frame/frameGroups';
 import type { OrganisationVisitor } from '$lib/data/organisationAccess';
 
 const modulePageFiles = Object.keys(import.meta.glob('/src/routes/organisations/*/*/+page.svelte'));
@@ -28,7 +28,7 @@ export async function readModuleLinks(
 	locals: App.Locals,
 	accountId: string,
 	organisationId: string
-): Promise<NavigationLink[]> {
+): Promise<FrameLink[]> {
 	if (modulesWithPages.length === 0) return [];
 	const [visitor, switchedOn] = await Promise.all([
 		readOrganisationVisitor(locals, accountId),
@@ -40,9 +40,9 @@ export async function readModuleLinks(
 	return enterable.map((module) => moduleLinkFor(organisationId, module));
 }
 
-function moduleLinkFor(organisationId: string, module: OrganisationModule): NavigationLink {
+function moduleLinkFor(organisationId: string, module: OrganisationModule): FrameLink {
 	const segment = organisationModuleRouteSegments[module];
-	return { href: `/organisations/${organisationId}/${segment}`, label: organisationModuleLabels[module] };
+	return moduleFrameLink(module, `/organisations/${organisationId}/${segment}`);
 }
 
 async function readOrganisationVisitor(locals: App.Locals, accountId: string): Promise<OrganisationVisitor> {
