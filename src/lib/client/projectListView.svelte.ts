@@ -6,11 +6,10 @@ import type { ProjectStatusFilter } from '$lib/data/projectStatusFilter';
 import { statusOnFirstVisit } from '$lib/data/projectsTab';
 import { topRank } from '$lib/data/topRank';
 import { writeShownIds, type ShownPosition } from '$lib/data/shownIds';
-import { boardEdgesOf, type BoardEdges } from '$lib/data/projectBoardEdges';
 import type { ListedProject } from '$lib/server/projects/getProjectsForUser';
 
-/** One row of the shown page: the project, its number on the list, and whether it ends its board. */
-export type ProjectListRow = BoardEdges & { id: string; project: ListedProject; position: number };
+/** One row of the shown page: the project, its number on the list as shown, and whether it is that list's top or bottom. */
+export type ProjectListRow = { id: string; project: ListedProject; position: number; isFirst: boolean; isLast: boolean };
 
 const projectsPerPage = 20;
 
@@ -51,12 +50,12 @@ export class ProjectListView extends ProjectFilterChoices {
 		return countByStatusFilter(this.#allProjects(), this.filters);
 	}
 
-	/** The shown projects' ids in order, as the board's arrows and priority box send them. */
+	/** The shown projects' ids in order, as the list's arrows and priority box send them. */
 	get shownIds(): string {
 		return writeShownIds(this.filteredProjects.map((project) => project.id));
 	}
 
-	/** A project's number on the board as shown, 1 at the top. */
+	/** A project's number on the list as shown, 1 at the top. */
 	placeOf(projectId: string): ShownPosition {
 		const position = this.filteredProjects.findIndex((project) => project.id === projectId) + topRank;
 		return { position, shownIds: this.shownIds };
@@ -76,13 +75,9 @@ export class ProjectListView extends ProjectFilterChoices {
 	}
 
 	get pagedRows(): ProjectListRow[] {
-		const shownProjects = this.filteredProjects;
-		return this.pagedProjects.map((project, pageIndex) => ({
-			id: project.id,
-			project,
-			position: this.firstPositionNumber + pageIndex,
-			...boardEdgesOf(project, shownProjects)
-		}));
+		const firstPosition = this.firstPositionNumber;
+		const lastPosition = this.matchCount;
+		return this.pagedProjects.map((project, pageIndex) => rowAt(project, firstPosition + pageIndex, lastPosition));
 	}
 
 	get countLabel(): string {
@@ -96,4 +91,8 @@ export class ProjectListView extends ProjectFilterChoices {
 	#projectsMatching(filters: ProjectListFilters): ListedProject[] {
 		return this.#allProjects().filter((project) => matchesProjectListFilters(project, filters));
 	}
+}
+
+function rowAt(project: ListedProject, position: number, lastPosition: number): ProjectListRow {
+	return { id: project.id, project, position, isFirst: position === topRank, isLast: position === lastPosition };
 }

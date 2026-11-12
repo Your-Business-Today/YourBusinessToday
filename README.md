@@ -21,8 +21,9 @@ The books live in their own house, Your Books Today.
 - A project belongs to its owner and is worked by its team. Anyone with an account
   creates projects they own; the owner invites people by email, removes them, and can hand
   the project on. Everyone on a project works its goals — high level, measurable — and its
-  tasks, and every goal and task carries a conversation. `/projects` shows your projects
-  and your team projects, each tile saying how much of its open work is assigned to you;
+  tasks, and every goal and task carries a conversation. `/projects` shows the projects
+  you own and the ones you are on as one list in your own order, each row saying how much
+  of its open work is assigned to you;
   `/tasks` is your queue across the projects you own, with an Assigned to me filter for every
   open task assigned to you on any project you are on. A project's backlog carries a chip per
   person with their open assigned count, so what is assigned to each of you is one click away.

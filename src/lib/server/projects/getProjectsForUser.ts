@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { asOneList } from './asOneList';
 import { getProjectsForOwner, type ProjectSummary } from './getProjectsForOwner';
 import { getTeamProjects, type TeamProject } from '$lib/server/members/getTeamProjects';
 import { tallyProjectsInSite } from './tallyOwnedProjectsInSite';
@@ -18,7 +19,7 @@ const emptyTally: ProjectTally = {
 	longTermGoalCount: 0
 };
 
-/** Every project a person owns or is on, as one list: their own first in their order, then the rest in theirs. */
+/** Every project a person owns or is on, as their one list in their own order, whoever owns each. */
 export async function getProjectsForUser(
 	supabase: SupabaseClient,
 	accountId: string,
@@ -32,7 +33,7 @@ export async function getProjectsForUser(
 	const teamTallies = await tallyProjectsInSite(supabase, teamProjectIds);
 	const yours = ownedProjects.map((project) => ({ ...project, isYours: true, ownerName: '' }));
 	const others = teamProjects.map((project) => asListedProject(project, teamTallies.get(project.id) ?? emptyTally));
-	return [...yours, ...others];
+	return asOneList(yours, others);
 }
 
 function asListedProject(project: TeamProject, tally: ProjectTally): ListedProject {

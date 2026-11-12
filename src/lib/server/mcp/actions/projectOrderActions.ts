@@ -15,16 +15,8 @@ import {
 	sayWhichPriority
 } from './orderingFields';
 import type { McpAction } from '../actionTypes';
-import type { McpCaller } from '../resolveMcpCaller';
-import type { Project } from '$lib/server/projects/projectRecord';
 
 const projectIdField = textField('The project id');
-const oneBoardOnly =
-	'Both projects must be on one board: the ones you own, or the ones you are on.';
-
-function boardNameFor(project: Project, caller: McpCaller): string {
-	return project.ownerId === caller.accountId ? 'your board' : 'your team projects';
-}
 
 export const projectOrderActions: McpAction[] = [
 	{
@@ -32,12 +24,14 @@ export const projectOrderActions: McpAction[] = [
 		area: 'projects',
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'give a project a priority number on your board — the others shift to make room',
+		summary: 'give a project a priority number in your projects list — the others shift to make room',
 		guidance:
-			'The board is in priority order: 1 matters most right now. list_projects shows each ' +
-			'project’s number, so read it, then set the number the person wants. A project you own ' +
-			'ranks among the ones you own; a project you are on ranks among your team projects, in ' +
-			'an order that is yours alone.',
+			'Your projects list is in priority order: 1 matters most right now. list_projects shows ' +
+			'each project’s number, so read it, then set the number the person wants. The projects ' +
+			'you own and the ones you are on rank together in the one list. The order among the ones ' +
+			'you own is the order everybody on them sees. Where a project you own sits among the ones ' +
+			'other people own is yours alone; the ones another person owns follow that owner’s order ' +
+			'again when they next reorder them.',
 		inputSchema: objectSchema(
 			{ projectId: projectIdField, priority: priorityField('project') },
 			['projectId', 'priority']
@@ -48,7 +42,7 @@ export const projectOrderActions: McpAction[] = [
 			const priority = readPriority(input);
 			if (priority === null) return sayWhichPriority;
 			await setProjectPriority(caller.supabase, project.id, priority, caller.accountId);
-			return `${project.name} is now priority ${priority} among ${boardNameFor(project, caller)}.`;
+			return `${project.name} is now priority ${priority} in your projects list.`;
 		}
 	},
 	{
@@ -56,7 +50,7 @@ export const projectOrderActions: McpAction[] = [
 		area: 'projects',
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'move a project one place up or down its board',
+		summary: 'move a project one place up or down your projects list, past whichever project is next to it',
 		guidance: 'To give it a particular number in one call, use set_project_priority.',
 		inputSchema: objectSchema({ projectId: projectIdField, direction: directionField }, [
 			'projectId',
@@ -76,7 +70,7 @@ export const projectOrderActions: McpAction[] = [
 		area: 'projects',
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'place a project directly before or after another on the same board',
+		summary: 'place a project directly before or after another in your projects list, whoever owns either',
 		inputSchema: objectSchema(
 			{
 				projectId: projectIdField,
@@ -89,8 +83,6 @@ export const projectOrderActions: McpAction[] = [
 			const project = await reachableProject(caller, readText(input, 'projectId'));
 			const targetProject = await reachableProject(caller, readText(input, 'targetProjectId'));
 			if (project === null || targetProject === null) return noReachableProject;
-			const isOneBoard = boardNameFor(project, caller) === boardNameFor(targetProject, caller);
-			if (!isOneBoard) return oneBoardOnly;
 			const placement = readBesidePlacement(input);
 			if (placement === null) return sayWhichPlacement;
 			await placeProject(caller.supabase, project.id, targetProject.id, placement, caller.accountId);

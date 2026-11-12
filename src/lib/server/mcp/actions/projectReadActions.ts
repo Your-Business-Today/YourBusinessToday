@@ -1,14 +1,18 @@
-import { describeProjectLine, forOrganisation, listedName, noSuchProject, openWorkPhrase } from './describeProject';
+import { asOneList } from '$lib/server/projects/asOneList';
+import { forOrganisation, listedName, noSuchProject, openWorkPhrase } from './describeProject';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
-import { getProjectsForOwner } from '$lib/server/projects/getProjectsForOwner';
+import { getProjectsForOwner, type ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 import { getTeamProjects, type TeamProject } from '$lib/server/members/getTeamProjects';
 import { everyOrganisationFilter, matchesOrganisationFilter } from '$lib/data/organisationFilter';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { reachableProject } from '../projectAccess';
+import { topRank } from '$lib/data/topRank';
 import { whatReadProjectSays } from './whatReadProjectSays';
 import type { McpAction } from '../actionTypes';
-import type { Project } from '$lib/server/projects/projectRecord';
+
+/** A project with its number in the caller's whole projects list, which is the number set_project_priority takes. */
+type PlacedProject = { project: ProjectSummary | TeamProject; place: number };
 
 export const projectReadActions: McpAction[] = [
 	{
@@ -17,7 +21,7 @@ export const projectReadActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'the projects you own, in priority order, then the projects you are on as a team member, in your own order — all of them, or those under one organisation',
+			'every project you own or are on, as one list in your own priority order, saying who owns each — all of them, or those under one organisation',
 		inputSchema: objectSchema({
 			organisationId: textField(
 				'Narrow to the projects under one organisation, as list_organisations gives it'
@@ -26,19 +30,12 @@ export const projectReadActions: McpAction[] = [
 		run: async (caller, input) => {
 			const assignedTaskCounts = await getAssignedTaskCounts(caller.supabase, caller.accountId);
 			const filter = readOptionalText(input, 'organisationId') ?? everyOrganisationFilter;
-			const underFilter = (project: Project) => matchesOrganisationFilter(project.organisationId, filter);
-			const owned = (await getProjectsForOwner(caller.supabase, caller.accountId, assignedTaskCounts)).filter(underFilter);
-			const team = (await getTeamProjects(caller.supabase, caller.accountId, assignedTaskCounts)).filter(underFilter);
-			if (owned.length === 0 && team.length === 0) {
-				return 'You have no projects yet. Call create_project to start one.';
-			}
-			return [
-				'Your projects:',
-				...(owned.length === 0 ? ['None yet.'] : owned.map(describeProjectLine)),
-				'',
-				'Team projects:',
-				...(team.length === 0 ? ['None yet.'] : team.map(teamProjectLine))
-			].join('\n');
+			const ownProjects = await getProjectsForOwner(caller.supabase, caller.accountId, assignedTaskCounts);
+			const teamProjects = await getTeamProjects(caller.supabase, caller.accountId, assignedTaskCounts);
+			const placedProjects = asOneList(ownProjects, teamProjects).map((project, index) => ({ project, place: index + topRank }));
+			const shown = placedProjects.filter(({ project }) => matchesOrganisationFilter(project.organisationId, filter));
+			if (shown.length === 0) return 'You have no projects yet. Call create_project to start one.';
+			return ['Your projects, in your own priority order:', ...shown.map(placedProjectLine)].join('\n');
 		}
 	},
 	{
@@ -57,8 +54,9 @@ export const projectReadActions: McpAction[] = [
 	}
 ];
 
-function teamProjectLine(project: TeamProject): string {
+function placedProjectLine({ project, place }: PlacedProject): string {
 	const status = projectStatusLabels[project.status];
-	const place = `priority ${project.priority} among your team projects, id: ${project.id}`;
-	return `${listedName(project)} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)}, owned by ${project.ownerName} (${place})`;
+	const owner = 'ownerName' in project ? `owned by ${project.ownerName}` : 'yours';
+	const openWork = openWorkPhrase(project);
+	return `${listedName(project)} — ${status}${forOrganisation(project)}, ${openWork}, ${owner} (priority ${place}, id: ${project.id})`;
 }

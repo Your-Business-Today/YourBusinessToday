@@ -11,19 +11,12 @@ import { backlogSideLines } from './describeBacklogSides';
 import type { InternalItemFacts } from './describeInternalItems';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { Project } from '$lib/server/projects/projectRecord';
-import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
 import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
 export const noSuchProject =
 	'No project you are on has that id. Call list_projects for the ones you own and the ones you are on.';
 
 type OpenWork = { openTaskCount: number; assignedTaskCount: number };
-
-export function describeProjectLine(project: ProjectSummary): string {
-	const status = projectStatusLabels[project.status];
-	const place = `priority ${project.priority}, id: ${project.id}`;
-	return `${listedName(project)} — ${status}${forOrganisation(project)}, ${openWorkPhrase(project)} (${place})`;
-}
 
 /** The project's name, marked "(internal)" when it is not software. */
 export function listedName(project: { name: string; isInternal: boolean }): string {

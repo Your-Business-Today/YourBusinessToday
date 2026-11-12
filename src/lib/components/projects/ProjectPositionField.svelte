@@ -6,4 +6,4 @@
 </script>
 
 <input type="hidden" name={shownIdsField} value={shownIds} />
-<PriorityField priority={position} among="of your board" />
+<PriorityField priority={position} among="of your projects" />
