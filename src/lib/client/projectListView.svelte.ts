@@ -3,16 +3,20 @@ import { matchesProjectListFilters, type ProjectListFilters } from '$lib/data/pr
 import { projectCountLabel } from '$lib/data/projectCountLabel';
 import { topRank } from '$lib/data/topRank';
 import { writeShownIds, type ShownPosition } from '$lib/data/shownIds';
-import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
+import { boardEdgesOf, type BoardEdges } from '$lib/data/projectBoardEdges';
+import type { ListedProject } from '$lib/server/projects/getProjectsForUser';
+
+/** One row of the shown page: the project, its number on the list, and whether it ends its board. */
+export type ProjectListRow = BoardEdges & { id: string; project: ListedProject; position: number };
 
 const projectsPerPage = 20;
 
 /** The projects list as one person has narrowed and paged it; changing a filter returns to the first page. */
 export class ProjectListView extends ProjectFilterChoices {
 	#pageNumber = $state(1);
-	#allProjects: () => ProjectSummary[];
+	#allProjects: () => ListedProject[];
 
-	constructor(allProjects: () => ProjectSummary[]) {
+	constructor(allProjects: () => ListedProject[]) {
 		super();
 		this.#allProjects = allProjects;
 	}
@@ -25,7 +29,7 @@ export class ProjectListView extends ProjectFilterChoices {
 		this.#pageNumber = Math.max(1, Math.min(value, this.pageCount));
 	}
 
-	get filteredProjects(): ProjectSummary[] {
+	get filteredProjects(): ListedProject[] {
 		return this.#projectsMatching(this.filters);
 	}
 
@@ -59,9 +63,19 @@ export class ProjectListView extends ProjectFilterChoices {
 		return (this.pageNumber - 1) * projectsPerPage + 1;
 	}
 
-	get pagedProjects(): ProjectSummary[] {
+	get pagedProjects(): ListedProject[] {
 		const firstProjectIndex = this.firstPositionNumber - 1;
 		return this.filteredProjects.slice(firstProjectIndex, firstProjectIndex + projectsPerPage);
+	}
+
+	get pagedRows(): ProjectListRow[] {
+		const shownProjects = this.filteredProjects;
+		return this.pagedProjects.map((project, pageIndex) => ({
+			id: project.id,
+			project,
+			position: this.firstPositionNumber + pageIndex,
+			...boardEdgesOf(project, shownProjects)
+		}));
 	}
 
 	get projectCount(): number {
@@ -76,7 +90,7 @@ export class ProjectListView extends ProjectFilterChoices {
 		this.#pageNumber = 1;
 	}
 
-	#projectsMatching(filters: ProjectListFilters): ProjectSummary[] {
+	#projectsMatching(filters: ProjectListFilters): ListedProject[] {
 		return this.#allProjects().filter((project) => matchesProjectListFilters(project, filters));
 	}
 }

@@ -3,36 +3,32 @@
 	import KitVersionBadge from './KitVersionBadge.svelte';
 	import ProjectNameLink from './ProjectNameLink.svelte';
 	import ProjectOrganisationCell from './ProjectOrganisationCell.svelte';
-	import PriorityControls from './PriorityControls.svelte';
-	import PriorityNumberButton from '$lib/components/site/PriorityNumberButton.svelte';
+	import ProjectOwnerCell from './ProjectOwnerCell.svelte';
+	import ProjectPriorityCell from './ProjectPriorityCell.svelte';
 	import ProjectActionsMenu from './ProjectActionsMenu.svelte';
 	import ProjectStatusBadge from './ProjectStatusBadge.svelte';
 	import ProjectTaskTally from './ProjectTaskTally.svelte';
-	import { projectNumberClasses, wideScreenOnlyClasses } from './projectTableStyles';
-	import { shownIdsField } from '$lib/data/shownIds';
-	import type { ProjectSummary } from '$lib/server/projects/getProjectsForOwner';
+	import { wideScreenOnlyClasses } from './projectTableStyles';
+	import type { ProjectListRow } from '$lib/client/projectListView.svelte';
+	import type { ListedProject } from '$lib/server/projects/getProjectsForUser';
 
 	let {
-		project,
+		row,
 		latestKitVersion,
-		position,
 		shownIds,
-		isFirst,
-		isLast,
 		onEdit,
 		onDelete,
 		onSetPriority
 	}: {
-		project: ProjectSummary;
+		row: ProjectListRow;
 		latestKitVersion: string;
-		position: number;
 		shownIds: string;
-		isFirst: boolean;
-		isLast: boolean;
-		onEdit: (project: ProjectSummary) => void;
-		onDelete: (project: ProjectSummary) => void;
-		onSetPriority: (project: ProjectSummary) => void;
+		onEdit: (project: ListedProject) => void;
+		onDelete: (project: ListedProject) => void;
+		onSetPriority: (project: ListedProject) => void;
 	} = $props();
+
+	const project = $derived(row.project);
 </script>
 
 {#snippet tally()}
@@ -44,32 +40,21 @@
 	/>
 {/snippet}
 
-<div class="flex items-center gap-1">
-	<PriorityControls
-		moveAction="?/moveProject"
-		fieldName="projectId"
-		id={project.id}
-		{isFirst}
-		{isLast}
-		extraFields={{ [shownIdsField]: shownIds }}
-	/>
-	<PriorityNumberButton
-		label={position}
-		itemName={project.name}
-		class={projectNumberClasses}
-		onclick={() => onSetPriority(project)}
-	/>
-</div>
+<ProjectPriorityCell {row} {shownIds} onSetPriority={() => onSetPriority(project)} />
 <div class="flex min-w-0 flex-col gap-0.5 py-0.5">
 	<ProjectNameLink {project} />
 	{#if project.description !== ''}
 		<p class="hidden truncate text-xs text-chalk/50 md:block">{project.description}</p>
+	{/if}
+	{#if !project.isYours}
+		<p class="truncate text-xs text-chalk/50 md:hidden">Owned by {project.ownerName}</p>
 	{/if}
 	<span class="flex flex-wrap items-center gap-x-2 gap-y-1 md:hidden">
 		<ProjectStatusBadge status={project.status} />
 		{@render tally()}
 	</span>
 </div>
+<ProjectOwnerCell {project} />
 <ProjectOrganisationCell
 	organisationId={project.organisationId}
 	organisationName={project.organisationName}
@@ -91,9 +76,11 @@
 	{/if}
 </div>
 <div class="flex justify-end">
-	<ProjectActionsMenu
-		projectName={project.name}
-		onEdit={() => onEdit(project)}
-		onDelete={() => onDelete(project)}
-	/>
+	{#if project.isYours}
+		<ProjectActionsMenu
+			projectName={project.name}
+			onEdit={() => onEdit(project)}
+			onDelete={() => onDelete(project)}
+		/>
+	{/if}
 </div>
