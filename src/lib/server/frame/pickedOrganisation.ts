@@ -6,7 +6,8 @@ import { readPickOrganisations } from './pickOrganisations';
  * person reaches, or null when what is picked is a client's company seen through the portal.
  */
 export async function readPickedOrganisationId(locals: App.Locals, accountId: string): Promise<string | null> {
-	const organisations = await readPickOrganisations(locals.supabase, accountId);
-	const picked = pickRemembered(organisations, locals.rememberedPicks.organisationId);
+	const { supabase, rememberedPicks } = locals;
+	const organisations = await readPickOrganisations(supabase, accountId);
+	const picked = pickRemembered(organisations, rememberedPicks.organisationId);
 	return picked?.organisationId ?? null;
 }
