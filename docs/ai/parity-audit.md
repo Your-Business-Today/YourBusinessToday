@@ -193,10 +193,10 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | --- | --- | --- | --- | --- | --- | --- |
 | US-160 | see my company's projects and raise a request on one | client contact | write | `/portal/projects/{projectId}` load | `list_portal_projects` `raise_portal_request` | `/portal` `/portal/projects/{projectId}` |
 | US-161 | read where my requests stand and reply on one | client contact | write | `/portal/projects/{projectId}` load | `list_portal_requests` `reply_to_portal_request` | `/portal/projects/{projectId}` |
-| US-162 | read my company's context and mark each part right or wrong | client contact | write | `markPart` | — | `/portal/context` |
-| US-163 | confirm my company's context | client contact | write | `confirmContext` | — | `/portal/context` |
-| US-164 | see who at my company can sign in, invite someone, take them off, make them administrator | client contact | write | `invitePerson` `removePerson` `setAdministrator` | — | `/portal/people` |
-| US-165 | see my company's invoices and pay one | client contact | write | `pay` | — | `/portal/billing` |
+| US-162 | read my company's context and mark each part right or wrong | client contact | write | `markPart` | `read_my_company_context` `mark_context_part` | `/portal/context` |
+| US-163 | confirm my company's context | client contact | write | `confirmContext` | `confirm_company_context` | `/portal/context` |
+| US-164 | see who at my company can sign in, invite someone, take them off, make them administrator | client contact | write | `invitePerson` `removePerson` `setAdministrator` | `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` | `/portal/people` |
+| US-165 | see my company's invoices and pay one | client contact | write | `pay` | `list_my_invoices` `pay_invoice` | `/portal/billing` |
 
 ## 15-admin
 
@@ -231,6 +231,5 @@ These have no screen because the person's Claude is the only one who needs them:
 
 | Task | Stories | Actions to add |
 | --- | --- | --- |
-| The client portal through the connector | US-162 US-163 US-164 US-165 | `read_my_company_context` `mark_context_part` `confirm_company_context` `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` `list_my_invoices` `pay_invoice` |
 | Boardroom seat controls through the connector | US-124 US-125 | `steer_own_claude` `change_own_claude_setting` `answer_held_contribution` |
 | The area map through the connector | US-082 | `read_area_map` |
