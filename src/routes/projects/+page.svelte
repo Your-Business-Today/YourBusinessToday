@@ -6,7 +6,6 @@
 	import ProjectBoard from '$lib/components/projects/ProjectBoard.svelte';
 	import ProjectEditModals from '$lib/components/projects/ProjectEditModals.svelte';
 	import ProjectsPageHeader from '$lib/components/projects/ProjectsPageHeader.svelte';
-	import WaitingOnYouSection from '$lib/components/projects/WaitingOnYouSection.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { ProjectListView } from '$lib/client/projectListView.svelte';
 	import { boardPriorityChoice, type PriorityChoice } from '$lib/client/projectPriorityChoice';
@@ -47,9 +46,9 @@
 
 <div class={workspaceBodyClasses}>
 	<FlashMessage message={form?.message} />
-	<WaitingOnYouSection waitingTasks={data.waitingTasks} />
 	<ProjectBoard
 		{listView}
+		waitingTasks={data.waitingTasks}
 		latestKitVersion={data.latestKitVersion}
 		onEdit={openEditModal}
 		onDelete={openDeleteModal}

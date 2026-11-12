@@ -8,7 +8,7 @@ export type ProjectListFilters = {
 	isShowingFinished: boolean;
 };
 
-type FilterableProject = ProjectAtRest & { name: string };
+export type FilterableProject = ProjectAtRest & { name: string };
 
 export function matchesProjectListFilters(project: FilterableProject, filters: ProjectListFilters): boolean {
 	const matchesStatus = matchesProjectStatusFilter(project.status, filters.status);
