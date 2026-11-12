@@ -1,4 +1,5 @@
 import { getAssigneeIdsByTask } from '$lib/server/projects/getAssigneeIdsByTask';
+import { countStagedTasks } from '$lib/server/projects/countStagedTasks';
 import { buildBoardOf, readBuildFacts, type BuildFacts } from '$lib/server/lifecycle/buildFacts';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
@@ -33,7 +34,8 @@ export function readBoard(locals: App.Locals, project: Project, url: URL) {
 		organisations: getOrganisations(supabase),
 		canTurnOnAutocomplete: isStaffMember(locals),
 		people: getPeopleOnProject(supabase, project.id),
-		buildBoard: buildFactsRead.then(buildBoardOf)
+		buildBoard: buildFactsRead.then(buildBoardOf),
+		stagedTaskCount: countStagedTasks(supabase, project.id)
 	});
 }
 

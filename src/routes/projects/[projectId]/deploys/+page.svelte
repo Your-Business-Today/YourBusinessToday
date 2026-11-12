@@ -32,7 +32,7 @@
 <ProjectPageHeader {project} />
 
 <div class={workspaceBodyClasses}>
-	<DevelopmentTabs projectId={project.id} selected={developmentPages.deploys} />
+	<DevelopmentTabs projectId={project.id} selected={developmentPages.deploys} counts={data.developmentTabCounts} />
 	<DashboardPanel title="Deployments" count={found.length}>
 		{#snippet toolbar()}
 			<DeployHistoryFilterBar bind:filter onchange={startFromFirstPage} />

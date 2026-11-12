@@ -25,4 +25,14 @@ describe('developmentPageLinks', () => {
 			'/projects/harbour-site/site-map'
 		]);
 	});
+
+	it('shows how many items a counted tab holds, and nothing on an empty or uncounted tab', () => {
+		const counted = developmentPageLinks('harbour-site', { bugs: 2, features: 0, infrastructure: 5, staged: 3 });
+		expect(counted.map(({ count }) => count)).toEqual([2, null, 5, 3, null, null]);
+	});
+
+	it('shows open bugs as a warning and every other count plainly', () => {
+		const counted = developmentPageLinks('harbour-site', { bugs: 1, features: 4 });
+		expect(counted.slice(0, 2).map(({ countTone }) => countTone)).toEqual(['negative', 'neutral']);
+	});
 });
