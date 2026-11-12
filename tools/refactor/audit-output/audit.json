@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T17:16:35+00:00",
+  "generatedAt": "2026-11-12T17:24:23+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3992,
+        "measuredAgainst": 3995,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.15,
+        "measuredAgainst": 149.22,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.15,
+        "measuredAgainst": 149.22,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6604,
+        "measuredAgainst": 6605,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.15,
+        "measuredAgainst": 149.22,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.15,
+        "measuredAgainst": 149.22,
         "score": 100.0
       },
       {
@@ -252,8 +252,8 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 3992,
-      "totalLines": 149152,
+      "totalFiles": 3995,
+      "totalLines": 149218,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
@@ -278,7 +278,8 @@
       "clones": 66,
       "duplicatedLines": 617,
       "totalLines": 151337,
-      "duplicatedPercentage": 0.41
+      "duplicatedPercentage": 0.41,
+      "carriedFromBaseline": true
     },
     "naming": {
       "bannedAbbreviationHits": 51,
@@ -320,14 +321,14 @@
     },
     "inventory": {
       "pages": 69,
-      "components": 660,
+      "components": 661,
       "orphanComponents": 0,
       "averagePageLines": 44
     },
     "siteDefinition": {
       "routes": 68,
-      "views": 732,
-      "siteComponents": 649,
+      "views": 733,
+      "siteComponents": 650,
       "catalogue": 13,
       "widgetUsages": 372,
       "handRolledElements": 0,
@@ -346,11 +347,11 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4592,
+      "totalFiles": 4593,
       "backend": 1205,
       "frontend": 975,
       "shared": 827,
-      "tests": 624,
+      "tests": 625,
       "api": 519,
       "database": 207,
       "tooling": 141,
@@ -364,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 3992,
-        "totalLines": 149152,
+        "totalFiles": 3995,
+        "totalLines": 149218,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -772,11 +773,7 @@
           },
           {
             "file": "src/lib/data/legal/companyInformationSections.ts",
-            "line": 23
-          },
-          {
-            "file": "src/lib/data/legal/companyInformationSections.ts",
-            "line": 51
+            "line": 24
           },
           {
             "file": "src/lib/data/legal/companyInformationSections.ts",
@@ -784,7 +781,11 @@
           },
           {
             "file": "src/lib/data/legal/companyInformationSections.ts",
-            "line": 66
+            "line": 53
+          },
+          {
+            "file": "src/lib/data/legal/companyInformationSections.ts",
+            "line": 67
           },
           {
             "file": "src/lib/data/legal/privacyCollectionSections.ts",
@@ -901,7 +902,7 @@
           "+layout.server.ts": 6,
           "+page.server.ts": 61,
           "+page.svelte": 69,
-          "+server.ts": 25,
+          "+server.ts": 26,
           "access": 11,
           "account": 4,
           "accounts": 4,
@@ -1089,7 +1090,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 609,
+          "test": 610,
           "text": 13,
           "tiles": 5,
           "time": 5,
@@ -1204,7 +1205,7 @@
       "name": "inventory",
       "summary": {
         "pages": 69,
-        "components": 660,
+        "components": 661,
         "orphanComponents": 0,
         "averagePageLines": 44
       },
@@ -1597,7 +1598,7 @@
             "widgets": []
           },
           {
-            "page": "src/routes/offer/+page.svelte",
+            "page": "src/routes/what-we-do/+page.svelte",
             "lines": 16,
             "widgets": []
           },
@@ -2142,6 +2143,10 @@
           },
           {
             "component": "src/lib/components/site/MobileMenuButton.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/site/NavGroupHeading.svelte",
             "reusedBy": 2
           },
           {
@@ -4276,8 +4281,8 @@
       "name": "siteDefinition",
       "summary": {
         "routes": 68,
-        "views": 732,
-        "siteComponents": 649,
+        "views": 733,
+        "siteComponents": 650,
         "catalogue": 13,
         "widgetUsages": 372,
         "handRolledElements": 0,
@@ -4600,12 +4605,6 @@
           "expanded": "PageTitle, [ (2) SubmitButton ]"
         },
         {
-          "route": "/offer",
-          "file": "src/routes/offer/+page.svelte",
-          "definition": "PageMeta, OfferStepsSection, OfferTermsSection, DiscoveryCallSection",
-          "expanded": "PageMeta, OfferStepsSection=( (n) OfferStepCard=( ?step.isMonthlyRetainer: SignalBadge ), DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), OfferTermsSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )"
-        },
-        {
           "route": "/organisations",
           "file": "src/routes/organisations/+page.svelte",
           "definition": "OrganisationsPageHeader{ FlashMessage, ( ?organisations.length === 0: EmptyState | OrganisationRegister ), Modal{ NewOrganisationForm } }",
@@ -4844,6 +4843,12 @@
           "file": "src/routes/upload/[token]/+page.svelte",
           "definition": "?data.taskTitle === null: PageTitle, ( PageTitle, TaskUploadZone{ SentFileList } )",
           "expanded": "?data.taskTitle === null: PageTitle, ( PageTitle, TaskUploadZone{ SentFileList } )"
+        },
+        {
+          "route": "/what-we-do",
+          "file": "src/routes/what-we-do/+page.svelte",
+          "definition": "PageMeta, OfferStepsSection, OfferTermsSection, DiscoveryCallSection",
+          "expanded": "PageMeta, OfferStepsSection=( (n) OfferStepCard=( ?step.isMonthlyRetainer: SignalBadge ), DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), OfferTermsSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )"
         }
       ],
       "components": [
@@ -5340,6 +5345,12 @@
           "usedBy": 2
         },
         {
+          "component": "NavGroupHeading",
+          "file": "src/lib/components/site/NavGroupHeading.svelte",
+          "definition": "",
+          "usedBy": 2
+        },
+        {
           "component": "NewTaskDetailsField",
           "file": "src/lib/components/projects/NewTaskDetailsField.svelte",
           "definition": "SmallCapsField",
@@ -5540,7 +5551,7 @@
         {
           "component": "AccountMenuGroup",
           "file": "src/lib/components/site/AccountMenuGroup.svelte",
-          "definition": "",
+          "definition": "?!isFirst: NavGroupHeading",
           "usedBy": 1
         },
         {
@@ -7220,7 +7231,7 @@
         {
           "component": "MobileNavGroup",
           "file": "src/lib/components/site/MobileNavGroup.svelte",
-          "definition": "",
+          "definition": "NavGroupHeading",
           "usedBy": 1
         },
         {
@@ -8746,11 +8757,11 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4592,
+        "totalFiles": 4593,
         "backend": 1205,
         "frontend": 975,
         "shared": 827,
-        "tests": 624,
+        "tests": 625,
         "api": 519,
         "database": 207,
         "tooling": 141,
@@ -8762,31 +8773,31 @@
           "area": "backend",
           "files": 1205,
           "sourceFiles": 1195,
-          "sourceLines": 39761
+          "sourceLines": 39764
         },
         {
           "area": "frontend",
           "files": 975,
-          "sourceFiles": 845,
-          "sourceLines": 28033
+          "sourceFiles": 846,
+          "sourceLines": 28057
         },
         {
           "area": "shared",
           "files": 827,
           "sourceFiles": 809,
-          "sourceLines": 29096
+          "sourceLines": 29103
         },
         {
           "area": "tests",
-          "files": 624,
-          "sourceFiles": 609,
-          "sourceLines": 28170
+          "files": 625,
+          "sourceFiles": 610,
+          "sourceLines": 28193
         },
         {
           "area": "api",
           "files": 519,
-          "sourceFiles": 518,
-          "sourceLines": 23498
+          "sourceFiles": 519,
+          "sourceLines": 23507
         },
         {
           "area": "database",
@@ -8834,7 +8845,8 @@
         "clones": 66,
         "duplicatedLines": 617,
         "totalLines": 151337,
-        "duplicatedPercentage": 0.41
+        "duplicatedPercentage": 0.41,
+        "carriedFromBaseline": true
       },
       "offenders": [
         {

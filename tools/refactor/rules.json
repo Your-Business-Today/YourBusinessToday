@@ -222,7 +222,7 @@
       "src/routes/about/+page.server.ts",
       "src/routes/case-study/+page.server.ts",
       "src/routes/company/+page.server.ts",
-      "src/routes/offer/+page.server.ts",
+      "src/routes/what-we-do/+page.server.ts",
       "src/routes/privacy/+page.server.ts",
       "src/routes/promo/+page.server.ts",
       "src/routes/tax-calculator/+page.server.ts",

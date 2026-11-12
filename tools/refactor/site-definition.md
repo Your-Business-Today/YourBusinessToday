@@ -225,8 +225,8 @@ SalesRegisterPage=( WorkspaceHeader, RegisterStageTabs=( TabStrip ), FormErrorNo
 PageTitle, [ (2) SubmitButton ]
 ```
 
-### `/offer`
-`src/routes/offer/+page.svelte`
+### `/what-we-do`
+`src/routes/what-we-do/+page.svelte`
 
 ```
 PageMeta, OfferStepsSection=( (n) OfferStepCard=( ?step.isMonthlyRetainer: SignalBadge ), DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), OfferTermsSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )

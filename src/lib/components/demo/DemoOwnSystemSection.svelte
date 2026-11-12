@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { whatWeDoPath } from '$lib/data/consultancyOffer';
+</script>
+
 <section class="mx-auto max-w-6xl px-6 py-20 md:py-24">
 	<p class="font-display text-sm tracking-widest text-signal uppercase">Your own system</p>
 	<h2 class="mt-5 max-w-3xl font-display text-3xl leading-tight font-medium md:text-4xl">
@@ -16,7 +20,7 @@
 		</p>
 	</div>
 	<a
-		href="/offer"
+		href={whatWeDoPath}
 		class="mt-10 inline-block rounded-full border border-hairline px-6 py-2.5 font-display text-sm
 			text-chalk/80 transition hover:border-chalk/40 hover:text-chalk"
 	>

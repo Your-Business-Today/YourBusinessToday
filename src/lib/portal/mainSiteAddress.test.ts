@@ -30,7 +30,8 @@ const sectionsKeptOnTheMainSite = new Set([
 	'tax-calculator',
 	'terms',
 	'upload',
-	'vision'
+	'vision',
+	'what-we-do'
 ]);
 
 function routeSections(): string[] {
@@ -48,7 +49,7 @@ describe('portalPageInsteadOf', () => {
 	});
 
 	it('keeps the public pages and the outside doors on the main site', () => {
-		const kept = ['/', '/offer', '/api/mcp', '/oauth/authorize?x=1', '/.well-known/oauth-authorization-server', '/upload/t1', '/demo/t1', '/auth/callback', '/_app/immutable/x.js', '/accounting'];
+		const kept = ['/', '/what-we-do', '/api/mcp', '/oauth/authorize?x=1', '/.well-known/oauth-authorization-server', '/upload/t1', '/demo/t1', '/auth/callback', '/_app/immutable/x.js', '/accounting'];
 		const answers = kept.map((path) => portalPageInsteadOf(new URL(`https://www.yourbusiness.today${path}`)));
 		expect(answers.every((answer) => answer === null)).toBe(true);
 	});

@@ -5,6 +5,10 @@ export type OfferStep = {
 	isMonthlyRetainer: boolean;
 };
 
+export const whatWeDoPath = '/what-we-do';
+
+export const whatWeDoLabel = 'What we do';
+
 export const offerDocumentPath = '/documents/your-business-today-offer.pdf';
 
 export const monthlyRetainerLabel = 'Monthly retainer';

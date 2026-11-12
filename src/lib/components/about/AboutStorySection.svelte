@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buildTimeline } from '$lib/data/consultancyOffer';
+	import { buildTimeline, whatWeDoPath } from '$lib/data/consultancyOffer';
 </script>
 
 <section class="mx-auto max-w-6xl px-6 py-20 md:py-24">
@@ -35,7 +35,7 @@
 		earning before the second is built.
 	</p>
 	<a
-		href="/offer"
+		href={whatWeDoPath}
 		class="mt-10 inline-block rounded-full border border-hairline px-6 py-2.5 font-display text-sm
 			text-chalk/80 transition hover:border-chalk/40 hover:text-chalk"
 	>
