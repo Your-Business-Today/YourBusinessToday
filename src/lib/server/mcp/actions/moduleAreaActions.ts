@@ -10,6 +10,7 @@ import { brandKitActions } from './brandKitActions';
 import { brandLibraryActions } from './brandLibraryActions';
 import { brandPerformanceActions } from './brandPerformanceActions';
 import { businessBrainActions } from './businessBrainActions';
+import { businessBrainDomainActions } from './businessBrainDomainActions';
 import { businessBrainChatbotActions } from './businessBrainChatbotActions';
 import { chatbotReadingActions } from './chatbotReadingActions';
 import { chatbotTrailActions } from './businessBrainChatbotTrailActions';
@@ -31,6 +32,7 @@ export const moduleAreaActions: McpAction[] = [
 	...brandPerformanceActions,
 	...brandLibraryActions,
 	...businessBrainActions,
+	...businessBrainDomainActions,
 	...businessBrainChatbotActions,
 	...chatbotReadingActions,
 	...chatbotTrailActions,
