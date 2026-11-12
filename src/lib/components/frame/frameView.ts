@@ -1,14 +1,19 @@
 import { frameLinksFor, frameMenuLinksFor, type FrameAccess } from './frameNavigation';
 import { salesPages } from '$lib/data/salesPages';
 import { deepestLinkAt } from './deepestLink';
+import { frameSectionsOf, type FrameLink, type FrameSection } from './frameGroups';
 import { frameTrailTo, type FrameTrail, type OpenProject } from './frameTrail';
 import { portalHomePath } from '$lib/portal/portalPaths';
 import type { FramePicks } from './framePicks';
 import type { NavigationLink } from '$lib/components/site/siteNavigation';
 
-/** What the frame shows round one page: the side bar's links, the top-right menu's, the one the page sits under, and the top bar's trail. */
+/**
+ * What the frame shows round one page: the side bar's links and the folders they sit in, the top-right menu's
+ * links, the one the page sits under, and the top bar's trail.
+ */
 export type FrameView = {
 	links: NavigationLink[];
+	sections: FrameSection[];
 	menuLinks: NavigationLink[];
 	currentHref: string | null;
 	trail: FrameTrail;
@@ -36,6 +41,7 @@ export function frameViewFor(
 	const currentLink = deepestLinkAt([...links, ...headingsOutsideTheSideBar], pathname);
 	return {
 		links,
+		sections: frameSectionsOf(links),
 		menuLinks,
 		currentHref: currentLink?.href ?? null,
 		trail: frameTrailTo(currentLink, picks, openProject),
@@ -48,6 +54,6 @@ function defaultHomePathFor(access: FrameAccess): string {
 	return access.isPortalAccount ? portalHomePath : siteHomePath;
 }
 
-function eachHrefOnce(links: NavigationLink[]): NavigationLink[] {
+function eachHrefOnce(links: FrameLink[]): FrameLink[] {
 	return links.filter((link, index) => links.findIndex(({ href }) => href === link.href) === index);
 }

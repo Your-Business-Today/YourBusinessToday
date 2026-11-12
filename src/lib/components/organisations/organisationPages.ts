@@ -1,7 +1,6 @@
-import { boardSideLabels } from '$lib/data/boardSide';
 import { deepestLinkAt } from '$lib/components/frame/deepestLink';
 
-/** The organisation's own tabs: what it is, the team's jobs across its products, and its products' domains. */
+/** The organisation's own pages: what it is, the team's jobs across its products, and its products' domains. */
 export type OrganisationPage = 'overview' | 'task-management' | 'domain';
 
 export const organisationPages = { overview: 'overview', taskManagement: 'task-management', domain: 'domain' } as const;
@@ -18,17 +17,12 @@ export function organisationHref(organisationId: string, page?: OrganisationPage
 }
 
 /**
- * An organisation's tabs: its Overview, Task Management across all its products, and their Domain. It has no
- * Development tab, because development belongs to each product.
+ * An organisation's tabs: its Overview and its products' Domain. The team's tasks across its products are the
+ * side bar's Tasks, under Work, and development belongs to each product.
  */
 export function organisationPageLinks(organisationId: string): OrganisationPageLink[] {
 	return [
 		{ key: organisationPages.overview, label: overviewLabel, href: organisationHref(organisationId) },
-		{
-			key: organisationPages.taskManagement,
-			label: boardSideLabels.internal,
-			href: organisationHref(organisationId, organisationPages.taskManagement)
-		},
 		{ key: organisationPages.domain, label: domainLabel, href: organisationHref(organisationId, organisationPages.domain) }
 	];
 }

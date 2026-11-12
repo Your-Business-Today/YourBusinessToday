@@ -10,7 +10,7 @@
 	}
 </script>
 
-<form method="POST" action="/clients?/moveStage" class="contents">
+<form method="POST" action="?/moveStage" class="contents">
 	<input type="hidden" name="clientId" value={clientId} />
 	<select
 		name="stage"

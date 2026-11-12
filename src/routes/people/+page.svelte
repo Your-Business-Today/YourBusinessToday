@@ -24,7 +24,7 @@
 			<PageTitle>People</PageTitle>
 			<p class="text-chalk/70">The directors and owners we are pursuing, across every company they hold.</p>
 		</div>
-		<a href="/clients" class={quietButtonClasses}>Clients</a>
+		<a href="/leads" class={quietButtonClasses}>Leads</a>
 	</div>
 	<FormErrorNote message={form?.message ?? null} />
 	<div class={panelClasses}>

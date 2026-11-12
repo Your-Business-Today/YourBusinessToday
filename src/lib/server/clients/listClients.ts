@@ -10,15 +10,16 @@ export type ClientSummary = Client & {
 	awaitingAnswerCount: number;
 };
 
+/** The register's records at the stages given, or every record when no stages are given. */
 export async function listClients(
 	supabase: SupabaseClient,
-	stage: ClientStage | null = null
+	stages: ClientStage[] | null = null
 ): Promise<ClientSummary[]> {
 	const query = supabase
 		.from('clients')
 		.select('*, client_contacts(is_primary, people(name)), projects(id, tasks(kind, status))')
 		.order('name');
-	const { data, error } = stage === null ? await query : await query.eq('lifecycle_stage', stage);
+	const { data, error } = stages === null ? await query : await query.in('lifecycle_stage', stages);
 	if (error) throw error;
 	return data.map(toSummary);
 }
