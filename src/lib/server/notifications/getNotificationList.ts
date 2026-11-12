@@ -5,7 +5,7 @@ import {
 } from '$lib/server/notifications/notificationListItem';
 
 const notificationPageSize = 50;
-const notificationColumns =
+export const notificationColumns =
 	'*, tasks(title, project_id), goals(title, project_id), task_comments(body, author_id), conversation_messages(body, author_account_id), project_events(kind, actor_account_id)';
 
 export async function getNotificationList(

@@ -11,10 +11,10 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | Id | Story | Who | Kind | Site door | Connector | Screens |
 | --- | --- | --- | --- | --- | --- | --- |
 | US-001 | see who I am signed in as and what I can reach | anyone | read | `/account` load | `get_current_context` `who_am_i` | `/account` |
-| US-002 | change the name I go by | anyone | write | `saveDisplayName` | — | `/account` |
-| US-003 | read my notifications, newest first | anyone | read | `/notifications` load | — | `/notifications` |
-| US-004 | open one notification and have it marked read | anyone | write | `openNotification` | — | `/notifications` |
-| US-005 | mark every notification read | anyone | write | `markAllRead` | — | `/notifications` |
+| US-002 | change the name I go by | anyone | write | `saveDisplayName` | `set_display_name` | `/account` |
+| US-003 | read my notifications, newest first | anyone | read | `/notifications` load | `list_notifications` | `/notifications` |
+| US-004 | open one notification and have it marked read | anyone | write | `openNotification` | `mark_notification_read` | `/notifications` |
+| US-005 | mark every notification read | anyone | write | `markAllRead` | `mark_all_notifications_read` | `/notifications` |
 | US-006 | see everything that needs me in one answer | anyone | read | `/` and `/projects` | `list_waiting_on_me` `read_ybt_summary` | `/projects` |
 
 ## 02-projects
@@ -231,7 +231,6 @@ These have no screen because the person's Claude is the only one who needs them:
 
 | Task | Stories | Actions to add |
 | --- | --- | --- |
-| Notifications and the display name through the connector | US-002 US-003 US-004 US-005 | `set_display_name` `list_notifications` `mark_notification_read` `mark_all_notifications_read` |
 | Conversation participants, team work, kit versions and the blueprint refresh through the connector | US-019 US-023 US-035 US-052 US-116 | `add_conversation_participant` `remove_conversation_participant` `read_team_work` `read_kit_versions` `refresh_project_blueprint` |
 | Accounts through the connector | US-170 US-171 US-172 US-173 US-174 | `list_accounts` `set_staff_access` `set_account_restriction` `send_password_reset` `delete_account` |
 | Models, Stripe payments, client documents and organisation deletion through the connector | US-115 US-175 US-176 US-177 | `remove_build_model` `set_review_model` `mark_stripe_payment_dealt_with` `list_client_documents` `read_client_document` `delete_organisation` |
