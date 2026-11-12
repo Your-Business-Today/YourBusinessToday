@@ -135,7 +135,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-112 | invite a person to an organisation, make them its manager, take them off it | staff | write | `invitePerson` `setManager` `removeMember` | `invite_to_organisation` `set_organisation_manager` `remove_organisation_member` | `/organisations/{organisationId}` |
 | US-113 | switch a module on or off for an organisation | staff | write | `setModule` | `set_organisation_module` | `/organisations/{organisationId}` |
 | US-114 | name a director of an organisation | staff | write | `setDirector` | `set_organisation_director` | `/organisations/{organisationId}` |
-| US-115 | delete an organisation | staff | write | `deleteOrganisation` | — | `/organisations/{organisationId}` |
+| US-115 | delete an organisation | staff | write | `deleteOrganisation` | `delete_organisation` | `/organisations/{organisationId}` |
 | US-116 | see the open work of an organisation's team, department by department | member | read | `/organisations/{organisationId}/task-management` load | `read_team_work` | `/organisations/{organisationId}/task-management` |
 | US-117 | read and set an organisation's domain | manager | write | `/organisations/{organisationId}/domain` load | `read_business_brain_domain` `file_business_brain_domain` `start_business_brain_domain_run` | `/organisations/{organisationId}/domain` |
 
@@ -209,7 +209,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-174 | delete an account | admin | write | `deleteUser` | `delete_account` | `/admin` |
 | US-175 | read and set the build models and the review model | admin | write | `saveBuildModel` `removeBuildModel` `setReviewModel` | `read_model_settings` `save_build_model` `remove_build_model` `set_review_model` | `/admin` |
 | US-176 | see the Stripe payments to check and mark one dealt with | admin | write | `dealtWith` | `read_stripe_payments_to_check` `mark_stripe_payment_dealt_with` | `/admin/stripe-payments` |
-| US-177 | read the client documents and download one | admin | read | `/admin/documents/{slug}` load | — | `/admin/documents` `/admin/documents/{slug}` |
+| US-177 | read the client documents and download one | admin | read | `/admin/documents/{slug}` load | `list_client_documents` `read_client_document` (the Word pack stays a page download) | `/admin/documents` `/admin/documents/{slug}` |
 | US-178 | read a server error by its reference and the data inventory | admin | read | the error page | `read_server_error` `read_data_inventory` | `/admin` |
 
 ## Connector only, by design
@@ -231,7 +231,6 @@ These have no screen because the person's Claude is the only one who needs them:
 
 | Task | Stories | Actions to add |
 | --- | --- | --- |
-| Client documents and organisation deletion through the connector | US-115 US-177 | `list_client_documents` `read_client_document` `delete_organisation` |
 | The client portal through the connector | US-162 US-163 US-164 US-165 | `read_my_company_context` `mark_context_part` `confirm_company_context` `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` `list_my_invoices` `pay_invoice` |
 | Boardroom seat controls through the connector | US-124 US-125 | `steer_own_claude` `change_own_claude_setting` `answer_held_contribution` |
 | The area map through the connector | US-082 | `read_area_map` |
