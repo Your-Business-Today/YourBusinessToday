@@ -13,7 +13,7 @@
 		projectId,
 		goals,
 		linkedEntityName
-	}: { domain: DomainModel; siteMap: SiteMap | null; projectId: string; goals: Goal[]; linkedEntityName: string | null } =
+	}: { domain: DomainModel; siteMap: SiteMap | null; projectId: string | null; goals: Goal[]; linkedEntityName: string | null } =
 		$props();
 
 	let selectedEntityName = $state<string | null>(null);
@@ -28,7 +28,7 @@
 
 <p class="text-sm text-chalk/60">
 	Each box is a bounded context; ◆ marks an aggregate's root, with the entities inside it beneath. Pick an entity to
-	see its fields, what it holds and refers to, and its screens.
+	see its fields and what it holds and refers to.
 </p>
 <div class={dashboardGridClasses}>
 	<DomainMap {domain} selectedEntityName={chosenName} onSelect={select} />

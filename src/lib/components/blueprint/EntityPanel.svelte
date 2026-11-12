@@ -21,7 +21,7 @@
 		entity: DomainEntity;
 		domain: DomainModel;
 		siteMap: SiteMap | null;
-		projectId: string;
+		projectId: string | null;
 		goals: Goal[];
 		onSelect: (entityName: string) => void;
 	} = $props();
@@ -29,11 +29,14 @@
 	const statuses = $derived(entity.statuses);
 	const relationships = $derived(relationshipsTouching(domain, entity.name));
 	const screens = $derived(siteMap === null ? [] : screensOfEntity(siteMap, entity.name));
+	const isOfAProject = $derived(projectId !== null);
 </script>
 
 <DashboardPanel title={entity.title}>
 	{#snippet actions()}
-		<RaiseChangeButton subject={{ kind: changeSubjectKinds.entity, name: entity.name }} {goals} />
+		{#if isOfAProject}
+			<RaiseChangeButton subject={{ kind: changeSubjectKinds.entity, name: entity.name }} {goals} />
+		{/if}
 	{/snippet}
 	<div class="flex flex-col gap-4 px-4 py-4 text-sm">
 		<EntityPlacement {entity} {onSelect} />
@@ -51,7 +54,7 @@
 		{#if relationships.length > 0}
 			<EntityRelationshipList entityName={entity.name} {relationships} {onSelect} />
 		{/if}
-		{#if screens.length > 0}
+		{#if projectId !== null && screens.length > 0}
 			<EntityScreenLinks {screens} {projectId} />
 		{/if}
 	</div>
