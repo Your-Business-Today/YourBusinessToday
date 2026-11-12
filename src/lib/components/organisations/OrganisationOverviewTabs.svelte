@@ -46,7 +46,7 @@
 
 {#if shownTab === organisationOverviewTabs.people}
 	<OrganisationPeoplePanel {organisation} {members} {canManage} />
-{:else if shownTab === organisationOverviewTabs.invoicing}
+{:else if shownTab === organisationOverviewTabs.details}
 	<InvoicingDetailsPanel {organisation} {canManage} />
 {:else if shownTab === organisationOverviewTabs.modules}
 	<OrganisationModulesPanel {modules} canSwitch={isStaff} />

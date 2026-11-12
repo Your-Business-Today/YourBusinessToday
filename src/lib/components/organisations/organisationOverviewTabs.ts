@@ -1,12 +1,12 @@
 import type { Tab } from '$lib/components/workspace/TabStrip.svelte';
 import { countShownOnTab } from '$lib/components/workspace/countShownOnTab';
 
-/** A tab of an organisation's Overview: its people, how it is invoiced, its modules and its directors. */
-export type OrganisationOverviewTab = 'people' | 'invoicing' | 'modules' | 'directors';
+/** A tab of an organisation's Overview: its people, its details as a client, its modules and its directors. */
+export type OrganisationOverviewTab = 'people' | 'details' | 'modules' | 'directors';
 
 export const organisationOverviewTabs = {
 	people: 'people',
-	invoicing: 'invoicing',
+	details: 'details',
 	modules: 'modules',
 	directors: 'directors'
 } as const;
@@ -23,7 +23,7 @@ export type OverviewTabFacts = {
 export function organisationOverviewTabsFor(facts: OverviewTabFacts): Tab[] {
 	const tabs: Tab[] = [
 		{ key: organisationOverviewTabs.people, label: 'People', count: countShownOnTab(facts.memberCount) },
-		{ key: organisationOverviewTabs.invoicing, label: 'Invoicing', count: null }
+		{ key: organisationOverviewTabs.details, label: 'Details', count: null }
 	];
 	if (facts.hasModulesTab)
 		tabs.push({ key: organisationOverviewTabs.modules, label: 'Modules', count: countShownOnTab(facts.switchedOnModuleCount) });

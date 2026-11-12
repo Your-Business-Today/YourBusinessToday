@@ -4,6 +4,7 @@
 	import ProjectTable from './ProjectTable.svelte';
 	import ProjectsTabs from './ProjectsTabs.svelte';
 	import WaitingOnYouList from './WaitingOnYouList.svelte';
+	import { priorityTasksTab } from '$lib/data/projectsTab';
 	import type { ProjectListView } from '$lib/client/projectListView.svelte';
 	import type { ListedProject } from '$lib/server/projects/getProjectsForUser';
 	import type { WaitingTask } from '$lib/server/conversations/getTasksWaitingOnYou';
@@ -24,19 +25,12 @@
 		onSetPriority: (project: ListedProject) => void;
 	} = $props();
 
-	let isPriorityChosen = $state<boolean | null>(null);
-
 	const hasWaitingTasks = $derived(waitingTasks.length > 0);
-	const showsPriority = $derived(hasWaitingTasks && (isPriorityChosen ?? hasWaitingTasks));
+	const shownTab = $derived(hasWaitingTasks ? listView.selectedTab : listView.selectedStatus);
 </script>
 
-<ProjectsTabs
-	{listView}
-	waitingCount={waitingTasks.length}
-	{showsPriority}
-	onPriorityChosen={(isChosen) => (isPriorityChosen = isChosen)}
-/>
-{#if showsPriority}
+<ProjectsTabs {listView} waitingCount={waitingTasks.length} {shownTab} />
+{#if shownTab === priorityTasksTab}
 	<WaitingOnYouList {waitingTasks} />
 {:else}
 	<ProjectFilterBar
