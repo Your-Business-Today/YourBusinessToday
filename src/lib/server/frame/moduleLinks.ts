@@ -3,7 +3,7 @@ import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
 import { usableModules } from '$lib/data/organisationModuleAccess';
 import { enterableModules } from './enterableModules';
-import { moduleFrameLink } from '$lib/components/frame/moduleFolders';
+import { domainFrameLink, keepsTheDomain, moduleFrameLink } from '$lib/components/frame/moduleFolders';
 import {
 	organisationModuleRouteSegments,
 	organisationModules,
@@ -23,7 +23,10 @@ export const modulesWithPages: OrganisationModule[] = organisationModules.filter
 	modulePageFiles.some((file) => modulePageSegmentOf(file) === organisationModuleRouteSegments[module])
 );
 
-/** The pages of the organisation's modules the person may use, by the one module rule, in the modules' order. */
+/**
+ * The pages of the organisation's modules the person may use, by the one module rule, in the modules' order,
+ * and the organisation's domain where they may enter the brain that keeps it.
+ */
 export async function readModuleLinks(
 	locals: App.Locals,
 	accountId: string,
@@ -37,7 +40,9 @@ export async function readModuleLinks(
 	const place = { organisation: { id: organisationId }, switchedOn };
 	const usable = usableModules(visitor, place).filter((module) => modulesWithPages.includes(module));
 	const enterable = await enterableModules(locals, visitor, place, usable);
-	return enterable.map((module) => moduleLinkFor(organisationId, module));
+	const moduleLinks = enterable.map((module) => moduleLinkFor(organisationId, module));
+	if (!enterable.some(keepsTheDomain)) return moduleLinks;
+	return [...moduleLinks, domainFrameLink(organisationId)];
 }
 
 function moduleLinkFor(organisationId: string, module: OrganisationModule): FrameLink {

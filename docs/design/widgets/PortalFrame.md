@@ -7,7 +7,7 @@ The frame every signed-in person sees round every page: the side bar, the top ba
 - **Side bar**, fixed down the left, top to bottom:
   1. **The mark**: the YBT wordmark (`BrandWordmark`, its full stop in `signal`) and "Your Business Today", linking home; beside it the collapse button.
   2. **Organisation picker**: as wide as the side bar. Shows the picked organisation; opens a list of the person's organisations.
-  3. **Navigation**, which scrolls: the picked organisation's pages (Overview, Projects, its modules), then the links that stand alone.
+  3. **Navigation**, which scrolls: the picked organisation's Overview, then its folders (Work, Sales, Accounts, Knowledge), each opening and closing over its pages, then the links that stand alone.
   4. **Who is signed in**: their initials (`PersonInitials`) and name, and Sign out.
 - **Top bar**, across the top of the page and staying there: on a phone the menu button, then the trail on the left; the bell (`NotificationsBell`) on the right.
 - **The trail** says where the page is: the picked organisation (a link to its first page), then the section. On a project's page the section is a link too, and the trail ends with the **project switcher**: the project's name with a selector mark, opening a list of the organisation's projects. On a phone only the trail's last part shows.
@@ -19,7 +19,8 @@ The frame every signed-in person sees round every page: the side bar, the top ba
 - Picker toggle (the organisation, as a field): `w-full rounded border border-hairline bg-carriage-raised px-3 py-2`, hover `border-hairline-strong`; the picked name `text-sm font-semibold text-chalk` truncated, a caption above it `text-xs text-chalk-subtle`; the selector mark (up and down) 16, `text-chalk-faint`.
 - Picker toggle (the project, as a crumb): no border and no fill, `rounded px-1.5 py-1.5`, hover `bg-carriage-raised`; the name `font-display text-sm font-medium text-chalk` truncated; the same selector mark; its caption is for screen readers only. Its list is `w-72`, from the toggle's left edge.
 - Picker list: `rounded-lg border border-hairline-strong bg-carriage`, as wide as its toggle, `max-h-80` scrolling; group labels ("Recent", "All projects") `text-sm font-medium text-chalk-subtle px-3 pt-2 pb-1`; an item `px-3 py-2 text-sm text-chalk-muted`, hover `text-chalk bg-carriage-raised`; the picked item `bg-carriage-raised text-chalk font-semibold`; a `border-t border-hairline` between groups.
-- Navigation link: `flex items-center gap-3 rounded px-3 py-3.5 md:py-2 text-sm font-medium text-chalk-subtle`, icon 20; hover `text-chalk bg-carriage-raised`; the current page `text-chalk font-semibold`. Folder headings as a link, with a chevron.
+- Navigation link: `flex items-center gap-3 rounded px-3 py-3.5 md:py-2 text-sm font-medium text-chalk-subtle`, icon 20; hover `text-chalk bg-carriage-raised`; the current page `text-chalk font-semibold`.
+- Folder: a row the size and type of a link, its name on the left and its chevron (16) on the right (`justify-between`); `text-chalk-subtle`, and `text-chalk` while it holds the current page. Its pages sit under it, inset along a guide: `ml-3 border-l border-hairline pl-2`, `gap-1`. A folder is never smaller or fainter than the pages it holds.
 - Who is signed in: `border-t border-hairline pt-4`, name `text-sm font-medium text-chalk-subtle`, Sign out a ghost button.
 - Top bar: `sticky top-0 z-30 h-14` (56), `bg-night/80 backdrop-blur border-b border-hairline`, `px-4 sm:px-6` so the trail starts where the page's title does.
 - Trail: `font-display text-sm`, `gap-2`; a crumb `text-chalk-faint`, hover `text-chalk`; the separator `/` in `hairline-strong`; the page's own heading `font-medium text-chalk` truncated.
@@ -49,6 +50,7 @@ The frame every signed-in person sees round every page: the side bar, the top ba
 
 ## Exceptions
 - The project picker left the side bar for the top bar's trail, and the heading became the trail (James, 11 Nov 2026): the side bar is the organisation's, and a project is switched where its page says which project it is. A project's own pages are the tabs at the foot of its page header, not side bar links.
+- An organisation's pages are side bar links and never tabs at the foot of a page header (James, 12 Nov 2026): what the side bar lists, a tab does not list again. Its Domain is a page under Knowledge, beside Your Business Brain that keeps it, and is listed only where the brain's page is.
 
 ## Unmapped
 - The Jewel portal shows the project's reference in a monospaced font; YBT has no monospaced token, so the caption is `text-xs text-chalk-subtle` in Inter.
