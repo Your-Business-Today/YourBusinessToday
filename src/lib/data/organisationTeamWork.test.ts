@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { teamWorkGroups } from './organisationTeamWork';
+import { teamWorkAcross, teamWorkGroups } from './organisationTeamWork';
 import { departments } from './department';
 import { taskStatuses } from './taskStatus';
 
@@ -35,5 +35,13 @@ describe('teamWorkGroups', () => {
 			['insurance', 'Harbour site']
 		]);
 		expect(administration.items[0].href).toBe('/projects/meadow/tasks/accounts');
+	});
+
+	it('lists every department’s jobs as one, the soonest due first, each keeping its department', () => {
+		expect(teamWorkAcross(groups).map(({ id, department }) => [id, department])).toEqual([
+			['pitch', departments.sales],
+			['accounts', departments.administration],
+			['insurance', departments.administration]
+		]);
 	});
 });
