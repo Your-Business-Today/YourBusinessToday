@@ -12,6 +12,8 @@ import { clientRegisterActions } from './clientRegisterActions';
 import { clientSetUpActions } from './clientSetUpActions';
 import { clientRemovalActions } from './clientRemovalActions';
 import { leadConversationActions } from './leadConversationActions';
+import { officerActions } from './officerActions';
+import { officerAppointmentActions } from './officerAppointmentActions';
 import { salesLeaderboardActions } from './salesLeaderboardActions';
 import type { McpAction } from '../actionTypes';
 
@@ -27,6 +29,8 @@ export const clientActions: McpAction[] = [
 	...peopleRegisterActions,
 	...personUpdateActions,
 	...personLinkActions,
+	...officerActions,
+	...officerAppointmentActions,
 	...personResearchActions,
 	...personApproachActions,
 	...clientProjectActions,
