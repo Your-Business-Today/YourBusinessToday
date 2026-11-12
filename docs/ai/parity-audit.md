@@ -30,11 +30,11 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-016 | invite someone to a project, take them off it, or hand it on | member | write | `invitePerson` `removeMember` `transferOwnership` | `invite_to_project` `remove_project_member` `transfer_project_ownership` `list_project_people` | `/projects/{projectId}` |
 | US-017 | say which organisation and client a project belongs to | member | write | `updateProject` | `set_project_organisation` `set_project_client` `set_team_project` | `/projects/{projectId}` |
 | US-018 | see which goals and tasks go autocomplete and switch one | member | write | `/projects/autocomplete` load, `setGoalAutocomplete` `setAutocomplete` | `read_autocomplete_register` `set_goal_autocomplete` `set_task_autocomplete` | `/projects/autocomplete` `/projects/{projectId}/tasks/{taskId}` |
-| US-019 | see which kit version each project runs and refresh the register | anyone | read | `/projects/kit-versions` load, `readKitVersions` | — | `/projects/kit-versions` |
+| US-019 | see which kit version each project runs and refresh the register | anyone | read | `/projects/kit-versions` load, `readKitVersions` | `read_kit_versions` `refresh_kit_versions` | `/projects/kit-versions` |
 | US-020 | read a project's deploy history | member | read | `/projects/{projectId}/deploys` load | `read_deploy_history` | `/projects/{projectId}/deploys` |
 | US-021 | see what is staged and deploy it now | member | write | `deployNow` | `deploy_staging_now` | `/projects/{projectId}/staged` |
 | US-022 | read a project's domain and site map | member | read | `/projects/{projectId}/domain` load | `read_project_domain` `read_project_site_map` `read_project_mcp_map` | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
-| US-023 | refresh a project's domain and site map from its repository | member | write | opening the page | — | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
+| US-023 | refresh a project's domain and site map from its repository | member | write | opening the page | `refresh_project_blueprint` | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
 | US-024 | assign internal work and give it a due date | member | write | `setAssignees` `setDueDate` | `set_task_assignees` `update_task_details` | `/projects/{projectId}` |
 
 ## 03-goals
@@ -46,7 +46,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-032 | change a goal, its status, its priority and its order | member | write | `saveGoal` `moveGoal` `setGoalPriority` | `update_goal` `set_goal_status` `set_goal_priority` `move_goal` `place_goal` | `/projects/{projectId}/goals/{goalId}` `/projects/{projectId}` |
 | US-033 | delete a goal | member | write | `deleteGoal` | `delete_goal` | `/projects/{projectId}/goals/{goalId}` |
 | US-034 | post on a goal's conversation | member | write | `postMessage` | `post_message` | `/projects/{projectId}/goals/{goalId}` |
-| US-035 | add someone to a goal's conversation, or take them off it | member | write | `addParticipant` `removeParticipant` | — | `/projects/{projectId}/goals/{goalId}` |
+| US-035 | add someone to a goal's conversation, or take them off it | member | write | `addParticipant` `removeParticipant` | `add_conversation_participant` `remove_conversation_participant` | `/projects/{projectId}/goals/{goalId}` |
 
 ## 04-tasks
 
@@ -64,7 +64,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-049 | record the branch and pull request a task is on | member | write | `setBranch` | `set_task_branch` `find_task_by_branch` | `/projects/{projectId}/tasks/{taskId}` |
 | US-050 | say who is working on a task and what roles it needs | member | write | `setAssignees` | `set_task_assignees` `set_task_roles` | `/projects/{projectId}/tasks/{taskId}` |
 | US-051 | post on a task's conversation and resolve a support task | member | write | `postMessage` `resolve` | `post_message` `resolve_support_task` | `/projects/{projectId}/tasks/{taskId}` |
-| US-052 | add someone to a task's conversation, or take them off it | member | write | `addParticipant` `removeParticipant` | — | `/projects/{projectId}/tasks/{taskId}` |
+| US-052 | add someone to a task's conversation, or take them off it | member | write | `addParticipant` `removeParticipant` | `add_conversation_participant` `remove_conversation_participant` | `/projects/{projectId}/tasks/{taskId}` |
 | US-053 | delete a task | member | write | `deleteTask` | `delete_task` | `/projects/{projectId}/tasks/{taskId}` |
 | US-054 | see the open tasks in my name and the build queue | member | read | `/projects/{projectId}` load | `read_team_tasks` `read_task_queue` `read_build_queue` | `/projects/{projectId}` |
 | US-055 | raise a support task and see the open ones | member | write | `createTask` | `create_support_task` `list_open_support_tasks` | `/projects/{projectId}` |
@@ -136,7 +136,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-113 | switch a module on or off for an organisation | staff | write | `setModule` | `set_organisation_module` | `/organisations/{organisationId}` |
 | US-114 | name a director of an organisation | staff | write | `setDirector` | `set_organisation_director` | `/organisations/{organisationId}` |
 | US-115 | delete an organisation | staff | write | `deleteOrganisation` | — | `/organisations/{organisationId}` |
-| US-116 | see the open work of an organisation's team, department by department | member | read | `/organisations/{organisationId}/task-management` load | — | `/organisations/{organisationId}/task-management` |
+| US-116 | see the open work of an organisation's team, department by department | member | read | `/organisations/{organisationId}/task-management` load | `read_team_work` | `/organisations/{organisationId}/task-management` |
 | US-117 | read and set an organisation's domain | manager | write | `/organisations/{organisationId}/domain` load | `read_business_brain_domain` `file_business_brain_domain` `start_business_brain_domain_run` | `/organisations/{organisationId}/domain` |
 
 ## 10-boardroom
@@ -231,7 +231,6 @@ These have no screen because the person's Claude is the only one who needs them:
 
 | Task | Stories | Actions to add |
 | --- | --- | --- |
-| Conversation participants, team work, kit versions and the blueprint refresh through the connector | US-019 US-023 US-035 US-052 US-116 | `add_conversation_participant` `remove_conversation_participant` `read_team_work` `read_kit_versions` `refresh_project_blueprint` |
 | Accounts through the connector | US-170 US-171 US-172 US-173 US-174 | `list_accounts` `set_staff_access` `set_account_restriction` `send_password_reset` `delete_account` |
 | Models, Stripe payments, client documents and organisation deletion through the connector | US-115 US-175 US-176 US-177 | `remove_build_model` `set_review_model` `mark_stripe_payment_dealt_with` `list_client_documents` `read_client_document` `delete_organisation` |
 | The client portal through the connector | US-162 US-163 US-164 US-165 | `read_my_company_context` `mark_context_part` `confirm_company_context` `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` `list_my_invoices` `pay_invoice` |

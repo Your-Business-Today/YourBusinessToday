@@ -1,3 +1,4 @@
+import { conversationParticipantActions } from './conversationParticipantActions';
 import { describeInbox } from './describeInbox';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { markTurnsPickedUp } from '$lib/server/conversations/markTurnsPickedUp';
@@ -9,6 +10,7 @@ import type { McpAction } from '../actionTypes';
 
 export const conversationActions: McpAction[] = [
 	postMessageAction,
+	...conversationParticipantActions,
 	{
 		name: 'read_latest_messages',
 		area: 'conversations',
