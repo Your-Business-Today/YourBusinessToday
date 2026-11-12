@@ -14,7 +14,7 @@ import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
 export const projectIdField = textField(
-	'The project id, as given by list_my_projects or list_projects'
+	'The project id, as given by list_projects'
 );
 export const goalIdField = textField('The goal id, as given by find_goals');
 
