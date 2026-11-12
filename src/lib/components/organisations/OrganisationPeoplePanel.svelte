@@ -1,12 +1,16 @@
 <script lang="ts">
+	import Button from '$lib/components/site/Button.svelte';
 	import DangerConfirmModal from '$lib/components/site/DangerConfirmModal.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import InviteMemberForm from './InviteMemberForm.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
-	import OrganisationMemberRow from './OrganisationMemberRow.svelte';
-	import { panelButtonClasses, panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
+	import OrganisationMemberCells from './OrganisationMemberCells.svelte';
+	import RecordsTable from '$lib/components/workspace/RecordsTable.svelte';
+	import { paneToolbarClasses } from '$lib/components/workspace/workspaceStyles';
+	import { standingLabelOf } from '$lib/data/organisationStanding';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 	import type { OrganisationMember } from '$lib/server/organisations/organisationMemberRecord';
+	import type { RecordsColumn } from '$lib/components/workspace/recordsTable';
 
 	let {
 		organisation,
@@ -22,26 +26,39 @@
 	let isRemoveModalOpen = $state(false);
 	let memberAwaitingRemoval = $state<OrganisationMember | null>(null);
 
+	const personColumns: RecordsColumn<OrganisationMember>[] = [
+		{ key: 'person', label: 'Person', sortValue: (member) => member.name },
+		{ key: 'role', label: 'Role', sortValue: (member) => standingLabelOf(member.isManager) },
+		{ key: 'since', label: 'On since', sortValue: (member) => member.since }
+	];
+	const actionsColumn: RecordsColumn<OrganisationMember> = { key: 'actions', label: '' };
+	const columns = $derived(canManage ? [...personColumns, actionsColumn] : personColumns);
+
 	function openRemoveModal(member: OrganisationMember) {
 		memberAwaitingRemoval = member;
 		isRemoveModalOpen = true;
 	}
 </script>
 
-<DashboardPanel title="People" count={members.length}>
-	{#snippet actions()}
-		{#if canManage}
-			<button type="button" onclick={() => (isInviteModalOpen = true)} class={panelButtonClasses}>＋ Invite</button>
-		{/if}
-	{/snippet}
-	<ul class={panelListClasses}>
-		{#each members as member (member.id)}
-			<OrganisationMemberRow {member} {canManage} onRemove={openRemoveModal} />
-		{/each}
-	</ul>
-	{#if members.length === 0}
-		<p class={panelEmptyClasses}>Nobody is on {organisation.name} yet.</p>
-	{/if}
+{#if canManage}
+	<div class={paneToolbarClasses}>
+		<Button look="primary" onclick={() => (isInviteModalOpen = true)}>Invite person</Button>
+	</div>
+{/if}
+
+<DashboardPanel>
+	<RecordsTable
+		label={`People on ${organisation.name}`}
+		{columns}
+		rows={members}
+		keyOf={(member) => member.id}
+		isCardsOnPhone
+		emptyMessage={`Nobody is on ${organisation.name} yet.`}
+	>
+		{#snippet cells(member)}
+			<OrganisationMemberCells {member} {canManage} onRemove={openRemoveModal} />
+		{/snippet}
+	</RecordsTable>
 </DashboardPanel>
 
 <Modal title={`Invite someone to ${organisation.name}`} bind:isOpen={isInviteModalOpen}>

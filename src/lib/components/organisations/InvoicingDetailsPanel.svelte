@@ -1,9 +1,10 @@
 <script lang="ts">
+	import Button from '$lib/components/site/Button.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import OrganisationDetailsForm from './OrganisationDetailsForm.svelte';
 	import { invoicingFieldLabels, type InvoicingField } from '$lib/data/organisationInvoicing';
-	import { panelButtonClasses } from '$lib/components/workspace/workspaceStyles';
+	import { paneToolbarClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
 	let { organisation, canManage }: { organisation: Organisation; canManage: boolean } = $props();
@@ -19,18 +20,21 @@
 	]);
 </script>
 
-<DashboardPanel title="Invoicing">
-	{#snippet actions()}
-		{#if canManage}
-			<button type="button" onclick={() => (isEditModalOpen = true)} class={panelButtonClasses}>Edit</button>
-		{/if}
-	{/snippet}
-	<dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 px-4 py-3 text-sm">
+{#if canManage}
+	<div class={paneToolbarClasses}>
+		<Button onclick={() => (isEditModalOpen = true)}>Edit details</Button>
+	</div>
+{/if}
+
+<DashboardPanel isPadded>
+	<dl class="grid grid-cols-1 gap-x-8 gap-y-1 text-sm sm:grid-cols-[12rem_1fr] sm:gap-y-4">
 		{#each rows as row (row.field)}
-			<dt class="text-chalk/50">{invoicingFieldLabels[row.field]}</dt>
-			<dd class="min-w-0 whitespace-pre-line break-words">
-				{row.value === '' ? 'Not set' : row.value}
-			</dd>
+			<dt class="font-medium text-chalk-subtle">{invoicingFieldLabels[row.field]}</dt>
+			{#if row.value === ''}
+				<dd class="pb-3 text-chalk-faint sm:pb-0">Not set</dd>
+			{:else}
+				<dd class="min-w-0 pb-3 break-words whitespace-pre-line text-chalk sm:pb-0">{row.value}</dd>
+			{/if}
 		{/each}
 	</dl>
 </DashboardPanel>
