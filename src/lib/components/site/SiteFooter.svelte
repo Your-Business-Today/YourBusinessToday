@@ -2,7 +2,7 @@
 	import BrandWordmark from './BrandWordmark.svelte';
 	import { caseStudyPath } from '$lib/data/caseStudies';
 	import { companyDetails } from '$lib/data/companyDetails';
-	import { buildTimeline } from '$lib/data/consultancyOffer';
+	import { buildTimeline, whatWeDoLabel, whatWeDoPath } from '$lib/data/consultancyOffer';
 	import { discoveryCallPath, discoveryCallShortLabel } from '$lib/data/discoveryCall';
 	import { taxCalculatorLabel, taxCalculatorPath } from '$lib/data/taxCalculator/taxCalculatorPath';
 </script>
@@ -24,7 +24,10 @@
 			</a>
 		</div>
 		<div class="flex flex-wrap items-center gap-6">
-			<a href="/offer" class="text-sm text-chalk/60 transition hover:text-chalk">The offer</a>
+			<a href="/about" class="text-sm text-chalk/60 transition hover:text-chalk">About us</a>
+			<a href={whatWeDoPath} class="text-sm text-chalk/60 transition hover:text-chalk">
+				{whatWeDoLabel}
+			</a>
 			<a href={caseStudyPath} class="text-sm text-chalk/60 transition hover:text-chalk">
 				Case study
 			</a>

@@ -8,7 +8,7 @@ import type { Actions } from './$types';
 
 const projectRequired = 'A project is required.';
 
-/** Each person orders two boards: the projects they own, and the projects they are on. */
+/** Each person orders one list: the projects they own and the ones they are on, together. */
 export const projectOrderActions = {
 	moveProject: async ({ locals, request }) => {
 		const formData = await request.formData();

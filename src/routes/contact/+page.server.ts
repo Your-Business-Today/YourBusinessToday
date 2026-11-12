@@ -5,6 +5,7 @@ import { readWebsiteEnquiry } from '$lib/server/enquiries/websiteEnquiry';
 import { recordWebsiteEnquiry } from '$lib/server/enquiries/recordWebsiteEnquiry';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { companyDetails } from '$lib/data/companyDetails';
+import { signedInOriginSeenFrom } from '$lib/portal/mainSiteAddress';
 import type { WebsiteEnquiry } from '$lib/data/enquiryForm';
 import type { Actions } from './$types';
 
@@ -23,7 +24,7 @@ export const actions: Actions = {
 		const clientAddress = getClientAddress();
 		if (!enquiriesPerAddress.isAllowedFrom(clientAddress)) return { isSent: true };
 		try {
-			await recordAndNotify(reading.enquiry, url.origin);
+			await recordAndNotify(reading.enquiry, signedInOriginSeenFrom(url));
 		} catch {
 			return fail(500, { message: recordingFailedMessage });
 		}

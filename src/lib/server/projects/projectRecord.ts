@@ -13,6 +13,7 @@ export type Project = {
 	description: string;
 	status: ProjectStatus;
 	priority: number;
+	teamProjectsAbove: number;
 	clientId: string | null;
 	organisationId: string | null;
 	isTeamProject: boolean;
@@ -36,6 +37,7 @@ export function parseProjectRecord(row: Record<string, unknown>): Project {
 		description: row.description as string,
 		status: parseProjectStatus(row.status),
 		priority: row.priority as number,
+		teamProjectsAbove: (row.team_projects_above as number) ?? 0,
 		clientId: (row.client_id as string) ?? null,
 		organisationId: (row.organisation_id as string) ?? null,
 		isTeamProject: row.is_team_project === true,

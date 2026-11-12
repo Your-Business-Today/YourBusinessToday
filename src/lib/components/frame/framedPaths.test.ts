@@ -14,7 +14,7 @@ describe('isFramedPath', () => {
 
 	it('leaves the public pages their own header', () => {
 		expect(isFramedPath('/')).toBe(false);
-		expect(isFramedPath('/offer')).toBe(false);
+		expect(isFramedPath('/what-we-do')).toBe(false);
 		expect(isFramedPath('/case-study')).toBe(false);
 		expect(isFramedPath('/about')).toBe(false);
 		expect(isFramedPath('/account/sign-in')).toBe(false);

@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { formatBritishDate } from '$lib/data/britishDate';
 	import type { DemoBrainNote } from '$lib/data/demo/demoBusiness';
+	import { organisationModuleLabels } from '$lib/data/organisationModules';
 
 	let { notes }: { notes: DemoBrainNote[] } = $props();
 </script>
 
 <section class="mx-auto max-w-6xl px-6 py-20 md:py-24">
-	<p class="font-display text-sm tracking-widest text-signal uppercase">A second brain</p>
+	<p class="font-display text-sm tracking-widest text-signal uppercase">
+		{organisationModuleLabels.business_brain}
+	</p>
 	<h2 class="mt-5 max-w-3xl font-display text-3xl leading-tight font-medium">
 		What the business has taught its brain.
 	</h2>

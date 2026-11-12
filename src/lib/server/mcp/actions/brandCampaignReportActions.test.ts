@@ -52,7 +52,7 @@ describe('recording who a paid campaign reached, and reading its report, over th
 		expect(report).toContain('- 68 clicks; a click cost £3.09');
 		expect(report).toContain('- By age: 25 to 34 2,000 (50%), 40 clicks; 45 to 54 2,000 (50%), 28 clicks');
 		expect(report).toContain('- By gender: Women 3,200 (80%), 58 clicks; Men 800 (20%), 10 clicks');
-		expect(report).toContain(`https://yourbusiness.today/organisations/jewel/brand/campaigns/${campaignId}`);
+		expect(report).toContain(`https://portal.yourbusiness.today/organisations/jewel/brand/campaigns/${campaignId}`);
 	});
 
 	it('says when no breakdown is held yet, and when the campaign is not the brand’s', async () => {

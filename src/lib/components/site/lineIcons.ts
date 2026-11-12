@@ -3,6 +3,7 @@ export type LineIconKind =
 	| 'briefcase'
 	| 'calendar'
 	| 'check'
+	| 'externalLink'
 	| 'mute'
 	| 'pause'
 	| 'play'
@@ -26,6 +27,7 @@ export const lineIconPaths: Record<LineIconKind, string[]> = {
 		'M3 10h18'
 	],
 	check: ['M21.8 10A10 10 0 1 1 17 3.34', 'm9 11 3 3L22 4'],
+	externalLink: ['M15 3h6v6', 'M10 14 21 3', 'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'],
 	mute: ['M11 5 6 9H2v6h4l5 4z', 'm22 9-6 6', 'm16 9 6 6'],
 	pause: ['M8 5v14', 'M16 5v14'],
 	play: ['M7 4.5v15l12-7.5z'],

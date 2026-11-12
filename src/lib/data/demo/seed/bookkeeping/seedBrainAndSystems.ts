@@ -1,4 +1,5 @@
 import type { DemoBrainNote, DemoLinkedSystem } from '../../demoBusiness';
+import { organisationModuleLabels } from '$lib/data/organisationModules';
 import { daysBefore } from '../datedRecords';
 
 export function seedBrain(today: string): DemoBrainNote[] {
@@ -34,7 +35,7 @@ export const practiceSystems: DemoLinkedSystem[] = [
 		claudeReaches: 'Says which payrolls are due this week and who has changed'
 	},
 	{
-		name: 'Your Brain Today',
+		name: organisationModuleLabels.business_brain,
 		holds: 'How this practice works: its rules of thumb, its clients and their habits',
 		claudeReaches: 'Remembers what you tell it and applies it the next time you ask'
 	}

@@ -1,3 +1,4 @@
+import { personNoteTitles } from '$lib/data/personNoteKind';
 import { personApproachLimits } from '$lib/data/personApproachRules';
 
 const { longestOpeningMessage, longestCallPlan } = personApproachLimits;
@@ -24,5 +25,5 @@ export const savePersonApproachGuidance =
 	'The callPlan is short lines: the one-sentence reason for the call, three questions to ask, the likely ' +
 	`objection and how to answer it, and the ask to close on (at most ${longestCallPlan} characters). Show the ` +
 	'staff member the draft and save it only on their yes; they may edit it first. Saving adds it to the ' +
-	'person\'s notes as a "Drafted approach" and records the draft on each of their companies; nothing already ' +
+	`person's notes as a "${personNoteTitles.approach}" and records the draft on each of their companies; nothing already ` +
 	'held is changed or removed.';

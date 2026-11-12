@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buildTimeline } from '$lib/data/consultancyOffer';
+	import { buildTimeline, whatWeDoPath } from '$lib/data/consultancyOffer';
 </script>
 
 <section class="border-y border-hairline bg-carriage/60">
@@ -15,10 +15,10 @@
 			same roles as the screens, so the team work from the assistant they already use.
 		</p>
 		<p class="mt-6 max-w-3xl text-chalk/70">
-			Today we do it in {buildTimeline}. The seven steps are on the offer page.
+			Today we do it in {buildTimeline}. The seven steps are under What we do.
 		</p>
 		<a
-			href="/offer"
+			href={whatWeDoPath}
 			class="mt-10 inline-block rounded-full border border-hairline px-6 py-2.5 font-display text-sm
 				text-chalk/80 transition hover:border-chalk/40 hover:text-chalk"
 		>

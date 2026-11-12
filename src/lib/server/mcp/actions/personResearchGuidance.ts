@@ -1,3 +1,5 @@
+import { personNoteTitles } from '$lib/data/personNoteKind';
+
 const publicBusinessPresenceOnly =
 	"Find the person's public business presence only: their companies' websites, press coverage, " +
 	'trade directories, awards, talks, projects and public bios. Read public pages only, nothing behind ' +
@@ -23,5 +25,5 @@ export const savePersonResearchGuidance =
 	'what they seem to be building. Give each role with the page it was read on, the pages worth keeping ' +
 	'on their record as links with a short label such as "Company site" or "Interview, 2025", and every ' +
 	'page you read as sources. Show the staff member what you found before you save it. Saving adds the ' +
-	'summary as a "Found on the web" note, adds each link the person does not have yet, and records the ' +
+	`summary as a "${personNoteTitles.research}" note, adds each link the person does not have yet, and records the ` +
 	'research on each of their companies; nothing already held is changed or removed.';

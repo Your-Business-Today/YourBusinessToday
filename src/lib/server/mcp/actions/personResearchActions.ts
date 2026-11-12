@@ -1,3 +1,4 @@
+import { personNoteTitles } from '$lib/data/personNoteKind';
 import { describePersonInFull, noSuchPerson } from './describePerson';
 import { getCompaniesForPerson } from '$lib/server/people/getCompaniesForPerson';
 import { getPerson } from '$lib/server/people/getPerson';
@@ -79,6 +80,6 @@ async function saveResearchOnPerson(caller: McpCaller, input: Record<string, unk
 	if (person === null) return noSuchPerson;
 	const companies = await getCompaniesForPerson(caller.supabase, person.id);
 	const newLinkCount = await savePersonFindings(caller.supabase, findings, person.name, companies, caller.accountId);
-	const kept = `${newLinkCount} new link(s) kept, the summary saved as a "Found on the web" note`;
+	const kept = `${newLinkCount} new link(s) kept, the summary saved as a "${personNoteTitles.research}" note`;
 	return `${person.name}'s research is saved — ${kept}, and the research recorded on ${companies.length} company(ies).`;
 }

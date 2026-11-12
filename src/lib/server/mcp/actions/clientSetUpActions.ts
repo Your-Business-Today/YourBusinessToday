@@ -1,4 +1,4 @@
-import { companyDetails } from '$lib/data/companyDetails';
+import { portalAddress } from '$lib/portal/portalAddress';
 import { describeClientSetUp } from '$lib/server/onboarding/describeClientSetUp';
 import { isRefusal, type Refusal } from '$lib/server/portal/portalFormReading';
 import { setClientUp } from '$lib/server/onboarding/setClientUp';
@@ -39,7 +39,7 @@ export const clientSetUpActions: McpAction[] = [
 			{
 				clientId: textField('The client id, as given by list_clients'),
 				people: peopleField,
-				origin: textField(`Where the links should point, defaulting to ${companyDetails.websiteUrl}`)
+				origin: textField(`Where the links should point, defaulting to ${portalAddress.origin}`)
 			},
 			['clientId', 'people']
 		),
@@ -53,7 +53,7 @@ async function setUpClient(caller: McpCaller, input: Record<string, unknown>): P
 	if (refusal !== null) return refusal;
 	const people = validateSetUpPeople(readPeople(input.people));
 	if (isRefusal(people)) return people.refusal;
-	const origin = readOptionalText(input, 'origin') ?? companyDetails.websiteUrl;
+	const origin = readOptionalText(input, 'origin') ?? portalAddress.origin;
 	const setUp = await setClientUp({ clientId, people, origin, actorAccountId: caller.accountId });
 	if (isRefusal(setUp)) return setUp.refusal;
 	return describeClientSetUp(setUp);

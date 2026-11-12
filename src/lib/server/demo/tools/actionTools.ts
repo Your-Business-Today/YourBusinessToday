@@ -7,6 +7,7 @@ import {
 	type DemoChange
 } from '$lib/data/demo/demoActions';
 import { DemoLimit } from '$lib/data/demo/demoLimits';
+import { organisationModuleLabels } from '$lib/data/organisationModules';
 import { startedAgain } from '$lib/data/demo/seed/seedDemoBusiness';
 import { noInput, oneField, readString, writes, type DemoTool, type DemoToolOutcome } from './demoTool';
 
@@ -48,7 +49,8 @@ export const actionTools: DemoTool[] = [
 		name: 'remember',
 		title: 'Teach the brain',
 		description:
-			`Adds a note to the business's Your Brain Today brain, up to ${DemoLimit.noteLength} characters, ` +
+			`Adds a note to the business's ${organisationModuleLabels.business_brain}, ` +
+			`up to ${DemoLimit.noteLength} characters, ` +
 			'so Claude applies it the next time you ask.',
 		inputSchema: oneField('note', 'What the business should remember, in a sentence or two'),
 		annotations: writes,

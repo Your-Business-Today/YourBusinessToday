@@ -1,3 +1,4 @@
+import { showEverythingRequest } from '$lib/data/personRequests';
 import { nextTurnToolName } from './nextTurnToolName';
 import { objectSchema } from './actionTypes';
 import { runAction } from './runAction';
@@ -20,7 +21,7 @@ export const nextTurnTools: McpTool[] = [
 			'It gives the ONE item to raise now, bugs first, with why it matters, the question and what a ' +
 			'good answer is. Put that one item to them in a sentence or two and never list the rest. On ' +
 			'their yes, record their answer with the answer_turn action (perform_action), which hands back ' +
-			'the next item. projectId or bugsOnly narrow it. Only "show me everything" is whats_outstanding_for_me.',
+			`the next item. projectId or bugsOnly narrow it. Only "${showEverythingRequest}" is whats_outstanding_for_me.`,
 		inputSchema: objectSchema(turnFocusFields),
 		annotations: { readOnlyHint: true },
 		run: async (caller, argumentValues) => runAction(caller, nextTurnActionName, argumentValues)

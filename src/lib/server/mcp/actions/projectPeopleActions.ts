@@ -1,4 +1,4 @@
-import { companyDetails } from '$lib/data/companyDetails';
+import { portalAddress } from '$lib/portal/portalAddress';
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { inviteOutcomeMessage } from '$lib/server/members/inviteOutcomeMessage';
@@ -51,7 +51,7 @@ export const projectPeopleActions: McpAction[] = [
 				project,
 				email,
 				inviter: await callerAccount(caller),
-				origin: companyDetails.websiteUrl,
+				origin: portalAddress.origin,
 				memberIds: people.map((person) => person.id)
 			});
 			return inviteOutcomeMessage(outcome, email).message;

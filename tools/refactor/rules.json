@@ -222,12 +222,14 @@
       "src/routes/about/+page.server.ts",
       "src/routes/case-study/+page.server.ts",
       "src/routes/company/+page.server.ts",
-      "src/routes/offer/+page.server.ts",
+      "src/routes/what-we-do/+page.server.ts",
       "src/routes/privacy/+page.server.ts",
       "src/routes/promo/+page.server.ts",
       "src/routes/tax-calculator/+page.server.ts",
       "src/routes/terms/+page.server.ts",
-      "src/routes/organisations/[organisationId]/sales/+page.server.ts"
+      "src/routes/organisations/[organisationId]/sales/+page.server.ts",
+      "src/lib/server/mcp/actions/businessBrainBatchActions.ts",
+      "src/lib/server/mcp/actions/businessBrainBatchSchemas.ts"
     ]
   },
   "siteDefinition": {
@@ -248,7 +250,10 @@
       "EmptyState",
       "RecordsTable",
       "Button",
-      "Badge"
+      "Badge",
+      "InlineField",
+      "WorkspaceHeader",
+      "BreakdownTable"
     ],
     "handRolled": [
       {
@@ -263,7 +268,8 @@
           "type=\"radio\"",
           "type=\"file\"",
           "type=\"hidden\"",
-          "type=\"range\""
+          "type=\"range\"",
+          "tabindex=\"-1\""
         ],
         "unlessUnlabelled": true
       },
@@ -304,7 +310,8 @@
     "containerWidgets": [
       "DashboardPanel",
       "Modal",
-      "Sheet"
+      "Sheet",
+      "WorkspaceHeader"
     ]
   },
   "score": {
