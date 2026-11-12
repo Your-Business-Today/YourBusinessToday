@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Badge from '$lib/components/site/Badge.svelte';
+	import type { BadgeTone } from '$lib/components/site/badgeTones';
 
-	export type Tab = { key: string; label: string; count: number | null; href?: string };
+	export type Tab = { key: string; label: string; count: number | null; countTone?: BadgeTone; href?: string };
 
 	let { tabs, selectedKey = $bindable() }: { tabs: Tab[]; selectedKey: string } = $props();
 
@@ -14,7 +15,7 @@
 {#snippet tabContent(tab: Tab)}
 	{tab.label}
 	{#if tab.count !== null}
-		<Badge label={tab.count} />
+		<Badge label={tab.count} tone={tab.countTone} />
 	{/if}
 {/snippet}
 

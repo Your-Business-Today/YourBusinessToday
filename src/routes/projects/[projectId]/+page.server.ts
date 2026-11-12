@@ -1,4 +1,5 @@
 import { autocompleteActions } from './autocompleteActions';
+import { developmentTabCountsOf } from '$lib/components/projects/developmentTabCounts';
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { summariseGoals } from '$lib/server/goals/summariseGoals';
 import { goalActions } from './goalActions';
@@ -15,8 +16,8 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const { project, isOwner, user } = await requireProjectAccess(locals, params.projectId);
-	const { work, assigneeIdsByTask, turnsByTask, buildBoard, ...reads } = await readBoard(locals, project, url);
-	const { projectTasks, projectGoals, tasks, goals, ...board } = work;
+	const { work, assigneeIdsByTask, turnsByTask, buildBoard, stagedTaskCount, ...reads } = await readBoard(locals, project, url);
+	const { projectTasks, projectGoals, tasks, goals, departmentTabs, ...board } = work;
 	return {
 		project,
 		...reads,
@@ -30,6 +31,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 		turnsByTask: Object.fromEntries(turnsByTask),
 		sequenceByTask: sequenceStandingsOf(projectTasks),
 		...board,
+		developmentTabCounts: developmentTabCountsOf(departmentTabs, stagedTaskCount),
 		...buildBoard,
 		viewerId: user.id
 	};
