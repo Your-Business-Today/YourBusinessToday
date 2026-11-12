@@ -1,10 +1,14 @@
 import { departmentLabels, type Department } from '$lib/data/department';
 import { internalDepartments } from '$lib/data/boardSide';
 import { isTaskDone } from '$lib/data/taskStatus';
+import { writeShownIds } from '$lib/data/shownIds';
 import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
-/** A row of the Internal work board: an item, and how far its subtask sits in from the item above it. */
-export type InternalItem = { id: string; task: TaskTreeNode; depth: number };
+/** Where an item stands among the items shown beside it: its group's items under the same parent. */
+export type ItemPlace = { position: number; count: number; shownIds: string };
+
+/** A row of the Internal work board: an item, how far its subtask sits in from the item above it, and its place. */
+export type InternalItem = { id: string; task: TaskTreeNode; depth: number; place: ItemPlace };
 
 export type InternalWorkGroup = {
 	department: Department;
@@ -26,5 +30,9 @@ export function internalWorkGroups(shownTree: TaskTreeNode[]): InternalWorkGroup
 }
 
 function itemsOf(tasks: TaskTreeNode[], depth: number): InternalItem[] {
-	return tasks.flatMap((task) => [{ id: task.id, task, depth }, ...itemsOf(task.subtasks, depth + 1)]);
+	const shownIds = writeShownIds(tasks.map((task) => task.id));
+	return tasks.flatMap((task, index) => {
+		const place = { position: index + 1, count: tasks.length, shownIds };
+		return [{ id: task.id, task, depth, place }, ...itemsOf(task.subtasks, depth + 1)];
+	});
 }

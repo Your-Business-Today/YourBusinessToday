@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 	import ChevronIcon from '$lib/components/site/ChevronIcon.svelte';
+	import LineIcon from '$lib/components/site/LineIcon.svelte';
 	import FrameNavLink from './FrameNavLink.svelte';
 	import { foldOpen } from '$lib/client/motion';
-	import type { FrameSection } from './frameGroups';
+	import type { FrameFolder, FrameSection } from './frameGroups';
 
-	let { section, currentHref }: { section: FrameSection; currentHref: string | null } = $props();
+	let {
+		section,
+		folder,
+		currentHref
+	}: { section: FrameSection; folder: FrameFolder; currentHref: string | null } = $props();
 
 	let isOpen = $state(true);
 
@@ -23,7 +28,10 @@
 		class={`flex items-center justify-between gap-3 rounded px-3 py-3.5 text-left text-sm font-medium transition
 			hover:bg-carriage-raised hover:text-chalk md:py-2 ${toneClasses}`}
 	>
-		{section.label}
+		<span class="flex min-w-0 items-center gap-3">
+			<LineIcon kind={folder.icon} class="h-4 w-4 shrink-0" />
+			<span class="truncate">{folder.label}</span>
+		</span>
 		<ChevronIcon {isOpen} />
 	</button>
 	{#if isOpen}

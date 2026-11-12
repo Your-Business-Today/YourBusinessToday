@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { frameTrailTo } from './frameTrail';
+import type { FrameLink } from './frameGroups';
 import type { FramePicks } from './framePicks';
 
-const overview = { href: '/organisations/harbour', label: 'Overview' };
-const projects = { href: '/projects', label: 'Projects' };
-const books = { href: '/organisations/harbour/books', label: 'Books' };
+const overview: FrameLink = { href: '/organisations/harbour', label: 'Overview', icon: 'layoutDashboard' };
+const projects: FrameLink = { href: '/projects', label: 'Projects', icon: 'folderKanban' };
+const books: FrameLink = { href: '/organisations/harbour/books', label: 'Books', icon: 'chartColumn' };
 const clients = { href: '/clients', label: 'Clients' };
 const harbourCrumb = { href: overview.href, label: 'Harbour Builders' };
 

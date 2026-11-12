@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { frameViewFor } from './frameView';
 import type { FrameAccess } from './frameNavigation';
+import type { FrameLink } from './frameGroups';
 import type { FramePicks } from './framePicks';
 
 const member: FrameAccess = {
@@ -77,11 +78,11 @@ describe('frameViewFor', () => {
 	});
 
 	it('puts the picked organisation’s pages and modules first, each link once, and opens home on its projects', () => {
-		const organisationLinks = [
-			{ href: '/organisations/harbour', label: 'Overview' },
-			{ href: '/projects', label: 'Projects' }
+		const organisationLinks: FrameLink[] = [
+			{ href: '/organisations/harbour', label: 'Overview', icon: 'layoutDashboard' },
+			{ href: '/projects', label: 'Projects', icon: 'folderKanban' }
 		];
-		const moduleLinks = [{ href: '/organisations/harbour/books', label: 'Accounts' }];
+		const moduleLinks: FrameLink[] = [{ href: '/organisations/harbour/books', label: 'Accounts', icon: 'chartColumn' }];
 		const picks = { ...noPicks, organisationLinks, moduleLinks, homePath: '/projects' };
 		const view = frameViewFor(staff, siteUrl('/projects/harbour-site/tasks/one'), picks);
 		const labels = view.links.map(({ label }) => label);

@@ -24,6 +24,7 @@
 {#each todos as todo (todo.id)}
 	{@const record = { name: 'todoId', value: todo.id }}
 	<tr class={subItemRowClasses}>
+		<RecordsCell isWideOnly><span class="sr-only">No priority</span></RecordsCell>
 		<RecordsCell><TodoTickTitle {todo} /></RecordsCell>
 		<RecordsCell label="Owner"><TodoOwnerSelect todoId={todo.id} ownerId={todo.ownerAccountId} {people} /></RecordsCell>
 		<RecordsCell kind="status" label="Status">
@@ -32,7 +33,6 @@
 		<RecordsCell label="Due date">
 			<DueDateField action="?/updateTodo" {record} dueDate={todo.dueDate} isFinished={!isTodoOpen(todo.status)} label="When this to-do is due" />
 		</RecordsCell>
-		<RecordsCell isWideOnly><span class="sr-only">No priority</span></RecordsCell>
 		<RecordsCell isWideOnly><span class="sr-only">No goal</span></RecordsCell>
 	</tr>
 {/each}

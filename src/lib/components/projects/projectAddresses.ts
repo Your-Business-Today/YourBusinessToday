@@ -3,7 +3,9 @@ export const projectSegments = {
 	domain: 'domain',
 	siteMap: 'site-map',
 	staged: 'staged',
-	deploys: 'deploys'
+	deploys: 'deploys',
+	goals: 'goals',
+	people: 'people'
 } as const;
 
 /** What the board's address can name: the department open on it. */

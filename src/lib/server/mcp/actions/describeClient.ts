@@ -3,10 +3,12 @@ import { clientStageLabels } from '$lib/data/clientLifecycle';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { describeCompanyProfile } from './describeCompanyProfile';
 import { describeContinuityCopy } from './describeContinuityCopy';
+import { describeLeadConversations } from './describeLeadConversations';
 import type { Client } from '$lib/server/clients/clientRecord';
 import type { ClientContact } from '$lib/server/clients/clientContactRecord';
 import type { ClientEvent } from '$lib/server/clients/clientEventRecord';
 import type { ClientProject } from '$lib/server/clients/getProjectsForClient';
+import type { LeadConversation } from '$lib/data/leadConversationRules';
 import type { ClientSummary } from '$lib/server/clients/listClients';
 
 export const noSuchClient = 'No client on the register has that id. Call list_clients to see them.';
@@ -29,7 +31,8 @@ function describeClientLine(client: ClientSummary): string {
 export function describeClientInFull(
 	client: Client,
 	contacts: ClientContact[],
-	projects: ClientProject[]
+	projects: ClientProject[],
+	conversations: LeadConversation[]
 ): string {
 	return [
 		`${client.name} — ${clientStageLabels[client.stage]} — id ${client.id}`,
@@ -41,6 +44,9 @@ export function describeClientInFull(
 		'',
 		'Contacts:',
 		contacts.length === 0 ? 'None yet.' : contacts.map(describeContactLine).join('\n'),
+		'',
+		'Conversations, the latest first:',
+		...describeLeadConversations(conversations),
 		'',
 		'Projects:',
 		projects.length === 0 ? 'None assigned yet.' : projects.map(describeProjectLine).join('\n')

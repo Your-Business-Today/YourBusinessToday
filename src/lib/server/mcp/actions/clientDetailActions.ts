@@ -3,6 +3,7 @@ import { getClient } from '$lib/server/clients/getClient';
 import { getContactsForClient } from '$lib/server/clients/getContactsForClient';
 import { getEventsForClient } from '$lib/server/clients/getEventsForClient';
 import { getProjectsForClient } from '$lib/server/clients/getProjectsForClient';
+import { getConversationsForClient } from '$lib/server/leadConversations/getConversationsForClient';
 import { readClientResearchGuidance } from './companyResearchGuidance';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
@@ -16,7 +17,7 @@ export const clientDetailActions: McpAction[] = [
 		area: 'clients',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'one client in full, with their company profile, their contacts and the projects we run for them',
+		summary: 'one client in full, with their company profile, their contacts, every conversation logged with them and the projects we run for them',
 		guidance: readClientResearchGuidance,
 		inputSchema: objectSchema({ clientId: clientIdField }, ['clientId']),
 		run: async (caller, input) => readClientInFull(caller, readText(input, 'clientId'))
@@ -35,11 +36,12 @@ export const clientDetailActions: McpAction[] = [
 async function readClientInFull(caller: McpCaller, clientId: string): Promise<string> {
 	const client = await getClient(caller.supabase, clientId);
 	if (client === null) return noSuchClient;
-	return describeClientInFull(
-		client,
-		await getContactsForClient(caller.supabase, client.id),
-		await getProjectsForClient(caller.supabase, client.id)
-	);
+	const [contacts, projects, conversations] = await Promise.all([
+		getContactsForClient(caller.supabase, client.id),
+		getProjectsForClient(caller.supabase, client.id),
+		getConversationsForClient(caller.supabase, client.id)
+	]);
+	return describeClientInFull(client, contacts, projects, conversations);
 }
 
 async function readHistoryForClient(caller: McpCaller, clientId: string): Promise<string> {

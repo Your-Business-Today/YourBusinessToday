@@ -4,6 +4,7 @@
 	import DevelopmentTabs from '$lib/components/projects/DevelopmentTabs.svelte';
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
 	import ProjectNewTaskModal from '$lib/components/projects/ProjectNewTaskModal.svelte';
+	import TaskTreePanel from '$lib/components/projects/TaskTreePanel.svelte';
 	import TaskRowModals from '$lib/components/projects/TaskRowModals.svelte';
 	import TaskSheet from './TaskSheet.svelte';
 	import { fade } from 'svelte/transition';
@@ -24,6 +25,7 @@
 	const dialogs = new TaskRowDialogs();
 	const isDevelopmentSide = $derived(data.boardSide === boardSides.development);
 	const newTaskSources = $derived({ ...data, department: newItemDepartment ?? data.department });
+	const handlers = $derived(dialogs.handlersWith(openSubtaskModal));
 
 	function openNewTaskModal() {
 		subtaskParent = null;
@@ -62,12 +64,11 @@
 	<FlashMessage message={form?.message} />
 	{#key data.boardTab}
 		<div in:fade={tabSwap} class="flex flex-col gap-4">
-			<ProjectDashboard
-				projectId={project.id}
-				sources={data}
-				handlers={dialogs.handlersWith(openSubtaskModal)}
-				onAddItem={openNewItemModal}
-			/>
+			{#if isDevelopmentSide}
+				<TaskTreePanel taskTree={data.taskTree} projectId={project.id} sources={data} {handlers} />
+			{:else}
+				<ProjectDashboard sources={data} {handlers} onAddItem={openNewItemModal} />
+			{/if}
 		</div>
 	{/key}
 </div>

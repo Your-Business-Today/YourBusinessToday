@@ -2,6 +2,7 @@ import { actionDepartments, boardActionRefusals, isFittingWhat } from './boardro
 import { readTrimmed, validateItemNumber } from './boardPaperInput';
 import { parseDepartment, type Department } from './department';
 import { isUuid } from './isUuid';
+import { isCalendarDate } from './calendarDate';
 
 /** An action as given: the item by its number on the agenda now, and where it goes as named, not yet looked up. */
 export type BoardActionDraft = {
@@ -12,15 +13,6 @@ export type BoardActionDraft = {
 	projectId: string | null;
 	department: Department | null;
 };
-
-const calendarDatePattern = /^\d{4}-\d{2}-\d{2}$/;
-const dateLength = 10;
-
-function isCalendarDate(text: string): boolean {
-	if (!calendarDatePattern.test(text)) return false;
-	const day = new Date(`${text}T00:00:00.000Z`);
-	return !Number.isNaN(day.getTime()) && day.toISOString().slice(0, dateLength) === text;
-}
 
 /** The project and department as given, checked together: both or neither, and never development. */
 function validatePlace(input: Record<string, unknown>): Pick<BoardActionDraft, 'projectId' | 'department'> | string {

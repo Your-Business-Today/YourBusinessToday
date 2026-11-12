@@ -11,7 +11,7 @@ import {
 } from '$lib/server/ordering/rankInput';
 import { setGoalPriority } from '$lib/server/goals/setGoalPriority';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
-import type { Actions } from './$types';
+import type { Actions } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 const goalRequired = 'A goal on this project is required.';
@@ -52,7 +52,7 @@ export const goalActions = {
 		await setGoalPriority(locals.supabase, goalId, priority);
 		return {};
 	}
-} satisfies Actions;
+} satisfies Actions<{ projectId: string }>;
 
 async function isGoalOnProject(
 	supabase: SupabaseClient,

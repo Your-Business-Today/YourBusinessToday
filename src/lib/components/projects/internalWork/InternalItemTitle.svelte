@@ -12,8 +12,10 @@
 	}: { task: TaskTreeNode; depth: number; todoCount: number; isOpen: boolean; onToggle: () => void } = $props();
 
 	const sheetTarget = $derived({ projectId: task.projectId, taskId: task.id });
-	const todoNoun = $derived(todoCount === 1 ? 'to-do' : 'to-dos');
-	const toggleLabel = $derived(isOpen ? `Hide the ${todoNoun}` : `Show ${todoCount} ${todoNoun}`);
+	const hasTodos = $derived(todoCount > 0);
+	const todoWords = $derived(`${todoCount} ${todoCount === 1 ? 'to-do' : 'to-dos'}`);
+	const openLabel = $derived(hasTodos ? `Show ${todoWords}` : 'Add a to-do');
+	const toggleLabel = $derived(isOpen ? 'Hide the to-dos' : openLabel);
 </script>
 
 <div class="flex min-w-60 items-start gap-1.5 md:min-w-72" style:padding-left="{depth}rem">
@@ -23,10 +25,9 @@
 		title={toggleLabel}
 		aria-label={toggleLabel}
 		aria-expanded={isOpen}
-		class="flex shrink-0 items-center gap-0.5 rounded p-0.5 text-xs text-chalk-subtle transition hover:text-chalk"
+		class={['mt-0.5 shrink-0 rounded p-0.5 transition hover:text-chalk', hasTodos || isOpen ? 'text-chalk-muted' : 'text-chalk-subtle/40']}
 	>
 		<ChevronIcon {isOpen} />
-		{todoCount}
 	</button>
 	<a
 		href={taskPagePath(sheetTarget)}
@@ -36,4 +37,9 @@
 	>
 		{task.title}
 	</a>
+	{#if hasTodos}
+		<span class="mt-0.5 shrink-0 whitespace-nowrap rounded-full bg-night/60 px-2 py-px text-xs tabular-nums text-chalk-subtle">
+			{todoWords}
+		</span>
+	{/if}
 </div>

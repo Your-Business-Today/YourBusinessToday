@@ -25,12 +25,12 @@ export const clientContactActions: McpAction[] = [
 			{
 				clientId: textField('The client id, as given by list_clients'),
 				name: textField('Their full name'),
-				email: textField('Their email address'),
+				email: textField('Their email address, if you have it'),
 				phone: textField('Their phone number, if you have it'),
 				role: textField('What they do there, in their own words'),
 				isPrimary: isPrimaryField
 			},
-			['clientId', 'name', 'email']
+			['clientId', 'name']
 		),
 		run: async (caller, input) => listContact(caller, input)
 	},
@@ -64,7 +64,7 @@ async function listContact(caller: McpCaller, input: Record<string, unknown>): P
 	if (client === null) return noSuchClient;
 	const name = readText(input, 'name');
 	const email = readText(input, 'email').toLowerCase();
-	if (name === '' || email === '') return 'A contact needs both a name and an email address.';
+	if (name === '') return 'A contact needs a name.';
 	const seed = {
 		name,
 		email,
@@ -73,7 +73,7 @@ async function listContact(caller: McpCaller, input: Record<string, unknown>): P
 		isPrimary: input.isPrimary === true
 	};
 	const outcome = await addClientContact(caller.supabase, client.id, seed, caller.accountId);
-	if (outcome === addContactOutcomes.alreadyKnown) return `${email} is already listed at ${client.name}.`;
+	if (outcome === addContactOutcomes.alreadyKnown) return `${name} is already listed at ${client.name}.`;
 	return `${name} is now listed at ${client.name}. Invite them when you want them signed in.`;
 }
 
@@ -83,6 +83,8 @@ async function inviteContact(caller: McpCaller, input: Record<string, unknown>):
 	if (refusal !== null) return refusal;
 	const contact = await getClientContact(caller.supabase, contactId);
 	if (contact === null) return noSuchContact;
+	const hasNoEmail = contact.email === '';
+	if (hasNoEmail) return `${contact.name} has no email address on the register, so there is nowhere to send an invitation.`;
 	const origin = readOptionalText(input, 'origin') ?? portalAddress.origin;
 	const outcome = await inviteClientContact(caller.supabase, contact, origin, caller.accountId);
 	if (outcome === inviteOutcomes.alreadyInvited)

@@ -5,13 +5,15 @@ import { boardQueryKeys, projectHref, projectSegments } from './projectAddresses
 import type { BadgeTone } from '$lib/components/site/badgeTones';
 import type { DevelopmentTabCounts } from './developmentTabCounts';
 
-/** A page inside Development: one backlog per kind of work, what is staged and deployed, and the site map. */
-export type DevelopmentPage = BoardTab | 'staged' | 'deploys' | 'site-map';
+/** A page inside Development: one backlog per kind of work, what is staged and deployed, the site map, the goals and the people. */
+export type DevelopmentPage = BoardTab | 'staged' | 'deploys' | 'site-map' | 'goals' | 'people';
 
 export const developmentPages = {
 	staged: projectSegments.staged,
 	deploys: projectSegments.deploys,
-	siteMap: projectSegments.siteMap
+	siteMap: projectSegments.siteMap,
+	goals: projectSegments.goals,
+	people: projectSegments.people
 } as const;
 
 export type DevelopmentPageLink = {
@@ -25,15 +27,17 @@ export type DevelopmentPageLink = {
 const bugCountTone: BadgeTone = 'negative';
 const itemCountTone: BadgeTone = 'neutral';
 
-const deliveryPages = [
+const pagesBeneathBoard = [
 	{ key: developmentPages.staged, label: 'Staged' },
 	{ key: developmentPages.deploys, label: 'Deployments' },
-	{ key: developmentPages.siteMap, label: 'Site map' }
+	{ key: developmentPages.siteMap, label: 'Site map' },
+	{ key: developmentPages.goals, label: 'Goals' },
+	{ key: developmentPages.people, label: 'People' }
 ];
 
 /**
  * Development's own tabs, one row beneath the product's: the Bugs, Features and Infrastructure backlogs, then what is
- * staged, what deployed and the site map. A tab holding items shows how many; an empty or uncounted tab shows none.
+ * staged, what deployed, the site map, the goals and the people. A tab holding items shows how many; an empty or uncounted tab shows none.
  */
 export function developmentPageLinks(projectId: string, counts: DevelopmentTabCounts = {}): DevelopmentPageLink[] {
 	const boardHref = projectHref(projectId);
@@ -42,12 +46,12 @@ export function developmentPageLinks(projectId: string, counts: DevelopmentTabCo
 		label: boardTabLabels[tab],
 		href: `${boardHref}?${boardQueryKeys.department}=${tab}`
 	}));
-	const deliveryLinks = deliveryPages.map(({ key, label }) => ({
+	const pageLinks = pagesBeneathBoard.map(({ key, label }) => ({
 		key,
 		label,
 		href: projectHref(projectId, key)
 	}));
-	return [...backlogLinks, ...deliveryLinks].map((link) => ({
+	return [...backlogLinks, ...pageLinks].map((link) => ({
 		...link,
 		...countOnTab(link.key, counts)
 	}));

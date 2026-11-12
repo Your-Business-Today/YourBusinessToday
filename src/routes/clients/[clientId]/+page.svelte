@@ -8,6 +8,7 @@
 	import ClientPeopleSection from '$lib/components/clients/ClientPeopleSection.svelte';
 	import ClientDeletion from '$lib/components/clients/ClientDeletion.svelte';
 	import ClientContinuityCopySection from '$lib/components/clients/ClientContinuityCopySection.svelte';
+	import LeadConversationsSection from '$lib/components/clients/conversations/LeadConversationsSection.svelte';
 	import ClientProjectList from '$lib/components/clients/ClientProjectList.svelte';
 	import CompanyProfileForm from '$lib/components/clients/CompanyProfileForm.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
@@ -47,6 +48,8 @@
 	</section>
 
 	<ClientPeopleSection people={data.people} canImportOfficers={data.canImportOfficers} />
+
+	<LeadConversationsSection conversations={data.conversations} people={data.people} staffMembers={data.staffMembers} viewerId={data.viewerId} />
 
 	<ClientGroupSection
 		{client}

@@ -18,9 +18,9 @@ export function organisationPageLinksFor(organisation: PickOrganisation, pickedP
 	if (portalClientId !== null) return portalProjectLinksFor(pickedProjectId);
 	if (organisationId === null) return [];
 	return [
-		{ href: organisationHref(organisationId), label: overviewLabel },
-		{ href: projectsPath, label: projectsLabel, group: 'work' },
-		{ href: organisationHref(organisationId, organisationPages.taskManagement), label: tasksLabel, group: 'work' }
+		{ href: organisationHref(organisationId), label: overviewLabel, icon: 'layoutDashboard' },
+		{ href: projectsPath, label: projectsLabel, icon: 'folderKanban', group: 'work' },
+		{ href: organisationHref(organisationId, organisationPages.taskManagement), label: tasksLabel, icon: 'listChecks', group: 'work' }
 	];
 }
 
@@ -32,5 +32,5 @@ export function organisationHomePathFor(organisation: PickOrganisation, pickedPr
 
 function portalProjectLinksFor(projectId: string | null): FrameLink[] {
 	if (projectId === null) return [];
-	return [{ href: portalProjectPath(projectId), label: portalHomeLabel }];
+	return [{ href: portalProjectPath(projectId), label: portalHomeLabel, icon: 'house' }];
 }

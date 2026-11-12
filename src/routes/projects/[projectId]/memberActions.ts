@@ -8,7 +8,7 @@ import { removeProjectMember } from '$lib/server/members/removeProjectMember';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireProjectOwner } from '$lib/server/auth/requireProjectOwner';
 import { transferProjectOwnership } from '$lib/server/members/transferProjectOwnership';
-import type { Actions } from './$types';
+import type { Actions } from '@sveltejs/kit';
 
 export const memberActions = {
 	invitePerson: async ({ locals, params, request, url }) => {
@@ -45,4 +45,4 @@ export const memberActions = {
 		await transferProjectOwnership(locals.supabase, params.projectId, newOwnerId);
 		return { message: 'The project has a new owner. You are still on it as a member.' };
 	}
-} satisfies Actions;
+} satisfies Actions<{ projectId: string }>;
