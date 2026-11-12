@@ -1,11 +1,11 @@
 <script lang="ts">
+	import InlineField from '$lib/components/site/InlineField.svelte';
 	import { fibonacciStoryPoints } from '$lib/data/storyPoints';
 
 	let { name, label, value }: { name: string; label: string; value: number } = $props();
 </script>
 
-<label class="flex items-center gap-2 text-xs text-chalk/60">
-	{label}
+<InlineField {label}>
 	<select
 		{name}
 		{value}
@@ -16,4 +16,4 @@
 			<option value={points}>{points}</option>
 		{/each}
 	</select>
-</label>
+</InlineField>
