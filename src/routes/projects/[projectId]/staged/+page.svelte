@@ -24,7 +24,7 @@
 <ProjectPageHeader {project} />
 
 <div class={workspaceBodyClasses}>
-	<DevelopmentTabs projectId={project.id} selected={developmentPages.staged} />
+	<DevelopmentTabs projectId={project.id} selected={developmentPages.staged} counts={data.developmentTabCounts} />
 	<FlashMessage message={form?.message} />
 	<StagedTasksPanel {stagedTasks} {deliveryFacts} actions={hasRepository ? deployNow : undefined} />
 </div>
