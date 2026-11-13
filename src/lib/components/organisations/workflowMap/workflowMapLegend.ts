@@ -1,3 +1,4 @@
+import { mapStageNames } from '$lib/data/workflowMap/workflowMapWords';
 import type { MapStage } from '$lib/data/workflowMap/workflowMap';
 
 /** The marks the legend draws a sample of. */
@@ -37,7 +38,21 @@ const legendItems: Record<MapStage, LegendItem[]> = {
 	]
 };
 
+/** What the marks mean on a product's tab, where its own stations are lit and the rest of the map is dimmed. */
+export const productLegendItems: LegendItem[] = [
+	lineItem,
+	{ mark: LegendMarks.ours, words: 'Done in this product' },
+	{ mark: LegendMarks.planned, words: 'Planned for this product' },
+	arrivalItem,
+	outputItem
+];
+
 /** What the marks on a Before or an After mean, in the order the legend under the map lists them. */
 export function legendItemsOf(stage: MapStage): LegendItem[] {
 	return legendItems[stage];
+}
+
+/** What a reader of the map's picture is told it shows. */
+export function mapLabelOf(stage: MapStage): string {
+	return `The workflow map, ${mapStageNames[stage]}`;
 }

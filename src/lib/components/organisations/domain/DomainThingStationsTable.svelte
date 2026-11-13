@@ -2,7 +2,7 @@
 	import RecordsCell from '$lib/components/workspace/RecordsCell.svelte';
 	import RecordsTable from '$lib/components/workspace/RecordsTable.svelte';
 	import { thingStationRoleWords, type ThingStation } from '$lib/data/workflowMap/thingStations';
-	import { workflowMapStationHref } from './domainTabs';
+	import { workflowMapStationHref } from '$lib/components/organisations/organisationPages';
 	import type { RecordsColumn } from '$lib/components/workspace/recordsTable';
 
 	let { stations, organisationId }: { stations: ThingStation[]; organisationId: string } = $props();
