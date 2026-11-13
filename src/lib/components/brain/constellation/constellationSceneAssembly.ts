@@ -1,5 +1,4 @@
 import { Color, FogExp2, Scene, type Mesh, type Texture } from 'three';
-import { AmbientNeuralWeb } from './ambientNeuralWeb';
 import { createGlowTexture } from './glowTexture';
 import { MaterialBank } from './materialBank';
 import { CellMaterialBank } from './cellMaterialBank';
@@ -13,7 +12,7 @@ import type { SynapseStrand } from './synapseStrand';
 
 const DEPTH_FOG_DENSITY = 0.045;
 
-/** The drawn brain: the night it sits in, the web behind it, and the cells and synapses of the model it shows. */
+/** The drawn brain: the night it sits in, and the cells and synapses of the model it shows. */
 export class ConstellationScene {
 	readonly scene = new Scene();
 	readonly flashes: SettleFlashes;
@@ -21,16 +20,14 @@ export class ConstellationScene {
 	private readonly bank: MaterialBank;
 	private readonly cells = new CellMaterialBank();
 	private readonly backdrop = createStarBackdrop();
-	private readonly ambient: AmbientNeuralWeb;
 	private mounted: MountedModel;
 
 	constructor(model: ConstellationModel) {
 		this.scene.background = new Color(NIGHT_SKY);
 		this.scene.fog = new FogExp2(NIGHT_SKY, DEPTH_FOG_DENSITY);
 		this.bank = new MaterialBank(this.glowTexture);
-		this.ambient = new AmbientNeuralWeb(this.glowTexture);
 		this.flashes = new SettleFlashes(this.glowTexture);
-		this.scene.add(this.backdrop.points, this.ambient.group, this.flashes.group);
+		this.scene.add(this.backdrop.points, this.flashes.group);
 		this.mounted = this.mount(model);
 	}
 
@@ -63,7 +60,6 @@ export class ConstellationScene {
 		this.bank.setFocus(contextKey);
 		this.cells.setFocus(contextKey);
 		this.mounted.setFocus(contextKey);
-		this.ambient.setFocus(contextKey);
 	}
 
 	rebuild(model: ConstellationModel): void {
@@ -73,12 +69,12 @@ export class ConstellationScene {
 
 	dispose(): void {
 		this.mounted.removeFrom(this.scene);
-		for (const part of [this.backdrop, this.ambient, this.flashes, this.bank, this.cells, this.glowTexture]) part.dispose();
+		for (const part of [this.backdrop, this.flashes, this.bank, this.cells, this.glowTexture]) part.dispose();
 	}
 
 	private mount(model: ConstellationModel): MountedModel {
 		const mounted = new MountedModel(model, this.bank, this.cells, this.glowTexture);
-		mounted.showIn(this.scene, this.ambient, model);
+		mounted.showIn(this.scene);
 		return mounted;
 	}
 }

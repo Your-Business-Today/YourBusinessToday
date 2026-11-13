@@ -1,7 +1,5 @@
 import { Group, IcosahedronGeometry, Mesh, MeshBasicMaterial, type Vector3 } from 'three';
 import { nucleusColourOf } from './bodyColours';
-import { connectionDirectionsOf } from './connectionDirections';
-import { detailShareFor } from './dendriteDetail';
 import { createNeuronBody, type NeuronBody } from './neuronBody';
 import { kindColourOf } from './constellationPalette';
 import { neuronProportions, nucleusProportions, type BodyProportions } from './neuronProportions';
@@ -17,7 +15,7 @@ const RESTING_GLOW = 1;
 
 type GrownCell = { slug: string; position: Vector3; colour: number; contextKey: string; proportions: BodyProportions; userData: Record<string, string> };
 
-/** Every neuron and every area's nucleus, grown as a cell with its dendrites, and the targets a pointer picks them by. */
+/** Every neuron and every area's nucleus, grown as a cell, and the targets a pointer picks them by. */
 export class NeuronField {
 	readonly group = new Group();
 	readonly hitTargets: Mesh[] = [];
@@ -25,8 +23,6 @@ export class NeuronField {
 	private readonly somaGeometry = new IcosahedronGeometry(1, SOMA_DETAIL);
 	private readonly hitGeometry = new IcosahedronGeometry(1, HIT_DETAIL);
 	private readonly hitMaterial = new MeshBasicMaterial({ visible: false });
-	private readonly directionsBySlug: Map<string, Vector3[]>;
-	private readonly detailShare: number;
 
 	constructor(
 		model: ConstellationModel,
@@ -34,8 +30,6 @@ export class NeuronField {
 		private readonly cells: CellMaterialBank
 	) {
 		const { neurons, nuclei } = model;
-		this.directionsBySlug = connectionDirectionsOf(model);
-		this.detailShare = detailShareFor(neurons.length);
 		for (const neuron of neurons) this.grow(neuronCellOf(neuron));
 		for (const nucleus of nuclei) this.grow(nucleusCellOf(nucleus));
 	}
@@ -52,17 +46,14 @@ export class NeuronField {
 	}
 
 	dispose(): void {
-		for (const body of this.bodies.values()) body.dispose();
 		this.somaGeometry.dispose();
 		this.hitGeometry.dispose();
 		this.hitMaterial.dispose();
 	}
 
 	private grow(cell: GrownCell): void {
-		const { somaGeometry, hitGeometry, hitMaterial, bank, cells, detailShare } = this;
-		const connectionDirections = this.directionsBySlug.get(cell.slug) ?? [];
-		const shared = { somaGeometry, hitGeometry, hitMaterial, bank, cells, detailShare };
-		const body = createNeuronBody({ ...cell, ...shared, connectionDirections });
+		const { somaGeometry, hitGeometry, hitMaterial, bank, cells } = this;
+		const body = createNeuronBody({ ...cell, somaGeometry, hitGeometry, hitMaterial, bank, cells });
 		this.bodies.set(cell.slug, body);
 		this.hitTargets.push(body.hitTarget);
 		this.group.add(body.group);

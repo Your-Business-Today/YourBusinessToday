@@ -79,3 +79,13 @@ export function fromExpenseRow(row: ExpenseRow): Expense {
 		paidByLoanAccountId: row.paid_by_loan_account_id ?? null
 	};
 }
+
+/** The organisation's cost whose recording is that journal, or null when no cost holds it. */
+export async function findExpenseRecordedBy(supabase: SupabaseClient, organisationId: string, journalId: string): Promise<Expense | null> {
+	const query = supabase.from(expensesTable).select(expenseColumns).eq('organisation_id', organisationId).eq('recorded_journal_id', journalId);
+	const { data, error } = await query;
+	if (error !== null) throw error;
+	const [row] = (data ?? []) as unknown as ExpenseRow[];
+	if (row === undefined) return null;
+	return fromExpenseRow(row);
+}

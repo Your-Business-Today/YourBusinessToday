@@ -7,7 +7,8 @@ export const booksRefusalOpenings = {
 	posting: 'Nothing was posted.',
 	saving: 'Nothing was saved.',
 	sending: 'Nothing was sent.',
-	deleting: 'Nothing was deleted.'
+	deleting: 'Nothing was deleted.',
+	changing: 'Nothing was changed.'
 } as const;
 
 /**

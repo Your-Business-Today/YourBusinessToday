@@ -62,7 +62,7 @@ export function holdKeyedBooks(): void {
 /** The keyed books with the statement brought in and each of its lines matched to the journal already keyed for it. */
 export async function holdReconciledBooks(): Promise<void> {
 	holdKeyedBooks();
-	await runOnTheBankLines('import_bank_lines', { lines: statementLines });
+	await runOnTheBankLines('import_bank_lines', { applyRules: false, lines: statementLines });
 	const journalIds = [keyedJournalIds.james, keyedJournalIds.anthropic, keyedJournalIds.github];
 	for (const [index, line] of heldBankLines().entries()) {
 		await runOnTheBankLines('match_bank_line', { bankLineId: line.id, existingJournal: { journalId: journalIds[index] } });

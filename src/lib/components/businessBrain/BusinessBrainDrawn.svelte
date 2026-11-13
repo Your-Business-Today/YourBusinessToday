@@ -9,5 +9,5 @@
 </script>
 
 <div class="h-[70vh] min-h-[26rem]">
-	<BrainConstellation pageHref={addresses.page} {contexts} {pageIndex} {pageLinks} />
+	<BrainConstellation pageHref={addresses.page} glanceHref={addresses.pageGlance} {contexts} {pageIndex} {pageLinks} />
 </div>
