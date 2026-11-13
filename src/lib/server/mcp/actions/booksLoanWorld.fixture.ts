@@ -27,7 +27,8 @@ function postToLoan(accountId: string, journalDate: string, movement: { debit?: 
 	const journal = {
 		journal_date: journalDate,
 		description: `Journal ${journalCount}`,
-		kind: 'manual'
+		kind: 'manual',
+		created_at: `${journalDate}T09:00:00+00:00`
 	};
 	const loanLine = {
 		id: `${journalId}-l`,
