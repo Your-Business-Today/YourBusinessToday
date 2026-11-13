@@ -18,14 +18,14 @@ export const accountTypeList = everyAccountType.join(', ');
 
 /** The account as given, or the first reason it cannot be kept: never trimmed or filled in. */
 export function validateNewLedgerAccount(fields: Record<string, unknown>): NewLedgerAccount | string {
-	const refusal = chartTextRefusal('code', fields.code) ?? chartTextRefusal('name', fields.name) ?? accountTypeRefusal(fields.accountType);
+	const refusal = plainTextRefusal('code', fields.code) ?? plainTextRefusal('name', fields.name) ?? accountTypeRefusal(fields.accountType);
 	if (refusal !== null) return refusal;
 	return { code: fields.code as string, name: fields.name as string, accountType: fields.accountType as LedgerAccountType };
 }
 
 /** The rename as given, or the first reason it cannot be made: never trimmed or filled in. */
 export function validateLedgerAccountRename(fields: Record<string, unknown>): LedgerAccountRename | string {
-	const refusal = chartTextRefusal('accountCode', fields.accountCode) ?? chartTextRefusal('name', fields.name);
+	const refusal = plainTextRefusal('accountCode', fields.accountCode) ?? plainTextRefusal('name', fields.name);
 	if (refusal !== null) return refusal;
 	return { accountCode: fields.accountCode as string, name: fields.name as string };
 }
@@ -39,7 +39,7 @@ export function renameRefusal(account: RenamedAccount): string | null {
 
 /** Why a cost centre cannot be called this, or null when it can. */
 export function costCentreNameRefusal(name: unknown): string | null {
-	return chartTextRefusal('name', name);
+	return plainTextRefusal('name', name);
 }
 
 /** Why the answer to "archive it?" is not a yes or a no, or null when it is. */
@@ -48,7 +48,8 @@ export function archiveChoiceRefusal(isArchived: unknown): string | null {
 	return `isArchived is true to archive it or false to bring it back; ${JSON.stringify(isArchived)} was given.`;
 }
 
-function chartTextRefusal(field: string, value: unknown): string | null {
+/** Why the value is not plain text the books keep as given: text, not blank, no space at its edges. Null when it is. */
+export function plainTextRefusal(field: string, value: unknown): string | null {
 	if (typeof value !== 'string') return `${field} is text; ${JSON.stringify(value)} was given.`;
 	if (value.trim() === '') return `${field} cannot be blank.`;
 	const hasSpaceAtItsEdges = value.trim() !== value;
