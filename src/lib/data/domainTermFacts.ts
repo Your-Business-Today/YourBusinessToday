@@ -1,4 +1,5 @@
 import { isPlainObject, type PlainObject } from './plainObject';
+import { isFilledText } from './filledText';
 import type { DomainTermFact, DomainTermNaming } from './businessBrainDomain';
 
 const namesNothing: DomainTermNaming = { namesThingSlug: null, namesStatus: null, isRole: false, otherNames: [] };
@@ -23,8 +24,4 @@ function termFact(term: PlainObject): DomainTermFact {
 
 function isWordAndMeaning(term: PlainObject): boolean {
 	return isFilledText(term.word) && typeof term.meaning === 'string';
-}
-
-function isFilledText(value: unknown): value is string {
-	return typeof value === 'string' && value !== '';
 }

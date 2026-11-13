@@ -2,6 +2,7 @@ import { isPlainObject, type PlainObject } from './plainObject';
 import { readAreaRelationships, readSubdomainKind } from './areaRelationshipFacts';
 import { readDomainTerms } from './domainTermFacts';
 import { readRecordFacts, readStatuses } from './domainRecordFacts';
+import { readEventFacts, readRuleFacts } from './domainRuleFacts';
 import type { DomainFieldFact, DomainPageFacts } from './businessBrainDomain';
 
 const noFacts: DomainPageFacts = {
@@ -16,7 +17,16 @@ const noFacts: DomainPageFacts = {
 	identity: null,
 	lifecycle: [],
 	keptIn: null,
-	memberSlugs: []
+	memberSlugs: [],
+	marksThingSlug: null,
+	marksStatus: null,
+	reactors: { roles: [], ruleSlugs: [] },
+	ruleKind: null,
+	guardsStationKeys: [],
+	guardsThingSlug: null,
+	guardsStatus: null,
+	followsEventSlug: null,
+	definesWord: null
 };
 
 /** A page's facts as the domain reads them; anything a page does not carry, or carries in another shape, reads as absent. */
@@ -26,6 +36,8 @@ export function readDomainPageFacts(facts: unknown): DomainPageFacts {
 	const recordFacts = readRecordFacts(facts);
 	return {
 		...recordFacts,
+		...readEventFacts(facts),
+		...readRuleFacts(facts),
 		isCoreDomain,
 		subdomain: readSubdomainKind(isCoreDomain, facts.subdomain),
 		fields: Array.isArray(facts.fields) ? facts.fields.filter(isPlainObject).filter(isNamed).map(fieldFact) : [],

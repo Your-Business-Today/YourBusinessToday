@@ -20,6 +20,8 @@ const strayRule = page('a-rule-of-the-brain', 'rule', null, { governs: ['order']
 const glossary = page('sales-glossary', 'glossary', 'sales', { terms: [{ word: 'PO', meaning: 'Purchase order' }] });
 const contextMap = page('context-map', 'context_map', null);
 
+const noPlace = { ruleKind: null, guardsStationKeys: [], guardsThingSlug: null, guardsStatus: null, followsEventSlug: null, definesWord: null };
+
 const pages = [delivery, sales, visit, order, price, paid, rule, strayRule, glossary, contextMap];
 
 describe('domainListsOf', () => {
@@ -37,7 +39,7 @@ describe('domainListsOf', () => {
 	it('lists each rule with the things it governs, leaving out a rule of the brain that sits in no area', () => {
 		const { rules } = domainListsOf([delivery, sales], pages);
 		expect(rules).toEqual([
-			{ pageId: 'paid-before-delivery', slug: 'paid-before-delivery', title: 'The paid-before-delivery', summary: 'About paid-before-delivery', governs: ['order', 'visit'], areaSlug: 'sales', areaTitle: 'The sales' }
+			{ pageId: 'paid-before-delivery', slug: 'paid-before-delivery', title: 'The paid-before-delivery', summary: 'About paid-before-delivery', governs: ['order', 'visit'], areaSlug: 'sales', areaTitle: 'The sales', ...noPlace }
 		]);
 	});
 

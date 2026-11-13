@@ -1,4 +1,5 @@
 import { isPlainObject, type PlainObject } from './plainObject';
+import { isFilledText } from './filledText';
 import type { DomainLifecycleStep, DomainRecordFacts } from './businessBrainDomain';
 
 /** What a record's facts say of it beyond its fields; a page filed before records said these reads as saying none of them. */
@@ -34,8 +35,4 @@ function isStatusNamed(step: PlainObject): boolean {
 
 function isText(value: unknown): value is string {
 	return typeof value === 'string';
-}
-
-function isFilledText(value: unknown): value is string {
-	return isText(value) && value !== '';
 }
