@@ -7,11 +7,12 @@
 	import { portalHomePath } from '$lib/portal/portalPaths';
 	import { portalWorkflowMapMessages } from '$lib/components/portal/workflowMap/portalWorkflowMapWords';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { emptyVocabulary } from '$lib/data/workflowMap/phraseInDomain';
 	import type { StationDomain } from '$lib/data/domainReading';
 
 	let { data } = $props();
 
-	const domainNotShownInThePortal: StationDomain = { thingTitles: {}, rules: [] };
+	const domainNotShownInThePortal: StationDomain = { vocabulary: emptyVocabulary, rules: [] };
 
 	const { visitor, reading, chosenStationKey } = $derived(data);
 	const crumbs = $derived([{ label: visitor.organisationName, href: portalHomePath }]);

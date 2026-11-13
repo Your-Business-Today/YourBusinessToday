@@ -5,13 +5,15 @@ import { readDomainWords } from '$lib/server/businessBrain/readDomainWords';
 import { readTodaysWorkflowMap } from '$lib/server/workflowMap/readTodaysWorkflowMap';
 import { requireOrganisationAccess } from '$lib/server/auth/requireOrganisationAccess';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
+import { stationsUsingWord } from '$lib/data/workflowMap/mapDomainJoin';
 import { thingStationsOf } from '$lib/data/workflowMap/thingStations';
+import { wordKey } from '$lib/data/domainWords';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const access = await requireOrganisationAccess(locals, params.organisationId);
 	const { organisation, canManage } = access;
-	const nothingFiled = { domain: null, words: [], thingStations: [] };
+	const nothingFiled = { domain: null, words: [], thingStations: [], wordStationCounts: {} };
 	const isBrainOpen = await isBusinessBrainOpen(locals.supabase, access);
 	if (!isBrainOpen) return { organisation, canManage, isBrainOpen, ...nothingFiled };
 	const domain = organisationDomainOf(await readDomainPages(locals.supabase, { organisationId: organisation.id, projectId: null }));
@@ -20,5 +22,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		readDomainWords(locals.supabase, organisation.id, domain.glossaries),
 		readTodaysWorkflowMap(supabaseServiceClient(), organisation.id)
 	]);
-	return { organisation, canManage, isBrainOpen, domain, words, thingStations: thingStationsOf(todaysMap) };
+	const thingStations = thingStationsOf(todaysMap, { things: domain.things, words });
+	const wordStationCounts = Object.fromEntries(words.map((word) => [wordKey(word), stationsUsingWord(todaysMap, word)]));
+	return { organisation, canManage, isBrainOpen, domain, words, thingStations, wordStationCounts };
 };

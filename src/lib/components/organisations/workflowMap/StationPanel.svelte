@@ -10,7 +10,7 @@
 
 	let { details, stationDomain, organisationId }: { details: StationDetails; stationDomain: StationDomain; organisationId: string | null } = $props();
 
-	const { lineName, lineColour, name, summary, inputs, outputs, place, things } = $derived(details);
+	const { lineName, lineColour, name, summary, inputs, outputs, place, things, phrasesNotWords } = $derived(details);
 
 	const columnTitles = { takesIn: 'Takes in', produces: 'Produces', doneIn: 'Done in', domain: 'In the domain' };
 	const nothingFiled = 'Nothing filed';
@@ -33,7 +33,7 @@
 			{/if}
 			<ul class="flex flex-col gap-3">
 				{#each inputs as input (input.item)}
-					<StationFlowItem item={input.item} note={input.source} goesWrong={input.goesWrong} />
+					<StationFlowItem item={input.item} note={input.source} goesWrong={input.goesWrong} isNotWord={phrasesNotWords.includes(input.item)} />
 				{/each}
 			</ul>
 		</StationColumn>
@@ -43,7 +43,7 @@
 			{/if}
 			<ul class="flex flex-col gap-3">
 				{#each outputs as output (output.item)}
-					<StationFlowItem item={output.item} note={output.destination} />
+					<StationFlowItem item={output.item} note={output.destination} isNotWord={phrasesNotWords.includes(output.item)} />
 				{/each}
 			</ul>
 		</StationColumn>

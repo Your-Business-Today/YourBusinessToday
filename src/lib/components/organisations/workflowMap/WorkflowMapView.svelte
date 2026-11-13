@@ -53,7 +53,8 @@
 	const surroundings = $derived({
 		earlierMap: shownStage === mapStage.after ? maps.before : null,
 		colours: drawn.colours,
-		productNames: maps.productNames
+		productNames: maps.productNames,
+		vocabulary: stationDomain.vocabulary
 	});
 	const details = $derived(
 		shownMap === null || selectedStationKey === null ? null : stationDetailsOf(shownMap, surroundings, selectedStationKey)

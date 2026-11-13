@@ -6,7 +6,7 @@ import type { OrganisationDomain } from '$lib/data/organisationDomain';
 
 const organisation = { id: 'org-1', parentOrganisationId: null, name: 'Oak & Ash Joinery' } as unknown as DomainRunStanding['organisation'];
 
-const firstRun: DomainRunStanding = { organisation, map: null, domain: null, sources: [], products: [], switchedOn: ['business_brain'] };
+const firstRun: DomainRunStanding = { organisation, map: null, domain: null, words: [], sources: [], products: [], switchedOn: ['business_brain'] };
 
 const filedDomain = {
 	model: { contexts: [], relationships: [] },
