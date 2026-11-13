@@ -28,5 +28,7 @@ describe('an internal project', () => {
 	it('shows Internal work alone, where any other project shows both sides', () => {
 		expect(boardSidesOfProject(true)).toEqual([boardSides.internal]);
 		expect(boardSidesOfProject(false)).toEqual([boardSides.development, boardSides.internal]);
+		expect(boardSidesOfProject(false, true)).toEqual([boardSides.development]);
+		expect(boardSidesOfProject(true, true)).toEqual([boardSides.internal]);
 	});
 });

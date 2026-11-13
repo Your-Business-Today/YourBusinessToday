@@ -36,7 +36,6 @@
 		openTaskCount={project.openTaskCount}
 		taskCount={project.taskCount}
 		assignedTaskCount={project.assignedTaskCount}
-		longTermGoalCount={project.longTermGoalCount}
 	/>
 {/snippet}
 
