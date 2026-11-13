@@ -45,6 +45,7 @@ const novemberOverview = [
 	'- Bank: £5,500.00',
 	'- Owed by customers: £520.50',
 	'- Owed to suppliers: £20.00',
+	'No bank statement has been brought in yet.',
 	'',
 	'November 2026, with the financial year to date:',
 	'- Income: £1,020.50 in the month, £1,020.50 year to date',

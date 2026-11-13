@@ -4,11 +4,11 @@
 
 	let { data } = $props();
 
-	const { document, visitor } = $derived(data);
+	const { document, visitor, pdfHref } = $derived(data);
 	const crumbs = $derived([
 		{ label: visitor.organisationName, href: portalHomePath },
 		{ label: 'Billing', href: portalBillingPath }
 	]);
 </script>
 
-<InvoiceDocumentPage {crumbs} {document} placeName={`${visitor.organisationName} — Client portal`} />
+<InvoiceDocumentPage {crumbs} {document} {pdfHref} placeName={`${visitor.organisationName} — Client portal`} />
