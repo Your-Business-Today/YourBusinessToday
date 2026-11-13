@@ -40,7 +40,7 @@ describe('reading whether the bank agrees with the statement', () => {
 	});
 
 	it('shows a line brought in and never matched as a difference of its amount', async () => {
-		await run('import_bank_lines', { lines: [...statementLines, coffee] });
+		await run('import_bank_lines', { applyRules: false, lines: [...statementLines, coffee] });
 		const answer = await run('read_bank_reconciliation', { asAt: '2026-11-09' });
 		expect(answer).toContain('- Statement: £970.15\n- Books: £973.60\n- Difference, the statement less the books: -£3.45');
 		expect(answer).toContain('- Lines not yet matched: 1, £0.00 in and £3.45 out;');
@@ -86,7 +86,7 @@ describe('the bank on the front page of the books', () => {
 	it('counts the lines still to match, and says when no statement is in', async () => {
 		holdKeyedBooks();
 		expect(await run('read_books_overview', { monthKey: '2026-11' })).toContain('\nNo bank statement has been brought in yet.\n');
-		await run('import_bank_lines', { lines: statementLines });
+		await run('import_bank_lines', { applyRules: false, lines: statementLines });
 		expect(await run('read_books_overview', { monthKey: '2026-11' })).toContain('\n3 bank lines to match.\n');
 	});
 
