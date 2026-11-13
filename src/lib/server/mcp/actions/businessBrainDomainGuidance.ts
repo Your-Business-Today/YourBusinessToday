@@ -20,5 +20,6 @@ export const startDomainRunGuidance = [
 
 export const readBusinessBrainDomainGuidance = [
 	whereItIsKept,
-	'Read it before filing from a new source, so a concept already modelled is written to its own slug, and when someone asks how the business is organised or what a word means in it.'
+	'Read it before filing from a new source, so a concept already modelled is written to its own slug, and when someone asks how the business is organised or what a word means in it.',
+	"It ends with the things no task of today's workflow map takes in or produces: each is a task the map is missing, or a phrase on the map that should be its word."
 ].join('\n');

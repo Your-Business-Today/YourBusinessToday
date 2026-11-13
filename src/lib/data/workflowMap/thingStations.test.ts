@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { glossaryJoinMap, glossaryJoinVocabulary } from './tests/glossaryJoinMap';
 import { thingStationsOf } from './thingStations';
 import type { MapStation, WorkflowMapVersion } from './workflowMap';
 
@@ -24,11 +25,25 @@ const map: WorkflowMapVersion = {
 	lines: [{ key: 'surveyor', name: 'Surveyor', stations: [station('price-the-job', ['enquiry'], ['quote']), station('visit-site', [], [])] }]
 };
 
+const touchesOf = (stations: ReturnType<typeof thingStationsOf>) =>
+	stations.map(({ stationKey, thingSlug, role, status }) => `${stationKey} ${role} ${thingSlug}${status === null ? '' : ` (${status})`}`);
+
 describe('thingStationsOf', () => {
-	it('names each thing a station takes in or produces, with the station and its line', () => {
+	it('names each thing a station takes in or produces by its filed slugs, with the station and its line', () => {
 		expect(thingStationsOf(map)).toEqual([
-			{ thingSlug: 'enquiry', stationKey: 'price-the-job', stationName: 'The price-the-job', lineName: 'Surveyor', role: 'takesIn' },
-			{ thingSlug: 'quote', stationKey: 'price-the-job', stationName: 'The price-the-job', lineName: 'Surveyor', role: 'produces' }
+			{ thingSlug: 'enquiry', stationKey: 'price-the-job', stationName: 'The price-the-job', lineName: 'Surveyor', role: 'takesIn', status: null },
+			{ thingSlug: 'quote', stationKey: 'price-the-job', stationName: 'The price-the-job', lineName: 'Surveyor', role: 'produces', status: null }
+		]);
+	});
+
+	it('finds the things through the glossary with no slugs filed, in the status a word names, hand-overs counted once', () => {
+		expect(touchesOf(thingStationsOf(glossaryJoinMap, glossaryJoinVocabulary))).toEqual([
+			'award-work takesIn subcontractor',
+			'award-work produces work-order',
+			'bill-client takesIn work-order',
+			'bill-client produces invoice (sent)',
+			'chase-payment takesIn invoice (sent)',
+			'chase-payment produces invoice'
 		]);
 	});
 

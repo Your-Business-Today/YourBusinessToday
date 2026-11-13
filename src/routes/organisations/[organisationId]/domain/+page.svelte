@@ -18,7 +18,7 @@
 	let { data } = $props();
 
 	const domainTitle = framePageLabels.domain;
-	const { organisation, isBrainOpen, domain, words, thingStations } = $derived(data);
+	const { organisation, isBrainOpen, domain, words, thingStations, wordStationCounts } = $derived(data);
 	const addresses = $derived(businessBrainAddresses(organisation.id));
 	const messages = $derived(organisationDomainMessages(organisation.name));
 	const shownTab = $derived(domainTabOf(page.url));
@@ -54,7 +54,7 @@
 				</DashboardPanel>
 			{:else}
 				<DashboardPanel>
-					<DomainWordsTable {words} {thingTitles} {addresses} />
+					<DomainWordsTable {words} {thingTitles} {wordStationCounts} {addresses} />
 				</DashboardPanel>
 			{/if}
 		{/if}

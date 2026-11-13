@@ -9,6 +9,8 @@ import { getReachableProjectsOf } from '$lib/server/organisations/getReachablePr
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
 import { readDomainPages } from '$lib/server/businessBrain/readDomainPages';
 import { readDomainSources } from '$lib/server/businessBrain/readDomainSources';
+import { readDomainWords } from '$lib/server/businessBrain/readDomainWords';
+import { thingsOnNoTaskSection } from './mapDomainJoinSections';
 import { readTodaysWorkflowMap } from '$lib/server/workflowMap/readTodaysWorkflowMap';
 import { validateDomainFiling } from '$lib/server/businessBrain/validateDomainFiling';
 import type { DomainFilingGiven } from '$lib/data/businessBrainDomainRules';
@@ -36,7 +38,14 @@ function isTeachingNothing({ contexts, pages, retires }: DomainFilingGiven): boo
 export async function readDomain(caller: McpCaller, _input: Record<string, unknown>, organisation: Organisation): Promise<string> {
 	const holder = organisationDomainHolder(organisation);
 	const pages = await readDomainPages(caller.supabase, holder.scope);
-	return describeDomain(caller.supabase, holder, organisationDomainOf(pages));
+	const domain = organisationDomainOf(pages);
+	const described = await describeDomain(caller.supabase, holder, domain);
+	if (domain === null) return described;
+	const [words, map] = await Promise.all([
+		readDomainWords(caller.supabase, organisation.id, domain.glossaries),
+		readTodaysWorkflowMap(caller.supabase, organisation.id)
+	]);
+	return [described, thingsOnNoTaskSection(map, { things: domain.things, words })].join('\n\n');
 }
 
 /**
@@ -54,5 +63,7 @@ export async function startDomainRun(caller: McpCaller, _input: Record<string, u
 		getSwitchedOnModules(supabase, organisation.id)
 	]);
 	const products = projects.map(({ id, name }) => ({ id, name }));
-	return describeDomainRun({ organisation, map, domain: organisationDomainOf(pages), sources, products, switchedOn });
+	const domain = organisationDomainOf(pages);
+	const words = domain === null ? [] : await readDomainWords(supabase, organisation.id, domain.glossaries);
+	return describeDomainRun({ organisation, map, domain, words, sources, products, switchedOn });
 }

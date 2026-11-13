@@ -1,4 +1,5 @@
 import type { DomainFieldFact, DomainPageKind, DomainTermFact } from './businessBrainDomain';
+import type { MapVocabulary } from './workflowMap/phraseInDomain';
 
 /** Where a page of the domain sits: the area of the business it belongs to, by its slug and its title. */
 export type DomainAreaPlace = { areaSlug: string; areaTitle: string };
@@ -26,5 +27,5 @@ export type DomainWord = DomainTermFact & { areaTitle: string; glossaryPageId: s
 /** The lists the Domain page shows, area by area, the heart of the business first. */
 export type DomainLists = { things: DomainThing[]; rules: DomainRule[]; glossaries: DomainGlossary[] };
 
-/** What the Workflow map's station panel names of the domain: each filed thing's title by its slug, and the rules. */
-export type StationDomain = { thingTitles: Record<string, string>; rules: DomainRule[] };
+/** What the Workflow map's station panel names of the domain: the things and words its phrases are found in, and the rules. */
+export type StationDomain = { vocabulary: MapVocabulary; rules: DomainRule[] };
