@@ -10,11 +10,11 @@ import type { McpAction } from '../actionTypes';
 
 const sendOnlyWhenThePersonSaysSo =
 	'Send an invoice only when the person says to, after reading it back to them with read_invoice: it emails the ' +
-	'customer the invoice as a document, and every sending is kept. Send it again only when they ask; read_invoice lists ' +
+	'customer the invoice as a document with its PDF attached, and every sending is kept. Send it again only when they ask; read_invoice lists ' +
 	'when it went.';
 
 const outcomeSentences: Record<EmailDelivery, (outcome: InvoiceSendingOutcome) => string> = {
-	sent: (outcome) => `Sent invoice ${outcome.printedNumber} to ${outcome.sentTo}${copySentence(outcome.copiedTo)}.`,
+	sent: (outcome) => `Sent invoice ${outcome.printedNumber}, with its PDF, to ${outcome.sentTo}${copySentence(outcome.copiedTo)}.`,
 	skipped: (outcome) => `Email is not set up here, so invoice ${outcome.printedNumber} was not sent to ${outcome.sentTo}; the attempt is kept as skipped.`,
 	failed: (outcome) => `The email of invoice ${outcome.printedNumber} to ${outcome.sentTo} could not be sent; the attempt is kept as failed. Try again later.`
 };
