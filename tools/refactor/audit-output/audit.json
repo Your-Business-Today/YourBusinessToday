@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T20:07:55+00:00",
+  "generatedAt": "2026-11-13T20:25:14+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4356,
+        "measuredAgainst": 4381,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6577,
+        "measuredAgainst": 6628,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6195,
+        "measuredAgainst": 6235,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 163.64,
+        "measuredAgainst": 164.77,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 2,
-        "measuredAgainst": 163.64,
+        "measuredAgainst": 164.77,
         "score": 99.9
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7264,
+        "measuredAgainst": 7316,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 163.64,
+        "measuredAgainst": 164.77,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 163.64,
+        "measuredAgainst": 164.77,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6577,
+        "measuredAgainst": 6628,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 245,
+        "measuredAgainst": 247,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6195,
+        "measuredAgainst": 6235,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6195,
+        "measuredAgainst": 6235,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6577,
+        "measuredAgainst": 6628,
         "score": 100.0
       },
       {
@@ -231,7 +231,7 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 410,
+        "measuredAgainst": 414,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 364,
+        "measuredAgainst": 366,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4356,
-      "totalLines": 163641,
+      "totalFiles": 4381,
+      "totalLines": 164772,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 6577,
+      "totalFunctions": 6628,
       "elseBlocks": 0,
-      "ifBlocks": 6195,
+      "ifBlocks": 6235,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -298,7 +298,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 433,
+      "overlongLines": 434,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,11 +308,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 6577
+      "functionsExamined": 6628
     },
     "designPatterns": {
       "roleFamilies": 230,
-      "predictedFiles": 245,
+      "predictedFiles": 247,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -320,19 +320,19 @@
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 73,
-      "components": 687,
+      "pages": 74,
+      "components": 688,
       "orphanComponents": 0,
       "averagePageLines": 44
     },
     "siteDefinition": {
-      "routes": 72,
-      "views": 763,
-      "siteComponents": 675,
+      "routes": 73,
+      "views": 765,
+      "siteComponents": 676,
       "catalogue": 14,
-      "widgetUsages": 410,
+      "widgetUsages": 414,
       "handRolledElements": 0,
-      "widgetSlots": 410,
+      "widgetSlots": 414,
       "viewsWithHandRolled": 0,
       "boxedContentWidgets": 0,
       "designSheets": 8,
@@ -340,20 +340,20 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 211,
+      "schemaTables": 212,
       "limitedColumns": 0,
-      "writeDoors": 364,
+      "writeDoors": 366,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4961,
-      "backend": 1264,
-      "frontend": 1128,
-      "shared": 854,
-      "tests": 694,
-      "api": 570,
-      "database": 214,
+      "totalFiles": 4992,
+      "backend": 1271,
+      "frontend": 1132,
+      "shared": 859,
+      "tests": 702,
+      "api": 575,
+      "database": 216,
       "tooling": 141,
       "docs": 79,
       "infrastructure": 17
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4356,
-        "totalLines": 163641,
+        "totalFiles": 4381,
+        "totalLines": 164772,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 6577,
+        "totalFunctions": 6628,
         "elseBlocks": 0,
-        "ifBlocks": 6195,
+        "ifBlocks": 6235,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -665,7 +665,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 433,
+        "overlongLines": 434,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -735,6 +735,10 @@
           {
             "file": "src/lib/data/books/invoiceDraftRules.test.ts",
             "line": 35
+          },
+          {
+            "file": "src/lib/data/books/page/accountEntryRows.test.ts",
+            "line": 8
           },
           {
             "file": "src/lib/data/businessBrainFileRules.test.ts",
@@ -867,10 +871,6 @@
           {
             "file": "src/lib/data/legal/privacyRightsSections.ts",
             "line": 9
-          },
-          {
-            "file": "src/lib/data/legal/privacyRightsSections.ts",
-            "line": 10
           }
         ]
       }
@@ -891,7 +891,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 6577
+        "functionsExamined": 6628
       },
       "offenders": []
     },
@@ -899,7 +899,7 @@
       "name": "designPatterns",
       "summary": {
         "roleFamilies": 230,
-        "predictedFiles": 245,
+        "predictedFiles": 247,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -909,14 +909,14 @@
       "offenders": {
         "roleFamilies": {
           "+layout.server.ts": 6,
-          "+page.server.ts": 65,
-          "+page.svelte": 73,
+          "+page.server.ts": 66,
+          "+page.svelte": 74,
           "+server.ts": 27,
           "access": 12,
-          "account": 5,
+          "account": 6,
           "accounts": 4,
           "action": 24,
-          "actions": 220,
+          "actions": 221,
           "address": 10,
           "adverts": 4,
           "answer": 9,
@@ -941,7 +941,7 @@
           "cell": 7,
           "cells": 5,
           "chatbot": 5,
-          "check": 8,
+          "check": 9,
           "checklist": 4,
           "chip": 5,
           "chips": 4,
@@ -974,12 +974,12 @@
           "event": 12,
           "facts": 16,
           "field": 25,
-          "fields": 49,
+          "fields": 50,
           "figures": 5,
           "file": 11,
           "files": 6,
           "filter": 9,
-          "fixture": 15,
+          "fixture": 17,
           "fixtures": 27,
           "for": 10,
           "form": 78,
@@ -1009,7 +1009,7 @@
           "legend": 6,
           "limits": 13,
           "line": 14,
-          "lines": 5,
+          "lines": 8,
           "link": 21,
           "links": 17,
           "list": 34,
@@ -1063,7 +1063,7 @@
           "projects": 13,
           "prose": 4,
           "question": 5,
-          "reading": 16,
+          "reading": 17,
           "readings": 4,
           "record": 63,
           "refusal": 13,
@@ -1076,9 +1076,9 @@
           "roles": 5,
           "room": 7,
           "row": 47,
-          "rows": 20,
+          "rows": 21,
           "rule": 7,
-          "rules": 61,
+          "rules": 63,
           "run": 10,
           "runs": 24,
           "schemas": 15,
@@ -1109,12 +1109,12 @@
           "subject": 4,
           "summary": 9,
           "svelte": 21,
-          "table": 40,
-          "tabs": 10,
+          "table": 41,
+          "tabs": 11,
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 676,
+          "test": 682,
           "text": 13,
           "tiles": 5,
           "time": 5,
@@ -1202,12 +1202,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 65,
+            "predicted": 66,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 73,
+            "predicted": 74,
             "missing": []
           }
         ],
@@ -1218,8 +1218,8 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 73,
-        "components": 687,
+        "pages": 74,
+        "components": 688,
         "orphanComponents": 0,
         "averagePageLines": 44
       },
@@ -1480,6 +1480,11 @@
             ]
           },
           {
+            "page": "src/routes/organisations/[organisationId]/books/costs/+page.svelte",
+            "lines": 40,
+            "widgets": []
+          },
+          {
             "page": "src/routes/[register=salesRegister]/[clientId]/workflow-map/+page.svelte",
             "lines": 39,
             "widgets": []
@@ -1665,7 +1670,7 @@
         "componentReuse": [
           {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
-            "reusedBy": 80
+            "reusedBy": 81
           },
           {
             "component": "src/lib/components/site/SubmitButton.svelte",
@@ -1680,23 +1685,23 @@
             "reusedBy": 48
           },
           {
+            "component": "src/lib/components/workspace/RecordsCell.svelte",
+            "reusedBy": 38
+          },
+          {
             "component": "src/lib/components/site/Button.svelte",
             "reusedBy": 37
           },
           {
-            "component": "src/lib/components/workspace/RecordsCell.svelte",
-            "reusedBy": 37
-          },
-          {
             "component": "src/lib/components/workspace/RecordsTable.svelte",
-            "reusedBy": 35
-          },
-          {
-            "component": "src/lib/components/site/Badge.svelte",
-            "reusedBy": 33
+            "reusedBy": 36
           },
           {
             "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
+            "reusedBy": 34
+          },
+          {
+            "component": "src/lib/components/site/Badge.svelte",
             "reusedBy": 33
           },
           {
@@ -1716,15 +1721,15 @@
             "reusedBy": 19
           },
           {
+            "component": "src/lib/components/workspace/TabStrip.svelte",
+            "reusedBy": 13
+          },
+          {
             "component": "src/lib/components/site/DangerConfirmModal.svelte",
             "reusedBy": 12
           },
           {
             "component": "src/lib/components/workspace/FlashMessage.svelte",
-            "reusedBy": 12
-          },
-          {
-            "component": "src/lib/components/workspace/TabStrip.svelte",
             "reusedBy": 12
           },
           {
@@ -2513,6 +2518,10 @@
           },
           {
             "component": "src/lib/components/books/BooksPeriodForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/books/CostsTable.svelte",
             "reusedBy": 1
           },
           {
@@ -4418,13 +4427,13 @@
     "siteDefinition": {
       "name": "siteDefinition",
       "summary": {
-        "routes": 72,
-        "views": 763,
-        "siteComponents": 675,
+        "routes": 73,
+        "views": 765,
+        "siteComponents": 676,
         "catalogue": 14,
-        "widgetUsages": 410,
+        "widgetUsages": 414,
         "handRolledElements": 0,
-        "widgetSlots": 410,
+        "widgetSlots": 414,
         "viewsWithHandRolled": 0,
         "boxedContentWidgets": 0,
         "designSheets": 8,
@@ -4797,6 +4806,12 @@
           "expanded": "WorkspaceHeader, DashboardPanel{ AccountEntriesTable=( RecordsTable{ (3) RecordsCell, (3) StatementFigureCell=( RecordsCell ), (5) RecordsCell, StatementFigureCell=( RecordsCell ) } ) }"
         },
         {
+          "route": "/organisations/[organisationId]/books/costs",
+          "file": "src/routes/organisations/[organisationId]/books/costs/+page.svelte",
+          "definition": "WorkspaceHeader, TabStrip, DashboardPanel{ CostsTable }",
+          "expanded": "WorkspaceHeader, TabStrip, DashboardPanel{ CostsTable=( RecordsTable{ (6) RecordsCell } ) }"
+        },
+        {
           "route": "/organisations/[organisationId]/brand",
           "file": "src/routes/organisations/[organisationId]/brand/+page.svelte",
           "definition": "WorkspaceHeader{ (2) Button }, DashboardPanel{ BrandAwaitingTable }, DashboardPanel{ BrandSwatches }, (2) DashboardPanel{ BrandKitList }, DashboardPanel{ BrandChannelTable }, DashboardPanel{ BrandCampaignTable }, (4) DashboardPanel{ BrandKitList }",
@@ -5042,7 +5057,7 @@
           "component": "RecordsCell",
           "file": "src/lib/components/workspace/RecordsCell.svelte",
           "definition": "",
-          "usedBy": 36
+          "usedBy": 37
         },
         {
           "component": "SmallCapsField",
@@ -6656,6 +6671,12 @@
           "component": "ConversationComposer",
           "file": "src/lib/components/conversations/ConversationComposer.svelte",
           "definition": "FormErrorNote, [ HandOffPicker SubmitButton ]",
+          "usedBy": 1
+        },
+        {
+          "component": "CostsTable",
+          "file": "src/lib/components/books/CostsTable.svelte",
+          "definition": "RecordsTable{ (6) RecordsCell }",
           "usedBy": 1
         },
         {
@@ -9081,13 +9102,13 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4961,
-        "backend": 1264,
-        "frontend": 1128,
-        "shared": 854,
-        "tests": 694,
-        "api": 570,
-        "database": 214,
+        "totalFiles": 4992,
+        "backend": 1271,
+        "frontend": 1132,
+        "shared": 859,
+        "tests": 702,
+        "api": 575,
+        "database": 216,
         "tooling": 141,
         "docs": 79,
         "infrastructure": 17
@@ -9095,37 +9116,37 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 1264,
-          "sourceFiles": 1255,
-          "sourceLines": 41265
+          "files": 1271,
+          "sourceFiles": 1261,
+          "sourceLines": 41505
         },
         {
           "area": "frontend",
-          "files": 1128,
-          "sourceFiles": 999,
-          "sourceLines": 34333
+          "files": 1132,
+          "sourceFiles": 1002,
+          "sourceLines": 34435
         },
         {
           "area": "shared",
-          "files": 854,
-          "sourceFiles": 836,
-          "sourceLines": 29736
+          "files": 859,
+          "sourceFiles": 841,
+          "sourceLines": 29980
         },
         {
           "area": "tests",
-          "files": 694,
-          "sourceFiles": 681,
-          "sourceLines": 31809
+          "files": 702,
+          "sourceFiles": 687,
+          "sourceLines": 32096
         },
         {
           "area": "api",
-          "files": 570,
-          "sourceFiles": 569,
-          "sourceLines": 25904
+          "files": 575,
+          "sourceFiles": 574,
+          "sourceLines": 26162
         },
         {
           "area": "database",
-          "files": 214,
+          "files": 216,
           "sourceFiles": 7,
           "sourceLines": 212
         },
@@ -9152,9 +9173,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 211,
+        "schemaTables": 212,
         "limitedColumns": 0,
-        "writeDoors": 364,
+        "writeDoors": 366,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },

@@ -178,6 +178,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-144 | keep customers and cost centres | manager | write | `/organisations/{organisationId}/books` | `create_customer` `update_customer` `list_customer_balances` `create_cost_centre` `set_cost_centre_archived` `list_cost_centres` | `/organisations/{organisationId}/books` |
 | US-145 | post journals, accruals and prepayment releases | manager | write | `/organisations/{organisationId}/books` | `post_journal` `create_accrual` `create_prepayment_release` | `/organisations/{organisationId}/books` |
 | US-146 | read and change the books settings, and read the record of deletes | manager | write | `/organisations/{organisationId}/books` | `read_books_settings` `change_books_settings` `list_books_deletions` `read_books_deletion` | `/organisations/{organisationId}/books` |
+| US-180 | bring a bank statement's lines into the books once each, and list them matched or unmatched | manager | write | — | `import_bank_lines` `list_bank_lines` | — |
 
 ## 13-business-brain
 
