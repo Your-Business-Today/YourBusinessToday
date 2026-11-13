@@ -1,9 +1,12 @@
+import { toPence } from '$lib/data/books/money';
 import { ledgerTables, ledgerWrites } from './booksLedgerDatabase.fixture';
 import { standDatabaseStepsDown } from './booksLedgerCalls.fixture';
 import { holdDraftInvoice, invoiceId, runOnTheLedger } from './booksInvoicePostingWorld.fixture';
 import { organisationId, runOnTheBankLines } from './booksBankLineDatabase.fixture';
 
 type Row = Record<string, unknown>;
+
+const nothing = 0;
 
 export const bankId = '00000000-0000-4000-8000-000000001200';
 export const softwareId = '00000000-0000-4000-8000-000000006000';
@@ -65,4 +68,19 @@ export function match(bankLineId: string, said: Row) {
 /** The statement line the books hold with that id. */
 export function heldLine(id: string): Row {
 	return (ledgerTables.books_bank_lines ?? []).find((line) => line.id === id) ?? {};
+}
+
+/** Takes the match off the statement line. */
+export function unmatch(bankLineId: string) {
+	return runOnTheBankLines('unmatch_bank_line', { bankLineId });
+}
+
+/** What each account's journal lines come to, in pence, debits above nothing, leaving out the accounts that come to nothing. */
+export function trialBalance(): Record<string, number> {
+	const balances: Record<string, number> = {};
+	for (const line of ledgerTables.books_journal_lines ?? []) {
+		const accountId = String(line.account_id);
+		balances[accountId] = (balances[accountId] ?? nothing) + toPence(Number(line.debit)) - toPence(Number(line.credit));
+	}
+	return Object.fromEntries(Object.entries(balances).filter(([, pence]) => pence !== nothing));
 }

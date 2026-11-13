@@ -52,3 +52,15 @@ export function deleteRefusal(invoice: InvoiceForMove): string | null {
 	if (invoice.paymentCount === nothing) return null;
 	return `Invoice ${invoice.printedNumber} has payments recorded against it, so it is not deleted.`;
 }
+
+/** Why a payment cannot be taken back off the invoice, or null when it is issued or paid, as only those hold payments. */
+export function takeBackRefusal(invoice: InvoiceForMove): string | null {
+	const isPosted = invoice.status === InvoiceStatuses.issued || invoice.status === InvoiceStatuses.paid;
+	if (isPosted) return null;
+	return `Invoice ${invoice.printedNumber} is ${invoice.status}; a payment is taken back only off an issued or paid invoice.`;
+}
+
+/** What the invoice owes again once a payment of that amount is taken back off it. */
+export function owedAfterTakeBack(invoice: InvoiceForMove, amount: number): number {
+	return differenceOf(invoice.total, differenceOf(invoice.amountPaid, amount));
+}
