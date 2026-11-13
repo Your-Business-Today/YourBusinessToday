@@ -1,17 +1,10 @@
 import { Group, Mesh, type BufferGeometry, type MeshBasicMaterial, type Vector3 } from 'three';
 import { createCellSoma } from './cellSoma';
-import { growDendriteTree } from './dendriteTree';
-import { mergedFibreGeometry } from './fibreGeometry';
 import { clampShare, flare } from './growthShares';
-import { shareStreamFrom } from './pseudoRandom';
 import type { BodyProportions } from './neuronProportions';
 import type { MaterialBank } from './materialBank';
 import type { CellMaterialBank } from './cellMaterialBank';
-import type { FibreMaterial } from './fibreMaterial';
 
-const DENDRITE_RADIAL_SEGMENTS = 5;
-const SOMA_PHASE_END = 0.4;
-const DENDRITE_PHASE_START = 0.25;
 const TWINKLE_PHASE_SPREAD = 7;
 
 export type NeuronBody = {
@@ -23,7 +16,6 @@ export type NeuronBody = {
 	setGrowth: (share: number) => void;
 	glowPulse: (pulse: number, deltaSeconds: number) => void;
 	excite: () => void;
-	dispose: () => void;
 };
 
 export type BodySeed = {
@@ -32,8 +24,6 @@ export type BodySeed = {
 	colour: number;
 	contextKey: string;
 	proportions: BodyProportions;
-	connectionDirections: Vector3[];
-	detailShare: number;
 	somaGeometry: BufferGeometry;
 	hitGeometry: BufferGeometry;
 	hitMaterial: MeshBasicMaterial;
@@ -42,40 +32,23 @@ export type BodySeed = {
 	userData: Record<string, string>;
 };
 
+/** One page as a cell: a glowing body and the target a pointer picks it by. Its only fibres are the synapses it really has. */
 export function createNeuronBody(seed: BodySeed): NeuronBody {
-	const { slug, position, colour, contextKey, cells } = seed;
+	const { position, colour } = seed;
 	const soma = createCellSoma(seed);
-	const dendriteMaterial = cells.dendritesFor(slug, colour, contextKey);
-	const dendrites = dendritesOf(seed, dendriteMaterial);
 	const hitTarget = hitTargetOf(seed);
 	const group = new Group();
-	group.add(soma.core, soma.glow, dendrites, hitTarget);
-
-	function setGrowth(share: number): void {
-		soma.setGrowth(flare(clampShare(share / SOMA_PHASE_END)));
-		const dendriteShare = clampShare((share - DENDRITE_PHASE_START) / (1 - DENDRITE_PHASE_START));
-		dendriteMaterial.setGrowth(dendriteShare);
-	}
-
+	group.add(soma.core, soma.glow, hitTarget);
 	return {
 		group,
 		hitTarget,
 		position,
 		colour,
 		twinklePhase: position.x + position.y * TWINKLE_PHASE_SPREAD,
-		setGrowth,
+		setGrowth: (share) => soma.setGrowth(flare(clampShare(share))),
 		glowPulse: soma.glowPulse,
-		excite: soma.excite,
-		dispose: () => disposeGeometryOf(dendrites)
+		excite: soma.excite
 	};
-}
-
-function dendritesOf(seed: BodySeed, material: FibreMaterial): Mesh {
-	const { slug, connectionDirections, proportions, detailShare, position } = seed;
-	const tree = growDendriteTree(slug, connectionDirections, proportions, detailShare, shareStreamFrom(slug));
-	const dendrites = new Mesh(mergedFibreGeometry(tree, DENDRITE_RADIAL_SEGMENTS), material);
-	dendrites.position.copy(position);
-	return dendrites;
 }
 
 function hitTargetOf(seed: BodySeed): Mesh {
@@ -85,8 +58,4 @@ function hitTargetOf(seed: BodySeed): Mesh {
 	hitTarget.scale.setScalar(proportions.hitRadius);
 	hitTarget.userData = userData;
 	return hitTarget;
-}
-
-function disposeGeometryOf(mesh: Mesh): void {
-	mesh.geometry.dispose();
 }
