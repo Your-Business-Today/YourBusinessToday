@@ -1,10 +1,12 @@
 import { defaultFinancialYearStartMonth } from '$lib/server/books/financialYear';
 import { monthName } from '$lib/data/books/monthName';
+import { formatBritishDate } from '$lib/data/britishDate';
 import type { BooksSettings } from '$lib/data/books/booksSettings';
+import type { FinancialYear } from '$lib/data/books/financialYear';
 
 const notSet = '(not set)';
 
-export function describeBooksSettings(organisationName: string, settings: BooksSettings | null): string {
+export function describeBooksSettings(organisationName: string, settings: BooksSettings | null, financialYear: FinancialYear): string {
 	if (settings === null) return nothingSavedYet(organisationName);
 	return [
 		`Settings of ${organisationName}'s books:`,
@@ -17,6 +19,7 @@ export function describeBooksSettings(organisationName: string, settings: BooksS
 		`- Bank sort code: ${shown(settings.bankSortCode)}`,
 		`- Payment terms: ${settings.paymentTermsDays} days from issue to due`,
 		`- The financial year starts in ${monthName(settings.financialYearStartMonth)}`,
+		`- ${describeFirstPeriod(financialYear)}`,
 		`- Invoice prefix ${settings.invoicePrefix}; the next invoice takes number ${settings.nextInvoiceNumber}`
 	].join('\n');
 }
@@ -27,6 +30,14 @@ function nothingSavedYet(organisationName: string): string {
 		`change_books_settings sets them. Until then the financial year is read as starting in ` +
 		`${monthName(defaultFinancialYearStartMonth)}.`
 	);
+}
+
+function describeFirstPeriod(financialYear: FinancialYear): string {
+	const { firstPeriod } = financialYear;
+	if (firstPeriod === null) return 'First accounting period: not set, so every year to date starts in the start month';
+	const firstDay = formatBritishDate(firstPeriod.start);
+	const lastDay = formatBritishDate(firstPeriod.end);
+	return `First accounting period: ${firstDay} to ${lastDay}; a year to date up to its last day starts on ${firstDay}`;
 }
 
 function shown(value: string): string {

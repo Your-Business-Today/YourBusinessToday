@@ -6,7 +6,7 @@ import { monthEnd, monthOfDay, validateMonthKey, type MonthKey } from '$lib/data
 import { buildBooksStanding, type BooksStanding } from '$lib/data/books/reports/booksStanding';
 import { refuseWhen } from './booksRefusal';
 import { findLedgerEntriesUpTo } from './ledgerEntries';
-import { findFinancialYearStartMonth } from './financialYear';
+import { findFinancialYear } from './financialYear';
 import { findInvoiceSummaries, type InvoiceSummary } from './invoices';
 
 /** The front page of an organisation's books: how they stand for a month, and the invoices customers still owe on. */
@@ -18,12 +18,12 @@ const issuedInvoices = { customerId: null, status: InvoiceStatuses.issued };
 export async function readBooksOverview(supabase: SupabaseClient, organisationId: string, monthKey: unknown): Promise<BooksOverview> {
 	refuseWhen(validateRecordId('organisation', organisationId));
 	const month = chosenMonth(monthKey);
-	const [entries, yearStartMonth, unpaidInvoices] = await Promise.all([
+	const [entries, financialYear, unpaidInvoices] = await Promise.all([
 		findLedgerEntriesUpTo(supabase, organisationId, monthEnd(month)),
-		findFinancialYearStartMonth(supabase, organisationId),
+		findFinancialYear(supabase, organisationId),
 		findInvoiceSummaries(supabase, organisationId, issuedInvoices)
 	]);
-	return { standing: buildBooksStanding(entries, month, yearStartMonth), unpaidInvoices };
+	return { standing: buildBooksStanding(entries, month, financialYear), unpaidInvoices };
 }
 
 function chosenMonth(monthKey: unknown): MonthKey {
