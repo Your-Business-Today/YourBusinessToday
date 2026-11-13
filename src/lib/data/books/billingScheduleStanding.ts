@@ -30,3 +30,14 @@ export function nextScheduledInvoice(schedule: ScheduleToRead): NextScheduledInv
 	const period = periodOfInvoice(schedule.nextInvoiceDate, schedule);
 	return { date: schedule.nextInvoiceDate, total, periodInWords: describeBillingPeriod(period) };
 }
+
+/** A running schedule's next invoice, with the schedule it comes from. */
+export type UpcomingScheduledInvoice<Schedule> = { schedule: Schedule; next: NextScheduledInvoice };
+
+/** The invoice that goes out next across the schedules that are running: the earliest date, then the first given. */
+export function soonestScheduledInvoice<Schedule extends ScheduleToRead>(schedules: Schedule[]): UpcomingScheduledInvoice<Schedule> | null {
+	const running = schedules.filter((schedule) => standingOfSchedule(schedule) === BillingScheduleStandings.running);
+	const upcoming = running.map((schedule) => ({ schedule, next: nextScheduledInvoice(schedule) }));
+	const soonestFirst = [...upcoming].sort((first, second) => first.next.date.localeCompare(second.next.date));
+	return soonestFirst[0] ?? null;
+}
