@@ -1,5 +1,5 @@
 import { organisationDomainOf } from '$lib/server/businessBrain/organisationDomainOf';
-import { readBrainsOf } from '$lib/server/organisations/readBrainsOf';
+import { isBusinessBrainOpen } from '$lib/server/organisations/isBusinessBrainOpen';
 import { readDomainPages } from '$lib/server/businessBrain/readDomainPages';
 import { readDomainWords } from '$lib/server/businessBrain/readDomainWords';
 import { readTodaysWorkflowMap } from '$lib/server/workflowMap/readTodaysWorkflowMap';
@@ -11,13 +11,13 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const access = await requireOrganisationAccess(locals, params.organisationId);
 	const { organisation, canManage } = access;
 	const nothingFiled = { domain: null, words: [], thingStations: [] };
-	const brains = await readBrainsOf(locals.supabase, access);
-	if (brains === null) return { organisation, canManage, brains, ...nothingFiled };
+	const isBrainOpen = await isBusinessBrainOpen(locals.supabase, access);
+	if (!isBrainOpen) return { organisation, canManage, isBrainOpen, ...nothingFiled };
 	const domain = organisationDomainOf(await readDomainPages(locals.supabase, { organisationId: organisation.id, projectId: null }));
-	if (domain === null) return { organisation, canManage, brains, ...nothingFiled };
+	if (domain === null) return { organisation, canManage, isBrainOpen, ...nothingFiled };
 	const [words, todaysMap] = await Promise.all([
 		readDomainWords(locals.supabase, organisation.id, domain.glossaries),
 		readTodaysWorkflowMap(locals.supabase, organisation.id)
 	]);
-	return { organisation, canManage, brains, domain, words, thingStations: thingStationsOf(todaysMap) };
+	return { organisation, canManage, isBrainOpen, domain, words, thingStations: thingStationsOf(todaysMap) };
 };
