@@ -4,7 +4,7 @@
 	import InvoiceDocumentFacts from './InvoiceDocumentFacts.svelte';
 	import InvoiceDocumentParty from './InvoiceDocumentParty.svelte';
 	import InvoiceDocumentPayment from './InvoiceDocumentPayment.svelte';
-	import { documentStampOf, headingFactsOf, isAskingForPayment, owingFactsOf } from './invoiceDocumentView';
+	import { documentStampOf, headingFactsOf, isSayingHowToPay, owingFactsOf } from './invoiceDocumentView';
 
 	let { document }: { document: InvoiceDocument } = $props();
 
@@ -25,7 +25,7 @@
 	<InvoiceDocumentParty heading="Billed to" party={document.customer} />
 	<BilledLinesTable invoice={document} />
 	<div class="flex justify-end"><InvoiceDocumentFacts facts={owingFactsOf(document)} /></div>
-	{#if isAskingForPayment(document)}
+	{#if isSayingHowToPay(document)}
 		<InvoiceDocumentPayment howToPay={document.howToPay} />
 	{/if}
 	{#if document.notes !== ''}
