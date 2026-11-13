@@ -9,12 +9,12 @@ function addressOf(path: string): URL {
 }
 
 describe('projectPageLinks', () => {
-	it('gives a product Development, Task Management and its Domain', () => {
+	it('gives a product Development, Task Management and its Workflow map', () => {
 		const links = projectPageLinks(harbour);
-		expect(links.map(({ label }) => label)).toEqual(['Development', 'Task Management', 'Domain']);
+		expect(links.map(({ label }) => label)).toEqual(['Development', 'Task Management', 'Workflow map']);
 		expect(links[0].href).toBe('/projects/harbour-site');
 		expect(links[1].href).toBe('/projects/harbour-site?department=administration');
-		expect(links[2].href).toBe('/projects/harbour-site/domain');
+		expect(links[2].href).toBe('/projects/harbour-site/workflow-map');
 	});
 
 	it('gives an internal project its Task Management alone, since it has no code, domain or deploys', () => {
@@ -30,9 +30,9 @@ describe('currentProjectPage', () => {
 		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/site-map'))).toBe(projectPages.development);
 	});
 
-	it('puts the team’s own departments under Task Management and the domain under Domain', () => {
+	it('puts the team’s own departments under Task Management and the map under Workflow map', () => {
 		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site?department=sales'))).toBe(projectPages.taskManagement);
-		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/domain?entity=Task'))).toBe(projectPages.domain);
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/workflow-map'))).toBe(projectPages.workflowMap);
 	});
 });
 

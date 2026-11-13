@@ -8,6 +8,7 @@
 	import { drawnWorkflowMapsOf } from './drawnWorkflowMaps';
 	import { estimatedTextWidth, loadedTextMeasure, type MeasureText } from '$lib/components/lineMap/layout/textMeasure';
 	import { isComparing, shownStageOf, workflowMapTabsOf, type WorkflowMapPane } from './workflowMapTabs';
+	import { legendItemsOf, mapLabelOf } from './workflowMapLegend';
 	import { mapChangesBetween } from './workflowMapChanges';
 	import { mapStage, type MapStage } from '$lib/data/workflowMap/workflowMap';
 	import { stationDetailsOf } from './stationDetails';
@@ -65,7 +66,14 @@
 	</nav>
 {/if}
 {#if shownStage !== null && shownLineMap !== null}
-	<WorkflowMapPanel map={shownLineMap} stage={shownStage} layout={drawn.layout} selectedStationId={details?.key} onChooseStation={chooseStation} />
+	<WorkflowMapPanel
+		map={shownLineMap}
+		label={mapLabelOf(shownStage)}
+		legendItems={legendItemsOf(shownStage)}
+		layout={drawn.layout}
+		selectedStationId={details?.key}
+		onChooseStation={chooseStation}
+	/>
 	{#if details === null}
 		<p class="text-sm text-chalk-subtle">{messages.chooseStation}</p>
 	{:else}

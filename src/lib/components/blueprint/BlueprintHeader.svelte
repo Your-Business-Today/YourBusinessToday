@@ -10,20 +10,15 @@
 	import type { Project } from '$lib/server/projects/projectRecord';
 	import type { ProjectBlueprint } from '$lib/data/blueprint/projectBlueprint';
 
-	let {
-		project,
-		blueprint,
-		drawnFrom = null
-	}: { project: Project; blueprint: ProjectBlueprint | null; drawnFrom?: string | null } = $props();
+	let { project, blueprint }: { project: Project; blueprint: ProjectBlueprint | null } = $props();
 
 	const tracker = new FormTracker();
 
-	const readFacts = $derived(
+	const facts = $derived(
 		blueprint === null
 			? []
 			: [{ label: `Read at ${shortCommit(blueprint.readAtCommit)}` }, { label: formatBritishDateTime(blueprint.readAt) }]
 	);
-	const facts = $derived(drawnFrom === null ? readFacts : [{ label: drawnFrom }, ...readFacts]);
 </script>
 
 <ProjectPageHeader {project}>
