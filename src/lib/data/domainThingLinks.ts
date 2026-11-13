@@ -20,3 +20,8 @@ export function thingNamed(things: DomainThing[], thingSlug: string | null): Dom
 export function thingTitlesBySlug(things: DomainThing[]): Map<string, string> {
 	return new Map(things.map((thing) => [thing.slug, thing.title]));
 }
+
+/** The gates that name the station among those they guard. */
+export function gatesGuarding(rules: DomainRule[], stationKey: string): DomainRule[] {
+	return rules.filter((rule) => rule.guardsStationKeys.includes(stationKey));
+}

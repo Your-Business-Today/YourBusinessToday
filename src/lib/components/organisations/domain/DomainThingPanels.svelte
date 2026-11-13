@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
+	import DomainEventFacts from './DomainEventFacts.svelte';
 	import DomainGroupMembersTable from './DomainGroupMembersTable.svelte';
 	import DomainRulesTable from './DomainRulesTable.svelte';
 	import DomainThingFacts from './DomainThingFacts.svelte';
@@ -22,6 +23,7 @@
 		rules,
 		thingStations,
 		thingTitles,
+		stationNames,
 		organisationId,
 		addresses
 	}: {
@@ -30,12 +32,14 @@
 		rules: DomainRule[];
 		thingStations: ThingStation[];
 		thingTitles: Map<string, string>;
+		stationNames: Record<string, string>;
 		organisationId: string;
 		addresses: BusinessBrainAddresses;
 	} = $props();
 
 	const { pageId, slug, kind, title, summary, areaTitle, fields, groupSlug } = $derived(thing);
 	const isGroup = $derived(kind === domainPageKinds.aggregate);
+	const isEvent = $derived(kind === domainPageKinds.domainEvent);
 	const hasLifecycle = $derived(domainKindsWithFields.includes(kind));
 	const governingRules = $derived(rulesGoverning(rules, slug));
 	const stations = $derived(stationsNaming(thingStations, slug));
@@ -51,6 +55,9 @@
 	<div class="flex flex-col gap-3 text-sm">
 		<p class="text-chalk-muted">{thingKindWord(kind)} in {areaTitle}. {summary}</p>
 		<DomainThingFacts {thing} {group} />
+		{#if isEvent}
+			<DomainEventFacts event={thing} {rules} {thingTitles} {addresses} />
+		{/if}
 	</div>
 </DashboardPanel>
 {#if isGroup}
@@ -66,7 +73,7 @@
 	<DomainThingFieldsTable {fields} {thingTitles} />
 </DashboardPanel>
 <DashboardPanel title="Rules" count={governingRules.length}>
-	<DomainRulesTable rules={governingRules} {thingTitles} {addresses} emptyMessage="No rule governs it yet." />
+	<DomainRulesTable rules={governingRules} names={{ thingTitles, stationNames }} {organisationId} {addresses} emptyMessage="No rule governs it yet." />
 </DashboardPanel>
 <DashboardPanel title="Stations" count={stations.length}>
 	<DomainThingStationsTable {stations} {organisationId} />

@@ -4,6 +4,7 @@ import type { DomainFilingGap } from '$lib/server/businessBrain/domainFilingGaps
 import type { DomainHolder } from './domainHolder';
 import type { DomainWordGap } from '$lib/server/businessBrain/domainWordGaps';
 import type { DomainGroupGap } from '$lib/server/businessBrain/domainGroupGaps';
+import { eventRuleGapAnswer, statusesHeldBy } from './domainEventRuleAnswers';
 
 export const nothingTaught =
 	'Nothing was filed: no context, page or retire was given. A source that teaches the domain nothing is a valid outcome; say so to the person.';
@@ -24,8 +25,7 @@ function unknownNaming(holder: DomainHolder, gap: DomainWordGap): string {
 	const nothingFiled = `File it first or in the same call, or name what the domain has (${holder.readAction}). Nothing was filed.`;
 	if ('unknownNamedThingSlug' in gap) return `The word "${gap.word}" names ${gap.unknownNamedThingSlug}, which is no thing the domain holds or this call writes. ${nothingFiled}`;
 	const { word, thingSlug, unknownStatus, statuses } = gap;
-	const statusesHeld = statuses.length === 0 ? 'it has no statuses' : `its statuses are ${statuses.join(', ')}`;
-	return `The word "${word}" names ${thingSlug} in ${unknownStatus}, which is not a status of it: ${statusesHeld}. ${nothingFiled}`;
+	return `The word "${word}" names ${thingSlug} in ${unknownStatus}, which is not a status of it: ${statusesHeldBy({ statuses })}. ${nothingFiled}`;
 }
 
 function groupGap(holder: DomainHolder, gap: DomainGroupGap): string {
@@ -39,6 +39,7 @@ export function filingGapAnswer(holder: DomainHolder, gap: DomainFilingGap): str
 	if ('unknownThingSlug' in gap) return unknownThing(holder, gap.unknownThingSlug);
 	if ('unknownRelatedContextSlug' in gap) return unknownRelatedContext(holder, gap.unknownRelatedContextSlug);
 	if ('memberSlug' in gap || 'unknownMemberSlug' in gap) return groupGap(holder, gap);
+	if ('pageSlug' in gap) return eventRuleGapAnswer(holder, gap);
 	return unknownNaming(holder, gap);
 }
 

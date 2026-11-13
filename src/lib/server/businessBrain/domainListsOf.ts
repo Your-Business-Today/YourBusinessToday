@@ -38,13 +38,16 @@ function isGlossary(page: DomainPage): boolean {
 }
 
 function thingOf({ pageId, slug, kind, title, summary, facts }: DomainPage, place: DomainAreaPlace, pages: DomainPage[]): DomainThing {
-	const { fields, statuses, aggregateRootSlug, identity, lifecycle, keptIn, memberSlugs } = facts;
+	const { fields, statuses, aggregateRootSlug, identity, lifecycle, keptIn, memberSlugs, marksThingSlug, marksStatus, reactors } = facts;
 	const recordFacts = { identity, lifecycle, keptIn, memberSlugs, aggregateRootSlug };
-	return { ...place, ...recordFacts, pageId, slug, kind, title, summary, fields, statuses, groupSlug: groupSlugOf(pages, slug) };
+	const eventFacts = { marksThingSlug, marksStatus, reactors };
+	return { ...place, ...recordFacts, ...eventFacts, pageId, slug, kind, title, summary, fields, statuses, groupSlug: groupSlugOf(pages, slug) };
 }
 
 function ruleOf({ pageId, slug, title, summary, facts }: DomainPage, place: DomainAreaPlace): DomainRule {
-	return { ...place, pageId, slug, title, summary, governs: facts.governs };
+	const { governs, ruleKind, guardsStationKeys, guardsThingSlug, guardsStatus, followsEventSlug, definesWord } = facts;
+	const sitsOn = { ruleKind, guardsStationKeys, guardsThingSlug, guardsStatus, followsEventSlug, definesWord };
+	return { ...place, ...sitsOn, pageId, slug, title, summary, governs };
 }
 
 function glossaryOf({ pageId, facts }: DomainPage, place: DomainAreaPlace): DomainGlossary {

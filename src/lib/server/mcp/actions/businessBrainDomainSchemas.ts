@@ -2,13 +2,14 @@ import { businessBrainLimits } from '$lib/data/businessBrainRules';
 import { contextMapSlug } from '$lib/data/businessBrainDomain';
 import { domainFilingLimits, domainWritableKinds } from '$lib/data/businessBrainDomainRules';
 import { everySubdomainKind } from '$lib/data/areaRelationshipFacts';
+import { eventFactProperties, ruleFactProperties } from './businessBrainDomainEventRuleEntries';
 import { fieldEntry, lifecycleEntry, relationshipEntry, termEntry } from './businessBrainDomainFactEntries';
 import { objectSchema, proseField, textField } from '../actionTypes';
 import { organisationField, sourceNamingFields } from './businessBrainSchemas';
 
 const { longestTitle, longestSummary, longestSlug } = businessBrainLimits;
 const { mostContexts, mostPages, mostRetires, mostFields, mostStatuses, longestStatus } = domainFilingLimits;
-const { mostGoverned, mostTerms, mostRelationships, longestIdentity, longestKeptIn, mostMembers } = domainFilingLimits;
+const { mostTerms, mostRelationships, longestIdentity, longestKeptIn, mostMembers } = domainFilingLimits;
 
 const slugField = (what: string) => textField(`${what}: lower-case words joined by hyphens, permanent, at most ${longestSlug} characters`);
 
@@ -61,7 +62,8 @@ const pageEntry = objectSchema(
 			items: { type: 'string' },
 			description: `Aggregate: the records and details that change together with its root, by slug, at most ${mostMembers}; each filed before or in the same call, and in one group only`
 		},
-		governs: { type: 'array', items: { type: 'string' }, description: `Rule: the slugs of the things it governs, at least one and at most ${mostGoverned}` },
+		...ruleFactProperties,
+		...eventFactProperties,
 		terms: { type: 'array', items: termEntry, description: `Glossary: its words one to a row, at most ${mostTerms}, each saying what it names` },
 		relationships: {
 			type: 'array',

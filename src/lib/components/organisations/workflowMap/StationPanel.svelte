@@ -10,7 +10,7 @@
 
 	let { details, stationDomain, organisationId }: { details: StationDetails; stationDomain: StationDomain; organisationId: string | null } = $props();
 
-	const { lineName, lineColour, name, summary, inputs, outputs, place, things, phrasesNotWords } = $derived(details);
+	const { key, lineName, lineColour, name, summary, inputs, outputs, place, things, phrasesNotWords } = $derived(details);
 
 	const columnTitles = { takesIn: 'Takes in', produces: 'Produces', doneIn: 'Done in', domain: 'In the domain' };
 	const nothingFiled = 'Nothing filed';
@@ -54,7 +54,7 @@
 			{#if things.length === 0}
 				<p class={emptyClasses}>{nothingFiled}</p>
 			{/if}
-			<StationDomainColumn {things} {stationDomain} {organisationId} />
+			<StationDomainColumn stationKey={key} {things} {stationDomain} {organisationId} />
 		</StationColumn>
 	</div>
 </DashboardPanel>

@@ -12,6 +12,7 @@
 		openedSlug,
 		thingStations,
 		thingTitles,
+		stationNames,
 		organisationId,
 		addresses
 	}: {
@@ -19,6 +20,7 @@
 		openedSlug: string | null;
 		thingStations: ThingStation[];
 		thingTitles: Map<string, string>;
+		stationNames: Record<string, string>;
 		organisationId: string;
 		addresses: BusinessBrainAddresses;
 	} = $props();
@@ -31,5 +33,5 @@
 	<DomainThingsTable {things} {rules} />
 </DashboardPanel>
 {#if openedThing !== undefined}
-	<DomainThingPanels thing={openedThing} {things} {rules} {thingStations} {thingTitles} {organisationId} {addresses} />
+	<DomainThingPanels thing={openedThing} {things} {rules} {thingStations} {thingTitles} {stationNames} {organisationId} {addresses} />
 {/if}
