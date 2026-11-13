@@ -9,6 +9,7 @@ import { getReachableProjectsOf } from '$lib/server/organisations/getReachablePr
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
 import { readDomainPages } from '$lib/server/businessBrain/readDomainPages';
 import { readDomainSources } from '$lib/server/businessBrain/readDomainSources';
+import { readTodaysWorkflowMap } from '$lib/server/workflowMap/readTodaysWorkflowMap';
 import { validateDomainFiling } from '$lib/server/businessBrain/validateDomainFiling';
 import type { DomainFilingGiven } from '$lib/data/businessBrainDomainRules';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -39,16 +40,20 @@ export async function readDomain(caller: McpCaller, _input: Record<string, unkno
 	return describeDomain(caller.supabase, holder, organisationDomainOf(pages));
 }
 
-/** The walk a person's Claude follows to set the organisation's domain, fitted to what is held already. */
+/**
+ * The walk a person's Claude follows to set the organisation's domain, fitted to what is held already. The caller's
+ * client is the service client and the module gate has checked access, so today's map is read past its row level security.
+ */
 export async function startDomainRun(caller: McpCaller, _input: Record<string, unknown>, organisation: Organisation): Promise<string> {
 	const { supabase, accountId } = caller;
 	const { scope } = organisationDomainHolder(organisation);
-	const [pages, sources, projects, switchedOn] = await Promise.all([
+	const [map, pages, sources, projects, switchedOn] = await Promise.all([
+		readTodaysWorkflowMap(supabase, organisation.id),
 		readDomainPages(supabase, scope),
 		readDomainSources(supabase, scope),
 		getReachableProjectsOf(supabase, accountId, organisation.id),
 		getSwitchedOnModules(supabase, organisation.id)
 	]);
 	const products = projects.map(({ id, name }) => ({ id, name }));
-	return describeDomainRun({ organisation, domain: organisationDomainOf(pages), sources, products, switchedOn });
+	return describeDomainRun({ organisation, map, domain: organisationDomainOf(pages), sources, products, switchedOn });
 }

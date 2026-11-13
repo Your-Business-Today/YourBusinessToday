@@ -1,5 +1,6 @@
 import { mapConceptsNotSpecimens, mapShapeSentence } from '$lib/data/workflowMap/workflowMapWords';
 import { mapDrawingRules, mapInterviewStages, mapQuestioningRules } from '$lib/data/workflowMap/workflowMapMethod';
+import { bulletedList } from './bulletedList';
 import { latestMapOf, stageToFile, workflowMapRunStanding, type WorkflowMapRunStanding } from './workflowMapRunStanding';
 import { organisationHref, organisationPages } from '$lib/components/organisations/organisationPages';
 import { portalAddress } from '$lib/portal/portalAddress';
@@ -69,8 +70,4 @@ function fileStep(standing: WorkflowMapRunStanding): string {
 		`and file it only once they say yes: file_workflow_map with organisationId ${organisation.id} and stage ` +
 		`${stageToFile(standing)}, the whole map, not only what changed. Before showing it, shape it so it draws clearly:`;
 	return bulletedList(heading, mapDrawingRules);
-}
-
-function bulletedList(heading: string, items: readonly string[]): string {
-	return [heading, ...items.map((item) => `   - ${item}`)].join('\n');
 }
