@@ -1,6 +1,8 @@
 import { describeDomain, describeSiteMap } from './describeBlueprint';
 import { describeMcpMap } from './describeMcpMap';
+import { describeFiledSiteMap } from './describeFiledSiteMap';
 import { getProjectBlueprint } from '$lib/server/blueprint/getProjectBlueprint';
+import { readLatestJourneyMap } from '$lib/server/journeyMap/readLatestJourneyMap';
 import { noSuchProject } from './describeProject';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { reachableProject } from '../projectAccess';
@@ -35,18 +37,12 @@ export const projectBlueprintActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'read a project\'s site map from the site definition in its repository: every screen by route, or what a user sees on one screen',
+			"read a project's site map: once its journeys are filed, every view and each role's journeys through them, or for one route the journeys that pass through it; before that, every screen of the site definition in its repository, or what a user sees on one screen",
 		inputSchema: objectSchema(
 			{ projectId: textField('The project id'), route: textField('One screen\'s route, such as /jobs/{Id} — leave out for every screen') },
 			['projectId']
 		),
-		run: async (caller, input) => {
-			const found = await findBlueprintOfProject(caller, input);
-			if (typeof found === 'string') return found;
-			const { project, blueprint } = found;
-			if (blueprint?.siteMap == null) return notReadYet;
-			return describeSiteMap(blueprint.siteMap, project.name, readOptionalText(input, 'route'));
-		}
+		run: async (caller, input) => readSiteMap(caller, input)
 	},
 	{
 		name: 'read_project_mcp_map',
@@ -76,4 +72,16 @@ async function findBlueprintOfProject(
 	if (project === null) return noSuchProject;
 	const blueprint = await getProjectBlueprint(caller.supabase, project.id);
 	return { project, blueprint };
+}
+
+async function readSiteMap(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
+	const found = await findBlueprintOfProject(caller, input);
+	if (typeof found === 'string') return found;
+	const { project, blueprint } = found;
+	const route = readOptionalText(input, 'route');
+	const siteDefinition = blueprint?.siteMap ?? null;
+	const journeyMap = await readLatestJourneyMap(caller.supabase, project.id);
+	if (journeyMap !== null) return describeFiledSiteMap({ journeyMap, siteDefinition, projectName: project.name }, route);
+	if (siteDefinition === null) return notReadYet;
+	return describeSiteMap(siteDefinition, project.name, route);
 }
