@@ -1,4 +1,5 @@
 import { formatBritishDate } from '$lib/data/britishDate';
+import { booksInvoiceAddressOf } from '$lib/data/books/page/booksPaths';
 import { differenceOf, formatPoundsAndPence } from '$lib/data/books/money';
 import type { InvoiceStatus } from '$lib/data/books/invoiceStatuses';
 import type { InvoiceInFull, InvoiceSummary } from '$lib/server/books/invoices';
@@ -22,10 +23,14 @@ export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNa
 	].join('\n');
 }
 
-/** The invoices shown, newest first, each on one line, or that the books hold none the filter lets through. */
-export function describeInvoiceList(organisationName: string, invoices: InvoiceSummary[], namings: InvoiceNamings): string {
-	if (invoices.length === 0) return `${organisationName}'s books hold no invoices that match.`;
-	return [`Invoices of ${organisationName}, newest first:`, ...invoices.map((invoice) => describeInvoiceSummary(invoice, namings))].join('\n');
+/** The organisation whose books are read: its id for each invoice's address, and its name. */
+type BooksOrganisation = { id: string; name: string };
+
+/** The invoices shown, newest first, each on one line with the address it opens at, or that the books hold none that match. */
+export function describeInvoiceList(organisation: BooksOrganisation, invoices: InvoiceSummary[], namings: InvoiceNamings): string {
+	if (invoices.length === 0) return `${organisation.name}'s books hold no invoices that match.`;
+	const lines = invoices.map((invoice) => `${describeInvoiceSummary(invoice, namings)}; opens at ${booksInvoiceAddressOf(organisation.id, invoice.id)}`);
+	return [`Invoices of ${organisation.name}, newest first:`, ...lines].join('\n');
 }
 
 /** One invoice on one line: its number, customer, status, dates, total and what is owed, with its id. */
