@@ -9,7 +9,7 @@ export const myBrainsActions: McpAction[] = [
 		area: 'business_brain',
 		audience: 'everyone',
 		isWrite: false,
-		summary: 'search every brain you reach at once, organisations, products and named brains, and see which hold something on a question',
+		summary: 'search every brain you reach at once, organisations and named brains, and see which hold something on a question',
 		guidance: searchMyBrainsGuidance,
 		inputSchema: searchMyBrainsSchema,
 		run: searchMyBrains

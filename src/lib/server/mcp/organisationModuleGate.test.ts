@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { actionsFor } from './actionRegistry';
-import { isGatedByModuleRule, moduleAction, moduleNotSwitchedOn, moduleOrganisationField, moduleProductField } from './organisationModuleGate';
+import { isGatedByModuleRule, moduleAction, moduleNotSwitchedOn, moduleOrganisationField } from './organisationModuleGate';
 import { objectSchema, type McpAction } from './actionTypes';
 import { organisationModules, type OrganisationModule } from '$lib/data/organisationModules';
 import type { AccountStanding } from './resolveAccountStanding';
@@ -68,10 +68,9 @@ describe('every connector action of a module asks the one rule', () => {
 		expect(ungated.map((action) => action.name)).toEqual([]);
 	});
 
-	it('names the organisation or the product it works on', () => {
+	it('names the organisation it works on', () => {
 		const moduleActions = everyAction.filter((action) => action.module !== undefined);
-		const namingFields = [moduleOrganisationField, moduleProductField];
-		const isNamed = ({ inputSchema }: McpAction) => namingFields.some((field) => (inputSchema.required as string[]).includes(field));
+		const isNamed = ({ inputSchema }: McpAction) => (inputSchema.required as string[]).includes(moduleOrganisationField);
 		const unnamed = moduleActions.filter((action) => !isNamed(action));
 		expect(unnamed.map((action) => action.name)).toEqual([]);
 	});

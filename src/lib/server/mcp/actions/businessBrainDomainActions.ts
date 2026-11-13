@@ -3,7 +3,6 @@ import { fileBusinessBrainDomainGuidance, readBusinessBrainDomainGuidance, start
 import { fileBusinessBrainDomainSchema, readBusinessBrainDomainSchema } from './businessBrainDomainSchemas';
 import { fileDomain, readDomain, startDomainRun } from './businessBrainDomainRuns';
 import { moduleAction } from '../organisationModuleGate';
-import { productDomainActions } from './productDomainActions';
 import type { McpAction } from '../actionTypes';
 
 const businessBrainModule = 'business_brain';
@@ -41,6 +40,5 @@ export const businessBrainDomainActions: McpAction[] = [
 		guidance: startDomainRunGuidance,
 		inputSchema: readBusinessBrainDomainSchema,
 		run: startDomainRun
-	}),
-	...productDomainActions
+	})
 ];

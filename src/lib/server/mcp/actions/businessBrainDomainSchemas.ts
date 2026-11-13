@@ -3,7 +3,6 @@ import { contextMapSlug } from '$lib/data/businessBrainDomain';
 import { domainFilingLimits, domainReferenceType, domainWritableKinds } from '$lib/data/businessBrainDomainRules';
 import { objectSchema, proseField, textField } from '../actionTypes';
 import { organisationField, sourceNamingFields } from './businessBrainSchemas';
-import { productField } from './productBrainSchemas';
 
 const { longestTitle, longestSummary, longestSlug } = businessBrainLimits;
 const { mostContexts, mostPages, mostRetires, mostFields, longestFieldName, longestFieldType, mostStatuses, longestStatus } = domainFilingLimits;
@@ -76,8 +75,4 @@ const filingFields = {
 
 export const fileBusinessBrainDomainSchema = objectSchema({ organisationId: organisationField, ...filingFields }, ['organisationId']);
 
-export const fileProductBrainDomainSchema = objectSchema({ projectId: productField, ...filingFields }, ['projectId']);
-
 export const readBusinessBrainDomainSchema = objectSchema({ organisationId: organisationField }, ['organisationId']);
-
-export const readProductBrainDomainSchema = objectSchema({ projectId: productField }, ['projectId']);

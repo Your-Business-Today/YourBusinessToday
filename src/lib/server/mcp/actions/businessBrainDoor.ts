@@ -1,6 +1,5 @@
 import { brainOf } from './businessBrainAnswers';
 import type { ChatbotReach } from '$lib/server/businessBrain/readChatbotReach';
-import type { ModuleProduct } from '../organisationModuleGate';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
 /** How the reader came to the brain: what to call what they read, and the action that reads a page the same way. */
@@ -15,10 +14,4 @@ export function organisationDoor(organisation: Organisation): BusinessBrainDoor 
 export function chatbotDoor(reach: ChatbotReach): BusinessBrainDoor {
 	const { organisation, chatbot } = reach;
 	return { brainName: `${brainOf(organisation)} through the chatbot "${chatbot.name}"`, readPageAction: 'read_chatbot_page' };
-}
-
-/** The parts of the brain tied to a product, as a person on the product reads them. */
-export function productDoor(product: ModuleProduct): BusinessBrainDoor {
-	const { organisation, project } = product;
-	return { brainName: `the brain of ${project.name}, from ${brainOf(organisation)}`, readPageAction: 'read_product_brain_page' };
 }
