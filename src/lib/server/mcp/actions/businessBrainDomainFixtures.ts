@@ -20,6 +20,18 @@ export const clientWork = { slug: 'client-work', name: 'Client work', summary: '
 
 export const job = { kind: 'entity', slug: 'job', title: 'Job', summary: 'Work for a client', body: 'A job is…', contextSlug: 'client-work' };
 
+export const money = { slug: 'money', name: 'Money', summary: 'Getting paid', subdomain: 'generic' };
+
+export const contractStack = { ...job, slug: 'contract-stack', title: 'Contract stack', statuses: ['Drafted', 'Signed'] };
+
+export const signedWord = { word: 'signed contract stack', meaning: 'A stack the client signed', namesThingSlug: 'contract-stack', namesStatus: 'Signed' };
+
+export const clientWorkGlossary = { ...job, kind: 'glossary', slug: 'client-work-glossary', title: 'Client work words', terms: [signedWord] };
+
+export const invoicesPassed = { fromContextSlug: 'client-work', toContextSlug: 'money', passes: 'Invoices', pattern: 'conformist' };
+
+export const contextMap = { kind: 'context_map', slug: 'context-map', title: 'Context map', summary: '', body: 'Client work feeds Money.', relationships: [invoicesPassed] };
+
 /** The links a filing asked the manager's connection to keep. */
 export const linksKept: Record<string, unknown>[] = [];
 

@@ -1,5 +1,6 @@
 import { isPlainObject, type PlainObject } from '$lib/data/plainObject';
-import { domainFilingLimits, domainReferenceType, type DomainFactsGiven } from '$lib/data/businessBrainDomainRules';
+import { domainFilingLimits, domainReferenceType } from '$lib/data/businessBrainDomainRules';
+import type { DomainFactsGiven } from '$lib/data/businessBrainDomainFactsGiven';
 import { isPageSlug, lengthRefusal, slugRefusal } from './businessBrainFieldRefusals';
 import { trimmedText } from '$lib/data/trimmedText';
 import type { DomainFieldFact } from '$lib/data/businessBrainDomain';

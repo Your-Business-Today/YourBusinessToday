@@ -8,6 +8,9 @@ export type BillingFrequency = (typeof BillingFrequencies)[keyof typeof BillingF
 
 export const billingFrequencyNames = Object.values(BillingFrequencies);
 
+/** How often a schedule bills, as a person reads it. */
+export const billingFrequencyLabels: Record<BillingFrequency, string> = { monthly: 'Monthly', quarterly: 'Quarterly', yearly: 'Yearly' };
+
 /** The months one invoice of each frequency covers. */
 export const monthsInBillingPeriod: Record<BillingFrequency, number> = { monthly: 1, quarterly: 3, yearly: 12 };
 

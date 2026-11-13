@@ -4,6 +4,7 @@ import type { BalanceCheck } from '$lib/data/books/bankBalanceCheck';
 import type { BankLine } from '$lib/server/books/bankLines';
 import type { BankLineImport } from '$lib/server/books/importBankLines';
 import type { StatementAccount } from '$lib/server/books/bankStatementAccount';
+import { describeLineMatch } from './describeBankLineMatch';
 
 const none = 0;
 const leftOut = '';
@@ -16,13 +17,18 @@ export function describeBankLineImport(organisationName: string, imported: BankL
 	return [opening, days, describeBalances(imported.balances)].join(' ');
 }
 
-/** The account's statement lines in the statement's order, each on one line with its id and whether it is matched. */
-export function describeBankLineList(organisationName: string, account: StatementAccount, lines: BankLine[]): string {
+/** The account's statement lines in the statement's order, each on one line with its id and what it is matched to, if it is. */
+export function describeBankLineList(
+	organisationName: string,
+	account: StatementAccount,
+	lines: BankLine[],
+	journalDescriptions: Map<string, string>
+): string {
 	const name = accountName(account);
 	if (lines.length === none) return `${organisationName}'s books hold no statement lines on ${name} that match.`;
 	const unmatchedCount = lines.filter((line) => line.matchedJournalId === null).length;
 	const heading = `Statement lines of ${organisationName} on ${name}, in the statement's order. ${lines.length} shown, ${unmatchedCount} unmatched.`;
-	return [heading, ...lines.map(describeBankLine)].join('\n');
+	return [heading, ...lines.map((line) => describeBankLine(line, journalDescriptions))].join('\n');
 }
 
 /** The account the statement is of, by its code and name. */
@@ -30,11 +36,11 @@ export function accountName(account: StatementAccount): string {
 	return `${account.code} ${account.name}`;
 }
 
-function describeBankLine(line: BankLine): string {
+function describeBankLine(line: BankLine, journalDescriptions: Map<string, string>): string {
 	const details = [line.reference, line.kind].filter((detail) => detail !== leftOut).join(', ');
 	const described = details === leftOut ? line.counterparty : `${line.counterparty}, ${details}`;
 	const balance = line.balanceAfter === null ? leftOut : `, balance ${formatPoundsAndPence(line.balanceAfter)}`;
-	const matched = line.matchedJournalId === null ? 'unmatched' : `matched to journal ${line.matchedJournalId}`;
+	const matched = describeLineMatch(line, journalDescriptions);
 	return `- ${formatBritishDate(line.date)}: ${described}, ${formatPoundsAndPence(line.amount)}${balance}; ${matched}. Id ${line.id}`;
 }
 

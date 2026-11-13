@@ -41,15 +41,39 @@ export const domainBlockNames: Record<DomainPageKind, string> = {
 /** One field of an entity or value object, as its page's facts keep it; a reference names the entity's slug. */
 export type DomainFieldFact = { name: string; label: string; type: string; ref: string | null; isRequired: boolean; notes: string };
 
-/** One word the business uses, with what it means there, as a glossary page's facts keep it. */
-export type DomainTermFact = { word: string; meaning: string };
+/** What a word stands for beyond its meaning: the thing it names and that thing's status, whether it is a role, and its other names. */
+export type DomainTermNaming = { namesThingSlug: string | null; namesStatus: string | null; isRole: boolean; otherNames: string[] };
+
+/** One word the business uses, with what it means there and what it names, as a glossary page's facts keep it. */
+export type DomainTermFact = { word: string; meaning: string } & DomainTermNaming;
+
+/** What part an area plays: the heart of the business, needed and particular to it, or what any business has. */
+export const subdomainKinds = { core: 'core', supporting: 'supporting', generic: 'generic' } as const;
+
+export type SubdomainKind = (typeof subdomainKinds)[keyof typeof subdomainKinds];
+
+/** Whose terms win when one area passes work to another. */
+export const areaRelationshipPatterns = {
+	customerSupplier: 'customer_supplier',
+	conformist: 'conformist',
+	sharedKernel: 'shared_kernel',
+	anticorruptionLayer: 'anticorruption_layer',
+	publishedLanguage: 'published_language'
+} as const;
+
+export type AreaRelationshipPattern = (typeof areaRelationshipPatterns)[keyof typeof areaRelationshipPatterns];
+
+/** One area passing something to another, as the context map's facts keep it. */
+export type AreaRelationshipFact = { fromContextSlug: string; toContextSlug: string; passes: string; pattern: AreaRelationshipPattern };
 
 /** The facts a page of each kind carries beside its words: a rule names the things it governs by their slugs. */
 export type DomainPageFacts = {
 	isCoreDomain: boolean;
+	subdomain: SubdomainKind | null;
 	fields: DomainFieldFact[];
 	statuses: string[];
 	aggregateRootSlug: string | null;
 	governs: string[];
 	terms: DomainTermFact[];
+	relationships: AreaRelationshipFact[];
 };

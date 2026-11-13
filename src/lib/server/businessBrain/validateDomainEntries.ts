@@ -3,6 +3,7 @@ import { contextMapSlug, domainPageKinds, type DomainPageKind } from '$lib/data/
 import { domainWritableKinds, type DomainContextGiven, type DomainPageWriteGiven, type DomainRetireGiven } from '$lib/data/businessBrainDomainRules';
 import { bodyRefusal, isPageSlug, lengthRefusal, slugRefusal } from './businessBrainFieldRefusals';
 import { trimmedText } from '$lib/data/trimmedText';
+import { validateSubdomain } from './validateSubdomain';
 import { validateDomainKindFacts } from './validateDomainKindFacts';
 import type { PlainObject } from '$lib/data/plainObject';
 
@@ -26,7 +27,9 @@ export function validateDomainContext(entry: PlainObject, label: string): Domain
 	if (refusal !== null) return `${label}: ${refusal.replace('The title', 'The name')}`;
 	const body = trimmedText(entry.body) || summary;
 	if (body === '') return `${label}: give the context a summary, saying what model lives in it.`;
-	return { slug, title, summary, body, isCoreDomain: entry.isCoreDomain === true };
+	const part = validateSubdomain(entry);
+	if (typeof part === 'string') return `${label}: ${part}`;
+	return { slug, title, summary, body, ...part };
 }
 
 /** A page to write as given, or a sentence naming what does not fit. */

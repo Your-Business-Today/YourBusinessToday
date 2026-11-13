@@ -27,11 +27,12 @@ export async function recordInvoicePayment(supabase: SupabaseClient, organisatio
 	if (typeof payment === 'string') throw new BooksRefusal(payment);
 	const invoice = await findHeldInvoice(supabase, organisationId, fields.invoiceId);
 	refuseWhen(paymentRefusal(invoice, payment.amount));
-	const journal = await preparePaymentJournal(supabase, organisationId, invoice, payment);
+	const bankAccountId = await findOrOpenSystemAccount(supabase, organisationId, SystemAccounts.bank);
+	const journal = await preparePaymentJournal(supabase, organisationId, { invoice, payment, bankAccountId });
 	const received = formatPoundsAndPence(payment.amount);
 	const isRecorded = await runBooksStep(supabase, {
 		name: paymentStep,
-		inputs: { ...invoiceTarget(organisationId, invoice.id), ...paymentColumns(invoice, payment), payment_journal: journalArgument(journal) },
+		inputs: paymentStepInputs(organisationId, invoice, payment, journal),
 		hasHappened: () => isJournalPosted(supabase, organisationId, journal.id),
 		...invoiceMoveWords(invoice.printedNumber, `paid ${received}`)
 	});
@@ -40,16 +41,13 @@ export async function recordInvoicePayment(supabase: SupabaseClient, organisatio
 	throw new BooksRefusal(`${stopped}; read_invoice says where it stands.`);
 }
 
-async function preparePaymentJournal(
-	supabase: SupabaseClient,
-	organisationId: string,
-	invoice: HeldInvoice,
-	payment: InvoicePaymentInput
-): Promise<StepJournal> {
-	const [bankAccountId, debtorsAccountId] = await Promise.all([
-		findOrOpenSystemAccount(supabase, organisationId, SystemAccounts.bank),
-		findOrOpenSystemAccount(supabase, organisationId, SystemAccounts.tradeDebtors)
-	]);
+/** A payment on an invoice, and the account the money arrived in. */
+export type InvoicePaymentPosting = { invoice: HeldInvoice; payment: InvoicePaymentInput; bankAccountId: string };
+
+/** The journal of money received against the invoice: into the account it arrived in, and off trade debtors. */
+export async function preparePaymentJournal(supabase: SupabaseClient, organisationId: string, posting: InvoicePaymentPosting): Promise<StepJournal> {
+	const { invoice, payment, bankAccountId } = posting;
+	const debtorsAccountId = await findOrOpenSystemAccount(supabase, organisationId, SystemAccounts.tradeDebtors);
 	return prepareStepJournal(supabase, organisationId, {
 		journalDate: payment.paidOn,
 		description: `Payment for invoice ${invoice.printedNumber} from ${invoice.customerName}`,
@@ -58,6 +56,8 @@ async function preparePaymentJournal(
 	});
 }
 
-function paymentColumns(invoice: HeldInvoice, payment: InvoicePaymentInput) {
-	return { payment_paid_on: payment.paidOn, payment_amount: payment.amount, invoice_total: invoice.total };
+/** What 0219's payment step is given: the invoice, the payment and its journal. */
+export function paymentStepInputs(organisationId: string, invoice: HeldInvoice, payment: InvoicePaymentInput, journal: StepJournal) {
+	const columns = { payment_paid_on: payment.paidOn, payment_amount: payment.amount, invoice_total: invoice.total };
+	return { ...invoiceTarget(organisationId, invoice.id), ...columns, payment_journal: journalArgument(journal) };
 }

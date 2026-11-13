@@ -38,13 +38,18 @@ export async function findInvoiceSendings(supabase: SupabaseClient, organisation
 
 /** The organisation's invoices whose email reached the sender at least once. */
 export async function findSentInvoiceIds(supabase: SupabaseClient, organisationId: string): Promise<Set<string>> {
+	return new Set((await findLastSentTimes(supabase, organisationId)).keys());
+}
+
+/** When each of the organisation's invoices was last emailed with its email reaching the sender, by invoice id. */
+export async function findLastSentTimes(supabase: SupabaseClient, organisationId: string): Promise<Map<string, string>> {
 	const rows = await readEveryPage(async (pageStart, pageEnd) => {
 		const query = supabase.from(sendingsTable).select(sendingColumns).eq('organisation_id', organisationId).eq('delivery', emailDeliveries.sent);
-		const { data, error } = await query.order('id').range(pageStart, pageEnd);
+		const { data, error } = await query.order('sent_at').order('id').range(pageStart, pageEnd);
 		if (error !== null) throw error;
 		return data as unknown as SendingRow[];
 	});
-	return new Set(rows.map((row) => row.invoice_id));
+	return new Map(rows.map((row) => [row.invoice_id, row.sent_at]));
 }
 
 function fromSendingRow(row: SendingRow): InvoiceSending {
