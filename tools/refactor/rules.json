@@ -371,6 +371,7 @@
       "src/lib/server/mcp/actions/booksInvoiceFields.ts",
       "src/lib/server/mcp/actions/booksExpenseFields.ts",
       "src/lib/server/mcp/actions/booksPeriodEndFields.ts",
+      "src/lib/server/mcp/actions/booksLoanAccountFields.ts",
       "src/lib/server/mcp/actions/clientDetailActions.ts",
       "src/lib/server/mcp/actions/describeInbox.ts",
       "src/lib/server/mcp/actions/kitVersionActions.ts",
