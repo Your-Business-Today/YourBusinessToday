@@ -29,7 +29,7 @@ function describeClientLine(client: ClientSummary): string {
 }
 
 export function describeClientInFull(
-	client: Client,
+	{ client, broughtInBy }: { client: Client; broughtInBy: string },
 	contacts: ClientContact[],
 	projects: ClientProject[],
 	conversations: LeadConversation[]
@@ -37,6 +37,7 @@ export function describeClientInFull(
 	return [
 		`${client.name} — ${clientStageLabels[client.stage]} — id ${client.id}`,
 		client.website === '' ? null : `Website: ${client.website}`,
+		broughtInBy === '' ? 'Brought in by nobody named yet (set_client_brought_in_by)' : `Brought in by ${broughtInBy}`,
 		`On the register since ${formatBritishDate(client.createdAt)}`,
 		describeContinuityCopy(client.continuityCopy),
 		'',

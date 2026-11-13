@@ -1,6 +1,6 @@
 import { modelIdRule, rangePhrase, type BuildModel } from '$lib/data/buildModels';
 import { fibonacciStoryPoints } from '$lib/data/storyPoints';
-import { saveBuildModel } from '$lib/server/buildModels/saveBuildModels';
+import { writeBuildModel } from '$lib/server/buildModels/writeBuildModels';
 import { validateBuildModel } from '$lib/data/validateBuildModel';
 import { objectSchema, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
@@ -35,7 +35,7 @@ export const saveBuildModelAction: McpAction = {
 			mostPoints: input.mostPoints
 		});
 		if (typeof model === 'string') return model;
-		await saveBuildModel(caller.supabase, model);
+		await writeBuildModel(caller.supabase, model);
 		return savedSentence(model);
 	}
 };

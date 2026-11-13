@@ -2,9 +2,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { saveBuildModelAction } from './saveBuildModelAction';
 import type { McpCaller } from '../resolveMcpCaller';
 
-const tierSaved = vi.fn().mockResolvedValue({ error: null });
+const { tierWritten } = vi.hoisted(() => ({ tierWritten: vi.fn() }));
 
-const administrator = { isAdmin: true, supabase: { rpc: tierSaved } } as unknown as McpCaller;
+vi.mock('$lib/server/buildModels/writeBuildModels', () => ({ writeBuildModel: tierWritten }));
+
+const administrator = { isAdmin: true, supabase: {} } as unknown as McpCaller;
 
 const smallBuilds = {
 	modelId: 'small-builds',
@@ -21,19 +23,12 @@ describe('saving a build model tier', () => {
 		const backwards = { ...smallBuilds, leastPoints: 8, mostPoints: 3 };
 		const answer = await saveBuildModelAction.run(administrator, backwards);
 		expect(answer).toBe('The range runs from its smaller size to its larger.');
-		expect(tierSaved).not.toHaveBeenCalled();
+		expect(tierWritten).not.toHaveBeenCalled();
 	});
 
-	it('stores a tier that fits and says what it now takes', async () => {
+	it('stores a tier that fits, as the service, and says what it now takes', async () => {
 		const answer = await saveBuildModelAction.run(administrator, smallBuilds);
-		expect(tierSaved).toHaveBeenCalledTimes(1);
-		expect(tierSaved).toHaveBeenCalledWith('admin_save_build_model', {
-			new_model_id: 'small-builds',
-			new_label: 'Small builds',
-			new_runs_on: 'the quick model',
-			new_least_points: 1,
-			new_most_points: 3
-		});
+		expect(tierWritten).toHaveBeenCalledWith(administrator.supabase, smallBuilds);
 		expect(answer).toContain('Small builds');
 	});
 });

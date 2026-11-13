@@ -46,25 +46,34 @@ fix it there, not here.
 | Staff | to triage requests, run projects and tasks, and keep the books from Claude | the admin happens where the thinking happens |
 | Anyone | to press Connect in Claude and arrive as myself | there is no token to copy and nothing to paste |
 
-## The shape: five tools, many actions
+## The shape: nine tools, many actions
 
-Claude sees five tools, the same five for everyone:
+Claude sees nine tools, the same nine for everyone. Five browse and run the actions; four
+are shortcuts to the readings a person asks for most:
 
 | Tool | What it does |
 | --- | --- |
-| `get_current_context` | who the signed-in person is, their standing, and the areas they can reach |
+| `get_current_context` | who the signed-in person is, their standing, the areas they can reach, the working doctrine and the `/ybt-` commands |
 | `list_actions` | every action this person may run, one line each, optionally narrowed to an area |
 | `describe_action` | one action in full — its input schema and any doctrine attached to it |
 | `run_read_action` | run one action that only reads, by name with its input — marked `readOnlyHint` |
 | `perform_action` | run one action that writes, by name with its input — gated, the host asks first |
+| `what_do_i_need_to_do` | the one item to raise with the person now, bugs first: what they need to do, what is on, what is next |
+| `whats_outstanding_for_me` | the same one item, or with `showEverything` the whole list across every project they are on |
+| `show_task_upload_box` | a box in the conversation where the person drops a file to put on a task, for a file only they hold |
+| `perform_upload_box_step` | one step of that upload box, called by the box itself and never by Claude |
 
 The actions live in `src/lib/server/mcp/actions/`, one file per concern, gathered by area
-(`account`, `clients`, `organisations`, `projects`, `goals`, `support`, `conversations`, `tasks`,
-`accounting`) into `actionRegistry.ts`. Each action names its audience — `everyone`,
-`member`, `staff` or `admin` — and the registry filters by the caller's standing on every
-lookup, so a member cannot list, describe or run a staff action; it does not exist for
-them. An `everyone` action that touches a project checks `canReachProject` itself.
-Accounting is `admin`, matching the site.
+(`account`, `boardroom`, `books`, `brand`, `business_brain`, `clients`, `organisations`,
+`patches`, `projects`, `goals`, `support`, `conversations`, `tasks`) into `actionRegistry.ts`
+(334 actions on 12 November 2026). Each action names its audience — `everyone`, `staff` or
+`admin` — and the registry filters by the caller's standing on every lookup, so an account
+holder cannot list, describe or run a staff action; it does not exist for them. An
+`everyone` action that touches a project, an organisation or a module checks reachability
+itself: `projectAccess.ts`, `organisationAccess.ts`, `clientContactAccess.ts`,
+`portalVisitorAccess.ts`, and the `moduleAction`, `boardroomAction` and `chatbotAction`
+gates. The review of 12 November 2026 traced every `everyone` action to one of those gates
+or to the caller's own account id.
 
 This shape keeps the tool list small and stable while the site grows: adding a capability
 is adding an action file, never a tool. Tool descriptions are prose the caller's Claude
@@ -86,6 +95,38 @@ Every action runs against the service-role Supabase client, so row-level securit
 not the gate here — the action code is. A member's projects come from `project_members`
 at token resolution, never from input, and every shared action refuses a project that is
 not among them.
+
+## The /ybt- commands
+
+A person types a command in any chat with their Claude, or picks it from the prompt menu
+their Claude draws for the connector; either way their Claude does the one thing it asks.
+The family lives in `src/lib/server/mcp/ybtCommands.ts`, and two things read it so the
+commands work in every client:
+
+- `prompts/list` and `prompts/get` offer one MCP prompt per command, named for it
+  (`ybt-chat`, `ybt-summary`, …), whose message is the command's text. Claude Code lists
+  them as slash commands; claude.ai lists them in the connector's menu.
+- `get_current_context` carries a *Commands* line naming every tag, so a Claude that is
+  told `/ybt-summary` in plain text knows it is a command and does what its prompt does.
+
+| Command | What it does |
+| --- | --- |
+| `/ybt-chat` | the turn-based chat: `what_do_i_need_to_do`, one item at a time, answers recorded with `answer_turn` |
+| `/ybt-summary` | what is new since they last spoke (`read_latest_messages`), then `read_ybt_summary` walked through |
+| `/ybt-outstanding` | `whats_outstanding_for_me` with everything shown: every action item, then who to chase |
+| `/ybt-bugs` | the turn-based chat on the bugs alone (`bugsOnly`) |
+| `/ybt-chase` | who owes them, person by person, with the words to send |
+| `/ybt-project` | `read_project_state` for the project they name, its verdict first |
+| `/ybt-raise` | what they just described as a task, on their yes, as the doctrine's rule 2 says |
+| `/ybt-tie-off` | the session's task tied off as rule 4 says, so the chat can be archived |
+| `/ybt-help` | this list |
+
+A new command is a new entry in the family, nothing more: the menu, the context line and
+the help list all read it.
+
+> **12 November 2026.** The three earlier prompts (`what_do_i_need_to_do`, `whats_outstanding`,
+> `ybt_summary`) became `ybt-chat`, `ybt-outstanding` and `ybt-summary`, so a prompt's name is
+> the tag a person types.
 
 ## The route
 

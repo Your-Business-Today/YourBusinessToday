@@ -5,6 +5,8 @@ import { validateRecordId } from '$lib/data/isUuid';
 import { getClient } from '$lib/server/clients/getClient';
 import { listClients } from '$lib/server/clients/listClients';
 import { moveClientStage } from '$lib/server/clients/moveClientStage';
+import { resolveStaffMember } from '$lib/server/projects/resolveStaffMember';
+import { broughtInByField, notOneStaffMember } from './salesLeaderboardActions';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -28,7 +30,11 @@ export const clientRegisterActions: McpAction[] = [
 		isWrite: true,
 		summary: 'put a new company on the register as a lead',
 		inputSchema: objectSchema(
-			{ name: textField('The company name'), website: textField('Their website, if you have it') },
+			{
+				name: textField('The company name'),
+				website: textField('Their website, if you have it'),
+				broughtInBy: broughtInByField
+			},
 			['name']
 		),
 		run: async (caller, input) => addClientToRegister(caller, input)
@@ -57,9 +63,11 @@ async function addClientToRegister(
 ): Promise<string> {
 	const name = readText(input, 'name');
 	if (name === '') return 'A company needs a name before it can go on the register.';
-	const seed = { name, website: readText(input, 'website'), ownerId: caller.accountId };
+	const owner = await resolveStaffMember(caller.supabase, readText(input, 'broughtInBy'), caller.accountId);
+	if (owner === null) return notOneStaffMember;
+	const seed = { name, website: readText(input, 'website'), ownerId: owner.id };
 	const clientId = await createClient(caller.supabase, seed, caller.accountId);
-	return `${name} is on the register as a lead — id ${clientId}.`;
+	return `${name} is on the register as a lead, brought in by ${owner.name} — id ${clientId}.`;
 }
 
 async function moveToStage(caller: McpCaller, input: Record<string, unknown>): Promise<string> {

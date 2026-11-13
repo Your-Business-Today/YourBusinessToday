@@ -1,3 +1,5 @@
+import { broughtInByName } from '$lib/data/broughtInByName';
+import { getStaffDirectory } from '$lib/server/projects/getStaffDirectory';
 import { describeClientEvents, describeClientInFull, noSuchClient } from './describeClient';
 import { getClient } from '$lib/server/clients/getClient';
 import { getContactsForClient } from '$lib/server/clients/getContactsForClient';
@@ -36,12 +38,14 @@ export const clientDetailActions: McpAction[] = [
 async function readClientInFull(caller: McpCaller, clientId: string): Promise<string> {
 	const client = await getClient(caller.supabase, clientId);
 	if (client === null) return noSuchClient;
-	const [contacts, projects, conversations] = await Promise.all([
+	const [contacts, projects, conversations, staffMembers] = await Promise.all([
 		getContactsForClient(caller.supabase, client.id),
 		getProjectsForClient(caller.supabase, client.id),
-		getConversationsForClient(caller.supabase, client.id)
+		getConversationsForClient(caller.supabase, client.id),
+		getStaffDirectory(caller.supabase)
 	]);
-	return describeClientInFull(client, contacts, projects, conversations);
+	const broughtInBy = broughtInByName(staffMembers, client.ownerId);
+	return describeClientInFull({ client, broughtInBy }, contacts, projects, conversations);
 }
 
 async function readHistoryForClient(caller: McpCaller, clientId: string): Promise<string> {

@@ -3,12 +3,13 @@
 	import { leadSourceLabels } from '$lib/data/leadSources';
 	import type { ClientSummary } from '$lib/server/clients/listClients';
 
-	let { client }: { client: ClientSummary } = $props();
+	let { client, broughtInBy }: { client: ClientSummary; broughtInBy: string } = $props();
 
 	function describe(client: ClientSummary): string {
 		const contact = client.primaryContactName === '' ? 'No contact yet' : client.primaryContactName;
 		const projects = `${client.projectCount} project${client.projectCount === 1 ? '' : 's'}`;
-		return [contact, projects, leadSourceLabels[client.leadSource]].join(' · ');
+		const broughtInLine = broughtInBy === '' ? 'Brought in by nobody named' : `Brought in by ${broughtInBy}`;
+		return [contact, projects, leadSourceLabels[client.leadSource], broughtInLine].join(' · ');
 	}
 </script>
 

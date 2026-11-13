@@ -7,6 +7,7 @@ import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { organisationNameLookup } from '$lib/data/organisationNames';
 import { raisingDoctrine } from './raisingDoctrine';
 import { workingDoctrine } from './workingDoctrine';
+import { ybtCommandsDoctrine } from './ybtCommands';
 import type { McpCaller } from './resolveMcpCaller';
 import type { OrganisationMembership } from '$lib/data/organisationAccess';
 
@@ -23,6 +24,7 @@ export async function describeContext(caller: McpCaller): Promise<string> {
 		staffLine(caller),
 		`Areas you can reach: ${areasFor(caller).join(', ')}.`,
 		`${actionsFor(caller, null).length} actions are available to you — call list_actions to see them.`,
+		ybtCommandsDoctrine,
 		'',
 		workingDoctrine,
 		'',

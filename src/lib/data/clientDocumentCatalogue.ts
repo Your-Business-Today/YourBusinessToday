@@ -79,3 +79,12 @@ export function findClientDocumentEntry(slug: string): ClientDocumentEntry | und
 export function clientDocumentsFor(audience: ClientDocumentAudience): ClientDocumentEntry[] {
 	return clientDocumentCatalogue.filter((entry) => entry.audience === audience);
 }
+
+const everySlug = clientDocumentCatalogue.map((entry) => entry.slug).join(', ');
+
+export const noSuchClientDocument = `There is no document with that slug. The documents are: ${everySlug}.`;
+
+export function validateClientDocumentSlug(slug: string): string | null {
+	if (findClientDocumentEntry(slug) === undefined) return noSuchClientDocument;
+	return null;
+}

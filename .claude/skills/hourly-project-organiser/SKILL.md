@@ -23,7 +23,7 @@ An Infrastructure or business task is a job a person does. It is assigned to tha
 
 ## 0. Before the first project
 
-1. `get_current_context` once, then `read_latest_messages` (bring nothing to chat — no one is watching; anything addressed to James stays where it is for his own Claude).
+1. `get_current_context` once. Do **not** call `read_latest_messages`: it moves the read marker, and anything addressed to James reaches him only through his own Claude's call. Bring nothing to chat — no one is watching.
 2. `list_projects`. Keep every project whose status is **Scoping, Building, Testing or Maintenance**. Skip On hold, Complete and every other status.
 3. Work out who is **staff**: everyone listed by `list_project_people` on any **team project** (team projects are on every staff member's board), plus the project owners in step 2. Everyone else is a client contact. Keep this list for the run.
 
