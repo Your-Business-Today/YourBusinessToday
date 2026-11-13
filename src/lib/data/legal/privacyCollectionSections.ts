@@ -20,7 +20,8 @@ export const privacyCollectionSections: LegalSection[] = [
 			'What you give us during an engagement — the documents, exports and working material you hand over so that we can understand how the business runs.',
 			'Questions asked through a chatbot — when a business gives you a chatbot onto its Your Business Brain, every question asked through it is recorded for that business: who asked, with the email they signed in with, the question in their words, when it was asked, what was read for it and what came back, and the answer their Claude reports it gave. The business’s managers can read that record, so it can show what was and was not asked.',
 			'Tax deadline emails — when you ask the tax calculator to email you the deadlines, we receive your email address and the tax year, and your take-home and tax figures only if you tick to include them. We use them once, because you asked, to send that one email, and we do not store them anywhere.',
-			'Activity records — notifications, the API tokens and authorisations you grant, and a log of what changed and who changed it. We take no card payments on this site, so we hold no card details at all.',
+			'Activity records — notifications, the API tokens and authorisations you grant, and a log of what changed and who changed it.',
+			'Payments — when you pay one of our invoices from the Billing section of the portal, you pay on Stripe’s payment page. Your card details go to Stripe and never reach us: Stripe tells us which invoice was paid, how much and when, and we record that payment in our books.',
 			'Technical records — server logs carrying an IP address and browser details, kept briefly for security.'
 		]
 	},

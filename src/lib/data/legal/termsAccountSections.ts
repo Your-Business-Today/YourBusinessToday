@@ -26,7 +26,7 @@ export const termsAccountSections: LegalSection[] = [
 	{
 		heading: 'Fees',
 		paragraphs: [
-			'Fees are the ones named in your written agreement and are invoiced under it. This site takes no card payments and sells nothing directly; nothing you do in the portal commits you to a cost that the agreement has not already set out.'
+			'Fees are the ones named in your written agreement and are invoiced under it. You can pay an invoice by card from the Billing section of the portal: the payment is taken by Stripe, and we never see or hold your card details. This site sells nothing directly, and nothing you do in the portal commits you to a cost that the agreement has not already set out.'
 		]
 	},
 	{

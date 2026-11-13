@@ -9,6 +9,7 @@ export const privacySharingSections: LegalSection[] = [
 			'Supabase — the database, the sign-in, and the storage where attachments and documents live.',
 			'Vercel — hosting of the application.',
 			'Anthropic — the Claude assistant our staff work with, as described above.',
+			'Stripe — taking card payments for our invoices. Stripe holds your card details itself, to the payment card industry’s security standard (PCI DSS), and shares with us only what a payment was for, its amount and its date.',
 			'Resend — sending the service’s emails, such as invitations, enquiry notifications and the tax deadlines email the calculator sends when you ask for it.'
 		]
 	},
