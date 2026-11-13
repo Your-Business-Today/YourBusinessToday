@@ -10,7 +10,8 @@ import type { McpAction } from '../actionTypes';
 const frontPageAsTheBooksHoldIt =
 	'Read this first when the person asks how the books stand. Give them the figures as the books hold them, never rounded, ' +
 	'estimated or added up yourself. The bank, what customers owe and what is owed to suppliers stand at the end of the month; ' +
-	'to say what makes one up, call explain_account_balance for its account. The unpaid invoices are those issued and not yet ' +
+	'to say what makes one up, call explain_account_balance for its account. The line under them says whether the bank agrees ' +
+	'with its statement; read_bank_reconciliation gives the detail. The unpaid invoices are those issued and not yet ' +
 	'paid today, each with its id for read_invoice or record_invoice_payment.';
 
 export const booksOverviewActions: McpAction[] = [

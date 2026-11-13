@@ -4,8 +4,8 @@
 
 	let { data } = $props();
 
-	const { document, booksOrganisation, invoicesHref } = $derived(data);
+	const { document, booksOrganisation, invoicesHref, pdfHref } = $derived(data);
 	const crumbs = $derived([{ label: framePageLabels.invoices, href: invoicesHref }]);
 </script>
 
-<InvoiceDocumentPage {crumbs} {document} placeName={booksOrganisation.name} />
+<InvoiceDocumentPage {crumbs} {document} {pdfHref} placeName={booksOrganisation.name} />
