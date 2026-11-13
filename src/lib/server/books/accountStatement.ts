@@ -16,10 +16,10 @@ type StatementEntryRow = {
 	debit: number | string;
 	credit: number | string;
 	position: number;
-	books_journals: { journal_date: string; description: string; kind: JournalKind };
+	books_journals: { journal_date: string; created_at: string; description: string; kind: JournalKind };
 };
 
-const statementEntryColumns = 'id, journal_id, cost_centre_id, debit, credit, position, books_journals!inner(journal_date, description, kind)';
+const statementEntryColumns = 'id, journal_id, cost_centre_id, debit, credit, position, books_journals!inner(journal_date, created_at, description, kind)';
 
 /** The entries behind one account's figure in an organisation's books, over a period or from the start, in one cost centre or all. */
 export async function readAccountStatement(supabase: SupabaseClient, organisationId: string, request: AccountStatementRequest): Promise<AccountStatement> {
@@ -58,6 +58,7 @@ function fromStatementEntryRow(row: StatementEntryRow): StatementEntry {
 	return {
 		journalId: row.journal_id,
 		journalDate: journal.journal_date,
+		postedAt: journal.created_at,
 		description: journal.description,
 		kind: journal.kind,
 		costCentreId: row.cost_centre_id,

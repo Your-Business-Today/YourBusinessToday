@@ -8,6 +8,7 @@ const sales: StatementAccount = { id: 'account-4000', code: '4000', name: 'Sales
 const entry = (journalId: string, journalDate: string, debit: number, credit: number, position = 0): StatementEntry => ({
 	journalId,
 	journalDate,
+	postedAt: `${journalDate}T09:00:00+00:00`,
 	description: `Journal ${journalId}`,
 	kind: 'manual',
 	costCentreId: null,
@@ -40,6 +41,21 @@ describe('buildAccountStatement', () => {
 		const statement = buildAccountStatement(bank, bankEntries, { start: null, end: '2026-06-30' });
 		expect(statement.openingBalance).toBe(0);
 		expect(statement.lines.map((line) => line.journalId)).toEqual(['journal-a', 'journal-b', 'journal-c']);
+	});
+
+	it('reads the entries of one day in the order they were posted, whatever their journal ids, with the balances following', () => {
+		const postedAt = (journalId: string, moment: string): StatementEntry => ({ ...entry(journalId, '2026-06-10', 100, 0), postedAt: moment });
+		const sameDay = [
+			{ ...postedAt('journal-z', '2026-06-10T08:00:00+00:00'), debit: 500 },
+			{ ...postedAt('journal-x', '2026-06-10T08:00:00.5+00:00'), debit: 0, credit: 200 },
+			postedAt('journal-y', '2026-06-10T08:00:00.25+00:00')
+		];
+		const statement = buildAccountStatement(bank, [...sameDay].reverse(), june);
+		expect(statement.lines.map((line) => [line.journalId, line.balance])).toEqual([
+			['journal-z', 500],
+			['journal-y', 600],
+			['journal-x', 400]
+		]);
 	});
 
 	it('counts income on its credit side, and closes at the opening balance when nothing moved', () => {
