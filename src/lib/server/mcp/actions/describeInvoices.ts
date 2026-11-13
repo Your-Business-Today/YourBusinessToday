@@ -6,7 +6,7 @@ import type { InvoiceInFull, InvoiceSummary } from '$lib/server/books/invoices';
 import type { InvoiceLine } from '$lib/server/books/invoiceRecord';
 import type { InvoicePayment } from '$lib/server/books/invoicePayments';
 import { invoiceNumberAsPrinted, type InvoiceNamings } from '$lib/server/books/invoiceNamings';
-import { nameOf } from '$lib/server/books/chartNamings';
+import { nameOf, type ChartNamings } from '$lib/server/books/chartNamings';
 import { neverSentMarkOf } from './describeInvoiceSendings';
 
 /** One invoice in full: who it is to, its dates, every line with its account and cost centre, and its totals. */
@@ -17,7 +17,7 @@ export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNa
 		`Dated ${formatBritishDate(invoice.issueDate)}, due ${formatBritishDate(invoice.dueDate)}`,
 		...printedOnlyWhenGiven('Reference', invoice.reference),
 		'Lines:',
-		...invoice.lines.map((line) => describeLine(line, namings)),
+		...invoice.lines.map((line) => describeInvoiceLine(line, namings)),
 		...describePayments(invoice.payments),
 		describeAmounts(invoice),
 		...printedOnlyWhenGiven('Notes', invoice.notes)
@@ -47,7 +47,8 @@ export function describeInvoiceSummary(invoice: InvoiceSummary, namings: Invoice
 	return `- ${number} to ${customer}, ${invoice.status}, ${dates}; ${describeAmounts(invoice)}. Id ${invoice.id}`;
 }
 
-function describeLine(line: InvoiceLine, namings: InvoiceNamings): string {
+/** One line as the books show it: its description, workings, income account and any cost centre. */
+export function describeInvoiceLine(line: InvoiceLine, namings: ChartNamings): string {
 	const workings = `${line.quantity} × ${formatPoundsAndPence(line.unitPrice)} = ${formatPoundsAndPence(line.amount)}`;
 	const account = `income account ${nameOf(namings.accountNames, line.incomeAccountId)}`;
 	const costCentre = line.costCentreId === null ? '' : `, cost centre ${nameOf(namings.costCentreNames, line.costCentreId)}`;
@@ -73,7 +74,8 @@ function describePayments(payments: InvoicePayment[]): string[] {
 	return ['Payments:', ...payments.map((payment) => `- ${formatBritishDate(payment.paidOn)}: ${formatPoundsAndPence(payment.amount)}`)];
 }
 
-function printedOnlyWhenGiven(label: string, value: string): string[] {
+/** A labelled line, or none when the value is empty. */
+export function printedOnlyWhenGiven(label: string, value: string): string[] {
 	if (value === '') return [];
 	return [`${label}: ${value}`];
 }
