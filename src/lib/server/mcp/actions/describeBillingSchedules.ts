@@ -1,12 +1,10 @@
 import { formatBritishDate } from '$lib/data/britishDate';
 import { formatPoundsAndPence } from '$lib/data/books/money';
-import { BillingCovers, type BillingCover, type BillingFrequency } from '$lib/data/books/billingSchedule';
+import { BillingCovers, billingFrequencyLabels, type BillingCover } from '$lib/data/books/billingSchedule';
 import { nextScheduledInvoice, standingOfSchedule, type BillingScheduleStanding } from '$lib/data/books/billingScheduleStanding';
 import type { BillingSchedule } from '$lib/server/books/billingScheduleRecord';
 import { customerNameOf, type InvoiceNamings } from '$lib/server/books/invoiceNamings';
 import { describeInvoiceLine, printedOnlyWhenGiven } from './describeInvoices';
-
-const frequencyInWords: Record<BillingFrequency, string> = { monthly: 'Monthly', quarterly: 'Quarterly', yearly: 'Yearly' };
 
 const coversInWords: Record<BillingCover, string> = {
 	[BillingCovers.inAdvance]: 'in advance',
@@ -24,7 +22,7 @@ export function describeBillingSchedules(organisationName: string, schedules: Bi
 export function describeBillingSchedule(schedule: BillingSchedule, namings: InvoiceNamings): string {
 	return [
 		`${schedule.title}, billing ${customerNameOf(namings, schedule.customerId)} (customer ${schedule.customerId}). Id ${schedule.id}`,
-		`${frequencyInWords[schedule.frequency]}, ${coversInWords[schedule.covers]}. ${describeStanding(schedule)}`,
+		`${billingFrequencyLabels[schedule.frequency]}, ${coversInWords[schedule.covers]}. ${describeStanding(schedule)}`,
 		describePaymentTerms(schedule.paymentTermsDays),
 		describeSending(schedule.sendsByItself),
 		...printedOnlyWhenGiven('Last date', schedule.endsOn === null ? '' : formatBritishDate(schedule.endsOn)),
