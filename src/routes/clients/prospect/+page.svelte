@@ -41,7 +41,7 @@
 		<p class="text-sm text-chalk/70">
 			{form.message}
 			{#if form.clientId !== undefined}
-				<a href={`/clients/${form.clientId}`} class="text-go hover:underline">Open the client</a>
+				<a href={`/clients/${form.clientId}`} class="text-go hover:underline">Open the company</a>
 			{/if}
 		</p>
 	{/if}

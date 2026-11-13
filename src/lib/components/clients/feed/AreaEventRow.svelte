@@ -21,7 +21,7 @@
 		{/if}
 		<span class="flex shrink-0 items-center gap-2 text-xs text-chalk/60">
 			{#if event.clientId !== null}
-				<a href={`/clients/${event.clientId}`} class="text-go hover:underline">Open the client</a>
+				<a href={`/clients/${event.clientId}`} class="text-go hover:underline">Open the company</a>
 			{/if}
 			{#if event.sourceUrl !== ''}
 				<a href={event.sourceUrl} target="_blank" rel="noreferrer" class="hover:text-signal">Source</a>

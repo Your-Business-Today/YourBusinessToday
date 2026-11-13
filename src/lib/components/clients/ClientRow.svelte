@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { companyPagePath } from '$lib/data/salesRegisters';
 	import ClientStageForm from './ClientStageForm.svelte';
 	import { leadSourceLabels } from '$lib/data/leadSources';
 	import type { ClientSummary } from '$lib/server/clients/listClients';
@@ -15,7 +16,7 @@
 
 <li class="flex flex-wrap items-center justify-between gap-4 px-5 py-4">
 	<div class="min-w-0">
-		<a href={`/clients/${client.id}`} class="font-display hover:text-signal">{client.name}</a>
+		<a href={companyPagePath(client)} class="font-display hover:text-signal">{client.name}</a>
 		<p class="text-xs text-chalk/50">
 			{describe(client)}
 			{#if client.awaitingAnswerCount > 0}

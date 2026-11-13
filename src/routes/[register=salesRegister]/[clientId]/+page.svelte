@@ -15,6 +15,7 @@
 	import Modal from '$lib/components/site/Modal.svelte';
 	import SupportTaskTable from '$lib/components/support/SupportTaskTable.svelte';
 	import { primaryButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
+	import { companyPagePath } from '$lib/data/salesRegisters';
 
 	let { data, form } = $props();
 
@@ -39,7 +40,7 @@
 		<div class="flex items-center justify-between gap-4">
 			<h2 class="font-display text-xl">Company profile</h2>
 			<div class="flex flex-wrap gap-2">
-				<a href={`/clients/${client.id}/context`} class={quietButtonClasses}>Company context map</a>
+				<a href={`${companyPagePath(client)}/context`} class={quietButtonClasses}>Company context map</a>
 				<a href={researchAgainHref} class={quietButtonClasses}>Ask your Claude to research</a>
 			</div>
 		</div>

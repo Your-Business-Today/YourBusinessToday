@@ -7,6 +7,6 @@
 <FormErrorNote {message} />
 {#if clientId !== undefined}
 	<p class="text-sm text-chalk/70">
-		<a href={`/clients/${clientId}`} class="text-go hover:underline">Open the client</a>
+		<a href={`/clients/${clientId}`} class="text-go hover:underline">Open the company</a>
 	</p>
 {/if}

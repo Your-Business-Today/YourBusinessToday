@@ -24,12 +24,14 @@ import { getConversationsForClient } from '$lib/server/leadConversations/getConv
 import { getStaffDirectory } from '$lib/server/projects/getStaffDirectory';
 import { leadConversationActions } from './leadConversationActions';
 import { broughtInByActions } from './broughtInByActions';
+import { keepOnItsRegister } from '$lib/server/salesRegisters/keepOnItsRegister';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals, params }) => {
+export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const viewer = await requireStaff(locals);
 	const client = await getClient(locals.supabase, params.clientId);
-	if (client === null) error(404, 'That client could not be found');
+	if (client === null) error(404, 'That company could not be found');
+	keepOnItsRegister(url, params.register, client.stage);
 	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany, jobAdverts, conversations, staffMembers] =
 		await Promise.all([
 			getPeopleForClient(locals.supabase, client.id),

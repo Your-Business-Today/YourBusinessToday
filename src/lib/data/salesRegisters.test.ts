@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { clientsRegister, leadsRegister, registerOfStage, stageOnRegister } from './salesRegisters';
+import { clientsRegister, companyPagePath, leadsRegister, registerOfStage, salesRegisterSegments, stageOnRegister } from './salesRegisters';
 import { clientStageOrder } from './clientLifecycle';
 
 describe('registerOfStage', () => {
@@ -22,5 +22,18 @@ describe('stageOnRegister', () => {
 		expect(stageOnRegister(leadsRegister, 'prospect')).toBe('prospect');
 		expect(stageOnRegister(leadsRegister, 'client')).toBeNull();
 		expect(stageOnRegister(clientsRegister, null)).toBeNull();
+	});
+});
+
+describe('companyPagePath', () => {
+	const companyId = 'a29a0e0e-3a9e-434f-b1c4-1201ff18dec3';
+
+	it('opens a lead under Leads and a signed client under Clients', () => {
+		expect(companyPagePath({ id: companyId, stage: 'lead' })).toBe(`/leads/${companyId}`);
+		expect(companyPagePath({ id: companyId, stage: 'client' })).toBe(`/clients/${companyId}`);
+	});
+
+	it('names only the two registers as a company page can sit under', () => {
+		expect(salesRegisterSegments).toEqual(['leads', 'clients']);
 	});
 });
