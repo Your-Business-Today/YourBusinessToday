@@ -25,7 +25,7 @@
 		</div>
 		<nav class="hidden shrink-0 items-center gap-6 md:flex">
 			<PortalLink />
-			<DiscoveryCallButton isSolid label={discoveryCallShortLabel} class="px-4 py-2 text-sm" />
+			<DiscoveryCallButton isSolid isCompact label={discoveryCallShortLabel} />
 			<AccountMenu menuGroups={siteMenuGroups} />
 		</nav>
 		<div class="flex shrink-0 items-center gap-4 md:hidden">
