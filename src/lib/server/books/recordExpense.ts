@@ -9,7 +9,7 @@ import { runBooksStep } from './booksStep';
 import { costMoveWords } from './costSteps';
 import type { Expense } from './expenses';
 import { expenseTargetRefusal, withCostAccount } from './expenseTargets';
-import { isJournalPosted, journalArgument, prepareStepJournal } from './journalStep';
+import { isJournalPosted, journalArgument, prepareStepJournal, type StepJournal } from './journalStep';
 import { findOrOpenSystemAccount } from './systemAccounts';
 
 const recordStep = 'record_books_expense';
@@ -21,26 +21,48 @@ const recordStep = 'record_books_expense';
  * at all, so no posting is ever left without its cost, nor a cost without its posting.
  */
 export async function recordExpense(supabase: SupabaseClient, organisationId: string, fields: Record<string, unknown>): Promise<Expense> {
+	const prepared = await prepareExpense(supabase, organisationId, fields, null);
+	const { recorded, journal } = prepared;
+	await runBooksStep(supabase, {
+		name: recordStep,
+		inputs: expenseStepInputs(organisationId, prepared),
+		hasHappened: () => isJournalPosted(supabase, organisationId, journal.id),
+		...costMoveWords(recorded.supplier, `recorded for ${formatPoundsAndPence(recorded.amount)}`)
+	});
+	return recorded;
+}
+
+/** A cost ready to be kept, with the journal that posts it, each given its id. */
+export type PreparedExpense = { recorded: Expense; journal: StepJournal };
+
+/**
+ * The cost checked and its journal made, crediting the account it was paid from when one is given; otherwise the bank
+ * when it was paid already, or trade creditors until it is.
+ */
+export async function prepareExpense(
+	supabase: SupabaseClient,
+	organisationId: string,
+	fields: Record<string, unknown>,
+	paidFromAccountId: string | null
+): Promise<PreparedExpense> {
 	const request = validateExpense(fields);
 	if (typeof request === 'string') throw new BooksRefusal(request);
 	const expense = await withCostAccount(supabase, organisationId, request);
 	refuseWhen(await expenseTargetRefusal(supabase, organisationId, expense));
 	const settledFrom = expense.isPaid ? SystemAccounts.bank : SystemAccounts.tradeCreditors;
-	const settledFromAccountId = await findOrOpenSystemAccount(supabase, organisationId, settledFrom);
+	const settledFromAccountId = paidFromAccountId ?? (await findOrOpenSystemAccount(supabase, organisationId, settledFrom));
 	const journal = await prepareStepJournal(supabase, organisationId, {
 		journalDate: expense.expenseDate,
 		description: costJournalDescription(expense),
 		kind: ExpenseJournalKinds.record,
 		lines: recordedCostLines(expense, settledFromAccountId)
 	});
-	const recorded = recordedExpense(expense, journal.id);
-	await runBooksStep(supabase, {
-		name: recordStep,
-		inputs: { target_organisation_id: organisationId, ...stepColumns(recorded), recorded_journal: journalArgument(journal) },
-		hasHappened: () => isJournalPosted(supabase, organisationId, journal.id),
-		...costMoveWords(expense.supplier, `recorded for ${formatPoundsAndPence(expense.amount)}`)
-	});
-	return recorded;
+	return { recorded: recordedExpense(expense, journal.id), journal };
+}
+
+/** What 0198's recording step is given: the cost's columns and its journal. */
+export function expenseStepInputs(organisationId: string, prepared: PreparedExpense) {
+	return { target_organisation_id: organisationId, ...stepColumns(prepared.recorded), recorded_journal: journalArgument(prepared.journal) };
 }
 
 function recordedExpense(expense: ExpenseInput, journalId: string): Expense {

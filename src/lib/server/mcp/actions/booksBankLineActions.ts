@@ -2,6 +2,8 @@ import { importBankLines } from '$lib/server/books/importBankLines';
 import { findBankLines } from '$lib/server/books/bankLines';
 import { readBankLineReading } from '$lib/server/books/bankLineReading';
 import { findStatementAccountIfHeld } from '$lib/server/books/bankStatementAccount';
+import { matchBankLine } from '$lib/server/books/matchBankLine';
+import { findMatchedJournalDescriptions } from '$lib/server/books/matchedJournals';
 import { SystemAccounts } from '$lib/data/books/systemAccounts';
 import { bankLineLimits } from '$lib/data/books/bankLineRules';
 import { moduleAction } from '../organisationModuleGate';
@@ -9,7 +11,9 @@ import { objectSchema } from '../actionTypes';
 import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
 import { booksOrganisationField } from './booksFields';
 import { bankLineReadingFields, bankStatementFields } from './booksBankLineFields';
+import { bankLineMatchFields } from './booksBankLineMatchFields';
 import { describeBankLineImport, describeBankLineList } from './describeBankLines';
+import { describeBankLineMatch } from './describeBankLineMatch';
 import type { McpAction } from '../actionTypes';
 
 const { bank } = SystemAccounts;
@@ -24,6 +28,11 @@ const giveTheLinesAsTheStatementShowsThem =
 const findTheLineBeforeMatchingIt =
 	'Lines come in the order of the statement, each with its id. Use it to see what is still to be matched and to find the line ' +
 	'the person means; give them the amounts as the statement has them, never a total you worked out yourself.';
+
+const sayWhatTheLineWas =
+	'Give exactly one of invoicePayment, cost, account or existingJournal, as the person says the line was; the amount and day ' +
+	'are always the line\'s own. A line already keyed by hand is matched with existingJournal, so nothing is posted twice: ' +
+	'find its journal with explain_account_balance on the bank account first.';
 
 export const booksBankLineActions: McpAction[] = [
 	moduleAction('books', {
@@ -54,7 +63,22 @@ export const booksBankLineActions: McpAction[] = [
 				const account = await findStatementAccountIfHeld(caller.supabase, organisation.id, input.bankAccountCode);
 				if (account === null) return `${organisation.name}'s books have no ${bank.name} account yet, so no statement lines.`;
 				const lines = await findBankLines(caller.supabase, organisation.id, { bankAccountId: account.id, ...reading });
-				return describeBankLineList(organisation.name, account, lines);
+				const journalDescriptions = await findMatchedJournalDescriptions(caller.supabase, organisation.id, lines);
+				return describeBankLineList(organisation.name, account, lines, journalDescriptions);
+			})
+	}),
+	moduleAction('books', {
+		name: 'match_bank_line',
+		area: 'books',
+		audience: 'everyone',
+		isWrite: true,
+		summary: "match one line of an organisation's bank statement to what it was: an invoice payment, a cost, another account, or an entry already in the books",
+		guidance: sayWhatTheLineWas,
+		inputSchema: objectSchema({ organisationId: booksOrganisationField, ...bankLineMatchFields }, ['organisationId', 'bankLineId']),
+		run: async (caller, input, organisation) =>
+			answerOrRefusal(booksRefusalOpenings.posting, async () => {
+				const match = await matchBankLine(caller.supabase, organisation.id, { accountId: caller.accountId }, input);
+				return describeBankLineMatch(organisation.name, match);
 			})
 	})
 ];

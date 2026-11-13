@@ -1,8 +1,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { BankLineInput } from '$lib/data/books/bankLineRules';
+import type { BankLineMatchKind } from '$lib/data/books/bankLineMatchRules';
 
-/** A statement line as the books keep it, with the journal it was matched to, if any. */
-export type BankLine = BankLineInput & { id: string; matchedJournalId: string | null };
+/** A statement line as the books keep it, with the journal it was matched to and what it was matched as, if it is. */
+export type BankLine = BankLineInput & { id: string; matchedJournalId: string | null; matchedAs: BankLineMatchKind | null };
 
 /** Which lines a reading shows: every one, or only those matched or not yet matched. */
 export const BankLineMatchings = { all: 'all', matched: 'matched', unmatched: 'unmatched' } as const;
@@ -12,7 +13,8 @@ export type BankLineMatching = (typeof BankLineMatchings)[keyof typeof BankLineM
 /** The lines a reading asks for: the account, the days from and to, each left out for no limit, and which lines. */
 export type BankLineQuery = { bankAccountId: string; from: string | null; to: string | null; matching: BankLineMatching };
 
-type BankLineRow = {
+/** A statement line as books_bank_lines holds it. */
+export type BankLineRow = {
 	id: string;
 	line_date: string;
 	counterparty: string;
@@ -21,11 +23,13 @@ type BankLineRow = {
 	amount: number | string;
 	balance_after: number | string | null;
 	matched_journal_id: string | null;
+	matched_as: BankLineMatchKind | null;
 };
 
 export const bankLinesTable = 'books_bank_lines';
 
-const bankLineColumns = 'id, line_date, counterparty, reference, kind, amount, balance_after, matched_journal_id';
+/** The columns a statement line is read with. */
+export const bankLineColumns = 'id, line_date, counterparty, reference, kind, amount, balance_after, matched_journal_id, matched_as';
 
 /** The account's statement lines in the statement's order, narrowed to the days and matching asked for. */
 export async function findBankLines(supabase: SupabaseClient, organisationId: string, query: BankLineQuery): Promise<BankLine[]> {
@@ -50,7 +54,8 @@ function narrowToMatching(query: AccountLinesQuery, matching: BankLineMatching):
 	return query;
 }
 
-function fromBankLineRow(row: BankLineRow): BankLine {
+/** The statement line a row of books_bank_lines holds. */
+export function fromBankLineRow(row: BankLineRow): BankLine {
 	return {
 		id: row.id,
 		date: row.line_date,
@@ -59,6 +64,7 @@ function fromBankLineRow(row: BankLineRow): BankLine {
 		kind: row.kind,
 		amount: Number(row.amount),
 		balanceAfter: row.balance_after === null ? null : Number(row.balance_after),
-		matchedJournalId: row.matched_journal_id
+		matchedJournalId: row.matched_journal_id,
+		matchedAs: row.matched_as ?? null
 	};
 }
