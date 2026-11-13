@@ -43,11 +43,13 @@ function raiseStep(args: Row): boolean {
 	return true;
 }
 
+const raiseStepName = 'raise_books_billing_schedule_invoice';
+
 /** The stand-in with 0224's raise step beside every other step of the books. */
 export const runSupabase = {
 	...ledgerDatabase,
 	rpc: async (name: string, args: Row) => {
-		if (name !== 'raise_books_billing_schedule_invoice') return ledgerCalls(name, args);
+		if (name !== raiseStepName) return ledgerCalls(name, args);
 		try {
 			return { data: raiseStep(args), error: null };
 		} catch (raised) {

@@ -75,3 +75,12 @@ The pipeline contract test proves in CI, against no database, that the connector
 - **It compares the deployed connector with `src/lib/server/mcp/pipelineContract.json`**: the tools as the MCP layer lists them, and the actions as they are offered to an administrator, every promised name, input and value.
 - **Then it runs reads against the live database** through the same MCP layer a client's Claude uses: the tools that only read, and a set of read actions through `run_read_action`, which refuses any action that writes, on the first project the administrator owns or is on. It never writes to a board; the only row it leaves is its own run in the watch run log.
 - **A failure is red in GitHub.** The door answers 500 with the failures, one sentence each, and the workflow prints them and fails; a tool that failed says only what its caller would be told, and the cause is in the site's logs.
+
+## Billing schedules raise their own invoices every hour
+
+A billing schedule in an organisation's books (Accounts) raises its invoice on its day. The `billing_schedules` watch source does it: `.github/workflows/billing-schedules.yml` knocks on the cron door at seven minutes past every hour, with the same `CRON_SECRET`, and never fails its run.
+
+- **Nothing is raised before 07:00 UK time.** From then, each running schedule whose next invoice date has come raises one invoice a run, in one step of the database (migration 0224): drafted from its lines in the books' numbering, dated today, with the schedule and its period on it, and the next invoice date moved on one period. A schedule several periods behind catches up one period a knock, and one period is never invoiced twice.
+- **A schedule that sends by itself** has its invoice issued and emailed at once. A knock cut off half way is finished by the next; an email that did not go is tried on three knocks in all, then named in the run's note for a person to send.
+- **A schedule whose customer is archived or has no email raises nothing** and is named in the note.
+- **The Accounts connector's run billing schedules action does the same now for one organisation**, for a person who will not wait for the hour.

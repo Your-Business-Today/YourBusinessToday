@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { describeBillingPeriod, periodOfInvoice } from '$lib/data/books/billingPeriods';
+import { describeBillingPeriod, periodOfInvoice, type BillingPeriod } from '$lib/data/books/billingPeriods';
 import { BillingRunMoves, type BillingRunEvent } from '$lib/data/books/billingRunReport';
 import { nextScheduledInvoice } from '$lib/data/books/billingScheduleStanding';
 import { formatPoundsAndPence } from '$lib/data/books/money';
@@ -27,9 +27,13 @@ function skippingReason(books: BooksForRun, schedule: BillingSchedule): string |
 	if (customer === undefined || customer.isArchived) return 'its customer is archived';
 	if (customer.email === '') return 'its customer has no email in the books; set one with update_customer';
 	const period = periodOfInvoice(schedule.nextInvoiceDate, schedule);
-	const isInvoiced = books.scheduledInvoices.some((invoice) => invoice.scheduleId === schedule.id && invoice.period.start === period.start);
+	const isInvoiced = books.scheduledInvoices.some((invoice) => invoice.scheduleId === schedule.id && isSameStart(invoice.period, period));
 	if (isInvoiced) return `${describeBillingPeriod(period)} is already invoiced; move its next invoice date on with update_billing_schedule`;
 	return null;
+}
+
+function isSameStart(first: BillingPeriod, second: BillingPeriod): boolean {
+	return first.start === second.start;
 }
 
 async function raiseFromSchedule(supabase: SupabaseClient, request: BillingRunRequest, books: BooksForRun, schedule: BillingSchedule): Promise<BillingRunEvent[]> {

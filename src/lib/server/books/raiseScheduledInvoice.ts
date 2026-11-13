@@ -33,12 +33,13 @@ export async function raiseScheduledInvoice(
 }
 
 function toNewInvoiceArgument(invoice: ScheduledInvoice) {
+	const { period } = invoice;
 	return {
 		id: invoice.id,
 		issue_date: invoice.issueDate,
 		due_date: invoice.dueDate,
 		reference: invoice.reference,
-		period_start: invoice.period.start,
-		period_end: invoice.period.end
+		period_start: period.start,
+		period_end: period.end
 	};
 }

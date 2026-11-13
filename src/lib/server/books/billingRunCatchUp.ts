@@ -36,7 +36,9 @@ type WaitingInvoice = { invoice: RunInvoice; record: ScheduledInvoiceRecord; tal
 
 async function finishInvoice(supabase: SupabaseClient, request: BillingRunRequest, waiting: WaitingInvoice): Promise<BillingRunEvent[]> {
 	const { invoice, record, tally } = waiting;
-	if (record.status === InvoiceStatuses.draft) return eventsOrFailure(invoice.printedNumber, () => issueAndSend(supabase, request, invoice));
+	const isDraft = record.status === InvoiceStatuses.draft;
+	const issueAndSendIt = () => issueAndSend(supabase, request, invoice);
+	if (isDraft) return eventsOrFailure(invoice.printedNumber, issueAndSendIt);
 	if (tally.hasGone) return [];
 	if (tally.triesNotGone >= sendingAttemptLimit) return [givenUpEvent(invoice)];
 	return eventsOrFailure(invoice.printedNumber, () => sendScheduledInvoice(supabase, request, invoice, tally.triesNotGone));

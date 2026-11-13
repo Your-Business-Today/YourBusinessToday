@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { blankOrganisationDetails } from '$lib/data/organisationRules';
 import type { TransactionalEmail } from '$lib/server/email/sendTransactionalEmail';
 import { archivedCustomerId } from './booksBillingScheduleWorld.fixture';
+import { ledgerTables } from './booksLedgerDatabase.fixture';
 import { heldSchedule, holdBooksForTheRun, monthlyFees, raisedInvoices, run, sendings } from './booksBillingRunWorld.fixture';
 
 const outbox = vi.hoisted(() => ({ emails: [] as TransactionalEmail[], delivery: 'sent' as 'sent' | 'skipped' | 'failed' }));
@@ -77,7 +78,7 @@ describe('run_billing_schedules', () => {
 		heldSchedule().customer_id = archivedCustomerId;
 		expect(await run('run_billing_schedules', {})).toContain('Nothing was raised from Monthly fees for Gone Ltd: its customer is archived.');
 		heldSchedule().customer_id = monthlyFees('').customerId;
-		const acme = (await import('./booksLedgerDatabase.fixture')).ledgerTables.books_customers[0];
+		const [acme] = ledgerTables.books_customers;
 		acme.email = '';
 		expect(await run('run_billing_schedules', {})).toContain('its customer has no email in the books');
 		expect(raisedInvoices()).toEqual([]);

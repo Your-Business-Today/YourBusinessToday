@@ -3,6 +3,7 @@ import { describeBillingRun, movesMadeIn } from '$lib/data/books/billingRunRepor
 import { billingRunOpensAt } from '$lib/data/books/scheduledInvoice';
 import { ukClockAt, type UkClock } from '$lib/data/ukClock';
 import { runBillingSchedules } from '$lib/server/books/billingRun';
+import { messageOf } from '$lib/server/books/booksStep';
 import { findOrganisationsKeepingBooks, type BooksOrganisation } from '$lib/server/books/billingRunOrganisations';
 import type { WatchOutcome } from './watchRunLog';
 import type { WatchSource } from './watchSource';
@@ -34,8 +35,7 @@ async function runOrganisation(supabase: SupabaseClient, organisation: BooksOrga
 		const events = await runBillingSchedules(supabase, { organisationId: organisation.id, today: clock.date, sentByAccountId: null });
 		return { note: `${organisation.name}: ${describeBillingRun(events)}`, movesMade: movesMadeIn(events) };
 	} catch (failure) {
-		const message = failure instanceof Error ? failure.message : String((failure as { message?: unknown })?.message ?? failure);
-		return { note: `${organisation.name}: the run stopped, ${message}.`, movesMade: 0 };
+		return { note: `${organisation.name}: the run stopped, ${messageOf(failure)}.`, movesMade: 0 };
 	}
 }
 

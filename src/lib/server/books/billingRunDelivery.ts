@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { BillingRunMoves, type BillingRunEvent } from '$lib/data/books/billingRunReport';
 import { sendingAttemptLimit } from '$lib/data/books/scheduledInvoice';
 import { emailDeliveries, type EmailDelivery } from '$lib/data/emailDelivery';
+import { messageOf } from './booksStep';
 import { issueInvoice } from './issueInvoice';
 import { sendInvoice } from './sendInvoice';
 
@@ -58,9 +59,4 @@ const noTriesLeft = 0;
 function triesLeftWords(triesLeft: number): string {
 	if (triesLeft <= noTriesLeft) return 'it is not tried again';
 	return `it is tried again on the next run (tries left: ${triesLeft})`;
-}
-
-function messageOf(failure: unknown): string {
-	const message = (failure as { message?: unknown } | null)?.message;
-	return String(message ?? failure);
 }
