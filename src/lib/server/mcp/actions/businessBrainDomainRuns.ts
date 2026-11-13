@@ -2,7 +2,9 @@ import { domainFiled, filingGapAnswer, nothingTaught } from './businessBrainDoma
 import { domainCompletenessGaps } from '$lib/server/businessBrain/domainCompletenessGaps';
 import { domainQuestionsReading, openDomainQuestions } from './domainQuestionsSection';
 import { readDomainQuestions } from '$lib/server/businessBrain/readDomainQuestions';
+import { describeDomainCheck } from './describeDomainCheck';
 import { describeDomainRun } from './describeDomainRun';
+import { domainCheckCandidates } from '$lib/server/businessBrain/domainCheckCandidates';
 import { describeDomain } from './describeDomain';
 import { fileDomainFromSource } from '$lib/server/businessBrain/fileDomainFromSource';
 import { noSuchSource } from './businessBrainAnswers';
@@ -10,6 +12,7 @@ import { organisationDomainHolder } from './domainHolder';
 import { organisationDomainOf } from '$lib/server/businessBrain/organisationDomainOf';
 import { getReachableProjectsOf } from '$lib/server/organisations/getReachableProjectsOf';
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
+import { readDomainCheck } from '$lib/server/businessBrain/readDomainCheck';
 import { readDomainPages } from '$lib/server/businessBrain/readDomainPages';
 import { readDomainSources } from '$lib/server/businessBrain/readDomainSources';
 import { readDomainWords } from '$lib/server/businessBrain/readDomainWords';
@@ -72,4 +75,12 @@ export async function startDomainRun(caller: McpCaller, _input: Record<string, u
 	const domain = organisationDomainOf(pages);
 	const words = domain === null ? [] : await readDomainWords(supabase, organisation.id, domain.glossaries);
 	return describeDomainRun({ organisation, map, domain, words, sources, products, switchedOn });
+}
+
+/** The walk a person's Claude follows to find and repair the domain's faults, with the candidates the site found against today's map. It changes nothing. */
+export async function startDomainCheck(caller: McpCaller, _input: Record<string, unknown>, organisation: Organisation): Promise<string> {
+	const map = await readTodaysWorkflowMap(caller.supabase, organisation.id);
+	const held = await readDomainCheck(caller.supabase, organisation.id, map);
+	const candidates = held === null ? [] : domainCheckCandidates(held);
+	return describeDomainCheck({ organisation, held, candidates });
 }
