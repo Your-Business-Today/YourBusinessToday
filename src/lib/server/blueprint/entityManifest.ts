@@ -3,6 +3,7 @@
  * entities, each with its parent, its status enum and its fields, beside the route each entity's pages live at.
  */
 import { parsedJsonOrNull } from '$lib/data/jsonText';
+import type { DomainEntityKind, ThingGroup } from '$lib/data/blueprint/domainModel';
 
 export type ManifestField = {
 	name: string;
@@ -21,9 +22,14 @@ export type ManifestEntity = {
 	status: string[] | null;
 	fields: ManifestField[];
 	notes?: string;
+	kind?: DomainEntityKind;
+	marks?: ManifestMark;
 };
 
-export type ManifestArea = { name: string; title: string; entities: ManifestEntity[] };
+/** The record an event marks, by its name, and the status it marks it reaching when one is said. */
+export type ManifestMark = { entityName: string; status: string | null };
+
+export type ManifestArea = { name: string; title: string; entities: ManifestEntity[]; groups?: ThingGroup[] };
 
 export type EntityManifest = {
 	areas: ManifestArea[];

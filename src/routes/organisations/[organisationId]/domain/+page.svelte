@@ -19,7 +19,7 @@
 	let { data } = $props();
 
 	const domainTitle = framePageLabels.domain;
-	const { organisation, isBrainOpen, domain, words, thingStations, wordStationCounts, stationNames, questions } = $derived(data);
+	const { organisation, isBrainOpen, domain, words, thingStations, wordStationCounts, stationNames, questions, thingPage } = $derived(data);
 	const addresses = $derived(businessBrainAddresses(organisation.id));
 	const messages = $derived(organisationDomainMessages(organisation.name));
 	const shownTab = $derived(domainTabOf(page.url));
@@ -48,7 +48,7 @@
 			{#if shownTab === domainTabKeys.map}
 				<DomainMapPane {domain} {addresses} />
 			{:else if shownTab === domainTabKeys.things}
-				<DomainThingsPane {domain} {openedSlug} {thingStations} {thingTitles} {stationNames} organisationId={organisation.id} {addresses} />
+				<DomainThingsPane {domain} {openedSlug} {thingPage} {thingStations} {thingTitles} {stationNames} organisationId={organisation.id} {addresses} />
 			{:else if shownTab === domainTabKeys.rules}
 				<DashboardPanel>
 					<DomainRulesTable rules={domain.rules} names={{ thingTitles, stationNames }} organisationId={organisation.id} {addresses} emptyMessage={messages.noRules} />
