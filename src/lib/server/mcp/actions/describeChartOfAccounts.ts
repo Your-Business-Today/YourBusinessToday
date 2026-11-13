@@ -2,7 +2,7 @@ import type { ChartOfAccounts, CostCentre, LedgerAccount } from '$lib/server/boo
 
 const archivedMark = ' (archived: nothing posts to it)';
 
-const systemMark = ' (system account: never archived)';
+const systemMark = ' (system account: never archived or renamed)';
 
 export function describeChartOfAccounts(organisationName: string, chart: ChartOfAccounts): string {
 	const { accounts, costCentres } = chart;
