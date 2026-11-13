@@ -3,6 +3,7 @@ import { deleteCostKeepingRecord, deleteInvoiceKeepingRecord } from './booksDele
 import { issueInvoiceStep, recordPaymentStep, replaceLinesStep, voidInvoiceStep } from './booksInvoiceSteps.fixture';
 import { payCostStep, postJournalSetStep, recordCostStep } from './booksCostSteps.fixture';
 import { beginStep, journalRefusal } from './booksStepJournal.fixture';
+import { matchAsCostStep, matchAsInvoicePaymentStep, matchToAccountStep, tieBankLineStep } from './booksBankMatchSteps.fixture';
 
 type Row = Record<string, unknown>;
 
@@ -32,7 +33,11 @@ const databaseSteps: Record<string, (args: Row) => unknown> = {
 	replace_books_invoice_lines: replaceLinesStep,
 	record_books_expense: recordCostStep,
 	pay_books_expense: payCostStep,
-	post_books_journal_set: postJournalSetStep
+	post_books_journal_set: postJournalSetStep,
+	tie_books_bank_line: tieBankLineStep,
+	match_books_bank_line_as_invoice_payment: matchAsInvoicePaymentStep,
+	match_books_bank_line_as_cost: matchAsCostStep,
+	match_books_bank_line_to_account: matchToAccountStep
 };
 
 /** Runs the work once, after the server has read the row and before the step locks it, as another caller could. */

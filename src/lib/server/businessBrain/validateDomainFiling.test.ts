@@ -20,7 +20,7 @@ describe('validateDomainFiling', () => {
 		if (typeof filing === 'string') throw new Error(filing);
 		const [jobGiven] = filing.pages;
 		expect(filing.contexts).toEqual([
-			{ slug: 'client-work', title: 'Client work', summary: 'Jobs done for clients', body: 'Jobs done for clients', isCoreDomain: true }
+			{ slug: 'client-work', title: 'Client work', summary: 'Jobs done for clients', body: 'Jobs done for clients', isCoreDomain: true, subdomain: 'core' }
 		]);
 		expect(jobGiven.facts).toEqual({
 			fields: [{ name: 'client', label: 'client', type: 'ref', ref: 'client', isRequired: true, notes: '' }],

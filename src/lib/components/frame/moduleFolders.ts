@@ -7,7 +7,7 @@ import type { OrganisationModule } from '$lib/data/organisationModules';
 type ModuleFolder = { group: FrameGroupKey; label: string; icon: LineIconKind };
 
 /** What the side bar calls the pages that take the same words as their own heading. */
-export const framePageLabels = { reports: 'Reports', costs: 'Costs', domain: 'Domain', workflowMap: 'Workflow map' } as const;
+export const framePageLabels = { reports: 'Reports', invoices: 'Invoices', costs: 'Costs', domain: 'Domain', workflowMap: 'Workflow map' } as const;
 
 const moduleFolders: Record<OrganisationModule, ModuleFolder> = {
 	books: { group: 'accounts', label: framePageLabels.reports, icon: 'chartColumn' },
@@ -21,7 +21,10 @@ const moduleFolders: Record<OrganisationModule, ModuleFolder> = {
 type ModuleSubpage = { segment: string; label: string; icon: LineIconKind };
 
 const moduleSubpages: Partial<Record<OrganisationModule, ModuleSubpage[]>> = {
-	books: [{ segment: 'costs', label: framePageLabels.costs, icon: 'receipt' }]
+	books: [
+		{ segment: 'invoices', label: framePageLabels.invoices, icon: 'fileText' },
+		{ segment: 'costs', label: framePageLabels.costs, icon: 'receipt' }
+	]
 };
 
 const domainFolder: ModuleFolder = { group: 'knowledge', label: framePageLabels.domain, icon: 'network' };

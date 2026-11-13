@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { clientWork, fileDomain, job, linksKept } from './businessBrainDomainFixtures';
+import { clientWork, clientWorkGlossary, contextMap, contractStack, fileDomain, invoicesPassed, job, linksKept, money, signedWord } from './businessBrainDomainFixtures';
 
 const brain = vi.hoisted(() => ({
 	pages: new Map<string, Record<string, unknown>>(),
@@ -84,5 +84,15 @@ describe('filing what one source teaches about the domain', () => {
 	it('files nothing when the source teaches the domain nothing', async () => {
 		expect(await fileDomain({})).toContain('Nothing was filed');
 		expect(brain.sources).toEqual([]);
+	});
+
+	it('keeps what each word names, each area’s part and how the areas relate, refusing a status the thing lacks', async () => {
+		const sealed = { ...clientWorkGlossary, terms: [{ ...signedWord, namesStatus: 'Sealed' }] };
+		const refusal = await fileDomain({ contexts: [clientWork], pages: [contractStack, sealed] });
+		expect(refusal).toContain('"signed contract stack" names contract-stack in Sealed, which is not a status of it: its statuses are Drafted, Signed.');
+		await fileDomain({ contexts: [clientWork, money], pages: [contractStack, clientWorkGlossary, contextMap] });
+		expect(pageAt('client-work-glossary')).toMatchObject({ facts: { terms: [signedWord] } });
+		expect(pageAt('money')).toMatchObject({ facts: { isCoreDomain: false, subdomain: 'generic' } });
+		expect(pageAt('context-map')).toMatchObject({ facts: { relationships: [invoicesPassed] } });
 	});
 });

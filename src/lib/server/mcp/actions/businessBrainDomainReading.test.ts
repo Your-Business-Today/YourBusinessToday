@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { businessBrainDomainActions } from './businessBrainDomainActions';
+import { invoicesPassed, signedWord } from './businessBrainDomainFixtures';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
@@ -43,5 +44,19 @@ describe('reading the organisation’s domain', () => {
 		expect(answer).toContain('## Client work (client-work) — the core domain');
 		expect(answer).toContain('- The job (job): total. Statuses: won.');
 		expect(answer).toContain('### Glossary\n**Job**: work a client pays for.');
+	});
+
+	it('gives what each word names, each context’s part and how the contexts relate', async () => {
+		filed.pages = [
+			page('map', 'context_map', null, { relationships: [invoicesPassed] }),
+			page('client-work', 'bounded_context', null, { isCoreDomain: true }),
+			page('money', 'bounded_context', null, { subdomain: 'generic' }),
+			page('words', 'glossary', 'client-work', { terms: [{ ...signedWord, otherNames: ['signed pack'] }, { word: 'Client', meaning: 'Who pays', isRole: true }] })
+		];
+		const answer = await readDomainAction.run(nigel, { organisationId: 'jewel' });
+		expect(answer).toContain('### How the contexts relate\n- Client work (client-work) to The money (money): passes Invoices; conformist');
+		expect(answer).toContain('## The money (money) — a generic subdomain');
+		expect(answer).toContain('- **signed contract stack**: A stack the client signed (names contract-stack in Signed; also called signed pack)');
+		expect(answer).toContain('- **Client**: Who pays (a role)');
 	});
 });
