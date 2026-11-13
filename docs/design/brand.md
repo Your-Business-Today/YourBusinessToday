@@ -31,14 +31,17 @@ The colours and the type are YBT's own. The rules for using them are the Jewel p
 | `go` | Go | The one primary action in a view or a dialog footer; the focus border of a field; the picked tab's underline; positive figures and the positive badge | Decoration, links, a second action in the same view |
 | `signal` | Signal | The full stop in the YBT mark; negative figures; errors; the text of a destructive action; the negative badge | A button's fill, decoration |
 | `caution` | Caution | Something that needs a look: the warning badge, a warning notice | An error, an action |
-| `daylight` | Daylight | A status further along than neutral and not yet done (a project in maintenance); the map's food premises pins | An action, a link |
+| `daylight` | Daylight | A status further along than neutral and not yet done (a project in maintenance); the map's food premises pins; a line on a line map | An action, a link |
 | `etch` | Etch | A status not started (a project in scoping); the map's unlisted pins | Text a user must read |
 | `slate` | Slate | The map's dormant pins; the spinner's track | Text, a fill in the portal |
 | `platform` | Platform | The map's trading place pins | The portal |
-| `lilac`, `sky` | Lilac, Sky | The tax calculator's figure series (income tax, student loan) and their card icons, beside `go` and `caution` | A status, an action, text in the portal |
+| `lilac`, `sky` | Lilac, Sky | The tax calculator's figure series (income tax, student loan) and their card icons, beside `go` and `caution`; lines on a line map | A status, an action, text in the portal |
+| `teal`, `peach`, `rose` | Teal, Peach, Rose | Lines on a line map, beside `sky`, `lilac` and `daylight`: a workflow map's roles, a journey map's journeys (13 Nov 2026) | A status, an action, text in the portal |
 | `map-paper`, `map-ink`, `map-grid` | Map | The map's own paper | The portal |
 | `tube-*` | Tube lines | The promo film's palette | The portal |
 | `google-*` | Google | The Google sign-in button's mark, as Google requires | Anything else |
+
+**Line map colours.** A line map (`LineMap`, drawn for a workflow map or a journey map) colours its lines from six tokens only: `sky`, `lilac`, `teal`, `peach`, `rose` and `daylight`. `go`, `caution` and `signal` are a station's states (done in one of our products, a warning, a hand-over that goes wrong) and are never a line.
 
 ## Type
 
