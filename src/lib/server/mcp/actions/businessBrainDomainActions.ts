@@ -1,7 +1,8 @@
+import { domainCheckActionName } from './domainCheckActionName';
 import { domainRunActionName } from './domainRunActionName';
-import { fileBusinessBrainDomainGuidance, readBusinessBrainDomainGuidance, startDomainRunGuidance } from './businessBrainDomainGuidance';
+import { fileBusinessBrainDomainGuidance, readBusinessBrainDomainGuidance, startDomainCheckGuidance, startDomainRunGuidance } from './businessBrainDomainGuidance';
 import { fileBusinessBrainDomainSchema, readBusinessBrainDomainSchema } from './businessBrainDomainSchemas';
-import { fileDomain, readDomain, startDomainRun } from './businessBrainDomainRuns';
+import { fileDomain, readDomain, startDomainCheck, startDomainRun } from './businessBrainDomainRuns';
 import { moduleAction } from '../organisationModuleGate';
 import type { McpAction } from '../actionTypes';
 
@@ -40,5 +41,16 @@ export const businessBrainDomainActions: McpAction[] = [
 		guidance: startDomainRunGuidance,
 		inputSchema: readBusinessBrainDomainSchema,
 		run: startDomainRun
+	}),
+	moduleAction(businessBrainModule, {
+		name: domainCheckActionName,
+		area: 'business_brain',
+		audience: 'everyone',
+		isWrite: false,
+		summary:
+			"start a check of an organisation's own domain for its faults: the candidates the site finds (near-duplicates, words used two ways, names against the rules, rules inside meanings, misfiled pages, things nothing touches, thin pages and loose references) and the walk to judge and repair them on the person's yes",
+		guidance: startDomainCheckGuidance,
+		inputSchema: readBusinessBrainDomainSchema,
+		run: startDomainCheck
 	})
 ];

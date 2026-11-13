@@ -1,4 +1,4 @@
-import { organisationDomainRequest } from '$lib/data/personRequests';
+import { domainCheckRequest, organisationDomainRequest } from '$lib/data/personRequests';
 import { domainModellingDoctrine, domainPurpose } from './domainModellingDoctrine';
 import { domainRunActionName } from './domainRunActionName';
 
@@ -22,4 +22,10 @@ export const readBusinessBrainDomainGuidance = [
 	whereItIsKept,
 	'Read it before filing from a new source, so a concept already modelled is written to its own slug, and when someone asks how the business is organised or what a word means in it.',
 	"It ends with the things no task of today's workflow map takes in or produces: each is a task the map is missing, or a phrase on the map that should be its word."
+].join('\n');
+
+export const startDomainCheckGuidance = [
+	`"${domainCheckRequest}" starts here. It changes nothing: it answers with the candidates the site finds in the domain and the walk to judge them, reading each suspect page whole before judging it, and filing each repair with file_business_brain_domain only on the person’s yes, folding a page into another with retires so that its knowledge lands in the page written in the same call.`,
+	'A candidate is a suspicion, not a fault, and a healthy domain is a valid outcome.',
+	whereItIsKept
 ].join('\n');

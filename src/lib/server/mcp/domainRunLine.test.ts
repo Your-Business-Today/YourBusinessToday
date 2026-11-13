@@ -23,6 +23,11 @@ describe('what get_current_context tells a person about setting a domain', () =>
 		expect(line).not.toContain('start_product_brain_domain_run');
 	});
 
+	it('names the domain check beside it, for "check the domain"', async () => {
+		const line = await domainRunLine(personOn('with-brain'));
+		expect(line).toContain('To find and repair its faults, as "check the domain" asks, call run_read_action with start_business_brain_domain_check the same way.');
+	});
+
 	it('says nothing when no organisation of theirs has the brain on', async () => {
 		expect(await domainRunLine(personOn('books-only'))).toBeNull();
 	});
