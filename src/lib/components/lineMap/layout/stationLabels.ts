@@ -5,7 +5,7 @@ import type { LineName, LinePlacement, LineRun, StationLabel } from './lineMapLa
 import type { LineMapModel } from './lineMapModel';
 import type { MeasureText } from './textMeasure';
 
-const ClashWeights = { forkPoint: 1, otherLabel: 40, line: 60 } as const;
+const ClashWeights = { forkPoint: 5, otherLabel: 40, line: 60 } as const;
 
 type Obstacles = { forkPoints: Point[]; placed: Box[]; lineRuns: LineRun[] };
 

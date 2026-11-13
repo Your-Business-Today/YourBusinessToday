@@ -15,3 +15,12 @@ export const mapQuestioningRules = [
 	'Chase the unofficial: the spreadsheet kept on the side, the person everyone really asks, the check done from memory.',
 	'Let the gaps choose the next question: a task with nothing to take in, a role with one task, an output that goes nowhere.'
 ] as const;
+
+/** How a map is shaped so it draws clearly: the order things are filed in is the order the map draws and reads them. */
+export const mapDrawingRules = [
+	'File the lines in the order the work first reaches them, starting with the role where a piece of work begins: the map draws them top to bottom in that order and wraps a long map into rows, so the order filed is the order read.',
+	'File each line\'s stations in the order they are done, and each hand-over from the station that gives to the one that takes; one goes back to an earlier station only when the work truly goes round again.',
+	'Name each station in at most four short words, starting with a verb, and each role in at most three: the map fits a name on two short lines and no more.',
+	'Keep a station on the role that does it, even when it comes much later, such as the client using a release: the line carries on to it, row after row.',
+	'A hand-over is only for what passes between roles; the next task on the same line needs none.'
+] as const;

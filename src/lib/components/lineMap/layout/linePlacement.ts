@@ -41,7 +41,7 @@ function lineRuns(model: LineMapModel, grid: Grid, branches: HandoverBranch[]): 
 		const from = xOf(grid, firstStop);
 		const arrivals = branches.filter((branch) => branch.to === firstStop).map((branch) => joiningCorner(branch.corners).x);
 		const to = xOf(grid, line.stops.at(-1) ?? firstStop);
-		return { lineId: line.id, name: line.name, colour: line.colour, y: yOfLine(grid, line.id), from, to, nameEdge: Math.min(from, ...arrivals) };
+		return { lineId: line.id, name: line.name, colour: line.colour, y: yOfLine(grid, line.id), from, to, nameEdge: Math.min(from, ...arrivals), row: 0 };
 	});
 }
 

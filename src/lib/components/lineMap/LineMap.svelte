@@ -4,7 +4,8 @@
 	import type { LineMapLayout } from './layout/lineMapLayout';
 	import type { LineMapModel } from './layout/lineMapModel';
 	import { estimatedTextWidth, loadedTextMeasure, type MeasureText } from './layout/textMeasure';
-	import { drawingOf } from './lineMapDrawing';
+	import { rowBreaks } from './lineMapContinuations';
+	import { drawingOf, runKey } from './lineMapDrawing';
 	import LineMapLineName from './LineMapLineName.svelte';
 	import LineMapStation from './LineMapStation.svelte';
 	import LineMapTracks from './LineMapTracks.svelte';
@@ -58,8 +59,11 @@
 		role="group"
 		aria-label={label}
 	>
+		{#each rowBreaks(drawnLayout.rows) as top (top)}
+			<path d="M0 {top}H{width}" class="stroke-hairline" stroke-width="1" stroke-dasharray="4 6" />
+		{/each}
 		<LineMapTracks {drawing} {geometry} isDimmed={litStationIds !== undefined} />
-		{#each drawing.lineNames as lineName (lineName.lineId)}
+		{#each drawing.lineNames as lineName (runKey(lineName))}
 			<LineMapLineName {lineName} />
 		{/each}
 		{#each drawing.stations as station (station.id)}
