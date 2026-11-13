@@ -35,20 +35,25 @@ function tieOrRaise(args: Row, journalId: unknown, kind: string): boolean {
 
 /** 0223's invoice step: the line held first, then 0219's payment, then the tie. */
 export function matchAsInvoicePaymentStep(args: Row): boolean {
-	if (!isUnmatched(lineOf(args)) || !recordPaymentStep(args)) return false;
+	const line = lineOf(args);
+	if (!isUnmatched(line)) return false;
+	const isPaid = recordPaymentStep(args);
+	if (!isPaid) return false;
 	return tieOrRaise(args, journalIdOf(args.payment_journal), 'invoice_payment');
 }
 
 /** 0223's cost step: the line held first, then 0198's recording, then the tie. */
 export function matchAsCostStep(args: Row): boolean {
-	if (!isUnmatched(lineOf(args))) return false;
+	const line = lineOf(args);
+	if (!isUnmatched(line)) return false;
 	recordCostStep(args);
 	return tieOrRaise(args, journalIdOf(args.recorded_journal), 'cost');
 }
 
 /** 0223's account step: the line held first, then the movement's journal, then the tie. */
 export function matchToAccountStep(args: Row): boolean {
-	if (!isUnmatched(lineOf(args))) return false;
+	const line = lineOf(args);
+	if (!isUnmatched(line)) return false;
 	postStepJournal(args.target_organisation_id, args.account_journal as Row);
 	return tieOrRaise(args, journalIdOf(args.account_journal), 'account');
 }

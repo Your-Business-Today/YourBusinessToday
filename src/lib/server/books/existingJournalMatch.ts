@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { formatPoundsAndPence, fromPence, toPence } from '$lib/data/books/money';
-import { BooksRefusal } from './booksRefusal';
+import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { bankLinesTable } from './bankLines';
 import type { HeldBankLine } from './heldBankLine';
 
@@ -25,7 +25,8 @@ export async function findMatchableJournalDescription(
 	if (journal === null) throw new BooksRefusal(`No journal ${journalId} is in this organisation's books; explain_account_balance lists the bank's entries.`);
 	const postedPence = await penceOnAccount(supabase, organisationId, journalId, line.bankAccountId);
 	const isTheLine = journal.journal_date === line.date && postedPence === toPence(line.amount);
-	if (!isTheLine) throw new BooksRefusal(notTheLineRefusal(journal, postedPence, line));
+	const refusal = isTheLine ? null : notTheLineRefusal(journal, postedPence, line);
+	refuseWhen(refusal);
 	await refuseWhenMatchedElsewhere(supabase, organisationId, journalId);
 	return journal.description;
 }

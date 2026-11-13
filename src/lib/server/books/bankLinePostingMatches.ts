@@ -41,12 +41,13 @@ export async function prepareCostMatch(
 ): Promise<PreparedBankLineMatch> {
 	const fields = { ...details, supplier: details.supplier ?? line.counterparty, expenseDate: line.date, amount: line.amount * moneyOut, isPaid: true };
 	const prepared = await prepareExpense(supabase, organisationId, fields, line.bankAccountId);
-	const { supplier, description } = prepared.recorded;
+	const { recorded, journal } = prepared;
+	const { supplier, description } = recorded;
 	const forWhat = description === '' ? '' : ` for ${description}`;
 	return {
 		stepName: 'match_books_bank_line_as_cost',
 		inputs: expenseStepInputs(organisationId, prepared),
-		journalId: prepared.journal.id,
+		journalId: journal.id,
 		matchedAs: BankLineMatchKinds.cost,
 		whatItWas: `a cost from ${supplier}${forWhat}, paid that day`
 	};

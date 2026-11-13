@@ -58,7 +58,8 @@ describe('matching a bank line to what it was', () => {
 	});
 
 	it('ties a line to an entry keyed already, posting nothing, and refuses a journal that is not the line', async () => {
-		const journalCount = ledgerTables.books_journals.length;
+		const heldJournals = ledgerTables.books_journals;
+		const journalCount = heldJournals.length;
 		const answer = await match(lineIds.anthropic, { existingJournal: { journalId: keyedJournalId } });
 		expect(answer).toContain('as the entry already in the books, "Anthropic: Claude". Nothing new was posted.');
 		expect(ledgerTables.books_journals).toHaveLength(journalCount);

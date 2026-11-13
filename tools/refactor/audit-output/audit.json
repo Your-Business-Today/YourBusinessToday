@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T20:37:21+00:00",
+  "generatedAt": "2026-11-13T20:56:39+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4427,
+        "measuredAgainst": 4478,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6721,
+        "measuredAgainst": 6850,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6318,
+        "measuredAgainst": 6425,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 167.27,
+        "measuredAgainst": 170.0,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 2,
-        "measuredAgainst": 167.27,
+        "measuredAgainst": 170.0,
         "score": 99.9
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7414,
+        "measuredAgainst": 7543,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 167.27,
+        "measuredAgainst": 170.0,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 167.27,
+        "measuredAgainst": 170.0,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6721,
+        "measuredAgainst": 6850,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6318,
+        "measuredAgainst": 6425,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6318,
+        "measuredAgainst": 6425,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6721,
+        "measuredAgainst": 6850,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 367,
+        "measuredAgainst": 370,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4427,
-      "totalLines": 167274,
+      "totalFiles": 4478,
+      "totalLines": 169996,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 6721,
+      "totalFunctions": 6850,
       "elseBlocks": 0,
-      "ifBlocks": 6318,
+      "ifBlocks": 6425,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -283,7 +283,7 @@
     },
     "naming": {
       "bannedAbbreviationHits": 89,
-      "unprefixedBooleans": 3
+      "unprefixedBooleans": 5
     },
     "comments": {
       "explanatoryCommentLines": 0,
@@ -298,7 +298,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 439,
+      "overlongLines": 459,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,7 +308,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 6721
+      "functionsExamined": 6850
     },
     "designPatterns": {
       "roleFamilies": 232,
@@ -340,20 +340,20 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 213,
+      "schemaTables": 216,
       "limitedColumns": 0,
-      "writeDoors": 367,
+      "writeDoors": 370,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5041,
-      "backend": 1278,
+      "totalFiles": 5096,
+      "backend": 1295,
       "frontend": 1140,
-      "shared": 870,
-      "tests": 716,
-      "api": 581,
-      "database": 219,
+      "shared": 879,
+      "tests": 729,
+      "api": 593,
+      "database": 223,
       "tooling": 141,
       "docs": 79,
       "infrastructure": 17
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4427,
-        "totalLines": 167274,
+        "totalFiles": 4478,
+        "totalLines": 169996,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 6721,
+        "totalFunctions": 6850,
         "elseBlocks": 0,
-        "ifBlocks": 6318,
+        "ifBlocks": 6425,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -405,7 +405,7 @@
       "name": "naming",
       "summary": {
         "bannedAbbreviationHits": 89,
-        "unprefixedBooleans": 3
+        "unprefixedBooleans": 5
       },
       "offenders": {
         "abbreviations": [
@@ -612,6 +612,11 @@
         ],
         "booleans": [
           {
+            "file": "src/lib/data/books/billingSchedule.ts",
+            "line": 35,
+            "name": "sendsByItself"
+          },
+          {
             "file": "src/lib/data/taskComplexity.ts",
             "line": 4,
             "name": "changesDataStructure"
@@ -625,6 +630,11 @@
             "file": "src/lib/data/taxCalculator/selfEmploymentProfit.ts",
             "line": 14,
             "name": "usesTradingAllowance"
+          },
+          {
+            "file": "src/lib/server/books/billingScheduleRecord.ts",
+            "line": 16,
+            "name": "sends_by_itself"
           }
         ]
       }
@@ -650,11 +660,11 @@
         "inlineStyles": [],
         "repeatedLiterals": [
           {
-            "literal": "Company site",
-            "occurrences": 5
+            "literal": "map the workflows",
+            "occurrences": 6
           },
           {
-            "literal": "map the workflows",
+            "literal": "Company site",
             "occurrences": 5
           }
         ]
@@ -665,7 +675,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 439,
+        "overlongLines": 459,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -891,7 +901,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 6721
+        "functionsExamined": 6850
       },
       "offenders": []
     },
@@ -916,7 +926,7 @@
           "account": 7,
           "accounts": 6,
           "action": 24,
-          "actions": 222,
+          "actions": 224,
           "address": 10,
           "adverts": 4,
           "answer": 9,
@@ -969,18 +979,18 @@
           "domain": 5,
           "door": 4,
           "draft": 4,
-          "email": 13,
+          "email": 14,
           "entries": 6,
           "entry": 12,
           "event": 12,
           "facts": 17,
           "field": 25,
-          "fields": 51,
+          "fields": 53,
           "figures": 5,
           "file": 11,
           "files": 6,
           "filter": 9,
-          "fixture": 19,
+          "fixture": 22,
           "fixtures": 27,
           "for": 10,
           "form": 78,
@@ -995,7 +1005,7 @@
           "icon": 5,
           "ids": 11,
           "input": 5,
-          "invoice": 8,
+          "invoice": 9,
           "invoices": 4,
           "item": 19,
           "items": 5,
@@ -1009,12 +1019,12 @@
           "lead": 6,
           "legend": 6,
           "limits": 13,
-          "line": 14,
+          "line": 16,
           "lines": 8,
           "link": 21,
           "links": 17,
-          "list": 34,
-          "map": 36,
+          "list": 35,
+          "map": 37,
           "meeting": 9,
           "member": 6,
           "menu": 6,
@@ -1065,9 +1075,9 @@
           "projects": 13,
           "prose": 4,
           "question": 5,
-          "reading": 17,
+          "reading": 18,
           "readings": 4,
-          "record": 63,
+          "record": 64,
           "refusal": 13,
           "register": 11,
           "request": 23,
@@ -1080,7 +1090,7 @@
           "row": 47,
           "rows": 21,
           "rule": 7,
-          "rules": 65,
+          "rules": 69,
           "run": 10,
           "runs": 24,
           "schemas": 15,
@@ -1097,17 +1107,17 @@
           "source": 18,
           "sources": 9,
           "stage": 5,
-          "standing": 19,
+          "standing": 20,
           "state": 5,
           "statement": 6,
           "station": 6,
           "stations": 9,
           "status": 9,
           "step": 7,
-          "steps": 11,
+          "steps": 12,
           "storage": 5,
           "strip": 4,
-          "styles": 8,
+          "styles": 9,
           "subject": 4,
           "summary": 9,
           "svelte": 21,
@@ -1116,7 +1126,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 695,
+          "test": 705,
           "text": 13,
           "tiles": 5,
           "time": 5,
@@ -9176,13 +9186,13 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5041,
-        "backend": 1278,
+        "totalFiles": 5096,
+        "backend": 1295,
         "frontend": 1140,
-        "shared": 870,
-        "tests": 716,
-        "api": 581,
-        "database": 219,
+        "shared": 879,
+        "tests": 729,
+        "api": 593,
+        "database": 223,
         "tooling": 141,
         "docs": 79,
         "infrastructure": 17
@@ -9190,9 +9200,9 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 1278,
-          "sourceFiles": 1268,
-          "sourceLines": 41877
+          "files": 1295,
+          "sourceFiles": 1285,
+          "sourceLines": 42792
         },
         {
           "area": "frontend",
@@ -9202,25 +9212,25 @@
         },
         {
           "area": "shared",
-          "files": 870,
-          "sourceFiles": 852,
-          "sourceLines": 30511
+          "files": 879,
+          "sourceFiles": 861,
+          "sourceLines": 30921
         },
         {
           "area": "tests",
-          "files": 716,
-          "sourceFiles": 701,
-          "sourceLines": 33112
+          "files": 729,
+          "sourceFiles": 714,
+          "sourceLines": 33777
         },
         {
           "area": "api",
-          "files": 581,
-          "sourceFiles": 580,
-          "sourceLines": 26514
+          "files": 593,
+          "sourceFiles": 592,
+          "sourceLines": 27246
         },
         {
           "area": "database",
-          "files": 219,
+          "files": 223,
           "sourceFiles": 7,
           "sourceLines": 212
         },
@@ -9247,9 +9257,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 213,
+        "schemaTables": 216,
         "limitedColumns": 0,
-        "writeDoors": 367,
+        "writeDoors": 370,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },

@@ -13,7 +13,7 @@ type HeldBankLineRow = BankLineRow & { bank_account_id: string };
 /** The organisation's statement line with that id, refused by name when it is not one, is not there, or is matched already. */
 export async function findUnmatchedBankLine(supabase: SupabaseClient, organisationId: string, bankLineId: unknown): Promise<HeldBankLine> {
 	refuseWhen(validateRecordId('bank line', String(bankLineId ?? '')));
-	const [row] = await readBankLineRows(supabase, organisationId, bankLineId as string);
+	const [row] = await findBankLinesById(supabase, organisationId, bankLineId as string);
 	if (row === undefined) throw new BooksRefusal(`No bank line ${bankLineId} is in this organisation's books; list_bank_lines lists them.`);
 	const line = { ...fromBankLineRow(row), bankAccountId: row.bank_account_id };
 	refuseWhen(matchedAlreadyRefusal(line));
@@ -22,7 +22,7 @@ export async function findUnmatchedBankLine(supabase: SupabaseClient, organisati
 
 /** The journal the statement line is matched to now, or null when it is unmatched or gone. */
 export async function findMatchedJournalId(supabase: SupabaseClient, organisationId: string, bankLineId: string): Promise<string | null> {
-	const [row] = await readBankLineRows(supabase, organisationId, bankLineId);
+	const [row] = await findBankLinesById(supabase, organisationId, bankLineId);
 	return row?.matched_journal_id ?? null;
 }
 
@@ -31,7 +31,7 @@ export function bankLineKnownAs(line: BankLine): string {
 	return `of ${formatBritishDate(line.date)} with ${line.counterparty} for ${formatPoundsAndPence(line.amount)}`;
 }
 
-async function readBankLineRows(supabase: SupabaseClient, organisationId: string, bankLineId: string): Promise<HeldBankLineRow[]> {
+async function findBankLinesById(supabase: SupabaseClient, organisationId: string, bankLineId: string): Promise<HeldBankLineRow[]> {
 	const { data, error } = await supabase
 		.from(bankLinesTable)
 		.select(`${bankLineColumns}, bank_account_id`)
