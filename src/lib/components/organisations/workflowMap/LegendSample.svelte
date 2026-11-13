@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { LegendMarks, type LegendMark } from './workflowMapLegend';
+	import { LineTracks } from '$lib/components/lineMap/layout/lineMapModel';
+	import { trackDashesOf } from '$lib/components/lineMap/lineTrackDashes';
 
 	let { mark }: { mark: LegendMark } = $props();
 
@@ -7,11 +9,16 @@
 	const sampleHeight = 30;
 	const middle = { x: sampleWidth / 2, y: sampleHeight / 2 };
 	const trackPath = `M4 ${middle.y}H${sampleWidth - 4}`;
+	const trackWidth = 6;
+	const trackDashes: Partial<Record<LegendMark, string>> = {
+		outsideParty: trackDashesOf(LineTracks.dashed, trackWidth),
+		system: trackDashesOf(LineTracks.dotted, trackWidth)
+	};
 </script>
 
 <svg width={sampleWidth} height={sampleHeight} viewBox="0 0 {sampleWidth} {sampleHeight}" aria-hidden="true" class="shrink-0">
 	{#if mark !== LegendMarks.failure}
-		<path d={trackPath} class="stroke-sky" stroke-width="6" stroke-linecap="round" />
+		<path d={trackPath} class="stroke-sky" stroke-width={trackWidth} stroke-linecap="round" stroke-dasharray={trackDashes[mark]} />
 	{/if}
 	{#if mark === LegendMarks.tick}
 		<rect x={middle.x - 2.5} y={middle.y - 12} width="5" height="12" rx="1.5" class="fill-sky" />

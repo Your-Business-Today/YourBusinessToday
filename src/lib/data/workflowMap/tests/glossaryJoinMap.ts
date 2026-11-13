@@ -37,12 +37,14 @@ export const glossaryJoinMap: WorkflowMapVersion = {
 		{
 			key: 'qs',
 			name: 'QS',
+			kind: 'role',
 			stations: [
 				station('award-work', { takesIn: ['Subcontractor firm'], produces: ['work order'] }),
 				station('bill-client', { takesIn: ['Work order'], produces: ['Sent invoice'] })
 			]
 		},
-		{ key: 'office', name: 'Office', stations: [station('chase-payment', { takesIn: ['Payment reminder'], producesThings: ['invoice'] })] }
+		{ key: 'office', name: 'Office', kind: 'role', stations: [station('chase-payment', { takesIn: ['Payment reminder'], producesThings: ['invoice'] })] }
 	],
-	handovers: [{ fromKey: 'bill-client', toKey: 'chase-payment', handedOver: 'Sent invoice', goesWrong: null }]
+	handovers: [{ fromKey: 'bill-client', toKey: 'chase-payment', handedOver: 'Sent invoice', goesWrong: null }],
+	arrivals: []
 };

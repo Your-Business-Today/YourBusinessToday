@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { mapStage, stationState, type MapStation, type WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';
+import { lineKind, mapStage, stationState, type MapStation, type WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';
 import { workflowMapGaps } from './workflowMapGaps';
 
 function station(key: string, name: string, overrides: Partial<MapStation> = {}): MapStation {
@@ -10,10 +10,10 @@ function station(key: string, name: string, overrides: Partial<MapStation> = {})
 }
 
 function joineryMap(): WorkflowMapDraft {
-	const estimator = { key: 'estimator', name: 'Estimator', stations: [station('price-job', 'Price job'), station('send-quote', 'Send quote')] };
-	const workshop = { key: 'workshop', name: 'Workshop', stations: [station('make-joinery', 'Make joinery', { isOutput: true })] };
+	const estimator = { key: 'estimator', name: 'Estimator', kind: lineKind.role, stations: [station('price-job', 'Price job'), station('send-quote', 'Send quote')] };
+	const workshop = { key: 'workshop', name: 'Workshop', kind: lineKind.role, stations: [station('make-joinery', 'Make joinery', { isOutput: true })] };
 	const handovers = [{ fromKey: 'send-quote', toKey: 'make-joinery', handedOver: 'Accepted quote', goesWrong: null }];
-	return { stage: mapStage.before, lines: [estimator, workshop], handovers };
+	return { stage: mapStage.before, lines: [estimator, workshop], handovers, arrivals: [] };
 }
 
 describe('what a filed workflow map still leaves open', () => {

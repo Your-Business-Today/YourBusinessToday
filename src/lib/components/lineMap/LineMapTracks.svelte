@@ -4,6 +4,7 @@
 	import { carriesOnArrowPath } from './lineMapContinuations';
 	import { runKey, type LineMapDrawing } from './lineMapDrawing';
 	import { pathThrough } from './lineMapPaths';
+	import { trackDashesOf } from './lineTrackDashes';
 
 	let { drawing, geometry, isDimmed }: { drawing: LineMapDrawing; geometry: LineMapGeometry; isDimmed: boolean } = $props();
 
@@ -18,7 +19,12 @@
 		<path d={pathThrough(branch.corners)} class={lineStrokeClasses[branch.colour]} stroke-width={geometry.stroke} />
 	{/each}
 	{#each drawing.runs as run (runKey(run))}
-		<path d="M{run.from} {run.y}H{run.to}" class={lineStrokeClasses[run.colour]} stroke-width={geometry.stroke} />
+		<path
+			d="M{run.from} {run.y}H{run.to}"
+			class={lineStrokeClasses[run.colour]}
+			stroke-width={geometry.stroke}
+			stroke-dasharray={trackDashesOf(run.track, geometry.stroke)}
+		/>
 	{/each}
 	{#each leavingRuns as run (runKey(run))}
 		<path d={carriesOnArrowPath(run)} class={lineFillClasses[run.colour]} stroke="none" />

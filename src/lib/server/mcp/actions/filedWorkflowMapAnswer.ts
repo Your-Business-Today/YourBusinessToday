@@ -7,9 +7,10 @@ const domainNextStep =
 	"Its Domain page names the things these stations take in and produce, and is filled separately. If it is still empty, offer " +
 	`"${organisationDomainRequest}" next: ${domainRunActionName} starts it.`;
 
-function filedSizes({ stage, lines, handovers }: WorkflowMapDraft): string {
+function filedSizes({ stage, lines, handovers, arrivals }: WorkflowMapDraft): string {
 	const stationCount = lines.flatMap((line) => line.stations).length;
-	return `${mapStageNames[stage]} map: ${lines.length} lines, ${stationCount} stations and ${handovers.length} hand-overs`;
+	const parts = `${lines.length} lines, ${stationCount} stations, ${handovers.length} hand-overs and ${arrivals.length} arrivals`;
+	return `${mapStageNames[stage]} map: ${parts}`;
 }
 
 /** What filing a workflow map answers: the version filed, its size, and the Domain run that follows it. */

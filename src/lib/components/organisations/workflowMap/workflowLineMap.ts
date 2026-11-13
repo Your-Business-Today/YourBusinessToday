@@ -1,9 +1,16 @@
-import { StationKinds, type LineColour, type LineMapModel, type MapHandover } from '$lib/components/lineMap/layout/lineMapModel';
-import type { MapStation, WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
+import { LineTracks, StationKinds, type LineColour, type LineMapModel, type LineTrack, type MapHandover } from '$lib/components/lineMap/layout/lineMapModel';
+import type { LineKind, MapStation, WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 import { lineColourAt, lineColourOrder } from '$lib/components/lineMap/lineColourOrder';
 
 /** The colour of a role no colour was given for, which every role filed is. */
 export const firstLineColour: LineColour = lineColourOrder[0];
+
+/** How a line's track is drawn for its kind: a role solid, an outside party dashed and a system dotted. */
+export const lineTracksOfKind: Record<LineKind, LineTrack> = {
+	role: LineTracks.solid,
+	outside_party: LineTracks.dashed,
+	system: LineTracks.dotted
+};
 
 /** Each role's colour, the same on every map it is drawn on, so a line keeps its colour from Before to After. */
 export function lineColoursOf(versions: WorkflowMapVersion[]): Map<string, LineColour> {
@@ -11,7 +18,7 @@ export function lineColoursOf(versions: WorkflowMapVersion[]): Map<string, LineC
 	return new Map(lineKeys.map((lineKey, index) => [lineKey, lineColourAt(index)]));
 }
 
-/** A filed map as the line map draws it: its roles as lines, its tasks as stations and its hand-overs. */
+/** A filed map as the line map draws it: its roles, outside parties and systems as lines, its tasks as stations and its hand-overs. */
 export function lineMapOf(version: WorkflowMapVersion, colours: Map<string, LineColour>): LineMapModel {
 	const stations = version.lines.flatMap((line) => line.stations);
 	return {
@@ -19,7 +26,8 @@ export function lineMapOf(version: WorkflowMapVersion, colours: Map<string, Line
 			id: line.key,
 			name: line.name,
 			colour: colours.get(line.key) ?? firstLineColour,
-			stops: line.stations.map((station) => station.key)
+			stops: line.stations.map((station) => station.key),
+			track: lineTracksOfKind[line.kind]
 		})),
 		stations: Object.fromEntries(stations.map((station) => [station.key, drawnStationOf(station)])),
 		handovers: version.handovers.map(({ fromKey, toKey, goesWrong }): MapHandover => {

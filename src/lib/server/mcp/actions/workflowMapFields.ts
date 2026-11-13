@@ -1,5 +1,5 @@
 import { workflowMapLimits as limits } from '$lib/data/workflowMap/workflowMapLimits';
-import { mapStages, stationStates } from '$lib/data/workflowMap/workflowMap';
+import { lineKinds, mapStages, stationStates } from '$lib/data/workflowMap/workflowMap';
 import { objectSchema, textField } from '../actionTypes';
 
 export const mapStageField = {
@@ -41,7 +41,14 @@ const stationSchema = objectSchema(
 const lineSchema = objectSchema(
 	{
 		key: textField(`Your own key for the role, lower-case words joined by hyphens, at most ${limits.keyLength} characters`),
-		name: textField(`The role, as a hat someone wears, never a person; at most ${limits.nameLength} characters`),
+		name: textField(`The role, outside party or system, never a person; at most ${limits.nameLength} characters`),
+		kind: {
+			type: 'string',
+			enum: [...lineKinds],
+			description:
+				'role (a hat someone wears in the business), outside_party (a customer, a supplier, a regulator) or system ' +
+				'(software the work runs through on its own); role when left out'
+		},
 		stations: {
 			type: 'array',
 			items: stationSchema,
@@ -61,8 +68,25 @@ const handoverSchema = objectSchema(
 	['fromKey', 'toKey', 'handedOver']
 );
 
+const arrivalSchema = objectSchema(
+	{
+		whatArrives: textField(`What arrives from outside to start the work, as a kind of record; at most ${limits.whatArrivesLength} characters`),
+		arrivesFrom: textField(
+			`Who or what it arrives from, worded to follow "Arrives from": a customer, a supplier, the calendar on the first of the month; ` +
+				`at most ${limits.arrivesFromLength} characters`
+		),
+		stationKey: textField('The key of the station it starts')
+	},
+	['whatArrives', 'arrivesFrom', 'stationKey']
+);
+
 export const workflowMapFields = {
 	stage: mapStageField,
 	lines: { type: 'array', items: lineSchema, description: `Every role, at most ${limits.mostLines}, ${limits.mostStations} stations in all` },
-	handovers: { type: 'array', items: handoverSchema, description: `What passes between lines, at most ${limits.mostHandovers}` }
+	handovers: { type: 'array', items: handoverSchema, description: `What passes between lines, at most ${limits.mostHandovers}` },
+	arrivals: {
+		type: 'array',
+		items: arrivalSchema,
+		description: `What arrives from outside the map to start a station's work, at most ${limits.mostArrivals}`
+	}
 };

@@ -22,7 +22,8 @@ const map: WorkflowMapVersion = {
 	versionNumber: 1,
 	recordedAt: '2026-11-13T05:00:00Z',
 	handovers: [],
-	lines: [{ key: 'surveyor', name: 'Surveyor', stations: [station('price-the-job', ['enquiry'], ['quote']), station('visit-site', [], [])] }]
+	arrivals: [],
+	lines: [{ key: 'surveyor', name: 'Surveyor', kind: 'role', stations: [station('price-the-job', ['enquiry'], ['quote']), station('visit-site', [], [])] }]
 };
 
 const touchesOf = (stations: ReturnType<typeof thingStationsOf>) =>

@@ -1,9 +1,10 @@
 /** How a person's Claude finds a workflow map, in the order the conversation goes: James's June method. */
 export const mapInterviewStages = [
 	'**The business:** what it sells, who buys it and roughly how big the team is.',
-	'**The roles:** every hat that is worn, official or not. One person often wears several: each hat is a line of its own.',
+	'**The roles:** every hat that is worn, official or not. One person often wears several: each hat is a line of its own. Then ask which lines are not hats in the business at all: an outside party, such as a customer, a supplier or a regulator, or a system the work runs through. File each line with its kind: role, outside party or system.',
 	'**The tasks of each role,** the role the person knows best first: what it does, task by task, in the order the work flows. Name each one short, starting with a verb, such as "Issue invoice".',
 	'**What each task takes in and produces:** what must exist before it can start, and what it hands on. Push past vague answers: "the quote" is an answer, "an approved quote in the accounts package" is a better one.',
+	'**What arrives from outside:** what comes in from beyond the map to start the work, who or what it arrives from, and the task it starts: an enquiry from a customer, a supplier\'s invoice, the first of the month for a monthly run. Ask it of every task that no one hands work to.',
 	'**The hand-overs:** wherever one task\'s output lands with another role. These are where a business leaks time and money, so always ask what goes wrong or is delayed there.',
 	'**The outputs the business runs on:** what a customer, a supplier or a regulator receives, or the business steers by, such as an invoice or a cashflow forecast. Mark them on the task that produces them.'
 ] as const;

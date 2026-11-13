@@ -78,7 +78,7 @@
 	<WorkflowMapPanel
 		map={shownLineMap}
 		label={mapLabelOf(shownStage)}
-		legendItems={legendItemsOf(shownStage)}
+		legendItems={legendItemsOf(shownMap)}
 		layout={drawn.layout}
 		selectedStationId={details?.key}
 		onChooseStation={chooseStation}
