@@ -1,11 +1,8 @@
 <script lang="ts">
 	import LegendSample from './LegendSample.svelte';
-	import { legendItemsOf } from './workflowMapLegend';
-	import type { MapStage } from '$lib/data/workflowMap/workflowMap';
+	import type { LegendItem } from './workflowMapLegend';
 
-	let { stage }: { stage: MapStage } = $props();
-
-	const items = $derived(legendItemsOf(stage));
+	let { items }: { items: LegendItem[] } = $props();
 </script>
 
 <ul aria-label="What the marks mean" class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-chalk-muted">

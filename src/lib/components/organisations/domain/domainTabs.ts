@@ -38,11 +38,6 @@ export function organisationThingHref(organisationId: string, thingSlug: string)
 	return `/organisations/${organisationId}/domain${domainThingHref(thingSlug)}`;
 }
 
-/** Today's workflow map with one station chosen. */
-export function workflowMapStationHref(organisationId: string, stationKey: string): string {
-	return `/organisations/${organisationId}/workflow-map?station=${encodeURIComponent(stationKey)}`;
-}
-
 /** Things, Rules and Words, each counting its rows, then Map. */
 export function domainTabsFor(domain: OrganisationDomain, words: DomainWord[]): Tab[] {
 	const { things, rules } = domain;

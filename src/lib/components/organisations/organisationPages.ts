@@ -14,3 +14,12 @@ export function organisationHref(organisationId: string, page?: OrganisationPage
 	if (page === undefined || page === organisationPages.overview) return overviewHref;
 	return `${overviewHref}/${page}`;
 }
+
+/** What the Workflow map page's address can name: the station it opens with chosen. */
+export const workflowMapQueryKeys = { station: 'station' } as const;
+
+/** The organisation's Workflow map opened on one station, as a product's tab and the Domain page link to it. */
+export function workflowMapStationHref(organisationId: string, stationKey: string): string {
+	const workflowMapHref = organisationHref(organisationId, organisationPages.workflowMap);
+	return `${workflowMapHref}?${workflowMapQueryKeys.station}=${encodeURIComponent(stationKey)}`;
+}
