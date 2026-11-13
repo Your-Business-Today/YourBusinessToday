@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 import { addLead, readLeadSeed } from '$lib/server/clients/addLead';
 import { leadsRegister } from '$lib/data/salesRegisters';
 import { loadSalesRegister } from '$lib/server/salesRegisters/loadSalesRegister';
+import { deleteFromRegisterAction } from '$lib/server/salesRegisters/deleteFromRegisterAction';
 import { moveStageAction } from '$lib/server/salesRegisters/moveStageAction';
 import { readPickedOrganisationId } from '$lib/server/frame/pickedOrganisation';
 import { requireStaff } from '$lib/server/auth/requireStaff';
@@ -29,5 +30,6 @@ export const actions: Actions = {
 		await addLead(locals.supabase, seed, user.id);
 		return { message: `${seed.name} added as a lead, brought in by ${owner.name}.` };
 	},
-	moveStage: moveStageAction
+	moveStage: moveStageAction,
+	deleteFromRegister: deleteFromRegisterAction
 };

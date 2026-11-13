@@ -4,14 +4,11 @@ import {
 	addContactOutcomes,
 	readNewContactSeed
 } from '$lib/server/clients/addClientContact';
-import { deleteClientRecord } from '$lib/server/clients/deleteClientRecord';
-import { getClient } from '$lib/server/clients/getClient';
+import { deleteClientWithId, isDeletionRefused } from '$lib/server/clients/deleteClientWithId';
 import { getClientContact } from '$lib/server/clients/getContactsForClient';
 import { assignProjectToClient, readProjectOwnership } from '$lib/server/projects/assignProjectToClient';
 import { inviteClientContact, inviteOutcomes } from '$lib/server/clients/inviteClientContact';
 import { requireStaff } from '$lib/server/auth/requireStaff';
-import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
-import { validateRecordId } from '$lib/data/isUuid';
 import { registerOfStage } from '$lib/data/salesRegisters';
 import { tooManyInvitesMessage } from '$lib/server/email/inviteAllowance';
 import type { Actions } from './$types';
@@ -48,12 +45,8 @@ export const registerActions: Actions = {
 	},
 	deleteClient: async ({ locals, params }) => {
 		const user = await requireStaff(locals);
-		const idRefusal = validateRecordId('client', params.clientId);
-		if (idRefusal !== null) return fail(400, { message: idRefusal });
-		const client = await getClient(locals.supabase, params.clientId);
-		if (client === null) return fail(404, { message: 'That client could not be found.' });
-		const refusal = await deleteClientRecord(supabaseServiceClient(), client, user.id);
-		if (refusal !== null) return fail(409, { message: refusal });
-		redirect(303, registerOfStage(client.stage).path);
+		const deleted = await deleteClientWithId(locals.supabase, params.clientId, user.id);
+		if (isDeletionRefused(deleted)) return deleted;
+		redirect(303, registerOfStage(deleted.stage).path);
 	}
 };

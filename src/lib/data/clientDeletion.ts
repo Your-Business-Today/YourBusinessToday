@@ -12,6 +12,14 @@ export type ClientStanding = {
 const continuityCopyReason = 'a continuity copy recorded';
 const keepInstead = 'Move it to dormant or lost instead, so the register keeps it and its history.';
 
+/** What deleting a record does, said before anyone confirms it. */
+export function deletionWarningFor(clientName: string): string {
+	return (
+		`Deletes “${clientName}” with its contacts and history, recorded under your name. A record with ` +
+		'projects, invoices, grouped companies or a continuity copy is refused: set it to Dormant or Lost instead.'
+	);
+}
+
 /** Why the client must stay on the register, or null when it is a record that can be deleted. */
 export function refusalToDeleteClient(clientName: string, standing: ClientStanding): string | null {
 	const reasons = reasonsToKeep(standing);
