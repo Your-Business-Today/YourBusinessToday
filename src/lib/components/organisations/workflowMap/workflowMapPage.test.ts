@@ -29,7 +29,7 @@ describe('stationDetailsOf', () => {
 		]);
 		expect(details?.outputs).toEqual([{ item: 'Work order', destination: 'To Site mobilisation and Cost capture' }]);
 		expect(details?.place).toEqual({ place: 'JPMS portal', state: 'ours', earlierPlace: 'Spreadsheet and email' });
-		expect(details?.things).toEqual(['Compliance record', 'Work order', 'Subcontractor']);
+		expect(details?.things.map((thing) => thing.name)).toEqual(['Compliance record', 'Work order', 'Subcontractor']);
 	});
 
 	it('says how a hand-over goes wrong today on the Before', () => {

@@ -8,6 +8,9 @@ import type { StationState, WorkflowMapVersion } from '$lib/data/workflowMap/wor
 /** Where a station is done now, in which state, and where it was done before when that was somewhere else. */
 export type StationPlace = { place: string | null; state: StationState; earlierPlace: string | null };
 
+/** A Domain thing a station names, by its slug, with its name as a person reads it. */
+export type StationThing = { slug: string; name: string };
+
 /** Everything the panel under the map says about one station. */
 export type StationDetails = {
 	key: string;
@@ -18,7 +21,7 @@ export type StationDetails = {
 	inputs: StationInput[];
 	outputs: StationOutput[];
 	place: StationPlace;
-	things: string[];
+	things: StationThing[];
 };
 
 /** What the page knows beside the map shown: the Before to compare with, each role's colour and the products' names. */
@@ -42,8 +45,13 @@ export function stationDetailsOf(shown: WorkflowMapVersion, surroundings: Statio
 		inputs: inputsOf(shown, placed),
 		outputs: outputsOf(shown, placed),
 		place: placeOf(placed, earlier, surroundings.productNames),
-		things: [...new Set([...placed.takesInThings, ...placed.producesThings])].map(thingNameOf)
+		things: thingsNamedBy(placed)
 	};
+}
+
+function thingsNamedBy({ takesInThings, producesThings }: PlacedStation): StationThing[] {
+	const slugs = [...new Set([...takesInThings, ...producesThings])];
+	return slugs.map((slug) => ({ slug, name: thingNameOf(slug) }));
 }
 
 function placeOf(placed: PlacedStation, earlier: PlacedStation | null, productNames: Record<string, string>): StationPlace {

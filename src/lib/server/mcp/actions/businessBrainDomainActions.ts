@@ -15,7 +15,7 @@ export const businessBrainDomainActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: true,
 		summary:
-			"file what one source teaches about an organisation's own domain into its Your Business Brain in one call: the bounded contexts it creates or reshapes, the pages it writes and the pages it supersedes",
+			"file what one source teaches about an organisation's own domain into its Your Business Brain in one call: the bounded contexts it creates or reshapes, the pages it writes (things, rules and glossaries among them) and the pages it supersedes",
 		guidance: fileBusinessBrainDomainGuidance,
 		inputSchema: fileBusinessBrainDomainSchema,
 		run: fileDomain
@@ -26,7 +26,7 @@ export const businessBrainDomainActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			"read an organisation's own domain as its Your Business Brain holds it: the context map, each bounded context with the core domain marked, its entities with their fields, its other building blocks and its glossary",
+			"read an organisation's own domain as its Your Business Brain holds it: the context map, each bounded context with the core domain marked, its entities with their fields, its other building blocks, its rules with the things each governs and its glossary",
 		guidance: readBusinessBrainDomainGuidance,
 		inputSchema: readBusinessBrainDomainSchema,
 		run: readDomain
