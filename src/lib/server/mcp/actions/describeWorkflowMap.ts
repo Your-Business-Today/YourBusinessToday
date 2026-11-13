@@ -32,11 +32,11 @@ function describeLine(line: MapLine, productNames: Map<string, string>): string 
 	return [`### ${line.name} \`${line.key}\``, ...stations].join('\n');
 }
 
-function handoverSection(map: WorkflowMapVersion): string {
-	if (map.handovers.length === 0) return '### Hand-overs\n\nNone filed.';
-	const placeOf = stationPlaces(map.lines);
-	const handovers = map.handovers.map((handover) => `- ${describeHandover(handover, placeOf)}`);
-	return ['### Hand-overs', ...handovers].join('\n');
+function handoverSection({ lines, handovers }: WorkflowMapVersion): string {
+	if (handovers.length === 0) return '### Hand-overs\n\nNone filed.';
+	const placeOf = stationPlaces(lines);
+	const sentences = handovers.map((handover) => `- ${describeHandover(handover, placeOf)}`);
+	return ['### Hand-overs', ...sentences].join('\n');
 }
 
 function describeHandover(handover: MapHandover, placeOf: Map<string, string>): string {

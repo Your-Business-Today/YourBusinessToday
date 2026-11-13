@@ -9,7 +9,7 @@ export function productIdsOf(lines: MapLine[]): string[] {
 }
 
 /** The names of those of the given products that belong to the organisation, by id. */
-export async function readOrganisationProducts(
+export async function readProductsOfOrganisation(
 	supabase: SupabaseClient,
 	organisationId: string,
 	productIds: string[]
@@ -31,7 +31,7 @@ export async function refuseStrayProducts(
 	draft: WorkflowMapDraft
 ): Promise<Refusal | null> {
 	const productIds = productIdsOf(draft.lines);
-	const products = await readOrganisationProducts(supabase, organisationId, productIds);
+	const products = await readProductsOfOrganisation(supabase, organisationId, productIds);
 	const strayId = productIds.find((productId) => !products.has(productId));
 	if (strayId === undefined) return null;
 	return { refusal: `productId ${strayId} is not a product of this organisation: list_projects gives its products.` };

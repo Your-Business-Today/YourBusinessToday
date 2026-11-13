@@ -364,6 +364,7 @@
       "src/lib/server/mcp/actions/businessBrainSchemas.ts",
       "src/lib/server/mcp/actions/businessBrainChatbotSchemas.ts",
       "src/lib/server/mcp/actions/companyContextFields.ts",
+      "src/lib/server/mcp/actions/workflowMapFields.ts",
       "src/lib/server/mcp/actions/booksFields.ts",
       "src/lib/server/mcp/actions/booksCustomerFields.ts",
       "src/lib/server/mcp/actions/booksInvoiceFields.ts",

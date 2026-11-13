@@ -2,7 +2,7 @@ import { mapConceptsNotSpecimens, mapShapeSentence, mapStageNames } from '$lib/d
 import { mapStages } from '$lib/data/workflowMap/workflowMap';
 import { isRefused, readChoice } from '$lib/server/companyContext/contextText';
 import { fileWorkflowMap } from '$lib/server/workflowMap/fileWorkflowMap';
-import { productIdsOf, readOrganisationProducts, refuseStrayProducts } from '$lib/server/workflowMap/mapProducts';
+import { productIdsOf, readProductsOfOrganisation, refuseStrayProducts } from '$lib/server/workflowMap/mapProducts';
 import { readLatestWorkflowMap } from '$lib/server/workflowMap/readLatestWorkflowMap';
 import { validateWorkflowMap } from '$lib/server/workflowMap/validateWorkflowMap';
 import { objectSchema } from '../actionTypes';
@@ -10,7 +10,7 @@ import { contextOrganisation } from './contextOrganisation';
 import { describeWorkflowMap, noWorkflowMapYet } from './describeWorkflowMap';
 import { organisationIdField } from './organisationDetailsFields';
 import { mapStageField, workflowMapFields } from './workflowMapFields';
-import type { MapStage } from '$lib/data/workflowMap/workflowMap';
+import type { MapStage, WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
@@ -20,7 +20,9 @@ export const workflowMapActions: McpAction[] = [
 		area: 'organisations',
 		audience: 'everyone',
 		isWrite: true,
-		summary: "file a whole new version of an organisation's workflow map, Before or After: its roles as lines, their tasks as stations and the hand-overs between them",
+		summary:
+			"file a whole new version of an organisation's workflow map, Before or After: its roles as lines, " +
+			'their tasks as stations and the hand-overs between them',
 		guidance:
 			'Each call files the next numbered version of that stage and never changes one already filed, so give the ' +
 			'whole map, not only what changed: read_workflow_map first and carry every line and station forward with its ' +
@@ -51,9 +53,7 @@ async function fileMap(caller: McpCaller, input: Record<string, unknown>): Promi
 	if (strayProduct !== null) return strayProduct.refusal;
 	const filing = { organisationId: organisation.id, recordedBy: caller.accountId, draft };
 	const versionNumber = await fileWorkflowMap(caller.supabase, filing);
-	const stationCount = draft.lines.flatMap((line) => line.stations).length;
-	const sizes = `${draft.lines.length} lines, ${stationCount} stations and ${draft.handovers.length} hand-overs`;
-	return `Filed version ${versionNumber} of ${organisation.name}'s ${mapStageNames[draft.stage]} map: ${sizes}.`;
+	return `Filed version ${versionNumber} of ${organisation.name}'s ${filedSizes(draft)}.`;
 }
 
 async function readMap(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
@@ -63,12 +63,17 @@ async function readMap(caller: McpCaller, input: Record<string, unknown>): Promi
 	if (isRefused(stages)) return stages.refusal;
 	const readings = await Promise.all(stages.map((stage) => readLatestWorkflowMap(caller.supabase, organisation.id, stage)));
 	const filedLines = readings.flatMap((map) => map?.lines ?? []);
-	const productNames = await readOrganisationProducts(caller.supabase, organisation.id, productIdsOf(filedLines));
+	const productNames = await readProductsOfOrganisation(caller.supabase, organisation.id, productIdsOf(filedLines));
 	const sections = readings.map((map, index) => {
 		if (map === null) return noWorkflowMapYet(organisation.name, stages[index]);
 		return describeWorkflowMap(organisation.name, map, productNames);
 	});
 	return sections.join('\n\n');
+}
+
+function filedSizes({ stage, lines, handovers }: WorkflowMapDraft): string {
+	const stationCount = lines.flatMap((line) => line.stations).length;
+	return `${mapStageNames[stage]} map: ${lines.length} lines, ${stationCount} stations and ${handovers.length} hand-overs`;
 }
 
 function stagesAskedFor(value: unknown): MapStage[] | { refusal: string } {

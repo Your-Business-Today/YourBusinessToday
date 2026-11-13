@@ -52,12 +52,12 @@ function readStationStanding(fields: Record<string, unknown>, label: string): St
 	if (typeof isOutput !== 'boolean') return { refusal: `${label} isOutput must be true or false.` };
 	const state = readChoice(fields.state ?? stationState.elsewhere, stationStates, `${label} state`);
 	if (isRefused(state)) return state;
-	const productId = readProductId(fields.productId, label, state);
+	const productId = validateProductId(fields.productId, label, state);
 	if (isRefused(productId)) return productId;
 	return { isOutput, state, productId };
 }
 
-function readProductId(value: unknown, label: string, state: StationState): string | null | Refusal {
+function validateProductId(value: unknown, label: string, state: StationState): string | null | Refusal {
 	if (value === undefined || value === null || value === '') return null;
 	if (typeof value !== 'string') return { refusal: `${label} productId must be text.` };
 	if (!isUuid(value)) return { refusal: `${label} productId must be the id of a product, as list_projects gives it.` };

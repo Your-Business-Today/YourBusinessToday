@@ -13,12 +13,12 @@ export function validateMapLine(candidate: unknown, position: number): MapLine |
 	const label = `Line "${key}"`;
 	const name = readRequiredText(fields.name, { field: `${label} name`, limit: limits.nameLength });
 	if (isRefused(name)) return name;
-	const stations = readLineStations(fields.stations, label);
+	const stations = readStationsOnLine(fields.stations, label);
 	if (isRefused(stations)) return stations;
 	return { key, name, stations };
 }
 
-function readLineStations(value: unknown, label: string): MapStation[] | Refusal {
+function readStationsOnLine(value: unknown, label: string): MapStation[] | Refusal {
 	const candidates = readList(value, limits.mostStationsOnALine, `${label} stations`);
 	if (isRefused(candidates)) return candidates;
 	if (candidates.length === 0) return { refusal: `${label} has no stations: give the tasks that role does, in order.` };
