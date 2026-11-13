@@ -27,6 +27,15 @@ export async function portalVisitorOf(caller: McpCaller, input: Record<string, u
 	return visitor;
 }
 
+/** One step of a portal action, run once the caller is let in as a contact of the organisation named. */
+export type VisitorStep = (visitor: PortalVisitor) => Promise<string>;
+
+export async function withPortalVisitor(caller: McpCaller, input: Record<string, unknown>, step: VisitorStep): Promise<string> {
+	const visitor = await portalVisitorOf(caller, input);
+	if (typeof visitor === 'string') return visitor;
+	return step(visitor);
+}
+
 export async function portalAdministratorOf(caller: McpCaller, input: Record<string, unknown>): Promise<PortalVisitor | string> {
 	const visitor = await portalVisitorOf(caller, input);
 	if (typeof visitor === 'string') return visitor;

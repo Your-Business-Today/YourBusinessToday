@@ -1,8 +1,11 @@
 import { mapConceptsNotSpecimens, mapShapeSentence, mapStageNames } from '$lib/data/workflowMap/workflowMapWords';
+import { confirmationOf } from '$lib/data/workflowMap/mapConfirmationsOf';
+import { frozenBeforeRefusal } from '$lib/server/workflowMap/frozenBeforeRefusal';
 import { mapStages } from '$lib/data/workflowMap/workflowMap';
 import { isRefused, readChoice } from '$lib/server/companyContext/contextText';
 import { fileWorkflowMap } from '$lib/server/workflowMap/fileWorkflowMap';
 import { productIdsOf, readProductsOfOrganisation, refuseStrayProducts } from '$lib/server/workflowMap/mapProducts';
+import { readConfirmedMapVersions } from '$lib/server/workflowMap/readConfirmedMapVersions';
 import { readLatestWorkflowMap } from '$lib/server/workflowMap/readLatestWorkflowMap';
 import { readStationStandings } from '$lib/server/workflowMap/readStationStandings';
 import { validateWorkflowMap } from '$lib/server/workflowMap/validateWorkflowMap';
@@ -28,7 +31,8 @@ export const workflowMapActions: McpAction[] = [
 			'Each call files the next numbered version of that stage and never changes one already filed, so give the ' +
 			'whole map, not only what changed: read_workflow_map first and carry every line and station forward with its ' +
 			'key, the same in Before and After, so each keeps its place on the map. An organisation we already work with ' +
-			`files today's map as after only. ${mapShapeSentence} ${mapConceptsNotSpecimens} File it on the person's yes. ` +
+			`files today's map as after only. Once the client confirms a Before it is frozen and no further Before is filed; ` +
+			`the After is filed again as each product ships. ${mapShapeSentence} ${mapConceptsNotSpecimens} File it on the person's yes. ` +
 			'Every value is checked against its limit and refused, never cut.',
 		inputSchema: objectSchema({ organisationId: organisationIdField, ...workflowMapFields }, ['organisationId', 'stage', 'lines']),
 		run: async (caller, input) => fileMap(caller, input)
@@ -54,6 +58,8 @@ async function fileMap(caller: McpCaller, input: Record<string, unknown>): Promi
 	if (typeof organisation === 'string') return organisation;
 	const draft = validateWorkflowMap(input);
 	if (isRefused(draft)) return draft.refusal;
+	const frozen = await frozenBeforeRefusal(caller.supabase, organisation, draft);
+	if (frozen !== null) return frozen;
 	const strayProduct = await refuseStrayProducts(caller.supabase, organisation.id, draft);
 	if (strayProduct !== null) return strayProduct.refusal;
 	const filing = { organisationId: organisation.id, recordedBy: caller.accountId, draft };
@@ -67,12 +73,13 @@ async function readMap(caller: McpCaller, input: Record<string, unknown>): Promi
 	const stages = stagesAskedFor(input.stage);
 	if (isRefused(stages)) return stages.refusal;
 	const readings = await Promise.all(stages.map((stage) => readLatestWorkflowMap(caller.supabase, organisation.id, stage)));
+	const confirmed = await readConfirmedMapVersions(caller.supabase, organisation.id);
 	const filedLines = readings.flatMap((map) => map?.lines ?? []);
 	const productNames = await readProductsOfOrganisation(caller.supabase, organisation.id, productIdsOf(filedLines));
 	const sections = readings.map(async (map, index) => {
 		if (map === null) return noWorkflowMapYet(organisation.name, stages[index]);
 		const standings = await readStationStandings(caller.supabase, organisation.id, map);
-		return describeWorkflowMap(organisation.name, map, { productNames, standings });
+		return describeWorkflowMap(organisation.name, map, { productNames, standings, confirmation: confirmationOf(confirmed, map) });
 	});
 	return (await Promise.all(sections)).join('\n\n');
 }

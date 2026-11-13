@@ -1,3 +1,4 @@
+import { mapConfirmedSentence, type MapConfirmation } from '$lib/data/workflowMap/mapConfirmed';
 import { mapStageNames } from '$lib/data/workflowMap/workflowMapWords';
 import { stationStates } from '$lib/data/workflowMap/workflowMap';
 import { describeMapStation } from './describeMapStation';
@@ -11,8 +12,14 @@ export function noWorkflowMapYet(organisationName: string, stage: MapStage): str
 	return `No ${mapStageNames[stage]} map has been filed for ${organisationName} yet.`;
 }
 
-/** What the description names beside the map: the products' names and where each station stands with the client. */
-export type MapSurroundings = { productNames: Map<string, string>; standings: StationStandings };
+/** What the description names beside the map: the products' names, where each station stands, and the confirmation. */
+export type MapSurroundings = {
+	productNames: Map<string, string>;
+	standings: StationStandings;
+	confirmation: MapConfirmation | null;
+};
+
+const notConfirmedYet = 'The client has not confirmed this version yet.';
 
 /** One filed version as Markdown a Claude can work from: every line with its stations in order, then the hand-overs. */
 export function describeWorkflowMap(organisationName: string, map: WorkflowMapVersion, surroundings: MapSurroundings): string {
@@ -20,7 +27,13 @@ export function describeWorkflowMap(organisationName: string, map: WorkflowMapVe
 	const header = `## ${mapStageNames[map.stage]}: workflow map of ${organisationName}, version ${map.versionNumber}, filed ${recordedDay}`;
 	const lineSections = map.lines.map((line) => describeLine(line, surroundings));
 	const marks = marksSentence(map, surroundings.standings);
-	return [header, `${tallySentence(map)} ${marks}`, ...lineSections, handoverSection(map)].join('\n\n');
+	const confirmed = confirmedSentence(surroundings.confirmation);
+	return [header, `${tallySentence(map)} ${marks} ${confirmed}`, ...lineSections, handoverSection(map)].join('\n\n');
+}
+
+function confirmedSentence(confirmation: MapConfirmation | null): string {
+	if (confirmation === null) return notConfirmedYet;
+	return mapConfirmedSentence(confirmation, false);
 }
 
 function marksSentence(map: WorkflowMapVersion, standings: StationStandings): string {

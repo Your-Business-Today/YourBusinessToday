@@ -24,5 +24,6 @@ export const clientEventLabels: Record<ClientEventKind, string> = {
 	sighted: 'Sighted on the web',
 	client_set_up: 'Set up on Your Business Today',
 	context_confirmed: 'Company context confirmed',
-	owner_changed: 'Brought in by'
+	owner_changed: 'Brought in by',
+	workflow_map_confirmed: 'Workflow map confirmed'
 };

@@ -1,16 +1,25 @@
 <script lang="ts">
+	import MapConfirmationPanel from './MapConfirmationPanel.svelte';
 	import StationReviewPanel from './StationReviewPanel.svelte';
 	import { standingOf, type StationStandings } from '$lib/data/workflowMap/stationReview';
-	import { stationReviewTallyOf, tallySentence } from '$lib/data/workflowMap/stationReviewTally';
+	import type { MapConfirmation } from '$lib/data/workflowMap/mapConfirmed';
 	import type { WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 
-	let { map, stationKey, standings }: { map: WorkflowMapVersion; stationKey: string | null; standings: StationStandings } = $props();
-
-	const tally = $derived(tallySentence(stationReviewTallyOf(map, standings)));
+	let {
+		map,
+		stationKey,
+		standings,
+		confirmation
+	}: {
+		map: WorkflowMapVersion;
+		stationKey: string | null;
+		standings: StationStandings;
+		confirmation: MapConfirmation | null;
+	} = $props();
 </script>
 
 {#if stationKey === null}
-	<p class="text-sm text-chalk-subtle">{tally}</p>
+	<MapConfirmationPanel {map} {standings} {confirmation} />
 {:else}
-	<StationReviewPanel {map} {stationKey} standing={standingOf(standings, stationKey)} />
+	<StationReviewPanel {map} {stationKey} standing={standingOf(standings, stationKey)} isConfirmed={confirmation !== null} />
 {/if}

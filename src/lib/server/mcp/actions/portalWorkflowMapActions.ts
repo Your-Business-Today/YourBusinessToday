@@ -1,4 +1,5 @@
-import { describeVisitorStanding, clientIdField, portalVisitorOf } from '../portalVisitorAccess';
+import { describeVisitorStanding, clientIdField, withPortalVisitor } from '../portalVisitorAccess';
+import { confirmWorkflowMapAction } from './confirmWorkflowMapAction';
 import { describeWorkflowMap } from './describeWorkflowMap';
 import { isRefused } from '$lib/server/companyContext/contextText';
 import { mapStageField } from './workflowMapFields';
@@ -26,10 +27,12 @@ export const portalWorkflowMapActions: McpAction[] = [
 		area: 'support',
 		audience: 'everyone',
 		isWrite: false,
-		summary: "for a client contact: your company's workflow map as your portal draws it, with where each station stands",
+		summary:
+			"for a client contact: your company's workflow map as your portal draws it, with where each station stands " +
+			'and whether you have confirmed it',
 		guidance: 'Read it before marking a station: a mark names the map, its version and the station by the key shown beside its name.',
 		inputSchema: objectSchema({ clientId: clientIdField }),
-		run: async (caller, input) => withVisitor(caller, input, readMap)
+		run: async (caller, input) => withPortalVisitor(caller, input, readMap)
 	},
 	{
 		name: 'mark_workflow_map_station',
@@ -49,17 +52,10 @@ export const portalWorkflowMapActions: McpAction[] = [
 			},
 			['stage', 'versionNumber', 'stationKey', 'reviewState']
 		),
-		run: async (caller, input) => withVisitor(caller, input, (visitor) => markStation(caller, visitor, input))
-	}
+		run: async (caller, input) => withPortalVisitor(caller, input, (visitor) => markStation(caller, visitor, input))
+	},
+	confirmWorkflowMapAction
 ];
-
-type VisitorStep = (visitor: PortalVisitor) => Promise<string>;
-
-async function withVisitor(caller: McpCaller, input: Record<string, unknown>, step: VisitorStep): Promise<string> {
-	const visitor = await portalVisitorOf(caller, input);
-	if (typeof visitor === 'string') return visitor;
-	return step(visitor);
-}
 
 async function readMap(visitor: PortalVisitor): Promise<string> {
 	const standing = describeVisitorStanding(visitor);
@@ -69,12 +65,13 @@ async function readMap(visitor: PortalVisitor): Promise<string> {
 	return [standing, ...sections].join('\n\n');
 }
 
-function filedSections(organisationName: string, { maps, standings }: ClientWorkflowMap): string[] {
+function filedSections(organisationName: string, { maps, standings, confirmations }: ClientWorkflowMap): string[] {
 	const productNames = new Map(Object.entries(maps.productNames));
 	return mapStages.flatMap((stage) => {
 		const map = maps[stage];
 		if (map === null) return [];
-		return [describeWorkflowMap(organisationName, map, { productNames, standings: standings[stage] })];
+		const surroundings = { productNames, standings: standings[stage], confirmation: confirmations[stage] };
+		return [describeWorkflowMap(organisationName, map, surroundings)];
 	});
 }
 

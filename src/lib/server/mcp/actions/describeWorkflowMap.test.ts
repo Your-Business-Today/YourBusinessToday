@@ -23,12 +23,19 @@ describe('describeWorkflowMap', () => {
 		'work-order-award': { reviewState: 'right' as const, whatIsWrong: null, markedOnVersion: 2 }
 	};
 	const productNames = new Map([[portalId, 'JPMS portal']]);
-	const markdown = describeWorkflowMap('Jewel Bespoke Build', juneAfter(), { productNames, standings });
+	const markdown = describeWorkflowMap('Jewel Bespoke Build', juneAfter(), { productNames, standings, confirmation: null });
+	const confirmation = { stage: 'after' as const, versionNumber: 3, confirmedAt: '2026-11-13T07:00:00Z' };
+	const confirmedMarkdown = describeWorkflowMap('Jewel Bespoke Build', juneAfter(), { productNames, standings, confirmation });
 
 	it('heads the map with its stage, version and day, and tallies it', () => {
 		expect(markdown).toContain('## After: workflow map of Jewel Bespoke Build, version 3, filed 2026-11-13');
 		expect(markdown).toContain('6 lines, 29 stations and 7 hand-overs. Stations: 1 in our products, 1 planned, 27 done elsewhere.');
 		expect(markdown).toContain("The client's marks: 1 right, 1 not right, 27 not checked yet.");
+	});
+
+	it('says whether the client has confirmed this version', () => {
+		expect(markdown).toContain('The client has not confirmed this version yet.');
+		expect(confirmedMarkdown).toContain('The client confirmed version 3 of their After map as right on 13 Nov 2026.');
 	});
 
 	it("says where each station stands with the client, and when a mark was carried forward", () => {

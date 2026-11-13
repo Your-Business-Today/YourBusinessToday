@@ -2,6 +2,7 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { deleteGoal } from '$lib/server/goals/deleteGoal';
 import { findTasks } from '$lib/server/support/findTasks';
 import { getGoal } from '$lib/server/goals/getGoal';
+import { readConfirmedMapOfGoal } from '$lib/server/goals/readConfirmedMapOfGoal';
 import { getLifecycleSteps } from '$lib/server/lifecycle/getLifecycleSteps';
 import { getProject } from '$lib/server/projects/getProject';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
@@ -29,14 +30,15 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	if (goal === null || project === null || goal.projectId !== project.id)
 		error(404, 'Goal not found');
 	const subject = { goalId: goal.id };
-	const [tasks, people, conversation, lifecycleSteps] = await Promise.all([
+	const [tasks, people, conversation, lifecycleSteps, mapOrigin] = await Promise.all([
 		findTasks(locals.supabase, { projectId: project.id, goalId: goal.id, phrase: '' }),
 		getPeopleOnProject(locals.supabase, project.id),
 		loadConversation(locals.supabase, subject, user.id),
-		getLifecycleSteps(locals.supabase, subject)
+		getLifecycleSteps(locals.supabase, subject),
+		readConfirmedMapOfGoal(goal)
 	]);
 	const canTurnOnAutocomplete = await isStaffMember(locals);
-	return { goal, project, tasks, people, lifecycleSteps, canTurnOnAutocomplete, ...conversation };
+	return { goal, project, tasks, people, lifecycleSteps, canTurnOnAutocomplete, mapOrigin, ...conversation };
 };
 
 export const actions: Actions = {

@@ -21,14 +21,20 @@ export async function withProjectWork(supabase: SupabaseClient, projectRows: Row
 	}));
 }
 
-/** The goals with the confirmed context each came from; before migration 0171, the goals alone. */
+/** The goals with the confirmed context or map each came from; before migrations 0213 and 0171, with less of it. */
 async function readGoals(supabase: SupabaseClient, projectIds: string[]): Promise<Row[]> {
-	const surface = PortalSurfaces.goals;
+	const columnsNewestFirst = [PortalSurfaceColumns.goalOrigins, PortalSurfaceColumns.goalContexts, PortalSurfaceColumns.goals];
+	const [newest, ...older] = columnsNewestFirst;
+	return readGoalsWith(supabase, projectIds, newest, older);
+}
+
+async function readGoalsWith(supabase: SupabaseClient, projectIds: string[], columns: string, older: string[]): Promise<Row[]> {
 	try {
-		return await readWork(supabase, surface, PortalSurfaceColumns.goalContexts, projectIds);
+		return await readWork(supabase, PortalSurfaces.goals, columns, projectIds);
 	} catch (failure) {
-		if (!isSchemaNotYetMigrated(failure)) throw failure;
-		return readWork(supabase, surface, PortalSurfaceColumns.goals, projectIds);
+		const [nextColumns, ...rest] = older;
+		if (!isSchemaNotYetMigrated(failure) || nextColumns === undefined) throw failure;
+		return readGoalsWith(supabase, projectIds, nextColumns, rest);
 	}
 }
 
