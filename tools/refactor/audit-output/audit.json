@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T08:04:31+00:00",
+  "generatedAt": "2026-11-13T09:02:31+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4258,
+        "measuredAgainst": 4260,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6375,
+        "measuredAgainst": 6377,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6118,
+        "measuredAgainst": 6119,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 159.15,
+        "measuredAgainst": 159.19,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 2,
-        "measuredAgainst": 159.15,
+        "measuredAgainst": 159.19,
         "score": 99.9
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7055,
+        "measuredAgainst": 7057,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 159.15,
+        "measuredAgainst": 159.19,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 159.15,
+        "measuredAgainst": 159.19,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6375,
+        "measuredAgainst": 6377,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6118,
+        "measuredAgainst": 6119,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6118,
+        "measuredAgainst": 6119,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6375,
+        "measuredAgainst": 6377,
         "score": 100.0
       },
       {
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4258,
-      "totalLines": 159154,
+      "totalFiles": 4260,
+      "totalLines": 159195,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 6375,
+      "totalFunctions": 6377,
       "elseBlocks": 0,
-      "ifBlocks": 6118,
+      "ifBlocks": 6119,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -308,7 +308,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 6375
+      "functionsExamined": 6377
     },
     "designPatterns": {
       "roleFamilies": 228,
@@ -347,15 +347,15 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4871,
+      "totalFiles": 4867,
       "backend": 1262,
       "frontend": 1052,
       "shared": 847,
       "tests": 686,
       "api": 569,
       "database": 214,
-      "tooling": 143,
-      "docs": 81,
+      "tooling": 141,
+      "docs": 79,
       "infrastructure": 17
     }
   },
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4258,
-        "totalLines": 159154,
+        "totalFiles": 4260,
+        "totalLines": 159195,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 6375,
+        "totalFunctions": 6377,
         "elseBlocks": 0,
-        "ifBlocks": 6118,
+        "ifBlocks": 6119,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -891,7 +891,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 6375
+        "functionsExamined": 6377
       },
       "offenders": []
     },
@@ -1112,7 +1112,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 668,
+          "test": 669,
           "text": 13,
           "tiles": 5,
           "time": 5,
@@ -9009,23 +9009,23 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4871,
+        "totalFiles": 4867,
         "backend": 1262,
         "frontend": 1052,
         "shared": 847,
         "tests": 686,
         "api": 569,
         "database": 214,
-        "tooling": 143,
-        "docs": 81,
+        "tooling": 141,
+        "docs": 79,
         "infrastructure": 17
       },
       "offenders": [
         {
           "area": "backend",
           "files": 1262,
-          "sourceFiles": 1252,
-          "sourceLines": 41167
+          "sourceFiles": 1253,
+          "sourceLines": 41180
         },
         {
           "area": "frontend",
@@ -9042,8 +9042,8 @@
         {
           "area": "tests",
           "files": 686,
-          "sourceFiles": 671,
-          "sourceLines": 31367
+          "sourceFiles": 672,
+          "sourceLines": 31395
         },
         {
           "area": "api",
@@ -9059,13 +9059,13 @@
         },
         {
           "area": "tooling",
-          "files": 143,
+          "files": 141,
           "sourceFiles": 9,
           "sourceLines": 382
         },
         {
           "area": "docs",
-          "files": 81,
+          "files": 79,
           "sourceFiles": 0,
           "sourceLines": 0
         },
