@@ -1,16 +1,38 @@
 import { domainPageOutcomes, type DomainPageKept, type DomainPageOutcome } from '$lib/server/businessBrain/keepDomainPage';
 import type { DomainFilingDone } from '$lib/server/businessBrain/fileDomainFromSource';
+import type { DomainFilingGap } from '$lib/server/businessBrain/domainFilingGaps';
 import type { DomainHolder } from './domainHolder';
+import type { DomainWordGap } from '$lib/server/businessBrain/domainWordGaps';
 
 export const nothingTaught =
 	'Nothing was filed: no context, page or retire was given. A source that teaches the domain nothing is a valid outcome; say so to the person.';
 
-export function unknownContext(holder: DomainHolder, contextSlug: string): string {
+function unknownContext(holder: DomainHolder, contextSlug: string): string {
 	return `No bounded context ${contextSlug} is filed or given in contexts. Give it in contexts, or place the page in a context the domain has (${holder.readAction}). Nothing was filed.`;
 }
 
-export function unknownThing(holder: DomainHolder, thingSlug: string): string {
+function unknownThing(holder: DomainHolder, thingSlug: string): string {
 	return `A rule governs ${thingSlug}, which is no thing the domain holds or this call writes. File the thing first or in the same call, or name a thing the domain has (${holder.readAction}). Nothing was filed.`;
+}
+
+function unknownRelatedContext(holder: DomainHolder, contextSlug: string): string {
+	return `The context map relates ${contextSlug}, which is no bounded context filed or given in contexts. Give it in contexts, or relate the contexts the domain has (${holder.readAction}). Nothing was filed.`;
+}
+
+function unknownNaming(holder: DomainHolder, gap: DomainWordGap): string {
+	const nothingFiled = `File it first or in the same call, or name what the domain has (${holder.readAction}). Nothing was filed.`;
+	if ('unknownNamedThingSlug' in gap) return `The word "${gap.word}" names ${gap.unknownNamedThingSlug}, which is no thing the domain holds or this call writes. ${nothingFiled}`;
+	const { word, thingSlug, unknownStatus, statuses } = gap;
+	const statusesHeld = statuses.length === 0 ? 'it has no statuses' : `its statuses are ${statuses.join(', ')}`;
+	return `The word "${word}" names ${thingSlug} in ${unknownStatus}, which is not a status of it: ${statusesHeld}. ${nothingFiled}`;
+}
+
+/** Why nothing was filed, naming what the filing names that the domain will not hold. */
+export function filingGapAnswer(holder: DomainHolder, gap: DomainFilingGap): string {
+	if ('unknownContextSlug' in gap) return unknownContext(holder, gap.unknownContextSlug);
+	if ('unknownThingSlug' in gap) return unknownThing(holder, gap.unknownThingSlug);
+	if ('unknownRelatedContextSlug' in gap) return unknownRelatedContext(holder, gap.unknownRelatedContextSlug);
+	return unknownNaming(holder, gap);
 }
 
 const outcomeWords: Record<DomainPageOutcome, string> = {
