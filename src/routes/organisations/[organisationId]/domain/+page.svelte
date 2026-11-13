@@ -44,18 +44,18 @@
 			<nav aria-label="Domain">
 				<TabStrip tabs={domainTabsFor(domain, words)} selectedKey={shownTab} />
 			</nav>
-			{#if shownTab === domainTabKeys.things}
+			{#if shownTab === domainTabKeys.map}
+				<DomainMapPane {domain} {addresses} />
+			{:else if shownTab === domainTabKeys.things}
 				<DomainThingsPane {domain} {openedSlug} {thingStations} {thingTitles} organisationId={organisation.id} {addresses} />
 			{:else if shownTab === domainTabKeys.rules}
 				<DashboardPanel>
 					<DomainRulesTable rules={domain.rules} {thingTitles} {addresses} emptyMessage={messages.noRules} />
 				</DashboardPanel>
-			{:else if shownTab === domainTabKeys.words}
+			{:else}
 				<DashboardPanel>
 					<DomainWordsTable {words} {addresses} />
 				</DashboardPanel>
-			{:else}
-				<DomainMapPane {domain} {addresses} />
 			{/if}
 		{/if}
 	{/if}
