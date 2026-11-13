@@ -2,11 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { juneWorkflowMapInput } from '$lib/server/workflowMap/juneMap/juneWorkflowMap';
 import { validateWorkflowMap } from '$lib/server/workflowMap/validateWorkflowMap';
 import { describeWorkflowMapRun } from './describeWorkflowMapRun';
+import { emptyVocabulary } from '$lib/data/workflowMap/phraseInDomain';
 import type { WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 import type { WorkflowMapRunStanding } from './workflowMapRunStanding';
 
 const organisation = { id: 'org-1', name: 'Jewel Bespoke Build' } as unknown as WorkflowMapRunStanding['organisation'];
-const newClient: WorkflowMapRunStanding = { organisation, before: null, after: null, products: [], standings: {} };
+const newClient: WorkflowMapRunStanding = { organisation, before: null, after: null, products: [], standings: {}, vocabulary: emptyVocabulary };
 const portal = { id: 'p-1', name: 'Jewel Portal' };
 
 function juneMapFiledAs(stage: 'before' | 'after'): WorkflowMapVersion {

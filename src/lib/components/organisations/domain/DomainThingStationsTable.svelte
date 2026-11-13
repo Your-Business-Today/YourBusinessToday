@@ -1,7 +1,7 @@
 <script lang="ts">
 	import RecordsCell from '$lib/components/workspace/RecordsCell.svelte';
 	import RecordsTable from '$lib/components/workspace/RecordsTable.svelte';
-	import { thingStationRoleWords, type ThingStation } from '$lib/data/workflowMap/thingStations';
+	import { thingStationKey, thingStationRoleWords, type ThingStation } from '$lib/data/workflowMap/thingStations';
 	import { workflowMapStationHref } from '$lib/components/organisations/organisationPages';
 	import type { RecordsColumn } from '$lib/components/workspace/recordsTable';
 
@@ -12,15 +12,18 @@
 	const columns: RecordsColumn<ThingStation>[] = [
 		{ key: 'station', label: 'Station' },
 		{ key: 'line', label: 'Role' },
-		{ key: 'role', label: 'With it' }
+		{ key: 'role', label: 'With it' },
+		{ key: 'status', label: 'Status' }
 	];
+
+	const noStatus = '';
 </script>
 
 <RecordsTable
 	label="Stations"
 	{columns}
 	rows={stations}
-	keyOf={(station) => `${station.stationKey}:${station.role}`}
+	keyOf={thingStationKey}
 	{hrefOf}
 	isDense
 	isCardsOnPhone
@@ -30,5 +33,6 @@
 		<RecordsCell kind="link" href={hrefOf(station)}>{station.stationName}</RecordsCell>
 		<RecordsCell label="Role">{station.lineName}</RecordsCell>
 		<RecordsCell label="With it">{thingStationRoleWords[station.role]}</RecordsCell>
+		<RecordsCell label="Status">{station.status ?? noStatus}</RecordsCell>
 	{/snippet}
 </RecordsTable>

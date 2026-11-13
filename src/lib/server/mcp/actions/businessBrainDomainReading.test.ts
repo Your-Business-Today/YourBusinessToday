@@ -14,6 +14,10 @@ vi.mock('$lib/server/businessBrain/readDomainPages', async () => {
 	const { readDomainPageFacts } = await import('$lib/data/businessBrainDomainFacts');
 	return { readDomainPages: async () => filed.pages.map((page) => ({ ...page, facts: readDomainPageFacts(page.facts) })) };
 });
+vi.mock('$lib/server/workflowMap/readTodaysWorkflowMap', async () => {
+	const { glossaryJoinMap } = await import('$lib/data/workflowMap/tests/glossaryJoinMap');
+	return { readTodaysWorkflowMap: async () => glossaryJoinMap };
+});
 vi.mock('$lib/server/businessBrain/readBodiesByPageId', () => ({
 	readBodiesByPageId: async () => new Map([['map', 'Client work feeds Money.'], ['glossary', '**Job**: work a client pays for.']])
 }));
@@ -44,6 +48,7 @@ describe('reading the organisation’s domain', () => {
 		expect(answer).toContain('## Client work (client-work) — the core domain');
 		expect(answer).toContain('- The job (job): total. Statuses: won.');
 		expect(answer).toContain('### Glossary\n**Job**: work a client pays for.');
+		expect(answer).toContain("## Things on no task\n1 no task of today's workflow map takes in or produces: The job (`job`).");
 	});
 
 	it('gives what each word names, each context’s part and how the contexts relate', async () => {

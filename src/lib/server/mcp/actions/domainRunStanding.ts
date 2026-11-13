@@ -1,4 +1,5 @@
 import { brainOf } from './businessBrainAnswers';
+import { domainRunNotJoined } from './mapDomainJoinSteps';
 import { entitiesOf } from '$lib/data/blueprint/domainModel';
 import { mapPhrasesOf } from '$lib/data/workflowMap/mapPhrases';
 import { mapStageNames } from '$lib/data/workflowMap/workflowMapWords';
@@ -6,6 +7,7 @@ import { organisationModuleLabels, type OrganisationModule } from '$lib/data/org
 import { workflowMapRequest } from '$lib/data/personRequests';
 import { workflowMapRunActionName } from './workflowMapRunActionName';
 import type { DomainSource } from '$lib/server/businessBrain/readDomainSources';
+import type { DomainTermFact } from '$lib/data/businessBrainDomain';
 import type { OrganisationDomain } from '$lib/data/organisationDomain';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 import type { WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
@@ -15,6 +17,7 @@ export type DomainRunStanding = {
 	organisation: Organisation;
 	map: WorkflowMapVersion | null;
 	domain: OrganisationDomain | null;
+	words: DomainTermFact[];
 	sources: DomainSource[];
 	products: { id: string; name: string }[];
 	switchedOn: OrganisationModule[];
@@ -32,7 +35,7 @@ export function domainRunStanding(standing: DomainRunStanding): string {
 	].join('\n');
 }
 
-function mapHeld({ organisation, map }: DomainRunStanding): string {
+function mapHeld({ organisation, map, domain, words }: DomainRunStanding): string {
 	if (map === null)
 		return (
 			`   - The workflow map: none filed for ${organisation.name} yet. The domain is modelled from the map's own phrases, ` +
@@ -41,7 +44,8 @@ function mapHeld({ organisation, map }: DomainRunStanding): string {
 	return [
 		`   - The workflow map: ${mapFiled(map)}. Read it whole with read_workflow_map first: the model starts from it.`,
 		'   - Go through every phrase its stations take in or produce and its hand-overs pass, and say what each is: a record, a record in a status, ' +
-			'a detail or an event. Each record it names is a page of its own; a phrase you cannot place is a question for the person.'
+			'a detail or an event. Each record it names is a page of its own; a phrase you cannot place is a question for the person.',
+		...domainRunNotJoined(map, { things: domain?.things ?? [], words })
 	].join('\n');
 }
 

@@ -6,11 +6,12 @@
 	import { companyWorkflowMapMessages } from '$lib/components/clients/companyWorkflowMapWords';
 	import { openingStageOf } from '$lib/components/organisations/workflowMap/workflowMapTabs';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { emptyVocabulary } from '$lib/data/workflowMap/phraseInDomain';
 	import type { StationDomain } from '$lib/data/domainReading';
 
 	let { data } = $props();
 
-	const domainNotShownHere: StationDomain = { thingTitles: {}, rules: [] };
+	const domainNotShownHere: StationDomain = { vocabulary: emptyVocabulary, rules: [] };
 
 	const { client, maps, chosenStationKey } = $derived(data);
 	const register = $derived(registerOfStage(client.stage));

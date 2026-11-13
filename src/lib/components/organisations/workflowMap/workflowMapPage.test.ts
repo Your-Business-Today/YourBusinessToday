@@ -4,6 +4,9 @@ import { lineColoursOf, lineMapOf } from './workflowLineMap';
 import { mapChangesBetween } from './workflowMapChanges';
 import { openingStageOf, isComparing } from './workflowMapTabs';
 import { stationDetailsOf } from './stationDetails';
+import { emptyVocabulary } from '$lib/data/workflowMap/phraseInDomain';
+
+const vocabulary = emptyVocabulary;
 
 const before = juneBefore();
 const after = juneAfter();
@@ -21,7 +24,7 @@ describe('lineMapOf', () => {
 
 describe('stationDetailsOf', () => {
 	it('says what Work order award takes in and from whom, what it produces for whom, and where it was done before', () => {
-		const details = stationDetailsOf(after, { earlierMap: before, colours, productNames }, 'work-order-award');
+		const details = stationDetailsOf(after, { earlierMap: before, colours, productNames, vocabulary }, 'work-order-award');
 		expect(details?.lineName).toBe('QS / Estimator');
 		expect(details?.inputs).toEqual([
 			{ item: 'Levelled quote comparison', source: 'From Subbie quotes', goesWrong: null },
@@ -33,7 +36,7 @@ describe('stationDetailsOf', () => {
 	});
 
 	it('says how a hand-over goes wrong today on the Before', () => {
-		const details = stationDetailsOf(before, { earlierMap: null, colours, productNames }, 'work-order-award');
+		const details = stationDetailsOf(before, { earlierMap: null, colours, productNames, vocabulary }, 'work-order-award');
 		const handedOver = details?.inputs[1];
 		const place = details?.place;
 		expect(handedOver?.goesWrong).toContain('lapsed insurance');
@@ -41,7 +44,7 @@ describe('stationDetailsOf', () => {
 	});
 
 	it('is null for a station the map does not have', () => {
-		expect(stationDetailsOf(after, { earlierMap: before, colours, productNames }, 'no-such-station')).toBeNull();
+		expect(stationDetailsOf(after, { earlierMap: before, colours, productNames, vocabulary }, 'no-such-station')).toBeNull();
 	});
 });
 
