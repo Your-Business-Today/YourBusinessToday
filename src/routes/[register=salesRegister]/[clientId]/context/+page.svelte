@@ -3,13 +3,15 @@
 	import EmptyState from '$lib/components/site/EmptyState.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { companyPagePath, registerOfStage } from '$lib/data/salesRegisters';
 
 	let { data } = $props();
 
 	const client = $derived(data.client);
+	const register = $derived(registerOfStage(client.stage));
 	const crumbs = $derived([
-		{ label: 'Clients', href: '/clients' },
-		{ label: client.name, href: `/clients/${client.id}` }
+		{ label: register.title, href: register.path },
+		{ label: client.name, href: companyPagePath(client) }
 	]);
 	const notYetMessage = $derived(
 		`No company context has been recorded for ${client.name} yet. It appears here once one of their people runs ` +

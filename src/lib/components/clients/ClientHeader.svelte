@@ -4,7 +4,7 @@
 	import { clientStageLabels } from '$lib/data/clientLifecycle';
 	import { describeFiledFigures, type FiledFigures } from '$lib/data/filedFigures';
 	import { leadSourceLabels } from '$lib/data/leadSources';
-	import { registerOfStage } from '$lib/data/salesRegisters';
+	import { companyPagePath, registerOfStage } from '$lib/data/salesRegisters';
 	import type { Client } from '$lib/server/clients/clientRecord';
 	import type { StaffMember } from '$lib/server/projects/getStaffDirectory';
 
@@ -25,7 +25,7 @@
 	<p class="text-chalk/70">
 		{clientStageLabels[client.stage]} · {leadSourceLabels[client.leadSource]}
 		{#if parent !== null}
-			· Part of <a href={`/clients/${parent.id}`} class="hover:text-signal">{parent.name}</a>
+			· Part of <a href={companyPagePath(parent)} class="hover:text-signal">{parent.name}</a>
 		{/if}
 		{#if client.website !== ''}
 			· <a href={client.website} class="hover:text-signal">{client.website}</a>
