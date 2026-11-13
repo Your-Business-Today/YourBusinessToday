@@ -8,7 +8,7 @@
 	import type { StationDetails } from './stationDetails';
 	import type { StationDomain } from '$lib/data/domainReading';
 
-	let { details, stationDomain, organisationId }: { details: StationDetails; stationDomain: StationDomain; organisationId: string } = $props();
+	let { details, stationDomain, organisationId }: { details: StationDetails; stationDomain: StationDomain; organisationId: string | null } = $props();
 
 	const { lineName, lineColour, name, summary, inputs, outputs, place, things } = $derived(details);
 

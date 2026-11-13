@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import TabStrip from '$lib/components/workspace/TabStrip.svelte';
 	import MapChangesTable from './MapChangesTable.svelte';
@@ -13,6 +13,7 @@
 	import { stationDetailsOf } from './stationDetails';
 	import type { StationDomain } from '$lib/data/domainReading';
 	import type { OrganisationWorkflowMaps } from '$lib/data/workflowMap/organisationWorkflowMaps';
+	import type { WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 
 	let {
 		maps,
@@ -20,14 +21,16 @@
 		chosenStationKey,
 		messages,
 		stationDomain,
-		organisationId
+		organisationId,
+		belowStation
 	}: {
 		maps: OrganisationWorkflowMaps;
 		openingStage: MapStage;
 		chosenStationKey: string | null;
 		messages: { chooseStation: string; noChanges: string };
 		stationDomain: StationDomain;
-		organisationId: string;
+		organisationId: string | null;
+		belowStation?: Snippet<[WorkflowMapVersion, string | null]>;
 	} = $props();
 
 	let measure: MeasureText = $state(estimatedTextWidth);
@@ -69,12 +72,15 @@
 		<TabStrip {tabs} bind:selectedKey={() => pane, choosePane} />
 	</nav>
 {/if}
-{#if shownStage !== null && shownLineMap !== null}
+{#if shownStage !== null && shownLineMap !== null && shownMap !== null}
 	<WorkflowMapPanel map={shownLineMap} stage={shownStage} layout={drawn.layout} selectedStationId={details?.key} onChooseStation={chooseStation} />
-	{#if details === null}
-		<p class="text-sm text-chalk-subtle">{messages.chooseStation}</p>
-	{:else}
+	{#if details !== null}
 		<StationPanel {details} {stationDomain} {organisationId} />
+	{/if}
+	{#if belowStation !== undefined}
+		{@render belowStation(shownMap, details?.key ?? null)}
+	{:else if details === null}
+		<p class="text-sm text-chalk-subtle">{messages.chooseStation}</p>
 	{/if}
 {:else}
 	<DashboardPanel>

@@ -197,6 +197,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-161 | read where my requests stand and reply on one | client contact | write | `/portal/projects/{projectId}` load | `list_portal_requests` `reply_to_portal_request` | `/portal/projects/{projectId}` |
 | US-162 | read my company's context and mark each part right or wrong | client contact | write | `markPart` | `read_my_company_context` `mark_context_part` | `/portal/context` |
 | US-163 | confirm my company's context | client contact | write | `confirmContext` | `confirm_company_context` | `/portal/context` |
+| US-179 | see my company's workflow map and mark each station right or not right | client contact | write | `markStation` | `read_my_workflow_map` `mark_workflow_map_station` | `/portal/workflow-map` |
 | US-164 | see who at my company can sign in, invite someone, take them off, make them administrator | client contact | write | `invitePerson` `removePerson` `setAdministrator` | `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` | `/portal/people` |
 | US-165 | see my company's invoices and pay one | client contact | write | `pay` | `list_my_invoices` `pay_invoice` | `/portal/billing` |
 

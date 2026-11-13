@@ -1,8 +1,12 @@
+import { standingNote } from '$lib/data/workflowMap/stationReviewWords';
+import { standingOf, type StationStanding } from '$lib/data/workflowMap/stationReview';
 import { stationState } from '$lib/data/workflowMap/workflowMap';
 import type { MapStation } from '$lib/data/workflowMap/workflowMap';
+import type { MapSurroundings } from './describeWorkflowMap';
 
-/** A station as a numbered point with its details beneath: what it is, what it takes and gives, and where it is done. */
-export function describeMapStation(station: MapStation, position: number, productNames: Map<string, string>): string {
+/** A station as a numbered point with its details beneath: what it is, what it takes and gives, where it is done and its mark. */
+export function describeMapStation(station: MapStation, position: number, surroundings: MapSurroundings): string {
+	const { productNames, standings } = surroundings;
 	const output = station.isOutput ? ', an output the business runs on' : '';
 	const heading = `${position}. **${station.name}** \`${station.key}\`${output}: ${station.summary}`;
 	const details = [
@@ -10,9 +14,16 @@ export function describeMapStation(station: MapStation, position: number, produc
 		wordsDetail('Produces', station.produces),
 		whereItIsDone(station, productNames),
 		thingsDetail('Domain things taken in', station.takesInThings),
-		thingsDetail('Domain things produced', station.producesThings)
+		thingsDetail('Domain things produced', station.producesThings),
+		markDetail(standingOf(standings, station.key))
 	].filter((detail) => detail !== '');
 	return [heading, ...details.map((detail) => `   - ${detail}`)].join('\n');
+}
+
+function markDetail(standing: StationStanding): string {
+	const note = standingNote(standing);
+	if (standing.markedOnVersion === null) return note;
+	return `${note} (marked on version ${standing.markedOnVersion}, unchanged since)`;
 }
 
 function wordsDetail(label: string, words: string[]): string {
