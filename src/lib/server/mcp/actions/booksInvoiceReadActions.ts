@@ -14,11 +14,13 @@ import type { McpAction } from '../actionTypes';
 
 const figuresAsTheBooksHoldThem =
 	'Give the person the invoice as the books hold it: its number, customer, dates, every line and its totals. Never ' +
-	'work a figure out yourself; a draft is not yet owed, and an issued one owes its total less what has been paid.';
+	'work a figure out yourself; a draft is not yet owed, and an issued one owes its total less what has been paid. To see, print ' +
+	'or forward it, hand them the address it opens at as a document.';
 
 const newestFirst =
 	'The newest invoice comes first. Use it to find the invoice the person means before reading or changing it, and give ' +
-	'them the figures as the books hold them; a draft is not yet owed.';
+	'them the figures as the books hold them; a draft is not yet owed. Each opens as a document at its address: hand that over ' +
+	'when they want to see, print or forward one.';
 
 export const booksInvoiceReadActions: McpAction[] = [
 	moduleAction('books', {
@@ -50,7 +52,7 @@ export const booksInvoiceReadActions: McpAction[] = [
 					findInvoiceSummaries(caller.supabase, organisation.id, filter),
 					findInvoiceNamings(caller.supabase, organisation.id)
 				]);
-				return describeInvoiceList(organisation.name, invoices, namings);
+				return describeInvoiceList(organisation, invoices, namings);
 			})
 	})
 ];
