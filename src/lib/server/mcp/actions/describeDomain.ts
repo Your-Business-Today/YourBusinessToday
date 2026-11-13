@@ -1,8 +1,9 @@
+import { contextHeading, relationshipLine, termLine } from './describeDomainLines';
 import { describeAggregates } from './describeBlueprint';
 import { domainBlockNames, domainPageKinds } from '$lib/data/businessBrainDomain';
 import { entitiesOf, type BoundedContext } from '$lib/data/blueprint/domainModel';
 import { readBodiesByPageId } from '$lib/server/businessBrain/readBodiesByPageId';
-import type { DomainBlock, DomainContextSummary, OrganisationDomain } from '$lib/data/organisationDomain';
+import type { DomainBlock, OrganisationDomain } from '$lib/data/organisationDomain';
 import type { DomainGlossary, DomainRule } from '$lib/data/domainReading';
 import type { DomainHolder } from './domainHolder';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -25,9 +26,14 @@ export async function describeDomain(
 	const { organisationId } = holder.scope;
 	const bodies = await readBodiesByPageId(supabase, organisationId, writtenOutPageIds(domain));
 	const counts = `${contexts.length} contexts, ${entitiesOf(model).length} entities, ${relationships.length} relationships, ${rules.length} rules`;
-	const mapSection = contextMap === null ? [] : [`## Context map\n${bodies.get(contextMap.pageId) ?? ''}`];
+	const mapSection = contextMap === null ? [] : [contextMapSection(domain, bodies.get(contextMap.pageId) ?? '')];
 	const contextSections = model.contexts.map((context) => describeContext(context, domain, bodies));
 	return [`# ${holder.name} domain\n${counts}. Drawn at ${holder.address}.`, ...mapSection, ...contextSections].join('\n\n');
+}
+
+function contextMapSection({ areaRelationships }: OrganisationDomain, body: string): string {
+	const rows = areaRelationships.length === 0 ? [] : ['### How the contexts relate', ...areaRelationships.map(relationshipLine)];
+	return ['## Context map', body, ...rows].join('\n');
 }
 
 function writtenOutPageIds({ glossaries, contextMap }: OrganisationDomain): string[] {
@@ -43,12 +49,7 @@ function describeContext(context: BoundedContext, domain: OrganisationDomain, bo
 	const blocks = summary.blocks.filter((block) => !writtenOutKinds.includes(block.kind)).map(blockLine);
 	const rules = inArea(domain.rules).map(ruleLine);
 	const glossaries = inArea(domain.glossaries).map((glossary) => `### Glossary\n${glossaryText(glossary, bodies)}`);
-	return [heading(summary), summary.summary, ...describeAggregates(context), ...blocks, ...rules, ...glossaries].join('\n');
-}
-
-function heading({ title, slug, isCoreDomain }: DomainContextSummary): string {
-	const core = isCoreDomain ? ' — the core domain' : '';
-	return `## ${title} (${slug})${core}`;
+	return [contextHeading(summary), summary.summary, ...describeAggregates(context), ...blocks, ...rules, ...glossaries].join('\n');
 }
 
 function blockLine({ kind, title, summary, pageId }: DomainBlock): string {
@@ -61,5 +62,5 @@ function ruleLine({ title, slug, governs, pageId }: DomainRule): string {
 
 function glossaryText({ pageId, terms }: DomainGlossary, bodies: Map<string, string>): string {
 	if (terms.length === 0) return bodies.get(pageId) ?? '';
-	return terms.map(({ word, meaning }) => `- **${word}**: ${meaning}`).join('\n');
+	return terms.map(termLine).join('\n');
 }

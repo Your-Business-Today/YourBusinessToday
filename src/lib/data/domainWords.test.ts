@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { domainWordsOf, glossariesInProse } from './domainWords';
 import { glossaryTermsInProse } from './glossaryTermsInProse';
+import { plainDomainTerm } from './domainTermFacts';
 import type { DomainGlossary } from './domainReading';
 
-const listed: DomainGlossary = { pageId: 'listed', areaSlug: 'sales', areaTitle: 'Sales', terms: [{ word: 'PO', meaning: 'Purchase order' }] };
+const listed: DomainGlossary = { pageId: 'listed', areaSlug: 'sales', areaTitle: 'Sales', terms: [plainDomainTerm('PO', 'Purchase order')] };
 const inProse: DomainGlossary = { pageId: 'prose', areaSlug: 'delivery', areaTitle: 'Delivery', terms: [] };
 
 const proseBody = [
@@ -17,9 +18,9 @@ const proseBody = [
 describe('the words of a domain', () => {
 	it('takes a bold or listed term and its meaning from a glossary’s prose, and leaves other lines out', () => {
 		expect(glossaryTermsInProse(proseBody)).toEqual([
-			{ word: 'PVR', meaning: 'programme valuation report' },
-			{ word: 'Snag', meaning: 'a fault found at handover' },
-			{ word: 'Fit-out', meaning: 'the work inside a finished shell' }
+			plainDomainTerm('PVR', 'programme valuation report'),
+			plainDomainTerm('Snag', 'a fault found at handover'),
+			plainDomainTerm('Fit-out', 'the work inside a finished shell')
 		]);
 	});
 

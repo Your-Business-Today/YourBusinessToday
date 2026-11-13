@@ -54,7 +54,7 @@
 				</DashboardPanel>
 			{:else}
 				<DashboardPanel>
-					<DomainWordsTable {words} {addresses} />
+					<DomainWordsTable {words} {thingTitles} {addresses} />
 				</DashboardPanel>
 			{/if}
 		{/if}

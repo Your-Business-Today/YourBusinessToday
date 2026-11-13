@@ -1,3 +1,4 @@
+import { plainDomainTerm } from './domainTermFacts';
 import type { DomainTermFact } from './businessBrainDomain';
 
 const boldTermLine = /^\s*(?:[-*]\s+)?\*\*(.+?)\*\*\s*(?::|—|–|-)?\s*(.+)$/;
@@ -17,7 +18,7 @@ export function glossaryTermsInProse(body: string): DomainTermFact[] {
 }
 
 function termOfMatch([, word, meaning]: RegExpExecArray): DomainTermFact {
-	return { word: word.trim().replace(trailingColon, ''), meaning: meaning.trim() };
+	return plainDomainTerm(word.trim().replace(trailingColon, ''), meaning.trim());
 }
 
 function termOfLine(line: string): DomainTermFact | null {
