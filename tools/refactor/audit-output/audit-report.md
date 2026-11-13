@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-11-13 20:32 UTC.
+Generated 2026-11-13 20:37 UTC.
 
 ## Headline
 
@@ -43,19 +43,19 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | backend | 1,278 | 1,268 | 41,877 |
 | frontend | 1,140 | 1,010 | 34,666 |
 | shared | 870 | 852 | 30,511 |
-| tests | 716 | 701 | 33,111 |
-| api | 581 | 580 | 26,513 |
+| tests | 716 | 701 | 33,112 |
+| api | 581 | 580 | 26,514 |
 | database | 219 | 7 | 212 |
-| tooling | 143 | 9 | 382 |
+| tooling | 141 | 9 | 382 |
 | docs | 79 | 0 | 0 |
 | infrastructure | 17 | 0 | 0 |
-| **whole repository** | **5,043** | **4,427** | **167,272** |
+| **whole repository** | **5,041** | **4,427** | **167,274** |
 
 ## Summary
 
 | Check | Key figures |
 | --- | --- |
-| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 4427, totalLines: 167272, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
+| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 4427, totalLines: 167274, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
 | functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 6721, elseBlocks: 0, ifBlocks: 6318, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
@@ -70,7 +70,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | inventory | pages: 76, components: 693, orphanComponents: 0, averagePageLines: 43 |
 | siteDefinition | routes: 75, views: 772, siteComponents: 681, catalogue: 14, widgetUsages: 419, handRolledElements: 0, widgetSlots: 419, viewsWithHandRolled: 0, boxedContentWidgets: 0, designSheets: 8, designsLastChecked: 2026-11-13, brandCheckedAt: never |
 | inputValidation | schemaTables: 213, limitedColumns: 0, writeDoors: 367, unvalidatedDoors: 0, looserLimits: 0 |
-| fileAreas | totalFiles: 5043, backend: 1278, frontend: 1140, shared: 870, tests: 716, api: 581, database: 219, tooling: 143, docs: 79, infrastructure: 17 |
+| fileAreas | totalFiles: 5041, backend: 1278, frontend: 1140, shared: 870, tests: 716, api: 581, database: 219, tooling: 141, docs: 79, infrastructure: 17 |
 
 ## Against the baseline
 
