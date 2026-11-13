@@ -1,12 +1,14 @@
 import { businessBrainLimits } from '$lib/data/businessBrainRules';
 import { contextMapSlug } from '$lib/data/businessBrainDomain';
-import { domainFilingLimits, domainReferenceType, domainWritableKinds } from '$lib/data/businessBrainDomainRules';
+import { domainFilingLimits, domainWritableKinds } from '$lib/data/businessBrainDomainRules';
+import { everySubdomainKind } from '$lib/data/areaRelationshipFacts';
+import { fieldEntry, relationshipEntry, termEntry } from './businessBrainDomainFactEntries';
 import { objectSchema, proseField, textField } from '../actionTypes';
 import { organisationField, sourceNamingFields } from './businessBrainSchemas';
 
 const { longestTitle, longestSummary, longestSlug } = businessBrainLimits;
-const { mostContexts, mostPages, mostRetires, mostFields, longestFieldName, longestFieldType, mostStatuses, longestStatus } = domainFilingLimits;
-const { mostGoverned, mostTerms, longestWord, longestMeaning } = domainFilingLimits;
+const { mostContexts, mostPages, mostRetires, mostFields, mostStatuses, longestStatus } = domainFilingLimits;
+const { mostGoverned, mostTerms, mostRelationships } = domainFilingLimits;
 
 const slugField = (what: string) => textField(`${what}: lower-case words joined by hyphens, permanent, at most ${longestSlug} characters`);
 
@@ -16,29 +18,15 @@ const contextEntry = objectSchema(
 		name: textField(`The context’s name in the business’s own words, a part of the business with its own words and records, at most ${longestTitle} characters`),
 		summary: textField(`One line saying what model lives here, at most ${longestSummary} characters`),
 		body: proseField('What the context covers and where its edges are; the summary stands in when left out'),
-		isCoreDomain: { type: 'boolean', description: 'True only for the one context at the heart of the business' }
+		isCoreDomain: { type: 'boolean', description: 'True only for the one context at the heart of the business' },
+		subdomain: {
+			type: 'string',
+			enum: everySubdomainKind,
+			description:
+				'The part the context plays: core (what sets the business apart; the one context marked isCoreDomain), supporting (needed, and particular to the business) or generic (any business has it, such as invoicing)'
+		}
 	},
 	['slug', 'name', 'summary']
-);
-
-const fieldEntry = objectSchema(
-	{
-		name: textField(`The field’s name, at most ${longestFieldName} characters`),
-		label: textField('What a person calls it, when it differs from the name'),
-		type: textField(`What it holds, such as text, number, money, date or ${domainReferenceType}, with its unit or format where it has one — at most ${longestFieldType} characters`),
-		ref: textField(`With type ${domainReferenceType}: the slug of the entity it refers to`),
-		isRequired: { type: 'boolean', description: 'True when every one of these has it' },
-		notes: textField('Anything the name does not say')
-	},
-	['name', 'type']
-);
-
-const termEntry = objectSchema(
-	{
-		word: textField(`The word as the business uses it, with one meaning inside its context, at most ${longestWord} characters`),
-		meaning: textField(`What it means here, at most ${longestMeaning} characters`)
-	},
-	['word', 'meaning']
 );
 
 const pageEntry = objectSchema(
@@ -62,7 +50,12 @@ const pageEntry = objectSchema(
 		statuses: { type: 'array', items: { type: 'string' }, description: `Entity: the statuses it moves through, each a describing word and never the record’s own name, at most ${mostStatuses}, each at most ${longestStatus} characters` },
 		aggregateRootSlug: textField('Entity or aggregate: the slug of the entity at the root of the aggregate it belongs to'),
 		governs: { type: 'array', items: { type: 'string' }, description: `Rule: the slugs of the things it governs, at least one and at most ${mostGoverned}` },
-		terms: { type: 'array', items: termEntry, description: `Glossary: its words one to a row, at most ${mostTerms}` }
+		terms: { type: 'array', items: termEntry, description: `Glossary: its words one to a row, at most ${mostTerms}, each saying what it names` },
+		relationships: {
+			type: 'array',
+			items: relationshipEntry,
+			description: `Context map: one row for each context that passes work or records to another, at most ${mostRelationships}`
+		}
 	},
 	['kind', 'slug', 'title', 'summary', 'body']
 );

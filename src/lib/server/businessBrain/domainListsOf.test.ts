@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { plainDomainTerm } from '$lib/data/domainTermFacts';
 import { domainListsOf } from './domainListsOf';
 import { readDomainPageFacts } from '$lib/data/businessBrainDomainFacts';
 import type { DomainPage } from '$lib/data/organisationDomain';
@@ -42,6 +43,6 @@ describe('domainListsOf', () => {
 
 	it('lists each glossary with the words it keeps one to a row', () => {
 		const { glossaries } = domainListsOf([delivery, sales], pages);
-		expect(glossaries).toEqual([{ pageId: 'sales-glossary', terms: [{ word: 'PO', meaning: 'Purchase order' }], areaSlug: 'sales', areaTitle: 'The sales' }]);
+		expect(glossaries).toEqual([{ pageId: 'sales-glossary', terms: [plainDomainTerm('PO', 'Purchase order')], areaSlug: 'sales', areaTitle: 'The sales' }]);
 	});
 });

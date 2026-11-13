@@ -14,11 +14,12 @@ describe('moduleFrameLink', () => {
 });
 
 describe('moduleFrameLinks', () => {
-	it('lists the books’ Costs page after Reports, in the Accounts folder', () => {
+	it('lists the books’ Invoices and Costs pages after Reports, in the Accounts folder', () => {
 		const [accounts] = frameSectionsOf(moduleFrameLinks('books', '/organisations/harbour/books'));
 		expect(accounts.folder).toEqual({ label: 'Accounts', icon: 'poundSterling' });
 		expect(accounts.links).toEqual([
 			{ href: '/organisations/harbour/books', label: 'Reports', icon: 'chartColumn' },
+			{ href: '/organisations/harbour/books/invoices', label: 'Invoices', icon: 'fileText' },
 			{ href: '/organisations/harbour/books/costs', label: 'Costs', icon: 'receipt' }
 		]);
 	});

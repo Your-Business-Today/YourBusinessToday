@@ -22,9 +22,14 @@ export function booksPathOver(organisationId: string, span: EntriesSpan): string
 	return `${booksPathOf(organisationId)}?${spanQueryOf(span)}`;
 }
 
+/** The page listing every one of the organisation's invoices by status, with its customers and billing schedules. */
+export function booksInvoicesPathOf(organisationId: string): string {
+	return `${booksPathOf(organisationId)}/${invoicesSegment}`;
+}
+
 /** The page that shows one of the organisation's invoices as a document, to the people keeping its books. */
 export function booksInvoicePathOf(organisationId: string, invoiceId: string): string {
-	return `${booksPathOf(organisationId)}/${invoicesSegment}/${invoiceId}`;
+	return `${booksInvoicesPathOf(organisationId)}/${invoiceId}`;
 }
 
 /** The same invoice as a PDF to download. */

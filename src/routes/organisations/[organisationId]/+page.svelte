@@ -34,6 +34,7 @@
 		members={data.members}
 		modules={data.modules}
 		directors={data.directors}
+		billing={data.billing}
 		canManage={data.canManage}
 		isStaff={data.isStaff}
 	/>

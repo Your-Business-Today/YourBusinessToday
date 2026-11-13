@@ -1,18 +1,32 @@
 import { isPlainObject, type PlainObject } from './plainObject';
-import type { DomainFieldFact, DomainPageFacts, DomainTermFact } from './businessBrainDomain';
+import { readAreaRelationships, readSubdomainKind } from './areaRelationshipFacts';
+import { readDomainTerms } from './domainTermFacts';
+import type { DomainFieldFact, DomainPageFacts } from './businessBrainDomain';
 
-const noFacts: DomainPageFacts = { isCoreDomain: false, fields: [], statuses: [], aggregateRootSlug: null, governs: [], terms: [] };
+const noFacts: DomainPageFacts = {
+	isCoreDomain: false,
+	subdomain: null,
+	fields: [],
+	statuses: [],
+	aggregateRootSlug: null,
+	governs: [],
+	terms: [],
+	relationships: []
+};
 
 /** A page's facts as the domain reads them; anything a page does not carry, or carries in another shape, reads as absent. */
 export function readDomainPageFacts(facts: unknown): DomainPageFacts {
 	if (!isPlainObject(facts)) return noFacts;
+	const isCoreDomain = facts.isCoreDomain === true;
 	return {
-		isCoreDomain: facts.isCoreDomain === true,
+		isCoreDomain,
+		subdomain: readSubdomainKind(isCoreDomain, facts.subdomain),
 		fields: Array.isArray(facts.fields) ? facts.fields.filter(isPlainObject).filter(isNamed).map(fieldFact) : [],
 		statuses: Array.isArray(facts.statuses) ? facts.statuses.filter(isText) : [],
 		aggregateRootSlug: isText(facts.aggregateRootSlug) ? facts.aggregateRootSlug : null,
 		governs: Array.isArray(facts.governs) ? facts.governs.filter(isText) : [],
-		terms: Array.isArray(facts.terms) ? facts.terms.filter(isPlainObject).filter(isWordAndMeaning).map(termFact) : []
+		terms: readDomainTerms(facts.terms),
+		relationships: readAreaRelationships(facts.relationships)
 	};
 }
 
@@ -26,14 +40,6 @@ function fieldFact(field: PlainObject): DomainFieldFact {
 		isRequired: field.isRequired === true,
 		notes: isText(field.notes) ? field.notes : ''
 	};
-}
-
-function termFact(term: PlainObject): DomainTermFact {
-	return { word: term.word as string, meaning: term.meaning as string };
-}
-
-function isWordAndMeaning(term: PlainObject): boolean {
-	return isText(term.word) && term.word !== '' && isText(term.meaning);
 }
 
 function isNamed(field: PlainObject): boolean {

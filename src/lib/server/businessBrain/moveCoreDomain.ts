@@ -7,7 +7,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 /**
  * Exactly one context is the core domain. When a filing marks one, every other context marked before takes a
- * revision that unmarks it, its earlier version kept in its history.
+ * revision that unmarks it and leaves its part unsaid until it is filed again, its earlier version kept in its history.
  */
 export async function moveCoreDomainTo(
 	supabase: SupabaseClient,
@@ -22,7 +22,7 @@ export async function moveCoreDomainTo(
 	for (const formerCore of formerCores) {
 		const standing = await readDomainPageStanding(supabase, place, formerCore.slug);
 		if (standing === null) continue;
-		const values = { ...valuesOfStanding(standing), facts: { ...standing.facts, isCoreDomain: false } };
+		const values = { ...valuesOfStanding(standing), facts: { ...standing.facts, isCoreDomain: false, subdomain: null } };
 		unmarked.push(await keepDomainPage(supabase, place, values));
 	}
 	return unmarked;

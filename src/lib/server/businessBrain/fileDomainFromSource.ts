@@ -57,9 +57,10 @@ function contextIdsOf(filedPages: DomainPage[], contextsKept: DomainPageKept[]):
 	return new Map([...filed, ...keptNow]);
 }
 
-function contextValues({ slug, title, summary, body, isCoreDomain }: DomainContextGiven) {
+function contextValues({ slug, title, summary, body, isCoreDomain, subdomain }: DomainContextGiven) {
 	const kind: DomainPageKind = domainPageKinds.boundedContext;
-	return { kind, slug, title, summary, body, facts: { isCoreDomain }, parentPageId: null };
+	const facts = subdomain === null ? { isCoreDomain } : { isCoreDomain, subdomain };
+	return { kind, slug, title, summary, body, facts, parentPageId: null };
 }
 
 function pageValues({ kind, slug, title, summary, body, contextSlug, facts }: DomainPageWriteGiven, contextIds: Map<string, string>) {
