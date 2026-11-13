@@ -1,6 +1,5 @@
 <script lang="ts">
 	import BusinessBrainDrawn from '$lib/components/businessBrain/BusinessBrainDrawn.svelte';
-	import BusinessBrainBrainsTable from '$lib/components/businessBrain/BusinessBrainBrainsTable.svelte';
 	import BusinessBrainFilesTable from '$lib/components/businessBrain/BusinessBrainFilesTable.svelte';
 	import BusinessBrainPagesTable from '$lib/components/businessBrain/BusinessBrainPagesTable.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
@@ -15,11 +14,11 @@
 
 	let { data } = $props();
 
-	const { organisation, canManage, index, brains, listedFiles, drawing } = $derived(data);
+	const { organisation, index, listedFiles, drawing } = $derived(data);
 	const { entries: pages, pageCount } = $derived(index);
 	const { files, fileCount } = $derived(listedFiles);
 	const addresses = $derived(businessBrainAddresses(organisation.id));
-	const tabs = $derived(businessBrainTabsFor({ pageCount, fileCount, brainCount: brains.length }));
+	const tabs = $derived(businessBrainTabsFor({ pageCount, fileCount }));
 	const shownTab = $derived(businessBrainTabOf(page.url));
 	const hasMorePages = $derived(pages.length < pageCount);
 	const hasMoreFiles = $derived(files.length < fileCount);
@@ -46,8 +45,6 @@
 			{#if hasMoreFiles}
 				<p class={panelEmptyClasses}>{filesListedSentence(files.length, fileCount)}</p>
 			{/if}
-		{:else if shownTab === businessBrainTabKeys.brains}
-			<BusinessBrainBrainsTable {brains} canReadQuestions={canManage} {addresses} />
 		{:else if shownTab === businessBrainTabKeys.pages}
 			<BusinessBrainPagesTable {pages} {addresses} emptyMessage={nothingFiledYet} />
 			{#if hasMorePages}

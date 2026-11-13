@@ -2,12 +2,12 @@ import { countShownOnTab } from '$lib/components/workspace/countShownOnTab';
 import { tabNamedIn } from '$lib/components/workspace/tabOfAddress';
 import type { Tab } from '$lib/components/workspace/TabStrip.svelte';
 
-export const businessBrainTabKeys = { brain: 'brain', pages: 'pages', files: 'files', brains: 'brains' } as const;
+export const businessBrainTabKeys = { brain: 'brain', pages: 'pages', files: 'files' } as const;
 
 export type BusinessBrainTabKey = (typeof businessBrainTabKeys)[keyof typeof businessBrainTabKeys];
 
 /** How many of each the brain holds, as its tabs count them. */
-export type BusinessBrainCounts = { pageCount: number; fileCount: number; brainCount: number };
+export type BusinessBrainCounts = { pageCount: number; fileCount: number };
 
 const tabQueryKey = 'tab';
 const everyTabKey: BusinessBrainTabKey[] = Object.values(businessBrainTabKeys);
@@ -17,7 +17,7 @@ export function businessBrainTabOf(address: URL): BusinessBrainTabKey {
 	return tabNamedIn(address, tabQueryKey, everyTabKey, businessBrainTabKeys.brain);
 }
 
-/** The drawn brain first, then Pages, Files and Brains, each counting what it holds. */
+/** The drawn brain first, then Pages and Files, each counting what it holds. */
 export function businessBrainTabsFor(counts: BusinessBrainCounts): Tab[] {
 	const tab = (key: BusinessBrainTabKey, label: string, count: number | null) => ({
 		key,
@@ -29,7 +29,6 @@ export function businessBrainTabsFor(counts: BusinessBrainCounts): Tab[] {
 	return [
 		tab(businessBrainTabKeys.brain, 'Brain', uncounted),
 		tab(businessBrainTabKeys.pages, 'Pages', counts.pageCount),
-		tab(businessBrainTabKeys.files, 'Files', counts.fileCount),
-		tab(businessBrainTabKeys.brains, 'Brains', counts.brainCount)
+		tab(businessBrainTabKeys.files, 'Files', counts.fileCount)
 	];
 }
