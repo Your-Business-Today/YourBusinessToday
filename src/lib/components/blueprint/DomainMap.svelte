@@ -38,7 +38,7 @@
 		viewBox={`0 0 ${layout.width} ${layout.height}`}
 		class="block h-auto w-full min-w-[40rem]"
 		role="img"
-		aria-label="The domain's contexts, entities and the relationships between them"
+		aria-label="The domain's areas, the things in each and how they relate"
 	>
 		{#each layout.contexts as placed (placed.name)}
 			<DomainContextBox {placed} />

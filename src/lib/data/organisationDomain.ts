@@ -1,3 +1,4 @@
+import type { DomainLists } from './domainReading';
 import type { DomainModel } from './blueprint/domainModel';
 import type { DomainPageFacts, DomainPageKind } from './businessBrainDomain';
 
@@ -25,8 +26,8 @@ export type DomainContextSummary = {
 	blocks: DomainBlock[];
 };
 
-/** An organisation's own domain: the map of its entities, its contexts, and the page saying how they relate. */
-export type OrganisationDomain = {
+/** An organisation's own domain: the map of its entities, its contexts, the page saying how they relate, and its things, rules and glossaries. */
+export type OrganisationDomain = DomainLists & {
 	model: DomainModel;
 	contexts: DomainContextSummary[];
 	contextMap: DomainBlock | null;

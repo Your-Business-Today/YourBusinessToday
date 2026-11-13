@@ -1,4 +1,4 @@
-import { domainFiled, nothingTaught, unknownContext } from './businessBrainDomainAnswers';
+import { domainFiled, nothingTaught, unknownContext, unknownThing } from './businessBrainDomainAnswers';
 import { describeDomainRun } from './describeDomainRun';
 import { describeDomain } from './describeDomain';
 import { fileDomainFromSource } from '$lib/server/businessBrain/fileDomainFromSource';
@@ -34,6 +34,7 @@ async function fileDomainOf(caller: McpCaller, input: Record<string, unknown>, h
 	const done = await fileDomainFromSource(caller.supabase, filer, filing);
 	if (done === null) return noSuchSource;
 	if ('unknownContextSlug' in done) return unknownContext(holder, done.unknownContextSlug);
+	if ('unknownThingSlug' in done) return unknownThing(holder, done.unknownThingSlug);
 	return domainFiled(holder, done);
 }
 

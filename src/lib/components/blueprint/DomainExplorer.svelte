@@ -27,14 +27,14 @@
 </script>
 
 <p class="text-sm text-chalk/60">
-	Each box is a bounded context; ◆ marks an aggregate's root, with the entities inside it beneath. Pick an entity to
-	see its fields and what it holds and refers to.
+	Each box is an area of the business; ◆ marks a thing kept in its own right, with the things kept as part of it
+	beneath. Pick a thing to see its fields and what it holds and refers to.
 </p>
 <div class={dashboardGridClasses}>
 	<DomainMap {domain} selectedEntityName={chosenName} onSelect={select} />
 	<aside class="flex min-w-0 flex-col gap-4">
 		{#if chosenEntity === undefined}
-			<EmptyState message="Pick an entity on the map." />
+			<EmptyState message="Pick a thing on the map." />
 		{:else}
 			<EntityPanel entity={chosenEntity} {domain} {siteMap} {projectId} {goals} onSelect={select} />
 		{/if}

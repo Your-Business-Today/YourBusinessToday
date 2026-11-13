@@ -1,9 +1,9 @@
 import { businessBrainLimits } from '$lib/data/businessBrainRules';
 import { contextMapSlug, domainPageKinds, type DomainPageKind } from '$lib/data/businessBrainDomain';
-import { domainKindsWithFields, domainWritableKinds, type DomainContextGiven, type DomainPageWriteGiven, type DomainRetireGiven } from '$lib/data/businessBrainDomainRules';
+import { domainWritableKinds, type DomainContextGiven, type DomainPageWriteGiven, type DomainRetireGiven } from '$lib/data/businessBrainDomainRules';
 import { bodyRefusal, isPageSlug, lengthRefusal, slugRefusal } from './businessBrainFieldRefusals';
 import { trimmedText } from '$lib/data/trimmedText';
-import { validateDomainFacts } from './validateDomainFacts';
+import { validateDomainKindFacts } from './validateDomainKindFacts';
 import type { PlainObject } from '$lib/data/plainObject';
 
 const { longestTitle, longestSummary } = businessBrainLimits;
@@ -42,7 +42,7 @@ export function validateDomainPageWrite(entry: PlainObject, label: string): Doma
 	if (body === '') return `${label}: ${bodyRefusal}`;
 	const contextSlug = validateContextSlug(kind, slug, trimmedText(entry.contextSlug));
 	if (typeof contextSlug !== 'string') return `${label}: ${contextSlug.refusal}`;
-	const facts = domainKindsWithFields.includes(kind) ? validateDomainFacts(entry, label) : null;
+	const facts = validateDomainKindFacts(kind, entry, label);
 	if (typeof facts === 'string') return facts;
 	return { kind, slug, title, summary, body, contextSlug, facts };
 }
