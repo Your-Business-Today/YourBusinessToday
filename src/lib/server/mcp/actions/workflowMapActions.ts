@@ -4,6 +4,8 @@ import { isRefused } from '$lib/server/filing/filedText';
 import { fileWorkflowMap } from '$lib/server/workflowMap/fileWorkflowMap';
 import { refuseStrayProducts } from '$lib/server/workflowMap/mapProducts';
 import { validateWorkflowMap } from '$lib/server/workflowMap/validateWorkflowMap';
+import { workflowMapGaps } from '$lib/server/workflowMap/workflowMapGaps';
+import { readMapVocabulary } from '$lib/server/businessBrain/readMapVocabulary';
 import { objectSchema } from '../actionTypes';
 import { contextOrganisation } from './contextOrganisation';
 import { filedWorkflowMapAnswer } from './filedWorkflowMapAnswer';
@@ -60,5 +62,6 @@ async function fileMap(caller: McpCaller, input: Record<string, unknown>): Promi
 	if (strayProduct !== null) return strayProduct.refusal;
 	const filing = { organisationId: organisation.id, recordedBy: caller.accountId, draft };
 	const versionNumber = await fileWorkflowMap(caller.supabase, filing);
-	return filedWorkflowMapAnswer(organisation.name, versionNumber, draft);
+	const vocabulary = await readMapVocabulary(caller.supabase, organisation.id);
+	return filedWorkflowMapAnswer(organisation.name, versionNumber, draft, workflowMapGaps(draft, vocabulary));
 }

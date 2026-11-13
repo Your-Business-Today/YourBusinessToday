@@ -14,7 +14,9 @@ export const mapQuestioningRules = [
 	'Ask exactly one question at a time, in the business\'s own words, and follow the person\'s story rather than forcing the next stage.',
 	'Prefer the concrete: "walk me through the last one" beats "describe your process".',
 	'Chase the unofficial: the spreadsheet kept on the side, the person everyone really asks, the check done from memory.',
-	'Let the gaps choose the next question: a task with nothing to take in, a role with one task, an output that goes nowhere.'
+	'Let the gaps choose the next question: a task with nothing to take in, a role with one task, an output that goes nowhere.',
+	'What you assumed is asked, never filed: file only what the person said or what a source you read states, and put everything you inferred to them as a question.',
+	'When the person says nothing goes wrong at a hand-over, file that in their words as what goes wrong there, so it is not asked again.'
 ] as const;
 
 /** How a map is shaped so it draws clearly: the order things are filed in is the order the map draws and reads them. */

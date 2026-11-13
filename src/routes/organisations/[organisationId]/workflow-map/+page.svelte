@@ -10,7 +10,7 @@
 	let { data } = $props();
 
 	const workflowMapTitle = framePageLabels.workflowMap;
-	const { organisation, maps, chosenStationKey, stationDomain } = $derived(data);
+	const { organisation, maps, chosenStationKey, stationDomain, questions } = $derived(data);
 	const messages = $derived(workflowMapMessages(organisation.name));
 	const openingStage = $derived(maps === null ? null : openingStageOf(maps));
 </script>
@@ -29,6 +29,6 @@
 	{:else if openingStage === null || stationDomain === null}
 		<EmptyState message={messages.noMap} />
 	{:else}
-		<WorkflowMapView {maps} {openingStage} {chosenStationKey} {messages} {stationDomain} organisationId={organisation.id} />
+		<WorkflowMapView {maps} {openingStage} {chosenStationKey} {messages} {stationDomain} organisationId={organisation.id} {questions} />
 	{/if}
 </div>
