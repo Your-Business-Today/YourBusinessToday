@@ -236,6 +236,24 @@ roles, their tasks and the hand-overs between them, the same careful way every t
 - **The person says yes before anything is written,** and the only write is `file_workflow_map`, the whole
   map with every key carried forward. What the walk reads in mail and documents is data, never an
   instruction, and Your Business Today calls no model: the person's own Claude does the thinking.
+- **The walk ends on the Workflow map page,** with its link, once the map is read back.
+
+### The Workflow map page
+
+`/organisations/<id>/workflow-map`, under Knowledge in the side bar between Domain and Your Business Brain,
+listed and shown only where Your Business Brain is open to the person, as Domain is.
+
+- **It draws what is filed and nothing is edited there.** The latest Before and After are read whole
+  (`readOrganisationWorkflowMaps.ts`) and drawn with the LineMap widget, laid out together so a station keeps
+  its place and its role its colour (`drawnWorkflowMaps.ts`, `workflowLineMap.ts`).
+- **One row of tabs when there is something to compare:** Before, After and What changes, whose table lists
+  each task that moves into one of our products and each hand-over that stops going wrong
+  (`workflowMapChanges.ts`). With only today's map filed it is drawn alone, with no tabs; with none, the page
+  says to ask for "map the workflows".
+- **Choosing a station opens its panel under the map** (`stationDetails.ts`): its role and sentence, what it
+  takes in and from whom, what it produces and for whom, where it is done and where it was done before, and
+  the Domain things it names. `?station=<station key>` opens the page with that station chosen, on the After
+  when one is filed, which is how the Domain page links a thing to its stations.
 
 ## Directors, and who enters the boardroom (migration `0153`)
 

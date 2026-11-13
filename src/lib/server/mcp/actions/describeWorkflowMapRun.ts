@@ -1,6 +1,8 @@
 import { mapConceptsNotSpecimens, mapShapeSentence } from '$lib/data/workflowMap/workflowMapWords';
 import { mapInterviewStages, mapQuestioningRules } from '$lib/data/workflowMap/workflowMapMethod';
 import { latestMapOf, stageToFile, workflowMapRunStanding, type WorkflowMapRunStanding } from './workflowMapRunStanding';
+import { organisationHref, organisationPages } from '$lib/components/organisations/organisationPages';
+import { portalAddress } from '$lib/portal/portalAddress';
 import type { WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 
 const placesToRead = 'mail and who writes to whom, document libraries, spreadsheets, the accounts package and the calendar';
@@ -22,8 +24,18 @@ export function describeWorkflowMapRun(standing: WorkflowMapRunStanding): string
 		workflowMapRunStanding(standing),
 		...middle,
 		fileStep(standing),
-		'7. **Read it back** with read_workflow_map and tell the person what was filed: its lines, stations and hand-overs. Start this run again whenever the business changes: the next one asks only what is missing.'
+		readBackStep(standing)
 	].join('\n\n');
+}
+
+function readBackStep(standing: WorkflowMapRunStanding): string {
+	const { organisation } = standing;
+	const pageAddress = `https://${portalAddress.hostName}${organisationHref(organisation.id, organisationPages.workflowMap)}`;
+	return (
+		'7. **Read it back** with read_workflow_map and tell the person what was filed: its lines, stations and hand-overs. ' +
+		`End with the link to where it is drawn, its Workflow map page: ${pageAddress}. ` +
+		'Start this run again whenever the business changes: the next one asks only what is missing.'
+	);
 }
 
 function firstMapSteps(): string[] {
