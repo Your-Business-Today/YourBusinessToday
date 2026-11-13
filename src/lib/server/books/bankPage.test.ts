@@ -29,7 +29,7 @@ describe('the Bank page', () => {
 	});
 
 	it('says how many lines are left to match, with both balances, when a line is never matched', async () => {
-		await run('import_bank_lines', { lines: [...statementLines, coffee] });
+		await run('import_bank_lines', { applyRules: false, lines: [...statementLines, coffee] });
 		const page = await readPage();
 		expect(page.standing).toBe('1 line to match. The statement says £970.15 and the books £973.60.');
 		expect(page.lines.at(-1)).toMatchObject({ counterparty: 'COSTA COFFEE', moneyOut: 3.45, isMatched: false, matchedTo: '' });
