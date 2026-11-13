@@ -7,7 +7,7 @@ export const StationStates = { ours: 'ours', planned: 'planned', elsewhere: 'els
 export const StationKinds = { task: 'task', output: 'output' } as const;
 export const LabelSides = { above: 'above', below: 'below' } as const;
 
-export type MapStation = { name: string; kind?: StationKind; state?: StationState; labelSide?: LabelSide };
+export type MapStation = { name: string; kind?: StationKind; state?: StationState; labelSide?: LabelSide; description?: string };
 export type MapLine = { id: string; name: string; colour: LineColour; stops: string[] };
 export type MapHandover = { from: string; to: string; failure?: string };
 

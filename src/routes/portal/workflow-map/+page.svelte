@@ -7,8 +7,11 @@
 	import { portalHomePath } from '$lib/portal/portalPaths';
 	import { portalWorkflowMapMessages } from '$lib/components/portal/workflowMap/portalWorkflowMapWords';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import type { StationDomain } from '$lib/data/domainReading';
 
 	let { data } = $props();
+
+	const domainNotShownInThePortal: StationDomain = { thingTitles: {}, rules: [] };
 
 	const { visitor, reading, chosenStationKey } = $derived(data);
 	const crumbs = $derived([{ label: visitor.organisationName, href: portalHomePath }]);
@@ -28,7 +31,14 @@
 	{#if reading === null || openingStage === null}
 		<EmptyState message={messages.noMap} />
 	{:else}
-		<WorkflowMapView maps={reading.maps} {openingStage} {chosenStationKey} {messages}>
+		<WorkflowMapView
+			maps={reading.maps}
+			{openingStage}
+			{chosenStationKey}
+			{messages}
+			stationDomain={domainNotShownInThePortal}
+			organisationId={null}
+		>
 			{#snippet belowStation(map, stationKey)}
 				<PortalStationReview {map} {stationKey} standings={reading.standings[map.stage]} />
 			{/snippet}

@@ -9,6 +9,10 @@ export function unknownContext(holder: DomainHolder, contextSlug: string): strin
 	return `No bounded context ${contextSlug} is filed or given in contexts. Give it in contexts, or place the page in a context the domain has (${holder.readAction}). Nothing was filed.`;
 }
 
+export function unknownThing(holder: DomainHolder, thingSlug: string): string {
+	return `A rule governs ${thingSlug}, which is no thing the domain holds or this call writes. File the thing first or in the same call, or name a thing the domain has (${holder.readAction}). Nothing was filed.`;
+}
+
 const outcomeWords: Record<DomainPageOutcome, string> = {
 	filed: 'Filed',
 	revised: 'Revised, the earlier version kept in its history:',

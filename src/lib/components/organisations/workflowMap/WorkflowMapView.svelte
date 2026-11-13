@@ -11,6 +11,7 @@
 	import { mapChangesBetween } from './workflowMapChanges';
 	import { mapStage, type MapStage } from '$lib/data/workflowMap/workflowMap';
 	import { stationDetailsOf } from './stationDetails';
+	import type { StationDomain } from '$lib/data/domainReading';
 	import type { OrganisationWorkflowMaps } from '$lib/data/workflowMap/organisationWorkflowMaps';
 	import type { WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 
@@ -19,12 +20,16 @@
 		openingStage,
 		chosenStationKey,
 		messages,
+		stationDomain,
+		organisationId,
 		belowStation
 	}: {
 		maps: OrganisationWorkflowMaps;
 		openingStage: MapStage;
 		chosenStationKey: string | null;
 		messages: { chooseStation: string; noChanges: string };
+		stationDomain: StationDomain;
+		organisationId: string | null;
 		belowStation?: Snippet<[WorkflowMapVersion, string | null]>;
 	} = $props();
 
@@ -70,7 +75,7 @@
 {#if shownStage !== null && shownLineMap !== null && shownMap !== null}
 	<WorkflowMapPanel map={shownLineMap} stage={shownStage} layout={drawn.layout} selectedStationId={details?.key} onChooseStation={chooseStation} />
 	{#if details !== null}
-		<StationPanel {details} />
+		<StationPanel {details} {stationDomain} {organisationId} />
 	{/if}
 	{#if belowStation !== undefined}
 		{@render belowStation(shownMap, details?.key ?? null)}

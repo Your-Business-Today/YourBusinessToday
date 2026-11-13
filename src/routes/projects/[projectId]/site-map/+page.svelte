@@ -1,53 +1,37 @@
 <script lang="ts">
 	import DevelopmentTabs from '$lib/components/projects/DevelopmentTabs.svelte';
 	import { developmentPages } from '$lib/components/projects/developmentPages';
-	import AudienceSwitch from '$lib/components/blueprint/AudienceSwitch.svelte';
 	import BlueprintHeader from '$lib/components/blueprint/BlueprintHeader.svelte';
 	import EmptyState from '$lib/components/site/EmptyState.svelte';
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
-	import McpMapBrowser from '$lib/components/blueprint/McpMapBrowser.svelte';
+	import JourneySiteMap from '$lib/components/blueprint/journeys/JourneySiteMap.svelte';
 	import ParitySummary from '$lib/components/blueprint/ParitySummary.svelte';
-	import SiteMapBrowser from '$lib/components/blueprint/SiteMapBrowser.svelte';
-	import { blueprintEmptyMessages } from '$lib/components/blueprint/blueprintEmptyMessages';
-	import { blueprintQueryKeys, linkedValueOf, siteMapAudienceOf, siteMapAudiences } from '$lib/components/blueprint/blueprintViews';
-	import { page } from '$app/state';
+	import { journeySiteMapMessages, journeysDrawnFrom } from '$lib/components/blueprint/journeys/journeySiteMapWords';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data, form } = $props();
 
-	const { project, blueprint, goals } = $derived(data);
+	const { project, blueprint, goals, journeyMap } = $derived(data);
 	const siteMap = $derived(blueprint?.siteMap ?? null);
 	const mcpMap = $derived(blueprint?.mcpMap ?? null);
-	const audience = $derived(siteMapAudienceOf(page.url));
-	const hasNoRepository = $derived(project.repositoryUrl === '');
-	const siteMapEmptyMessage = $derived(hasNoRepository ? blueprintEmptyMessages.noRepository : blueprintEmptyMessages.noSiteMap);
-	const mcpMapEmptyMessage = $derived(hasNoRepository ? blueprintEmptyMessages.noRepository : blueprintEmptyMessages.noMcpMap);
+	const drawnFrom = $derived(journeyMap === null ? null : journeysDrawnFrom(journeyMap));
 </script>
 
 <svelte:head>
 	<title>Site map — {project.name} — Your Business Today</title>
 </svelte:head>
 
-<BlueprintHeader {project} {blueprint} />
+<BlueprintHeader {project} {blueprint} {drawnFrom} />
 
 <div class={workspaceBodyClasses}>
 	<DevelopmentTabs projectId={project.id} selected={developmentPages.siteMap} counts={data.developmentTabCounts} />
 	<FlashMessage message={form?.message} />
-	<AudienceSwitch projectId={project.id} {audience} />
 	{#if mcpMap !== null}
 		<ParitySummary {mcpMap} />
 	{/if}
-	{#if audience === siteMapAudiences.claude}
-		{#if mcpMap === null}
-			<EmptyState message={mcpMapEmptyMessage} />
-		{:else}
-			{@const linkedEntryName = linkedValueOf(page.url, blueprintQueryKeys.entry)}
-			<McpMapBrowser {mcpMap} {siteMap} projectId={project.id} {goals} {linkedEntryName} />
-		{/if}
-	{:else if siteMap === null}
-		<EmptyState message={siteMapEmptyMessage} />
+	{#if journeyMap === null}
+		<EmptyState message={journeySiteMapMessages.noJourneys} />
 	{:else}
-		{@const linkedRoute = linkedValueOf(page.url, blueprintQueryKeys.screen)}
-		<SiteMapBrowser {siteMap} {mcpMap} projectId={project.id} {goals} {linkedRoute} />
+		<JourneySiteMap {journeyMap} {siteMap} {mcpMap} projectId={project.id} {goals} />
 	{/if}
 </div>

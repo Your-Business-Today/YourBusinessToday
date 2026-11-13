@@ -1,8 +1,6 @@
 import { StationKinds, type LineColour, type LineMapModel, type MapHandover } from '$lib/components/lineMap/layout/lineMapModel';
 import type { MapStation, WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
-
-/** The colours lines take in the order they are first filed, as James's June map gave them. */
-const lineColourOrder: LineColour[] = ['peach', 'lilac', 'sky', 'teal', 'rose', 'daylight'];
+import { lineColourAt, lineColourOrder } from '$lib/components/lineMap/lineColourOrder';
 
 /** The colour of a role no colour was given for, which every role filed is. */
 export const firstLineColour: LineColour = lineColourOrder[0];
@@ -10,7 +8,7 @@ export const firstLineColour: LineColour = lineColourOrder[0];
 /** Each role's colour, the same on every map it is drawn on, so a line keeps its colour from Before to After. */
 export function lineColoursOf(versions: WorkflowMapVersion[]): Map<string, LineColour> {
 	const lineKeys = [...new Set(versions.flatMap((version) => version.lines.map((line) => line.key)))];
-	return new Map(lineKeys.map((lineKey, index) => [lineKey, lineColourOrder[index % lineColourOrder.length]]));
+	return new Map(lineKeys.map((lineKey, index) => [lineKey, lineColourAt(index)]));
 }
 
 /** A filed map as the line map draws it: its roles as lines, its tasks as stations and its hand-overs. */
