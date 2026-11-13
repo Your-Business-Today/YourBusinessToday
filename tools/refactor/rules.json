@@ -253,7 +253,8 @@
       "Badge",
       "InlineField",
       "WorkspaceHeader",
-      "BreakdownTable"
+      "BreakdownTable",
+      "LineMap"
     ],
     "handRolled": [
       {
