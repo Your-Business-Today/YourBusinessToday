@@ -3,7 +3,7 @@
 	import BrandSpinner from '$lib/components/site/BrandSpinner.svelte';
 	import RecordsTableHead from './RecordsTableHead.svelte';
 	import { rowLink } from '$lib/client/rowLink';
-	import { isBoxTicked, rowsInOrder, sortAfterPress, type RecordsColumn, type RecordsSort } from './recordsTable';
+	import { isBoxTicked, rowsInOrder, rowTargetOf, sortAfterPress, type RecordsColumn, type RecordsSort } from './recordsTable';
 	import { bodySectionClasses, checkboxClasses, clickableRowClasses, rowClasses, selectedRowClasses, tableClasses } from './recordsTableStyles';
 
 	let {
@@ -12,6 +12,7 @@
 		rows,
 		keyOf,
 		hrefOf,
+		onOpen,
 		isDense = false,
 		isCardsOnPhone = false,
 		isLoading = false,
@@ -26,6 +27,7 @@
 		rows: Row[];
 		keyOf: (row: Row) => string;
 		hrefOf?: (row: Row) => string;
+		onOpen?: (row: Row) => void;
 		isDense?: boolean;
 		isCardsOnPhone?: boolean;
 		isLoading?: boolean;
@@ -79,10 +81,11 @@
 			{@const key = keyOf(row)}
 			{@const isSelected = selectedKeys?.includes(key) ?? false}
 			{@const classes = [rowClasses, isSelected && selectedRowClasses]}
-			{#if hrefOf === undefined}
+			{@const target = rowTargetOf(row, hrefOf, onOpen)}
+			{#if target === undefined}
 				<tr class={classes}>{@render rowContent(row, key, isSelected)}</tr>
 			{:else}
-				<tr use:rowLink={hrefOf(row)} class={[classes, clickableRowClasses]}>{@render rowContent(row, key, isSelected)}</tr>
+				<tr use:rowLink={target} class={[classes, clickableRowClasses]}>{@render rowContent(row, key, isSelected)}</tr>
 			{/if}
 			{@render subRows?.(row)}
 		{/each}
