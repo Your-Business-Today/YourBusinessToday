@@ -1,7 +1,7 @@
 import { ledgerTables, ledgerWrites } from './booksLedgerDatabase.fixture';
 import { deleteCostKeepingRecord, deleteInvoiceKeepingRecord } from './booksDeletionSteps.fixture';
 import { issueInvoiceStep, recordPaymentStep, replaceLinesStep, voidInvoiceStep } from './booksInvoiceSteps.fixture';
-import { payCostStep, postJournalSetStep, recordCostStep } from './booksCostSteps.fixture';
+import { payCostStep, postJournalSetStep, recordLoanPaidCostStep, recordCostStep } from './booksCostSteps.fixture';
 import { beginStep, journalRefusal } from './booksStepJournal.fixture';
 import { matchAsCostStep, matchAsInvoicePaymentStep, matchToAccountStep, tieBankLineStep } from './booksBankMatchSteps.fixture';
 
@@ -32,6 +32,7 @@ const databaseSteps: Record<string, (args: Row) => unknown> = {
 	record_books_invoice_payment: recordPaymentStep,
 	replace_books_invoice_lines: replaceLinesStep,
 	record_books_expense: recordCostStep,
+	record_books_expense_paid_by_loan_account: recordLoanPaidCostStep,
 	pay_books_expense: payCostStep,
 	post_books_journal_set: postJournalSetStep,
 	tie_books_bank_line: tieBankLineStep,

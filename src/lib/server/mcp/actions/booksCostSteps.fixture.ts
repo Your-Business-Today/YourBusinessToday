@@ -25,6 +25,17 @@ export function recordCostStep(args: Row): boolean {
 	return true;
 }
 
+/** 0228's step: an open loan account of these books pays the cost, kept as 0198 keeps it, with who paid it. */
+export function recordLoanPaidCostStep(args: Row): boolean {
+	const loan = rowsOf('books_loan_accounts').find((held) => held.id === args.paying_loan_account_id);
+	const isOpenHere = loan !== undefined && loan.organisation_id === args.target_organisation_id && loan.is_closed !== true;
+	if (!isOpenHere) throw { message: `Loan account ${args.paying_loan_account_id} is closed or not in these books` };
+	recordCostStep(args);
+	const kept = rowsOf('books_expenses').find((cost) => cost.id === args.new_expense_id) as Row;
+	kept.paid_by_loan_account_id = args.paying_loan_account_id;
+	return true;
+}
+
 /** 0198's payment step: a cost still unpaid under its lock is paid with its journal; one gone or paid already is not. */
 export function payCostStep(args: Row): boolean {
 	const cost = costOf(args);

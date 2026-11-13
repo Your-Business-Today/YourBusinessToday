@@ -12,6 +12,7 @@ export type Expense = ExpenseCost & {
 	paidOn: string | null;
 	recordedJournalId: string | null;
 	paymentJournalId: string | null;
+	paidByLoanAccountId: string | null;
 };
 
 type ExpenseRow = {
@@ -25,12 +26,13 @@ type ExpenseRow = {
 	paid_on: string | null;
 	recorded_journal_id: string | null;
 	payment_journal_id: string | null;
+	paid_by_loan_account_id: string | null;
 };
 
 export const expensesTable = 'books_expenses';
 
 export const expenseColumns =
-	'id, expense_date, supplier, description, amount, expense_account_id, cost_centre_id, paid_on, recorded_journal_id, payment_journal_id';
+	'id, expense_date, supplier, description, amount, expense_account_id, cost_centre_id, paid_on, recorded_journal_id, payment_journal_id, paid_by_loan_account_id';
 
 /** The organisation's costs, the newest first; only those still owed when asked. */
 export async function findExpenses(supabase: SupabaseClient, organisationId: string, isUnpaidOnly: boolean): Promise<Expense[]> {
@@ -73,6 +75,7 @@ export function fromExpenseRow(row: ExpenseRow): Expense {
 		costCentreId: row.cost_centre_id,
 		paidOn: row.paid_on,
 		recordedJournalId: row.recorded_journal_id,
-		paymentJournalId: row.payment_journal_id
+		paymentJournalId: row.payment_journal_id,
+		paidByLoanAccountId: row.paid_by_loan_account_id ?? null
 	};
 }
