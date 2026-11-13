@@ -19,7 +19,8 @@ export function describeCustomer(customer: Customer): string {
 	const sentTo = contact === '' ? 'no one named to send invoices to' : contact;
 	const address = customer.address === '' ? 'no address' : customer.address.replaceAll('\n', ', ');
 	const link = customer.clientId === null ? '' : ` Client on the register: ${customer.clientId}.`;
-	return `- ${customer.name}${archived}: ${sentTo}; ${address}.${link} Id ${customer.id}`;
+	const billed = customer.billedOrganisationId === null ? '' : ` Stands for organisation ${customer.billedOrganisationId}.`;
+	return `- ${customer.name}${archived}: ${sentTo}; ${address}.${link}${billed} Id ${customer.id}`;
 }
 
 function describeCustomerWithBalance({ customer, balance }: CustomerWithBalance): string {

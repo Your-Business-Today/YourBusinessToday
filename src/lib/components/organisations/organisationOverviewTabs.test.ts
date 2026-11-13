@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { organisationOverviewTabsFor, type OverviewTabFacts } from './organisationOverviewTabs';
 
-const staffedWithBoardroom: OverviewTabFacts = { memberCount: 4, switchedOnModuleCount: 3, hasModulesTab: true, directorCount: 2 };
+const staffedWithBoardroom: OverviewTabFacts = { memberCount: 4, switchedOnModuleCount: 3, hasModulesTab: true, directorCount: 2, billingScheduleCount: null };
 
 const tabsOf = (facts: OverviewTabFacts) => organisationOverviewTabsFor(facts).map(({ label, count }) => [label, count]);
 
@@ -29,5 +29,10 @@ describe('organisationOverviewTabsFor', () => {
 			['Modules', null],
 			['Directors', null]
 		]);
+	});
+
+	it('shows Billing to staff on a client organisation, counting its schedules', () => {
+		expect(tabsOf({ ...staffedWithBoardroom, billingScheduleCount: 2 }).at(-1)).toEqual(['Billing', 2]);
+		expect(tabsOf({ ...staffedWithBoardroom, billingScheduleCount: 0 }).at(-1)).toEqual(['Billing', null]);
 	});
 });
