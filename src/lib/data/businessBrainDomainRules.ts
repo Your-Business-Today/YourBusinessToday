@@ -30,7 +30,9 @@ export const domainFilingLimits = {
 	mostMembers: 30,
 	mostGuardedStations: 20,
 	mostReactingRoles: 20,
-	mostReactingRules: 20
+	mostReactingRules: 20,
+	mostAssumed: 10,
+	longestAssumed: 300
 } as const;
 
 /** The kinds a page written by a filing may take; a bounded context is filed as a context, never as a page. */

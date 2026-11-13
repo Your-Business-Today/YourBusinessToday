@@ -31,6 +31,7 @@ export const domainModellingDoctrine = [
 	'Check the domain before writing (read_business_brain_domain). If a page for the concept already exists under any plausible slug, write to that slug — near-duplicate pages are the failure that kills a model. A page written again takes the COMPLETE new body, existing knowledge kept and merged, never a fragment; the earlier version stays in its history.',
 	'When pages already filed are specimens of a missing concept, or two pages are one concept, write the concept page and list the superseded pages in retires, each folded into a page written in the same call. Retiring is distillation, never deletion: the page leaves the domain, links to its successor and keeps its history.',
 	'Slugs are kebab-case and permanent. Record only what the source states or clearly implies; never invent, never embellish.',
+	'What you conclude and nobody stated is filed in the page’s assumed, each sentence worded to follow "I assumed", never as fact. Each is asked back to the person; once they confirm it, file it as fact and the page again without it, and once they correct it, file what they said.',
 	'A page for every kind of thing the business keeps: a thin page that names a real thing beats a missing one, and the questions fill it in.',
 	`One source to a call, touching at most ${mostPages} pages; a source that teaches more is filed in several calls, each later one naming the first call’s sourceId. A source that teaches the domain nothing is a valid outcome: file nothing.`
 ];

@@ -1,4 +1,7 @@
 import { domainFiled, filingGapAnswer, nothingTaught } from './businessBrainDomainAnswers';
+import { domainCompletenessGaps } from '$lib/server/businessBrain/domainCompletenessGaps';
+import { domainQuestionsReading, openDomainQuestions } from './domainQuestionsSection';
+import { readDomainQuestions } from '$lib/server/businessBrain/readDomainQuestions';
 import { describeDomainRun } from './describeDomainRun';
 import { describeDomain } from './describeDomain';
 import { fileDomainFromSource } from '$lib/server/businessBrain/fileDomainFromSource';
@@ -27,7 +30,9 @@ export async function fileDomain(caller: McpCaller, input: Record<string, unknow
 	const done = await fileDomainFromSource(caller.supabase, filer, filing);
 	if (done === null) return noSuchSource;
 	if (!('sourceId' in done)) return filingGapAnswer(holder, done);
-	return domainFiled(holder, done);
+	const map = await readTodaysWorkflowMap(caller.supabase, organisation.id);
+	const questions = await readDomainQuestions(caller.supabase, organisation.id, map);
+	return [domainFiled(holder, done), openDomainQuestions(questions ?? [])].join('\n');
 }
 
 function isTeachingNothing({ contexts, pages, retires }: DomainFilingGiven): boolean {
@@ -45,7 +50,8 @@ export async function readDomain(caller: McpCaller, _input: Record<string, unkno
 		readDomainWords(caller.supabase, organisation.id, domain.glossaries),
 		readTodaysWorkflowMap(caller.supabase, organisation.id)
 	]);
-	return [described, thingsOnNoTaskSection(map, { things: domain.things, words })].join('\n\n');
+	const questions = domainCompletenessGaps({ domain, words, map });
+	return [described, thingsOnNoTaskSection(map, { things: domain.things, words }), domainQuestionsReading(questions)].join('\n\n');
 }
 
 /**

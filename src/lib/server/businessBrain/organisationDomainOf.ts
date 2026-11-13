@@ -1,5 +1,6 @@
 import { domainPageKinds } from '$lib/data/businessBrainDomain';
-import { domainListsOf } from './domainListsOf';
+import { coreFirst, domainListsOf } from './domainListsOf';
+import { domainAssumptionsOf } from './domainAssumptionsOf';
 import { manifestOfDomainPages } from './domainPageManifest';
 import { translateEntityManifest } from '$lib/server/blueprint/translateEntityManifest';
 import type { DomainAreaRelationship, DomainBlock, DomainContextSummary, DomainPage, OrganisationDomain } from '$lib/data/organisationDomain';
@@ -23,7 +24,8 @@ export function organisationDomainOf(pages: DomainPage[]): OrganisationDomain | 
 	const contextMapPage = pages.find((page) => page.kind === domainPageKinds.contextMap);
 	const contextMap = contextMapPage === undefined ? null : blockOf(contextMapPage);
 	const areaRelationships = areaRelationshipsOf(contextMapPage, contextPages);
-	return { model, contexts, contextMap, areaRelationships, ...domainListsOf(contextPages, pages) };
+	const assumptions = domainAssumptionsOf(coreFirst(contextPages), pages);
+	return { model, contexts, contextMap, areaRelationships, assumptions, ...domainListsOf(contextPages, pages) };
 }
 
 function contextSummary(context: DomainPage, pages: DomainPage[]): DomainContextSummary {

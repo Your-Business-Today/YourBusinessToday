@@ -7,7 +7,7 @@ import type { WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 import type { WorkflowMapRunStanding } from './workflowMapRunStanding';
 
 const organisation = { id: 'org-1', name: 'Jewel Bespoke Build' } as unknown as WorkflowMapRunStanding['organisation'];
-const newClient: WorkflowMapRunStanding = { organisation, before: null, after: null, products: [], standings: {}, vocabulary: emptyVocabulary };
+const newClient: WorkflowMapRunStanding = { organisation, before: null, after: null, products: [], standings: {}, vocabulary: emptyVocabulary, domainQuestionCount: null };
 const portal = { id: 'p-1', name: 'Jewel Portal' };
 
 function juneMapFiledAs(stage: 'before' | 'after'): WorkflowMapVersion {
@@ -88,10 +88,12 @@ describe('the walk "map the workflows" starts', () => {
 		expect(walk).toContain('When the person says nothing goes wrong at a hand-over, file that in their words');
 	});
 
-	it('lists the first twelve questions and says how many more there are', () => {
-		const walk = describeWorkflowMapRun({ ...newClient, after: juneMapFiledAs('after'), products: [portal] });
+	it('lists the first twelve questions, says how many more there are and how many the domain has open', () => {
+		const walk = describeWorkflowMapRun({ ...newClient, after: juneMapFiledAs('after'), products: [portal], domainQuestionCount: 4 });
+		expect(walk).toContain('The domain has 4 questions open; start_business_brain_domain_run asks them, once this map is filed.');
 		expect(walk).toContain('   12. ');
 		expect(walk).not.toContain('   13. ');
 		expect(walk).toMatch(/And \d+ more, which the next run lists once these are filed\./);
 	});
+
 });

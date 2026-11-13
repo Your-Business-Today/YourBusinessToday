@@ -4,6 +4,7 @@ import { objectSchema, textField } from '../actionTypes';
 import { patternMeanings } from '$lib/server/businessBrain/validateAreaRelationships';
 
 const { longestFieldName, longestFieldType, longestWord, longestMeaning, longestStatus, mostOtherNames, longestPasses, mostStatuses } = domainFilingLimits;
+const { mostAssumed, longestAssumed } = domainFilingLimits;
 
 export const fieldEntry = objectSchema(
 	{
@@ -55,3 +56,14 @@ export const lifecycleEntry = objectSchema(
 	},
 	['status']
 );
+
+/** What the Claude concluded about a page and nobody stated, filed on a page of any kind. */
+export const assumedProperty = {
+	assumed: {
+		type: 'array',
+		items: { type: 'string' },
+		description:
+			`Any page: what you concluded and nobody stated, each sentence worded to follow "I assumed", such as "the Introducer is one of your staff", at most ${mostAssumed}, each at most ${longestAssumed} characters. ` +
+			'Each is asked back; once the person confirms it, file the page again without it'
+	}
+};

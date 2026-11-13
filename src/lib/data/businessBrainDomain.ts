@@ -86,4 +86,5 @@ export type DomainPageFacts = DomainRecordFacts &
 		governs: string[];
 		terms: DomainTermFact[];
 		relationships: AreaRelationshipFact[];
+		assumed: string[];
 	};

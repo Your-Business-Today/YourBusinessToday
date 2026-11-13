@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { describeDomainRun } from './describeDomainRun';
 import { contractStackMap } from '$lib/data/workflowMap/tests/contractStackMap';
+import { completeJoineryPages, heldOf, joineryPage, withPage } from '$lib/server/businessBrain/domainGaps/tests/joineryDomain';
 import type { DomainRunStanding } from './domainRunStanding';
 import type { OrganisationDomain } from '$lib/data/organisationDomain';
 
@@ -11,7 +12,12 @@ const firstRun: DomainRunStanding = { organisation, map: null, domain: null, wor
 const filedDomain = {
 	model: { contexts: [], relationships: [] },
 	contexts: [{ pageId: 'p1', slug: 'joinery', title: 'Joinery', summary: '', isCoreDomain: true, blocks: [] }],
-	contextMap: null
+	contextMap: null,
+	areaRelationships: [],
+	assumptions: [],
+	things: [],
+	rules: [],
+	glossaries: []
 } as unknown as OrganisationDomain;
 
 describe('the domain run', () => {
@@ -67,5 +73,18 @@ describe('the domain run', () => {
 		expect(walk).toContain('1 contexts, Joinery the core domain');
 		expect(walk).toContain('Filed from: Staff handbook (2026-11-12)');
 		expect(walk).toContain('Shop (p-1)');
+	});
+
+	it('says how many questions the map leaves open, then lists the domain’s own, ranked', () => {
+		const { domain, words, map } = heldOf(withPage(completeJoineryPages(), joineryPage('enquiry', 'entity', 'Enquiry')));
+		const walk = describeDomainRun({ ...firstRun, domain, words, map });
+		expect(walk).toContain('The workflow map passes every test of a complete map.');
+		expect(walk).toContain('**The domain fails 1 tests of a complete model.**');
+		expect(walk).toContain('   1. Nothing says what makes an enquiry.');
+	});
+
+	it('says when the domain passes every test', () => {
+		const { domain, words, map } = heldOf(completeJoineryPages());
+		expect(describeDomainRun({ ...firstRun, domain, words, map })).toContain('The domain passes every test of a complete model');
 	});
 });

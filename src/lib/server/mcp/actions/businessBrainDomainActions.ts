@@ -25,7 +25,7 @@ export const businessBrainDomainActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			"read an organisation's own domain as its Your Business Brain holds it: the context map, each bounded context with the core domain marked, its entities with their fields, its other building blocks with what each event marks and who reacts, its rules with their kinds and what each sits on, and its glossary",
+			"read an organisation's own domain as its Your Business Brain holds it: the context map, each bounded context with the core domain marked, its entities with their fields, its other building blocks with what each event marks and who reacts, its rules with their kinds and what each sits on, its glossary, and the questions it still leaves open, most important first",
 		guidance: readBusinessBrainDomainGuidance,
 		inputSchema: readBusinessBrainDomainSchema,
 		run: readDomain
