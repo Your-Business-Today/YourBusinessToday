@@ -12,7 +12,9 @@ function permutationsOf(items: string[]): string[][] {
 }
 
 function cheapest(orders: string[][], costOf: LaneOrderCost): string[] {
-	return orders.reduce((best, order) => (costOf(order) < costOf(best) ? order : best));
+	const costs = orders.map(costOf);
+	const lowest = costs.reduce((best, cost, index) => (cost < costs[best] ? index : best), 0);
+	return orders[lowest];
 }
 
 function improvedByRearranging(order: string[], costOf: LaneOrderCost): string[] {

@@ -2,10 +2,15 @@
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/site/Button.svelte';
 	import PersonInitials from '$lib/components/workspace/PersonInitials.svelte';
-	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
+	import type { TeamPerson } from '$lib/data/teamPeople';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
-	let { taskId, ownerIds, people }: { taskId: string; ownerIds: string[]; people: ProjectPerson[] } = $props();
+	let {
+		taskId,
+		ownerIds,
+		people,
+		isNamesShown = false
+	}: { taskId: string; ownerIds: string[]; people: TeamPerson[]; isNamesShown?: boolean } = $props();
 
 	let isOpen = $state(false);
 	const owners = $derived(people.filter((person) => ownerIds.includes(person.id)));
@@ -25,11 +30,15 @@
 		title={ownerNames}
 		class="flex cursor-pointer list-none items-center -space-x-1.5 [&::-webkit-details-marker]:hidden"
 	>
-		{#each owners as owner (owner.id)}
-			<PersonInitials name={owner.name} />
-		{:else}
+		{#if owners.length === 0}
 			<span class="text-xs text-chalk-subtle hover:text-chalk">Add owner</span>
-		{/each}
+		{:else if isNamesShown}
+			<span class="line-clamp-2 max-w-48 text-sm text-chalk-muted hover:text-chalk">{ownerNames}</span>
+		{:else}
+			{#each owners as owner (owner.id)}
+				<PersonInitials name={owner.name} />
+			{/each}
+		{/if}
 	</summary>
 	<form method="POST" action="?/setAssignees" use:enhance={closeAfterSaving} class="mt-2 flex flex-col gap-1.5">
 		<input type="hidden" name="taskId" value={taskId} />
