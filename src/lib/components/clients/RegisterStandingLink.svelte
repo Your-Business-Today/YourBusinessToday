@@ -8,5 +8,5 @@
 
 <div class="flex flex-wrap items-center gap-3">
 	<StagePill stage={standing.stage} />
-	<a href={`/clients/${standing.clientId}`} class={quietButtonClasses}>Open the client</a>
+	<a href={`/clients/${standing.clientId}`} class={quietButtonClasses}>Open the company</a>
 </div>

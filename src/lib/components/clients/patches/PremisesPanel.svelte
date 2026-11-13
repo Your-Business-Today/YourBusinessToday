@@ -38,7 +38,7 @@
 		</a>
 	</div>
 	{#if premises.clientId !== null}
-		<a href={`/clients/${premises.clientId}`} class={quietButtonClasses}>Open the client</a>
+		<a href={`/clients/${premises.clientId}`} class={quietButtonClasses}>Open the company</a>
 	{:else}
 		<form method="POST" action="?/addPremisesAsLead">
 			<input type="hidden" name="patchId" value={patchId} />

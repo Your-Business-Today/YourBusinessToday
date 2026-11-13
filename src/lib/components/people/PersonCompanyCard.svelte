@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { companyPagePath } from '$lib/data/salesRegisters';
 	import GroupUnderForm from '$lib/components/clients/GroupUnderForm.svelte';
 	import StagePill from '$lib/components/clients/StagePill.svelte';
 	import { panelClasses, quietButtonClasses } from '$lib/components/site/formStyles';
@@ -19,7 +20,7 @@
 	<div class="flex flex-wrap items-start justify-between gap-3">
 		<div class="min-w-0">
 			<p class="flex flex-wrap items-center gap-2 font-display">
-				<a href={`/clients/${company.id}`} class="hover:text-signal">{company.name}</a>
+				<a href={companyPagePath(company)} class="hover:text-signal">{company.name}</a>
 				<StagePill stage={company.stage} />
 			</p>
 			<p class="text-xs text-chalk/50">

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { companyPagePath } from '$lib/data/salesRegisters';
 	import GroupUnderForm from './GroupUnderForm.svelte';
 	import StagePill from './StagePill.svelte';
 	import type { Client } from '$lib/server/clients/clientRecord';
@@ -20,7 +21,7 @@
 		<ul class="divide-y divide-hairline rounded-2xl border border-hairline">
 			{#each children as child (child.id)}
 				<li class="flex flex-wrap items-center justify-between gap-4 px-5 py-3">
-					<a href={`/clients/${child.id}`} class="font-display hover:text-signal">{child.name}</a>
+					<a href={companyPagePath(child)} class="font-display hover:text-signal">{child.name}</a>
 					<StagePill stage={child.stage} />
 				</li>
 			{/each}
@@ -32,7 +33,7 @@
 	{/if}
 	{#if children.length === 0 && parent !== null}
 		<p class="text-sm text-chalk/50">
-			One of the companies under <a href={`/clients/${parent.id}`} class="text-chalk hover:text-signal">{parent.name}</a>.
+			One of the companies under <a href={companyPagePath(parent)} class="text-chalk hover:text-signal">{parent.name}</a>.
 		</p>
 	{/if}
 </section>
