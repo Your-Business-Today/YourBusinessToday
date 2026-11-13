@@ -1,4 +1,4 @@
-import { isBusinessBrainOpen } from '$lib/server/organisations/readBrainsOf';
+import { isBusinessBrainOpen } from '$lib/server/organisations/isBusinessBrainOpen';
 import { readOrganisationAccess } from '$lib/server/auth/requireOrganisationAccess';
 import { readOrganisationWorkflowMaps } from './readOrganisationWorkflowMaps';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';

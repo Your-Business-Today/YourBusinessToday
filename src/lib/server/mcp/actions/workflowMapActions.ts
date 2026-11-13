@@ -4,6 +4,7 @@ import { isRefused, readChoice } from '$lib/server/companyContext/contextText';
 import { fileWorkflowMap } from '$lib/server/workflowMap/fileWorkflowMap';
 import { productIdsOf, readProductsOfOrganisation, refuseStrayProducts } from '$lib/server/workflowMap/mapProducts';
 import { readLatestWorkflowMap } from '$lib/server/workflowMap/readLatestWorkflowMap';
+import { readStationStandings } from '$lib/server/workflowMap/readStationStandings';
 import { validateWorkflowMap } from '$lib/server/workflowMap/validateWorkflowMap';
 import { objectSchema } from '../actionTypes';
 import { contextOrganisation } from './contextOrganisation';
@@ -37,8 +38,12 @@ export const workflowMapActions: McpAction[] = [
 		area: 'organisations',
 		audience: 'everyone',
 		isWrite: false,
-		summary: "read an organisation's latest Before and After workflow maps, or one of them, with every line, station and hand-over and their keys",
-		guidance: 'An organisation starts with no map: its first filing is version 1 of that stage. Leave stage out for both.',
+		summary:
+			"read an organisation's latest Before and After workflow maps, or one of them, with every line, station and hand-over " +
+			"and their keys, and where each station stands with the client: right, not right with what is wrong, or not checked",
+		guidance:
+			'An organisation starts with no map: its first filing is version 1 of that stage. Leave stage out for both. ' +
+			'A station the client marked not right is put right in the next version filed; a station left unchanged keeps its mark.',
 		inputSchema: objectSchema({ organisationId: organisationIdField, stage: mapStageField }, ['organisationId']),
 		run: async (caller, input) => readMap(caller, input)
 	}
@@ -64,11 +69,12 @@ async function readMap(caller: McpCaller, input: Record<string, unknown>): Promi
 	const readings = await Promise.all(stages.map((stage) => readLatestWorkflowMap(caller.supabase, organisation.id, stage)));
 	const filedLines = readings.flatMap((map) => map?.lines ?? []);
 	const productNames = await readProductsOfOrganisation(caller.supabase, organisation.id, productIdsOf(filedLines));
-	const sections = readings.map((map, index) => {
+	const sections = readings.map(async (map, index) => {
 		if (map === null) return noWorkflowMapYet(organisation.name, stages[index]);
-		return describeWorkflowMap(organisation.name, map, productNames);
+		const standings = await readStationStandings(caller.supabase, organisation.id, map);
+		return describeWorkflowMap(organisation.name, map, { productNames, standings });
 	});
-	return sections.join('\n\n');
+	return (await Promise.all(sections)).join('\n\n');
 }
 
 function filedSizes({ stage, lines, handovers }: WorkflowMapDraft): string {

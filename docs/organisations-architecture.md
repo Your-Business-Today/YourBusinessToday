@@ -255,6 +255,27 @@ listed and shown only where Your Business Brain is open to the person, as Domain
   the Domain things it names. `?station=<station key>` opens the page with that station chosen, on the After
   when one is filed, which is how the Domain page links a thing to its stations.
 
+### A client checks their workflow map (migration `0212`)
+
+`/portal/workflow-map`, linked from the portal home and the portal's side bar as Your workflow map, draws the
+client's own map with the same pieces as the Workflow map page (`WorkflowMapView`): Before, After and What changes
+as its one row of tabs, or today's map alone.
+
+- **The client marks each station right, or not right with what is wrong**, in a panel under the station's own
+  (`StationReviewPanel.svelte`, form action `markStation`), or through their own Claude with
+  `mark_workflow_map_station` after `read_my_workflow_map`. Both doors share one check
+  (`validateStationMark.ts`, limits in `stationReviewLimits.ts`) and write with `markWorkflowMapStation.ts`.
+- **Each mark is a row of its own and never changed** (`workflow_map_station_reviews`). A station's standing is its
+  latest mark. Only the latest version of a stage takes marks.
+- **A mark carries forward while the station is unchanged.** `workflow_map_station_standings` gives each station of a
+  version the latest mark made on it, or on the station with the same key in an earlier version of the same stage
+  that read exactly as it does now (same line, name, sentence, what it takes in and produces, where it is done and
+  its state). A station put differently starts not checked.
+- **The client's Claude puts right what was marked not right.** `read_workflow_map` names each station's standing,
+  and `start_workflow_map_run` lists the stations marked not right first, with what the client said.
+- **A client never reads another's map.** The tables have no row level security policy and are read on the server
+  with the service key only after the visitor is let in to that client (`readWorkflowMapOfClient.ts`).
+
 ## Directors, and who enters the boardroom (migration `0153`)
 
 An administrator names an organisation's directors from the people on the organisation itself, on

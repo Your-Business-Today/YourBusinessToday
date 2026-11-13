@@ -1,4 +1,4 @@
-import { isBusinessBrainOpen } from '$lib/server/organisations/readBrainsOf';
+import { isBusinessBrainOpen } from '$lib/server/organisations/isBusinessBrainOpen';
 import { readStationDomain } from '$lib/server/businessBrain/readStationDomain';
 import { readOrganisationWorkflowMaps } from '$lib/server/workflowMap/readOrganisationWorkflowMaps';
 import { requireOrganisationAccess } from '$lib/server/auth/requireOrganisationAccess';

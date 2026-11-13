@@ -18,11 +18,23 @@ function juneAfter(): WorkflowMapVersion {
 }
 
 describe('describeWorkflowMap', () => {
-	const markdown = describeWorkflowMap('Jewel Bespoke Build', juneAfter(), new Map([[portalId, 'JPMS portal']]));
+	const standings = {
+		pvr: { reviewState: 'not_right' as const, whatIsWrong: 'The PVR goes to the client, not the board.', markedOnVersion: null },
+		'work-order-award': { reviewState: 'right' as const, whatIsWrong: null, markedOnVersion: 2 }
+	};
+	const productNames = new Map([[portalId, 'JPMS portal']]);
+	const markdown = describeWorkflowMap('Jewel Bespoke Build', juneAfter(), { productNames, standings });
 
 	it('heads the map with its stage, version and day, and tallies it', () => {
 		expect(markdown).toContain('## After: workflow map of Jewel Bespoke Build, version 3, filed 2026-11-13');
 		expect(markdown).toContain('6 lines, 29 stations and 7 hand-overs. Stations: 1 in our products, 1 planned, 27 done elsewhere.');
+		expect(markdown).toContain("The client's marks: 1 right, 1 not right, 27 not checked yet.");
+	});
+
+	it("says where each station stands with the client, and when a mark was carried forward", () => {
+		expect(markdown).toContain("   - Client's mark: not right: The PVR goes to the client, not the board.");
+		expect(markdown).toContain("   - Client's mark: right (marked on version 2, unchanged since)");
+		expect(markdown).toContain("   - Client's mark: not checked yet");
 	});
 
 	it('lists each line with its stations in order, keys and all, and marks the outputs', () => {

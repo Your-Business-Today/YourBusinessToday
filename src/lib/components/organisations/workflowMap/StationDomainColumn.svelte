@@ -3,7 +3,7 @@
 	import type { StationDomain } from '$lib/data/domainReading';
 	import type { StationThing } from './stationDetails';
 
-	let { things, stationDomain, organisationId }: { things: StationThing[]; stationDomain: StationDomain; organisationId: string } = $props();
+	let { things, stationDomain, organisationId }: { things: StationThing[]; stationDomain: StationDomain; organisationId: string | null } = $props();
 
 	const { thingTitles, rules } = $derived(stationDomain);
 	const slugs = $derived(things.map((thing) => thing.slug));
@@ -14,7 +14,13 @@
 
 <ul class="flex flex-wrap gap-x-3 gap-y-1 text-sm">
 	{#each things as thing (thing.slug)}
-		<li><a href={organisationThingHref(organisationId, thing.slug)} class={linkClasses}>{thingTitles[thing.slug] ?? thing.name}</a></li>
+		<li>
+			{#if organisationId === null}
+				<span class="text-chalk">{thingTitles[thing.slug] ?? thing.name}</span>
+			{:else}
+				<a href={organisationThingHref(organisationId, thing.slug)} class={linkClasses}>{thingTitles[thing.slug] ?? thing.name}</a>
+			{/if}
+		</li>
 	{/each}
 </ul>
 {#if touchedRules.length > 0}

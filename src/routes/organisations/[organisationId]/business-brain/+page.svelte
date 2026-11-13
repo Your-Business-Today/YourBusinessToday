@@ -1,17 +1,27 @@
 <script lang="ts">
-	import BusinessBrainChatbotsPanel from '$lib/components/businessBrain/BusinessBrainChatbotsPanel.svelte';
-	import BusinessBrainFilesPanel from '$lib/components/businessBrain/BusinessBrainFilesPanel.svelte';
-	import BusinessBrainIndexPanel from '$lib/components/businessBrain/BusinessBrainIndexPanel.svelte';
+	import BusinessBrainBrainsTable from '$lib/components/businessBrain/BusinessBrainBrainsTable.svelte';
+	import BusinessBrainFilesTable from '$lib/components/businessBrain/BusinessBrainFilesTable.svelte';
+	import BusinessBrainPagesTable from '$lib/components/businessBrain/BusinessBrainPagesTable.svelte';
+	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
+	import TabStrip from '$lib/components/workspace/TabStrip.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { businessBrainAddresses } from '$lib/data/businessBrainAddresses';
 	import { businessBrainCrumbs } from '$lib/components/businessBrain/businessBrainCrumbs';
-	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { businessBrainTabKeys, businessBrainTabOf, businessBrainTabsFor } from '$lib/components/businessBrain/businessBrainTabs';
+	import { filesListedSentence, pagesListedSentence } from '$lib/components/businessBrain/businessBrainSentences';
+	import { page } from '$app/state';
+	import { panelEmptyClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
 
-	const { organisation, canManage, index, chatbots, keptFiles } = $derived(data);
+	const { organisation, canManage, index, brains, listedFiles } = $derived(data);
+	const { entries: pages, pageCount } = $derived(index);
+	const { files, fileCount } = $derived(listedFiles);
 	const addresses = $derived(businessBrainAddresses(organisation.id));
-	const hasUnnamedFiles = $derived(keptFiles.unnamedCount > 0);
+	const tabs = $derived(businessBrainTabsFor({ pageCount, fileCount, brainCount: brains.length }));
+	const shownTab = $derived(businessBrainTabOf(page.url));
+	const hasMorePages = $derived(pages.length < pageCount);
+	const hasMoreFiles = $derived(files.length < fileCount);
 	const nothingFiledYet = 'Nothing is filed yet. Ask your Claude to file what the business knows through the connector.';
 </script>
 
@@ -20,26 +30,26 @@
 </svelte:head>
 
 <WorkspaceHeader crumbs={businessBrainCrumbs(organisation)} title="Your Business Brain">
-	<p class="text-sm text-chalk-muted">
-		What {organisation.name} knows, filed by your Claude through the connector. This page is for reading.
-	</p>
+	<p class="text-sm text-chalk-muted">What {organisation.name} knows, filed by your Claude through the connector.</p>
 </WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>
-	<div class={dashboardGridClasses}>
-		<div class="flex min-w-0 flex-col gap-4">
-			<BusinessBrainIndexPanel title="Pages" {index} {addresses} emptyMessage={nothingFiledYet} />
-		</div>
-		<aside class="flex min-w-0 flex-col gap-4">
-			<BusinessBrainChatbotsPanel {chatbots} {canManage} {addresses} isBrainLinked={false} />
-			{#if hasUnnamedFiles}
-				<BusinessBrainFilesPanel
-					title="Files no page names yet"
-					files={keptFiles.unnamed}
-					fileCount={keptFiles.unnamedCount}
-					{addresses}
-				/>
+	<nav aria-label="Your Business Brain">
+		<TabStrip {tabs} selectedKey={shownTab} />
+	</nav>
+	<DashboardPanel>
+		{#if shownTab === businessBrainTabKeys.files}
+			<BusinessBrainFilesTable {files} {addresses} />
+			{#if hasMoreFiles}
+				<p class={panelEmptyClasses}>{filesListedSentence(files.length, fileCount)}</p>
 			{/if}
-		</aside>
-	</div>
+		{:else if shownTab === businessBrainTabKeys.brains}
+			<BusinessBrainBrainsTable {brains} canReadQuestions={canManage} {addresses} />
+		{:else}
+			<BusinessBrainPagesTable {pages} {addresses} emptyMessage={nothingFiledYet} />
+			{#if hasMorePages}
+				<p class={panelEmptyClasses}>{pagesListedSentence(pages.length, pageCount)}</p>
+			{/if}
+		{/if}
+	</DashboardPanel>
 </div>
