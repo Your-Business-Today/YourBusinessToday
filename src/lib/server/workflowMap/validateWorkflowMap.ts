@@ -1,5 +1,6 @@
 import { mapStages } from '$lib/data/workflowMap/workflowMap';
 import { isRefused, readChoice } from '$lib/server/filing/filedText';
+import { validateMapArrivals } from './validateMapArrivals';
 import { validateMapHandovers } from './validateMapHandovers';
 import { validateMapLines } from './validateMapLines';
 import type { WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';
@@ -13,5 +14,7 @@ export function validateWorkflowMap(input: Record<string, unknown>): WorkflowMap
 	if (isRefused(lines)) return lines;
 	const handovers = validateMapHandovers(input.handovers, lines);
 	if (isRefused(handovers)) return handovers;
-	return { stage, lines, handovers };
+	const arrivals = validateMapArrivals(input.arrivals, lines);
+	if (isRefused(arrivals)) return arrivals;
+	return { stage, lines, handovers, arrivals };
 }

@@ -23,6 +23,9 @@ describe('the walk "map the workflows" starts', () => {
 		expect(walk).toContain('so this first map is the Before');
 		expect(walk).toContain('**The roles:** every hat that is worn, official or not.');
 		expect(walk).toContain('always ask what goes wrong or is delayed there');
+		expect(walk).toContain('which lines are not hats in the business at all: an outside party');
+		expect(walk).toContain('**What arrives from outside:**');
+		expect(walk).toContain('Ask it of every task that no one hands work to.');
 		expect(walk).toContain('Ask exactly one question at a time');
 		expect(walk).toContain('file_workflow_map with organisationId org-1 and stage before, the whole map');
 		expect(walk).toContain('File the lines in the order the work first reaches them');
@@ -43,7 +46,7 @@ describe('the walk "map the workflows" starts', () => {
 		expect(walk).toContain("Version 2 of Jewel Bespoke Build's After map, filed 2026-11-13: 6 lines, 29 stations and 7 hand-overs");
 		expect(walk).toContain('Still missing or unclear, the questions to ask:');
 		expect(walk).toContain('say what has changed since 2026-11-13');
-		expect(walk).toContain('Keep every line and station with its key');
+		expect(walk).toContain('Keep every line with its key and kind, every station with its key, and every arrival');
 		expect(walk).not.toContain('**The roles:**');
 		expect(walk).toContain('stage after');
 	});

@@ -5,12 +5,13 @@
 	import StationFlowItem from './StationFlowItem.svelte';
 	import StationPlaceLine from './StationPlaceLine.svelte';
 	import { lineSwatchClasses } from './lineSwatchClasses';
+	import { lineKindNames } from '$lib/data/workflowMap/workflowMapWords';
 	import type { StationDetails } from './stationDetails';
 	import type { StationDomain } from '$lib/data/domainReading';
 
 	let { details, stationDomain, organisationId }: { details: StationDetails; stationDomain: StationDomain; organisationId: string | null } = $props();
 
-	const { key, lineName, lineColour, name, summary, inputs, outputs, place, things, phrasesNotWords } = $derived(details);
+	const { key, lineName, lineKind, lineColour, name, summary, inputs, outputs, place, things, phrasesNotWords } = $derived(details);
 
 	const columnTitles = { takesIn: 'Takes in', produces: 'Produces', doneIn: 'Done in', domain: 'In the domain' };
 	const nothingFiled = 'Nothing filed';
@@ -23,6 +24,7 @@
 			<span class="flex items-center gap-2 text-sm text-chalk-subtle">
 				<span class="h-1.5 w-3 rounded-full {lineSwatchClasses[lineColour]}" aria-hidden="true"></span>
 				{lineName}
+				<span class="text-chalk-faint">· {lineKindNames[lineKind]}</span>
 			</span>
 			<h2 class="font-display text-xl font-semibold text-chalk">{name}</h2>
 			<p class="text-chalk-muted">{summary}</p>

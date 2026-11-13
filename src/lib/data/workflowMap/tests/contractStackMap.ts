@@ -12,8 +12,9 @@ export const contractStackMap: WorkflowMapVersion = {
 	versionNumber: 2,
 	recordedAt: '2026-11-13T08:00:00Z',
 	lines: [
-		{ key: 'director', name: 'Director', stations: [station('agree-offer', ['rate card'], ['Signed contract stack'])] },
-		{ key: 'administrator', name: 'Administrator', stations: [station('set-up-client', ['signed contract stack'], ['client record'])] }
+		{ key: 'director', name: 'Director', kind: 'role', stations: [station('agree-offer', ['rate card'], ['Signed contract stack'])] },
+		{ key: 'administrator', name: 'Administrator', kind: 'role', stations: [station('set-up-client', ['signed contract stack'], ['client record'])] }
 	],
-	handovers: [{ fromKey: 'agree-offer', toKey: 'set-up-client', handedOver: 'signed contract stack ', goesWrong: null }]
+	handovers: [{ fromKey: 'agree-offer', toKey: 'set-up-client', handedOver: 'signed contract stack ', goesWrong: null }],
+	arrivals: []
 };

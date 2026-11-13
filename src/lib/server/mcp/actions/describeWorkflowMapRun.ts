@@ -37,7 +37,7 @@ function readBackStep(standing: WorkflowMapRunStanding): string {
 	const { organisation } = standing;
 	const pageAddress = `https://${portalAddress.hostName}${organisationHref(organisation.id, organisationPages.workflowMap)}`;
 	return (
-		'7. **Read it back** with read_workflow_map and tell the person what was filed: its lines, stations and hand-overs. ' +
+		'7. **Read it back** with read_workflow_map and tell the person what was filed: its lines and their kinds, stations, hand-overs and arrivals. ' +
 		`End with the link to where it is drawn, its Workflow map page: ${pageAddress}. ` +
 		`A client of Your Business Today checks it on their portal instead, station by station: ${portalAddress.origin}${portalWorkflowMapPath}. ` +
 		'Start this run again whenever the business changes: the next one asks only what is missing.'
@@ -59,14 +59,15 @@ function followingMapSteps(latest: WorkflowMapVersion): string[] {
 		`2. **List the connectors switched on in this chat** and say what has changed since ${filedDay}: a new role, a task that moved, a spreadsheet given up.`,
 		'3. **Read only what has changed, read only,** one source at a time. Never send, move, change or delete anything.',
 		bulletedList('4. **Ask the person only the questions above and what has changed:**', mapQuestioningRules),
-		`5. **Carry the map forward.** Keep every line and station with its key; give a new one a new key; never drop a role or a task unless the person says it has gone. ${stationsPutRight} ${mapConceptsNotSpecimens}`
+		`5. **Carry the map forward.** Keep every line with its key and kind, every station with its key, and every arrival; give a new line or station a new key; ask the kind of any line filed before kinds were asked; never drop a role or a task unless the person says it has gone. ${stationsPutRight} ${mapConceptsNotSpecimens}`
 	];
 }
 
 function fileStep(standing: WorkflowMapRunStanding): string {
 	const { organisation } = standing;
 	const heading =
-		'6. **Show the person the map** — every line with its stations in order, then the hand-overs and what goes wrong at each — ' +
+		'6. **Show the person the map** — every line and its kind with its stations in order, then the hand-overs and what goes ' +
+		'wrong at each, then what arrives from outside — ' +
 		`and file it only once they say yes: file_workflow_map with organisationId ${organisation.id} and stage ` +
 		`${stageToFile(standing)}, the whole map, not only what changed. Before showing it, shape it so it draws clearly:`;
 	return bulletedList(heading, mapDrawingRules);

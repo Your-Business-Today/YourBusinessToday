@@ -20,8 +20,8 @@ export const workflowMapActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: true,
 		summary:
-			"file a whole new version of an organisation's workflow map, Before or After: its roles as lines, " +
-			'their tasks as stations and the hand-overs between them',
+			"file a whole new version of an organisation's workflow map, Before or After: its roles, outside parties and " +
+			'systems as lines, their tasks as stations, the hand-overs between them and what arrives from outside',
 		guidance:
 			'Each call files the next numbered version of that stage and never changes one already filed, so give the ' +
 			'whole map, not only what changed: read_workflow_map first and carry every line and station forward with its ' +
@@ -38,7 +38,7 @@ export const workflowMapActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			"read an organisation's latest Before and After workflow maps, or one of them, with every line, station and hand-over " +
+			"read an organisation's latest Before and After workflow maps, or one of them, with every line and its kind, station, hand-over and arrival " +
 			"and their keys, and where each station stands with the client: right, not right with what is wrong, or not checked",
 		guidance:
 			'An organisation starts with no map: its first filing is version 1 of that stage. Leave stage out for both. ' +

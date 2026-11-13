@@ -1,6 +1,6 @@
 /**
- * The longest each value of a workflow map may be, and how many of each a version may hold. Migration 0210 holds
- * the same limits on its columns; the connector refuses anything over them before writing.
+ * The longest each value of a workflow map may be, and how many of each a version may hold. Migrations 0210 and 0215
+ * hold the same limits on their columns; the connector refuses anything over them before writing.
  */
 export const workflowMapLimits = {
 	keyLength: 80,
@@ -15,7 +15,10 @@ export const workflowMapLimits = {
 	mostLines: 30,
 	mostStationsOnALine: 60,
 	mostStations: 300,
-	mostHandovers: 500
+	mostHandovers: 500,
+	whatArrivesLength: 120,
+	arrivesFromLength: 120,
+	mostArrivals: 100
 } as const;
 
 /** A line's or a station's key, and a Domain thing's slug: lower-case words joined by hyphens. */

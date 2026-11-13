@@ -6,7 +6,7 @@ import { isPhraseInDomain, isVocabularyFiled, type MapVocabulary } from '$lib/da
 import { allPhrasesOf, stationPhrasesOf } from '$lib/data/workflowMap/stationPhrases';
 import { stationTouchesOf } from '$lib/data/workflowMap/stationThings';
 import type { LineColour } from '$lib/components/lineMap/layout/lineMapModel';
-import type { StationState, WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
+import type { LineKind, StationState, WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 
 /** Where a station is done now, in which state, and where it was done before when that was somewhere else. */
 export type StationPlace = { place: string | null; state: StationState; earlierPlace: string | null };
@@ -20,6 +20,7 @@ export type StationDetails = {
 	name: string;
 	summary: string;
 	lineName: string;
+	lineKind: LineKind;
 	lineColour: LineColour;
 	inputs: StationInput[];
 	outputs: StationOutput[];
@@ -46,6 +47,7 @@ export function stationDetailsOf(shown: WorkflowMapVersion, surroundings: Statio
 		name: placed.name,
 		summary: placed.summary,
 		lineName: placed.lineName,
+		lineKind: placed.lineKind,
 		lineColour: surroundings.colours.get(placed.lineKey) ?? firstLineColour,
 		inputs: inputsOf(shown, placed),
 		outputs: outputsOf(shown, placed),

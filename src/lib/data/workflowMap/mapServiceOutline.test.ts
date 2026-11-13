@@ -15,17 +15,19 @@ const map: WorkflowMapVersion = {
 	versionNumber: 2,
 	recordedAt: '2026-11-13T06:00:00Z',
 	lines: [
-		{ key: 'estimator', name: 'Estimator', stations: [station('price-job', 'planned', portal), station('send-quote', 'ours', portal)] },
+		{ key: 'estimator', name: 'Estimator', kind: 'role', stations: [station('price-job', 'planned', portal), station('send-quote', 'ours', portal)] },
 		{
 			key: 'quantity-surveyor',
 			name: 'Quantity surveyor',
+			kind: 'role',
 			stations: [station('book-costs', 'planned', null), station('value-work', 'planned', portal, true), station('chase', 'elsewhere')]
 		}
 	],
 	handovers: [
 		{ fromKey: 'price-job', toKey: 'book-costs', handedOver: 'the priced job', goesWrong: 'Prices arrive by email and are retyped.' },
 		{ fromKey: 'send-quote', toKey: 'chase', handedOver: 'the quote', goesWrong: null }
-	]
+	],
+	arrivals: []
 };
 
 describe('the services a confirmed workflow map suggests', () => {
