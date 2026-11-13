@@ -18,7 +18,7 @@ export function describeDomainRun(standing: DomainRunStanding): string {
 		'3. **Read each one, read only, one source at a time:** one mail thread, one document, one library folder. Never send, move, change or delete anything.',
 		['4. **Model each source by these rules:**', ...domainModellingDoctrine.map((rule) => `   - ${rule}`)].join('\n'),
 		"5. **Ask the person where you are unsure** rather than guess, one question at a time, in the business's own words.",
-		`6. **Show the person what you will file from each source** — the contexts, the pages, what you supersede — and file it only once they say yes: file_business_brain_domain with organisationId ${organisation.id}, one call per source, naming the source.`,
+		`6. **Show the person what you will file from each source** — the contexts, the pages and rules, what you supersede — and file it only once they say yes: file_business_brain_domain with organisationId ${organisation.id}, one call per source, naming the source.`,
 		`7. **Give them the link** to the domain drawn from what you filed: ${organisationDomainHolder(organisation).address}`
 	].join('\n\n');
 }

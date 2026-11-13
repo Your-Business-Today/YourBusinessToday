@@ -1,4 +1,5 @@
 import { isBusinessBrainOpen } from '$lib/server/organisations/readBrainsOf';
+import { readStationDomain } from '$lib/server/businessBrain/readStationDomain';
 import { readOrganisationWorkflowMaps } from '$lib/server/workflowMap/readOrganisationWorkflowMaps';
 import { requireOrganisationAccess } from '$lib/server/auth/requireOrganisationAccess';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
@@ -10,7 +11,10 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const { organisation } = access;
 	const chosenStationKey = url.searchParams.get(workflowMapQueryKeys.station);
 	const isBrainOpen = await isBusinessBrainOpen(locals.supabase, access);
-	if (!isBrainOpen) return { organisation, maps: null, chosenStationKey };
-	const maps = await readOrganisationWorkflowMaps(supabaseServiceClient(), organisation.id);
-	return { organisation, maps, chosenStationKey };
+	if (!isBrainOpen) return { organisation, maps: null, chosenStationKey, stationDomain: null };
+	const [maps, stationDomain] = await Promise.all([
+		readOrganisationWorkflowMaps(supabaseServiceClient(), organisation.id),
+		readStationDomain(locals.supabase, organisation.id)
+	]);
+	return { organisation, maps, chosenStationKey, stationDomain };
 };

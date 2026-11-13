@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseParityAudit } from './parseParityAudit';
-import { parityGapsOf, toolsOf, toolsServingRoute } from '$lib/data/blueprint/mcpMap';
+import { parityGapsOf, toolsServingRoute } from '$lib/data/blueprint/mcpMap';
 
 const audit = [
 	'# Parity audit',
@@ -27,8 +27,7 @@ describe('parseParityAudit', () => {
 		});
 	});
 
-	it('gathers the tools and the screens they share with a person', () => {
-		expect(toolsOf(map).map((tool) => tool.name)).toEqual(['upsert_client_group', 'list_client_groups']);
+	it('pairs a screen with the tools of the stories that name it', () => {
 		expect(toolsServingRoute(map, '/clients/{Id}')).toEqual(['upsert_client_group', 'list_client_groups']);
 	});
 

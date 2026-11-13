@@ -1,7 +1,7 @@
 /**
  * An organisation's domain as it is filed in its Your Business Brain, in the kinds the Your Brain Today
- * domain brain modelled it in: bounded contexts, the building blocks inside each, a glossary per context
- * and one context map. Every one is a page of the Expertise part; a building block's parent page is its context.
+ * domain brain modelled it in, and the rules the business runs by: bounded contexts, the building blocks
+ * inside each, a glossary per context and one context map. Every one is a page of the Expertise part; a building block's parent page is its context.
  */
 export const domainPageKinds = {
 	boundedContext: 'bounded_context',
@@ -11,6 +11,7 @@ export const domainPageKinds = {
 	aggregate: 'aggregate',
 	domainService: 'domain_service',
 	domainEvent: 'domain_event',
+	rule: 'rule',
 	glossary: 'glossary'
 } as const;
 
@@ -33,16 +34,22 @@ export const domainBlockNames: Record<DomainPageKind, string> = {
 	aggregate: 'Aggregate',
 	domain_service: 'Domain service',
 	domain_event: 'Domain event',
+	rule: 'Rule',
 	glossary: 'Glossary'
 };
 
 /** One field of an entity or value object, as its page's facts keep it; a reference names the entity's slug. */
 export type DomainFieldFact = { name: string; label: string; type: string; ref: string | null; isRequired: boolean; notes: string };
 
-/** The facts a page of each kind carries beside its words. */
+/** One word the business uses, with what it means there, as a glossary page's facts keep it. */
+export type DomainTermFact = { word: string; meaning: string };
+
+/** The facts a page of each kind carries beside its words: a rule names the things it governs by their slugs. */
 export type DomainPageFacts = {
 	isCoreDomain: boolean;
 	fields: DomainFieldFact[];
 	statuses: string[];
 	aggregateRootSlug: string | null;
+	governs: string[];
+	terms: DomainTermFact[];
 };

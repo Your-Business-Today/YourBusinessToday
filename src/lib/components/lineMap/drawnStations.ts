@@ -7,6 +7,7 @@ export type Lighting = { selectedStationId?: string; litStationIds?: string[] };
 export type DrawnStation = {
 	id: string;
 	name: string;
+	description?: string;
 	kind: StationKind;
 	state: StationState;
 	place: StationPlace;
@@ -29,6 +30,7 @@ export function drawnStations(model: LineMapModel, layout: LineMapLayout, branch
 		return {
 			id: stationId,
 			name: station.name,
+			description: station.description,
 			kind: station.kind ?? StationKinds.task,
 			state: station.state ?? StationStates.elsewhere,
 			place,

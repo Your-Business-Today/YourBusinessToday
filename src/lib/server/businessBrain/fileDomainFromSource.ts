@@ -1,3 +1,4 @@
+import { contextPagesOf, firstDomainFilingGap, type DomainFilingGap } from './domainFilingGaps';
 import { domainBrainPart, domainPageKinds, type DomainPageKind } from '$lib/data/businessBrainDomain';
 import { ensureBusinessBrainPart } from './ensureBusinessBrainPart';
 import { fileBusinessBrainSource } from './fileBusinessBrainSource';
@@ -22,19 +23,16 @@ export type DomainFilingDone = {
 /** Who files, into the organisation's own domain or one product's. */
 export type DomainFiler = DomainScope & { filerAccountId: string };
 
-/** The answer when a page names a context neither filed before nor in this call. */
-export type UnknownContext = { unknownContextSlug: string };
-
-/** Files what one source teaches: its contexts first, then the pages beneath them, then the pages it supersedes. */
+/** Files what one source teaches: its contexts first, then the pages beneath them, then the pages it supersedes; nothing when it names what the domain does not hold. */
 export async function fileDomainFromSource(
 	supabase: SupabaseClient,
 	filer: DomainFiler,
 	filing: DomainFilingGiven
-): Promise<DomainFilingDone | UnknownContext | null> {
+): Promise<DomainFilingDone | DomainFilingGap | null> {
 	const { organisationId, projectId, filerAccountId } = filer;
 	const filedPages = await readDomainPages(supabase, filer);
-	const unknownContextSlug = firstUnknownContext(filing, filedPages);
-	if (unknownContextSlug !== null) return { unknownContextSlug };
+	const gap = firstDomainFilingGap(filing, filedPages);
+	if (gap !== null) return gap;
 	const sourceId = await fileBusinessBrainSource(supabase, organisationId, filing.source, filerAccountId);
 	if (sourceId === null) return null;
 	const partId = await ensureBusinessBrainPart(supabase, organisationId, domainBrainPart);
@@ -51,16 +49,6 @@ async function keepEach<Given>(givens: Given[], keep: (given: Given) => Promise<
 	const kept: DomainPageKept[] = [];
 	for (const given of givens) kept.push(await keep(given));
 	return kept;
-}
-
-function firstUnknownContext({ contexts, pages }: DomainFilingGiven, filedPages: DomainPage[]): string | null {
-	const known = new Set([...contexts.map((context) => context.slug), ...contextPagesOf(filedPages).map((page) => page.slug)]);
-	const placed = pages.filter((page) => page.kind !== domainPageKinds.contextMap);
-	return placed.find((page) => !known.has(page.contextSlug))?.contextSlug ?? null;
-}
-
-function contextPagesOf(pages: DomainPage[]): DomainPage[] {
-	return pages.filter((page) => page.kind === domainPageKinds.boundedContext);
 }
 
 function contextIdsOf(filedPages: DomainPage[], contextsKept: DomainPageKept[]): Map<string, string> {

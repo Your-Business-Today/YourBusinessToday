@@ -1,4 +1,5 @@
 import { domainPageKinds } from '$lib/data/businessBrainDomain';
+import { domainListsOf } from './domainListsOf';
 import { manifestOfDomainPages } from './domainPageManifest';
 import { translateEntityManifest } from '$lib/server/blueprint/translateEntityManifest';
 import type { DomainBlock, DomainContextSummary, DomainPage, OrganisationDomain } from '$lib/data/organisationDomain';
@@ -9,6 +10,7 @@ const listedKinds: string[] = [
 	domainPageKinds.valueObject,
 	domainPageKinds.domainService,
 	domainPageKinds.domainEvent,
+	domainPageKinds.rule,
 	domainPageKinds.glossary
 ];
 
@@ -18,7 +20,7 @@ export function organisationDomainOf(pages: DomainPage[]): OrganisationDomain | 
 	if (contextPages.length === 0) return null;
 	const contexts = contextPages.map((context) => contextSummary(context, pages));
 	const model = translateEntityManifest(manifestOfDomainPages(contextPages, pages));
-	return { model, contexts, contextMap: contextMapOf(pages) };
+	return { model, contexts, contextMap: contextMapOf(pages), ...domainListsOf(contextPages, pages) };
 }
 
 function contextSummary(context: DomainPage, pages: DomainPage[]): DomainContextSummary {

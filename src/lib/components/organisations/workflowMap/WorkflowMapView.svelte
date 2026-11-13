@@ -12,18 +12,23 @@
 	import { mapChangesBetween } from './workflowMapChanges';
 	import { mapStage, type MapStage } from '$lib/data/workflowMap/workflowMap';
 	import { stationDetailsOf } from './stationDetails';
+	import type { StationDomain } from '$lib/data/domainReading';
 	import type { OrganisationWorkflowMaps } from '$lib/data/workflowMap/organisationWorkflowMaps';
 
 	let {
 		maps,
 		openingStage,
 		chosenStationKey,
-		messages
+		messages,
+		stationDomain,
+		organisationId
 	}: {
 		maps: OrganisationWorkflowMaps;
 		openingStage: MapStage;
 		chosenStationKey: string | null;
 		messages: { chooseStation: string; noChanges: string };
+		stationDomain: StationDomain;
+		organisationId: string;
 	} = $props();
 
 	let measure: MeasureText = $state(estimatedTextWidth);
@@ -77,7 +82,7 @@
 	{#if details === null}
 		<p class="text-sm text-chalk-subtle">{messages.chooseStation}</p>
 	{:else}
-		<StationPanel {details} />
+		<StationPanel {details} {stationDomain} {organisationId} />
 	{/if}
 {:else}
 	<DashboardPanel>
