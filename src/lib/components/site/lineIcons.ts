@@ -12,6 +12,7 @@ export type LineIconKind =
 	| 'play'
 	| 'refresh'
 	| 'rocket'
+	| 'route'
 	| 'selector'
 	| 'shield'
 	| 'sound';
@@ -47,6 +48,7 @@ export const lineIconPaths: Record<LineIconKind, string[]> = {
 		'M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0',
 		'M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5'
 	],
+	route: ['M3 19a3 3 0 1 0 6 0a3 3 0 1 0 -6 0', 'M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15', 'M15 5a3 3 0 1 0 6 0a3 3 0 1 0 -6 0'],
 	selector: ['m7 15 5 5 5-5', 'm7 9 5-5 5 5'],
 	shield: [
 		'M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z',
