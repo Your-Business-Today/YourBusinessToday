@@ -3,6 +3,7 @@ import { validateRecordId } from '$lib/data/isUuid';
 import { refuseWhen } from '$lib/server/books/booksRefusal';
 import { findInvoiceSummaries, type InvoiceFilter } from '$lib/server/books/invoices';
 import { findInvoiceNamings } from '$lib/server/books/invoiceNamings';
+import { findSentInvoiceIds } from '$lib/server/books/invoiceSendings';
 import { moduleAction } from '../organisationModuleGate';
 import { objectSchema } from '../actionTypes';
 import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
@@ -20,7 +21,7 @@ const figuresAsTheBooksHoldThem =
 const newestFirst =
 	'The newest invoice comes first. Use it to find the invoice the person means before reading or changing it, and give ' +
 	'them the figures as the books hold them; a draft is not yet owed. Each opens as a document at its address: hand that over ' +
-	'when they want to see, print or forward one.';
+	'when they want to see, print or forward one. An issued invoice never emailed is marked; send_invoice sends it when they say so.';
 
 export const booksInvoiceReadActions: McpAction[] = [
 	moduleAction('books', {
@@ -48,11 +49,12 @@ export const booksInvoiceReadActions: McpAction[] = [
 		run: async (caller, input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.reading, async () => {
 				const filter = validatedFilter(input);
-				const [invoices, namings] = await Promise.all([
+				const [invoices, namings, sentInvoiceIds] = await Promise.all([
 					findInvoiceSummaries(caller.supabase, organisation.id, filter),
-					findInvoiceNamings(caller.supabase, organisation.id)
+					findInvoiceNamings(caller.supabase, organisation.id),
+					findSentInvoiceIds(caller.supabase, organisation.id)
 				]);
-				return describeInvoiceList(organisation, invoices, namings);
+				return describeInvoiceList(organisation, { invoices, namings, sentInvoiceIds });
 			})
 	})
 ];

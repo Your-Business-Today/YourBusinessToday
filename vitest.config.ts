@@ -8,7 +8,10 @@ const compileRunesForTheClient = () => ({ generate: 'client' as const });
 export default defineConfig({
 	plugins: [svelte({ dynamicCompileOptions: compileRunesForTheClient })],
 	resolve: {
-		alias: { $lib: fileURLToPath(new URL('./src/lib', import.meta.url)) },
+		alias: {
+			$lib: fileURLToPath(new URL('./src/lib', import.meta.url)),
+			'$env/dynamic/private': fileURLToPath(new URL('./src/lib/tests/emptyPrivateEnvironment.ts', import.meta.url))
+		},
 		conditions: ['browser']
 	},
 	test: {

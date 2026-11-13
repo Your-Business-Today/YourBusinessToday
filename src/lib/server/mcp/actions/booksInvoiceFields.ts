@@ -1,4 +1,5 @@
 import { invoiceStatusNames } from '$lib/data/books/invoiceStatuses';
+import { sentToLimits } from '$lib/data/books/invoiceSendingRules';
 import { textField } from '../actionTypes';
 
 export const invoiceIdField = textField('The invoice, by its id as list_invoices gives it');
@@ -39,3 +40,8 @@ export const invoicePaymentFields = {
 	paidOn: textField('The day the money arrived, as the person said it, written as 2026-11-30'),
 	amount: { type: 'number', description: 'How much arrived in pounds, above zero and to at most two places, such as 250.50' }
 };
+
+export const invoiceSendToField = textField(
+	"Leave out to send to the customer's email in the books, or the address the person gave, such as accounts@example.com, " +
+		`at most ${sentToLimits.longest} characters`
+);

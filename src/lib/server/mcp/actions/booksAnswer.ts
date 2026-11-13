@@ -6,6 +6,7 @@ export const booksRefusalOpenings = {
 	reading: 'No reading was taken.',
 	posting: 'Nothing was posted.',
 	saving: 'Nothing was saved.',
+	sending: 'Nothing was sent.',
 	deleting: 'Nothing was deleted.'
 } as const;
 
