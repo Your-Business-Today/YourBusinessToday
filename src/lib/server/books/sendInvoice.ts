@@ -11,6 +11,7 @@ import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { findCustomer } from './customers';
 import { findInvoiceDocument } from './invoiceDocument';
 import { findInvoiceHeader } from './invoices';
+import { invoicePdfAttachmentOf } from './invoicePdf/invoicePdfAttachment';
 import { keepInvoiceSending } from './invoiceSendings';
 
 /** Which invoice to email, where to, and who asked: a person's account, or none for a run that sends by itself. */
@@ -20,8 +21,9 @@ export type InvoiceSendingRequest = { organisationId: string; invoiceId: unknown
 export type InvoiceSendingOutcome = { invoiceId: string; printedNumber: string; sentTo: string; copiedTo: string | null; delivery: EmailDelivery };
 
 /**
- * Emails an issued or paid invoice to its customer, or to the address given, through the site's own sender, with
- * replies and a copy going to the books' company email, and keeps the sending whatever became of the email.
+ * Emails an issued or paid invoice to its customer, or to the address given, through the site's own sender, with the
+ * invoice attached as a PDF, replies and a copy going to the books' company email, and keeps the sending whatever
+ * became of the email.
  */
 export async function sendInvoice(supabase: SupabaseClient, request: InvoiceSendingRequest): Promise<InvoiceSendingOutcome> {
 	const invoiceId = String(request.invoiceId ?? '');
@@ -40,7 +42,8 @@ export async function sendInvoice(supabase: SupabaseClient, request: InvoiceSend
 
 async function invoiceEmailOf(supabase: SupabaseClient, organisationId: string, document: InvoiceDocument, sentTo: string): Promise<TransactionalEmail> {
 	const portalUrl = await portalUrlOf(supabase, organisationId, document.invoiceId);
-	const email = { to: sentTo, subject: invoiceEmailSubject(document), html: renderInvoiceEmail({ document, portalUrl }) };
+	const attachments = [await invoicePdfAttachmentOf(document)];
+	const email = { to: sentTo, subject: invoiceEmailSubject(document), html: renderInvoiceEmail({ document, portalUrl }), attachments };
 	return { ...email, ...sellersCopyOf(document.seller) };
 }
 
