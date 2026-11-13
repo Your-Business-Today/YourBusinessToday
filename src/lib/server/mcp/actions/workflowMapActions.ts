@@ -1,4 +1,4 @@
-import { mapConceptsNotSpecimens, mapShapeSentence, mapStageNames } from '$lib/data/workflowMap/workflowMapWords';
+import { mapConceptsNotSpecimens, mapShapeSentence } from '$lib/data/workflowMap/workflowMapWords';
 import { confirmationOf } from '$lib/data/workflowMap/mapConfirmationsOf';
 import { frozenBeforeRefusal } from '$lib/server/workflowMap/frozenBeforeRefusal';
 import { mapStages } from '$lib/data/workflowMap/workflowMap';
@@ -12,9 +12,10 @@ import { validateWorkflowMap } from '$lib/server/workflowMap/validateWorkflowMap
 import { objectSchema } from '../actionTypes';
 import { contextOrganisation } from './contextOrganisation';
 import { describeWorkflowMap, noWorkflowMapYet } from './describeWorkflowMap';
+import { filedWorkflowMapAnswer } from './filedWorkflowMapAnswer';
 import { organisationIdField } from './organisationDetailsFields';
 import { mapStageField, workflowMapFields } from './workflowMapFields';
-import type { MapStage, WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';
+import type { MapStage } from '$lib/data/workflowMap/workflowMap';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
@@ -64,7 +65,7 @@ async function fileMap(caller: McpCaller, input: Record<string, unknown>): Promi
 	if (strayProduct !== null) return strayProduct.refusal;
 	const filing = { organisationId: organisation.id, recordedBy: caller.accountId, draft };
 	const versionNumber = await fileWorkflowMap(caller.supabase, filing);
-	return `Filed version ${versionNumber} of ${organisation.name}'s ${filedSizes(draft)}.`;
+	return filedWorkflowMapAnswer(organisation.name, versionNumber, draft);
 }
 
 async function readMap(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
@@ -82,11 +83,6 @@ async function readMap(caller: McpCaller, input: Record<string, unknown>): Promi
 		return describeWorkflowMap(organisation.name, map, { productNames, standings, confirmation: confirmationOf(confirmed, map) });
 	});
 	return (await Promise.all(sections)).join('\n\n');
-}
-
-function filedSizes({ stage, lines, handovers }: WorkflowMapDraft): string {
-	const stationCount = lines.flatMap((line) => line.stations).length;
-	return `${mapStageNames[stage]} map: ${lines.length} lines, ${stationCount} stations and ${handovers.length} hand-overs`;
 }
 
 function stagesAskedFor(value: unknown): MapStage[] | { refusal: string } {
