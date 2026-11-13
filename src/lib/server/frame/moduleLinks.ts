@@ -3,7 +3,7 @@ import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
 import { usableModules } from '$lib/data/organisationModuleAccess';
 import { enterableModules } from './enterableModules';
-import { domainFrameLink, keepsTheDomain, moduleFrameLink } from '$lib/components/frame/moduleFolders';
+import { domainFrameLink, keepsTheDomain, moduleFrameLink, workflowMapFrameLink } from '$lib/components/frame/moduleFolders';
 import {
 	organisationModuleRouteSegments,
 	organisationModules,
@@ -25,7 +25,7 @@ export const modulesWithPages: OrganisationModule[] = organisationModules.filter
 
 /**
  * The pages of the organisation's modules the person may use, by the one module rule, in the modules' order,
- * and the organisation's domain where they may enter the brain that keeps it.
+ * and the organisation's domain and workflow map, first in Knowledge, where they may enter the brain that keeps them.
  */
 export async function readModuleLinks(
 	locals: App.Locals,
@@ -42,7 +42,7 @@ export async function readModuleLinks(
 	const enterable = await enterableModules(locals, visitor, place, usable);
 	const moduleLinks = enterable.map((module) => moduleLinkFor(organisationId, module));
 	if (!enterable.some(keepsTheDomain)) return moduleLinks;
-	return [...moduleLinks, domainFrameLink(organisationId)];
+	return [domainFrameLink(organisationId), workflowMapFrameLink(organisationId), ...moduleLinks];
 }
 
 function moduleLinkFor(organisationId: string, module: OrganisationModule): FrameLink {

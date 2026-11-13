@@ -10,6 +10,7 @@ import { organisationReadActions } from './organisationReadActions';
 import { organisationWriteActions } from './organisationWriteActions';
 import { teamWorkActions } from './teamWorkActions';
 import { workflowMapActions } from './workflowMapActions';
+import { workflowMapRunActions } from './workflowMapRunActions';
 import type { McpAction } from '../actionTypes';
 
 export const organisationActions: McpAction[] = [
@@ -24,5 +25,6 @@ export const organisationActions: McpAction[] = [
 	...companyContextActions,
 	...confirmedContextActions,
 	...contextRunActions,
-	...workflowMapActions
+	...workflowMapActions,
+	...workflowMapRunActions
 ];

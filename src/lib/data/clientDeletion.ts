@@ -1,5 +1,6 @@
 import { countOf } from './countOf';
 import type { ContinuityCopy } from './continuityCopy';
+import { listedInWords } from './listedInWords';
 
 /** What a client record holds that makes it a real relationship rather than a duplicate or a mistake. */
 export type ClientStanding = {
@@ -24,7 +25,7 @@ export function deletionWarningFor(clientName: string): string {
 export function refusalToDeleteClient(clientName: string, standing: ClientStanding): string | null {
 	const reasons = reasonsToKeep(standing);
 	if (reasons.length === 0) return null;
-	return `${clientName} cannot be deleted: it has ${inWords(reasons)}. ${keepInstead}`;
+	return `${clientName} cannot be deleted: it has ${listedInWords(reasons)}. ${keepInstead}`;
 }
 
 /** Why a client the database still names elsewhere, in a record the standing does not count, stays. */
@@ -55,10 +56,4 @@ function countedReason(count: number, describe: (count: number) => string): stri
 function groupedCompanies(count: number): string {
 	if (count === 1) return 'one company grouped under it';
 	return `${count} companies grouped under it`;
-}
-
-function inWords(reasons: string[]): string {
-	if (reasons.length === 1) return reasons[0];
-	const last = reasons[reasons.length - 1];
-	return `${reasons.slice(0, -1).join(', ')} and ${last}`;
 }
