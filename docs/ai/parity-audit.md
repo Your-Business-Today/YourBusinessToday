@@ -139,6 +139,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-116 | see the open work of an organisation's team, department by department | member | read | `/organisations/{organisationId}/task-management` load | `read_team_work` | `/organisations/{organisationId}/task-management` |
 | US-117 | read and set an organisation's domain | manager | write | `/organisations/{organisationId}/domain` load | `read_business_brain_domain` `file_business_brain_domain` `start_business_brain_domain_run` | `/organisations/{organisationId}/domain` |
 | US-118 | file an organisation's workflow map, Before or After, and read it back | member | write | — | `file_workflow_map` `read_workflow_map` | — |
+| US-119 | say "map the workflows" and be walked through finding the roles, their tasks and the hand-overs | member | read | — | `start_workflow_map_run` | — |
 
 ## 10-boardroom
 
