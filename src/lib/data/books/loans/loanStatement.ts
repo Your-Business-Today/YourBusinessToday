@@ -3,6 +3,7 @@ import type { StatementLine } from '../statement/accountStatement';
 import { dayEndBalances } from './dayEndBalances';
 import { overdrawnStretches, type OverdrawnStretch } from './overdrawnStretches';
 import { yearEndBalances, type YearEndBalance } from './financialYearEnds';
+import type { FinancialYear } from '../financialYear';
 
 /** An entry on a loan account: money the person put in, or money they took out, and what the account stood at after it. */
 export type LoanStatementLine = {
@@ -28,7 +29,7 @@ export type LoanStatement = {
 };
 
 /** The loan statement from the liability account's lines in posting order, each with the balance after it. */
-export function buildLoanStatement(lines: StatementLine[], yearStartMonth: number, throughDate: string): LoanStatement {
+export function buildLoanStatement(lines: StatementLine[], financialYear: FinancialYear, throughDate: string): LoanStatement {
 	const loanLines = lines.map(toLoanLine);
 	const dayEnds = dayEndBalances(lines);
 	return {
@@ -38,7 +39,7 @@ export function buildLoanStatement(lines: StatementLine[], yearStartMonth: numbe
 		totalOut: sumMoney(loanLines.map((line) => line.moneyOut)),
 		balance: loanLines.at(-1)?.balance ?? 0,
 		overdrawnStretches: overdrawnStretches(dayEnds),
-		yearEnds: yearEndBalances(dayEnds, yearStartMonth, throughDate)
+		yearEnds: yearEndBalances(dayEnds, financialYear, throughDate)
 	};
 }
 

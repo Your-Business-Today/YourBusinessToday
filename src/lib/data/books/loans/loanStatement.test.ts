@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { buildLoanStatement } from './loanStatement';
 import type { StatementLine } from '../statement/accountStatement';
 
-const augustYear = 8;
+const augustYear = { startMonth: 8, firstPeriod: null };
+const ybtFirstPeriod = { startMonth: 8, firstPeriod: { start: '2026-07-09', end: '2027-07-31' } };
 
 let journalNumber = 0;
 const line = (journalDate: string, movement: { debit?: number; credit?: number }, balance: number): StatementLine => {
@@ -59,6 +60,15 @@ describe('a loan account read from the ledger', () => {
 			{ yearEnd: '2027-07-31', balance: 50 }
 		]);
 		expect(statement.overdrawnStretches).toEqual([{ from: '2026-07-31', to: '2026-08-01', mostOwed: 250 }]);
+	});
+
+	it('takes the first year end from a first accounting period longer than twelve months', () => {
+		const lines = [line('2026-07-30', { credit: 500 }, 500), line('2027-07-01', { debit: 600 }, -100), line('2028-01-10', { credit: 100 }, 0)];
+		const statement = buildLoanStatement(lines, ybtFirstPeriod, '2028-08-01');
+		expect(statement.yearEnds).toEqual([
+			{ yearEnd: '2027-07-31', balance: -100 },
+			{ yearEnd: '2028-07-31', balance: 0 }
+		]);
 	});
 
 	it('reads an account with no entries as owing nothing, with no year end', () => {

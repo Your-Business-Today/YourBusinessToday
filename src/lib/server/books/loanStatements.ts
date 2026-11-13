@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { buildLoanStatement, type LoanStatement } from '$lib/data/books/loans/loanStatement';
 import { readAccountStatement } from './accountStatement';
-import { findFinancialYearStartMonth } from './financialYear';
+import { findFinancialYear } from './financialYear';
 import type { LoanAccount } from './loanAccounts';
 
 /** The loan account's statement read from the ledger, from its first entry to the end of the day given. */
@@ -12,11 +12,11 @@ export async function readLoanStatement(
 	throughDate: string
 ): Promise<LoanStatement> {
 	const request = { accountCode: loan.accountCode, periodEnd: throughDate };
-	const [statement, yearStartMonth] = await Promise.all([
+	const [statement, financialYear] = await Promise.all([
 		readAccountStatement(supabase, organisationId, request),
-		findFinancialYearStartMonth(supabase, organisationId)
+		findFinancialYear(supabase, organisationId)
 	]);
-	return buildLoanStatement(statement.lines, yearStartMonth, throughDate);
+	return buildLoanStatement(statement.lines, financialYear, throughDate);
 }
 
 /** Each loan account with its balance at the end of the day given, as its statement reads it. */

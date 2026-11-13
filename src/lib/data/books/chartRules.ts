@@ -25,7 +25,7 @@ export function validateNewLedgerAccount(fields: Record<string, unknown>): NewLe
 
 /** The rename as given, or the first reason it cannot be made: never trimmed or filled in. */
 export function validateLedgerAccountRename(fields: Record<string, unknown>): LedgerAccountRename | string {
-	const refusal = chartTextRefusal('accountCode', fields.accountCode) ?? chartTextRefusal('name', fields.name);
+	const refusal = plainTextRefusal('accountCode', fields.accountCode) ?? plainTextRefusal('name', fields.name);
 	if (refusal !== null) return refusal;
 	return { accountCode: fields.accountCode as string, name: fields.name as string };
 }
