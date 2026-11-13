@@ -5,8 +5,9 @@ import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { parseGlobalTaskRow, type GlobalTask } from '$lib/server/projects/getGlobalTaskPage';
 import { getOpenQuestionRows } from './getOpenQuestionRows';
 
-/** A task with a question open for the viewer, and who asked it. */
+/** A task with a question open for the viewer, who asked it, and the organisation its project sits in. */
 export type WaitingTask = GlobalTask & {
+	organisationId: string | null;
 	passedByName: string;
 	isForYourClaude: boolean;
 	since: string;
@@ -66,16 +67,23 @@ function parseWaitingTurn(row: Record<string, unknown>): WaitingTurn {
 	};
 }
 
+type TaskInOrganisation = GlobalTask & { organisationId: string | null };
+
 async function getTasksById(
 	supabase: SupabaseClient,
 	taskIds: string[]
-): Promise<Map<string, GlobalTask>> {
+): Promise<Map<string, TaskInOrganisation>> {
 	if (taskIds.length === 0) return new Map();
 	const { data, error } = await supabase
 		.from('tasks')
-		.select('*, projects!inner(name)')
+		.select('*, projects!inner(name, organisation_id)')
 		.in('id', taskIds);
 	if (error) throw error;
-	const tasks = data.map(parseGlobalTaskRow);
+	const tasks = data.map(parseTaskInOrganisation);
 	return new Map(tasks.map((task) => [task.id, task]));
+}
+
+function parseTaskInOrganisation(row: Record<string, unknown>): TaskInOrganisation {
+	const project = row.projects as { organisation_id: string | null };
+	return { ...parseGlobalTaskRow(row), organisationId: project.organisation_id };
 }

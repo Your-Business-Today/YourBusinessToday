@@ -25,7 +25,7 @@ export const load: PageServerLoad = async ({ locals, parent, cookies }) => {
 	const user = await requireUser(locals);
 	const { supabase } = locals;
 	const assignedTaskCounts = getAssignedTaskCounts(supabase, user.id);
-	const [waitingTasks, everyProject, organisations, latestKitVersion, layout] = await Promise.all([
+	const [everyWaitingTask, everyProject, organisations, latestKitVersion, layout] = await Promise.all([
 		getTasksWaitingOnYou(supabase, user.id),
 		getProjectsForUser(supabase, user.id, assignedTaskCounts),
 		getOrganisations(supabase),
@@ -34,6 +34,7 @@ export const load: PageServerLoad = async ({ locals, parent, cookies }) => {
 	]);
 	const pickedOrganisation = pickedOrganisationFilter(layout.framePicks);
 	const projects = everyProject.filter((project) => matchesOrganisationFilter(project.organisationId, pickedOrganisation));
+	const waitingTasks = everyWaitingTask.filter((task) => matchesOrganisationFilter(task.organisationId, pickedOrganisation));
 	const rememberedTab = rememberedProjectsTab(cookies.get(projectsTabCookie));
 	return { waitingTasks, projects, organisations, latestKitVersion, rememberedTab };
 };
