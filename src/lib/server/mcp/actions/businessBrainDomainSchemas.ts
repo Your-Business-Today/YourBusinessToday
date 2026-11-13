@@ -2,13 +2,13 @@ import { businessBrainLimits } from '$lib/data/businessBrainRules';
 import { contextMapSlug } from '$lib/data/businessBrainDomain';
 import { domainFilingLimits, domainWritableKinds } from '$lib/data/businessBrainDomainRules';
 import { everySubdomainKind } from '$lib/data/areaRelationshipFacts';
-import { fieldEntry, relationshipEntry, termEntry } from './businessBrainDomainFactEntries';
+import { fieldEntry, lifecycleEntry, relationshipEntry, termEntry } from './businessBrainDomainFactEntries';
 import { objectSchema, proseField, textField } from '../actionTypes';
 import { organisationField, sourceNamingFields } from './businessBrainSchemas';
 
 const { longestTitle, longestSummary, longestSlug } = businessBrainLimits;
 const { mostContexts, mostPages, mostRetires, mostFields, mostStatuses, longestStatus } = domainFilingLimits;
-const { mostGoverned, mostTerms, mostRelationships } = domainFilingLimits;
+const { mostGoverned, mostTerms, mostRelationships, longestIdentity, longestKeptIn, mostMembers } = domainFilingLimits;
 
 const slugField = (what: string) => textField(`${what}: lower-case words joined by hyphens, permanent, at most ${longestSlug} characters`);
 
@@ -42,13 +42,25 @@ const pageEntry = objectSchema(
 		),
 		summary: textField(`One line that makes the index useful, at most ${longestSummary} characters`),
 		body: proseField(
-			'The COMPLETE page in the business’s own words, in the sections its kind carries: a record’s "## What makes one", "## Lifecycle", "## Kept in" and "## Examples"; ' +
+			'The COMPLETE page in the business’s own words, in the sections its kind carries: a record’s "## What makes one", "## Lifecycle", "## Kept in" and "## Examples", each also given as identity, lifecycle and keptIn; ' +
 				'a detail’s unit or format; a group’s members and what stays true across it; an operation’s input, output and role; an event’s cause and who reacts; for a rule, why it holds'
 		),
 		contextSlug: textField('The bounded context the page lives in, by its slug; leave blank only for the context map'),
 		fields: { type: 'array', items: fieldEntry, description: `Entity, value object or aggregate: its fields, at most ${mostFields}` },
-		statuses: { type: 'array', items: { type: 'string' }, description: `Entity: the statuses it moves through, each a describing word and never the record’s own name, at most ${mostStatuses}, each at most ${longestStatus} characters` },
+		statuses: {
+			type: 'array',
+			items: { type: 'string' },
+			description: `Entity: the statuses it moves through, each a describing word and never the record’s own name, at most ${mostStatuses}, each at most ${longestStatus} characters; taken from lifecycle when that is given`
+		},
+		lifecycle: { type: 'array', items: lifecycleEntry, description: `Entity: each status a row, with its meaning and the statuses it can move to, at most ${mostStatuses}` },
+		identity: textField(`Entity: what brings one into being and what tells two apart, at most ${longestIdentity} characters`),
+		keptIn: textField(`Entity: where the business keeps them — a product, a spreadsheet, the accounts package, paper — at most ${longestKeptIn} characters`),
 		aggregateRootSlug: textField('Entity or aggregate: the slug of the entity at the root of the aggregate it belongs to'),
+		memberSlugs: {
+			type: 'array',
+			items: { type: 'string' },
+			description: `Aggregate: the records and details that change together with its root, by slug, at most ${mostMembers}; each filed before or in the same call, and in one group only`
+		},
 		governs: { type: 'array', items: { type: 'string' }, description: `Rule: the slugs of the things it governs, at least one and at most ${mostGoverned}` },
 		terms: { type: 'array', items: termEntry, description: `Glossary: its words one to a row, at most ${mostTerms}, each saying what it names` },
 		relationships: {

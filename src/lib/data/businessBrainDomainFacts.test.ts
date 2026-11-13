@@ -4,7 +4,9 @@ import { readDomainPageFacts } from './businessBrainDomainFacts';
 
 describe('readDomainPageFacts', () => {
 	it('reads a page with no domain facts as holding none', () => {
-		const noFacts = { isCoreDomain: false, subdomain: null, fields: [], statuses: [], aggregateRootSlug: null, governs: [], terms: [], relationships: [] };
+		const noRecordFacts = { identity: null, lifecycle: [], keptIn: null, memberSlugs: [] };
+		const noKindFacts = { fields: [], statuses: [], aggregateRootSlug: null, governs: [], terms: [], relationships: [] };
+		const noFacts = { isCoreDomain: false, subdomain: null, ...noKindFacts, ...noRecordFacts };
 		expect(readDomainPageFacts({})).toEqual(noFacts);
 		expect(readDomainPageFacts(null).fields).toEqual([]);
 	});

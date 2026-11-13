@@ -1,9 +1,10 @@
 import { ledgerTables, ledgerWrites } from './booksLedgerDatabase.fixture';
 import { deleteCostKeepingRecord, deleteInvoiceKeepingRecord } from './booksDeletionSteps.fixture';
 import { issueInvoiceStep, recordPaymentStep, replaceLinesStep, voidInvoiceStep } from './booksInvoiceSteps.fixture';
-import { payCostStep, postJournalSetStep, recordCostStep } from './booksCostSteps.fixture';
+import { payCostStep, postJournalSetStep, recordLoanPaidCostStep, recordCostStep } from './booksCostSteps.fixture';
 import { beginStep, journalRefusal } from './booksStepJournal.fixture';
 import { matchAsCostStep, matchAsInvoicePaymentStep, matchToAccountStep, tieBankLineStep } from './booksBankMatchSteps.fixture';
+import { takeBackPaymentStep, unmatchAccountStep, unmatchCostStep, unmatchInvoicePaymentStep, untieBankLineStep } from './booksBankUnmatchSteps.fixture';
 
 type Row = Record<string, unknown>;
 
@@ -32,12 +33,18 @@ const databaseSteps: Record<string, (args: Row) => unknown> = {
 	record_books_invoice_payment: recordPaymentStep,
 	replace_books_invoice_lines: replaceLinesStep,
 	record_books_expense: recordCostStep,
+	record_books_expense_paid_by_loan_account: recordLoanPaidCostStep,
 	pay_books_expense: payCostStep,
 	post_books_journal_set: postJournalSetStep,
 	tie_books_bank_line: tieBankLineStep,
 	match_books_bank_line_as_invoice_payment: matchAsInvoicePaymentStep,
 	match_books_bank_line_as_cost: matchAsCostStep,
-	match_books_bank_line_to_account: matchToAccountStep
+	match_books_bank_line_to_account: matchToAccountStep,
+	untie_books_bank_line: untieBankLineStep,
+	take_back_books_invoice_payment: takeBackPaymentStep,
+	unmatch_books_bank_line_invoice_payment: unmatchInvoicePaymentStep,
+	unmatch_books_bank_line_cost: unmatchCostStep,
+	unmatch_books_bank_line_account: unmatchAccountStep
 };
 
 /** Runs the work once, after the server has read the row and before the step locks it, as another caller could. */
