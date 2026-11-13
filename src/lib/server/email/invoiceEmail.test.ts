@@ -36,6 +36,7 @@ describe('the invoice email', () => {
 		for (const shown of ['Monthly fees', 'Hosting', '£5,000.00', '£5,100.00', '15 December 2026', '04-00-04', 'quote <strong>INV-7', 'PO 991', '16012345'])
 			expect(html).toContain(shown);
 		expect(html).toContain('1 High Street<br />Leeds');
+		expect(html).toContain('attached as INV-7.pdf');
 		expect(html).not.toContain('Billing on your portal');
 	});
 

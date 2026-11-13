@@ -1,5 +1,6 @@
 import { documentStampOf, headingFactsOf, isSayingHowToPay, owingFactsOf } from '$lib/components/books/invoiceDocumentView';
 import type { DocumentParty, InvoiceDocument } from '$lib/data/books/invoiceDocument';
+import { invoicePdfFilenameOf } from '$lib/data/books/invoicePdfFilename';
 import { InvoiceStatuses } from '$lib/data/books/invoiceStatuses';
 import { formatPoundsAndPence } from '$lib/data/books/money';
 import { escapeHtml } from '$lib/data/escapeHtml';
@@ -32,6 +33,7 @@ export function renderInvoiceEmail(letter: InvoiceLetter): string {
 		${linesTable(document.lines, document.total, owingFactsOf(document))}
 		${isSayingHowToPay(document) ? howToPayBlock(document.howToPay) : ''}
 		${notesBlock(document.notes)}
+		${attachedBlock(document)}
 		${portalBlock(letter.portalUrl)}
 	</div>
 </div>`;
@@ -55,6 +57,10 @@ function openingLine(document: InvoiceDocument): string {
 function notesBlock(notes: string): string {
 	if (notes === '') return '';
 	return `<p style="${styles.label}">Notes</p><p style="${styles.detail}">${printedText(notes)}</p>`;
+}
+
+function attachedBlock(document: InvoiceDocument): string {
+	return `<p style="${styles.smallPrint}">The invoice is attached as ${escapeHtml(invoicePdfFilenameOf(document))} to file or forward.</p>`;
 }
 
 function portalBlock(portalUrl: string | null): string {
