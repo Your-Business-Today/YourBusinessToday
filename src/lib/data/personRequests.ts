@@ -2,3 +2,4 @@
 export const organisationDomainRequest = 'set the organisation domain';
 export const productDomainRequest = 'set the product domain';
 export const showEverythingRequest = 'show me everything';
+export const siteMapRequest = 'map the site';
