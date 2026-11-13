@@ -12,6 +12,7 @@ const line = (journalDate: string, movement: { debit?: number; credit?: number }
 	return {
 		journalId,
 		journalDate,
+		postedAt: `${journalDate}T09:00:00+00:00`,
 		description: `Entry ${journalNumber}`,
 		kind: 'manual',
 		costCentreId: null,
