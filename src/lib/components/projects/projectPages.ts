@@ -18,16 +18,18 @@ const taskManagementQuery = `?${boardQueryKeys.department}=${boardTabs.administr
 const tabPageSegments = ['', ...Object.values(projectSegments)];
 
 /**
- * A product's top tabs: Development, holding its backlog, board, deploys and site map; Task Management, the team's
- * own jobs; and its Workflow map, the stations of its organisation's map it runs. An internal project is not a product, so it has Task Management alone.
+ * A product's top tabs: Development, holding its backlog, board, deploys and site map, and its Workflow map, the stations
+ * of its organisation's map it runs. The team's own jobs sit on the organisation's Tasks page, so only a product under no
+ * organisation keeps a Task Management tab. An internal project is not a product, so it has Task Management alone.
  */
-export function projectPageLinks(projectId: string, isInternalProject = false): ProjectPageLink[] {
+export function projectPageLinks(projectId: string, isInternalProject = false, isUnderOrganisation = false): ProjectPageLink[] {
 	const boardHref = projectHref(projectId);
 	const taskManagement = { key: projectPages.taskManagement, label: boardSideLabels.internal, href: `${boardHref}${taskManagementQuery}` };
 	if (isInternalProject) return [taskManagement];
 	const development = { key: projectPages.development, label: boardSideLabels.development, href: boardHref };
 	const workflowMapHref = projectHref(projectId, projectSegments.workflowMap);
 	const workflowMap = { key: projectPages.workflowMap, label: workflowMapLabel, href: workflowMapHref };
+	if (isUnderOrganisation) return [development, workflowMap];
 	return [development, taskManagement, workflowMap];
 }
 

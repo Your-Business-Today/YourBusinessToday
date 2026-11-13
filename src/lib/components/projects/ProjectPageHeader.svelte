@@ -16,7 +16,7 @@
 	}: { project: Project; isInternalProject?: boolean; badges?: Snippet; actions?: Snippet; children?: Snippet } = $props();
 
 	const { url } = $derived(page);
-	const pageLinks = $derived(projectPageLinks(project.id, isInternalProject));
+	const pageLinks = $derived(projectPageLinks(project.id, isInternalProject, project.organisationId !== null));
 	const hasOtherPages = $derived(pageLinks.length > 1);
 	const pageTabs = $derived(pageLinks.map(({ key, label, href }) => ({ key, label, count: null, href })));
 	const selectedKey = $derived(currentProjectPage(project.id, url));
