@@ -5,7 +5,7 @@ import { customerRowsOf, scheduleRowOf } from './customerRows';
 import type { InvoiceNamings } from './invoiceNamings';
 
 const customerOf = (id: string, isArchived: boolean, owed: number): CustomerWithBalance => ({
-	customer: { id, name: `Customer ${id}`, contactName: 'Jeremy', email: 'accounts@example.com', address: '', isArchived, clientId: null },
+	customer: { id, name: `Customer ${id}`, contactName: 'Jeremy', email: 'accounts@example.com', address: '', isArchived, clientId: null, billedOrganisationId: null },
 	balance: { invoiceCount: 2, unpaidInvoiceCount: owed > 0 ? 1 : 0, owed }
 });
 

@@ -4,6 +4,7 @@ import { refuseWhen } from '$lib/server/books/booksRefusal';
 import { findInvoiceSummaries, type InvoiceFilter } from '$lib/server/books/invoices';
 import { findInvoiceNamings } from '$lib/server/books/invoiceNamings';
 import { findSentInvoiceIds } from '$lib/server/books/invoiceSendings';
+import { findScheduledInvoices, findScheduleTitles } from '$lib/server/books/scheduledInvoices';
 import { moduleAction } from '../organisationModuleGate';
 import { objectSchema } from '../actionTypes';
 import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
@@ -11,6 +12,7 @@ import { booksOrganisationField } from './booksFields';
 import { invoiceFilterFields, invoiceIdField } from './booksInvoiceFields';
 import { readInvoiceInFull } from './booksInvoiceReading';
 import { describeInvoiceList } from './describeInvoices';
+import { originWordsOf } from './describeScheduledInvoices';
 import type { McpAction } from '../actionTypes';
 
 const figuresAsTheBooksHoldThem =
@@ -49,12 +51,14 @@ export const booksInvoiceReadActions: McpAction[] = [
 		run: async (caller, input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.reading, async () => {
 				const filter = validatedFilter(input);
-				const [invoices, namings, sentInvoiceIds] = await Promise.all([
+				const [invoices, namings, sentInvoiceIds, scheduled, titles] = await Promise.all([
 					findInvoiceSummaries(caller.supabase, organisation.id, filter),
 					findInvoiceNamings(caller.supabase, organisation.id),
-					findSentInvoiceIds(caller.supabase, organisation.id)
+					findSentInvoiceIds(caller.supabase, organisation.id),
+					findScheduledInvoices(caller.supabase, organisation.id),
+					findScheduleTitles(caller.supabase, organisation.id)
 				]);
-				return describeInvoiceList(organisation, { invoices, namings, sentInvoiceIds });
+				return describeInvoiceList(organisation, { invoices, namings, sentInvoiceIds, originWords: originWordsOf(scheduled, titles) });
 			})
 	})
 ];

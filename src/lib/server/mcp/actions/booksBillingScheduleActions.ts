@@ -14,7 +14,7 @@ const setUpOnlyWhatThePersonAgreed =
 	'Set up only what the person agreed with the customer: the lines, prices, how often, the first invoice date and ' +
 	'whether each invoice covers the period ahead or the one just gone. Ask whether invoices send by itself and never ' +
 	'assume it. A first date before today is refused: bring an earlier period in with create_invoice. Read the answer ' +
-	'back. Nothing is raised from a schedule until the run that raises them is built, so say so.';
+	'back. From 07:00 UK time on its date, the hourly run raises its invoice, and issues and emails it when it sends by itself.';
 
 const changeOnlyWhatThePersonAsked =
 	'Give only what the person asked to change. To pause give isPaused true, to resume false; to end it give endsOn, the ' +

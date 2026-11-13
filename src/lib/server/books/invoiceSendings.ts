@@ -55,3 +55,21 @@ export async function findLastSentTimes(supabase: SupabaseClient, organisationId
 function fromSendingRow(row: SendingRow): InvoiceSending {
 	return { sentTo: row.sent_to, delivery: row.delivery, sentByAccountId: row.sent_by, sentAt: row.sent_at };
 }
+
+/** How each invoice's sendings stand: whether one went, and how many tries did not. */
+export type SendingTally = { hasGone: boolean; triesNotGone: number };
+
+/** The tally of every sending of the invoices given, by invoice; an invoice never sent is not in it. */
+export async function findSendingTallies(supabase: SupabaseClient, organisationId: string, invoiceIds: string[]): Promise<Map<string, SendingTally>> {
+	const tallies = new Map<string, SendingTally>();
+	if (invoiceIds.length === 0) return tallies;
+	const query = supabase.from(sendingsTable).select(sendingColumns).eq('organisation_id', organisationId).in('invoice_id', invoiceIds);
+	const { data, error } = await query.order('id');
+	if (error !== null) throw error;
+	for (const row of data as unknown as SendingRow[]) {
+		const tally = tallies.get(row.invoice_id) ?? { hasGone: false, triesNotGone: 0 };
+		const hasGone = row.delivery === emailDeliveries.sent;
+		tallies.set(row.invoice_id, { hasGone: tally.hasGone || hasGone, triesNotGone: tally.triesNotGone + (hasGone ? 0 : 1) });
+	}
+	return tallies;
+}

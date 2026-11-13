@@ -28,12 +28,12 @@ export function validateNewCustomer(fields: Record<string, unknown>): CustomerDe
 	return { name: detailOf('name'), contactName: detailOf('contactName'), email: detailOf('email'), address: detailOf('address') };
 }
 
-/** The change as given, or the first reason it cannot be made; a change of the client link alone counts as a change. */
+/** The change as given, or the first reason it cannot be made; a change of a link alone counts as a change. */
 export function validateCustomerChange(fields: Record<string, unknown>): CustomerChange | string {
 	const givenDetails = customerDetailNames.filter((name) => fields[name] !== undefined);
 	const isArchiveGiven = fields.isArchived !== undefined;
-	const isClientLinkGiven = fields.clientId !== undefined;
-	const isNothingGiven = givenDetails.length === 0 && !isArchiveGiven && !isClientLinkGiven;
+	const isLinkGiven = fields.clientId !== undefined || fields.billedOrganisationId !== undefined;
+	const isNothingGiven = givenDetails.length === 0 && !isArchiveGiven && !isLinkGiven;
 	if (isNothingGiven) return 'No change was given. Give at least one detail, and leave out the rest to keep them.';
 	const refusal = givenDetailsRefusal(fields) ?? archiveRefusal(fields.isArchived);
 	if (refusal !== null) return refusal;
