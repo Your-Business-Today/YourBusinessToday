@@ -5,7 +5,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 type ParentPage = BusinessBrainPageSurroundings['parent'];
 
-/** The parts of an organisation's brain one door reads: a chatbot's parts, or a product's. */
+/** The parts of an organisation's brain a chatbot reads. */
 export type CoveredParts = { organisationId: string; parts: BusinessBrainPartKind[] };
 
 /** The page's surroundings with only the related pages the door also reads, so no other page's title shows through it. */

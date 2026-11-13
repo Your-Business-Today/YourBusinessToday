@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
 import { domainRunLine } from './domainRunLine';
-import { productDomainRequest } from '$lib/data/personRequests';
 import type { McpCaller } from './resolveMcpCaller';
 
 vi.mock('$lib/server/organisations/getOrganisation', () => ({
@@ -21,8 +20,7 @@ describe('what get_current_context tells a person about setting a domain', () =>
 		expect(line).toContain('run_read_action with start_business_brain_domain_run');
 		expect(line).toContain('Organisation with-brain (with-brain)');
 		expect(line).not.toContain('books-only');
-		expect(line).toContain(`"${productDomainRequest}"`);
-		expect(line).toContain('start_product_brain_domain_run and the projectId');
+		expect(line).not.toContain('start_product_brain_domain_run');
 	});
 
 	it('says nothing when no organisation of theirs has the brain on', async () => {

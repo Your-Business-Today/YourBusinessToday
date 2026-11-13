@@ -187,7 +187,6 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-152 | put a file into the brain and open one | member | write | `/organisations/{organisationId}/business-brain` | `grant_business_brain_file_upload` `record_business_brain_file_upload` `open_business_brain_file` | `/organisations/{organisationId}/business-brain` |
 | US-153 | make a chatbot, change it, and read the questions asked through it | manager | write | `/organisations/{organisationId}/business-brain/chatbots/{chatbotId}/questions` load | `make_business_brain_chatbot` `change_business_brain_chatbot` `list_business_brain_chatbots` `list_business_brain_chatbot_questions` | `/organisations/{organisationId}/business-brain/chatbots/{chatbotId}/questions` |
 | US-154 | ask through a chatbot I may use and put my answer on record | anyone | write | the person's own Claude | `list_my_chatbots` `read_chatbot_index` `search_chatbot` `read_chatbot_page` `record_chatbot_answer` | `/organisations/{organisationId}/business-brain` |
-| US-155 | read, set and search a product's brain | member | write | `/projects/{projectId}/domain` load | `read_product_brain_index` `read_product_brain_page` `read_product_brain_domain` `file_product_brain_domain` `start_product_brain_domain_run` `change_product_brain` `search_product_brain` | `/projects/{projectId}/domain` |
 
 ## 14-client-portal
 

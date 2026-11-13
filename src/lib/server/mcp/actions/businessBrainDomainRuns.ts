@@ -3,7 +3,7 @@ import { describeDomainRun } from './describeDomainRun';
 import { describeDomain } from './describeDomain';
 import { fileDomainFromSource } from '$lib/server/businessBrain/fileDomainFromSource';
 import { noSuchSource } from './businessBrainAnswers';
-import { organisationDomainHolder, productDomainHolder, type DomainHolder } from './domainHolder';
+import { organisationDomainHolder } from './domainHolder';
 import { organisationDomainOf } from '$lib/server/businessBrain/organisationDomainOf';
 import { getReachableProjectsOf } from '$lib/server/organisations/getReachableProjectsOf';
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
@@ -13,20 +13,11 @@ import { readLatestCompanyContext } from '$lib/server/companyContext/readLatestC
 import { validateDomainFiling } from '$lib/server/businessBrain/validateDomainFiling';
 import type { DomainFilingGiven } from '$lib/data/businessBrainDomainRules';
 import type { McpCaller } from '../resolveMcpCaller';
-import type { ModuleProduct } from '../organisationModuleGate';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
 /** Files what one source teaches about the organisation's own domain, once every value given fits. */
 export async function fileDomain(caller: McpCaller, input: Record<string, unknown>, organisation: Organisation): Promise<string> {
-	return fileDomainOf(caller, input, organisationDomainHolder(organisation));
-}
-
-/** Files what one source teaches about a product's own domain, once every value given fits. */
-export async function fileProductDomain(caller: McpCaller, input: Record<string, unknown>, product: ModuleProduct): Promise<string> {
-	return fileDomainOf(caller, input, productDomainHolder(product));
-}
-
-async function fileDomainOf(caller: McpCaller, input: Record<string, unknown>, holder: DomainHolder): Promise<string> {
+	const holder = organisationDomainHolder(organisation);
 	const filing = validateDomainFiling(input);
 	if (typeof filing === 'string') return filing;
 	if (isTeachingNothing(filing)) return nothingTaught;
@@ -44,15 +35,7 @@ function isTeachingNothing({ contexts, pages, retires }: DomainFilingGiven): boo
 
 /** The organisation's own domain as Markdown. */
 export async function readDomain(caller: McpCaller, _input: Record<string, unknown>, organisation: Organisation): Promise<string> {
-	return readDomainOf(caller, organisationDomainHolder(organisation));
-}
-
-/** A product's own domain as Markdown. */
-export async function readDomainOfProduct(caller: McpCaller, _input: Record<string, unknown>, product: ModuleProduct): Promise<string> {
-	return readDomainOf(caller, productDomainHolder(product));
-}
-
-async function readDomainOf(caller: McpCaller, holder: DomainHolder): Promise<string> {
+	const holder = organisationDomainHolder(organisation);
 	const pages = await readDomainPages(caller.supabase, holder.scope);
 	return describeDomain(caller.supabase, holder, organisationDomainOf(pages));
 }

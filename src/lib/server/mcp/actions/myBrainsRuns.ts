@@ -1,6 +1,6 @@
 import { describeMyBrains } from './describeMyBrains';
 import { searchChatbotBrains } from './myChatbotBrains';
-import { searchOrganisationBrains, searchProductBrains } from './myOrganisationBrains';
+import { searchOrganisationBrains } from './myOrganisationBrains';
 import { validateBusinessBrainSearch } from '$lib/server/businessBrain/validateBusinessBrainReading';
 import { validateChatbotQuestionAsked } from '$lib/server/businessBrain/validateChatbotQuestion';
 import { validateRecordId } from '$lib/data/isUuid';
@@ -16,12 +16,8 @@ export async function searchMyBrains(caller: McpCaller, input: Record<string, un
 	const narrowing = validateOrganisationScope(input);
 	if (typeof narrowing === 'string') return narrowing;
 	const scope = { ...narrowing, searchText: search.searchText };
-	const [whole, products, named] = await Promise.all([
-		searchOrganisationBrains(caller, scope),
-		searchProductBrains(caller, scope),
-		searchChatbotBrains(caller, scope, asked.question)
-	]);
-	return describeMyBrains(search.searchText, [...named, ...products, ...whole]);
+	const [whole, named] = await Promise.all([searchOrganisationBrains(caller, scope), searchChatbotBrains(caller, scope, asked.question)]);
+	return describeMyBrains(search.searchText, [...named, ...whole]);
 }
 
 function validateOrganisationScope(input: Record<string, unknown>): { organisationId: string | null } | string {
