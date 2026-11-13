@@ -1,12 +1,9 @@
 <script lang="ts">
-	import { mcpEntryHref } from './blueprintViews';
 	import { toolsServingRoute, type McpMap } from '$lib/data/blueprint/mcpMap';
 
-	let { mcpMap, route, projectId }: { mcpMap: McpMap; route: string; projectId: string } = $props();
+	let { mcpMap, route }: { mcpMap: McpMap; route: string } = $props();
 
 	const toolNames = $derived(toolsServingRoute(mcpMap, route));
-	const linkClasses =
-		'rounded-full border border-hairline px-2.5 py-0.5 font-mono text-xs text-chalk/70 hover:border-go hover:text-go';
 </script>
 
 <section class="flex flex-col gap-1.5">
@@ -16,7 +13,7 @@
 	{:else}
 		<ul class="flex flex-wrap gap-1.5">
 			{#each toolNames as toolName (toolName)}
-				<li><a href={mcpEntryHref(projectId, toolName)} class={linkClasses}>{toolName}</a></li>
+				<li class="rounded-full border border-hairline px-2.5 py-0.5 font-mono text-xs text-chalk/70">{toolName}</li>
 			{/each}
 		</ul>
 	{/if}

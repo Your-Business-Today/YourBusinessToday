@@ -22,7 +22,8 @@ export type ClientEventKind =
 	| 'sighted'
 	| 'client_set_up'
 	| 'context_confirmed'
-	| 'owner_changed';
+	| 'owner_changed'
+	| 'workflow_map_confirmed';
 
 export type ClientEvent = {
 	id: string;

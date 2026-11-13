@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { businessBrainPartKinds, businessBrainReadLimits, type BusinessBrainPartKind } from '$lib/data/businessBrainRules';
-import { everyPage, readAnswerInScope, type DomainScope, type ScopeFilter } from './domainScope';
+import { readAnswerInScope, type DomainScope, type ScopeFilter } from './domainScope';
 
 /** One page as the index lists it: enough to choose which pages to read. */
 export type BusinessBrainIndexEntry = {
@@ -40,12 +40,6 @@ export async function readBrainIndexOfParts(
 	if (partIds.length === 0) return emptyIndex;
 	const inParts: ScopeFilter = ['part_id', 'in', `(${partIds.join(',')})`];
 	return readIndexOfScope(supabase, { organisationId, projectId: null }, inParts, partKinds);
-}
-
-/** The index of a product's own pages, listed first in its product brain; empty before migration 0203 has run. */
-export async function readIndexOfProductPages(supabase: SupabaseClient, scope: DomainScope): Promise<BusinessBrainIndex> {
-	const partKinds = await readPartKinds(supabase, scope.organisationId);
-	return readIndexOfScope(supabase, scope, everyPage, partKinds);
 }
 
 async function readIndexOfScope(

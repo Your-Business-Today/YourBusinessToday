@@ -20,20 +20,6 @@ export type StoryDoors = {
 /** A skill or an agent: its name, what it is for, and the file that defines it. */
 export type AgentGuide = { name: string; description: string; path: string };
 
-/** A connector tool, gathered from every story it serves, with the screens of those stories. */
-export type McpTool = { name: string; workflow: string; stories: StoryDoors[]; routes: string[] };
-
-export function toolsOf(map: McpMap): McpTool[] {
-	const toolNames = [...new Set(map.stories.flatMap((story) => story.toolNames))];
-	return toolNames.map((name) => toolNamed(map, name));
-}
-
-function toolNamed(map: McpMap, name: string): McpTool {
-	const stories = map.stories.filter((story) => story.toolNames.includes(name));
-	const routes = [...new Set(stories.flatMap((story) => story.routes))];
-	return { name, workflow: stories[0]?.workflow ?? '', stories, routes };
-}
-
 /** The stories with no connector tool or no screen: where a person and a Claude cannot do the same thing. */
 export function parityGapsOf(map: McpMap): StoryDoors[] {
 	return map.stories.filter((story) => !hasConnectorTool(story) || !hasScreen(story));
@@ -47,10 +33,10 @@ export function hasScreen({ routes }: StoryDoors): boolean {
 	return routes.length > 0;
 }
 
-const routeParameter = /\{[^}]*\}/g;
+const routeParameter = /\{[^}]*\}|\[[^\]]*\]/g;
 const anyParameter = '{}';
 
-/** A route with its parameters' names set aside, so /jobs/{id} and /jobs/{Id} are the same screen. */
+/** A route with its parameters' names set aside, so /jobs/{id}, /jobs/{Id} and /jobs/[jobId] are the same screen. */
 export function routeShape(route: string): string {
 	return route.replace(routeParameter, anyParameter).toLowerCase();
 }

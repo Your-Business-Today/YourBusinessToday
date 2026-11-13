@@ -8,7 +8,7 @@ export const PortalSurfaces = {
 export const PortalSurfaceColumns = {
 	projects: 'id, name, status, client_id, environment_url',
 	goals: 'id, project_id, title, measure, status, horizon, priority',
-	goalContexts: 'id, project_id, title, measure, status, horizon, priority, context_version_number',
+	goalOrigins: 'id, project_id, title, measure, status, horizon, priority, workflow_map_stage, workflow_map_version_number',
 	tasks: 'id, project_id, parent_task_id, goal_id, kind, title, status, priority, story_points, completion_percent'
 } as const;
 

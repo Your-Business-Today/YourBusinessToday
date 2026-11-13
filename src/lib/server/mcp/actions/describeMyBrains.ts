@@ -3,7 +3,7 @@ import { countOf } from '$lib/data/countOf';
 import { myBrainsLimits, type BrainPageFound, type BrainSearched } from '$lib/data/myBrainsRules';
 
 export const noBrainToSearch =
-	'You reach no brain yet: no organisation you are on has Your Business Brain switched on, no chatbot names you, and no product you are on has a brain.';
+	'You reach no brain yet: no organisation you are on has Your Business Brain switched on, and no chatbot names you.';
 
 /** The brains that hold something on the words, most pages first, then those that hold nothing. */
 export function describeMyBrains(searchText: string, brains: BrainSearched[]): string {

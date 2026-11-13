@@ -61,15 +61,15 @@ describe('toPortalProject', () => {
 				measure: launchGoal.measure,
 				completionPercent: 33,
 				openTaskCount: 2,
-				contextVersionNumber: null
+				workflowMap: null
 			}
 		]);
 	});
 
-	it('says which version of the confirmed company context a goal came from', () => {
-		const serviceGoal = { ...launchGoal, context_version_number: 4 };
+	it('says which version of the confirmed workflow map a goal came from', () => {
+		const serviceGoal = { ...launchGoal, workflow_map_stage: 'before', workflow_map_version_number: 2 };
 		const serviceProject = toPortalProject({ ...projectRow, goals: [serviceGoal] });
-		expect(serviceProject.currentGoals[0].contextVersionNumber).toBe(4);
+		expect(serviceProject.currentGoals[0].workflowMap).toEqual({ stage: 'before', versionNumber: 2 });
 	});
 
 	it('counts percent done over current work only', () => {

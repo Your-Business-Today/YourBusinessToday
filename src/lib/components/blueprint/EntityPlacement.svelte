@@ -10,8 +10,8 @@
 <p class="text-chalk/70">
 	In {entity.contextName} ·
 	{#if isRoot}
-		the root of its aggregate
+		kept in its own right
 	{:else}
-		inside the <EntityLink entityName={entity.aggregateRootName} {onSelect} /> aggregate
+		kept as part of <EntityLink entityName={entity.aggregateRootName} {onSelect} />
 	{/if}
 </p>

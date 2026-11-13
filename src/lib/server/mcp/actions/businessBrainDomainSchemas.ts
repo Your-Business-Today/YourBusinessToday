@@ -3,10 +3,10 @@ import { contextMapSlug } from '$lib/data/businessBrainDomain';
 import { domainFilingLimits, domainReferenceType, domainWritableKinds } from '$lib/data/businessBrainDomainRules';
 import { objectSchema, proseField, textField } from '../actionTypes';
 import { organisationField, sourceNamingFields } from './businessBrainSchemas';
-import { productField } from './productBrainSchemas';
 
 const { longestTitle, longestSummary, longestSlug } = businessBrainLimits;
 const { mostContexts, mostPages, mostRetires, mostFields, longestFieldName, longestFieldType, mostStatuses, longestStatus } = domainFilingLimits;
+const { mostGoverned, mostTerms, longestWord, longestMeaning } = domainFilingLimits;
 
 const slugField = (what: string) => textField(`${what}: lower-case words joined by hyphens, permanent, at most ${longestSlug} characters`);
 
@@ -33,17 +33,27 @@ const fieldEntry = objectSchema(
 	['name', 'type']
 );
 
+const termEntry = objectSchema(
+	{
+		word: textField(`The word as the business uses it, at most ${longestWord} characters`),
+		meaning: textField(`What it means here, at most ${longestMeaning} characters`)
+	},
+	['word', 'meaning']
+);
+
 const pageEntry = objectSchema(
 	{
 		kind: { type: 'string', enum: domainWritableKinds, description: 'Which building block the page is' },
 		slug: slugField(`The page’s slug; a slug already filed is revised, and the context map's is ${contextMapSlug}`),
-		title: textField(`The concept, at most ${longestTitle} characters`),
+		title: textField(`The concept, or for a rule the rule itself in one sentence, at most ${longestTitle} characters`),
 		summary: textField(`One line that makes the index useful, at most ${longestSummary} characters`),
-		body: proseField('The COMPLETE page: the concept in the business’s own words, with an "## Examples" section for named specimens'),
+		body: proseField('The COMPLETE page: the concept in the business’s own words, with an "## Examples" section for named specimens; for a rule, why it holds'),
 		contextSlug: textField('The bounded context the page lives in, by its slug; leave blank only for the context map'),
 		fields: { type: 'array', items: fieldEntry, description: `Entity, value object or aggregate: its fields, at most ${mostFields}` },
 		statuses: { type: 'array', items: { type: 'string' }, description: `Entity: the statuses it moves through, at most ${mostStatuses}, each at most ${longestStatus} characters` },
-		aggregateRootSlug: textField('Entity or aggregate: the slug of the entity at the root of the aggregate it belongs to')
+		aggregateRootSlug: textField('Entity or aggregate: the slug of the entity at the root of the aggregate it belongs to'),
+		governs: { type: 'array', items: { type: 'string' }, description: `Rule: the slugs of the things it governs, at least one and at most ${mostGoverned}` },
+		terms: { type: 'array', items: termEntry, description: `Glossary: its words one to a row, at most ${mostTerms}` }
 	},
 	['kind', 'slug', 'title', 'summary', 'body']
 );
@@ -65,8 +75,4 @@ const filingFields = {
 
 export const fileBusinessBrainDomainSchema = objectSchema({ organisationId: organisationField, ...filingFields }, ['organisationId']);
 
-export const fileProductBrainDomainSchema = objectSchema({ projectId: productField, ...filingFields }, ['projectId']);
-
 export const readBusinessBrainDomainSchema = objectSchema({ organisationId: organisationField }, ['organisationId']);
-
-export const readProductBrainDomainSchema = objectSchema({ projectId: productField }, ['projectId']);

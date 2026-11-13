@@ -1,7 +1,6 @@
 import { brainOf } from './businessBrainAnswers';
 import { entitiesOf } from '$lib/data/blueprint/domainModel';
 import { organisationModuleLabels, type OrganisationModule } from '$lib/data/organisationModules';
-import type { CompanyContextVersion } from '$lib/data/companyContext/companyContext';
 import type { DomainSource } from '$lib/server/businessBrain/readDomainSources';
 import type { OrganisationDomain } from '$lib/data/organisationDomain';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
@@ -11,7 +10,6 @@ export type DomainRunStanding = {
 	organisation: Organisation;
 	domain: OrganisationDomain | null;
 	sources: DomainSource[];
-	context: CompanyContextVersion | null;
 	products: { id: string; name: string }[];
 	switchedOn: OrganisationModule[];
 };
@@ -22,7 +20,6 @@ export function domainRunStanding(standing: DomainRunStanding): string {
 	return [
 		'1. **Say what Your Business Today holds already.**',
 		domainHeld(standing),
-		contextHeld(standing),
 		productsHeld(standing),
 		`Switched on for ${organisation.name}: ${switchedOn.map((module) => organisationModuleLabels[module]).join(', ')}.`
 	].join('\n');
@@ -38,12 +35,6 @@ function domainHeld({ organisation, domain, sources }: DomainRunStanding): strin
 		`   - The domain in ${brainOf(organisation)}: ${contexts.length} contexts, ${coreWords}, ${entitiesOf(model).length} entities. Read it whole with read_business_brain_domain before anything else, and build on it.`,
 		`   - Filed from: ${filedFrom || 'no source named'}. Read a source again only when it has changed.`
 	].join('\n');
-}
-
-function contextHeld({ context }: DomainRunStanding): string {
-	if (context === null) return '   - The company context: none recorded yet.';
-	const recorded = `version ${context.versionNumber}, recorded ${context.recordedAt.slice(0, 10)}`;
-	return `   - The company context, ${recorded}: read it with read_company_context as one more source of the business's words. This run never writes it.`;
 }
 
 function productsHeld({ products }: DomainRunStanding): string {

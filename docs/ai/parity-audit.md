@@ -34,7 +34,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-020 | read a project's deploy history | member | read | `/projects/{projectId}/deploys` load | `read_deploy_history` | `/projects/{projectId}/deploys` |
 | US-021 | see what is staged and deploy it now | member | write | `deployNow` | `deploy_staging_now` | `/projects/{projectId}/staged` |
 | US-022 | read a project's domain and site map | member | read | `/projects/{projectId}/domain` load | `read_project_domain` `read_project_site_map` `read_project_mcp_map` | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
-| US-023 | refresh a project's domain and site map from its repository | member | write | opening the page | `refresh_project_blueprint` | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
+| US-023 | refresh a project's domain and site map from its repository | member | write | opening the page | `refresh_project_blueprint` `file_project_site_map` `start_site_map_run` `list_product_repository_folder` `read_product_repository_file` | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
 | US-024 | assign internal work and give it a due date | member | write | `setAssignees` `setDueDate` | `set_task_assignees` `update_task_details` | `/projects/{projectId}` |
 
 ## 03-goals
@@ -95,7 +95,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-081 | search Companies House by SIC code and place and add a company as a lead, with its directors | staff | write | `addLead` `addLeadWithDirectors` | `search_companies_house` `add_company_as_lead` | `/clients/prospect` `/clients/map` |
 | US-082 | see the companies around a postcode on the map | staff | read | `/clients/map` load | `read_area_map` | `/clients/map` |
 | US-083 | read the feed of what changed across the register | staff | read | `/clients/feed` load | `read_patch_feed` | `/clients/feed` |
-| US-084 | read, run and record a client's company context | staff | write | `/clients/{clientId}/context` load | `read_company_context` `start_context_run` `record_company_context` `read_confirmed_company_context` | `/clients/{clientId}/context` |
+| US-084 | read a client's workflow map, and the version they confirmed | staff | read | `/clients/{clientId}/workflow-map` load | `read_workflow_map` `read_confirmed_workflow_map` | `/clients/{clientId}/workflow-map` |
 | US-085 | name who brought a lead or client in | staff | write | `setBroughtInBy` | `set_client_brought_in_by` | `/clients/{clientId}` |
 | US-086 | see each person's leads and won sales on the leaderboard | staff | read | `/leaderboard` load | `read_leaderboard` | `/leaderboard` |
 
@@ -138,6 +138,8 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-115 | delete an organisation | staff | write | `deleteOrganisation` | `delete_organisation` | `/organisations/{organisationId}` |
 | US-116 | see the open work of an organisation's team, department by department | member | read | `/organisations/{organisationId}/task-management` load | `read_team_work` | `/organisations/{organisationId}/task-management` |
 | US-117 | read and set an organisation's domain | manager | write | `/organisations/{organisationId}/domain` load | `read_business_brain_domain` `file_business_brain_domain` `start_business_brain_domain_run` | `/organisations/{organisationId}/domain` |
+| US-118 | file an organisation's workflow map, Before or After, and read it back | member | write | — | `file_workflow_map` `read_workflow_map` | — |
+| US-119 | say "map the workflows" and be walked through finding the roles, their tasks and the hand-overs | member | read | — | `start_workflow_map_run` | — |
 
 ## 10-boardroom
 
@@ -185,7 +187,6 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-152 | put a file into the brain and open one | member | write | `/organisations/{organisationId}/business-brain` | `grant_business_brain_file_upload` `record_business_brain_file_upload` `open_business_brain_file` | `/organisations/{organisationId}/business-brain` |
 | US-153 | make a chatbot, change it, and read the questions asked through it | manager | write | `/organisations/{organisationId}/business-brain/chatbots/{chatbotId}/questions` load | `make_business_brain_chatbot` `change_business_brain_chatbot` `list_business_brain_chatbots` `list_business_brain_chatbot_questions` | `/organisations/{organisationId}/business-brain/chatbots/{chatbotId}/questions` |
 | US-154 | ask through a chatbot I may use and put my answer on record | anyone | write | the person's own Claude | `list_my_chatbots` `read_chatbot_index` `search_chatbot` `read_chatbot_page` `record_chatbot_answer` | `/organisations/{organisationId}/business-brain` |
-| US-155 | read, set and search a product's brain | member | write | `/projects/{projectId}/domain` load | `read_product_brain_index` `read_product_brain_page` `read_product_brain_domain` `file_product_brain_domain` `start_product_brain_domain_run` `change_product_brain` `search_product_brain` | `/projects/{projectId}/domain` |
 
 ## 14-client-portal
 
@@ -193,8 +194,8 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | --- | --- | --- | --- | --- | --- | --- |
 | US-160 | see my company's projects and raise a request on one | client contact | write | `/portal/projects/{projectId}` load | `list_portal_projects` `raise_portal_request` | `/portal` `/portal/projects/{projectId}` |
 | US-161 | read where my requests stand and reply on one | client contact | write | `/portal/projects/{projectId}` load | `list_portal_requests` `reply_to_portal_request` | `/portal/projects/{projectId}` |
-| US-162 | read my company's context and mark each part right or wrong | client contact | write | `markPart` | `read_my_company_context` `mark_context_part` | `/portal/context` |
-| US-163 | confirm my company's context | client contact | write | `confirmContext` | `confirm_company_context` | `/portal/context` |
+| US-163 | confirm my company's workflow map | client contact | write | `confirmMap` | `confirm_workflow_map` | `/portal/workflow-map` |
+| US-179 | see my company's workflow map and mark each station right or not right | client contact | write | `markStation` | `read_my_workflow_map` `mark_workflow_map_station` | `/portal/workflow-map` |
 | US-164 | see who at my company can sign in, invite someone, take them off, make them administrator | client contact | write | `invitePerson` `removePerson` `setAdministrator` | `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` | `/portal/people` |
 | US-165 | see my company's invoices and pay one | client contact | write | `pay` | `list_my_invoices` `pay_invoice` | `/portal/billing` |
 

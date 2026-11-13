@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T18:04:11+00:00",
+  "generatedAt": "2026-11-13T06:19:58+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 3999,
+        "measuredAgainst": 4253,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5947,
+        "measuredAgainst": 6366,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5703,
+        "measuredAgainst": 6117,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.29,
+        "measuredAgainst": 159.02,
         "score": 100.0
       },
       {
@@ -111,9 +111,9 @@
         "zeroAt": 20,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 0,
-        "measuredAgainst": 149.29,
-        "score": 100.0
+        "offenders": 2,
+        "measuredAgainst": 159.02,
+        "score": 99.9
       },
       {
         "key": "orphans",
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6607,
+        "measuredAgainst": 7046,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.29,
+        "measuredAgainst": 159.02,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 149.29,
+        "measuredAgainst": 159.02,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5947,
+        "measuredAgainst": 6366,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 259,
+        "measuredAgainst": 245,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5703,
+        "measuredAgainst": 6117,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5703,
+        "measuredAgainst": 6117,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5947,
+        "measuredAgainst": 6366,
         "score": 100.0
       },
       {
@@ -231,7 +231,7 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 372,
+        "measuredAgainst": 411,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 341,
+        "measuredAgainst": 363,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 3999,
-      "totalLines": 149295,
+      "totalFiles": 4253,
+      "totalLines": 159024,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 5947,
+      "totalFunctions": 6366,
       "elseBlocks": 0,
-      "ifBlocks": 5703,
+      "ifBlocks": 6117,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -282,7 +282,7 @@
       "carriedFromBaseline": true
     },
     "naming": {
-      "bannedAbbreviationHits": 51,
+      "bannedAbbreviationHits": 89,
       "unprefixedBooleans": 3
     },
     "comments": {
@@ -293,12 +293,12 @@
     "magicValues": {
       "inlineHexColours": 0,
       "inlineStyleAttributes": 0,
-      "repeatedStringLiterals": 0
+      "repeatedStringLiterals": 2
     },
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 373,
+      "overlongLines": 422,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,11 +308,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 5947
+      "functionsExamined": 6366
     },
     "designPatterns": {
-      "roleFamilies": 216,
-      "predictedFiles": 259,
+      "roleFamilies": 228,
+      "predictedFiles": 245,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -320,42 +320,42 @@
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 71,
-      "components": 660,
+      "pages": 73,
+      "components": 680,
       "orphanComponents": 0,
       "averagePageLines": 44
     },
     "siteDefinition": {
-      "routes": 70,
-      "views": 734,
-      "siteComponents": 649,
-      "catalogue": 13,
-      "widgetUsages": 372,
+      "routes": 72,
+      "views": 756,
+      "siteComponents": 668,
+      "catalogue": 14,
+      "widgetUsages": 411,
       "handRolledElements": 0,
-      "widgetSlots": 372,
+      "widgetSlots": 411,
       "viewsWithHandRolled": 0,
       "boxedContentWidgets": 0,
-      "designSheets": 7,
-      "designsLastChecked": "2026-11-10",
+      "designSheets": 8,
+      "designsLastChecked": "2026-11-13",
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 198,
+      "schemaTables": 211,
       "limitedColumns": 0,
-      "writeDoors": 341,
+      "writeDoors": 363,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4600,
-      "backend": 1208,
-      "frontend": 978,
-      "shared": 827,
-      "tests": 625,
-      "api": 520,
-      "database": 207,
+      "totalFiles": 4860,
+      "backend": 1262,
+      "frontend": 1049,
+      "shared": 847,
+      "tests": 684,
+      "api": 567,
+      "database": 214,
       "tooling": 141,
-      "docs": 77,
+      "docs": 79,
       "infrastructure": 17
     }
   },
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 3999,
-        "totalLines": 149295,
+        "totalFiles": 4253,
+        "totalLines": 159024,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 5947,
+        "totalFunctions": 6366,
         "elseBlocks": 0,
-        "ifBlocks": 5703,
+        "ifBlocks": 6117,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -404,7 +404,7 @@
     "naming": {
       "name": "naming",
       "summary": {
-        "bannedAbbreviationHits": 51,
+        "bannedAbbreviationHits": 89,
         "unprefixedBooleans": 3
       },
       "offenders": {
@@ -494,10 +494,6 @@
             "line": 14
           },
           {
-            "file": "src/lib/server/companyContext/confirmCompanyContext.test.ts",
-            "line": 4
-          },
-          {
             "file": "src/lib/server/goals/createGoalWithTasks.test.ts",
             "line": 9
           },
@@ -524,6 +520,50 @@
           {
             "file": "src/lib/server/mcp/actions/acceptanceCriterionActions.test.ts",
             "line": 12
+          },
+          {
+            "file": "src/lib/server/mcp/actions/accountActions.test.ts",
+            "line": 6
+          },
+          {
+            "file": "src/lib/server/mcp/actions/accountAdminActions.test.ts",
+            "line": 12
+          },
+          {
+            "file": "src/lib/server/mcp/actions/accountAdminActions.test.ts",
+            "line": 13
+          },
+          {
+            "file": "src/lib/server/mcp/actions/accountAdminActions.test.ts",
+            "line": 14
+          },
+          {
+            "file": "src/lib/server/mcp/actions/accountAdminActions.test.ts",
+            "line": 15
+          },
+          {
+            "file": "src/lib/server/mcp/actions/areaMapActions.test.ts",
+            "line": 10
+          },
+          {
+            "file": "src/lib/server/mcp/actions/blueprintRefreshActions.test.ts",
+            "line": 11
+          },
+          {
+            "file": "src/lib/server/mcp/actions/boardroomSeatControlActions.test.ts",
+            "line": 17
+          },
+          {
+            "file": "src/lib/server/mcp/actions/boardroomSeatControlActions.test.ts",
+            "line": 18
+          },
+          {
+            "file": "src/lib/server/mcp/actions/boardroomSeatControlActions.test.ts",
+            "line": 19
+          },
+          {
+            "file": "src/lib/server/mcp/actions/buildModelAdminActions.test.ts",
+            "line": 7
           },
           {
             "file": "src/lib/server/mcp/actions/buildableActions.test.ts",
@@ -568,46 +608,6 @@
           {
             "file": "src/lib/server/mcp/actions/businessBrainPageFiles.test.ts",
             "line": 10
-          },
-          {
-            "file": "src/lib/server/mcp/actions/chatbotCoverage.test.ts",
-            "line": 48
-          },
-          {
-            "file": "src/lib/server/mcp/actions/saveBuildModelAction.test.ts",
-            "line": 5
-          },
-          {
-            "file": "src/lib/server/mcp/actions/testResultActions.test.ts",
-            "line": 7
-          },
-          {
-            "file": "src/lib/server/mcp/actions/testResultActions.test.ts",
-            "line": 8
-          },
-          {
-            "file": "src/lib/server/onboarding/setClientUp.test.ts",
-            "line": 4
-          },
-          {
-            "file": "src/lib/server/onboarding/setClientUp.test.ts",
-            "line": 5
-          },
-          {
-            "file": "src/lib/server/onboarding/setClientUp.test.ts",
-            "line": 6
-          },
-          {
-            "file": "src/lib/server/onboarding/setClientUp.test.ts",
-            "line": 7
-          },
-          {
-            "file": "src/lib/server/onboarding/setClientUp.test.ts",
-            "line": 8
-          },
-          {
-            "file": "src/lib/server/onboarding/setClientUp.test.ts",
-            "line": 9
           }
         ],
         "booleans": [
@@ -643,12 +643,21 @@
       "summary": {
         "inlineHexColours": 0,
         "inlineStyleAttributes": 0,
-        "repeatedStringLiterals": 0
+        "repeatedStringLiterals": 2
       },
       "offenders": {
         "hexColours": [],
         "inlineStyles": [],
-        "repeatedLiterals": []
+        "repeatedLiterals": [
+          {
+            "literal": "Company site",
+            "occurrences": 5
+          },
+          {
+            "literal": "map the workflows",
+            "occurrences": 5
+          }
+        ]
       }
     },
     "prose": {
@@ -656,7 +665,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 373,
+        "overlongLines": 422,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -680,12 +689,16 @@
             "line": 9
           },
           {
+            "file": "src/lib/components/clients/map/areaSummary.ts",
+            "line": 14
+          },
+          {
             "file": "src/lib/components/projects/projectTableStyles.ts",
             "line": 9
           },
           {
             "file": "src/lib/components/site/lineIcons.ts",
-            "line": 48
+            "line": 54
           },
           {
             "file": "src/lib/components/workspace/recordsTableStyles.ts",
@@ -858,10 +871,6 @@
           {
             "file": "src/lib/data/legal/privacyRightsSections.ts",
             "line": 29
-          },
-          {
-            "file": "src/lib/data/legal/privacySharingSections.ts",
-            "line": 18
           }
         ]
       }
@@ -882,15 +891,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 5947
+        "functionsExamined": 6366
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 216,
-        "predictedFiles": 259,
+        "roleFamilies": 228,
+        "predictedFiles": 245,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -900,15 +909,15 @@
       "offenders": {
         "roleFamilies": {
           "+layout.server.ts": 6,
-          "+page.server.ts": 63,
-          "+page.svelte": 71,
-          "+server.ts": 26,
-          "access": 11,
-          "account": 4,
+          "+page.server.ts": 65,
+          "+page.svelte": 73,
+          "+server.ts": 27,
+          "access": 12,
+          "account": 5,
           "accounts": 4,
-          "action": 22,
-          "actions": 198,
-          "address": 6,
+          "action": 24,
+          "actions": 221,
+          "address": 9,
           "adverts": 4,
           "answer": 8,
           "answers": 15,
@@ -935,43 +944,45 @@
           "checklist": 4,
           "chip": 5,
           "choice": 6,
-          "choices": 5,
-          "client": 16,
-          "columns": 5,
+          "choices": 6,
+          "classes": 4,
+          "client": 17,
+          "columns": 6,
           "company": 6,
           "contact": 4,
-          "context": 11,
           "contribution": 4,
           "controls": 6,
           "copy": 5,
           "count": 6,
           "counts": 9,
           "crumbs": 4,
-          "date": 6,
+          "date": 7,
           "days": 5,
           "decision": 6,
           "deploy": 4,
-          "details": 14,
+          "details": 12,
           "director": 5,
           "doctrine": 8,
-          "domain": 4,
+          "domain": 5,
+          "door": 4,
           "draft": 4,
-          "email": 12,
-          "entries": 7,
+          "email": 13,
+          "entries": 6,
           "entry": 12,
           "event": 12,
-          "facts": 15,
+          "facts": 16,
           "field": 25,
-          "fields": 45,
+          "fields": 48,
           "figures": 5,
           "file": 11,
-          "files": 5,
+          "files": 6,
           "filter": 7,
           "fixture": 15,
-          "fixtures": 28,
-          "for": 7,
-          "form": 77,
-          "goal": 8,
+          "fixtures": 27,
+          "for": 10,
+          "form": 78,
+          "geometry": 4,
+          "goal": 9,
           "goals": 4,
           "grant": 4,
           "groups": 4,
@@ -981,102 +992,112 @@
           "icon": 5,
           "ids": 11,
           "input": 4,
-          "invoice": 7,
-          "item": 18,
+          "invoice": 8,
+          "invoices": 4,
+          "item": 19,
           "items": 5,
           "key": 5,
           "keys": 4,
           "kind": 9,
           "kinds": 6,
           "label": 4,
-          "labels": 6,
+          "labels": 7,
           "layout": 6,
           "lead": 6,
-          "limits": 10,
-          "line": 11,
-          "link": 22,
-          "links": 15,
-          "list": 37,
-          "map": 12,
+          "legend": 5,
+          "limits": 13,
+          "line": 14,
+          "lines": 5,
+          "link": 21,
+          "links": 14,
+          "list": 34,
+          "map": 35,
           "meeting": 9,
-          "member": 4,
+          "member": 6,
           "menu": 6,
           "message": 4,
-          "messages": 7,
+          "messages": 5,
           "minutes": 7,
           "mocks": 6,
           "mockup": 4,
-          "modal": 12,
-          "name": 11,
-          "names": 7,
+          "modal": 13,
+          "model": 4,
+          "name": 14,
+          "names": 10,
           "navigation": 4,
-          "node": 6,
+          "node": 5,
           "note": 12,
           "notice": 5,
-          "of": 11,
-          "order": 5,
-          "organisation": 16,
+          "of": 13,
+          "officers": 4,
+          "order": 8,
+          "organisation": 17,
           "organisations": 5,
+          "origin": 4,
+          "outcome": 4,
           "overview": 4,
-          "owner": 4,
+          "owner": 5,
           "page": 20,
           "pages": 6,
+          "pane": 4,
           "panel": 49,
           "paper": 12,
-          "part": 5,
-          "parts": 6,
           "password": 5,
           "patch": 10,
-          "path": 4,
-          "paths": 5,
-          "people": 6,
+          "path": 5,
+          "paths": 7,
+          "people": 8,
           "person": 15,
+          "picker": 4,
           "pictures": 5,
           "piece": 8,
           "pieces": 4,
           "pill": 5,
-          "placement": 5,
+          "placement": 4,
           "plan": 6,
           "priority": 4,
           "profile": 7,
           "project": 24,
-          "projects": 12,
+          "projects": 13,
+          "prose": 4,
           "question": 5,
-          "reading": 13,
+          "reading": 16,
           "readings": 4,
           "record": 63,
-          "refusal": 12,
-          "register": 7,
+          "refusal": 13,
+          "register": 11,
           "request": 23,
           "requests": 5,
           "result": 4,
-          "review": 4,
+          "review": 5,
           "rhythm": 4,
           "roles": 5,
           "room": 7,
-          "row": 49,
-          "rows": 18,
+          "row": 47,
+          "rows": 19,
           "rule": 7,
-          "rules": 58,
+          "rules": 61,
           "run": 10,
-          "runs": 25,
-          "schemas": 16,
+          "runs": 23,
+          "schemas": 15,
           "scope": 4,
-          "section": 35,
-          "sections": 15,
+          "section": 36,
+          "sections": 13,
           "sector": 4,
-          "select": 5,
+          "select": 6,
           "sentence": 7,
-          "sentences": 5,
+          "sentences": 4,
           "settings": 4,
           "shape": 4,
           "sheet": 4,
           "source": 18,
           "sources": 9,
           "stage": 4,
-          "standing": 18,
+          "standing": 19,
           "state": 5,
           "statement": 4,
+          "station": 6,
+          "stations": 9,
           "status": 9,
           "step": 7,
           "steps": 10,
@@ -1086,12 +1107,12 @@
           "subject": 4,
           "summary": 9,
           "svelte": 19,
-          "table": 28,
-          "tabs": 7,
+          "table": 41,
+          "tabs": 10,
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 610,
+          "test": 666,
           "text": 13,
           "tiles": 5,
           "time": 5,
@@ -1105,13 +1126,13 @@
           "types": 9,
           "up": 4,
           "upload": 8,
-          "version": 4,
-          "view": 5,
-          "views": 8,
+          "versions": 5,
+          "view": 7,
+          "views": 10,
           "visitor": 4,
           "window": 4,
-          "words": 14,
-          "work": 6,
+          "words": 24,
+          "work": 7,
           "world": 5,
           "writer": 6,
           "xml": 4
@@ -1130,16 +1151,6 @@
           {
             "pattern": "every crumbs has a access",
             "predicted": 4,
-            "missing": []
-          },
-          {
-            "pattern": "every goal has a project",
-            "predicted": 8,
-            "missing": []
-          },
-          {
-            "pattern": "every goal has a task",
-            "predicted": 8,
             "missing": []
           },
           {
@@ -1169,12 +1180,12 @@
           },
           {
             "pattern": "every schemas has a actions",
-            "predicted": 16,
+            "predicted": 15,
             "missing": []
           },
           {
             "pattern": "every schemas has a runs",
-            "predicted": 16,
+            "predicted": 15,
             "missing": []
           },
           {
@@ -1189,12 +1200,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 63,
+            "predicted": 65,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 71,
+            "predicted": 73,
             "missing": []
           }
         ],
@@ -1205,26 +1216,26 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 71,
-        "components": 660,
+        "pages": 73,
+        "components": 680,
         "orphanComponents": 0,
         "averagePageLines": 44
       },
       "offenders": {
         "pages": [
           {
+            "page": "src/routes/[register=salesRegister]/[clientId]/+page.svelte",
+            "lines": 100,
+            "widgets": [
+              "modal",
+              "error"
+            ]
+          },
+          {
             "page": "src/routes/projects/[projectId]/tasks/[taskId]/+page.svelte",
             "lines": 97,
             "widgets": [
               "modal"
-            ]
-          },
-          {
-            "page": "src/routes/clients/[clientId]/+page.svelte",
-            "lines": 96,
-            "widgets": [
-              "modal",
-              "error"
             ]
           },
           {
@@ -1295,6 +1306,11 @@
             ]
           },
           {
+            "page": "src/routes/organisations/[organisationId]/domain/+page.svelte",
+            "lines": 62,
+            "widgets": []
+          },
+          {
             "page": "src/routes/account/+page.svelte",
             "lines": 60,
             "widgets": [
@@ -1311,6 +1327,11 @@
             ]
           },
           {
+            "page": "src/routes/organisations/[organisationId]/business-brain/+page.svelte",
+            "lines": 55,
+            "widgets": []
+          },
+          {
             "page": "src/routes/clients/prospect/+page.svelte",
             "lines": 54,
             "widgets": [
@@ -1325,16 +1346,6 @@
             ]
           },
           {
-            "page": "src/routes/projects/[projectId]/domain/+page.svelte",
-            "lines": 53,
-            "widgets": []
-          },
-          {
-            "page": "src/routes/projects/[projectId]/site-map/+page.svelte",
-            "lines": 53,
-            "widgets": []
-          },
-          {
             "page": "src/routes/organisations/[organisationId]/brand/campaigns/[campaignId]/+page.svelte",
             "lines": 52,
             "widgets": []
@@ -1345,6 +1356,11 @@
             "widgets": [
               "error"
             ]
+          },
+          {
+            "page": "src/routes/portal/workflow-map/+page.svelte",
+            "lines": 52,
+            "widgets": []
           },
           {
             "page": "src/routes/projects/[projectId]/deploys/+page.svelte",
@@ -1405,11 +1421,6 @@
             ]
           },
           {
-            "page": "src/routes/organisations/[organisationId]/business-brain/+page.svelte",
-            "lines": 45,
-            "widgets": []
-          },
-          {
             "page": "src/routes/account/sign-in/+page.svelte",
             "lines": 44,
             "widgets": []
@@ -1420,6 +1431,11 @@
             "widgets": [
               "list"
             ]
+          },
+          {
+            "page": "src/routes/projects/[projectId]/workflow-map/+page.svelte",
+            "lines": 44,
+            "widgets": []
           },
           {
             "page": "src/routes/notifications/+page.svelte",
@@ -1457,8 +1473,8 @@
             ]
           },
           {
-            "page": "src/routes/organisations/[organisationId]/domain/+page.svelte",
-            "lines": 40,
+            "page": "src/routes/[register=salesRegister]/[clientId]/workflow-map/+page.svelte",
+            "lines": 39,
             "widgets": []
           },
           {
@@ -1488,6 +1504,11 @@
             "widgets": []
           },
           {
+            "page": "src/routes/projects/[projectId]/site-map/+page.svelte",
+            "lines": 37,
+            "widgets": []
+          },
+          {
             "page": "src/routes/portal/+page.svelte",
             "lines": 36,
             "widgets": []
@@ -1499,6 +1520,11 @@
           },
           {
             "page": "src/routes/clients/map/+page.svelte",
+            "lines": 34,
+            "widgets": []
+          },
+          {
+            "page": "src/routes/organisations/[organisationId]/workflow-map/+page.svelte",
             "lines": 34,
             "widgets": []
           },
@@ -1520,11 +1546,6 @@
           {
             "page": "src/routes/portal/people/+page.svelte",
             "lines": 33,
-            "widgets": []
-          },
-          {
-            "page": "src/routes/clients/[clientId]/context/+page.svelte",
-            "lines": 32,
             "widgets": []
           },
           {
@@ -1551,11 +1572,6 @@
           },
           {
             "page": "src/routes/demo/[token]/+page.svelte",
-            "lines": 30,
-            "widgets": []
-          },
-          {
-            "page": "src/routes/portal/context/+page.svelte",
             "lines": 30,
             "widgets": []
           },
@@ -1597,6 +1613,11 @@
             "widgets": [
               "list"
             ]
+          },
+          {
+            "page": "src/routes/leaderboard/+page.svelte",
+            "lines": 20,
+            "widgets": []
           },
           {
             "page": "src/routes/promo/+page.svelte",
@@ -1642,26 +1663,38 @@
         "componentReuse": [
           {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
-            "reusedBy": 75
+            "reusedBy": 80
           },
           {
             "component": "src/lib/components/site/SubmitButton.svelte",
-            "reusedBy": 70
+            "reusedBy": 72
           },
           {
             "component": "src/lib/components/site/FormErrorNote.svelte",
-            "reusedBy": 56
+            "reusedBy": 57
           },
           {
             "component": "src/lib/components/site/FormField.svelte",
-            "reusedBy": 46
+            "reusedBy": 48
+          },
+          {
+            "component": "src/lib/components/workspace/RecordsCell.svelte",
+            "reusedBy": 38
           },
           {
             "component": "src/lib/components/site/Button.svelte",
             "reusedBy": 36
           },
           {
+            "component": "src/lib/components/workspace/RecordsTable.svelte",
+            "reusedBy": 36
+          },
+          {
             "component": "src/lib/components/site/Badge.svelte",
+            "reusedBy": 34
+          },
+          {
+            "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
             "reusedBy": 33
           },
           {
@@ -1669,20 +1702,8 @@
             "reusedBy": 32
           },
           {
-            "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
-            "reusedBy": 31
-          },
-          {
             "component": "src/lib/components/site/Modal.svelte",
-            "reusedBy": 29
-          },
-          {
-            "component": "src/lib/components/workspace/RecordsCell.svelte",
-            "reusedBy": 26
-          },
-          {
-            "component": "src/lib/components/workspace/RecordsTable.svelte",
-            "reusedBy": 24
+            "reusedBy": 31
           },
           {
             "component": "src/lib/components/site/PageTitle.svelte",
@@ -1690,26 +1711,26 @@
           },
           {
             "component": "src/lib/components/site/EmptyState.svelte",
-            "reusedBy": 17
-          },
-          {
-            "component": "src/lib/components/workspace/FlashMessage.svelte",
-            "reusedBy": 13
+            "reusedBy": 19
           },
           {
             "component": "src/lib/components/site/DangerConfirmModal.svelte",
-            "reusedBy": 11
+            "reusedBy": 12
           },
           {
-            "component": "src/lib/components/site/LineIcon.svelte",
-            "reusedBy": 9
-          },
-          {
-            "component": "src/lib/components/site/PageMeta.svelte",
-            "reusedBy": 9
+            "component": "src/lib/components/workspace/FlashMessage.svelte",
+            "reusedBy": 12
           },
           {
             "component": "src/lib/components/workspace/TabStrip.svelte",
+            "reusedBy": 12
+          },
+          {
+            "component": "src/lib/components/site/LineIcon.svelte",
+            "reusedBy": 11
+          },
+          {
+            "component": "src/lib/components/site/PageMeta.svelte",
             "reusedBy": 9
           },
           {
@@ -1725,6 +1746,10 @@
             "reusedBy": 8
           },
           {
+            "component": "src/lib/components/projects/ProjectPageHeader.svelte",
+            "reusedBy": 7
+          },
+          {
             "component": "src/lib/components/taxCalculator/DisclosureMarker.svelte",
             "reusedBy": 7
           },
@@ -1737,15 +1762,11 @@
             "reusedBy": 7
           },
           {
-            "component": "src/lib/components/blueprint/EntityLink.svelte",
+            "component": "src/lib/components/clients/StagePill.svelte",
             "reusedBy": 6
           },
           {
             "component": "src/lib/components/projects/DevelopmentTabs.svelte",
-            "reusedBy": 6
-          },
-          {
-            "component": "src/lib/components/projects/ProjectPageHeader.svelte",
             "reusedBy": 6
           },
           {
@@ -1773,6 +1794,10 @@
             "reusedBy": 5
           },
           {
+            "component": "src/lib/components/site/ActionsMenu.svelte",
+            "reusedBy": 5
+          },
+          {
             "component": "src/lib/components/site/BrandSpinner.svelte",
             "reusedBy": 5
           },
@@ -1793,10 +1818,6 @@
             "reusedBy": 5
           },
           {
-            "component": "src/lib/components/clients/StagePill.svelte",
-            "reusedBy": 4
-          },
-          {
             "component": "src/lib/components/clients/patches/PatchMap.svelte",
             "reusedBy": 4
           },
@@ -1809,11 +1830,11 @@
             "reusedBy": 4
           },
           {
-            "component": "src/lib/components/projects/ProjectStatusBadge.svelte",
+            "component": "src/lib/components/projects/PriorityControls.svelte",
             "reusedBy": 4
           },
           {
-            "component": "src/lib/components/site/ActionsMenu.svelte",
+            "component": "src/lib/components/projects/ProjectStatusBadge.svelte",
             "reusedBy": 4
           },
           {
@@ -1821,11 +1842,7 @@
             "reusedBy": 4
           },
           {
-            "component": "src/lib/components/blueprint/RaiseChangeButton.svelte",
-            "reusedBy": 3
-          },
-          {
-            "component": "src/lib/components/blueprint/Wireframe.svelte",
+            "component": "src/lib/components/blueprint/EntityLink.svelte",
             "reusedBy": 3
           },
           {
@@ -1841,11 +1858,15 @@
             "reusedBy": 3
           },
           {
-            "component": "src/lib/components/projects/KitVersionBadge.svelte",
+            "component": "src/lib/components/lineMap/LineMap.svelte",
             "reusedBy": 3
           },
           {
-            "component": "src/lib/components/projects/PriorityControls.svelte",
+            "component": "src/lib/components/organisations/workflowMap/WorkflowMapView.svelte",
+            "reusedBy": 3
+          },
+          {
+            "component": "src/lib/components/projects/KitVersionBadge.svelte",
             "reusedBy": 3
           },
           {
@@ -1897,27 +1918,19 @@
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/blueprint/BlueprintHeader.svelte",
+            "component": "src/lib/components/blueprint/DomainMap.svelte",
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/blueprint/CoverAlbum.svelte",
+            "component": "src/lib/components/blueprint/RaiseChangeButton.svelte",
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/blueprint/CoverSleeve.svelte",
+            "component": "src/lib/components/blueprint/Wireframe.svelte",
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/blueprint/DomainExplorer.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/blueprint/McpEntryFace.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/blueprint/SectionCrates.svelte",
+            "component": "src/lib/components/blueprint/journeys/JourneySwatch.svelte",
             "reusedBy": 2
           },
           {
@@ -1937,19 +1950,11 @@
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/businessBrain/BusinessBrainChatbotsPanel.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/businessBrain/BusinessBrainFilesPanel.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/businessBrain/BusinessBrainIndexPanel.svelte",
-            "reusedBy": 2
-          },
-          {
             "component": "src/lib/components/clients/AskClaudeToResearch.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/clients/BroughtInBySelect.svelte",
             "reusedBy": 2
           },
           {
@@ -1990,10 +1995,6 @@
           },
           {
             "component": "src/lib/components/clients/patches/SectorPanel.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/companyContext/CompanyContextView.svelte",
             "reusedBy": 2
           },
           {
@@ -2045,7 +2046,11 @@
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/organisations/domain/DomainContextsPanel.svelte",
+            "component": "src/lib/components/organisations/domain/DomainRulesTable.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/WorkflowMapPanel.svelte",
             "reusedBy": 2
           },
           {
@@ -2281,7 +2286,7 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/blueprint/AudienceSwitch.svelte",
+            "component": "src/lib/components/blueprint/BlueprintHeader.svelte",
             "reusedBy": 1
           },
           {
@@ -2293,7 +2298,7 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/blueprint/DomainMap.svelte",
+            "component": "src/lib/components/blueprint/DomainExplorer.svelte",
             "reusedBy": 1
           },
           {
@@ -2325,26 +2330,6 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/blueprint/GuideDetails.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/blueprint/McpEntryCover.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/blueprint/McpEntryDetails.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/blueprint/McpMapBrowser.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/blueprint/PairedScreenLink.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/blueprint/ParitySummary.svelte",
             "reusedBy": 1
           },
@@ -2353,23 +2338,7 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/blueprint/ScreenCover.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/blueprint/ScreenDetails.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/blueprint/ScreenTools.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/blueprint/SiteMapBrowser.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/blueprint/ToolDoors.svelte",
             "reusedBy": 1
           },
           {
@@ -2378,6 +2347,42 @@
           },
           {
             "component": "src/lib/components/blueprint/WireframeShape.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/blueprint/journeys/JourneyLegend.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/blueprint/journeys/JourneyLegendSample.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/blueprint/journeys/JourneyMapPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/blueprint/journeys/JourneySiteMap.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/blueprint/journeys/JourneyViewsTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/blueprint/journeys/ViewJourneyMarks.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/blueprint/journeys/ViewJourneys.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/blueprint/journeys/ViewPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/blueprint/journeys/ViewReachedFrom.svelte",
             "reusedBy": 1
           },
           {
@@ -2633,11 +2638,19 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/businessBrain/BusinessBrainChatbotRow.svelte",
+            "component": "src/lib/components/businessBrain/BusinessBrainBrainsTable.svelte",
             "reusedBy": 1
           },
           {
             "component": "src/lib/components/businessBrain/BusinessBrainFileRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/businessBrain/BusinessBrainFilesPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/businessBrain/BusinessBrainFilesTable.svelte",
             "reusedBy": 1
           },
           {
@@ -2650,6 +2663,10 @@
           },
           {
             "component": "src/lib/components/businessBrain/BusinessBrainPageText.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/businessBrain/BusinessBrainPagesTable.svelte",
             "reusedBy": 1
           },
           {
@@ -2709,6 +2726,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/clients/ClientBroughtInByForm.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/clients/ClientContinuityCopySection.svelte",
             "reusedBy": 1
           },
@@ -2749,11 +2770,15 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/clients/ClientRowActions.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/clients/ClientSetUpForm.svelte",
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/clients/ClientStageForm.svelte",
+            "component": "src/lib/components/clients/ClientStageModal.svelte",
             "reusedBy": 1
           },
           {
@@ -2802,6 +2827,22 @@
           },
           {
             "component": "src/lib/components/clients/ProspectSearchForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/conversations/LeadConversationForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/conversations/LeadConversationRead.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/conversations/LeadConversationTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/conversations/LeadConversationsSection.svelte",
             "reusedBy": 1
           },
           {
@@ -2910,54 +2951,6 @@
           },
           {
             "component": "src/lib/components/clients/patches/SightingRow.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/CompanyContextMap.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextAreaRegion.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextChangeList.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextChangesPanel.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextConfirmForm.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextConfirmationPanel.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextLinkLine.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextPartLinkList.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextPartNode.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextPartPanel.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextPartReviewForm.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextProcessStepList.svelte",
             "reusedBy": 1
           },
           {
@@ -3209,6 +3202,22 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/lineMap/LineMapLineName.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/lineMap/LineMapStation.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/lineMap/LineMapTracks.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/lineMap/StationMark.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/members/InvitePersonForm.svelte",
             "reusedBy": 1
           },
@@ -3297,11 +3306,67 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/organisations/domain/DomainContextRow.svelte",
+            "component": "src/lib/components/organisations/domain/DomainMapPane.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/domain/DomainThingFieldsTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/domain/DomainThingPanels.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/domain/DomainThingStationsTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/domain/DomainThingsPane.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/domain/DomainThingsTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/domain/DomainWordsTable.svelte",
             "reusedBy": 1
           },
           {
             "component": "src/lib/components/organisations/teamWork/TeamWorkTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/LegendSample.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/MapChangesTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/StationColumn.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/StationDomainColumn.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/StationFlowItem.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/StationPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/StationPlaceLine.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/WorkflowMapLegend.svelte",
             "reusedBy": 1
           },
           {
@@ -3369,10 +3434,6 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/portal/PortalContextPrompt.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/portal/PortalEnvironmentLink.svelte",
             "reusedBy": 1
           },
@@ -3386,6 +3447,10 @@
           },
           {
             "component": "src/lib/components/portal/PortalInviteForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/PortalOnePrompt.svelte",
             "reusedBy": 1
           },
           {
@@ -3434,6 +3499,26 @@
           },
           {
             "component": "src/lib/components/portal/PortalVisitorCard.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/workflowMap/MapConfirmForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/workflowMap/MapConfirmationPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/workflowMap/PortalStationReview.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/workflowMap/StationReviewForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/workflowMap/StationReviewPanel.svelte",
             "reusedBy": 1
           },
           {
@@ -3909,6 +3994,18 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/workflowMap/ProductStationStateLine.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/workflowMap/ProductStationsTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/workflowMap/ProductWorkflowMapView.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/promo/PromoCaptionHeadline.svelte",
             "reusedBy": 1
           },
@@ -3946,6 +4043,10 @@
           },
           {
             "component": "src/lib/components/salesRegisters/RegisterStageTabs.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/salesRegisters/SalesLeaderboardTable.svelte",
             "reusedBy": 1
           },
           {
@@ -4287,17 +4388,17 @@
     "siteDefinition": {
       "name": "siteDefinition",
       "summary": {
-        "routes": 70,
-        "views": 734,
-        "siteComponents": 649,
-        "catalogue": 13,
-        "widgetUsages": 372,
+        "routes": 72,
+        "views": 756,
+        "siteComponents": 668,
+        "catalogue": 14,
+        "widgetUsages": 411,
         "handRolledElements": 0,
-        "widgetSlots": 372,
+        "widgetSlots": 411,
         "viewsWithHandRolled": 0,
         "boxedContentWidgets": 0,
-        "designSheets": 7,
-        "designsLastChecked": "2026-11-10",
+        "designSheets": 8,
+        "designsLastChecked": "2026-11-13",
         "brandCheckedAt": "never"
       },
       "designs": {
@@ -4371,6 +4472,17 @@
             "checkedAgainst": ""
           },
           {
+            "widget": "LineMap",
+            "design": [
+              "/mnt/project-files/workflow-map/workflow-map-after.png",
+              "/mnt/project-files/workflow-map/prototype/linemap.js"
+            ],
+            "sheet": "docs/design/widgets/LineMap.md",
+            "standing": "design sheet",
+            "checkedAt": "2026-11-13",
+            "checkedAgainst": ""
+          },
+          {
             "widget": "Modal",
             "design": [
               "Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .modal-panel"
@@ -4425,8 +4537,8 @@
             "checkedAgainst": ""
           }
         ],
-        "sheets": 7,
-        "lastChecked": "2026-11-10"
+        "sheets": 8,
+        "lastChecked": "2026-11-13"
       },
       "offenders": {
         "handRolled": [],
@@ -4441,6 +4553,7 @@
         "EmptyState",
         "FormField",
         "InlineField",
+        "LineMap",
         "Modal",
         "PageTitle",
         "RecordsTable",
@@ -4449,6 +4562,18 @@
         "WorkspaceHeader"
       ],
       "routes": [
+        {
+          "route": "/[register=salesRegister]/[clientId]",
+          "file": "src/routes/[register=salesRegister]/[clientId]/+page.svelte",
+          "definition": "ClientHeader, FormErrorNote, CompanyJobAdverts, CompanyProfileForm, ClientPeopleSection, LeadConversationsSection, ClientGroupSection, ClientProjectList, ClientContinuityCopySection, SupportTaskTable, ClientObservations, ClientEventLedger, ClientDeletion, Modal{ AssignProjectForm }",
+          "expanded": "ClientHeader=( PageTitle, ClientBroughtInByForm=( FormField{ BroughtInBySelect } ) ), FormErrorNote, CompanyJobAdverts=( FindJobAdvertsButton=( Modal{ AskClaudeToFindJobAdverts=( CopyTextButton ) } ), (n) JobAdvertRow ), CompanyProfileForm=( [ FormField CompanyPlaceFields=( (2) FormField ) FormField CompanyScaleFields=( (2) FormField ) ], CompanyNarrativeFields=( (2) FormField ), SubmitButton ), ClientPeopleSection=( ClientPeopleActions=( ?canImportOfficers: SubmitButton ), (n) PersonCard=( ?canInvite: SubmitButton, PersonFacts=( WarmthPill ), PersonLinkList=( (n) PersonLinkChip, SubmitButton ), PersonNoteTimeline=( ProseText, SubmitButton ) ), Modal{ NewContactForm=( (4) FormField, SubmitButton ) }, Modal{ ClientSetUpForm=( (2) FormField, SubmitButton ) }, Modal{ ?personBeingEdited !== null: PersonFieldsForm=( [ FormField ?contactId !== null: FormField (2) FormField PersonProfileFields=( (5) FormField ) ], SubmitButton ) }, Modal{ ?personToApproach !== null: AskClaudeToDraftApproach=( CopyTextButton ) } ), LeadConversationsSection=( LeadConversationTable=( RecordsTable{ (6) RecordsCell } ), Modal{ LeadConversationForm=( (6) FormField, SubmitButton ) }, Modal{ ?conversationBeingRead !== null: LeadConversationRead } ), ClientGroupSection=( ?children.length > 0: StagePill, ?children.length === 0 && parent\u2026: GroupUnderForm=( SubmitButton ) ), ClientProjectList, ClientContinuityCopySection=( [ (3) FormField ], SubmitButton ), SupportTaskTable=( RecordsTable{ (4) RecordsCell } ), ClientObservations=( ?observations.length > 0: (n) ObservationRow ), ClientEventLedger, ClientDeletion=( DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), Modal{ AssignProjectForm=( FormField, (2) FormField, SubmitButton ) }"
+        },
+        {
+          "route": "/[register=salesRegister]/[clientId]/workflow-map",
+          "file": "src/routes/[register=salesRegister]/[clientId]/workflow-map/+page.svelte",
+          "definition": "WorkspaceHeader, ( ?maps === null || openingStage =\u2026: EmptyState | WorkflowMapView )",
+          "expanded": "WorkspaceHeader, ( ?maps === null || openingStage =\u2026: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] } ) ) | DashboardPanel{ MapChangesTable=( RecordsTable{ (5) RecordsCell } ) } ) ) )"
+        },
         {
           "route": "/about",
           "file": "src/routes/about/+page.svelte",
@@ -4507,19 +4632,7 @@
           "route": "/clients",
           "file": "src/routes/clients/+page.svelte",
           "definition": "SalesRegisterPage",
-          "expanded": "SalesRegisterPage=( WorkspaceHeader, RegisterStageTabs=( TabStrip ), FormErrorNote, ( ?clients.length === 0: EmptyState | ClientTable=( (n) ClientRow=( ClientStageForm ) ) ) )"
-        },
-        {
-          "route": "/clients/[clientId]",
-          "file": "src/routes/clients/[clientId]/+page.svelte",
-          "definition": "ClientHeader, FormErrorNote, CompanyJobAdverts, CompanyProfileForm, ClientPeopleSection, ClientGroupSection, ClientProjectList, ClientContinuityCopySection, SupportTaskTable, ClientObservations, ClientEventLedger, ClientDeletion, Modal{ AssignProjectForm }",
-          "expanded": "ClientHeader=( PageTitle ), FormErrorNote, CompanyJobAdverts=( FindJobAdvertsButton=( Modal{ AskClaudeToFindJobAdverts=( CopyTextButton ) } ), (n) JobAdvertRow ), CompanyProfileForm=( [ FormField CompanyPlaceFields=( (2) FormField ) FormField CompanyScaleFields=( (2) FormField ) ], CompanyNarrativeFields=( (2) FormField ), SubmitButton ), ClientPeopleSection=( ClientPeopleActions=( ?canImportOfficers: SubmitButton ), (n) PersonCard=( ?canInvite: SubmitButton, PersonFacts=( WarmthPill ), PersonLinkList=( (n) PersonLinkChip, SubmitButton ), PersonNoteTimeline=( ProseText, SubmitButton ) ), Modal{ NewContactForm=( (4) FormField, SubmitButton ) }, Modal{ ClientSetUpForm=( (2) FormField, SubmitButton ) }, Modal{ ?personBeingEdited !== null: PersonFieldsForm=( [ FormField ?contactId !== null: FormField (2) FormField PersonProfileFields=( (5) FormField ) ], SubmitButton ) }, Modal{ ?personToApproach !== null: AskClaudeToDraftApproach=( CopyTextButton ) } ), ClientGroupSection=( ?children.length > 0: StagePill, ?children.length === 0 && parent\u2026: GroupUnderForm=( SubmitButton ) ), ClientProjectList, ClientContinuityCopySection=( [ (3) FormField ], SubmitButton ), SupportTaskTable=( RecordsTable{ (4) RecordsCell } ), ClientObservations=( ?observations.length > 0: (n) ObservationRow ), ClientEventLedger, ClientDeletion=( DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), Modal{ AssignProjectForm=( FormField, (2) FormField, SubmitButton ) }"
-        },
-        {
-          "route": "/clients/[clientId]/context",
-          "file": "src/routes/clients/[clientId]/context/+page.svelte",
-          "definition": "WorkspaceHeader, ( ?data.reading === null: EmptyState | CompanyContextView )",
-          "expanded": "WorkspaceHeader, ( ?data.reading === null: EmptyState | CompanyContextView=( CompanyContextMap=( (n) ContextAreaRegion, (n) ContextLinkLine, (n) ContextPartNode ), ( ?selectedPart === undefined: EmptyState | ContextPartPanel=( DashboardPanel{ ?steps.length > 0: ContextProcessStepList=( ?step.roleKey !== null: EntityLink ), ContextPartLinkList=( (2) EntityLink ), ?canMark: ContextPartReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) ), ContextConfirmationPanel=( DashboardPanel{ ?isOpen: ContextConfirmForm=( FormErrorNote, SubmitButton ) } ), ?changes !== null: ContextChangesPanel=( DashboardPanel{ ?hasChanges(changes): (2) ContextChangeList=( (n) EntityLink ) } ) ) )"
+          "expanded": "SalesRegisterPage=( WorkspaceHeader, RegisterStageTabs=( TabStrip ), FormErrorNote, ( ?clients.length === 0: EmptyState | ClientTable=( (n) ClientRow=( [ StagePill ClientRowActions ] ) ) ) )"
         },
         {
           "route": "/clients/feed",
@@ -4594,10 +4707,16 @@
           "expanded": "PageMeta, DemoConnectSection=( CopyTextButton ), DemoQuestionsSection, DemoMoneySection, DemoLinkedSystemsSection=( (n) DemoLinkedSystemRow ), DemoBrainSection, DemoActivitySection=( (n) DemoActivityRow, SubmitButton ), DemoOwnSystemSection"
         },
         {
+          "route": "/leaderboard",
+          "file": "src/routes/leaderboard/+page.svelte",
+          "definition": "WorkspaceHeader, SalesLeaderboardTable",
+          "expanded": "WorkspaceHeader, SalesLeaderboardTable=( RecordsTable{ (6) RecordsCell } )"
+        },
+        {
           "route": "/leads",
           "file": "src/routes/leads/+page.svelte",
           "definition": "SalesRegisterPage{ AddLeadForm }",
-          "expanded": "SalesRegisterPage=( WorkspaceHeader, RegisterStageTabs=( TabStrip ), FormErrorNote, ( ?clients.length === 0: EmptyState | ClientTable=( (n) ClientRow=( ClientStageForm ) ) ) ){ AddLeadForm=( ( ?leadKind === leadKinds.person: AddPersonForm=( SubmitButton ) | SubmitButton ) ) }"
+          "expanded": "SalesRegisterPage=( WorkspaceHeader, RegisterStageTabs=( TabStrip ), FormErrorNote, ( ?clients.length === 0: EmptyState | ClientTable=( (n) ClientRow=( [ StagePill ClientRowActions ] ) ) ) ){ AddLeadForm=( ( ?leadKind === leadKinds.person: AddPersonForm=( SubmitButton ) | ( BroughtInBySelect, SubmitButton ) ) ) }"
         },
         {
           "route": "/notifications",
@@ -4680,8 +4799,8 @@
         {
           "route": "/organisations/[organisationId]/business-brain",
           "file": "src/routes/organisations/[organisationId]/business-brain/+page.svelte",
-          "definition": "WorkspaceHeader, BusinessBrainIndexPanel, BusinessBrainChatbotsPanel, ?hasUnnamedFiles: BusinessBrainFilesPanel",
-          "expanded": "WorkspaceHeader, BusinessBrainIndexPanel=( DashboardPanel{ RecordsTable{ RecordsCell, RecordsCell{ Badge }, (2) RecordsCell } } ), BusinessBrainChatbotsPanel=( DashboardPanel{ (n) BusinessBrainChatbotRow=( (n) Badge ) } ), ?hasUnnamedFiles: BusinessBrainFilesPanel=( DashboardPanel{ (n) BusinessBrainFileRow } )"
+          "definition": "WorkspaceHeader, TabStrip, DashboardPanel{ ( ?shownTab === businessBrainTabKe\u2026: BusinessBrainFilesTable | ?shownTab === businessBrainTabKe\u2026: BusinessBrainBrainsTable | BusinessBrainPagesTable ) }",
+          "expanded": "WorkspaceHeader, TabStrip, DashboardPanel{ ( ?shownTab === businessBrainTabKe\u2026: BusinessBrainFilesTable=( RecordsTable{ RecordsCell, RecordsCell{ ( ?file.isNamedByPage: Badge | Badge ) }, (2) RecordsCell } ) | ?shownTab === businessBrainTabKe\u2026: BusinessBrainBrainsTable=( RecordsTable{ (2) RecordsCell, RecordsCell{ (n) Badge }, RecordsCell } ) | BusinessBrainPagesTable=( RecordsTable{ (3) RecordsCell } ) ) }"
         },
         {
           "route": "/organisations/[organisationId]/business-brain/chatbots/[chatbotId=uuid]/questions",
@@ -4698,8 +4817,8 @@
         {
           "route": "/organisations/[organisationId]/domain",
           "file": "src/routes/organisations/[organisationId]/domain/+page.svelte",
-          "definition": "WorkspaceHeader, ( ?brains === null: EmptyState | ( ( ?domain === null: EmptyState | ( DomainExplorer, DomainContextsPanel ) ), BusinessBrainChatbotsPanel ) )",
-          "expanded": "WorkspaceHeader, ( ?brains === null: EmptyState | ( ( ?domain === null: EmptyState | ( DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton=( RaiseChangeModal ), EntityPlacement=( EntityLink ), EntityFieldList=( (n) EntityFieldRow ), ?relationships.length > 0: EntityRelationshipList=( EntityLink ), ?projectId !== null && screens.l\u2026: EntityScreenLinks } ) ) ), DomainContextsPanel=( DashboardPanel{ (n) DomainContextRow=( ?context.isCoreDomain: Badge ) } ) ) ), BusinessBrainChatbotsPanel=( DashboardPanel{ (n) BusinessBrainChatbotRow=( (n) Badge ) } ) ) )"
+          "definition": "WorkspaceHeader, ( ?!isBrainOpen: EmptyState | ( ?domain === null: EmptyState, TabStrip, ( ?shownTab === domainTabKeys.thin\u2026: DomainThingsPane | ?shownTab === domainTabKeys.rules: DashboardPanel{ DomainRulesTable } | ?shownTab === domainTabKeys.words: DashboardPanel{ DomainWordsTable } | DomainMapPane ) ) )",
+          "expanded": "WorkspaceHeader, ( ?!isBrainOpen: EmptyState | ( ?domain === null: EmptyState, TabStrip, ( ?shownTab === domainTabKeys.thin\u2026: DomainThingsPane=( DashboardPanel{ DomainThingsTable=( RecordsTable{ (5) RecordsCell } ) }, ?openedThing !== undefined: DomainThingPanels=( DashboardPanel{ ?statuses.length > 0: (n) Badge }, DashboardPanel{ DomainThingFieldsTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ DomainRulesTable=( RecordsTable{ (3) RecordsCell } ) }, DashboardPanel{ DomainThingStationsTable=( RecordsTable{ (3) RecordsCell } ) } ) ) | ?shownTab === domainTabKeys.rules: DashboardPanel{ DomainRulesTable=( RecordsTable{ (3) RecordsCell } ) } | ?shownTab === domainTabKeys.words: DashboardPanel{ DomainWordsTable=( RecordsTable{ (3) RecordsCell } ) } | DomainMapPane=( DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton, EntityPlacement, EntityFieldList, ?relationships.length > 0: EntityRelationshipList, ?projectId !== null && screens.l\u2026: EntityScreenLinks } ) ) ) ) ) ) )"
         },
         {
           "route": "/organisations/[organisationId]/sales",
@@ -4712,6 +4831,12 @@
           "file": "src/routes/organisations/[organisationId]/task-management/+page.svelte",
           "definition": "WorkspaceHeader, TabStrip, DashboardPanel{ TeamWorkTable }",
           "expanded": "WorkspaceHeader, TabStrip, DashboardPanel{ TeamWorkTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ Badge }, RecordsCell } ) }"
+        },
+        {
+          "route": "/organisations/[organisationId]/workflow-map",
+          "file": "src/routes/organisations/[organisationId]/workflow-map/+page.svelte",
+          "definition": "WorkspaceHeader, ( ?maps === null: EmptyState | ?openingStage === null || statio\u2026: EmptyState | WorkflowMapView )",
+          "expanded": "WorkspaceHeader, ( ?maps === null: EmptyState | ?openingStage === null || statio\u2026: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] } ) ) | DashboardPanel{ MapChangesTable=( RecordsTable{ (5) RecordsCell } ) } ) ) )"
         },
         {
           "route": "/people",
@@ -4740,14 +4865,8 @@
         {
           "route": "/portal/connect",
           "file": "src/routes/portal/connect/+page.svelte",
-          "definition": "WorkspaceHeader, PortalConnectorAddress, PortalClaudeAbilities, PortalClaudePlanSteps, PortalContextPrompt",
-          "expanded": "WorkspaceHeader, PortalConnectorAddress=( DashboardPanel{ CopyTextButton } ), PortalClaudeAbilities=( DashboardPanel ), PortalClaudePlanSteps=( DashboardPanel{ (n) PortalClaudePlanRow } ), PortalContextPrompt=( DashboardPanel{ CopyTextButton } )"
-        },
-        {
-          "route": "/portal/context",
-          "file": "src/routes/portal/context/+page.svelte",
-          "definition": "WorkspaceHeader, ( ?data.reading === null: EmptyState | CompanyContextView )",
-          "expanded": "WorkspaceHeader, ( ?data.reading === null: EmptyState | CompanyContextView=( CompanyContextMap=( (n) ContextAreaRegion, (n) ContextLinkLine, (n) ContextPartNode ), ( ?selectedPart === undefined: EmptyState | ContextPartPanel=( DashboardPanel{ ?steps.length > 0: ContextProcessStepList=( ?step.roleKey !== null: EntityLink ), ContextPartLinkList=( (2) EntityLink ), ?canMark: ContextPartReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) ), ContextConfirmationPanel=( DashboardPanel{ ?isOpen: ContextConfirmForm=( FormErrorNote, SubmitButton ) } ), ?changes !== null: ContextChangesPanel=( DashboardPanel{ ?hasChanges(changes): (2) ContextChangeList=( (n) EntityLink ) } ) ) )"
+          "definition": "WorkspaceHeader, PortalConnectorAddress, PortalClaudeAbilities, PortalClaudePlanSteps, PortalOnePrompt",
+          "expanded": "WorkspaceHeader, PortalConnectorAddress=( DashboardPanel{ CopyTextButton } ), PortalClaudeAbilities=( DashboardPanel ), PortalClaudePlanSteps=( DashboardPanel{ (n) PortalClaudePlanRow } ), PortalOnePrompt=( DashboardPanel{ CopyTextButton } )"
         },
         {
           "route": "/portal/people",
@@ -4762,6 +4881,12 @@
           "expanded": "WorkspaceHeader{ ProjectStatusBadge=( Badge ), HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) }, PortalTaskList=( DashboardPanel{ ?tasks.length > 0: (n) PortalTaskRow } ), PortalGoalList=( DashboardPanel{ ?goals.length > 0: (n) PortalGoalRow=( ProgressTrack ) } ), PortalRequestForm=( DashboardPanel{ (3) SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), PortalRequestList=( DashboardPanel{ ?requests.length > 0: (n) PortalRequestRow=( ?!request.isDone: PortalRequestReplyForm=( FormErrorNote, SubmitButton ) ) } )"
         },
         {
+          "route": "/portal/workflow-map",
+          "file": "src/routes/portal/workflow-map/+page.svelte",
+          "definition": "WorkspaceHeader, ( ?reading === null || openingStag\u2026: EmptyState | WorkflowMapView ), PortalStationReview",
+          "expanded": "WorkspaceHeader, ( ?reading === null || openingStag\u2026: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] } ) ) | DashboardPanel{ MapChangesTable=( RecordsTable{ (5) RecordsCell } ) } ) ) ), PortalStationReview=( ( ?stationKey === null: MapConfirmationPanel=( DashboardPanel{ ?canConfirmMap(tally): MapConfirmForm=( FormErrorNote, SubmitButton ) } ) | StationReviewPanel=( DashboardPanel{ StationReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) ) )"
+        },
+        {
           "route": "/privacy",
           "file": "src/routes/privacy/+page.svelte",
           "definition": "LegalArticle",
@@ -4771,13 +4896,13 @@
           "route": "/projects",
           "file": "src/routes/projects/+page.svelte",
           "definition": "ProjectsPageHeader{ FlashMessage, ProjectBoard, Modal{ NewProjectForm }, ?selectedProject !== null: ProjectEditModals, PriorityModal }",
-          "expanded": "ProjectsPageHeader=( WorkspaceHeader ){ FlashMessage, ProjectBoard=( ProjectsTabs=( TabStrip ), ( ?shownTab === priorityTasksTab: WaitingOnYouList=( (n) WaitingTaskRow ) | ( ProjectFilterBar=( FinishedProjectsToggle ), ( ProjectTable=( ProjectTableHeader, (n) ProjectRow=( ProjectTaskTally, ProjectPriorityCell{ ProjectNameLink, ProjectStatusBadge, ProjectOwnerCell, ProjectOrganisationCell, KitVersionBadge, ProjectStatusBadge, ?project.taskCount > 0: CompletionBar, ?project.isYours: ProjectActionsMenu } ) ), ProjectPagination ) ) ) ), Modal{ NewProjectForm=( (3) SmallCapsField=( FormField ), OrganisationSelect=( ?organisations.length > 0: SmallCapsField=( FormField ) ), TeamProjectField, FormErrorNote, SubmitButton ) }, ?selectedProject !== null: ProjectEditModals=( Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), TeamProjectField, (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) }"
+          "expanded": "ProjectsPageHeader=( WorkspaceHeader ){ FlashMessage, ProjectBoard=( ProjectsTabs=( TabStrip ), ( ?shownTab === priorityTasksTab: WaitingOnYouList=( (n) WaitingTaskRow ) | ( ProjectFilterBar=( FinishedProjectsToggle ), ( ProjectTable=( ProjectTableHeader, (n) ProjectRow=( ProjectTaskTally, ProjectPriorityCell{ ProjectNameLink, ProjectStatusBadge, ProjectOwnerCell, ProjectOrganisationCell, KitVersionBadge, ProjectStatusBadge, ?project.taskCount > 0: CompletionBar, ?project.isYours: ProjectActionsMenu } ) ), ProjectPagination ) ) ) ), Modal{ NewProjectForm=( (3) SmallCapsField=( FormField ), OrganisationSelect=( ?organisations.length > 0: SmallCapsField=( FormField ) ), TeamProjectField, FormErrorNote, SubmitButton ) }, ?selectedProject !== null: ProjectEditModals=( Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), TeamProjectField, (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), PriorityModal=( Modal{ PriorityField=( PriorityControls=( ArrowIcon ) ), FormErrorNote, SubmitButton } ) }"
         },
         {
           "route": "/projects/[projectId]",
           "file": "src/routes/projects/[projectId]/+page.svelte",
           "definition": "ProjectDetailHeader, ?isDevelopmentSide: DevelopmentTabs, FlashMessage, ( ?isDevelopmentSide: TaskTreePanel | ProjectDashboard ), ProjectNewTaskModal, TaskRowModals, TaskSheet",
-          "expanded": "ProjectDetailHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ ( ?isInternalProject: InternalProjectBadge=( Badge ) | KitVersionBadge=( ?standing !== kitStandings.noRep\u2026: Badge ) ), ProjectHeaderMenu=( ActionsMenu ){ HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } }, Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), TeamProjectField, (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) } ), ?isDevelopmentSide: DevelopmentTabs=( TabStrip ), FlashMessage, ( ?isDevelopmentSide: TaskTreePanel=( DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips=( (n) CountedFilterChip ){ ?isDoneFilterShown: DoneTaskFilter } } ), TaskGroupSections=( (n) TaskGroupSection=( TaskGroupHeader{ ?isOpen: TaskGroupList } ) ) }, ?longTermGroups.length > 0: DashboardPanel{ TaskGroupSections=( (n) TaskGroupSection=( TaskGroupHeader{ ?isOpen: TaskGroupList } ) ) } ) | ProjectDashboard=( ProjectPulseStrip=( [ (4) StatTile ] ), PanelTabs=( TabStrip ), InternalWorkBoard=( TabStrip, DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips{ ?isDoneFilterShown: DoneTaskFilter } } ), ( ?isTableShown: InternalWorkTable=( (n) InternalWorkGroupTable ) | ?chosenView.key === internalWork\u2026: InternalStatusBoard=( [ (n) Badge ?column.items as item (item.id): StatusBoardCard ] ) | InternalWorkCalendar=( CalendarNavigation{ CalendarGrid }, UndatedEntries ) ) } ), [ (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow ) }, Modal{ AddGoalForm=( (2) SmallCapsField, GoalHorizonField, FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) ) ProjectPeoplePanel=( DashboardPanel{ (n) PersonRow=( PersonInitials ) }, Modal{ InvitePersonForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, Modal{ TransferOwnershipForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, ?personAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm ) ) ] ) ), ProjectNewTaskModal=( Modal{ ( ?isInternalSide: NewInternalTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), TaskOwnerField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) | NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) ) } ), TaskRowModals=( ?statusTask !== null: TaskStatusModal=( Modal{ FormErrorNote, (n) TaskStatusOption } ), ?goalTask !== null: TaskGoalModal=( Modal{ FormErrorNote, (n) TaskGoalChoiceForm } ), ?priorityTask !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ), ?storyPointsTask !== null: TaskStoryPointsModal=( Modal{ FormErrorNote, (n) TaskStoryPointsOption } ), ?autocompleteTask !== null: TaskAutocompleteModal=( Modal{ FormErrorNote, (n) TaskAutocompleteOption } ) ), TaskSheet=( ?target !== null && href !== null: Sheet, ( ?taskData === null: BrandSpinner | TaskPage ) )"
+          "expanded": "ProjectDetailHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ ( ?isInternalProject: InternalProjectBadge=( Badge ) | KitVersionBadge=( ?standing !== kitStandings.noRep\u2026: Badge ) ), ProjectHeaderMenu=( ActionsMenu ){ HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } }, Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), TeamProjectField, (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) } ), ?isDevelopmentSide: DevelopmentTabs=( TabStrip ), FlashMessage, ( ?isDevelopmentSide: TaskTreePanel=( DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips=( (n) CountedFilterChip ){ ?isDoneFilterShown: DoneTaskFilter } } ), TaskGroupSections=( (n) TaskGroupSection=( TaskGroupHeader{ ?isOpen: TaskGroupList } ) ) }, ?longTermGroups.length > 0: DashboardPanel{ TaskGroupSections=( (n) TaskGroupSection=( TaskGroupHeader{ ?isOpen: TaskGroupList } ) ) } ) | ProjectDashboard=( ProjectPulseStrip=( [ (4) StatTile ] ), PanelTabs=( TabStrip ), InternalWorkBoard=( TabStrip, DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips{ ?isDoneFilterShown: DoneTaskFilter } } ), ( ?isTableShown: InternalWorkTable=( (n) InternalWorkGroupTable ) | ?chosenView.key === internalWork\u2026: InternalStatusBoard=( [ (n) Badge ?column.items as item (item.id): StatusBoardCard ] ) | InternalWorkCalendar=( CalendarNavigation{ CalendarGrid }, UndatedEntries ) ) } ), [ (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow ) }, Modal{ AddGoalForm=( (2) SmallCapsField, GoalHorizonField, FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) ) ProjectPeoplePanel=( DashboardPanel{ (n) PersonRow=( PersonInitials ) }, Modal{ InvitePersonForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, Modal{ TransferOwnershipForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, ?personAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm ) ) ] ) ), ProjectNewTaskModal=( Modal{ ( ?isInternalSide: NewInternalTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), TaskOwnerField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) | NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) ) } ), TaskRowModals=( ?statusTask !== null: TaskStatusModal=( Modal{ FormErrorNote, (n) TaskStatusOption } ), ?goalTask !== null: TaskGoalModal=( Modal{ FormErrorNote, (n) TaskGoalChoiceForm } ), ?priorityTask !== null: PriorityModal=( Modal{ PriorityField=( PriorityControls ), FormErrorNote, SubmitButton } ), ?storyPointsTask !== null: TaskStoryPointsModal=( Modal{ FormErrorNote, (n) TaskStoryPointsOption } ), ?autocompleteTask !== null: TaskAutocompleteModal=( Modal{ FormErrorNote, (n) TaskAutocompleteOption } ) ), TaskSheet=( ?target !== null && href !== null: Sheet, ( ?taskData === null: BrandSpinner | TaskPage ) )"
         },
         {
           "route": "/projects/[projectId]/deploys",
@@ -4786,22 +4911,16 @@
           "expanded": "ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), DevelopmentTabs=( TabStrip ), DashboardPanel{ DeployHistoryFilterBar=( (2) InlineField ), (n) DeployHistoryEntry }, ProjectPagination"
         },
         {
-          "route": "/projects/[projectId]/domain",
-          "file": "src/routes/projects/[projectId]/domain/+page.svelte",
-          "definition": "BlueprintHeader, FlashMessage, ?productBrain !== null && addres\u2026: BusinessBrainIndexPanel, ( ?ownDomain !== null && addresses\u2026: ( DomainExplorer, DomainContextsPanel ) | ?domain === null: EmptyState | DomainExplorer )",
-          "expanded": "BlueprintHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ SubmitButton, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ), FlashMessage, ?productBrain !== null && addres\u2026: BusinessBrainIndexPanel=( DashboardPanel{ RecordsTable{ RecordsCell, RecordsCell{ Badge }, (2) RecordsCell } } ), ( ?ownDomain !== null && addresses\u2026: ( DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton=( RaiseChangeModal ), EntityPlacement=( EntityLink ), EntityFieldList=( (n) EntityFieldRow ), ?relationships.length > 0: EntityRelationshipList=( EntityLink ), ?projectId !== null && screens.l\u2026: EntityScreenLinks } ) ) ), DomainContextsPanel=( DashboardPanel{ (n) DomainContextRow=( ?context.isCoreDomain: Badge ) } ) ) | ?domain === null: EmptyState | DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton=( RaiseChangeModal ), EntityPlacement=( EntityLink ), EntityFieldList=( (n) EntityFieldRow ), ?relationships.length > 0: EntityRelationshipList=( EntityLink ), ?projectId !== null && screens.l\u2026: EntityScreenLinks } ) ) ) )"
-        },
-        {
           "route": "/projects/[projectId]/goals",
           "file": "src/routes/projects/[projectId]/goals/+page.svelte",
           "definition": "ProjectPageHeader, DevelopmentTabs, FlashMessage, ProjectStatePanel, [ (2) GoalListPanel ]",
-          "expanded": "ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), DevelopmentTabs=( TabStrip ), FlashMessage, ProjectStatePanel=( DashboardPanel ), [ (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow=( [ [ PriorityControls PriorityNumberButton ] ( ?!isOpen: GoalStatusPill, ?shouldShowCompletion: ProgressTrack ) ] ) ) }, Modal{ AddGoalForm=( (2) SmallCapsField=( FormField ), GoalHorizonField=( SmallCapsField ), FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) ) ]"
+          "expanded": "ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), DevelopmentTabs=( TabStrip ), FlashMessage, ProjectStatePanel=( DashboardPanel ), [ (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow=( [ [ PriorityControls PriorityNumberButton ] ( ?!isOpen: GoalStatusPill, ?shouldShowCompletion: ProgressTrack ) ] ) ) }, Modal{ AddGoalForm=( (2) SmallCapsField=( FormField ), GoalHorizonField=( SmallCapsField ), FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField=( PriorityControls ), FormErrorNote, SubmitButton } ) ) ]"
         },
         {
           "route": "/projects/[projectId]/goals/[goalId]",
           "file": "src/routes/projects/[projectId]/goals/[goalId]/+page.svelte",
           "definition": "GoalDetailHeader{ FlashMessage, GoalMeasurePanel, GoalAutocompletePanel, GoalTaskList, ConversationThread, LifecyclePanel, ConversationParticipantsPanel, Modal{ EditGoalForm }, DangerConfirmModal }",
-          "expanded": "GoalDetailHeader=( WorkspaceHeader{ GoalStatusPill, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ){ FlashMessage, GoalMeasurePanel=( DashboardPanel{ ProseText } ), GoalAutocompletePanel=( DashboardPanel{ ?canSwitch: SubmitButton, FormErrorNote } ), GoalTaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ), Modal{ EditGoalForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) GoalHorizonField=( SmallCapsField=( FormField ) ) PriorityField ], FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) }"
+          "expanded": "GoalDetailHeader=( WorkspaceHeader{ GoalStatusPill, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ){ FlashMessage, GoalMeasurePanel=( DashboardPanel{ ProseText } ), GoalAutocompletePanel=( DashboardPanel{ ?canSwitch: SubmitButton, FormErrorNote } ), GoalTaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ), Modal{ EditGoalForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) GoalHorizonField=( SmallCapsField=( FormField ) ) PriorityField=( PriorityControls=( ArrowIcon ) ) ], FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) }"
         },
         {
           "route": "/projects/[projectId]/people",
@@ -4812,8 +4931,8 @@
         {
           "route": "/projects/[projectId]/site-map",
           "file": "src/routes/projects/[projectId]/site-map/+page.svelte",
-          "definition": "BlueprintHeader, DevelopmentTabs, FlashMessage, AudienceSwitch, ?mcpMap !== null: ParitySummary, ( ?audience === siteMapAudiences.c\u2026: ( ?mcpMap === null: EmptyState, McpMapBrowser ) | ?siteMap === null: EmptyState | SiteMapBrowser )",
-          "expanded": "BlueprintHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ SubmitButton, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ), DevelopmentTabs=( TabStrip ), FlashMessage, AudienceSwitch, ?mcpMap !== null: ParitySummary, ( ?audience === siteMapAudiences.c\u2026: ( ?mcpMap === null: EmptyState, McpMapBrowser=( SectionCrates{ CoverAlbum{ McpEntryCover=( CoverSleeve{ McpEntryFace } ) }, ?chosenEntry !== undefined: McpEntryDetails=( DashboardPanel{ RaiseChangeButton=( RaiseChangeModal ), McpEntryFace, ( ?entry.kind === mcpEntryKinds.to\u2026: ToolDoors=( (n) PairedScreenLink ) | GuideDetails ) } ) } ) ) | ?siteMap === null: EmptyState | SiteMapBrowser=( SectionCrates{ CoverAlbum{ ScreenCover=( CoverSleeve{ Wireframe=( WireframeNode ) } ) }, ?chosenScreen !== undefined: ScreenDetails=( DashboardPanel{ RaiseChangeButton=( RaiseChangeModal ), Wireframe=( WireframeNode ), ?mcpMap !== null: ScreenTools } ) } ) )"
+          "definition": "BlueprintHeader, DevelopmentTabs, FlashMessage, ?mcpMap !== null: ParitySummary, ( ?journeyMap === null: EmptyState | JourneySiteMap )",
+          "expanded": "BlueprintHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ SubmitButton, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ), DevelopmentTabs=( TabStrip ), FlashMessage, ?mcpMap !== null: ParitySummary, ( ?journeyMap === null: EmptyState | JourneySiteMap=( ( ?lineMap === null || chosenRole \u2026: EmptyState | JourneyMapPanel=( DashboardPanel{ LineMap, JourneyLegend=( (n) JourneyLegendSample ) } ) ), ViewPanel=( DashboardPanel{ RaiseChangeButton=( RaiseChangeModal ), Wireframe=( WireframeNode ), ViewJourneys=( (n) JourneySwatch ), ?mcpMap !== null: ScreenTools } ), DashboardPanel{ JourneyViewsTable=( RecordsTable{ (2) RecordsCell, RecordsCell{ ViewJourneyMarks=( ( ?journeys.length === 0: Badge | (n) JourneySwatch ) ) }, RecordsCell{ ViewReachedFrom } } ) } ) )"
         },
         {
           "route": "/projects/[projectId]/staged",
@@ -4825,7 +4944,13 @@
           "route": "/projects/[projectId]/tasks/[taskId]",
           "file": "src/routes/projects/[projectId]/tasks/[taskId]/+page.svelte",
           "definition": "TaskDetailHeader{ FlashMessage, TaskWaitingNote, TaskStoryPanel, ?isAwaitingResolution: ResolveSupportTaskForm, AcceptanceCriteriaSection, SubtaskList{ TaskSequencePanel, TaskTodosPanel, ChecklistSection, TaskAttachmentsSection, ConversationThread }, TaskAside, TaskPageModals }",
-          "expanded": "TaskDetailHeader=( WorkspaceHeader{ TaskKindPill } ){ FlashMessage, TaskWaitingNote=( ?waitedFor !== null: TaskReferenceLink ), TaskStoryPanel=( DashboardPanel{ ?isSupportTask: SupportTaskFacts=( ?task.resolution !== '': ProseText ), ?task.details !== '': ProseText } ), ?isAwaitingResolution: ResolveSupportTaskForm=( FormErrorNote, SubmitButton ), AcceptanceCriteriaSection=( DashboardPanel{ (n) CriterionRow }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), SubtaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ){ TaskSequencePanel=( DashboardPanel{ SequenceTrack=( (n) SequenceStepNode=( (2) TaskReferenceLink ) ) } ), TaskTodosPanel=( ?todos.length > 0: DashboardPanel, TodoStatusForm ), ChecklistSection=( DashboardPanel{ (n) ChecklistPanel=( ?items.length > 0: (n) ChecklistItemRow, AddChecklistItemForm=( SubmitButton, FormErrorNote ), RenameChecklistModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ), DangerConfirmModal=( DangerConfirmForm ) ) }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), TaskAttachmentsSection=( DashboardPanel{ (n) AttachmentRow=( AttachmentThumbnail=( ?isImage: ImageThumbnail ), ?canPreview: AttachmentPreviewModal=( Modal ), DangerConfirmModal=( DangerConfirmForm ) ), ?errorMessage !== null: FormErrorNote } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ) }, TaskAside=( TaskFactsPanel=( DashboardPanel{ ?task.dueDate !== null: TaskDueDate, TaskAutocompleteFact=( TaskAutocompleteModal ) } ), TaskComplexityPanel=( DashboardPanel{ [ (3) TaskComplexityCount=( FormField ) ], FormErrorNote, SubmitButton } ), TaskBranchPanel=( DashboardPanel{ TaskBranchLinks, ?isEditing: TaskBranchForm=( FormErrorNote, SubmitButton ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ) ), TaskPageModals=( Modal{ TaskEditForm=( (2) SmallCapsField=( FormField ), TaskStatusAndDueFields=( [ (2) SmallCapsField ] ), TaskPlanningFields=( [ (2) SmallCapsField ] ), TaskSequenceField=( SmallCapsField ), PriorityField, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), TaskDepartmentField=( SmallCapsField ), TaskMoveFields=( SmallCapsField, SmallCapsField ), UserStoryFields=( ?isUserStory: [ (3) FormField ] ), TeamPickerFieldset, FormErrorNote, SubmitButton ) }, Modal{ NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ) }"
+          "expanded": "TaskDetailHeader=( WorkspaceHeader{ TaskKindPill } ){ FlashMessage, TaskWaitingNote=( ?waitedFor !== null: TaskReferenceLink ), TaskStoryPanel=( DashboardPanel{ ?isSupportTask: SupportTaskFacts=( ?task.resolution !== '': ProseText ), ?task.details !== '': ProseText } ), ?isAwaitingResolution: ResolveSupportTaskForm=( FormErrorNote, SubmitButton ), AcceptanceCriteriaSection=( DashboardPanel{ (n) CriterionRow }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), SubtaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ){ TaskSequencePanel=( DashboardPanel{ SequenceTrack=( (n) SequenceStepNode=( (2) TaskReferenceLink ) ) } ), TaskTodosPanel=( ?todos.length > 0: DashboardPanel, TodoStatusForm ), ChecklistSection=( DashboardPanel{ (n) ChecklistPanel=( ?items.length > 0: (n) ChecklistItemRow, AddChecklistItemForm=( SubmitButton, FormErrorNote ), RenameChecklistModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ), DangerConfirmModal=( DangerConfirmForm ) ) }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), TaskAttachmentsSection=( DashboardPanel{ (n) AttachmentRow=( AttachmentThumbnail=( ?isImage: ImageThumbnail ), ?canPreview: AttachmentPreviewModal=( Modal ), DangerConfirmModal=( DangerConfirmForm ) ), ?errorMessage !== null: FormErrorNote } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ) }, TaskAside=( TaskFactsPanel=( DashboardPanel{ ?task.dueDate !== null: TaskDueDate, TaskAutocompleteFact=( TaskAutocompleteModal ) } ), TaskComplexityPanel=( DashboardPanel{ [ (3) TaskComplexityCount=( FormField ) ], FormErrorNote, SubmitButton } ), TaskBranchPanel=( DashboardPanel{ TaskBranchLinks, ?isEditing: TaskBranchForm=( FormErrorNote, SubmitButton ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ) ), TaskPageModals=( Modal{ TaskEditForm=( (2) SmallCapsField=( FormField ), TaskStatusAndDueFields=( [ (2) SmallCapsField ] ), TaskPlanningFields=( [ (2) SmallCapsField ] ), TaskSequenceField=( SmallCapsField ), PriorityField=( PriorityControls ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), TaskDepartmentField=( SmallCapsField ), TaskMoveFields=( SmallCapsField, SmallCapsField ), UserStoryFields=( ?isUserStory: [ (3) FormField ] ), TeamPickerFieldset, FormErrorNote, SubmitButton ) }, Modal{ NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ) }"
+        },
+        {
+          "route": "/projects/[projectId]/workflow-map",
+          "file": "src/routes/projects/[projectId]/workflow-map/+page.svelte",
+          "definition": "ProjectPageHeader, ( ?reading.kind === productMapRead\u2026: EmptyState | ?reading.kind === productMapRead\u2026: EmptyState | ?openingStage === null: EmptyState | ProductWorkflowMapView )",
+          "expanded": "ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), ( ?reading.kind === productMapRead\u2026: EmptyState | ?reading.kind === productMapRead\u2026: EmptyState | ?openingStage === null: EmptyState | ProductWorkflowMapView=( ( ?stations.length === 0 || shownL\u2026: EmptyState | ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), DashboardPanel{ ProductStationsTable=( RecordsTable{ (4) RecordsCell, RecordsCell{ ProductStationStateLine } } ) } ) ) ) )"
         },
         {
           "route": "/projects/autocomplete",
@@ -4875,13 +5000,19 @@
           "component": "SubmitButton",
           "file": "src/lib/components/site/SubmitButton.svelte",
           "definition": "",
-          "usedBy": 70
+          "usedBy": 72
         },
         {
           "component": "FormErrorNote",
           "file": "src/lib/components/site/FormErrorNote.svelte",
           "definition": "",
-          "usedBy": 56
+          "usedBy": 57
+        },
+        {
+          "component": "RecordsCell",
+          "file": "src/lib/components/workspace/RecordsCell.svelte",
+          "definition": "",
+          "usedBy": 37
         },
         {
           "component": "SmallCapsField",
@@ -4890,22 +5021,22 @@
           "usedBy": 32
         },
         {
-          "component": "RecordsCell",
-          "file": "src/lib/components/workspace/RecordsCell.svelte",
-          "definition": "",
-          "usedBy": 25
+          "component": "DangerConfirmModal",
+          "file": "src/lib/components/site/DangerConfirmModal.svelte",
+          "definition": "DangerConfirmForm",
+          "usedBy": 12
         },
         {
           "component": "FlashMessage",
           "file": "src/lib/components/workspace/FlashMessage.svelte",
           "definition": "",
-          "usedBy": 13
+          "usedBy": 12
         },
         {
-          "component": "DangerConfirmModal",
-          "file": "src/lib/components/site/DangerConfirmModal.svelte",
-          "definition": "DangerConfirmForm",
-          "usedBy": 11
+          "component": "LineIcon",
+          "file": "src/lib/components/site/LineIcon.svelte",
+          "definition": "",
+          "usedBy": 10
         },
         {
           "component": "PageMeta",
@@ -4926,12 +5057,6 @@
           "usedBy": 8
         },
         {
-          "component": "LineIcon",
-          "file": "src/lib/components/site/LineIcon.svelte",
-          "definition": "",
-          "usedBy": 8
-        },
-        {
           "component": "DisclosureMarker",
           "file": "src/lib/components/taxCalculator/DisclosureMarker.svelte",
           "definition": "",
@@ -4941,6 +5066,12 @@
           "component": "HeaderFacts",
           "file": "src/lib/components/workspace/HeaderFacts.svelte",
           "definition": "?facts.length > 0: (n) HeaderFact",
+          "usedBy": 7
+        },
+        {
+          "component": "ProjectPageHeader",
+          "file": "src/lib/components/projects/ProjectPageHeader.svelte",
+          "definition": "TabStrip, WorkspaceHeader{ ProjectStatusBadge }",
           "usedBy": 7
         },
         {
@@ -4962,18 +5093,6 @@
           "usedBy": 6
         },
         {
-          "component": "EntityLink",
-          "file": "src/lib/components/blueprint/EntityLink.svelte",
-          "definition": "",
-          "usedBy": 6
-        },
-        {
-          "component": "ProjectPageHeader",
-          "file": "src/lib/components/projects/ProjectPageHeader.svelte",
-          "definition": "TabStrip, WorkspaceHeader{ ProjectStatusBadge }",
-          "usedBy": 6
-        },
-        {
           "component": "ProseText",
           "file": "src/lib/components/site/ProseText.svelte",
           "definition": "",
@@ -4984,6 +5103,18 @@
           "file": "src/lib/components/taxCalculator/SectionHeading.svelte",
           "definition": "",
           "usedBy": 6
+        },
+        {
+          "component": "StagePill",
+          "file": "src/lib/components/clients/StagePill.svelte",
+          "definition": "",
+          "usedBy": 6
+        },
+        {
+          "component": "ActionsMenu",
+          "file": "src/lib/components/site/ActionsMenu.svelte",
+          "definition": "",
+          "usedBy": 5
         },
         {
           "component": "BrandSpinner",
@@ -5006,7 +5137,7 @@
         {
           "component": "PriorityField",
           "file": "src/lib/components/projects/internalWork/PriorityField.svelte",
-          "definition": "",
+          "definition": "PriorityControls",
           "usedBy": 5
         },
         {
@@ -5016,15 +5147,15 @@
           "usedBy": 5
         },
         {
-          "component": "ActionsMenu",
-          "file": "src/lib/components/site/ActionsMenu.svelte",
-          "definition": "",
-          "usedBy": 4
-        },
-        {
           "component": "DiscoveryCallSection",
           "file": "src/lib/components/home/DiscoveryCallSection.svelte",
           "definition": "DiscoveryCallButton",
+          "usedBy": 4
+        },
+        {
+          "component": "PriorityControls",
+          "file": "src/lib/components/projects/PriorityControls.svelte",
+          "definition": "ArrowIcon",
           "usedBy": 4
         },
         {
@@ -5034,15 +5165,15 @@
           "usedBy": 4
         },
         {
-          "component": "StagePill",
-          "file": "src/lib/components/clients/StagePill.svelte",
-          "definition": "",
-          "usedBy": 4
-        },
-        {
           "component": "ContentStageBadge",
           "file": "src/lib/components/brand/ContentStageBadge.svelte",
           "definition": "Badge",
+          "usedBy": 3
+        },
+        {
+          "component": "EntityLink",
+          "file": "src/lib/components/blueprint/EntityLink.svelte",
+          "definition": "",
           "usedBy": 3
         },
         {
@@ -5076,12 +5207,6 @@
           "usedBy": 3
         },
         {
-          "component": "PriorityControls",
-          "file": "src/lib/components/projects/PriorityControls.svelte",
-          "definition": "ArrowIcon",
-          "usedBy": 3
-        },
-        {
           "component": "PriorityModal",
           "file": "src/lib/components/site/PriorityModal.svelte",
           "definition": "Modal{ PriorityField, FormErrorNote, SubmitButton }",
@@ -5091,12 +5216,6 @@
           "component": "PriorityNumberButton",
           "file": "src/lib/components/site/PriorityNumberButton.svelte",
           "definition": "",
-          "usedBy": 3
-        },
-        {
-          "component": "RaiseChangeButton",
-          "file": "src/lib/components/blueprint/RaiseChangeButton.svelte",
-          "definition": "RaiseChangeModal",
           "usedBy": 3
         },
         {
@@ -5133,6 +5252,12 @@
           "component": "TaskSequenceField",
           "file": "src/lib/components/sequences/TaskSequenceField.svelte",
           "definition": "SmallCapsField",
+          "usedBy": 3
+        },
+        {
+          "component": "WorkflowMapView",
+          "file": "src/lib/components/organisations/workflowMap/WorkflowMapView.svelte",
+          "definition": "?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel, ?details !== null: StationPanel ) | DashboardPanel{ MapChangesTable } )",
           "usedBy": 3
         },
         {
@@ -5184,45 +5309,21 @@
           "usedBy": 2
         },
         {
-          "component": "BlueprintHeader",
-          "file": "src/lib/components/blueprint/BlueprintHeader.svelte",
-          "definition": "ProjectPageHeader{ SubmitButton, HeaderFacts }",
-          "usedBy": 2
-        },
-        {
           "component": "BrandDecisionNote",
           "file": "src/lib/components/brand/BrandDecisionNote.svelte",
           "definition": "",
           "usedBy": 2
         },
         {
-          "component": "BusinessBrainChatbotsPanel",
-          "file": "src/lib/components/businessBrain/BusinessBrainChatbotsPanel.svelte",
-          "definition": "DashboardPanel{ (n) BusinessBrainChatbotRow }",
-          "usedBy": 2
-        },
-        {
-          "component": "BusinessBrainFilesPanel",
-          "file": "src/lib/components/businessBrain/BusinessBrainFilesPanel.svelte",
-          "definition": "DashboardPanel{ (n) BusinessBrainFileRow }",
-          "usedBy": 2
-        },
-        {
-          "component": "BusinessBrainIndexPanel",
-          "file": "src/lib/components/businessBrain/BusinessBrainIndexPanel.svelte",
-          "definition": "DashboardPanel{ RecordsTable{ RecordsCell, RecordsCell{ Badge }, (2) RecordsCell } }",
+          "component": "BroughtInBySelect",
+          "file": "src/lib/components/clients/BroughtInBySelect.svelte",
+          "definition": "",
           "usedBy": 2
         },
         {
           "component": "CalendarEntryLink",
           "file": "src/lib/components/projects/internalWork/CalendarEntryLink.svelte",
           "definition": "",
-          "usedBy": 2
-        },
-        {
-          "component": "CompanyContextView",
-          "file": "src/lib/components/companyContext/CompanyContextView.svelte",
-          "definition": "CompanyContextMap, ( ?selectedPart === undefined: EmptyState | ContextPartPanel ), ContextConfirmationPanel, ?changes !== null: ContextChangesPanel",
           "usedBy": 2
         },
         {
@@ -5244,33 +5345,15 @@
           "usedBy": 2
         },
         {
-          "component": "CoverAlbum",
-          "file": "src/lib/components/blueprint/CoverAlbum.svelte",
-          "definition": "",
-          "usedBy": 2
-        },
-        {
-          "component": "CoverSleeve",
-          "file": "src/lib/components/blueprint/CoverSleeve.svelte",
-          "definition": "",
-          "usedBy": 2
-        },
-        {
           "component": "DirectorAnswerEntry",
           "file": "src/lib/components/boardroom/DirectorAnswerEntry.svelte",
           "definition": "Badge",
           "usedBy": 2
         },
         {
-          "component": "DomainContextsPanel",
-          "file": "src/lib/components/organisations/domain/DomainContextsPanel.svelte",
-          "definition": "DashboardPanel{ (n) DomainContextRow }",
-          "usedBy": 2
-        },
-        {
-          "component": "DomainExplorer",
-          "file": "src/lib/components/blueprint/DomainExplorer.svelte",
-          "definition": "DomainMap, ( ?chosenEntity === undefined: EmptyState | EntityPanel )",
+          "component": "DomainRulesTable",
+          "file": "src/lib/components/organisations/domain/DomainRulesTable.svelte",
+          "definition": "RecordsTable{ (3) RecordsCell }",
           "usedBy": 2
         },
         {
@@ -5294,7 +5377,7 @@
         {
           "component": "FrameNavLink",
           "file": "src/lib/components/frame/FrameNavLink.svelte",
-          "definition": "",
+          "definition": "LineIcon",
           "usedBy": 2
         },
         {
@@ -5334,6 +5417,12 @@
           "usedBy": 2
         },
         {
+          "component": "JourneySwatch",
+          "file": "src/lib/components/blueprint/journeys/JourneySwatch.svelte",
+          "definition": "",
+          "usedBy": 2
+        },
+        {
           "component": "LeadOutcomeNote",
           "file": "src/lib/components/clients/map/LeadOutcomeNote.svelte",
           "definition": "FormErrorNote",
@@ -5343,12 +5432,6 @@
           "component": "LifecyclePanel",
           "file": "src/lib/components/lifecycle/LifecyclePanel.svelte",
           "definition": "DashboardPanel{ (n) LifecycleStepItem }",
-          "usedBy": 2
-        },
-        {
-          "component": "McpEntryFace",
-          "file": "src/lib/components/blueprint/McpEntryFace.svelte",
-          "definition": "",
           "usedBy": 2
         },
         {
@@ -5478,6 +5561,12 @@
           "usedBy": 2
         },
         {
+          "component": "RaiseChangeButton",
+          "file": "src/lib/components/blueprint/RaiseChangeButton.svelte",
+          "definition": "RaiseChangeModal",
+          "usedBy": 2
+        },
+        {
           "component": "RegisterStandingLink",
           "file": "src/lib/components/clients/RegisterStandingLink.svelte",
           "definition": "StagePill",
@@ -5487,12 +5576,6 @@
           "component": "SalesRegisterPage",
           "file": "src/lib/components/salesRegisters/SalesRegisterPage.svelte",
           "definition": "WorkspaceHeader, RegisterStageTabs, FormErrorNote, ( ?clients.length === 0: EmptyState | ClientTable )",
-          "usedBy": 2
-        },
-        {
-          "component": "SectionCrates",
-          "file": "src/lib/components/blueprint/SectionCrates.svelte",
-          "definition": "",
           "usedBy": 2
         },
         {
@@ -5550,9 +5633,9 @@
           "usedBy": 2
         },
         {
-          "component": "Wireframe",
-          "file": "src/lib/components/blueprint/Wireframe.svelte",
-          "definition": "WireframeNode",
+          "component": "WorkflowMapPanel",
+          "file": "src/lib/components/organisations/workflowMap/WorkflowMapPanel.svelte",
+          "definition": "DashboardPanel{ LineMap, WorkflowMapLegend }",
           "usedBy": 2
         },
         {
@@ -5606,7 +5689,7 @@
         {
           "component": "AddLeadForm",
           "file": "src/lib/components/clients/AddLeadForm.svelte",
-          "definition": "( ?leadKind === leadKinds.person: AddPersonForm | SubmitButton )",
+          "definition": "( ?leadKind === leadKinds.person: AddPersonForm | ( BroughtInBySelect, SubmitButton ) )",
           "usedBy": 1
         },
         {
@@ -5844,12 +5927,6 @@
           "usedBy": 1
         },
         {
-          "component": "AudienceSwitch",
-          "file": "src/lib/components/blueprint/AudienceSwitch.svelte",
-          "definition": "",
-          "usedBy": 1
-        },
-        {
           "component": "AutocompleteProjectPanel",
           "file": "src/lib/components/autocomplete/AutocompleteProjectPanel.svelte",
           "definition": "DashboardPanel{ (2) (n) AutocompleteRow }",
@@ -5907,6 +5984,12 @@
           "component": "BilledLinesTable",
           "file": "src/lib/components/billing/BilledLinesTable.svelte",
           "definition": "RecordsTable{ (8) RecordsCell }",
+          "usedBy": 1
+        },
+        {
+          "component": "BlueprintHeader",
+          "file": "src/lib/components/blueprint/BlueprintHeader.svelte",
+          "definition": "ProjectPageHeader{ SubmitButton, HeaderFacts }",
           "usedBy": 1
         },
         {
@@ -6030,15 +6113,27 @@
           "usedBy": 1
         },
         {
-          "component": "BusinessBrainChatbotRow",
-          "file": "src/lib/components/businessBrain/BusinessBrainChatbotRow.svelte",
-          "definition": "(n) Badge",
+          "component": "BusinessBrainBrainsTable",
+          "file": "src/lib/components/businessBrain/BusinessBrainBrainsTable.svelte",
+          "definition": "RecordsTable{ (2) RecordsCell, RecordsCell{ (n) Badge }, RecordsCell }",
           "usedBy": 1
         },
         {
           "component": "BusinessBrainFileRow",
           "file": "src/lib/components/businessBrain/BusinessBrainFileRow.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "BusinessBrainFilesPanel",
+          "file": "src/lib/components/businessBrain/BusinessBrainFilesPanel.svelte",
+          "definition": "DashboardPanel{ (n) BusinessBrainFileRow }",
+          "usedBy": 1
+        },
+        {
+          "component": "BusinessBrainFilesTable",
+          "file": "src/lib/components/businessBrain/BusinessBrainFilesTable.svelte",
+          "definition": "RecordsTable{ RecordsCell, RecordsCell{ ( ?file.isNamedByPage: Badge | Badge ) }, (2) RecordsCell }",
           "usedBy": 1
         },
         {
@@ -6057,6 +6152,12 @@
           "component": "BusinessBrainPageText",
           "file": "src/lib/components/businessBrain/BusinessBrainPageText.svelte",
           "definition": "DashboardPanel{ ProseText }",
+          "usedBy": 1
+        },
+        {
+          "component": "BusinessBrainPagesTable",
+          "file": "src/lib/components/businessBrain/BusinessBrainPagesTable.svelte",
+          "definition": "RecordsTable{ (3) RecordsCell }",
           "usedBy": 1
         },
         {
@@ -6186,6 +6287,12 @@
           "usedBy": 1
         },
         {
+          "component": "ClientBroughtInByForm",
+          "file": "src/lib/components/clients/ClientBroughtInByForm.svelte",
+          "definition": "FormField{ BroughtInBySelect }",
+          "usedBy": 1
+        },
+        {
           "component": "ClientBusinessCard",
           "file": "src/lib/components/home/ClientBusinessCard.svelte",
           "definition": "",
@@ -6230,7 +6337,7 @@
         {
           "component": "ClientHeader",
           "file": "src/lib/components/clients/ClientHeader.svelte",
-          "definition": "PageTitle",
+          "definition": "PageTitle, ClientBroughtInByForm",
           "usedBy": 1
         },
         {
@@ -6260,7 +6367,13 @@
         {
           "component": "ClientRow",
           "file": "src/lib/components/clients/ClientRow.svelte",
-          "definition": "ClientStageForm",
+          "definition": "[ StagePill ClientRowActions ]",
+          "usedBy": 1
+        },
+        {
+          "component": "ClientRowActions",
+          "file": "src/lib/components/clients/ClientRowActions.svelte",
+          "definition": "ActionsMenu, ClientStageModal, DangerConfirmModal",
           "usedBy": 1
         },
         {
@@ -6270,9 +6383,9 @@
           "usedBy": 1
         },
         {
-          "component": "ClientStageForm",
-          "file": "src/lib/components/clients/ClientStageForm.svelte",
-          "definition": "",
+          "component": "ClientStageModal",
+          "file": "src/lib/components/clients/ClientStageModal.svelte",
+          "definition": "Modal{ (n) StagePill, FormErrorNote, SubmitButton }",
           "usedBy": 1
         },
         {
@@ -6285,12 +6398,6 @@
           "component": "ClosingStrip",
           "file": "src/lib/components/taxCalculator/ClosingStrip.svelte",
           "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "CompanyContextMap",
-          "file": "src/lib/components/companyContext/CompanyContextMap.svelte",
-          "definition": "(n) ContextAreaRegion, (n) ContextLinkLine, (n) ContextPartNode",
           "usedBy": 1
         },
         {
@@ -6480,72 +6587,6 @@
           "usedBy": 1
         },
         {
-          "component": "ContextAreaRegion",
-          "file": "src/lib/components/companyContext/ContextAreaRegion.svelte",
-          "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextChangeList",
-          "file": "src/lib/components/companyContext/ContextChangeList.svelte",
-          "definition": "(n) EntityLink",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextChangesPanel",
-          "file": "src/lib/components/companyContext/ContextChangesPanel.svelte",
-          "definition": "DashboardPanel{ ?hasChanges(changes): (2) ContextChangeList }",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextConfirmForm",
-          "file": "src/lib/components/companyContext/ContextConfirmForm.svelte",
-          "definition": "FormErrorNote, SubmitButton",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextConfirmationPanel",
-          "file": "src/lib/components/companyContext/ContextConfirmationPanel.svelte",
-          "definition": "DashboardPanel{ ?isOpen: ContextConfirmForm }",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextLinkLine",
-          "file": "src/lib/components/companyContext/ContextLinkLine.svelte",
-          "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextPartLinkList",
-          "file": "src/lib/components/companyContext/ContextPartLinkList.svelte",
-          "definition": "(2) EntityLink",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextPartNode",
-          "file": "src/lib/components/companyContext/ContextPartNode.svelte",
-          "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextPartPanel",
-          "file": "src/lib/components/companyContext/ContextPartPanel.svelte",
-          "definition": "DashboardPanel{ ?steps.length > 0: ContextProcessStepList, ContextPartLinkList, ?canMark: ContextPartReviewForm }",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextPartReviewForm",
-          "file": "src/lib/components/companyContext/ContextPartReviewForm.svelte",
-          "definition": "?isNotRight: FormField, FormErrorNote, SubmitButton",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextProcessStepList",
-          "file": "src/lib/components/companyContext/ContextProcessStepList.svelte",
-          "definition": "?step.roleKey !== null: EntityLink",
-          "usedBy": 1
-        },
-        {
           "component": "ConversationBaton",
           "file": "src/lib/components/conversations/ConversationBaton.svelte",
           "definition": "?stations.length > 0: BatonTrack",
@@ -6720,15 +6761,15 @@
           "usedBy": 1
         },
         {
-          "component": "DomainContextRow",
-          "file": "src/lib/components/organisations/domain/DomainContextRow.svelte",
-          "definition": "?context.isCoreDomain: Badge",
-          "usedBy": 1
-        },
-        {
           "component": "DomainEntityNode",
           "file": "src/lib/components/blueprint/DomainEntityNode.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "DomainExplorer",
+          "file": "src/lib/components/blueprint/DomainExplorer.svelte",
+          "definition": "DomainMap, ( ?chosenEntity === undefined: EmptyState | EntityPanel )",
           "usedBy": 1
         },
         {
@@ -6738,9 +6779,51 @@
           "usedBy": 1
         },
         {
+          "component": "DomainMapPane",
+          "file": "src/lib/components/organisations/domain/DomainMapPane.svelte",
+          "definition": "DomainExplorer",
+          "usedBy": 1
+        },
+        {
           "component": "DomainRelationshipLine",
           "file": "src/lib/components/blueprint/DomainRelationshipLine.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "DomainThingFieldsTable",
+          "file": "src/lib/components/organisations/domain/DomainThingFieldsTable.svelte",
+          "definition": "RecordsTable{ (4) RecordsCell }",
+          "usedBy": 1
+        },
+        {
+          "component": "DomainThingPanels",
+          "file": "src/lib/components/organisations/domain/DomainThingPanels.svelte",
+          "definition": "DashboardPanel{ ?statuses.length > 0: (n) Badge }, DashboardPanel{ DomainThingFieldsTable }, DashboardPanel{ DomainRulesTable }, DashboardPanel{ DomainThingStationsTable }",
+          "usedBy": 1
+        },
+        {
+          "component": "DomainThingStationsTable",
+          "file": "src/lib/components/organisations/domain/DomainThingStationsTable.svelte",
+          "definition": "RecordsTable{ (3) RecordsCell }",
+          "usedBy": 1
+        },
+        {
+          "component": "DomainThingsPane",
+          "file": "src/lib/components/organisations/domain/DomainThingsPane.svelte",
+          "definition": "DashboardPanel{ DomainThingsTable }, ?openedThing !== undefined: DomainThingPanels",
+          "usedBy": 1
+        },
+        {
+          "component": "DomainThingsTable",
+          "file": "src/lib/components/organisations/domain/DomainThingsTable.svelte",
+          "definition": "RecordsTable{ (5) RecordsCell }",
+          "usedBy": 1
+        },
+        {
+          "component": "DomainWordsTable",
+          "file": "src/lib/components/organisations/domain/DomainWordsTable.svelte",
+          "definition": "RecordsTable{ (3) RecordsCell }",
           "usedBy": 1
         },
         {
@@ -6878,7 +6961,7 @@
         {
           "component": "FrameNavFolder",
           "file": "src/lib/components/frame/FrameNavFolder.svelte",
-          "definition": "ChevronIcon, ?isOpen: (n) FrameNavLink",
+          "definition": "LineIcon, ChevronIcon, ?isOpen: (n) FrameNavLink",
           "usedBy": 1
         },
         {
@@ -6896,7 +6979,7 @@
         {
           "component": "FrameSideBar",
           "file": "src/lib/components/frame/FrameSideBar.svelte",
-          "definition": "BrandWordmark, ?hasOrganisationsToPick(picks): FramePickers, (n) ( ?section.label === null: (n) FrameNavLink | FrameNavFolder ), FrameSignedIn",
+          "definition": "BrandWordmark, ?hasOrganisationsToPick(picks): FramePickers, (n) ( ?section.folder === null: (n) FrameNavLink | FrameNavFolder ), FrameSignedIn",
           "usedBy": 1
         },
         {
@@ -6962,12 +7045,6 @@
         {
           "component": "GoogleSignInButton",
           "file": "src/lib/components/account/GoogleSignInButton.svelte",
-          "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "GuideDetails",
-          "file": "src/lib/components/blueprint/GuideDetails.svelte",
           "definition": "",
           "usedBy": 1
         },
@@ -7040,7 +7117,7 @@
         {
           "component": "InternalItemCells",
           "file": "src/lib/components/projects/internalWork/InternalItemCells.svelte",
-          "definition": "RecordsCell{ InternalItemTitle }, RecordsCell{ OwnerPicker }, RecordsCell{ StatusSelect }, RecordsCell{ DueDateField }, RecordsCell{ PriorityField }, RecordsCell",
+          "definition": "RecordsCell{ PriorityField }, RecordsCell{ InternalItemTitle }, RecordsCell{ OwnerPicker }, RecordsCell{ StatusSelect }, RecordsCell{ DueDateField }, RecordsCell",
           "usedBy": 1
         },
         {
@@ -7058,7 +7135,7 @@
         {
           "component": "InternalTodoRows",
           "file": "src/lib/components/projects/internalWork/InternalTodoRows.svelte",
-          "definition": "RecordsCell{ TodoTickTitle }, RecordsCell{ TodoOwnerSelect }, RecordsCell{ StatusSelect }, RecordsCell{ DueDateField }, (2) RecordsCell, AddTodoLine",
+          "definition": "RecordsCell, RecordsCell{ TodoTickTitle }, RecordsCell{ TodoOwnerSelect }, RecordsCell{ StatusSelect }, RecordsCell{ DueDateField }, RecordsCell, AddTodoLine",
           "usedBy": 1
         },
         {
@@ -7128,9 +7205,69 @@
           "usedBy": 1
         },
         {
+          "component": "JourneyLegend",
+          "file": "src/lib/components/blueprint/journeys/JourneyLegend.svelte",
+          "definition": "(n) JourneyLegendSample",
+          "usedBy": 1
+        },
+        {
+          "component": "JourneyLegendSample",
+          "file": "src/lib/components/blueprint/journeys/JourneyLegendSample.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "JourneyMapPanel",
+          "file": "src/lib/components/blueprint/journeys/JourneyMapPanel.svelte",
+          "definition": "DashboardPanel{ LineMap, JourneyLegend }",
+          "usedBy": 1
+        },
+        {
+          "component": "JourneySiteMap",
+          "file": "src/lib/components/blueprint/journeys/JourneySiteMap.svelte",
+          "definition": "( ?lineMap === null || chosenRole \u2026: EmptyState | JourneyMapPanel ), ViewPanel, DashboardPanel{ JourneyViewsTable }",
+          "usedBy": 1
+        },
+        {
+          "component": "JourneyViewsTable",
+          "file": "src/lib/components/blueprint/journeys/JourneyViewsTable.svelte",
+          "definition": "RecordsTable{ (2) RecordsCell, RecordsCell{ ViewJourneyMarks }, RecordsCell{ ViewReachedFrom } }",
+          "usedBy": 1
+        },
+        {
           "component": "KitVersionRow",
           "file": "src/lib/components/projects/KitVersionRow.svelte",
           "definition": "KitVersionBadge",
+          "usedBy": 1
+        },
+        {
+          "component": "LeadConversationForm",
+          "file": "src/lib/components/clients/conversations/LeadConversationForm.svelte",
+          "definition": "(6) FormField, SubmitButton",
+          "usedBy": 1
+        },
+        {
+          "component": "LeadConversationRead",
+          "file": "src/lib/components/clients/conversations/LeadConversationRead.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "LeadConversationTable",
+          "file": "src/lib/components/clients/conversations/LeadConversationTable.svelte",
+          "definition": "RecordsTable{ (6) RecordsCell }",
+          "usedBy": 1
+        },
+        {
+          "component": "LeadConversationsSection",
+          "file": "src/lib/components/clients/conversations/LeadConversationsSection.svelte",
+          "definition": "LeadConversationTable, Modal{ LeadConversationForm }, Modal{ ?conversationBeingRead !== null: LeadConversationRead }",
+          "usedBy": 1
+        },
+        {
+          "component": "LegendSample",
+          "file": "src/lib/components/organisations/workflowMap/LegendSample.svelte",
+          "definition": "",
           "usedBy": 1
         },
         {
@@ -7142,6 +7279,24 @@
         {
           "component": "LifecycleStepItem",
           "file": "src/lib/components/lifecycle/LifecycleStepItem.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "LineMapLineName",
+          "file": "src/lib/components/lineMap/LineMapLineName.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "LineMapStation",
+          "file": "src/lib/components/lineMap/LineMapStation.svelte",
+          "definition": "StationMark",
+          "usedBy": 1
+        },
+        {
+          "component": "LineMapTracks",
+          "file": "src/lib/components/lineMap/LineMapTracks.svelte",
           "definition": "",
           "usedBy": 1
         },
@@ -7164,27 +7319,27 @@
           "usedBy": 1
         },
         {
+          "component": "MapChangesTable",
+          "file": "src/lib/components/organisations/workflowMap/MapChangesTable.svelte",
+          "definition": "RecordsTable{ (5) RecordsCell }",
+          "usedBy": 1
+        },
+        {
+          "component": "MapConfirmForm",
+          "file": "src/lib/components/portal/workflowMap/MapConfirmForm.svelte",
+          "definition": "FormErrorNote, SubmitButton",
+          "usedBy": 1
+        },
+        {
+          "component": "MapConfirmationPanel",
+          "file": "src/lib/components/portal/workflowMap/MapConfirmationPanel.svelte",
+          "definition": "DashboardPanel{ ?canConfirmMap(tally): MapConfirmForm }",
+          "usedBy": 1
+        },
+        {
           "component": "MarkAllReadForm",
           "file": "src/lib/components/projects/MarkAllReadForm.svelte",
           "definition": "SubmitButton",
-          "usedBy": 1
-        },
-        {
-          "component": "McpEntryCover",
-          "file": "src/lib/components/blueprint/McpEntryCover.svelte",
-          "definition": "CoverSleeve{ McpEntryFace }",
-          "usedBy": 1
-        },
-        {
-          "component": "McpEntryDetails",
-          "file": "src/lib/components/blueprint/McpEntryDetails.svelte",
-          "definition": "DashboardPanel{ RaiseChangeButton, McpEntryFace, ( ?entry.kind === mcpEntryKinds.to\u2026: ToolDoors | GuideDetails ) }",
-          "usedBy": 1
-        },
-        {
-          "component": "McpMapBrowser",
-          "file": "src/lib/components/blueprint/McpMapBrowser.svelte",
-          "definition": "SectionCrates{ CoverAlbum{ McpEntryCover }, ?chosenEntry !== undefined: McpEntryDetails }",
           "usedBy": 1
         },
         {
@@ -7470,12 +7625,6 @@
           "usedBy": 1
         },
         {
-          "component": "PairedScreenLink",
-          "file": "src/lib/components/blueprint/PairedScreenLink.svelte",
-          "definition": "",
-          "usedBy": 1
-        },
-        {
           "component": "PanelTabs",
           "file": "src/lib/components/workspace/PanelTabs.svelte",
           "definition": "TabStrip",
@@ -7644,12 +7793,6 @@
           "usedBy": 1
         },
         {
-          "component": "PortalContextPrompt",
-          "file": "src/lib/components/portal/PortalContextPrompt.svelte",
-          "definition": "DashboardPanel{ CopyTextButton }",
-          "usedBy": 1
-        },
-        {
           "component": "PortalEnvironmentLink",
           "file": "src/lib/components/portal/PortalEnvironmentLink.svelte",
           "definition": "",
@@ -7677,6 +7820,12 @@
           "component": "PortalInviteForm",
           "file": "src/lib/components/portal/PortalInviteForm.svelte",
           "definition": "DashboardPanel{ (3) SmallCapsField, FormErrorNote, SubmitButton }",
+          "usedBy": 1
+        },
+        {
+          "component": "PortalOnePrompt",
+          "file": "src/lib/components/portal/PortalOnePrompt.svelte",
+          "definition": "DashboardPanel{ CopyTextButton }",
           "usedBy": 1
         },
         {
@@ -7746,6 +7895,12 @@
           "usedBy": 1
         },
         {
+          "component": "PortalStationReview",
+          "file": "src/lib/components/portal/workflowMap/PortalStationReview.svelte",
+          "definition": "( ?stationKey === null: MapConfirmationPanel | StationReviewPanel )",
+          "usedBy": 1
+        },
+        {
           "component": "PortalTaskList",
           "file": "src/lib/components/portal/PortalTaskList.svelte",
           "definition": "DashboardPanel{ ?tasks.length > 0: (n) PortalTaskRow }",
@@ -7773,6 +7928,24 @@
           "component": "PrintOnPaper",
           "file": "src/lib/components/workspace/PrintOnPaper.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "ProductStationStateLine",
+          "file": "src/lib/components/projects/workflowMap/ProductStationStateLine.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "ProductStationsTable",
+          "file": "src/lib/components/projects/workflowMap/ProductStationsTable.svelte",
+          "definition": "RecordsTable{ (4) RecordsCell, RecordsCell{ ProductStationStateLine } }",
+          "usedBy": 1
+        },
+        {
+          "component": "ProductWorkflowMapView",
+          "file": "src/lib/components/projects/workflowMap/ProductWorkflowMapView.svelte",
+          "definition": "( ?stations.length === 0 || shownL\u2026: EmptyState | ( WorkflowMapPanel, DashboardPanel{ ProductStationsTable } ) )",
           "usedBy": 1
         },
         {
@@ -8028,6 +8201,12 @@
           "usedBy": 1
         },
         {
+          "component": "SalesLeaderboardTable",
+          "file": "src/lib/components/salesRegisters/SalesLeaderboardTable.svelte",
+          "definition": "RecordsTable{ (6) RecordsCell }",
+          "usedBy": 1
+        },
+        {
           "component": "SalesPagesTable",
           "file": "src/lib/components/sales/SalesPagesTable.svelte",
           "definition": "RecordsTable{ (2) RecordsCell }",
@@ -8037,18 +8216,6 @@
           "component": "SavedTradingRoutes",
           "file": "src/lib/components/taxCalculator/SavedTradingRoutes.svelte",
           "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "ScreenCover",
-          "file": "src/lib/components/blueprint/ScreenCover.svelte",
-          "definition": "CoverSleeve{ Wireframe }",
-          "usedBy": 1
-        },
-        {
-          "component": "ScreenDetails",
-          "file": "src/lib/components/blueprint/ScreenDetails.svelte",
-          "definition": "DashboardPanel{ RaiseChangeButton, Wireframe, ?mcpMap !== null: ScreenTools }",
           "usedBy": 1
         },
         {
@@ -8184,12 +8351,6 @@
           "usedBy": 1
         },
         {
-          "component": "SiteMapBrowser",
-          "file": "src/lib/components/blueprint/SiteMapBrowser.svelte",
-          "definition": "SectionCrates{ CoverAlbum{ ScreenCover }, ?chosenScreen !== undefined: ScreenDetails }",
-          "usedBy": 1
-        },
-        {
           "component": "StageDots",
           "file": "src/lib/components/people/StageDots.svelte",
           "definition": "",
@@ -8211,6 +8372,54 @@
           "component": "StatementTable",
           "file": "src/lib/components/books/StatementTable.svelte",
           "definition": "RecordsTable{ RecordsCell, StatementFigureCell }",
+          "usedBy": 1
+        },
+        {
+          "component": "StationColumn",
+          "file": "src/lib/components/organisations/workflowMap/StationColumn.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "StationDomainColumn",
+          "file": "src/lib/components/organisations/workflowMap/StationDomainColumn.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "StationFlowItem",
+          "file": "src/lib/components/organisations/workflowMap/StationFlowItem.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "StationMark",
+          "file": "src/lib/components/lineMap/StationMark.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "StationPanel",
+          "file": "src/lib/components/organisations/workflowMap/StationPanel.svelte",
+          "definition": "DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] }",
+          "usedBy": 1
+        },
+        {
+          "component": "StationPlaceLine",
+          "file": "src/lib/components/organisations/workflowMap/StationPlaceLine.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "StationReviewForm",
+          "file": "src/lib/components/portal/workflowMap/StationReviewForm.svelte",
+          "definition": "?isNotRight: FormField, FormErrorNote, SubmitButton",
+          "usedBy": 1
+        },
+        {
+          "component": "StationReviewPanel",
+          "file": "src/lib/components/portal/workflowMap/StationReviewPanel.svelte",
+          "definition": "DashboardPanel{ StationReviewForm }",
           "usedBy": 1
         },
         {
@@ -8658,12 +8867,6 @@
           "usedBy": 1
         },
         {
-          "component": "ToolDoors",
-          "file": "src/lib/components/blueprint/ToolDoors.svelte",
-          "definition": "(n) PairedScreenLink",
-          "usedBy": 1
-        },
-        {
           "component": "TradingRouteNotes",
           "file": "src/lib/components/taxCalculator/TradingRouteNotes.svelte",
           "definition": "DisclosureMarker",
@@ -8700,6 +8903,30 @@
           "usedBy": 1
         },
         {
+          "component": "ViewJourneyMarks",
+          "file": "src/lib/components/blueprint/journeys/ViewJourneyMarks.svelte",
+          "definition": "( ?journeys.length === 0: Badge | (n) JourneySwatch )",
+          "usedBy": 1
+        },
+        {
+          "component": "ViewJourneys",
+          "file": "src/lib/components/blueprint/journeys/ViewJourneys.svelte",
+          "definition": "(n) JourneySwatch",
+          "usedBy": 1
+        },
+        {
+          "component": "ViewPanel",
+          "file": "src/lib/components/blueprint/journeys/ViewPanel.svelte",
+          "definition": "DashboardPanel{ RaiseChangeButton, Wireframe, ViewJourneys, ?mcpMap !== null: ScreenTools }",
+          "usedBy": 1
+        },
+        {
+          "component": "ViewReachedFrom",
+          "file": "src/lib/components/blueprint/journeys/ViewReachedFrom.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
           "component": "WaitingOnYouList",
           "file": "src/lib/components/projects/WaitingOnYouList.svelte",
           "definition": "(n) WaitingTaskRow",
@@ -8724,6 +8951,12 @@
           "usedBy": 1
         },
         {
+          "component": "Wireframe",
+          "file": "src/lib/components/blueprint/Wireframe.svelte",
+          "definition": "WireframeNode",
+          "usedBy": 1
+        },
+        {
           "component": "WireframeNode",
           "file": "src/lib/components/blueprint/WireframeNode.svelte",
           "definition": "?depth <= deepestDrawn: (n) ( ?isContainer: (n) Self | WireframeShape )",
@@ -8739,6 +8972,12 @@
           "component": "WithdrawnAgendaItems",
           "file": "src/lib/components/boardroom/WithdrawnAgendaItems.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "WorkflowMapLegend",
+          "file": "src/lib/components/organisations/workflowMap/WorkflowMapLegend.svelte",
+          "definition": "(n) LegendSample",
           "usedBy": 1
         },
         {
@@ -8770,51 +9009,51 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4600,
-        "backend": 1208,
-        "frontend": 978,
-        "shared": 827,
-        "tests": 625,
-        "api": 520,
-        "database": 207,
+        "totalFiles": 4860,
+        "backend": 1262,
+        "frontend": 1049,
+        "shared": 847,
+        "tests": 684,
+        "api": 567,
+        "database": 214,
         "tooling": 141,
-        "docs": 77,
+        "docs": 79,
         "infrastructure": 17
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 1208,
-          "sourceFiles": 1198,
-          "sourceLines": 39835
+          "files": 1262,
+          "sourceFiles": 1252,
+          "sourceLines": 41167
         },
         {
           "area": "frontend",
-          "files": 978,
-          "sourceFiles": 847,
-          "sourceLines": 28061
+          "files": 1049,
+          "sourceFiles": 920,
+          "sourceLines": 30580
         },
         {
           "area": "shared",
-          "files": 827,
-          "sourceFiles": 809,
-          "sourceLines": 29101
+          "files": 847,
+          "sourceFiles": 829,
+          "sourceLines": 29499
         },
         {
           "area": "tests",
-          "files": 625,
-          "sourceFiles": 610,
-          "sourceLines": 28197
+          "files": 684,
+          "sourceFiles": 669,
+          "sourceLines": 31308
         },
         {
           "area": "api",
-          "files": 520,
-          "sourceFiles": 519,
-          "sourceLines": 23507
+          "files": 567,
+          "sourceFiles": 567,
+          "sourceLines": 25876
         },
         {
           "area": "database",
-          "files": 207,
+          "files": 214,
           "sourceFiles": 7,
           "sourceLines": 212
         },
@@ -8826,7 +9065,7 @@
         },
         {
           "area": "docs",
-          "files": 77,
+          "files": 79,
           "sourceFiles": 0,
           "sourceLines": 0
         },
@@ -8841,9 +9080,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 198,
+        "schemaTables": 211,
         "limitedColumns": 0,
-        "writeDoors": 341,
+        "writeDoors": 363,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },

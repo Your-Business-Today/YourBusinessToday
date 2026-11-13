@@ -36,3 +36,11 @@ export function registerOfStage(stage: ClientStage): SalesRegister {
 export function stageOnRegister(register: SalesRegister, requested: string | null): ClientStage | null {
 	return register.stages.find((stage) => stage === requested) ?? null;
 }
+
+/** The address of a company's own page, under the register its stage puts it on: /leads/<id> or /clients/<id>. */
+export function companyPagePath(company: { id: string; stage: ClientStage }): string {
+	return `${registerOfStage(company.stage).path}/${company.id}`;
+}
+
+/** The registers' addresses without their slash, as a company page's first segment names one. */
+export const salesRegisterSegments = [leadsRegister, clientsRegister].map(({ path }) => path.slice(1));

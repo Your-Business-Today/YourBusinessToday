@@ -3,45 +3,63 @@ import { domainBlockNames, domainPageKinds } from '$lib/data/businessBrainDomain
 import { entitiesOf, type BoundedContext } from '$lib/data/blueprint/domainModel';
 import { readBodiesByPageId } from '$lib/server/businessBrain/readBodiesByPageId';
 import type { DomainBlock, DomainContextSummary, OrganisationDomain } from '$lib/data/organisationDomain';
+import type { DomainGlossary, DomainRule } from '$lib/data/domainReading';
 import type { DomainHolder } from './domainHolder';
 import type { SupabaseClient } from '@supabase/supabase-js';
+
+const writtenOutKinds: string[] = [domainPageKinds.glossary, domainPageKinds.rule];
 
 export function noDomainYet(holder: DomainHolder): string {
 	return `${holder.brainName} holds no domain yet: no bounded context has been filed. Set it with ${holder.setAction}.`;
 }
 
-/** The domain as Markdown: the context map, then each context with its aggregates, entities, other blocks and glossary. */
+/** The domain as Markdown: the context map, then each context with its aggregates, entities, other blocks, rules and glossary. */
 export async function describeDomain(
 	supabase: SupabaseClient,
 	holder: DomainHolder,
 	domain: OrganisationDomain | null
 ): Promise<string> {
 	if (domain === null) return noDomainYet(holder);
-	const { model, contexts, contextMap } = domain;
+	const { model, contexts, contextMap, rules } = domain;
+	const { relationships } = model;
 	const { organisationId } = holder.scope;
 	const bodies = await readBodiesByPageId(supabase, organisationId, writtenOutPageIds(domain));
-	const { relationships } = model;
-	const counts = `${contexts.length} contexts, ${entitiesOf(model).length} entities, ${relationships.length} relationships`;
+	const counts = `${contexts.length} contexts, ${entitiesOf(model).length} entities, ${relationships.length} relationships, ${rules.length} rules`;
 	const mapSection = contextMap === null ? [] : [`## Context map\n${bodies.get(contextMap.pageId) ?? ''}`];
-	const contextSections = model.contexts.map((context) => describeContext(context, contexts, bodies));
+	const contextSections = model.contexts.map((context) => describeContext(context, domain, bodies));
 	return [`# ${holder.name} domain\n${counts}. Drawn at ${holder.address}.`, ...mapSection, ...contextSections].join('\n\n');
 }
 
-function writtenOutPageIds({ contexts, contextMap }: OrganisationDomain): string[] {
-	const glossaries = contexts.flatMap((context) => context.blocks).filter((block) => block.kind === domainPageKinds.glossary);
+function writtenOutPageIds({ glossaries, contextMap }: OrganisationDomain): string[] {
 	const mapIds = contextMap === null ? [] : [contextMap.pageId];
-	return [...mapIds, ...glossaries.map((glossary) => glossary.pageId)];
+	const inProse = glossaries.filter(({ terms }) => terms.length === 0);
+	return [...mapIds, ...inProse.map((glossary) => glossary.pageId)];
 }
 
-function describeContext(context: BoundedContext, summaries: DomainContextSummary[], bodies: Map<string, string>): string {
-	const summary = summaries.find((candidate) => candidate.slug === context.name);
+function describeContext(context: BoundedContext, domain: OrganisationDomain, bodies: Map<string, string>): string {
+	const summary = domain.contexts.find((candidate) => candidate.slug === context.name);
 	if (summary === undefined) return '';
-	const core = summary.isCoreDomain ? ' — the core domain' : '';
-	const blocks = summary.blocks.filter((block) => block.kind !== domainPageKinds.glossary).map(blockLine);
-	const glossaries = summary.blocks.filter((block) => block.kind === domainPageKinds.glossary).map((glossary) => `### Glossary\n${bodies.get(glossary.pageId) ?? ''}`);
-	return [`## ${summary.title} (${summary.slug})${core}`, summary.summary, ...describeAggregates(context), ...blocks, ...glossaries].join('\n');
+	const inArea = <Listed extends { areaSlug: string }>(listed: Listed[]) => listed.filter((each) => each.areaSlug === summary.slug);
+	const blocks = summary.blocks.filter((block) => !writtenOutKinds.includes(block.kind)).map(blockLine);
+	const rules = inArea(domain.rules).map(ruleLine);
+	const glossaries = inArea(domain.glossaries).map((glossary) => `### Glossary\n${glossaryText(glossary, bodies)}`);
+	return [heading(summary), summary.summary, ...describeAggregates(context), ...blocks, ...rules, ...glossaries].join('\n');
+}
+
+function heading({ title, slug, isCoreDomain }: DomainContextSummary): string {
+	const core = isCoreDomain ? ' — the core domain' : '';
+	return `## ${title} (${slug})${core}`;
 }
 
 function blockLine({ kind, title, summary, pageId }: DomainBlock): string {
 	return `- ${domainBlockNames[kind]}: ${title} — ${summary} (page id ${pageId})`;
+}
+
+function ruleLine({ title, slug, governs, pageId }: DomainRule): string {
+	return `- Rule: ${title} (${slug}, governs ${governs.join(', ')}; page id ${pageId})`;
+}
+
+function glossaryText({ pageId, terms }: DomainGlossary, bodies: Map<string, string>): string {
+	if (terms.length === 0) return bodies.get(pageId) ?? '';
+	return terms.map(({ word, meaning }) => `- **${word}**: ${meaning}`).join('\n');
 }

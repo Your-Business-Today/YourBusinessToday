@@ -17,6 +17,7 @@
     "Button": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .btn"], "sheet": "docs/design/widgets/Button.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" },
     "Modal": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .modal-panel"], "sheet": "docs/design/widgets/Modal.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" },
     "TabStrip": { "design": ["Your-Business-Today/jewel-portal: jpms/Styles/app.tailwind.css .tab"], "sheet": "docs/design/widgets/TabStrip.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" },
-    "Badge": { "design": ["Your-Business-Today/jewel-portal: docs/ui/widget-catalogue.md Pill"], "sheet": "docs/design/widgets/Badge.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" }
+    "Badge": { "design": ["Your-Business-Today/jewel-portal: docs/ui/widget-catalogue.md Pill"], "sheet": "docs/design/widgets/Badge.md", "checkedAt": "2026-11-10", "checkedAgainst": "d9cdd3b" },
+    "LineMap": { "design": ["/mnt/project-files/workflow-map/workflow-map-after.png", "/mnt/project-files/workflow-map/prototype/linemap.js"], "sheet": "docs/design/widgets/LineMap.md", "checkedAt": "2026-11-13", "checkedAgainst": "" }
   }
 }

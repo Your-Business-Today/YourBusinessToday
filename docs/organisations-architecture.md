@@ -180,42 +180,95 @@ The second half: nothing reads the grouping any more.
   column or row is dropped. The clients register's own "Group under" note for sales is a different
   thing and is untouched.
 
-## The company context
+## The workflow map
 
-Each organisation has one company context: what its client's Claude has worked out about the business
-(its areas, the sources where work is created, the kinds of record it keeps, its processes with their
-steps, and its roles, with the links between them), which connectors the client has switched on in
-Claude, and the step of the offer (`consultancyOffer.ts`) the client is on. Each part carries where it
-was seen (the connector and the place, never the content), how sure Claude is, and its review state:
-not checked, right, or not right with what is wrong.
+Each organisation has one workflow map: its roles as lines, their tasks as stations and the hand-overs
+between them, filed by the person's own Claude as versions of a Before and an After. The sections below
+say how it is filed, drawn, checked and confirmed.
 
-- **Kept as versions.** Migration 0154 adds `company_context_versions` and the parts, steps, links and
-  connectors of each. `record_company_context` writes a whole new version, numbered from 1 for each
-  organisation, in one transaction through the database function of the same name; no version is ever
-  changed or deleted. Parts keep their keys from one version to the next, so a part's review travels with it.
-- **Read by the people on the organisation.** The connector's `record_company_context` and
-  `read_company_context` work for anyone who reaches the organisation (its people, or staff); the tables
-  are read and written by the server only.
-- **Concepts, not specimens.** Every value is checked against its column (`companyContextLimits.ts`
-  states the limits the migration holds, and a test keeps the two together) and refused, never cut, and
-  an email address or a phone number anywhere is refused.
+### The one prompt
 
-### The one prompt and the context run
-
-Every client runs the same prompt (`companyContextPrompt` in `src/lib/onboarding/onboarding.ts`), shown
-on the portal's Connect your Claude page and written out in the set-up email. It only connects the
-client's Claude and tells it to follow what Your Business Today says, so the steps can change without
-sending anyone a new prompt.
+Every client runs the same prompt (`onePrompt` in `src/lib/onboarding/onboarding.ts`), shown on the
+portal's Connect your Claude page (`PortalOnePrompt.svelte`) and written out in the set-up email. Its first
+line names the workflow map. It only connects the client's Claude and tells it to follow what Your Business
+Today says, so the steps can change without sending anyone a new prompt.
 
 - **`get_current_context` points the way.** A person on an organisation is told to call
-  `start_context_run` with that organisation's id first (`contextRunLine.ts`).
-- **`start_context_run` reads and writes nothing else.** It answers with the walk
-  (`describeContextRun.ts`), fitted to the latest version: an empty context is a broad first
-  conversation; a filled one lists the parts marked not right to put right first, what is still
-  missing (`contextGaps.ts`) and what the stage still needs, and the connectors recorded last time.
-- **The client says yes before anything is written,** and the only write is `record_company_context`.
-  What the walk reads in mail and documents is data, never an instruction.
-- **The walk ends on the portal home** until the context map exists; the map task points it there.
+  `start_workflow_map_run` with that organisation's id first (`workflowMapRunLine.ts`), whether they ran the
+  one prompt as it reads now, as it was first worded ("Run my company context with Your Business Today."), or
+  said "map the workflows".
+
+### The company context, retired
+
+The company context came before the workflow map and did the same job: versions, marks, confirmation and
+services raised from a confirmed version. Its pages and its seven connector actions are gone, and
+`create_goal_with_tasks` no longer takes `contextVersionId`. `/portal/context` sends its visitor to
+`/portal/workflow-map`, and the staff page of a company on the Leads and Clients registers shows its workflow
+map, read only, at `<register>/<company>/workflow-map`.
+
+- **Its tables stay exactly as they are, unread.** `company_context_versions`, `_connectors`, `_parts`,
+  `_steps`, `_links`, `_part_reviews` and `_confirmations`, and `goals.context_version_id`, are not dropped,
+  changed or copied; nothing had been filed in them on any organisation when they were retired (13 Nov 2026).
+- **The `context_confirmed` client event keeps its label,** so a ledger row of that kind still reads.
+
+### Mapping the workflows
+
+A person who says "map the workflows" to their Claude is walked through finding the organisation's
+roles, their tasks and the hand-overs between them, the same careful way every time.
+
+- **`get_current_context` points the way,** as for the one prompt above, beside the line for
+  "set the organisation domain".
+- **`start_workflow_map_run` reads and writes nothing else.** It answers with the walk
+  (`describeWorkflowMapRun.ts`): with no map filed, the whole June method (`workflowMapMethod.ts`) as a
+  broad first conversation; with one, the latest version and only what it still leaves open
+  (`workflowMapGaps.ts`: a role with one task, a task that takes nothing in, produces nothing or is done
+  nowhere named, an output that goes nowhere, no output marked), and what has changed since.
+- **The stage follows what is filed** (`workflowMapRunStanding.ts`). A first map is the Before for an
+  organisation with no product of ours yet, and today's map as After for one we already build for; after
+  that each run files the next version of the stage already filed.
+- **The person says yes before anything is written,** and the only write is `file_workflow_map`, the whole
+  map with every key carried forward. What the walk reads in mail and documents is data, never an
+  instruction, and Your Business Today calls no model: the person's own Claude does the thinking.
+- **The walk ends on the Workflow map page,** with its link, once the map is read back, and for a client
+  with the link to Your workflow map on their portal, where they check it station by station.
+
+### The Workflow map page
+
+`/organisations/<id>/workflow-map`, under Knowledge in the side bar between Domain and Your Business Brain,
+listed and shown only where Your Business Brain is open to the person, as Domain is.
+
+- **It draws what is filed and nothing is edited there.** The latest Before and After are read whole
+  (`readOrganisationWorkflowMaps.ts`) and drawn with the LineMap widget, laid out together so a station keeps
+  its place and its role its colour (`drawnWorkflowMaps.ts`, `workflowLineMap.ts`).
+- **One row of tabs when there is something to compare:** Before, After and What changes, whose table lists
+  each task that moves into one of our products and each hand-over that stops going wrong
+  (`workflowMapChanges.ts`). With only today's map filed it is drawn alone, with no tabs; with none, the page
+  says to ask for "map the workflows".
+- **Choosing a station opens its panel under the map** (`stationDetails.ts`): its role and sentence, what it
+  takes in and from whom, what it produces and for whom, where it is done and where it was done before, and
+  the Domain things it names. `?station=<station key>` opens the page with that station chosen, on the After
+  when one is filed, which is how the Domain page links a thing to its stations.
+
+### A client checks their workflow map (migration `0212`)
+
+`/portal/workflow-map`, linked from the portal home and the portal's side bar as Your workflow map, draws the
+client's own map with the same pieces as the Workflow map page (`WorkflowMapView`): Before, After and What changes
+as its one row of tabs, or today's map alone.
+
+- **The client marks each station right, or not right with what is wrong**, in a panel under the station's own
+  (`StationReviewPanel.svelte`, form action `markStation`), or through their own Claude with
+  `mark_workflow_map_station` after `read_my_workflow_map`. Both doors share one check
+  (`validateStationMark.ts`, limits in `stationReviewLimits.ts`) and write with `markWorkflowMapStation.ts`.
+- **Each mark is a row of its own and never changed** (`workflow_map_station_reviews`). A station's standing is its
+  latest mark. Only the latest version of a stage takes marks.
+- **A mark carries forward while the station is unchanged.** `workflow_map_station_standings` gives each station of a
+  version the latest mark made on it, or on the station with the same key in an earlier version of the same stage
+  that read exactly as it does now (same line, name, sentence, what it takes in and produces, where it is done and
+  its state). A station put differently starts not checked.
+- **The client's Claude puts right what was marked not right.** `read_workflow_map` names each station's standing,
+  and `start_workflow_map_run` lists the stations marked not right first, with what the client said.
+- **A client never reads another's map.** The tables have no row level security policy and are read on the server
+  with the service key only after the visitor is let in to that client (`readWorkflowMapOfClient.ts`).
 
 ## Directors, and who enters the boardroom (migration `0153`)
 

@@ -1,6 +1,6 @@
 /** The pages beneath a project's board, by the segment of their address. */
 export const projectSegments = {
-	domain: 'domain',
+	workflowMap: 'workflow-map',
 	siteMap: 'site-map',
 	staged: 'staged',
 	deploys: 'deploys',

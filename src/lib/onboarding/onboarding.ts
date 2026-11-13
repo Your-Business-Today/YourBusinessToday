@@ -25,12 +25,16 @@ export const setUpFormFields = {
 /** Where a client's Claude reaches Your Business Today, written out the same for everyone. */
 export const publicConnectorAddress = `https://www.${companyDetails.websiteHost}/api/mcp`;
 
+/** The first line of the one prompt, and the first line it had before the workflow map, which some people still hold. */
+export const onePromptOpening = 'Run my workflow map with Your Business Today.';
+export const olderOnePromptOpening = 'Run my company context with Your Business Today.';
+
 /**
  * The one prompt every client runs, the same for everyone and every run: the steps come from Your Business
- * Today's context run, so they can be improved without sending anyone a new prompt.
+ * Today's workflow map run, so they can be improved without sending anyone a new prompt.
  */
-export const companyContextPrompt = [
-	'Run my company context with Your Business Today.',
+export const onePrompt = [
+	onePromptOpening,
 	'',
 	`Use the Your Business Today connector: ${publicConnectorAddress}`,
 	"If its tools aren't in this chat, stop and tell me. I need to connect it first.",

@@ -7,10 +7,10 @@ export type KeptBusinessBrainFile = { fileId: string; filename: string; mimeType
 /** How many files the brain keeps, and the kept files no page names yet, latest first. */
 export type KeptBusinessBrainFiles = { keptCount: number; unnamed: KeptBusinessBrainFile[]; unnamedCount: number };
 
-const keptFileColumns = 'id, filename, mime_type, byte_count, recorded_at';
+export const keptFileColumns = 'id, filename, mime_type, byte_count, recorded_at';
 const lastUnnamedRow = businessBrainFileLimits.mostUnnamedFilesListed - 1;
 
-function parseKeptFile(row: Record<string, unknown>): KeptBusinessBrainFile {
+export function parseKeptFile(row: Record<string, unknown>): KeptBusinessBrainFile {
 	return {
 		fileId: row.id as string,
 		filename: row.filename as string,

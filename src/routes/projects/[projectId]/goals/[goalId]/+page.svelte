@@ -36,7 +36,7 @@
 	<FlashMessage message={form?.message} />
 	<div class={dashboardGridClasses}>
 		<div class="flex min-w-0 flex-col gap-4">
-			<GoalMeasurePanel {goal} />
+			<GoalMeasurePanel {goal} mapOrigin={data.mapOrigin} />
 			<GoalAutocompletePanel {goal} canTurnOnAutocomplete={data.canTurnOnAutocomplete} />
 			<GoalTaskList tasks={data.tasks} />
 			<ConversationThread

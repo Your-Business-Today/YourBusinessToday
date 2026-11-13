@@ -1,11 +1,10 @@
 import { brainOf } from './businessBrainAnswers';
-import { domainRunActionName, productDomainRunActionName } from './domainRunActionName';
+import { domainRunActionName } from './domainRunActionName';
 import { portalAddress } from '$lib/portal/portalAddress';
 import type { DomainScope } from '$lib/server/businessBrain/domainScope';
-import type { ModuleProduct } from '../organisationModuleGate';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
-/** Whose domain an answer speaks of: the organisation's own or one product's, with where it is kept and drawn. */
+/** Whose domain an answer speaks of, with where it is kept and drawn. */
 export type DomainHolder = {
 	scope: DomainScope;
 	name: string;
@@ -25,18 +24,5 @@ export function organisationDomainHolder(organisation: Organisation): DomainHold
 		address: `https://${portalAddress.hostName}/organisations/${id}/domain`,
 		readAction: 'read_business_brain_domain',
 		setAction: domainRunActionName
-	};
-}
-
-/** A product's own domain, kept in its organisation's Your Business Brain and drawn on the product's Domain tab. */
-export function productDomainHolder({ organisation, project }: ModuleProduct): DomainHolder {
-	const { id, name } = project;
-	return {
-		scope: { organisationId: organisation.id, projectId: id },
-		name,
-		brainName: `the brain of ${name}, in ${brainOf(organisation)}`,
-		address: `https://${portalAddress.hostName}/projects/${id}/domain`,
-		readAction: 'read_product_brain_domain',
-		setAction: productDomainRunActionName
 	};
 }

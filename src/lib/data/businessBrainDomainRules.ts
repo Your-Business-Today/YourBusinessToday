@@ -1,4 +1,4 @@
-import { domainPageKinds, type DomainFieldFact, type DomainPageKind } from './businessBrainDomain';
+import { domainPageKinds, type DomainFieldFact, type DomainPageKind, type DomainTermFact } from './businessBrainDomain';
 import type { BusinessBrainSourceGiven } from './businessBrainRules';
 
 /**
@@ -16,7 +16,11 @@ export const domainFilingLimits = {
 	longestFieldType: 60,
 	longestFieldNotes: 1000,
 	mostStatuses: 30,
-	longestStatus: 60
+	longestStatus: 60,
+	mostGoverned: 20,
+	mostTerms: 100,
+	longestWord: 120,
+	longestMeaning: 1000
 } as const;
 
 /** The kinds a page written by a filing may take; a bounded context is filed as a context, never as a page. */
@@ -26,8 +30,18 @@ export const domainWritableKinds: DomainPageKind[] = [
 	domainPageKinds.aggregate,
 	domainPageKinds.domainService,
 	domainPageKinds.domainEvent,
+	domainPageKinds.rule,
 	domainPageKinds.glossary,
 	domainPageKinds.contextMap
+];
+
+/** The kinds the business keeps and deals in: the things a rule may govern and a station may take in or produce. */
+export const domainThingKinds: DomainPageKind[] = [
+	domainPageKinds.entity,
+	domainPageKinds.valueObject,
+	domainPageKinds.aggregate,
+	domainPageKinds.domainService,
+	domainPageKinds.domainEvent
 ];
 
 /** The kinds whose pages carry fields, statuses and an aggregate root as facts. */
@@ -45,8 +59,17 @@ export const domainReferenceType = 'ref';
 /** A bounded context as a filing gives it. */
 export type DomainContextGiven = { slug: string; title: string; summary: string; body: string; isCoreDomain: boolean };
 
-/** The facts a page written by a filing carries, as they are kept. */
+/** The facts a thing written by a filing carries, as they are kept. */
 export type DomainFactsGiven = { fields: DomainFieldFact[]; statuses: string[]; aggregateRootSlug: string | null };
+
+/** A rule's facts: the slugs of the things it governs. */
+export type DomainRuleFactsGiven = { governs: string[] };
+
+/** A glossary's facts: its words, one to a row. */
+export type DomainGlossaryFactsGiven = { terms: DomainTermFact[] };
+
+/** The facts a page of any kind written by a filing carries. */
+export type DomainPageFactsGiven = DomainFactsGiven | DomainRuleFactsGiven | DomainGlossaryFactsGiven;
 
 /** A page as a filing gives it: a slug already filed is revised, a new one filed. */
 export type DomainPageWriteGiven = {
@@ -56,7 +79,7 @@ export type DomainPageWriteGiven = {
 	summary: string;
 	body: string;
 	contextSlug: string;
-	facts: DomainFactsGiven | null;
+	facts: DomainPageFactsGiven | null;
 };
 
 /** A page the modelling supersedes, and the page written in the same call that took its knowledge in. */

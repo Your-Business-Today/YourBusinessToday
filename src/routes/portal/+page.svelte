@@ -4,7 +4,7 @@
 	import PortalProjectList from '$lib/components/portal/PortalProjectList.svelte';
 	import PortalVisitorCard from '$lib/components/portal/PortalVisitorCard.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
-	import { portalConnectPath, portalContextPath, portalPeoplePath } from '$lib/portal/portalPaths';
+	import { portalConnectPath, portalPeoplePath, portalWorkflowMapPath } from '$lib/portal/portalPaths';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
@@ -14,8 +14,8 @@
 		visitor.isAdministrator ? [{ label: 'People', href: portalPeoplePath }] : []
 	);
 	const connectFact = { label: 'Connect your Claude', href: portalConnectPath };
-	const contextFact = { label: 'Your company context', href: portalContextPath };
-	const headerFacts = $derived([{ label: 'Client portal' }, contextFact, connectFact, ...peopleFacts]);
+	const workflowMapFact = { label: 'Your workflow map', href: portalWorkflowMapPath };
+	const headerFacts = $derived([{ label: 'Client portal' }, workflowMapFact, connectFact, ...peopleFacts]);
 </script>
 
 <svelte:head>

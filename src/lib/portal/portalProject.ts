@@ -1,3 +1,4 @@
+import type { MapStage } from '$lib/data/workflowMap/workflowMap';
 import type { ProjectStatus } from '$lib/data/projectStatus';
 
 /** A project as its client sees it on the portal: what YBT is doing for them, in their words. */
@@ -12,13 +13,17 @@ export type PortalProject = {
 	openTasks: PortalTask[];
 };
 
-export type PortalGoal = {
+/** Where a goal came from: the confirmed workflow map it was raised from, if any. */
+export type PortalGoalOrigin = {
+	workflowMap: { stage: MapStage; versionNumber: number } | null;
+};
+
+export type PortalGoal = PortalGoalOrigin & {
 	id: string;
 	title: string;
 	measure: string;
 	completionPercent: number;
 	openTaskCount: number;
-	contextVersionNumber: number | null;
 };
 
 export type PortalTask = {

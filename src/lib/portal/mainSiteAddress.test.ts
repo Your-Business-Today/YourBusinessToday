@@ -6,6 +6,7 @@ import {
 	sectionsServedOnlyAtThePortal,
 	signedInOriginSeenFrom
 } from './mainSiteAddress';
+import { salesRegisterSegments } from '$lib/data/salesRegisters';
 
 const routesDirectory = join(import.meta.dirname, '../../routes');
 
@@ -34,10 +35,15 @@ const sectionsKeptOnTheMainSite = new Set([
 	'what-we-do'
 ]);
 
+/** A directory named by a matcher stands for every section the matcher takes: a company's page is under Leads or Clients. */
+const sectionsOfMatchedDirectories: Record<string, string[]> = {
+	'[register=salesRegister]': salesRegisterSegments
+};
+
 function routeSections(): string[] {
 	return readdirSync(routesDirectory, { withFileTypes: true })
 		.filter((entry) => entry.isDirectory())
-		.map((entry) => entry.name);
+		.flatMap(({ name }) => sectionsOfMatchedDirectories[name] ?? [name]);
 }
 
 describe('portalPageInsteadOf', () => {
