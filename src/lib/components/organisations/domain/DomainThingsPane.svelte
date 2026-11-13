@@ -31,5 +31,5 @@
 	<DomainThingsTable {things} {rules} />
 </DashboardPanel>
 {#if openedThing !== undefined}
-	<DomainThingPanels thing={openedThing} {rules} {thingStations} {thingTitles} {organisationId} {addresses} />
+	<DomainThingPanels thing={openedThing} {things} {rules} {thingStations} {thingTitles} {organisationId} {addresses} />
 {/if}

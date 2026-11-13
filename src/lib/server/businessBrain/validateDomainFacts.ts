@@ -3,6 +3,8 @@ import { domainFilingLimits, domainReferenceType } from '$lib/data/businessBrain
 import type { DomainFactsGiven } from '$lib/data/businessBrainDomainFactsGiven';
 import { isPageSlug, lengthRefusal, slugRefusal } from './businessBrainFieldRefusals';
 import { trimmedText } from '$lib/data/trimmedText';
+import { ownNameRefusal, statusesOfLifecycleRefusal, statusesOfRecord, statusNamingRecord } from './validateLifecycle';
+import { validateRecordFacts } from './validateRecordFacts';
 import type { DomainFieldFact } from '$lib/data/businessBrainDomain';
 
 const { mostFields, longestFieldName, longestFieldLabel, longestFieldType, longestFieldNotes, mostStatuses, longestStatus } =
@@ -12,16 +14,22 @@ export const fieldsRefusal = `The fields are a list of at most ${mostFields}, ea
 
 export const statusesRefusal = `The statuses are a list of at most ${mostStatuses} words, each at most ${longestStatus} characters.`;
 
-/** An entity's fields, statuses and aggregate root as given, or a sentence naming the first that does not fit. */
+/** An entity's fields, statuses, aggregate root and record facts as given, or a sentence naming the first that does not fit. */
 export function validateDomainFacts(entry: PlainObject, label: string): DomainFactsGiven | string {
 	const fields = validateFields(entry.fields, label);
 	if (typeof fields === 'string') return fields;
-	const statuses = validateStatuses(entry.statuses);
-	if (statuses === null) return `${label}: ${statusesRefusal}`;
+	const statusesGiven = validateStatuses(entry.statuses);
+	if (statusesGiven === null) return `${label}: ${statusesRefusal}`;
+	const ownName = statusNamingRecord(statusesGiven, trimmedText(entry.title));
+	if (ownName !== undefined) return `${label}: ${ownNameRefusal(ownName)}`;
 	const aggregateRootSlug = trimmedText(entry.aggregateRootSlug);
 	const isRootNamed = aggregateRootSlug !== '';
 	if (isRootNamed && !isPageSlug(aggregateRootSlug)) return `${label}: aggregateRootSlug. ${slugRefusal}`;
-	return { fields, statuses, aggregateRootSlug: isRootNamed ? aggregateRootSlug : null };
+	const recordFacts = validateRecordFacts(entry, label);
+	if (typeof recordFacts === 'string') return recordFacts;
+	const statuses = statusesOfRecord(statusesGiven, recordFacts.lifecycle ?? []);
+	if (statuses === null) return `${label}: ${statusesOfLifecycleRefusal}`;
+	return { fields, statuses, aggregateRootSlug: isRootNamed ? aggregateRootSlug : null, ...recordFacts };
 }
 
 function validateFields(given: unknown, label: string): DomainFieldFact[] | string {

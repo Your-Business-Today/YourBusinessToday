@@ -66,8 +66,14 @@ export type AreaRelationshipPattern = (typeof areaRelationshipPatterns)[keyof ty
 /** One area passing something to another, as the context map's facts keep it. */
 export type AreaRelationshipFact = { fromContextSlug: string; toContextSlug: string; passes: string; pattern: AreaRelationshipPattern };
 
+/** One status of a record's lifecycle: what being in it means, and the statuses a record in it can move to. */
+export type DomainLifecycleStep = { status: string; meaning: string; movesTo: string[] };
+
+/** What a record says of itself beyond its fields: what makes one, how it moves through its statuses, where it is kept, and a group's members. */
+export type DomainRecordFacts = { identity: string | null; lifecycle: DomainLifecycleStep[]; keptIn: string | null; memberSlugs: string[] };
+
 /** The facts a page of each kind carries beside its words: a rule names the things it governs by their slugs. */
-export type DomainPageFacts = {
+export type DomainPageFacts = DomainRecordFacts & {
 	isCoreDomain: boolean;
 	subdomain: SubdomainKind | null;
 	fields: DomainFieldFact[];

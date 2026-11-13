@@ -1,19 +1,22 @@
-import type { DomainFieldFact, DomainPageKind, DomainTermFact } from './businessBrainDomain';
+import type { DomainFieldFact, DomainPageKind, DomainRecordFacts, DomainTermFact } from './businessBrainDomain';
 import type { MapVocabulary } from './workflowMap/phraseInDomain';
 
 /** Where a page of the domain sits: the area of the business it belongs to, by its slug and its title. */
 export type DomainAreaPlace = { areaSlug: string; areaTitle: string };
 
-/** Something the business keeps and deals in, with its fields and the statuses it moves through. */
-export type DomainThing = DomainAreaPlace & {
-	pageId: string;
-	slug: string;
-	kind: DomainPageKind;
-	title: string;
-	summary: string;
-	fields: DomainFieldFact[];
-	statuses: string[];
-};
+/** Something the business keeps and deals in: its fields, the statuses it moves through, what it says of itself and the group it belongs to. */
+export type DomainThing = DomainAreaPlace &
+	DomainRecordFacts & {
+		pageId: string;
+		slug: string;
+		kind: DomainPageKind;
+		title: string;
+		summary: string;
+		fields: DomainFieldFact[];
+		statuses: string[];
+		aggregateRootSlug: string | null;
+		groupSlug: string | null;
+	};
 
 /** What must always be true, in one sentence as its title, with the slugs of the things it governs. */
 export type DomainRule = DomainAreaPlace & { pageId: string; slug: string; title: string; summary: string; governs: string[] };
