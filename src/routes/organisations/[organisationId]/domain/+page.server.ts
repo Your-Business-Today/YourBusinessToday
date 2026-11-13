@@ -4,6 +4,7 @@ import { readDomainPages } from '$lib/server/businessBrain/readDomainPages';
 import { readDomainWords } from '$lib/server/businessBrain/readDomainWords';
 import { readTodaysWorkflowMap } from '$lib/server/workflowMap/readTodaysWorkflowMap';
 import { requireOrganisationAccess } from '$lib/server/auth/requireOrganisationAccess';
+import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { thingStationsOf } from '$lib/data/workflowMap/thingStations';
 import type { PageServerLoad } from './$types';
 
@@ -17,7 +18,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	if (domain === null) return { organisation, canManage, brains, ...nothingFiled };
 	const [words, todaysMap] = await Promise.all([
 		readDomainWords(locals.supabase, organisation.id, domain.glossaries),
-		readTodaysWorkflowMap(locals.supabase, organisation.id)
+		readTodaysWorkflowMap(supabaseServiceClient(), organisation.id)
 	]);
 	return { organisation, canManage, brains, domain, words, thingStations: thingStationsOf(todaysMap) };
 };
