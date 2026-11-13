@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { businessBrainPartNames, type BusinessBrainPartKind } from '$lib/data/businessBrainRules';
+import { ensureBusinessBrain } from './ensureBusinessBrain';
 
-const oneBrainPerOrganisation = 'organisation_id';
 const onePartPerSlug = 'organisation_id,slug';
 
 /**
@@ -13,7 +13,7 @@ export async function ensureBusinessBrainPart(
 	organisationId: string,
 	part: BusinessBrainPartKind
 ): Promise<string> {
-	await keepRow(supabase, 'business_brains', { organisation_id: organisationId }, oneBrainPerOrganisation);
+	await ensureBusinessBrain(supabase, organisationId);
 	const partRow = { organisation_id: organisationId, kind: part, slug: part, name: businessBrainPartNames[part] };
 	await keepRow(supabase, 'business_brain_parts', partRow, onePartPerSlug);
 	const { data, error } = await supabase
