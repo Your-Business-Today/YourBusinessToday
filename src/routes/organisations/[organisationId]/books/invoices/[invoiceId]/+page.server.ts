@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { validateRecordId } from '$lib/data/isUuid';
-import { booksPathOf } from '$lib/data/books/page/booksPaths';
+import { booksInvoicesPathOf } from '$lib/data/books/page/booksPaths';
 import { findInvoiceDocument } from '$lib/server/books/invoiceDocument';
 import type { PageServerLoad } from './$types';
 
@@ -13,5 +13,5 @@ export const load: PageServerLoad = async ({ locals, parent, params }) => {
 	if (validateRecordId('invoice', params.invoiceId) !== null) error(notFound, noSuchInvoice);
 	const document = await findInvoiceDocument(locals.supabase, booksOrganisation.id, params.invoiceId);
 	if (document === null) error(notFound, noSuchInvoice);
-	return { document, booksHref: booksPathOf(booksOrganisation.id) };
+	return { document, invoicesHref: booksInvoicesPathOf(booksOrganisation.id) };
 };
