@@ -1,5 +1,6 @@
 import type { LineMapModel, MapHandover } from './lineMapModel';
 import { laneOrderCost, type LaneOrderCost } from './laneOrderCost';
+import { rearrangementsOf } from './laneRearrangements';
 
 const mostLinesTriedEveryWay = 7;
 
@@ -14,20 +15,10 @@ function cheapest(orders: string[][], costOf: LaneOrderCost): string[] {
 	return orders.reduce((best, order) => (costOf(order) < costOf(best) ? order : best));
 }
 
-function withSwapped(order: string[], first: number, second: number): string[] {
-	const swapped = [...order];
-	[swapped[first], swapped[second]] = [swapped[second], swapped[first]];
-	return swapped;
-}
-
-function everySwapOf(order: string[]): string[][] {
-	return order.flatMap((_, first) => order.slice(first + 1).map((__, offset) => withSwapped(order, first, first + 1 + offset)));
-}
-
-function improvedBySwaps(order: string[], costOf: LaneOrderCost): string[] {
+function improvedByRearranging(order: string[], costOf: LaneOrderCost): string[] {
 	let best = order;
 	for (let round = 0; round < order.length * order.length; round += 1) {
-		const better = cheapest([best, ...everySwapOf(best)], costOf);
+		const better = cheapest([best, ...rearrangementsOf(best)], costOf);
 		if (better === best) return best;
 		best = better;
 	}
@@ -38,5 +29,5 @@ export function orderLanes(model: LineMapModel, handovers: MapHandover[]): strin
 	const lineIds = model.lines.map((line) => line.id);
 	const costOf = laneOrderCost(model, handovers);
 	const isFewEnoughToTryEveryWay = lineIds.length <= mostLinesTriedEveryWay;
-	return isFewEnoughToTryEveryWay ? cheapest(permutationsOf(lineIds), costOf) : improvedBySwaps(lineIds, costOf);
+	return isFewEnoughToTryEveryWay ? cheapest(permutationsOf(lineIds), costOf) : improvedByRearranging(lineIds, costOf);
 }
