@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { juneMapAfter, juneMapBefore } from '../tests/juneWorkflowMap';
 import { forksThroughStations, namesUnderLines } from '../tests/mapChecks';
+import { ybtStaffJourneys } from '../tests/ybtStaffJourneys';
 import { layoutLineMap } from './layoutLineMap';
 import type { LineMapModel } from './lineMapModel';
 
@@ -59,5 +60,27 @@ describe('a hand-over that goes back to an earlier station', () => {
 		expect(Object.values(layout.columns).every(Number.isInteger)).toBe(true);
 		const { columns } = layout;
 		expect(columns.snag).toBeGreaterThan(columns.quote);
+	});
+});
+
+const twoWayMap: LineMapModel = {
+	lines: [
+		{ id: 'read-the-domain', name: 'Read the domain', colour: 'sky', stops: ['domain', 'workflow-map'] },
+		{ id: 'read-the-workflow-map', name: 'Read the workflow map', colour: 'teal', stops: ['workflow-map', 'domain'] }
+	],
+	stations: { domain: { name: 'Domain' }, 'workflow-map': { name: 'Workflow map' } },
+	handovers: []
+};
+
+describe('lines that run between the same stations in opposite directions', () => {
+	it('keeps the stations next to each other instead of pushing them apart without end', () => {
+		const { columns } = layoutLineMap(twoWayMap);
+		expect(columns).toEqual({ domain: 0, 'workflow-map': 1 });
+	});
+
+	it("lays out the staff member's journeys on the site map that froze the page, on no more columns than it has stations", () => {
+		const { columns } = layoutLineMap(ybtStaffJourneys);
+		const stationCount = Object.keys(ybtStaffJourneys.stations).length;
+		expect(Math.max(...Object.values(columns))).toBeLessThan(stationCount);
 	});
 });

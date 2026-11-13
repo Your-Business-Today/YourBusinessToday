@@ -1,12 +1,11 @@
 import type { LineMapModel, MapHandover } from './lineMapModel';
+import { forwardLineSteps } from './lineSteps';
 import { homeLineOf } from './stationLines';
 
 export type OrderingEdge = { from: string; to: string; columns: number; isHandover: boolean };
 
 function edgesAlongLines(model: LineMapModel): OrderingEdge[] {
-	return model.lines.flatMap((line) =>
-		line.stops.slice(1).map((stationId, index) => ({ from: line.stops[index], to: stationId, columns: 1, isHandover: false }))
-	);
+	return forwardLineSteps(model).map((step) => ({ ...step, columns: 1, isHandover: false }));
 }
 
 export function orderingEdges(model: LineMapModel, handovers: MapHandover[], laneOrder: string[]): OrderingEdge[] {

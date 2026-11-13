@@ -10,7 +10,7 @@ function spreadOf(lanes: number[]): number {
 }
 
 export function laneOrderCost(model: LineMapModel, handovers: MapHandover[]): LaneOrderCost {
-	const givenOrder = model.lines.map((line) => line.id);
+	const givenLanes = new Map(model.lines.map((line, lane) => [line.id, lane]));
 	const handoverLines = handovers.map((handover) => [homeLineOf(model, handover.from), homeLineOf(model, handover.to)]);
 	const sharedLines = stationsOnLines(model)
 		.map((stationId) => linesOfStation(model, stationId))
@@ -20,7 +20,7 @@ export function laneOrderCost(model: LineMapModel, handovers: MapHandover[]): La
 		const laneOf = (lineId: string) => lanes.get(lineId) ?? 0;
 		const handoverCost = handoverLines.reduce((sum, [giving, receiving]) => sum + Math.abs(laneOf(giving) - laneOf(receiving)), 0);
 		const sharedCost = sharedLines.reduce((sum, lineIds) => sum + spreadOf(lineIds.map(laneOf)), 0);
-		const driftCost = order.reduce((sum, lineId, lane) => sum + Math.abs(lane - givenOrder.indexOf(lineId)), 0);
+		const driftCost = order.reduce((sum, lineId, lane) => sum + Math.abs(lane - (givenLanes.get(lineId) ?? lane)), 0);
 		return (handoverCost + sharedCost * CostWeights.sharedStation) * CostWeights.crossing + driftCost;
 	};
 }
