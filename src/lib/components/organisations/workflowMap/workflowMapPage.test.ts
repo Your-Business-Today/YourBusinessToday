@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { juneAfter, juneBefore, productNames } from './tests/juneBeforeAndAfter';
 import { lineColoursOf, lineMapOf } from './workflowLineMap';
 import { mapChangesBetween } from './workflowMapChanges';
-import { openingStageOf, isComparing } from './workflowMapTabs';
+import { openingStageOf, isComparing, workflowMapTabsOf } from './workflowMapTabs';
 import { stationDetailsOf } from './stationDetails';
 import { emptyVocabulary } from '$lib/data/workflowMap/phraseInDomain';
 
@@ -77,5 +77,21 @@ describe('the page’s opening map', () => {
 		expect(openingStageOf({ before: null, after: null, productNames })).toBeNull();
 		expect(isComparing({ before: null, after, productNames })).toBe(false);
 		expect(isComparing({ before, after, productNames })).toBe(true);
+	});
+});
+
+describe('the page’s one row of tabs', () => {
+	const keysOf = (tabs: { key: string }[] | null) => tabs?.map((tab) => tab.key) ?? null;
+
+	it('shows Questions with its count last, even beside a single map', () => {
+		const tabs = workflowMapTabsOf({ before: null, after, productNames }, 0, 5);
+		expect(keysOf(tabs)).toEqual(['after', 'questions']);
+		expect(tabs?.[1]).toMatchObject({ label: 'Questions', count: 5 });
+		expect(keysOf(workflowMapTabsOf({ before, after, productNames }, 6, 0))).toEqual(['before', 'after', 'changes', 'questions']);
+	});
+
+	it('shows no row for one map where the page asks no questions, and Before, After and What changes for two', () => {
+		expect(workflowMapTabsOf({ before, after: null, productNames }, 0, null)).toBeNull();
+		expect(keysOf(workflowMapTabsOf({ before, after, productNames }, 6, null))).toEqual(['before', 'after', 'changes']);
 	});
 });

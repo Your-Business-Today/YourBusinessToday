@@ -44,7 +44,8 @@ describe('the walk "map the workflows" starts', () => {
 	it('builds on a filed map, asking only what is missing or has changed', () => {
 		const walk = describeWorkflowMapRun({ ...newClient, after: juneMapFiledAs('after'), products: [portal] });
 		expect(walk).toContain("Version 2 of Jewel Bespoke Build's After map, filed 2026-11-13: 6 lines, 29 stations and 7 hand-overs");
-		expect(walk).toContain('Still missing or unclear, the questions to ask:');
+		expect(walk).toMatch(/\*\*The map fails \d+ tests of a complete map\.\*\* Ask these in this order/);
+		expect(walk).toContain('Ask the person the questions above, in their order');
 		expect(walk).toContain('say what has changed since 2026-11-13');
 		expect(walk).toContain('Keep every line with its key and kind, every station with its key, and every arrival');
 		expect(walk).not.toContain('**The roles:**');
@@ -56,7 +57,7 @@ describe('the walk "map the workflows" starts', () => {
 		const walk = describeWorkflowMapRun({ ...newClient, after: juneMapFiledAs('after'), products: [portal], standings });
 		expect(walk).toContain('**Ask first about what the client marked not right,**');
 		expect(walk).toMatch(/- \*\*PVR\*\* `pvr` \([^)]+\): "It goes to the client too\."/);
-		expect(walk.indexOf('Ask first about')).toBeLessThan(walk.indexOf('Still missing or unclear'));
+		expect(walk.indexOf('Ask first about')).toBeLessThan(walk.indexOf('tests of a complete map'));
 		expect(walk).toContain('Put right each station the client marked not right');
 	});
 
@@ -77,5 +78,20 @@ describe('the walk "map the workflows" starts', () => {
 		expect(walk).toContain('Never send, move, change or delete anything.');
 		expect(walk).toContain('file it only once they say yes');
 		expect(walk).toContain('never a named person');
+	});
+
+	it('counts in one line the stations the client has not yet marked right, and says what was assumed is asked, never filed', () => {
+		const standings = { pvr: { reviewState: 'right' as const, whatIsWrong: null, markedOnVersion: null } };
+		const walk = describeWorkflowMapRun({ ...newClient, after: juneMapFiledAs('after'), products: [portal], standings });
+		expect(walk).toContain('Of its 29 stations the client has marked 1 right and 0 not right; 28 are not yet marked right');
+		expect(walk).toContain('What you assumed is asked, never filed');
+		expect(walk).toContain('When the person says nothing goes wrong at a hand-over, file that in their words');
+	});
+
+	it('lists the first twelve questions and says how many more there are', () => {
+		const walk = describeWorkflowMapRun({ ...newClient, after: juneMapFiledAs('after'), products: [portal] });
+		expect(walk).toContain('   12. ');
+		expect(walk).not.toContain('   13. ');
+		expect(walk).toMatch(/And \d+ more, which the next run lists once these are filed\./);
 	});
 });

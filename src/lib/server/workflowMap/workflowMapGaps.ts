@@ -1,51 +1,37 @@
-import type { MapLine, MapStation, WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';
+import { mapQuestionKind, type MapQuestion, type MapQuestionKind } from '$lib/data/workflowMap/mapQuestions';
+import { destinationGaps } from './mapGaps/destinationGaps';
+import { handoverGaps } from './mapGaps/handoverGaps';
+import { lightGaps } from './mapGaps/lightGaps';
+import { phraseMatchOf } from './mapGaps/phraseMatch';
+import { sourceGaps } from './mapGaps/sourceGaps';
+import { traceGaps } from './mapGaps/traceGaps';
+import type { MapVocabulary } from '$lib/data/workflowMap/phraseInDomain';
+import type { MapLine, WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';
 
-type StationPlace = { station: MapStation; line: MapLine; isLastOnLine: boolean };
+/** How soon each kind is asked: what stops an output being traced first, then the hand-overs, then the rest. */
+const askingOrder: Record<MapQuestionKind, number> = {
+	[mapQuestionKind.source]: 0,
+	[mapQuestionKind.destination]: 0,
+	[mapQuestionKind.trace]: 0,
+	[mapQuestionKind.handover]: 1,
+	[mapQuestionKind.role]: 2,
+	[mapQuestionKind.place]: 2,
+	[mapQuestionKind.outputs]: 2
+};
 
-/** What a filed map leaves missing or unclear, each as the question that fills it, in the map's own order. */
-export function workflowMapGaps({ lines, handovers }: WorkflowMapDraft): string[] {
-	const givers = new Set(handovers.map((handover) => handover.fromKey));
-	const roleGaps = lines.filter(hasOneTask).map(oneTaskGap);
-	const stationGaps = lines.flatMap(placesOn).flatMap((place) => stationGapsAt(place, givers));
-	return [...roleGaps, ...stationGaps, ...outputGaps(lines)];
+/** What a filed map leaves missing, tested against the axioms of a complete map, each as its question, most important first. */
+export function workflowMapGaps(map: WorkflowMapDraft, vocabulary: MapVocabulary): MapQuestion[] {
+	const isSame = phraseMatchOf(vocabulary);
+	const tracing = [...sourceGaps(map, isSame), ...destinationGaps(map, isSame), ...traceGaps(map, isSame)];
+	return rankedQuestions([...tracing, ...handoverGaps(map), ...lightGaps(map)], map.lines);
 }
 
-function hasOneTask({ stations }: MapLine): boolean {
-	return stations.length === 1;
+function rankedQuestions(questions: MapQuestion[], lines: MapLine[]): MapQuestion[] {
+	const linePositions = new Map(lines.map((line, position) => [line.key, position]));
+	const lineOrderOf = ({ lineKey }: MapQuestion) => linePositions.get(lineKey ?? '') ?? lines.length;
+	return [...questions].sort((first, second) => rankOf(first) - rankOf(second) || lineOrderOf(first) - lineOrderOf(second));
 }
 
-function oneTaskGap(line: MapLine): string {
-	return `The ${line.name} role has one task: what else does it do?`;
-}
-
-function placesOn(line: MapLine): StationPlace[] {
-	const { stations } = line;
-	const lastIndex = stations.length - 1;
-	return stations.map((station, index) => ({ station, line, isLastOnLine: index === lastIndex }));
-}
-
-function stationGapsAt(place: StationPlace, givers: Set<string>): string[] {
-	const { station, line } = place;
-	const { takesIn, produces, doneIn } = station;
-	const named = `${station.name} (${line.name})`;
-	const gaps: string[] = [];
-	if (takesIn.length === 0) gaps.push(`${named} takes nothing in: what must exist before it can start?`);
-	if (produces.length === 0) gaps.push(`${named} produces nothing: what does it hand on?`);
-	if (doneIn === null) gaps.push(`${named} is done nowhere named: is it a product, a spreadsheet, email or paper?`);
-	if (goesNowhere(place, givers)) gaps.push(`What ${named} produces goes nowhere: who receives it, or is it an output the business runs on?`);
-	return gaps;
-}
-
-function goesNowhere({ station, isLastOnLine }: StationPlace, givers: Set<string>): boolean {
-	const { key, produces, isOutput } = station;
-	const isHandedOver = givers.has(key);
-	const hasSomethingToHandOn = produces.length > 0;
-	return isLastOnLine && hasSomethingToHandOn && !isOutput && !isHandedOver;
-}
-
-function outputGaps(lines: MapLine[]): string[] {
-	const stations = lines.flatMap((line) => line.stations);
-	const isAnyOutputMarked = stations.some((station) => station.isOutput);
-	if (isAnyOutputMarked || stations.length === 0) return [];
-	return ['No task is marked as producing an output the business runs on: which ones do?'];
+function rankOf({ kind }: MapQuestion): number {
+	return askingOrder[kind];
 }

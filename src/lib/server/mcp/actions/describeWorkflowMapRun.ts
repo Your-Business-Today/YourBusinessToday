@@ -58,7 +58,7 @@ function followingMapSteps(latest: WorkflowMapVersion): string[] {
 	return [
 		`2. **List the connectors switched on in this chat** and say what has changed since ${filedDay}: a new role, a task that moved, a spreadsheet given up.`,
 		'3. **Read only what has changed, read only,** one source at a time. Never send, move, change or delete anything.',
-		bulletedList('4. **Ask the person only the questions above and what has changed:**', mapQuestioningRules),
+		bulletedList('4. **Ask the person the questions above, in their order, then only what has changed:**', mapQuestioningRules),
 		`5. **Carry the map forward.** Keep every line with its key and kind, every station with its key, and every arrival; give a new line or station a new key; ask the kind of any line filed before kinds were asked; never drop a role or a task unless the person says it has gone. ${stationsPutRight} ${mapConceptsNotSpecimens}`
 	];
 }
