@@ -13,6 +13,8 @@ export type TransactionalEmail = {
 	subject: string;
 	html: string;
 	attachments?: EmailAttachment[];
+	replyTo?: string;
+	bcc?: string;
 };
 
 export async function sendTransactionalEmail(email: TransactionalEmail): Promise<EmailDelivery> {
@@ -37,7 +39,9 @@ async function deliverThroughResend(email: TransactionalEmail): Promise<EmailDel
 			to: [email.to],
 			subject: email.subject,
 			html: email.html,
-			attachments: email.attachments
+			attachments: email.attachments,
+			reply_to: email.replyTo,
+			bcc: email.bcc
 		})
 	});
 	if (!response.ok) throw new Error(`Resend answered ${response.status}`);

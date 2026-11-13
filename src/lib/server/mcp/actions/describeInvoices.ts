@@ -7,6 +7,7 @@ import type { InvoiceLine } from '$lib/server/books/invoiceRecord';
 import type { InvoicePayment } from '$lib/server/books/invoicePayments';
 import { invoiceNumberAsPrinted, type InvoiceNamings } from '$lib/server/books/invoiceNamings';
 import { nameOf } from '$lib/server/books/chartNamings';
+import { neverSentMarkOf } from './describeInvoiceSendings';
 
 /** One invoice in full: who it is to, its dates, every line with its account and cost centre, and its totals. */
 export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNamings): string {
@@ -26,10 +27,15 @@ export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNa
 /** The organisation whose books are read: its id for each invoice's address, and its name. */
 type BooksOrganisation = { id: string; name: string };
 
-/** The invoices shown, newest first, each on one line with the address it opens at, or that the books hold none that match. */
-export function describeInvoiceList(organisation: BooksOrganisation, invoices: InvoiceSummary[], namings: InvoiceNamings): string {
+/** What a list of invoices is told: the invoices, newest first, how each is named, and which were ever emailed. */
+export type InvoiceListing = { invoices: InvoiceSummary[]; namings: InvoiceNamings; sentInvoiceIds: ReadonlySet<string> };
+
+/** The invoices shown, each on one line with the address it opens at and a mark on any issued but never emailed, or that the books hold none that match. */
+export function describeInvoiceList(organisation: BooksOrganisation, listing: InvoiceListing): string {
+	const { invoices, namings, sentInvoiceIds } = listing;
 	if (invoices.length === 0) return `${organisation.name}'s books hold no invoices that match.`;
-	const lines = invoices.map((invoice) => `${describeInvoiceSummary(invoice, namings)}; opens at ${booksInvoiceAddressOf(organisation.id, invoice.id)}`);
+	const lineOf = (invoice: InvoiceSummary) => `${describeInvoiceSummary(invoice, namings)}${neverSentMarkOf(invoice, sentInvoiceIds)}`;
+	const lines = invoices.map((invoice) => `${lineOf(invoice)}; opens at ${booksInvoiceAddressOf(organisation.id, invoice.id)}`);
 	return [`Invoices of ${organisation.name}, newest first:`, ...lines].join('\n');
 }
 

@@ -33,3 +33,15 @@ export function formatUkDateTime(isoDate: string): string {
 		minute: '2-digit'
 	});
 }
+
+/** A moment as the UK clock read it, with its year: "13 Nov 2026, 20:45". */
+export function formatUkDayAndTime(isoDate: string): string {
+	return new Date(isoDate).toLocaleString(britishLocale, {
+		timeZone: londonTimeZone,
+		day: 'numeric',
+		month: 'short',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit'
+	});
+}
