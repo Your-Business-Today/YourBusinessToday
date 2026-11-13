@@ -1,5 +1,5 @@
 import { mapStages } from '$lib/data/workflowMap/workflowMap';
-import { isRefused, readChoice } from '$lib/server/companyContext/contextText';
+import { isRefused, readChoice } from '$lib/server/filing/filedText';
 import { validateMapHandovers } from './validateMapHandovers';
 import { validateMapLines } from './validateMapLines';
 import type { WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';

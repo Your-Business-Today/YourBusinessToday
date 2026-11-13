@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T05:48:03+00:00",
+  "generatedAt": "2026-11-13T06:19:58+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4312,
+        "measuredAgainst": 4253,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6500,
+        "measuredAgainst": 6366,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6314,
+        "measuredAgainst": 6117,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 162.23,
+        "measuredAgainst": 159.02,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 2,
-        "measuredAgainst": 162.23,
+        "measuredAgainst": 159.02,
         "score": 99.9
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7190,
+        "measuredAgainst": 7046,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 162.23,
+        "measuredAgainst": 159.02,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 162.23,
+        "measuredAgainst": 159.02,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6500,
+        "measuredAgainst": 6366,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 267,
+        "measuredAgainst": 245,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6314,
+        "measuredAgainst": 6117,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6314,
+        "measuredAgainst": 6117,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6500,
+        "measuredAgainst": 6366,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 377,
+        "measuredAgainst": 363,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4312,
-      "totalLines": 162230,
+      "totalFiles": 4253,
+      "totalLines": 159024,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 6500,
+      "totalFunctions": 6366,
       "elseBlocks": 0,
-      "ifBlocks": 6314,
+      "ifBlocks": 6117,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -298,7 +298,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 444,
+      "overlongLines": 422,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,11 +308,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 6500
+      "functionsExamined": 6366
     },
     "designPatterns": {
-      "roleFamilies": 233,
-      "predictedFiles": 267,
+      "roleFamilies": 228,
+      "predictedFiles": 245,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -320,15 +320,15 @@
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 74,
-      "components": 690,
+      "pages": 73,
+      "components": 680,
       "orphanComponents": 0,
       "averagePageLines": 44
     },
     "siteDefinition": {
-      "routes": 73,
-      "views": 767,
-      "siteComponents": 678,
+      "routes": 72,
+      "views": 756,
+      "siteComponents": 668,
       "catalogue": 14,
       "widgetUsages": 411,
       "handRolledElements": 0,
@@ -340,20 +340,20 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 210,
+      "schemaTables": 211,
       "limitedColumns": 0,
-      "writeDoors": 377,
+      "writeDoors": 363,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4920,
-      "backend": 1279,
-      "frontend": 1056,
-      "shared": 857,
-      "tests": 692,
-      "api": 586,
-      "database": 213,
+      "totalFiles": 4860,
+      "backend": 1262,
+      "frontend": 1049,
+      "shared": 847,
+      "tests": 684,
+      "api": 567,
+      "database": 214,
       "tooling": 141,
       "docs": 79,
       "infrastructure": 17
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4312,
-        "totalLines": 162230,
+        "totalFiles": 4253,
+        "totalLines": 159024,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 6500,
+        "totalFunctions": 6366,
         "elseBlocks": 0,
-        "ifBlocks": 6314,
+        "ifBlocks": 6117,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -494,10 +494,6 @@
             "line": 14
           },
           {
-            "file": "src/lib/server/companyContext/confirmCompanyContext.test.ts",
-            "line": 4
-          },
-          {
             "file": "src/lib/server/goals/createGoalWithTasks.test.ts",
             "line": 9
           },
@@ -608,6 +604,10 @@
           {
             "file": "src/lib/server/mcp/actions/businessBrainPageFiles.test.ts",
             "line": 9
+          },
+          {
+            "file": "src/lib/server/mcp/actions/businessBrainPageFiles.test.ts",
+            "line": 10
           }
         ],
         "booleans": [
@@ -655,7 +655,7 @@
           },
           {
             "literal": "map the workflows",
-            "occurrences": 4
+            "occurrences": 5
           }
         ]
       }
@@ -665,7 +665,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 444,
+        "overlongLines": 422,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -891,15 +891,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 6500
+        "functionsExamined": 6366
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 233,
-        "predictedFiles": 267,
+        "roleFamilies": 228,
+        "predictedFiles": 245,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -909,15 +909,15 @@
       "offenders": {
         "roleFamilies": {
           "+layout.server.ts": 6,
-          "+page.server.ts": 66,
-          "+page.svelte": 74,
-          "+server.ts": 26,
+          "+page.server.ts": 65,
+          "+page.svelte": 73,
+          "+server.ts": 27,
           "access": 12,
           "account": 5,
           "accounts": 4,
-          "action": 23,
-          "actions": 226,
-          "address": 8,
+          "action": 24,
+          "actions": 221,
+          "address": 9,
           "adverts": 4,
           "answer": 8,
           "answers": 15,
@@ -939,7 +939,6 @@
           "catalogue": 5,
           "cell": 7,
           "cells": 5,
-          "changes": 4,
           "chatbot": 5,
           "check": 8,
           "checklist": 4,
@@ -947,11 +946,10 @@
           "choice": 6,
           "choices": 6,
           "classes": 4,
-          "client": 18,
+          "client": 17,
           "columns": 6,
           "company": 6,
           "contact": 4,
-          "context": 11,
           "contribution": 4,
           "controls": 6,
           "copy": 5,
@@ -974,21 +972,21 @@
           "event": 12,
           "facts": 16,
           "field": 25,
-          "fields": 49,
+          "fields": 48,
           "figures": 5,
           "file": 11,
-          "files": 5,
+          "files": 6,
           "filter": 7,
           "fixture": 15,
-          "fixtures": 29,
+          "fixtures": 27,
           "for": 10,
-          "form": 79,
+          "form": 78,
           "geometry": 4,
-          "goal": 8,
+          "goal": 9,
           "goals": 4,
           "grant": 4,
           "groups": 4,
-          "guidance": 18,
+          "guidance": 17,
           "header": 21,
           "history": 4,
           "icon": 5,
@@ -1004,22 +1002,21 @@
           "kinds": 6,
           "label": 4,
           "labels": 7,
-          "layout": 7,
+          "layout": 6,
           "lead": 6,
           "legend": 5,
-          "limits": 14,
-          "line": 15,
+          "limits": 13,
+          "line": 14,
           "lines": 5,
           "link": 21,
-          "links": 17,
-          "list": 37,
-          "map": 32,
-          "mark": 4,
+          "links": 14,
+          "list": 34,
+          "map": 35,
           "meeting": 9,
           "member": 6,
           "menu": 6,
           "message": 4,
-          "messages": 7,
+          "messages": 5,
           "minutes": 7,
           "mocks": 6,
           "mockup": 4,
@@ -1028,7 +1025,7 @@
           "name": 14,
           "names": 10,
           "navigation": 4,
-          "node": 6,
+          "node": 5,
           "note": 12,
           "notice": 5,
           "of": 13,
@@ -1036,20 +1033,19 @@
           "order": 8,
           "organisation": 17,
           "organisations": 5,
+          "origin": 4,
           "outcome": 4,
           "overview": 4,
           "owner": 5,
           "page": 20,
           "pages": 6,
           "pane": 4,
-          "panel": 54,
+          "panel": 49,
           "paper": 12,
-          "part": 5,
-          "parts": 6,
           "password": 5,
           "patch": 10,
           "path": 5,
-          "paths": 6,
+          "paths": 7,
           "people": 8,
           "person": 15,
           "picker": 4,
@@ -1057,66 +1053,66 @@
           "piece": 8,
           "pieces": 4,
           "pill": 5,
-          "placement": 5,
+          "placement": 4,
           "plan": 6,
           "priority": 4,
           "profile": 7,
           "project": 24,
-          "projects": 12,
+          "projects": 13,
           "prose": 4,
           "question": 5,
-          "reading": 15,
+          "reading": 16,
           "readings": 4,
           "record": 63,
-          "refusal": 12,
+          "refusal": 13,
           "register": 11,
           "request": 23,
           "requests": 5,
           "result": 4,
-          "review": 6,
+          "review": 5,
           "rhythm": 4,
           "roles": 5,
           "room": 7,
-          "row": 49,
+          "row": 47,
           "rows": 19,
           "rule": 7,
-          "rules": 62,
-          "run": 13,
-          "runs": 25,
-          "schemas": 16,
+          "rules": 61,
+          "run": 10,
+          "runs": 23,
+          "schemas": 15,
           "scope": 4,
           "section": 36,
           "sections": 13,
           "sector": 4,
           "select": 6,
           "sentence": 7,
-          "sentences": 5,
+          "sentences": 4,
           "settings": 4,
           "shape": 4,
           "sheet": 4,
           "source": 18,
           "sources": 9,
           "stage": 4,
-          "standing": 22,
+          "standing": 19,
           "state": 5,
           "statement": 4,
           "station": 6,
-          "stations": 8,
+          "stations": 9,
           "status": 9,
           "step": 7,
-          "steps": 11,
+          "steps": 10,
           "storage": 5,
           "strip": 4,
           "styles": 8,
           "subject": 4,
           "summary": 9,
           "svelte": 19,
-          "table": 37,
-          "tabs": 9,
+          "table": 41,
+          "tabs": 10,
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 674,
+          "test": 666,
           "text": 13,
           "tiles": 5,
           "time": 5,
@@ -1130,13 +1126,12 @@
           "types": 9,
           "up": 4,
           "upload": 8,
-          "version": 4,
-          "versions": 4,
+          "versions": 5,
           "view": 7,
           "views": 10,
           "visitor": 4,
           "window": 4,
-          "words": 23,
+          "words": 24,
           "work": 7,
           "world": 5,
           "writer": 6,
@@ -1159,23 +1154,13 @@
             "missing": []
           },
           {
-            "pattern": "every goal has a project",
-            "predicted": 8,
-            "missing": []
-          },
-          {
-            "pattern": "every goal has a task",
-            "predicted": 8,
-            "missing": []
-          },
-          {
             "pattern": "every guidance has a actions",
-            "predicted": 18,
+            "predicted": 17,
             "missing": []
           },
           {
             "pattern": "every guidance has a rules",
-            "predicted": 18,
+            "predicted": 17,
             "missing": []
           },
           {
@@ -1195,12 +1180,12 @@
           },
           {
             "pattern": "every schemas has a actions",
-            "predicted": 16,
+            "predicted": 15,
             "missing": []
           },
           {
             "pattern": "every schemas has a runs",
-            "predicted": 16,
+            "predicted": 15,
             "missing": []
           },
           {
@@ -1215,12 +1200,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 66,
+            "predicted": 65,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 74,
+            "predicted": 73,
             "missing": []
           }
         ],
@@ -1231,8 +1216,8 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 74,
-        "components": 690,
+        "pages": 73,
+        "components": 680,
         "orphanComponents": 0,
         "averagePageLines": 44
       },
@@ -1322,7 +1307,7 @@
           },
           {
             "page": "src/routes/organisations/[organisationId]/domain/+page.svelte",
-            "lines": 64,
+            "lines": 62,
             "widgets": []
           },
           {
@@ -1342,6 +1327,11 @@
             ]
           },
           {
+            "page": "src/routes/organisations/[organisationId]/business-brain/+page.svelte",
+            "lines": 55,
+            "widgets": []
+          },
+          {
             "page": "src/routes/clients/prospect/+page.svelte",
             "lines": 54,
             "widgets": [
@@ -1356,11 +1346,6 @@
             ]
           },
           {
-            "page": "src/routes/projects/[projectId]/domain/+page.svelte",
-            "lines": 53,
-            "widgets": []
-          },
-          {
             "page": "src/routes/organisations/[organisationId]/brand/campaigns/[campaignId]/+page.svelte",
             "lines": 52,
             "widgets": []
@@ -1371,6 +1356,11 @@
             "widgets": [
               "error"
             ]
+          },
+          {
+            "page": "src/routes/portal/workflow-map/+page.svelte",
+            "lines": 52,
+            "widgets": []
           },
           {
             "page": "src/routes/projects/[projectId]/deploys/+page.svelte",
@@ -1404,11 +1394,6 @@
             ]
           },
           {
-            "page": "src/routes/portal/workflow-map/+page.svelte",
-            "lines": 47,
-            "widgets": []
-          },
-          {
             "page": "src/routes/admin/+page.svelte",
             "lines": 46,
             "widgets": [
@@ -1436,11 +1421,6 @@
             ]
           },
           {
-            "page": "src/routes/organisations/[organisationId]/business-brain/+page.svelte",
-            "lines": 45,
-            "widgets": []
-          },
-          {
             "page": "src/routes/account/sign-in/+page.svelte",
             "lines": 44,
             "widgets": []
@@ -1451,6 +1431,11 @@
             "widgets": [
               "list"
             ]
+          },
+          {
+            "page": "src/routes/projects/[projectId]/workflow-map/+page.svelte",
+            "lines": 44,
+            "widgets": []
           },
           {
             "page": "src/routes/notifications/+page.svelte",
@@ -1488,6 +1473,11 @@
             ]
           },
           {
+            "page": "src/routes/[register=salesRegister]/[clientId]/workflow-map/+page.svelte",
+            "lines": 39,
+            "widgets": []
+          },
+          {
             "page": "src/routes/clients/feed/+page.svelte",
             "lines": 38,
             "widgets": [
@@ -1514,23 +1504,18 @@
             "widgets": []
           },
           {
-            "page": "src/routes/portal/+page.svelte",
-            "lines": 37,
-            "widgets": []
-          },
-          {
             "page": "src/routes/projects/[projectId]/site-map/+page.svelte",
             "lines": 37,
             "widgets": []
           },
           {
-            "page": "src/routes/upload/[token]/+page.svelte",
-            "lines": 35,
+            "page": "src/routes/portal/+page.svelte",
+            "lines": 36,
             "widgets": []
           },
           {
-            "page": "src/routes/[register=salesRegister]/[clientId]/context/+page.svelte",
-            "lines": 34,
+            "page": "src/routes/upload/[token]/+page.svelte",
+            "lines": 35,
             "widgets": []
           },
           {
@@ -1587,11 +1572,6 @@
           },
           {
             "page": "src/routes/demo/[token]/+page.svelte",
-            "lines": 30,
-            "widgets": []
-          },
-          {
-            "page": "src/routes/portal/context/+page.svelte",
             "lines": 30,
             "widgets": []
           },
@@ -1683,38 +1663,38 @@
         "componentReuse": [
           {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
-            "reusedBy": 83
+            "reusedBy": 80
           },
           {
             "component": "src/lib/components/site/SubmitButton.svelte",
-            "reusedBy": 73
+            "reusedBy": 72
           },
           {
             "component": "src/lib/components/site/FormErrorNote.svelte",
-            "reusedBy": 58
+            "reusedBy": 57
           },
           {
             "component": "src/lib/components/site/FormField.svelte",
-            "reusedBy": 49
+            "reusedBy": 48
+          },
+          {
+            "component": "src/lib/components/workspace/RecordsCell.svelte",
+            "reusedBy": 38
           },
           {
             "component": "src/lib/components/site/Button.svelte",
             "reusedBy": 36
           },
           {
+            "component": "src/lib/components/workspace/RecordsTable.svelte",
+            "reusedBy": 36
+          },
+          {
             "component": "src/lib/components/site/Badge.svelte",
-            "reusedBy": 35
-          },
-          {
-            "component": "src/lib/components/workspace/RecordsCell.svelte",
-            "reusedBy": 35
-          },
-          {
-            "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
             "reusedBy": 34
           },
           {
-            "component": "src/lib/components/workspace/RecordsTable.svelte",
+            "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
             "reusedBy": 33
           },
           {
@@ -1731,22 +1711,22 @@
           },
           {
             "component": "src/lib/components/site/EmptyState.svelte",
-            "reusedBy": 20
-          },
-          {
-            "component": "src/lib/components/workspace/FlashMessage.svelte",
-            "reusedBy": 13
+            "reusedBy": 19
           },
           {
             "component": "src/lib/components/site/DangerConfirmModal.svelte",
             "reusedBy": 12
           },
           {
-            "component": "src/lib/components/site/LineIcon.svelte",
-            "reusedBy": 11
+            "component": "src/lib/components/workspace/FlashMessage.svelte",
+            "reusedBy": 12
           },
           {
             "component": "src/lib/components/workspace/TabStrip.svelte",
+            "reusedBy": 12
+          },
+          {
+            "component": "src/lib/components/site/LineIcon.svelte",
             "reusedBy": 11
           },
           {
@@ -1766,6 +1746,10 @@
             "reusedBy": 8
           },
           {
+            "component": "src/lib/components/projects/ProjectPageHeader.svelte",
+            "reusedBy": 7
+          },
+          {
             "component": "src/lib/components/taxCalculator/DisclosureMarker.svelte",
             "reusedBy": 7
           },
@@ -1778,19 +1762,11 @@
             "reusedBy": 7
           },
           {
-            "component": "src/lib/components/blueprint/EntityLink.svelte",
-            "reusedBy": 6
-          },
-          {
             "component": "src/lib/components/clients/StagePill.svelte",
             "reusedBy": 6
           },
           {
             "component": "src/lib/components/projects/DevelopmentTabs.svelte",
-            "reusedBy": 6
-          },
-          {
-            "component": "src/lib/components/projects/ProjectPageHeader.svelte",
             "reusedBy": 6
           },
           {
@@ -1866,6 +1842,10 @@
             "reusedBy": 4
           },
           {
+            "component": "src/lib/components/blueprint/EntityLink.svelte",
+            "reusedBy": 3
+          },
+          {
             "component": "src/lib/components/brand/ContentStageBadge.svelte",
             "reusedBy": 3
           },
@@ -1879,6 +1859,10 @@
           },
           {
             "component": "src/lib/components/lineMap/LineMap.svelte",
+            "reusedBy": 3
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/WorkflowMapView.svelte",
             "reusedBy": 3
           },
           {
@@ -1934,14 +1918,6 @@
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/blueprint/BlueprintHeader.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/blueprint/DomainExplorer.svelte",
-            "reusedBy": 2
-          },
-          {
             "component": "src/lib/components/blueprint/DomainMap.svelte",
             "reusedBy": 2
           },
@@ -1971,18 +1947,6 @@
           },
           {
             "component": "src/lib/components/brand/BrandDecisionNote.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/businessBrain/BusinessBrainChatbotsPanel.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/businessBrain/BusinessBrainFilesPanel.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/businessBrain/BusinessBrainIndexPanel.svelte",
             "reusedBy": 2
           },
           {
@@ -2031,10 +1995,6 @@
           },
           {
             "component": "src/lib/components/clients/patches/SectorPanel.svelte",
-            "reusedBy": 2
-          },
-          {
-            "component": "src/lib/components/companyContext/CompanyContextView.svelte",
             "reusedBy": 2
           },
           {
@@ -2090,7 +2050,7 @@
             "reusedBy": 2
           },
           {
-            "component": "src/lib/components/organisations/workflowMap/WorkflowMapView.svelte",
+            "component": "src/lib/components/organisations/workflowMap/WorkflowMapPanel.svelte",
             "reusedBy": 2
           },
           {
@@ -2326,11 +2286,19 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/blueprint/BlueprintHeader.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/blueprint/DomainContextBox.svelte",
             "reusedBy": 1
           },
           {
             "component": "src/lib/components/blueprint/DomainEntityNode.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/blueprint/DomainExplorer.svelte",
             "reusedBy": 1
           },
           {
@@ -2670,11 +2638,19 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/businessBrain/BusinessBrainChatbotRow.svelte",
+            "component": "src/lib/components/businessBrain/BusinessBrainBrainsTable.svelte",
             "reusedBy": 1
           },
           {
             "component": "src/lib/components/businessBrain/BusinessBrainFileRow.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/businessBrain/BusinessBrainFilesPanel.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/businessBrain/BusinessBrainFilesTable.svelte",
             "reusedBy": 1
           },
           {
@@ -2687,6 +2663,10 @@
           },
           {
             "component": "src/lib/components/businessBrain/BusinessBrainPageText.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/businessBrain/BusinessBrainPagesTable.svelte",
             "reusedBy": 1
           },
           {
@@ -2971,54 +2951,6 @@
           },
           {
             "component": "src/lib/components/clients/patches/SightingRow.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/CompanyContextMap.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextAreaRegion.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextChangeList.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextChangesPanel.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextConfirmForm.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextConfirmationPanel.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextLinkLine.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextPartLinkList.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextPartNode.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextPartPanel.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextPartReviewForm.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/companyContext/ContextProcessStepList.svelte",
             "reusedBy": 1
           },
           {
@@ -3374,14 +3306,6 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/organisations/domain/DomainContextRow.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/organisations/domain/DomainContextsPanel.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/organisations/domain/DomainMapPane.svelte",
             "reusedBy": 1
           },
@@ -3443,10 +3367,6 @@
           },
           {
             "component": "src/lib/components/organisations/workflowMap/WorkflowMapLegend.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/organisations/workflowMap/WorkflowMapPanel.svelte",
             "reusedBy": 1
           },
           {
@@ -3514,10 +3434,6 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/portal/PortalContextPrompt.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/portal/PortalEnvironmentLink.svelte",
             "reusedBy": 1
           },
@@ -3531,6 +3447,10 @@
           },
           {
             "component": "src/lib/components/portal/PortalInviteForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/PortalOnePrompt.svelte",
             "reusedBy": 1
           },
           {
@@ -3579,6 +3499,14 @@
           },
           {
             "component": "src/lib/components/portal/PortalVisitorCard.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/workflowMap/MapConfirmForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/workflowMap/MapConfirmationPanel.svelte",
             "reusedBy": 1
           },
           {
@@ -4066,6 +3994,18 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/workflowMap/ProductStationStateLine.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/workflowMap/ProductStationsTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/workflowMap/ProductWorkflowMapView.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/promo/PromoCaptionHeadline.svelte",
             "reusedBy": 1
           },
@@ -4448,9 +4388,9 @@
     "siteDefinition": {
       "name": "siteDefinition",
       "summary": {
-        "routes": 73,
-        "views": 767,
-        "siteComponents": 678,
+        "routes": 72,
+        "views": 756,
+        "siteComponents": 668,
         "catalogue": 14,
         "widgetUsages": 411,
         "handRolledElements": 0,
@@ -4629,10 +4569,10 @@
           "expanded": "ClientHeader=( PageTitle, ClientBroughtInByForm=( FormField{ BroughtInBySelect } ) ), FormErrorNote, CompanyJobAdverts=( FindJobAdvertsButton=( Modal{ AskClaudeToFindJobAdverts=( CopyTextButton ) } ), (n) JobAdvertRow ), CompanyProfileForm=( [ FormField CompanyPlaceFields=( (2) FormField ) FormField CompanyScaleFields=( (2) FormField ) ], CompanyNarrativeFields=( (2) FormField ), SubmitButton ), ClientPeopleSection=( ClientPeopleActions=( ?canImportOfficers: SubmitButton ), (n) PersonCard=( ?canInvite: SubmitButton, PersonFacts=( WarmthPill ), PersonLinkList=( (n) PersonLinkChip, SubmitButton ), PersonNoteTimeline=( ProseText, SubmitButton ) ), Modal{ NewContactForm=( (4) FormField, SubmitButton ) }, Modal{ ClientSetUpForm=( (2) FormField, SubmitButton ) }, Modal{ ?personBeingEdited !== null: PersonFieldsForm=( [ FormField ?contactId !== null: FormField (2) FormField PersonProfileFields=( (5) FormField ) ], SubmitButton ) }, Modal{ ?personToApproach !== null: AskClaudeToDraftApproach=( CopyTextButton ) } ), LeadConversationsSection=( LeadConversationTable=( RecordsTable{ (6) RecordsCell } ), Modal{ LeadConversationForm=( (6) FormField, SubmitButton ) }, Modal{ ?conversationBeingRead !== null: LeadConversationRead } ), ClientGroupSection=( ?children.length > 0: StagePill, ?children.length === 0 && parent\u2026: GroupUnderForm=( SubmitButton ) ), ClientProjectList, ClientContinuityCopySection=( [ (3) FormField ], SubmitButton ), SupportTaskTable=( RecordsTable{ (4) RecordsCell } ), ClientObservations=( ?observations.length > 0: (n) ObservationRow ), ClientEventLedger, ClientDeletion=( DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), Modal{ AssignProjectForm=( FormField, (2) FormField, SubmitButton ) }"
         },
         {
-          "route": "/[register=salesRegister]/[clientId]/context",
-          "file": "src/routes/[register=salesRegister]/[clientId]/context/+page.svelte",
-          "definition": "WorkspaceHeader, ( ?data.reading === null: EmptyState | CompanyContextView )",
-          "expanded": "WorkspaceHeader, ( ?data.reading === null: EmptyState | CompanyContextView=( CompanyContextMap=( (n) ContextAreaRegion, (n) ContextLinkLine, (n) ContextPartNode ), ( ?selectedPart === undefined: EmptyState | ContextPartPanel=( DashboardPanel{ ?steps.length > 0: ContextProcessStepList=( ?step.roleKey !== null: EntityLink ), ContextPartLinkList=( (2) EntityLink ), ?canMark: ContextPartReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) ), ContextConfirmationPanel=( DashboardPanel{ ?isOpen: ContextConfirmForm=( FormErrorNote, SubmitButton ) } ), ?changes !== null: ContextChangesPanel=( DashboardPanel{ ?hasChanges(changes): (2) ContextChangeList=( (n) EntityLink ) } ) ) )"
+          "route": "/[register=salesRegister]/[clientId]/workflow-map",
+          "file": "src/routes/[register=salesRegister]/[clientId]/workflow-map/+page.svelte",
+          "definition": "WorkspaceHeader, ( ?maps === null || openingStage =\u2026: EmptyState | WorkflowMapView )",
+          "expanded": "WorkspaceHeader, ( ?maps === null || openingStage =\u2026: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] } ) ) | DashboardPanel{ MapChangesTable=( RecordsTable{ (5) RecordsCell } ) } ) ) )"
         },
         {
           "route": "/about",
@@ -4859,8 +4799,8 @@
         {
           "route": "/organisations/[organisationId]/business-brain",
           "file": "src/routes/organisations/[organisationId]/business-brain/+page.svelte",
-          "definition": "WorkspaceHeader, BusinessBrainIndexPanel, BusinessBrainChatbotsPanel, ?hasUnnamedFiles: BusinessBrainFilesPanel",
-          "expanded": "WorkspaceHeader, BusinessBrainIndexPanel=( DashboardPanel{ RecordsTable{ RecordsCell, RecordsCell{ Badge }, (2) RecordsCell } } ), BusinessBrainChatbotsPanel=( DashboardPanel{ (n) BusinessBrainChatbotRow=( (n) Badge ) } ), ?hasUnnamedFiles: BusinessBrainFilesPanel=( DashboardPanel{ (n) BusinessBrainFileRow } )"
+          "definition": "WorkspaceHeader, TabStrip, DashboardPanel{ ( ?shownTab === businessBrainTabKe\u2026: BusinessBrainFilesTable | ?shownTab === businessBrainTabKe\u2026: BusinessBrainBrainsTable | BusinessBrainPagesTable ) }",
+          "expanded": "WorkspaceHeader, TabStrip, DashboardPanel{ ( ?shownTab === businessBrainTabKe\u2026: BusinessBrainFilesTable=( RecordsTable{ RecordsCell, RecordsCell{ ( ?file.isNamedByPage: Badge | Badge ) }, (2) RecordsCell } ) | ?shownTab === businessBrainTabKe\u2026: BusinessBrainBrainsTable=( RecordsTable{ (2) RecordsCell, RecordsCell{ (n) Badge }, RecordsCell } ) | BusinessBrainPagesTable=( RecordsTable{ (3) RecordsCell } ) ) }"
         },
         {
           "route": "/organisations/[organisationId]/business-brain/chatbots/[chatbotId=uuid]/questions",
@@ -4877,8 +4817,8 @@
         {
           "route": "/organisations/[organisationId]/domain",
           "file": "src/routes/organisations/[organisationId]/domain/+page.svelte",
-          "definition": "WorkspaceHeader, ( ?brains === null: EmptyState | ( ?domain === null: EmptyState, TabStrip, ( ?shownTab === domainTabKeys.thin\u2026: DomainThingsPane | ?shownTab === domainTabKeys.rules: DashboardPanel{ DomainRulesTable } | ?shownTab === domainTabKeys.words: DashboardPanel{ DomainWordsTable } | DomainMapPane ) ) ), BusinessBrainChatbotsPanel",
-          "expanded": "WorkspaceHeader, ( ?brains === null: EmptyState | ( ?domain === null: EmptyState, TabStrip, ( ?shownTab === domainTabKeys.thin\u2026: DomainThingsPane=( DashboardPanel{ DomainThingsTable=( RecordsTable{ (5) RecordsCell } ) }, ?openedThing !== undefined: DomainThingPanels=( DashboardPanel{ ?statuses.length > 0: (n) Badge }, DashboardPanel{ DomainThingFieldsTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ DomainRulesTable=( RecordsTable{ (3) RecordsCell } ) }, DashboardPanel{ DomainThingStationsTable=( RecordsTable{ (3) RecordsCell } ) } ) ) | ?shownTab === domainTabKeys.rules: DashboardPanel{ DomainRulesTable=( RecordsTable{ (3) RecordsCell } ) } | ?shownTab === domainTabKeys.words: DashboardPanel{ DomainWordsTable=( RecordsTable{ (3) RecordsCell } ) } | DomainMapPane=( DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton, EntityPlacement, EntityFieldList, ?relationships.length > 0: EntityRelationshipList, ?projectId !== null && screens.l\u2026: EntityScreenLinks } ) ) ) ) ) ) ), BusinessBrainChatbotsPanel=( DashboardPanel{ (n) BusinessBrainChatbotRow=( (n) Badge ) } )"
+          "definition": "WorkspaceHeader, ( ?!isBrainOpen: EmptyState | ( ?domain === null: EmptyState, TabStrip, ( ?shownTab === domainTabKeys.thin\u2026: DomainThingsPane | ?shownTab === domainTabKeys.rules: DashboardPanel{ DomainRulesTable } | ?shownTab === domainTabKeys.words: DashboardPanel{ DomainWordsTable } | DomainMapPane ) ) )",
+          "expanded": "WorkspaceHeader, ( ?!isBrainOpen: EmptyState | ( ?domain === null: EmptyState, TabStrip, ( ?shownTab === domainTabKeys.thin\u2026: DomainThingsPane=( DashboardPanel{ DomainThingsTable=( RecordsTable{ (5) RecordsCell } ) }, ?openedThing !== undefined: DomainThingPanels=( DashboardPanel{ ?statuses.length > 0: (n) Badge }, DashboardPanel{ DomainThingFieldsTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ DomainRulesTable=( RecordsTable{ (3) RecordsCell } ) }, DashboardPanel{ DomainThingStationsTable=( RecordsTable{ (3) RecordsCell } ) } ) ) | ?shownTab === domainTabKeys.rules: DashboardPanel{ DomainRulesTable=( RecordsTable{ (3) RecordsCell } ) } | ?shownTab === domainTabKeys.words: DashboardPanel{ DomainWordsTable=( RecordsTable{ (3) RecordsCell } ) } | DomainMapPane=( DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton, EntityPlacement, EntityFieldList, ?relationships.length > 0: EntityRelationshipList, ?projectId !== null && screens.l\u2026: EntityScreenLinks } ) ) ) ) ) ) )"
         },
         {
           "route": "/organisations/[organisationId]/sales",
@@ -4925,14 +4865,8 @@
         {
           "route": "/portal/connect",
           "file": "src/routes/portal/connect/+page.svelte",
-          "definition": "WorkspaceHeader, PortalConnectorAddress, PortalClaudeAbilities, PortalClaudePlanSteps, PortalContextPrompt",
-          "expanded": "WorkspaceHeader, PortalConnectorAddress=( DashboardPanel{ CopyTextButton } ), PortalClaudeAbilities=( DashboardPanel ), PortalClaudePlanSteps=( DashboardPanel{ (n) PortalClaudePlanRow } ), PortalContextPrompt=( DashboardPanel{ CopyTextButton } )"
-        },
-        {
-          "route": "/portal/context",
-          "file": "src/routes/portal/context/+page.svelte",
-          "definition": "WorkspaceHeader, ( ?data.reading === null: EmptyState | CompanyContextView )",
-          "expanded": "WorkspaceHeader, ( ?data.reading === null: EmptyState | CompanyContextView=( CompanyContextMap=( (n) ContextAreaRegion, (n) ContextLinkLine, (n) ContextPartNode ), ( ?selectedPart === undefined: EmptyState | ContextPartPanel=( DashboardPanel{ ?steps.length > 0: ContextProcessStepList=( ?step.roleKey !== null: EntityLink ), ContextPartLinkList=( (2) EntityLink ), ?canMark: ContextPartReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) ), ContextConfirmationPanel=( DashboardPanel{ ?isOpen: ContextConfirmForm=( FormErrorNote, SubmitButton ) } ), ?changes !== null: ContextChangesPanel=( DashboardPanel{ ?hasChanges(changes): (2) ContextChangeList=( (n) EntityLink ) } ) ) )"
+          "definition": "WorkspaceHeader, PortalConnectorAddress, PortalClaudeAbilities, PortalClaudePlanSteps, PortalOnePrompt",
+          "expanded": "WorkspaceHeader, PortalConnectorAddress=( DashboardPanel{ CopyTextButton } ), PortalClaudeAbilities=( DashboardPanel ), PortalClaudePlanSteps=( DashboardPanel{ (n) PortalClaudePlanRow } ), PortalOnePrompt=( DashboardPanel{ CopyTextButton } )"
         },
         {
           "route": "/portal/people",
@@ -4950,7 +4884,7 @@
           "route": "/portal/workflow-map",
           "file": "src/routes/portal/workflow-map/+page.svelte",
           "definition": "WorkspaceHeader, ( ?reading === null || openingStag\u2026: EmptyState | WorkflowMapView ), PortalStationReview",
-          "expanded": "WorkspaceHeader, ( ?reading === null || openingStag\u2026: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] } ) ) | DashboardPanel{ MapChangesTable=( RecordsTable{ (5) RecordsCell } ) } ) ) ), PortalStationReview=( StationReviewPanel=( DashboardPanel{ StationReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) )"
+          "expanded": "WorkspaceHeader, ( ?reading === null || openingStag\u2026: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] } ) ) | DashboardPanel{ MapChangesTable=( RecordsTable{ (5) RecordsCell } ) } ) ) ), PortalStationReview=( ( ?stationKey === null: MapConfirmationPanel=( DashboardPanel{ ?canConfirmMap(tally): MapConfirmForm=( FormErrorNote, SubmitButton ) } ) | StationReviewPanel=( DashboardPanel{ StationReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) ) )"
         },
         {
           "route": "/privacy",
@@ -4975,12 +4909,6 @@
           "file": "src/routes/projects/[projectId]/deploys/+page.svelte",
           "definition": "ProjectPageHeader, DevelopmentTabs, DashboardPanel{ DeployHistoryFilterBar, (n) DeployHistoryEntry }, ProjectPagination",
           "expanded": "ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), DevelopmentTabs=( TabStrip ), DashboardPanel{ DeployHistoryFilterBar=( (2) InlineField ), (n) DeployHistoryEntry }, ProjectPagination"
-        },
-        {
-          "route": "/projects/[projectId]/domain",
-          "file": "src/routes/projects/[projectId]/domain/+page.svelte",
-          "definition": "BlueprintHeader, FlashMessage, ?productBrain !== null && addres\u2026: BusinessBrainIndexPanel, ( ?ownDomain !== null && addresses\u2026: ( DomainExplorer, DomainContextsPanel ) | ?domain === null: EmptyState | DomainExplorer )",
-          "expanded": "BlueprintHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ SubmitButton, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ), FlashMessage, ?productBrain !== null && addres\u2026: BusinessBrainIndexPanel=( DashboardPanel{ RecordsTable{ RecordsCell, RecordsCell{ Badge }, (2) RecordsCell } } ), ( ?ownDomain !== null && addresses\u2026: ( DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton=( RaiseChangeModal ), EntityPlacement=( EntityLink ), EntityFieldList=( (n) EntityFieldRow ), ?relationships.length > 0: EntityRelationshipList=( EntityLink ), ?projectId !== null && screens.l\u2026: EntityScreenLinks } ) ) ), DomainContextsPanel=( DashboardPanel{ (n) DomainContextRow=( ?context.isCoreDomain: Badge ) } ) ) | ?domain === null: EmptyState | DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton=( RaiseChangeModal ), EntityPlacement=( EntityLink ), EntityFieldList=( (n) EntityFieldRow ), ?relationships.length > 0: EntityRelationshipList=( EntityLink ), ?projectId !== null && screens.l\u2026: EntityScreenLinks } ) ) ) )"
         },
         {
           "route": "/projects/[projectId]/goals",
@@ -5017,6 +4945,12 @@
           "file": "src/routes/projects/[projectId]/tasks/[taskId]/+page.svelte",
           "definition": "TaskDetailHeader{ FlashMessage, TaskWaitingNote, TaskStoryPanel, ?isAwaitingResolution: ResolveSupportTaskForm, AcceptanceCriteriaSection, SubtaskList{ TaskSequencePanel, TaskTodosPanel, ChecklistSection, TaskAttachmentsSection, ConversationThread }, TaskAside, TaskPageModals }",
           "expanded": "TaskDetailHeader=( WorkspaceHeader{ TaskKindPill } ){ FlashMessage, TaskWaitingNote=( ?waitedFor !== null: TaskReferenceLink ), TaskStoryPanel=( DashboardPanel{ ?isSupportTask: SupportTaskFacts=( ?task.resolution !== '': ProseText ), ?task.details !== '': ProseText } ), ?isAwaitingResolution: ResolveSupportTaskForm=( FormErrorNote, SubmitButton ), AcceptanceCriteriaSection=( DashboardPanel{ (n) CriterionRow }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), SubtaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ){ TaskSequencePanel=( DashboardPanel{ SequenceTrack=( (n) SequenceStepNode=( (2) TaskReferenceLink ) ) } ), TaskTodosPanel=( ?todos.length > 0: DashboardPanel, TodoStatusForm ), ChecklistSection=( DashboardPanel{ (n) ChecklistPanel=( ?items.length > 0: (n) ChecklistItemRow, AddChecklistItemForm=( SubmitButton, FormErrorNote ), RenameChecklistModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ), DangerConfirmModal=( DangerConfirmForm ) ) }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), TaskAttachmentsSection=( DashboardPanel{ (n) AttachmentRow=( AttachmentThumbnail=( ?isImage: ImageThumbnail ), ?canPreview: AttachmentPreviewModal=( Modal ), DangerConfirmModal=( DangerConfirmForm ) ), ?errorMessage !== null: FormErrorNote } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ) }, TaskAside=( TaskFactsPanel=( DashboardPanel{ ?task.dueDate !== null: TaskDueDate, TaskAutocompleteFact=( TaskAutocompleteModal ) } ), TaskComplexityPanel=( DashboardPanel{ [ (3) TaskComplexityCount=( FormField ) ], FormErrorNote, SubmitButton } ), TaskBranchPanel=( DashboardPanel{ TaskBranchLinks, ?isEditing: TaskBranchForm=( FormErrorNote, SubmitButton ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ) ), TaskPageModals=( Modal{ TaskEditForm=( (2) SmallCapsField=( FormField ), TaskStatusAndDueFields=( [ (2) SmallCapsField ] ), TaskPlanningFields=( [ (2) SmallCapsField ] ), TaskSequenceField=( SmallCapsField ), PriorityField=( PriorityControls ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), TaskDepartmentField=( SmallCapsField ), TaskMoveFields=( SmallCapsField, SmallCapsField ), UserStoryFields=( ?isUserStory: [ (3) FormField ] ), TeamPickerFieldset, FormErrorNote, SubmitButton ) }, Modal{ NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ) }"
+        },
+        {
+          "route": "/projects/[projectId]/workflow-map",
+          "file": "src/routes/projects/[projectId]/workflow-map/+page.svelte",
+          "definition": "ProjectPageHeader, ( ?reading.kind === productMapRead\u2026: EmptyState | ?reading.kind === productMapRead\u2026: EmptyState | ?openingStage === null: EmptyState | ProductWorkflowMapView )",
+          "expanded": "ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), ( ?reading.kind === productMapRead\u2026: EmptyState | ?reading.kind === productMapRead\u2026: EmptyState | ?openingStage === null: EmptyState | ProductWorkflowMapView=( ( ?stations.length === 0 || shownL\u2026: EmptyState | ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), DashboardPanel{ ProductStationsTable=( RecordsTable{ (4) RecordsCell, RecordsCell{ ProductStationStateLine } } ) } ) ) ) )"
         },
         {
           "route": "/projects/autocomplete",
@@ -5066,19 +5000,19 @@
           "component": "SubmitButton",
           "file": "src/lib/components/site/SubmitButton.svelte",
           "definition": "",
-          "usedBy": 73
+          "usedBy": 72
         },
         {
           "component": "FormErrorNote",
           "file": "src/lib/components/site/FormErrorNote.svelte",
           "definition": "",
-          "usedBy": 58
+          "usedBy": 57
         },
         {
           "component": "RecordsCell",
           "file": "src/lib/components/workspace/RecordsCell.svelte",
           "definition": "",
-          "usedBy": 34
+          "usedBy": 37
         },
         {
           "component": "SmallCapsField",
@@ -5087,15 +5021,15 @@
           "usedBy": 32
         },
         {
-          "component": "FlashMessage",
-          "file": "src/lib/components/workspace/FlashMessage.svelte",
-          "definition": "",
-          "usedBy": 13
-        },
-        {
           "component": "DangerConfirmModal",
           "file": "src/lib/components/site/DangerConfirmModal.svelte",
           "definition": "DangerConfirmForm",
+          "usedBy": 12
+        },
+        {
+          "component": "FlashMessage",
+          "file": "src/lib/components/workspace/FlashMessage.svelte",
+          "definition": "",
           "usedBy": 12
         },
         {
@@ -5135,6 +5069,12 @@
           "usedBy": 7
         },
         {
+          "component": "ProjectPageHeader",
+          "file": "src/lib/components/projects/ProjectPageHeader.svelte",
+          "definition": "TabStrip, WorkspaceHeader{ ProjectStatusBadge }",
+          "usedBy": 7
+        },
+        {
           "component": "WidgetIcon",
           "file": "src/lib/components/taxCalculator/WidgetIcon.svelte",
           "definition": "",
@@ -5150,18 +5090,6 @@
           "component": "DevelopmentTabs",
           "file": "src/lib/components/projects/DevelopmentTabs.svelte",
           "definition": "TabStrip",
-          "usedBy": 6
-        },
-        {
-          "component": "EntityLink",
-          "file": "src/lib/components/blueprint/EntityLink.svelte",
-          "definition": "",
-          "usedBy": 6
-        },
-        {
-          "component": "ProjectPageHeader",
-          "file": "src/lib/components/projects/ProjectPageHeader.svelte",
-          "definition": "TabStrip, WorkspaceHeader{ ProjectStatusBadge }",
           "usedBy": 6
         },
         {
@@ -5243,6 +5171,12 @@
           "usedBy": 3
         },
         {
+          "component": "EntityLink",
+          "file": "src/lib/components/blueprint/EntityLink.svelte",
+          "definition": "",
+          "usedBy": 3
+        },
+        {
           "component": "KitVersionBadge",
           "file": "src/lib/components/projects/KitVersionBadge.svelte",
           "definition": "?standing !== kitStandings.noRep\u2026: Badge",
@@ -5321,6 +5255,12 @@
           "usedBy": 3
         },
         {
+          "component": "WorkflowMapView",
+          "file": "src/lib/components/organisations/workflowMap/WorkflowMapView.svelte",
+          "definition": "?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel, ?details !== null: StationPanel ) | DashboardPanel{ MapChangesTable } )",
+          "usedBy": 3
+        },
+        {
           "component": "AccountMenu",
           "file": "src/lib/components/site/AccountMenu.svelte",
           "definition": "(n) AccountMenuGroup",
@@ -5369,12 +5309,6 @@
           "usedBy": 2
         },
         {
-          "component": "BlueprintHeader",
-          "file": "src/lib/components/blueprint/BlueprintHeader.svelte",
-          "definition": "ProjectPageHeader{ SubmitButton, HeaderFacts }",
-          "usedBy": 2
-        },
-        {
           "component": "BrandDecisionNote",
           "file": "src/lib/components/brand/BrandDecisionNote.svelte",
           "definition": "",
@@ -5387,33 +5321,9 @@
           "usedBy": 2
         },
         {
-          "component": "BusinessBrainChatbotsPanel",
-          "file": "src/lib/components/businessBrain/BusinessBrainChatbotsPanel.svelte",
-          "definition": "DashboardPanel{ (n) BusinessBrainChatbotRow }",
-          "usedBy": 2
-        },
-        {
-          "component": "BusinessBrainFilesPanel",
-          "file": "src/lib/components/businessBrain/BusinessBrainFilesPanel.svelte",
-          "definition": "DashboardPanel{ (n) BusinessBrainFileRow }",
-          "usedBy": 2
-        },
-        {
-          "component": "BusinessBrainIndexPanel",
-          "file": "src/lib/components/businessBrain/BusinessBrainIndexPanel.svelte",
-          "definition": "DashboardPanel{ RecordsTable{ RecordsCell, RecordsCell{ Badge }, (2) RecordsCell } }",
-          "usedBy": 2
-        },
-        {
           "component": "CalendarEntryLink",
           "file": "src/lib/components/projects/internalWork/CalendarEntryLink.svelte",
           "definition": "",
-          "usedBy": 2
-        },
-        {
-          "component": "CompanyContextView",
-          "file": "src/lib/components/companyContext/CompanyContextView.svelte",
-          "definition": "CompanyContextMap, ( ?selectedPart === undefined: EmptyState | ContextPartPanel ), ContextConfirmationPanel, ?changes !== null: ContextChangesPanel",
           "usedBy": 2
         },
         {
@@ -5438,12 +5348,6 @@
           "component": "DirectorAnswerEntry",
           "file": "src/lib/components/boardroom/DirectorAnswerEntry.svelte",
           "definition": "Badge",
-          "usedBy": 2
-        },
-        {
-          "component": "DomainExplorer",
-          "file": "src/lib/components/blueprint/DomainExplorer.svelte",
-          "definition": "DomainMap, ( ?chosenEntity === undefined: EmptyState | EntityPanel )",
           "usedBy": 2
         },
         {
@@ -5729,9 +5633,9 @@
           "usedBy": 2
         },
         {
-          "component": "WorkflowMapView",
-          "file": "src/lib/components/organisations/workflowMap/WorkflowMapView.svelte",
-          "definition": "?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel, ?details !== null: StationPanel ) | DashboardPanel{ MapChangesTable } )",
+          "component": "WorkflowMapPanel",
+          "file": "src/lib/components/organisations/workflowMap/WorkflowMapPanel.svelte",
+          "definition": "DashboardPanel{ LineMap, WorkflowMapLegend }",
           "usedBy": 2
         },
         {
@@ -6083,6 +5987,12 @@
           "usedBy": 1
         },
         {
+          "component": "BlueprintHeader",
+          "file": "src/lib/components/blueprint/BlueprintHeader.svelte",
+          "definition": "ProjectPageHeader{ SubmitButton, HeaderFacts }",
+          "usedBy": 1
+        },
+        {
           "component": "BoardActionEntry",
           "file": "src/lib/components/boardroom/BoardActionEntry.svelte",
           "definition": "Badge",
@@ -6203,15 +6113,27 @@
           "usedBy": 1
         },
         {
-          "component": "BusinessBrainChatbotRow",
-          "file": "src/lib/components/businessBrain/BusinessBrainChatbotRow.svelte",
-          "definition": "(n) Badge",
+          "component": "BusinessBrainBrainsTable",
+          "file": "src/lib/components/businessBrain/BusinessBrainBrainsTable.svelte",
+          "definition": "RecordsTable{ (2) RecordsCell, RecordsCell{ (n) Badge }, RecordsCell }",
           "usedBy": 1
         },
         {
           "component": "BusinessBrainFileRow",
           "file": "src/lib/components/businessBrain/BusinessBrainFileRow.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "BusinessBrainFilesPanel",
+          "file": "src/lib/components/businessBrain/BusinessBrainFilesPanel.svelte",
+          "definition": "DashboardPanel{ (n) BusinessBrainFileRow }",
+          "usedBy": 1
+        },
+        {
+          "component": "BusinessBrainFilesTable",
+          "file": "src/lib/components/businessBrain/BusinessBrainFilesTable.svelte",
+          "definition": "RecordsTable{ RecordsCell, RecordsCell{ ( ?file.isNamedByPage: Badge | Badge ) }, (2) RecordsCell }",
           "usedBy": 1
         },
         {
@@ -6230,6 +6152,12 @@
           "component": "BusinessBrainPageText",
           "file": "src/lib/components/businessBrain/BusinessBrainPageText.svelte",
           "definition": "DashboardPanel{ ProseText }",
+          "usedBy": 1
+        },
+        {
+          "component": "BusinessBrainPagesTable",
+          "file": "src/lib/components/businessBrain/BusinessBrainPagesTable.svelte",
+          "definition": "RecordsTable{ (3) RecordsCell }",
           "usedBy": 1
         },
         {
@@ -6473,12 +6401,6 @@
           "usedBy": 1
         },
         {
-          "component": "CompanyContextMap",
-          "file": "src/lib/components/companyContext/CompanyContextMap.svelte",
-          "definition": "(n) ContextAreaRegion, (n) ContextLinkLine, (n) ContextPartNode",
-          "usedBy": 1
-        },
-        {
           "component": "CompanyJobAdverts",
           "file": "src/lib/components/clients/CompanyJobAdverts.svelte",
           "definition": "FindJobAdvertsButton, (n) JobAdvertRow",
@@ -6665,72 +6587,6 @@
           "usedBy": 1
         },
         {
-          "component": "ContextAreaRegion",
-          "file": "src/lib/components/companyContext/ContextAreaRegion.svelte",
-          "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextChangeList",
-          "file": "src/lib/components/companyContext/ContextChangeList.svelte",
-          "definition": "(n) EntityLink",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextChangesPanel",
-          "file": "src/lib/components/companyContext/ContextChangesPanel.svelte",
-          "definition": "DashboardPanel{ ?hasChanges(changes): (2) ContextChangeList }",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextConfirmForm",
-          "file": "src/lib/components/companyContext/ContextConfirmForm.svelte",
-          "definition": "FormErrorNote, SubmitButton",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextConfirmationPanel",
-          "file": "src/lib/components/companyContext/ContextConfirmationPanel.svelte",
-          "definition": "DashboardPanel{ ?isOpen: ContextConfirmForm }",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextLinkLine",
-          "file": "src/lib/components/companyContext/ContextLinkLine.svelte",
-          "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextPartLinkList",
-          "file": "src/lib/components/companyContext/ContextPartLinkList.svelte",
-          "definition": "(2) EntityLink",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextPartNode",
-          "file": "src/lib/components/companyContext/ContextPartNode.svelte",
-          "definition": "",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextPartPanel",
-          "file": "src/lib/components/companyContext/ContextPartPanel.svelte",
-          "definition": "DashboardPanel{ ?steps.length > 0: ContextProcessStepList, ContextPartLinkList, ?canMark: ContextPartReviewForm }",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextPartReviewForm",
-          "file": "src/lib/components/companyContext/ContextPartReviewForm.svelte",
-          "definition": "?isNotRight: FormField, FormErrorNote, SubmitButton",
-          "usedBy": 1
-        },
-        {
-          "component": "ContextProcessStepList",
-          "file": "src/lib/components/companyContext/ContextProcessStepList.svelte",
-          "definition": "?step.roleKey !== null: EntityLink",
-          "usedBy": 1
-        },
-        {
           "component": "ConversationBaton",
           "file": "src/lib/components/conversations/ConversationBaton.svelte",
           "definition": "?stations.length > 0: BatonTrack",
@@ -6905,21 +6761,15 @@
           "usedBy": 1
         },
         {
-          "component": "DomainContextRow",
-          "file": "src/lib/components/organisations/domain/DomainContextRow.svelte",
-          "definition": "?context.isCoreDomain: Badge",
-          "usedBy": 1
-        },
-        {
-          "component": "DomainContextsPanel",
-          "file": "src/lib/components/organisations/domain/DomainContextsPanel.svelte",
-          "definition": "DashboardPanel{ (n) DomainContextRow }",
-          "usedBy": 1
-        },
-        {
           "component": "DomainEntityNode",
           "file": "src/lib/components/blueprint/DomainEntityNode.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "DomainExplorer",
+          "file": "src/lib/components/blueprint/DomainExplorer.svelte",
+          "definition": "DomainMap, ( ?chosenEntity === undefined: EmptyState | EntityPanel )",
           "usedBy": 1
         },
         {
@@ -7475,6 +7325,18 @@
           "usedBy": 1
         },
         {
+          "component": "MapConfirmForm",
+          "file": "src/lib/components/portal/workflowMap/MapConfirmForm.svelte",
+          "definition": "FormErrorNote, SubmitButton",
+          "usedBy": 1
+        },
+        {
+          "component": "MapConfirmationPanel",
+          "file": "src/lib/components/portal/workflowMap/MapConfirmationPanel.svelte",
+          "definition": "DashboardPanel{ ?canConfirmMap(tally): MapConfirmForm }",
+          "usedBy": 1
+        },
+        {
           "component": "MarkAllReadForm",
           "file": "src/lib/components/projects/MarkAllReadForm.svelte",
           "definition": "SubmitButton",
@@ -7931,12 +7793,6 @@
           "usedBy": 1
         },
         {
-          "component": "PortalContextPrompt",
-          "file": "src/lib/components/portal/PortalContextPrompt.svelte",
-          "definition": "DashboardPanel{ CopyTextButton }",
-          "usedBy": 1
-        },
-        {
           "component": "PortalEnvironmentLink",
           "file": "src/lib/components/portal/PortalEnvironmentLink.svelte",
           "definition": "",
@@ -7964,6 +7820,12 @@
           "component": "PortalInviteForm",
           "file": "src/lib/components/portal/PortalInviteForm.svelte",
           "definition": "DashboardPanel{ (3) SmallCapsField, FormErrorNote, SubmitButton }",
+          "usedBy": 1
+        },
+        {
+          "component": "PortalOnePrompt",
+          "file": "src/lib/components/portal/PortalOnePrompt.svelte",
+          "definition": "DashboardPanel{ CopyTextButton }",
           "usedBy": 1
         },
         {
@@ -8035,7 +7897,7 @@
         {
           "component": "PortalStationReview",
           "file": "src/lib/components/portal/workflowMap/PortalStationReview.svelte",
-          "definition": "StationReviewPanel",
+          "definition": "( ?stationKey === null: MapConfirmationPanel | StationReviewPanel )",
           "usedBy": 1
         },
         {
@@ -8066,6 +7928,24 @@
           "component": "PrintOnPaper",
           "file": "src/lib/components/workspace/PrintOnPaper.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "ProductStationStateLine",
+          "file": "src/lib/components/projects/workflowMap/ProductStationStateLine.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "ProductStationsTable",
+          "file": "src/lib/components/projects/workflowMap/ProductStationsTable.svelte",
+          "definition": "RecordsTable{ (4) RecordsCell, RecordsCell{ ProductStationStateLine } }",
+          "usedBy": 1
+        },
+        {
+          "component": "ProductWorkflowMapView",
+          "file": "src/lib/components/projects/workflowMap/ProductWorkflowMapView.svelte",
+          "definition": "( ?stations.length === 0 || shownL\u2026: EmptyState | ( WorkflowMapPanel, DashboardPanel{ ProductStationsTable } ) )",
           "usedBy": 1
         },
         {
@@ -9101,12 +8981,6 @@
           "usedBy": 1
         },
         {
-          "component": "WorkflowMapPanel",
-          "file": "src/lib/components/organisations/workflowMap/WorkflowMapPanel.svelte",
-          "definition": "DashboardPanel{ LineMap, WorkflowMapLegend }",
-          "usedBy": 1
-        },
-        {
           "component": "YearComparisonCard",
           "file": "src/lib/components/taxCalculator/YearComparisonCard.svelte",
           "definition": "",
@@ -9135,13 +9009,13 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4920,
-        "backend": 1279,
-        "frontend": 1056,
-        "shared": 857,
-        "tests": 692,
-        "api": 586,
-        "database": 213,
+        "totalFiles": 4860,
+        "backend": 1262,
+        "frontend": 1049,
+        "shared": 847,
+        "tests": 684,
+        "api": 567,
+        "database": 214,
         "tooling": 141,
         "docs": 79,
         "infrastructure": 17
@@ -9149,37 +9023,37 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 1279,
-          "sourceFiles": 1269,
-          "sourceLines": 41967
+          "files": 1262,
+          "sourceFiles": 1252,
+          "sourceLines": 41167
         },
         {
           "area": "frontend",
-          "files": 1056,
-          "sourceFiles": 926,
-          "sourceLines": 30884
+          "files": 1049,
+          "sourceFiles": 920,
+          "sourceLines": 30580
         },
         {
           "area": "shared",
-          "files": 857,
-          "sourceFiles": 839,
-          "sourceLines": 29897
+          "files": 847,
+          "sourceFiles": 829,
+          "sourceLines": 29499
         },
         {
           "area": "tests",
-          "files": 692,
-          "sourceFiles": 677,
-          "sourceLines": 31930
+          "files": 684,
+          "sourceFiles": 669,
+          "sourceLines": 31308
         },
         {
           "area": "api",
-          "files": 586,
-          "sourceFiles": 585,
-          "sourceLines": 26958
+          "files": 567,
+          "sourceFiles": 567,
+          "sourceLines": 25876
         },
         {
           "area": "database",
-          "files": 213,
+          "files": 214,
           "sourceFiles": 7,
           "sourceLines": 212
         },
@@ -9206,9 +9080,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 210,
+        "schemaTables": 211,
         "limitedColumns": 0,
-        "writeDoors": 377,
+        "writeDoors": 363,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },

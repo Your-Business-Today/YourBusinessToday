@@ -1,5 +1,5 @@
 import { arrivalButtonLabel, renderInviteEmail } from './inviteEmailShell';
-import { companyContextPrompt } from '$lib/onboarding/onboarding';
+import { onePrompt } from '$lib/onboarding/onboarding';
 import { escapeHtml } from '$lib/data/escapeHtml';
 
 export type SetUpEmail = {
@@ -39,5 +39,5 @@ function promptHtml(): string {
 			and you can run it again whenever your business changes.
 		</p>
 		<pre style="margin:0;padding:16px;white-space:pre-wrap;font-size:13px;line-height:1.5;color:#eef1f8;
-			background-color:#0b0e16;border:1px solid #242c40;border-radius:8px;">${escapeHtml(companyContextPrompt)}</pre>`;
+			background-color:#0b0e16;border:1px solid #242c40;border-radius:8px;">${escapeHtml(onePrompt)}</pre>`;
 }

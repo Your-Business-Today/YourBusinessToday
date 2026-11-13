@@ -1,5 +1,5 @@
 import { journeyMapLimits as limits } from '$lib/data/journeyMap/journeyMapLimits';
-import { fieldsOf, isRefused, readList, readRequiredText } from '$lib/server/companyContext/contextText';
+import { fieldsOf, isRefused, readList, readRequiredText } from '$lib/server/filing/filedText';
 import { readRouteOfView } from './mapValues';
 import type { EntryPoint } from '$lib/data/journeyMap/journeyMap';
 import type { Refusal } from '$lib/server/portal/portalFormReading';

@@ -40,7 +40,7 @@
 		<div class="flex items-center justify-between gap-4">
 			<h2 class="font-display text-xl">Company profile</h2>
 			<div class="flex flex-wrap gap-2">
-				<a href={`${companyPagePath(client)}/context`} class={quietButtonClasses}>Company context map</a>
+				<a href={`${companyPagePath(client)}/workflow-map`} class={quietButtonClasses}>Workflow map</a>
 				<a href={researchAgainHref} class={quietButtonClasses}>Ask your Claude to research</a>
 			</div>
 		</div>

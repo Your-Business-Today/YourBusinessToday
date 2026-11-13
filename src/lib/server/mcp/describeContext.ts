@@ -1,6 +1,5 @@
 import { actionsFor, areasFor } from './actionRegistry';
 import { clientContactsOf } from './clientContactAccess';
-import { contextRunLine } from './contextRunLine';
 import { countOf } from '$lib/data/countOf';
 import { domainRunLine } from './domainRunLine';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
@@ -21,9 +20,8 @@ export async function describeContext(caller: McpCaller): Promise<string> {
 		`Signed in as ${caller.email}.`,
 		projectsLine(caller),
 		organisationsLine(memberships, nameOf),
-		contextRunLine(memberships, nameOf),
-		await domainRunLine(caller),
 		workflowMapRunLine(memberships, nameOf),
+		await domainRunLine(caller),
 		siteMapRunLine(reachableProjectIds(caller)),
 		await clientContactLine(caller),
 		staffLine(caller),

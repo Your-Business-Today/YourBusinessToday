@@ -1,5 +1,5 @@
 import { commitShape } from '$lib/data/journeyMap/journeyMapLimits';
-import { isRefused } from '$lib/server/companyContext/contextText';
+import { isRefused } from '$lib/server/filing/filedText';
 import { validateEntryPoints } from './validateEntryPoints';
 import { validateJourneys } from './validateJourneys';
 import { validateMapLinks } from './validateMapLinks';

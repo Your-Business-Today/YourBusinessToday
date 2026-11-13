@@ -1,5 +1,5 @@
 import { journeyMapLimits as limits, journeyKeyShape, routeStart } from '$lib/data/journeyMap/journeyMapLimits';
-import { isRefused, readOptionalText, readRequiredText } from '$lib/server/companyContext/contextText';
+import { isRefused, readOptionalText, readRequiredText } from '$lib/server/filing/filedText';
 import type { Refusal } from '$lib/server/portal/portalFormReading';
 
 /** A view's route: text that starts at the root of the site, such as /projects/{projectId}. */

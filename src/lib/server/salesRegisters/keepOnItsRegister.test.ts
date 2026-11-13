@@ -21,7 +21,7 @@ describe('keepOnItsRegister', () => {
 
 	it('moves a lead opened by an old Clients link to Leads, keeping the rest of the address', () => {
 		expect(locationAfter(`/clients/${companyId}`, 'clients', 'lead')).toBe(`/leads/${companyId}`);
-		expect(locationAfter(`/clients/${companyId}/context?x=1`, 'clients', 'lead')).toBe(`/leads/${companyId}/context?x=1`);
+		expect(locationAfter(`/clients/${companyId}/workflow-map?x=1`, 'clients', 'lead')).toBe(`/leads/${companyId}/workflow-map?x=1`);
 	});
 
 	it('moves a lead that has signed back to Clients', () => {

@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { isRefused } from '$lib/server/companyContext/contextText';
+import { isRefused } from '$lib/server/filing/filedText';
 import { confirmWorkflowMap } from '$lib/server/workflowMap/confirmWorkflowMap';
 import { markWorkflowMapStation } from '$lib/server/workflowMap/markWorkflowMapStation';
 import { requirePortalVisitor } from '$lib/server/portal/requirePortalVisitor';

@@ -1,5 +1,5 @@
 import { journeyMapLimits as limits } from '$lib/data/journeyMap/journeyMapLimits';
-import { fieldsOf, isRefused, readList, readRequiredText } from '$lib/server/companyContext/contextText';
+import { fieldsOf, isRefused, readList, readRequiredText } from '$lib/server/filing/filedText';
 import { readKey, readOptionalKey } from './mapValues';
 import { validateJourneySteps } from './validateJourneySteps';
 import type { Journey } from '$lib/data/journeyMap/journeyMap';

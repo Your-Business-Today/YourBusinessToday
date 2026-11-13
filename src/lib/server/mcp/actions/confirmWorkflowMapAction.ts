@@ -1,7 +1,7 @@
 import { clientIdField, withPortalVisitor } from '../portalVisitorAccess';
 import { companyDetails } from '$lib/data/companyDetails';
 import { confirmWorkflowMap } from '$lib/server/workflowMap/confirmWorkflowMap';
-import { isRefused } from '$lib/server/companyContext/contextText';
+import { isRefused } from '$lib/server/filing/filedText';
 import { mapStageField } from './workflowMapFields';
 import { mapStageNames } from '$lib/data/workflowMap/workflowMapWords';
 import { objectSchema, textField } from '../actionTypes';

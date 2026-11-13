@@ -95,7 +95,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-081 | search Companies House by SIC code and place and add a company as a lead, with its directors | staff | write | `addLead` `addLeadWithDirectors` | `search_companies_house` `add_company_as_lead` | `/clients/prospect` `/clients/map` |
 | US-082 | see the companies around a postcode on the map | staff | read | `/clients/map` load | `read_area_map` | `/clients/map` |
 | US-083 | read the feed of what changed across the register | staff | read | `/clients/feed` load | `read_patch_feed` | `/clients/feed` |
-| US-084 | read, run and record a client's company context | staff | write | `/clients/{clientId}/context` load | `read_company_context` `start_context_run` `record_company_context` `read_confirmed_company_context` | `/clients/{clientId}/context` |
+| US-084 | read a client's workflow map, and the version they confirmed | staff | read | `/clients/{clientId}/workflow-map` load | `read_workflow_map` `read_confirmed_workflow_map` | `/clients/{clientId}/workflow-map` |
 | US-085 | name who brought a lead or client in | staff | write | `setBroughtInBy` | `set_client_brought_in_by` | `/clients/{clientId}` |
 | US-086 | see each person's leads and won sales on the leaderboard | staff | read | `/leaderboard` load | `read_leaderboard` | `/leaderboard` |
 
@@ -194,8 +194,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | --- | --- | --- | --- | --- | --- | --- |
 | US-160 | see my company's projects and raise a request on one | client contact | write | `/portal/projects/{projectId}` load | `list_portal_projects` `raise_portal_request` | `/portal` `/portal/projects/{projectId}` |
 | US-161 | read where my requests stand and reply on one | client contact | write | `/portal/projects/{projectId}` load | `list_portal_requests` `reply_to_portal_request` | `/portal/projects/{projectId}` |
-| US-162 | read my company's context and mark each part right or wrong | client contact | write | `markPart` | `read_my_company_context` `mark_context_part` | `/portal/context` |
-| US-163 | confirm my company's context | client contact | write | `confirmContext` | `confirm_company_context` | `/portal/context` |
+| US-163 | confirm my company's workflow map | client contact | write | `confirmMap` | `confirm_workflow_map` | `/portal/workflow-map` |
 | US-179 | see my company's workflow map and mark each station right or not right | client contact | write | `markStation` | `read_my_workflow_map` `mark_workflow_map_station` | `/portal/workflow-map` |
 | US-164 | see who at my company can sign in, invite someone, take them off, make them administrator | client contact | write | `invitePerson` `removePerson` `setAdministrator` | `list_portal_people` `invite_portal_person` `remove_portal_person` `set_portal_administrator` | `/portal/people` |
 | US-165 | see my company's invoices and pay one | client contact | write | `pay` | `list_my_invoices` `pay_invoice` | `/portal/billing` |

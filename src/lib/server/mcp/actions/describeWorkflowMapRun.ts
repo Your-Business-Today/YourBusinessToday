@@ -3,6 +3,7 @@ import { mapInterviewStages, mapQuestioningRules } from '$lib/data/workflowMap/w
 import { latestMapOf, stageToFile, workflowMapRunStanding, type WorkflowMapRunStanding } from './workflowMapRunStanding';
 import { organisationHref, organisationPages } from '$lib/components/organisations/organisationPages';
 import { portalAddress } from '$lib/portal/portalAddress';
+import { portalWorkflowMapPath } from '$lib/portal/portalPaths';
 import type { WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 
 const placesToRead = 'mail and who writes to whom, document libraries, spreadsheets, the accounts package and the calendar';
@@ -37,6 +38,7 @@ function readBackStep(standing: WorkflowMapRunStanding): string {
 	return (
 		'7. **Read it back** with read_workflow_map and tell the person what was filed: its lines, stations and hand-overs. ' +
 		`End with the link to where it is drawn, its Workflow map page: ${pageAddress}. ` +
+		`A client of Your Business Today checks it on their portal instead, station by station: ${portalAddress.origin}${portalWorkflowMapPath}. ` +
 		'Start this run again whenever the business changes: the next one asks only what is missing.'
 	);
 }

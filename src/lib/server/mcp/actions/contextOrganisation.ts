@@ -4,7 +4,7 @@ import { readText } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
-/** The organisation whose company context the caller names, when they reach it; otherwise why not. */
+/** The organisation the caller names, when they reach it; otherwise why not. */
 export async function contextOrganisation(
 	caller: McpCaller,
 	input: Record<string, unknown>

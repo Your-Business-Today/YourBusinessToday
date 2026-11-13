@@ -9,7 +9,6 @@ export type NewGoalSeed = {
 	measure: string;
 	horizon: GoalHorizon;
 	department?: Department;
-	contextVersionId?: string;
 	workflowMapVersionId?: string;
 };
 
@@ -40,19 +39,12 @@ export async function createGoal(
 			priority: await nextGoalRank(supabase, projectId, seed.horizon),
 			created_by: createdBy,
 			...departmentColumns(seed.department),
-			...contextVersionColumns(seed.contextVersionId),
 			...workflowMapVersionColumns(seed.workflowMapVersionId)
 		})
 		.select('id')
 		.single();
 	if (error) throw error;
 	return data.id;
-}
-
-/** The confirmed context a service goal came from; a goal raised any other way writes nothing, as before migration 0171. */
-function contextVersionColumns(contextVersionId: string | undefined): Record<string, string> {
-	if (contextVersionId === undefined) return {};
-	return { context_version_id: contextVersionId };
 }
 
 /** The confirmed workflow map a service goal came from; a goal raised any other way writes nothing, as before migration 0213. */
