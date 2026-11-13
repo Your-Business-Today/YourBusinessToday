@@ -2,7 +2,7 @@ import { mapConceptsNotSpecimens, mapShapeSentence, mapStageNames } from '$lib/d
 import { confirmationOf } from '$lib/data/workflowMap/mapConfirmationsOf';
 import { frozenBeforeRefusal } from '$lib/server/workflowMap/frozenBeforeRefusal';
 import { mapStages } from '$lib/data/workflowMap/workflowMap';
-import { isRefused, readChoice } from '$lib/server/companyContext/contextText';
+import { isRefused, readChoice } from '$lib/server/filing/filedText';
 import { fileWorkflowMap } from '$lib/server/workflowMap/fileWorkflowMap';
 import { productIdsOf, readProductsOfOrganisation, refuseStrayProducts } from '$lib/server/workflowMap/mapProducts';
 import { readConfirmedMapVersions } from '$lib/server/workflowMap/readConfirmedMapVersions';

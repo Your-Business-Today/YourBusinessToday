@@ -1,7 +1,7 @@
 import { containsPersonalDetails } from '$lib/data/personalDetailsInText';
 import { tooLong, type Refusal } from '$lib/server/portal/portalFormReading';
 
-/** A text value of the company context: what the refusal calls it, and the longest its column holds. */
+/** A text value filed through the connector: what the refusal calls it, and the longest its column holds. */
 export type TextRule = { field: string; limit: number };
 
 export function isRefused<Value>(reading: Value | Refusal): reading is Refusal {

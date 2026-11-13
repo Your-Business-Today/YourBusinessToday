@@ -3,15 +3,15 @@ import type { PortalGoalOrigin } from '$lib/portal/portalProject';
 
 type Row = Record<string, unknown>;
 
-export const noGoalOrigin: PortalGoalOrigin = { contextVersionNumber: null, workflowMap: null };
+export const noGoalOrigin: PortalGoalOrigin = { workflowMap: null };
 
-/** Where each goal came from, as the portal surface gives it: a confirmed company context or a confirmed workflow map. */
+/** Where each goal came from, as the portal surface gives it: the confirmed workflow map it was raised from, if any. */
 export function goalOriginsOf(goalRows: Row[]): Map<string, PortalGoalOrigin> {
 	return new Map(goalRows.map((goalRow) => [String(goalRow.id), originOf(goalRow)]));
 }
 
 function originOf(goalRow: Row): PortalGoalOrigin {
-	return { contextVersionNumber: numberOrNull(goalRow.context_version_number), workflowMap: workflowMapOf(goalRow) };
+	return { workflowMap: workflowMapOf(goalRow) };
 }
 
 function workflowMapOf(goalRow: Row): PortalGoalOrigin['workflowMap'] {

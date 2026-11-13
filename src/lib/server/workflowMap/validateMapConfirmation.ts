@@ -1,4 +1,4 @@
-import { isRefused, readChoice } from '$lib/server/companyContext/contextText';
+import { isRefused, readChoice } from '$lib/server/filing/filedText';
 import { mapStages, type MapStage } from '$lib/data/workflowMap/workflowMap';
 import { readVersionNumber, stationMarkFields } from './validateStationMark';
 import type { Refusal } from '$lib/server/portal/portalFormReading';

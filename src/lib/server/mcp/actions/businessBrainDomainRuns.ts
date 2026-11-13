@@ -9,7 +9,6 @@ import { getReachableProjectsOf } from '$lib/server/organisations/getReachablePr
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
 import { readDomainPages } from '$lib/server/businessBrain/readDomainPages';
 import { readDomainSources } from '$lib/server/businessBrain/readDomainSources';
-import { readLatestCompanyContext } from '$lib/server/companyContext/readLatestCompanyContext';
 import { validateDomainFiling } from '$lib/server/businessBrain/validateDomainFiling';
 import type { DomainFilingGiven } from '$lib/data/businessBrainDomainRules';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -44,13 +43,12 @@ export async function readDomain(caller: McpCaller, _input: Record<string, unkno
 export async function startDomainRun(caller: McpCaller, _input: Record<string, unknown>, organisation: Organisation): Promise<string> {
 	const { supabase, accountId } = caller;
 	const { scope } = organisationDomainHolder(organisation);
-	const [pages, sources, context, projects, switchedOn] = await Promise.all([
+	const [pages, sources, projects, switchedOn] = await Promise.all([
 		readDomainPages(supabase, scope),
 		readDomainSources(supabase, scope),
-		readLatestCompanyContext(supabase, organisation.id),
 		getReachableProjectsOf(supabase, accountId, organisation.id),
 		getSwitchedOnModules(supabase, organisation.id)
 	]);
 	const products = projects.map(({ id, name }) => ({ id, name }));
-	return describeDomainRun({ organisation, domain: organisationDomainOf(pages), sources, context, products, switchedOn });
+	return describeDomainRun({ organisation, domain: organisationDomainOf(pages), sources, products, switchedOn });
 }

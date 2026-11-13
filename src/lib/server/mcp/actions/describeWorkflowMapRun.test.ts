@@ -25,6 +25,7 @@ describe('the walk "map the workflows" starts', () => {
 		expect(walk).toContain('Ask exactly one question at a time');
 		expect(walk).toContain('file_workflow_map with organisationId org-1 and stage before, the whole map');
 		expect(walk).toMatch(/End with the link to where it is drawn, its Workflow map page: https:\/\/[^/]+\/organisations\/org-1\/workflow-map\./);
+		expect(walk).toMatch(/checks it on their portal instead, station by station: https:\/\/[^/]+\/portal\/workflow-map\./);
 	});
 
 	it('files today’s map as After for an organisation we already build for, with no Before', () => {

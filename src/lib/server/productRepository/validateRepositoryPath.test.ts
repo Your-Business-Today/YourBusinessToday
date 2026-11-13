@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isRefused } from '$lib/server/companyContext/contextText';
+import { isRefused } from '$lib/server/filing/filedText';
 import { validateRepositoryCommit, validateRepositoryPath } from './validateRepositoryPath';
 
 describe('a path into a product repository', () => {

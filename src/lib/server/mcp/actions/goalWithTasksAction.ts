@@ -9,7 +9,6 @@ import { projectIdField } from './goalReadActions';
 import { raiseAnywayField } from './similarTaskCheck';
 import { similarTasksRefusal } from './similarTasksRefusal';
 import { departmentField, readDepartment, isDepartmentRefused } from './departmentChoice';
-import { contextLinkSentence, contextVersionIdField, isContextLinkRefused, readGoalContextLink } from './goalContextVersion';
 import { isMapLinkRefused, mapLinkSentence, readGoalMapLink, workflowMapVersionIdField } from './goalWorkflowMapVersion';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -31,7 +30,7 @@ export const goalWithTasksAction: McpAction = {
 		'chosen raiseAnyway. A development goal’s tasks are each a feature, a user story, or a bug, ' +
 		'"FIX: <what is wrong>" — say which with each task’s developmentKind; bugs are built first. ' +
 		'The tasks take the goal’s department. A service raised from a client’s confirmed workflow map gives ' +
-		'workflowMapVersionId, and one from a confirmed company context gives contextVersionId, so the goal links back to it.',
+		'workflowMapVersionId, so the goal links back to it.',
 	inputSchema: objectSchema(
 		{
 			projectId: projectIdField,
@@ -41,7 +40,6 @@ export const goalWithTasksAction: McpAction = {
 			department: departmentField,
 			tasks: goalTasksField,
 			raiseAnyway: raiseAnywayField,
-			contextVersionId: contextVersionIdField,
 			workflowMapVersionId: workflowMapVersionIdField
 		},
 		['projectId', 'title', 'tasks']
@@ -53,8 +51,6 @@ export const goalWithTasksAction: McpAction = {
 		if (title === null) return 'A goal needs a title. Say what it is and try again.';
 		const department = readDepartment(input);
 		if (isDepartmentRefused(department)) return department.refusal;
-		const contextLink = await readGoalContextLink(caller, project, input);
-		if (isContextLinkRefused(contextLink)) return `Nothing was raised. ${contextLink.refusal}`;
 		const mapLink = await readGoalMapLink(caller, project, input);
 		if (isMapLinkRefused(mapLink)) return `Nothing was raised. ${mapLink.refusal}`;
 		const listedSeeds = listedTaskSeeds(input);
@@ -62,11 +58,9 @@ export const goalWithTasksAction: McpAction = {
 		const seeds = listedSeeds.map((seed) => withRaiserAutocomplete({ ...seed, department }, caller.isStaff));
 		const refusal = await firstTaskRefusal(caller, project, seeds, input.raiseAnyway);
 		if (refusal !== null) return `Nothing was raised. ${refusal}`;
-		const links = { contextVersionId: contextLink.contextVersionId, workflowMapVersionId: mapLink.workflowMapVersionId };
-		const goal = { ...goalSeedFrom(input, title), department, ...links };
+		const goal = { ...goalSeedFrom(input, title), department, workflowMapVersionId: mapLink.workflowMapVersionId };
 		const raised = await createGoalWithTasks(caller.supabase, project.id, goal, seeds, caller.accountId);
-		const linked = `${contextLinkSentence(contextLink)}${mapLinkSentence(mapLink)}`;
-		const heading = `"${title}" added to ${project.name} as a ${goal.horizon} goal (goal id: ${raised.goalId}).${linked} With:`;
+		const heading = `"${title}" added to ${project.name} as a ${goal.horizon} goal (goal id: ${raised.goalId}).${mapLinkSentence(mapLink)} With:`;
 		return [heading, ...seeds.map((seed, index) => raisedTaskLine(seed, raised.taskIds[index]))].join('\n');
 	}
 };

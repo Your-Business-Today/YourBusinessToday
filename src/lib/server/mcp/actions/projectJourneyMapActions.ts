@@ -1,6 +1,6 @@
 import { countOf } from '$lib/data/countOf';
 import { fileJourneyMap } from '$lib/server/journeyMap/fileJourneyMap';
-import { isRefused } from '$lib/server/companyContext/contextText';
+import { isRefused } from '$lib/server/filing/filedText';
 import { validateJourneyMap } from '$lib/server/journeyMap/validateJourneyMap';
 import { noSuchProject } from './describeProject';
 import { journeyMapFields } from './journeyMapFields';

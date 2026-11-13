@@ -21,9 +21,9 @@ export async function withProjectWork(supabase: SupabaseClient, projectRows: Row
 	}));
 }
 
-/** The goals with the confirmed context or map each came from; before migrations 0213 and 0171, with less of it. */
+/** The goals with the confirmed workflow map each came from; before migration 0213, without it. */
 async function readGoals(supabase: SupabaseClient, projectIds: string[]): Promise<Row[]> {
-	const columnsNewestFirst = [PortalSurfaceColumns.goalOrigins, PortalSurfaceColumns.goalContexts, PortalSurfaceColumns.goals];
+	const columnsNewestFirst = [PortalSurfaceColumns.goalOrigins, PortalSurfaceColumns.goals];
 	const [newest, ...older] = columnsNewestFirst;
 	return readGoalsWith(supabase, projectIds, newest, older);
 }

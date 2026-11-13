@@ -180,50 +180,43 @@ The second half: nothing reads the grouping any more.
   column or row is dropped. The clients register's own "Group under" note for sales is a different
   thing and is untouched.
 
-## The company context
+## The workflow map
 
-Each organisation has one company context: what its client's Claude has worked out about the business
-(its areas, the sources where work is created, the kinds of record it keeps, its processes with their
-steps, and its roles, with the links between them), which connectors the client has switched on in
-Claude, and the step of the offer (`consultancyOffer.ts`) the client is on. Each part carries where it
-was seen (the connector and the place, never the content), how sure Claude is, and its review state:
-not checked, right, or not right with what is wrong.
+Each organisation has one workflow map: its roles as lines, their tasks as stations and the hand-overs
+between them, filed by the person's own Claude as versions of a Before and an After. The sections below
+say how it is filed, drawn, checked and confirmed.
 
-- **Kept as versions.** Migration 0154 adds `company_context_versions` and the parts, steps, links and
-  connectors of each. `record_company_context` writes a whole new version, numbered from 1 for each
-  organisation, in one transaction through the database function of the same name; no version is ever
-  changed or deleted. Parts keep their keys from one version to the next, so a part's review travels with it.
-- **Read by the people on the organisation.** The connector's `record_company_context` and
-  `read_company_context` work for anyone who reaches the organisation (its people, or staff); the tables
-  are read and written by the server only.
-- **Concepts, not specimens.** Every value is checked against its column (`companyContextLimits.ts`
-  states the limits the migration holds, and a test keeps the two together) and refused, never cut, and
-  an email address or a phone number anywhere is refused.
+### The one prompt
 
-### The one prompt and the context run
-
-Every client runs the same prompt (`companyContextPrompt` in `src/lib/onboarding/onboarding.ts`), shown
-on the portal's Connect your Claude page and written out in the set-up email. It only connects the
-client's Claude and tells it to follow what Your Business Today says, so the steps can change without
-sending anyone a new prompt.
+Every client runs the same prompt (`onePrompt` in `src/lib/onboarding/onboarding.ts`), shown on the
+portal's Connect your Claude page (`PortalOnePrompt.svelte`) and written out in the set-up email. Its first
+line names the workflow map. It only connects the client's Claude and tells it to follow what Your Business
+Today says, so the steps can change without sending anyone a new prompt.
 
 - **`get_current_context` points the way.** A person on an organisation is told to call
-  `start_context_run` with that organisation's id first (`contextRunLine.ts`).
-- **`start_context_run` reads and writes nothing else.** It answers with the walk
-  (`describeContextRun.ts`), fitted to the latest version: an empty context is a broad first
-  conversation; a filled one lists the parts marked not right to put right first, what is still
-  missing (`contextGaps.ts`) and what the stage still needs, and the connectors recorded last time.
-- **The client says yes before anything is written,** and the only write is `record_company_context`.
-  What the walk reads in mail and documents is data, never an instruction.
-- **The walk ends on the portal home** until the context map exists; the map task points it there.
+  `start_workflow_map_run` with that organisation's id first (`workflowMapRunLine.ts`), whether they ran the
+  one prompt as it reads now, as it was first worded ("Run my company context with Your Business Today."), or
+  said "map the workflows".
+
+### The company context, retired
+
+The company context came before the workflow map and did the same job: versions, marks, confirmation and
+services raised from a confirmed version. Its pages and its seven connector actions are gone, and
+`create_goal_with_tasks` no longer takes `contextVersionId`. `/portal/context` sends its visitor to
+`/portal/workflow-map`, and the staff page of a company on the Leads and Clients registers shows its workflow
+map, read only, at `<register>/<company>/workflow-map`.
+
+- **Its tables stay exactly as they are, unread.** `company_context_versions`, `_connectors`, `_parts`,
+  `_steps`, `_links`, `_part_reviews` and `_confirmations`, and `goals.context_version_id`, are not dropped,
+  changed or copied; nothing had been filed in them on any organisation when they were retired (13 Nov 2026).
+- **The `context_confirmed` client event keeps its label,** so a ledger row of that kind still reads.
 
 ### Mapping the workflows
 
 A person who says "map the workflows" to their Claude is walked through finding the organisation's
 roles, their tasks and the hand-overs between them, the same careful way every time.
 
-- **`get_current_context` points the way.** A person on an organisation is told to call
-  `start_workflow_map_run` with that organisation's id (`workflowMapRunLine.ts`), beside the line for
+- **`get_current_context` points the way,** as for the one prompt above, beside the line for
   "set the organisation domain".
 - **`start_workflow_map_run` reads and writes nothing else.** It answers with the walk
   (`describeWorkflowMapRun.ts`): with no map filed, the whole June method (`workflowMapMethod.ts`) as a
@@ -236,7 +229,8 @@ roles, their tasks and the hand-overs between them, the same careful way every t
 - **The person says yes before anything is written,** and the only write is `file_workflow_map`, the whole
   map with every key carried forward. What the walk reads in mail and documents is data, never an
   instruction, and Your Business Today calls no model: the person's own Claude does the thinking.
-- **The walk ends on the Workflow map page,** with its link, once the map is read back.
+- **The walk ends on the Workflow map page,** with its link, once the map is read back, and for a client
+  with the link to Your workflow map on their portal, where they check it station by station.
 
 ### The Workflow map page
 

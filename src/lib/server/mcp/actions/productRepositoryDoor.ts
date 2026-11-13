@@ -1,4 +1,4 @@
-import { isRefused } from '$lib/server/companyContext/contextText';
+import { isRefused } from '$lib/server/filing/filedText';
 import { noSuchProject } from './describeProject';
 import { readText } from '../actionTypes';
 import { reachableProject } from '../projectAccess';

@@ -13,9 +13,8 @@ export type PortalProject = {
 	openTasks: PortalTask[];
 };
 
-/** Where a goal came from: the confirmed company context or the confirmed workflow map it was raised from, if either. */
+/** Where a goal came from: the confirmed workflow map it was raised from, if any. */
 export type PortalGoalOrigin = {
-	contextVersionNumber: number | null;
 	workflowMap: { stage: MapStage; versionNumber: number } | null;
 };
 

@@ -1,5 +1,5 @@
 import { workflowMapLimits as limits } from '$lib/data/workflowMap/workflowMapLimits';
-import { isRefused, readList } from '$lib/server/companyContext/contextText';
+import { isRefused, readList } from '$lib/server/filing/filedText';
 import { validateMapLine } from './validateMapLine';
 import type { MapLine } from '$lib/data/workflowMap/workflowMap';
 import type { Refusal } from '$lib/server/portal/portalFormReading';

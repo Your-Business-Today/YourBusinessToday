@@ -25,7 +25,6 @@ export function goalLine(goal: Goal): string {
 
 function serviceOrigin(goal: Goal): string {
 	if (goal.workflowMapVersionId !== null) return ", a service from the client's confirmed workflow map";
-	if (goal.contextVersionId !== null) return ", a service from the client's confirmed company context";
 	return '';
 }
 

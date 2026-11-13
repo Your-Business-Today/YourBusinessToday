@@ -1,7 +1,7 @@
 import { describeVisitorStanding, clientIdField, withPortalVisitor } from '../portalVisitorAccess';
 import { confirmWorkflowMapAction } from './confirmWorkflowMapAction';
 import { describeWorkflowMap } from './describeWorkflowMap';
-import { isRefused } from '$lib/server/companyContext/contextText';
+import { isRefused } from '$lib/server/filing/filedText';
 import { mapStageField } from './workflowMapFields';
 import { mapStageNames } from '$lib/data/workflowMap/workflowMapWords';
 import { mapStages } from '$lib/data/workflowMap/workflowMap';

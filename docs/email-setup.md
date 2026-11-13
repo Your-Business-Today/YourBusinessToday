@@ -39,7 +39,7 @@ Environment Variables), for every environment that should send mail:
 | --- | --- | --- |
 | `RESEND_API_KEY` | The key from step 1 (`re_…`) | `sendTransactionalEmail.ts` |
 | `EMAIL_FROM` | `Your Business Today <hello@yourbusiness.today>` | `sendTransactionalEmail.ts` — the display name and address on every invite |
-| `ENQUIRY_NOTIFICATION_EMAIL` | The inbox that should receive website enquiries | The contact-form notification, and the note that a client has confirmed their company context |
+| `ENQUIRY_NOTIFICATION_EMAIL` | The inbox that should receive website enquiries | The contact-form notification, and the note that a client has confirmed their workflow map |
 
 `EMAIL_FROM` must use the domain verified in step 1 — Resend rejects any other sender.
 The live domain is `yourbusiness.today`; no other domain is ever used as a sender.

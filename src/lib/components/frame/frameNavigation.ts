@@ -13,7 +13,6 @@ import {
 import {
 	portalBillingPath,
 	portalConnectPath,
-	portalContextPath,
 	portalHomePath,
 	portalPeoplePath,
 	portalWorkflowMapPath
@@ -32,7 +31,6 @@ export type FrameAccess = {
 const portalLinks: FrameLink[] = [
 	{ href: portalHomePath, label: 'Your projects', icon: 'folderKanban' },
 	{ href: portalWorkflowMapPath, label: 'Your workflow map', icon: 'route' },
-	{ href: portalContextPath, label: 'Your company context', icon: 'fileText' },
 	{ href: portalBillingPath, label: 'Billing', icon: 'creditCard' },
 	{ href: portalConnectPath, label: 'Connect your Claude', icon: 'plug' }
 ];

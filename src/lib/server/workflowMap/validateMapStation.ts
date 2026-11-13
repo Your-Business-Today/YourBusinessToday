@@ -1,7 +1,7 @@
 import { workflowMapLimits as limits } from '$lib/data/workflowMap/workflowMapLimits';
 import { stationState, stationStates } from '$lib/data/workflowMap/workflowMap';
 import { isUuid } from '$lib/data/isUuid';
-import { fieldsOf, isRefused, readChoice, readOptionalText, readRequiredText } from '$lib/server/companyContext/contextText';
+import { fieldsOf, isRefused, readChoice, readOptionalText, readRequiredText } from '$lib/server/filing/filedText';
 import { readMapKey, readMapWords, readThingSlugs } from './readMapWords';
 import type { MapStation, StationState } from '$lib/data/workflowMap/workflowMap';
 import type { Refusal } from '$lib/server/portal/portalFormReading';

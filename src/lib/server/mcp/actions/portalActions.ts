@@ -1,5 +1,4 @@
 import { portalBillingActions } from './portalBillingActions';
-import { portalContextActions } from './portalContextActions';
 import { portalPeopleActions } from './portalPeopleActions';
 import { portalRequestReadActions } from './portalRequestReadActions';
 import { portalRequestWriteActions } from './portalRequestWriteActions';
@@ -10,7 +9,6 @@ import type { McpAction } from '../actionTypes';
 export const portalActions: McpAction[] = [
 	...portalRequestReadActions,
 	...portalRequestWriteActions,
-	...portalContextActions,
 	...portalWorkflowMapActions,
 	...portalPeopleActions,
 	...portalBillingActions

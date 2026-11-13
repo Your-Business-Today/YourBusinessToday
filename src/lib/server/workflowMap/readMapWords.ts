@@ -1,5 +1,5 @@
 import { workflowMapLimits as limits, mapKeyShape } from '$lib/data/workflowMap/workflowMapLimits';
-import { isRefused, readList, readRequiredText, type TextRule } from '$lib/server/companyContext/contextText';
+import { isRefused, readList, readRequiredText, type TextRule } from '$lib/server/filing/filedText';
 import type { Refusal } from '$lib/server/portal/portalFormReading';
 
 const keyExample = 'lower-case words joined by hyphens, such as work-order-award';

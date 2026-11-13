@@ -12,8 +12,8 @@ const rowsBySurface: Record<string, Row[]> = {
 	portal_tasks: [{ id: 'task-1', project_id: 'project-1' }]
 };
 
-const contextColumn = 'context_version_number';
-const columnMissing = { code: '42703', message: `column portal_goals.${contextColumn} does not exist` };
+const mapColumn = 'workflow_map_version_number';
+const columnMissing = { code: '42703', message: `column portal_goals.${mapColumn} does not exist` };
 
 function fakeSupabase(surfacesRead: string[], isMigrated = true): SupabaseClient {
 	const from = (surface: string) => {
@@ -26,7 +26,7 @@ function fakeSupabase(surfacesRead: string[], isMigrated = true): SupabaseClient
 			},
 			in: () => query,
 			order: async () => {
-				const isMissing = !isMigrated && columnsRead.includes(contextColumn);
+				const isMissing = !isMigrated && columnsRead.includes(mapColumn);
 				if (isMissing) return { data: null, error: columnMissing };
 				return { data: rowsBySurface[surface] ?? [], error: null };
 			}
@@ -51,7 +51,7 @@ describe('withProjectWork', () => {
 		expect(projects[1].tasks).toEqual([]);
 	});
 
-	it('still reads the goals before migration 0171 adds the context each came from', async () => {
+	it('still reads the goals before migration 0213 adds the workflow map each came from', async () => {
 		const projects = await withProjectWork(fakeSupabase([], false), [{ id: 'project-1' }]);
 		expect(projects[0].goals).toEqual([rowsBySurface.portal_goals[0]]);
 	});
