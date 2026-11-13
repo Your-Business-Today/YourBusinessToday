@@ -58,7 +58,6 @@
 <ProjectOrganisationCell
 	organisationId={project.organisationId}
 	organisationName={project.organisationName}
-	isTeamProject={project.isTeamProject}
 />
 <div class={wideScreenOnlyClasses}>
 	<KitVersionBadge

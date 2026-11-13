@@ -11,7 +11,6 @@ const { harbourDental, quayBakery, ownProjects, teamProjects } = vi.hoisted(() =
 		status: 'scoping',
 		organisationId: organisation.id,
 		organisationName: organisation.name,
-		isTeamProject: false,
 		isInternal: false,
 		openTaskCount: 2,
 		assignedTaskCount: 0

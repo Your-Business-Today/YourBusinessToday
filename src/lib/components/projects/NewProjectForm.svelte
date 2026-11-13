@@ -4,7 +4,6 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import OrganisationSelect from '$lib/components/organisations/OrganisationSelect.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
-	import TeamProjectField from './TeamProjectField.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
@@ -37,7 +36,6 @@
 	</SmallCapsField>
 	<p class="-mt-2 text-sm text-chalk/50">{leaveRepositoryBlankForInternal}</p>
 	<OrganisationSelect {organisations} selectedOrganisationId={null} />
-	<TeamProjectField isTeamProject={false} />
 	<FormErrorNote message={tracker.errorMessage} />
 	<SubmitButton
 		isSaving={tracker.isSaving}

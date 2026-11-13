@@ -6,8 +6,8 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 export type OnboardingPlace = { organisationId: string; clientId: string; accountId: string };
 
 /**
- * The Onboarding project under the organisation, made once: a team project, so every YBT staff
- * member is on it, and the client's, so it shows on their portal.
+ * The Onboarding project under the organisation, made once: every YBT staff member
+ * is on it, and the client's, so it shows on their portal.
  */
 export async function onboardingProjectFor(
 	service: SupabaseClient,
@@ -19,7 +19,7 @@ export async function onboardingProjectFor(
 		name: onboardingProjectName,
 		description: onboardingProjectDescription,
 		organisationId: place.organisationId,
-		isTeamProject: true,
+		isStaffOnIt: true,
 		ownerId: place.accountId,
 		createdBy: place.accountId
 	});

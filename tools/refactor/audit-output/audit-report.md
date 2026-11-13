@@ -1,38 +1,38 @@
 # Refactor audit
 
-Generated 2026-11-13 19:04 UTC.
+Generated 2026-11-13 19:54 UTC.
 
 ## Headline
 
-**Code quality score 99.8%.** **0 of 4,354 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
+**Code quality score 99.8%.** **0 of 4,350 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
 
 ## Code quality score
 
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
 | **Standard baseline checks** | | **99.7%** | **60** | |
-| Files over the line limit | 0 in 4354 files | 100.0% | 10 | 50% of files |
+| Files over the line limit | 0 in 4350 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
-| Functions over the line limit | 0 in 6578 functions | 100.0% | 8 | 25% of functions |
-| Else blocks | 0 in 6207 branches | 100.0% | 5 | 50% of branches |
+| Functions over the line limit | 0 in 6573 functions | 100.0% | 8 | 25% of functions |
+| Else blocks | 0 in 6191 branches | 100.0% | 5 | 50% of branches |
 | Duplication % | 0.41 | 98.0% | 8 | 20 |
-| Explanatory comment lines | 0 in 163.65 thousand lines | 100.0% | 4 | 50 per thousand lines |
-| Inline magic values | 2 in 163.65 thousand lines | 99.9% | 4 | 20 per thousand lines |
-| Orphan components and functions | 0 in 7266 components and functions | 100.0% | 4 | 10% of components and functions |
-| Long member chain lines | 0 in 163.65 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Deeply indented lines | 0 in 163.65 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Overlong function names | 0 in 6578 functions | 100.0% | 4 | 10% of functions |
+| Explanatory comment lines | 0 in 163.46 thousand lines | 100.0% | 4 | 50 per thousand lines |
+| Inline magic values | 2 in 163.46 thousand lines | 99.9% | 4 | 20 per thousand lines |
+| Orphan components and functions | 0 in 7260 components and functions | 100.0% | 4 | 10% of components and functions |
+| Long member chain lines | 0 in 163.46 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Deeply indented lines | 0 in 163.46 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Overlong function names | 0 in 6573 functions | 100.0% | 4 | 10% of functions |
 | **Design pattern file count** | | **100.0%** | **10** | |
 | Files the patterns predict but are missing | 0 in 245 predicted files | 100.0% | 10 | 50% of predicted files |
 | Entities outside their expected file count | not measured | not measured | — | 50% of entities |
 | **Prose** | | **100.0%** | **20** | |
-| Conditions with calls tangled inside calls | 0 in 6207 branches | 100.0% | 8 | 25% of branches |
-| Conditions compared to a raw literal | 0 in 6207 branches | 100.0% | 6 | 25% of branches |
-| Accessor names that want to be a property | 0 in 6578 functions | 100.0% | 6 | 10% of functions |
+| Conditions with calls tangled inside calls | 0 in 6191 branches | 100.0% | 8 | 25% of branches |
+| Conditions compared to a raw literal | 0 in 6191 branches | 100.0% | 6 | 25% of branches |
+| Accessor names that want to be a property | 0 in 6573 functions | 100.0% | 6 | 10% of functions |
 | **Widget adoption** | | **100.0%** | **8** | |
 | Markup written by hand where a widget should be | 0 in 410 widget slots | 100.0% | 8 | 50% of widget slots |
 | **Input validation** | | **100.0%** | **8** | |
-| Doors that write without checking their input against the columns | 0 in 365 write doors | 100.0% | 8 | 50% of write doors |
+| Doors that write without checking their input against the columns | 0 in 364 write doors | 100.0% | 8 | 50% of write doors |
 
 Each element scores 100% with no offenders and falls in a straight line to 0% when its offenders, measured against the size of the codebase, reach the figure in the last column. The score is the weighted average of the elements that could be measured; an element that could not be measured lends its weight to the rest. Weights and zero points are set in `tools/refactor/rules.json` under `score.elements`. The offenders behind every reading are in `tools/refactor/audit-output/audit.json`.
 
@@ -40,23 +40,23 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| backend | 1,264 | 1,256 | 41,281 |
-| frontend | 1,126 | 998 | 34,344 |
-| shared | 852 | 837 | 29,768 |
-| tests | 691 | 678 | 31,714 |
-| api | 569 | 569 | 25,944 |
+| backend | 1,264 | 1,254 | 41,240 |
+| frontend | 1,127 | 997 | 34,300 |
+| shared | 854 | 836 | 29,738 |
+| tests | 692 | 678 | 31,688 |
+| api | 569 | 569 | 25,904 |
 | database | 214 | 7 | 212 |
 | tooling | 141 | 9 | 382 |
 | docs | 79 | 0 | 0 |
 | infrastructure | 17 | 0 | 0 |
-| **whole repository** | **4,953** | **4,354** | **163,645** |
+| **whole repository** | **4,957** | **4,350** | **163,464** |
 
 ## Summary
 
 | Check | Key figures |
 | --- | --- |
-| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 4354, totalLines: 163645, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
-| functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 6578, elseBlocks: 0, ifBlocks: 6207, measurementIsHeuristic: True |
+| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 4350, totalLines: 163464, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
+| functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 6573, elseBlocks: 0, ifBlocks: 6191, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
 | duplication | clones: 66, duplicatedLines: 617, totalLines: 151337, duplicatedPercentage: 0.41, carriedFromBaseline: True |
@@ -65,12 +65,12 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 2 |
 | prose | longMemberChainLines: 0, deeplyIndentedLines: 0, overlongLines: 429, measurementIsHeuristic: True |
 | conditions | tangledConditionLines: 0, literalComparisonLines: 0, measurementIsHeuristic: True |
-| orphans | orphanFunctions: 0, functionsExamined: 6578 |
+| orphans | orphanFunctions: 0, functionsExamined: 6573 |
 | designPatterns | roleFamilies: 230, predictedFiles: 245, predictedFilesMissing: 0, entities: 0, entitiesOutOfRange: 0, entitiesAccepted: 0, measurementIsHeuristic: True |
-| inventory | pages: 73, components: 688, orphanComponents: 0, averagePageLines: 44 |
-| siteDefinition | routes: 72, views: 764, siteComponents: 676, catalogue: 14, widgetUsages: 410, handRolledElements: 0, widgetSlots: 410, viewsWithHandRolled: 0, boxedContentWidgets: 0, designSheets: 8, designsLastChecked: 2026-11-13, brandCheckedAt: never |
-| inputValidation | schemaTables: 211, limitedColumns: 0, writeDoors: 365, unvalidatedDoors: 0, looserLimits: 0 |
-| fileAreas | totalFiles: 4953, backend: 1264, frontend: 1126, shared: 852, tests: 691, api: 569, database: 214, tooling: 141, docs: 79, infrastructure: 17 |
+| inventory | pages: 73, components: 687, orphanComponents: 0, averagePageLines: 44 |
+| siteDefinition | routes: 72, views: 763, siteComponents: 675, catalogue: 14, widgetUsages: 410, handRolledElements: 0, widgetSlots: 410, viewsWithHandRolled: 0, boxedContentWidgets: 0, designSheets: 8, designsLastChecked: 2026-11-13, brandCheckedAt: never |
+| inputValidation | schemaTables: 211, limitedColumns: 0, writeDoors: 364, unvalidatedDoors: 0, looserLimits: 0 |
+| fileAreas | totalFiles: 4957, backend: 1264, frontend: 1127, shared: 854, tests: 692, api: 569, database: 214, tooling: 141, docs: 79, infrastructure: 17 |
 
 ## Against the baseline
 

@@ -1,12 +1,10 @@
 import { isPersonalProject, personalProjectHint, personalProjectLabel } from './personalProject';
-import { teamProjectHint, teamProjectLabel } from './teamProject';
 import { webAddressLabel } from './webAddressLabel';
 
 export type ProjectHeaderFact = { label: string; href?: string; detail?: string };
 
 type HeadedProject = {
 	organisationId: string | null;
-	isTeamProject: boolean;
 	repositoryUrl: string;
 	environmentUrl: string;
 	defaultBranch: string;
@@ -15,7 +13,6 @@ type HeadedProject = {
 const noWebAddress = '';
 const noOrganisationName = '';
 const branchMark = '⎇';
-const teamFact: ProjectHeaderFact = { label: teamProjectLabel, detail: teamProjectHint };
 const personalFact: ProjectHeaderFact = { label: personalProjectLabel, detail: personalProjectHint };
 
 /** The organisation a project is for, and the one picked in the side bar, which the top bar already names. */
@@ -36,10 +33,8 @@ export function projectHeaderFacts(project: HeadedProject, organisation: Project
 }
 
 function belongingFacts(project: HeadedProject, organisation: ProjectOrganisation): ProjectHeaderFact[] {
-	const organisationFacts = organisationFactsFor(project, organisation);
-	if (project.isTeamProject) return [teamFact, ...organisationFacts];
 	if (isPersonalProject(project.organisationId)) return [personalFact];
-	return organisationFacts;
+	return organisationFactsFor(project, organisation);
 }
 
 function organisationFactsFor(project: HeadedProject, organisation: ProjectOrganisation): ProjectHeaderFact[] {
