@@ -4,6 +4,7 @@ import { spanQueryOf, type EntriesSpan } from './booksPeriodQuery';
 
 const accountsSegment = 'accounts';
 const invoicesSegment = 'invoices';
+const invoicePdfSegment = 'pdf';
 
 /** The books page of an organisation, as the side bar opens it. */
 export function booksPathOf(organisationId: string): string {
@@ -29,6 +30,11 @@ export function booksInvoicesPathOf(organisationId: string): string {
 /** The page that shows one of the organisation's invoices as a document, to the people keeping its books. */
 export function booksInvoicePathOf(organisationId: string, invoiceId: string): string {
 	return `${booksInvoicesPathOf(organisationId)}/${invoiceId}`;
+}
+
+/** The same invoice as a PDF to download. */
+export function booksInvoicePdfPathOf(organisationId: string, invoiceId: string): string {
+	return `${booksInvoicePathOf(organisationId, invoiceId)}/${invoicePdfSegment}`;
 }
 
 /** The invoice document's full address, for a person's Claude to hand over as a link. */

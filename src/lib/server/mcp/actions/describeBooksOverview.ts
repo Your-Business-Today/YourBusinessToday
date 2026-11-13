@@ -6,6 +6,7 @@ import type { InvoiceSummary } from '$lib/server/books/invoices';
 import { customerNameOf, type InvoiceNamings } from '$lib/server/books/invoiceNamings';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { describeInvoiceSummary } from './describeInvoices';
+import { describeBankStanding } from './describeBankReconciliation';
 
 /** The front page of an organisation's books: where the money stands, how the month went, and who still owes. */
 export function describeBooksOverview(organisationName: string, overview: BooksOverview, namings: InvoiceNamings): string {
@@ -16,6 +17,7 @@ export function describeBooksOverview(organisationName: string, overview: BooksO
 		`- Bank: ${formatPoundsAndPence(standing.bank)}`,
 		`- Owed by customers: ${formatPoundsAndPence(standing.debtors)}`,
 		`- Owed to suppliers: ${formatPoundsAndPence(standing.creditors)}`,
+		describeBankStanding(overview.bankStanding),
 		'',
 		`${month}, with the financial year to date:`,
 		`- Income: ${totalsText(standing.income)}`,

@@ -10,7 +10,8 @@
 	import InvoiceDocument from './InvoiceDocument.svelte';
 	import { invoiceStatusLabels, invoiceStatusTones } from './invoiceDocumentView';
 
-	let { crumbs, document, placeName }: { crumbs: Crumb[]; document: Document; placeName: string } = $props();
+	let { crumbs, document, placeName, pdfHref }: { crumbs: Crumb[]; document: Document; placeName: string; pdfHref: string } =
+		$props();
 
 	const title = $derived(`Invoice ${document.printedNumber}`);
 	const seller = $derived(document.seller);
@@ -29,7 +30,8 @@
 				<Badge label={invoiceStatusLabels[document.status]} tone={invoiceStatusTones[document.status]} hasDot />
 			{/snippet}
 			{#snippet actions()}
-				<Button look="primary" onclick={printOrSave}>Print or save as PDF</Button>
+				<Button href={pdfHref}>Download PDF</Button>
+				<Button look="primary" onclick={printOrSave}>Print</Button>
 			{/snippet}
 			<p class="text-sm text-chalk-subtle">From {seller.name} to {customer.name}, as it prints on A4.</p>
 		</WorkspaceHeader>
