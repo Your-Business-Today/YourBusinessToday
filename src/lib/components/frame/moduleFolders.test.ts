@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { frameSectionsOf } from './frameGroups';
-import { domainFrameLink, keepsTheDomain, moduleFrameLink, workflowMapFrameLink } from './moduleFolders';
+import { domainFrameLink, keepsTheDomain, moduleFrameLink, moduleFrameLinks, workflowMapFrameLink } from './moduleFolders';
 
 describe('moduleFrameLink', () => {
 	it('names each module’s page for its folder', () => {
@@ -10,6 +10,21 @@ describe('moduleFrameLink', () => {
 			icon: 'chartColumn',
 			group: 'accounts'
 		});
+	});
+});
+
+describe('moduleFrameLinks', () => {
+	it('lists the books’ Costs page after Reports, in the Accounts folder', () => {
+		const [accounts] = frameSectionsOf(moduleFrameLinks('books', '/organisations/harbour/books'));
+		expect(accounts.folder).toEqual({ label: 'Accounts', icon: 'poundSterling' });
+		expect(accounts.links).toEqual([
+			{ href: '/organisations/harbour/books', label: 'Reports', icon: 'chartColumn' },
+			{ href: '/organisations/harbour/books/costs', label: 'Costs', icon: 'receipt' }
+		]);
+	});
+
+	it('lists a module that keeps no other page by its own page alone', () => {
+		expect(moduleFrameLinks('brand', '/organisations/harbour/brand')).toEqual([moduleFrameLink('brand', '/organisations/harbour/brand')]);
 	});
 });
 
