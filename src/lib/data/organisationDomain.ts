@@ -1,4 +1,4 @@
-import type { DomainLists } from './domainReading';
+import type { DomainAssumption, DomainLists } from './domainReading';
 import type { DomainModel } from './blueprint/domainModel';
 import type { AreaRelationshipFact, DomainPageFacts, DomainPageKind, SubdomainKind } from './businessBrainDomain';
 
@@ -30,10 +30,11 @@ export type DomainContextSummary = {
 /** One area passing something to another, with each area's title. */
 export type DomainAreaRelationship = AreaRelationshipFact & { fromTitle: string; toTitle: string };
 
-/** An organisation's own domain: the map of its entities, its contexts, the page saying how they relate and its rows, and its things, rules and glossaries. */
+/** An organisation's own domain: the map of its entities, its contexts, the page saying how they relate and its rows, its things, rules and glossaries, and what was assumed. */
 export type OrganisationDomain = DomainLists & {
 	model: DomainModel;
 	contexts: DomainContextSummary[];
 	contextMap: DomainBlock | null;
 	areaRelationships: DomainAreaRelationship[];
+	assumptions: DomainAssumption[];
 };

@@ -29,6 +29,9 @@ export type DomainGlossary = DomainAreaPlace & { pageId: string; terms: DomainTe
 /** One word the business uses, what it means and the area it is used in. */
 export type DomainWord = DomainTermFact & { areaTitle: string; glossaryPageId: string };
 
+/** A sentence the Claude concluded about a page and nobody stated, with the page, the thing it is when it is one, and its area. */
+export type DomainAssumption = DomainAreaPlace & { sentence: string; pageId: string; pageTitle: string; thingSlug: string | null };
+
 /** The lists the Domain page shows, area by area, the heart of the business first. */
 export type DomainLists = { things: DomainThing[]; rules: DomainRule[]; glossaries: DomainGlossary[] };
 

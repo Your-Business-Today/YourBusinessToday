@@ -33,10 +33,14 @@ export type DomainGlossaryFactsGiven = { terms: DomainTermGiven[] };
 /** The context map's facts: how the areas relate, one row for each area passing something to another. */
 export type DomainContextMapFactsGiven = { relationships: AreaRelationshipFact[] };
 
-/** The facts a page of any kind written by a filing carries. */
+/** What the Claude concluded about a page and nobody stated, each sentence worded to follow "I assumed", kept when given. */
+export type DomainAssumedGiven = { assumed?: string[] };
+
+/** The facts a page of any kind written by a filing carries; a page of any kind may carry what was assumed about it beside its own. */
 export type DomainPageFactsGiven =
 	| DomainFactsGiven
 	| DomainRuleFactsGiven
 	| DomainEventFactsGiven
 	| DomainGlossaryFactsGiven
-	| DomainContextMapFactsGiven;
+	| DomainContextMapFactsGiven
+	| DomainAssumedGiven;

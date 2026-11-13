@@ -15,19 +15,21 @@ describe('the tabs of the Domain page', () => {
 	it('opens on the tab the address names', () => {
 		expect(domainTabOf(pageAt('?tab=things'))).toBe(domainTabKeys.things);
 		expect(domainTabOf(pageAt('?tab=words'))).toBe(domainTabKeys.words);
+		expect(domainTabOf(pageAt('?tab=questions'))).toBe(domainTabKeys.questions);
 	});
 
 	it('opens a thing on the Things tab, whatever the default', () => {
 		expect(domainTabOf(pageAt(domainThingHref('work-order')))).toBe(domainTabKeys.things);
 	});
 
-	it('shows Map first, then Things, Rules and Words', () => {
-		const tabs = domainTabsFor(domainWithNothingFiled, []);
-		expect(tabs.map(({ label, href }) => [label, href])).toEqual([
-			['Map', '?tab=map'],
-			['Things', '?tab=things'],
-			['Rules', '?tab=rules'],
-			['Words', '?tab=words']
+	it('shows Map first, then Things, Rules, Words and Questions last, counting the questions open', () => {
+		const tabs = domainTabsFor(domainWithNothingFiled, [], 3);
+		expect(tabs.map(({ label, href, count }) => [label, href, count])).toEqual([
+			['Map', '?tab=map', null],
+			['Things', '?tab=things', null],
+			['Rules', '?tab=rules', null],
+			['Words', '?tab=words', null],
+			['Questions', '?tab=questions', 3]
 		]);
 	});
 });

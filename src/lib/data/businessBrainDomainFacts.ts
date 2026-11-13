@@ -1,3 +1,4 @@
+import { filledTextsOf } from './filledText';
 import { isPlainObject, type PlainObject } from './plainObject';
 import { readAreaRelationships, readSubdomainKind } from './areaRelationshipFacts';
 import { readDomainTerms } from './domainTermFacts';
@@ -26,7 +27,8 @@ const noFacts: DomainPageFacts = {
 	guardsThingSlug: null,
 	guardsStatus: null,
 	followsEventSlug: null,
-	definesWord: null
+	definesWord: null,
+	assumed: []
 };
 
 /** A page's facts as the domain reads them; anything a page does not carry, or carries in another shape, reads as absent. */
@@ -45,7 +47,8 @@ export function readDomainPageFacts(facts: unknown): DomainPageFacts {
 		aggregateRootSlug: isText(facts.aggregateRootSlug) ? facts.aggregateRootSlug : null,
 		governs: Array.isArray(facts.governs) ? facts.governs.filter(isText) : [],
 		terms: readDomainTerms(facts.terms),
-		relationships: readAreaRelationships(facts.relationships)
+		relationships: readAreaRelationships(facts.relationships),
+		assumed: filledTextsOf(facts.assumed)
 	};
 }
 

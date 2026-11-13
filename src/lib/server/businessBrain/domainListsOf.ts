@@ -15,7 +15,8 @@ export function domainListsOf(contextPages: DomainPage[], pages: DomainPage[]): 
 	};
 }
 
-function coreFirst(contextPages: DomainPage[]): DomainPage[] {
+/** The areas with the core domain first. */
+export function coreFirst(contextPages: DomainPage[]): DomainPage[] {
 	const core = contextPages.filter(({ facts }) => facts.isCoreDomain);
 	const others = contextPages.filter(({ facts }) => !facts.isCoreDomain);
 	return [...core, ...others];

@@ -11,6 +11,7 @@ vi.mock('$lib/server/organisations/getOrganisation', () => ({
 		organisationId === 'jewel' ? { id: 'jewel', parentOrganisationId: null, name: 'Jewel Enterprises' } : null
 }));
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['business_brain'] }));
+vi.mock('$lib/server/workflowMap/readTodaysWorkflowMap', () => ({ readTodaysWorkflowMap: async () => null }));
 vi.mock('$lib/server/businessBrain/ensureBusinessBrainPart', () => ({ ensureBusinessBrainPart: async () => 'expertise' }));
 vi.mock('$lib/server/businessBrain/fileBusinessBrainSource', () => ({
 	fileBusinessBrainSource: async (_supabase: unknown, _organisationId: string, source: Record<string, unknown>) => {
@@ -56,6 +57,7 @@ describe('filing what one source teaches about the domain', () => {
 		expect(answer).toContain('Filed "Job" (job, page id page-job)');
 		expect(pageAt('client-work')).toMatchObject({ kind: 'bounded_context', facts: { isCoreDomain: true }, parentPageId: null });
 		expect(pageAt('job')).toMatchObject({ kind: 'entity', parentPageId: 'page-client-work' });
+		expect(answer).toContain('1 questions are still open, most important first: 1. Nothing says what makes a job.');
 	});
 
 	it('refuses a page in a context neither filed nor given, writing nothing and keeping no source', async () => {

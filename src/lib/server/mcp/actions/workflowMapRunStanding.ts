@@ -4,6 +4,7 @@ import { stationsMarkedNotRight } from './stationsMarkedNotRight';
 import { workflowMapGaps } from '$lib/server/workflowMap/workflowMapGaps';
 import { mapQuestionsSection, stationsStillAssumed } from './mapQuestionsSection';
 import { workflowMapRunDomainSection } from './mapDomainJoinSteps';
+import { domainQuestionCountLine } from './domainQuestionsSection';
 import type { MapVocabulary } from '$lib/data/workflowMap/phraseInDomain';
 import type { StationStandings } from '$lib/data/workflowMap/stationReview';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
@@ -16,6 +17,7 @@ export type WorkflowMapRunStanding = {
 	products: { id: string; name: string }[];
 	standings: StationStandings;
 	vocabulary: MapVocabulary;
+	domainQuestionCount: number | null;
 };
 
 /** The map this run builds on: today's After when there is one, else the Before, else none. */
@@ -36,7 +38,9 @@ export function stageToFile(standing: WorkflowMapRunStanding): MapStage {
 export function workflowMapRunStanding(standing: WorkflowMapRunStanding): string {
 	const latest = latestMapOf(standing);
 	const held = latest === null ? nothingFiled(standing) : mapFiled(standing, latest);
-	return [held, ...workflowMapRunDomainSection(latest, standing.vocabulary), stageSentence(standing)].join('\n\n');
+	const { vocabulary, domainQuestionCount } = standing;
+	const domainSection = [...workflowMapRunDomainSection(latest, vocabulary), ...domainQuestionCountLine(domainQuestionCount)];
+	return [held, ...domainSection, stageSentence(standing)].join('\n\n');
 }
 
 function nothingFiled({ organisation }: WorkflowMapRunStanding): string {
