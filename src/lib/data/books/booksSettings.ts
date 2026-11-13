@@ -15,8 +15,13 @@ export type BooksSettings = {
 
 export type BooksSetting = keyof BooksSettings;
 
+/** The first accounting period's first and last day (migration 0218): both or neither, null when not set. */
+export type FirstPeriodSettings = { firstPeriodStart: string | null; firstPeriodEnd: string | null };
+
 /** The settings a person asked to change; every one left out keeps what the books hold. */
-export type BooksSettingsChange = Partial<BooksSettings>;
+export type BooksSettingsChange = Partial<BooksSettings & FirstPeriodSettings>;
+
+export type ChangeableBooksSetting = keyof BooksSettingsChange;
 
 export const booksSettingsTable = 'books_settings';
 
@@ -36,6 +41,17 @@ export const booksSettingsColumns: Record<BooksSetting, string> = {
 };
 
 export const booksSettingNames = Object.keys(booksSettingsColumns) as BooksSetting[];
+
+/** The first period's columns, read with the financial year rather than with the invoice settings. */
+export const firstPeriodColumns: Record<keyof FirstPeriodSettings, string> = {
+	firstPeriodStart: 'first_period_start',
+	firstPeriodEnd: 'first_period_end'
+};
+
+/** Every setting a change may write, with its column. */
+export const changeableSettingsColumns: Record<ChangeableBooksSetting, string> = { ...booksSettingsColumns, ...firstPeriodColumns };
+
+export const changeableSettingNames = Object.keys(changeableSettingsColumns) as ChangeableBooksSetting[];
 
 /** What an organisation's invoices take until its settings are saved: the column defaults of books_settings (migration 0151). */
 export const invoiceSettingDefaults = { invoicePrefix: 'INV', nextInvoiceNumber: 1, paymentTermsDays: 30 } as const;

@@ -31,6 +31,17 @@ describe('validateNewInvoiceDraft', () => {
 		expect(validateNewInvoiceDraft(lines({ costCentreId: 'Projects' }))).toContain('The Line 2 cost centre must be an id');
 	});
 
+	it('keeps a line that takes money off, and refuses lines that come to less than nothing', () => {
+		const discount = { ...websiteBuild, description: 'Agreed discount', quantity: 1, unitPrice: -1000 };
+		expect(validateNewInvoiceDraft({ customerId, lines: [websiteBuild, discount] })).toEqual(
+			expect.objectContaining({ lines: [{ ...websiteBuild, costCentreId: null }, { ...discount, costCentreId: null }] })
+		);
+		const tooMuchOff = { ...discount, unitPrice: -1000.01 };
+		const refusal = 'The lines come to -£0.01; an invoice comes to nothing or more, so what its lines take off is no more than the rest add up to.';
+		expect(validateNewInvoiceDraft({ customerId, lines: [websiteBuild, tooMuchOff] })).toBe(refusal);
+		expect(validateInvoiceDraftChange({ lines: [websiteBuild, tooMuchOff] })).toBe(refusal);
+	});
+
 	it('refuses a date that is not a day and a reference that is not text', () => {
 		expect(validateNewInvoiceDraft({ customerId, issueDate: '2026-02-30', lines: [websiteBuild] })).toBe('issueDate is not a day on the calendar; 2026-02-30 was given.');
 		expect(validateNewInvoiceDraft({ customerId, reference: 12, lines: [websiteBuild] })).toBe('reference is text; 12 was given.');

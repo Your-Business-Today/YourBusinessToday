@@ -6,7 +6,17 @@ const given = { expenseDate: '2026-11-05', supplier: 'Adobe', amount: '84.99', e
 
 describe('a cost from a supplier', () => {
 	it('is kept as given, with what was left out taking the column defaults', () => {
-		expect(validateExpense(given)).toEqual({ ...given, amount: 84.99, description: '', costCentreId: null, isPaid: false });
+		const { expenseAccountId, ...details } = given;
+		const kept = { ...details, amount: 84.99, description: '', costCentreId: null, isPaid: false };
+		expect(validateExpense(given)).toEqual({ ...kept, costAccount: { isPaidUpFront: false, expenseAccountId } });
+	});
+
+	it('is coded to Prepayments when paid up front, in place of an account, never as well as one', () => {
+		const { expenseAccountId, ...paidUpFront } = { ...given, isPaidUpFront: true };
+		expect(validateExpense(paidUpFront)).toEqual(expect.objectContaining({ costAccount: { isPaidUpFront: true } }));
+		expect(validateExpense({ ...paidUpFront, expenseAccountId })).toContain('Give expenseAccountId or isPaidUpFront, not both');
+		expect(validateExpense({ ...paidUpFront, isPaidUpFront: 1 })).toBe('isPaidUpFront is true or false; 1 was given.');
+		expect(validateExpense({ ...paidUpFront, isPaidUpFront: false })).toContain('The expense account must be an id');
 	});
 
 	it('is refused, never repaired, when a column cannot hold it', () => {

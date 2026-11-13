@@ -13,7 +13,8 @@ import type { McpAction } from '../actionTypes';
 const draftOnlyWhatThePersonSaid =
 	'Draft only what the person told you. The customer is the business they named: list_customer_balances gives its id, ' +
 	'and create_customer adds one only when none there is that business. Each line is their description, quantity and ' +
-	'price, never a figure you worked out or filled in. Every line needs an income account from read_chart_of_accounts: ' +
+	'price, never a figure you worked out or filled in. A discount the person agreed is a line of its own at a price below ' +
+	'zero, such as 1 at -2000, never taken off another line. Every line needs an income account from read_chart_of_accounts: ' +
 	'ask the person which when more than one could fit, and keep a line within a cost centre only when they say so. ' +
 	'Leave the dates out for today and the payment terms, and leave out a reference or notes they did not give. A draft ' +
 	'takes the next invoice number and posts nothing; read it back to the person as the answer gives it.';

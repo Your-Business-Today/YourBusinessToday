@@ -20,6 +20,10 @@ describe('projectPageLinks', () => {
 	it('gives an internal project its Task Management alone, since it has no code, domain or deploys', () => {
 		expect(projectPageLinks(harbour, true).map(({ label }) => label)).toEqual(['Task Management']);
 	});
+
+	it('leaves Task Management off a product under an organisation, whose Tasks page holds the team’s jobs', () => {
+		expect(projectPageLinks(harbour, false, true).map(({ label }) => label)).toEqual(['Development', 'Workflow map']);
+	});
 });
 
 describe('currentProjectPage', () => {

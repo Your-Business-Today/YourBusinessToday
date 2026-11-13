@@ -35,11 +35,15 @@ export function voidInvoiceStep(args: Row): boolean {
 	return true;
 }
 
-/** 0195's payment step: what is owed is worked out under the lock from the issue journal's debit, less what was paid. */
+const tradeDebtorsCode = '1100';
+
+const isOnTradeDebtors = (line: Row) => rowsOf('books_ledger_accounts').some((account) => account.id === line.account_id && account.code === tradeDebtorsCode);
+
+/** 0219's payment step: what is owed is worked out under the lock from the issue journal's debit on trade debtors, less what was paid. */
 export function recordPaymentStep(args: Row): boolean {
 	const invoice = invoiceOf(args);
 	if (invoice?.status !== InvoiceStatuses.issued) return false;
-	const issueLines = rowsOf('books_journal_lines').filter((line) => line.journal_id === invoice.issued_journal_id);
+	const issueLines = rowsOf('books_journal_lines').filter((line) => line.journal_id === invoice.issued_journal_id && isOnTradeDebtors(line));
 	const owedPence = totalOf(issueLines, 'debit') - totalOf(ofInvoice('books_invoice_payments', args), 'amount');
 	const amountPence = toPence(Number(args.payment_amount));
 	if (amountPence > owedPence) return false;

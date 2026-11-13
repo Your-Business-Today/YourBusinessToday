@@ -7,6 +7,7 @@ const bank = { id: 'account-1200', code: '1200', name: 'Bank', accountType: 'ass
 const entry = (journalId: string, journalDate: string, debit: number, credit: number): StatementEntry => ({
 	journalId,
 	journalDate,
+	postedAt: `${journalDate}T09:00:00+00:00`,
 	description: 'Shop takings',
 	kind: 'manual',
 	costCentreId: null,

@@ -18,7 +18,7 @@ const accrueOnlyWhatThePersonSaid =
 
 const releaseOnlyWhatThePersonSaid =
 	'For a payment the person says covers several months, such as a year\'s insurance paid up front. The payment itself is ' +
-	'recorded first with record_expense, coded to Prepayments (1300); this then moves a share into the expense account at ' +
+	'recorded first with record_expense and isPaidUpFront, which codes it to Prepayments (1300); this then moves a share into the expense account at ' +
 	'the end of each month it covers. Use only the first month, number of months and whole amount the person gave, never ' +
 	'ones you worked out, and the expense account they chose from read_chart_of_accounts. The shares are equal to the ' +
 	'penny and the last month carries any pence left over. Release a payment once: a second release posts it twice.';

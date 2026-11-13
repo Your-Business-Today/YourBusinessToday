@@ -10,7 +10,9 @@ import type { McpAction } from '../actionTypes';
 const postWhatThePersonSaid =
 	'Post only what the person told you: the day, what it is for, each account and each amount. Never guess an ' +
 	'account, an amount, a date or a side; ask them instead. Read the chart of accounts first for the ids, and ' +
-	'say the journal back to the person before posting it. A journal is never edited or deleted: one posted in ' +
+	'say the journal back to the person before posting it. Give a line its own description when the person says what ' +
+	"that entry was; left out, the line reads with the journal's. " +
+	'A journal is never edited or deleted: one posted in ' +
 	'error is undone by posting its reversal, the same lines on the other sides, with reversesJournalId naming ' +
 	'it. Invoices, payments, supplier costs and month-end entries post through their own actions once they exist, ' +
 	'never as a journal here.';

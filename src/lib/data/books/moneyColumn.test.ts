@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { moneyColumnLimits, validateMoney, validateQuantity } from './moneyColumn';
+import { moneyColumnLimits, validateMoney, validateQuantity, validateSignedMoney } from './moneyColumn';
 import { formatPoundsAndPence, sumMoney } from './money';
 
 describe('validateMoney', () => {
@@ -50,5 +50,19 @@ describe('validateQuantity', () => {
 		expect(validateQuantity('Line 1 quantity', 0)).toBe('Line 1 quantity is above zero; 0 was given.');
 		expect(validateQuantity('Line 1 quantity', 1.005)).toBe('Line 1 quantity has at most 2 decimal places; 1.005 was given.');
 		expect(validateQuantity('Line 1 quantity', 'two')).toBe('Line 1 quantity is a number, such as 2 or 1.5.');
+	});
+});
+
+describe('validateSignedMoney', () => {
+	it('accepts an amount below zero, as a line that takes money off, written as a number or as text', () => {
+		expect(validateSignedMoney('Line 2 unitPrice', -2000)).toBe(-2000);
+		expect(validateSignedMoney('Line 2 unitPrice', '-2000.00')).toBe(-2000);
+		expect(validateSignedMoney('Line 2 unitPrice', 120.5)).toBe(120.5);
+	});
+
+	it('refuses a third decimal place, an amount the column cannot hold either side of zero, and what is not an amount', () => {
+		expect(validateSignedMoney('price', -1.005)).toBe('price has at most 2 decimal places; -1.005 was given.');
+		expect(validateSignedMoney('price', -10_000_000_000)).toMatch(/^price is at least -9999999999.99/);
+		expect(validateSignedMoney('price', 'ten')).toBe('price is an amount in pounds, such as 120.50, or -20.00 to take money off.');
 	});
 });

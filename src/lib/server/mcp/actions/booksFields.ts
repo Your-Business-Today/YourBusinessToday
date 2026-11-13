@@ -1,3 +1,4 @@
+import { longestLineDescription } from '$lib/data/books/journalLineDescription';
 import { textField } from '../actionTypes';
 
 export const booksOrganisationField = textField(
@@ -22,7 +23,10 @@ const journalLineField = {
 		accountId: textField('The account the line posts to, by its id as read_chart_of_accounts gives it'),
 		costCentreId: textField('Leave out, or keep the line within one cost centre by its id'),
 		debit: { type: 'number', description: 'The amount in pounds on the debit side, such as 120.50; leave out for a credit line' },
-		credit: { type: 'number', description: 'The amount in pounds on the credit side, such as 120.50; leave out for a debit line' }
+		credit: { type: 'number', description: 'The amount in pounds on the credit side, such as 120.50; leave out for a debit line' },
+		description: textField(
+			`Leave out for the journal's own description, or what this line was, in the person's words, at most ${longestLineDescription} characters`
+		)
 	},
 	required: ['accountId'],
 	additionalProperties: false

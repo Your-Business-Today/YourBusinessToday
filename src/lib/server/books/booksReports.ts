@@ -7,7 +7,7 @@ import { buildBalanceSheet, type BalanceSheet } from '$lib/data/books/reports/ba
 import { validateReportPeriod } from '$lib/data/books/reports/reportPeriod';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { findLedgerEntriesUpTo } from './ledgerEntries';
-import { findFinancialYearStartMonth } from './financialYear';
+import { findFinancialYear } from './financialYear';
 import { validatedCostCentreId } from './costCentreChoice';
 
 /** The trial balance of an organisation's books at the end of the day asAt. */
@@ -28,8 +28,8 @@ export type ProfitAndLossRequest = { periodStart: unknown; periodEnd: unknown; c
 export async function readProfitAndLoss(supabase: SupabaseClient, organisationId: string, request: ProfitAndLossRequest): Promise<ProfitAndLoss> {
 	refuseWhen(validateRecordId('organisation', organisationId));
 	const costCentreId = validatedCostCentreId(request.costCentreId);
-	const yearStartMonth = await findFinancialYearStartMonth(supabase, organisationId);
-	const period = validateReportPeriod(request.periodStart, request.periodEnd, yearStartMonth);
+	const financialYear = await findFinancialYear(supabase, organisationId);
+	const period = validateReportPeriod(request.periodStart, request.periodEnd, financialYear);
 	if (typeof period === 'string') throw new BooksRefusal(period);
 	const entries = await findLedgerEntriesUpTo(supabase, organisationId, period.end);
 	return buildProfitAndLoss(entries, period, costCentreId);

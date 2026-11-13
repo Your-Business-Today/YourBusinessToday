@@ -7,6 +7,7 @@
 	import { formatPoundsAndPence } from '$lib/data/books/money';
 	import { amountOwedOn, billingStandingLabels, billingStandingOf, isPayable, type BilledInvoice } from '$lib/data/billing/billedInvoice';
 	import { billingFields, payAction } from '$lib/portal/billingFields';
+	import { portalBilledInvoicePath } from '$lib/portal/portalPaths';
 
 	let { invoice, isPayingOpen }: { invoice: BilledInvoice; isPayingOpen: boolean } = $props();
 
@@ -19,6 +20,7 @@
 <DashboardPanel title={`Invoice ${invoice.printedNumber}`}>
 	{#snippet actions()}
 		<Badge label={billingStandingLabels[standing]} tone={billingStandingTones[standing]} hasDot />
+		<Button href={portalBilledInvoicePath(invoice.id)}>Open the invoice</Button>
 		{#if canPay}
 			<form method="POST" action={payAction}>
 				<input type="hidden" name={billingFields.invoiceId} value={invoice.id} />

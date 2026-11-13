@@ -16,7 +16,8 @@ const recordOnlyWhatThePersonSaid =
 	'Record only the cost the person told you about: the supplier they named, the day and the amount they gave, never a ' +
 	'figure you worked out or a detail you filled in. Code it to the expense account they chose from read_chart_of_accounts, ' +
 	'asking which when more than one could fit, and keep it within a cost centre only when they say so. Something paid up ' +
-	'front for several months goes to Prepayments (1300). Say isPaid only when they said it has been paid already: it then ' +
+	'front for several months takes isPaidUpFront in place of the account: it goes to Prepayments (1300), and ' +
+	'create_prepayment_release then spreads it over those months. Say isPaid only when they said it has been paid already: it then ' +
 	'posts against the bank; otherwise it is owed to the supplier on trade creditors until pay_expense settles it.';
 
 const payOnlyWhenThePersonSaysSo =
@@ -41,8 +42,7 @@ export const booksExpenseActions: McpAction[] = [
 			'organisationId',
 			'expenseDate',
 			'supplier',
-			'amount',
-			'expenseAccountId'
+			'amount'
 		]),
 		run: async (caller, input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.posting, async () => {
