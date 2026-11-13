@@ -38,7 +38,7 @@
 		{/if}
 		{#if selectedTitle !== null}
 			<span class="text-chalk/40">/</span>
-			<span class="rounded-full border border-signal/50 bg-night/70 px-3 py-1 text-signal backdrop-blur">
+			<span class="max-w-xs truncate rounded-full border border-signal/50 bg-night/70 px-3 py-1 text-signal backdrop-blur">
 				{selectedTitle}
 			</span>
 		{/if}
