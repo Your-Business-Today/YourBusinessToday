@@ -1,6 +1,6 @@
 import { booksActions } from './booksActions';
 import { ledgerDatabase, ledgerTables, ledgerWrites } from './booksLedgerDatabase.fixture';
-import { nigelAccountId } from './booksLedgerCalls.fixture';
+import { ledgerCalls, nigelAccountId } from './booksLedgerCalls.fixture';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
@@ -11,6 +11,11 @@ export const organisationId = '00000000-0000-4000-8000-0000000000a1';
 const linesTable = 'books_bank_lines';
 const sameLineColumns = ['organisation_id', 'bank_account_id', 'line_date', 'counterparty', 'reference', 'amount', 'occurrence'];
 let keptCount = 0;
+
+const keptIdDigits = 6;
+
+/** The id the stand-in gives the nth line it keeps, shaped as the database's. */
+const keptLineId = (count: number) => `00000000-0000-4000-8000-0000b1${String(count).padStart(keptIdDigits, '0')}`;
 
 /** What the books_bank_lines stand-in holds, in the order its lines were kept. */
 export function heldBankLines(): Row[] {
@@ -27,7 +32,7 @@ function keepNewLines(given: Row[]): Row[] {
 	const heldKeys = new Set(heldBankLines().map(sameLineKey));
 	const kept = given
 		.filter((row) => !heldKeys.has(sameLineKey(row)))
-		.map((row) => ({ id: `bank-line-${(keptCount += 1)}`, matched_journal_id: null, ...row }));
+		.map((row) => ({ id: keptLineId((keptCount += 1)), matched_journal_id: null, matched_as: null, ...row }));
 	ledgerTables[linesTable] = [...heldBankLines(), ...kept];
 	return kept;
 }
@@ -53,8 +58,10 @@ function bankLinesStandIn() {
 	return chain;
 }
 
-const bankLineSupabase = {
-	from: (table: string) => (table === linesTable ? bankLinesStandIn() : ledgerDatabase.from(table))
+/** The stand-in that keeps statement lines beside the other books tables, with the database's steps. */
+export const bankLineSupabase = {
+	from: (table: string) => (table === linesTable ? bankLinesStandIn() : ledgerDatabase.from(table)),
+	rpc: ledgerCalls
 };
 
 /** Runs a books action as Nigel on the organisation, against the stand-in that keeps statement lines and accounts. */
