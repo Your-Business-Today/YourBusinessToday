@@ -1,7 +1,10 @@
-import type { AreaRelationshipFact, DomainFieldFact } from './businessBrainDomain';
+import type { AreaRelationshipFact, DomainFieldFact, DomainLifecycleStep } from './businessBrainDomain';
 
-/** The facts a thing written by a filing carries, as they are kept. */
-export type DomainFactsGiven = { fields: DomainFieldFact[]; statuses: string[]; aggregateRootSlug: string | null };
+/** What a record was given beyond its fields and statuses: only what was given is kept, so a page filed without them reads as it did. */
+export type DomainRecordFactsGiven = { identity?: string; lifecycle?: DomainLifecycleStep[]; keptIn?: string; memberSlugs?: string[] };
+
+/** The facts a thing written by a filing carries, as they are kept; its statuses are its lifecycle's when it has one. */
+export type DomainFactsGiven = { fields: DomainFieldFact[]; statuses: string[]; aggregateRootSlug: string | null } & DomainRecordFactsGiven;
 
 /** A rule's facts: the slugs of the things it governs. */
 export type DomainRuleFactsGiven = { governs: string[] };

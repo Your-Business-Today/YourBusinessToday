@@ -3,6 +3,7 @@ import type { DomainFilingDone } from '$lib/server/businessBrain/fileDomainFromS
 import type { DomainFilingGap } from '$lib/server/businessBrain/domainFilingGaps';
 import type { DomainHolder } from './domainHolder';
 import type { DomainWordGap } from '$lib/server/businessBrain/domainWordGaps';
+import type { DomainGroupGap } from '$lib/server/businessBrain/domainGroupGaps';
 
 export const nothingTaught =
 	'Nothing was filed: no context, page or retire was given. A source that teaches the domain nothing is a valid outcome; say so to the person.';
@@ -27,11 +28,17 @@ function unknownNaming(holder: DomainHolder, gap: DomainWordGap): string {
 	return `The word "${word}" names ${thingSlug} in ${unknownStatus}, which is not a status of it: ${statusesHeld}. ${nothingFiled}`;
 }
 
+function groupGap(holder: DomainHolder, gap: DomainGroupGap): string {
+	if ('memberSlug' in gap) return `${gap.memberSlug} is named a member of ${gap.groupSlugs.join(' and ')}; a record belongs to one group at most. Name it in one group only. Nothing was filed.`;
+	return `The group ${gap.groupSlug} names ${gap.unknownMemberSlug} as a member, which is no record or detail the domain holds or this call writes. File it first or in the same call, or name what the domain has (${holder.readAction}). Nothing was filed.`;
+}
+
 /** Why nothing was filed, naming what the filing names that the domain will not hold. */
 export function filingGapAnswer(holder: DomainHolder, gap: DomainFilingGap): string {
 	if ('unknownContextSlug' in gap) return unknownContext(holder, gap.unknownContextSlug);
 	if ('unknownThingSlug' in gap) return unknownThing(holder, gap.unknownThingSlug);
 	if ('unknownRelatedContextSlug' in gap) return unknownRelatedContext(holder, gap.unknownRelatedContextSlug);
+	if ('memberSlug' in gap || 'unknownMemberSlug' in gap) return groupGap(holder, gap);
 	return unknownNaming(holder, gap);
 }
 

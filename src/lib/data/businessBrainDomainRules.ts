@@ -24,7 +24,10 @@ export const domainFilingLimits = {
 	longestMeaning: 1000,
 	mostOtherNames: 10,
 	mostRelationships: 30,
-	longestPasses: 300
+	longestPasses: 300,
+	longestIdentity: 1000,
+	longestKeptIn: 300,
+	mostMembers: 30
 } as const;
 
 /** The kinds a page written by a filing may take; a bounded context is filed as a context, never as a page. */
