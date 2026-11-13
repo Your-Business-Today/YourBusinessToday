@@ -1,13 +1,14 @@
 <script lang="ts">
-	import Badge from '$lib/components/site/Badge.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import StationColumn from './StationColumn.svelte';
+	import StationDomainColumn from './StationDomainColumn.svelte';
 	import StationFlowItem from './StationFlowItem.svelte';
 	import StationPlaceLine from './StationPlaceLine.svelte';
 	import { lineSwatchClasses } from './lineSwatchClasses';
 	import type { StationDetails } from './stationDetails';
+	import type { StationDomain } from '$lib/data/domainReading';
 
-	let { details }: { details: StationDetails } = $props();
+	let { details, stationDomain, organisationId }: { details: StationDetails; stationDomain: StationDomain; organisationId: string } = $props();
 
 	const { lineName, lineColour, name, summary, inputs, outputs, place, things } = $derived(details);
 
@@ -53,11 +54,7 @@
 			{#if things.length === 0}
 				<p class={emptyClasses}>{nothingFiled}</p>
 			{/if}
-			<div class="flex flex-wrap gap-2">
-				{#each things as thing (thing)}
-					<Badge label={thing} />
-				{/each}
-			</div>
+			<StationDomainColumn {things} {stationDomain} {organisationId} />
 		</StationColumn>
 	</div>
 </DashboardPanel>

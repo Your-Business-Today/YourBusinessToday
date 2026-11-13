@@ -25,3 +25,6 @@ export type DomainWord = DomainTermFact & { areaTitle: string; glossaryPageId: s
 
 /** The lists the Domain page shows, area by area, the heart of the business first. */
 export type DomainLists = { things: DomainThing[]; rules: DomainRule[]; glossaries: DomainGlossary[] };
+
+/** What the Workflow map's station panel names of the domain: each filed thing's title by its slug, and the rules. */
+export type StationDomain = { thingTitles: Record<string, string>; rules: DomainRule[] };
