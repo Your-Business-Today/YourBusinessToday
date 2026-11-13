@@ -16,7 +16,7 @@ const invoiceLineField = {
 	properties: {
 		description: textField('What the line is for, in the words the person gave'),
 		quantity: { type: 'number', description: 'How many, above zero and to at most two places, such as 2 or 1.5' },
-		unitPrice: { type: 'number', description: 'The price of one in pounds, such as 120.50' },
+		unitPrice: { type: 'number', description: 'The price of one in pounds, such as 120.50, or below zero, such as -2000, for a line that takes money off' },
 		incomeAccountId: textField('The income account the sale posts to, by its id as read_chart_of_accounts gives it'),
 		costCentreId: textField('Leave out, or keep the line within one cost centre by its id as list_cost_centres gives it')
 	},

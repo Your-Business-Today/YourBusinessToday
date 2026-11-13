@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { archiveChoiceRefusal, costCentreNameRefusal, validateNewLedgerAccount } from './chartRules';
+import { archiveChoiceRefusal, costCentreNameRefusal, renameRefusal, validateLedgerAccountRename, validateNewLedgerAccount } from './chartRules';
 
 describe('validateNewLedgerAccount', () => {
 	it('keeps an account exactly as given', () => {
@@ -44,5 +44,32 @@ describe('archiveChoiceRefusal', () => {
 		expect(archiveChoiceRefusal(true)).toBeNull();
 		expect(archiveChoiceRefusal(false)).toBeNull();
 		expect(archiveChoiceRefusal('yes')).toBe('isArchived is true to archive it or false to bring it back; "yes" was given.');
+	});
+});
+
+describe('validateLedgerAccountRename', () => {
+	it('keeps the code and the new name exactly as given', () => {
+		const rename = { accountCode: '6000', name: 'Software subscriptions' };
+		expect(validateLedgerAccountRename(rename)).toEqual(rename);
+	});
+
+	it('refuses a blank name, a name with a space at its edges and a code that is not text, naming the field', () => {
+		expect(validateLedgerAccountRename({ accountCode: '6000', name: ' ' })).toBe('name cannot be blank.');
+		expect(validateLedgerAccountRename({ accountCode: '6000', name: 'Software ' })).toBe('name starts or ends with a space; give it without one.');
+		expect(validateLedgerAccountRename({ accountCode: 6000, name: 'Software' })).toBe('accountCode is text; 6000 was given.');
+	});
+});
+
+describe('renameRefusal', () => {
+	const keepsItsName = (code: string, name: string) => `${code} ${name} is one of the books' own accounts, so it keeps its name.`;
+
+	it('lets an account the person added be renamed', () => {
+		expect(renameRefusal({ code: '6000', name: 'Software', isSystem: false })).toBeNull();
+	});
+
+	it("refuses each of the books' own accounts by name, whether or not the books opened it", () => {
+		const booksOwn = { '1100': 'Trade debtors', '1200': 'Bank', '1300': 'Prepayments', '2100': 'Trade creditors', '2200': 'Accruals' };
+		for (const [code, name] of Object.entries(booksOwn)) expect(renameRefusal({ code, name, isSystem: false })).toBe(keepsItsName(code, name));
+		expect(renameRefusal({ code: '4000', name: 'Sales', isSystem: true })).toBe(keepsItsName('4000', 'Sales'));
 	});
 });

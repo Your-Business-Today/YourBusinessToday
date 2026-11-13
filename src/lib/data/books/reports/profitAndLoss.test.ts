@@ -3,7 +3,7 @@ import { buildProfitAndLoss } from './profitAndLoss';
 import { costCentres, firstQuarterEntries } from './ledgerEntries.fixtures';
 import { validateReportPeriod, type ReportPeriod } from './reportPeriod';
 
-const aprilYearStart = 4;
+const aprilYearStart = { startMonth: 4, firstPeriod: null };
 const june = validateReportPeriod('2026-06-01', '2026-06-30', aprilYearStart) as ReportPeriod;
 
 describe('buildProfitAndLoss', () => {
@@ -31,7 +31,7 @@ describe('validateReportPeriod', () => {
 			yearStart: '2025-04-01'
 		});
 		expect((validateReportPeriod('2026-04-01', '2026-04-30', aprilYearStart) as ReportPeriod).yearStart).toBe('2026-04-01');
-		expect((validateReportPeriod('2026-11-01', '2026-11-30', 1) as ReportPeriod).yearStart).toBe('2026-01-01');
+		expect((validateReportPeriod('2026-11-01', '2026-11-30', { startMonth: 1, firstPeriod: null }) as ReportPeriod).yearStart).toBe('2026-01-01');
 	});
 
 	it('refuses a period that ends before it starts, or a day that is not one', () => {

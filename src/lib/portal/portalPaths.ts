@@ -33,3 +33,8 @@ export function isPortalPage(url: URL): boolean {
 export function portalProjectPath(projectId: string): string {
 	return `${portalHomePath}/projects/${projectId}`;
 }
+
+/** One invoice raised to the client, as a document they can print or save. */
+export function portalBilledInvoicePath(invoiceId: string): string {
+	return `${portalBillingPath}/invoices/${invoiceId}`;
+}

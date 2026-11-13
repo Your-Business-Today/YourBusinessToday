@@ -7,7 +7,7 @@ import { validateReportPeriod, type ReportPeriod } from '../reports/reportPeriod
 import { booksStatementsOf } from './booksStatements';
 import type { EntriesLinker, StatementRow } from './statementRows';
 
-const aprilYearStart = 4;
+const aprilYearStart = { startMonth: 4, firstPeriod: null };
 const june = validateReportPeriod('2026-06-01', '2026-06-30', aprilYearStart) as ReportPeriod;
 const linkEntries: EntriesLinker = (accountCode, span) => `${accountCode}:${span.start ?? 'start'}..${span.end}`;
 const reports = {

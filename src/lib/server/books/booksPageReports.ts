@@ -6,7 +6,7 @@ import { booksPagePeriod } from '$lib/data/books/page/booksPagePeriod';
 import type { AskedPeriod } from '$lib/data/books/page/booksPeriodQuery';
 import type { BooksReports } from '$lib/data/books/page/booksStatements';
 import { findLedgerEntriesUpTo } from './ledgerEntries';
-import { findFinancialYearStartMonth } from './financialYear';
+import { findFinancialYear } from './financialYear';
 
 const everyCostCentre = null;
 
@@ -17,8 +17,8 @@ export async function readBooksReports(
 	asked: AskedPeriod,
 	today: string
 ): Promise<BooksReports | string> {
-	const yearStartMonth = await findFinancialYearStartMonth(supabase, organisationId);
-	const period = booksPagePeriod(asked, today, yearStartMonth);
+	const financialYear = await findFinancialYear(supabase, organisationId);
+	const period = booksPagePeriod(asked, today, financialYear);
 	if (typeof period === 'string') return period;
 	const entries = await findLedgerEntriesUpTo(supabase, organisationId, period.end);
 	return {

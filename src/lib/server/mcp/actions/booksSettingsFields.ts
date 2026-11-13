@@ -1,11 +1,17 @@
 import { textField } from '../actionTypes';
 import { booksSettingsRanges } from '$lib/data/books/booksSettingsRules';
+import { longestFirstPeriodMonths } from '$lib/data/books/firstPeriodRules';
 
 const keepWhatIsThere = '; leave out to keep what the books hold';
 
 const settingText = (description: string) => textField(`${description}${keepWhatIsThere}`);
 
 const settingWholeNumber = (description: string) => ({ type: 'integer', description: `${description}${keepWhatIsThere}` });
+
+const firstPeriodDay = (description: string) => ({
+	type: ['string', 'null'],
+	description: `${description}, written as 2026-07-09; give it with the other, both as null to clear them${keepWhatIsThere}`
+});
 
 const { paymentTermsDays, financialYearStartMonth, nextInvoiceNumber } = booksSettingsRanges;
 
@@ -22,6 +28,10 @@ export const booksSettingsFields = {
 	),
 	financialYearStartMonth: settingWholeNumber(
 		`The month the financial year starts, ${financialYearStartMonth.smallest} for January to ${financialYearStartMonth.largest} for December`
+	),
+	firstPeriodStart: firstPeriodDay("A new company's first accounting period: its first day, the day the company was formed"),
+	firstPeriodEnd: firstPeriodDay(
+		`The first accounting period's last day: the day before a financial year starts, at most ${longestFirstPeriodMonths} months on`
 	),
 	invoicePrefix: settingText('The prefix before every invoice number, such as INV; cannot be blank'),
 	nextInvoiceNumber: settingWholeNumber(

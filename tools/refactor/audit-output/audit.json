@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T20:25:14+00:00",
+  "generatedAt": "2026-11-13T20:29:53+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4381,
+        "measuredAgainst": 4405,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6628,
+        "measuredAgainst": 6671,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6235,
+        "measuredAgainst": 6279,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 164.77,
+        "measuredAgainst": 166.13,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 2,
-        "measuredAgainst": 164.77,
+        "measuredAgainst": 166.13,
         "score": 99.9
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7316,
+        "measuredAgainst": 7364,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 164.77,
+        "measuredAgainst": 166.13,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 164.77,
+        "measuredAgainst": 166.13,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6628,
+        "measuredAgainst": 6671,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 247,
+        "measuredAgainst": 251,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6235,
+        "measuredAgainst": 6279,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6235,
+        "measuredAgainst": 6279,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6628,
+        "measuredAgainst": 6671,
         "score": 100.0
       },
       {
@@ -231,7 +231,7 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 414,
+        "measuredAgainst": 419,
         "score": 100.0
       },
       {
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4381,
-      "totalLines": 164772,
+      "totalFiles": 4405,
+      "totalLines": 166133,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 6628,
+      "totalFunctions": 6671,
       "elseBlocks": 0,
-      "ifBlocks": 6235,
+      "ifBlocks": 6279,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -298,7 +298,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 434,
+      "overlongLines": 438,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,11 +308,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 6628
+      "functionsExamined": 6671
     },
     "designPatterns": {
-      "roleFamilies": 230,
-      "predictedFiles": 247,
+      "roleFamilies": 232,
+      "predictedFiles": 251,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -320,19 +320,19 @@
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 74,
-      "components": 688,
+      "pages": 76,
+      "components": 693,
       "orphanComponents": 0,
-      "averagePageLines": 44
+      "averagePageLines": 43
     },
     "siteDefinition": {
-      "routes": 73,
-      "views": 765,
-      "siteComponents": 676,
+      "routes": 75,
+      "views": 772,
+      "siteComponents": 681,
       "catalogue": 14,
-      "widgetUsages": 414,
+      "widgetUsages": 419,
       "handRolledElements": 0,
-      "widgetSlots": 414,
+      "widgetSlots": 419,
       "viewsWithHandRolled": 0,
       "boxedContentWidgets": 0,
       "designSheets": 8,
@@ -347,13 +347,13 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4992,
-      "backend": 1271,
-      "frontend": 1132,
-      "shared": 859,
-      "tests": 702,
+      "totalFiles": 5018,
+      "backend": 1275,
+      "frontend": 1140,
+      "shared": 863,
+      "tests": 710,
       "api": 575,
-      "database": 216,
+      "database": 218,
       "tooling": 141,
       "docs": 79,
       "infrastructure": 17
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4381,
-        "totalLines": 164772,
+        "totalFiles": 4405,
+        "totalLines": 166133,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 6628,
+        "totalFunctions": 6671,
         "elseBlocks": 0,
-        "ifBlocks": 6235,
+        "ifBlocks": 6279,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -665,7 +665,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 434,
+        "overlongLines": 438,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -734,7 +734,7 @@
           },
           {
             "file": "src/lib/data/books/invoiceDraftRules.test.ts",
-            "line": 35
+            "line": 46
           },
           {
             "file": "src/lib/data/books/page/accountEntryRows.test.ts",
@@ -891,15 +891,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 6628
+        "functionsExamined": 6671
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 230,
-        "predictedFiles": 247,
+        "roleFamilies": 232,
+        "predictedFiles": 251,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -909,8 +909,8 @@
       "offenders": {
         "roleFamilies": {
           "+layout.server.ts": 6,
-          "+page.server.ts": 66,
-          "+page.svelte": 74,
+          "+page.server.ts": 68,
+          "+page.svelte": 76,
           "+server.ts": 27,
           "access": 12,
           "account": 6,
@@ -965,6 +965,7 @@
           "details": 12,
           "director": 6,
           "doctrine": 8,
+          "document": 4,
           "domain": 5,
           "door": 4,
           "draft": 4,
@@ -972,7 +973,7 @@
           "entries": 6,
           "entry": 12,
           "event": 12,
-          "facts": 16,
+          "facts": 17,
           "field": 25,
           "fields": 50,
           "figures": 5,
@@ -1030,7 +1031,7 @@
           "node": 5,
           "note": 12,
           "notice": 5,
-          "of": 13,
+          "of": 14,
           "officers": 4,
           "order": 8,
           "organisation": 17,
@@ -1039,7 +1040,7 @@
           "outcome": 4,
           "overview": 4,
           "owner": 5,
-          "page": 20,
+          "page": 21,
           "pages": 6,
           "pane": 4,
           "panel": 50,
@@ -1048,6 +1049,7 @@
           "patch": 10,
           "path": 6,
           "paths": 7,
+          "payment": 4,
           "people": 9,
           "person": 15,
           "picker": 4,
@@ -1078,7 +1080,7 @@
           "row": 47,
           "rows": 21,
           "rule": 7,
-          "rules": 63,
+          "rules": 64,
           "run": 10,
           "runs": 24,
           "schemas": 15,
@@ -1114,7 +1116,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 682,
+          "test": 689,
           "text": 13,
           "tiles": 5,
           "time": 5,
@@ -1129,7 +1131,7 @@
           "up": 4,
           "upload": 8,
           "versions": 5,
-          "view": 7,
+          "view": 8,
           "views": 10,
           "visitor": 4,
           "window": 4,
@@ -1202,12 +1204,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 66,
+            "predicted": 68,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 74,
+            "predicted": 76,
             "missing": []
           }
         ],
@@ -1218,10 +1220,10 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 74,
-        "components": 688,
+        "pages": 76,
+        "components": 693,
         "orphanComponents": 0,
-        "averagePageLines": 44
+        "averagePageLines": 43
       },
       "offenders": {
         "pages": [
@@ -1647,7 +1649,17 @@
             "widgets": []
           },
           {
+            "page": "src/routes/portal/billing/invoices/[invoiceId]/+page.svelte",
+            "lines": 14,
+            "widgets": []
+          },
+          {
             "page": "src/routes/company/+page.svelte",
+            "lines": 11,
+            "widgets": []
+          },
+          {
+            "page": "src/routes/organisations/[organisationId]/books/invoices/[invoiceId]/+page.svelte",
             "lines": 11,
             "widgets": []
           },
@@ -1670,7 +1682,7 @@
         "componentReuse": [
           {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
-            "reusedBy": 81
+            "reusedBy": 82
           },
           {
             "component": "src/lib/components/site/SubmitButton.svelte",
@@ -1685,12 +1697,12 @@
             "reusedBy": 48
           },
           {
-            "component": "src/lib/components/workspace/RecordsCell.svelte",
+            "component": "src/lib/components/site/Button.svelte",
             "reusedBy": 38
           },
           {
-            "component": "src/lib/components/site/Button.svelte",
-            "reusedBy": 37
+            "component": "src/lib/components/workspace/RecordsCell.svelte",
+            "reusedBy": 38
           },
           {
             "component": "src/lib/components/workspace/RecordsTable.svelte",
@@ -1698,11 +1710,11 @@
           },
           {
             "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
-            "reusedBy": 34
+            "reusedBy": 35
           },
           {
             "component": "src/lib/components/site/Badge.svelte",
-            "reusedBy": 33
+            "reusedBy": 34
           },
           {
             "component": "src/lib/components/site/SmallCapsField.svelte",
@@ -1767,6 +1779,10 @@
           {
             "component": "src/lib/components/workspace/HeaderFacts.svelte",
             "reusedBy": 7
+          },
+          {
+            "component": "src/lib/components/books/InvoiceDocument.svelte",
+            "reusedBy": 6
           },
           {
             "component": "src/lib/components/clients/StagePill.svelte",
@@ -1853,6 +1869,10 @@
             "reusedBy": 3
           },
           {
+            "component": "src/lib/components/books/InvoiceDocumentFacts.svelte",
+            "reusedBy": 3
+          },
+          {
             "component": "src/lib/components/brand/ContentStageBadge.svelte",
             "reusedBy": 3
           },
@@ -1929,6 +1949,10 @@
             "reusedBy": 2
           },
           {
+            "component": "src/lib/components/billing/BilledLinesTable.svelte",
+            "reusedBy": 2
+          },
+          {
             "component": "src/lib/components/blueprint/DomainMap.svelte",
             "reusedBy": 2
           },
@@ -1950,6 +1974,10 @@
           },
           {
             "component": "src/lib/components/boardroom/MeetingStageBadge.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/books/InvoiceDocumentPage.svelte",
             "reusedBy": 2
           },
           {
@@ -2201,6 +2229,10 @@
             "reusedBy": 2
           },
           {
+            "component": "src/lib/components/workspace/PrintOnPaper.svelte",
+            "reusedBy": 2
+          },
+          {
             "component": "src/lib/components/workspace/ProgressTrack.svelte",
             "reusedBy": 2
           },
@@ -2286,10 +2318,6 @@
           },
           {
             "component": "src/lib/components/billing/BilledInvoicePanel.svelte",
-            "reusedBy": 1
-          },
-          {
-            "component": "src/lib/components/billing/BilledLinesTable.svelte",
             "reusedBy": 1
           },
           {
@@ -2522,6 +2550,14 @@
           },
           {
             "component": "src/lib/components/books/CostsTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/books/InvoiceDocumentParty.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/books/InvoiceDocumentPayment.svelte",
             "reusedBy": 1
           },
           {
@@ -4413,10 +4449,6 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/workspace/PrintOnPaper.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/workspace/RecordsTableHead.svelte",
             "reusedBy": 1
           }
@@ -4427,13 +4459,13 @@
     "siteDefinition": {
       "name": "siteDefinition",
       "summary": {
-        "routes": 73,
-        "views": 765,
-        "siteComponents": 676,
+        "routes": 75,
+        "views": 772,
+        "siteComponents": 681,
         "catalogue": 14,
-        "widgetUsages": 414,
+        "widgetUsages": 419,
         "handRolledElements": 0,
-        "widgetSlots": 414,
+        "widgetSlots": 419,
         "viewsWithHandRolled": 0,
         "boxedContentWidgets": 0,
         "designSheets": 8,
@@ -4812,6 +4844,12 @@
           "expanded": "WorkspaceHeader, TabStrip, DashboardPanel{ CostsTable=( RecordsTable{ (6) RecordsCell } ) }"
         },
         {
+          "route": "/organisations/[organisationId]/books/invoices/[invoiceId]",
+          "file": "src/routes/organisations/[organisationId]/books/invoices/[invoiceId]/+page.svelte",
+          "definition": "InvoiceDocumentPage",
+          "expanded": "InvoiceDocumentPage=( PrintOnPaper{ WorkspaceHeader{ Badge, Button }, DashboardPanel{ InvoiceDocument=( [ InvoiceDocumentParty=( InvoiceDocumentFacts ) InvoiceDocumentFacts ], InvoiceDocumentParty=( InvoiceDocumentFacts ), BilledLinesTable=( RecordsTable{ (8) RecordsCell } ), InvoiceDocumentFacts, ?isAskingForPayment(document): InvoiceDocumentPayment=( InvoiceDocumentFacts ) ) } } )"
+        },
+        {
           "route": "/organisations/[organisationId]/brand",
           "file": "src/routes/organisations/[organisationId]/brand/+page.svelte",
           "definition": "WorkspaceHeader{ (2) Button }, DashboardPanel{ BrandAwaitingTable }, DashboardPanel{ BrandSwatches }, (2) DashboardPanel{ BrandKitList }, DashboardPanel{ BrandChannelTable }, DashboardPanel{ BrandCampaignTable }, (4) DashboardPanel{ BrandKitList }",
@@ -4905,7 +4943,13 @@
           "route": "/portal/billing",
           "file": "src/routes/portal/billing/+page.svelte",
           "definition": "WorkspaceHeader, FlashMessage, ?invoices.length === 0: EmptyState, (n) BilledInvoicePanel",
-          "expanded": "WorkspaceHeader, FlashMessage, ?invoices.length === 0: EmptyState, (n) BilledInvoicePanel=( DashboardPanel{ Badge, ?canPay: Button, BilledLinesTable=( RecordsTable{ (8) RecordsCell } ) } )"
+          "expanded": "WorkspaceHeader, FlashMessage, ?invoices.length === 0: EmptyState, (n) BilledInvoicePanel=( DashboardPanel{ Badge, Button, ?canPay: Button, BilledLinesTable=( RecordsTable{ (8) RecordsCell } ) } )"
+        },
+        {
+          "route": "/portal/billing/invoices/[invoiceId]",
+          "file": "src/routes/portal/billing/invoices/[invoiceId]/+page.svelte",
+          "definition": "InvoiceDocumentPage",
+          "expanded": "InvoiceDocumentPage=( PrintOnPaper{ WorkspaceHeader{ Badge, Button }, DashboardPanel{ InvoiceDocument=( [ InvoiceDocumentParty=( InvoiceDocumentFacts ) InvoiceDocumentFacts ], InvoiceDocumentParty=( InvoiceDocumentFacts ), BilledLinesTable=( RecordsTable{ (8) RecordsCell } ), InvoiceDocumentFacts, ?isAskingForPayment(document): InvoiceDocumentPayment=( InvoiceDocumentFacts ) ) } } )"
         },
         {
           "route": "/portal/connect",
@@ -5228,6 +5272,12 @@
           "usedBy": 3
         },
         {
+          "component": "InvoiceDocumentFacts",
+          "file": "src/lib/components/books/InvoiceDocumentFacts.svelte",
+          "definition": "",
+          "usedBy": 3
+        },
+        {
           "component": "KitVersionBadge",
           "file": "src/lib/components/projects/KitVersionBadge.svelte",
           "definition": "?standing !== kitStandings.noRep\u2026: Badge",
@@ -5360,6 +5410,12 @@
           "usedBy": 2
         },
         {
+          "component": "BilledLinesTable",
+          "file": "src/lib/components/billing/BilledLinesTable.svelte",
+          "definition": "RecordsTable{ (8) RecordsCell }",
+          "usedBy": 2
+        },
+        {
           "component": "BrandDecisionNote",
           "file": "src/lib/components/brand/BrandDecisionNote.svelte",
           "definition": "",
@@ -5459,6 +5515,12 @@
           "component": "InternalProjectBadge",
           "file": "src/lib/components/projects/InternalProjectBadge.svelte",
           "definition": "Badge",
+          "usedBy": 2
+        },
+        {
+          "component": "InvoiceDocumentPage",
+          "file": "src/lib/components/books/InvoiceDocumentPage.svelte",
+          "definition": "PrintOnPaper{ WorkspaceHeader{ Badge, Button }, DashboardPanel{ InvoiceDocument } }",
           "usedBy": 2
         },
         {
@@ -5585,6 +5647,12 @@
           "component": "PortalLink",
           "file": "src/lib/components/site/PortalLink.svelte",
           "definition": "LineIcon",
+          "usedBy": 2
+        },
+        {
+          "component": "PrintOnPaper",
+          "file": "src/lib/components/workspace/PrintOnPaper.svelte",
+          "definition": "",
           "usedBy": 2
         },
         {
@@ -6022,13 +6090,7 @@
         {
           "component": "BilledInvoicePanel",
           "file": "src/lib/components/billing/BilledInvoicePanel.svelte",
-          "definition": "DashboardPanel{ Badge, ?canPay: Button, BilledLinesTable }",
-          "usedBy": 1
-        },
-        {
-          "component": "BilledLinesTable",
-          "file": "src/lib/components/billing/BilledLinesTable.svelte",
-          "definition": "RecordsTable{ (8) RecordsCell }",
+          "definition": "DashboardPanel{ Badge, Button, ?canPay: Button, BilledLinesTable }",
           "usedBy": 1
         },
         {
@@ -7262,6 +7324,24 @@
           "usedBy": 1
         },
         {
+          "component": "InvoiceDocument",
+          "file": "src/lib/components/books/InvoiceDocument.svelte",
+          "definition": "[ InvoiceDocumentParty InvoiceDocumentFacts ], InvoiceDocumentParty, BilledLinesTable, InvoiceDocumentFacts, ?isAskingForPayment(document): InvoiceDocumentPayment",
+          "usedBy": 1
+        },
+        {
+          "component": "InvoiceDocumentParty",
+          "file": "src/lib/components/books/InvoiceDocumentParty.svelte",
+          "definition": "InvoiceDocumentFacts",
+          "usedBy": 1
+        },
+        {
+          "component": "InvoiceDocumentPayment",
+          "file": "src/lib/components/books/InvoiceDocumentPayment.svelte",
+          "definition": "InvoiceDocumentFacts",
+          "usedBy": 1
+        },
+        {
           "component": "ItemActions",
           "file": "src/lib/components/boardroom/ItemActions.svelte",
           "definition": "?entries.length > 0 || actions.c\u2026: ( ?entries.length > 0: (n) BoardActionEntry, ?actions.canRaiseAgain: Button ), ?actions.canRecord: BoardActionForm",
@@ -8009,12 +8089,6 @@
           "component": "PremisesPanel",
           "file": "src/lib/components/clients/patches/PremisesPanel.svelte",
           "definition": "SubmitButton",
-          "usedBy": 1
-        },
-        {
-          "component": "PrintOnPaper",
-          "file": "src/lib/components/workspace/PrintOnPaper.svelte",
-          "definition": "",
           "usedBy": 1
         },
         {
@@ -9102,13 +9176,13 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4992,
-        "backend": 1271,
-        "frontend": 1132,
-        "shared": 859,
-        "tests": 702,
+        "totalFiles": 5018,
+        "backend": 1275,
+        "frontend": 1140,
+        "shared": 863,
+        "tests": 710,
         "api": 575,
-        "database": 216,
+        "database": 218,
         "tooling": 141,
         "docs": 79,
         "infrastructure": 17
@@ -9116,37 +9190,37 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 1271,
-          "sourceFiles": 1261,
-          "sourceLines": 41505
+          "files": 1275,
+          "sourceFiles": 1265,
+          "sourceLines": 41676
         },
         {
           "area": "frontend",
-          "files": 1132,
-          "sourceFiles": 1002,
-          "sourceLines": 34435
+          "files": 1140,
+          "sourceFiles": 1010,
+          "sourceLines": 34667
         },
         {
           "area": "shared",
-          "files": 859,
-          "sourceFiles": 841,
-          "sourceLines": 29980
+          "files": 863,
+          "sourceFiles": 845,
+          "sourceLines": 30260
         },
         {
           "area": "tests",
-          "files": 702,
-          "sourceFiles": 687,
-          "sourceLines": 32096
+          "files": 710,
+          "sourceFiles": 695,
+          "sourceLines": 32698
         },
         {
           "area": "api",
           "files": 575,
           "sourceFiles": 574,
-          "sourceLines": 26162
+          "sourceLines": 26238
         },
         {
           "area": "database",
-          "files": 216,
+          "files": 218,
           "sourceFiles": 7,
           "sourceLines": 212
         },

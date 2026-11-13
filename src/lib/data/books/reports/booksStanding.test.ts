@@ -3,7 +3,7 @@ import { buildBooksStanding } from './booksStanding';
 import { firstQuarterEntries } from './ledgerEntries.fixtures';
 import type { LedgerEntry } from '../ledgerEntry';
 
-const aprilYearStart = 4;
+const aprilYearStart = { startMonth: 4, firstPeriod: null };
 
 const tradeCreditors = { accountId: 'account-2100', accountCode: '2100', accountName: 'Trade creditors', accountType: 'liability' } as const;
 const rent = { accountId: 'account-5000', accountCode: '5000', accountName: 'Rent', accountType: 'expense' } as const;

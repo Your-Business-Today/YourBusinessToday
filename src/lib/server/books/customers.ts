@@ -26,6 +26,15 @@ export async function findCustomers(supabase: SupabaseClient, organisationId: st
 	return rows.map(fromCustomerRow);
 }
 
+/** The organisation's customer with that id, archived or not, or null when its books hold none. */
+export async function findCustomer(supabase: SupabaseClient, organisationId: string, customerId: string): Promise<Customer | null> {
+	const query = supabase.from(customersTable).select(customerColumns).eq('organisation_id', organisationId).eq('id', customerId);
+	const { data, error } = await query.maybeSingle();
+	if (error !== null) throw error;
+	if (data === null) return null;
+	return fromCustomerRow(data as unknown as CustomerRow);
+}
+
 /** Adds a customer an invoice can be made out to. */
 export async function addCustomer(supabase: SupabaseClient, books: CustomerBooks, fields: Record<string, unknown>): Promise<Customer> {
 	const details = validateNewCustomer(fields);

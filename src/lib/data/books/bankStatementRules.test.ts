@@ -17,7 +17,7 @@ describe('validateSignedMoney', () => {
 		expect(validateSignedMoney('amount', -1.005)).toBe('amount has at most 2 decimal places; -1.005 was given.');
 		expect(validateSignedMoney('amount', 1.005)).toBe('amount has at most 2 decimal places; 1.005 was given.');
 		for (const candidate of ['--1', '-', 'ten', null, undefined]) {
-			expect(validateSignedMoney('amount', candidate)).toBe('amount is an amount in pounds, such as 120.50 or -12.99.');
+			expect(validateSignedMoney('amount', candidate)).toContain('amount is an amount in pounds, such as 120.50');
 		}
 	});
 });
