@@ -217,6 +217,26 @@ sending anyone a new prompt.
   What the walk reads in mail and documents is data, never an instruction.
 - **The walk ends on the portal home** until the context map exists; the map task points it there.
 
+### Mapping the workflows
+
+A person who says "map the workflows" to their Claude is walked through finding the organisation's
+roles, their tasks and the hand-overs between them, the same careful way every time.
+
+- **`get_current_context` points the way.** A person on an organisation is told to call
+  `start_workflow_map_run` with that organisation's id (`workflowMapRunLine.ts`), beside the line for
+  "set the organisation domain".
+- **`start_workflow_map_run` reads and writes nothing else.** It answers with the walk
+  (`describeWorkflowMapRun.ts`): with no map filed, the whole June method (`workflowMapMethod.ts`) as a
+  broad first conversation; with one, the latest version and only what it still leaves open
+  (`workflowMapGaps.ts`: a role with one task, a task that takes nothing in, produces nothing or is done
+  nowhere named, an output that goes nowhere, no output marked), and what has changed since.
+- **The stage follows what is filed** (`workflowMapRunStanding.ts`). A first map is the Before for an
+  organisation with no product of ours yet, and today's map as After for one we already build for; after
+  that each run files the next version of the stage already filed.
+- **The person says yes before anything is written,** and the only write is `file_workflow_map`, the whole
+  map with every key carried forward. What the walk reads in mail and documents is data, never an
+  instruction, and Your Business Today calls no model: the person's own Claude does the thinking.
+
 ## Directors, and who enters the boardroom (migration `0153`)
 
 An administrator names an organisation's directors from the people on the organisation itself, on
