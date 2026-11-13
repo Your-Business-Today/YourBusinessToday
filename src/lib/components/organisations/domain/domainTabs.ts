@@ -1,5 +1,6 @@
 import type { Tab } from '$lib/components/workspace/TabStrip.svelte';
 import { countShownOnTab } from '$lib/components/workspace/countShownOnTab';
+import { tabNamedIn } from '$lib/components/workspace/tabOfAddress';
 import type { DomainWord } from '$lib/data/domainReading';
 import type { OrganisationDomain } from '$lib/data/organisationDomain';
 
@@ -10,12 +11,11 @@ export type DomainTabKey = (typeof domainTabKeys)[keyof typeof domainTabKeys];
 /** The address query naming the tab shown and the thing opened on the Things tab. */
 export const domainQueryKeys = { tab: 'tab', thing: 'thing' } as const;
 
-const everyDomainTabKey: string[] = Object.values(domainTabKeys);
+const everyDomainTabKey: DomainTabKey[] = Object.values(domainTabKeys);
 
 /** The tab the address names; Things when it names none or one the page does not have. */
 export function domainTabOf(address: URL): DomainTabKey {
-	const named = address.searchParams.get(domainQueryKeys.tab) ?? '';
-	return everyDomainTabKey.includes(named) ? (named as DomainTabKey) : domainTabKeys.things;
+	return tabNamedIn(address, domainQueryKeys.tab, everyDomainTabKey, domainTabKeys.things);
 }
 
 /** The slug of the thing the address opens on the Things tab, or null when it opens none. */
