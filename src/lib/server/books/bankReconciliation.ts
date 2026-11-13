@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { validateIsoDate } from '$lib/data/books/isoDate';
 import { buildBankReconciliation, type BankReconciliation } from '$lib/data/books/reconciliation/bankReconciliation';
 import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
-import { BankLineMatchings, findBankLines } from './bankLines';
+import { BankLineMatchings, findBankLines, type BankLine } from './bankLines';
 import { findBankAccountSides } from './bankAccountSides';
 import { findStatementAccountIfHeld, type StatementAccount } from './bankStatementAccount';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
@@ -41,13 +41,18 @@ export async function readBankStanding(supabase: SupabaseClient, organisationId:
 		const account = await findStatementAccountIfHeld(supabase, organisationId, theBooksBankAccount);
 		if (account === null) return null;
 		const lines = await findBankLines(supabase, organisationId, { bankAccountId: account.id, from: null, to: null, matching: BankLineMatchings.all });
-		const lastLine = lines.at(-1);
-		if (lastLine === undefined) return null;
-		const sides = await findBankAccountSides(supabase, organisationId, account.id, lastLine.date);
-		return buildBankReconciliation(lastLine.date, lines, sides);
+		return await bankStandingOf(supabase, organisationId, account.id, lines);
 	} catch (failure) {
 		const isUnreadable = failure instanceof BooksRefusal || isSchemaNotYetMigrated(failure);
 		if (isUnreadable) return null;
 		throw failure;
 	}
+}
+
+/** The account reconciled on the day of its statement's last line, from its lines in the statement's order; null with no line. */
+export async function bankStandingOf(supabase: SupabaseClient, organisationId: string, accountId: string, lines: BankLine[]): Promise<BankReconciliation | null> {
+	const lastLine = lines.at(-1);
+	if (lastLine === undefined) return null;
+	const sides = await findBankAccountSides(supabase, organisationId, accountId, lastLine.date);
+	return buildBankReconciliation(lastLine.date, lines, sides);
 }

@@ -1,3 +1,5 @@
+import type { RowTarget } from "$lib/client/rowLink";
+
 export type RecordsColumn<Row> = {
   key: string;
   label: string;
@@ -61,4 +63,15 @@ function compareValues(
 export function isBoxTicked(event: Event): boolean {
   const box = event.currentTarget as HTMLInputElement;
   return box.checked;
+}
+
+/** Where a row opens: its record's address when the table gives one, else what opens it over the list, else nowhere. */
+export function rowTargetOf<Row>(
+  row: Row,
+  hrefOf?: (row: Row) => string,
+  onOpen?: (row: Row) => void,
+): RowTarget | undefined {
+  if (hrefOf !== undefined) return hrefOf(row);
+  if (onOpen !== undefined) return () => onOpen(row);
+  return undefined;
 }
