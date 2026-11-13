@@ -36,11 +36,12 @@ describe('send_invoice', () => {
 
 	it("emails an issued invoice to the customer's address, with replies and a copy going to the books' company email", async () => {
 		const answer = await run('send_invoice', { invoiceId });
-		expect(answer).toContain(`Sent invoice INV-6 to ap@bespoke.example; a copy went to ${companyEmail}, where replies go.`);
+		expect(answer).toContain(`Sent invoice INV-6, with its PDF, to ap@bespoke.example; a copy went to ${companyEmail}, where replies go.`);
 		const [email] = outbox.emails;
 		expect(email).toEqual(expect.objectContaining({ to: 'ap@bespoke.example', replyTo: companyEmail, bcc: companyEmail }));
 		expect(email.subject).toBe('Invoice INV-6 from Jewel Enterprises Ltd: £1,020.50 due 1 December 2026');
 		for (const shown of ['Website build', 'Hosting', '£1,020.50', '12-34-56', '12345678']) expect(email.html).toContain(shown);
+		expect(email.attachments).toEqual([{ filename: 'INV-6.pdf', content: expect.stringMatching(/^JVBERi0/) }]);
 		expect(sendings()).toEqual([expect.objectContaining({ invoice_id: invoiceId, sent_to: 'ap@bespoke.example', delivery: 'sent', sent_by: nigelAccountId })]);
 	});
 
