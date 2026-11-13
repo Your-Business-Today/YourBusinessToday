@@ -4,22 +4,29 @@ import { BillingCovers, billingFrequencyLabels, type BillingCover } from '$lib/d
 import { nextScheduledInvoice, standingOfSchedule, type BillingScheduleStanding } from '$lib/data/books/billingScheduleStanding';
 import type { BillingSchedule } from '$lib/server/books/billingScheduleRecord';
 import { customerNameOf, type InvoiceNamings } from '$lib/server/books/invoiceNamings';
+import type { ScheduledInvoiceRecord } from '$lib/server/books/scheduledInvoices';
 import { describeInvoiceLine, printedOnlyWhenGiven } from './describeInvoices';
+import { describeRaisedInvoices } from './describeScheduledInvoices';
 
 const coversInWords: Record<BillingCover, string> = {
 	[BillingCovers.inAdvance]: 'in advance',
 	[BillingCovers.inArrears]: 'in arrears'
 };
 
+/** How a schedule is told: the names its ids go by, and the invoices raised from the organisation's schedules. */
+export type ScheduleNamings = { namings: InvoiceNamings; scheduledInvoices: ScheduledInvoiceRecord[] };
+
 /** Every schedule shown, each in full, or that the books hold none that match. */
-export function describeBillingSchedules(organisationName: string, schedules: BillingSchedule[], namings: InvoiceNamings): string {
+export function describeBillingSchedules(organisationName: string, schedules: BillingSchedule[], told: ScheduleNamings): string {
 	if (schedules.length === 0) return `${organisationName}'s books hold no billing schedules that match.`;
-	const described = schedules.map((schedule) => describeBillingSchedule(schedule, namings));
+	const described = schedules.map((schedule) => describeBillingSchedule(schedule, told));
 	return [`Billing schedules in ${organisationName}'s books:`, ...described].join('\n\n');
 }
 
-/** One schedule in full: whose it is, how often and when it bills next, how it is paid and sent, and every line. */
-export function describeBillingSchedule(schedule: BillingSchedule, namings: InvoiceNamings): string {
+/** One schedule in full: whose it is, how often and when it bills next, how it is paid and sent, every line and what it has raised. */
+export function describeBillingSchedule(schedule: BillingSchedule, told: ScheduleNamings): string {
+	const { namings, scheduledInvoices } = told;
+	const raised = scheduledInvoices.filter((invoice) => invoice.scheduleId === schedule.id);
 	return [
 		`${schedule.title}, billing ${customerNameOf(namings, schedule.customerId)} (customer ${schedule.customerId}). Id ${schedule.id}`,
 		`${billingFrequencyLabels[schedule.frequency]}, ${coversInWords[schedule.covers]}. ${describeStanding(schedule)}`,
@@ -28,7 +35,8 @@ export function describeBillingSchedule(schedule: BillingSchedule, namings: Invo
 		...printedOnlyWhenGiven('Last date', schedule.endsOn === null ? '' : formatBritishDate(schedule.endsOn)),
 		'Lines:',
 		...schedule.lines.map((line) => describeInvoiceLine(line, namings)),
-		...printedOnlyWhenGiven('Notes printed on each invoice', schedule.notes)
+		...printedOnlyWhenGiven('Notes printed on each invoice', schedule.notes),
+		describeRaisedInvoices(raised, namings)
 	].join('\n');
 }
 

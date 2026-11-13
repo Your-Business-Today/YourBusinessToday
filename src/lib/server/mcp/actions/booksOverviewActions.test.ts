@@ -52,7 +52,10 @@ const novemberOverview = [
 	'- Net profit: £1,000.50 in the month, £1,000.50 year to date',
 	'',
 	'Invoices unpaid today: 1, owing £520.50 in all, newest first:',
-	`- INV-6 to Jewel Bespoke Build, issued, dated 1 Nov 2026, due 1 Dec 2026; Total £1,020.50, paid £500.00, owed £520.50. Id ${invoiceId}`
+	`- INV-6 to Jewel Bespoke Build, issued, dated 1 Nov 2026, due 1 Dec 2026; Total £1,020.50, paid £500.00, owed £520.50. Id ${invoiceId}`,
+	'',
+	'No billing schedule is running, so nothing goes out by itself.',
+	'Drafts waiting to be issued: 0.'
 ].join('\n');
 
 describe('reading how the books stand', () => {

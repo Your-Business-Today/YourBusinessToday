@@ -27,16 +27,27 @@ export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNa
 /** The organisation whose books are read: its id for each invoice's address, and its name. */
 type BooksOrganisation = { id: string; name: string };
 
-/** What a list of invoices is told: the invoices, newest first, how each is named, and which were ever emailed. */
-export type InvoiceListing = { invoices: InvoiceSummary[]; namings: InvoiceNamings; sentInvoiceIds: ReadonlySet<string> };
+/** What a list of invoices is told: the invoices, newest first, how each is named, which were ever emailed, and where each from a schedule came from. */
+export type InvoiceListing = {
+	invoices: InvoiceSummary[];
+	namings: InvoiceNamings;
+	sentInvoiceIds: ReadonlySet<string>;
+	originWords: ReadonlyMap<string, string>;
+};
 
 /** The invoices shown, each on one line with its address and a mark when issued but never emailed, or that none match. */
 export function describeInvoiceList(organisation: BooksOrganisation, listing: InvoiceListing): string {
 	const { invoices, namings, sentInvoiceIds } = listing;
 	if (invoices.length === 0) return `${organisation.name}'s books hold no invoices that match.`;
-	const lineOf = (invoice: InvoiceSummary) => `${describeInvoiceSummary(invoice, namings)}${neverSentMarkOf(invoice, sentInvoiceIds)}`;
+	const lineOf = (invoice: InvoiceSummary) => `${describeInvoiceSummary(invoice, namings)}${neverSentMarkOf(invoice, sentInvoiceIds)}${originOf(listing, invoice.id)}`;
 	const lines = invoices.map((invoice) => `${lineOf(invoice)}; opens at ${booksInvoiceAddressOf(organisation.id, invoice.id)}`);
 	return [`Invoices of ${organisation.name}, newest first:`, ...lines].join('\n');
+}
+
+function originOf(listing: InvoiceListing, invoiceId: string): string {
+	const words = listing.originWords.get(invoiceId);
+	if (words === undefined) return '';
+	return `; ${words}`;
 }
 
 /** One invoice on one line: its number, customer, status, dates, total and what is owed, with its id. */

@@ -56,6 +56,7 @@
 		"update_task_status": {"isWrite": true, "inputs": {"status": "string", "taskId": "string"}, "required": ["status", "taskId"]}
 	},
 	"namesFromElsewhere": {
+		"billing_schedules": "the watch source that raises each billing schedule's invoice on its day",
 		"compare_template_file": "a tool on the portal template's server",
 		"connector_self_check": "the watch source that checks the connector after each production deploy",
 		"create_todo": "an example of a write door, in the input validation check",

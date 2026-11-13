@@ -37,7 +37,8 @@ async function isKnownToHaveHappened(step: BooksStep): Promise<boolean> {
 	}
 }
 
-function messageOf(failure: unknown): string {
+/** What a failure says, whether it is an error or a database's answer with a message. */
+export function messageOf(failure: unknown): string {
 	const message = (failure as { message?: unknown } | null)?.message;
 	return String(message ?? failure);
 }
