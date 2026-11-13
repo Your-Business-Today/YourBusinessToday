@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T18:38:46+00:00",
+  "generatedAt": "2026-11-13T18:42:33+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4343,
+        "measuredAgainst": 4344,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6557,
+        "measuredAgainst": 6558,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6192,
+        "measuredAgainst": 6194,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 163.22,
+        "measuredAgainst": 163.25,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 2,
-        "measuredAgainst": 163.22,
+        "measuredAgainst": 163.25,
         "score": 99.9
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7243,
+        "measuredAgainst": 7245,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 163.22,
+        "measuredAgainst": 163.25,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 163.22,
+        "measuredAgainst": 163.25,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6557,
+        "measuredAgainst": 6558,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6192,
+        "measuredAgainst": 6194,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6192,
+        "measuredAgainst": 6194,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6557,
+        "measuredAgainst": 6558,
         "score": 100.0
       },
       {
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4343,
-      "totalLines": 163224,
+      "totalFiles": 4344,
+      "totalLines": 163254,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 6557,
+      "totalFunctions": 6558,
       "elseBlocks": 0,
-      "ifBlocks": 6192,
+      "ifBlocks": 6194,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -308,7 +308,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 6557
+      "functionsExamined": 6558
     },
     "designPatterns": {
       "roleFamilies": 229,
@@ -321,14 +321,14 @@
     },
     "inventory": {
       "pages": 73,
-      "components": 686,
+      "components": 687,
       "orphanComponents": 0,
       "averagePageLines": 44
     },
     "siteDefinition": {
       "routes": 72,
-      "views": 762,
-      "siteComponents": 674,
+      "views": 763,
+      "siteComponents": 675,
       "catalogue": 14,
       "widgetUsages": 410,
       "handRolledElements": 0,
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4343,
-        "totalLines": 163224,
+        "totalFiles": 4344,
+        "totalLines": 163254,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 6557,
+        "totalFunctions": 6558,
         "elseBlocks": 0,
-        "ifBlocks": 6192,
+        "ifBlocks": 6194,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -891,7 +891,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 6557
+        "functionsExamined": 6558
       },
       "offenders": []
     },
@@ -1010,7 +1010,7 @@
           "line": 14,
           "lines": 5,
           "link": 21,
-          "links": 16,
+          "links": 17,
           "list": 34,
           "map": 36,
           "meeting": 9,
@@ -1218,7 +1218,7 @@
       "name": "inventory",
       "summary": {
         "pages": 73,
-        "components": 686,
+        "components": 687,
         "orphanComponents": 0,
         "averagePageLines": 44
       },
@@ -1329,7 +1329,7 @@
           },
           {
             "page": "src/routes/organisations/[organisationId]/business-brain/+page.svelte",
-            "lines": 55,
+            "lines": 57,
             "widgets": []
           },
           {
@@ -2692,6 +2692,10 @@
           },
           {
             "component": "src/lib/components/businessBrain/BusinessBrainPagesTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/businessBrain/BusinessBrainQuestionRecordLinks.svelte",
             "reusedBy": 1
           },
           {
@@ -4414,8 +4418,8 @@
       "name": "siteDefinition",
       "summary": {
         "routes": 72,
-        "views": 762,
-        "siteComponents": 674,
+        "views": 763,
+        "siteComponents": 675,
         "catalogue": 14,
         "widgetUsages": 410,
         "handRolledElements": 0,
@@ -4824,8 +4828,8 @@
         {
           "route": "/organisations/[organisationId]/business-brain",
           "file": "src/routes/organisations/[organisationId]/business-brain/+page.svelte",
-          "definition": "WorkspaceHeader, TabStrip, DashboardPanel{ ( ?shownTab === businessBrainTabKe\u2026: BusinessBrainDrawn | ?shownTab === businessBrainTabKe\u2026: BusinessBrainFilesTable | ?shownTab === businessBrainTabKe\u2026: BusinessBrainPagesTable ) }",
-          "expanded": "WorkspaceHeader, TabStrip, DashboardPanel{ ( ?shownTab === businessBrainTabKe\u2026: BusinessBrainDrawn=( BrainConstellation=( ?hasNeurons: ConstellationOverlays=( ConstellationHud, ?exploration.hover !== null && s\u2026: NeuronTooltip, ?selectedPage !== undefined: NeuronDetailPanel ) ) ) | ?shownTab === businessBrainTabKe\u2026: BusinessBrainFilesTable=( RecordsTable{ RecordsCell, RecordsCell{ ( ?file.isNamedByPage: Badge | Badge ) }, (2) RecordsCell } ) | ?shownTab === businessBrainTabKe\u2026: BusinessBrainPagesTable=( RecordsTable{ (3) RecordsCell } ) ) }"
+          "definition": "WorkspaceHeader, TabStrip, DashboardPanel{ ( ?shownTab === businessBrainTabKe\u2026: ( BusinessBrainDrawn, BusinessBrainQuestionRecordLinks ) | ?shownTab === businessBrainTabKe\u2026: BusinessBrainFilesTable | ?shownTab === businessBrainTabKe\u2026: BusinessBrainPagesTable ) }",
+          "expanded": "WorkspaceHeader, TabStrip, DashboardPanel{ ( ?shownTab === businessBrainTabKe\u2026: ( BusinessBrainDrawn=( BrainConstellation=( ?hasNeurons: ConstellationOverlays=( ConstellationHud, ?exploration.hover !== null && s\u2026: NeuronTooltip, ?selectedPage !== undefined: NeuronDetailPanel ) ) ), BusinessBrainQuestionRecordLinks ) | ?shownTab === businessBrainTabKe\u2026: BusinessBrainFilesTable=( RecordsTable{ RecordsCell, RecordsCell{ ( ?file.isNamedByPage: Badge | Badge ) }, (2) RecordsCell } ) | ?shownTab === businessBrainTabKe\u2026: BusinessBrainPagesTable=( RecordsTable{ (3) RecordsCell } ) ) }"
         },
         {
           "route": "/organisations/[organisationId]/business-brain/chatbots/[chatbotId=uuid]/questions",
@@ -6189,6 +6193,12 @@
           "component": "BusinessBrainPagesTable",
           "file": "src/lib/components/businessBrain/BusinessBrainPagesTable.svelte",
           "definition": "RecordsTable{ (3) RecordsCell }",
+          "usedBy": 1
+        },
+        {
+          "component": "BusinessBrainQuestionRecordLinks",
+          "file": "src/lib/components/businessBrain/BusinessBrainQuestionRecordLinks.svelte",
+          "definition": "",
           "usedBy": 1
         },
         {
@@ -9086,13 +9096,13 @@
           "area": "backend",
           "files": 1264,
           "sourceFiles": 1254,
-          "sourceLines": 41224
+          "sourceLines": 41235
         },
         {
           "area": "frontend",
           "files": 1125,
-          "sourceFiles": 995,
-          "sourceLines": 34208
+          "sourceFiles": 996,
+          "sourceLines": 34227
         },
         {
           "area": "shared",
