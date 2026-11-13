@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Badge from '$lib/components/site/Badge.svelte';
+	import OwnerPicker from '$lib/components/projects/internalWork/OwnerPicker.svelte';
 	import RecordsCell from '$lib/components/workspace/RecordsCell.svelte';
 	import RecordsTable from '$lib/components/workspace/RecordsTable.svelte';
 	import { formatBritishDate } from '$lib/data/britishDate';
@@ -8,14 +9,22 @@
 	import { internalStatusLabels } from '$lib/data/internalStatus';
 	import { isPastDue } from '$lib/data/dueDate';
 	import type { RecordsColumn } from '$lib/components/workspace/recordsTable';
+	import type { TeamPerson } from '$lib/data/teamPeople';
 	import type { TeamWorkItem } from '$lib/data/organisationTeamWork';
 
-	let { items }: { items: TeamWorkItem[] } = $props();
+	let { items, peopleByProduct }: { items: TeamWorkItem[]; peopleByProduct: Record<string, TeamPerson[]> } = $props();
+
+	function ownerNamesOf(item: TeamWorkItem): string {
+		const people = peopleByProduct[item.productId] ?? [];
+		const owners = people.filter((person) => item.assigneeIds.includes(person.id));
+		return owners.map((owner) => owner.name).join(', ');
+	}
 
 	const columns: RecordsColumn<TeamWorkItem>[] = [
 		{ key: 'item', label: 'Item', sortValue: (item) => item.title },
 		{ key: 'department', label: 'Department', sortValue: (item) => departmentLabels[item.department] },
 		{ key: 'product', label: 'Product', sortValue: (item) => item.productName },
+		{ key: 'owner', label: 'Owner', sortValue: ownerNamesOf },
 		{ key: 'status', label: 'Status', sortValue: (item) => internalStatusLabels[item.status] },
 		{ key: 'dueDate', label: 'Due date', sortValue: (item) => item.dueDate ?? '' }
 	];
@@ -41,6 +50,9 @@
 			</span>
 		</RecordsCell>
 		<RecordsCell label="Product">{item.productName}</RecordsCell>
+		<RecordsCell label="Owner">
+			<OwnerPicker taskId={item.id} ownerIds={item.assigneeIds} people={peopleByProduct[item.productId] ?? []} isNamesShown />
+		</RecordsCell>
 		<RecordsCell kind="status" label="Status"><Badge label={internalStatusLabels[item.status]} tone={taskStatusTones[item.status]} /></RecordsCell>
 		<RecordsCell label="Due date" tone={isLate ? 'negative' : 'plain'}>
 			{item.dueDate === null ? noDueDate : formatBritishDate(item.dueDate)}

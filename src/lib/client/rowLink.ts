@@ -2,7 +2,7 @@ import { goto, preloadData } from '$app/navigation';
 import { isPlainClick } from './plainClick';
 import type { Action } from 'svelte/action';
 
-const controlSelector = 'a, button, form, input, select, textarea, [role="menu"]';
+const controlSelector = 'a, button, form, input, select, textarea, summary, [role="menu"]';
 
 /**
  * A row that opens its record on a plain click anywhere on it. The controls inside the row keep
