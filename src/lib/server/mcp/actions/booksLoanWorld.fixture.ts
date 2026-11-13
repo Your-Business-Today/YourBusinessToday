@@ -39,6 +39,7 @@ function postToLoan(accountId: string, journalDate: string, movement: { debit?: 
 		debit: movement.debit ?? 0,
 		credit: movement.credit ?? 0,
 		position: 1,
+		description: '',
 		books_journals: journal
 	};
 	ledgerTables.books_journal_lines.push(loanLine);

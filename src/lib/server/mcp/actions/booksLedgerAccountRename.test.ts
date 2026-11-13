@@ -20,7 +20,7 @@ const renamesMade = () => ledgerWrites.filter((write) => write.kind === 'update'
 function softwareJournalLine(id: string, account: Row, amounts: { debit: number; credit: number }): Row {
 	const journal = { journal_date: '2026-11-03', description: 'Claude subscription', kind: 'manual' };
 	const accountId = account.id;
-	const placing = { journal_id: 'journal-1', account_id: accountId, cost_centre_id: null, position: 0 };
+	const placing = { journal_id: 'journal-1', account_id: accountId, cost_centre_id: null, position: 0, description: '' };
 	return { id, ...placing, ...amounts, books_journals: journal, books_ledger_accounts: account };
 }
 
