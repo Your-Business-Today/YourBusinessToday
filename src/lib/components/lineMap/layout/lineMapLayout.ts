@@ -6,11 +6,13 @@ export type StationPlace = Point & { top: number; foot: number };
 
 export type HandoverBranch = { from: string; to: string; colour: LineColour; corners: Point[] };
 
-export type LineRun = { lineId: string; name: string; colour: LineColour; y: number; from: number; to: number; nameEdge: number };
+export type LineRun = { lineId: string; name: string; colour: LineColour; y: number; from: number; to: number; nameEdge: number; row: number };
 
 export type StationLabel = Box & { side: LabelSide; lines: string[] };
 
-export type LineName = Box & { lineId: string; lines: string[]; right: number };
+export type LineName = Box & { lineId: string; lines: string[]; right: number; row: number };
+
+export type MapRow = { top: number; height: number };
 
 export type LinePlacement = {
 	geometry: LineMapGeometry;
@@ -27,4 +29,6 @@ export type LineMapLayout = LinePlacement & {
 	labels: Record<string, StationLabel>;
 	lineNames: LineName[];
 	goingBack: string[];
+	rows: MapRow[];
+	rowOfStation: Record<string, number>;
 };

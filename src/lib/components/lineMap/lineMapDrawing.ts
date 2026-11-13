@@ -1,24 +1,15 @@
 import { isSameHandover } from './layout/combinedMap';
 import { joiningCorner } from './layout/forkCorners';
 import type { Point } from './layout/lineMapGeometry';
-import type { HandoverBranch, LineMapLayout, LineName, LineRun } from './layout/lineMapLayout';
+import type { HandoverBranch, LineMapLayout, LineName } from './layout/lineMapLayout';
 import type { LineMapModel, MapHandover } from './layout/lineMapModel';
 import { withoutLooseEnds } from './layout/stationLines';
+import { drawnRuns, type DrawnRun } from './drawnRuns';
 import { drawnStations, type DrawnStation, type Lighting } from './drawnStations';
 
 export type DrawnBranch = HandoverBranch & { failure?: string; joinsAt: Point };
 
-export type LineMapDrawing = { runs: LineRun[]; branches: DrawnBranch[]; stations: DrawnStation[]; lineNames: LineName[] };
-
-function drawnRuns(model: LineMapModel, layout: LineMapLayout): LineRun[] {
-	const { places } = layout;
-	return model.lines.flatMap((line) => {
-		const laidOut = layout.lineRuns.find((run) => run.lineId === line.id);
-		if (laidOut === undefined) return [];
-		const lastStop = line.stops.at(-1) ?? line.stops[0];
-		return [{ ...laidOut, name: line.name, colour: line.colour, from: places[line.stops[0]].x, to: places[lastStop].x }];
-	});
-}
+export type LineMapDrawing = { runs: DrawnRun[]; branches: DrawnBranch[]; stations: DrawnStation[]; lineNames: LineName[] };
 
 function drawnBranches(handovers: MapHandover[], layout: LineMapLayout): DrawnBranch[] {
 	return layout.branches.flatMap((branch) => {
@@ -28,14 +19,18 @@ function drawnBranches(handovers: MapHandover[], layout: LineMapLayout): DrawnBr
 	});
 }
 
+/** The key a line's stretch in one row is known by, shared by its run and its name. */
+export const runKey = (run: { row: number; lineId: string }) => `${run.row}:${run.lineId}`;
+
 export function drawingOf(map: LineMapModel, layout: LineMapLayout, lighting: Lighting = {}): LineMapDrawing {
 	const model = withoutLooseEnds(map);
-	const lineIds = new Set(model.lines.map((line) => line.id));
 	const branches = drawnBranches(model.handovers, layout);
+	const runs = drawnRuns(model, layout);
+	const drawnRunKeys = new Set(runs.map(runKey));
 	return {
-		runs: drawnRuns(model, layout),
+		runs,
 		branches,
 		stations: drawnStations(model, layout, branches, lighting),
-		lineNames: layout.lineNames.filter((lineName) => lineIds.has(lineName.lineId))
+		lineNames: layout.lineNames.filter((lineName) => drawnRunKeys.has(runKey(lineName)))
 	};
 }

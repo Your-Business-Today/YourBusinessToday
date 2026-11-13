@@ -1,10 +1,13 @@
 <script lang="ts">
 	import type { LineMapGeometry } from './layout/lineMapGeometry';
-	import { lineStrokeClasses } from './lineColourClasses';
-	import type { LineMapDrawing } from './lineMapDrawing';
+	import { lineFillClasses, lineStrokeClasses } from './lineColourClasses';
+	import { carriesOnArrowPath } from './lineMapContinuations';
+	import { runKey, type LineMapDrawing } from './lineMapDrawing';
 	import { pathThrough } from './lineMapPaths';
 
 	let { drawing, geometry, isDimmed }: { drawing: LineMapDrawing; geometry: LineMapGeometry; isDimmed: boolean } = $props();
+
+	const leavingRuns = $derived(drawing.runs.filter((run) => run.isLeaving));
 
 	const arrivingWidth = 2;
 	const failingBranches = $derived(drawing.branches.filter((branch) => branch.failure !== undefined));
@@ -14,8 +17,11 @@
 	{#each drawing.branches as branch (`${branch.from}→${branch.to}`)}
 		<path d={pathThrough(branch.corners)} class={lineStrokeClasses[branch.colour]} stroke-width={geometry.stroke} />
 	{/each}
-	{#each drawing.runs as run (run.lineId)}
+	{#each drawing.runs as run (runKey(run))}
 		<path d="M{run.from} {run.y}H{run.to}" class={lineStrokeClasses[run.colour]} stroke-width={geometry.stroke} />
+	{/each}
+	{#each leavingRuns as run (runKey(run))}
+		<path d={carriesOnArrowPath(run)} class={lineFillClasses[run.colour]} stroke="none" />
 	{/each}
 	{#each drawing.branches as branch (`${branch.from}→${branch.to}`)}
 		<path d={pathThrough(branch.corners.slice(-2))} class={lineStrokeClasses[branch.colour]} stroke-width={arrivingWidth} />
