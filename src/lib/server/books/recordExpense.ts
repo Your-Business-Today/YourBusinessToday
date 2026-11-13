@@ -68,7 +68,7 @@ export function expenseStepInputs(organisationId: string, prepared: PreparedExpe
 function recordedExpense(expense: ExpenseInput, journalId: string): Expense {
 	const { isPaid, ...cost } = expense;
 	const paidOn = isPaid ? expense.expenseDate : null;
-	return { ...cost, id: crypto.randomUUID(), paidOn, recordedJournalId: journalId, paymentJournalId: null };
+	return { ...cost, id: crypto.randomUUID(), paidOn, recordedJournalId: journalId, paymentJournalId: null, paidByLoanAccountId: null };
 }
 
 function stepColumns(expense: Expense) {

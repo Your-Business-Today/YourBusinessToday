@@ -1,5 +1,5 @@
 import { findExpenses } from '$lib/server/books/expenses';
-import { findChartNamings } from '$lib/server/books/chartNamings';
+import { findCostNamings } from '$lib/server/books/costNamings';
 import { refuseWhen } from '$lib/server/books/booksRefusal';
 import { moduleAction } from '../organisationModuleGate';
 import { objectSchema } from '../actionTypes';
@@ -10,7 +10,7 @@ import { describeExpenseList } from './describeExpenses';
 import type { McpAction } from '../actionTypes';
 
 const asTheBooksHoldThem =
-	'The newest cost comes first. Use it to find the cost the person means before marking it paid or deleting it, and give ' +
+	'The newest cost comes first, and a cost a person paid from their own pocket names them. Use it to find the cost the person means before marking it paid or deleting it, and give ' +
 	'them the figures as the books hold them, never a total you worked out yourself.';
 
 export const booksExpenseReadActions: McpAction[] = [
@@ -27,7 +27,7 @@ export const booksExpenseReadActions: McpAction[] = [
 				refuseWhen(unpaidOnlyRefusal(input.isUnpaidOnly));
 				const [expenses, namings] = await Promise.all([
 					findExpenses(caller.supabase, organisation.id, input.isUnpaidOnly === true),
-					findChartNamings(caller.supabase, organisation.id)
+					findCostNamings(caller.supabase, organisation.id)
 				]);
 				return describeExpenseList(organisation.name, expenses, namings);
 			})
