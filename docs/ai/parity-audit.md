@@ -34,7 +34,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-020 | read a project's deploy history | member | read | `/projects/{projectId}/deploys` load | `read_deploy_history` | `/projects/{projectId}/deploys` |
 | US-021 | see what is staged and deploy it now | member | write | `deployNow` | `deploy_staging_now` | `/projects/{projectId}/staged` |
 | US-022 | read a project's domain and site map | member | read | `/projects/{projectId}/domain` load | `read_project_domain` `read_project_site_map` `read_project_mcp_map` | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
-| US-023 | refresh a project's domain and site map from its repository | member | write | opening the page | `refresh_project_blueprint` `file_project_site_map` | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
+| US-023 | refresh a project's domain and site map from its repository | member | write | opening the page | `refresh_project_blueprint` `file_project_site_map` `start_site_map_run` `list_product_repository_folder` `read_product_repository_file` | `/projects/{projectId}/domain` `/projects/{projectId}/site-map` |
 | US-024 | assign internal work and give it a due date | member | write | `setAssignees` `setDueDate` | `set_task_assignees` `update_task_details` | `/projects/{projectId}` |
 
 ## 03-goals

@@ -6,6 +6,8 @@ import { domainRunLine } from './domainRunLine';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { organisationNameLookup } from '$lib/data/organisationNames';
 import { raisingDoctrine } from './raisingDoctrine';
+import { reachableProjectIds } from './projectAccess';
+import { siteMapRunLine } from './siteMapRunLine';
 import { workflowMapRunLine } from './workflowMapRunLine';
 import { workingDoctrine } from './workingDoctrine';
 import { ybtCommandsDoctrine } from './ybtCommands';
@@ -22,6 +24,7 @@ export async function describeContext(caller: McpCaller): Promise<string> {
 		contextRunLine(memberships, nameOf),
 		await domainRunLine(caller),
 		workflowMapRunLine(memberships, nameOf),
+		siteMapRunLine(reachableProjectIds(caller)),
 		await clientContactLine(caller),
 		staffLine(caller),
 		`Areas you can reach: ${areasFor(caller).join(', ')}.`,
