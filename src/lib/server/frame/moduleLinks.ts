@@ -3,7 +3,7 @@ import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
 import { getSwitchedOnModules } from '$lib/server/organisations/getSwitchedOnModules';
 import { usableModules } from '$lib/data/organisationModuleAccess';
 import { enterableModules } from './enterableModules';
-import { domainFrameLink, keepsTheDomain, moduleFrameLink, workflowMapFrameLink } from '$lib/components/frame/moduleFolders';
+import { domainFrameLink, keepsTheDomain, moduleFrameLinks, workflowMapFrameLink } from '$lib/components/frame/moduleFolders';
 import {
 	organisationModuleRouteSegments,
 	organisationModules,
@@ -40,14 +40,14 @@ export async function readModuleLinks(
 	const place = { organisation: { id: organisationId }, switchedOn };
 	const usable = usableModules(visitor, place).filter((module) => modulesWithPages.includes(module));
 	const enterable = await enterableModules(locals, visitor, place, usable);
-	const moduleLinks = enterable.map((module) => moduleLinkFor(organisationId, module));
+	const moduleLinks = enterable.flatMap((module) => moduleLinksFor(organisationId, module));
 	if (!enterable.some(keepsTheDomain)) return moduleLinks;
 	return [domainFrameLink(organisationId), workflowMapFrameLink(organisationId), ...moduleLinks];
 }
 
-function moduleLinkFor(organisationId: string, module: OrganisationModule): FrameLink {
+function moduleLinksFor(organisationId: string, module: OrganisationModule): FrameLink[] {
 	const segment = organisationModuleRouteSegments[module];
-	return moduleFrameLink(module, `/organisations/${organisationId}/${segment}`);
+	return moduleFrameLinks(module, `/organisations/${organisationId}/${segment}`);
 }
 
 async function readOrganisationVisitor(locals: App.Locals, accountId: string): Promise<OrganisationVisitor> {
