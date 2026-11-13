@@ -52,10 +52,9 @@ export function owingFactsOf(document: InvoiceDocument): DocumentFact[] {
 	return [...paidSoFar, { label: 'To pay', value: formatPoundsAndPence(document.amountOwed) }];
 }
 
-/** A draft and an issued invoice say how to pay; a paid or void one has nothing left to pay. */
-export function isAskingForPayment(document: InvoiceDocument): boolean {
-	const asking: InvoiceStatus[] = [InvoiceStatuses.draft, InvoiceStatuses.issued];
-	return asking.includes(document.status);
+/** Every invoice says how it is paid, a paid one included, so the copy filed is whole; a void one asks for nothing. */
+export function isSayingHowToPay(document: InvoiceDocument): boolean {
+	return document.status !== InvoiceStatuses.void;
 }
 
 function paidSentence(paidInFullOn: string | null): string {
