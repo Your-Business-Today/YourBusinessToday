@@ -1,4 +1,5 @@
 <script lang="ts">
+	import DomainDiagramKey from './DomainDiagramKey.svelte';
 	import DomainMap from './DomainMap.svelte';
 	import EmptyState from '$lib/components/site/EmptyState.svelte';
 	import EntityPanel from './EntityPanel.svelte';
@@ -27,9 +28,10 @@
 </script>
 
 <p class="text-sm text-chalk/60">
-	Each box is an area of the business; ◆ marks a thing kept in its own right, with the things kept as part of it
-	beneath. Pick a thing to see its fields and what it holds and refers to.
+	Each box is an area of the business; ◆ marks a record kept in its own right, with the things kept as part of it
+	beneath, and a dashed outline gathers a group's members. Pick a thing to see its fields and what it holds, refers to and marks.
 </p>
+<DomainDiagramKey />
 <div class={dashboardGridClasses}>
 	<DomainMap {domain} selectedEntityName={chosenName} onSelect={select} />
 	<aside class="flex min-w-0 flex-col gap-4">

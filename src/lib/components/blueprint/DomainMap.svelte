@@ -1,6 +1,7 @@
 <script lang="ts">
 	import DomainContextBox from './DomainContextBox.svelte';
 	import DomainEntityNode from './DomainEntityNode.svelte';
+	import DomainGroupOutline from './DomainGroupOutline.svelte';
 	import DomainRelationshipLine from './DomainRelationshipLine.svelte';
 	import { layOutDomain, type PlacedEntity } from '$lib/data/blueprint/domainLayout';
 	import { relatedEntityNames, relationshipKey, type DomainModel, type DomainRelationship } from '$lib/data/blueprint/domainModel';
@@ -38,10 +39,13 @@
 		viewBox={`0 0 ${layout.width} ${layout.height}`}
 		class="block h-auto w-full min-w-[40rem]"
 		role="img"
-		aria-label="The domain's areas, the things in each and how they relate"
+		aria-label="The domain's areas, the groups and things in each and how they relate"
 	>
 		{#each layout.contexts as placed (placed.name)}
 			<DomainContextBox {placed} />
+		{/each}
+		{#each layout.groups as placed (placed.name)}
+			<DomainGroupOutline {placed} />
 		{/each}
 		{#each lines as line (line.key)}
 			<DomainRelationshipLine {...line} isHighlighted={isTouchingSelection(line.relationship)} />

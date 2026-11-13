@@ -11,7 +11,18 @@ export type BoundedContext = {
 	name: string;
 	title: string;
 	aggregates: Aggregate[];
+	groups: ThingGroup[];
 };
+
+/** A group of things kept and changed together, drawn round its members in its area. */
+export type ThingGroup = { name: string; title: string; memberNames: string[] };
+
+/** What each thing drawn is, so each kind has its own shape: a repository's entities are all records. */
+export const domainEntityKinds = { record: 'record', detail: 'detail', operation: 'operation', event: 'event' } as const;
+
+export type DomainEntityKind = (typeof domainEntityKinds)[keyof typeof domainEntityKinds];
+
+export const everyDomainEntityKind: DomainEntityKind[] = Object.values(domainEntityKinds);
 
 /** An aggregate root and the entities that live inside it, the root first. */
 export type Aggregate = {
@@ -21,6 +32,7 @@ export type Aggregate = {
 
 export type DomainEntity = {
 	name: string;
+	kind: DomainEntityKind;
 	title: string;
 	plural: string;
 	contextName: string;
@@ -40,11 +52,11 @@ export type DomainField = {
 	notes: string;
 };
 
-export const relationshipKinds = { containment: 'containment', reference: 'reference' } as const;
+export const relationshipKinds = { containment: 'containment', reference: 'reference', marks: 'marks' } as const;
 
 export type RelationshipKind = (typeof relationshipKinds)[keyof typeof relationshipKinds];
 
-/** One entity pointing at another: a child held inside its parent, or a field referring to another entity. */
+/** One entity pointing at another: a child held inside its parent, a field referring to another entity, or an event marking a record. */
 export type DomainRelationship = {
 	fromEntityName: string;
 	toEntityName: string;
@@ -54,10 +66,6 @@ export type DomainRelationship = {
 
 export function entitiesOf(domain: DomainModel): DomainEntity[] {
 	return domain.contexts.flatMap((context) => context.aggregates.flatMap((aggregate) => aggregate.entities));
-}
-
-export function entitiesInContext(context: BoundedContext): DomainEntity[] {
-	return context.aggregates.flatMap((aggregate) => aggregate.entities);
 }
 
 /** A key that tells one relationship from another, even two between the same entities. */

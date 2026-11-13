@@ -1,5 +1,5 @@
-import { relationshipKinds, type Aggregate, type BoundedContext, type DomainEntity, type DomainField, type DomainModel, type DomainRelationship } from '$lib/data/blueprint/domainModel';
-import type { EntityManifest, ManifestArea, ManifestEntity, ManifestField } from './entityManifest';
+import { domainEntityKinds, everyDomainEntityKind, relationshipKinds, type Aggregate, type BoundedContext, type DomainEntity, type DomainEntityKind, type DomainField, type DomainModel, type DomainRelationship } from '$lib/data/blueprint/domainModel';
+import type { EntityManifest, ManifestArea, ManifestEntity, ManifestField, ManifestMark } from './entityManifest';
 
 const referenceFieldType = 'ref';
 
@@ -18,7 +18,7 @@ function boundedContext(area: ManifestArea, manifest: EntityManifest, parents: M
 	const entities = area.entities.map((entity) => domainEntity(entity, area, manifest, parents));
 	const rootNames = [...new Set(entities.map((entity) => entity.aggregateRootName))];
 	const aggregates = rootNames.map((rootName) => aggregate(rootName, entities));
-	return { name: area.name, title: area.title ?? area.name, aggregates };
+	return { name: area.name, title: area.title ?? area.name, aggregates, groups: area.groups ?? [] };
 }
 
 function aggregate(rootName: string, entities: DomainEntity[]): Aggregate {
@@ -43,6 +43,7 @@ function domainEntity(entity: ManifestEntity, area: ManifestArea, manifest: Enti
 	const statusEnumName = entity.status?.[0] ?? '';
 	return {
 		name: entity.name,
+		kind: kindOf(entity),
 		title: entity.title ?? entity.name,
 		plural: entity.plural ?? entity.name,
 		contextName: area.name,
@@ -52,6 +53,12 @@ function domainEntity(entity: ManifestEntity, area: ManifestArea, manifest: Enti
 		fields: entity.fields.map(domainField),
 		notes: entity.notes ?? ''
 	};
+}
+
+/** The kind the manifest names, or a record when it names none the diagram draws. */
+function kindOf({ kind }: ManifestEntity): DomainEntityKind {
+	const isDrawnKind = kind !== undefined && everyDomainEntityKind.includes(kind);
+	return isDrawnKind ? kind : domainEntityKinds.record;
 }
 
 function domainField(field: ManifestField): DomainField {
@@ -68,9 +75,16 @@ function domainField(field: ManifestField): DomainField {
 function relationshipsOf(entity: ManifestEntity): DomainRelationship[] {
 	const references = entity.fields.filter((field) => field.type === referenceFieldType && field.ref);
 	const relationships = references.map((field) => relationshipOfField(entity, field));
+	const marked = entity.marks === undefined ? [] : [markOf(entity, entity.marks)];
 	const isParentReferenced = references.some((field) => field.ref === entity.parent);
-	if (entity.parent === null || isParentReferenced) return relationships;
-	return [...relationships, { fromEntityName: entity.name, toEntityName: entity.parent, kind: relationshipKinds.containment, fieldName: '' }];
+	if (entity.parent === null || isParentReferenced) return [...relationships, ...marked];
+	const containment = { fromEntityName: entity.name, toEntityName: entity.parent, kind: relationshipKinds.containment, fieldName: '' };
+	return [...relationships, containment, ...marked];
+}
+
+/** An event tied to the record it marks, through the status it marks the record reaching. */
+function markOf(event: ManifestEntity, { entityName, status }: ManifestMark): DomainRelationship {
+	return { fromEntityName: event.name, toEntityName: entityName, kind: relationshipKinds.marks, fieldName: status ?? '' };
 }
 
 function relationshipOfField(entity: ManifestEntity, field: ManifestField): DomainRelationship {
