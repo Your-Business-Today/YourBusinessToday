@@ -1,6 +1,7 @@
 <script lang="ts">
 	import BusinessBrainDrawn from '$lib/components/businessBrain/BusinessBrainDrawn.svelte';
 	import BusinessBrainFilesTable from '$lib/components/businessBrain/BusinessBrainFilesTable.svelte';
+	import BusinessBrainQuestionRecordLinks from '$lib/components/businessBrain/BusinessBrainQuestionRecordLinks.svelte';
 	import BusinessBrainPagesTable from '$lib/components/businessBrain/BusinessBrainPagesTable.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import TabStrip from '$lib/components/workspace/TabStrip.svelte';
@@ -14,7 +15,7 @@
 
 	let { data } = $props();
 
-	const { organisation, index, listedFiles, drawing } = $derived(data);
+	const { organisation, index, listedFiles, drawing, brainsWithRecords } = $derived(data);
 	const { entries: pages, pageCount } = $derived(index);
 	const { files, fileCount } = $derived(listedFiles);
 	const addresses = $derived(businessBrainAddresses(organisation.id));
@@ -40,6 +41,7 @@
 	<DashboardPanel>
 		{#if shownTab === businessBrainTabKeys.brain}
 			<BusinessBrainDrawn {drawing} {addresses} />
+			<BusinessBrainQuestionRecordLinks brains={brainsWithRecords} {addresses} />
 		{:else if shownTab === businessBrainTabKeys.files}
 			<BusinessBrainFilesTable {files} {addresses} />
 			{#if hasMoreFiles}
