@@ -1,7 +1,9 @@
 import { mapStageNames } from '$lib/data/workflowMap/workflowMapWords';
 import { stationStates } from '$lib/data/workflowMap/workflowMap';
 import { describeMapStation } from './describeMapStation';
+import { stationReviewTallyOf } from '$lib/data/workflowMap/stationReviewTally';
 import type { MapHandover, MapLine, MapStage, WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
+import type { StationStandings } from '$lib/data/workflowMap/stationReview';
 
 const stateTallyWords = { ours: 'in our products', planned: 'planned', elsewhere: 'done elsewhere' } as const;
 
@@ -9,12 +11,21 @@ export function noWorkflowMapYet(organisationName: string, stage: MapStage): str
 	return `No ${mapStageNames[stage]} map has been filed for ${organisationName} yet.`;
 }
 
+/** What the description names beside the map: the products' names and where each station stands with the client. */
+export type MapSurroundings = { productNames: Map<string, string>; standings: StationStandings };
+
 /** One filed version as Markdown a Claude can work from: every line with its stations in order, then the hand-overs. */
-export function describeWorkflowMap(organisationName: string, map: WorkflowMapVersion, productNames: Map<string, string>): string {
+export function describeWorkflowMap(organisationName: string, map: WorkflowMapVersion, surroundings: MapSurroundings): string {
 	const recordedDay = map.recordedAt.slice(0, 10);
 	const header = `## ${mapStageNames[map.stage]}: workflow map of ${organisationName}, version ${map.versionNumber}, filed ${recordedDay}`;
-	const lineSections = map.lines.map((line) => describeLine(line, productNames));
-	return [header, tallySentence(map), ...lineSections, handoverSection(map)].join('\n\n');
+	const lineSections = map.lines.map((line) => describeLine(line, surroundings));
+	const marks = marksSentence(map, surroundings.standings);
+	return [header, `${tallySentence(map)} ${marks}`, ...lineSections, handoverSection(map)].join('\n\n');
+}
+
+function marksSentence(map: WorkflowMapVersion, standings: StationStandings): string {
+	const { right, notRight, notChecked } = stationReviewTallyOf(map, standings);
+	return `The client's marks: ${right} right, ${notRight} not right, ${notChecked} not checked yet.`;
 }
 
 function tallySentence({ lines, handovers }: WorkflowMapVersion): string {
@@ -27,8 +38,8 @@ function tallySentence({ lines, handovers }: WorkflowMapVersion): string {
 	return `${sizes}. Stations: ${states.join(', ')}.`;
 }
 
-function describeLine(line: MapLine, productNames: Map<string, string>): string {
-	const stations = line.stations.map((station, index) => describeMapStation(station, index + 1, productNames));
+function describeLine(line: MapLine, surroundings: MapSurroundings): string {
+	const stations = line.stations.map((station, index) => describeMapStation(station, index + 1, surroundings));
 	return [`### ${line.name} \`${line.key}\``, ...stations].join('\n');
 }
 

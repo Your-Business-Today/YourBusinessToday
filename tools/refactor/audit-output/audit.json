@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T05:25:05+00:00",
+  "generatedAt": "2026-11-13T05:41:35+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4239,
+        "measuredAgainst": 4284,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6375,
+        "measuredAgainst": 6452,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6190,
+        "measuredAgainst": 6285,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 159.46,
+        "measuredAgainst": 161.18,
         "score": 100.0
       },
       {
@@ -111,9 +111,9 @@
         "zeroAt": 20,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 1,
-        "measuredAgainst": 159.46,
-        "score": 100.0
+        "offenders": 2,
+        "measuredAgainst": 161.18,
+        "score": 99.9
       },
       {
         "key": "orphans",
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7057,
+        "measuredAgainst": 7137,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 159.46,
+        "measuredAgainst": 161.18,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 159.46,
+        "measuredAgainst": 161.18,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6375,
+        "measuredAgainst": 6452,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 265,
+        "measuredAgainst": 267,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6190,
+        "measuredAgainst": 6285,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6190,
+        "measuredAgainst": 6285,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6375,
+        "measuredAgainst": 6452,
         "score": 100.0
       },
       {
@@ -231,7 +231,7 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 390,
+        "measuredAgainst": 394,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 370,
+        "measuredAgainst": 377,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4239,
-      "totalLines": 159456,
+      "totalFiles": 4284,
+      "totalLines": 161177,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 6375,
+      "totalFunctions": 6452,
       "elseBlocks": 0,
-      "ifBlocks": 6190,
+      "ifBlocks": 6285,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -282,7 +282,7 @@
       "carriedFromBaseline": true
     },
     "naming": {
-      "bannedAbbreviationHits": 88,
+      "bannedAbbreviationHits": 89,
       "unprefixedBooleans": 3
     },
     "comments": {
@@ -293,12 +293,12 @@
     "magicValues": {
       "inlineHexColours": 0,
       "inlineStyleAttributes": 0,
-      "repeatedStringLiterals": 1
+      "repeatedStringLiterals": 2
     },
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 414,
+      "overlongLines": 443,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,11 +308,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 6375
+      "functionsExamined": 6452
     },
     "designPatterns": {
-      "roleFamilies": 229,
-      "predictedFiles": 265,
+      "roleFamilies": 231,
+      "predictedFiles": 267,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -320,19 +320,19 @@
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 73,
-      "components": 682,
+      "pages": 74,
+      "components": 685,
       "orphanComponents": 0,
       "averagePageLines": 43
     },
     "siteDefinition": {
-      "routes": 72,
-      "views": 758,
-      "siteComponents": 670,
+      "routes": 73,
+      "views": 762,
+      "siteComponents": 673,
       "catalogue": 14,
-      "widgetUsages": 390,
+      "widgetUsages": 394,
       "handRolledElements": 0,
-      "widgetSlots": 390,
+      "widgetSlots": 394,
       "viewsWithHandRolled": 0,
       "boxedContentWidgets": 0,
       "designSheets": 8,
@@ -340,19 +340,19 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 209,
+      "schemaTables": 210,
       "limitedColumns": 0,
-      "writeDoors": 370,
+      "writeDoors": 377,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 4819,
-      "backend": 1261,
-      "frontend": 1017,
-      "shared": 847,
-      "tests": 674,
-      "api": 571,
+      "totalFiles": 4870,
+      "backend": 1267,
+      "frontend": 1038,
+      "shared": 850,
+      "tests": 682,
+      "api": 584,
       "database": 212,
       "tooling": 141,
       "docs": 79,
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4239,
-        "totalLines": 159456,
+        "totalFiles": 4284,
+        "totalLines": 161177,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 6375,
+        "totalFunctions": 6452,
         "elseBlocks": 0,
-        "ifBlocks": 6190,
+        "ifBlocks": 6285,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -404,7 +404,7 @@
     "naming": {
       "name": "naming",
       "summary": {
-        "bannedAbbreviationHits": 88,
+        "bannedAbbreviationHits": 89,
         "unprefixedBooleans": 3
       },
       "offenders": {
@@ -643,7 +643,7 @@
       "summary": {
         "inlineHexColours": 0,
         "inlineStyleAttributes": 0,
-        "repeatedStringLiterals": 1
+        "repeatedStringLiterals": 2
       },
       "offenders": {
         "hexColours": [],
@@ -652,6 +652,10 @@
           {
             "literal": "Company site",
             "occurrences": 5
+          },
+          {
+            "literal": "map the workflows",
+            "occurrences": 4
           }
         ]
       }
@@ -661,7 +665,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 414,
+        "overlongLines": 443,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -887,15 +891,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 6375
+        "functionsExamined": 6452
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 229,
-        "predictedFiles": 265,
+        "roleFamilies": 231,
+        "predictedFiles": 267,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -905,14 +909,14 @@
       "offenders": {
         "roleFamilies": {
           "+layout.server.ts": 6,
-          "+page.server.ts": 65,
-          "+page.svelte": 73,
+          "+page.server.ts": 66,
+          "+page.svelte": 74,
           "+server.ts": 26,
           "access": 12,
           "account": 5,
           "accounts": 4,
           "action": 23,
-          "actions": 223,
+          "actions": 226,
           "address": 7,
           "adverts": 4,
           "answer": 8,
@@ -943,7 +947,7 @@
           "choice": 6,
           "choices": 6,
           "classes": 4,
-          "client": 17,
+          "client": 18,
           "columns": 6,
           "company": 6,
           "contact": 4,
@@ -962,6 +966,7 @@
           "director": 5,
           "doctrine": 8,
           "domain": 4,
+          "door": 4,
           "draft": 4,
           "email": 13,
           "entries": 7,
@@ -977,7 +982,7 @@
           "fixture": 15,
           "fixtures": 29,
           "for": 10,
-          "form": 78,
+          "form": 79,
           "geometry": 4,
           "goal": 8,
           "goals": 4,
@@ -1002,13 +1007,14 @@
           "layout": 7,
           "lead": 6,
           "legend": 4,
-          "limits": 12,
-          "line": 13,
+          "limits": 14,
+          "line": 15,
           "lines": 5,
           "link": 22,
           "links": 16,
           "list": 37,
           "map": 29,
+          "mark": 4,
           "meeting": 9,
           "member": 6,
           "menu": 6,
@@ -1019,8 +1025,8 @@
           "mockup": 4,
           "modal": 13,
           "model": 4,
-          "name": 13,
-          "names": 9,
+          "name": 14,
+          "names": 10,
           "navigation": 4,
           "node": 6,
           "note": 12,
@@ -1035,13 +1041,13 @@
           "owner": 5,
           "page": 20,
           "pages": 6,
-          "panel": 51,
+          "panel": 52,
           "paper": 12,
           "part": 5,
           "parts": 6,
           "password": 5,
           "patch": 10,
-          "path": 4,
+          "path": 5,
           "paths": 6,
           "people": 8,
           "person": 15,
@@ -1065,7 +1071,7 @@
           "request": 23,
           "requests": 5,
           "result": 4,
-          "review": 4,
+          "review": 6,
           "rhythm": 4,
           "roles": 5,
           "room": 7,
@@ -1073,7 +1079,7 @@
           "rows": 18,
           "rule": 7,
           "rules": 62,
-          "run": 10,
+          "run": 13,
           "runs": 25,
           "schemas": 16,
           "scope": 4,
@@ -1089,10 +1095,10 @@
           "source": 18,
           "sources": 9,
           "stage": 4,
-          "standing": 20,
+          "standing": 22,
           "state": 5,
           "statement": 4,
-          "station": 5,
+          "station": 6,
           "stations": 7,
           "status": 9,
           "step": 7,
@@ -1108,7 +1114,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 658,
+          "test": 667,
           "text": 13,
           "tiles": 5,
           "time": 5,
@@ -1128,7 +1134,7 @@
           "views": 9,
           "visitor": 4,
           "window": 4,
-          "words": 17,
+          "words": 19,
           "work": 7,
           "world": 5,
           "writer": 6,
@@ -1207,12 +1213,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 65,
+            "predicted": 66,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 73,
+            "predicted": 74,
             "missing": []
           }
         ],
@@ -1223,8 +1229,8 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 73,
-        "components": 682,
+        "pages": 74,
+        "components": 685,
         "orphanComponents": 0,
         "averagePageLines": 43
       },
@@ -1507,7 +1513,12 @@
           },
           {
             "page": "src/routes/portal/+page.svelte",
-            "lines": 36,
+            "lines": 37,
+            "widgets": []
+          },
+          {
+            "page": "src/routes/portal/workflow-map/+page.svelte",
+            "lines": 37,
             "widgets": []
           },
           {
@@ -1670,19 +1681,19 @@
         "componentReuse": [
           {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
-            "reusedBy": 78
+            "reusedBy": 79
           },
           {
             "component": "src/lib/components/site/SubmitButton.svelte",
-            "reusedBy": 72
+            "reusedBy": 73
           },
           {
             "component": "src/lib/components/site/FormErrorNote.svelte",
-            "reusedBy": 57
+            "reusedBy": 58
           },
           {
             "component": "src/lib/components/site/FormField.svelte",
-            "reusedBy": 48
+            "reusedBy": 49
           },
           {
             "component": "src/lib/components/site/Button.svelte",
@@ -1694,7 +1705,7 @@
           },
           {
             "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
-            "reusedBy": 33
+            "reusedBy": 34
           },
           {
             "component": "src/lib/components/site/SmallCapsField.svelte",
@@ -1718,7 +1729,7 @@
           },
           {
             "component": "src/lib/components/site/EmptyState.svelte",
-            "reusedBy": 18
+            "reusedBy": 19
           },
           {
             "component": "src/lib/components/workspace/FlashMessage.svelte",
@@ -2082,6 +2093,10 @@
           },
           {
             "component": "src/lib/components/organisations/domain/DomainContextsPanel.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/organisations/workflowMap/WorkflowMapView.svelte",
             "reusedBy": 2
           },
           {
@@ -3413,10 +3428,6 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/organisations/workflowMap/WorkflowMapView.svelte",
-            "reusedBy": 1
-          },
-          {
             "component": "src/lib/components/people/AppointmentImportForm.svelte",
             "reusedBy": 1
           },
@@ -3546,6 +3557,18 @@
           },
           {
             "component": "src/lib/components/portal/PortalVisitorCard.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/workflowMap/PortalStationReview.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/workflowMap/StationReviewForm.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/portal/workflowMap/StationReviewPanel.svelte",
             "reusedBy": 1
           },
           {
@@ -4403,13 +4426,13 @@
     "siteDefinition": {
       "name": "siteDefinition",
       "summary": {
-        "routes": 72,
-        "views": 758,
-        "siteComponents": 670,
+        "routes": 73,
+        "views": 762,
+        "siteComponents": 673,
         "catalogue": 14,
-        "widgetUsages": 390,
+        "widgetUsages": 394,
         "handRolledElements": 0,
-        "widgetSlots": 390,
+        "widgetSlots": 394,
         "viewsWithHandRolled": 0,
         "boxedContentWidgets": 0,
         "designSheets": 8,
@@ -4851,7 +4874,7 @@
           "route": "/organisations/[organisationId]/workflow-map",
           "file": "src/routes/organisations/[organisationId]/workflow-map/+page.svelte",
           "definition": "WorkspaceHeader, ( ?maps === null: EmptyState | ?openingStage === null: EmptyState | WorkflowMapView )",
-          "expanded": "WorkspaceHeader, ( ?maps === null: EmptyState | ?openingStage === null: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ) | StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ (n) Badge } ] } ) | DashboardPanel{ MapChangesTable=( RecordsTable{ (5) RecordsCell } ) } ) ) )"
+          "expanded": "WorkspaceHeader, ( ?maps === null: EmptyState | ?openingStage === null: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ (n) Badge } ] } ) ) | DashboardPanel{ MapChangesTable=( RecordsTable{ (5) RecordsCell } ) } ) ) )"
         },
         {
           "route": "/people",
@@ -4900,6 +4923,12 @@
           "file": "src/routes/portal/projects/[projectId]/+page.svelte",
           "definition": "WorkspaceHeader{ ProjectStatusBadge, HeaderFacts }, PortalTaskList, PortalGoalList, PortalRequestForm, PortalRequestList",
           "expanded": "WorkspaceHeader{ ProjectStatusBadge=( Badge ), HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) }, PortalTaskList=( DashboardPanel{ ?tasks.length > 0: (n) PortalTaskRow } ), PortalGoalList=( DashboardPanel{ ?goals.length > 0: (n) PortalGoalRow=( ProgressTrack ) } ), PortalRequestForm=( DashboardPanel{ (3) SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), PortalRequestList=( DashboardPanel{ ?requests.length > 0: (n) PortalRequestRow=( ?!request.isDone: PortalRequestReplyForm=( FormErrorNote, SubmitButton ) ) } )"
+        },
+        {
+          "route": "/portal/workflow-map",
+          "file": "src/routes/portal/workflow-map/+page.svelte",
+          "definition": "WorkspaceHeader, ( ?reading === null || openingStag\u2026: EmptyState | WorkflowMapView ), PortalStationReview",
+          "expanded": "WorkspaceHeader, ( ?reading === null || openingStag\u2026: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ (n) Badge } ] } ) ) | DashboardPanel{ MapChangesTable=( RecordsTable{ (5) RecordsCell } ) } ) ) ), PortalStationReview=( StationReviewPanel=( DashboardPanel{ StationReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) )"
         },
         {
           "route": "/privacy",
@@ -5015,13 +5044,13 @@
           "component": "SubmitButton",
           "file": "src/lib/components/site/SubmitButton.svelte",
           "definition": "",
-          "usedBy": 72
+          "usedBy": 73
         },
         {
           "component": "FormErrorNote",
           "file": "src/lib/components/site/FormErrorNote.svelte",
           "definition": "",
-          "usedBy": 57
+          "usedBy": 58
         },
         {
           "component": "SmallCapsField",
@@ -5699,6 +5728,12 @@
           "component": "Wireframe",
           "file": "src/lib/components/blueprint/Wireframe.svelte",
           "definition": "WireframeNode",
+          "usedBy": 2
+        },
+        {
+          "component": "WorkflowMapView",
+          "file": "src/lib/components/organisations/workflowMap/WorkflowMapView.svelte",
+          "definition": "?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: ( WorkflowMapPanel, ?details !== null: StationPanel ) | DashboardPanel{ MapChangesTable } )",
           "usedBy": 2
         },
         {
@@ -7958,6 +7993,12 @@
           "usedBy": 1
         },
         {
+          "component": "PortalStationReview",
+          "file": "src/lib/components/portal/workflowMap/PortalStationReview.svelte",
+          "definition": "StationReviewPanel",
+          "usedBy": 1
+        },
+        {
           "component": "PortalTaskList",
           "file": "src/lib/components/portal/PortalTaskList.svelte",
           "definition": "DashboardPanel{ ?tasks.length > 0: (n) PortalTaskRow }",
@@ -8459,6 +8500,18 @@
           "component": "StationPlaceLine",
           "file": "src/lib/components/organisations/workflowMap/StationPlaceLine.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "StationReviewForm",
+          "file": "src/lib/components/portal/workflowMap/StationReviewForm.svelte",
+          "definition": "?isNotRight: FormField, FormErrorNote, SubmitButton",
+          "usedBy": 1
+        },
+        {
+          "component": "StationReviewPanel",
+          "file": "src/lib/components/portal/workflowMap/StationReviewPanel.svelte",
+          "definition": "DashboardPanel{ StationReviewForm }",
           "usedBy": 1
         },
         {
@@ -9002,12 +9055,6 @@
           "usedBy": 1
         },
         {
-          "component": "WorkflowMapView",
-          "file": "src/lib/components/organisations/workflowMap/WorkflowMapView.svelte",
-          "definition": "?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin\u2026: WorkflowMapPanel | StationPanel | DashboardPanel{ MapChangesTable } )",
-          "usedBy": 1
-        },
-        {
           "component": "YearComparisonCard",
           "file": "src/lib/components/taxCalculator/YearComparisonCard.svelte",
           "definition": "",
@@ -9036,12 +9083,12 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 4819,
-        "backend": 1261,
-        "frontend": 1017,
-        "shared": 847,
-        "tests": 674,
-        "api": 571,
+        "totalFiles": 4870,
+        "backend": 1267,
+        "frontend": 1038,
+        "shared": 850,
+        "tests": 682,
+        "api": 584,
         "database": 212,
         "tooling": 141,
         "docs": 79,
@@ -9050,33 +9097,33 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 1261,
-          "sourceFiles": 1253,
-          "sourceLines": 41451
+          "files": 1267,
+          "sourceFiles": 1263,
+          "sourceLines": 41797
         },
         {
           "area": "frontend",
-          "files": 1017,
-          "sourceFiles": 908,
-          "sourceLines": 30272
+          "files": 1038,
+          "sourceFiles": 913,
+          "sourceLines": 30424
         },
         {
           "area": "shared",
-          "files": 847,
-          "sourceFiles": 831,
-          "sourceLines": 29710
+          "files": 850,
+          "sourceFiles": 837,
+          "sourceLines": 29824
         },
         {
           "area": "tests",
-          "files": 674,
-          "sourceFiles": 661,
-          "sourceLines": 31154
+          "files": 682,
+          "sourceFiles": 670,
+          "sourceLines": 31615
         },
         {
           "area": "api",
-          "files": 571,
-          "sourceFiles": 570,
-          "sourceLines": 26275
+          "files": 584,
+          "sourceFiles": 585,
+          "sourceLines": 26923
         },
         {
           "area": "database",
@@ -9107,9 +9154,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 209,
+        "schemaTables": 210,
         "limitedColumns": 0,
-        "writeDoors": 370,
+        "writeDoors": 377,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },

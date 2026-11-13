@@ -6,7 +6,7 @@ import type { WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 import type { WorkflowMapRunStanding } from './workflowMapRunStanding';
 
 const organisation = { id: 'org-1', name: 'Jewel Bespoke Build' } as unknown as WorkflowMapRunStanding['organisation'];
-const newClient: WorkflowMapRunStanding = { organisation, before: null, after: null, products: [] };
+const newClient: WorkflowMapRunStanding = { organisation, before: null, after: null, products: [], standings: {} };
 const portal = { id: 'p-1', name: 'Jewel Portal' };
 
 function juneMapFiledAs(stage: 'before' | 'after'): WorkflowMapVersion {
@@ -42,6 +42,20 @@ describe('the walk "map the workflows" starts', () => {
 		expect(walk).toContain('Keep every line and station with its key');
 		expect(walk).not.toContain('**The roles:**');
 		expect(walk).toContain('stage after');
+	});
+
+	it('asks first about every station the client marked not right, and has the Claude put each right', () => {
+		const standings = { pvr: { reviewState: 'not_right' as const, whatIsWrong: 'It goes to the client too.', markedOnVersion: null } };
+		const walk = describeWorkflowMapRun({ ...newClient, after: juneMapFiledAs('after'), products: [portal], standings });
+		expect(walk).toContain('**Ask first about what the client marked not right,**');
+		expect(walk).toMatch(/- \*\*PVR\*\* `pvr` \([^)]+\): "It goes to the client too\."/);
+		expect(walk.indexOf('Ask first about')).toBeLessThan(walk.indexOf('Still missing or unclear'));
+		expect(walk).toContain('Put right each station the client marked not right');
+	});
+
+	it('says so when the client has marked nothing not right', () => {
+		const walk = describeWorkflowMapRun({ ...newClient, after: juneMapFiledAs('after'), products: [portal] });
+		expect(walk).toContain('The client has marked no station not right.');
 	});
 
 	it('keeps refining a Before until a product of ours is in use', () => {
