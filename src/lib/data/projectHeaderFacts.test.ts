@@ -3,7 +3,6 @@ import { projectHeaderFacts } from './projectHeaderFacts';
 
 const harbourSite = {
 	organisationId: 'harbour',
-	isTeamProject: false,
 	repositoryUrl: 'https://github.com/harbour/site',
 	environmentUrl: 'https://harbour.example/',
 	defaultBranch: 'main'
@@ -24,10 +23,9 @@ describe('projectHeaderFacts', () => {
 		expect(labelsOf(projectHeaderFacts(harbourSite, meadowPicked))[0]).toBe('Harbour Builders');
 	});
 
-	it('calls a project under no organisation personal, and a team project the team’s', () => {
+	it('calls a project under no organisation personal', () => {
 		const ownProject = { ...harbourSite, organisationId: null };
 		expect(labelsOf(projectHeaderFacts(ownProject, noOrganisation))[0]).toBe('Personal');
-		expect(labelsOf(projectHeaderFacts({ ...ownProject, isTeamProject: true }, noOrganisation))[0]).toBe('YBT team');
 	});
 
 	it('names no branch and no address for a project with no repository or site', () => {

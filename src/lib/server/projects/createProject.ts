@@ -6,14 +6,15 @@ export type NewProjectSeed = {
 	name: string;
 	description: string;
 	organisationId: string | null;
-	isTeamProject: boolean;
+	isStaffOnIt?: boolean;
 	repositoryUrl?: string;
 	ownerId: string;
 	createdBy: string;
 };
 
 /**
- * A project under an organisation, or a team project, is on its people's boards the moment it exists.
+ * A project under an organisation is on its people's boards the moment it exists; one every staff member is on
+ * (a client's onboarding project) is on theirs as well.
  * One made with no repository is an internal project until a repository or a development task is added.
  */
 export async function createProject(supabase: SupabaseClient, seed: NewProjectSeed): Promise<void> {
@@ -25,14 +26,14 @@ export async function createProject(supabase: SupabaseClient, seed: NewProjectSe
 		priority: await nextRankOnBoard(supabase, seed.ownerId),
 		owner_id: seed.ownerId,
 		created_by: seed.createdBy,
-		...teamProjectColumns(seed.isTeamProject)
+		...staffColumns(seed.isStaffOnIt === true)
 	});
 	if (error) throw error;
 	if (seed.organisationId !== null) await syncOrganisationAccess(seed.organisationId);
 }
 
-/** A personal project names no team column, so creating one stands before the team projects migration has run. */
-function teamProjectColumns(isTeamProject: boolean): Record<string, boolean> {
-	if (!isTeamProject) return {};
+/** Only a project every staff member is on names the column the database brings the staff on by. */
+function staffColumns(isStaffOnIt: boolean): Record<string, boolean> {
+	if (!isStaffOnIt) return {};
 	return { is_team_project: true };
 }
