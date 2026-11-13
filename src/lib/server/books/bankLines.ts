@@ -42,6 +42,14 @@ export async function findBankLines(supabase: SupabaseClient, organisationId: st
 	return (data as unknown as BankLineRow[]).map(fromBankLineRow);
 }
 
+/** Every statement line of the organisation still to be matched, on whichever account, oldest first. */
+export async function findUnmatchedBankLines(supabase: SupabaseClient, organisationId: string): Promise<BankLine[]> {
+	const unmatched = supabase.from(bankLinesTable).select(bankLineColumns).eq('organisation_id', organisationId).is('matched_journal_id', null);
+	const { data, error } = await unmatched.order('line_date').order('created_at').order('position');
+	if (error !== null) throw error;
+	return (data as unknown as BankLineRow[]).map(fromBankLineRow);
+}
+
 function selectAccountLines(supabase: SupabaseClient, organisationId: string, bankAccountId: string) {
 	return supabase.from(bankLinesTable).select(bankLineColumns).eq('organisation_id', organisationId).eq('bank_account_id', bankAccountId);
 }

@@ -1,4 +1,4 @@
-import { importBankLines } from '$lib/server/books/importBankLines';
+import { importStatementApplyingRules } from '$lib/server/books/bankRuleRuns';
 import { findBankLines } from '$lib/server/books/bankLines';
 import { readBankLineReading } from '$lib/server/books/bankLineReading';
 import { findStatementAccountIfHeld } from '$lib/server/books/bankStatementAccount';
@@ -13,6 +13,8 @@ import { booksOrganisationField } from './booksFields';
 import { bankLineReadingFields, bankStatementFields } from './booksBankLineFields';
 import { bankLineMatchFields } from './booksBankLineMatchFields';
 import { describeBankLineImport, describeBankLineList } from './describeBankLines';
+import { describeRulesOnImport } from './describeBankRules';
+import { applyRulesField } from './booksBankRuleFields';
 import { describeBankLineMatch } from './describeBankLineMatch';
 import type { McpAction } from '../actionTypes';
 
@@ -23,7 +25,8 @@ const giveTheLinesAsTheStatementShowsThem =
 	'money out below, with the balance after each line when the statement gives one. Bringing the same statement in again ' +
 	'adds nothing, so a statement that overlaps the last one is safe; ' +
 	`a statement longer than ${bankLineLimits.mostLines} lines goes in a month at a time. ` +
-	'It keeps the lines only: nothing is posted to the ledger until each line is matched.';
+	'Nothing is posted until a line is matched: with applyRules true, the lines the bank rules cover are matched as they say, ' +
+	'and the answer lists what is left for match_bank_line.';
 
 const findTheLineBeforeMatchingIt =
 	'Lines come in the order of the statement, each with its id. Use it to see what is still to be matched and to find the line ' +
@@ -42,11 +45,15 @@ export const booksBankLineActions: McpAction[] = [
 		isWrite: true,
 		summary: "bring a bank statement's lines into an organisation's books, each line once however often the statement is given",
 		guidance: giveTheLinesAsTheStatementShowsThem,
-		inputSchema: objectSchema({ organisationId: booksOrganisationField, ...bankStatementFields }, ['organisationId', 'lines']),
+		inputSchema: objectSchema({ organisationId: booksOrganisationField, ...bankStatementFields, applyRules: applyRulesField }, [
+			'organisationId',
+			'lines',
+			'applyRules'
+		]),
 		run: async (caller, input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.saving, async () => {
-				const imported = await importBankLines(caller.supabase, organisation.id, input);
-				return describeBankLineImport(organisation.name, imported);
+				const imported = await importStatementApplyingRules(caller.supabase, organisation.id, { accountId: caller.accountId }, input);
+				return `${describeBankLineImport(organisation.name, imported)}\n${describeRulesOnImport(imported.applied)}`;
 			})
 	}),
 	moduleAction('books', {
