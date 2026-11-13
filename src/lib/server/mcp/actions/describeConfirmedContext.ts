@@ -1,3 +1,4 @@
+import { clientProjectSection } from './describeClientProjects';
 import { describeCompanyContext } from './describeCompanyContext';
 import { outlineServices } from '$lib/data/companyContext/serviceOutline';
 import { serviceOutlineSection } from './describeServiceOutline';
@@ -31,7 +32,7 @@ export function describeConfirmedContext(answer: ConfirmedContextAnswer): string
 		newerVersionSentence(answer),
 		describeCompanyContext(organisationName, context, null, confirmation),
 		serviceOutlineSection(outlineServices(context)),
-		projectSection(answer),
+		clientProjectSection(answer.organisationName, answer.projects),
 		raisedSection(answer)
 	]
 		.filter((paragraph) => paragraph !== '')
@@ -46,16 +47,6 @@ function newerVersionSentence({ confirmed, latestVersionNumber }: ConfirmedConte
 		`Version ${latestVersionNumber} has been recorded since and is not confirmed yet: the services come from ` +
 		`version ${confirmedNumber}, the one the client confirmed.`
 	);
-}
-
-function projectSection({ organisationName, projects }: ConfirmedContextAnswer): string {
-	const heading = "### The client's projects";
-	if (projects.length === 0) return `${heading}\nNo project is under ${organisationName} yet, so no goal can be raised.`;
-	const lines = projects.map((project) => {
-		const portal = project.isOnClientPortal ? 'on their portal' : 'not on their portal';
-		return `- ${project.name} (project id: ${project.id}), ${portal}`;
-	});
-	return [heading, ...lines].join('\n');
 }
 
 function raisedSection({ projects, goalsRaised }: ConfirmedContextAnswer): string {

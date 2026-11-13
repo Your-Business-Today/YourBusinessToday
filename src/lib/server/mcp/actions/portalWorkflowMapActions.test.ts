@@ -18,9 +18,8 @@ const { portal, mapOfClient, marking } = vi.hoisted(() => ({
 
 vi.mock('$lib/server/portal/getPortalVisitor', () => ({
 	getPortalVisitor: async (_supabase: unknown, _accountId: string, chosenClientId: string | null) => {
-		if (portal.visitor === null) return null;
-		const isChosen = chosenClientId === betaId;
-		return isChosen ? { ...portal.visitor, clientId: betaId, organisationName: 'Beta Ltd' } : portal.visitor;
+		if (portal.visitor === null || chosenClientId !== betaId) return portal.visitor;
+		return { ...portal.visitor, clientId: betaId, organisationName: 'Beta Ltd' };
 	}
 }));
 vi.mock('$lib/server/workflowMap/readWorkflowMapOfClient', () => ({
@@ -30,12 +29,10 @@ vi.mock('$lib/server/workflowMap/readWorkflowMapOfClient', () => ({
 	}
 }));
 vi.mock('$lib/server/workflowMap/markWorkflowMapStation', () => ({ markWorkflowMapStation: marking }));
+vi.mock('$lib/server/workflowMap/confirmWorkflowMap', () => ({ confirmWorkflowMap: vi.fn() }));
 
-const acmeVisitor = {
-	clientId: acmeId,
-	organisationName: 'Acme Ltd',
-	organisations: [{ clientId: acmeId, name: 'Acme Ltd' }, { clientId: betaId, name: 'Beta Ltd' }]
-};
+const organisations = [{ clientId: acmeId, name: 'Acme Ltd' }, { clientId: betaId, name: 'Beta Ltd' }];
+const acmeVisitor = { clientId: acmeId, organisationName: 'Acme Ltd', organisations };
 
 function juneAfter() {
 	const draft = validateWorkflowMap({ ...juneWorkflowMapInput(), stage: 'after' });
@@ -49,6 +46,7 @@ function run(name: string, input: Record<string, unknown> = {}) {
 	return action.run(contact, input);
 }
 
+const confirmedAfter = { stage: 'after', versionNumber: 2, confirmedAt: '2026-11-13T07:00:00Z' };
 const notRightMark = { stage: 'after', versionNumber: 2, stationKey: 'pvr', reviewState: 'not_right', whatIsWrong: 'It goes to the client too.' };
 
 describe("a client contact's workflow map through the connector", () => {
@@ -57,7 +55,8 @@ describe("a client contact's workflow map through the connector", () => {
 		portal.visitor = acmeVisitor;
 		mapOfClient.readFor = [];
 		const standings = { before: {}, after: { pvr: { reviewState: 'not_right', whatIsWrong: 'It goes to the client too.', markedOnVersion: null } } };
-		mapOfClient.reading = { maps: { before: null, after: juneAfter(), productNames: {} }, standings };
+		const maps = { before: null, after: juneAfter(), productNames: {} };
+		mapOfClient.reading = { maps, standings, confirmations: { before: null, after: confirmedAfter } };
 		marking.mockResolvedValue(null);
 	});
 
@@ -68,6 +67,7 @@ describe("a client contact's workflow map through the connector", () => {
 		expect(answer).toContain('## After: workflow map of Acme Ltd, version 2, filed 2026-11-13');
 		expect(answer).toContain("   - Client's mark: not right: It goes to the client too.");
 		expect(answer).not.toContain('## Before');
+		expect(answer).toContain('The client confirmed version 2 of their After map as right on 13 Nov 2026.');
 	});
 
 	it('acts for the organisation named, and never reads one they are not at', async () => {
@@ -78,7 +78,7 @@ describe("a client contact's workflow map through the connector", () => {
 	});
 
 	it('says when no map is filed yet, and when the caller is not a client contact', async () => {
-		mapOfClient.reading = { maps: { before: null, after: null, productNames: {} }, standings: { before: {}, after: {} } };
+		mapOfClient.reading = { ...mapOfClient.reading, maps: { before: null, after: null, productNames: {} } };
 		expect(await run('read_my_workflow_map')).toContain(noWorkflowMapFiledYet);
 		portal.visitor = null;
 		expect(await run('read_my_workflow_map')).toBe(notAClientContact);

@@ -1,7 +1,7 @@
 import { companyDetails } from '$lib/data/companyDetails';
 import { confirmCompanyContext } from '$lib/server/companyContext/confirmCompanyContext';
 import { describeCompanyContext } from './describeCompanyContext';
-import { describeVisitorStanding, clientIdField, portalVisitorOf } from '../portalVisitorAccess';
+import { describeVisitorStanding, clientIdField, withPortalVisitor } from '../portalVisitorAccess';
 import { isRefusal } from '$lib/server/portal/portalFormReading';
 import { isRefused } from '$lib/server/companyContext/contextText';
 import { markContextPart } from '$lib/server/companyContext/markContextPart';
@@ -30,7 +30,7 @@ export const portalContextActions: McpAction[] = [
 		summary: "for a client contact: your company's context as the map in your portal shows it, with each part's review and whether it is confirmed",
 		guidance: 'Read it before marking a part or confirming: the marks and the confirmation name the version it shows.',
 		inputSchema: objectSchema({ clientId: clientIdField }),
-		run: async (caller, input) => withVisitor(caller, input, readContext)
+		run: async (caller, input) => withPortalVisitor(caller, input, readContext)
 	},
 	{
 		name: 'mark_context_part',
@@ -49,7 +49,7 @@ export const portalContextActions: McpAction[] = [
 			},
 			['versionNumber', 'partKey', 'reviewState']
 		),
-		run: async (caller, input) => withVisitor(caller, input, (visitor) => markPart(caller, visitor, input))
+		run: async (caller, input) => withPortalVisitor(caller, input, (visitor) => markPart(caller, visitor, input))
 	},
 	{
 		name: 'confirm_company_context',
@@ -61,17 +61,9 @@ export const portalContextActions: McpAction[] = [
 			'Confirm only when the person says so: confirming tells Your Business Today this is their business as it is, and ' +
 			'the services it shows they need are raised from it. A revised version needs confirming again.',
 		inputSchema: objectSchema({ clientId: clientIdField, versionNumber: versionNumberField }, ['versionNumber']),
-		run: async (caller, input) => withVisitor(caller, input, (visitor) => confirmContext(caller, visitor, input))
+		run: async (caller, input) => withPortalVisitor(caller, input, (visitor) => confirmContext(caller, visitor, input))
 	}
 ];
-
-type VisitorStep = (visitor: PortalVisitor) => Promise<string>;
-
-async function withVisitor(caller: McpCaller, input: Record<string, unknown>, step: VisitorStep): Promise<string> {
-	const visitor = await portalVisitorOf(caller, input);
-	if (typeof visitor === 'string') return visitor;
-	return step(visitor);
-}
 
 async function readContext(visitor: PortalVisitor): Promise<string> {
 	const standing = describeVisitorStanding(visitor);

@@ -5,8 +5,14 @@
 	import type { StationStanding } from '$lib/data/workflowMap/stationReview';
 	import type { WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 
-	let { map, stationKey, standing }: { map: WorkflowMapVersion; stationKey: string; standing: StationStanding } = $props();
+	let {
+		map,
+		stationKey,
+		standing,
+		isConfirmed
+	}: { map: WorkflowMapVersion; stationKey: string; standing: StationStanding; isConfirmed: boolean } = $props();
 
+	const confirmedVersionNote = 'You confirmed this version, so it takes no more marks. The next version filed is yours to check.';
 	const carriedNote = $derived(
 		standing.markedOnVersion === null ? null : `Marked on version ${standing.markedOnVersion}; the station is unchanged since.`
 	);
@@ -20,8 +26,12 @@
 				<p class="text-chalk-subtle">{carriedNote}</p>
 			{/if}
 		</div>
-		{#key `${map.stage}:${stationKey}`}
-			<StationReviewForm {map} {stationKey} {standing} />
-		{/key}
+		{#if isConfirmed}
+			<p class="text-chalk-subtle">{confirmedVersionNote}</p>
+		{:else}
+			{#key `${map.stage}:${stationKey}`}
+				<StationReviewForm {map} {stationKey} {standing} />
+			{/key}
+		{/if}
 	</div>
 </DashboardPanel>

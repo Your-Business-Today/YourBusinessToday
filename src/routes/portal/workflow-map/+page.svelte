@@ -40,7 +40,12 @@
 			organisationId={null}
 		>
 			{#snippet belowStation(map, stationKey)}
-				<PortalStationReview {map} {stationKey} standings={reading.standings[map.stage]} />
+				<PortalStationReview
+					{map}
+					{stationKey}
+					standings={reading.standings[map.stage]}
+					confirmation={reading.confirmations[map.stage]}
+				/>
 			{/snippet}
 		</WorkflowMapView>
 	{/if}

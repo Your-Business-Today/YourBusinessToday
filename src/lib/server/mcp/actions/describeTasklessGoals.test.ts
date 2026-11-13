@@ -15,7 +15,8 @@ const goal: TasklessGoal = {
 	isAutocomplete: false,
 	createdBy: 'jeremy',
 	createdAt: '2026-10-21T18:30:00Z',
-	contextVersionId: null
+	contextVersionId: null,
+	workflowMapVersionId: null
 };
 
 describe('the goals someone raised and never gave a task', () => {

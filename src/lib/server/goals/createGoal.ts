@@ -10,6 +10,7 @@ export type NewGoalSeed = {
 	horizon: GoalHorizon;
 	department?: Department;
 	contextVersionId?: string;
+	workflowMapVersionId?: string;
 };
 
 export function readNewGoalSeed(formData: FormData): NewGoalSeed | null {
@@ -39,7 +40,8 @@ export async function createGoal(
 			priority: await nextGoalRank(supabase, projectId, seed.horizon),
 			created_by: createdBy,
 			...departmentColumns(seed.department),
-			...contextVersionColumns(seed.contextVersionId)
+			...contextVersionColumns(seed.contextVersionId),
+			...workflowMapVersionColumns(seed.workflowMapVersionId)
 		})
 		.select('id')
 		.single();
@@ -51,4 +53,10 @@ export async function createGoal(
 function contextVersionColumns(contextVersionId: string | undefined): Record<string, string> {
 	if (contextVersionId === undefined) return {};
 	return { context_version_id: contextVersionId };
+}
+
+/** The confirmed workflow map a service goal came from; a goal raised any other way writes nothing, as before migration 0213. */
+function workflowMapVersionColumns(workflowMapVersionId: string | undefined): Record<string, string> {
+	if (workflowMapVersionId === undefined) return {};
+	return { workflow_map_version_id: workflowMapVersionId };
 }

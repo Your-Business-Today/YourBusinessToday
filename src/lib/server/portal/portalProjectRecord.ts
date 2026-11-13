@@ -10,7 +10,8 @@ import { portalTaskStatusLabel } from '$lib/portal/portalTaskStatus';
 import { settledGoalIds } from '$lib/data/settledGoalIds';
 import { summariseGoals, type GoalSummary } from '$lib/server/goals/summariseGoals';
 import { weightedCompletionPercent } from '$lib/data/completionSummary';
-import type { PortalGoal, PortalProject, PortalTask } from '$lib/portal/portalProject';
+import { goalOriginsOf, noGoalOrigin } from './portalGoalOrigins';
+import type { PortalGoal, PortalGoalOrigin, PortalProject, PortalTask } from '$lib/portal/portalProject';
 
 const noGoalTitle = '';
 
@@ -18,7 +19,7 @@ const noGoalTitle = '';
 export function toPortalProject(row: Record<string, unknown>): PortalProject {
 	const goalRows = readRows(row.goals);
 	const goals = goalRows.map(parseGoalRecord);
-	const contextVersionOf = contextVersionsOfGoals(goalRows);
+	const originOf = goalOriginsOf(goalRows);
 	const currentTasks = currentWork(readRows(row.tasks).map(parseTaskRecord), goals);
 	return {
 		id: row.id as string,
@@ -29,7 +30,7 @@ export function toPortalProject(row: Record<string, unknown>): PortalProject {
 		completionPercent: weightedCompletionPercent(currentTasks),
 		currentGoals: summariseGoals(goals, currentTasks)
 			.filter(isOpenCurrentGoal)
-			.map((goal) => toPortalGoal(goal, contextVersionOf.get(goal.id) ?? null)),
+			.map((goal) => toPortalGoal(goal, originOf.get(goal.id) ?? noGoalOrigin)),
 		openTasks: openTasksOf(currentTasks, goals)
 	};
 }
@@ -42,20 +43,14 @@ function isOpenCurrentGoal(goal: GoalSummary): boolean {
 	return goal.status === openGoalStatus && isCurrentGoal(goal);
 }
 
-/** The number of the confirmed context version each goal came from, as the portal surface gives it. */
-function contextVersionsOfGoals(goalRows: Record<string, unknown>[]): Map<string, number> {
-	const linkedRows = goalRows.filter((goalRow) => typeof goalRow.context_version_number === 'number');
-	return new Map(linkedRows.map((goalRow) => [goalRow.id as string, goalRow.context_version_number as number]));
-}
-
-function toPortalGoal(goal: GoalSummary, contextVersionNumber: number | null): PortalGoal {
+function toPortalGoal(goal: GoalSummary, origin: PortalGoalOrigin): PortalGoal {
 	return {
 		id: goal.id,
 		title: goal.title,
 		measure: goal.measure,
 		completionPercent: goal.completionPercent,
 		openTaskCount: goal.taskCount - goal.doneTaskCount,
-		contextVersionNumber
+		...origin
 	};
 }
 

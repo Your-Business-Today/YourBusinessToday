@@ -48,7 +48,8 @@ export function validateStationMark(values: Record<string, unknown>): StationMar
 	return { stage, versionNumber, stationKey, reviewState, whatIsWrong };
 }
 
-function readVersionNumber(text: string): number | Refusal {
+/** A version number as both doors take it: a whole number within the column's range. */
+export function readVersionNumber(text: string): number | Refusal {
 	const versionNumber = Number(text);
 	const isWholeNumber = wholeNumberShape.test(text);
 	const isInRange = versionNumber >= 1 && versionNumber <= limits.largestVersionNumber;
