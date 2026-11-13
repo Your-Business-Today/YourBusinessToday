@@ -1,9 +1,18 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { booksSettingNames, booksSettingsColumns, booksSettingsTable, type BooksSettings, type BooksSettingsChange } from '$lib/data/books/booksSettings';
+import {
+	booksSettingNames,
+	booksSettingsColumns,
+	booksSettingsTable,
+	changeableSettingNames,
+	changeableSettingsColumns,
+	type BooksSettings,
+	type BooksSettingsChange
+} from '$lib/data/books/booksSettings';
 import { validateBooksSettingsChange } from '$lib/data/books/booksSettingsRules';
 import { validateRecordId } from '$lib/data/isUuid';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { invoiceNumberingRefusal } from './invoiceNumbering';
+import { financialYearChangeRefusal } from './financialYearChange';
 
 const settingsColumnList = Object.values(booksSettingsColumns).join(', ');
 
@@ -22,13 +31,15 @@ export async function findBooksSettings(supabase: SupabaseClient, organisationId
 /**
  * Keeps the settings given and leaves every other one as it is. The first save makes the organisation's row,
  * whose other columns take their defaults. A value its column cannot hold, or a next invoice number that would
- * repeat one already used, is refused with the reason before anything is written.
+ * repeat one already used, or a first accounting period that does not fit the financial year, is refused with the
+ * reason before anything is written.
  */
 export async function saveBooksSettings(supabase: SupabaseClient, organisationId: string, fields: Record<string, unknown>): Promise<void> {
 	refuseWhen(validateRecordId('organisation', organisationId));
 	const change = validateBooksSettingsChange(fields);
 	if (typeof change === 'string') throw new BooksRefusal(change);
 	refuseWhen(await invoiceNumberingRefusal(supabase, organisationId, change.nextInvoiceNumber));
+	refuseWhen(await financialYearChangeRefusal(supabase, organisationId, change));
 	const row = { organisation_id: organisationId, ...toSettingsColumns(change), updated_at: new Date().toISOString() };
 	const { error } = await supabase.from(booksSettingsTable).upsert(row, { onConflict: 'organisation_id' });
 	if (error !== null) throw error;
@@ -39,6 +50,6 @@ function fromSettingsRow(row: Record<string, unknown>): BooksSettings {
 }
 
 function toSettingsColumns(change: BooksSettingsChange): Record<string, unknown> {
-	const given = booksSettingNames.filter((name) => change[name] !== undefined);
-	return Object.fromEntries(given.map((name) => [booksSettingsColumns[name], change[name]]));
+	const given = changeableSettingNames.filter((name) => change[name] !== undefined);
+	return Object.fromEntries(given.map((name) => [changeableSettingsColumns[name], change[name]]));
 }

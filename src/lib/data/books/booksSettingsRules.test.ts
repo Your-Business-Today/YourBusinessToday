@@ -46,4 +46,22 @@ describe('a change to the books settings', () => {
 	it('refuses a detail that is not text', () => {
 		expect(validateBooksSettingsChange({ bankAccountNumber: 12345678 })).toBe('bankAccountNumber is text; 12345678 was given.');
 	});
+
+	it('keeps a first accounting period given as two days, or cleared as two nulls', () => {
+		const firstAccounts = { firstPeriodStart: '2026-07-09', firstPeriodEnd: '2027-07-31' };
+		expect(validateBooksSettingsChange(firstAccounts)).toEqual(firstAccounts);
+		expect(validateBooksSettingsChange({ firstPeriodStart: null, firstPeriodEnd: null })).toEqual({ firstPeriodStart: null, firstPeriodEnd: null });
+	});
+
+	it('refuses one day of the first period without the other, and a day that is not one', () => {
+		expect(validateBooksSettingsChange({ firstPeriodStart: '2026-07-09' })).toBe(
+			'firstPeriodStart and firstPeriodEnd are given together, or both left out.'
+		);
+		expect(validateBooksSettingsChange({ firstPeriodStart: '2026-07-09', firstPeriodEnd: null })).toBe(
+			'firstPeriodStart and firstPeriodEnd are cleared together, both as null.'
+		);
+		expect(validateBooksSettingsChange({ firstPeriodStart: '9 July 2026', firstPeriodEnd: '2027-07-31' })).toBe(
+			'firstPeriodStart is a date written as 2026-11-30.'
+		);
+	});
 });
