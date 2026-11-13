@@ -1,17 +1,14 @@
 <script lang="ts">
 	import DangerConfirmModal from '$lib/components/site/DangerConfirmModal.svelte';
 	import { dangerButtonClasses } from '$lib/components/site/formStyles';
+	import { deletionWarningFor } from '$lib/data/clientDeletion';
 	import type { Client } from '$lib/server/clients/clientRecord';
 
 	let { client }: { client: Client } = $props();
 
 	let isConfirmOpen = $state(false);
 
-	const description = $derived(
-		`This deletes “${client.name}” from the register with its contacts and its history, and records the ` +
-			'deletion under your name. It is for a duplicate or a mistake: a client with projects, invoices, ' +
-			'companies grouped under it or a continuity copy is refused, and belongs at dormant or lost instead.'
-	);
+	const description = $derived(deletionWarningFor(client.name));
 </script>
 
 <section class="flex items-center justify-between gap-4">

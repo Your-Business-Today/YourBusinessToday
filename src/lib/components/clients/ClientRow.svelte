@@ -1,5 +1,6 @@
 <script lang="ts">
-	import ClientStageForm from './ClientStageForm.svelte';
+	import ClientRowActions from './ClientRowActions.svelte';
+	import StagePill from './StagePill.svelte';
 	import { leadSourceLabels } from '$lib/data/leadSources';
 	import type { ClientSummary } from '$lib/server/clients/listClients';
 
@@ -23,5 +24,8 @@
 			{/if}
 		</p>
 	</div>
-	<ClientStageForm clientId={client.id} stage={client.stage} />
+	<div class="flex shrink-0 items-center gap-2">
+		<StagePill stage={client.stage} />
+		<ClientRowActions {client} />
+	</div>
 </li>
