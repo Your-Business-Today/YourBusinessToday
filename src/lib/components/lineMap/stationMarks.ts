@@ -24,6 +24,7 @@ export function markKindOf(station: DrawnStation): MarkKind {
 }
 
 export function stationDescription(station: DrawnStation): string {
+	if (station.description !== undefined) return station.description;
 	const isOutput = station.kind === StationKinds.output;
 	const output = isOutput ? ', an output the business runs on' : '';
 	const goingBack = station.isGoingBack ? ', hands back to an earlier station' : '';
