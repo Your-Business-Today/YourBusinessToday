@@ -1,92 +1,84 @@
-import { Color, FogExp2, Group, Scene } from 'three';
-import { createAmbientNeuralWeb, type AmbientNeuralWeb } from './ambientNeuralWeb';
-import { cellZonesOf } from './cellClearZones';
-import { createFiringPulses, type FiringPulses } from './firingPulses';
+import { Color, FogExp2, Scene, type Mesh, type Texture } from 'three';
+import { AmbientNeuralWeb } from './ambientNeuralWeb';
 import { createGlowTexture } from './glowTexture';
-import { createMaterialBank, type MaterialBank } from './materialBank';
-import { createCellMaterialBank, type CellMaterialBank } from './cellMaterialBank';
-import { createNeuronField, type NeuronField } from './neuronField';
-import { createNucleusLabels, disposeNucleusLabels } from './nucleusLabels';
-import { createSettleFlashes, type SettleFlashes } from './settleFlash';
+import { MaterialBank } from './materialBank';
+import { CellMaterialBank } from './cellMaterialBank';
+import { MountedModel } from './mountedModel';
+import { SettleFlashes } from './settleFlash';
 import { createStarBackdrop } from './starBackdrop';
-import { createSynapseWeb, type SynapseWeb } from './synapseWeb';
 import { NIGHT_SKY } from './constellationPalette';
 import type { ConstellationModel } from './constellationTypes';
+import type { NeuronBody } from './neuronBody';
+import type { SynapseStrand } from './synapseStrand';
 
 const DEPTH_FOG_DENSITY = 0.045;
 
-export type MountedModel = { field: NeuronField; web: SynapseWeb; pulses: FiringPulses; labels: Group };
+/** The drawn brain: the night it sits in, the web behind it, and the cells and synapses of the model it shows. */
+export class ConstellationScene {
+	readonly scene = new Scene();
+	readonly flashes: SettleFlashes;
+	private readonly glowTexture: Texture = createGlowTexture();
+	private readonly bank: MaterialBank;
+	private readonly cells = new CellMaterialBank();
+	private readonly backdrop = createStarBackdrop();
+	private readonly ambient: AmbientNeuralWeb;
+	private mounted: MountedModel;
 
-export type ConstellationScene = {
-	scene: Scene;
-	readonly mounted: MountedModel;
-	ambient: AmbientNeuralWeb;
-	flashes: SettleFlashes;
-	bank: MaterialBank;
-	cells: CellMaterialBank;
-	rebuild: (model: ConstellationModel) => void;
-	dispose: () => void;
-};
-
-export function assembleConstellationScene(model: ConstellationModel): ConstellationScene {
-	const scene = new Scene();
-	scene.background = new Color(NIGHT_SKY);
-	scene.fog = new FogExp2(NIGHT_SKY, DEPTH_FOG_DENSITY);
-
-	const glowTexture = createGlowTexture();
-	const bank = createMaterialBank(glowTexture);
-	const cells = createCellMaterialBank();
-	const backdrop = createStarBackdrop();
-	const ambient = createAmbientNeuralWeb(glowTexture);
-	const flashes = createSettleFlashes(glowTexture);
-	scene.add(backdrop.points, ambient.group, flashes.group);
-
-	function mountModel(mountedModel: ConstellationModel): MountedModel {
-		const field = createNeuronField(mountedModel, bank, cells);
-		const web = createSynapseWeb(mountedModel, cells);
-		const excite = (slug: string) => field.bodyFor(slug)?.excite();
-		const pulses = createFiringPulses(web.curves, glowTexture, excite);
-		const labels = createNucleusLabels(mountedModel.nuclei);
-		ambient.keepClearOf(cellZonesOf(mountedModel));
-		scene.add(field.group, web.group, pulses.group, labels);
-		return { field, web, pulses, labels };
+	constructor(model: ConstellationModel) {
+		this.scene.background = new Color(NIGHT_SKY);
+		this.scene.fog = new FogExp2(NIGHT_SKY, DEPTH_FOG_DENSITY);
+		this.bank = new MaterialBank(this.glowTexture);
+		this.ambient = new AmbientNeuralWeb(this.glowTexture);
+		this.flashes = new SettleFlashes(this.glowTexture);
+		this.scene.add(this.backdrop.points, this.ambient.group, this.flashes.group);
+		this.mounted = this.mount(model);
 	}
 
-	function unmountModel({ field, web, pulses, labels }: MountedModel): void {
-		scene.remove(field.group, web.group, pulses.group, labels);
-		field.dispose();
-		web.dispose();
-		pulses.dispose();
-		disposeNucleusLabels(labels);
+	bodyFor(slug: string): NeuronBody | undefined {
+		return this.mounted.bodyFor(slug);
 	}
 
-	let mounted = mountModel(model);
-
-	function rebuild(rebuiltModel: ConstellationModel): void {
-		unmountModel(mounted);
-		mounted = mountModel(rebuiltModel);
+	strandsTouching(slug: string): SynapseStrand[] {
+		return this.mounted.strandsTouching(slug);
 	}
 
-	function dispose(): void {
-		unmountModel(mounted);
-		backdrop.dispose();
-		ambient.dispose();
-		flashes.dispose();
-		bank.dispose();
-		cells.dispose();
-		glowTexture.dispose();
+	hitTargets(): Mesh[] {
+		return this.mounted.hitTargets();
 	}
 
-	return {
-		scene,
-		get mounted() {
-			return mounted;
-		},
-		ambient,
-		flashes,
-		bank,
-		cells,
-		rebuild,
-		dispose
-	};
+	/** Moves the brain on by one frame; a still brain, for those who prefer less motion, only fits the viewport. */
+	advance(deltaSeconds: number, timeSeconds: number, isAnimated: boolean, viewportHeightPixels: number): void {
+		this.flashes.update(deltaSeconds);
+		this.cells.fitToViewport(viewportHeightPixels);
+		if (!isAnimated) return;
+		this.cells.tick(timeSeconds);
+		this.mounted.twinkle(timeSeconds, deltaSeconds);
+	}
+
+	showPulses(isShown: boolean): void {
+		this.mounted.showPulses(isShown);
+	}
+
+	setFocus(contextKey: string | null): void {
+		this.bank.setFocus(contextKey);
+		this.cells.setFocus(contextKey);
+		this.mounted.setFocus(contextKey);
+		this.ambient.setFocus(contextKey);
+	}
+
+	rebuild(model: ConstellationModel): void {
+		this.mounted.removeFrom(this.scene);
+		this.mounted = this.mount(model);
+	}
+
+	dispose(): void {
+		this.mounted.removeFrom(this.scene);
+		for (const part of [this.backdrop, this.ambient, this.flashes, this.bank, this.cells, this.glowTexture]) part.dispose();
+	}
+
+	private mount(model: ConstellationModel): MountedModel {
+		const mounted = new MountedModel(model, this.bank, this.cells, this.glowTexture);
+		mounted.showIn(this.scene, this.ambient, model);
+		return mounted;
+	}
 }

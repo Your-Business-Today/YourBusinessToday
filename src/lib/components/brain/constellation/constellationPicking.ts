@@ -21,7 +21,8 @@ export function createPicker(
 		raycaster.setFromCamera(pointer, camera);
 		const [nearest] = raycaster.intersectObjects(hitTargetsFor(), false);
 		if (nearest === undefined) return null;
-		return nearest.object.userData as PickResult;
+		const { object } = nearest;
+		return object.userData as PickResult;
 	}
 
 	return { pick };

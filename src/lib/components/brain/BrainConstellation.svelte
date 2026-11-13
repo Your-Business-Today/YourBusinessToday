@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ConstellationOverlays from './ConstellationOverlays.svelte';
 	import { buildConstellationModel } from './constellation/buildConstellationModel';
-	import { createConstellationExploration } from './constellation/constellationExploration.svelte';
+	import { ConstellationExploration } from './constellation/constellationExploration.svelte';
 	import { restWhilePageHidden } from '$lib/client/pageVisibility.svelte';
 	import { untrack } from 'svelte';
 	import {
@@ -23,14 +23,14 @@
 	} = $props();
 
 	const model = $derived(buildConstellationModel(contexts, pageIndex, pageLinks));
-	const hasNeurons = $derived(model.neurons.length > 0 || model.nuclei.length > 0);
+	const hasNeurons = $derived(pageIndex.length > 0 || contexts.length > 0);
 
 	let containerElement = $state<HTMLDivElement>();
 	let canvasElement = $state<HTMLCanvasElement>();
 	let experience = $state<ConstellationExperience>();
 	let hasWatchedEmptyBrain = false;
 
-	const exploration = createConstellationExploration({
+	const exploration = new ConstellationExploration({
 		pageIndex: () => pageIndex,
 		experience: () => experience
 	});

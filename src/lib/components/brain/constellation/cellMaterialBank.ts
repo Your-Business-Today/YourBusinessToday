@@ -1,87 +1,71 @@
 import type { Material } from 'three';
-import { createSharedCellUniforms, type ContextUniforms } from './cellShading';
+import { createSharedCellUniforms, setUniform, type ContextUniforms, type SharedCellUniforms } from './cellShading';
 import { FibreMaterial, type FibreTints } from './fibreMaterial';
 import { DIMMED_OPACITY_SHARE } from './materialBank';
 import { SomaMaterial } from './somaMaterial';
 
 const IN_FOCUS_SHARE = 1;
 const FULL_BRIGHTNESS = 1;
+const SMALLEST_VIEWPORT_PIXELS = 1;
 
+/** The materials every cell of the brain is drawn in, shared by colour and area so a whole area dims and brightens at once. */
+export class CellMaterialBank {
+	private readonly shared: SharedCellUniforms = createSharedCellUniforms();
+	private readonly entries = new Map<string, Material>();
+	private readonly contexts = new Map<string, ContextUniforms>();
 
-export type CellMaterialBank = {
-	somaFor: (colour: number, contextKey: string) => SomaMaterial;
-	dendritesFor: (slug: string, colour: number, contextKey: string) => FibreMaterial;
-	axonFor: (strandKey: string, tints: FibreTints, contextKey: string) => FibreMaterial;
-	setFocus: (contextKey: string | null) => void;
-	setBrightness: (contextKey: string, brightness: number) => void;
-	tick: (timeSeconds: number) => void;
-	fitToViewport: (heightPixels: number) => void;
-	dispose: () => void;
-};
-
-export function createCellMaterialBank(): CellMaterialBank {
-	const shared = createSharedCellUniforms();
-	const entries = new Map<string, Material>();
-	const contexts = new Map<string, ContextUniforms>();
-
-	function contextFor(contextKey: string): ContextUniforms {
-		const known = contexts.get(contextKey);
-		if (known !== undefined) return known;
-		const uniforms = { dimShare: { value: IN_FOCUS_SHARE }, brightness: { value: FULL_BRIGHTNESS } };
-		contexts.set(contextKey, uniforms);
-		return uniforms;
+	somaFor(colour: number, contextKey: string): SomaMaterial {
+		return this.remember(`soma:${contextKey}:${colour}`, () => new SomaMaterial(colour, this.shared, this.contextFor(contextKey)));
 	}
 
-	function remember<MaterialType extends Material>(key: string, create: () => MaterialType): MaterialType {
-		const existing = entries.get(key);
-		if (existing !== undefined) return existing as MaterialType;
-		const material = create();
-		entries.set(key, material);
-		return material;
+	dendritesFor(slug: string, colour: number, contextKey: string): FibreMaterial {
+		const tints = { root: colour, span: colour, tip: colour };
+		return this.remember(`dendrites:${slug}:${colour}`, () => new FibreMaterial(tints, 'rootedInSoma', this.shared, this.contextFor(contextKey)));
 	}
 
-	function somaFor(colour: number, contextKey: string): SomaMaterial {
-		return remember(`soma:${contextKey}:${colour}`, () => {
-			return new SomaMaterial(colour, shared, contextFor(contextKey));
-		});
+	axonFor(strandKey: string, tints: FibreTints, contextKey: string): FibreMaterial {
+		const key = `axon:${strandKey}:${tints.root}:${tints.tip}`;
+		return this.remember(key, () => new FibreMaterial(tints, 'anchoredAtBothEnds', this.shared, this.contextFor(contextKey)));
 	}
 
-	function dendritesFor(slug: string, colour: number, contextKey: string): FibreMaterial {
-		return remember(`dendrites:${slug}:${colour}`, () => {
-			const tints = { root: colour, span: colour, tip: colour };
-			return new FibreMaterial(tints, 'rootedInSoma', shared, contextFor(contextKey));
-		});
-	}
-
-	function axonFor(strandKey: string, tints: FibreTints, contextKey: string): FibreMaterial {
-		return remember(`axon:${strandKey}:${tints.root}:${tints.tip}`, () => {
-			return new FibreMaterial(tints, 'anchoredAtBothEnds', shared, contextFor(contextKey));
-		});
-	}
-
-	function setFocus(contextKey: string | null): void {
-		for (const [key, uniforms] of contexts) {
+	setFocus(contextKey: string | null): void {
+		for (const [key, uniforms] of this.contexts) {
 			const isInFocus = contextKey === null || key === contextKey;
-			uniforms.dimShare.value = isInFocus ? IN_FOCUS_SHARE : DIMMED_OPACITY_SHARE;
+			setUniform(uniforms.dimShare, isInFocus ? IN_FOCUS_SHARE : DIMMED_OPACITY_SHARE);
 		}
 	}
 
-	function setBrightness(contextKey: string, brightness: number): void {
-		contextFor(contextKey).brightness.value = brightness;
+	setBrightness(contextKey: string, brightness: number): void {
+		const { brightness: brightnessUniform } = this.contextFor(contextKey);
+		setUniform(brightnessUniform, brightness);
 	}
 
-	function tick(timeSeconds: number): void {
-		shared.timeSeconds.value = timeSeconds;
+	tick(timeSeconds: number): void {
+		setUniform(this.shared.timeSeconds, timeSeconds);
 	}
 
-	function fitToViewport(heightPixels: number): void {
-		shared.viewportHeightPixels.value = Math.max(1, heightPixels);
+	fitToViewport(heightPixels: number): void {
+		setUniform(this.shared.viewportHeightPixels, Math.max(SMALLEST_VIEWPORT_PIXELS, heightPixels));
 	}
 
-	function dispose(): void {
-		for (const material of entries.values()) material.dispose();
-		entries.clear();
+	dispose(): void {
+		for (const material of this.entries.values()) material.dispose();
+		this.entries.clear();
 	}
 
-	return { somaFor, dendritesFor, axonFor, setFocus, setBrightness, tick, fitToViewport, dispose };
+	private contextFor(contextKey: string): ContextUniforms {
+		const known = this.contexts.get(contextKey);
+		if (known !== undefined) return known;
+		const uniforms = { dimShare: { value: IN_FOCUS_SHARE }, brightness: { value: FULL_BRIGHTNESS } };
+		this.contexts.set(contextKey, uniforms);
+		return uniforms;
+	}
+
+	private remember<MaterialType extends Material>(key: string, create: () => MaterialType): MaterialType {
+		const existing = this.entries.get(key);
+		if (existing !== undefined) return existing as MaterialType;
+		const material = create();
+		this.entries.set(key, material);
+		return material;
+	}
 }

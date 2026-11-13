@@ -33,18 +33,6 @@ export function isInsideBrain(point: Vector3): boolean {
 	return ellipsoidField(point, BRAIN_HALF_WIDTH, BRAIN_HALF_HEIGHT, BRAIN_HALF_LENGTH) <= 1;
 }
 
-export function brainDepthShare(point: Vector3): number {
-	return Math.sqrt(ellipsoidField(point, BRAIN_HALF_WIDTH, BRAIN_HALF_HEIGHT, BRAIN_HALF_LENGTH));
-}
-
-export function sampleInsideCortex(nextShare: () => number, shallowestShare: number): Vector3 {
-	for (let attempt = 0; attempt < SAMPLE_ATTEMPT_LIMIT; attempt += 1) {
-		const candidate = sampleInsideBrain(nextShare);
-		if (brainDepthShare(candidate) >= shallowestShare) return candidate;
-	}
-	return sampleInsideBrain(nextShare);
-}
-
 export function brainPointFrom(seedText: string): Vector3 {
 	return sampleInsideBrain(shareStreamFrom(seedText));
 }

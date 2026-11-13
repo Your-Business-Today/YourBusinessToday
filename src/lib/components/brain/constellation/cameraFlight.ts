@@ -50,7 +50,9 @@ export function createCameraFlight(
 	return { flyTo, update, isFlying: () => isActive };
 }
 
+const HALFWAY_SHARE = 0.5;
+
 function easeInOutCubic(progress: number): number {
-	if (progress < 0.5) return 4 * progress * progress * progress;
+	if (progress < HALFWAY_SHARE) return 4 * progress * progress * progress;
 	return 1 - Math.pow(-2 * progress + 2, 3) / 2;
 }

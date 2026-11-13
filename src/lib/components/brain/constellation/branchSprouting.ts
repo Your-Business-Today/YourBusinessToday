@@ -17,7 +17,8 @@ export function sproutsAlong(
 	nextShare: () => number
 ): GrownBranch[] {
 	const sprouts: GrownBranch[] = [];
-	const lastJoint = parent.points.length - 2;
+	const { points } = parent;
+	const lastJoint = points.length - 2;
 	for (let jointIndex = JOINT_STRIDE; jointIndex < lastJoint; jointIndex += JOINT_STRIDE) {
 		if (nextShare() > rule.chance) continue;
 		sprouts.push(sproutAt(parent, jointIndex, rule, nextShare));

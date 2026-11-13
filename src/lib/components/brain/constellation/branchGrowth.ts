@@ -47,13 +47,14 @@ function taperedRadius(seed: BranchSeed, distance: number, length: number): numb
 }
 
 function closedWithCone(branch: GrownBranch): GrownBranch {
-	const lastIndex = branch.points.length - 1;
-	const tip = branch.points[lastIndex];
-	const heading = tip.clone().sub(branch.points[lastIndex - 1]).normalize();
-	const coneLength = branch.radii[lastIndex] * CLOSING_CONE_SHARE;
+	const { points, radii, reaches } = branch;
+	const lastIndex = points.length - 1;
+	const tip = points[lastIndex];
+	const heading = tip.clone().sub(points[lastIndex - 1]).normalize();
+	const coneLength = radii[lastIndex] * CLOSING_CONE_SHARE;
 	return {
-		points: [...branch.points, tip.clone().addScaledVector(heading, coneLength)],
-		radii: [...branch.radii, 0],
-		reaches: [...branch.reaches, branch.reaches[lastIndex] + coneLength]
+		points: [...points, tip.clone().addScaledVector(heading, coneLength)],
+		radii: [...radii, 0],
+		reaches: [...reaches, reaches[lastIndex] + coneLength]
 	};
 }

@@ -6,46 +6,51 @@ export const DIMMED_OPACITY_SHARE = 0.12;
 
 export const WHOLE_MODEL_KEY = 'model';
 
-type BankEntry = { material: SpriteMaterial; contextKey: string; fullOpacity: number };
+/** One glow material, kept for the area it lights, so the area dims as one when another is in focus. */
+class GlowEntry {
+	constructor(
+		readonly material: SpriteMaterial,
+		private readonly contextKey: string
+	) {}
 
-export type MaterialBank = {
-	glowFor: (colour: number, contextKey: string) => SpriteMaterial;
-	setFocus: (contextKey: string | null) => void;
-	dispose: () => void;
-};
+	focusOn(contextKey: string | null): void {
+		const isInFocus = contextKey === null || this.contextKey === contextKey;
+		this.material.opacity = isInFocus ? FULL_GLOW_OPACITY : FULL_GLOW_OPACITY * DIMMED_OPACITY_SHARE;
+	}
 
-export function createMaterialBank(glowTexture: Texture): MaterialBank {
-	const entries = new Map<string, BankEntry>();
+	dispose(): void {
+		this.material.dispose();
+	}
+}
 
-	function glowFor(colour: number, contextKey: string): SpriteMaterial {
+/** The glows every cell shines with, shared by colour and area. */
+export class MaterialBank {
+	private readonly entries = new Map<string, GlowEntry>();
+
+	constructor(private readonly glowTexture: Texture) {}
+
+	glowFor(colour: number, contextKey: string): SpriteMaterial {
 		const key = `glow:${contextKey}:${colour}`;
-		const existing = entries.get(key);
+		const existing = this.entries.get(key);
 		if (existing !== undefined) return existing.material;
 		const material = new SpriteMaterial({
-			map: glowTexture,
+			map: this.glowTexture,
 			color: colour,
 			transparent: true,
 			opacity: FULL_GLOW_OPACITY,
 			blending: AdditiveBlending,
 			depthWrite: false
 		});
-		entries.set(key, { material, contextKey, fullOpacity: FULL_GLOW_OPACITY });
+		this.entries.set(key, new GlowEntry(material, contextKey));
 		return material;
 	}
 
-	function setFocus(contextKey: string | null): void {
-		for (const entry of entries.values()) {
-			const isInFocus = contextKey === null || entry.contextKey === contextKey;
-			entry.material.opacity = isInFocus
-				? entry.fullOpacity
-				: entry.fullOpacity * DIMMED_OPACITY_SHARE;
-		}
+	setFocus(contextKey: string | null): void {
+		for (const entry of this.entries.values()) entry.focusOn(contextKey);
 	}
 
-	function dispose(): void {
-		for (const entry of entries.values()) entry.material.dispose();
-		entries.clear();
+	dispose(): void {
+		for (const entry of this.entries.values()) entry.dispose();
+		this.entries.clear();
 	}
-
-	return { glowFor, setFocus, dispose };
 }

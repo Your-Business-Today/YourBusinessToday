@@ -10,12 +10,20 @@ type InteractionDependencies = {
 	focusNeuron: (slug: string) => void;
 };
 
+const POINTING_AT_NOTHING = 'grab';
+const POINTING_AT_A_CELL = 'pointer';
+
+function showCursor(canvas: HTMLCanvasElement, cursor: string): void {
+	const { style } = canvas;
+	style.cursor = cursor;
+}
+
 export function constellationInteractions(dependencies: InteractionDependencies): PointerHandlers {
 	const { canvas, picker, callbacks } = dependencies;
 
 	function hover(pointerX: number, pointerY: number): void {
 		const picked = picker.pick(pointerX, pointerY);
-		canvas.style.cursor = picked === null ? 'grab' : 'pointer';
+		showCursor(canvas, picked === null ? POINTING_AT_NOTHING : POINTING_AT_A_CELL);
 		if (picked === null) {
 			callbacks.onHover(null);
 			return;

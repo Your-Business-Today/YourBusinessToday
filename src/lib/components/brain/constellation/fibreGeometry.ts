@@ -1,44 +1,62 @@
 import { BufferAttribute, BufferGeometry, Vector3 } from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { framesAlong } from './fibreFrames';
+import { framesAlong, type FibreFrame } from './fibreFrames';
 
 const FULL_TURN_RADIANS = Math.PI * 2;
 const AXES_PER_VERTEX = 3;
+const VALUES_PER_REACH = 1;
 
 export type FibrePath = { points: Vector3[]; radii: number[]; reachShares: number[] };
 
+type FibreBuffers = { positions: Float32Array; normals: Float32Array; spines: Float32Array; reachShares: Float32Array };
+
+type FibreRing = { centre: Vector3; frame: FibreFrame; radius: number; reachShare: number; firstVertex: number };
+
 export function fibreGeometryFrom(path: FibrePath, radialSegments: number): BufferGeometry {
-	const ringCount = path.points.length;
-	const vertexCount = ringCount * radialSegments;
-	const positions = new Float32Array(vertexCount * AXES_PER_VERTEX);
-	const normals = new Float32Array(vertexCount * AXES_PER_VERTEX);
-	const spines = new Float32Array(vertexCount * AXES_PER_VERTEX);
-	const reachShares = new Float32Array(vertexCount);
-	const frames = framesAlong(path.points);
-	const outward = new Vector3();
-	const surface = new Vector3();
+	const { points, radii, reachShares } = path;
+	const ringCount = points.length;
+	const buffers = buffersFor(ringCount * radialSegments);
+	const frames = framesAlong(points);
 	for (let ringIndex = 0; ringIndex < ringCount; ringIndex += 1) {
-		const centre = path.points[ringIndex];
-		const { normal, binormal } = frames[ringIndex];
-		for (let spoke = 0; spoke < radialSegments; spoke += 1) {
-			const vertexIndex = ringIndex * radialSegments + spoke;
-			const angle = (spoke / radialSegments) * FULL_TURN_RADIANS;
-			outward.copy(normal).multiplyScalar(Math.cos(angle));
-			outward.addScaledVector(binormal, Math.sin(angle));
-			surface.copy(centre).addScaledVector(outward, path.radii[ringIndex]);
-			outward.toArray(normals, vertexIndex * AXES_PER_VERTEX);
-			centre.toArray(spines, vertexIndex * AXES_PER_VERTEX);
-			surface.toArray(positions, vertexIndex * AXES_PER_VERTEX);
-			reachShares[vertexIndex] = path.reachShares[ringIndex];
-		}
+		const ring = { centre: points[ringIndex], frame: frames[ringIndex], radius: radii[ringIndex], reachShare: reachShares[ringIndex] };
+		writeRing(buffers, { ...ring, firstVertex: ringIndex * radialSegments }, radialSegments);
 	}
 	const geometry = new BufferGeometry();
-	geometry.setAttribute('position', new BufferAttribute(positions, AXES_PER_VERTEX));
-	geometry.setAttribute('normal', new BufferAttribute(normals, AXES_PER_VERTEX));
-	geometry.setAttribute('spine', new BufferAttribute(spines, AXES_PER_VERTEX));
-	geometry.setAttribute('reachShare', new BufferAttribute(reachShares, 1));
+	geometry.setAttribute('position', new BufferAttribute(buffers.positions, AXES_PER_VERTEX));
+	geometry.setAttribute('normal', new BufferAttribute(buffers.normals, AXES_PER_VERTEX));
+	geometry.setAttribute('spine', new BufferAttribute(buffers.spines, AXES_PER_VERTEX));
+	geometry.setAttribute('reachShare', new BufferAttribute(buffers.reachShares, VALUES_PER_REACH));
 	geometry.setIndex(tubeIndices(ringCount, radialSegments));
 	return geometry;
+}
+
+function buffersFor(vertexCount: number): FibreBuffers {
+	const axisValues = vertexCount * AXES_PER_VERTEX;
+	return {
+		positions: new Float32Array(axisValues),
+		normals: new Float32Array(axisValues),
+		spines: new Float32Array(axisValues),
+		reachShares: new Float32Array(vertexCount)
+	};
+}
+
+function writeRing(buffers: FibreBuffers, ring: FibreRing, radialSegments: number): void {
+	const { centre, frame, radius, reachShare, firstVertex } = ring;
+	const { normal, binormal } = frame;
+	const outward = new Vector3();
+	const surface = new Vector3();
+	for (let spoke = 0; spoke < radialSegments; spoke += 1) {
+		const vertexIndex = firstVertex + spoke;
+		const offset = vertexIndex * AXES_PER_VERTEX;
+		const angle = (spoke / radialSegments) * FULL_TURN_RADIANS;
+		outward.copy(normal).multiplyScalar(Math.cos(angle));
+		outward.addScaledVector(binormal, Math.sin(angle));
+		surface.copy(centre).addScaledVector(outward, radius);
+		outward.toArray(buffers.normals, offset);
+		centre.toArray(buffers.spines, offset);
+		surface.toArray(buffers.positions, offset);
+		buffers.reachShares[vertexIndex] = reachShare;
+	}
 }
 
 export function mergedFibreGeometry(paths: FibrePath[], radialSegments: number): BufferGeometry {

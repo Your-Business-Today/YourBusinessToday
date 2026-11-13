@@ -42,7 +42,10 @@ export function neuronViewpoint(neuron: Neuron, model: ConstellationModel): View
 	return { position, target: neuron.position.clone() };
 }
 
+const outwardWhenAtTheCentre = new Vector3(0, 0.25, 1).normalize();
+
 function outwardDirectionFrom(offset: Vector3): Vector3 {
-	if (offset.lengthSq() === 0) return new Vector3(0, 0.25, 1).normalize();
+	const isAtTheCentre = offset.lengthSq() === 0;
+	if (isAtTheCentre) return outwardWhenAtTheCentre.clone();
 	return offset.clone().normalize();
 }

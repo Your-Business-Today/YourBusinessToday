@@ -1,10 +1,5 @@
-import { createCameraFlight } from './cameraFlight';
-import {
-	contextViewpoint,
-	homeViewpoint,
-	neuronViewpoint,
-	type Viewpoint
-} from './focusChoreography';
+import { createCameraFlight, type CameraFlight } from './cameraFlight';
+import { contextViewpoint, homeViewpoint, neuronViewpoint, type Viewpoint } from './focusChoreography';
 import { WHOLE_MODEL_KEY } from './materialBank';
 import type { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import type { PerspectiveCamera } from 'three';
@@ -19,59 +14,62 @@ type DirectorDependencies = {
 	isAnimated: boolean;
 };
 
-export type FocusDirector = {
-	focusContext: (contextSlug: string | null) => void;
-	focusNeuron: (slug: string) => void;
-	refresh: (model: ConstellationModel) => void;
-	update: (deltaSeconds: number) => void;
-};
+/** Flies the camera to the whole brain, to one area or to one neuron, and dims everything else. */
+export class FocusDirector {
+	private readonly flight: CameraFlight;
+	private model: ConstellationModel;
+	private focusKey: string | null = null;
 
-export function createFocusDirector(dependencies: DirectorDependencies): FocusDirector {
-	const { camera, controls, view, isAnimated } = dependencies;
-	const flight = createCameraFlight(camera, controls.target);
-	let model = dependencies.model;
-	let focusKey: string | null = null;
-
-	const home = homeViewpoint(model);
-	camera.position.copy(home.position);
-	controls.target.copy(home.target);
-
-	function applyFocus(contextKey: string | null): void {
-		focusKey = contextKey;
-		view.bank.setFocus(contextKey);
-		view.cells.setFocus(contextKey);
-		view.mounted.pulses.setFocus(contextKey);
-		view.ambient.setFocus(contextKey);
+	constructor(private readonly dependencies: DirectorDependencies) {
+		const { camera, controls, model } = dependencies;
+		const { target } = controls;
+		this.flight = createCameraFlight(camera, target);
+		this.model = model;
+		const home = homeViewpoint(model);
+		camera.position.copy(home.position);
+		target.copy(home.target);
 	}
 
-	function travel(viewpoint: Viewpoint): void {
-		flight.flyTo(viewpoint.position, viewpoint.target);
-	}
-
-	function focusContext(contextSlug: string | null): void {
-		applyFocus(contextSlug);
+	focusContext = (contextSlug: string | null): void => {
+		const { controls, isAnimated } = this.dependencies;
+		this.applyFocus(contextSlug);
 		controls.autoRotate = contextSlug === null && isAnimated;
-		if (contextSlug === null) return travel(homeViewpoint(model));
-		const nucleus = model.nuclei.find((candidate) => candidate.slug === contextSlug);
-		if (nucleus !== undefined) travel(contextViewpoint(nucleus));
-	}
+		const viewpoint = this.viewpointOf(contextSlug);
+		if (viewpoint !== null) this.travel(viewpoint);
+	};
 
-	function focusNeuron(slug: string): void {
-		const neuron = model.neurons.find((candidate) => candidate.slug === slug);
+	focusNeuron = (slug: string): void => {
+		const neuron = this.model.neurons.find((candidate) => candidate.slug === slug);
 		if (neuron === undefined) return;
-		applyFocus(neuron.contextSlug ?? WHOLE_MODEL_KEY);
+		const { controls } = this.dependencies;
+		this.applyFocus(neuron.contextSlug ?? WHOLE_MODEL_KEY);
 		controls.autoRotate = false;
-		travel(neuronViewpoint(neuron, model));
+		this.travel(neuronViewpoint(neuron, this.model));
+	};
+
+	refresh(model: ConstellationModel): void {
+		this.model = model;
+		this.applyFocus(this.focusKey);
 	}
 
-	function refresh(refreshedModel: ConstellationModel): void {
-		model = refreshedModel;
-		applyFocus(focusKey);
+	update(deltaSeconds: number): void {
+		const { camera, controls } = this.dependencies;
+		this.flight.update(camera, controls.target, deltaSeconds);
 	}
 
-	function update(deltaSeconds: number): void {
-		flight.update(camera, controls.target, deltaSeconds);
+	private viewpointOf(contextSlug: string | null): Viewpoint | null {
+		if (contextSlug === null) return homeViewpoint(this.model);
+		const nucleus = this.model.nuclei.find((candidate) => candidate.slug === contextSlug);
+		if (nucleus === undefined) return null;
+		return contextViewpoint(nucleus);
 	}
 
-	return { focusContext, focusNeuron, refresh, update };
+	private applyFocus(contextKey: string | null): void {
+		this.focusKey = contextKey;
+		this.dependencies.view.setFocus(contextKey);
+	}
+
+	private travel(viewpoint: Viewpoint): void {
+		this.flight.flyTo(viewpoint.position, viewpoint.target);
+	}
 }

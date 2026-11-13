@@ -2,59 +2,39 @@ import type { BrainPageSummary } from '$lib/data/brainTypes';
 import type { ConstellationExperience } from './createConstellationExperience';
 import type { ConstellationCallbacks, ConstellationHover } from './constellationTypes';
 
-export type ConstellationExploration = {
-	readonly hover: ConstellationHover | null;
-	readonly focusedContextSlug: string | null;
-	readonly selectedSlug: string | null;
-	callbacks: ConstellationCallbacks;
-	rememberSelection: (slug: string) => void;
-	returnToModel: () => void;
-	returnToContext: () => void;
-};
-
-export function createConstellationExploration(dependencies: {
+type ExplorationDependencies = {
 	pageIndex: () => BrainPageSummary[];
 	experience: () => ConstellationExperience | undefined;
-}): ConstellationExploration {
-	const { pageIndex, experience } = dependencies;
-	let hover = $state<ConstellationHover | null>(null);
-	let focusedContextSlug = $state<string | null>(null);
-	let selectedSlug = $state<string | null>(null);
+};
 
-	function rememberSelection(slug: string): void {
-		selectedSlug = slug;
-		const page = pageIndex().find((candidate) => candidate.slug === slug);
-		focusedContextSlug = page?.contextSlug ?? focusedContextSlug;
-	}
+/** Where the person is in the brain: what the pointer is over, the area in focus and the page opened. */
+export class ConstellationExploration {
+	hover = $state<ConstellationHover | null>(null);
+	focusedContextSlug = $state<string | null>(null);
+	selectedSlug = $state<string | null>(null);
 
-	function returnToModel(): void {
-		selectedSlug = null;
-		focusedContextSlug = null;
-		experience()?.resetView();
-	}
+	readonly callbacks: ConstellationCallbacks = {
+		onHover: (candidate) => (this.hover = candidate),
+		onSelectNeuron: (slug) => this.rememberSelection(slug),
+		onFocusContext: (contextSlug) => (this.focusedContextSlug = contextSlug)
+	};
 
-	function returnToContext(): void {
-		selectedSlug = null;
-		experience()?.focusContext(focusedContextSlug);
-	}
+	constructor(private readonly dependencies: ExplorationDependencies) {}
 
-	return {
-		get hover() {
-			return hover;
-		},
-		get focusedContextSlug() {
-			return focusedContextSlug;
-		},
-		get selectedSlug() {
-			return selectedSlug;
-		},
-		callbacks: {
-			onHover: (candidate) => (hover = candidate),
-			onSelectNeuron: rememberSelection,
-			onFocusContext: (contextSlug) => (focusedContextSlug = contextSlug)
-		},
-		rememberSelection,
-		returnToModel,
-		returnToContext
+	rememberSelection = (slug: string): void => {
+		this.selectedSlug = slug;
+		const page = this.dependencies.pageIndex().find((candidate) => candidate.slug === slug);
+		this.focusedContextSlug = page?.contextSlug ?? this.focusedContextSlug;
+	};
+
+	returnToModel = (): void => {
+		this.selectedSlug = null;
+		this.focusedContextSlug = null;
+		this.dependencies.experience()?.resetView();
+	};
+
+	returnToContext = (): void => {
+		this.selectedSlug = null;
+		this.dependencies.experience()?.focusContext(this.focusedContextSlug);
 	};
 }

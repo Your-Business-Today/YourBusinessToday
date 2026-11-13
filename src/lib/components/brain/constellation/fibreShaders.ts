@@ -19,6 +19,7 @@ export const FIBRE_VERTEX_SHADER = `
 	const vec3 SWAY_GRAIN = vec3(2.1, 2.7, 2.4);
 	const vec3 SWAY_PACE = vec3(0.7, 0.9, 0.8);
 	const float PI = 3.14159265;
+	const float NO_RADIUS = 0.0;
 
 	vec3 swayAt(vec3 worldPoint, float weight) {
 		return sin(worldPoint * SWAY_GRAIN + timeSeconds * SWAY_PACE) * (SWAY_REACH * weight);
@@ -30,7 +31,7 @@ export const FIBRE_VERTEX_SHADER = `
 
 	vec3 outwardAtLeastAPixel(vec3 outward, float pixelSize) {
 		float radius = length(outward);
-		if (radius <= 0.0) return outward;
+		if (radius <= NO_RADIUS) return outward;
 		float shownRadius = max(radius, 0.5 * THINNEST_PIXELS * pixelSize);
 		return outward * (shownRadius / radius);
 	}

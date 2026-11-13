@@ -11,6 +11,11 @@ export function createSharedCellUniforms(): SharedCellUniforms {
 	return { timeSeconds: { value: 0 }, viewportHeightPixels: { value: 1 } };
 }
 
+/** Sets the value a shader reads through the uniform, so every material sharing it changes at once. */
+export function setUniform(uniform: IUniform<number>, value: number): void {
+	uniform.value = value;
+}
+
 export function fogUniforms(): Record<string, IUniform> {
 	return UniformsUtils.clone(UniformsLib.fog);
 }

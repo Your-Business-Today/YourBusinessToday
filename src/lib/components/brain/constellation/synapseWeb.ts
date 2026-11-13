@@ -17,55 +17,57 @@ export type SampledCurve = {
 	arrivesAt: string;
 };
 
-export type SynapseWeb = {
-	group: Group;
-	curves: SampledCurve[];
-	strandsTouching: (slug: string) => SynapseStrand[];
-	dispose: () => void;
-};
+/** Every synapse of the brain drawn as a strand between two cells, and the curves its pulses travel. */
+export class SynapseWeb {
+	readonly group = new Group();
+	readonly curves: SampledCurve[];
+	private readonly strands: SynapseStrand[];
+	private readonly nucleusSlugs: Set<string>;
+	private readonly colours: Map<string, number>;
 
-export function createSynapseWeb(model: ConstellationModel, cells: CellMaterialBank): SynapseWeb {
-	const nucleusSlugs = new Set(model.nuclei.map((nucleus) => nucleus.slug));
-	const colours = bodyColoursOf(model);
-	const somaRadiusFor = (slug: string) =>
-		somaRadiusOf(slug, nucleusSlugs.has(slug) ? nucleusProportions : neuronProportions);
+	constructor(
+		model: ConstellationModel,
+		private readonly cells: CellMaterialBank
+	) {
+		const { nuclei, synapses } = model;
+		this.nucleusSlugs = new Set(nuclei.map((nucleus) => nucleus.slug));
+		this.colours = bodyColoursOf(model);
+		this.strands = synapses.map((synapse) => this.strandOf(synapse));
+		for (const strand of this.strands) this.group.add(strand.mesh);
+		this.curves = synapses.map((synapse, index) => this.curveOf(synapse, this.strands[index]));
+	}
 
-	function strandOf(synapse: Synapse): SynapseStrand {
+	strandsTouching(slug: string): SynapseStrand[] {
+		return this.strands.filter((strand) => strand.touches(slug));
+	}
+
+	dispose(): void {
+		for (const strand of this.strands) strand.dispose();
+	}
+
+	private strandOf(synapse: Synapse): SynapseStrand {
+		const { fromSlug, toSlug, kind } = synapse;
 		const contextKey = synapse.contextSlug ?? WHOLE_MODEL_KEY;
-		const tints = {
-			root: colours.get(synapse.fromSlug) ?? DENDRITE,
-			span: contextKey === WHOLE_MODEL_KEY ? CROSSLINK : DENDRITE,
-			tip: colours.get(synapse.toSlug) ?? DENDRITE
-		};
-		const material = cells.axonFor(`${synapse.fromSlug}->${synapse.toSlug}`, tints, contextKey);
+		const span = contextKey === WHOLE_MODEL_KEY ? CROSSLINK : DENDRITE;
+		const tints = { root: this.colourOf(fromSlug), span, tip: this.colourOf(toSlug) };
+		const material = this.cells.axonFor(`${fromSlug}->${toSlug}`, tints, contextKey);
 		return createSynapseStrand(synapse, contextKey, material, {
-			fromSomaRadius: somaRadiusFor(synapse.fromSlug),
-			toSomaRadius: somaRadiusFor(synapse.toSlug),
-			fibreRadius: FIBRE_RADIUS_BY_KIND[synapse.kind]
+			fromSomaRadius: this.somaRadiusFor(fromSlug),
+			toSomaRadius: this.somaRadiusFor(toSlug),
+			fibreRadius: FIBRE_RADIUS_BY_KIND[kind]
 		});
 	}
 
-	const group = new Group();
-	const strands = model.synapses.map(strandOf);
-	for (const strand of strands) group.add(strand.mesh);
-
-	function strandsTouching(slug: string): SynapseStrand[] {
-		return strands.filter((strand) => strand.touches(slug));
+	private curveOf(synapse: Synapse, strand: SynapseStrand): SampledCurve {
+		const { pulsePoints, contextKey } = strand;
+		return { points: pulsePoints, contextKey, colour: this.colourOf(synapse.fromSlug), arrivesAt: synapse.toSlug };
 	}
 
-	function dispose(): void {
-		for (const strand of strands) strand.dispose();
+	private colourOf(slug: string): number {
+		return this.colours.get(slug) ?? DENDRITE;
 	}
 
-	return {
-		group,
-		curves: model.synapses.map((synapse, index) => ({
-			points: strands[index].pulsePoints,
-			contextKey: strands[index].contextKey,
-			colour: colours.get(synapse.fromSlug) ?? DENDRITE,
-			arrivesAt: synapse.toSlug
-		})),
-		strandsTouching,
-		dispose
-	};
+	private somaRadiusFor(slug: string): number {
+		return somaRadiusOf(slug, this.nucleusSlugs.has(slug) ? nucleusProportions : neuronProportions);
+	}
 }
