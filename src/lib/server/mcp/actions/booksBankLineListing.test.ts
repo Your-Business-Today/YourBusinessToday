@@ -22,7 +22,7 @@ describe('listing the statement lines', () => {
 	it('lists the lines in the statement order with their ids, narrowed by day and by matching', async () => {
 		const every = await run('list_bank_lines', {});
 		expect(every).toContain('4 shown, 4 unmatched.');
-		expect(every).toContain('- 30 Jul 2026: BEADLE EM & GJ, JAMES LOAN, FASTER PAYMENT, £500.00, balance £500.00; unmatched. Id bank-line-');
+		expect(every).toContain('- 30 Jul 2026: BEADLE EM & GJ, JAMES LOAN, FASTER PAYMENT, £500.00, balance £500.00; unmatched. Id 00000000-0000-4000-8000-0000b1');
 		heldBankLines()[0].matched_journal_id = 'journal-1';
 		expect(await run('list_bank_lines', { matching: 'matched' })).toContain('1 shown, 0 unmatched.');
 		expect(await run('list_bank_lines', { matching: 'unmatched', from: '2026-07-31' })).toContain('3 shown, 3 unmatched.');
