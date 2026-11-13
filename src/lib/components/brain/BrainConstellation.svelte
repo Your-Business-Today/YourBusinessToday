@@ -12,11 +12,13 @@
 
 	let {
 		pageHref,
+		glanceHref,
 		contexts,
 		pageIndex,
 		pageLinks
 	}: {
 		pageHref: (slug: string) => string;
+		glanceHref: (slug: string) => string;
 		contexts: BrainContext[];
 		pageIndex: BrainPageSummary[];
 		pageLinks: BrainPageLink[];
@@ -59,7 +61,7 @@
 {#if hasNeurons}
 	<div bind:this={containerElement} class="relative h-full min-h-80 overflow-hidden bg-night">
 		<canvas bind:this={canvasElement} class="h-full w-full"></canvas>
-		<ConstellationOverlays {exploration} {pageHref} {contexts} {pageIndex} />
+		<ConstellationOverlays {exploration} {pageHref} {glanceHref} {contexts} {pageIndex} {pageLinks} />
 	</div>
 {:else}
 	<div class="flex h-full min-h-80 items-center justify-center text-sm text-chalk/50">

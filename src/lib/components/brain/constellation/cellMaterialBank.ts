@@ -18,11 +18,6 @@ export class CellMaterialBank {
 		return this.remember(`soma:${contextKey}:${colour}`, () => new SomaMaterial(colour, this.shared, this.contextFor(contextKey)));
 	}
 
-	dendritesFor(slug: string, colour: number, contextKey: string): FibreMaterial {
-		const tints = { root: colour, span: colour, tip: colour };
-		return this.remember(`dendrites:${slug}:${colour}`, () => new FibreMaterial(tints, 'rootedInSoma', this.shared, this.contextFor(contextKey)));
-	}
-
 	axonFor(strandKey: string, tints: FibreTints, contextKey: string): FibreMaterial {
 		const key = `axon:${strandKey}:${tints.root}:${tints.tip}`;
 		return this.remember(key, () => new FibreMaterial(tints, 'anchoredAtBothEnds', this.shared, this.contextFor(contextKey)));

@@ -17,6 +17,7 @@ export function businessBrainAddresses(organisationId: string) {
 	return {
 		home,
 		page: (pageId: string) => `${home}/pages/${pageId}`,
+		pageGlance: (pageId: string) => `${home}/pages/${pageId}/glance`,
 		revision: (pageId: string, revisionId: number) => `${home}/pages/${pageId}?${revisionQueryKey}=${revisionId}`,
 		file: (fileId: string) => `${home}/files/${fileId}`,
 		chatbotQuestions,

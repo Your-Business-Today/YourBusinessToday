@@ -16,7 +16,7 @@ describe('listing the statement lines', () => {
 		standing.switchedOn = ['books'];
 		clearLedgerTables();
 		ledgerTables.books_ledger_accounts = [{ id: bankId, code: '1200', name: 'Bank', account_type: 'asset', is_system: true, is_archived: false }];
-		await run('import_bank_lines', { lines: seventyEightLineStatement().slice(0, 4) });
+		await run('import_bank_lines', { applyRules: false, lines: seventyEightLineStatement().slice(0, 4) });
 	});
 
 	it('lists the lines in the statement order with their ids, narrowed by day and by matching', async () => {

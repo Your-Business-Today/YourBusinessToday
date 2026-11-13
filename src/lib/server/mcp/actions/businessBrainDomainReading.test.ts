@@ -46,7 +46,7 @@ describe('reading the organisation’s domain', () => {
 		const answer = await readDomainAction.run(nigel, { organisationId: 'jewel' });
 		expect(answer).toContain('## Context map\nClient work feeds Money.');
 		expect(answer).toContain('## Client work (client-work) — the core domain');
-		expect(answer).toContain('- The job (job): total. Statuses: won.');
+		expect(answer).toContain('- Entity: The job (job) — About job (page id job). Fields: total. Statuses: won.');
 		expect(answer).toContain('### Glossary\n**Job**: work a client pays for.');
 		expect(answer).toContain("## Things on no task\n1 no task of today's workflow map takes in or produces: The job (`job`).");
 	});

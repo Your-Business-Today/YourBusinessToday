@@ -17,7 +17,11 @@ export const expenseFields = {
 			'it is coded to Prepayments (1300), opened when the books have none yet. Leave out otherwise'
 	},
 	costCentreId: textField('Leave out, or keep the cost within one cost centre by its id as list_cost_centres gives it'),
-	isPaid: { type: 'boolean', description: 'True when the person said it has been paid already; leave out when it is still owed' }
+	isPaid: { type: 'boolean', description: 'True when the person said it has been paid already; leave out when it is still owed' },
+	paidByLoanAccountId: textField(
+		'Leave out when the company paid it, or, with isPaid true, the loan account of the person who paid it from their own pocket, ' +
+			'by its id as list_loan_accounts gives it: the cost then credits their loan account in place of the bank'
+	)
 };
 
 export const costPaymentFields = {

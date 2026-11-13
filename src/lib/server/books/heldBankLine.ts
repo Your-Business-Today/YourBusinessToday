@@ -2,22 +2,38 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { validateRecordId } from '$lib/data/isUuid';
 import { formatPoundsAndPence } from '$lib/data/books/money';
+import type { BankLineMatchKind } from '$lib/data/books/bankLineMatchRules';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { bankLineColumns, bankLinesTable, fromBankLineRow, type BankLine, type BankLineRow } from './bankLines';
 
 /** A statement line still to be matched, with the ledger account its statement is of. */
 export type HeldBankLine = BankLine & { bankAccountId: string };
 
+/** A statement line that is matched, with the journal it is tied to and what it was matched as. */
+export type MatchedBankLine = HeldBankLine & { matchedJournalId: string; matchedAs: BankLineMatchKind };
+
 type HeldBankLineRow = BankLineRow & { bank_account_id: string };
 
 /** The organisation's statement line with that id, refused by name when it is not one, is not there, or is matched already. */
 export async function findUnmatchedBankLine(supabase: SupabaseClient, organisationId: string, bankLineId: unknown): Promise<HeldBankLine> {
+	const line = await findHeldBankLine(supabase, organisationId, bankLineId);
+	refuseWhen(matchedAlreadyRefusal(line));
+	return line;
+}
+
+/** The organisation's statement line with that id, refused by name when it is not one, is not there, or was never matched. */
+export async function findMatchedBankLine(supabase: SupabaseClient, organisationId: string, bankLineId: unknown): Promise<MatchedBankLine> {
+	const line = await findHeldBankLine(supabase, organisationId, bankLineId);
+	const { matchedJournalId, matchedAs } = line;
+	if (matchedJournalId !== null && matchedAs !== null) return { ...line, matchedJournalId, matchedAs };
+	throw new BooksRefusal(`The line ${bankLineKnownAs(line)} is not matched to anything, so there is no match to take off.`);
+}
+
+async function findHeldBankLine(supabase: SupabaseClient, organisationId: string, bankLineId: unknown): Promise<HeldBankLine> {
 	refuseWhen(validateRecordId('bank line', String(bankLineId ?? '')));
 	const [row] = await findBankLinesById(supabase, organisationId, bankLineId as string);
 	if (row === undefined) throw new BooksRefusal(`No bank line ${bankLineId} is in this organisation's books; list_bank_lines lists them.`);
-	const line = { ...fromBankLineRow(row), bankAccountId: row.bank_account_id };
-	refuseWhen(matchedAlreadyRefusal(line));
-	return line;
+	return { ...fromBankLineRow(row), bankAccountId: row.bank_account_id };
 }
 
 /** The journal the statement line is matched to now, or null when it is unmatched or gone. */

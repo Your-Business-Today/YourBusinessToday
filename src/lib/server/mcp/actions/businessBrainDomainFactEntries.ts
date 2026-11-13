@@ -3,7 +3,7 @@ import { everyAreaRelationshipPattern } from '$lib/data/areaRelationshipFacts';
 import { objectSchema, textField } from '../actionTypes';
 import { patternMeanings } from '$lib/server/businessBrain/validateAreaRelationships';
 
-const { longestFieldName, longestFieldType, longestWord, longestMeaning, longestStatus, mostOtherNames, longestPasses } = domainFilingLimits;
+const { longestFieldName, longestFieldType, longestWord, longestMeaning, longestStatus, mostOtherNames, longestPasses, mostStatuses } = domainFilingLimits;
 
 export const fieldEntry = objectSchema(
 	{
@@ -41,4 +41,17 @@ export const relationshipEntry = objectSchema(
 		}
 	},
 	['fromContextSlug', 'toContextSlug', 'passes', 'pattern']
+);
+
+export const lifecycleEntry = objectSchema(
+	{
+		status: textField(`The status, a describing word such as Signed and never the record’s own name, at most ${longestStatus} characters`),
+		meaning: textField(`What a record in this status is, in the business’s words, at most ${longestMeaning} characters`),
+		movesTo: {
+			type: 'array',
+			items: { type: 'string' },
+			description: `The statuses of this same lifecycle a record in this one can move to next, each once, at most ${mostStatuses}; none for a status it ends in`
+		}
+	},
+	['status']
 );
