@@ -30,7 +30,7 @@ type BooksOrganisation = { id: string; name: string };
 /** What a list of invoices is told: the invoices, newest first, how each is named, and which were ever emailed. */
 export type InvoiceListing = { invoices: InvoiceSummary[]; namings: InvoiceNamings; sentInvoiceIds: ReadonlySet<string> };
 
-/** The invoices shown, each on one line with the address it opens at and a mark on any issued but never emailed, or that the books hold none that match. */
+/** The invoices shown, each on one line with its address and a mark when issued but never emailed, or that none match. */
 export function describeInvoiceList(organisation: BooksOrganisation, listing: InvoiceListing): string {
 	const { invoices, namings, sentInvoiceIds } = listing;
 	if (invoices.length === 0) return `${organisation.name}'s books hold no invoices that match.`;

@@ -9,11 +9,8 @@ import { booksCustomerActions } from './booksCustomerActions';
 import { booksInvoiceActions } from './booksInvoiceActions';
 import { booksInvoiceReadActions } from './booksInvoiceReadActions';
 import { booksInvoicePostingActions } from './booksInvoicePostingActions';
-<<<<<<< HEAD
 import { booksInvoiceSendingActions } from './booksInvoiceSendingActions';
-=======
 import { booksBillingScheduleActions } from './booksBillingScheduleActions';
->>>>>>> origin/staging
 import { booksExpenseActions } from './booksExpenseActions';
 import { booksExpenseReadActions } from './booksExpenseReadActions';
 import { booksBankLineActions } from './booksBankLineActions';
@@ -35,11 +32,8 @@ export const booksActions: McpAction[] = [
 	...booksInvoiceActions,
 	...booksInvoiceReadActions,
 	...booksInvoicePostingActions,
-<<<<<<< HEAD
 	...booksInvoiceSendingActions,
-=======
 	...booksBillingScheduleActions,
->>>>>>> origin/staging
 	...booksExpenseActions,
 	...booksExpenseReadActions,
 	...booksBankLineActions,
