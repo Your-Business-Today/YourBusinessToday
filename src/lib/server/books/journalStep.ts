@@ -1,11 +1,13 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { JournalFields, JournalInput } from '$lib/data/books/journalRules';
+import type { JournalLineInput } from '$lib/data/books/journalLine';
 import { checkJournal } from './checkJournal';
 
 /** A journal a step of the database posts whole, given its id by the server before the step is called. */
 export type StepJournal = JournalInput & { id: string };
 
 const journalsTable = 'books_journals';
+const noOwnDescription = '';
 
 /**
  * The journal checked as every posting is checked, and given its id now, so that when a step's answer is lost the
@@ -24,7 +26,17 @@ export function journalArgument(journal: StepJournal) {
 		description: journal.description,
 		kind: journal.kind,
 		reverses_journal_id: journal.reversesJournalId,
-		lines: journal.lines.map((line) => ({ account_id: line.accountId, cost_centre_id: line.costCentreId, debit: line.debit, credit: line.credit }))
+		lines: journal.lines.map(lineArgument)
+	};
+}
+
+function lineArgument(line: JournalLineInput) {
+	return {
+		account_id: line.accountId,
+		cost_centre_id: line.costCentreId,
+		debit: line.debit,
+		credit: line.credit,
+		description: line.description ?? noOwnDescription
 	};
 }
 
