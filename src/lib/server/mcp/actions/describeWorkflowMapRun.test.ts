@@ -24,6 +24,8 @@ describe('the walk "map the workflows" starts', () => {
 		expect(walk).toContain('always ask what goes wrong or is delayed there');
 		expect(walk).toContain('Ask exactly one question at a time');
 		expect(walk).toContain('file_workflow_map with organisationId org-1 and stage before, the whole map');
+		expect(walk).toContain('File the lines in the order the work first reaches them');
+		expect(walk).toContain('Name each station in at most four short words');
 		expect(walk).toMatch(/End with the link to where it is drawn, its Workflow map page: https:\/\/[^/]+\/organisations\/org-1\/workflow-map\./);
 		expect(walk).toMatch(/checks it on their portal instead, station by station: https:\/\/[^/]+\/portal\/workflow-map\./);
 	});

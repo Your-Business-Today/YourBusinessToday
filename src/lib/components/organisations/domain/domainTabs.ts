@@ -4,7 +4,7 @@ import { tabNamedIn } from '$lib/components/workspace/tabOfAddress';
 import type { DomainWord } from '$lib/data/domainReading';
 import type { OrganisationDomain } from '$lib/data/organisationDomain';
 
-export const domainTabKeys = { things: 'things', rules: 'rules', words: 'words', map: 'map' } as const;
+export const domainTabKeys = { map: 'map', things: 'things', rules: 'rules', words: 'words' } as const;
 
 export type DomainTabKey = (typeof domainTabKeys)[keyof typeof domainTabKeys];
 
@@ -13,9 +13,9 @@ export const domainQueryKeys = { tab: 'tab', thing: 'thing' } as const;
 
 const everyDomainTabKey: DomainTabKey[] = Object.values(domainTabKeys);
 
-/** The tab the address names; Things when it names none or one the page does not have. */
+/** The tab the address names; Map when it names none or one the page does not have. */
 export function domainTabOf(address: URL): DomainTabKey {
-	return tabNamedIn(address, domainQueryKeys.tab, everyDomainTabKey, domainTabKeys.things);
+	return tabNamedIn(address, domainQueryKeys.tab, everyDomainTabKey, domainTabKeys.map);
 }
 
 /** The slug of the thing the address opens on the Things tab, or null when it opens none. */
@@ -38,14 +38,14 @@ export function organisationThingHref(organisationId: string, thingSlug: string)
 	return `/organisations/${organisationId}/domain${domainThingHref(thingSlug)}`;
 }
 
-/** Things, Rules and Words, each counting its rows, then Map. */
+/** Map first, then Things, Rules and Words, each counting its rows. */
 export function domainTabsFor(domain: OrganisationDomain, words: DomainWord[]): Tab[] {
 	const { things, rules } = domain;
 	const tab = (key: DomainTabKey, label: string, count: number | null) => ({ key, label, count, href: domainTabHref(key) });
 	return [
+		tab(domainTabKeys.map, 'Map', null),
 		tab(domainTabKeys.things, 'Things', countShownOnTab(things.length)),
 		tab(domainTabKeys.rules, 'Rules', countShownOnTab(rules.length)),
-		tab(domainTabKeys.words, 'Words', countShownOnTab(words.length)),
-		tab(domainTabKeys.map, 'Map', null)
+		tab(domainTabKeys.words, 'Words', countShownOnTab(words.length))
 	];
 }
