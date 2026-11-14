@@ -51,6 +51,7 @@ export const actions: Actions = {
 	...autocompleteActions,
 	...conversationActions,
 	updateTodo: todoFormActions.updateTodo,
+	deleteTodo: todoFormActions.deleteTodo,
 	addSubtask: async ({ locals, params, request }) => {
 		const { user } = await requireProjectAccess(locals, params.projectId);
 		const seed = readNewTaskSeed(await request.formData());
