@@ -4,7 +4,9 @@ import { describeContentPiece, describeContentSummary } from './describeContentP
 import { findContentPiece } from '$lib/server/brandContent/findContentPiece';
 import { findContentPieces } from '$lib/server/brandContent/findContentPieces';
 import { findContentPost } from '$lib/server/brandContent/findContentPost';
+import { findItemStandings } from '$lib/server/brandLibrary/findItemStandings';
 import { findPostPictures } from '$lib/server/brandContent/findPostPictures';
+import { libraryIdsOf } from '$lib/brand/content/checkDraftItems';
 import { isContentStage, contentStages } from '$lib/brand/content/contentPiece';
 import { keepContentPiece } from '$lib/server/brandContent/keepContentPiece';
 import { noSuchPiece } from './brandContentAnswers';
@@ -39,11 +41,12 @@ export async function listContent(caller: McpCaller, input: Record<string, unkno
 	return pieces.map(describeContentSummary).join('\n');
 }
 
-/** One piece in full, with its snapshot of the brand, every review, every channel of the post it is one of, and its picture. */
+/** One piece in full, with its snapshot of the brand, every review, every channel of its post, its picture, its clips and its music. */
 export async function readContent(caller: McpCaller, input: Record<string, unknown>, organisation: Organisation) {
 	const found = await findContentPiece(caller.supabase, organisation.id, readText(input, 'contentPieceId'));
 	if (found === null) return noSuchPiece;
 	const post = await findContentPost(caller.supabase, organisation.id, found.piece);
 	const pictures = await findPostPictures(caller.supabase, organisation.id, [post.id]);
-	return describeContentPiece(found, post, pictures.get(post.id) ?? noPictures);
+	const library = await findItemStandings(caller.supabase, organisation.id, libraryIdsOf(found.piece));
+	return describeContentPiece(found, post, pictures.get(post.id) ?? noPictures, library);
 }

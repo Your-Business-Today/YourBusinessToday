@@ -10,7 +10,11 @@
 		{ key: 'number', label: 'Shot', isFigure: true },
 		{ key: 'seconds', label: 'Seconds', isFigure: true },
 		{ key: 'description', label: 'What we see and hear' },
-		{ key: 'onScreenText', label: 'On screen', isWideOnly: true }
+		{ key: 'clip', label: 'Clip', isWideOnly: true },
+		{ key: 'overline', label: 'Above', isWideOnly: true },
+		{ key: 'onScreenText', label: 'Headline', isWideOnly: true },
+		{ key: 'underline', label: 'Beneath', isWideOnly: true },
+		{ key: 'wordsAt', label: 'Words sit', isWideOnly: true }
 	];
 </script>
 
@@ -20,7 +24,11 @@
 			<RecordsCell kind="figure">{shot.number}</RecordsCell>
 			<RecordsCell kind="figure">{shot.seconds}</RecordsCell>
 			<RecordsCell>{shot.description}</RecordsCell>
+			<RecordsCell isWideOnly>{shot.clip}</RecordsCell>
+			<RecordsCell isWideOnly>{shot.overline}</RecordsCell>
 			<RecordsCell isWideOnly>{shot.onScreenText}</RecordsCell>
+			<RecordsCell isWideOnly>{shot.underline}</RecordsCell>
+			<RecordsCell isWideOnly>{shot.wordsAt}</RecordsCell>
 		{/snippet}
 	</RecordsTable>
 </div>

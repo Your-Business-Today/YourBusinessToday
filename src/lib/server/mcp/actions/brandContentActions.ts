@@ -22,6 +22,10 @@ export const brandContentActions: McpAction[] = [
 			'what you give takes the place of what it keeps, what you leave out stays, and it keeps its medium, day and post, and its kind unless you give another. ' +
 			'An idea is written up this way on its planned day. A piece awaiting approval is refused: ask for changes with ' +
 			'review_content, which sends it back to drafted, then draft it again. One approved, scheduled or published is not changed. ' +
+			'To make a video from footage the brand already has, give each shot the clipItemId of a photo or video from ' +
+			'list_brand_library, its words on screen (overline, onScreenText as the headline, underline) and wordsAt, and give a ' +
+			'video piece the musicItemId of a piece of music; read_content of another piece shows its shots to reuse. Each item ' +
+			'must be in this brand’s library, arrived and allowed to be posted. ' +
 			'A value that does not fit its column is refused by name and nothing is kept.',
 		inputSchema: draftContentSchema,
 		run: draftContent

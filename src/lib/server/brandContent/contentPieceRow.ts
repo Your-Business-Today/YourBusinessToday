@@ -1,3 +1,4 @@
+import { storyboardOfStored } from '$lib/brand/content/storedStoryboard';
 import type { ContentPiece, ContentStage } from '$lib/brand/content/contentPiece';
 
 /** A piece as its row holds it; the columns added since 0168 read as empty in the moments before their migration runs. */
@@ -8,7 +9,7 @@ export function contentPieceOfRow(row: Record<string, unknown>): ContentPiece {
 		title: row.title as string,
 		hook: row.hook as string,
 		script: row.script as string,
-		storyboard: row.storyboard as ContentPiece['storyboard'],
+		storyboard: storyboardOfStored(row.storyboard),
 		caption: row.caption as string,
 		invitedAction: row.invited_action as string,
 		stage: row.stage as ContentStage,
@@ -16,6 +17,7 @@ export function contentPieceOfRow(row: Record<string, unknown>): ContentPiece {
 		scheduledFor: row.scheduled_for as string | null,
 		plannedFor: (row.planned_for as string | null | undefined) ?? null,
 		kind: (row.kind as string | null | undefined) ?? null,
+		musicItemId: (row.music_item_id as string | null | undefined) ?? null,
 		publishedUrl: row.published_url as string,
 		updatedAt: row.updated_at as string
 	};
