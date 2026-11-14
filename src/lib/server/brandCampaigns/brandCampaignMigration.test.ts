@@ -1,22 +1,15 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { expectNothingTakenAway, expectTablesBehindModuleRule, expectTheShapeGuardFirst, readModuleMigration } from '$lib/server/migrations/moduleMigration.fixture';
 import { CampaignLimits } from '$lib/brand/campaigns/campaignLimits';
 import { campaignStatuses } from '$lib/brand/campaigns/campaign';
 
-const migration = readFileSync('migrations/0177_brand_campaigns.sql', 'utf8');
-const statements = migration.replace(/--.*$/gm, '');
-const moduleRule = "public.can_use_organisation_module(organisation_id, 'brand')";
+const migration = readModuleMigration('0177_brand_campaigns.sql', 'brand');
+const { statements } = migration;
 const yourBrandTodayTables = /\b(?:campaigns|campaign_pieces)\b/g;
-const createdTablePattern = /create table if not exists public\.(\w+)/g;
-const destructiveStatement = /\b(?:drop table|drop column|delete from|truncate|alter column|rename)\b/i;
-
-function createdTables(): string[] {
-	return [...statements.matchAll(createdTablePattern)].map((match) => match[1]);
-}
 
 describe('the brand campaigns migration', () => {
 	it('creates only tables of its own, named brand_campaign', () => {
-		expect(createdTables()).toEqual(['brand_campaigns', 'brand_campaign_pieces']);
+		expect(migration.createdTables).toEqual(['brand_campaigns', 'brand_campaign_pieces']);
 	});
 
 	it('names none of the tables yourbrand.today kept', () => {
@@ -25,9 +18,7 @@ describe('the brand campaigns migration', () => {
 	});
 
 	it('stops before creating anything when a table of the same name is there in another shape', () => {
-		const guardAt = statements.indexOf('already exists in another shape');
-		expect(guardAt).toBeGreaterThan(0);
-		expect(guardAt).toBeLessThan(statements.indexOf('create table'));
+		expectTheShapeGuardFirst(migration);
 	});
 
 	it('holds the limits the door checks: the name, the budget, the dates and the statuses', () => {
@@ -38,16 +29,10 @@ describe('the brand campaigns migration', () => {
 	});
 
 	it('turns on row level security on every table it creates, behind the one module rule', () => {
-		for (const table of createdTables()) {
-			expect(statements).toContain(`alter table public.${table} enable row level security;`);
-			const policies = statements.split('create policy').filter((policy) => policy.includes(`on public.${table}\n`));
-			expect(policies.length).toBeGreaterThan(0);
-			for (const policy of policies) expect(policy).toContain(moduleRule);
-		}
+		expectTablesBehindModuleRule(migration);
 	});
 
 	it('deletes, drops and rewrites nothing', () => {
-		expect(statements).not.toMatch(/on delete cascade/i);
-		expect(statements).not.toMatch(destructiveStatement);
+		expectNothingTakenAway(statements);
 	});
 });

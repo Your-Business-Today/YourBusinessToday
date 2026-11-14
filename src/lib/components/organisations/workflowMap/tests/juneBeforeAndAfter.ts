@@ -1,6 +1,5 @@
-import { juneWorkflowMapInput } from '$lib/server/workflowMap/juneMap/juneWorkflowMap';
-import { validateWorkflowMap } from '$lib/server/workflowMap/validateWorkflowMap';
-import { mapStage, stationState, type MapStation, type WorkflowMapDraft, type WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
+import { juneDraft } from '$lib/server/workflowMap/juneMap/juneDraft';
+import { mapStage, stationState, type MapStation, type WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 
 export const portalProductId = '5d1e0c4a-0000-4000-8000-00000000a11d';
 export const productNames = { [portalProductId]: 'JPMS portal' };
@@ -8,12 +7,6 @@ export const productNames = { [portalProductId]: 'JPMS portal' };
 const filedAt = '2026-11-13T05:00:00Z';
 const ourStations = ['work-order-award', 'insurance-cis-checks'];
 const plannedStations = ['settlement-vat'];
-
-function juneDraft(): WorkflowMapDraft {
-	const draft = validateWorkflowMap(juneWorkflowMapInput());
-	if ('refusal' in draft) throw new Error(draft.refusal);
-	return draft;
-}
 
 const awardThings = { takesInThings: ['compliance-record'], producesThings: ['work-order', 'subcontractor'] };
 

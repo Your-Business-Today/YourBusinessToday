@@ -4,7 +4,7 @@ import { getCompaniesForPerson } from '$lib/server/people/getCompaniesForPerson'
 import { getPerson } from '$lib/server/people/getPerson';
 import { getPersonEventsForClients } from '$lib/server/people/getPersonEventsForClients';
 import { objectSchema, readText, textField } from '../actionTypes';
-import { personResearchLimits } from '$lib/data/personResearchRules';
+import { exampleLinkLabel, personResearchLimits } from '$lib/data/personResearchRules';
 import { readPersonGuidance, savePersonResearchGuidance } from './personResearchGuidance';
 import { savePersonFindings } from '$lib/server/people/research/savePersonFindings';
 import { validatePersonResearch } from '$lib/server/people/research/validatePersonResearch';
@@ -26,7 +26,7 @@ const roleSchema = objectSchema(
 
 const linkSchema = objectSchema(
 	{
-		label: textField(`A short label such as "Company site", at most ${limits.longestLinkLabel} characters`),
+		label: textField(`A short label such as "${exampleLinkLabel}", at most ${limits.longestLinkLabel} characters`),
 		url: textField('The public page, starting https://')
 	},
 	['label', 'url']

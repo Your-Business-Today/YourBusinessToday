@@ -110,64 +110,64 @@ All code follows the conventions in [CLAUDE.md](./CLAUDE.md).
 ## Code quality
 
 <table><tr><td align="center">
-<strong>Code quality score</strong><h2>99.8%</h2>
-<sub>measured 2026-11-12 · project-process kit 1.41.0</sub>
+<strong>Code quality score</strong><h2>99.9%</h2>
+<sub>measured 2026-11-14 · project-process kit 1.41.0</sub>
 </td></tr></table>
 
-4,592 files · backend 1,205 · frontend 975 · shared 827 · tests 624 · api 519 · database 207 · tooling 141 · docs 77 · infrastructure 17
+5,588 files · backend 1,465 · frontend 1,195 · shared 954 · tests 839 · api 649 · database 238 · tooling 149 · docs 79 · infrastructure 20
 
-The site by route: 68 routes, 649 components, 0 pieces of markup written by hand where a widget should be — [`tools/refactor/site-definition.md`](tools/refactor/site-definition.md), refreshed alone by *"Run the widget identification"*.
+The site by route: 79 routes, 724 components, 0 pieces of markup written by hand where a widget should be — [`tools/refactor/site-definition.md`](tools/refactor/site-definition.md), refreshed alone by *"Run the widget identification"*.
 
-Brand and widget designs: brand checked never, 7 widget sheets checked 2026-11-10 — say *"Check the site against the brand"* or *"Check the widgets against their designs"* (the `widget-design` skill; every widget's standing is in [`tools/refactor/site-definition.md`](tools/refactor/site-definition.md)).
+Brand and widget designs: brand checked never, 8 widget sheets checked 2026-11-13 — say *"Check the site against the brand"* or *"Check the widgets against their designs"* (the `widget-design` skill; every widget's standing is in [`tools/refactor/site-definition.md`](tools/refactor/site-definition.md)).
 
 <details>
-<summary><strong>How the 99.8% is made up</strong></summary>
+<summary><strong>How the 99.9% is made up</strong></summary>
 
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
-| **Standard baseline checks** | | **99.7%** | **60** | |
-| Files over the line limit | 0 in 3992 files | 100.0% | 10 | 50% of files |
+| **Standard baseline checks** | | **99.8%** | **60** | |
+| Files over the line limit | 0 in 4952 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
-| Functions over the line limit | 0 in 5944 functions | 100.0% | 8 | 25% of functions |
-| Else blocks | 0 in 5707 branches | 100.0% | 5 | 50% of branches |
-| Duplication % | 0.41 | 98.0% | 8 | 20 |
-| Explanatory comment lines | 0 in 149.15 thousand lines | 100.0% | 4 | 50 per thousand lines |
-| Inline magic values | 0 in 149.15 thousand lines | 100.0% | 4 | 20 per thousand lines |
-| Orphan components and functions | 0 in 6604 components and functions | 100.0% | 4 | 10% of components and functions |
-| Long member chain lines | 0 in 149.15 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Deeply indented lines | 0 in 149.15 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Overlong function names | 0 in 5944 functions | 100.0% | 4 | 10% of functions |
+| Functions over the line limit | 0 in 7714 functions | 100.0% | 8 | 25% of functions |
+| Else blocks | 0 in 7127 branches | 100.0% | 5 | 50% of branches |
+| Duplication % | 0.32 | 98.4% | 8 | 20 |
+| Explanatory comment lines | 0 in 188.97 thousand lines | 100.0% | 4 | 50 per thousand lines |
+| Inline magic values | 0 in 188.97 thousand lines | 100.0% | 4 | 20 per thousand lines |
+| Orphan components and functions | 0 in 8450 components and functions | 100.0% | 4 | 10% of components and functions |
+| Long member chain lines | 0 in 188.97 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Deeply indented lines | 0 in 188.97 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Overlong function names | 0 in 7714 functions | 100.0% | 4 | 10% of functions |
 | **Design pattern file count** | | **100.0%** | **10** | |
-| Files the patterns predict but are missing | 0 in 255 predicted files | 100.0% | 10 | 50% of predicted files |
+| Files the patterns predict but are missing | 0 in 249 predicted files | 100.0% | 10 | 50% of predicted files |
 | Entities outside their expected file count | not measured | not measured | — | 50% of entities |
 | **Prose** | | **100.0%** | **20** | |
-| Conditions with calls tangled inside calls | 0 in 5707 branches | 100.0% | 8 | 25% of branches |
-| Conditions compared to a raw literal | 0 in 5707 branches | 100.0% | 6 | 25% of branches |
-| Accessor names that want to be a property | 0 in 5944 functions | 100.0% | 6 | 10% of functions |
+| Conditions with calls tangled inside calls | 0 in 7127 branches | 100.0% | 8 | 25% of branches |
+| Conditions compared to a raw literal | 0 in 7127 branches | 100.0% | 6 | 25% of branches |
+| Accessor names that want to be a property | 0 in 7714 functions | 100.0% | 6 | 10% of functions |
 | **Widget adoption** | | **100.0%** | **8** | |
-| Markup written by hand where a widget should be | 0 in 372 widget slots | 100.0% | 8 | 50% of widget slots |
+| Markup written by hand where a widget should be | 0 in 465 widget slots | 100.0% | 8 | 50% of widget slots |
 | **Input validation** | | **100.0%** | **8** | |
-| Doors that write without checking their input against the columns | 0 in 339 write doors | 100.0% | 8 | 50% of write doors |
+| Doors that write without checking their input against the columns | 0 in 400 write doors | 100.0% | 8 | 50% of write doors |
 
 Each element scores 100% with no offenders and falls in a straight line to 0% when its offenders, measured against the size of the codebase, reach the figure in the last column. The score is the weighted average of the elements that could be measured; an element that could not be measured lends its weight to the rest. Weights and zero points are set in `tools/refactor/rules.json` under `score.elements`. The offenders behind every reading are in `tools/refactor/audit-output/audit.json`.
 
 </details>
 
 <details>
-<summary><strong>The repository by area: 4,592 files</strong></summary>
+<summary><strong>The repository by area: 5,588 files</strong></summary>
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| backend | 1,205 | 1,195 | 39,761 |
-| frontend | 975 | 845 | 28,033 |
-| shared | 827 | 809 | 29,096 |
-| tests | 624 | 609 | 28,170 |
-| api | 519 | 518 | 23,498 |
-| database | 207 | 7 | 212 |
-| tooling | 141 | 9 | 382 |
-| docs | 77 | 0 | 0 |
-| infrastructure | 17 | 0 | 0 |
-| **whole repository** | **4,592** | **3,992** | **149,152** |
+| backend | 1,465 | 1,454 | 48,856 |
+| frontend | 1,195 | 1,065 | 36,564 |
+| shared | 954 | 936 | 33,901 |
+| tests | 839 | 824 | 39,133 |
+| api | 649 | 648 | 29,624 |
+| database | 238 | 8 | 254 |
+| tooling | 149 | 17 | 638 |
+| docs | 79 | 0 | 0 |
+| infrastructure | 20 | 0 | 0 |
+| **whole repository** | **5,588** | **4,952** | **188,970** |
 
 </details>
 
@@ -176,7 +176,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 **Pass 5 — The sweep to zero**
 
-1. Duplication %: 0.41 to zero. Scores 98.0% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time.
+1. Duplication %: 0.32 to zero. Scores 98.4% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time.
 
 The whole plan, with the measured detail, is in [`tools/refactor/refactor-plan.md`](tools/refactor/refactor-plan.md).
 

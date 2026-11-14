@@ -1,12 +1,8 @@
+import './booksYourBusinessTodayMocks';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
 	acmeId, archivedCustomerId, feesId, heldScheduleLines, heldSchedules, holdBooksWithoutSchedules, projectsId, runOnTheBooks as run, today
 } from './booksBillingScheduleWorld.fixture';
-
-vi.mock('$lib/server/organisations/getOrganisation', () => ({
-	getOrganisation: async (_supabase: unknown, id: string) => ({ id, parentOrganisationId: null, name: 'Your Business Today' })
-}));
-vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['books'] }));
 
 const sevenLines = [2000, 1000, 800, 600, 400, 200, 100].map((unitPrice, index) => ({
 	description: `Service ${index + 1}`,

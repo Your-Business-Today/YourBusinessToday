@@ -1,5 +1,6 @@
 import { validateRecordId } from '$lib/data/isUuid';
 import { BankRuleDirections, BankRuleKinds, type BankRuleDirection, type BankRuleKind } from './bankRuleTerms';
+import { lengthRefusal } from './textColumn';
 
 /** The limits of books_bank_rules (migration 0226). */
 export const bankRuleLimits = { counterpartyLength: 200, descriptionLength: 300 } as const;
@@ -81,10 +82,4 @@ function directionRefusal(direction: unknown): string | null {
 function descriptionRefusal(description: unknown): string | null {
 	if (typeof description !== 'string') return `description is text; ${JSON.stringify(description)} was given.`;
 	return lengthRefusal('description', description, bankRuleLimits.descriptionLength);
-}
-
-function lengthRefusal(field: string, value: string, longest: number): string | null {
-	const characterCount = [...value].length;
-	if (characterCount <= longest) return null;
-	return `${field} is at most ${longest} characters; ${characterCount} were given.`;
 }

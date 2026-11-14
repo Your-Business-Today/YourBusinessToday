@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { expectNothingTakenAway } from '$lib/server/migrations/moduleMigration.fixture';
 import { countedFigures } from '$lib/brand/performance/performanceReading';
 import { PerformanceLimits } from '$lib/brand/performance/performanceLimits';
 
@@ -8,7 +9,6 @@ const statements = withoutComments(migration);
 const reachMigration = readFileSync('migrations/0180_brand_campaign_reach_and_audience.sql', 'utf8');
 const bothStatements = statements + withoutComments(reachMigration);
 const moduleRule = "public.can_use_organisation_module(organisation_id, 'brand')";
-const destructiveStatement = /\b(?:drop table|drop column|delete from|truncate|alter column|rename)\b/i;
 const reachAndAudience = /\b(?:reach|impressions|audience)\b/i;
 
 function withoutComments(sql: string): string {
@@ -54,7 +54,6 @@ describe('the brand performance readings migration', () => {
 	});
 
 	it('deletes, drops and rewrites nothing', () => {
-		expect(statements).not.toMatch(/on delete cascade/i);
-		expect(statements).not.toMatch(destructiveStatement);
+		expectNothingTakenAway(statements);
 	});
 });

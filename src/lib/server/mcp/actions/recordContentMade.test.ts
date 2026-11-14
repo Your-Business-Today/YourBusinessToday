@@ -1,16 +1,9 @@
+import './brandJewelMocks';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { contentPieceId } from './brandContentFixtures';
 import { runContentAction } from './brandContentTestWorld';
 
-vi.mock('$env/static/public', () => ({ PUBLIC_SUPABASE_URL: 'https://files.example/', PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-key' }));
-vi.mock('$env/dynamic/private', () => ({ env: {} }));
-vi.mock('$env/dynamic/public', () => ({ env: {} }));
-
 const world = vi.hoisted(() => ({ latest: null as unknown, failed: [] as string[] }));
-vi.mock('$lib/server/organisations/getOrganisation', async () => {
-	const { jewel } = await import('./brandContentFixtures');
-	return { getOrganisation: async (_supabase: unknown, organisationId: string) => (organisationId === jewel.id ? jewel : null) };
-});
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['brand'] }));
 vi.mock('$lib/server/brandContent/findPostPictures', () => ({ findPostPictures: async () => new Map() }));
 vi.mock('$lib/server/brandContent/findContentPost', () => ({
