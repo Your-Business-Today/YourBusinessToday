@@ -1,25 +1,10 @@
 {
-  "score": 99.8,
+  "score": 99.9,
   "steps": [
     {
-      "pass": "Pass 3 \u2014 Utility function identification",
-      "title": "Give `juneDraft` one home",
-      "detail": "The same function, word for word: 5 lines, identical in 2 files: src/lib/components/organisations/workflowMap/tests/juneBeforeAndAfter.ts, src/lib/server/workflowMap/workflowMapRoundTrip.test.ts. Evidence: 0/2 bound from their own markup, 0/2 framework-invoked, 0/2 imported elsewhere."
-    },
-    {
-      "pass": "Pass 3 \u2014 Utility function identification",
-      "title": "Give `lengthRefusal` one home",
-      "detail": "The same function, word for word: 5 lines, identical in 2 files: src/lib/data/books/bankLineRules.ts, src/lib/data/books/bankRuleRules.ts. Evidence: 0/2 bound from their own markup, 0/2 framework-invoked, 0/2 imported elsewhere."
-    },
-    {
       "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Duplication %: 0.52 to zero",
-      "detail": "Scores 97.4% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time."
-    },
-    {
-      "pass": "Pass 5 \u2014 The sweep to zero",
-      "title": "Inline magic values: 4 to zero",
-      "detail": "Scores 99.9% at weight 4; the offenders are in audit.json under details.magicValues, fifty at a time."
+      "title": "Duplication %: 0.32 to zero",
+      "detail": "Scores 98.4% at weight 8; the offenders are in audit.json under details.duplication, fifty at a time."
     }
   ],
   "targets": [],
@@ -27,7 +12,7 @@
     "name": "designPatterns",
     "summary": {
       "roleFamilies": 249,
-      "predictedFiles": 259,
+      "predictedFiles": 249,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -99,7 +84,7 @@
         "document": 7,
         "domain": 7,
         "door": 4,
-        "draft": 4,
+        "draft": 5,
         "email": 14,
         "entries": 9,
         "entry": 12,
@@ -112,7 +97,7 @@
         "files": 7,
         "film": 4,
         "filter": 9,
-        "fixture": 32,
+        "fixture": 33,
         "fixtures": 27,
         "for": 10,
         "form": 79,
@@ -149,7 +134,7 @@
         "link": 22,
         "links": 16,
         "list": 37,
-        "making": 4,
+        "making": 5,
         "map": 39,
         "match": 5,
         "meeting": 9,
@@ -158,7 +143,7 @@
         "message": 4,
         "messages": 5,
         "minutes": 7,
-        "mocks": 6,
+        "mocks": 8,
         "mockup": 4,
         "modal": 14,
         "model": 8,
@@ -168,9 +153,9 @@
         "node": 5,
         "note": 12,
         "notice": 5,
-        "of": 16,
+        "of": 15,
         "officers": 4,
-        "order": 9,
+        "order": 11,
         "organisation": 17,
         "organisations": 6,
         "origin": 4,
@@ -190,7 +175,7 @@
         "people": 9,
         "person": 15,
         "picker": 4,
-        "pictures": 5,
+        "pictures": 6,
         "piece": 10,
         "pieces": 4,
         "pill": 5,
@@ -260,7 +245,7 @@
         "targets": 5,
         "task": 23,
         "tasks": 14,
-        "test": 808,
+        "test": 811,
         "text": 15,
         "tiles": 5,
         "time": 5,
@@ -280,7 +265,7 @@
         "views": 10,
         "visitor": 4,
         "window": 4,
-        "words": 31,
+        "words": 33,
         "work": 9,
         "world": 5,
         "writer": 10,
@@ -313,18 +298,8 @@
           "missing": []
         },
         {
-          "pattern": "every mocks has a actions",
-          "predicted": 6,
-          "missing": []
-        },
-        {
           "pattern": "every mocks has a runs",
-          "predicted": 6,
-          "missing": []
-        },
-        {
-          "pattern": "every mocks has a schemas",
-          "predicted": 6,
+          "predicted": 8,
           "missing": []
         },
         {

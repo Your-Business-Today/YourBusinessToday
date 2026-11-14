@@ -1,8 +1,8 @@
 # Site definition
 
-Written on 2026-11-12 from the views themselves — by the widget identification or the code quality check, never by hand, so it is never stale. Each route is what a user sees there, in the widget notation; each component of the site is defined the same way.
+Written on 2026-11-14 from the views themselves — by the widget identification or the code quality check, never by hand, so it is never stale. Each route is what a user sees there, in the widget notation; each component of the site is defined the same way.
 
-**68 routes, 649 components of the site, 13 catalogue widgets.** 372 widget usages and 0 pieces of markup written by hand where a widget should be, in 0 views; 0 content widgets draw their own box.
+**79 routes, 724 components of the site, 14 catalogue widgets.** 465 widget usages and 0 pieces of markup written by hand where a widget should be, in 0 views; 0 content widgets draw their own box.
 
 **Notation.** `a, b` stacked top to bottom · `[ a b ]` side by side · `(3) a` three of them, `(n) a` one per item · `?when: a` shown on a condition · `( a | b )` one or the other · `Widget{ … }` a catalogue widget with its content · `Part=( … )` one of the site's own components opened out · `⚠table→RecordsTable` markup written by hand where the named widget should be.
 
@@ -16,7 +16,7 @@ No content widget draws its own box.
 
 ## The widgets' designs
 
-Brand sheet: `docs/design/brand.md`, the site last checked against it never. 7 of 13 catalogue widgets have a design sheet; the widgets were last checked against them on 2026-11-10. Say *"Check the site against the brand"* and *"Check the widgets against their designs"* to run the checks, *"Extract the brand from <references>"* and *"Extract the design for <Widget> from <images>"* to bring the sheets up to date (the `widget-design` skill) — each a judgement, so run on request, never by the audit.
+Brand sheet: `docs/design/brand.md`, the site last checked against it never. 8 of 14 catalogue widgets have a design sheet; the widgets were last checked against them on 2026-11-13. Say *"Check the site against the brand"* and *"Check the widgets against their designs"* to run the checks, *"Extract the brand from <references>"* and *"Extract the design for <Widget> from <images>"* to bring the sheets up to date (the `widget-design` skill) — each a judgement, so run on request, never by the audit.
 
 | Widget | Design | Last checked |
 | --- | --- | --- |
@@ -27,6 +27,7 @@ Brand sheet: `docs/design/brand.md`, the site last checked against it never. 7 o
 | `EmptyState` | brand only | — |
 | `FormField` | `docs/design/widgets/FormField.md` | 2026-11-10 |
 | `InlineField` | brand only | — |
+| `LineMap` | `docs/design/widgets/LineMap.md` | 2026-11-13 |
 | `Modal` | `docs/design/widgets/Modal.md` | 2026-11-10 |
 | `PageTitle` | brand only | — |
 | `RecordsTable` | `docs/design/widgets/RecordsTable.md` | 2026-11-10 |
@@ -35,6 +36,20 @@ Brand sheet: `docs/design/brand.md`, the site last checked against it never. 7 o
 | `WorkspaceHeader` | brand only | — |
 
 ## Routes
+
+### `/[register=salesRegister]/[clientId]`
+`src/routes/[register=salesRegister]/[clientId]/+page.svelte`
+
+```
+ClientHeader=( PageTitle, ClientBroughtInByForm=( FormField{ BroughtInBySelect } ) ), FormErrorNote, CompanyJobAdverts=( FindJobAdvertsButton=( Modal{ AskClaudeToFindJobAdverts=( CopyTextButton ) } ), (n) JobAdvertRow ), CompanyProfileForm=( [ FormField CompanyPlaceFields=( (2) FormField ) FormField CompanyScaleFields=( (2) FormField ) ], CompanyNarrativeFields=( (2) FormField ), SubmitButton ), ClientPeopleSection=( ClientPeopleActions=( ?canImportOfficers: SubmitButton ), (n) PersonCard=( ?canInvite: SubmitButton, PersonFacts=( WarmthPill ), PersonLinkList=( (n) PersonLinkChip, SubmitButton ), PersonNoteTimeline=( ProseText, SubmitButton ) ), Modal{ NewContactForm=( (4) FormField, SubmitButton ) }, Modal{ ClientSetUpForm=( (2) FormField, SubmitButton ) }, Modal{ ?personBeingEdited !== null: PersonFieldsForm=( [ FormField ?contactId !== null: FormField (2) FormField PersonProfileFields=( (5) FormField ) ], SubmitButton ) }, Modal{ ?personToApproach !== null: AskClaudeToDraftApproach=( CopyTextButton ) } ), LeadConversationsSection=( LeadConversationTable=( RecordsTable{ (6) RecordsCell } ), Modal{ LeadConversationForm=( (6) FormField, SubmitButton ) }, Modal{ ?conversationBeingRead !== null: LeadConversationRead } ), ClientGroupSection=( ?children.length > 0: StagePill, ?children.length === 0 && parent…: GroupUnderForm=( SubmitButton ) ), ClientProjectList, ClientContinuityCopySection=( [ (3) FormField ], SubmitButton ), SupportTaskTable=( RecordsTable{ (4) RecordsCell } ), ClientObservations=( ?observations.length > 0: (n) ObservationRow ), ClientEventLedger, ClientDeletion=( DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), Modal{ AssignProjectForm=( FormField, (2) FormField, SubmitButton ) }
+```
+
+### `/[register=salesRegister]/[clientId]/workflow-map`
+`src/routes/[register=salesRegister]/[clientId]/workflow-map/+page.svelte`
+
+```
+WorkspaceHeader, ( ?maps === null || openingStage =…: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin…: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] } ) ) | WorkflowMapTablePane=( DashboardPanel{ ( ?pane === questionsPane: MapQuestionsTable=( RecordsTable{ (4) RecordsCell } ) | MapChangesTable=( RecordsTable{ (5) RecordsCell } ) ) } ) ) ) )
+```
 
 ### `/about`
 `src/routes/about/+page.svelte`
@@ -92,6 +107,13 @@ DocumentProse
 PageTitle, DashboardPanel{ StripeEventsToCheckTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ Badge }, RecordsCell, RecordsCell{ Button } } ) }
 ```
 
+### `/brand-film/[token]`
+`src/routes/brand-film/[token]/+page.svelte`
+
+```
+StoryboardFilmWordsStage=( ?shot !== null: StoryboardFilmWords )
+```
+
 ### `/case-study`
 `src/routes/case-study/+page.svelte`
 
@@ -103,21 +125,7 @@ PageMeta, CaseStudyIntroSection, (n) CaseStudyBusinessSection=( CaseStudyOutcome
 `src/routes/clients/+page.svelte`
 
 ```
-SalesRegisterPage=( WorkspaceHeader, RegisterStageTabs=( TabStrip ), FormErrorNote, ( ?clients.length === 0: EmptyState | ClientTable=( (n) ClientRow=( ClientStageForm ) ) ) )
-```
-
-### `/clients/[clientId]`
-`src/routes/clients/[clientId]/+page.svelte`
-
-```
-ClientHeader=( PageTitle ), FormErrorNote, CompanyJobAdverts=( FindJobAdvertsButton=( Modal{ AskClaudeToFindJobAdverts=( CopyTextButton ) } ), (n) JobAdvertRow ), CompanyProfileForm=( [ FormField CompanyPlaceFields=( (2) FormField ) FormField CompanyScaleFields=( (2) FormField ) ], CompanyNarrativeFields=( (2) FormField ), SubmitButton ), ClientPeopleSection=( ClientPeopleActions=( ?canImportOfficers: SubmitButton ), (n) PersonCard=( ?canInvite: SubmitButton, PersonFacts=( WarmthPill ), PersonLinkList=( (n) PersonLinkChip, SubmitButton ), PersonNoteTimeline=( ProseText, SubmitButton ) ), Modal{ NewContactForm=( (4) FormField, SubmitButton ) }, Modal{ ClientSetUpForm=( (2) FormField, SubmitButton ) }, Modal{ ?personBeingEdited !== null: PersonFieldsForm=( [ FormField ?contactId !== null: FormField (2) FormField PersonProfileFields=( (5) FormField ) ], SubmitButton ) }, Modal{ ?personToApproach !== null: AskClaudeToDraftApproach=( CopyTextButton ) } ), ClientGroupSection=( ?children.length > 0: StagePill, ?children.length === 0 && parent…: GroupUnderForm=( SubmitButton ) ), ClientProjectList, ClientContinuityCopySection=( [ (3) FormField ], SubmitButton ), SupportTaskTable=( RecordsTable{ (4) RecordsCell } ), ClientObservations=( ?observations.length > 0: (n) ObservationRow ), ClientEventLedger, ClientDeletion=( DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), Modal{ AssignProjectForm=( FormField, (2) FormField, SubmitButton ) }
-```
-
-### `/clients/[clientId]/context`
-`src/routes/clients/[clientId]/context/+page.svelte`
-
-```
-WorkspaceHeader, ( ?data.reading === null: EmptyState | CompanyContextView=( CompanyContextMap=( (n) ContextAreaRegion, (n) ContextLinkLine, (n) ContextPartNode ), ( ?selectedPart === undefined: EmptyState | ContextPartPanel=( DashboardPanel{ ?steps.length > 0: ContextProcessStepList=( ?step.roleKey !== null: EntityLink ), ContextPartLinkList=( (2) EntityLink ), ?canMark: ContextPartReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) ), ContextConfirmationPanel=( DashboardPanel{ ?isOpen: ContextConfirmForm=( FormErrorNote, SubmitButton ) } ), ?changes !== null: ContextChangesPanel=( DashboardPanel{ ?hasChanges(changes): (2) ContextChangeList=( (n) EntityLink ) } ) ) )
+SalesRegisterPage=( WorkspaceHeader, RegisterStageTabs=( TabStrip ), FormErrorNote, ( ?clients.length === 0: EmptyState | ClientTable=( (n) ClientRow=( [ StagePill ClientRowActions ] ) ) ) )
 ```
 
 ### `/clients/feed`
@@ -204,11 +212,18 @@ PageMeta, DemoStartSection=( (n) DemoKindChoiceCard=( SubmitButton ), FormErrorN
 PageMeta, DemoConnectSection=( CopyTextButton ), DemoQuestionsSection, DemoMoneySection, DemoLinkedSystemsSection=( (n) DemoLinkedSystemRow ), DemoBrainSection, DemoActivitySection=( (n) DemoActivityRow, SubmitButton ), DemoOwnSystemSection
 ```
 
+### `/leaderboard`
+`src/routes/leaderboard/+page.svelte`
+
+```
+WorkspaceHeader, SalesLeaderboardTable=( RecordsTable{ (6) RecordsCell } )
+```
+
 ### `/leads`
 `src/routes/leads/+page.svelte`
 
 ```
-SalesRegisterPage=( WorkspaceHeader, RegisterStageTabs=( TabStrip ), FormErrorNote, ( ?clients.length === 0: EmptyState | ClientTable=( (n) ClientRow=( ClientStageForm ) ) ) ){ AddLeadForm=( ( ?leadKind === leadKinds.person: AddPersonForm=( SubmitButton ) | SubmitButton ) ) }
+SalesRegisterPage=( WorkspaceHeader, RegisterStageTabs=( TabStrip ), FormErrorNote, ( ?clients.length === 0: EmptyState | ClientTable=( (n) ClientRow=( [ StagePill ClientRowActions ] ) ) ) ){ AddLeadForm=( ( ?leadKind === leadKinds.person: AddPersonForm=( SubmitButton ) | ( BroughtInBySelect, SubmitButton ) ) ) }
 ```
 
 ### `/notifications`
@@ -225,13 +240,6 @@ SalesRegisterPage=( WorkspaceHeader, RegisterStageTabs=( TabStrip ), FormErrorNo
 PageTitle, [ (2) SubmitButton ]
 ```
 
-### `/what-we-do`
-`src/routes/what-we-do/+page.svelte`
-
-```
-PageMeta, OfferStepsSection=( (n) OfferStepCard=( ?step.isMonthlyRetainer: SignalBadge ), DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), OfferTermsSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )
-```
-
 ### `/organisations`
 `src/routes/organisations/+page.svelte`
 
@@ -243,7 +251,7 @@ OrganisationsPageHeader=( WorkspaceHeader ){ FlashMessage, ( ?organisations.leng
 `src/routes/organisations/[organisationId]/+page.svelte`
 
 ```
-WorkspaceHeader, FlashMessage, OrganisationOverviewTabs=( TabStrip, ( ?shownTab === organisationOvervi…: OrganisationPeoplePanel=( ?canManage: Button, DashboardPanel{ RecordsTable{ OrganisationMemberCells=( RecordsCell{ PersonLine }, RecordsCell{ Badge }, RecordsCell, ?canManage: RecordsCell{ Button }, Button ) } }, Modal{ InviteMemberForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, ?memberAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm ) ) | ?shownTab === organisationOvervi…: OrganisationDetailsPanel=( ?canManage: Button, (n) DashboardPanel{ OrganisationDetailList }, Modal{ OrganisationDetailsForm=( OrganisationDetailsFields, FormErrorNote, SubmitButton ) } ) | ?shownTab === organisationOvervi…: OrganisationModulesPanel=( DashboardPanel{ RecordsTable{ OrganisationModuleCells=( RecordsCell, RecordsCell{ Badge }, ?canSwitch: RecordsCell{ Button } ) } } ) | ?shownTab === organisationOvervi…: OrganisationDirectorsPanel=( ?canNameAnother: Button, DashboardPanel{ RecordsTable{ OrganisationDirectorCells=( RecordsCell{ PersonLine }, RecordsCell, ?canName: RecordsCell{ ?director.accountId !== null: Button } ) } }, Modal{ NameDirectorForm=( FormField, FormErrorNote, SubmitButton ) } ) ) ), DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) )
+WorkspaceHeader, FlashMessage, OrganisationOverviewTabs=( TabStrip, ( ?shownTab === organisationOvervi…: OrganisationPeoplePanel=( ?canManage: Button, DashboardPanel{ RecordsTable{ OrganisationMemberCells=( RecordsCell{ PersonLine }, RecordsCell{ Badge }, RecordsCell, ?canManage: RecordsCell{ Button }, Button ) } }, Modal{ InviteMemberForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, ?memberAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm ) ) | ?shownTab === organisationOvervi…: OrganisationDetailsPanel=( ?canManage: Button, (n) DashboardPanel{ OrganisationDetailList }, Modal{ OrganisationDetailsForm=( OrganisationDetailsFields, FormErrorNote, SubmitButton ) } ) | ?shownTab === organisationOvervi…: OrganisationModulesPanel=( DashboardPanel{ RecordsTable{ OrganisationModuleCells=( RecordsCell, RecordsCell{ Badge }, ?canSwitch: RecordsCell{ Button } ) } } ) | ?shownTab === organisationOvervi…: OrganisationDirectorsPanel=( ?canNameAnother: Button, DashboardPanel{ RecordsTable{ OrganisationDirectorCells=( RecordsCell{ PersonLine }, RecordsCell, ?canName: RecordsCell{ ?director.accountId !== null: Button } ) } }, Modal{ NameDirectorForm=( FormField, FormErrorNote, SubmitButton ) } ) | ?shownTab === organisationOvervi…: OrganisationBillingPanel=( Button, ( ?billing.schedules as schedule (…: BillingScheduleSection=( DashboardPanel{ BillingScheduleMenu, BillingScheduleLinesTable } ) | EmptyState ), BilledInvoicesTable=( DashboardPanel{ RecordsTable{ (4) RecordsCell, RecordsCell{ Badge }, RecordsCell } } ), ?openForm !== null: Modal{ BillingScheduleForm=( BillingScheduleSettingsFields, BillingScheduleLineRows, FormErrorNote, SubmitButton ) } ) ) ), DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) )
 ```
 
 ### `/organisations/[organisationId]/boardroom`
@@ -274,6 +282,41 @@ WorkspaceHeader, ?tabs.length > 0: TabStrip, BooksPeriodForm=( Button ), Dashboa
 WorkspaceHeader, DashboardPanel{ AccountEntriesTable=( RecordsTable{ (3) RecordsCell, (3) StatementFigureCell=( RecordsCell ), (5) RecordsCell, StatementFigureCell=( RecordsCell ) } ) }
 ```
 
+### `/organisations/[organisationId]/books/bank`
+`src/routes/organisations/[organisationId]/books/bank/+page.svelte`
+
+```
+WorkspaceHeader, TabStrip, DashboardPanel{ BankLinesTable=( RecordsTable{ (3) RecordsCell, (3) StatementFigureCell=( RecordsCell ), RecordsCell } ) }
+```
+
+### `/organisations/[organisationId]/books/costs`
+`src/routes/organisations/[organisationId]/books/costs/+page.svelte`
+
+```
+WorkspaceHeader, TabStrip, DashboardPanel{ CostsTable=( RecordsTable{ (6) RecordsCell } ) }
+```
+
+### `/organisations/[organisationId]/books/invoices`
+`src/routes/organisations/[organisationId]/books/invoices/+page.svelte`
+
+```
+WorkspaceHeader, TabStrip, DashboardPanel{ ( ?isInvoiceTab(selectedTab): InvoicesTable=( RecordsTable{ (6) RecordsCell, RecordsCell{ Badge }, RecordsCell } ) | ?selectedTab === SetApartTabs.cu…: BooksCustomersTable=( RecordsTable{ (5) RecordsCell } ) | BillingSchedulesTable=( RecordsTable{ (7) RecordsCell } ) ) }
+```
+
+### `/organisations/[organisationId]/books/invoices/[invoiceId]`
+`src/routes/organisations/[organisationId]/books/invoices/[invoiceId]/+page.svelte`
+
+```
+InvoiceDocumentPage=( PrintOnPaper{ WorkspaceHeader{ Badge, (2) Button }, DashboardPanel{ InvoiceDocument=( [ InvoiceDocumentParty=( InvoiceDocumentFacts ) InvoiceDocumentFacts ], InvoiceDocumentParty=( InvoiceDocumentFacts ), BilledLinesTable=( RecordsTable{ (8) RecordsCell } ), InvoiceDocumentFacts, ?isSayingHowToPay(document): InvoiceDocumentPayment=( InvoiceDocumentFacts ) ) } } )
+```
+
+### `/organisations/[organisationId]/books/loans`
+`src/routes/organisations/[organisationId]/books/loans/+page.svelte`
+
+```
+WorkspaceHeader, DashboardPanel{ LoansTable=( RecordsTable{ (4) RecordsCell } ) }, ?openedLoan !== null: LoanStatementModal=( Modal{ LoanStatementTable=( RecordsTable{ RecordsCell, RecordsCell{ ?row.isOverdrawn: Badge }, (3) StatementFigureCell=( RecordsCell ) } ) } )
+```
+
 ### `/organisations/[organisationId]/brand`
 `src/routes/organisations/[organisationId]/brand/+page.svelte`
 
@@ -292,7 +335,7 @@ PrintOnPaper{ WorkspaceHeader{ Button }, DashboardPanel{ CampaignFigureTiles=( [
 `src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte`
 
 ```
-WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }
+WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ?hasFilm || makingKind === FilmM…: ContentFilmMakingPanel=( DashboardPanel{ Button } ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }
 ```
 
 ### `/organisations/[organisationId]/brand/library`
@@ -313,7 +356,7 @@ WorkspaceHeader{ (2) Button }, ?isAnyAwaitingApproval: DashboardPanel{ ContentPl
 `src/routes/organisations/[organisationId]/business-brain/+page.svelte`
 
 ```
-WorkspaceHeader, BusinessBrainIndexPanel=( DashboardPanel{ RecordsTable{ RecordsCell, RecordsCell{ Badge }, (2) RecordsCell } } ), BusinessBrainChatbotsPanel=( DashboardPanel{ (n) BusinessBrainChatbotRow=( (n) Badge ) } ), ?hasUnnamedFiles: BusinessBrainFilesPanel=( DashboardPanel{ (n) BusinessBrainFileRow } )
+WorkspaceHeader, TabStrip, DashboardPanel{ ( ?shownTab === businessBrainTabKe…: ( BusinessBrainDrawn=( BrainConstellation=( ?hasNeurons: ConstellationOverlays=( ConstellationHud, ?exploration.hover !== null && s…: NeuronTooltip, ?selectedPage !== undefined: NeuronDetailPanel ) ) ), BusinessBrainQuestionRecordLinks ) | ?shownTab === businessBrainTabKe…: BusinessBrainFilesTable=( RecordsTable{ RecordsCell, RecordsCell{ ( ?file.isNamedByPage: Badge | Badge ) }, (2) RecordsCell } ) | ?shownTab === businessBrainTabKe…: BusinessBrainPagesTable=( RecordsTable{ (3) RecordsCell } ) ) }
 ```
 
 ### `/organisations/[organisationId]/business-brain/chatbots/[chatbotId=uuid]/questions`
@@ -334,7 +377,7 @@ WorkspaceHeader{ Badge }, BusinessBrainPageText=( DashboardPanel{ ProseText } ),
 `src/routes/organisations/[organisationId]/domain/+page.svelte`
 
 ```
-WorkspaceHeader, ( ?brains === null: EmptyState | ( ( ?domain === null: EmptyState | ( DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton=( RaiseChangeModal ), EntityPlacement=( EntityLink ), EntityFieldList=( (n) EntityFieldRow ), ?relationships.length > 0: EntityRelationshipList=( EntityLink ), ?projectId !== null && screens.l…: EntityScreenLinks } ) ) ), DomainContextsPanel=( DashboardPanel{ (n) DomainContextRow=( ?context.isCoreDomain: Badge ) } ) ) ), BusinessBrainChatbotsPanel=( DashboardPanel{ (n) BusinessBrainChatbotRow=( (n) Badge ) } ) ) )
+WorkspaceHeader, ( ?!isBrainOpen: EmptyState | ( ?domain === null: EmptyState, TabStrip, ( ?shownTab === domainTabKeys.map: DomainMapPane=( DomainExplorer=( DomainDiagramKey, DomainMap=( (n) DomainContextBox, (n) DomainGroupOutline, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton, EntityPlacement, EntityFieldList, ?relationships.length > 0: EntityRelationshipList, ?projectId !== null && screens.l…: EntityScreenLinks } ) ) ), DashboardPanel{ DomainAreasTable=( RecordsTable{ (3) RecordsCell } ) }, DashboardPanel{ DomainAreaRelationshipsTable=( RecordsTable{ (4) RecordsCell } ) } ) | ?shownTab === domainTabKeys.thin…: DomainThingsPane=( DashboardPanel{ DomainThingsTable=( RecordsTable{ (5) RecordsCell } ) }, ?openedThing !== undefined && th…: DomainThingPanels=( DashboardPanel{ DomainThingFacts, ?isEvent: DomainEventFacts }, ( ?isGroup: DashboardPanel{ DomainGroupMembersTable=( RecordsTable{ (4) RecordsCell } ) } | ?hasLifecycle: DashboardPanel{ DomainThingLifecycleTable=( RecordsTable{ (4) RecordsCell } ) } ), DashboardPanel{ DomainThingExamplesTable=( RecordsTable{ RecordsCell } ) }, DashboardPanel{ DomainThingFieldsTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ DomainRulesTable=( RecordsTable{ (2) RecordsCell, RecordsCell{ DomainRulePlaces }, RecordsCell } ) }, DashboardPanel{ DomainThingStationsTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ DomainThingSourcesTable=( RecordsTable{ (3) RecordsCell } ) } ) ) | ?shownTab === domainTabKeys.rules: DashboardPanel{ DomainRulesTable=( RecordsTable{ (2) RecordsCell, RecordsCell{ DomainRulePlaces }, RecordsCell } ) } | ?shownTab === domainTabKeys.ques…: DashboardPanel{ DomainQuestionsTable=( RecordsTable{ (4) RecordsCell } ) } | DashboardPanel{ DomainWordsTable=( RecordsTable{ (2) RecordsCell, RecordsCell{ DomainWordNames }, (3) RecordsCell } ) } ) ) )
 ```
 
 ### `/organisations/[organisationId]/sales`
@@ -348,7 +391,14 @@ WorkspaceHeader, DashboardPanel{ SalesPagesTable=( RecordsTable{ (2) RecordsCell
 `src/routes/organisations/[organisationId]/task-management/+page.svelte`
 
 ```
-WorkspaceHeader, TabStrip, DashboardPanel{ TeamWorkTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ Badge }, RecordsCell } ) }
+WorkspaceHeader, TabStrip, TeamWorkFilterBar=( (n) CountedFilterChip ), DashboardPanel{ TeamWorkTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ OwnerPicker=( (n) PersonInitials, Button ) }, RecordsCell{ Badge }, RecordsCell } ) }
+```
+
+### `/organisations/[organisationId]/workflow-map`
+`src/routes/organisations/[organisationId]/workflow-map/+page.svelte`
+
+```
+WorkspaceHeader, ( ?maps === null: EmptyState | ?openingStage === null || statio…: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin…: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] } ) ) | WorkflowMapTablePane=( DashboardPanel{ ( ?pane === questionsPane: MapQuestionsTable=( RecordsTable{ (4) RecordsCell } ) | MapChangesTable=( RecordsTable{ (5) RecordsCell } ) ) } ) ) ) )
 ```
 
 ### `/people`
@@ -376,21 +426,21 @@ WorkspaceHeader{ HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) }, PortalProj
 `src/routes/portal/billing/+page.svelte`
 
 ```
-WorkspaceHeader, FlashMessage, ?invoices.length === 0: EmptyState, (n) BilledInvoicePanel=( DashboardPanel{ Badge, ?canPay: Button, BilledLinesTable=( RecordsTable{ (8) RecordsCell } ) } )
+WorkspaceHeader, FlashMessage, ?invoices.length === 0: EmptyState, (n) BilledInvoicePanel=( DashboardPanel{ Badge, Button, ?canPay: Button, BilledLinesTable=( RecordsTable{ (8) RecordsCell } ) } )
+```
+
+### `/portal/billing/invoices/[invoiceId]`
+`src/routes/portal/billing/invoices/[invoiceId]/+page.svelte`
+
+```
+InvoiceDocumentPage=( PrintOnPaper{ WorkspaceHeader{ Badge, (2) Button }, DashboardPanel{ InvoiceDocument=( [ InvoiceDocumentParty=( InvoiceDocumentFacts ) InvoiceDocumentFacts ], InvoiceDocumentParty=( InvoiceDocumentFacts ), BilledLinesTable=( RecordsTable{ (8) RecordsCell } ), InvoiceDocumentFacts, ?isSayingHowToPay(document): InvoiceDocumentPayment=( InvoiceDocumentFacts ) ) } } )
 ```
 
 ### `/portal/connect`
 `src/routes/portal/connect/+page.svelte`
 
 ```
-WorkspaceHeader, PortalConnectorAddress=( DashboardPanel{ CopyTextButton } ), PortalClaudeAbilities=( DashboardPanel ), PortalClaudePlanSteps=( DashboardPanel{ (n) PortalClaudePlanRow } ), PortalContextPrompt=( DashboardPanel{ CopyTextButton } )
-```
-
-### `/portal/context`
-`src/routes/portal/context/+page.svelte`
-
-```
-WorkspaceHeader, ( ?data.reading === null: EmptyState | CompanyContextView=( CompanyContextMap=( (n) ContextAreaRegion, (n) ContextLinkLine, (n) ContextPartNode ), ( ?selectedPart === undefined: EmptyState | ContextPartPanel=( DashboardPanel{ ?steps.length > 0: ContextProcessStepList=( ?step.roleKey !== null: EntityLink ), ContextPartLinkList=( (2) EntityLink ), ?canMark: ContextPartReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) ), ContextConfirmationPanel=( DashboardPanel{ ?isOpen: ContextConfirmForm=( FormErrorNote, SubmitButton ) } ), ?changes !== null: ContextChangesPanel=( DashboardPanel{ ?hasChanges(changes): (2) ContextChangeList=( (n) EntityLink ) } ) ) )
+WorkspaceHeader, PortalConnectorAddress=( DashboardPanel{ CopyTextButton } ), PortalClaudeAbilities=( DashboardPanel ), PortalClaudePlanSteps=( DashboardPanel{ (n) PortalClaudePlanRow } ), PortalOnePrompt=( DashboardPanel{ CopyTextButton } )
 ```
 
 ### `/portal/people`
@@ -407,6 +457,13 @@ WorkspaceHeader{ HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) }, PortalPeop
 WorkspaceHeader{ ProjectStatusBadge=( Badge ), HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) }, PortalTaskList=( DashboardPanel{ ?tasks.length > 0: (n) PortalTaskRow } ), PortalGoalList=( DashboardPanel{ ?goals.length > 0: (n) PortalGoalRow=( ProgressTrack ) } ), PortalRequestForm=( DashboardPanel{ (3) SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), PortalRequestList=( DashboardPanel{ ?requests.length > 0: (n) PortalRequestRow=( ?!request.isDone: PortalRequestReplyForm=( FormErrorNote, SubmitButton ) ) } )
 ```
 
+### `/portal/workflow-map`
+`src/routes/portal/workflow-map/+page.svelte`
+
+```
+WorkspaceHeader, ( ?reading === null || openingStag…: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin…: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] } ) ) | WorkflowMapTablePane=( DashboardPanel{ ( ?pane === questionsPane: MapQuestionsTable=( RecordsTable{ (4) RecordsCell } ) | MapChangesTable=( RecordsTable{ (5) RecordsCell } ) ) } ) ) ) ), PortalStationReview=( ( ?stationKey === null: MapConfirmationPanel=( DashboardPanel{ ?canConfirmMap(tally): MapConfirmForm=( FormErrorNote, SubmitButton ) } ) | StationReviewPanel=( DashboardPanel{ StationReviewForm=( ?isNotRight: FormField, FormErrorNote, SubmitButton ) } ) ) )
+```
+
 ### `/privacy`
 `src/routes/privacy/+page.svelte`
 
@@ -418,14 +475,14 @@ LegalArticle
 `src/routes/projects/+page.svelte`
 
 ```
-ProjectsPageHeader=( WorkspaceHeader ){ FlashMessage, ProjectBoard=( ProjectsTabs=( TabStrip ), ( ?shownTab === priorityTasksTab: WaitingOnYouList=( (n) WaitingTaskRow ) | ( ProjectFilterBar=( FinishedProjectsToggle ), ( ProjectTable=( ProjectTableHeader, (n) ProjectRow=( ProjectTaskTally, ProjectPriorityCell{ ProjectNameLink, ProjectStatusBadge, ProjectOwnerCell, ProjectOrganisationCell, KitVersionBadge, ProjectStatusBadge, ?project.taskCount > 0: CompletionBar, ?project.isYours: ProjectActionsMenu } ) ), ProjectPagination ) ) ) ), Modal{ NewProjectForm=( (3) SmallCapsField=( FormField ), OrganisationSelect=( ?organisations.length > 0: SmallCapsField=( FormField ) ), TeamProjectField, FormErrorNote, SubmitButton ) }, ?selectedProject !== null: ProjectEditModals=( Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), TeamProjectField, (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) }
+ProjectsPageHeader=( WorkspaceHeader ){ FlashMessage, ProjectBoard=( ProjectsTabs=( TabStrip ), ( ?shownTab === priorityTasksTab: WaitingOnYouList=( (n) WaitingTaskRow ) | ( ProjectFilterBar=( FinishedProjectsToggle ), ( ProjectTable=( ProjectTableHeader, (n) ProjectRow=( ProjectTaskTally, ProjectPriorityCell{ ProjectNameLink, ProjectStatusBadge, ProjectOwnerCell, ProjectOrganisationCell, KitVersionBadge, ProjectStatusBadge, ?project.taskCount > 0: CompletionBar, ?project.isYours: ProjectActionsMenu } ) ), ProjectPagination ) ) ) ), Modal{ NewProjectForm=( (3) SmallCapsField=( FormField ), OrganisationSelect=( ?organisations.length > 0: SmallCapsField=( FormField ) ), FormErrorNote, SubmitButton ) }, ?selectedProject !== null: ProjectEditModals=( Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), PriorityModal=( Modal{ PriorityField=( PriorityControls=( ArrowIcon ) ), FormErrorNote, SubmitButton } ) }
 ```
 
 ### `/projects/[projectId]`
 `src/routes/projects/[projectId]/+page.svelte`
 
 ```
-ProjectDetailHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ ( ?isInternalProject: InternalProjectBadge=( Badge ) | KitVersionBadge=( ?standing !== kitStandings.noRep…: Badge ) ), ProjectHeaderMenu=( ActionsMenu ){ HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } }, Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), TeamProjectField, (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) } ), ?isDevelopmentSide: DevelopmentTabs=( TabStrip ), FlashMessage, ProjectDashboard=( ?isBuiltWork: ProjectStatePanel=( DashboardPanel{ ?goals.length > 0: (n) GoalProgressLine=( ProgressTrack ) } ), ProjectPulseStrip=( [ (4) StatTile ] ), PanelTabs=( TabStrip ), ( ?isBuiltWork: TaskTreePanel=( DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips{ ?isDoneFilterShown: DoneTaskFilter } } ), TaskGroupSections=( (n) TaskGroupSection ) }, ?longTermGroups.length > 0: DashboardPanel{ TaskGroupSections=( (n) TaskGroupSection ) } ) | InternalWorkBoard=( TabStrip, DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips{ ?isDoneFilterShown: DoneTaskFilter } } ), ( ?isTableShown: InternalWorkTable=( (n) InternalWorkGroupTable ) | ?chosenView.key === internalWork…: InternalStatusBoard=( [ (n) Badge ?column.items as item (item.id): StatusBoardCard ] ) | InternalWorkCalendar=( CalendarNavigation{ CalendarGrid }, UndatedEntries ) ) } ) ), (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow ) }, Modal{ AddGoalForm=( (2) SmallCapsField, GoalHorizonField, FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) ), ProjectPeoplePanel=( DashboardPanel{ (n) PersonRow=( PersonInitials ) }, Modal{ InvitePersonForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, Modal{ TransferOwnershipForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, ?personAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm ) ) ), ProjectNewTaskModal=( Modal{ ( ?isInternalSide: NewInternalTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), TaskOwnerField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) | NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) ) } ), TaskRowModals=( ?statusTask !== null: TaskStatusModal=( Modal{ FormErrorNote, (n) TaskStatusOption } ), ?goalTask !== null: TaskGoalModal=( Modal{ FormErrorNote, (n) TaskGoalChoiceForm } ), ?priorityTask !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ), ?storyPointsTask !== null: TaskStoryPointsModal=( Modal{ FormErrorNote, (n) TaskStoryPointsOption } ), ?autocompleteTask !== null: TaskAutocompleteModal=( Modal{ FormErrorNote, (n) TaskAutocompleteOption } ) ), TaskSheet=( ?target !== null && href !== null: Sheet, ( ?taskData === null: BrandSpinner | TaskPage ) )
+ProjectDetailHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ ( ?isInternalProject: InternalProjectBadge=( Badge ) | KitVersionBadge=( ?standing !== kitStandings.noRep…: Badge ) ), ProjectHeaderMenu=( ActionsMenu ){ HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } }, Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) } ), ?isDevelopmentSide: DevelopmentTabs=( TabStrip ), FlashMessage, ( ?isDevelopmentSide: TaskTreePanel=( DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips=( (n) CountedFilterChip ){ ?isDoneFilterShown: DoneTaskFilter } } ), TaskGroupSections=( (n) TaskGroupSection=( TaskGroupHeader{ ?isOpen: TaskGroupList } ) ) }, ?longTermGroups.length > 0: DashboardPanel{ TaskGroupSections=( (n) TaskGroupSection=( TaskGroupHeader{ ?isOpen: TaskGroupList } ) ) } ) | ProjectDashboard=( ProjectPulseStrip=( [ (4) StatTile ] ), PanelTabs=( TabStrip ), InternalWorkBoard=( TabStrip, DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips{ ?isDoneFilterShown: DoneTaskFilter } } ), ( ?isTableShown: InternalWorkTable=( (n) InternalWorkGroupTable ) | ?chosenView.key === internalWork…: InternalStatusBoard=( [ (n) Badge ?column.items as item (item.id): StatusBoardCard ] ) | InternalWorkCalendar=( CalendarNavigation{ CalendarGrid }, UndatedEntries ) ) } ), [ (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow ) }, Modal{ AddGoalForm=( (2) SmallCapsField, GoalHorizonField, FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) ) ProjectPeoplePanel=( DashboardPanel{ (n) PersonRow=( PersonInitials ) }, Modal{ InvitePersonForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, Modal{ TransferOwnershipForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, ?personAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm ) ) ] ) ), ProjectNewTaskModal=( Modal{ ( ?isInternalSide: NewInternalTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), TaskOwnerField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) | NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) ) } ), TaskRowModals=( ?statusTask !== null: TaskStatusModal=( Modal{ FormErrorNote, (n) TaskStatusOption } ), ?goalTask !== null: TaskGoalModal=( Modal{ FormErrorNote, (n) TaskGoalChoiceForm } ), ?priorityTask !== null: PriorityModal=( Modal{ PriorityField=( PriorityControls ), FormErrorNote, SubmitButton } ), ?storyPointsTask !== null: TaskStoryPointsModal=( Modal{ FormErrorNote, (n) TaskStoryPointsOption } ), ?autocompleteTask !== null: TaskAutocompleteModal=( Modal{ FormErrorNote, (n) TaskAutocompleteOption } ) ), TaskSheet=( ?target !== null && href !== null: Sheet, ( ?taskData === null: BrandSpinner | TaskPage ) )
 ```
 
 ### `/projects/[projectId]/deploys`
@@ -435,25 +492,32 @@ ProjectDetailHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStat
 ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), DevelopmentTabs=( TabStrip ), DashboardPanel{ DeployHistoryFilterBar=( (2) InlineField ), (n) DeployHistoryEntry }, ProjectPagination
 ```
 
-### `/projects/[projectId]/domain`
-`src/routes/projects/[projectId]/domain/+page.svelte`
+### `/projects/[projectId]/goals`
+`src/routes/projects/[projectId]/goals/+page.svelte`
 
 ```
-BlueprintHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ SubmitButton, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ), FlashMessage, ?productBrain !== null && addres…: BusinessBrainIndexPanel=( DashboardPanel{ RecordsTable{ RecordsCell, RecordsCell{ Badge }, (2) RecordsCell } } ), ( ?ownDomain !== null && addresses…: ( DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton=( RaiseChangeModal ), EntityPlacement=( EntityLink ), EntityFieldList=( (n) EntityFieldRow ), ?relationships.length > 0: EntityRelationshipList=( EntityLink ), ?projectId !== null && screens.l…: EntityScreenLinks } ) ) ), DomainContextsPanel=( DashboardPanel{ (n) DomainContextRow=( ?context.isCoreDomain: Badge ) } ) ) | ?domain === null: EmptyState | DomainExplorer=( DomainMap=( (n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton=( RaiseChangeModal ), EntityPlacement=( EntityLink ), EntityFieldList=( (n) EntityFieldRow ), ?relationships.length > 0: EntityRelationshipList=( EntityLink ), ?projectId !== null && screens.l…: EntityScreenLinks } ) ) ) )
+ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), DevelopmentTabs=( TabStrip ), FlashMessage, ProjectStatePanel=( DashboardPanel ), [ (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow=( [ [ PriorityControls PriorityNumberButton ] ( ?!isOpen: GoalStatusPill, ?shouldShowCompletion: ProgressTrack ) ] ) ) }, Modal{ AddGoalForm=( (2) SmallCapsField=( FormField ), GoalHorizonField=( SmallCapsField ), FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField=( PriorityControls ), FormErrorNote, SubmitButton } ) ) ]
 ```
 
 ### `/projects/[projectId]/goals/[goalId]`
 `src/routes/projects/[projectId]/goals/[goalId]/+page.svelte`
 
 ```
-GoalDetailHeader=( WorkspaceHeader{ GoalStatusPill, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ){ FlashMessage, GoalMeasurePanel=( DashboardPanel{ ProseText } ), GoalAutocompletePanel=( DashboardPanel{ ?canSwitch: SubmitButton, FormErrorNote } ), GoalTaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ), Modal{ EditGoalForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) GoalHorizonField=( SmallCapsField=( FormField ) ) PriorityField ], FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) }
+GoalDetailHeader=( WorkspaceHeader{ GoalStatusPill, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ){ FlashMessage, GoalMeasurePanel=( DashboardPanel{ ProseText } ), GoalAutocompletePanel=( DashboardPanel{ ?canSwitch: SubmitButton, FormErrorNote } ), GoalTaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ), Modal{ EditGoalForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) GoalHorizonField=( SmallCapsField=( FormField ) ) PriorityField=( PriorityControls=( ArrowIcon ) ) ], FormErrorNote, SubmitButton ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) }
+```
+
+### `/projects/[projectId]/people`
+`src/routes/projects/[projectId]/people/+page.svelte`
+
+```
+ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), DevelopmentTabs=( TabStrip ), FlashMessage, ProjectPeoplePanel=( DashboardPanel{ (n) PersonRow=( PersonInitials ) }, Modal{ InvitePersonForm=( SmallCapsField=( FormField ), FormErrorNote, SubmitButton ) }, Modal{ TransferOwnershipForm=( SmallCapsField=( FormField ), FormErrorNote, SubmitButton ) }, ?personAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) )
 ```
 
 ### `/projects/[projectId]/site-map`
 `src/routes/projects/[projectId]/site-map/+page.svelte`
 
 ```
-BlueprintHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ SubmitButton, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ), DevelopmentTabs=( TabStrip ), FlashMessage, AudienceSwitch, ?mcpMap !== null: ParitySummary, ( ?audience === siteMapAudiences.c…: ( ?mcpMap === null: EmptyState, McpMapBrowser=( SectionCrates{ CoverAlbum{ McpEntryCover=( CoverSleeve{ McpEntryFace } ) }, ?chosenEntry !== undefined: McpEntryDetails=( DashboardPanel{ RaiseChangeButton=( RaiseChangeModal ), McpEntryFace, ( ?entry.kind === mcpEntryKinds.to…: ToolDoors=( (n) PairedScreenLink ) | GuideDetails ) } ) } ) ) | ?siteMap === null: EmptyState | SiteMapBrowser=( SectionCrates{ CoverAlbum{ ScreenCover=( CoverSleeve{ Wireframe=( WireframeNode ) } ) }, ?chosenScreen !== undefined: ScreenDetails=( DashboardPanel{ RaiseChangeButton=( RaiseChangeModal ), Wireframe=( WireframeNode ), ?mcpMap !== null: ScreenTools } ) } ) )
+BlueprintHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ SubmitButton, HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } ), DevelopmentTabs=( TabStrip ), FlashMessage, ?mcpMap !== null: ParitySummary, ( ?journeyMap === null: EmptyState | JourneySiteMap=( ( ?lineMap === null || chosenRole …: EmptyState | JourneyMapPanel=( DashboardPanel{ LineMap, JourneyLegend=( (n) JourneyLegendSample ) } ) ), ViewPanel=( DashboardPanel{ RaiseChangeButton=( RaiseChangeModal ), Wireframe=( WireframeNode ), ViewJourneys=( (n) JourneySwatch ), ?mcpMap !== null: ScreenTools } ), DashboardPanel{ JourneyViewsTable=( RecordsTable{ (2) RecordsCell, RecordsCell{ ViewJourneyMarks=( ( ?journeys.length === 0: Badge | (n) JourneySwatch ) ) }, RecordsCell{ ViewReachedFrom } } ) } ) )
 ```
 
 ### `/projects/[projectId]/staged`
@@ -467,7 +531,14 @@ DeployNowButton, ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBad
 `src/routes/projects/[projectId]/tasks/[taskId]/+page.svelte`
 
 ```
-TaskDetailHeader=( WorkspaceHeader{ TaskKindPill } ){ FlashMessage, TaskWaitingNote=( ?waitedFor !== null: TaskReferenceLink ), TaskStoryPanel=( DashboardPanel{ ?isSupportTask: SupportTaskFacts=( ?task.resolution !== '': ProseText ), ?task.details !== '': ProseText } ), ?isAwaitingResolution: ResolveSupportTaskForm=( FormErrorNote, SubmitButton ), AcceptanceCriteriaSection=( DashboardPanel{ (n) CriterionRow }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), SubtaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ){ TaskSequencePanel=( DashboardPanel{ SequenceTrack=( (n) SequenceStepNode=( (2) TaskReferenceLink ) ) } ), TaskTodosPanel=( ?todos.length > 0: DashboardPanel, TodoStatusForm ), ChecklistSection=( DashboardPanel{ (n) ChecklistPanel=( ?items.length > 0: (n) ChecklistItemRow, AddChecklistItemForm=( SubmitButton, FormErrorNote ), RenameChecklistModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ), DangerConfirmModal=( DangerConfirmForm ) ) }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), TaskAttachmentsSection=( DashboardPanel{ (n) AttachmentRow=( AttachmentThumbnail=( ?isImage: ImageThumbnail ), ?canPreview: AttachmentPreviewModal=( Modal ), DangerConfirmModal=( DangerConfirmForm ) ), ?errorMessage !== null: FormErrorNote } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ) }, TaskAside=( TaskFactsPanel=( DashboardPanel{ ?task.dueDate !== null: TaskDueDate, TaskAutocompleteFact=( TaskAutocompleteModal ) } ), TaskComplexityPanel=( DashboardPanel{ [ (3) TaskComplexityCount=( FormField ) ], FormErrorNote, SubmitButton } ), TaskBranchPanel=( DashboardPanel{ TaskBranchLinks, ?isEditing: TaskBranchForm=( FormErrorNote, SubmitButton ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ) ), TaskPageModals=( Modal{ TaskEditForm=( (2) SmallCapsField=( FormField ), TaskStatusAndDueFields=( [ (2) SmallCapsField ] ), TaskPlanningFields=( [ (2) SmallCapsField ] ), TaskSequenceField=( SmallCapsField ), PriorityField, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), TaskDepartmentField=( SmallCapsField ), TaskMoveFields=( SmallCapsField, SmallCapsField ), UserStoryFields=( ?isUserStory: [ (3) FormField ] ), TeamPickerFieldset, FormErrorNote, SubmitButton ) }, Modal{ NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ) }
+TaskDetailHeader=( WorkspaceHeader{ TaskKindPill } ){ FlashMessage, TaskWaitingNote=( ?waitedFor !== null: TaskReferenceLink ), TaskStoryPanel=( DashboardPanel{ ?isSupportTask: SupportTaskFacts=( ?task.resolution !== '': ProseText ), ?task.details !== '': ProseText } ), ?isAwaitingResolution: ResolveSupportTaskForm=( FormErrorNote, SubmitButton ), AcceptanceCriteriaSection=( DashboardPanel{ (n) CriterionRow }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), SubtaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ){ TaskSequencePanel=( DashboardPanel{ SequenceTrack=( (n) SequenceStepNode=( (2) TaskReferenceLink ) ) } ), TaskTodosPanel=( ?todos.length > 0: DashboardPanel, TodoStatusForm, TodoDeleteButton ), ChecklistSection=( DashboardPanel{ (n) ChecklistPanel=( ?items.length > 0: (n) ChecklistItemRow, AddChecklistItemForm=( SubmitButton, FormErrorNote ), RenameChecklistModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ), DangerConfirmModal=( DangerConfirmForm ) ) }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), TaskAttachmentsSection=( DashboardPanel{ (n) AttachmentRow=( AttachmentThumbnail=( ?isImage: ImageThumbnail ), ?canPreview: AttachmentPreviewModal=( Modal ), DangerConfirmModal=( DangerConfirmForm ) ), ?errorMessage !== null: FormErrorNote } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ) }, TaskAside=( TaskFactsPanel=( DashboardPanel{ ?task.dueDate !== null: TaskDueDate, TaskAutocompleteFact=( TaskAutocompleteModal ) } ), TaskComplexityPanel=( DashboardPanel{ [ (3) TaskComplexityCount=( FormField ) ], FormErrorNote, SubmitButton } ), TaskBranchPanel=( DashboardPanel{ TaskBranchLinks, ?isEditing: TaskBranchForm=( FormErrorNote, SubmitButton ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ) ), TaskPageModals=( Modal{ TaskEditForm=( (2) SmallCapsField=( FormField ), TaskStatusAndDueFields=( [ (2) SmallCapsField ] ), TaskPlanningFields=( [ (2) SmallCapsField ] ), TaskSequenceField=( SmallCapsField ), PriorityField=( PriorityControls ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), TaskDepartmentField=( SmallCapsField ), TaskMoveFields=( SmallCapsField, SmallCapsField ), UserStoryFields=( ?isUserStory: [ (3) FormField ] ), TeamPickerFieldset, FormErrorNote, SubmitButton ) }, Modal{ NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ) }
+```
+
+### `/projects/[projectId]/workflow-map`
+`src/routes/projects/[projectId]/workflow-map/+page.svelte`
+
+```
+ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), ( ?reading.kind === productMapRead…: EmptyState | ?reading.kind === productMapRead…: EmptyState | ?openingStage === null: EmptyState | ProductWorkflowMapView=( ( ?stations.length === 0 || shownL…: EmptyState | ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), DashboardPanel{ ProductStationsTable=( RecordsTable{ (4) RecordsCell, RecordsCell{ ProductStationStateLine } } ) } ) ) ) )
 ```
 
 ### `/projects/autocomplete`
@@ -512,55 +583,64 @@ LegalArticle
 ?data.taskTitle === null: PageTitle, ( PageTitle, TaskUploadZone{ SentFileList } )
 ```
 
+### `/what-we-do`
+`src/routes/what-we-do/+page.svelte`
+
+```
+PageMeta, OfferStepsSection=( (n) OfferStepCard=( ?step.isMonthlyRetainer: SignalBadge ), DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), OfferTermsSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) ), DiscoveryCallSection=( DiscoveryCallButton=( ?hasCalendarIcon: LineIcon, LineIcon ) )
+```
+
 ## Components of the site
 
 | Component | Used by | Definition |
 | --- | --- | --- |
-| `SubmitButton` | 70 | — |
-| `FormErrorNote` | 56 | — |
+| `SubmitButton` | 73 | — |
+| `FormErrorNote` | 58 | — |
+| `RecordsCell` | 53 | — |
 | `SmallCapsField` | 32 | `FormField` |
-| `RecordsCell` | 25 | — |
-| `DangerConfirmModal` | 11 | `DangerConfirmForm` |
-| `FlashMessage` | 11 | — |
+| `DangerConfirmModal` | 12 | `DangerConfirmForm` |
+| `FlashMessage` | 12 | — |
+| `LineIcon` | 11 | — |
 | `PageMeta` | 9 | — |
 | `CopyTextButton` | 8 | — |
 | `DiscoveryCallButton` | 8 | `?hasCalendarIcon: LineIcon, LineIcon` |
-| `LineIcon` | 8 | — |
 | `DisclosureMarker` | 7 | — |
 | `HeaderFacts` | 7 | `?facts.length > 0: (n) HeaderFact` |
+| `ProjectPageHeader` | 7 | `TabStrip, WorkspaceHeader{ ProjectStatusBadge }` |
+| `ProseText` | 7 | — |
 | `WidgetIcon` | 7 | — |
+| `ActionsMenu` | 6 | — |
 | `BrandWordmark` | 6 | — |
-| `EntityLink` | 6 | — |
-| `ProseText` | 6 | — |
+| `DevelopmentTabs` | 6 | `TabStrip` |
 | `SectionHeading` | 6 | — |
+| `StagePill` | 6 | — |
 | `BrandSpinner` | 5 | — |
 | `ChevronIcon` | 5 | — |
 | `PersonInitials` | 5 | — |
-| `PriorityField` | 5 | — |
+| `PriorityField` | 5 | `PriorityControls` |
 | `StatTile` | 5 | — |
-| `ActionsMenu` | 4 | — |
-| `DevelopmentTabs` | 4 | `TabStrip` |
 | `DiscoveryCallSection` | 4 | `DiscoveryCallButton` |
-| `ProjectPageHeader` | 4 | `TabStrip, WorkspaceHeader{ ProjectStatusBadge }` |
+| `PriorityControls` | 4 | `ArrowIcon` |
 | `ProjectStatusBadge` | 4 | `Badge` |
-| `StagePill` | 4 | — |
+| `StatementFigureCell` | 4 | `RecordsCell` |
 | `ContentStageBadge` | 3 | `Badge` |
+| `CountedFilterChip` | 3 | — |
+| `EntityLink` | 3 | — |
+| `InvoiceDocumentFacts` | 3 | — |
 | `KitVersionBadge` | 3 | `?standing !== kitStandings.noRep…: Badge` |
 | `LegalArticle` | 3 | — |
 | `LibraryPreview` | 3 | — |
 | `NewTaskForm` | 3 | `NewTaskFormShell{ SmallCapsField, NewTaskDetailsField, NewTaskDueDateField, ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields, ?sequenceChoices.length > 0: TaskSequenceField }` |
 | `PeriodAmountField` | 3 | — |
-| `PriorityControls` | 3 | `ArrowIcon` |
 | `PriorityModal` | 3 | `Modal{ PriorityField, FormErrorNote, SubmitButton }` |
 | `PriorityNumberButton` | 3 | — |
-| `ProgressTrack` | 3 | — |
-| `RaiseChangeButton` | 3 | `RaiseChangeModal` |
 | `StatusSelect` | 3 | — |
 | `TaskDueDate` | 3 | — |
 | `TaskGoalAndKindFields` | 3 | `[ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ]` |
 | `TaskKindPill` | 3 | — |
 | `TaskReferenceLink` | 3 | — |
 | `TaskSequenceField` | 3 | `SmallCapsField` |
+| `WorkflowMapView` | 3 | `?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin…: ( WorkflowMapPanel, ?details !== null: StationPanel ) \| WorkflowMapTablePane )` |
 | `AccountMenu` | 2 | `(n) AccountMenuGroup` |
 | `AddPersonForm` | 2 | `SubmitButton` |
 | `AreaCompanyList` | 2 | `(n) AreaCompanyRow` |
@@ -569,41 +649,38 @@ LegalArticle
 | `AskClaudeToDraftApproach` | 2 | `CopyTextButton` |
 | `BacklogFilterBar` | 2 | `CountedFilterChip{ AssigneeFilterChips{ ?isDoneFilterShown: DoneTaskFilter } }` |
 | `BigAmountField` | 2 | — |
-| `BlueprintHeader` | 2 | `ProjectPageHeader{ SubmitButton, HeaderFacts }` |
+| `BilledLinesTable` | 2 | `RecordsTable{ (8) RecordsCell }` |
 | `BrandDecisionNote` | 2 | — |
-| `BusinessBrainChatbotsPanel` | 2 | `DashboardPanel{ (n) BusinessBrainChatbotRow }` |
-| `BusinessBrainFilesPanel` | 2 | `DashboardPanel{ (n) BusinessBrainFileRow }` |
-| `BusinessBrainIndexPanel` | 2 | `DashboardPanel{ RecordsTable{ RecordsCell, RecordsCell{ Badge }, (2) RecordsCell } }` |
+| `BroughtInBySelect` | 2 | — |
 | `CalendarEntryLink` | 2 | — |
-| `CompanyContextView` | 2 | `CompanyContextMap, ( ?selectedPart === undefined: EmptyState \| ContextPartPanel ), ContextConfirmationPanel, ?changes !== null: ContextChangesPanel` |
 | `ConversationParticipantsPanel` | 2 | `DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm }` |
 | `ConversationThread` | 2 | `DashboardPanel{ ConversationBaton, (n) MessageRow, ConversationComposer }` |
-| `CountedFilterChip` | 2 | — |
-| `CoverAlbum` | 2 | — |
-| `CoverSleeve` | 2 | — |
 | `DirectorAnswerEntry` | 2 | `Badge` |
-| `DomainContextsPanel` | 2 | `DashboardPanel{ (n) DomainContextRow }` |
-| `DomainExplorer` | 2 | `DomainMap, ( ?chosenEntity === undefined: EmptyState \| EntityPanel )` |
+| `DomainRulesTable` | 2 | `RecordsTable{ (2) RecordsCell, RecordsCell{ DomainRulePlaces }, RecordsCell }` |
 | `DueDateField` | 2 | — |
-| `EditProjectForm` | 2 | `(2) SmallCapsField, [ SmallCapsField ProjectPositionField ], OrganisationSelect, TeamProjectField, (2) SmallCapsField, [ (3) SmallCapsField ], ProjectDatabaseFields, FormErrorNote, SubmitButton` |
+| `EditProjectForm` | 2 | `(2) SmallCapsField, [ SmallCapsField ProjectPositionField ], OrganisationSelect, (2) SmallCapsField, [ (3) SmallCapsField ], ProjectDatabaseFields, FormErrorNote, SubmitButton` |
 | `FindJobAdvertsButton` | 2 | `Modal{ AskClaudeToFindJobAdverts }` |
-| `FrameNavLink` | 2 | — |
+| `FrameNavLink` | 2 | `LineIcon` |
 | `FramePicker` | 2 | `LineIcon, ?isOpen: FramePickerList` |
 | `GoalHorizonField` | 2 | `SmallCapsField` |
+| `GoalListPanel` | 2 | `DashboardPanel{ GoalStatusFilter, GoalList }, Modal{ AddGoalForm }, ?priorityGoal !== null: PriorityModal` |
 | `GoalStatusPill` | 2 | — |
 | `GroupUnderForm` | 2 | `SubmitButton` |
 | `InternalProjectBadge` | 2 | `Badge` |
+| `InvoiceDocumentPage` | 2 | `PrintOnPaper{ WorkspaceHeader{ Badge, (2) Button }, DashboardPanel{ InvoiceDocument } }` |
+| `JourneySwatch` | 2 | — |
 | `LeadOutcomeNote` | 2 | `FormErrorNote` |
 | `LifecyclePanel` | 2 | `DashboardPanel{ (n) LifecycleStepItem }` |
-| `McpEntryFace` | 2 | — |
 | `MeetingStageBadge` | 2 | `Badge` |
 | `MobileMenuButton` | 2 | — |
+| `NavGroupHeading` | 2 | — |
 | `NewTaskDetailsField` | 2 | `SmallCapsField` |
 | `NewTaskDueDateField` | 2 | `SmallCapsField` |
 | `NewTaskFormShell` | 2 | `NewTaskFormFooter` |
 | `OfferStepCard` | 2 | `?step.isMonthlyRetainer: SignalBadge` |
 | `OrganisationDetailsFields` | 2 | `FormField, (n) OrganisationDetailInput` |
 | `OrganisationSelect` | 2 | `?organisations.length > 0: SmallCapsField` |
+| `OwnerPicker` | 2 | `(n) PersonInitials, Button` |
 | `PersonFacts` | 2 | `WarmthPill` |
 | `PersonFieldsForm` | 2 | `[ FormField ?contactId !== null: FormField (2) FormField PersonProfileFields ], SubmitButton` |
 | `PersonLine` | 2 | `PersonInitials` |
@@ -612,30 +689,33 @@ LegalArticle
 | `PersonRow` | 2 | `PersonInitials` |
 | `PortalGoalRow` | 2 | `ProgressTrack` |
 | `PortalLink` | 2 | `LineIcon` |
+| `PrintOnPaper` | 2 | — |
+| `ProgressTrack` | 2 | — |
 | `ProjectPagination` | 2 | — |
+| `ProjectPeoplePanel` | 2 | `DashboardPanel{ (n) PersonRow }, Modal{ InvitePersonForm }, Modal{ TransferOwnershipForm }, ?personAwaitingRemoval !== null: DangerConfirmModal` |
 | `ProspectSeedFields` | 2 | — |
+| `RaiseChangeButton` | 2 | `RaiseChangeModal` |
 | `RegisterStandingLink` | 2 | `StagePill` |
 | `SalesRegisterPage` | 2 | `WorkspaceHeader, RegisterStageTabs, FormErrorNote, ( ?clients.length === 0: EmptyState \| ClientTable )` |
-| `SectionCrates` | 2 | — |
 | `SectorPanel` | 2 | `SectorClaimForms, SightingForm, SectorSearchForm, ?searches.length > 0: (n) SectorSearchRow` |
 | `SignalBadge` | 2 | — |
-| `StatementFigureCell` | 2 | `RecordsCell` |
+| `StoryboardFilmWords` | 2 | — |
 | `TaskAutocompleteModal` | 2 | `Modal{ FormErrorNote, (n) TaskAutocompleteOption }` |
 | `TaskLinkList` | 2 | `TaskKindPill` |
 | `TaskListRow` | 2 | `TaskCardHandle{ TaskRowTitle{ TaskCardActions } }, TaskCardFacts, TaskCardFooter, ?isOpen: SubtaskRows` |
 | `TeamMemberProfile` | 2 | — |
-| `TeamProjectField` | 2 | — |
+| `TodoDeleteButton` | 2 | — |
 | `WarmthPill` | 2 | — |
-| `Wireframe` | 2 | `WireframeNode` |
+| `WorkflowMapPanel` | 2 | `DashboardPanel{ LineMap, WorkflowMapLegend }` |
 | `AboutStorySection` | 1 | — |
 | `AboutTeamSection` | 1 | `(n) TeamMemberProfile` |
 | `AcceptanceCriteriaSection` | 1 | `DashboardPanel{ (n) CriterionRow }, Modal{ SmallCapsField, FormErrorNote, SubmitButton }` |
 | `AccountEntriesTable` | 1 | `RecordsTable{ (3) RecordsCell, (3) StatementFigureCell, (5) RecordsCell, StatementFigureCell }` |
-| `AccountMenuGroup` | 1 | — |
+| `AccountMenuGroup` | 1 | `?!isFirst: NavGroupHeading` |
 | `ActionPlaceFields` | 1 | `[ FormField ?hasProject: FormField ]` |
 | `AddChecklistItemForm` | 1 | `SubmitButton, FormErrorNote` |
 | `AddGoalForm` | 1 | `(2) SmallCapsField, GoalHorizonField, FormErrorNote, SubmitButton` |
-| `AddLeadForm` | 1 | `( ?leadKind === leadKinds.person: AddPersonForm \| SubmitButton )` |
+| `AddLeadForm` | 1 | `( ?leadKind === leadKinds.person: AddPersonForm \| ( BroughtInBySelect, SubmitButton ) )` |
 | `AddParticipantForm` | 1 | `SubmitButton` |
 | `AddTodoLine` | 1 | `Button` |
 | `AdminActionsMenu` | 1 | `ActionsMenu{ (3) AdminMenuAction, ?!user.isAdmin: AdminMenuAction }, SetPasswordModal` |
@@ -675,24 +755,35 @@ LegalArticle
 | `AttachmentPreviewModal` | 1 | `Modal` |
 | `AttachmentRow` | 1 | `AttachmentThumbnail, ?canPreview: AttachmentPreviewModal, DangerConfirmModal` |
 | `AttachmentThumbnail` | 1 | `?isImage: ImageThumbnail` |
-| `AudienceSwitch` | 1 | — |
 | `AutocompleteProjectPanel` | 1 | `DashboardPanel{ (2) (n) AutocompleteRow }` |
 | `AutocompleteRegisterFilter` | 1 | — |
 | `AutocompleteRow` | 1 | — |
 | `BandsDisclosure` | 1 | `DisclosureMarker, BreakdownTable, ?nationalInsurance.length > 0: BreakdownTable` |
+| `BankLinesTable` | 1 | `RecordsTable{ (3) RecordsCell, (3) StatementFigureCell, RecordsCell }` |
 | `BatonStationNode` | 1 | — |
 | `BatonTrack` | 1 | `(n) BatonStationNode` |
 | `BeforeFirstUseNote` | 1 | — |
 | `BiggerPictureSection` | 1 | `SectionHeading, [ WhatIfCard LivingCostsCard ]` |
-| `BilledInvoicePanel` | 1 | `DashboardPanel{ Badge, ?canPay: Button, BilledLinesTable }` |
-| `BilledLinesTable` | 1 | `RecordsTable{ (8) RecordsCell }` |
+| `BilledInvoicePanel` | 1 | `DashboardPanel{ Badge, Button, ?canPay: Button, BilledLinesTable }` |
+| `BilledInvoicesTable` | 1 | `DashboardPanel{ RecordsTable{ (4) RecordsCell, RecordsCell{ Badge }, RecordsCell } }` |
+| `BillingScheduleForm` | 1 | `BillingScheduleSettingsFields, BillingScheduleLineRows, FormErrorNote, SubmitButton` |
+| `BillingScheduleLineRow` | 1 | `[ (5) FormField Button ]` |
+| `BillingScheduleLineRows` | 1 | `(n) BillingScheduleLineRow, Button` |
+| `BillingScheduleLinesTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
+| `BillingScheduleMenu` | 1 | `ActionsMenu` |
+| `BillingScheduleSection` | 1 | `DashboardPanel{ BillingScheduleMenu, BillingScheduleLinesTable }` |
+| `BillingScheduleSettingsFields` | 1 | `[ (7) FormField ]` |
+| `BillingSchedulesTable` | 1 | `RecordsTable{ (7) RecordsCell }` |
+| `BlueprintHeader` | 1 | `ProjectPageHeader{ SubmitButton, HeaderFacts }` |
 | `BoardActionEntry` | 1 | `Badge` |
 | `BoardActionForm` | 1 | `FormField, [ (2) FormField ], ActionPlaceFields, Button` |
 | `BoardBriefForm` | 1 | `(n) FormField, Button` |
 | `BoardContributionEntry` | 1 | — |
 | `BoardMeetingsTable` | 1 | `RecordsTable{ MeetingStageBadge }` |
 | `BoardPaperEntry` | 1 | — |
+| `BooksCustomersTable` | 1 | `RecordsTable{ (5) RecordsCell }` |
 | `BooksPeriodForm` | 1 | `Button` |
+| `BrainConstellation` | 1 | `?hasNeurons: ConstellationOverlays` |
 | `BrandAwaitingTable` | 1 | `RecordsTable{ (3) RecordsCell }` |
 | `BrandCampaignTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
 | `BrandChannelTable` | 1 | `RecordsTable{ (5) RecordsCell }` |
@@ -706,11 +797,15 @@ LegalArticle
 | `BuildingPanel` | 1 | — |
 | `BuiltForSection` | 1 | `(n) ClientBusinessCard` |
 | `BusinessAppSection` | 1 | `HeroChecklist, DiscoveryCallButton, (n) HeroPromiseRow, HeroMockup` |
-| `BusinessBrainChatbotRow` | 1 | `(n) Badge` |
+| `BusinessBrainDrawn` | 1 | `BrainConstellation` |
 | `BusinessBrainFileRow` | 1 | — |
+| `BusinessBrainFilesPanel` | 1 | `DashboardPanel{ (n) BusinessBrainFileRow }` |
+| `BusinessBrainFilesTable` | 1 | `RecordsTable{ RecordsCell, RecordsCell{ ( ?file.isNamedByPage: Badge \| Badge ) }, (2) RecordsCell }` |
 | `BusinessBrainHistoryPanel` | 1 | `DashboardPanel` |
 | `BusinessBrainLinksPanel` | 1 | `DashboardPanel` |
 | `BusinessBrainPageText` | 1 | `DashboardPanel{ ProseText }` |
+| `BusinessBrainPagesTable` | 1 | `RecordsTable{ (3) RecordsCell }` |
+| `BusinessBrainQuestionRecordLinks` | 1 | — |
 | `BusinessBrainSourcePanel` | 1 | `DashboardPanel` |
 | `CalculatorHero` | 1 | `HeroIllustration` |
 | `CalculatorSubNavigation` | 1 | — |
@@ -732,6 +827,7 @@ LegalArticle
 | `ChecklistPanel` | 1 | `?items.length > 0: (n) ChecklistItemRow, AddChecklistItemForm, RenameChecklistModal, DangerConfirmModal` |
 | `ChecklistSection` | 1 | `DashboardPanel{ (n) ChecklistPanel }, Modal{ SmallCapsField, FormErrorNote, SubmitButton }` |
 | `Class2Card` | 1 | `WidgetIcon` |
+| `ClientBroughtInByForm` | 1 | `FormField{ BroughtInBySelect }` |
 | `ClientBusinessCard` | 1 | — |
 | `ClientContinuityCopySection` | 1 | `[ (3) FormField ], SubmitButton` |
 | `ClientDeletion` | 1 | `DangerConfirmModal` |
@@ -739,17 +835,17 @@ LegalArticle
 | `ClientDocumentRow` | 1 | — |
 | `ClientEventLedger` | 1 | — |
 | `ClientGroupSection` | 1 | `?children.length > 0: StagePill, ?children.length === 0 && parent…: GroupUnderForm` |
-| `ClientHeader` | 1 | `PageTitle` |
+| `ClientHeader` | 1 | `PageTitle, ClientBroughtInByForm` |
 | `ClientObservations` | 1 | `?observations.length > 0: (n) ObservationRow` |
 | `ClientPeopleActions` | 1 | `?canImportOfficers: SubmitButton` |
 | `ClientPeopleSection` | 1 | `ClientPeopleActions, (n) PersonCard, Modal{ NewContactForm }, Modal{ ClientSetUpForm }, Modal{ ?personBeingEdited !== null: PersonFieldsForm }, Modal{ ?personToApproach !== null: AskClaudeToDraftApproach }` |
 | `ClientProjectList` | 1 | — |
-| `ClientRow` | 1 | `ClientStageForm` |
+| `ClientRow` | 1 | `[ StagePill ClientRowActions ]` |
+| `ClientRowActions` | 1 | `ActionsMenu, ClientStageModal, DangerConfirmModal` |
 | `ClientSetUpForm` | 1 | `(2) FormField, SubmitButton` |
-| `ClientStageForm` | 1 | — |
+| `ClientStageModal` | 1 | `Modal{ (n) StagePill, FormErrorNote, SubmitButton }` |
 | `ClientTable` | 1 | `(n) ClientRow` |
 | `ClosingStrip` | 1 | — |
-| `CompanyContextMap` | 1 | `(n) ContextAreaRegion, (n) ContextLinkLine, (n) ContextPartNode` |
 | `CompanyJobAdverts` | 1 | `FindJobAdvertsButton, (n) JobAdvertRow` |
 | `CompanyNarrativeFields` | 1 | `(2) FormField` |
 | `CompanyPayFields` | 1 | `[ (2) FormField ]` |
@@ -760,6 +856,10 @@ LegalArticle
 | `ComparisonCard` | 1 | `?comparison.tradingRoutes: SavedTradingRoutes` |
 | `ComparisonsSection` | 1 | `SectionHeading, (n) ComparisonCard` |
 | `CompletionBar` | 1 | — |
+| `ConstellationHud` | 1 | `ConstellationLegend` |
+| `ConstellationLegend` | 1 | — |
+| `ConstellationOverlays` | 1 | `ConstellationHud, ?exploration.hover !== null && s…: NeuronTooltip, ?selectedPage !== undefined: NeuronDetailPanel` |
+| `ContentFilmMakingPanel` | 1 | `DashboardPanel{ Button }` |
 | `ContentPieceText` | 1 | — |
 | `ContentPlanApprovalChannels` | 1 | — |
 | `ContentPlanApprovalPicture` | 1 | `(n) LibraryPreview` |
@@ -780,20 +880,10 @@ LegalArticle
 | `ContentReviewForm` | 1 | `FormField, FormErrorNote, [ (2) Button ]` |
 | `ContentReviewList` | 1 | — |
 | `ContentReviewPanel` | 1 | `DashboardPanel{ ?isAwaitingApproval: ContentReviewForm }` |
-| `ContentStoryboardTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
-| `ContextAreaRegion` | 1 | — |
-| `ContextChangeList` | 1 | `(n) EntityLink` |
-| `ContextChangesPanel` | 1 | `DashboardPanel{ ?hasChanges(changes): (2) ContextChangeList }` |
-| `ContextConfirmForm` | 1 | `FormErrorNote, SubmitButton` |
-| `ContextConfirmationPanel` | 1 | `DashboardPanel{ ?isOpen: ContextConfirmForm }` |
-| `ContextLinkLine` | 1 | — |
-| `ContextPartLinkList` | 1 | `(2) EntityLink` |
-| `ContextPartNode` | 1 | — |
-| `ContextPartPanel` | 1 | `DashboardPanel{ ?steps.length > 0: ContextProcessStepList, ContextPartLinkList, ?canMark: ContextPartReviewForm }` |
-| `ContextPartReviewForm` | 1 | `?isNotRight: FormField, FormErrorNote, SubmitButton` |
-| `ContextProcessStepList` | 1 | `?step.roleKey !== null: EntityLink` |
+| `ContentStoryboardTable` | 1 | `RecordsTable{ (8) RecordsCell }` |
 | `ConversationBaton` | 1 | `?stations.length > 0: BatonTrack` |
 | `ConversationComposer` | 1 | `FormErrorNote, [ HandOffPicker SubmitButton ]` |
+| `CostsTable` | 1 | `RecordsTable{ (6) RecordsCell }` |
 | `CoverageStrip` | 1 | `[ (4) StatTile ]` |
 | `CreatePatchForm` | 1 | `(4) FormField, SubmitButton` |
 | `CriterionRow` | 1 | — |
@@ -820,11 +910,31 @@ LegalArticle
 | `DiscoveryCallThankYou` | 1 | — |
 | `DisplayNameForm` | 1 | `SmallCapsField, FormErrorNote, SubmitButton` |
 | `DocumentProse` | 1 | — |
+| `DomainAreaRelationshipsTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
+| `DomainAreasTable` | 1 | `RecordsTable{ (3) RecordsCell }` |
 | `DomainContextBox` | 1 | — |
-| `DomainContextRow` | 1 | `?context.isCoreDomain: Badge` |
+| `DomainDiagramKey` | 1 | — |
 | `DomainEntityNode` | 1 | — |
-| `DomainMap` | 1 | `(n) DomainContextBox, (n) DomainRelationshipLine, (n) DomainEntityNode` |
+| `DomainEventFacts` | 1 | — |
+| `DomainExplorer` | 1 | `DomainDiagramKey, DomainMap, ( ?chosenEntity === undefined: EmptyState \| EntityPanel )` |
+| `DomainGroupMembersTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
+| `DomainGroupOutline` | 1 | — |
+| `DomainMap` | 1 | `(n) DomainContextBox, (n) DomainGroupOutline, (n) DomainRelationshipLine, (n) DomainEntityNode` |
+| `DomainMapPane` | 1 | `DomainExplorer, DashboardPanel{ DomainAreasTable }, DashboardPanel{ DomainAreaRelationshipsTable }` |
+| `DomainQuestionsTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
 | `DomainRelationshipLine` | 1 | — |
+| `DomainRulePlaces` | 1 | — |
+| `DomainThingExamplesTable` | 1 | `RecordsTable{ RecordsCell }` |
+| `DomainThingFacts` | 1 | — |
+| `DomainThingFieldsTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
+| `DomainThingLifecycleTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
+| `DomainThingPanels` | 1 | `DashboardPanel{ DomainThingFacts, ?isEvent: DomainEventFacts }, ( ?isGroup: DashboardPanel{ DomainGroupMembersTable } \| ?hasLifecycle: DashboardPanel{ DomainThingLifecycleTable } ), DashboardPanel{ DomainThingExamplesTable }, DashboardPanel{ DomainThingFieldsTable }, DashboardPanel{ DomainRulesTable }, DashboardPanel{ DomainThingStationsTable }, DashboardPanel{ DomainThingSourcesTable }` |
+| `DomainThingSourcesTable` | 1 | `RecordsTable{ (3) RecordsCell }` |
+| `DomainThingStationsTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
+| `DomainThingsPane` | 1 | `DashboardPanel{ DomainThingsTable }, ?openedThing !== undefined && th…: DomainThingPanels` |
+| `DomainThingsTable` | 1 | `RecordsTable{ (5) RecordsCell }` |
+| `DomainWordNames` | 1 | — |
+| `DomainWordsTable` | 1 | `RecordsTable{ (2) RecordsCell, RecordsCell{ DomainWordNames }, (3) RecordsCell }` |
 | `DoneTaskFilter` | 1 | — |
 | `EarningTypeIcon` | 1 | — |
 | `EarningTypeTiles` | 1 | `EarningTypeIcon` |
@@ -847,24 +957,21 @@ LegalArticle
 | `FinishedProjectsToggle` | 1 | — |
 | `FrameDrawer` | 1 | — |
 | `FrameMenu` | 1 | `AccountMenu` |
-| `FrameNavFolder` | 1 | `ChevronIcon, ?isOpen: (n) FrameNavLink` |
+| `FrameNavFolder` | 1 | `LineIcon, ChevronIcon, ?isOpen: (n) FrameNavLink` |
 | `FramePickerList` | 1 | — |
 | `FramePickers` | 1 | `FramePicker, FormErrorNote` |
-| `FrameSideBar` | 1 | `BrandWordmark, ?hasOrganisationsToPick(picks): FramePickers, (n) ( ?section.label === null: (n) FrameNavLink \| FrameNavFolder ), FrameSignedIn` |
+| `FrameSideBar` | 1 | `BrandWordmark, ?hasOrganisationsToPick(picks): FramePickers, (n) ( ?section.folder === null: (n) FrameNavLink \| FrameNavFolder ), FrameSignedIn` |
 | `FrameSignedIn` | 1 | — |
 | `FrameTopBar` | 1 | `[ MobileMenuButton NotificationsBell FrameMenu ]` |
 | `GoalAutocompletePanel` | 1 | `DashboardPanel{ ?canSwitch: SubmitButton, FormErrorNote }` |
 | `GoalDetailHeader` | 1 | `WorkspaceHeader{ GoalStatusPill, HeaderFacts }` |
 | `GoalList` | 1 | `(n) GoalRow` |
-| `GoalListPanel` | 1 | `DashboardPanel{ GoalStatusFilter, GoalList }, Modal{ AddGoalForm }, ?priorityGoal !== null: PriorityModal` |
 | `GoalMeasurePanel` | 1 | `DashboardPanel{ ProseText }` |
-| `GoalProgressLine` | 1 | `ProgressTrack` |
 | `GoalRow` | 1 | `[ [ PriorityControls PriorityNumberButton ] ( ?!isOpen: GoalStatusPill, ?shouldShowCompletion: ProgressTrack ) ]` |
 | `GoalSelectOptions` | 1 | — |
 | `GoalStatusFilter` | 1 | — |
 | `GoalTaskList` | 1 | `DashboardPanel{ TaskLinkList }` |
 | `GoogleSignInButton` | 1 | — |
-| `GuideDetails` | 1 | — |
 | `HandOffPicker` | 1 | `(2) FormField` |
 | `HeaderFact` | 1 | — |
 | `HeldPieceCard` | 1 | `[ (2) Button ]` |
@@ -876,10 +983,10 @@ LegalArticle
 | `HighIncomeNotice` | 1 | — |
 | `HowItWorksSection` | 1 | `SectionHeading, PlainEnglishExplanations, FigureSources` |
 | `ImageThumbnail` | 1 | — |
-| `InternalItemCells` | 1 | `RecordsCell{ InternalItemTitle }, RecordsCell{ OwnerPicker }, RecordsCell{ StatusSelect }, RecordsCell{ DueDateField }, RecordsCell{ PriorityField }, RecordsCell` |
+| `InternalItemCells` | 1 | `RecordsCell{ PriorityField }, RecordsCell{ InternalItemTitle }, RecordsCell{ OwnerPicker }, RecordsCell{ StatusSelect }, RecordsCell{ DueDateField }, RecordsCell` |
 | `InternalItemTitle` | 1 | `ChevronIcon` |
 | `InternalStatusBoard` | 1 | `[ (n) Badge ?column.items as item (item.id): StatusBoardCard ]` |
-| `InternalTodoRows` | 1 | `RecordsCell{ TodoTickTitle }, RecordsCell{ TodoOwnerSelect }, RecordsCell{ StatusSelect }, RecordsCell{ DueDateField }, (2) RecordsCell, AddTodoLine` |
+| `InternalTodoRows` | 1 | `RecordsCell, RecordsCell{ [ TodoTickTitle TodoDeleteButton ] }, RecordsCell{ TodoOwnerSelect }, RecordsCell{ StatusSelect }, RecordsCell{ DueDateField }, RecordsCell, AddTodoLine` |
 | `InternalWorkBoard` | 1 | `TabStrip, DashboardPanel{ BacklogFilterBar, ( ?isTableShown: InternalWorkTable \| ?chosenView.key === internalWork…: InternalStatusBoard \| InternalWorkCalendar ) }` |
 | `InternalWorkCalendar` | 1 | `CalendarNavigation{ CalendarGrid }, UndatedEntries` |
 | `InternalWorkGroupHeader` | 1 | `[ ChevronIcon Button ]` |
@@ -887,20 +994,41 @@ LegalArticle
 | `InternalWorkTable` | 1 | `(n) InternalWorkGroupTable` |
 | `InviteMemberForm` | 1 | `SmallCapsField, FormErrorNote, SubmitButton` |
 | `InvitePersonForm` | 1 | `SmallCapsField, FormErrorNote, SubmitButton` |
+| `InvoiceDocument` | 1 | `[ InvoiceDocumentParty InvoiceDocumentFacts ], InvoiceDocumentParty, BilledLinesTable, InvoiceDocumentFacts, ?isSayingHowToPay(document): InvoiceDocumentPayment` |
+| `InvoiceDocumentParty` | 1 | `InvoiceDocumentFacts` |
+| `InvoiceDocumentPayment` | 1 | `InvoiceDocumentFacts` |
+| `InvoicesTable` | 1 | `RecordsTable{ (6) RecordsCell, RecordsCell{ Badge }, RecordsCell }` |
 | `ItemActions` | 1 | `?entries.length > 0 \|\| actions.c…: ( ?entries.length > 0: (n) BoardActionEntry, ?actions.canRaiseAgain: Button ), ?actions.canRecord: BoardActionForm` |
 | `ItemDecision` | 1 | `Badge, ?answers.length > 0: (n) DecisionAnswerEntry, ?decision.canAnswer: DecisionAnswerForm` |
 | `ItemRoomTalk` | 1 | `?badge !== null: Badge, ?said.length > 0: (n) BoardContributionEntry` |
 | `JobAdvertRow` | 1 | — |
+| `JourneyLegend` | 1 | `(n) JourneyLegendSample` |
+| `JourneyLegendSample` | 1 | — |
+| `JourneyMapPanel` | 1 | `DashboardPanel{ LineMap, JourneyLegend }` |
+| `JourneySiteMap` | 1 | `( ?lineMap === null \|\| chosenRole …: EmptyState \| JourneyMapPanel ), ViewPanel, DashboardPanel{ JourneyViewsTable }` |
+| `JourneyViewsTable` | 1 | `RecordsTable{ (2) RecordsCell, RecordsCell{ ViewJourneyMarks }, RecordsCell{ ViewReachedFrom } }` |
 | `KitVersionRow` | 1 | `KitVersionBadge` |
+| `LeadConversationForm` | 1 | `(6) FormField, SubmitButton` |
+| `LeadConversationRead` | 1 | — |
+| `LeadConversationTable` | 1 | `RecordsTable{ (6) RecordsCell }` |
+| `LeadConversationsSection` | 1 | `LeadConversationTable, Modal{ LeadConversationForm }, Modal{ ?conversationBeingRead !== null: LeadConversationRead }` |
+| `LegendSample` | 1 | — |
 | `LifecycleBadgeChip` | 1 | — |
 | `LifecycleStepItem` | 1 | — |
+| `LineMapLineName` | 1 | — |
+| `LineMapStation` | 1 | `StationMark` |
+| `LineMapTracks` | 1 | — |
 | `LiveMarker` | 1 | — |
 | `LivingCostsCard` | 1 | `WidgetIcon, FormField` |
+| `LoanStatementModal` | 1 | `Modal{ LoanStatementTable }` |
+| `LoanStatementTable` | 1 | `RecordsTable{ RecordsCell, RecordsCell{ ?row.isOverdrawn: Badge }, (3) StatementFigureCell }` |
+| `LoansTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
 | `MakingTaxDigitalCard` | 1 | `WidgetIcon, ?isInScope: QuarterlyDeadlines` |
+| `MapChangesTable` | 1 | `RecordsTable{ (5) RecordsCell }` |
+| `MapConfirmForm` | 1 | `FormErrorNote, SubmitButton` |
+| `MapConfirmationPanel` | 1 | `DashboardPanel{ ?canConfirmMap(tally): MapConfirmForm }` |
+| `MapQuestionsTable` | 1 | `RecordsTable{ (4) RecordsCell }` |
 | `MarkAllReadForm` | 1 | `SubmitButton` |
-| `McpEntryCover` | 1 | `CoverSleeve{ McpEntryFace }` |
-| `McpEntryDetails` | 1 | `DashboardPanel{ RaiseChangeButton, McpEntryFace, ( ?entry.kind === mcpEntryKinds.to…: ToolDoors \| GuideDetails ) }` |
-| `McpMapBrowser` | 1 | `SectionCrates{ CoverAlbum{ McpEntryCover }, ?chosenEntry !== undefined: McpEntryDetails }` |
 | `MeetingAgendaPanel` | 1 | `DashboardPanel{ (n) AgendaItemEntry, ?withdrawnTitles.length > 0: WithdrawnAgendaItems }` |
 | `MeetingClosePanel` | 1 | `DashboardPanel{ Button }` |
 | `MeetingFactsPanel` | 1 | `DashboardPanel` |
@@ -911,16 +1039,21 @@ LegalArticle
 | `MinutesAnswerForm` | 1 | `FormField, [ (2) Button ]` |
 | `MinutesVersionEntry` | 1 | `?answers.length > 0: (n) MinutesAnswerEntry` |
 | `MobileNavDrawer` | 1 | `(n) MobileNavGroup, PortalLink` |
-| `MobileNavGroup` | 1 | — |
+| `MobileNavGroup` | 1 | `NavGroupHeading` |
 | `MobileTakeHomeBar` | 1 | — |
 | `ModalHeader` | 1 | `Button` |
 | `MoreAccurateOptions` | 1 | `DisclosureMarker, PensionField, StudentLoanFields, ?form.isEmployed: PeriodAmountField, ?form.isSelfEmployed: MileageAndHomeFields` |
 | `NameDirectorForm` | 1 | `FormField, FormErrorNote, SubmitButton` |
 | `NavigationSpinner` | 1 | `?slowNavigation.isActive: BrandSpinner` |
+| `NeuronConnectionList` | 1 | `NeuronConnectionRow` |
+| `NeuronConnectionRow` | 1 | — |
+| `NeuronDetailPanel` | 1 | `NeuronPageGlance, NeuronConnectionList` |
+| `NeuronPageGlance` | 1 | `?body.length > 0: ProseText` |
+| `NeuronTooltip` | 1 | — |
 | `NewContactForm` | 1 | `(4) FormField, SubmitButton` |
 | `NewInternalTaskForm` | 1 | `NewTaskFormShell{ SmallCapsField, NewTaskDetailsField, TaskOwnerField, NewTaskDueDateField, TaskGoalAndKindFields, ?sequenceChoices.length > 0: TaskSequenceField }` |
 | `NewOrganisationForm` | 1 | `OrganisationDetailsFields, FormErrorNote, SubmitButton` |
-| `NewProjectForm` | 1 | `(3) SmallCapsField, OrganisationSelect, TeamProjectField, FormErrorNote, SubmitButton` |
+| `NewProjectForm` | 1 | `(3) SmallCapsField, OrganisationSelect, FormErrorNote, SubmitButton` |
 | `NewTaskFormFooter` | 1 | `FormErrorNote, ( ?similarTasks.length > 0: SimilarTasksNotice \| SubmitButton )` |
 | `NewTaskStoryFields` | 1 | — |
 | `NotificationRow` | 1 | `SubmitButton` |
@@ -931,6 +1064,7 @@ LegalArticle
 | `OfficerResultList` | 1 | `SubmitButton` |
 | `OfficerSearchForm` | 1 | `SubmitButton` |
 | `OrganisationBadge` | 1 | — |
+| `OrganisationBillingPanel` | 1 | `Button, ( ?billing.schedules as schedule (…: BillingScheduleSection \| EmptyState ), BilledInvoicesTable, ?openForm !== null: Modal{ BillingScheduleForm }` |
 | `OrganisationDetailInput` | 1 | `FormField` |
 | `OrganisationDetailList` | 1 | — |
 | `OrganisationDetailsForm` | 1 | `OrganisationDetailsFields, FormErrorNote, SubmitButton` |
@@ -940,15 +1074,13 @@ LegalArticle
 | `OrganisationMemberCells` | 1 | `RecordsCell{ PersonLine }, RecordsCell{ Badge }, RecordsCell, ?canManage: RecordsCell{ Button }, Button` |
 | `OrganisationModuleCells` | 1 | `RecordsCell, RecordsCell{ Badge }, ?canSwitch: RecordsCell{ Button }` |
 | `OrganisationModulesPanel` | 1 | `DashboardPanel{ RecordsTable{ OrganisationModuleCells } }` |
-| `OrganisationOverviewTabs` | 1 | `TabStrip, ( ?shownTab === organisationOvervi…: OrganisationPeoplePanel \| ?shownTab === organisationOvervi…: OrganisationDetailsPanel \| ?shownTab === organisationOvervi…: OrganisationModulesPanel \| ?shownTab === organisationOvervi…: OrganisationDirectorsPanel )` |
+| `OrganisationOverviewTabs` | 1 | `TabStrip, ( ?shownTab === organisationOvervi…: OrganisationPeoplePanel \| ?shownTab === organisationOvervi…: OrganisationDetailsPanel \| ?shownTab === organisationOvervi…: OrganisationModulesPanel \| ?shownTab === organisationOvervi…: OrganisationDirectorsPanel \| ?shownTab === organisationOvervi…: OrganisationBillingPanel )` |
 | `OrganisationPeoplePanel` | 1 | `?canManage: Button, DashboardPanel{ RecordsTable{ OrganisationMemberCells } }, Modal{ InviteMemberForm }, ?memberAwaitingRemoval !== null: DangerConfirmModal` |
 | `OrganisationRegister` | 1 | `(n) OrganisationRow` |
 | `OrganisationRow` | 1 | — |
 | `OrganisationsPageHeader` | 1 | `WorkspaceHeader` |
 | `OwnBriefSummary` | 1 | — |
 | `OwnClaudePanel` | 1 | `DashboardPanel{ [ Badge ?ownClaude.isAskingFirst: Badge ], ?ownClaude.canChange: ( [ (2) SeatSettingForm ], SteerNoteForm ), SteerNotesList }` |
-| `OwnerPicker` | 1 | `(n) PersonInitials, Button` |
-| `PairedScreenLink` | 1 | — |
 | `PanelTabs` | 1 | `TabStrip` |
 | `ParitySummary` | 1 | — |
 | `ParticipantChip` | 1 | — |
@@ -977,12 +1109,12 @@ LegalArticle
 | `PortalClaudePlanRow` | 1 | — |
 | `PortalClaudePlanSteps` | 1 | `DashboardPanel{ (n) PortalClaudePlanRow }` |
 | `PortalConnectorAddress` | 1 | `DashboardPanel{ CopyTextButton }` |
-| `PortalContextPrompt` | 1 | `DashboardPanel{ CopyTextButton }` |
 | `PortalEnvironmentLink` | 1 | — |
 | `PortalFrame` | 1 | `FrameSideBar, ?isDrawerOpen: FrameDrawer, FrameTopBar{ ?openProject !== null: ProjectSwitcher }` |
 | `PortalGoalList` | 1 | `DashboardPanel{ ?goals.length > 0: (n) PortalGoalRow }` |
 | `PortalHeader` | 1 | `[ BrandWordmark ?isSignedIn: SubmitButton ?!isSignedIn: SignInLink ]` |
 | `PortalInviteForm` | 1 | `DashboardPanel{ (3) SmallCapsField, FormErrorNote, SubmitButton }` |
+| `PortalOnePrompt` | 1 | `DashboardPanel{ CopyTextButton }` |
 | `PortalPeopleList` | 1 | `DashboardPanel{ (n) PortalPersonRow }` |
 | `PortalPersonActions` | 1 | `SubmitButton, FormErrorNote, DangerConfirmModal` |
 | `PortalPersonRow` | 1 | `?canManage: PortalPersonActions` |
@@ -994,14 +1126,17 @@ LegalArticle
 | `PortalRequestRow` | 1 | `?!request.isDone: PortalRequestReplyForm` |
 | `PortalScreenCard` | 1 | — |
 | `PortalScreensSection` | 1 | `(n) PortalScreenCard` |
+| `PortalStationReview` | 1 | `( ?stationKey === null: MapConfirmationPanel \| StationReviewPanel )` |
 | `PortalTaskList` | 1 | `DashboardPanel{ ?tasks.length > 0: (n) PortalTaskRow }` |
 | `PortalTaskRow` | 1 | — |
 | `PortalVisitorCard` | 1 | `PersonInitials` |
 | `PremisesPanel` | 1 | `SubmitButton` |
-| `PrintOnPaper` | 1 | — |
+| `ProductStationStateLine` | 1 | — |
+| `ProductStationsTable` | 1 | `RecordsTable{ (4) RecordsCell, RecordsCell{ ProductStationStateLine } }` |
+| `ProductWorkflowMapView` | 1 | `( ?stations.length === 0 \|\| shownL…: EmptyState \| ( WorkflowMapPanel, DashboardPanel{ ProductStationsTable } ) )` |
 | `ProjectActionsMenu` | 1 | `ActionsMenu` |
 | `ProjectBoard` | 1 | `ProjectsTabs, ( ?shownTab === priorityTasksTab: WaitingOnYouList \| ( ProjectFilterBar, ( ProjectTable, ProjectPagination ) ) )` |
-| `ProjectDashboard` | 1 | `?isBuiltWork: ProjectStatePanel, ProjectPulseStrip, PanelTabs, ( ?isBuiltWork: TaskTreePanel \| InternalWorkBoard ), (2) GoalListPanel, ProjectPeoplePanel` |
+| `ProjectDashboard` | 1 | `ProjectPulseStrip, PanelTabs, InternalWorkBoard, [ (2) GoalListPanel ProjectPeoplePanel ]` |
 | `ProjectDatabaseFields` | 1 | `[ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ]` |
 | `ProjectDetailHeader` | 1 | `ProjectPageHeader{ ( ?isInternalProject: InternalProjectBadge \| KitVersionBadge ), ProjectHeaderMenu{ HeaderFacts } }, Modal{ EditProjectForm }` |
 | `ProjectEditModals` | 1 | `Modal{ EditProjectForm }, DangerConfirmModal` |
@@ -1011,12 +1146,11 @@ LegalArticle
 | `ProjectNewTaskModal` | 1 | `Modal{ ( ?isInternalSide: NewInternalTaskForm \| NewTaskForm ) }` |
 | `ProjectOrganisationCell` | 1 | `OrganisationBadge` |
 | `ProjectOwnerCell` | 1 | — |
-| `ProjectPeoplePanel` | 1 | `DashboardPanel{ (n) PersonRow }, Modal{ InvitePersonForm }, Modal{ TransferOwnershipForm }, ?personAwaitingRemoval !== null: DangerConfirmModal` |
 | `ProjectPositionField` | 1 | `PriorityField` |
 | `ProjectPriorityCell` | 1 | `[ PriorityControls PriorityNumberButton ]` |
 | `ProjectPulseStrip` | 1 | `[ (4) StatTile ]` |
 | `ProjectRow` | 1 | `ProjectTaskTally, ProjectPriorityCell{ ProjectNameLink, ProjectStatusBadge, ProjectOwnerCell, ProjectOrganisationCell, KitVersionBadge, ProjectStatusBadge, ?project.taskCount > 0: CompletionBar, ?project.isYours: ProjectActionsMenu }` |
-| `ProjectStatePanel` | 1 | `DashboardPanel{ ?goals.length > 0: (n) GoalProgressLine }` |
+| `ProjectStatePanel` | 1 | `DashboardPanel` |
 | `ProjectSwitcher` | 1 | `FramePicker` |
 | `ProjectTable` | 1 | `ProjectTableHeader, (n) ProjectRow` |
 | `ProjectTableHeader` | 1 | — |
@@ -1042,10 +1176,9 @@ LegalArticle
 | `ResolveSupportTaskForm` | 1 | `FormErrorNote, SubmitButton` |
 | `ResultPeriodToggle` | 1 | — |
 | `ReviewModelForm` | 1 | `[ FormField SubmitButton FormErrorNote ]` |
+| `SalesLeaderboardTable` | 1 | `RecordsTable{ (6) RecordsCell }` |
 | `SalesPagesTable` | 1 | `RecordsTable{ (2) RecordsCell }` |
 | `SavedTradingRoutes` | 1 | — |
-| `ScreenCover` | 1 | `CoverSleeve{ Wireframe }` |
-| `ScreenDetails` | 1 | `DashboardPanel{ RaiseChangeButton, Wireframe, ?mcpMap !== null: ScreenTools }` |
 | `ScreenTools` | 1 | — |
 | `SeatSettingForm` | 1 | `Button` |
 | `SectorClaimForms` | 1 | `[ ?isClaimed: SubmitButton SubmitButton SubmitButton ]` |
@@ -1068,14 +1201,27 @@ LegalArticle
 | `SimilarTasksNotice` | 1 | — |
 | `SiteFooter` | 1 | `BrandWordmark` |
 | `SiteHeader` | 1 | `[ BrandWordmark [ PortalLink DiscoveryCallButton AccountMenu ] MobileMenuButton ], ?isMobileMenuOpen: MobileNavDrawer` |
-| `SiteMapBrowser` | 1 | `SectionCrates{ CoverAlbum{ ScreenCover }, ?chosenScreen !== undefined: ScreenDetails }` |
 | `StageDots` | 1 | — |
 | `StagedTaskRow` | 1 | — |
 | `StagedTasksPanel` | 1 | `HeaderFacts, DashboardPanel{ (n) StagedTaskRow }` |
 | `StatementTable` | 1 | `RecordsTable{ RecordsCell, StatementFigureCell }` |
+| `StationColumn` | 1 | — |
+| `StationDomainColumn` | 1 | — |
+| `StationFlowItem` | 1 | — |
+| `StationMark` | 1 | — |
+| `StationPanel` | 1 | `DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] }` |
+| `StationPlaceLine` | 1 | — |
+| `StationReviewForm` | 1 | `?isNotRight: FormField, FormErrorNote, SubmitButton` |
+| `StationReviewPanel` | 1 | `DashboardPanel{ StationReviewForm }` |
 | `StatusBoardCard` | 1 | `?task.dueDate !== null: TaskDueDate, [ (n) PersonInitials StatusSelect ]` |
 | `SteerNoteForm` | 1 | `FormField, Button` |
 | `SteerNotesList` | 1 | — |
+| `StoryboardFilmClip` | 1 | — |
+| `StoryboardFilmControls` | 1 | `LineIcon` |
+| `StoryboardFilmFrame` | 1 | `?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords )` |
+| `StoryboardFilmMusic` | 1 | — |
+| `StoryboardFilmPlayer` | 1 | `StoryboardFilmFrame, StoryboardFilmControls, ?film.musicUrl !== null: StoryboardFilmMusic` |
+| `StoryboardFilmWordsStage` | 1 | `?shot !== null: StoryboardFilmWords` |
 | `StripeEventsToCheckTable` | 1 | `RecordsTable{ (3) RecordsCell, RecordsCell{ Badge }, RecordsCell, RecordsCell{ Button } }` |
 | `StudentLoanFields` | 1 | `FormField` |
 | `SubtaskList` | 1 | `DashboardPanel{ TaskLinkList }` |
@@ -1133,7 +1279,7 @@ LegalArticle
 | `TaskStoryPanel` | 1 | `DashboardPanel{ ?isSupportTask: SupportTaskFacts, ?task.details !== '': ProseText }` |
 | `TaskStoryPointsModal` | 1 | `Modal{ FormErrorNote, (n) TaskStoryPointsOption }` |
 | `TaskStoryPointsOption` | 1 | — |
-| `TaskTodosPanel` | 1 | `?todos.length > 0: DashboardPanel, TodoStatusForm` |
+| `TaskTodosPanel` | 1 | `?todos.length > 0: DashboardPanel, TodoStatusForm, TodoDeleteButton` |
 | `TaskTreePanel` | 1 | `DashboardPanel{ BacklogFilterBar, TaskGroupSections }, ?longTermGroups.length > 0: DashboardPanel{ TaskGroupSections }` |
 | `TaskTurnNote` | 1 | — |
 | `TaskUploadZone` | 1 | — |
@@ -1142,26 +1288,33 @@ LegalArticle
 | `TaxYearSelect` | 1 | `InlineField` |
 | `TeamPickerFieldset` | 1 | — |
 | `TeamSection` | 1 | `(n) TeamMemberProfile` |
-| `TeamWorkTable` | 1 | `RecordsTable{ (3) RecordsCell, RecordsCell{ Badge }, RecordsCell }` |
+| `TeamWorkFilterBar` | 1 | `(n) CountedFilterChip` |
+| `TeamWorkTable` | 1 | `RecordsTable{ (3) RecordsCell, RecordsCell{ OwnerPicker }, RecordsCell{ Badge }, RecordsCell }` |
 | `TodoOwnerSelect` | 1 | — |
 | `TodoStatusForm` | 1 | — |
 | `TodoTickTitle` | 1 | — |
 | `ToggleSwitch` | 1 | — |
-| `ToolDoors` | 1 | `(n) PairedScreenLink` |
 | `TradingRouteNotes` | 1 | `DisclosureMarker` |
 | `TradingRouteTiles` | 1 | — |
 | `TradingRoutesCard` | 1 | `TradingRouteTiles, CompanyPayFields, ?company: CompanyWorkingDisclosure, TradingRouteNotes` |
 | `TransferOwnershipForm` | 1 | `SmallCapsField, FormErrorNote, SubmitButton` |
 | `UndatedEntries` | 1 | `Badge, ?entries as entry (entry.id): CalendarEntryLink` |
 | `UserStoryFields` | 1 | `?isUserStory: [ (3) FormField ]` |
+| `ViewJourneyMarks` | 1 | `( ?journeys.length === 0: Badge \| (n) JourneySwatch )` |
+| `ViewJourneys` | 1 | `(n) JourneySwatch` |
+| `ViewPanel` | 1 | `DashboardPanel{ RaiseChangeButton, Wireframe, ViewJourneys, ?mcpMap !== null: ScreenTools }` |
+| `ViewReachedFrom` | 1 | — |
 | `WaitingOnYouList` | 1 | `(n) WaitingTaskRow` |
 | `WaitingTaskRow` | 1 | — |
 | `WhatIfCard` | 1 | `WidgetIcon` |
 | `WhatWeDoSection` | 1 | `(n) OfferStepCard, [ DiscoveryCallButton BrandWordmark ]` |
+| `Wireframe` | 1 | `WireframeNode` |
 | `WireframeNode` | 1 | `?depth <= deepestDrawn: (n) ( ?isContainer: (n) Self \| WireframeShape )` |
 | `WireframeShape` | 1 | — |
 | `WithdrawnAgendaItems` | 1 | — |
+| `WorkflowMapLegend` | 1 | `(n) LegendSample` |
+| `WorkflowMapTablePane` | 1 | `DashboardPanel{ ( ?pane === questionsPane: MapQuestionsTable \| MapChangesTable ) }` |
 | `YearComparisonCard` | 1 | — |
 | `+error` | 0 | `PageTitle` |
-| `+layout` | 0 | `NavigationSpinner, ?isFramed: PortalFrame, ?!isFramed: ( ?isPortal: PortalHeader, ?!isPortal: SiteHeader, SiteFooter )` |
+| `+layout` | 0 | `?!isBare: NavigationSpinner, ?isFramed: PortalFrame, ?!isBare && !isFramed: ( ?isPortal: PortalHeader, ?!isPortal: SiteHeader, SiteFooter )` |
 | `+page` | 0 | `PageMeta, HeroSection, BusinessAppSection, WhatWeDoSection, BuiltForSection, TeamSection, DiscoveryCallSection` |

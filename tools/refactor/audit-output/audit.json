@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-14T19:49:08+00:00",
+  "generatedAt": "2026-11-14T20:01:17+00:00",
   "kitVersion": "1.41.0",
   "score": {
-    "overall": 99.8,
+    "overall": 99.9,
     "groups": [
       {
         "group": "Standard baseline checks",
-        "score": 99.6,
+        "score": 99.8,
         "weight": 60
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4934,
+        "measuredAgainst": 4952,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7697,
+        "measuredAgainst": 7714,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7110,
+        "measuredAgainst": 7127,
         "score": 100.0
       },
       {
@@ -87,9 +87,9 @@
         "zeroAt": 20,
         "unit": "",
         "isMeasured": true,
-        "offenders": 0.52,
+        "offenders": 0.32,
         "measuredAgainst": 1,
-        "score": 97.4
+        "score": 98.4
       },
       {
         "key": "comments",
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 188.67,
+        "measuredAgainst": 188.97,
         "score": 100.0
       },
       {
@@ -111,9 +111,9 @@
         "zeroAt": 20,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 4,
-        "measuredAgainst": 188.67,
-        "score": 99.9
+        "offenders": 0,
+        "measuredAgainst": 188.97,
+        "score": 100.0
       },
       {
         "key": "orphans",
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 8433,
+        "measuredAgainst": 8450,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 188.67,
+        "measuredAgainst": 188.97,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 188.67,
+        "measuredAgainst": 188.97,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7697,
+        "measuredAgainst": 7714,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 259,
+        "measuredAgainst": 249,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7110,
+        "measuredAgainst": 7127,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7110,
+        "measuredAgainst": 7127,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7697,
+        "measuredAgainst": 7714,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 399,
+        "measuredAgainst": 400,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4934,
-      "totalLines": 188672,
+      "totalFiles": 4952,
+      "totalLines": 188970,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 7697,
+      "totalFunctions": 7714,
       "elseBlocks": 0,
-      "ifBlocks": 7110,
+      "ifBlocks": 7127,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -275,10 +275,10 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 106,
-      "duplicatedLines": 994,
-      "totalLines": 191589,
-      "duplicatedPercentage": 0.52
+      "clones": 73,
+      "duplicatedLines": 616,
+      "totalLines": 191880,
+      "duplicatedPercentage": 0.32
     },
     "naming": {
       "bannedAbbreviationHits": 90,
@@ -292,12 +292,12 @@
     "magicValues": {
       "inlineHexColours": 0,
       "inlineStyleAttributes": 0,
-      "repeatedStringLiterals": 4
+      "repeatedStringLiterals": 0
     },
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 638,
+      "overlongLines": 647,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -307,11 +307,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 7697
+      "functionsExamined": 7714
     },
     "designPatterns": {
       "roleFamilies": 249,
-      "predictedFiles": 259,
+      "predictedFiles": 249,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -339,21 +339,21 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 224,
+      "schemaTables": 225,
       "limitedColumns": 0,
-      "writeDoors": 399,
+      "writeDoors": 400,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5569,
-      "backend": 1460,
+      "totalFiles": 5588,
+      "backend": 1465,
       "frontend": 1195,
-      "shared": 952,
-      "tests": 836,
-      "api": 646,
-      "database": 236,
-      "tooling": 145,
+      "shared": 954,
+      "tests": 839,
+      "api": 649,
+      "database": 238,
+      "tooling": 149,
       "docs": 79,
       "infrastructure": 20
     }
@@ -364,8 +364,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4934,
-        "totalLines": 188672,
+        "totalFiles": 4952,
+        "totalLines": 188970,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -376,9 +376,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 7697,
+        "totalFunctions": 7714,
         "elseBlocks": 0,
-        "ifBlocks": 7110,
+        "ifBlocks": 7127,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -662,29 +662,12 @@
       "summary": {
         "inlineHexColours": 0,
         "inlineStyleAttributes": 0,
-        "repeatedStringLiterals": 4
+        "repeatedStringLiterals": 0
       },
       "offenders": {
         "hexColours": [],
         "inlineStyles": [],
-        "repeatedLiterals": [
-          {
-            "literal": "map the workflows",
-            "occurrences": 6
-          },
-          {
-            "literal": "I assumed",
-            "occurrences": 5
-          },
-          {
-            "literal": "Company site",
-            "occurrences": 5
-          },
-          {
-            "literal": "signed contract stack",
-            "occurrences": 4
-          }
-        ]
+        "repeatedLiterals": []
       }
     },
     "prose": {
@@ -692,7 +675,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 638,
+        "overlongLines": 647,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -704,8 +687,16 @@
             "line": 10
           },
           {
+            "file": "src/lib/brand/film/filmMaking.test.ts",
+            "line": 14
+          },
+          {
             "file": "src/lib/brand/film/filmPosting.ts",
             "line": 20
+          },
+          {
+            "file": "src/lib/brand/film/pictureMaking.test.ts",
+            "line": 7
           },
           {
             "file": "src/lib/brand/library/checkLibraryFile.ts",
@@ -890,14 +881,6 @@
           {
             "file": "src/lib/data/deployWindowFacts.test.ts",
             "line": 57
-          },
-          {
-            "file": "src/lib/data/describeBoardItem.ts",
-            "line": 68
-          },
-          {
-            "file": "src/lib/data/discoveryCall.ts",
-            "line": 8
           }
         ]
       }
@@ -918,7 +901,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 7697
+        "functionsExamined": 7714
       },
       "offenders": []
     },
@@ -926,7 +909,7 @@
       "name": "designPatterns",
       "summary": {
         "roleFamilies": 249,
-        "predictedFiles": 259,
+        "predictedFiles": 249,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -998,7 +981,7 @@
           "document": 7,
           "domain": 7,
           "door": 4,
-          "draft": 4,
+          "draft": 5,
           "email": 14,
           "entries": 9,
           "entry": 12,
@@ -1011,7 +994,7 @@
           "files": 7,
           "film": 4,
           "filter": 9,
-          "fixture": 32,
+          "fixture": 33,
           "fixtures": 27,
           "for": 10,
           "form": 79,
@@ -1048,7 +1031,7 @@
           "link": 22,
           "links": 16,
           "list": 37,
-          "making": 4,
+          "making": 5,
           "map": 39,
           "match": 5,
           "meeting": 9,
@@ -1057,7 +1040,7 @@
           "message": 4,
           "messages": 5,
           "minutes": 7,
-          "mocks": 6,
+          "mocks": 8,
           "mockup": 4,
           "modal": 14,
           "model": 8,
@@ -1067,9 +1050,9 @@
           "node": 5,
           "note": 12,
           "notice": 5,
-          "of": 16,
+          "of": 15,
           "officers": 4,
-          "order": 9,
+          "order": 11,
           "organisation": 17,
           "organisations": 6,
           "origin": 4,
@@ -1089,7 +1072,7 @@
           "people": 9,
           "person": 15,
           "picker": 4,
-          "pictures": 5,
+          "pictures": 6,
           "piece": 10,
           "pieces": 4,
           "pill": 5,
@@ -1159,7 +1142,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 808,
+          "test": 811,
           "text": 15,
           "tiles": 5,
           "time": 5,
@@ -1179,7 +1162,7 @@
           "views": 10,
           "visitor": 4,
           "window": 4,
-          "words": 31,
+          "words": 33,
           "work": 9,
           "world": 5,
           "writer": 10,
@@ -1212,18 +1195,8 @@
             "missing": []
           },
           {
-            "pattern": "every mocks has a actions",
-            "predicted": 6,
-            "missing": []
-          },
-          {
             "pattern": "every mocks has a runs",
-            "predicted": 6,
-            "missing": []
-          },
-          {
-            "pattern": "every mocks has a schemas",
-            "predicted": 6,
+            "predicted": 8,
             "missing": []
           },
           {
@@ -1315,17 +1288,17 @@
             ]
           },
           {
+            "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
+            "lines": 81,
+            "widgets": [
+              "badge"
+            ]
+          },
+          {
             "page": "src/routes/projects/[projectId]/+page.svelte",
             "lines": 79,
             "widgets": [
               "modal"
-            ]
-          },
-          {
-            "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-            "lines": 78,
-            "widgets": [
-              "badge"
             ]
           },
           {
@@ -5126,8 +5099,8 @@
         {
           "route": "/organisations/[organisationId]/brand/content/[contentPieceId]",
           "file": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-          "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, ?hasFilm: ( DashboardPanel{ StoryboardFilmPlayer }, ContentFilmMakingPanel ), DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
-          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: ( DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ContentFilmMakingPanel=( DashboardPanel{ Button } ) ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
+          "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer }, ?hasFilm || makingKind === FilmM\u2026: ContentFilmMakingPanel, DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
+          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ?hasFilm || makingKind === FilmM\u2026: ContentFilmMakingPanel=( DashboardPanel{ Button } ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
         },
         {
           "route": "/organisations/[organisationId]/brand/library",
@@ -9696,59 +9669,59 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5569,
-        "backend": 1460,
+        "totalFiles": 5588,
+        "backend": 1465,
         "frontend": 1195,
-        "shared": 952,
-        "tests": 836,
-        "api": 646,
-        "database": 236,
-        "tooling": 145,
+        "shared": 954,
+        "tests": 839,
+        "api": 649,
+        "database": 238,
+        "tooling": 149,
         "docs": 79,
         "infrastructure": 20
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 1460,
-          "sourceFiles": 1449,
-          "sourceLines": 48710
+          "files": 1465,
+          "sourceFiles": 1454,
+          "sourceLines": 48856
         },
         {
           "area": "frontend",
           "files": 1195,
           "sourceFiles": 1065,
-          "sourceLines": 36554
+          "sourceLines": 36564
         },
         {
           "area": "shared",
-          "files": 952,
-          "sourceFiles": 934,
-          "sourceLines": 33823
+          "files": 954,
+          "sourceFiles": 936,
+          "sourceLines": 33901
         },
         {
           "area": "tests",
-          "files": 836,
-          "sourceFiles": 821,
-          "sourceLines": 39214
+          "files": 839,
+          "sourceFiles": 824,
+          "sourceLines": 39133
         },
         {
           "area": "api",
-          "files": 646,
-          "sourceFiles": 645,
-          "sourceLines": 29593
+          "files": 649,
+          "sourceFiles": 648,
+          "sourceLines": 29624
         },
         {
           "area": "database",
-          "files": 236,
-          "sourceFiles": 7,
-          "sourceLines": 212
+          "files": 238,
+          "sourceFiles": 8,
+          "sourceLines": 254
         },
         {
           "area": "tooling",
-          "files": 145,
-          "sourceFiles": 13,
-          "sourceLines": 566
+          "files": 149,
+          "sourceFiles": 17,
+          "sourceLines": 638
         },
         {
           "area": "docs",
@@ -9767,9 +9740,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 224,
+        "schemaTables": 225,
         "limitedColumns": 0,
-        "writeDoors": 399,
+        "writeDoors": 400,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },
@@ -9781,39 +9754,19 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 106,
-        "duplicatedLines": 994,
-        "totalLines": 191589,
-        "duplicatedPercentage": 0.52
+        "clones": 73,
+        "duplicatedLines": 616,
+        "totalLines": 191880,
+        "duplicatedPercentage": 0.32
       },
       "offenders": [
-        {
-          "file": "src/lib/server/mcp/actions/brandContentChannelActions.test.ts",
-          "duplicatedLineInstances": 100
-        },
-        {
-          "file": "src/lib/server/mcp/actions/booksLoanAccountActions.test.ts",
-          "duplicatedLineInstances": 82
-        },
-        {
-          "file": "src/lib/server/mcp/actions/brandCampaignMocks.ts",
-          "duplicatedLineInstances": 69
-        },
-        {
-          "file": "src/lib/server/mcp/actions/brandKitWriteActions.test.ts",
-          "duplicatedLineInstances": 62
-        },
         {
           "file": "src/lib/server/mcp/actions/booksDeletionActions.test.ts",
           "duplicatedLineInstances": 56
         },
         {
-          "file": "src/lib/server/mcp/actions/brandContentDraftAction.test.ts",
-          "duplicatedLineInstances": 55
-        },
-        {
-          "file": "src/lib/server/brandCampaigns/brandCampaignMigration.test.ts",
-          "duplicatedLineInstances": 54
+          "file": "src/lib/server/mcp/actions/brandKitWriteActions.test.ts",
+          "duplicatedLineInstances": 56
         },
         {
           "file": "src/lib/server/mcp/actions/booksBankLineMatchActions.test.ts",
@@ -9824,15 +9777,7 @@
           "duplicatedLineInstances": 41
         },
         {
-          "file": "src/lib/server/mcp/actions/booksLoanAccountReadings.test.ts",
-          "duplicatedLineInstances": 38
-        },
-        {
           "file": "src/lib/server/mcp/actions/booksBankLineActions.test.ts",
-          "duplicatedLineInstances": 35
-        },
-        {
-          "file": "src/lib/server/mcp/actions/booksLoanAccountChangeActions.test.ts",
           "duplicatedLineInstances": 35
         },
         {
@@ -9840,12 +9785,40 @@
           "duplicatedLineInstances": 32
         },
         {
-          "file": "src/lib/server/mcp/actions/brandContentReadActions.test.ts",
-          "duplicatedLineInstances": 31
+          "file": "src/lib/server/mcp/actions/chatbotGate.test.ts",
+          "duplicatedLineInstances": 28
         },
         {
-          "file": "src/lib/server/brandContent/brandContentMigration.test.ts",
-          "duplicatedLineInstances": 28
+          "file": "src/lib/server/mcp/actions/booksBankLineDeletionActions.test.ts",
+          "duplicatedLineInstances": 27
+        },
+        {
+          "file": "src/lib/server/mcp/actions/booksInvoicePostingActions.test.ts",
+          "duplicatedLineInstances": 23
+        },
+        {
+          "file": "src/lib/server/mcp/actionRunTools.test.ts",
+          "duplicatedLineInstances": 22
+        },
+        {
+          "file": "src/lib/server/mcp/actions/booksCustomerActions.test.ts",
+          "duplicatedLineInstances": 21
+        },
+        {
+          "file": "src/lib/server/mcp/actions/brandSheetAction.test.ts",
+          "duplicatedLineInstances": 20
+        },
+        {
+          "file": "src/lib/server/mcp/actions/businessBrainChatbotActions.test.ts",
+          "duplicatedLineInstances": 20
+        },
+        {
+          "file": "src/lib/server/mcp/productBrainRetired.test.ts",
+          "duplicatedLineInstances": 19
+        },
+        {
+          "file": "src/lib/server/mcp/actions/booksSettingsActions.test.ts",
+          "duplicatedLineInstances": 19
         }
       ]
     }
