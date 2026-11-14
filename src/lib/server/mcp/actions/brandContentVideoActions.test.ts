@@ -1,17 +1,10 @@
+import './brandJewelMocks';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { contentPieceId } from './brandContentFixtures';
 import { runContentAction } from './brandContentTestWorld';
 
-vi.mock('$env/static/public', () => ({ PUBLIC_SUPABASE_URL: 'https://files.example/', PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-key' }));
-vi.mock('$env/dynamic/private', () => ({ env: {} }));
-vi.mock('$env/dynamic/public', () => ({ env: {} }));
-
 const { clipId } = vi.hoisted(() => ({ clipId: '5f0c2b1e-8a3d-4f6e-9b2c-1d4e5f6a7b8c' }));
 const world = vi.hoisted(() => ({ latest: null as unknown, kept: [] as unknown[], startRefusal: null as string | null, failed: [] as string[] }));
-vi.mock('$lib/server/organisations/getOrganisation', async () => {
-	const { jewel } = await import('./brandContentFixtures');
-	return { getOrganisation: async (_supabase: unknown, organisationId: string) => (organisationId === jewel.id ? jewel : null) };
-});
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['brand'] }));
 vi.mock('$lib/server/brandContent/findContentPiece', async () => {
 	const { contentPiece } = await import('./brandContentFixtures');

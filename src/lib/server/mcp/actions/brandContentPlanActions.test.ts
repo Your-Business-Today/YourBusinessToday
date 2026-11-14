@@ -1,3 +1,4 @@
+import './brandJewelMocks';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { adoptedDecision } from '$lib/brand/testing/decisionFixture';
 import { builtInTraits } from '$lib/brand/traits/traitCatalogue';
@@ -5,10 +6,6 @@ import { brandContentPlanActions } from './brandContentPlanActions';
 import { contentPieceId } from './brandContentFixtures';
 import { isGatedByModuleRule, moduleNotSwitchedOn } from '../organisationModuleGate';
 import { runContentAction } from './brandContentTestWorld';
-
-vi.mock('$env/static/public', () => ({ PUBLIC_SUPABASE_URL: 'https://files.example/', PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-key' }));
-vi.mock('$env/dynamic/private', () => ({ env: {} }));
-vi.mock('$env/dynamic/public', () => ({ env: {} }));
 
 const world = vi.hoisted(() => ({
 	switchedOn: [] as string[],
@@ -19,10 +16,6 @@ const world = vi.hoisted(() => ({
 	replanOutcome: 'moved',
 	decisions: [] as unknown[]
 }));
-vi.mock('$lib/server/organisations/getOrganisation', async () => {
-	const { jewel } = await import('./brandContentFixtures');
-	return { getOrganisation: async (_supabase: unknown, organisationId: string) => (organisationId === jewel.id ? jewel : null) };
-});
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => world.switchedOn }));
 vi.mock('$lib/server/brandKits/loadBrandKit', () => ({ loadBrandKit: async () => ({ catalogue: builtInTraits, decisions: world.decisions }) }));
 vi.mock('$lib/server/brandKits/keepBrandSummary', () => ({ findBrandSummary: async () => world.summary }));

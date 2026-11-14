@@ -1,11 +1,8 @@
+import './brandJewelMocks';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { contentPieceId } from './brandContentFixtures';
 import { moduleNotSwitchedOn } from '../organisationModuleGate';
 import { runContentAction as runPictureAction } from './brandContentTestWorld';
-
-vi.mock('$env/static/public', () => ({ PUBLIC_SUPABASE_URL: 'https://files.example/', PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-key' }));
-vi.mock('$env/dynamic/private', () => ({ env: {} }));
-vi.mock('$env/dynamic/public', () => ({ env: {} }));
 
 const world = vi.hoisted(() => ({
 	switchedOn: [] as string[],
@@ -14,10 +11,6 @@ const world = vi.hoisted(() => ({
 	chosen: [] as Record<string, unknown>[],
 	outcome: 'chosen'
 }));
-vi.mock('$lib/server/organisations/getOrganisation', async () => {
-	const { jewel } = await import('./brandContentFixtures');
-	return { getOrganisation: async (_supabase: unknown, organisationId: string) => (organisationId === jewel.id ? jewel : null) };
-});
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => world.switchedOn }));
 vi.mock('$lib/server/brandContent/findContentPiece', async () => {
 	const { contentPiece } = await import('./brandContentFixtures');
