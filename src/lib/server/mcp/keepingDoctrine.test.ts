@@ -1,9 +1,12 @@
 import { describe, expect, it } from 'vitest';
+import { projectRemovalActions } from './actions/projectRemovalActions';
 import { taskRemovalActions } from './actions/taskRemovalActions';
 import { workingDoctrine } from './workingDoctrine';
 
 const [deleteTaskAction] = taskRemovalActions;
 const { guidance = '', summary } = deleteTaskAction;
+const [deleteProjectAction] = projectRemovalActions;
+const { guidance: projectGuidance = '', summary: projectSummary } = deleteProjectAction;
 
 describe('rule 12 of the working doctrine, on finished work', () => {
 	it('says finished work is never deleted, in every kind of session', () => {
@@ -23,9 +26,11 @@ describe('rule 12 of the working doctrine, on finished work', () => {
 		expect(workingDoctrine).toContain('set_task_parent');
 	});
 
-	it('names the one door that still takes finished work with it', () => {
-		expect(workingDoctrine).toContain('delete_project');
+	it('keeps a project that holds finished tasks, and has any other deleted only once it is named back', () => {
+		expect(workingDoctrine).toContain('delete_project refuses it');
+		expect(workingDoctrine).toContain('is set to complete instead');
 		expect(workingDoctrine).toContain('never a way of tidying up');
+		expect(workingDoctrine).toContain('with the project id alone it deletes nothing');
 	});
 });
 
@@ -39,5 +44,18 @@ describe('what delete_task says of itself', () => {
 		expect(guidance).toContain('Finished work is never deleted');
 		expect(guidance).toContain('Call it first with the task id alone');
 		expect(guidance).toContain('after the person has seen the list');
+	});
+});
+
+describe('what delete_project says of itself', () => {
+	it('promises in its summary that a project holding finished tasks is refused', () => {
+		expect(projectSummary).toContain('delete a project created by mistake');
+		expect(projectSummary).toContain('one that holds finished tasks is refused');
+	});
+
+	it('echoes the rule: finished work stays, and the first call only says what the project holds', () => {
+		expect(projectGuidance).toContain('Finished work is never deleted');
+		expect(projectGuidance).toContain('Call it first with the project id alone');
+		expect(projectGuidance).toContain('after the person has seen that answer');
 	});
 });
