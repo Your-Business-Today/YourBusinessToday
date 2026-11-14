@@ -9,6 +9,10 @@ export const FilmShapes = {
 
 export type FilmShape = keyof typeof FilmShapes;
 
+export function isFilmShape(candidate: string): candidate is FilmShape {
+	return Object.hasOwn(FilmShapes, candidate);
+}
+
 /** The room a shot's words take on the frame, in the frame's own pixels. */
 export type WordBand = { x: number; y: number; width: number; height: number };
 

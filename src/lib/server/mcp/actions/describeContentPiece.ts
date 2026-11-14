@@ -7,6 +7,9 @@ import { noPictures, type PostPictures } from '$lib/brand/pictures/postPictures'
 
 const nothingInvited = 'nothing in particular';
 
+/** What else is read beside the piece: its post's picture, the library items it names, and where its video stands. */
+export type PieceReadings = { pictures?: PostPictures; library?: PieceLibrary; video?: string | null };
+
 /** One line of a listing: the piece's stage, title, medium and id. */
 export function describeContentSummary(piece: ContentSummary): string {
 	return `- [${piece.stage}] ${piece.title} @ ${piece.mediumPath} (id ${piece.id})`;
@@ -16,12 +19,8 @@ export function describeContentSummary(piece: ContentSummary): string {
  * One piece in full: its words, its storyboard, where it stands, every review, the brand it was drafted to, every
  * channel of its post and the post's picture.
  */
-export function describeContentPiece(
-	{ piece, reviews }: ContentPieceWithReviews,
-	post: ContentPost,
-	pictures: PostPictures = noPictures,
-	library: PieceLibrary = new Map()
-): string {
+export function describeContentPiece({ piece, reviews }: ContentPieceWithReviews, post: ContentPost, readings: PieceReadings = {}): string {
+	const { pictures = noPictures, library = new Map(), video = null } = readings;
 	const sections = [
 		`${piece.title} — ${piece.stage} — ${piece.mediumPath} (id ${piece.id})`,
 		piece.kind === null ? null : `Kind of post: ${piece.kind}`,
@@ -29,6 +28,7 @@ export function describeContentPiece(
 		`Script:\n${piece.script}`,
 		storyboardSection(piece.storyboard, library),
 		musicSection(piece.musicItemId, library),
+		video,
 		`Caption: ${piece.caption}`,
 		`Invites: ${piece.invitedAction || nothingInvited}`,
 		piece.plannedFor === null ? null : `Planned for ${piece.plannedFor}`,

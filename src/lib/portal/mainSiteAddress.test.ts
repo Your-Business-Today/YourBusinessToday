@@ -16,6 +16,7 @@ const sectionsKeptOnTheMainSite = new Set([
 	'about',
 	'api',
 	'auth',
+	'brand-film',
 	'case-studies',
 	'case-study',
 	'company',

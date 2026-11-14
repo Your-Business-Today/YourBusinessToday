@@ -1,10 +1,12 @@
 import { checkDraftFor } from './brandContentDraftChecks';
 import { checkPostKind } from '$lib/brand/postKinds/checkPostKind';
 import { describeContentPiece, describeContentSummary } from './describeContentPiece';
+import { describeFilmStanding } from './describeFilmMaking';
 import { findContentPiece } from '$lib/server/brandContent/findContentPiece';
 import { findContentPieces } from '$lib/server/brandContent/findContentPieces';
 import { findContentPost } from '$lib/server/brandContent/findContentPost';
 import { findItemStandings } from '$lib/server/brandLibrary/findItemStandings';
+import { findLatestFilmMaking } from '$lib/server/brandFilm/findFilmMakings';
 import { findPostPictures } from '$lib/server/brandContent/findPostPictures';
 import { libraryIdsOf } from '$lib/brand/content/checkDraftItems';
 import { isContentStage, contentStages } from '$lib/brand/content/contentPiece';
@@ -45,8 +47,11 @@ export async function listContent(caller: McpCaller, input: Record<string, unkno
 export async function readContent(caller: McpCaller, input: Record<string, unknown>, organisation: Organisation) {
 	const found = await findContentPiece(caller.supabase, organisation.id, readText(input, 'contentPieceId'));
 	if (found === null) return noSuchPiece;
-	const post = await findContentPost(caller.supabase, organisation.id, found.piece);
+	const { piece } = found;
+	const post = await findContentPost(caller.supabase, organisation.id, piece);
 	const pictures = await findPostPictures(caller.supabase, organisation.id, [post.id]);
-	const library = await findItemStandings(caller.supabase, organisation.id, libraryIdsOf(found.piece));
-	return describeContentPiece(found, post, pictures.get(post.id) ?? noPictures, library);
+	const library = await findItemStandings(caller.supabase, organisation.id, libraryIdsOf(piece));
+	const latestFilm = await findLatestFilmMaking(caller.supabase, organisation.id, piece.id);
+	const readings = { pictures: pictures.get(post.id) ?? noPictures, library, video: describeFilmStanding(latestFilm) };
+	return describeContentPiece(found, post, readings);
 }

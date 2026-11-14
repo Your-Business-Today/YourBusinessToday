@@ -9,18 +9,22 @@
 	import SiteHeader from '$lib/components/site/SiteHeader.svelte';
 	import { viewEntrance } from '$lib/client/motion';
 	import { viewKeyOf } from '$lib/client/viewTransition';
+	import { isBarePage } from '$lib/components/site/barePages';
 	import { isFramedPage } from '$lib/components/frame/framedPaths';
 	import { isPortalPage } from '$lib/portal/portalPaths';
 
 	let { children, data } = $props();
 
 	const isSignedIn = $derived(data.userEmail !== null);
-	const isFramed = $derived(isSignedIn && isFramedPage(page.url));
+	const isBare = $derived(isBarePage(page.url));
+	const isFramed = $derived(!isBare && isSignedIn && isFramedPage(page.url));
 	const isPortal = $derived(isPortalPage(page.url));
 	const viewKey = $derived(viewKeyOf(page.route, page.params));
 </script>
 
-<NavigationSpinner />
+{#if !isBare}
+	<NavigationSpinner />
+{/if}
 
 {#snippet pageView()}
 	{#key viewKey}
@@ -41,7 +45,11 @@
 	</PortalFrame>
 {/if}
 
-{#if !isFramed}
+{#if isBare}
+	{@render children()}
+{/if}
+
+{#if !isBare && !isFramed}
 	<div class="flex min-h-screen flex-col">
 		{#if isPortal}
 			<PortalHeader {isSignedIn} />
