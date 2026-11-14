@@ -40,7 +40,7 @@ describe('the footing a made video is posted on', () => {
 	});
 });
 
-describe('what the runner says when it is done', () => {
+describe('what the asker’s Claude says when it is done', () => {
 	it('is taken only as arrived, or as not made with a reason that fits its column', () => {
 		expect(checkFilmOutcome({ hasArrived: true })).toEqual({ hasArrived: true });
 		expect(checkFilmOutcome({ hasArrived: false, failureReason: 'ffmpeg stopped' })).toEqual({ hasArrived: false, failureReason: 'ffmpeg stopped' });

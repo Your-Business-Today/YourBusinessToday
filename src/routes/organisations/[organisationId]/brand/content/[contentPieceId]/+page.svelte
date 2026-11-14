@@ -24,7 +24,6 @@
 	const filmShots = $derived(film.shots);
 	const hasFilm = $derived(filmShots.length > 0);
 	const answer = $derived(form?.message ?? null);
-	const videoAnswer = $derived(form?.videoMessage ?? null);
 	const libraryPath = $derived(`/organisations/${organisation.id}/brand/library`);
 </script>
 
@@ -61,7 +60,7 @@
 				</DashboardPanel>
 			{/if}
 			{#if hasFilm || makingKind === FilmMakingKinds.pictures}
-				<ContentFilmMakingPanel kind={makingKind} making={video} {libraryPath} answer={videoAnswer} />
+				<ContentFilmMakingPanel kind={makingKind} making={video} {libraryPath} />
 			{/if}
 			<DashboardPanel title="Storyboard">
 				<ContentStoryboardTable shots={piece.shots} />

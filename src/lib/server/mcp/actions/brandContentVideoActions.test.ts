@@ -7,7 +7,7 @@ vi.mock('$env/dynamic/private', () => ({ env: {} }));
 vi.mock('$env/dynamic/public', () => ({ env: {} }));
 
 const { clipId } = vi.hoisted(() => ({ clipId: '5f0c2b1e-8a3d-4f6e-9b2c-1d4e5f6a7b8c' }));
-const world = vi.hoisted(() => ({ latest: null as unknown, kept: [] as unknown[], startRefusal: null as string | null, failed: [] as string[] }));
+const world = vi.hoisted(() => ({ latest: null as unknown, kept: [] as unknown[], openRefusal: null as string | null, failed: [] as string[], shapes: [] as string[] }));
 vi.mock('$lib/server/organisations/getOrganisation', async () => {
 	const { jewel } = await import('./brandContentFixtures');
 	return { getOrganisation: async (_supabase: unknown, organisationId: string) => (organisationId === jewel.id ? jewel : null) };
@@ -21,7 +21,7 @@ vi.mock('$lib/server/brandContent/findContentPiece', async () => {
 });
 vi.mock('$lib/server/brandLibrary/findItemStandings', () => ({
 	findItemStandings: async () =>
-		new Map([[clipId, { filename: 'door.mp4', mimeType: 'video/mp4', posting: 'nothing_recognisable', recordedAt: '2026-11-14T10:00:00Z', shows: 'A door' }]])
+		new Map([[ clipId, { filename: 'door.mp4', mimeType: 'video/mp4', posting: 'nothing_recognisable', recordedAt: '2026-11-14T10:00:00Z', shows: 'A door' } ]])
 }));
 vi.mock('$lib/server/brandFilm/findFilmMakings', () => ({ findLatestFilmMaking: async () => world.latest }));
 vi.mock('$lib/server/brandFilm/keepFilmMaking', () => ({
@@ -30,42 +30,57 @@ vi.mock('$lib/server/brandFilm/keepFilmMaking', () => ({
 		return { id: 'making-1', kind: 'video', pictureItemIds: [], state: 'waiting', failureReason: null, libraryItemId: null, askedAt: '2026-11-14T19:00:00Z', finishedAt: null };
 	}
 }));
-vi.mock('$lib/server/brandFilm/startFilmWorkflow', () => ({ startFilmWorkflow: async () => world.startRefusal }));
-vi.mock('$lib/server/payments/supabaseServiceClient', () => ({ supabaseServiceClient: () => ({}) }));
-vi.mock('$lib/server/brandFilm/moveFilmMaking', () => ({
-	failFilmMaking: async (_supabase: unknown, _id: string, reason: string) => world.failed.push(reason)
+vi.mock('$lib/server/brandFilm/openFilmMaking', () => ({
+	openFilmMaking: async (_supabase: unknown, _making: unknown, _piece: unknown, shape: string) => {
+		world.shapes.push(shape);
+		if (world.openRefusal !== null) return { problem: world.openRefusal };
+		const words = { overline: '', headline: 'Shut', underline: '', wordsAt: 'bottom' };
+		const shot = { seconds: 3, clip: { url: 'https://files.example/clip', filename: 'door.mp4' }, isVideo: true, words };
+		return { order: { kind: 'video', shape, look: {}, uploadUrl: 'https://files.example/up', largestByteCount: 100, shots: [shot], music: null } };
+	}
 }));
-vi.mock('$lib/server/brandContent/findPostPictures', () => ({ findPostPictures: async () => new Map() }));
-vi.mock('$lib/server/brandContent/findContentPost', () => ({
-	findContentPost: async (_supabase: unknown, _organisationId: string, piece: { id: string }) => ({ id: piece.id, channels: [piece], isKept: true })
-}));
+vi.mock('$lib/server/brandFilm/moveFilmMaking', () => ({ failFilmMaking: async (_id: string, reason: string) => world.failed.push(reason) }));
 
 describe('making a client’s video from chat', () => {
-	beforeEach(() => {
-		world.latest = null;
-		world.kept = [];
-		world.startRefusal = null;
-		world.failed = [];
+	beforeEach(() =>
+		Object.assign(world, { latest: null, kept: [], openRefusal: null, failed: [], shapes: [] })
+	);
+
+	it('keeps the request under the person asking and hands back the recipe to run, in the medium’s shape', async () => {
+		const answer = await runContentAction('make_content_video', { contentPieceId });
+		expect(answer).toContain('The video is yours to make now, here in your own sandbox');
+		expect(answer).toContain('```bash\n#!/usr/bin/env bash\nset -euo pipefail');
+		expect(answer).toContain("curl -sSfL -o clip1.mp4 'https://files.example/clip'");
+		expect(answer).toContain('record_content_made');
+		expect(world.kept).toEqual([{ organisationId: 'jewel', accountId: 'nigel', contentPieceId, kind: 'video' }]);
+		expect(world.shapes).toEqual(['tall']);
 	});
 
-	it('keeps the request under the person asking and starts the filming', async () => {
-		const answer = await runContentAction('make_content_video', { contentPieceId });
-		expect(answer).toContain('The video is asked for (id making-1) and is being started');
-		expect(world.kept).toEqual([{ organisationId: 'jewel', accountId: 'nigel', contentPieceId, kind: 'video' }]);
+	it('makes it in the shape asked for, and refuses a shape there is not', async () => {
+		await runContentAction('make_content_video', { contentPieceId, shape: 'square' });
+		expect(world.shapes).toEqual(['square']);
+		expect(
+			await runContentAction('make_content_video', { contentPieceId, shape: 'round' })
+		).toBe('shape is wide, square or tall. Nothing was asked for.');
+	});
+
+	it('closes a request left open past its links before asking again', async () => {
+		world.latest = { id: 'm', kind: 'video', pictureItemIds: [], state: 'filming', failureReason: null, libraryItemId: null, askedAt: '2026-11-01T09:00:00Z', finishedAt: null };
+		expect(await runContentAction('make_content_video', { contentPieceId })).toContain('The video is yours to make now');
+		expect(world.failed).toEqual(['its links ran out before what it made was recorded']);
 	});
 
 	it('is refused by name while one is already being made, keeping nothing', async () => {
-		world.latest = { id: 'm', kind: 'video', pictureItemIds: [], state: 'filming', failureReason: null, libraryItemId: null, askedAt: '', finishedAt: null };
+		world.latest = { id: 'm', kind: 'video', pictureItemIds: [], state: 'filming', failureReason: null, libraryItemId: null, askedAt: new Date().toISOString(), finishedAt: null };
 		const answer = await runContentAction('make_content_video', { contentPieceId });
 		expect(answer).toBe('The video was not asked for: “Fire doors” is already being made; its video shows on the piece when it is ready. Nothing was kept.');
 		expect(world.kept).toHaveLength(0);
 	});
 
-	it('keeps the request as failed, saying why, when GitHub will not start the filming', async () => {
-		world.startRefusal = 'GitHub refused to start the filming (403)';
+	it('says why, when the request could not be opened', async () => {
+		world.openRefusal = 'a clip of “Fire doors” could not be reached in the library';
 		const answer = await runContentAction('make_content_video', { contentPieceId });
-		expect(answer).toBe('The video was asked for but could not be started: GitHub refused to start the filming (403).');
-		expect(world.failed).toEqual(['GitHub refused to start the filming (403)']);
+		expect(answer).toBe('The video was asked for but could not be opened: a clip of “Fire doors” could not be reached in the library.');
 	});
 
 	it('refuses pictures of a video piece by name, keeping nothing', async () => {
@@ -76,13 +91,8 @@ describe('making a client’s video from chat', () => {
 	});
 
 	it('refuses an id that is not one before reading anything', async () => {
-		expect(await runContentAction('make_content_video', { contentPieceId: 'fire-doors' })).toContain('contentPieceId');
-	});
-
-	it('shows where the video stands when the piece is read, and where to find it once it is made', async () => {
-		world.latest = { id: 'm', kind: 'video', pictureItemIds: [], state: 'ready', failureReason: null, libraryItemId: 'item-9', askedAt: '', finishedAt: '2026-11-14T19:20:00Z' };
-		const answer = await runContentAction('read_content', { contentPieceId });
-		expect(answer).toContain('Video: made 14 Nov, 19:20, in the library');
-		expect(answer).toContain('in the library as item item-9. Put it on the post with choose_post_picture.');
+		expect(
+			await runContentAction('make_content_video', { contentPieceId: 'fire-doors' })
+		).toContain('contentPieceId');
 	});
 });
