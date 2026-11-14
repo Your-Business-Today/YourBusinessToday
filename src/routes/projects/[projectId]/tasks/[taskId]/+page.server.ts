@@ -15,7 +15,6 @@ import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { deleteAcceptanceCriterion } from '$lib/server/projects/deleteAcceptanceCriterion';
 import { getTask } from '$lib/server/projects/getTask';
 import { getTaskDeletionPlan } from '$lib/server/projects/getTaskDeletionPlan';
-import { getTaskFamily } from '$lib/server/projects/getTaskFamily';
 import { getOtherProjects } from '$lib/server/projects/getOtherProjects';
 import { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
@@ -34,7 +33,6 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	return {
 		...workspace,
 		otherProjects: await getOtherProjects(locals.supabase, params.projectId),
-		...(await getTaskFamily(locals.supabase, task)),
 		deletionPlan: await getTaskDeletionPlan(locals.supabase, task),
 		messages: withAuthorNames(workspace.messages, workspace.accounts),
 		raisedByName: accountNameLookup(workspace.accounts)(task.createdBy),
