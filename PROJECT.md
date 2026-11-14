@@ -68,6 +68,13 @@ Vercel project `ybt` is connected to Your-Business-Today/YourBusinessToday with 
 - **A rollback is Vercel's own.** Open the project's Deployments, pick an earlier `main` production deployment and use Instant Rollback, Promote or Redeploy on it; then fix forward with a pull request.
 - **A pull request waits on its Vercel preview.** The preview is a required status check on `main`, so auto-merge does not fire while it builds or when it fails.
 
+## A pull request cannot merge with its type check failing
+
+`npm run check` (svelte-check) is a step of *Run test suite*, the check `staging`'s ruleset requires, so auto-merge cannot take a pull request into `staging` with a type error. Before 14/11/2026 it ran only in the job `check`, which `staging` does not require: pull request #520 merged with it red on 13/11/2026, and the pull requests after it failed `check` on a file they had not touched.
+
+- **The job `check` runs the same type check, and stays.** `ci.yml` has had the two jobs since 10/10/2026 (`eca14725`), because the repository's own ruleset then required a check named `check` and the organisation's required *Run test suite*. The promotion merges by auto-merge, so with the job gone while a ruleset on `main` still names `check`, the `DEPLOY` pull request would wait for a check that never reports and nothing would deploy.
+- **Remove the job only after reading what `main` requires.** `gh api repos/Your-Business-Today/YourBusinessToday/rules/branches/main` lists it, as the kit's `setup-github.sh` reads it for *Run test suite*. When `check` is not on that list, the job can go and the type check runs once.
+
 ## The connector checks itself after every production deploy
 
 The pipeline contract test proves in CI, against no database, that the connector still offers what the build pipeline calls. The `connector_self_check` watch source is the same check against the real thing: `.github/workflows/connector-self-check.yml` knocks on the cron door when Vercel reports a production deployment as successful (and on *Run workflow*), with the `CRON_SECRET` the deploy windows knock already uses, so it needs no setting of its own.

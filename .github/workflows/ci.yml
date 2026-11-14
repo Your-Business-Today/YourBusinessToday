@@ -63,5 +63,6 @@ jobs:
         run: |
           ./scripts/migrations/prove-migration-record.sh
           ./scripts/migrations/prove-first-run-that-never-began.sh
+      - run: npm run check
       - run: npm test
       - run: npm run build
