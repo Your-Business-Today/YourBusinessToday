@@ -13,7 +13,8 @@ import type { McpAction } from '../actionTypes';
 
 const openOnlyWhatThePersonSaid =
 	'Take the name and relationship from the person. When their loan is already kept on an account in the chart, give its ' +
-	'accountCode, so the statement reads the entries already there; nothing is posted by opening one.';
+	'accountCode, so the statement reads the entries already there; nothing is posted by opening one. To correct the name ' +
+	'or relationship later, or to close a settled account, use update_loan_account.';
 
 const overdrawnAtYearEndIsForTheAccountant =
 	"Give the figures as the statement holds them. An account still overdrawn at a financial year end is a matter for the company's accountant.";

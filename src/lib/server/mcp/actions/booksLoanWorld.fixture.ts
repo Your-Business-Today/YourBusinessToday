@@ -21,7 +21,7 @@ export const liability = (id: string, code: string, name: string): Row => ({
 let journalCount = 0;
 
 /** One journal on a loan account: a credit is money the person put in, a debit money they took out. */
-function postToLoan(accountId: string, journalDate: string, movement: { debit?: number; credit?: number }): void {
+export function postToLoan(accountId: string, journalDate: string, movement: { debit?: number; credit?: number }): void {
 	journalCount += 1;
 	const journalId = `00000000-0000-4000-8000-0000000f${String(journalCount).padStart(4, '0')}`;
 	const journal = {
