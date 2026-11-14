@@ -1,14 +1,10 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import './booksYourBusinessTodayMocks';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { booksActions } from './booksActions';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
 const organisationId = '00000000-0000-4000-8000-0000000000a1';
-
-vi.mock('$lib/server/organisations/getOrganisation', () => ({
-	getOrganisation: async (_supabase: unknown, id: string) => ({ id, parentOrganisationId: null, name: 'Your Business Today' })
-}));
-vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['books'] }));
 
 const augustYearStart = { company_name: 'Your Business Today Ltd', invoice_prefix: 'INV', next_invoice_number: 4, financial_year_start_month: 8 };
 const noFirstPeriod = { first_period_start: null, first_period_end: null };

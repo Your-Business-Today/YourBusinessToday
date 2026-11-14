@@ -1,12 +1,8 @@
+import './booksYourBusinessTodayMocks';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { clearWatchRuns, watchRunRows } from '$lib/server/watch/watchRunsDatabase.fixture';
 import { billingSchedulesSourceName } from '$lib/server/watch/billingSchedulesSource';
 import { holdBooksWithoutSchedules, runOnTheBooks as run } from './booksBillingScheduleWorld.fixture';
-
-vi.mock('$lib/server/organisations/getOrganisation', () => ({
-	getOrganisation: async (_supabase: unknown, id: string) => ({ id, parentOrganisationId: null, name: 'Your Business Today' })
-}));
-vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['books'] }));
 
 const noteNamingEveryOrganisation = 'Jewel Property Serve: Invoices raised 2, issued 2, sent 2.';
 

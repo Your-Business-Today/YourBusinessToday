@@ -1,13 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import './booksYourBusinessTodayMocks';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ledgerTables, ledgerWrites } from './booksLedgerDatabase.fixture';
 import { accountIdOfCode, journalsOfKind, postedLines, runOnTheLedger as run } from './booksInvoicePostingWorld.fixture';
 import { softwareId } from './booksExpenseWorld.fixture';
 import { holdPartnersWhoPayCosts, jamesLedgerId, jamesLoanId, jeremyLoanId, otherBooksLoanId } from './booksPartnerPaidCostWorld.fixture';
-
-vi.mock('$lib/server/organisations/getOrganisation', () => ({
-	getOrganisation: async (_supabase: unknown, id: string) => ({ id, parentOrganisationId: null, name: 'Your Business Today' })
-}));
-vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['books'] }));
 
 const insurance = { expenseDate: '2026-11-05', supplier: 'Hiscox', description: 'Insurance', amount: 600, expenseAccountId: softwareId };
 const paidByJames = { ...insurance, isPaid: true, paidByLoanAccountId: jamesLoanId };
