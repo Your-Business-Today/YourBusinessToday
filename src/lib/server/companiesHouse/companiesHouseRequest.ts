@@ -5,6 +5,16 @@ export { companiesHouseApiOrigin } from './companiesHouseOrigin';
 
 const fetchTimeoutMilliseconds = 10_000;
 
+/** A call Companies House refused, carrying its status so a caller can tell an answer that means nothing from a fault. */
+export class CompaniesHouseRefusal extends Error {
+	readonly status: number;
+
+	constructor(status: number) {
+		super(`Companies House answered with status ${status}`);
+		this.status = status;
+	}
+}
+
 export function isCompaniesHouseConfigured(): boolean {
 	return (env.COMPANIES_HOUSE_API_KEY ?? '') !== '';
 }
@@ -17,7 +27,7 @@ export async function requestCompaniesHouse(url: URL): Promise<Record<string, un
 		headers: { authorization: basicAuthorisation(), accept: 'application/json' }
 	});
 	noteRateWindow(response.headers);
-	if (!response.ok) throw new Error(`Companies House answered with status ${response.status}`);
+	if (!response.ok) throw new CompaniesHouseRefusal(response.status);
 	return (await response.json()) as Record<string, unknown>;
 }
 
