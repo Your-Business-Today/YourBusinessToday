@@ -10,7 +10,7 @@ const confirmed: MapConfirmation[] = [
 	{ stage: 'before', versionNumber: 2, confirmedAt }
 ];
 const mapOf = (stage: 'before' | 'after', versionNumber: number) =>
-	({ stage, versionNumber, recordedAt: confirmedAt, lines: [], handovers: [] }) satisfies WorkflowMapVersion;
+	({ stage, versionNumber, recordedAt: confirmedAt, lines: [], handovers: [], arrivals: [] }) satisfies WorkflowMapVersion;
 
 describe('which versions of a workflow map the client confirmed', () => {
 	it('finds the confirmation of the very version shown, and none for a version filed since', () => {

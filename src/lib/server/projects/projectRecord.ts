@@ -16,7 +16,6 @@ export type Project = {
 	teamProjectsAbove: number;
 	clientId: string | null;
 	organisationId: string | null;
-	isTeamProject: boolean;
 	repositoryUrl: string;
 	environmentUrl: string;
 	defaultBranch: string;
@@ -40,7 +39,6 @@ export function parseProjectRecord(row: Record<string, unknown>): Project {
 		teamProjectsAbove: (row.team_projects_above as number) ?? 0,
 		clientId: (row.client_id as string) ?? null,
 		organisationId: (row.organisation_id as string) ?? null,
-		isTeamProject: row.is_team_project === true,
 		repositoryUrl: (row.repository_url as string) ?? '',
 		environmentUrl: (row.environment_url as string) ?? '',
 		defaultBranch: (row.default_branch as string) || defaultBranchWhenUnset,

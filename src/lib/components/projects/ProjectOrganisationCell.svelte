@@ -4,15 +4,13 @@
 
 	let {
 		organisationId,
-		organisationName,
-		isTeamProject
+		organisationName
 	}: {
 		organisationId: string | null;
 		organisationName: string;
-		isTeamProject: boolean;
 	} = $props();
 </script>
 
 <div class={organisationCellClasses}>
-	<OrganisationBadge {organisationId} {organisationName} {isTeamProject} />
+	<OrganisationBadge {organisationId} {organisationName} />
 </div>

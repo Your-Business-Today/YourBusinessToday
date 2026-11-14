@@ -1,3 +1,5 @@
+import type { DomainEventFacts, DomainRuleFacts } from './domainRuleFacts';
+
 /**
  * An organisation's domain as it is filed in its Your Business Brain, in the kinds the Your Brain Today
  * domain brain modelled it in, and the rules the business runs by: bounded contexts, the building blocks
@@ -41,15 +43,48 @@ export const domainBlockNames: Record<DomainPageKind, string> = {
 /** One field of an entity or value object, as its page's facts keep it; a reference names the entity's slug. */
 export type DomainFieldFact = { name: string; label: string; type: string; ref: string | null; isRequired: boolean; notes: string };
 
-/** One word the business uses, with what it means there, as a glossary page's facts keep it. */
-export type DomainTermFact = { word: string; meaning: string };
+/** What a word stands for beyond its meaning: the thing it names and that thing's status, whether it is a role, and its other names. */
+export type DomainTermNaming = { namesThingSlug: string | null; namesStatus: string | null; isRole: boolean; otherNames: string[] };
 
-/** The facts a page of each kind carries beside its words: a rule names the things it governs by their slugs. */
-export type DomainPageFacts = {
-	isCoreDomain: boolean;
-	fields: DomainFieldFact[];
-	statuses: string[];
-	aggregateRootSlug: string | null;
-	governs: string[];
-	terms: DomainTermFact[];
-};
+/** One word the business uses, with what it means there and what it names, as a glossary page's facts keep it. */
+export type DomainTermFact = { word: string; meaning: string } & DomainTermNaming;
+
+/** What part an area plays: the heart of the business, needed and particular to it, or what any business has. */
+export const subdomainKinds = { core: 'core', supporting: 'supporting', generic: 'generic' } as const;
+
+export type SubdomainKind = (typeof subdomainKinds)[keyof typeof subdomainKinds];
+
+/** Whose terms win when one area passes work to another. */
+export const areaRelationshipPatterns = {
+	customerSupplier: 'customer_supplier',
+	conformist: 'conformist',
+	sharedKernel: 'shared_kernel',
+	anticorruptionLayer: 'anticorruption_layer',
+	publishedLanguage: 'published_language'
+} as const;
+
+export type AreaRelationshipPattern = (typeof areaRelationshipPatterns)[keyof typeof areaRelationshipPatterns];
+
+/** One area passing something to another, as the context map's facts keep it. */
+export type AreaRelationshipFact = { fromContextSlug: string; toContextSlug: string; passes: string; pattern: AreaRelationshipPattern };
+
+/** One status of a record's lifecycle: what being in it means, and the statuses a record in it can move to. */
+export type DomainLifecycleStep = { status: string; meaning: string; movesTo: string[] };
+
+/** What a record says of itself beyond its fields: what makes one, how it moves through its statuses, where it is kept, and a group's members. */
+export type DomainRecordFacts = { identity: string | null; lifecycle: DomainLifecycleStep[]; keptIn: string | null; memberSlugs: string[] };
+
+/** The facts a page of each kind carries beside its words: a rule names the things it governs by their slugs and sits where its kind says. */
+export type DomainPageFacts = DomainRecordFacts &
+	DomainEventFacts &
+	DomainRuleFacts & {
+		isCoreDomain: boolean;
+		subdomain: SubdomainKind | null;
+		fields: DomainFieldFact[];
+		statuses: string[];
+		aggregateRootSlug: string | null;
+		governs: string[];
+		terms: DomainTermFact[];
+		relationships: AreaRelationshipFact[];
+		assumed: string[];
+	};

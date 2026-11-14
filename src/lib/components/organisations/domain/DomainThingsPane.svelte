@@ -5,20 +5,25 @@
 	import { thingNamed } from '$lib/data/domainThingLinks';
 	import type { BusinessBrainAddresses } from '$lib/data/businessBrainAddresses';
 	import type { OrganisationDomain } from '$lib/data/organisationDomain';
+	import type { ThingPage } from '$lib/server/businessBrain/readThingPage';
 	import type { ThingStation } from '$lib/data/workflowMap/thingStations';
 
 	let {
 		domain,
 		openedSlug,
+		thingPage,
 		thingStations,
 		thingTitles,
+		stationNames,
 		organisationId,
 		addresses
 	}: {
 		domain: OrganisationDomain;
 		openedSlug: string | null;
+		thingPage: ThingPage | null;
 		thingStations: ThingStation[];
 		thingTitles: Map<string, string>;
+		stationNames: Record<string, string>;
 		organisationId: string;
 		addresses: BusinessBrainAddresses;
 	} = $props();
@@ -30,6 +35,6 @@
 <DashboardPanel>
 	<DomainThingsTable {things} {rules} />
 </DashboardPanel>
-{#if openedThing !== undefined}
-	<DomainThingPanels thing={openedThing} {rules} {thingStations} {thingTitles} {organisationId} {addresses} />
+{#if openedThing !== undefined && thingPage !== null}
+	<DomainThingPanels thing={openedThing} {thingPage} {things} {rules} {thingStations} {thingTitles} {stationNames} {organisationId} {addresses} />
 {/if}

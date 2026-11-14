@@ -7,7 +7,7 @@
 	import WorkflowMapPanel from '$lib/components/organisations/workflowMap/WorkflowMapPanel.svelte';
 	import { drawnWorkflowMapsOf } from '$lib/components/organisations/workflowMap/drawnWorkflowMaps';
 	import { estimatedTextWidth, loadedTextMeasure, type MeasureText } from '$lib/components/lineMap/layout/textMeasure';
-	import { productLegendItems } from '$lib/components/organisations/workflowMap/workflowMapLegend';
+	import { productLegendItemsOf } from '$lib/components/organisations/workflowMap/workflowMapLegend';
 	import { productStationsOf } from './productStations';
 	import { workflowMapStationHref } from '$lib/components/organisations/organisationPages';
 	import type { MapStage } from '$lib/data/workflowMap/workflowMap';
@@ -50,7 +50,7 @@
 	<WorkflowMapPanel
 		map={shownLineMap}
 		label={messages.mapLabel}
-		legendItems={productLegendItems}
+		legendItems={productLegendItemsOf(shownMap)}
 		layout={drawn.layout}
 		{litStationIds}
 		onChooseStation={openOnOrganisationMap}

@@ -23,7 +23,12 @@ export async function costTargetRefusal(
 	if (unusable !== null) return unusable;
 	const [account] = accounts;
 	if (!rule.accepts(account)) return rule.refusal(account);
-	if (cost.costCentreId === null) return null;
-	const costCentres = await findOrganisationRecords(supabase, 'books_cost_centres', organisationId, [cost.costCentreId]);
-	return unusableRecordRefusal('cost centre', [cost.costCentreId], costCentres);
+	return costCentreRefusal(supabase, organisationId, cost.costCentreId);
+}
+
+/** Why the cost centre a cost is kept within is not the organisation's to use, or null when it is or none is named. */
+export async function costCentreRefusal(supabase: SupabaseClient, organisationId: string, costCentreId: string | null): Promise<string | null> {
+	if (costCentreId === null) return null;
+	const costCentres = await findOrganisationRecords(supabase, 'books_cost_centres', organisationId, [costCentreId]);
+	return unusableRecordRefusal('cost centre', [costCentreId], costCentres);
 }

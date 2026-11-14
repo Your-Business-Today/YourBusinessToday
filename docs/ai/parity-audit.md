@@ -172,12 +172,13 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | Id | Story | Who | Kind | Site door | Connector | Screens |
 | --- | --- | --- | --- | --- | --- | --- |
 | US-140 | read the books overview and the statements | manager | read | `/organisations/{organisationId}/books` load | `read_books_overview` `read_trial_balance` `read_balance_sheet` `read_profit_and_loss` | `/organisations/{organisationId}/books` |
-| US-141 | read the chart of accounts and one account's balance | manager | read | `/organisations/{organisationId}/books/accounts/{accountCode}` load | `read_chart_of_accounts` `explain_account_balance` `create_ledger_account` `set_ledger_account_archived` | `/organisations/{organisationId}/books/accounts/{accountCode}` |
+| US-141 | read the chart of accounts and one account's balance | manager | read | `/organisations/{organisationId}/books/accounts/{accountCode}` load | `read_chart_of_accounts` `explain_account_balance` `create_ledger_account` `set_ledger_account_archived` `rename_ledger_account` | `/organisations/{organisationId}/books/accounts/{accountCode}` |
 | US-142 | raise, issue, pay, void and delete invoices | manager | write | `/organisations/{organisationId}/books` | `list_invoices` `create_invoice` `update_draft_invoice` `issue_invoice` `read_invoice` `record_invoice_payment` `void_invoice` `delete_invoice` | `/organisations/{organisationId}/books` |
 | US-143 | record, pay and delete costs | manager | write | `/organisations/{organisationId}/books` | `list_expenses` `record_expense` `pay_expense` `delete_expense` | `/organisations/{organisationId}/books` |
 | US-144 | keep customers and cost centres | manager | write | `/organisations/{organisationId}/books` | `create_customer` `update_customer` `list_customer_balances` `create_cost_centre` `set_cost_centre_archived` `list_cost_centres` | `/organisations/{organisationId}/books` |
 | US-145 | post journals, accruals and prepayment releases | manager | write | `/organisations/{organisationId}/books` | `post_journal` `create_accrual` `create_prepayment_release` | `/organisations/{organisationId}/books` |
 | US-146 | read and change the books settings, and read the record of deletes | manager | write | `/organisations/{organisationId}/books` | `read_books_settings` `change_books_settings` `list_books_deletions` `read_books_deletion` | `/organisations/{organisationId}/books` |
+| US-180 | bring a bank statement's lines into the books once each, list them matched or unmatched, match each to what it was and take a wrong match off, keep rules for what a counterparty's lines always are and apply them, and read whether the bank agrees with the statement | manager | write | — | `import_bank_lines` `list_bank_lines` `match_bank_line` `unmatch_bank_line` `set_bank_rule` `list_bank_rules` `delete_bank_rule` `read_bank_reconciliation` | — |
 
 ## 13-business-brain
 

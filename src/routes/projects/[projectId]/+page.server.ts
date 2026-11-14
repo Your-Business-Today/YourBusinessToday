@@ -1,4 +1,6 @@
+import { redirect } from '@sveltejs/kit';
 import { autocompleteActions } from './autocompleteActions';
+import { teamJobsAddressFor } from '$lib/components/projects/teamJobsAddress';
 import { developmentTabCountsOf } from '$lib/components/projects/developmentTabCounts';
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { summariseGoals } from '$lib/server/goals/summariseGoals';
@@ -13,10 +15,14 @@ import { taskActions } from './taskActions';
 import { readBoard } from './readBoard';
 import type { Actions, PageServerLoad } from './$types';
 
+const seeOther = 303;
+
 export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const { project, isOwner, user } = await requireProjectAccess(locals, params.projectId);
 	const { work, assigneeIdsByTask, turnsByTask, buildBoard, stagedTaskCount, ...reads } = await readBoard(locals, project, url);
-	const { projectTasks, projectGoals: _projectGoals, tasks, goals, departmentTabs, ...board } = work;
+	const { projectTasks, projectGoals: _projectGoals, tasks, goals, departmentTabs, shownSides, ...board } = work;
+	const teamJobsAddress = teamJobsAddressFor(project, url, shownSides);
+	if (teamJobsAddress !== null) redirect(seeOther, teamJobsAddress);
 	return {
 		project,
 		...reads,

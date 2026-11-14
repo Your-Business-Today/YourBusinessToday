@@ -1,5 +1,7 @@
 import { createSceneLoop } from '../../stage/animationLoop';
 import { createStage, fitStageTo } from '../../stage/createStage';
+import { BrainLabels } from './brainLabels';
+import { labelActionsFor } from './labelActions';
 import { ConstellationScene } from './constellationSceneAssembly';
 import { attachExperienceInput } from './experienceInput';
 import { FocusDirector } from './focusDirector';
@@ -35,7 +37,8 @@ export function createConstellationExperience(
 	const { camera, renderer } = stage;
 	const view = new ConstellationScene(model);
 	const controls = createOrbitRig(camera, canvas);
-	const director = new FocusDirector({ camera, controls, view, model, isAnimated });
+	const labels = new BrainLabels(container, model, labelActionsFor((): FocusDirector => director, view, callbacks));
+	const director = new FocusDirector({ camera, controls, view, labels, model, isAnimated });
 	const growth = growthFor(view, isAnimated, options.shouldCascadeInitialModel === true ? bodySlugsOf(model) : []);
 	const detachPointer = attachExperienceInput({ canvas, camera, hitTargetsFor: () => view.hitTargets(), callbacks, director });
 	const resizeObserver = fitStageTo(stage, container);
@@ -47,6 +50,7 @@ export function createConstellationExperience(
 		growth.update(deltaSeconds);
 		view.advance(deltaSeconds, timeSeconds, isAnimated, canvas.height);
 		renderer.render(view.scene, camera);
+		labels.place({ camera, widthPixels: canvas.clientWidth, heightPixels: canvas.clientHeight });
 	}
 
 	const loop = createSceneLoop(frame, options.onReady);
@@ -67,6 +71,7 @@ export function createConstellationExperience(
 		resizeObserver.disconnect();
 		controls.dispose();
 		view.dispose();
+		labels.dispose();
 		stage.dispose();
 	}
 

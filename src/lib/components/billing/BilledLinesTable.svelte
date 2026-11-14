@@ -5,7 +5,7 @@
 	import { formatPoundsAndPence } from '$lib/data/books/money';
 	import type { BilledInvoice, BilledLine } from '$lib/data/billing/billedInvoice';
 
-	let { invoice }: { invoice: BilledInvoice } = $props();
+	let { invoice }: { invoice: Pick<BilledInvoice, 'printedNumber' | 'lines' | 'total'> } = $props();
 
 	const columns: RecordsColumn<BilledLine>[] = [
 		{ key: 'description', label: 'Description' },

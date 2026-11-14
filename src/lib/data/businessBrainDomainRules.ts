@@ -1,4 +1,5 @@
-import { domainPageKinds, type DomainFieldFact, type DomainPageKind, type DomainTermFact } from './businessBrainDomain';
+import { domainPageKinds, type DomainPageKind, type SubdomainKind } from './businessBrainDomain';
+import type { DomainPageFactsGiven } from './businessBrainDomainFactsGiven';
 import type { BusinessBrainSourceGiven } from './businessBrainRules';
 
 /**
@@ -20,7 +21,18 @@ export const domainFilingLimits = {
 	mostGoverned: 20,
 	mostTerms: 100,
 	longestWord: 120,
-	longestMeaning: 1000
+	longestMeaning: 1000,
+	mostOtherNames: 10,
+	mostRelationships: 30,
+	longestPasses: 300,
+	longestIdentity: 1000,
+	longestKeptIn: 300,
+	mostMembers: 30,
+	mostGuardedStations: 20,
+	mostReactingRoles: 20,
+	mostReactingRules: 20,
+	mostAssumed: 10,
+	longestAssumed: 300
 } as const;
 
 /** The kinds a page written by a filing may take; a bounded context is filed as a context, never as a page. */
@@ -57,19 +69,7 @@ export const supersededLinkKind = 'superseded_by';
 export const domainReferenceType = 'ref';
 
 /** A bounded context as a filing gives it. */
-export type DomainContextGiven = { slug: string; title: string; summary: string; body: string; isCoreDomain: boolean };
-
-/** The facts a thing written by a filing carries, as they are kept. */
-export type DomainFactsGiven = { fields: DomainFieldFact[]; statuses: string[]; aggregateRootSlug: string | null };
-
-/** A rule's facts: the slugs of the things it governs. */
-export type DomainRuleFactsGiven = { governs: string[] };
-
-/** A glossary's facts: its words, one to a row. */
-export type DomainGlossaryFactsGiven = { terms: DomainTermFact[] };
-
-/** The facts a page of any kind written by a filing carries. */
-export type DomainPageFactsGiven = DomainFactsGiven | DomainRuleFactsGiven | DomainGlossaryFactsGiven;
+export type DomainContextGiven = { slug: string; title: string; summary: string; body: string; isCoreDomain: boolean; subdomain: SubdomainKind | null };
 
 /** A page as a filing gives it: a slug already filed is revised, a new one filed. */
 export type DomainPageWriteGiven = {

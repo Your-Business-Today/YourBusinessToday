@@ -1,28 +1,49 @@
 <script lang="ts">
 	import { organisationThingHref } from '$lib/components/organisations/domain/domainTabs';
+	import { gatesGuarding } from '$lib/data/domainThingLinks';
+	import { stationThingKey, type StationThing } from './stationDetails';
 	import type { StationDomain } from '$lib/data/domainReading';
-	import type { StationThing } from './stationDetails';
 
-	let { things, stationDomain, organisationId }: { things: StationThing[]; stationDomain: StationDomain; organisationId: string | null } = $props();
+	let {
+		stationKey,
+		things,
+		stationDomain,
+		organisationId
+	}: { stationKey: string; things: StationThing[]; stationDomain: StationDomain; organisationId: string | null } = $props();
 
-	const { thingTitles, rules } = $derived(stationDomain);
+	const { vocabulary, rules } = $derived(stationDomain);
+	const thingTitles = $derived(new Map(vocabulary.things.map((thing) => [thing.slug, thing.title])));
 	const slugs = $derived(things.map((thing) => thing.slug));
-	const touchedRules = $derived(rules.filter((rule) => rule.governs.some((slug) => slugs.includes(slug))));
+	const gates = $derived(gatesGuarding(rules, stationKey));
+	const touchedRules = $derived(rules.filter((rule) => !gates.includes(rule) && rule.governs.some((slug) => slugs.includes(slug))));
 	const linkClasses = 'text-chalk transition hover:text-go';
+	const statusClasses = 'text-chalk-faint';
 	const rulesHeading = 'Rules';
+	const gatesHeading = 'Guarded by';
 </script>
 
 <ul class="flex flex-wrap gap-x-3 gap-y-1 text-sm">
-	{#each things as thing (thing.slug)}
+	{#each things as thing (stationThingKey(thing))}
 		<li>
 			{#if organisationId === null}
-				<span class="text-chalk">{thingTitles[thing.slug] ?? thing.name}</span>
+				<span class="text-chalk">{thingTitles.get(thing.slug) ?? thing.name}</span>
 			{:else}
-				<a href={organisationThingHref(organisationId, thing.slug)} class={linkClasses}>{thingTitles[thing.slug] ?? thing.name}</a>
+				<a href={organisationThingHref(organisationId, thing.slug)} class={linkClasses}>{thingTitles.get(thing.slug) ?? thing.name}</a>
+			{/if}
+			{#if thing.status !== null}
+				<span class={statusClasses}>({thing.status})</span>
 			{/if}
 		</li>
 	{/each}
 </ul>
+{#if gates.length > 0}
+	<h4 class="font-display text-xs font-medium text-chalk-subtle">{gatesHeading}</h4>
+	<ul class="flex flex-col gap-2 text-sm text-chalk-muted">
+		{#each gates as gate (gate.pageId)}
+			<li>{gate.title}</li>
+		{/each}
+	</ul>
+{/if}
 {#if touchedRules.length > 0}
 	<h4 class="font-display text-xs font-medium text-chalk-subtle">{rulesHeading}</h4>
 	<ul class="flex flex-col gap-2 text-sm text-chalk-muted">

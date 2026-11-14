@@ -3,8 +3,10 @@ import { describeMonth } from '$lib/data/books/monthKey';
 import type { ProfitAndLossTotals } from '$lib/data/books/reports/profitAndLoss';
 import type { BooksOverview } from '$lib/server/books/booksOverview';
 import type { InvoiceSummary } from '$lib/server/books/invoices';
-import type { InvoiceNamings } from '$lib/server/books/invoiceNamings';
+import { customerNameOf, type InvoiceNamings } from '$lib/server/books/invoiceNamings';
+import { formatBritishDate } from '$lib/data/britishDate';
 import { describeInvoiceSummary } from './describeInvoices';
+import { describeBankStanding } from './describeBankReconciliation';
 
 /** The front page of an organisation's books: where the money stands, how the month went, and who still owes. */
 export function describeBooksOverview(organisationName: string, overview: BooksOverview, namings: InvoiceNamings): string {
@@ -15,14 +17,27 @@ export function describeBooksOverview(organisationName: string, overview: BooksO
 		`- Bank: ${formatPoundsAndPence(standing.bank)}`,
 		`- Owed by customers: ${formatPoundsAndPence(standing.debtors)}`,
 		`- Owed to suppliers: ${formatPoundsAndPence(standing.creditors)}`,
+		describeBankStanding(overview.bankStanding),
 		'',
 		`${month}, with the financial year to date:`,
 		`- Income: ${totalsText(standing.income)}`,
 		`- Costs: ${totalsText(standing.costs)}`,
 		`- Net profit: ${totalsText(standing.netProfit)}`,
 		'',
-		...describeUnpaidInvoices(overview.unpaidInvoices, namings)
+		...describeUnpaidInvoices(overview.unpaidInvoices, namings),
+		'',
+		describeNextScheduled(overview, namings),
+		`Drafts waiting to be issued: ${overview.draftCount}.`
 	].join('\n');
+}
+
+function describeNextScheduled(overview: BooksOverview, namings: InvoiceNamings): string {
+	const upcoming = overview.nextScheduled;
+	if (upcoming === null) return 'No billing schedule is running, so nothing goes out by itself.';
+	const { schedule, next } = upcoming;
+	const handling = schedule.sendsByItself ? 'issued and sent by itself' : 'left as a draft';
+	const customer = customerNameOf(namings, schedule.customerId);
+	return `Next: ${customer}, ${formatPoundsAndPence(next.total)} on ${formatBritishDate(next.date)} (${schedule.title}, for ${next.periodInWords}, ${handling}).`;
 }
 
 function totalsText(totals: ProfitAndLossTotals): string {

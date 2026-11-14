@@ -1,0 +1,26 @@
+name: billing schedules
+
+# Every hour, at seven minutes past when GitHub's schedules run late least, this knocks on the site's cron door for the
+# billing schedules: each organisation's schedules whose day has come raise their invoice, and the ones that send by
+# themselves issue and email it. The door does nothing before 07:00 UK time, and one period is never invoiced twice, so
+# a knock that comes twice or late does no harm. The knock never fails the workflow, as the deploy windows' does not:
+# a door that answers anything but 200 is a warning in the log, because a red run here would raise a FIX task every hour.
+
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+
+jobs:
+  knock:
+    name: Raise and send the billing schedules' invoices that are due
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          status="$(curl --silent --show-error --location-trusted --output answer.json --write-out '%{http_code}' \
+            --header "Authorization: Bearer $CRON_SECRET" "$DOOR")"
+          cat answer.json; echo
+          if [ "$status" != "200" ]; then echo "::warning::The cron door answered $status. Set CRON_SECRET on Vercel and as this repository's secret, the same value."; fi
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          DOOR: https://www.yourbusiness.today/api/watch/billing_schedules

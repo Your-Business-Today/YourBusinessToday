@@ -15,8 +15,6 @@ import { setProjectPosition } from '$lib/server/projects/projectShownOrder';
 import { readShownIds, shownIdsField } from '$lib/data/shownIds';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { requireUser } from '$lib/server/auth/requireUser';
-import { isStaffMember } from '$lib/server/auth/requireOrganisationAccess';
-import { readTeamChoiceFrom, teamProjectsAreForStaff } from '$lib/data/teamProject';
 import { parseProjectDetailsForm } from '$lib/server/projects/projectDetailsForm';
 import { saveProjectDetails } from '$lib/server/projects/saveProjectDetails';
 import type { Actions, PageServerLoad } from './$types';
@@ -50,14 +48,10 @@ export const actions: Actions = {
 		if (name === '') return fail(400, { message: 'A project name is required.' });
 		const choice = readOrganisationChoice(formData, await getOrganisations(locals.supabase));
 		if ('refusal' in choice) return fail(400, { message: choice.refusal });
-		const isTeamProject = readTeamChoiceFrom(formData) === true;
-		if (isTeamProject && !(await isStaffMember(locals)))
-			return fail(400, { message: teamProjectsAreForStaff });
 		await createProject(locals.supabase, {
 			name,
 			description,
 			organisationId: choice.organisationId,
-			isTeamProject,
 			repositoryUrl,
 			ownerId: user.id,
 			createdBy: user.id

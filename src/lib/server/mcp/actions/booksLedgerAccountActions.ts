@@ -1,9 +1,18 @@
-import { addLedgerAccount, setLedgerAccountArchived } from '$lib/server/books/ledgerAccounts';
+import { addLedgerAccount, renameLedgerAccount, setLedgerAccountArchived } from '$lib/server/books/ledgerAccounts';
 import { moduleAction } from '../organisationModuleGate';
 import { objectSchema } from '../actionTypes';
 import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
 import { booksOrganisationField } from './booksFields';
-import { archiveVerdict, archivingKeepsHistory, isArchivedField, ledgerAccountIdField, newLedgerAccountFields } from './booksChartFields';
+import {
+	archiveVerdict,
+	archivingKeepsHistory,
+	isArchivedField,
+	ledgerAccountIdField,
+	newAccountNameField,
+	newLedgerAccountFields,
+	renamedAccountCodeField,
+	renamingKeepsHistory
+} from './booksChartFields';
 import { describeLedgerAccount } from './describeChartOfAccounts';
 import type { McpAction } from '../actionTypes';
 
@@ -47,6 +56,24 @@ export const booksLedgerAccountActions: McpAction[] = [
 			answerOrRefusal(booksRefusalOpenings.saving, async () => {
 				const account = await setLedgerAccountArchived(caller.supabase, organisation.id, input.accountId, input.isArchived);
 				return `${account.code} ${account.name} ${archiveVerdict(account.isArchived)}.`;
+			})
+	}),
+	moduleAction('books', {
+		name: 'rename_ledger_account',
+		area: 'books',
+		audience: 'everyone',
+		isWrite: true,
+		summary: "rename an account in an organisation's chart by its code; the books' own accounts keep their names",
+		guidance: renamingKeepsHistory,
+		inputSchema: objectSchema({ organisationId: booksOrganisationField, accountCode: renamedAccountCodeField, name: newAccountNameField }, [
+			'organisationId',
+			'accountCode',
+			'name'
+		]),
+		run: async (caller, input, organisation) =>
+			answerOrRefusal(booksRefusalOpenings.saving, async () => {
+				const account = await renameLedgerAccount(caller.supabase, organisation.id, input);
+				return `Renamed in ${organisation.name}'s chart of accounts:\n${describeLedgerAccount(account)}`;
 			})
 	})
 ];

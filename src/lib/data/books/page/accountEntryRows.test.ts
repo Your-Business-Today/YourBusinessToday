@@ -5,7 +5,7 @@ import { accountEntryRows } from './accountEntryRows';
 const bank = { id: 'account-1200', code: '1200', name: 'Bank', accountType: 'asset' as const };
 
 function entry(journalDate: string, debit: number, credit: number, journalId: string): StatementEntry {
-	return { journalId, journalDate, description: `Journal ${journalId}`, kind: 'manual', costCentreId: null, debit, credit, position: 1 };
+	return { journalId, journalDate, postedAt: `${journalDate}T09:00:00+00:00`, description: `Journal ${journalId}`, kind: 'manual', costCentreId: null, debit, credit, position: 1 };
 }
 
 const entries = [entry('2026-03-31', 100, 0, 'a'), entry('2026-04-02', 0, 40, 'b')];

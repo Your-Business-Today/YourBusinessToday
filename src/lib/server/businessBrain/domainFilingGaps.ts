@@ -1,16 +1,30 @@
 import { domainPageKinds } from '$lib/data/businessBrainDomain';
-import { domainThingKinds, type DomainFilingGiven, type DomainRuleFactsGiven } from '$lib/data/businessBrainDomainRules';
+import { domainThingKinds, type DomainFilingGiven } from '$lib/data/businessBrainDomainRules';
+import type { DomainRuleFactsGiven } from '$lib/data/businessBrainDomainFactsGiven';
+import { firstUnknownNaming, firstUnknownRelatedContext, type DomainWordGap } from './domainWordGaps';
+import { firstGroupGap, type DomainGroupGap } from './domainGroupGaps';
+import { firstEventRuleGap, type DomainEventRuleGap } from './domainEventRuleGaps';
 import type { DomainPage } from '$lib/data/organisationDomain';
 
-/** A filing that names what the domain does not hold: a context a page is placed in, or a thing a rule governs. */
-export type DomainFilingGap = { unknownContextSlug: string } | { unknownThingSlug: string };
+/** A filing that names what the domain does not hold: a context a page is placed in or the map relates, a thing a rule governs, a group's member, what a word names, or what an event or a rule sits on. */
+export type DomainFilingGap =
+	| { unknownContextSlug: string }
+	| { unknownThingSlug: string }
+	| { unknownRelatedContextSlug: string }
+	| DomainGroupGap
+	| DomainWordGap
+	| DomainEventRuleGap;
 
-/** The first context or governed thing the filing names that is neither filed before nor written in it, or null. */
+/** The first context, governed thing, related area, group member, named thing or status, or event or rule placing the filing names that the domain will not hold, or null. */
 export function firstDomainFilingGap(filing: DomainFilingGiven, filedPages: DomainPage[]): DomainFilingGap | null {
 	const unknownContextSlug = firstUnknownContext(filing, filedPages);
 	if (unknownContextSlug !== null) return { unknownContextSlug };
 	const unknownThingSlug = firstUnknownThing(filing, filedPages);
-	return unknownThingSlug === null ? null : { unknownThingSlug };
+	if (unknownThingSlug !== null) return { unknownThingSlug };
+	const filedContextSlugs = new Set(contextPagesOf(filedPages).map((page) => page.slug));
+	const unknownRelatedContextSlug = firstUnknownRelatedContext(filing, filedContextSlugs);
+	if (unknownRelatedContextSlug !== null) return { unknownRelatedContextSlug };
+	return firstGroupGap(filing, filedPages) ?? firstUnknownNaming(filing, filedPages) ?? firstEventRuleGap(filing, filedPages);
 }
 
 export function contextPagesOf(pages: DomainPage[]): DomainPage[] {

@@ -17,6 +17,14 @@ export const clientIdField = {
 		'Leave out in every other organisation\'s books.'
 };
 
+export const billedOrganisationIdField = {
+	type: ['string', 'null'],
+	description:
+		"Your Business Today's own books only, and only for its staff: the client organisation this customer stands for, by " +
+		"its id as list_organisations gives it, so the organisation's Billing tab shows its billing schedules and invoices; " +
+		'null takes the link away. One customer stands for each organisation. Leave out in every other organisation\'s books.'
+};
+
 export const customerArchivedField = {
 	type: 'boolean',
 	description: 'Leave out, or true to archive the customer so no new invoice is raised to it, false to bring it back'

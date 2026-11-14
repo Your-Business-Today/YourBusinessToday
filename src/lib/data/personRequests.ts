@@ -3,3 +3,4 @@ export const organisationDomainRequest = 'set the organisation domain';
 export const workflowMapRequest = 'map the workflows';
 export const siteMapRequest = 'map the site';
 export const showEverythingRequest = 'show me everything';
+export const domainCheckRequest = 'check the domain';

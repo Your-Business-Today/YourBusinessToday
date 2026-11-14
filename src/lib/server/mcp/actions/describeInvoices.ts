@@ -1,11 +1,13 @@
 import { formatBritishDate } from '$lib/data/britishDate';
+import { booksInvoiceAddressOf } from '$lib/data/books/page/booksPaths';
 import { differenceOf, formatPoundsAndPence } from '$lib/data/books/money';
 import type { InvoiceStatus } from '$lib/data/books/invoiceStatuses';
 import type { InvoiceInFull, InvoiceSummary } from '$lib/server/books/invoices';
 import type { InvoiceLine } from '$lib/server/books/invoiceRecord';
 import type { InvoicePayment } from '$lib/server/books/invoicePayments';
 import { invoiceNumberAsPrinted, type InvoiceNamings } from '$lib/server/books/invoiceNamings';
-import { nameOf } from '$lib/server/books/chartNamings';
+import { nameOf, type ChartNamings } from '$lib/server/books/chartNamings';
+import { neverSentMarkOf } from './describeInvoiceSendings';
 
 /** One invoice in full: who it is to, its dates, every line with its account and cost centre, and its totals. */
 export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNamings): string {
@@ -15,17 +17,37 @@ export function describeInvoiceInFull(invoice: InvoiceInFull, namings: InvoiceNa
 		`Dated ${formatBritishDate(invoice.issueDate)}, due ${formatBritishDate(invoice.dueDate)}`,
 		...printedOnlyWhenGiven('Reference', invoice.reference),
 		'Lines:',
-		...invoice.lines.map((line) => describeLine(line, namings)),
+		...invoice.lines.map((line) => describeInvoiceLine(line, namings)),
 		...describePayments(invoice.payments),
 		describeAmounts(invoice),
 		...printedOnlyWhenGiven('Notes', invoice.notes)
 	].join('\n');
 }
 
-/** The invoices shown, newest first, each on one line, or that the books hold none the filter lets through. */
-export function describeInvoiceList(organisationName: string, invoices: InvoiceSummary[], namings: InvoiceNamings): string {
-	if (invoices.length === 0) return `${organisationName}'s books hold no invoices that match.`;
-	return [`Invoices of ${organisationName}, newest first:`, ...invoices.map((invoice) => describeInvoiceSummary(invoice, namings))].join('\n');
+/** The organisation whose books are read: its id for each invoice's address, and its name. */
+type BooksOrganisation = { id: string; name: string };
+
+/** What a list of invoices is told: the invoices, newest first, how each is named, which were ever emailed, and where each from a schedule came from. */
+export type InvoiceListing = {
+	invoices: InvoiceSummary[];
+	namings: InvoiceNamings;
+	sentInvoiceIds: ReadonlySet<string>;
+	originWords: ReadonlyMap<string, string>;
+};
+
+/** The invoices shown, each on one line with its address and a mark when issued but never emailed, or that none match. */
+export function describeInvoiceList(organisation: BooksOrganisation, listing: InvoiceListing): string {
+	const { invoices, namings, sentInvoiceIds } = listing;
+	if (invoices.length === 0) return `${organisation.name}'s books hold no invoices that match.`;
+	const lineOf = (invoice: InvoiceSummary) => `${describeInvoiceSummary(invoice, namings)}${neverSentMarkOf(invoice, sentInvoiceIds)}${originOf(listing, invoice.id)}`;
+	const lines = invoices.map((invoice) => `${lineOf(invoice)}; opens at ${booksInvoiceAddressOf(organisation.id, invoice.id)}`);
+	return [`Invoices of ${organisation.name}, newest first:`, ...lines].join('\n');
+}
+
+function originOf(listing: InvoiceListing, invoiceId: string): string {
+	const words = listing.originWords.get(invoiceId);
+	if (words === undefined) return '';
+	return `; ${words}`;
 }
 
 /** One invoice on one line: its number, customer, status, dates, total and what is owed, with its id. */
@@ -36,7 +58,8 @@ export function describeInvoiceSummary(invoice: InvoiceSummary, namings: Invoice
 	return `- ${number} to ${customer}, ${invoice.status}, ${dates}; ${describeAmounts(invoice)}. Id ${invoice.id}`;
 }
 
-function describeLine(line: InvoiceLine, namings: InvoiceNamings): string {
+/** One line as the books show it: its description, workings, income account and any cost centre. */
+export function describeInvoiceLine(line: InvoiceLine, namings: ChartNamings): string {
 	const workings = `${line.quantity} × ${formatPoundsAndPence(line.unitPrice)} = ${formatPoundsAndPence(line.amount)}`;
 	const account = `income account ${nameOf(namings.accountNames, line.incomeAccountId)}`;
 	const costCentre = line.costCentreId === null ? '' : `, cost centre ${nameOf(namings.costCentreNames, line.costCentreId)}`;
@@ -62,7 +85,8 @@ function describePayments(payments: InvoicePayment[]): string[] {
 	return ['Payments:', ...payments.map((payment) => `- ${formatBritishDate(payment.paidOn)}: ${formatPoundsAndPence(payment.amount)}`)];
 }
 
-function printedOnlyWhenGiven(label: string, value: string): string[] {
+/** A labelled line, or none when the value is empty. */
+export function printedOnlyWhenGiven(label: string, value: string): string[] {
 	if (value === '') return [];
 	return [`${label}: ${value}`];
 }

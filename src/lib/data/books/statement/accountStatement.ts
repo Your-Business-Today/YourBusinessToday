@@ -1,16 +1,18 @@
 import { naturalMovement } from '../reports/accountBalances';
 import { sumMoney } from '../money';
 import { isBeforePeriod, type StatementPeriod } from './statementPeriod';
+import { byPostedMoment, postedAtOnce } from './postingMoment';
 import type { JournalKind } from '../journalKinds';
 import type { LedgerAccountType } from '../ledgerAccountTypes';
 
 /** The account a statement explains. */
 export type StatementAccount = { id: string; code: string; name: string; accountType: LedgerAccountType };
 
-/** One posted line on the account, with the journal it belongs to. */
+/** One posted line on the account, with the journal it belongs to and the moment that journal was posted. */
 export type StatementEntry = {
 	journalId: string;
 	journalDate: string;
+	postedAt: string;
 	description: string;
 	kind: JournalKind;
 	costCentreId: string | null;
@@ -56,6 +58,8 @@ function movementOf(account: StatementAccount, entry: StatementEntry): number {
 
 function byPostingOrder(first: StatementEntry, second: StatementEntry): number {
 	if (first.journalDate !== second.journalDate) return first.journalDate.localeCompare(second.journalDate);
+	const postingGap = byPostedMoment(first.postedAt, second.postedAt);
+	if (postingGap !== postedAtOnce) return postingGap;
 	if (first.journalId !== second.journalId) return first.journalId.localeCompare(second.journalId);
 	return first.position - second.position;
 }

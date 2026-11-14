@@ -36,7 +36,6 @@
 		openTaskCount={project.openTaskCount}
 		taskCount={project.taskCount}
 		assignedTaskCount={project.assignedTaskCount}
-		longTermGoalCount={project.longTermGoalCount}
 	/>
 {/snippet}
 
@@ -58,7 +57,6 @@
 <ProjectOrganisationCell
 	organisationId={project.organisationId}
 	organisationName={project.organisationName}
-	isTeamProject={project.isTeamProject}
 />
 <div class={wideScreenOnlyClasses}>
 	<KitVersionBadge

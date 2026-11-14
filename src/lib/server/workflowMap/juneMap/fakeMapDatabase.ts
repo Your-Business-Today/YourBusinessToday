@@ -1,17 +1,23 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { MapLine, WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';
+import { lineKind, type MapLine, type WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';
 
 type Row = Record<string, unknown>;
-type TableName = 'workflow_map_versions' | 'workflow_map_lines' | 'workflow_map_stations' | 'workflow_map_handovers';
+type TableName = 'workflow_map_versions' | 'workflow_map_lines' | 'workflow_map_stations' | 'workflow_map_handovers' | 'workflow_map_arrivals';
 type Tables = Record<TableName, Row[]>;
 type FilingArguments = { target_organisation: string; recorder: string; map: WorkflowMapDraft };
 type Answer = { data: unknown; error: null };
 
 const filedAt = '2026-11-13T05:00:00Z';
 
-/** A stand-in for the database in tests: file_workflow_map writes rows as migration 0210 does, and they read back. */
+/** A stand-in for the database in tests: file_workflow_map writes rows as migrations 0210 and 0215 do, and they read back. */
 export function fakeMapDatabase(): SupabaseClient {
-	const tables: Tables = { workflow_map_versions: [], workflow_map_lines: [], workflow_map_stations: [], workflow_map_handovers: [] };
+	const tables: Tables = {
+		workflow_map_versions: [],
+		workflow_map_lines: [],
+		workflow_map_stations: [],
+		workflow_map_handovers: [],
+		workflow_map_arrivals: []
+	};
 	const supabase = {
 		rpc: async (_name: string, filing: FilingArguments): Promise<Answer> => ({ data: fileInto(tables, filing), error: null }),
 		from: (table: TableName) => queryOver(tables[table])
@@ -37,6 +43,15 @@ function fileInto(tables: Tables, { target_organisation, map }: FilingArguments)
 			goes_wrong: handover.goesWrong
 		})
 	);
+	(map.arrivals ?? []).forEach((arrival, index) =>
+		tables.workflow_map_arrivals.push({
+			version_id: versionId,
+			station_id: stationIds.get(arrival.stationKey),
+			position: index + 1,
+			what_arrives: arrival.whatArrives,
+			arrives_from: arrival.arrivesFrom
+		})
+	);
 	return versionNumber;
 }
 
@@ -44,7 +59,8 @@ type LineFiling = { versionId: string; line: MapLine; position: number; stationI
 
 function fileLine(tables: Tables, { versionId, line, position, stationIds }: LineFiling): void {
 	const lineId = crypto.randomUUID();
-	tables.workflow_map_lines.push({ id: lineId, version_id: versionId, line_key: line.key, position, name: line.name });
+	const kind = line.kind ?? lineKind.role;
+	tables.workflow_map_lines.push({ id: lineId, version_id: versionId, line_key: line.key, position, name: line.name, kind });
 	line.stations.forEach((station, index) => {
 		const stationId = crypto.randomUUID();
 		stationIds.set(station.key, stationId);

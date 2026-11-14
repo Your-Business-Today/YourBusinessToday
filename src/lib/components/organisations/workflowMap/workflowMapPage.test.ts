@@ -2,8 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { juneAfter, juneBefore, productNames } from './tests/juneBeforeAndAfter';
 import { lineColoursOf, lineMapOf } from './workflowLineMap';
 import { mapChangesBetween } from './workflowMapChanges';
-import { openingStageOf, isComparing } from './workflowMapTabs';
+import { openingStageOf, isComparing, workflowMapTabsOf } from './workflowMapTabs';
 import { stationDetailsOf } from './stationDetails';
+import { emptyVocabulary } from '$lib/data/workflowMap/phraseInDomain';
+
+const vocabulary = emptyVocabulary;
 
 const before = juneBefore();
 const after = juneAfter();
@@ -21,7 +24,7 @@ describe('lineMapOf', () => {
 
 describe('stationDetailsOf', () => {
 	it('says what Work order award takes in and from whom, what it produces for whom, and where it was done before', () => {
-		const details = stationDetailsOf(after, { earlierMap: before, colours, productNames }, 'work-order-award');
+		const details = stationDetailsOf(after, { earlierMap: before, colours, productNames, vocabulary }, 'work-order-award');
 		expect(details?.lineName).toBe('QS / Estimator');
 		expect(details?.inputs).toEqual([
 			{ item: 'Levelled quote comparison', source: 'From Subbie quotes', goesWrong: null },
@@ -33,7 +36,7 @@ describe('stationDetailsOf', () => {
 	});
 
 	it('says how a hand-over goes wrong today on the Before', () => {
-		const details = stationDetailsOf(before, { earlierMap: null, colours, productNames }, 'work-order-award');
+		const details = stationDetailsOf(before, { earlierMap: null, colours, productNames, vocabulary }, 'work-order-award');
 		const handedOver = details?.inputs[1];
 		const place = details?.place;
 		expect(handedOver?.goesWrong).toContain('lapsed insurance');
@@ -41,7 +44,7 @@ describe('stationDetailsOf', () => {
 	});
 
 	it('is null for a station the map does not have', () => {
-		expect(stationDetailsOf(after, { earlierMap: before, colours, productNames }, 'no-such-station')).toBeNull();
+		expect(stationDetailsOf(after, { earlierMap: before, colours, productNames, vocabulary }, 'no-such-station')).toBeNull();
 	});
 });
 
@@ -74,5 +77,21 @@ describe('the page’s opening map', () => {
 		expect(openingStageOf({ before: null, after: null, productNames })).toBeNull();
 		expect(isComparing({ before: null, after, productNames })).toBe(false);
 		expect(isComparing({ before, after, productNames })).toBe(true);
+	});
+});
+
+describe('the page’s one row of tabs', () => {
+	const keysOf = (tabs: { key: string }[] | null) => tabs?.map((tab) => tab.key) ?? null;
+
+	it('shows Questions with its count last, even beside a single map', () => {
+		const tabs = workflowMapTabsOf({ before: null, after, productNames }, 0, 5);
+		expect(keysOf(tabs)).toEqual(['after', 'questions']);
+		expect(tabs?.[1]).toMatchObject({ label: 'Questions', count: 5 });
+		expect(keysOf(workflowMapTabsOf({ before, after, productNames }, 6, 0))).toEqual(['before', 'after', 'changes', 'questions']);
+	});
+
+	it('shows no row for one map where the page asks no questions, and Before, After and What changes for two', () => {
+		expect(workflowMapTabsOf({ before, after: null, productNames }, 0, null)).toBeNull();
+		expect(keysOf(workflowMapTabsOf({ before, after, productNames }, 6, null))).toEqual(['before', 'after', 'changes']);
 	});
 });

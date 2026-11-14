@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { mapStage } from '$lib/data/workflowMap/workflowMap';
+import { lineKind, mapStage } from '$lib/data/workflowMap/workflowMap';
 import { fakeMapDatabase } from './juneMap/fakeMapDatabase';
 import { juneWorkflowMapInput } from './juneMap/juneWorkflowMap';
 import { fileWorkflowMap } from './fileWorkflowMap';
@@ -38,5 +38,31 @@ describe('filing the June map of Jewel Bespoke Build and reading it back', () =>
 		expect([secondBefore, firstAfter]).toEqual([2, 1]);
 		const latestBefore = await readLatestWorkflowMap(supabase, organisationId, mapStage.before);
 		expect(latestBefore?.versionNumber).toBe(2);
+	});
+
+	it('reads back each line kind and every arrival from outside, in their order', async () => {
+		const supabase = fakeMapDatabase();
+		const draft = juneDraft();
+		const [compliance, ...otherLines] = draft.lines;
+		const arrivals = [
+			{ whatArrives: 'Subcontractor enquiry', arrivesFrom: 'a subcontractor', stationKey: 'subbie-onboarding' },
+			{ whatArrives: 'Month end', arrivesFrom: 'the calendar, on the last day of the month', stationKey: 'cvr' }
+		];
+		const withKinds = { ...draft, lines: [{ ...compliance, kind: lineKind.outsideParty }, ...otherLines], arrivals };
+		await fileWorkflowMap(supabase, { organisationId, recordedBy, draft: withKinds });
+		const filed = await readLatestWorkflowMap(supabase, organisationId, mapStage.before);
+		expect(filed?.lines.map((line) => line.kind).slice(0, 2)).toEqual([lineKind.outsideParty, lineKind.role]);
+		expect(filed?.arrivals).toEqual(arrivals);
+	});
+
+	it('reads a map filed before lines had kinds as every line a role, with no arrivals', async () => {
+		const supabase = fakeMapDatabase();
+		const { lines, ...rest } = juneDraft();
+		const linesWithoutKinds = lines.map((line) => ({ key: line.key, name: line.name, stations: line.stations }));
+		const filedBefore = { ...rest, arrivals: undefined, lines: linesWithoutKinds };
+		await fileWorkflowMap(supabase, { organisationId, recordedBy, draft: filedBefore as unknown as WorkflowMapDraft });
+		const filed = await readLatestWorkflowMap(supabase, organisationId, mapStage.before);
+		expect(new Set(filed?.lines.map((line) => line.kind))).toEqual(new Set([lineKind.role]));
+		expect(filed?.arrivals).toEqual([]);
 	});
 });

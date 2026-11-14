@@ -6,7 +6,7 @@ import { moduleAction } from '../organisationModuleGate';
 import { objectSchema } from '../actionTypes';
 import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
 import { booksOrganisationField } from './booksFields';
-import { clientIdField, customerArchivedField, customerDetailFields, customerIdField, includeArchivedField } from './booksCustomerFields';
+import { billedOrganisationIdField, clientIdField, customerArchivedField, customerDetailFields, customerIdField, includeArchivedField } from './booksCustomerFields';
 import { describeCustomer, describeCustomerBalances } from './describeCustomers';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -65,10 +65,17 @@ export const booksCustomerActions: McpAction[] = [
 		area: 'books',
 		audience: 'everyone',
 		isWrite: true,
-		summary: "change one of an organisation's customers: its details, its archiving, or the client on the register it is",
+		summary: "change one of an organisation's customers: its details, its archiving, the client on the register it is, or the organisation it bills",
 		guidance: changeOnlyWhatThePersonSaid,
 		inputSchema: objectSchema(
-			{ organisationId: booksOrganisationField, customerId: customerIdField, ...customerDetailFields, isArchived: customerArchivedField, clientId: clientIdField },
+			{
+				organisationId: booksOrganisationField,
+				customerId: customerIdField,
+				...customerDetailFields,
+				isArchived: customerArchivedField,
+				clientId: clientIdField,
+				billedOrganisationId: billedOrganisationIdField
+			},
 			['organisationId', 'customerId']
 		),
 		run: async (caller, input, organisation) =>

@@ -3,6 +3,8 @@ import { validateRecordId } from '$lib/data/isUuid';
 import { refuseWhen } from '$lib/server/books/booksRefusal';
 import { findInvoiceSummaries, type InvoiceFilter } from '$lib/server/books/invoices';
 import { findInvoiceNamings } from '$lib/server/books/invoiceNamings';
+import { findSentInvoiceIds } from '$lib/server/books/invoiceSendings';
+import { findScheduledInvoices, findScheduleTitles } from '$lib/server/books/scheduledInvoices';
 import { moduleAction } from '../organisationModuleGate';
 import { objectSchema } from '../actionTypes';
 import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
@@ -10,15 +12,18 @@ import { booksOrganisationField } from './booksFields';
 import { invoiceFilterFields, invoiceIdField } from './booksInvoiceFields';
 import { readInvoiceInFull } from './booksInvoiceReading';
 import { describeInvoiceList } from './describeInvoices';
+import { originWordsOf } from './describeScheduledInvoices';
 import type { McpAction } from '../actionTypes';
 
 const figuresAsTheBooksHoldThem =
 	'Give the person the invoice as the books hold it: its number, customer, dates, every line and its totals. Never ' +
-	'work a figure out yourself; a draft is not yet owed, and an issued one owes its total less what has been paid.';
+	'work a figure out yourself; a draft is not yet owed, and an issued one owes its total less what has been paid. To see, print ' +
+	'or forward it, hand them the address it opens at as a document.';
 
 const newestFirst =
 	'The newest invoice comes first. Use it to find the invoice the person means before reading or changing it, and give ' +
-	'them the figures as the books hold them; a draft is not yet owed.';
+	'them the figures as the books hold them; a draft is not yet owed. Each opens as a document at its address: hand that over ' +
+	'when they want to see, print or forward one. An issued invoice never emailed is marked; send_invoice sends it when they say so.';
 
 export const booksInvoiceReadActions: McpAction[] = [
 	moduleAction('books', {
@@ -46,11 +51,14 @@ export const booksInvoiceReadActions: McpAction[] = [
 		run: async (caller, input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.reading, async () => {
 				const filter = validatedFilter(input);
-				const [invoices, namings] = await Promise.all([
+				const [invoices, namings, sentInvoiceIds, scheduled, titles] = await Promise.all([
 					findInvoiceSummaries(caller.supabase, organisation.id, filter),
-					findInvoiceNamings(caller.supabase, organisation.id)
+					findInvoiceNamings(caller.supabase, organisation.id),
+					findSentInvoiceIds(caller.supabase, organisation.id),
+					findScheduledInvoices(caller.supabase, organisation.id),
+					findScheduleTitles(caller.supabase, organisation.id)
 				]);
-				return describeInvoiceList(organisation.name, invoices, namings);
+				return describeInvoiceList(organisation, { invoices, namings, sentInvoiceIds, originWords: originWordsOf(scheduled, titles) });
 			})
 	})
 ];

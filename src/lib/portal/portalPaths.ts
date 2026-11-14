@@ -8,6 +8,7 @@ export const portalBillingPath = `${portalHomePath}/billing`;
 export const portalSignInPath = `/account/sign-in?next=${encodeURIComponent(portalHomePath)}`;
 
 const destinationParameter = 'next';
+const invoicePdfSegment = 'pdf';
 const querySeparator = '?';
 const pathSeparator = '/';
 const accountPathsServedToClients = new Set(['/account/sign-in', '/account/set-password']);
@@ -32,4 +33,14 @@ export function isPortalPage(url: URL): boolean {
 
 export function portalProjectPath(projectId: string): string {
 	return `${portalHomePath}/projects/${projectId}`;
+}
+
+/** One invoice raised to the client, as a document they can print or save. */
+export function portalBilledInvoicePath(invoiceId: string): string {
+	return `${portalBillingPath}/invoices/${invoiceId}`;
+}
+
+/** The same invoice as a PDF to download. */
+export function portalBilledInvoicePdfPath(invoiceId: string): string {
+	return `${portalBilledInvoicePath(invoiceId)}/${invoicePdfSegment}`;
 }

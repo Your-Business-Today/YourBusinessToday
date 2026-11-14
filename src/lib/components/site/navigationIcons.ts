@@ -1,5 +1,8 @@
+import { accountsFolderIconPaths } from './accountsFolderIcons';
+
 /** The side bar's icons: stroke paths on a 24 by 24 grid, drawn after Lucide's, one per page or folder they stand for. */
 export const navigationIconPaths = {
+	...accountsFolderIconPaths,
 	bookOpen: [
 		'M12 7v14',
 		'M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z'
@@ -62,6 +65,11 @@ export const navigationIconPaths = {
 	plug: ['M12 22v-5', 'M9 8V2', 'M15 8V2', 'M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z'],
 	poundSterling: ['M18 7c0-5.333-8-5.333-8 0', 'M10 7v14', 'M6 21h12', 'M6 13h10'],
 	presentation: ['M2 3h20', 'M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3', 'm7 21 5-5 5 5'],
+	receipt: [
+		'M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z',
+		'M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8',
+		'M12 17.5v-11'
+	],
 	swatchBook: [
 		'M11 17a4 4 0 0 1-8 0V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2Z',
 		'M16.7 13H19a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H7',

@@ -24,3 +24,14 @@ export const changeWords = {
 	noLongerHandedOver: 'No longer handed over',
 	stateLeads: { ours: 'Done in', planned: 'Planned for', elsewhere: 'Done in' } satisfies Record<StationState, string>
 } as const;
+
+/** The words of the Questions table. */
+export const questionWords = {
+	label: 'What the map still leaves open, most important first',
+	question: 'Question',
+	about: 'About',
+	line: 'Line',
+	kind: 'Kind',
+	wholeMap: 'The whole map',
+	noQuestions: 'The map passes every test of a complete map: nothing is left to ask.'
+} as const;

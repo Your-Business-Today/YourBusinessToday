@@ -1,6 +1,7 @@
 import { createCameraFlight, type CameraFlight } from './cameraFlight';
 import { contextViewpoint, homeViewpoint, neuronViewpoint, type Viewpoint } from './focusChoreography';
 import { WHOLE_MODEL_KEY } from './materialBank';
+import type { BrainLabels } from './brainLabels';
 import type { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import type { PerspectiveCamera } from 'three';
 import type { ConstellationScene } from './constellationSceneAssembly';
@@ -10,11 +11,12 @@ type DirectorDependencies = {
 	camera: PerspectiveCamera;
 	controls: OrbitControls;
 	view: ConstellationScene;
+	labels: BrainLabels;
 	model: ConstellationModel;
 	isAnimated: boolean;
 };
 
-/** Flies the camera to the whole brain, to one area or to one neuron, and dims everything else. */
+/** Flies the camera to the whole brain, to one area or to one neuron, dims everything else and names what is looked at. */
 export class FocusDirector {
 	private readonly flight: CameraFlight;
 	private model: ConstellationModel;
@@ -31,8 +33,9 @@ export class FocusDirector {
 	}
 
 	focusContext = (contextSlug: string | null): void => {
-		const { controls, isAnimated } = this.dependencies;
+		const { controls, isAnimated, labels } = this.dependencies;
 		this.applyFocus(contextSlug);
+		labels.attendTo({ contextSlug, neuronSlug: null });
 		controls.autoRotate = contextSlug === null && isAnimated;
 		const viewpoint = this.viewpointOf(contextSlug);
 		if (viewpoint !== null) this.travel(viewpoint);
@@ -41,14 +44,21 @@ export class FocusDirector {
 	focusNeuron = (slug: string): void => {
 		const neuron = this.model.neurons.find((candidate) => candidate.slug === slug);
 		if (neuron === undefined) return;
-		const { controls } = this.dependencies;
+		const { controls, labels } = this.dependencies;
 		this.applyFocus(neuron.contextSlug ?? WHOLE_MODEL_KEY);
+		labels.attendTo({ contextSlug: neuron.contextSlug, neuronSlug: slug });
 		controls.autoRotate = false;
 		this.travel(neuronViewpoint(neuron, this.model));
 	};
 
+	/** The area the brain is focused on, as last chosen; null for the whole brain. */
+	get focusKeyHeld(): string | null {
+		return this.focusKey;
+	}
+
 	refresh(model: ConstellationModel): void {
 		this.model = model;
+		this.dependencies.labels.rebuild(model);
 		this.applyFocus(this.focusKey);
 	}
 

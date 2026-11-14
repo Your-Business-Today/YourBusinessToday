@@ -36,8 +36,12 @@ export function isInternalProject(project: { repositoryUrl: string }, work: Depa
 	return hasNoRepository(project) && !hasDevelopmentWork(work);
 }
 
-/** The sides a project page shows: Internal work alone for an internal project, else both. */
-export function boardSidesOfProject(isInternal: boolean): BoardSide[] {
+/**
+ * The sides a project page shows: Internal work alone for an internal project. A product under an organisation
+ * shows Development alone, since the organisation's Tasks page holds the team's jobs; any other product shows both.
+ */
+export function boardSidesOfProject(isInternal: boolean, isUnderOrganisation = false): BoardSide[] {
 	if (isInternal) return [boardSides.internal];
+	if (isUnderOrganisation) return [boardSides.development];
 	return boardSideOrder;
 }

@@ -1,7 +1,12 @@
 import { validateRecordId } from '$lib/data/isUuid';
-import { validateMoney, validateQuantity } from './moneyColumn';
+import { invoiceLineTotal } from './customerBalance';
+import { formatPoundsAndPence, sumMoney } from './money';
+import { validateQuantity, validateSignedMoney } from './moneyColumn';
 
-/** One line of an invoice: what was sold, how many at what price, the income account the sale posts to, perhaps within a cost centre. */
+/**
+ * One line of an invoice: what was sold, how many at what price, the income account the sale posts to, perhaps within a
+ * cost centre. A price below zero is a line that takes money off, such as an agreed discount.
+ */
 export type InvoiceLineInput = {
 	description: string;
 	quantity: number;
@@ -12,6 +17,8 @@ export type InvoiceLineInput = {
 
 type InvoiceLineFields = Record<string, unknown>;
 
+const nothing = 0;
+
 /** The lines as given, in their order, or the first reason one cannot be kept, naming the line and the field. */
 export function validateInvoiceLines(candidate: unknown): InvoiceLineInput[] | string {
 	const isListOfLines = Array.isArray(candidate) && candidate.length > 0;
@@ -19,7 +26,14 @@ export function validateInvoiceLines(candidate: unknown): InvoiceLineInput[] | s
 	const lines = candidate.map((line: unknown, index) => validateInvoiceLine(line, index + 1));
 	const refusal = lines.find((line): line is string => typeof line === 'string');
 	if (refusal !== undefined) return refusal;
-	return lines as InvoiceLineInput[];
+	return linesTotalRefusal(lines as InvoiceLineInput[]) ?? (lines as InvoiceLineInput[]);
+}
+
+/** Why lines that take money off take off more than the rest add up to, or null when they come to nothing or more. */
+function linesTotalRefusal(lines: InvoiceLineInput[]): string | null {
+	const total = sumMoney(lines.map((line) => invoiceLineTotal(line.quantity, line.unitPrice)));
+	if (total >= nothing) return null;
+	return `The lines come to ${formatPoundsAndPence(total)}; an invoice comes to nothing or more, so what its lines take off is no more than the rest add up to.`;
 }
 
 function validateInvoiceLine(candidate: unknown, lineNumber: number): InvoiceLineInput | string {
@@ -31,7 +45,7 @@ function validateInvoiceLine(candidate: unknown, lineNumber: number): InvoiceLin
 	if (refusal !== null) return refusal;
 	const quantity = validateQuantity(`${name} quantity`, fields.quantity);
 	if (typeof quantity === 'string') return quantity;
-	const unitPrice = validateMoney(`${name} unitPrice`, fields.unitPrice);
+	const unitPrice = validateSignedMoney(`${name} unitPrice`, fields.unitPrice);
 	if (typeof unitPrice === 'string') return unitPrice;
 	const costCentreId = (fields.costCentreId ?? null) as string | null;
 	return { description: fields.description as string, quantity, unitPrice, incomeAccountId: fields.incomeAccountId as string, costCentreId };

@@ -12,7 +12,6 @@ import { projectReadActions } from './projectReadActions';
 import { projectRemovalActions } from './projectRemovalActions';
 import { projectWriteActions } from './projectWriteActions';
 import { siteMapRunActions } from './siteMapRunActions';
-import { teamProjectActions } from './teamProjectActions';
 import type { McpAction } from '../actionTypes';
 
 export const projectActions: McpAction[] = [
@@ -29,6 +28,5 @@ export const projectActions: McpAction[] = [
 	...deployHistoryActions,
 	...projectRemovalActions,
 	...projectOrderActions,
-	...projectOwnershipActions,
-	...teamProjectActions
+	...projectOwnershipActions
 ];

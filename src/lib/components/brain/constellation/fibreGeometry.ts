@@ -1,5 +1,4 @@
 import { BufferAttribute, BufferGeometry, Vector3 } from 'three';
-import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { framesAlong, type FibreFrame } from './fibreFrames';
 
 const FULL_TURN_RADIANS = Math.PI * 2;
@@ -57,14 +56,6 @@ function writeRing(buffers: FibreBuffers, ring: FibreRing, radialSegments: numbe
 		surface.toArray(buffers.positions, offset);
 		buffers.reachShares[vertexIndex] = reachShare;
 	}
-}
-
-export function mergedFibreGeometry(paths: FibrePath[], radialSegments: number): BufferGeometry {
-	if (paths.length === 0) return new BufferGeometry();
-	const tubes = paths.map((path) => fibreGeometryFrom(path, radialSegments));
-	const merged = mergeGeometries(tubes) ?? new BufferGeometry();
-	for (const tube of tubes) tube.dispose();
-	return merged;
 }
 
 function tubeIndices(ringCount: number, radialSegments: number): number[] {

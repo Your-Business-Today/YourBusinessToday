@@ -4,12 +4,15 @@ import { doneTaskStatus, parseTaskStatus } from '$lib/data/taskStatus';
 import { currentWork, type HorizonedGoal, type PlacedTask } from '$lib/data/taskHorizons';
 import { goalsOnHorizon, longTermGoalHorizon, parseGoalHorizon } from '$lib/data/goalHorizon';
 import { weightedCompletionPercent, type CompletionInput } from '$lib/data/completionSummary';
+import { readStoredDepartment, type Department } from '$lib/data/department';
+import { isInternalProject } from '$lib/data/internalProject';
+import { countedWork } from './countedWork';
 import type { ProjectTally, TaskTally } from './ownedProjectTallies';
 
-type TaskProgress = PlacedTask & CompletionInput & { isDone: boolean };
+type TaskProgress = PlacedTask & CompletionInput & { isDone: boolean; department: Department };
 
 const projectTallyColumns =
-	'id, tasks(id, parent_task_id, goal_id, status, story_points, completion_percent), goals(id, horizon)';
+	'id, repository_url, tasks(id, parent_task_id, goal_id, status, story_points, completion_percent, department), goals(id, horizon, department)';
 
 /** The projects list's figures worked out here from every task and goal, until migration 0139 counts them. */
 export async function tallyOwnedProjectsInSite(
@@ -39,8 +42,10 @@ function tallyEachProject(rows: Record<string, unknown>[]): Map<string, ProjectT
 function tallyProject(row: Record<string, unknown>): ProjectTally {
 	const tasks = (row.tasks as Record<string, unknown>[]).map(readTaskProgress);
 	const goals = (row.goals as Record<string, unknown>[]).map(readGoalHorizon);
+	const project = { repositoryUrl: String(row.repository_url ?? '') };
+	const isInternal = isInternalProject(project, [...tasks, ...goals]);
 	return {
-		...tallyTasks(currentWork(tasks, goals)),
+		...tallyTasks(countedWork(isInternal, currentWork(tasks, goals))),
 		longTermGoalCount: goalsOnHorizon(goals, longTermGoalHorizon).length
 	};
 }
@@ -60,10 +65,11 @@ function readTaskProgress(row: Record<string, unknown>): TaskProgress {
 		goalId: (row.goal_id as string) ?? null,
 		isDone: parseTaskStatus(row.status) === doneTaskStatus,
 		storyPoints: parseStoryPoints(row.story_points),
-		completionPercent: Number(row.completion_percent ?? 0)
+		completionPercent: Number(row.completion_percent ?? 0),
+		department: readStoredDepartment(row.department)
 	};
 }
 
-function readGoalHorizon(row: Record<string, unknown>): HorizonedGoal {
-	return { id: row.id as string, horizon: parseGoalHorizon(row.horizon) };
+function readGoalHorizon(row: Record<string, unknown>): HorizonedGoal & { department: Department } {
+	return { id: row.id as string, horizon: parseGoalHorizon(row.horizon), department: readStoredDepartment(row.department) };
 }

@@ -29,7 +29,7 @@ describe('describeWorkflowMap', () => {
 
 	it('heads the map with its stage, version and day, and tallies it', () => {
 		expect(markdown).toContain('## After: workflow map of Jewel Bespoke Build, version 3, filed 2026-11-13');
-		expect(markdown).toContain('6 lines, 29 stations and 7 hand-overs. Stations: 1 in our products, 1 planned, 27 done elsewhere.');
+		expect(markdown).toContain('6 lines, 29 stations, 7 hand-overs and 0 arrivals. Stations: 1 in our products, 1 planned, 27 done elsewhere.');
 		expect(markdown).toContain("The client's marks: 1 right, 1 not right, 27 not checked yet.");
 	});
 
@@ -45,7 +45,7 @@ describe('describeWorkflowMap', () => {
 	});
 
 	it('lists each line with its stations in order, keys and all, and marks the outputs', () => {
-		expect(markdown).toContain('### QS / Estimator `quantity-surveyor`');
+		expect(markdown).toContain('### QS / Estimator `quantity-surveyor`, a role');
 		expect(markdown).toContain('8. **PVR** `pvr`, an output the business runs on: The programme valuation report');
 		expect(markdown).toContain('   - Takes in: Levelled quote comparison; Verified compliance record');
 	});

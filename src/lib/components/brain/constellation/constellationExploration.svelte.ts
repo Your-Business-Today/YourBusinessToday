@@ -27,6 +27,12 @@ export class ConstellationExploration {
 		this.focusedContextSlug = page?.contextSlug ?? this.focusedContextSlug;
 	};
 
+	/** Opens a page as if its neuron were clicked: flies to it and shows it in the panel. */
+	openNeuron = (slug: string): void => {
+		this.rememberSelection(slug);
+		this.dependencies.experience()?.focusNeuron(slug);
+	};
+
 	returnToModel = (): void => {
 		this.selectedSlug = null;
 		this.focusedContextSlug = null;

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { clientWork, fileDomain, job, linksKept } from './businessBrainDomainFixtures';
+import { clientWork, clientWorkGlossary, contextMap, contractStack, fileDomain, invoicesPassed, job, linksKept, money, signedWord } from './businessBrainDomainFixtures';
 
 const brain = vi.hoisted(() => ({
 	pages: new Map<string, Record<string, unknown>>(),
@@ -11,6 +11,7 @@ vi.mock('$lib/server/organisations/getOrganisation', () => ({
 		organisationId === 'jewel' ? { id: 'jewel', parentOrganisationId: null, name: 'Jewel Enterprises' } : null
 }));
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['business_brain'] }));
+vi.mock('$lib/server/workflowMap/readTodaysWorkflowMap', () => ({ readTodaysWorkflowMap: async () => null }));
 vi.mock('$lib/server/businessBrain/ensureBusinessBrainPart', () => ({ ensureBusinessBrainPart: async () => 'expertise' }));
 vi.mock('$lib/server/businessBrain/fileBusinessBrainSource', () => ({
 	fileBusinessBrainSource: async (_supabase: unknown, _organisationId: string, source: Record<string, unknown>) => {
@@ -56,6 +57,7 @@ describe('filing what one source teaches about the domain', () => {
 		expect(answer).toContain('Filed "Job" (job, page id page-job)');
 		expect(pageAt('client-work')).toMatchObject({ kind: 'bounded_context', facts: { isCoreDomain: true }, parentPageId: null });
 		expect(pageAt('job')).toMatchObject({ kind: 'entity', parentPageId: 'page-client-work' });
+		expect(answer).toContain('1 questions are still open, most important first: 1. Nothing says what makes a job.');
 	});
 
 	it('refuses a page in a context neither filed nor given, writing nothing and keeping no source', async () => {
@@ -84,5 +86,15 @@ describe('filing what one source teaches about the domain', () => {
 	it('files nothing when the source teaches the domain nothing', async () => {
 		expect(await fileDomain({})).toContain('Nothing was filed');
 		expect(brain.sources).toEqual([]);
+	});
+
+	it('keeps what each word names, each area’s part and how the areas relate, refusing a status the thing lacks', async () => {
+		const sealed = { ...clientWorkGlossary, terms: [{ ...signedWord, namesStatus: 'Sealed' }] };
+		const refusal = await fileDomain({ contexts: [clientWork], pages: [contractStack, sealed] });
+		expect(refusal).toContain('"signed contract stack" names contract-stack in Sealed, which is not a status of it: its statuses are Drafted, Signed.');
+		await fileDomain({ contexts: [clientWork, money], pages: [contractStack, clientWorkGlossary, contextMap] });
+		expect(pageAt('client-work-glossary')).toMatchObject({ facts: { terms: [signedWord] } });
+		expect(pageAt('money')).toMatchObject({ facts: { isCoreDomain: false, subdomain: 'generic' } });
+		expect(pageAt('context-map')).toMatchObject({ facts: { relationships: [invoicesPassed] } });
 	});
 });

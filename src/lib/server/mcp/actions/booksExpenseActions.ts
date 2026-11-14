@@ -1,7 +1,6 @@
-import { recordExpense } from '$lib/server/books/recordExpense';
 import { payExpense } from '$lib/server/books/payExpense';
 import { deleteExpense } from '$lib/server/books/deleteExpense';
-import { findChartNamings } from '$lib/server/books/chartNamings';
+import { findCostNamings } from '$lib/server/books/costNamings';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { moduleAction } from '../organisationModuleGate';
 import { objectSchema } from '../actionTypes';
@@ -10,14 +9,18 @@ import { booksOrganisationField } from './booksFields';
 import { costPaymentFields, expenseFields, expenseIdField } from './booksExpenseFields';
 import { describeExpense } from './describeExpenses';
 import { keptRecordOf } from './describeBooksDeletions';
+import { recordCostInWords } from './recordCostInWords';
 import type { McpAction } from '../actionTypes';
 
 const recordOnlyWhatThePersonSaid =
 	'Record only the cost the person told you about: the supplier they named, the day and the amount they gave, never a ' +
 	'figure you worked out or a detail you filled in. Code it to the expense account they chose from read_chart_of_accounts, ' +
 	'asking which when more than one could fit, and keep it within a cost centre only when they say so. Something paid up ' +
-	'front for several months goes to Prepayments (1300). Say isPaid only when they said it has been paid already: it then ' +
-	'posts against the bank; otherwise it is owed to the supplier on trade creditors until pay_expense settles it.';
+	'front for several months takes isPaidUpFront in place of the account: it goes to Prepayments (1300), and ' +
+	'create_prepayment_release then spreads it over those months. Say isPaid only when they said it has been paid already: it then ' +
+	'posts against the bank; otherwise it is owed to the supplier on trade creditors until pay_expense settles it. When ' +
+	'they say a partner paid it from their own pocket, give isPaid with paidByLoanAccountId, that person\'s loan account from ' +
+	'list_loan_accounts: it is kept as a cost and credits their loan account, not the bank.';
 
 const payOnlyWhenThePersonSaysSo =
 	'Mark a cost paid only when the person says it has been paid, with the day they gave. The payment posts off trade ' +
@@ -41,16 +44,10 @@ export const booksExpenseActions: McpAction[] = [
 			'organisationId',
 			'expenseDate',
 			'supplier',
-			'amount',
-			'expenseAccountId'
+			'amount'
 		]),
 		run: async (caller, input, organisation) =>
-			answerOrRefusal(booksRefusalOpenings.posting, async () => {
-				const expense = await recordExpense(caller.supabase, organisation.id, input);
-				const namings = await findChartNamings(caller.supabase, organisation.id);
-				const settled = expense.paidOn === null ? 'owed to the supplier on trade creditors' : 'paid from the bank';
-				return `Recorded the cost in ${organisation.name}'s books and posted it, ${settled}:\n${describeExpense(expense, namings)}`;
-			})
+			answerOrRefusal(booksRefusalOpenings.posting, () => recordCostInWords(caller.supabase, organisation, input))
 	}),
 	moduleAction('books', {
 		name: 'pay_expense',
@@ -63,7 +60,7 @@ export const booksExpenseActions: McpAction[] = [
 		run: async (caller, input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.posting, async () => {
 				const paid = await payExpense(caller.supabase, organisation.id, input);
-				const namings = await findChartNamings(caller.supabase, organisation.id);
+				const namings = await findCostNamings(caller.supabase, organisation.id);
 				const marked = `Marked the cost paid on ${formatBritishDate(paid.paidOn)} and posted the payment from the bank`;
 				return `${marked} in ${organisation.name}'s books:\n${describeExpense(paid, namings)}`;
 			})

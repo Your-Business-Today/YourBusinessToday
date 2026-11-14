@@ -2,6 +2,10 @@ import { mapStage, type MapStage, type WorkflowMapVersion } from '$lib/data/work
 import { mapStageNames } from '$lib/data/workflowMap/workflowMapWords';
 import { stationsMarkedNotRight } from './stationsMarkedNotRight';
 import { workflowMapGaps } from '$lib/server/workflowMap/workflowMapGaps';
+import { mapQuestionsSection, stationsStillAssumed } from './mapQuestionsSection';
+import { workflowMapRunDomainSection } from './mapDomainJoinSteps';
+import { domainQuestionCountLine } from './domainQuestionsSection';
+import type { MapVocabulary } from '$lib/data/workflowMap/phraseInDomain';
 import type { StationStandings } from '$lib/data/workflowMap/stationReview';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
 
@@ -12,6 +16,8 @@ export type WorkflowMapRunStanding = {
 	after: WorkflowMapVersion | null;
 	products: { id: string; name: string }[];
 	standings: StationStandings;
+	vocabulary: MapVocabulary;
+	domainQuestionCount: number | null;
 };
 
 /** The map this run builds on: today's After when there is one, else the Before, else none. */
@@ -32,27 +38,24 @@ export function stageToFile(standing: WorkflowMapRunStanding): MapStage {
 export function workflowMapRunStanding(standing: WorkflowMapRunStanding): string {
 	const latest = latestMapOf(standing);
 	const held = latest === null ? nothingFiled(standing) : mapFiled(standing, latest);
-	return [held, stageSentence(standing)].join('\n\n');
+	const { vocabulary, domainQuestionCount } = standing;
+	const domainSection = [...workflowMapRunDomainSection(latest, vocabulary), ...domainQuestionCountLine(domainQuestionCount)];
+	return [held, ...domainSection, stageSentence(standing)].join('\n\n');
 }
 
 function nothingFiled({ organisation }: WorkflowMapRunStanding): string {
 	return `1. **Say what Your Business Today holds.** No workflow map is filed for ${organisation.name} yet, so this is a first map: a broad conversation through every stage below.`;
 }
 
-function mapFiled({ organisation, standings }: WorkflowMapRunStanding, latest: WorkflowMapVersion): string {
+function mapFiled({ organisation, standings, vocabulary }: WorkflowMapRunStanding, latest: WorkflowMapVersion): string {
 	const { lines, handovers } = latest;
 	const stations = lines.flatMap((line) => line.stations);
 	const sizes = `${lines.length} lines, ${stations.length} stations and ${handovers.length} hand-overs`;
 	const opening =
 		`1. **Read what is filed.** Version ${latest.versionNumber} of ${organisation.name}'s ${mapStageNames[latest.stage]} map, ` +
 		`filed ${latest.recordedAt.slice(0, 10)}: ${sizes}. Read it whole with read_workflow_map before anything else, and build on it.`;
-	return [opening, stationsMarkedNotRight(latest, standings), gapSection(latest)].join('\n\n');
-}
-
-function gapSection(latest: WorkflowMapVersion): string {
-	const gaps = workflowMapGaps(latest);
-	if (gaps.length === 0) return 'Nothing obvious is missing: ask only what has changed since it was filed.';
-	return ['Still missing or unclear, the questions to ask:', ...gaps.map((gap) => `   - ${gap}`)].join('\n');
+	const questions = mapQuestionsSection(workflowMapGaps(latest, vocabulary));
+	return [opening, stationsStillAssumed(latest, standings), stationsMarkedNotRight(latest, standings), questions].join('\n\n');
 }
 
 function stageSentence(standing: WorkflowMapRunStanding): string {
