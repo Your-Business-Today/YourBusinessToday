@@ -45,7 +45,7 @@
 			aria-modal="true"
 			aria-label={title}
 			in:fly={dialogRise}
-			class="w-full max-w-md rounded-2xl border border-signal/40 bg-carriage p-6 shadow-2xl"
+			class="max-h-full w-full max-w-md overflow-y-auto rounded-2xl border border-signal/40 bg-carriage p-6 shadow-2xl"
 		>
 			<h2 class="font-display text-xl font-medium text-signal">{title}</h2>
 			<p class="mt-3 text-sm text-chalk/70">{description}</p>
