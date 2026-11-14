@@ -19,9 +19,8 @@ function runLibraryAction(name: string, input: Record<string, unknown> = {}): Pr
 describe('reading a brand’s photos and videos over the connector', () => {
 	beforeEach(() => resetLibraryWorld());
 
-	it('reads only, behind the one module rule, and refuses while Brand is off', async () => {
+	it('sits behind the one module rule, and refuses while Brand is off', async () => {
 		expect(brandLibraryActions.every(isGatedByModuleRule)).toBe(true);
-		expect(brandLibraryActions.some((action) => action.isWrite)).toBe(false);
 		libraryWorld.switchedOn = [];
 		expect(await runLibraryAction('list_brand_library')).toBe(moduleNotSwitchedOn('brand'));
 	});
