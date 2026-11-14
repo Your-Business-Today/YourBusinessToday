@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T19:12:41+00:00",
+  "generatedAt": "2026-11-14T19:22:27+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4825,
+        "measuredAgainst": 4852,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7509,
+        "measuredAgainst": 7556,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6917,
+        "measuredAgainst": 6966,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 184.91,
+        "measuredAgainst": 185.92,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 4,
-        "measuredAgainst": 184.91,
+        "measuredAgainst": 185.92,
         "score": 99.9
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 8236,
+        "measuredAgainst": 8289,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 184.91,
+        "measuredAgainst": 185.92,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 184.91,
+        "measuredAgainst": 185.92,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7509,
+        "measuredAgainst": 7556,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6917,
+        "measuredAgainst": 6966,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6917,
+        "measuredAgainst": 6966,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7509,
+        "measuredAgainst": 7556,
         "score": 100.0
       },
       {
@@ -231,7 +231,7 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 462,
+        "measuredAgainst": 463,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 387,
+        "measuredAgainst": 388,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4825,
-      "totalLines": 184914,
+      "totalFiles": 4852,
+      "totalLines": 185917,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 7509,
+      "totalFunctions": 7556,
       "elseBlocks": 0,
-      "ifBlocks": 6917,
+      "ifBlocks": 6966,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -298,7 +298,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 594,
+      "overlongLines": 604,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,10 +308,10 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 7509
+      "functionsExamined": 7556
     },
     "designPatterns": {
-      "roleFamilies": 243,
+      "roleFamilies": 244,
       "predictedFiles": 257,
       "predictedFilesMissing": 0,
       "entities": 0,
@@ -321,18 +321,18 @@
     },
     "inventory": {
       "pages": 79,
-      "components": 727,
+      "components": 733,
       "orphanComponents": 0,
-      "averagePageLines": 43
+      "averagePageLines": 44
     },
     "siteDefinition": {
       "routes": 78,
-      "views": 809,
-      "siteComponents": 715,
+      "views": 815,
+      "siteComponents": 721,
       "catalogue": 14,
-      "widgetUsages": 462,
+      "widgetUsages": 463,
       "handRolledElements": 0,
-      "widgetSlots": 462,
+      "widgetSlots": 463,
       "viewsWithHandRolled": 0,
       "boxedContentWidgets": 0,
       "designSheets": 8,
@@ -340,20 +340,20 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 219,
+      "schemaTables": 220,
       "limitedColumns": 0,
-      "writeDoors": 387,
+      "writeDoors": 388,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5442,
-      "backend": 1412,
+      "totalFiles": 5469,
+      "backend": 1423,
       "frontend": 1183,
-      "shared": 927,
-      "tests": 817,
-      "api": 634,
-      "database": 231,
+      "shared": 934,
+      "tests": 822,
+      "api": 636,
+      "database": 233,
       "tooling": 141,
       "docs": 79,
       "infrastructure": 18
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4825,
-        "totalLines": 184914,
+        "totalFiles": 4852,
+        "totalLines": 185917,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 7509,
+        "totalFunctions": 7556,
         "elseBlocks": 0,
-        "ifBlocks": 6917,
+        "ifBlocks": 6966,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -693,7 +693,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 594,
+        "overlongLines": 604,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -751,6 +751,14 @@
           {
             "file": "src/lib/components/workspace/recordsTableStyles.ts",
             "line": 24
+          },
+          {
+            "file": "src/lib/data/accountsReadingAnswer.ts",
+            "line": 11
+          },
+          {
+            "file": "src/lib/data/accountsReadingAnswer.ts",
+            "line": 15
           },
           {
             "file": "src/lib/data/areaFeedChoices.ts",
@@ -891,14 +899,6 @@
           {
             "file": "src/lib/data/legal/privacyCollectionSections.ts",
             "line": 22
-          },
-          {
-            "file": "src/lib/data/legal/privacyCollectionSections.ts",
-            "line": 24
-          },
-          {
-            "file": "src/lib/data/legal/privacyCollectionSections.ts",
-            "line": 31
           }
         ]
       }
@@ -919,14 +919,14 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 7509
+        "functionsExamined": 7556
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 243,
+        "roleFamilies": 244,
         "predictedFiles": 257,
         "predictedFilesMissing": 0,
         "entities": 0,
@@ -942,12 +942,12 @@
           "+server.ts": 30,
           "access": 12,
           "account": 8,
-          "accounts": 6,
+          "accounts": 7,
           "action": 24,
-          "actions": 232,
+          "actions": 233,
           "address": 10,
           "adverts": 4,
-          "answer": 10,
+          "answer": 11,
           "answers": 16,
           "approval": 6,
           "attachment": 6,
@@ -980,10 +980,10 @@
           "column": 4,
           "columns": 6,
           "companies": 4,
-          "company": 6,
+          "company": 7,
           "contact": 4,
           "contribution": 4,
-          "controls": 6,
+          "controls": 7,
           "copy": 5,
           "count": 6,
           "counts": 9,
@@ -995,7 +995,7 @@
           "details": 12,
           "director": 6,
           "doctrine": 8,
-          "document": 6,
+          "document": 7,
           "domain": 7,
           "door": 4,
           "draft": 4,
@@ -1008,12 +1008,13 @@
           "fields": 55,
           "figures": 5,
           "file": 11,
-          "files": 6,
+          "files": 7,
           "filter": 9,
-          "fixture": 29,
+          "fixture": 30,
           "fixtures": 27,
           "for": 10,
           "form": 79,
+          "frame": 4,
           "gaps": 17,
           "geometry": 5,
           "goal": 9,
@@ -1073,7 +1074,7 @@
           "outcome": 4,
           "overview": 4,
           "owner": 5,
-          "page": 25,
+          "page": 26,
           "pages": 10,
           "pane": 5,
           "panel": 51,
@@ -1099,9 +1100,9 @@
           "prose": 4,
           "question": 5,
           "questions": 7,
-          "reading": 18,
+          "reading": 19,
           "readings": 4,
-          "record": 64,
+          "record": 65,
           "records": 4,
           "refusal": 13,
           "register": 11,
@@ -1116,7 +1117,7 @@
           "row": 49,
           "rows": 31,
           "rule": 8,
-          "rules": 77,
+          "rules": 78,
           "run": 11,
           "runs": 26,
           "schemas": 15,
@@ -1155,7 +1156,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 792,
+          "test": 795,
           "text": 15,
           "tiles": 5,
           "time": 5,
@@ -1174,10 +1175,10 @@
           "views": 10,
           "visitor": 4,
           "window": 4,
-          "words": 28,
+          "words": 29,
           "work": 9,
           "world": 5,
-          "writer": 7,
+          "writer": 8,
           "xml": 4
         },
         "patterns": [
@@ -1260,9 +1261,9 @@
       "name": "inventory",
       "summary": {
         "pages": 79,
-        "components": 727,
+        "components": 733,
         "orphanComponents": 0,
-        "averagePageLines": 43
+        "averagePageLines": 44
       },
       "offenders": {
         "pages": [
@@ -1330,6 +1331,13 @@
             "widgets": []
           },
           {
+            "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
+            "lines": 74,
+            "widgets": [
+              "badge"
+            ]
+          },
+          {
             "page": "src/routes/organisations/[organisationId]/brand/+page.svelte",
             "lines": 72,
             "widgets": []
@@ -1338,13 +1346,6 @@
             "page": "src/routes/organisations/[organisationId]/domain/+page.svelte",
             "lines": 67,
             "widgets": []
-          },
-          {
-            "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-            "lines": 66,
-            "widgets": [
-              "badge"
-            ]
           },
           {
             "page": "src/routes/projects/[projectId]/goals/[goalId]/+page.svelte",
@@ -1797,12 +1798,12 @@
             "reusedBy": 12
           },
           {
-            "component": "src/lib/components/workspace/FlashMessage.svelte",
+            "component": "src/lib/components/site/LineIcon.svelte",
             "reusedBy": 12
           },
           {
-            "component": "src/lib/components/site/LineIcon.svelte",
-            "reusedBy": 11
+            "component": "src/lib/components/workspace/FlashMessage.svelte",
+            "reusedBy": 12
           },
           {
             "component": "src/lib/components/books/InvoiceDocument.svelte",
@@ -2814,6 +2815,30 @@
           },
           {
             "component": "src/lib/components/brand/ContentStoryboardTable.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/brand/film/StoryboardFilmClip.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/brand/film/StoryboardFilmControls.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/brand/film/StoryboardFilmFrame.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/brand/film/StoryboardFilmMusic.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/brand/film/StoryboardFilmPlayer.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
             "reusedBy": 1
           },
           {
@@ -4652,12 +4677,12 @@
       "name": "siteDefinition",
       "summary": {
         "routes": 78,
-        "views": 809,
-        "siteComponents": 715,
+        "views": 815,
+        "siteComponents": 721,
         "catalogue": 14,
-        "widgetUsages": 462,
+        "widgetUsages": 463,
         "handRolledElements": 0,
-        "widgetSlots": 462,
+        "widgetSlots": 463,
         "viewsWithHandRolled": 0,
         "boxedContentWidgets": 0,
         "designSheets": 8,
@@ -5074,8 +5099,8 @@
         {
           "route": "/organisations/[organisationId]/brand/content/[contentPieceId]",
           "file": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-          "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
-          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
+          "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer }, DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
+          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
         },
         {
           "route": "/organisations/[organisationId]/brand/library",
@@ -5335,7 +5360,7 @@
           "component": "LineIcon",
           "file": "src/lib/components/site/LineIcon.svelte",
           "definition": "",
-          "usedBy": 10
+          "usedBy": 11
         },
         {
           "component": "PageMeta",
@@ -9010,6 +9035,42 @@
           "usedBy": 1
         },
         {
+          "component": "StoryboardFilmClip",
+          "file": "src/lib/components/brand/film/StoryboardFilmClip.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "StoryboardFilmControls",
+          "file": "src/lib/components/brand/film/StoryboardFilmControls.svelte",
+          "definition": "LineIcon",
+          "usedBy": 1
+        },
+        {
+          "component": "StoryboardFilmFrame",
+          "file": "src/lib/components/brand/film/StoryboardFilmFrame.svelte",
+          "definition": "?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords )",
+          "usedBy": 1
+        },
+        {
+          "component": "StoryboardFilmMusic",
+          "file": "src/lib/components/brand/film/StoryboardFilmMusic.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "StoryboardFilmPlayer",
+          "file": "src/lib/components/brand/film/StoryboardFilmPlayer.svelte",
+          "definition": "StoryboardFilmFrame, StoryboardFilmControls, ?film.musicUrl !== null: StoryboardFilmMusic",
+          "usedBy": 1
+        },
+        {
+          "component": "StoryboardFilmWords",
+          "file": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
+          "definition": "",
+          "usedBy": 1
+        },
+        {
           "component": "StripeEventsToCheckTable",
           "file": "src/lib/components/admin/StripeEventsToCheckTable.svelte",
           "definition": "RecordsTable{ (3) RecordsCell, RecordsCell{ Badge }, RecordsCell, RecordsCell{ Button } }",
@@ -9590,13 +9651,13 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5442,
-        "backend": 1412,
+        "totalFiles": 5469,
+        "backend": 1423,
         "frontend": 1183,
-        "shared": 927,
-        "tests": 817,
-        "api": 634,
-        "database": 231,
+        "shared": 934,
+        "tests": 822,
+        "api": 636,
+        "database": 233,
         "tooling": 141,
         "docs": 79,
         "infrastructure": 18
@@ -9604,37 +9665,37 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 1412,
-          "sourceFiles": 1403,
-          "sourceLines": 47323
+          "files": 1423,
+          "sourceFiles": 1413,
+          "sourceLines": 47647
         },
         {
           "area": "frontend",
           "files": 1183,
-          "sourceFiles": 1053,
-          "sourceLines": 36212
+          "sourceFiles": 1060,
+          "sourceLines": 36426
         },
         {
           "area": "shared",
-          "files": 927,
-          "sourceFiles": 914,
-          "sourceLines": 33085
+          "files": 934,
+          "sourceFiles": 920,
+          "sourceLines": 33365
         },
         {
           "area": "tests",
-          "files": 817,
-          "sourceFiles": 805,
-          "sourceLines": 38446
+          "files": 822,
+          "sourceFiles": 808,
+          "sourceLines": 38591
         },
         {
           "area": "api",
-          "files": 634,
-          "sourceFiles": 634,
-          "sourceLines": 29254
+          "files": 636,
+          "sourceFiles": 635,
+          "sourceLines": 29294
         },
         {
           "area": "database",
-          "files": 231,
+          "files": 233,
           "sourceFiles": 7,
           "sourceLines": 212
         },
@@ -9661,9 +9722,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 219,
+        "schemaTables": 220,
         "limitedColumns": 0,
-        "writeDoors": 387,
+        "writeDoors": 388,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },

@@ -6,6 +6,7 @@
 	import ContentReviewList from '$lib/components/brand/ContentReviewList.svelte';
 	import ContentStageBadge from '$lib/components/brand/ContentStageBadge.svelte';
 	import ContentStoryboardTable from '$lib/components/brand/ContentStoryboardTable.svelte';
+	import StoryboardFilmPlayer from '$lib/components/brand/film/StoryboardFilmPlayer.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { brandCrumbsFor } from '$lib/components/brand/brandKitPageWords';
@@ -17,7 +18,9 @@
 	let { data, form } = $props();
 
 	const { brandOrganisation: organisation, piece, pictures } = $derived(data);
-	const channels = $derived(piece.channels);
+	const { channels, film } = $derived(piece);
+	const filmShots = $derived(film.shots);
+	const hasFilm = $derived(filmShots.length > 0);
 	const answer = $derived(form?.message ?? null);
 </script>
 
@@ -48,6 +51,11 @@
 				<p class="px-6 pt-4 text-sm text-chalk-muted">{channelsExplained}</p>
 				<ContentPostChannelTable organisationId={organisation.id} {channels} />
 			</DashboardPanel>
+			{#if hasFilm}
+				<DashboardPanel title="Watch the film" isPadded>
+					<StoryboardFilmPlayer {film} />
+				</DashboardPanel>
+			{/if}
 			<DashboardPanel title="Storyboard">
 				<ContentStoryboardTable shots={piece.shots} />
 			</DashboardPanel>
