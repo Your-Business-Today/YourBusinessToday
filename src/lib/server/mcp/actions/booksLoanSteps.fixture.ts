@@ -1,5 +1,8 @@
 import { ledgerDatabase, ledgerTables } from './booksLedgerDatabase.fixture';
-import { liability } from './booksLoanWorld.fixture';
+import { booksActions } from './booksActions';
+import { liability, loanOrganisationId as organisationId } from './booksLoanWorld.fixture';
+import type { McpAction } from '../actionTypes';
+import type { McpCaller } from '../resolveMcpCaller';
 
 type Row = Record<string, unknown>;
 
@@ -27,3 +30,17 @@ export const loanDatabase = {
 	rpc: async (name: string, args: Row) =>
 		name === 'open_books_loan_account' ? openLoanAccountStep(args) : { data: null, error: { message: `no step ${name}` } }
 };
+
+const nigel = {
+	accountId: 'nigel',
+	isStaff: false,
+	supabase: loanDatabase,
+	organisationMemberships: [{ organisationId, accountId: 'nigel', isManager: false }]
+} as unknown as McpCaller;
+
+/** Runs a books action as Nigel on the loan world's organisation, against the stand-in that opens loan accounts. */
+export const runOnTheLoans = (name: string, input: Record<string, unknown>) =>
+	(booksActions.find((action) => action.name === name) as McpAction).run(nigel, { organisationId, ...input }) as Promise<string>;
+
+/** The id an answer names in brackets, such as the loan account it opened. */
+export const idOf = (answer: string): string => (answer.match(/\(id ([0-9a-f-]+)\)/) as RegExpMatchArray)[1];

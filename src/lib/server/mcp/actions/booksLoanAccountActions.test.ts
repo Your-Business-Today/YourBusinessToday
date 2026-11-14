@@ -1,10 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { booksActions } from './booksActions';
 import { ledgerTables } from './booksLedgerDatabase.fixture';
-import { holdThreePartnersLoans, jamesLoanId, loanOrganisationId as organisationId } from './booksLoanWorld.fixture';
-import { loanDatabase } from './booksLoanSteps.fixture';
-import type { McpAction } from '../actionTypes';
-import type { McpCaller } from '../resolveMcpCaller';
+import { holdThreePartnersLoans, jamesLoanId } from './booksLoanWorld.fixture';
+import { runOnTheLoans as run } from './booksLoanSteps.fixture';
 
 vi.mock('$lib/server/organisations/getOrganisation', () => ({
 	getOrganisation: async (_supabase: unknown, id: string) => ({
@@ -19,16 +16,6 @@ vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({
 vi.mock('$lib/data/ukClock', () => ({
 	ukClockAt: () => ({ date: '2026-11-13', time: '20:00' })
 }));
-
-const nigel = {
-	accountId: 'nigel',
-	isStaff: false,
-	supabase: loanDatabase,
-	organisationMemberships: [{ organisationId, accountId: 'nigel', isManager: false }]
-} as unknown as McpCaller;
-
-const run = (name: string, input: Record<string, unknown>) =>
-	(booksActions.find((action) => action.name === name) as McpAction).run(nigel, { organisationId, ...input }) as Promise<string>;
 
 describe('opening a loan account', () => {
 	beforeEach(holdThreePartnersLoans);
