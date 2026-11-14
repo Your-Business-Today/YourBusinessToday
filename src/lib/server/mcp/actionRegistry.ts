@@ -31,8 +31,7 @@ import { answerTurnActions } from './actions/answerTurnActions';
 import { linkPersonActions } from './actions/linkPersonActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
-import { todoReadActions } from './actions/todoReadActions';
-import { todoWriteActions } from './actions/todoWriteActions';
+import { todoActions } from './actions/todoActions';
 import { testResultActions } from './actions/testResultActions';
 import { waitingActions } from './actions/waitingActions';
 import { actionAudiences, type ActionArea, type McpAction } from './actionTypes';
@@ -73,8 +72,7 @@ const everyAction: McpAction[] = [
 	...answerTurnActions,
 	...linkPersonActions,
 	...taskActions,
-	...todoReadActions,
-	...todoWriteActions,
+	...todoActions,
 	...testResultActions
 ];
 

@@ -5,6 +5,7 @@
 	import StatusSelect from './StatusSelect.svelte';
 	import TodoOwnerSelect from './TodoOwnerSelect.svelte';
 	import TodoTickTitle from './TodoTickTitle.svelte';
+	import TodoDeleteButton from '$lib/components/todos/TodoDeleteButton.svelte';
 	import { isTodoOpen } from '$lib/data/todo';
 	import { rowClasses } from '$lib/components/workspace/recordsTableStyles';
 	import { todoStatusChoices } from './internalWorkStyles';
@@ -25,7 +26,9 @@
 	{@const record = { name: 'todoId', value: todo.id }}
 	<tr class={subItemRowClasses}>
 		<RecordsCell isWideOnly><span class="sr-only">No priority</span></RecordsCell>
-		<RecordsCell><TodoTickTitle {todo} /></RecordsCell>
+		<RecordsCell>
+			<div class="flex items-center justify-between gap-2"><TodoTickTitle {todo} /><TodoDeleteButton {todo} /></div>
+		</RecordsCell>
 		<RecordsCell label="Owner"><TodoOwnerSelect todoId={todo.id} ownerId={todo.ownerAccountId} {people} /></RecordsCell>
 		<RecordsCell kind="status" label="Status">
 			<StatusSelect action="?/updateTodo" {record} choices={todoStatusChoices} current={todo.status} label="Where this to-do stands" />
