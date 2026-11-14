@@ -1,3 +1,5 @@
+import { dayToDayDataRule } from './ownerDoctrine';
+
 /** Rule 6 of the working doctrine: how a question, an ask and a promise reach the person they are for. */
 export const askingDoctrine = [
 	'6. A project’s work is split by department — development, infrastructure, administration,',
@@ -27,9 +29,7 @@ export const askingDoctrine = [
 	'   waiting on them, never a line in the task details, which nothing reads as a wait. Only a',
 	'   message marked as waiting on someone waits on them: a question in prose that is not',
 	'   marked is nobody’s, and never counted or raised as theirs.',
-	'   A job that belongs to no project — a personal errand, or a small company job such as',
-	'   entering a door code — is a to-do on the own list of whoever does it (add_todo, with',
-	'   owner when that is someone else), never a task. A task that',
+	`   ${dayToDayDataRule} A task that`,
 	'   cannot start until another is done waits for that task (set_task_waits_for, or',
 	'   waitsForTaskId when raising it), never on hold with a note. A series of development steps',
 	'   done in order is a task sequence: one task per step, each waiting for the one before, so',
