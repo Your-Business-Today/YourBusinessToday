@@ -15,11 +15,11 @@ export const brandLibraryUploadActions: SignedUploadActions = {
 };
 
 export const noBrandYet =
-	'This brand has not been started yet. Ask your Claude to describe the brand first, then add photos and videos here.';
+	'This brand has not been started yet. Ask your Claude to describe the brand first, then add photos, videos and music here.';
 
-export const libraryIsEmpty = 'No photos or videos yet. Add the first from your phone or computer.';
+export const libraryIsEmpty = 'No photos, videos or music yet. Add the first from your phone or computer.';
 
-export const libraryLimitHint = `A photo or a video, up to ${LibraryLimits.largestMegabytes} MB.`;
+export const libraryLimitHint = `A photo, a video or music (MP3, M4A or WAV), up to ${LibraryLimits.largestMegabytes} MB.`;
 
 /** The note under the table when the brand keeps more than a list shows. */
 export function moreThanListed(keptCount: number): string | null {

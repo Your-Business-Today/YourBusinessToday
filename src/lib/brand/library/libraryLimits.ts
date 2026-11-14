@@ -11,8 +11,14 @@ export const LibraryLimits = {
 	mostItemsListed: 200
 } as const;
 
-/** The kinds of file the library keeps, as the bucket's allowed types name them and the file picker offers them. */
-export const libraryFileKinds = 'image/*,video/*';
+/** The music the library keeps beside its photos and videos: MP3, M4A and WAV, under each name a browser gives them. */
+export const libraryMusicTypes = ['audio/mpeg', 'audio/mp4', 'audio/x-m4a', 'audio/wav', 'audio/x-wav'] as const;
+
+/** The kinds of file the library keeps, as the bucket's allowed types name them (migrations 0184 and 0231). */
+export const libraryAllowedTypes = ['image/*', 'video/*', ...libraryMusicTypes] as const;
+
+/** The same kinds as the file picker offers them. */
+export const libraryFileKinds = libraryAllowedTypes.join(',');
 
 /** Storage keeps a signed upload link open for two hours, and the grant says so. */
 export const libraryUploadLinkLifetimeHours = 2;

@@ -46,9 +46,9 @@ describe('a post’s picture over the connector', () => {
 		world.chosen = [];
 		world.outcome = 'chosen';
 		world.items = new Map([
-			[kitchenId, { filename: 'kitchen-finished.jpg', posting: 'permission_given', recordedAt: '2026-11-04T09:30:00Z' }],
-			[videoId, { filename: 'door-fitting.mp4', posting: 'not_to_be_posted', recordedAt: '2026-11-04T09:30:00Z' }],
-			[awaitedId, { filename: 'roof.jpg', posting: 'nothing_recognisable', recordedAt: null }]
+			[kitchenId, { filename: 'kitchen-finished.jpg', mimeType: 'image/jpeg', posting: 'permission_given', recordedAt: '2026-11-04T09:30:00Z' }],
+			[videoId, { filename: 'door-fitting.mp4', mimeType: 'video/mp4', posting: 'not_to_be_posted', recordedAt: '2026-11-04T09:30:00Z' }],
+			[awaitedId, { filename: 'roof.jpg', mimeType: 'image/jpeg', posting: 'nothing_recognisable', recordedAt: null }]
 		]);
 	});
 

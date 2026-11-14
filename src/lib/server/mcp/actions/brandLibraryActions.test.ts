@@ -27,7 +27,7 @@ describe('reading a brand’s photos and videos over the connector', () => {
 
 	it('lists every item with what it shows and whether it may be posted', async () => {
 		const answer = await runLibraryAction('list_brand_library');
-		expect(answer).toContain('Jewel Enterprises’s brand keeps 2 photos and videos, the latest added first:');
+		expect(answer).toContain('Jewel Enterprises’s brand keeps 2 items, the latest added first:');
 		expect(answer).toContain('May be posted: permission was given by Mrs Patel, the homeowner');
 		expect(answer).toContain('**door-fitting.mp4** (video, taken 3 Nov 2026');
 		expect(answer).toContain('Not to be posted');
@@ -35,7 +35,7 @@ describe('reading a brand’s photos and videos over the connector', () => {
 
 	it('says where items are added when the library is empty', async () => {
 		libraryWorld.items = [];
-		expect(await runLibraryAction('list_brand_library')).toContain('keeps no photos or videos yet');
+		expect(await runLibraryAction('list_brand_library')).toContain('keeps no photos, videos or music yet');
 	});
 
 	it('reads one item with who added it and a link to look at it', async () => {
@@ -48,6 +48,6 @@ describe('reading a brand’s photos and videos over the connector', () => {
 	it('refuses an id that is not one, or not an item of this brand', async () => {
 		expect(await runLibraryAction('read_brand_library_item', { itemId: 'kitchen' })).toContain('The itemId must be an id');
 		const unknown = '99999999-9999-4999-8999-999999999999';
-		expect(await runLibraryAction('read_brand_library_item', { itemId: unknown })).toContain('keeps no photo or video by that itemId');
+		expect(await runLibraryAction('read_brand_library_item', { itemId: unknown })).toContain('keeps no item by that itemId');
 	});
 });
