@@ -12,12 +12,13 @@ export const todoFields = {
 
 export const todoPlaceFields = {
 	taskId: textField(
-		'The development task it was born out of and serves. It never holds that task up, and the ' +
-			'task’s page lists it'
+		'The development task it was born out of and serves, if any. It never holds that task up, ' +
+			'and the task’s page lists it. Leave it out for a job that serves no task'
 	),
 	owner: textField(
-		'Whose to-do it is: their email or account id, as list_project_people gives it. Leave it ' +
-			'out for the person you are with. Say "nobody" for one anyone on the task’s project may ' +
-			'take; that needs taskId'
+		'Whose to-do it is: their email or account id, as list_project_people gives it. Without ' +
+			'taskId it goes on their own list, for anyone you share a project or an organisation ' +
+			'with. Leave it out for the person you are with. Say "nobody" for one anyone on the ' +
+			'task’s project may take; that needs taskId'
 	)
 };
