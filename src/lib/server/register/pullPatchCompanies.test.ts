@@ -34,7 +34,7 @@ beforeEach(() => {
 });
 afterEach(() => vi.unstubAllGlobals());
 
-describe("pulling a patch's companies", () => {
+describe("pulling a territory's companies", () => {
 	it('pulls every outcode and says how many each held', async () => {
 		const outcome = await pullPatchCompanies(database(), sutton, freshStart, noProgress);
 		expect(outcome.isFinished).toBe(true);

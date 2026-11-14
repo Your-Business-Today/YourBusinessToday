@@ -22,7 +22,7 @@ describe('readPatchSeed', () => {
 });
 
 describe('validatePatch', () => {
-	it('accepts a patch whose every value fits its column', () => {
+	it('accepts a territory whose every value fits its column', () => {
 		expect(validatePatch(readPatchSeed(kingston))).toBeNull();
 	});
 

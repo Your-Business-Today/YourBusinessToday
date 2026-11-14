@@ -56,7 +56,7 @@ export const sightingFormActions = {
 		const notANumber = validateCompanyNumber(companyNumber);
 		if (notANumber !== null) return fail(400, { message: notANumber });
 		const outcome = await matchSightingToRegister(locals.supabase, sighting.id, companyNumber);
-		if (outcome.kind === matchOutcomes.notOnRegister) return fail(400, { message: `${companyNumber} is not on the register in any patch.` });
+		if (outcome.kind === matchOutcomes.notOnRegister) return fail(400, { message: `${companyNumber} is not on the register in any territory.` });
 		return { message: `${sighting.businessName} is matched to ${outcome.registeredName} (${companyNumber}).` };
 	}
 };

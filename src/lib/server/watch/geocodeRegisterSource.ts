@@ -10,7 +10,7 @@ const timeBudgetMilliseconds = 60_000;
 /** Geocodes register postcodes page by page through the cache until none remain or the minute is up. */
 export const geocodeRegisterSource: WatchSource = {
 	name: geocodeRegisterSourceName,
-	summary: 'geocodes the register postcodes no patch has located yet, a page at a time',
+	summary: 'geocodes the register postcodes no territory has located yet, a page at a time',
 	run: geocodeWithinBudget
 };
 
@@ -31,7 +31,7 @@ async function geocodeWithinBudget(
 	return {
 		rowsWritten: geocodedCount,
 		resumeMarker: String(remainingCount),
-		note: remainingCount === 0 ? 'Every register postcode in the patches is located.' : `${remainingCount} postcodes still to geocode.`,
+		note: remainingCount === 0 ? 'Every register postcode in the territories is located.' : `${remainingCount} postcodes still to geocode.`,
 		isFinished: true
 	};
 }

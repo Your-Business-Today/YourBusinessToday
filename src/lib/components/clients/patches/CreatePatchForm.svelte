@@ -11,7 +11,7 @@
 </script>
 
 <form method="POST" {action} id="new-patch" class={panelClasses}>
-	<h2 class="font-display text-lg">New patch</h2>
+	<h2 class="font-display text-lg">New territory</h2>
 	<div class="grid gap-3 sm:grid-cols-[1fr_10rem_9rem_1fr_auto] sm:items-end">
 		<FormField label="Name">
 			<input name="name" required maxlength={longestPatchName} placeholder="Kingston" class={inputClasses} />
@@ -36,9 +36,9 @@
 		<FormField label="SIC codes (optional)">
 			<input name="sicCodes" placeholder="41100, 43390" class={inputClasses} />
 		</FormField>
-		<SubmitButton savingLabel="Saving…">Save the patch</SubmitButton>
+		<SubmitButton savingLabel="Saving…">Save the territory</SubmitButton>
 	</div>
 	<p class="text-xs text-chalk/50">
-		The outcodes within the radius are laid out when the patch is saved; the map draws every company registered in them.
+		The outcodes within the radius are laid out when the territory is saved; the map draws every company registered in them.
 	</p>
 </form>

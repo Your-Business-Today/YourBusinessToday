@@ -7,7 +7,7 @@ import type { Sighting } from '$lib/server/sightings/sightingRecord';
 export const noSuchSighting = 'No sighting has that id. Call list_sightings to see them.';
 
 export function describeSightingList(sightings: Sighting[], accounts: Account[]): string {
-	if (sightings.length === 0) return 'No sightings yet in this patch: record_sighting records the first.';
+	if (sightings.length === 0) return 'No sightings yet in this territory: record_sighting records the first.';
 	const nameOf = accountNameLookup(accounts);
 	return sightings.map((sighting) => describeSightingLine(sighting, nameOf(sighting.seenByAccountId))).join('\n');
 }

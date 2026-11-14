@@ -36,7 +36,7 @@
 	<div
 		bind:this={container}
 		class="h-[28rem] w-full overflow-hidden rounded-2xl border border-hairline bg-carriage lg:h-[34rem]"
-		aria-label="Map of Great Britain with every patch"
+		aria-label="Map of Great Britain with every territory"
 	></div>
-	<p class="text-xs text-chalk/50">A circle opens its patch. Click anywhere else to start a new patch there.</p>
+	<p class="text-xs text-chalk/50">A circle opens its territory. Click anywhere else to start a new territory there.</p>
 </div>
