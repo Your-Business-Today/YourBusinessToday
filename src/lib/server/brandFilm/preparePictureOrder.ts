@@ -1,12 +1,12 @@
-import { adderOf, itemsByIdOf, type OrderParts, type PreparedOrder } from './orderPreparation';
+import { adderOf, itemsByIdOf, lookOf, orderFileOf, shotWordsOf, type OrderParts, type PreparedOrder } from './orderPreparation';
 import { filmPostingOf } from '$lib/brand/film/filmPosting';
 import { firstShotNumber } from '$lib/brand/film/filmMaking';
 import { grantLibraryUpload } from '$lib/server/brandLibrary/grantLibraryUpload';
 import { isoDateOf } from '$lib/data/demo/demoDates';
 import { keepPicturesMade } from './keepPicturesMade';
 import { LibraryLimits } from '$lib/brand/library/libraryLimits';
+import { OrderKinds, type PictureOrder, type PictureOrderShot } from '$lib/brand/film/filmOrder';
 import type { ContentPiece } from '$lib/brand/content/contentPiece';
-import { OrderKinds, type PictureOrderShot } from '$lib/brand/film/filmOrder';
 import type { ViewableLibraryItem } from '$lib/server/brandLibrary/signLibraryViewLinks';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -21,9 +21,9 @@ function pictureItemOf(piece: ContentPiece, shotNumber: number, photo: ViewableL
 	return { filename: `${title} ${shotNumber}.png`, mimeType: pictureType, byteCount: 0, shows, takenOn: isoDateOf(new Date()), ...posting };
 }
 
-/** The pictures' order: one library item granted a shot, in shot order, kept on the request, each with the photo it is made from. */
+/** The pictures' order: one library item granted a shot, in shot order, kept on the request, each with its photo and words. */
 export async function preparePictureOrder(supabase: SupabaseClient, parts: OrderParts): Promise<PreparedOrder> {
-	const { making, piece, items, filmPagePath } = parts;
+	const { making, piece, items, shape } = parts;
 	const itemsById = itemsByIdOf(items);
 	const pictures: PictureOrderShot[] = [];
 	const itemIds: string[] = [];
@@ -33,11 +33,11 @@ export async function preparePictureOrder(supabase: SupabaseClient, parts: Order
 		const item = pictureItemOf(piece, index + firstShotNumber, photo);
 		if ('problem' in item) return item;
 		const grant = await grantLibraryUpload(supabase, adderOf(making), item);
-		pictures.push({ clipUrl: photo.viewUrl as string, uploadUrl: grant.uploadUrl });
+		pictures.push({ photo: orderFileOf(photo), words: shotWordsOf(shot), uploadUrl: grant.uploadUrl });
 		itemIds.push(grant.itemId);
 	}
-	await keepPicturesMade(supabase, making, itemIds);
+	await keepPicturesMade(making, itemIds);
 	const [firstItemId] = itemIds;
-	const order = { kind: OrderKinds.pictures, filmPagePath, largestByteCount: LibraryLimits.largestByteCount, pictures };
+	const order: PictureOrder = { kind: OrderKinds.pictures, shape, look: lookOf(piece), largestByteCount: LibraryLimits.largestByteCount, pictures };
 	return { order, libraryItemId: firstItemId };
 }

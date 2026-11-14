@@ -1,7 +1,7 @@
 import { FilmMakingLimits } from './filmMaking';
 import type { FilmOutcome } from './filmOrder';
 
-/** The runner's word as it is kept, or why it does not fit: whether the video arrived, and if not, why, in words that fit their column. */
+/** The asker's Claude's word as it is kept, or why it does not fit: whether the video arrived, and if not, why, in words that fit their column. */
 export function checkFilmOutcome(given: unknown): FilmOutcome | { problem: string } {
 	const outcome = (given ?? {}) as Record<string, unknown>;
 	const { hasArrived, failureReason } = outcome;

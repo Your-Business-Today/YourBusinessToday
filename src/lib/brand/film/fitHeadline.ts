@@ -14,17 +14,22 @@ export const FilmType = {
 
 const { largestHeadline, smallestHeadline, headlineLineHeight, averageGlyphWidth, sideLineSize, sideLineGap, sizeStep } = FilmType;
 
-/** How many lines the words take at this size across this width, breaking between words. */
-export function linesAt(words: string, size: number, width: number): number {
+/** The words broken into lines at this size across this width, breaking only between words. */
+export function breakLines(words: string, size: number, width: number): string[] {
 	const lettersPerLine = Math.max(1, Math.floor(width / (size * averageGlyphWidth)));
-	let lines = 1;
-	let lineLength = 0;
+	const lines: string[] = [];
 	for (const word of words.split(/\s+/).filter((part) => part !== '')) {
-		const isOverflowing = lineLength > 0 && lineLength + 1 + word.length > lettersPerLine;
-		lines += isOverflowing ? 1 : 0;
-		lineLength = isOverflowing ? word.length : lineLength + (lineLength > 0 ? 1 : 0) + word.length;
+		const lastLine = lines.at(-1);
+		const isOverflowing = lastLine === undefined || lastLine.length + 1 + word.length > lettersPerLine;
+		if (isOverflowing) lines.push(word);
+		if (!isOverflowing) lines[lines.length - 1] = `${lastLine} ${word}`;
 	}
 	return lines;
+}
+
+/** How many lines the words take at this size across this width, breaking between words. */
+export function linesAt(words: string, size: number, width: number): number {
+	return Math.max(1, breakLines(words, size, width).length);
 }
 
 /** The largest headline size that fits the band beside the lines above and beneath it: made smaller, never cut off. */

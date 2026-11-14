@@ -51,3 +51,17 @@ export const wordBands: Record<FilmShape, Record<ShotWordPlace, WordBand>> = {
 		left: { x: 72, y: 190, width: 560, height: 1540 }
 	}
 };
+
+const tallFamilies = ['video.short', 'image.story'];
+const squareFamilies = ['image.post', 'image.carousel'];
+
+function isInFamily(mediumPath: string, families: string[]): boolean {
+	return families.some((family) => mediumPath === family || mediumPath.startsWith(`${family}.`));
+}
+
+/** The shape a piece is made in when its maker names none: tall for short video and stories, square for posts and carousels. */
+export function filmShapeForMedium(mediumPath: string): FilmShape {
+	if (isInFamily(mediumPath, tallFamilies)) return 'tall';
+	if (isInFamily(mediumPath, squareFamilies)) return 'square';
+	return 'wide';
+}
