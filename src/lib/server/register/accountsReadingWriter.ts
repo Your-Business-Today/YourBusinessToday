@@ -18,3 +18,17 @@ export async function saveAccountsReading(supabase: SupabaseClient, reading: Acc
 	if (error) throw error;
 	return null;
 }
+
+const numbersPerRead = 200;
+
+/** The kept readings of many companies at once, by company number, read in batches small enough for one request each. */
+export async function readAccountsReadings(supabase: SupabaseClient, companyNumbers: string[]): Promise<Map<string, AccountsReading>> {
+	const readings = new Map<string, AccountsReading>();
+	for (let first = 0; first < companyNumbers.length; first += numbersPerRead) {
+		const batch = companyNumbers.slice(first, first + numbersPerRead);
+		const { data, error } = await supabase.from(readingsTable).select(accountsReadingColumns).in('company_number', batch);
+		if (error) throw error;
+		data.map(parseAccountsReading).forEach((reading) => readings.set(reading.companyNumber, reading));
+	}
+	return readings;
+}

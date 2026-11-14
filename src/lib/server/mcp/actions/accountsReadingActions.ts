@@ -1,11 +1,10 @@
 import { companiesHouseNotConfigured } from '$lib/server/register/watchRegister';
 import { describeAccountsReading } from '$lib/data/accountsReadingAnswer';
-import { getAccountsReading, saveAccountsReading } from '$lib/server/register/accountsReadingWriter';
+import { currentAccountsReading } from '$lib/server/companiesHouse/accounts/currentAccountsReading';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
 import { isSuppressedCompany } from '$lib/server/register/isSuppressedCompany';
 import { normaliseCompanyNumber, validateCompanyNumber } from '$lib/data/prospectRules';
 import { objectSchema, readText, textField } from '../actionTypes';
-import { readLatestAccounts } from '$lib/server/companiesHouse/accounts/readLatestAccounts';
 import { readPdfReadingSent } from '$lib/data/pdfReadingRules';
 import { saveClaudeReading } from '$lib/server/companiesHouse/accounts/saveClaudeReading';
 import { suppressedCompanyAnswer } from '$lib/data/suppressedCompanyAnswer';
@@ -68,8 +67,6 @@ async function companyRefusal(caller: McpCaller, companyNumber: string): Promise
 async function readAccounts(caller: McpCaller, companyNumber: string): Promise<string> {
 	const refusal = await companyRefusal(caller, companyNumber);
 	if (refusal !== null) return refusal;
-	const stored = await getAccountsReading(caller.supabase, companyNumber);
-	const reading = await readLatestAccounts(companyNumber, stored);
-	const saveRefusal = reading === stored ? null : await saveAccountsReading(caller.supabase, reading);
-	return saveRefusal ?? describeAccountsReading(reading);
+	const reading = await currentAccountsReading(caller.supabase, companyNumber);
+	return typeof reading === 'string' ? reading : describeAccountsReading(reading);
 }
