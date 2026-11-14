@@ -50,7 +50,7 @@ describe('invoices raised from billing schedules', () => {
 		expect(overview).toContain('Drafts waiting to be issued: 0.');
 	});
 
-	it('is knocked every hour and raises nothing before 07:00 UK time', async () => {
+	it('raises nothing before 07:00 UK time, and raises what is due on a knock after it', async () => {
 		vi.setSystemTime(new Date('2026-12-01T06:30:00Z'));
 		expect((await knock()).note).toContain('before 07:00');
 		vi.setSystemTime(new Date('2026-12-01T07:10:00Z'));

@@ -1,10 +1,12 @@
 name: billing schedules
 
-# Every hour, at seven minutes past when GitHub's schedules run late least, this knocks on the site's cron door for the
-# billing schedules: each organisation's schedules whose day has come raise their invoice, and the ones that send by
+# A further try at the billing run. Vercel's crons in vercel.json are what knock it on time: at five past six, seven and
+# eight UTC each day, so a knock lands between 07:00 and 08:00 UK time in summer and in winter. GitHub does not keep this
+# hourly schedule on this repository (it went five hours without a run on 14 Nov 2026), so this knock is only an extra
+# try when it does come: each organisation's schedules whose day has come raise their invoice, and the ones that send by
 # themselves issue and email it. The door does nothing before 07:00 UK time, and one period is never invoiced twice, so
 # a knock that comes twice or late does no harm. The knock never fails the workflow, as the deploy windows' does not:
-# a door that answers anything but 200 is a warning in the log, because a red run here would raise a FIX task every hour.
+# a door that answers anything but 200 is a warning in the log, because a red run here would raise a FIX task each time.
 
 on:
   schedule:
