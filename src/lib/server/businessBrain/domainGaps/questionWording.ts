@@ -21,7 +21,10 @@ export function asSentence(text: string): string {
 	return endsWithStop.test(trimmed) ? trimmed : `${trimmed}.`;
 }
 
-/** A sentence worded to follow "I assumed", without the full stop it may have been given. */
+/** The words every sentence assumed on a page is worded to follow, and the question that puts it back begins with. */
+export const assumedLead = 'I assumed';
+
+/** A sentence worded to follow assumedLead, without the full stop it may have been given. */
 export function withoutStop(text: string): string {
 	return text.trim().replace(endsWithStop, '');
 }
