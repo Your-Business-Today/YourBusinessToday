@@ -4,7 +4,7 @@ const draftFields = ['title', 'hook', 'script', 'storyboard', 'caption', 'invite
 
 /**
  * The draft as asked for over a piece already kept: what is given takes the place of what is kept, and what is left out
- * stays. The kind is left as given, so a piece keeps its own kind unless another is asked for.
+ * stays. The kind and the music are left as given, so a piece keeps its own unless others are asked for.
  */
 export function draftOverPiece(piece: ContentPiece, input: Record<string, unknown>): Record<string, unknown> {
 	const merged: Record<string, unknown> = { ...input, medium: input.medium ?? piece.mediumPath };

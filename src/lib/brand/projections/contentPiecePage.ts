@@ -1,12 +1,13 @@
 import { audienceActions } from '../actions/audienceActions';
-import { ContentStages, type ContentPiece, type ContentReview, type ContentSummary, type StoryboardShot } from '../content/contentPiece';
+import { ContentStages, type ContentPiece, type ContentReview, type ContentSummary } from '../content/contentPiece';
 import { findMedium } from '../mediums/mediumCatalogue';
 import { postOfItsOwn, type ContentPost } from '../posts/contentPost';
+import { musicNameOf, shotRowsOf, type PageLibrary, type ShotRow } from './storyboardRows';
 
 /** A piece waiting for approval, as the Brand page lists it. */
 export type AwaitingPieceRow = { id: string; title: string; medium: string; updatedAt: string };
 
-export type ShotRow = { number: number; seconds: number; description: string; onScreenText: string };
+export type { ShotRow } from './storyboardRows';
 
 export type ReviewEntry = { key: string; verdict: string; body: string; createdAt: string };
 
@@ -29,11 +30,11 @@ export type ContentPiecePage = {
 	plannedFor: string | null;
 	publishedUrl: string;
 	shots: ShotRow[];
+	music: string | null;
 	reviews: ReviewEntry[];
 	channels: PostChannelRow[];
 };
 
-const firstShotNumber = 1;
 const nothingInvited = 'Nothing in particular';
 
 export function mediumLabelOf(mediumPath: string): string {
@@ -46,7 +47,12 @@ export function awaitingPieceRowOf(piece: ContentSummary): AwaitingPieceRow {
 	return { id, title, medium: mediumLabelOf(piece.mediumPath), updatedAt };
 }
 
-export function contentPiecePageOf(piece: ContentPiece, reviews: ContentReview[], post: ContentPost = postOfItsOwn(piece)): ContentPiecePage {
+export function contentPiecePageOf(
+	piece: ContentPiece,
+	reviews: ContentReview[],
+	post: ContentPost = postOfItsOwn(piece),
+	library: PageLibrary = new Map()
+): ContentPiecePage {
 	const { id, title, stage, hook, script, caption, scheduledFor, plannedFor, publishedUrl } = piece;
 	return {
 		...{ id, title, stage, hook, script, caption, scheduledFor, plannedFor, publishedUrl },
@@ -54,7 +60,8 @@ export function contentPiecePageOf(piece: ContentPiece, reviews: ContentReview[]
 		medium: mediumLabelOf(piece.mediumPath),
 		isAwaitingApproval: stage === ContentStages.awaitingApproval,
 		invitedAction: invitedActionLabelOf(piece.invitedAction),
-		shots: piece.storyboard.map(shotRowOf),
+		shots: shotRowsOf(piece.storyboard, library),
+		music: musicNameOf(piece.musicItemId, library),
 		reviews: reviews.map(reviewEntryOf),
 		channels: post.channels.map((channel) => postChannelRowOf(channel, piece.id))
 	};
@@ -68,10 +75,6 @@ function postChannelRowOf(channel: ContentPiece, contentPieceId: string): PostCh
 function invitedActionLabelOf(actionKey: string): string {
 	const action = audienceActions.find((candidate) => candidate.key === actionKey);
 	return action?.label ?? nothingInvited;
-}
-
-function shotRowOf(shot: StoryboardShot, index: number): ShotRow {
-	return { number: index + firstShotNumber, ...shot };
 }
 
 function reviewEntryOf(review: ContentReview, index: number): ReviewEntry {

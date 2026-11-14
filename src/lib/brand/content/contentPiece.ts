@@ -12,7 +12,26 @@ export type ContentStage = (typeof ContentStages)[keyof typeof ContentStages];
 
 export const contentStages: ContentStage[] = Object.values(ContentStages);
 
-export type StoryboardShot = { description: string; seconds: number; onScreenText: string };
+/** Where a shot's words sit on the frame. */
+export const ShotWordPlaces = { top: 'top', left: 'left', bottom: 'bottom' } as const;
+
+export type ShotWordPlace = (typeof ShotWordPlaces)[keyof typeof ShotWordPlaces];
+
+export const shotWordPlaces: ShotWordPlace[] = Object.values(ShotWordPlaces);
+
+/**
+ * One shot: how long it holds, what we see and hear, the library clip or picture it shows, and its words on screen,
+ * a small line above, the headline (onScreenText) and a line beneath, sitting at the top, the left or the bottom.
+ */
+export type StoryboardShot = {
+	description: string;
+	seconds: number;
+	onScreenText: string;
+	overline: string;
+	underline: string;
+	wordsAt: ShotWordPlace;
+	clipItemId: string | null;
+};
 
 /** The brand as it held for the piece's medium when the piece was drafted. */
 export type BrandSnapshot = { brief?: string; variables?: Record<string, string> };
@@ -36,6 +55,7 @@ export type ContentPiece = ContentSummary & {
 	brandSnapshot: BrandSnapshot;
 	plannedFor: string | null;
 	kind: string | null;
+	musicItemId: string | null;
 };
 
 /**

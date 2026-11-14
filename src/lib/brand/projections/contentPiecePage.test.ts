@@ -11,13 +11,14 @@ const piece: ContentPiece = {
 	updatedAt: '2026-11-10T10:00:00Z',
 	hook: 'Fix it before it rains',
 	script: 'All of it',
-	storyboard: [{ description: 'A roof', seconds: 3, onScreenText: '' }],
+	storyboard: [{ description: 'A roof', seconds: 3, onScreenText: '', overline: '', underline: '', wordsAt: 'bottom', clipItemId: null }],
 	caption: 'Book now',
 	kind: 'seasonal',
 	invitedAction: 'replyToUs',
 	publishedUrl: '',
 	brandSnapshot: {},
-	plannedFor: null
+	plannedFor: null,
+	musicItemId: null
 };
 
 describe('a piece of a brand’s content as its page shows it', () => {
@@ -26,7 +27,9 @@ describe('a piece of a brand’s content as its page shows it', () => {
 		expect(page.medium).not.toBe('text.email');
 		expect(page.invitedAction).toBe('Reply to us');
 		expect(page.isAwaitingApproval).toBe(true);
-		expect(page.shots).toEqual([{ number: 1, description: 'A roof', seconds: 3, onScreenText: '' }]);
+		const shot = { number: 1, description: 'A roof', seconds: 3, clip: '', overline: '', onScreenText: '', underline: '', wordsAt: 'bottom' };
+		expect(page.shots).toEqual([shot]);
+		expect(page.music).toBeNull();
 	});
 
 	it('is not awaiting approval once it has moved on, and says when it invites nothing', () => {

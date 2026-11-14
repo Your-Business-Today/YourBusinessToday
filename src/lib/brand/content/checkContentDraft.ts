@@ -2,6 +2,7 @@ import { checkStoryboard } from './checkStoryboard';
 import { ContentLimits } from './contentLimits';
 import { findMedium } from '../mediums/mediumCatalogue';
 import { problemWithInvitedAction } from './checkInvitedAction';
+import { checkMusicItemId } from './checkMusicItemId';
 import type { ContentDraftCheck } from './contentDraft';
 
 const { titleCharacters, hookCharacters, scriptCharacters, captionCharacters } = ContentLimits;
@@ -28,7 +29,9 @@ export function checkContentDraft(input: Record<string, unknown>): ContentDraftC
 	if (actionProblem !== null) return { problem: actionProblem };
 	const storyboard = checkStoryboard(input.storyboard);
 	if ('problem' in storyboard) return storyboard;
-	return { draft: { medium, title, hook, script, caption, invitedAction, storyboard: storyboard.storyboard } };
+	const music = checkMusicItemId(input.musicItemId, medium);
+	if ('problem' in music) return music;
+	return { draft: { medium, title, hook, script, caption, invitedAction, storyboard: storyboard.storyboard, ...music.music } };
 }
 
 function wordsOf(input: Record<string, unknown>): { words: Words } | { problem: string } {

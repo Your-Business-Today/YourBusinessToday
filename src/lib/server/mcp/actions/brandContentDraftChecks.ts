@@ -2,6 +2,8 @@ import { brandSnapshotOf } from '$lib/brand/projections/brandSnapshot';
 import { captionRulesOf } from '$lib/brand/captions/captionRules';
 import { checkContentDraft } from '$lib/brand/content/checkContentDraft';
 import { findBrandSummary } from '$lib/server/brandKits/keepBrandSummary';
+import { findItemStandings } from '$lib/server/brandLibrary/findItemStandings';
+import { libraryIdsOf, problemWithDraftItems } from '$lib/brand/content/checkDraftItems';
 import { noBrandYet } from './brandKitWriteAnswers';
 import { postKindsOnOfferOf, type PostKindsOnOffer } from '$lib/brand/postKinds/postKinds';
 import { problemWithCaption } from '$lib/brand/captions/checkCaptionFitsChannel';
@@ -30,6 +32,9 @@ export async function checkDraftFor(
 	const summary = await findBrandSummary(caller.supabase, organisation.id);
 	if (summary === null) return { refusal: noBrandYet(organisation) };
 	const { draft } = check;
+	const items = await findItemStandings(caller.supabase, organisation.id, libraryIdsOf(draft));
+	const itemsProblem = problemWithDraftItems(draft, items);
+	if (itemsProblem !== null) return notDrafted(itemsProblem);
 	const resolved = await resolveBrandKitFor(caller.supabase, organisation.id, draft.medium);
 	const kindCheck = checkKind(input.kind, postKindsOnOfferOf(resolved));
 	if ('problem' in kindCheck) return notDrafted(kindCheck.problem);

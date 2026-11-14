@@ -1,34 +1,34 @@
 # Refactor audit
 
-Generated 2026-11-14 19:06 UTC.
+Generated 2026-11-14 19:12 UTC.
 
 ## Headline
 
-**Code quality score 99.8%.** **0 of 4,815 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
+**Code quality score 99.8%.** **0 of 4,825 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
 
 ## Code quality score
 
 | Element | Reading | Score | Weight | 0% at |
 | --- | --- | --- | --- | --- |
 | **Standard baseline checks** | | **99.7%** | **60** | |
-| Files over the line limit | 0 in 4815 files | 100.0% | 10 | 50% of files |
+| Files over the line limit | 0 in 4825 files | 100.0% | 10 | 50% of files |
 | Worst file, in limits over | 0 | 100.0% | 5 | 9 |
-| Functions over the line limit | 0 in 7493 functions | 100.0% | 8 | 25% of functions |
-| Else blocks | 0 in 6891 branches | 100.0% | 5 | 50% of branches |
+| Functions over the line limit | 0 in 7509 functions | 100.0% | 8 | 25% of functions |
+| Else blocks | 0 in 6917 branches | 100.0% | 5 | 50% of branches |
 | Duplication % | 0.41 | 98.0% | 8 | 20 |
-| Explanatory comment lines | 0 in 184.55 thousand lines | 100.0% | 4 | 50 per thousand lines |
-| Inline magic values | 4 in 184.55 thousand lines | 99.9% | 4 | 20 per thousand lines |
-| Orphan components and functions | 0 in 8220 components and functions | 100.0% | 4 | 10% of components and functions |
-| Long member chain lines | 0 in 184.55 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Deeply indented lines | 0 in 184.55 thousand lines | 100.0% | 4 | 30 per thousand lines |
-| Overlong function names | 0 in 7493 functions | 100.0% | 4 | 10% of functions |
+| Explanatory comment lines | 0 in 184.91 thousand lines | 100.0% | 4 | 50 per thousand lines |
+| Inline magic values | 4 in 184.91 thousand lines | 99.9% | 4 | 20 per thousand lines |
+| Orphan components and functions | 0 in 8236 components and functions | 100.0% | 4 | 10% of components and functions |
+| Long member chain lines | 0 in 184.91 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Deeply indented lines | 0 in 184.91 thousand lines | 100.0% | 4 | 30 per thousand lines |
+| Overlong function names | 0 in 7509 functions | 100.0% | 4 | 10% of functions |
 | **Design pattern file count** | | **100.0%** | **10** | |
 | Files the patterns predict but are missing | 0 in 257 predicted files | 100.0% | 10 | 50% of predicted files |
 | Entities outside their expected file count | not measured | not measured | — | 50% of entities |
 | **Prose** | | **100.0%** | **20** | |
-| Conditions with calls tangled inside calls | 0 in 6891 branches | 100.0% | 8 | 25% of branches |
-| Conditions compared to a raw literal | 0 in 6891 branches | 100.0% | 6 | 25% of branches |
-| Accessor names that want to be a property | 0 in 7493 functions | 100.0% | 6 | 10% of functions |
+| Conditions with calls tangled inside calls | 0 in 6917 branches | 100.0% | 8 | 25% of branches |
+| Conditions compared to a raw literal | 0 in 6917 branches | 100.0% | 6 | 25% of branches |
+| Accessor names that want to be a property | 0 in 7509 functions | 100.0% | 6 | 10% of functions |
 | **Widget adoption** | | **100.0%** | **8** | |
 | Markup written by hand where a widget should be | 0 in 462 widget slots | 100.0% | 8 | 50% of widget slots |
 | **Input validation** | | **100.0%** | **8** | |
@@ -40,37 +40,37 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 
 | Area | Files | Of which audited source | Source lines |
 | --- | --- | --- | --- |
-| backend | 1,412 | 1,402 | 47,287 |
-| frontend | 1,183 | 1,053 | 36,203 |
-| shared | 927 | 909 | 32,907 |
-| tests | 816 | 802 | 38,360 |
-| api | 634 | 633 | 29,201 |
-| database | 230 | 7 | 212 |
+| backend | 1,412 | 1,403 | 47,323 |
+| frontend | 1,183 | 1,053 | 36,212 |
+| shared | 927 | 914 | 33,085 |
+| tests | 817 | 805 | 38,446 |
+| api | 634 | 634 | 29,254 |
+| database | 231 | 7 | 212 |
 | tooling | 141 | 9 | 382 |
 | docs | 79 | 0 | 0 |
 | infrastructure | 18 | 0 | 0 |
-| **whole repository** | **5,440** | **4,815** | **184,552** |
+| **whole repository** | **5,442** | **4,825** | **184,914** |
 
 ## Summary
 
 | Check | Key figures |
 | --- | --- |
-| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 4815, totalLines: 184552, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
-| functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 7493, elseBlocks: 0, ifBlocks: 6891, measurementIsHeuristic: True |
+| fileLength | limit: 100, filesOverLimit: 0, totalFiles: 4825, totalLines: 184914, worstFileLines: 0, worstFileTimesOverLimit: 0.0 |
+| functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 7509, elseBlocks: 0, ifBlocks: 6917, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
 | duplication | clones: 66, duplicatedLines: 617, totalLines: 151337, duplicatedPercentage: 0.41, carriedFromBaseline: True |
 | naming | bannedAbbreviationHits: 90, unprefixedBooleans: 7 |
 | comments | explanatoryCommentLines: 0, filesWithComments: 0, taskMarkers: 0 |
 | magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 4 |
-| prose | longMemberChainLines: 0, deeplyIndentedLines: 0, overlongLines: 593, measurementIsHeuristic: True |
+| prose | longMemberChainLines: 0, deeplyIndentedLines: 0, overlongLines: 594, measurementIsHeuristic: True |
 | conditions | tangledConditionLines: 0, literalComparisonLines: 0, measurementIsHeuristic: True |
-| orphans | orphanFunctions: 0, functionsExamined: 7493 |
-| designPatterns | roleFamilies: 241, predictedFiles: 257, predictedFilesMissing: 0, entities: 0, entitiesOutOfRange: 0, entitiesAccepted: 0, measurementIsHeuristic: True |
+| orphans | orphanFunctions: 0, functionsExamined: 7509 |
+| designPatterns | roleFamilies: 243, predictedFiles: 257, predictedFilesMissing: 0, entities: 0, entitiesOutOfRange: 0, entitiesAccepted: 0, measurementIsHeuristic: True |
 | inventory | pages: 79, components: 727, orphanComponents: 0, averagePageLines: 43 |
 | siteDefinition | routes: 78, views: 809, siteComponents: 715, catalogue: 14, widgetUsages: 462, handRolledElements: 0, widgetSlots: 462, viewsWithHandRolled: 0, boxedContentWidgets: 0, designSheets: 8, designsLastChecked: 2026-11-13, brandCheckedAt: never |
 | inputValidation | schemaTables: 219, limitedColumns: 0, writeDoors: 387, unvalidatedDoors: 0, looserLimits: 0 |
-| fileAreas | totalFiles: 5440, backend: 1412, frontend: 1183, shared: 927, tests: 816, api: 634, database: 230, tooling: 141, docs: 79, infrastructure: 18 |
+| fileAreas | totalFiles: 5442, backend: 1412, frontend: 1183, shared: 927, tests: 817, api: 634, database: 231, tooling: 141, docs: 79, infrastructure: 18 |
 
 ## Against the baseline
 
