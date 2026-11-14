@@ -1,13 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { olderOnePromptOpening, onePromptOpening } from '$lib/onboarding/onboarding';
+import { workflowMapRequest } from '$lib/data/personRequests';
 import { workflowMapRunLine } from './workflowMapRunLine';
 
 const membership = { organisationId: 'org-1', accountId: 'account-1', isManager: false };
 
-describe('what get_current_context tells a person who runs the one prompt or says "map the workflows"', () => {
+describe(`what get_current_context tells a person who runs the one prompt or says "${workflowMapRequest}"`, () => {
 	it('tells them to start a workflow map run of each organisation they are on', () => {
 		const line = workflowMapRunLine([membership], () => 'Oak & Ash Joinery');
-		expect(line).toContain('as "map the workflows" asks');
+		expect(line).toContain(`as "${workflowMapRequest}" asks`);
 		expect(line).toContain('run_read_action with start_workflow_map_run');
 		expect(line).toContain('Oak & Ash Joinery (org-1)');
 	});

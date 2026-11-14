@@ -6,7 +6,7 @@ import { objectSchema, proseField, readText, textField } from '../actionTypes';
 import { personIdField } from './personFieldSchema';
 import { personNoteKinds, personNoteTitles } from '$lib/data/personNoteKind';
 import { personNoteLimits, validateNoteBody } from '$lib/data/personNoteRules';
-import { personResearchLimits } from '$lib/data/personResearchRules';
+import { exampleLinkLabel, personResearchLimits } from '$lib/data/personResearchRules';
 import { removePersonLink } from '$lib/server/people/removePersonLink';
 import { validatePersonLink } from '$lib/data/personLinkRules';
 import { validateRecordId } from '$lib/data/isUuid';
@@ -15,7 +15,7 @@ import type { McpCaller } from '../resolveMcpCaller';
 
 const noSuchLink = "No link with that id is on this person's record. read_person lists their links, each with its id.";
 const linkField = {
-	label: textField(`A short label such as "Company site", at most ${personResearchLimits.longestLinkLabel} characters`),
+	label: textField(`A short label such as "${exampleLinkLabel}", at most ${personResearchLimits.longestLinkLabel} characters`),
 	url: textField('The page it opens, a full web address starting https://')
 };
 

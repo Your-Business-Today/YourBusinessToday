@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import './booksYourBusinessTodayMocks';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { postInvoiceRefund } from '$lib/server/books/postInvoiceRefund';
 import { ledgerTables } from './booksLedgerDatabase.fixture';
 import {
@@ -6,11 +7,6 @@ import {
 	projectsId, runOnTheLedger as run, salesId
 } from './booksInvoicePostingWorld.fixture';
 import type { SupabaseClient } from '@supabase/supabase-js';
-
-vi.mock('$lib/server/organisations/getOrganisation', () => ({
-	getOrganisation: async (_supabase: unknown, id: string) => ({ id, parentOrganisationId: null, name: 'Your Business Today' })
-}));
-vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['books'] }));
 
 const subscription = { description: 'Monthly subscription', quantity: 1, unitPrice: 2350, incomeAccountId: salesId };
 const discount = { description: 'Discount NIGEL', quantity: 1, unitPrice: -2000, incomeAccountId: salesId, costCentreId: projectsId };

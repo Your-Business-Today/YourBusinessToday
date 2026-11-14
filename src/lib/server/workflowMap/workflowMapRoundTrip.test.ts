@@ -1,20 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { lineKind, mapStage } from '$lib/data/workflowMap/workflowMap';
 import { fakeMapDatabase } from './juneMap/fakeMapDatabase';
-import { juneWorkflowMapInput } from './juneMap/juneWorkflowMap';
+import { juneDraft } from './juneMap/juneDraft';
 import { fileWorkflowMap } from './fileWorkflowMap';
 import { readLatestWorkflowMap } from './readLatestWorkflowMap';
-import { validateWorkflowMap } from './validateWorkflowMap';
 import type { WorkflowMapDraft } from '$lib/data/workflowMap/workflowMap';
 
 const organisationId = '097dd5ab-de8d-46c6-b53f-3f6587b78f3c';
 const recordedBy = '94673648-0000-4000-8000-000000000000';
-
-function juneDraft(): WorkflowMapDraft {
-	const draft = validateWorkflowMap(juneWorkflowMapInput());
-	if ('refusal' in draft) throw new Error(draft.refusal);
-	return draft;
-}
 
 describe('filing the June map of Jewel Bespoke Build and reading it back', () => {
 	it('reads back the same six roles, 29 tasks and seven hand-overs, in their order', async () => {

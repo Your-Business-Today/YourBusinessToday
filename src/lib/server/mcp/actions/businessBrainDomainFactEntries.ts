@@ -2,6 +2,8 @@ import { domainFilingLimits, domainReferenceType } from '$lib/data/businessBrain
 import { everyAreaRelationshipPattern } from '$lib/data/areaRelationshipFacts';
 import { objectSchema, textField } from '../actionTypes';
 import { patternMeanings } from '$lib/server/businessBrain/validateAreaRelationships';
+import { assumedLead } from '$lib/server/businessBrain/domainGaps/questionWording';
+import { exampleGlossaryWord } from './domainExampleWords';
 
 const { longestFieldName, longestFieldType, longestWord, longestMeaning, longestStatus, mostOtherNames, longestPasses, mostStatuses } = domainFilingLimits;
 const { mostAssumed, longestAssumed } = domainFilingLimits;
@@ -23,7 +25,7 @@ export const termEntry = objectSchema(
 		word: textField(`The word as the business uses it, with one meaning inside its context, at most ${longestWord} characters`),
 		meaning: textField(`What it means here, at most ${longestMeaning} characters`),
 		namesThingSlug: textField('The slug of the thing the word names, such as contract-stack; the thing is filed before this word or in the same call'),
-		namesStatus: textField(`With namesThingSlug: the status of that thing the word names, one of its statuses, such as Signed for "signed contract stack" — at most ${longestStatus} characters`),
+		namesStatus: textField(`With namesThingSlug: the status of that thing the word names, one of its statuses, such as Signed for "${exampleGlossaryWord}" — at most ${longestStatus} characters`),
 		isRole: { type: 'boolean', description: 'True when the word is a role: a hat someone wears, an outside party or a system' },
 		otherNames: { type: 'array', items: { type: 'string' }, description: `The other words people use for it, at most ${mostOtherNames}` }
 	},
@@ -63,7 +65,7 @@ export const assumedProperty = {
 		type: 'array',
 		items: { type: 'string' },
 		description:
-			`Any page: what you concluded and nobody stated, each sentence worded to follow "I assumed", such as "the Introducer is one of your staff", at most ${mostAssumed}, each at most ${longestAssumed} characters. ` +
+			`Any page: what you concluded and nobody stated, each sentence worded to follow "${assumedLead}", such as "the Introducer is one of your staff", at most ${mostAssumed}, each at most ${longestAssumed} characters. ` +
 			'Each is asked back; once the person confirms it, file the page again without it'
 	}
 };
