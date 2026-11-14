@@ -1,10 +1,9 @@
 import { accountActions } from './actions/accountActions';
-import { accountsReadingActions } from './actions/accountsReadingActions';
 import { moduleAreaActions } from './actions/moduleAreaActions';
 import { areaFeedActions } from './actions/areaFeedActions';
 import { claimActions } from './actions/claimActions';
 import { clientActions } from './actions/clientActions';
-import { companyConnectionActions } from './actions/companyConnectionActions';
+import { companyReadingActions } from './actions/companyReadingActions';
 import { conversationActions } from './actions/conversationActions';
 import { dataInventoryActions } from './actions/dataInventoryActions';
 import { filingActions } from './actions/filingActions';
@@ -42,7 +41,7 @@ import type { AccountStanding } from './resolveAccountStanding';
 const everyAction: McpAction[] = [
 	...accountActions,
 	...clientActions,
-	...companyConnectionActions,
+	...companyReadingActions,
 	...organisationActions,
 	...moduleAreaActions,
 	...patchActions,
@@ -50,7 +49,6 @@ const everyAction: McpAction[] = [
 	...jobAdvertActions,
 	...patchLeadActions,
 	...registerActions,
-	...accountsReadingActions,
 	...filingActions,
 	...sectorActions,
 	...claimActions,
