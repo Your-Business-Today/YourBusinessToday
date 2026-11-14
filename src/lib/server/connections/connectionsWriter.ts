@@ -1,17 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { validateConnectionsReading, type CompanyConnection, type ConnectionKind, type ConnectionsReading } from '$lib/data/connectionRules';
+import { validateConnectionsReading, type CompanyConnection, type ConnectionsReading } from '$lib/data/connectionRules';
 
 const checksTable = 'company_connection_checks';
 const connectionsTable = 'company_connections';
-
-export async function getConnectionsReading(supabase: SupabaseClient, companyNumber: string): Promise<ConnectionsReading | null> {
-	const { data: check, error } = await supabase.from(checksTable).select('company_number, left_out_officers, checked_at').eq('company_number', companyNumber).maybeSingle();
-	if (error) throw error;
-	if (check === null) return null;
-	const { data: rows, error: rowsError } = await supabase.from(connectionsTable).select('connected_company_number, connected_company_name, kind, through_name').eq('company_number', companyNumber);
-	if (rowsError) throw rowsError;
-	return { companyNumber, connections: rows.map(parseConnection), leftOutOfficers: (check.left_out_officers ?? []) as string[], checkedAt: check.checked_at as string };
-}
 
 /** The one door a company's connections are written by: checked against the columns first, then the company's rows replaced by what was found. */
 export async function saveConnectionsReading(supabase: SupabaseClient, reading: ConnectionsReading): Promise<string | null> {
@@ -42,14 +33,5 @@ function connectionRowOf(companyNumber: string, connection: CompanyConnection): 
 		connected_company_name: connection.connectedCompanyName,
 		kind: connection.kind,
 		through_name: connection.throughName
-	};
-}
-
-function parseConnection(row: Record<string, unknown>): CompanyConnection {
-	return {
-		connectedCompanyNumber: row.connected_company_number as string,
-		connectedCompanyName: (row.connected_company_name ?? '') as string,
-		kind: row.kind as ConnectionKind,
-		throughName: (row.through_name ?? '') as string
 	};
 }

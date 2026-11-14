@@ -1,9 +1,7 @@
 import { companiesHouseNotConfigured } from '$lib/server/register/watchRegister';
-import { connectionsFreshForDays, type ConnectionsReading } from '$lib/data/connectionRules';
-import { daysAgo } from '$lib/data/days';
+import { connectionsFreshForDays } from '$lib/data/connectionRules';
 import { describeConnections } from '$lib/data/connectionsAnswer';
-import { findCompanyConnections } from '$lib/server/connections/findCompanyConnections';
-import { getConnectionsReading, saveConnectionsReading } from '$lib/server/connections/connectionsWriter';
+import { currentConnections } from '$lib/server/connections/currentConnections';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
 import { normaliseCompanyNumber, validateCompanyNumber } from '$lib/data/prospectRules';
 import { objectSchema, readText, textField } from '../actionTypes';
@@ -30,14 +28,7 @@ async function readConnections(caller: McpCaller, companyNumber: string): Promis
 	if (notANumber !== null) return notANumber;
 	const suppressed = await readSuppressedCompanies(caller.supabase);
 	if (suppressed.has(companyNumber)) return suppressedCompanyAnswer;
-	const stored = await getConnectionsReading(caller.supabase, companyNumber);
-	if (stored !== null && isFresh(stored)) return describeConnections(stored);
 	if (!isCompaniesHouseConfigured()) return companiesHouseNotConfigured;
-	const reading = await findCompanyConnections(companyNumber, suppressed);
-	const refusal = await saveConnectionsReading(caller.supabase, reading);
-	return refusal ?? describeConnections(reading);
-}
-
-function isFresh(reading: ConnectionsReading): boolean {
-	return reading.checkedAt.slice(0, 10) >= daysAgo(connectionsFreshForDays);
+	const reading = await currentConnections(caller.supabase, companyNumber, suppressed);
+	return typeof reading === 'string' ? reading : describeConnections(reading);
 }
