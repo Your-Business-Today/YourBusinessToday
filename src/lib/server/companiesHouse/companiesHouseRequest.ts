@@ -31,6 +31,21 @@ export async function requestCompaniesHouse(url: URL): Promise<Record<string, un
 	return (await response.json()) as Record<string, unknown>;
 }
 
+const redirectStatuses = [301, 302, 303, 307, 308];
+
+/** A document's content in the type asked for: the keyed call answers with a storage link that carries its own authentication, so it is followed without the key. */
+export async function requestCompaniesHouseDocument(url: URL, contentType: string): Promise<string> {
+	await waitForRateBudget();
+	const signal = AbortSignal.timeout(fetchTimeoutMilliseconds);
+	const response = await fetch(url, { signal, redirect: 'manual', headers: { authorization: basicAuthorisation(), accept: contentType } });
+	noteRateWindow(response.headers);
+	const location = response.headers.get('location');
+	const isRedirect = redirectStatuses.includes(response.status) && location !== null;
+	const answer = isRedirect ? await fetch(location, { signal, headers: { accept: contentType } }) : response;
+	if (!answer.ok) throw new CompaniesHouseRefusal(answer.status);
+	return answer.text();
+}
+
 function basicAuthorisation(): string {
 	const credentials = Buffer.from(`${env.COMPANIES_HOUSE_API_KEY}:`).toString('base64');
 	return `Basic ${credentials}`;
