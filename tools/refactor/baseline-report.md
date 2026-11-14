@@ -2,6 +2,8 @@
 
 Generated 2026-11-12 from claude/project-thread-v3sx51, replacing the v23 baseline. The gate passed at the round's start, so nothing was adopted from drift.
 
+Adopted from drift (2026-11-14, start of round 19): duplication grew from 0.41% to 0.52% in the work merged since round 18; the reading at round 19's start is the baseline round 19 starts from.
+
 ## Headline
 
 Code quality score 99.5% → 99.8%. **Code quality score 99.8%.** **0 of 3,992 source files are over the 100-line limit (0.0%)**; the worst file is 0 lines.
