@@ -16,7 +16,7 @@ export function readModuleMigration(fileName: string, moduleName: string): Modul
 }
 
 /** Every table the migration creates has row level security on, and every policy on it names the module rule. */
-export function expectEveryTableBehindTheModuleRule({ statements, moduleRule, createdTables }: ModuleMigration): void {
+export function expectTablesBehindModuleRule({ statements, moduleRule, createdTables }: ModuleMigration): void {
 	for (const table of createdTables) {
 		expect(statements).toContain(`alter table public.${table} enable row level security;`);
 		const policies = statements.split('create policy').filter((policy) => policy.includes(`on public.${table}\n`));
@@ -36,7 +36,7 @@ const destructiveStatement = /\b(?:drop table|drop column|delete from|truncate|a
 const cascadingDelete = /on delete cascade/i;
 
 /** The statements delete nothing by a cascade, and drop, empty or rewrite no table or column. */
-export function expectNothingDeletedDroppedOrRewritten(statements: string): void {
+export function expectNothingTakenAway(statements: string): void {
 	expect(statements).not.toMatch(cascadingDelete);
 	expect(statements).not.toMatch(destructiveStatement);
 }

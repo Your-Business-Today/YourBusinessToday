@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { expectEveryTableBehindTheModuleRule, expectTheShapeGuardFirst, readModuleMigration } from '$lib/server/migrations/moduleMigration.fixture';
+import { expectTablesBehindModuleRule, expectTheShapeGuardFirst, readModuleMigration } from '$lib/server/migrations/moduleMigration.fixture';
 
 const migration = readModuleMigration('0155_brand_kits.sql', 'brand');
 const { statements } = migration;
@@ -20,7 +20,7 @@ describe('the brand kit migration', () => {
 	});
 
 	it('turns on row level security on every table it creates, behind the one module rule', () => {
-		expectEveryTableBehindTheModuleRule(migration);
+		expectTablesBehindModuleRule(migration);
 	});
 
 	it('deletes nothing by a cascade', () => {

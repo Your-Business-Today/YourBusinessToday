@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { expectNothingDeletedDroppedOrRewritten } from '$lib/server/migrations/moduleMigration.fixture';
+import { expectNothingTakenAway } from '$lib/server/migrations/moduleMigration.fixture';
 import { countedFigures } from '$lib/brand/performance/performanceReading';
 import { PerformanceLimits } from '$lib/brand/performance/performanceLimits';
 
@@ -54,6 +54,6 @@ describe('the brand performance readings migration', () => {
 	});
 
 	it('deletes, drops and rewrites nothing', () => {
-		expectNothingDeletedDroppedOrRewritten(statements);
+		expectNothingTakenAway(statements);
 	});
 });

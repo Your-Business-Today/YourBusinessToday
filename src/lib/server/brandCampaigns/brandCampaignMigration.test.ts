@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { expectEveryTableBehindTheModuleRule, expectNothingDeletedDroppedOrRewritten, expectTheShapeGuardFirst, readModuleMigration } from '$lib/server/migrations/moduleMigration.fixture';
+import { expectNothingTakenAway, expectTablesBehindModuleRule, expectTheShapeGuardFirst, readModuleMigration } from '$lib/server/migrations/moduleMigration.fixture';
 import { CampaignLimits } from '$lib/brand/campaigns/campaignLimits';
 import { campaignStatuses } from '$lib/brand/campaigns/campaign';
 
@@ -29,10 +29,10 @@ describe('the brand campaigns migration', () => {
 	});
 
 	it('turns on row level security on every table it creates, behind the one module rule', () => {
-		expectEveryTableBehindTheModuleRule(migration);
+		expectTablesBehindModuleRule(migration);
 	});
 
 	it('deletes, drops and rewrites nothing', () => {
-		expectNothingDeletedDroppedOrRewritten(statements);
+		expectNothingTakenAway(statements);
 	});
 });
