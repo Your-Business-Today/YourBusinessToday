@@ -1,5 +1,6 @@
 import { validateIsoDate } from './isoDate';
 import { validateSignedMoney } from './moneyColumn';
+import { lengthRefusal } from './textColumn';
 
 /** The limits of books_bank_lines (migration 0216), and how many lines one statement brings in at a time. */
 export const bankLineLimits = { counterpartyLength: 200, referenceLength: 200, kindLength: 60, fewestLines: 1, mostLines: 500 } as const;
@@ -56,10 +57,4 @@ function optionalTextRefusal(field: string, value: unknown, longest: number): st
 	if (value === undefined) return null;
 	if (typeof value !== 'string') return `${field} is text; ${JSON.stringify(value)} was given.`;
 	return lengthRefusal(field, value, longest);
-}
-
-function lengthRefusal(field: string, value: string, longest: number): string | null {
-	const characterCount = [...value].length;
-	if (characterCount <= longest) return null;
-	return `${field} is at most ${longest} characters; ${characterCount} were given.`;
 }
