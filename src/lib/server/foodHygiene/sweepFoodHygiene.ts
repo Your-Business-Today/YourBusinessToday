@@ -15,7 +15,7 @@ const timeBudgetMilliseconds = 240_000;
 /** Every authority a patch's outcodes fall in, read when its file moved; a run out of time says where it stopped. */
 export async function sweepFoodHygiene(supabase: SupabaseClient, start: WatchStart, progress: WatchProgress): Promise<WatchOutcome> {
 	const outcodes = await readOutcodesInUse(supabase);
-	if (outcodes.size === 0) return { rowsWritten: 0, resumeMarker: '', note: 'No patch covers an outcode yet.', isFinished: true };
+	if (outcodes.size === 0) return { rowsWritten: 0, resumeMarker: '', note: 'No territory covers an outcode yet.', isFinished: true };
 	const districts = await readDistrictsOfOutcodes([...outcodes]);
 	const { matched, unmatched } = matchAuthoritiesToDistricts(await listFoodAuthorities(), [...districts.values()].flat());
 	const queue = authoritiesToSweep(matched, await readSweptAuthorities(supabase), start);

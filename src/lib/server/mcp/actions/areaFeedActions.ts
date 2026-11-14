@@ -18,13 +18,13 @@ export const areaFeedActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'what changed on the ground of your patches, newest first: sectors searched, businesses sighted, leads added, and by whom',
+		summary: 'what changed on the ground of your territories, newest first: sectors searched, businesses sighted, leads added, and by whom',
 		guidance:
 			'The same rows the site shows at /clients/feed. Read it on a Monday to tell your person what ' +
-			'changed since they last looked; narrow by patch, by kind, or by a date to start from.',
+			'changed since they last looked; narrow by territory, by kind, or by a date to start from.',
 		inputSchema: objectSchema({
-			patchId: textField('One patch to read — leave out for the patches you work, or every patch when you work none'),
-			scope: textField('"everything" for every patch; leave out for your own'),
+			patchId: textField('One territory to read — leave out for the territories you work, or every territory when you work none'),
+			scope: textField('"everything" for every territory; leave out for your own'),
 			kind: textField(`One kind of event: ${areaEventKindOrder.join(', ')}; or ${filingsGroup} for everything Companies House's records say`),
 			since: textField('Only events from this date, as YYYY-MM-DD')
 		}),

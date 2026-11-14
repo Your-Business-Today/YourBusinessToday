@@ -18,7 +18,7 @@
 </script>
 
 <svelte:head>
-	<title>Patch feed — Your Business Today</title>
+	<title>Territory feed — Your Business Today</title>
 </svelte:head>
 
 <div class="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-16">

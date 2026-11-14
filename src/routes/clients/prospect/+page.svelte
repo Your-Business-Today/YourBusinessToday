@@ -26,7 +26,7 @@
 		<a href="/leads" class="font-display text-sm text-chalk/50 hover:text-chalk">← Leads</a>
 		<PageTitle>Search Companies House</PageTitle>
 		<p class="text-chalk/70">
-			Every active UK company in a sector and a place, ready to become a lead. Working a patch?
+			Every active UK company in a sector and a place, ready to become a lead. Working a territory?
 			<a href="/clients/map" class="text-go hover:underline">Map an area</a> instead.
 		</p>
 	</div>

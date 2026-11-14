@@ -40,7 +40,7 @@ export async function createPatch(
 export function refusalFor(outcome: CreatePatchOutcome, seed: PatchSeed): string | null {
 	const refusals: Record<string, string> = {
 		[patchOutcomes.unknownPostcode]: `${seed.centrePostcode} is not a postcode the Royal Mail knows — check it and try again.`,
-		[patchOutcomes.nameTaken]: `A patch called ${seed.name} already exists.`,
+		[patchOutcomes.nameTaken]: `A territory called ${seed.name} already exists.`,
 		[patchOutcomes.tooWide]: `${seed.radiusMiles} miles around ${seed.centrePostcode} covers more outcodes than can be laid out at once — choose a smaller radius.`
 	};
 	return refusals[outcome.kind] ?? null;

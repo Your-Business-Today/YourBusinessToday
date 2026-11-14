@@ -9,7 +9,7 @@ import { withPatch } from '$lib/server/patches/withPatch';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
-const patchIdField = textField('The patch id, as given by list_patches');
+const patchIdField = textField('The territory id, as given by list_patches');
 
 export const sightingActions: McpAction[] = [
 	{
@@ -44,7 +44,7 @@ export const sightingActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'every business sighted on the web in a patch, newest first, optionally one sector',
+		summary: 'every business sighted on the web in a territory, newest first, optionally one sector',
 		inputSchema: objectSchema({ patchId: patchIdField, sector: textField('Narrow to one sector, such as KT1 1') }, ['patchId']),
 		run: async (caller, input) => withPatch(caller, input, (patch) => list(caller, patch.outcodes, readText(input, 'sector').toUpperCase()))
 	}

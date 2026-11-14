@@ -4,7 +4,11 @@ import { parseOfficerAppointments, type OfficerAppointments } from './officerApp
 const longestResultPage = 50;
 
 export async function getOfficerAppointments(officerId: string): Promise<OfficerAppointments> {
+	return parseOfficerAppointments(await requestCompaniesHouse(officerAppointmentsUrl(officerId)));
+}
+
+export function officerAppointmentsUrl(officerId: string): URL {
 	const url = new URL(`/officers/${encodeURIComponent(officerId)}/appointments`, companiesHouseApiOrigin);
 	url.searchParams.set('items_per_page', String(longestResultPage));
-	return parseOfficerAppointments(await requestCompaniesHouse(url));
+	return url;
 }

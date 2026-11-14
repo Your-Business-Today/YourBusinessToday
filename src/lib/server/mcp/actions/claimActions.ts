@@ -6,7 +6,7 @@ import { withPatch } from '$lib/server/patches/withPatch';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
-const patchIdField = textField('The patch id, as given by list_patches');
+const patchIdField = textField('The territory id, as given by list_patches');
 const sectorField = textField('The sector, such as KT1 1');
 
 export const claimActions: McpAction[] = [
@@ -15,7 +15,7 @@ export const claimActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: true,
-		summary: 'claim a sector of a patch before you search it, so nobody else works the same ground',
+		summary: 'claim a sector of a territory before you search it, so nobody else works the same ground',
 		inputSchema: objectSchema({ patchId: patchIdField, sector: sectorField }, ['patchId', 'sector']),
 		run: async (caller, input) => claim(caller, input)
 	},

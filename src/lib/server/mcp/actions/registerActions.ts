@@ -20,12 +20,12 @@ export const registerActions: McpAction[] = [
 		area: 'patches',
 		audience: 'admin',
 		isWrite: true,
-		summary: 'geocode one page of register postcodes the patches have not located yet, and say how many remain',
+		summary: 'geocode one page of register postcodes the territories have not located yet, and say how many remain',
 		guidance: 'Call it again until it answers that nothing remains; each call looks up one page through postcodes.io.',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
 			const progress = await geocodeRegisterPostcodes(caller.supabase);
-			if (progress.remainingCount === 0) return `${progress.geocodedCount} geocoded; every register postcode in the patches is now located.`;
+			if (progress.remainingCount === 0) return `${progress.geocodedCount} geocoded; every register postcode in the territories is now located.`;
 			return `${progress.geocodedCount} geocoded; ${progress.remainingCount} register postcodes still to geocode — call again.`;
 		}
 	},
@@ -34,8 +34,8 @@ export const registerActions: McpAction[] = [
 		area: 'patches',
 		audience: 'admin',
 		isWrite: true,
-		summary: 'ask Companies House now for the companies incorporated, dissolved or in trouble in one patch since a day, as the nightly watch does',
-		inputSchema: objectSchema({ patchId: textField('The patch id'), since: textField('The day to check from, as YYYY-MM-DD; yesterday when left out') }, ['patchId']),
+		summary: 'ask Companies House now for the companies incorporated, dissolved or in trouble in one territory since a day, as the nightly watch does',
+		inputSchema: objectSchema({ patchId: textField('The territory id'), since: textField('The day to check from, as YYYY-MM-DD; yesterday when left out') }, ['patchId']),
 		run: async (caller, input) => withPatch(caller, input, (patch) => watchNow(caller, patch, readText(input, 'since')))
 	},
 	{
@@ -43,10 +43,10 @@ export const registerActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: true,
-		summary: "pull every active company registered in a patch's outcodes from Companies House onto the register, carrying on from the last call",
+		summary: "pull every active company registered in a territory's outcodes from Companies House onto the register, carrying on from the last call",
 		guidance:
 			'Call it again until it answers that every outcode is pulled; each call carries on at the outcode after the last one finished. Then geocode_register_postcodes until nothing remains, and read_patch_companies lists them.',
-		inputSchema: objectSchema({ patchId: textField('The patch id, as given by list_patches') }, ['patchId']),
+		inputSchema: objectSchema({ patchId: textField('The territory id, as given by list_patches') }, ['patchId']),
 		run: async (caller, input) => withPatch(caller, input, (patch) => pullNow(caller, patch))
 	}
 ];

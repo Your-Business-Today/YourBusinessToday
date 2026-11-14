@@ -5,7 +5,7 @@ import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { handOverOutcomes, type HandOverOutcome } from './handSectorTo';
 import { searchOutcomes, type SearchOutcome } from './recordSectorSearch';
 
-export const sectorNotInPatch = 'That sector is not in this patch: list_patch_sectors names the ones that are.';
+export const sectorNotInPatch = 'That sector is not in this territory: list_patch_sectors names the ones that are.';
 export const noSuchColleague = 'No staff member has that email address.';
 
 /** What the site and the connector both say back, so a refusal reads the same in either. */

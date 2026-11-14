@@ -4,7 +4,7 @@ const ours = (name: string, kind: MapStation['kind'] = 'task'): MapStation => ({
 const elsewhere = (name: string, kind: MapStation['kind'] = 'task'): MapStation => ({ name, kind, state: 'elsewhere' });
 
 const stations: Record<string, MapStation> = {
-	'prospect-a-patch': ours('Prospect a patch'),
+	'prospect-a-patch': ours('Prospect a territory'),
 	'make-the-introduction': elsewhere('Make the introduction'),
 	'hold-the-first-meeting': elsewhere('Hold the first meeting'),
 	'log-the-conversation': ours('Log the conversation'),

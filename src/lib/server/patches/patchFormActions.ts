@@ -22,7 +22,7 @@ async function createPatchOrNull(supabase: App.Locals['supabase'], seed: PatchSe
 	try {
 		return await createPatch(supabase, seed, ownerId);
 	} catch (failure) {
-		console.error('Patch creation failed', failure);
+		console.error('Territory creation failed', failure);
 		return null;
 	}
 }

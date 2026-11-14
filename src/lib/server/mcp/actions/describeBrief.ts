@@ -15,7 +15,7 @@ export function describeBrief(patch: Patch, brief: PatchBrief): string {
 		sectors.length === 0 ? 'Every sector is searched.' : sectors.join('\n'),
 		'',
 		'Companies to look at this week:',
-		companies.length === 0 ? 'None: load the register for this patch first.' : companies.join('\n'),
+		companies.length === 0 ? 'None: load the register for this territory first.' : companies.join('\n'),
 		'',
 		next
 	].join('\n');
