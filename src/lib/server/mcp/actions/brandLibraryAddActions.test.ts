@@ -37,7 +37,7 @@ describe('adding a client’s photos and videos to their library from chat', () 
 	});
 
 	it('refuses by name a value that does not fit its column, keeping nothing', async () => {
-		expect(await runLibraryAction('add_brand_library_item', { ...kitchenPhoto, mimeType: 'application/pdf' })).toContain('only photos and videos');
+		expect(await runLibraryAction('add_brand_library_item', { ...kitchenPhoto, mimeType: 'application/pdf' })).toContain('only photos, videos and music');
 		expect(await runLibraryAction('add_brand_library_item', { ...kitchenPhoto, byteCount: 60 * 1024 * 1024 })).toContain('byteCount');
 		expect(await runLibraryAction('add_brand_library_item', { ...kitchenPhoto, permissionGivenBy: '' })).toContain('permissionGivenBy is empty');
 		expect(libraryWorld.granted).toHaveLength(0);

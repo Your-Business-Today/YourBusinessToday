@@ -16,9 +16,9 @@ export const addLibraryItemSchema = objectSchema(
 	{
 		organisationId: organisationIdField,
 		filename: textField(`What the file is called, such as kitchen-finished.jpg, at most ${longestFilename} characters`),
-		mimeType: textField('The file type: a photo or a video, such as image/jpeg or video/mp4'),
+		mimeType: textField('The file type: a photo, a video or music, such as image/jpeg, video/mp4, audio/mpeg (MP3), audio/mp4 (M4A) or audio/wav'),
 		byteCount: { type: 'integer', description: `The file's size in bytes, from 1 up to ${largestByteCount}` },
-		shows: textField(`What the photo or video shows, at most ${showsCharacters} characters`),
+		shows: textField(`What the photo or video shows, or what the music is, at most ${showsCharacters} characters`),
 		takenOn: textField('The day it was taken or made, as YYYY-MM-DD, no later than today'),
 		posting: { type: 'string', enum: postingFootings, description: 'Whether it may be posted, and on what footing' },
 		permissionGivenBy: textField(`Who gave permission, only when posting is permission_given, at most ${permissionGiverCharacters} characters`)

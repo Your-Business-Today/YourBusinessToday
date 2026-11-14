@@ -73,4 +73,10 @@ describe('the library’s rule for choosing an item for a post', () => {
 			'kitchen-finished.jpg has not arrived in the library yet, so it cannot go in a post'
 		);
 	});
+
+	it('refuses music, which is a soundtrack and never a post’s picture', () => {
+		expect(problemWithChoosingItem({ ...kitchen, filename: 'theme.mp3', mimeType: 'audio/mpeg' })).toBe(
+			"theme.mp3 is music, and a post's picture is a photo or a video"
+		);
+	});
 });

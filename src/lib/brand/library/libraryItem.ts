@@ -40,7 +40,12 @@ export function mayBePosted(item: { posting: PostingFooting }): boolean {
 	return item.posting !== PostingFootings.notToBePosted;
 }
 
-/** Whether the file is a video; everything else the library keeps is a photo. */
+/** Whether the file is a video. */
 export function isVideo(item: { mimeType: string }): boolean {
 	return item.mimeType.startsWith('video/');
+}
+
+/** Whether the file is music; what is neither music nor a video is a photo. */
+export function isMusic(item: { mimeType: string }): boolean {
+	return item.mimeType.startsWith('audio/');
 }
