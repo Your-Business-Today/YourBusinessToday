@@ -11,6 +11,7 @@
 		"whats_outstanding_for_me": {"inputs": {"name": "string", "onlyWhatIAskedFor": "boolean", "showEverything": "boolean"}, "required": []}
 	},
 	"actions": {
+		"add_todo": {"isWrite": true, "inputs": {"dueDate": "string", "notes": "string", "owner": "string", "status": "string", "taskId": "string", "title": "string"}, "required": ["title"]},
 		"attach_file_to_task": {"isWrite": true, "inputs": {"contentBase64": "string", "filename": "string", "mimeType": "string", "sourceUrl": "string", "taskId": "string"}, "required": ["taskId"]},
 		"create_goal": {"isWrite": true, "inputs": {"department": "string", "horizon": "string", "measure": "string", "projectId": "string", "title": "string"}, "required": ["projectId", "title"]},
 		"create_task": {"isWrite": true, "inputs": {"department": "string", "details": "string", "developmentKind": "string", "dueDate": "string", "goalId": "string", "kind": "string", "parentTaskId": "string", "projectId": "string", "raiseAnyway": "boolean", "requestedBy": "string", "storyBenefit": "string", "storyRole": "string", "storyWant": "string", "title": "string", "waitsForTaskId": "string"}, "required": ["projectId", "title"]},
