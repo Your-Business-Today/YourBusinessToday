@@ -1,6 +1,7 @@
 import { booksActions } from './booksActions';
 import { clearLedgerTables, ledgerDatabase, ledgerTables } from './booksLedgerDatabase.fixture';
 import { nigelAccountId } from './booksLedgerCalls.fixture';
+import { withWatchRuns } from '$lib/server/watch/watchRunsDatabase.fixture';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
@@ -50,7 +51,7 @@ function replaceScheduleLinesStep(args: Row): boolean {
 
 /** The stand-in that keeps what is written, with 0221's step beside its tables. */
 export const scheduleSupabase = {
-	...ledgerDatabase,
+	...withWatchRuns(ledgerDatabase),
 	rpc: async (name: string, args: Row) => {
 		if (name !== replaceScheduleLinesStepName) return { data: null, error: { message: `no step ${name}` } };
 		return { data: replaceScheduleLinesStep(args), error: null };

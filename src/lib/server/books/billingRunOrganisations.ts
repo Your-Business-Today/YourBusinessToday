@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { OrganisationModule } from '$lib/data/organisationModules';
 
-/** An organisation whose books the hourly run reads. */
+/** An organisation whose books the billing run reads. */
 export type BooksOrganisation = { id: string; name: string };
 
 const booksModule: OrganisationModule = 'books';

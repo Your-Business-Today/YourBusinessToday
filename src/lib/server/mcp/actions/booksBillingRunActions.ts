@@ -8,7 +8,7 @@ import { booksOrganisationField } from './booksFields';
 import type { McpAction } from '../actionTypes';
 
 const runOnlyWhenThePersonSaysSo =
-	'Run it only when the person asks to raise the schedules now rather than wait for the hourly run: it raises today ' +
+	'Run it only when the person asks to raise the schedules now rather than wait for the morning run: it raises today ' +
 	'what is due, and issues and emails the invoices of schedules that send by themselves, to real customers. Read the ' +
 	'answer back as it is, every invoice and everything left.';
 
@@ -20,7 +20,7 @@ export const booksBillingRunActions: McpAction[] = [
 		isWrite: true,
 		summary:
 			"raise now the invoices an organisation's billing schedules have due today, issuing and emailing those that send " +
-			'by themselves, as the hourly run does',
+			'by themselves, as the morning run does',
 		guidance: runOnlyWhenThePersonSaysSo,
 		inputSchema: objectSchema({ organisationId: booksOrganisationField }, ['organisationId']),
 		run: async (caller, _input, organisation) =>
