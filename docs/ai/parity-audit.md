@@ -166,6 +166,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-134 | plan a campaign, add content to it and read its report | manager | write | `/organisations/{organisationId}/brand/campaigns/{campaignId}` load | `list_campaigns` `plan_campaign` `add_content_to_campaign` `set_campaign_status` `record_campaign_audience` `read_campaign_report` | `/organisations/{organisationId}/brand/campaigns/{campaignId}` |
 | US-135 | record and read how content performed | manager | write | `/organisations/{organisationId}/brand` | `record_performance` `read_performance` | `/organisations/{organisationId}/brand` |
 | US-136 | read the brand library | manager | read | `/organisations/{organisationId}/brand/library` load | `list_brand_library` `read_brand_library_item` | `/organisations/{organisationId}/brand/library` |
+| US-136a | add a photo or video to the brand library, sending its file | manager | write | `grantItem` `recordItem` | `add_brand_library_item` `record_brand_library_item` | `/organisations/{organisationId}/brand/library` |
 
 ## 12-books
 

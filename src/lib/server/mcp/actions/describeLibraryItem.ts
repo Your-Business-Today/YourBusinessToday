@@ -10,7 +10,8 @@ import type { Organisation } from '$lib/server/organisations/organisationRecord'
 /** The action that reads one item, named wherever the library is listed. */
 export const readLibraryItemAction = 'read_brand_library_item';
 
-const addedOnTheSite = 'Photos and videos are added on the site, on the Brand place’s Photos and videos page.';
+const howToAdd =
+	'Photos and videos are added on the Brand place’s Photos and videos page, or by your Claude with add_brand_library_item.';
 
 function libraryCountOf(keptCount: number): string {
 	if (keptCount === 1) return 'one photo or video';
@@ -29,7 +30,7 @@ function itemLine(item: LibraryItem): string {
 /** The brand's library, latest added first, each item with whether it may be posted. */
 export function describeLibrary(organisation: Organisation, library: KeptLibrary): string {
 	const { items, keptCount } = library;
-	if (keptCount === 0) return `${organisation.name}’s brand keeps no photos or videos yet. ${addedOnTheSite}`;
+	if (keptCount === 0) return `${organisation.name}’s brand keeps no photos or videos yet. ${howToAdd}`;
 	const heading = `${organisation.name}’s brand keeps ${libraryCountOf(keptCount)}, the latest added first:`;
 	const unlisted = keptCount - items.length;
 	const cutNote = unlisted > 0 ? [`${unlisted} older ones are not listed; the latest ${LibraryLimits.mostItemsListed} are.`] : [];

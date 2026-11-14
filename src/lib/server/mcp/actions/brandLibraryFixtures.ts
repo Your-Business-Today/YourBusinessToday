@@ -27,10 +27,17 @@ const fittingVideo: LibraryItem = {
 };
 
 /** A brand's library held in memory, for the tests of the library actions. */
-export const libraryWorld = { switchedOn: ['brand'] as string[], items: [kitchen, fittingVideo] as LibraryItem[] };
+export const libraryWorld = {
+	switchedOn: ['brand'] as string[],
+	items: [kitchen, fittingVideo] as LibraryItem[],
+	brandSummary: 'Fire safety, plainly said' as string | null,
+	granted: [] as unknown[],
+	recording: { status: 'recorded', byteCount: 2_097_152 } as { status: string; byteCount?: number }
+};
 
 export function resetLibraryWorld() {
-	Object.assign(libraryWorld, { switchedOn: ['brand'], items: [kitchen, fittingVideo] });
+	const recording = { status: 'recorded', byteCount: 2_097_152 };
+	Object.assign(libraryWorld, { switchedOn: ['brand'], items: [kitchen, fittingVideo], brandSummary: 'Fire safety, plainly said', granted: [], recording });
 }
 
 export function readLibraryInWorld() {
