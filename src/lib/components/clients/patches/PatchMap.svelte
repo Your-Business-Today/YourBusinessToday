@@ -48,5 +48,5 @@
 <div
 	bind:this={container}
 	class="h-[28rem] w-full overflow-hidden rounded-2xl border border-hairline bg-carriage lg:h-[36rem]"
-	aria-label="Map of the patch"
+	aria-label="Map of the territory"
 ></div>

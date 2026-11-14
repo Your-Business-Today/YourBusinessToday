@@ -18,13 +18,13 @@ export const patchCompanyActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'every company registered in a patch as at the last monthly file, one line each, narrowed by SIC code, status or date',
+		summary: 'every company registered in a territory as at the last monthly file, one line each, narrowed by SIC code, status or date',
 		guidance:
 			'A company is pinned at its registered office, which may be an accountant: addresses holding many ' +
 			'companies are left out as hubs, and dormant companies are left out, unless you ask for them.',
 		inputSchema: objectSchema(
 			{
-				patchId: textField('The patch id, as given by list_patches'),
+				patchId: textField('The territory id, as given by list_patches'),
 				sicCode: textField('Keep companies whose SIC code starts with this, such as 41 or 41202'),
 				status: textField('Keep companies whose status contains this, such as active or liquidation'),
 				incorporatedSince: textField('Keep companies incorporated on or after this date, as YYYY-MM-DD'),
@@ -41,9 +41,9 @@ export const patchCompanyActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'everything known about one company in a patch in one answer: the register row, our standing, its filed figures, where it was sighted, what was observed, and its feed',
+		summary: 'everything known about one company in a territory in one answer: the register row, our standing, its filed figures, where it was sighted, what was observed, and its feed',
 		guidance: 'Read this before drafting an approach: it gathers what the register, the sightings, the observations and the feed hold, and names what is missing.',
-		inputSchema: objectSchema({ patchId: textField('The patch id'), companyNumber: textField('The company number, as read_patch_companies gives it') }, ['patchId', 'companyNumber']),
+		inputSchema: objectSchema({ patchId: textField('The territory id'), companyNumber: textField('The company number, as read_patch_companies gives it') }, ['patchId', 'companyNumber']),
 		run: async (caller, input) => readOne(caller, input)
 	}
 ];

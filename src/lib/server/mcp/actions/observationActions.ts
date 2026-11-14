@@ -9,7 +9,7 @@ import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Patch } from '$lib/server/patches/patchRecord';
 
-const patchIdField = textField('The patch id, as given by list_patches');
+const patchIdField = textField('The territory id, as given by list_patches');
 
 export const observationActions: McpAction[] = [
 	{
@@ -17,7 +17,7 @@ export const observationActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'what a weekly sweep of a patch should look at: the sectors most in need of a visit, and a page of companies longest unobserved',
+		summary: 'what a weekly sweep of a territory should look at: the sectors most in need of a visit, and a page of companies longest unobserved',
 		guidance:
 			'Work the brief on a weekly scheduled task in your own Claude. For each company, look for anything notable ' +
 			'on a public page in the last seven days and record it with record_patch_observation; stop at the end of ' +
@@ -33,7 +33,7 @@ export const observationActions: McpAction[] = [
 		summary: 'record something notable noticed about a company or a sighted business on a public page, with the page',
 		guidance:
 			'Public pages only, read in the last seven days, business-contact data only; LinkedIn, X, Facebook and ' +
-			'Instagram are refused. A page already recorded for the patch is not recorded twice.',
+			'Instagram are refused. A page already recorded for the territory is not recorded twice.',
 		inputSchema: objectSchema(
 			{
 				patchId: patchIdField,
@@ -66,6 +66,6 @@ async function observe(caller: McpCaller, patch: Patch, input: Record<string, un
 	if (refusal !== null) return refusal;
 	const outcome = await recordObservation(caller.supabase, patch, seed, caller.accountId);
 	if (outcome.kind === observationOutcomes.unknownSubject) return 'No company with that number is on the register, and no sighting has that id.';
-	if (outcome.kind === observationOutcomes.alreadyRecorded) return 'That page is already recorded for this patch.';
+	if (outcome.kind === observationOutcomes.alreadyRecorded) return 'That page is already recorded for this territory.';
 	return `Recorded: ${seed.headline}`;
 }

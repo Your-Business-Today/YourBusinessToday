@@ -14,9 +14,9 @@ export const patchLeadActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: true,
-		summary: 'put a company from the patch register on the clients register as a lead',
+		summary: 'put a company from the territory register on the clients register as a lead',
 		inputSchema: objectSchema(
-			{ patchId: textField('The patch id'), companyNumber: textField('The company number, as read_patch_companies gives it') },
+			{ patchId: textField('The territory id'), companyNumber: textField('The company number, as read_patch_companies gives it') },
 			['patchId', 'companyNumber']
 		),
 		run: async (caller, input) => addAsLead(caller, input)

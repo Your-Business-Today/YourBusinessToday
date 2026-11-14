@@ -5,7 +5,7 @@ import type { Premises } from '$lib/server/premises/premisesRecord';
 export const longestPremisesAnswer = 200;
 
 export function describePremisesList(premises: Premises[]): string {
-	if (premises.length === 0) return 'No food premises are listed in this patch yet: the nightly sweep loads them from the Food Standards Agency.';
+	if (premises.length === 0) return 'No food premises are listed in this territory yet: the nightly sweep loads them from the Food Standards Agency.';
 	const shown = premises.slice(0, longestPremisesAnswer);
 	const lines = shown.map(describePremisesLine);
 	if (premises.length > shown.length) lines.push(`… and ${premises.length - shown.length} more — narrow by sector or newOnly.`);

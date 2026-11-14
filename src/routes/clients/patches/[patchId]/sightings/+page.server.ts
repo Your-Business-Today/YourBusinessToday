@@ -9,7 +9,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ locals, params }) => {
 	await requireStaff(locals);
 	const patch = await getPatch(locals.supabase, params.patchId);
-	if (patch === null) error(404, 'That patch could not be found');
+	if (patch === null) error(404, 'That territory could not be found');
 	const sightings = await listSightingsForPatch(locals.supabase, patch.outcodes);
 	const finders = await getAccountsById(locals.supabase, sightings.map((sighting) => sighting.seenByAccountId));
 	const nameOf = accountNameLookup(finders);

@@ -10,8 +10,8 @@
 		{ href: '/clients/research', label: 'Research with your Claude' },
 		{ href: '/clients/prospect', label: 'Search Companies House' },
 		{ href: '/clients/map', label: 'Map an area' },
-		{ href: '/clients/patches', label: 'Patches' },
-		{ href: '/clients/feed', label: 'Patch feed' },
+		{ href: '/clients/patches', label: 'Territories' },
+		{ href: '/clients/feed', label: 'Territory feed' },
 		{ href: '/people', label: 'People' }
 	];
 </script>

@@ -16,7 +16,7 @@ async function* recordsOf(records: string[][]): AsyncIterable<string[]> {
 }
 
 describe('loadRegisterRecords', () => {
-	it('keeps the rows registered in a patch outcode, skips suppressed and malformed rows, and counts by outcode', async () => {
+	it('keeps the rows registered in a territory outcode, skips suppressed and malformed rows, and counts by outcode', async () => {
 		const written: RegisterCompanySeed[] = [];
 		const summary = await loadRegisterRecords(
 			recordsOf([headings, ...rows]),

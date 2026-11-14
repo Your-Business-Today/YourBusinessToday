@@ -16,10 +16,10 @@
 </script>
 
 <div class="flex flex-col gap-2">
-	<a href="/clients/patches" class="font-display text-sm text-chalk/50 hover:text-chalk">← Patches</a>
+	<a href="/clients/patches" class="font-display text-sm text-chalk/50 hover:text-chalk">← Territories</a>
 	<PageTitle>{patch.name}</PageTitle>
 	<p class="flex flex-wrap gap-3 text-sm text-chalk/60">
-		<a href={`/clients/patches/${patch.id}/sightings`} class="hover:text-signal">Every sighting in this patch</a>
+		<a href={`/clients/patches/${patch.id}/sightings`} class="hover:text-signal">Every sighting in this territory</a>
 		<a href={`/clients/feed?patch=${patch.id}`} class="hover:text-signal">What changed here</a>
 	</p>
 	<p class="text-chalk/70">{reach} · {trades} · worked by {ownerName}</p>

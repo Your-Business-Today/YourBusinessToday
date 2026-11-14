@@ -58,7 +58,7 @@ describe('frameViewFor', () => {
 
 	it('marks the link the page sits under most closely and heads the page with it', () => {
 		expect(viewAt(staff, '/clients/c-1').currentHref).toBe('/clients');
-		expect(trailAt(staff, '/clients/patches/patch-1')).toMatchObject({ crumbs: [], heading: 'Patches' });
+		expect(trailAt(staff, '/clients/patches/patch-1')).toMatchObject({ crumbs: [], heading: 'Territories' });
 		expect(trailAt(staff, '/organisations')).toMatchObject({ heading: 'Organisations' });
 		expect(trailAt(clientContact, '/portal/projects/project-1')).toMatchObject({ heading: 'Your projects' });
 		expect(trailAt(clientContact, '/portal/billing')).toMatchObject({ heading: 'Billing' });
