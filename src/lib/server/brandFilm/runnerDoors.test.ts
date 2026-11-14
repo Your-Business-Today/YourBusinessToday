@@ -36,7 +36,7 @@ vi.mock('$lib/server/brandLibrary/recordLibraryUpload', () => ({
 	recordLibraryUpload: async () => ({ status: world.recording })
 }));
 
-const waiting = { id: 'making-1', organisationId: 'jewel', contentPieceId: ids.piece, askedBy: 'nigel', state: 'waiting', libraryItemId: null };
+const waiting = { id: 'making-1', organisationId: 'jewel', contentPieceId: ids.piece, askedBy: 'nigel', kind: 'video', state: 'waiting', libraryItemId: null, pictureItemIds: [] as string[] };
 
 describe('the doors GitHub’s runner knocks at to make a brand’s film', () => {
 	beforeEach(() => {
@@ -72,7 +72,7 @@ describe('the doors GitHub’s runner knocks at to make a brand’s film', () =>
 		world.recording = 'not_arrived';
 		expect(await closeFilmForRunner(supabase, 'making-1', { hasArrived: true })).toEqual({ state: 'failed' });
 		expect(await closeFilmForRunner(supabase, 'making-1', { hasArrived: false, failureReason: 'ffmpeg stopped' })).toEqual({ state: 'failed' });
-		expect(world.moves).toEqual(['failed: the video did not arrive in the library', 'failed: ffmpeg stopped']);
+		expect(world.moves).toEqual(['failed: what was made did not all arrive in the library', 'failed: ffmpeg stopped']);
 	});
 
 	it('refuses a word that does not fit, before reading the film', async () => {

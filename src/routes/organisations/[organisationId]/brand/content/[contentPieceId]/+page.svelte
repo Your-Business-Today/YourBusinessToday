@@ -15,11 +15,12 @@
 	import { pictureExplained, picturePanelTitle } from '$lib/components/brand/postPictureWords';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { formatBritishDateTime, formatUkDateTime } from '$lib/data/britishDate';
+	import { FilmMakingKinds } from '$lib/brand/film/filmMaking';
 
 	let { data, form } = $props();
 
 	const { brandOrganisation: organisation, piece, pictures, video } = $derived(data);
-	const { channels, film } = $derived(piece);
+	const { channels, film, makingKind } = $derived(piece);
 	const filmShots = $derived(film.shots);
 	const hasFilm = $derived(filmShots.length > 0);
 	const answer = $derived(form?.message ?? null);
@@ -58,7 +59,9 @@
 				<DashboardPanel title="Watch the film" isPadded>
 					<StoryboardFilmPlayer {film} />
 				</DashboardPanel>
-				<ContentFilmMakingPanel making={video} {libraryPath} answer={videoAnswer} />
+			{/if}
+			{#if hasFilm || makingKind === FilmMakingKinds.pictures}
+				<ContentFilmMakingPanel kind={makingKind} making={video} {libraryPath} answer={videoAnswer} />
 			{/if}
 			<DashboardPanel title="Storyboard">
 				<ContentStoryboardTable shots={piece.shots} />

@@ -27,7 +27,7 @@ vi.mock('$lib/server/brandFilm/findFilmMakings', () => ({ findLatestFilmMaking: 
 vi.mock('$lib/server/brandFilm/keepFilmMaking', () => ({
 	keepFilmMaking: async (_supabase: unknown, asker: unknown) => {
 		world.kept.push(asker);
-		return { id: 'making-1', state: 'waiting', failureReason: null, libraryItemId: null, askedAt: '2026-11-14T19:00:00Z', finishedAt: null };
+		return { id: 'making-1', kind: 'video', pictureItemIds: [], state: 'waiting', failureReason: null, libraryItemId: null, askedAt: '2026-11-14T19:00:00Z', finishedAt: null };
 	}
 }));
 vi.mock('$lib/server/brandFilm/startFilmWorkflow', () => ({ startFilmWorkflow: async () => world.startRefusal }));
@@ -50,12 +50,12 @@ describe('making a client’s video from chat', () => {
 
 	it('keeps the request under the person asking and starts the filming', async () => {
 		const answer = await runContentAction('make_content_video', { contentPieceId });
-		expect(answer).toContain('The video is asked for (id making-1)');
-		expect(world.kept).toEqual([{ organisationId: 'jewel', accountId: 'nigel', contentPieceId }]);
+		expect(answer).toContain('The video is asked for (id making-1) and is being started');
+		expect(world.kept).toEqual([{ organisationId: 'jewel', accountId: 'nigel', contentPieceId, kind: 'video' }]);
 	});
 
 	it('is refused by name while one is already being made, keeping nothing', async () => {
-		world.latest = { id: 'm', state: 'filming', failureReason: null, libraryItemId: null, askedAt: '', finishedAt: null };
+		world.latest = { id: 'm', kind: 'video', pictureItemIds: [], state: 'filming', failureReason: null, libraryItemId: null, askedAt: '', finishedAt: null };
 		const answer = await runContentAction('make_content_video', { contentPieceId });
 		expect(answer).toBe('The video was not asked for: “Fire doors” is already being made; its video shows on the piece when it is ready. Nothing was kept.');
 		expect(world.kept).toHaveLength(0);
@@ -68,12 +68,19 @@ describe('making a client’s video from chat', () => {
 		expect(world.failed).toEqual(['GitHub refused to start the filming (403)']);
 	});
 
+	it('refuses pictures of a video piece by name, keeping nothing', async () => {
+		expect(await runContentAction('make_content_pictures', { contentPieceId })).toBe(
+			'The pictures were not asked for: “Fire doors” is not a picture post, story or carousel. Nothing was kept.'
+		);
+		expect(world.kept).toHaveLength(0);
+	});
+
 	it('refuses an id that is not one before reading anything', async () => {
 		expect(await runContentAction('make_content_video', { contentPieceId: 'fire-doors' })).toContain('contentPieceId');
 	});
 
 	it('shows where the video stands when the piece is read, and where to find it once it is made', async () => {
-		world.latest = { id: 'm', state: 'ready', failureReason: null, libraryItemId: 'item-9', askedAt: '', finishedAt: '2026-11-14T19:20:00Z' };
+		world.latest = { id: 'm', kind: 'video', pictureItemIds: [], state: 'ready', failureReason: null, libraryItemId: 'item-9', askedAt: '', finishedAt: '2026-11-14T19:20:00Z' };
 		const answer = await runContentAction('read_content', { contentPieceId });
 		expect(answer).toContain('Video: made 14 Nov, 19:20, in the library');
 		expect(answer).toContain('in the library as item item-9. Put it on the post with choose_post_picture.');

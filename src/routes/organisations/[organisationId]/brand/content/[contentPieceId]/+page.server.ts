@@ -6,7 +6,8 @@ import { readContentPiecePage } from '$lib/server/brandContent/readContentPieceP
 import { readPostPicturesPage } from '$lib/server/brandContent/readPostPicturesPage';
 import { requireOrganisationModule } from '$lib/server/auth/requireOrganisationModule';
 import { reviewContentPiece } from '$lib/server/brandContent/reviewContentPiece';
-import { videoPageAnswerFor } from '$lib/server/brandFilm/videoPageAnswers';
+import { isFilmMakingKind } from '$lib/brand/film/filmMaking';
+import { unknownMakingAnswer, videoPageAnswerFor } from '$lib/server/brandFilm/videoPageAnswers';
 import type { Actions, PageServerLoad } from './$types';
 
 const brandModule = 'brand';
@@ -28,9 +29,12 @@ export const actions = {
 		const reviewer = { organisationId: organisation.id, contentPieceId: params.contentPieceId, authorId: user.id };
 		return pageAnswerFor(await reviewContentPiece(locals.supabase, reviewer, input));
 	},
-	makeVideo: async ({ locals, params }) => {
+	make: async ({ locals, params, request }) => {
 		const { organisation, user } = await requireOrganisationModule(locals, params.organisationId, brandModule);
-		const asker = { organisationId: organisation.id, accountId: user.id, contentPieceId: params.contentPieceId };
+		const form = await request.formData();
+		const kind = form.get('kind');
+		if (!isFilmMakingKind(kind)) return unknownMakingAnswer();
+		const asker = { organisationId: organisation.id, accountId: user.id, contentPieceId: params.contentPieceId, kind };
 		return videoPageAnswerFor(await askForFilm(locals.supabase, asker));
 	}
 } satisfies Actions;

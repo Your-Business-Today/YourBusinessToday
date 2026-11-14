@@ -1,9 +1,10 @@
 import { filmMakingColumns, filmMakingOfRow, filmMakingsTable, type FilmMakingRecord } from './filmMakingRecord';
+import { withPicturesMade } from './findPicturesMade';
 import { hashSecret } from '$lib/server/oauth/oauthTokens';
 import { FilmMakingStates } from '$lib/brand/film/filmMaking';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-/** The latest request for the piece's video, or null when none was made. */
+/** The latest request for the piece's video or pictures, with every picture it made, or null when none was made. */
 export async function findLatestFilmMaking(supabase: SupabaseClient, organisationId: string, contentPieceId: string): Promise<FilmMakingRecord | null> {
 	const { data, error } = await supabase
 		.from(filmMakingsTable)
@@ -14,14 +15,14 @@ export async function findLatestFilmMaking(supabase: SupabaseClient, organisatio
 		.limit(1)
 		.maybeSingle();
 	if (error) throw error;
-	return data === null ? null : filmMakingOfRow(data);
+	return data === null ? null : withPicturesMade(supabase, filmMakingOfRow(data));
 }
 
-/** The request of that id, or null. */
+/** The request of that id, with every picture it made, or null. */
 export async function findFilmMaking(supabase: SupabaseClient, filmMakingId: string): Promise<FilmMakingRecord | null> {
 	const { data, error } = await supabase.from(filmMakingsTable).select(filmMakingColumns).eq('id', filmMakingId).maybeSingle();
 	if (error) throw error;
-	return data === null ? null : filmMakingOfRow(data);
+	return data === null ? null : withPicturesMade(supabase, filmMakingOfRow(data));
 }
 
 /** The request being filmed under that token, or null once it is filmed or when no request holds it. */
