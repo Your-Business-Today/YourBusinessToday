@@ -1,4 +1,5 @@
 import { accountActions } from './actions/accountActions';
+import { accountsReadingActions } from './actions/accountsReadingActions';
 import { moduleAreaActions } from './actions/moduleAreaActions';
 import { areaFeedActions } from './actions/areaFeedActions';
 import { claimActions } from './actions/claimActions';
@@ -47,6 +48,7 @@ const everyAction: McpAction[] = [
 	...jobAdvertActions,
 	...patchLeadActions,
 	...registerActions,
+	...accountsReadingActions,
 	...filingActions,
 	...sectorActions,
 	...claimActions,
