@@ -3,6 +3,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import { keyboardKeys } from '$lib/client/keyboardKeys';
 	import { backdropFade, dialogRise } from '$lib/client/motion';
+	import type { Snippet } from 'svelte';
 
 	let {
 		title,
@@ -11,7 +12,8 @@
 		fields,
 		submitLabel,
 		confirmWord = null,
-		isOpen = $bindable()
+		isOpen = $bindable(),
+		children
 	}: {
 		title: string;
 		description: string;
@@ -20,6 +22,7 @@
 		submitLabel: string;
 		confirmWord?: string | null;
 		isOpen: boolean;
+		children?: Snippet;
 	} = $props();
 
 	function close() {
@@ -46,7 +49,9 @@
 		>
 			<h2 class="font-display text-xl font-medium text-signal">{title}</h2>
 			<p class="mt-3 text-sm text-chalk/70">{description}</p>
-			<DangerConfirmForm {action} {fields} {submitLabel} {confirmWord} onClose={close} />
+			<DangerConfirmForm {action} {fields} {submitLabel} {confirmWord} onClose={close}>
+				{@render children?.()}
+			</DangerConfirmForm>
 		</div>
 	</div>
 {/if}

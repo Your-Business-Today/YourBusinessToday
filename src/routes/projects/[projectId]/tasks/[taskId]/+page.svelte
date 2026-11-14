@@ -91,6 +91,7 @@
 	otherProjects={data.otherProjects}
 	sequenceChoices={data.sequenceChoices}
 	subtaskSequenceChoices={openSiblingsOf(data.subtasks)}
+	deletionPlan={data.deletionPlan}
 	bind:isEditModalOpen
 	bind:isSubtaskModalOpen
 	bind:isDeleteModalOpen

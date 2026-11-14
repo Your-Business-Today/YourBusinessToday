@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DangerConfirmModal from '$lib/components/site/DangerConfirmModal.svelte';
+	import DeleteTaskModal from './DeleteTaskModal.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import NewTaskForm from './NewTaskForm.svelte';
 	import TaskEditForm from './TaskEditForm.svelte';
@@ -7,6 +7,7 @@
 	import type { ProjectChoice } from '$lib/server/projects/getOtherProjects';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
+	import type { TaskDeletionPlan } from '$lib/data/taskDeletion';
 
 	let {
 		task,
@@ -19,6 +20,7 @@
 		otherProjects,
 		sequenceChoices,
 		subtaskSequenceChoices,
+		deletionPlan,
 		isEditModalOpen = $bindable(),
 		isSubtaskModalOpen = $bindable(),
 		isDeleteModalOpen = $bindable()
@@ -33,6 +35,7 @@
 		otherProjects: ProjectChoice[];
 		sequenceChoices: ProjectTask[];
 		subtaskSequenceChoices: ProjectTask[];
+		deletionPlan: TaskDeletionPlan;
 		isEditModalOpen: boolean;
 		isSubtaskModalOpen: boolean;
 		isDeleteModalOpen: boolean;
@@ -65,11 +68,4 @@
 	/>
 </Modal>
 
-<DangerConfirmModal
-	title="Delete task"
-	description={`This permanently deletes “${task.title}”, its subtasks, and their conversations. This cannot be undone.`}
-	action="?/deleteTask"
-	fields={{}}
-	submitLabel="Delete task"
-	bind:isOpen={isDeleteModalOpen}
-/>
+<DeleteTaskModal plan={deletionPlan} bind:isOpen={isDeleteModalOpen} />
