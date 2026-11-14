@@ -34,7 +34,8 @@ export function validateNewLoanAccount(fields: Record<string, unknown>): NewLoan
 	};
 }
 
-function personNameRefusal(personName: unknown): string | null {
+/** Why the person's name cannot be kept on books_loan_accounts.person_name, or null when it can. */
+export function personNameRefusal(personName: unknown): string | null {
 	const textRefusal = plainTextRefusal('personName', personName);
 	if (textRefusal !== null) return textRefusal;
 	const length = (personName as string).length;
@@ -42,7 +43,8 @@ function personNameRefusal(personName: unknown): string | null {
 	return `personName is at most ${LoanAccountLimits.personNameLongest} characters; ${length} were given.`;
 }
 
-function relationshipRefusal(relationship: unknown): string | null {
+/** Why the relationship is not one books_loan_accounts.relationship accepts, or null when it is. */
+export function relationshipRefusal(relationship: unknown): string | null {
 	if (everyRelationship.includes(relationship as LoanRelationship)) return null;
 	return `relationship is one of ${relationshipList}; ${JSON.stringify(relationship)} was given.`;
 }
