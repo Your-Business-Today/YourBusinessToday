@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-14T20:01:17+00:00",
-  "kitVersion": "1.41.0",
+  "generatedAt": "2026-11-14T21:46:21+00:00",
+  "kitVersion": "1.42.0",
   "score": {
     "overall": 99.9,
     "groups": [
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4952,
+        "measuredAgainst": 4946,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7714,
+        "measuredAgainst": 7725,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7127,
+        "measuredAgainst": 7111,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 188.97,
+        "measuredAgainst": 189.15,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 188.97,
+        "measuredAgainst": 189.15,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 8450,
+        "measuredAgainst": 8460,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 188.97,
+        "measuredAgainst": 189.15,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 188.97,
+        "measuredAgainst": 189.15,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7714,
+        "measuredAgainst": 7725,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 249,
+        "measuredAgainst": 247,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7127,
+        "measuredAgainst": 7111,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7127,
+        "measuredAgainst": 7111,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7714,
+        "measuredAgainst": 7725,
         "score": 100.0
       },
       {
@@ -231,7 +231,7 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 465,
+        "measuredAgainst": 464,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 400,
+        "measuredAgainst": 397,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4952,
-      "totalLines": 188970,
+      "totalFiles": 4946,
+      "totalLines": 189146,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 7714,
+      "totalFunctions": 7725,
       "elseBlocks": 0,
-      "ifBlocks": 7127,
+      "ifBlocks": 7111,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -275,13 +275,13 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 73,
-      "duplicatedLines": 616,
-      "totalLines": 191880,
+      "clones": 72,
+      "duplicatedLines": 610,
+      "totalLines": 192012,
       "duplicatedPercentage": 0.32
     },
     "naming": {
-      "bannedAbbreviationHits": 90,
+      "bannedAbbreviationHits": 92,
       "unprefixedBooleans": 7
     },
     "comments": {
@@ -297,7 +297,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 647,
+      "overlongLines": 656,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -307,11 +307,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 7714
+      "functionsExamined": 7725
     },
     "designPatterns": {
-      "roleFamilies": 249,
-      "predictedFiles": 249,
+      "roleFamilies": 248,
+      "predictedFiles": 247,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -319,19 +319,19 @@
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 80,
-      "components": 736,
+      "pages": 79,
+      "components": 735,
       "orphanComponents": 0,
-      "averagePageLines": 43
+      "averagePageLines": 44
     },
     "siteDefinition": {
-      "routes": 79,
-      "views": 819,
-      "siteComponents": 724,
+      "routes": 78,
+      "views": 817,
+      "siteComponents": 723,
       "catalogue": 14,
-      "widgetUsages": 465,
+      "widgetUsages": 464,
       "handRolledElements": 0,
-      "widgetSlots": 465,
+      "widgetSlots": 464,
       "viewsWithHandRolled": 0,
       "boxedContentWidgets": 0,
       "designSheets": 8,
@@ -341,21 +341,21 @@
     "inputValidation": {
       "schemaTables": 225,
       "limitedColumns": 0,
-      "writeDoors": 400,
+      "writeDoors": 397,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5588,
-      "backend": 1465,
-      "frontend": 1195,
-      "shared": 954,
-      "tests": 839,
-      "api": 649,
+      "totalFiles": 5579,
+      "backend": 1460,
+      "frontend": 1192,
+      "shared": 961,
+      "tests": 841,
+      "api": 647,
       "database": 238,
-      "tooling": 149,
+      "tooling": 142,
       "docs": 79,
-      "infrastructure": 20
+      "infrastructure": 19
     }
   },
   "details": {
@@ -364,8 +364,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4952,
-        "totalLines": 188970,
+        "totalFiles": 4946,
+        "totalLines": 189146,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -376,9 +376,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 7714,
+        "totalFunctions": 7725,
         "elseBlocks": 0,
-        "ifBlocks": 7127,
+        "ifBlocks": 7111,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -403,11 +403,15 @@
     "naming": {
       "name": "naming",
       "summary": {
-        "bannedAbbreviationHits": 90,
+        "bannedAbbreviationHits": 92,
         "unprefixedBooleans": 7
       },
       "offenders": {
         "abbreviations": [
+          {
+            "file": "src/lib/brand/film/recipeShell.ts",
+            "line": 16
+          },
           {
             "file": "src/lib/components/promo/promoKeys.test.ts",
             "line": 6
@@ -565,6 +569,10 @@
             "line": 19
           },
           {
+            "file": "src/lib/server/mcp/actions/brandContentVideoActions.test.ts",
+            "line": 45
+          },
+          {
             "file": "src/lib/server/mcp/actions/buildModelAdminActions.test.ts",
             "line": 7
           },
@@ -599,14 +607,6 @@
           {
             "file": "src/lib/server/mcp/actions/businessBrainOpenFile.test.ts",
             "line": 11
-          },
-          {
-            "file": "src/lib/server/mcp/actions/businessBrainPageFiles.test.ts",
-            "line": 8
-          },
-          {
-            "file": "src/lib/server/mcp/actions/businessBrainPageFiles.test.ts",
-            "line": 9
           }
         ],
         "booleans": [
@@ -675,7 +675,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 647,
+        "overlongLines": 656,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -693,6 +693,18 @@
           {
             "file": "src/lib/brand/film/filmPosting.ts",
             "line": 20
+          },
+          {
+            "file": "src/lib/brand/film/filmRecipe.test.ts",
+            "line": 10
+          },
+          {
+            "file": "src/lib/brand/film/filmRecipe.test.ts",
+            "line": 30
+          },
+          {
+            "file": "src/lib/brand/film/filmRecipe.test.ts",
+            "line": 46
           },
           {
             "file": "src/lib/brand/film/pictureMaking.test.ts",
@@ -869,18 +881,6 @@
           {
             "file": "src/lib/data/connectionsAnswer.ts",
             "line": 18
-          },
-          {
-            "file": "src/lib/data/departmentBoard.ts",
-            "line": 67
-          },
-          {
-            "file": "src/lib/data/deploySummary.test.ts",
-            "line": 36
-          },
-          {
-            "file": "src/lib/data/deployWindowFacts.test.ts",
-            "line": 57
           }
         ]
       }
@@ -901,15 +901,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 7714
+        "functionsExamined": 7725
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 249,
-        "predictedFiles": 249,
+        "roleFamilies": 248,
+        "predictedFiles": 247,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -919,9 +919,9 @@
       "offenders": {
         "roleFamilies": {
           "+layout.server.ts": 6,
-          "+page.server.ts": 72,
-          "+page.svelte": 80,
-          "+server.ts": 32,
+          "+page.server.ts": 71,
+          "+page.svelte": 79,
+          "+server.ts": 30,
           "access": 12,
           "account": 8,
           "accounts": 7,
@@ -930,7 +930,7 @@
           "address": 10,
           "adverts": 4,
           "answer": 14,
-          "answers": 17,
+          "answers": 16,
           "approval": 6,
           "attachment": 6,
           "badge": 9,
@@ -977,7 +977,7 @@
           "deploy": 4,
           "details": 12,
           "director": 6,
-          "doctrine": 8,
+          "doctrine": 9,
           "document": 7,
           "domain": 7,
           "door": 4,
@@ -992,8 +992,8 @@
           "figures": 5,
           "file": 11,
           "files": 7,
-          "film": 4,
           "filter": 9,
+          "filters": 4,
           "fixture": 33,
           "fixtures": 27,
           "for": 10,
@@ -1031,7 +1031,7 @@
           "link": 22,
           "links": 16,
           "list": 37,
-          "making": 5,
+          "making": 7,
           "map": 39,
           "match": 5,
           "meeting": 9,
@@ -1059,8 +1059,8 @@
           "outcome": 6,
           "overview": 4,
           "owner": 5,
-          "page": 27,
-          "pages": 11,
+          "page": 26,
+          "pages": 10,
           "pane": 5,
           "panel": 52,
           "paper": 12,
@@ -1072,7 +1072,7 @@
           "people": 9,
           "person": 15,
           "picker": 4,
-          "pictures": 6,
+          "pictures": 5,
           "piece": 10,
           "pieces": 4,
           "pill": 5,
@@ -1104,7 +1104,6 @@
           "rule": 8,
           "rules": 81,
           "run": 11,
-          "runner": 5,
           "runs": 27,
           "schemas": 15,
           "scope": 4,
@@ -1120,7 +1119,7 @@
           "sheet": 5,
           "source": 21,
           "sources": 10,
-          "stage": 6,
+          "stage": 5,
           "standing": 22,
           "standings": 4,
           "state": 5,
@@ -1142,7 +1141,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 811,
+          "test": 814,
           "text": 15,
           "tiles": 5,
           "time": 5,
@@ -1221,12 +1220,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 72,
+            "predicted": 71,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 80,
+            "predicted": 79,
             "missing": []
           }
         ],
@@ -1237,10 +1236,10 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 80,
-        "components": 736,
+        "pages": 79,
+        "components": 735,
         "orphanComponents": 0,
-        "averagePageLines": 43
+        "averagePageLines": 44
       },
       "offenders": {
         "pages": [
@@ -1289,7 +1288,7 @@
           },
           {
             "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-            "lines": 81,
+            "lines": 80,
             "widgets": [
               "badge"
             ]
@@ -1688,11 +1687,6 @@
             "widgets": []
           },
           {
-            "page": "src/routes/brand-film/[token]/+page.svelte",
-            "lines": 11,
-            "widgets": []
-          },
-          {
             "page": "src/routes/company/+page.svelte",
             "lines": 11,
             "widgets": []
@@ -1745,7 +1739,7 @@
           },
           {
             "component": "src/lib/components/site/Button.svelte",
-            "reusedBy": 42
+            "reusedBy": 41
           },
           {
             "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
@@ -1921,10 +1915,6 @@
           },
           {
             "component": "src/lib/components/brand/LibraryPreview.svelte",
-            "reusedBy": 3
-          },
-          {
-            "component": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
             "reusedBy": 3
           },
           {
@@ -2832,7 +2822,7 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/brand/film/StoryboardFilmWordsStage.svelte",
+            "component": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
             "reusedBy": 1
           },
           {
@@ -4670,13 +4660,13 @@
     "siteDefinition": {
       "name": "siteDefinition",
       "summary": {
-        "routes": 79,
-        "views": 819,
-        "siteComponents": 724,
+        "routes": 78,
+        "views": 817,
+        "siteComponents": 723,
         "catalogue": 14,
-        "widgetUsages": 465,
+        "widgetUsages": 464,
         "handRolledElements": 0,
-        "widgetSlots": 465,
+        "widgetSlots": 464,
         "viewsWithHandRolled": 0,
         "boxedContentWidgets": 0,
         "designSheets": 8,
@@ -4905,12 +4895,6 @@
           "expanded": "PageTitle, DashboardPanel{ StripeEventsToCheckTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ Badge }, RecordsCell, RecordsCell{ Button } } ) }"
         },
         {
-          "route": "/brand-film/[token]",
-          "file": "src/routes/brand-film/[token]/+page.svelte",
-          "definition": "StoryboardFilmWordsStage",
-          "expanded": "StoryboardFilmWordsStage=( ?shot !== null: StoryboardFilmWords )"
-        },
-        {
           "route": "/case-study",
           "file": "src/routes/case-study/+page.svelte",
           "definition": "PageMeta, CaseStudyIntroSection, (n) CaseStudyBusinessSection, PortalScreensSection, CaseStudyMethodSection, DiscoveryCallSection",
@@ -5100,7 +5084,7 @@
           "route": "/organisations/[organisationId]/brand/content/[contentPieceId]",
           "file": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
           "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer }, ?hasFilm || makingKind === FilmM\u2026: ContentFilmMakingPanel, DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
-          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ?hasFilm || makingKind === FilmM\u2026: ContentFilmMakingPanel=( DashboardPanel{ Button } ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
+          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ?hasFilm || makingKind === FilmM\u2026: ContentFilmMakingPanel=( DashboardPanel ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
         },
         {
           "route": "/organisations/[organisationId]/brand/library",
@@ -5947,12 +5931,6 @@
         {
           "component": "SignalBadge",
           "file": "src/lib/components/site/SignalBadge.svelte",
-          "definition": "",
-          "usedBy": 2
-        },
-        {
-          "component": "StoryboardFilmWords",
-          "file": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
           "definition": "",
           "usedBy": 2
         },
@@ -6913,7 +6891,7 @@
         {
           "component": "ContentFilmMakingPanel",
           "file": "src/lib/components/brand/film/ContentFilmMakingPanel.svelte",
-          "definition": "DashboardPanel{ Button }",
+          "definition": "DashboardPanel",
           "usedBy": 1
         },
         {
@@ -9083,9 +9061,9 @@
           "usedBy": 1
         },
         {
-          "component": "StoryboardFilmWordsStage",
-          "file": "src/lib/components/brand/film/StoryboardFilmWordsStage.svelte",
-          "definition": "?shot !== null: StoryboardFilmWords",
+          "component": "StoryboardFilmWords",
+          "file": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
+          "definition": "",
           "usedBy": 1
         },
         {
@@ -9655,7 +9633,7 @@
         {
           "component": "+layout",
           "file": "src/routes/+layout.svelte",
-          "definition": "?!isBare: NavigationSpinner, ?isFramed: PortalFrame, ?!isBare && !isFramed: ( ?isPortal: PortalHeader, ?!isPortal: SiteHeader, SiteFooter )",
+          "definition": "NavigationSpinner, ?isFramed: PortalFrame, ?!isFramed: ( ?isPortal: PortalHeader, ?!isPortal: SiteHeader, SiteFooter )",
           "usedBy": 0
         },
         {
@@ -9669,47 +9647,47 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5588,
-        "backend": 1465,
-        "frontend": 1195,
-        "shared": 954,
-        "tests": 839,
-        "api": 649,
+        "totalFiles": 5579,
+        "backend": 1460,
+        "frontend": 1192,
+        "shared": 961,
+        "tests": 841,
+        "api": 647,
         "database": 238,
-        "tooling": 149,
+        "tooling": 142,
         "docs": 79,
-        "infrastructure": 20
+        "infrastructure": 19
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 1465,
-          "sourceFiles": 1454,
-          "sourceLines": 48856
+          "files": 1460,
+          "sourceFiles": 1449,
+          "sourceLines": 48755
         },
         {
           "area": "frontend",
-          "files": 1195,
-          "sourceFiles": 1065,
-          "sourceLines": 36564
+          "files": 1192,
+          "sourceFiles": 1062,
+          "sourceLines": 36480
         },
         {
           "area": "shared",
-          "files": 954,
-          "sourceFiles": 936,
-          "sourceLines": 33901
+          "files": 961,
+          "sourceFiles": 943,
+          "sourceLines": 34274
         },
         {
           "area": "tests",
-          "files": 839,
-          "sourceFiles": 824,
-          "sourceLines": 39133
+          "files": 841,
+          "sourceFiles": 827,
+          "sourceLines": 39271
         },
         {
           "area": "api",
-          "files": 649,
-          "sourceFiles": 648,
-          "sourceLines": 29624
+          "files": 647,
+          "sourceFiles": 647,
+          "sourceLines": 29711
         },
         {
           "area": "database",
@@ -9719,9 +9697,9 @@
         },
         {
           "area": "tooling",
-          "files": 149,
-          "sourceFiles": 17,
-          "sourceLines": 638
+          "files": 142,
+          "sourceFiles": 10,
+          "sourceLines": 401
         },
         {
           "area": "docs",
@@ -9731,7 +9709,7 @@
         },
         {
           "area": "infrastructure",
-          "files": 20,
+          "files": 19,
           "sourceFiles": 0,
           "sourceLines": 0
         }
@@ -9742,7 +9720,7 @@
       "summary": {
         "schemaTables": 225,
         "limitedColumns": 0,
-        "writeDoors": 400,
+        "writeDoors": 397,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },
@@ -9754,9 +9732,9 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 73,
-        "duplicatedLines": 616,
-        "totalLines": 191880,
+        "clones": 72,
+        "duplicatedLines": 610,
+        "totalLines": 192012,
         "duplicatedPercentage": 0.32
       },
       "offenders": [

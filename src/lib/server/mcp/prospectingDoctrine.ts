@@ -1,6 +1,7 @@
-/** Rule 9 of the working doctrine: how a staff member's Claude works a patch. */
+/** Rule 9 of the working doctrine: how a staff member's Claude works a territory. */
 export const prospectingDoctrine = [
-	'9. Prospecting is done on a territory, a piece of ground a staff member works. list_patches and',
+	'9. Prospecting is done on a territory, a piece of ground a staff member works; say territory,',
+	'   never patch, though the tools still carry the old word until they are renamed. list_patches and',
 	'   read_patch say what is covered; list_unsearched_sectors chooses where to go next; claim_sector',
 	'   before searching, so nobody else works the same ground; read_sector first, so a business',
 	'   already known is matched rather than recorded twice; record_sighting for each business found',

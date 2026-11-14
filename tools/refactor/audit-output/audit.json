@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-14T19:54:02+00:00",
-  "kitVersion": "1.41.0",
+  "generatedAt": "2026-11-14T21:46:21+00:00",
+  "kitVersion": "1.42.0",
   "score": {
-    "overall": 99.8,
+    "overall": 99.9,
     "groups": [
       {
         "group": "Standard baseline checks",
-        "score": 99.7,
+        "score": 99.8,
         "weight": 60
       },
       {
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4920,
+        "measuredAgainst": 4946,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7669,
+        "measuredAgainst": 7725,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7094,
+        "measuredAgainst": 7111,
         "score": 100.0
       },
       {
@@ -87,9 +87,9 @@
         "zeroAt": 20,
         "unit": "",
         "isMeasured": true,
-        "offenders": 0.41,
+        "offenders": 0.32,
         "measuredAgainst": 1,
-        "score": 98.0
+        "score": 98.4
       },
       {
         "key": "comments",
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 188.26,
+        "measuredAgainst": 189.15,
         "score": 100.0
       },
       {
@@ -111,9 +111,9 @@
         "zeroAt": 20,
         "unit": "thousand lines",
         "isMeasured": true,
-        "offenders": 4,
-        "measuredAgainst": 188.26,
-        "score": 99.9
+        "offenders": 0,
+        "measuredAgainst": 189.15,
+        "score": 100.0
       },
       {
         "key": "orphans",
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 8404,
+        "measuredAgainst": 8460,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 188.26,
+        "measuredAgainst": 189.15,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 188.26,
+        "measuredAgainst": 189.15,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7669,
+        "measuredAgainst": 7725,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 259,
+        "measuredAgainst": 247,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7094,
+        "measuredAgainst": 7111,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7094,
+        "measuredAgainst": 7111,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7669,
+        "measuredAgainst": 7725,
         "score": 100.0
       },
       {
@@ -231,7 +231,7 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 465,
+        "measuredAgainst": 464,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 396,
+        "measuredAgainst": 397,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4920,
-      "totalLines": 188261,
+      "totalFiles": 4946,
+      "totalLines": 189146,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 7669,
+      "totalFunctions": 7725,
       "elseBlocks": 0,
-      "ifBlocks": 7094,
+      "ifBlocks": 7111,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -275,14 +275,13 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 66,
-      "duplicatedLines": 617,
-      "totalLines": 151337,
-      "duplicatedPercentage": 0.41,
-      "carriedFromBaseline": true
+      "clones": 72,
+      "duplicatedLines": 610,
+      "totalLines": 192012,
+      "duplicatedPercentage": 0.32
     },
     "naming": {
-      "bannedAbbreviationHits": 90,
+      "bannedAbbreviationHits": 92,
       "unprefixedBooleans": 7
     },
     "comments": {
@@ -293,12 +292,12 @@
     "magicValues": {
       "inlineHexColours": 0,
       "inlineStyleAttributes": 0,
-      "repeatedStringLiterals": 4
+      "repeatedStringLiterals": 0
     },
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 634,
+      "overlongLines": 656,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,11 +307,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 7669
+      "functionsExamined": 7725
     },
     "designPatterns": {
-      "roleFamilies": 247,
-      "predictedFiles": 259,
+      "roleFamilies": 248,
+      "predictedFiles": 247,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -320,19 +319,19 @@
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 80,
+      "pages": 79,
       "components": 735,
       "orphanComponents": 0,
-      "averagePageLines": 43
+      "averagePageLines": 44
     },
     "siteDefinition": {
-      "routes": 79,
-      "views": 818,
+      "routes": 78,
+      "views": 817,
       "siteComponents": 723,
       "catalogue": 14,
-      "widgetUsages": 465,
+      "widgetUsages": 464,
       "handRolledElements": 0,
-      "widgetSlots": 465,
+      "widgetSlots": 464,
       "viewsWithHandRolled": 0,
       "boxedContentWidgets": 0,
       "designSheets": 8,
@@ -340,21 +339,21 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 224,
+      "schemaTables": 225,
       "limitedColumns": 0,
-      "writeDoors": 396,
+      "writeDoors": 397,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5541,
-      "backend": 1448,
-      "frontend": 1194,
-      "shared": 947,
-      "tests": 831,
-      "api": 643,
-      "database": 235,
-      "tooling": 145,
+      "totalFiles": 5579,
+      "backend": 1460,
+      "frontend": 1192,
+      "shared": 961,
+      "tests": 841,
+      "api": 647,
+      "database": 238,
+      "tooling": 142,
       "docs": 79,
       "infrastructure": 19
     }
@@ -365,8 +364,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4920,
-        "totalLines": 188261,
+        "totalFiles": 4946,
+        "totalLines": 189146,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +376,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 7669,
+        "totalFunctions": 7725,
         "elseBlocks": 0,
-        "ifBlocks": 7094,
+        "ifBlocks": 7111,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -404,11 +403,15 @@
     "naming": {
       "name": "naming",
       "summary": {
-        "bannedAbbreviationHits": 90,
+        "bannedAbbreviationHits": 92,
         "unprefixedBooleans": 7
       },
       "offenders": {
         "abbreviations": [
+          {
+            "file": "src/lib/brand/film/recipeShell.ts",
+            "line": 16
+          },
           {
             "file": "src/lib/components/promo/promoKeys.test.ts",
             "line": 6
@@ -566,6 +569,10 @@
             "line": 19
           },
           {
+            "file": "src/lib/server/mcp/actions/brandContentVideoActions.test.ts",
+            "line": 45
+          },
+          {
             "file": "src/lib/server/mcp/actions/buildModelAdminActions.test.ts",
             "line": 7
           },
@@ -600,14 +607,6 @@
           {
             "file": "src/lib/server/mcp/actions/businessBrainOpenFile.test.ts",
             "line": 11
-          },
-          {
-            "file": "src/lib/server/mcp/actions/businessBrainPageFiles.test.ts",
-            "line": 8
-          },
-          {
-            "file": "src/lib/server/mcp/actions/businessBrainPageFiles.test.ts",
-            "line": 9
           }
         ],
         "booleans": [
@@ -663,29 +662,12 @@
       "summary": {
         "inlineHexColours": 0,
         "inlineStyleAttributes": 0,
-        "repeatedStringLiterals": 4
+        "repeatedStringLiterals": 0
       },
       "offenders": {
         "hexColours": [],
         "inlineStyles": [],
-        "repeatedLiterals": [
-          {
-            "literal": "map the workflows",
-            "occurrences": 6
-          },
-          {
-            "literal": "I assumed",
-            "occurrences": 5
-          },
-          {
-            "literal": "Company site",
-            "occurrences": 5
-          },
-          {
-            "literal": "signed contract stack",
-            "occurrences": 4
-          }
-        ]
+        "repeatedLiterals": []
       }
     },
     "prose": {
@@ -693,7 +675,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 634,
+        "overlongLines": 656,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -711,6 +693,18 @@
           {
             "file": "src/lib/brand/film/filmPosting.ts",
             "line": 20
+          },
+          {
+            "file": "src/lib/brand/film/filmRecipe.test.ts",
+            "line": 10
+          },
+          {
+            "file": "src/lib/brand/film/filmRecipe.test.ts",
+            "line": 30
+          },
+          {
+            "file": "src/lib/brand/film/filmRecipe.test.ts",
+            "line": 46
           },
           {
             "file": "src/lib/brand/film/pictureMaking.test.ts",
@@ -829,6 +823,42 @@
             "line": 76
           },
           {
+            "file": "src/lib/data/cashScreenAnswer.ts",
+            "line": 10
+          },
+          {
+            "file": "src/lib/data/cashScreenAnswer.ts",
+            "line": 25
+          },
+          {
+            "file": "src/lib/data/cashScreenAnswer.ts",
+            "line": 27
+          },
+          {
+            "file": "src/lib/data/cashScreenAnswer.ts",
+            "line": 33
+          },
+          {
+            "file": "src/lib/data/cashScreenAnswer.ts",
+            "line": 34
+          },
+          {
+            "file": "src/lib/data/cashScreenOutcome.test.ts",
+            "line": 7
+          },
+          {
+            "file": "src/lib/data/cashScreenWords.ts",
+            "line": 17
+          },
+          {
+            "file": "src/lib/data/cashScreenWords.ts",
+            "line": 38
+          },
+          {
+            "file": "src/lib/data/cashScreenWords.ts",
+            "line": 39
+          },
+          {
             "file": "src/lib/data/clientDocumentCatalogue.ts",
             "line": 15
           },
@@ -851,54 +881,6 @@
           {
             "file": "src/lib/data/connectionsAnswer.ts",
             "line": 18
-          },
-          {
-            "file": "src/lib/data/departmentBoard.ts",
-            "line": 67
-          },
-          {
-            "file": "src/lib/data/deploySummary.test.ts",
-            "line": 36
-          },
-          {
-            "file": "src/lib/data/deployWindowFacts.test.ts",
-            "line": 57
-          },
-          {
-            "file": "src/lib/data/describeBoardItem.ts",
-            "line": 68
-          },
-          {
-            "file": "src/lib/data/discoveryCall.ts",
-            "line": 8
-          },
-          {
-            "file": "src/lib/data/domainRuleFacts.test.ts",
-            "line": 7
-          },
-          {
-            "file": "src/lib/data/domainRulePlaces.test.ts",
-            "line": 7
-          },
-          {
-            "file": "src/lib/data/domainRulePlaces.test.ts",
-            "line": 16
-          },
-          {
-            "file": "src/lib/data/domainRulePlaces.test.ts",
-            "line": 23
-          },
-          {
-            "file": "src/lib/data/kitVersion.ts",
-            "line": 55
-          },
-          {
-            "file": "src/lib/data/legal/companyInformationSections.ts",
-            "line": 24
-          },
-          {
-            "file": "src/lib/data/legal/companyInformationSections.ts",
-            "line": 52
           }
         ]
       }
@@ -919,15 +901,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 7669
+        "functionsExamined": 7725
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 247,
-        "predictedFiles": 259,
+        "roleFamilies": 248,
+        "predictedFiles": 247,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -937,18 +919,18 @@
       "offenders": {
         "roleFamilies": {
           "+layout.server.ts": 6,
-          "+page.server.ts": 72,
-          "+page.svelte": 80,
-          "+server.ts": 32,
+          "+page.server.ts": 71,
+          "+page.svelte": 79,
+          "+server.ts": 30,
           "access": 12,
           "account": 8,
           "accounts": 7,
           "action": 24,
-          "actions": 236,
+          "actions": 238,
           "address": 10,
           "adverts": 4,
-          "answer": 13,
-          "answers": 17,
+          "answer": 14,
+          "answers": 16,
           "approval": 6,
           "attachment": 6,
           "badge": 9,
@@ -962,7 +944,7 @@
           "branch": 5,
           "brief": 9,
           "business": 5,
-          "button": 10,
+          "button": 11,
           "campaign": 4,
           "card": 23,
           "catalogue": 5,
@@ -980,7 +962,7 @@
           "column": 4,
           "columns": 6,
           "companies": 4,
-          "company": 7,
+          "company": 8,
           "contact": 4,
           "contribution": 4,
           "controls": 7,
@@ -991,14 +973,15 @@
           "date": 7,
           "days": 5,
           "decision": 6,
+          "deletion": 4,
           "deploy": 4,
           "details": 12,
           "director": 6,
-          "doctrine": 8,
+          "doctrine": 9,
           "document": 7,
           "domain": 7,
           "door": 4,
-          "draft": 4,
+          "draft": 5,
           "email": 14,
           "entries": 9,
           "entry": 12,
@@ -1009,9 +992,9 @@
           "figures": 5,
           "file": 11,
           "files": 7,
-          "film": 4,
           "filter": 9,
-          "fixture": 31,
+          "filters": 4,
+          "fixture": 33,
           "fixtures": 27,
           "for": 10,
           "form": 79,
@@ -1048,7 +1031,7 @@
           "link": 22,
           "links": 16,
           "list": 37,
-          "making": 5,
+          "making": 7,
           "map": 39,
           "match": 5,
           "meeting": 9,
@@ -1057,7 +1040,7 @@
           "message": 4,
           "messages": 5,
           "minutes": 7,
-          "mocks": 6,
+          "mocks": 8,
           "mockup": 4,
           "modal": 14,
           "model": 8,
@@ -1073,11 +1056,11 @@
           "organisation": 17,
           "organisations": 6,
           "origin": 4,
-          "outcome": 5,
+          "outcome": 6,
           "overview": 4,
           "owner": 5,
-          "page": 27,
-          "pages": 11,
+          "page": 26,
+          "pages": 10,
           "pane": 5,
           "panel": 52,
           "paper": 12,
@@ -1089,7 +1072,7 @@
           "people": 9,
           "person": 15,
           "picker": 4,
-          "pictures": 6,
+          "pictures": 5,
           "piece": 10,
           "pieces": 4,
           "pill": 5,
@@ -1102,9 +1085,9 @@
           "prose": 4,
           "question": 5,
           "questions": 7,
-          "reading": 20,
+          "reading": 21,
           "readings": 5,
-          "record": 68,
+          "record": 69,
           "records": 4,
           "refusal": 13,
           "register": 11,
@@ -1119,9 +1102,8 @@
           "row": 49,
           "rows": 31,
           "rule": 8,
-          "rules": 80,
+          "rules": 81,
           "run": 11,
-          "runner": 5,
           "runs": 27,
           "schemas": 15,
           "scope": 4,
@@ -1135,9 +1117,9 @@
           "shape": 5,
           "shapes": 4,
           "sheet": 5,
-          "source": 20,
+          "source": 21,
           "sources": 10,
-          "stage": 6,
+          "stage": 5,
           "standing": 22,
           "standings": 4,
           "state": 5,
@@ -1159,7 +1141,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 806,
+          "test": 814,
           "text": 15,
           "tiles": 5,
           "time": 5,
@@ -1170,6 +1152,7 @@
           "track": 5,
           "trail": 6,
           "traits": 9,
+          "turn": 4,
           "types": 11,
           "up": 5,
           "upload": 10,
@@ -1178,10 +1161,10 @@
           "views": 10,
           "visitor": 4,
           "window": 4,
-          "words": 31,
+          "words": 33,
           "work": 9,
           "world": 5,
-          "writer": 9,
+          "writer": 10,
           "xml": 4
         },
         "patterns": [
@@ -1211,18 +1194,8 @@
             "missing": []
           },
           {
-            "pattern": "every mocks has a actions",
-            "predicted": 6,
-            "missing": []
-          },
-          {
             "pattern": "every mocks has a runs",
-            "predicted": 6,
-            "missing": []
-          },
-          {
-            "pattern": "every mocks has a schemas",
-            "predicted": 6,
+            "predicted": 8,
             "missing": []
           },
           {
@@ -1247,12 +1220,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 72,
+            "predicted": 71,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 80,
+            "predicted": 79,
             "missing": []
           }
         ],
@@ -1263,10 +1236,10 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 80,
+        "pages": 79,
         "components": 735,
         "orphanComponents": 0,
-        "averagePageLines": 43
+        "averagePageLines": 44
       },
       "offenders": {
         "pages": [
@@ -1315,7 +1288,7 @@
           },
           {
             "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-            "lines": 81,
+            "lines": 80,
             "widgets": [
               "badge"
             ]
@@ -1714,11 +1687,6 @@
             "widgets": []
           },
           {
-            "page": "src/routes/brand-film/[token]/+page.svelte",
-            "lines": 11,
-            "widgets": []
-          },
-          {
             "page": "src/routes/company/+page.svelte",
             "lines": 11,
             "widgets": []
@@ -1771,7 +1739,7 @@
           },
           {
             "component": "src/lib/components/site/Button.svelte",
-            "reusedBy": 42
+            "reusedBy": 41
           },
           {
             "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
@@ -1947,10 +1915,6 @@
           },
           {
             "component": "src/lib/components/brand/LibraryPreview.svelte",
-            "reusedBy": 3
-          },
-          {
-            "component": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
             "reusedBy": 3
           },
           {
@@ -2295,6 +2259,10 @@
           },
           {
             "component": "src/lib/components/team/TeamMemberProfile.svelte",
+            "reusedBy": 2
+          },
+          {
+            "component": "src/lib/components/todos/TodoDeleteButton.svelte",
             "reusedBy": 2
           },
           {
@@ -2854,7 +2822,7 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/brand/film/StoryboardFilmWordsStage.svelte",
+            "component": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
             "reusedBy": 1
           },
           {
@@ -4692,13 +4660,13 @@
     "siteDefinition": {
       "name": "siteDefinition",
       "summary": {
-        "routes": 79,
-        "views": 818,
+        "routes": 78,
+        "views": 817,
         "siteComponents": 723,
         "catalogue": 14,
-        "widgetUsages": 465,
+        "widgetUsages": 464,
         "handRolledElements": 0,
-        "widgetSlots": 465,
+        "widgetSlots": 464,
         "viewsWithHandRolled": 0,
         "boxedContentWidgets": 0,
         "designSheets": 8,
@@ -4927,12 +4895,6 @@
           "expanded": "PageTitle, DashboardPanel{ StripeEventsToCheckTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ Badge }, RecordsCell, RecordsCell{ Button } } ) }"
         },
         {
-          "route": "/brand-film/[token]",
-          "file": "src/routes/brand-film/[token]/+page.svelte",
-          "definition": "StoryboardFilmWordsStage",
-          "expanded": "StoryboardFilmWordsStage=( ?shot !== null: StoryboardFilmWords )"
-        },
-        {
           "route": "/case-study",
           "file": "src/routes/case-study/+page.svelte",
           "definition": "PageMeta, CaseStudyIntroSection, (n) CaseStudyBusinessSection, PortalScreensSection, CaseStudyMethodSection, DiscoveryCallSection",
@@ -5122,7 +5084,7 @@
           "route": "/organisations/[organisationId]/brand/content/[contentPieceId]",
           "file": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
           "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer }, ?hasFilm || makingKind === FilmM\u2026: ContentFilmMakingPanel, DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
-          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ?hasFilm || makingKind === FilmM\u2026: ContentFilmMakingPanel=( DashboardPanel{ Button } ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
+          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ?hasFilm || makingKind === FilmM\u2026: ContentFilmMakingPanel=( DashboardPanel ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
         },
         {
           "route": "/organisations/[organisationId]/brand/library",
@@ -5290,7 +5252,7 @@
           "route": "/projects/[projectId]/tasks/[taskId]",
           "file": "src/routes/projects/[projectId]/tasks/[taskId]/+page.svelte",
           "definition": "TaskDetailHeader{ FlashMessage, TaskWaitingNote, TaskStoryPanel, ?isAwaitingResolution: ResolveSupportTaskForm, AcceptanceCriteriaSection, SubtaskList{ TaskSequencePanel, TaskTodosPanel, ChecklistSection, TaskAttachmentsSection, ConversationThread }, TaskAside, TaskPageModals }",
-          "expanded": "TaskDetailHeader=( WorkspaceHeader{ TaskKindPill } ){ FlashMessage, TaskWaitingNote=( ?waitedFor !== null: TaskReferenceLink ), TaskStoryPanel=( DashboardPanel{ ?isSupportTask: SupportTaskFacts=( ?task.resolution !== '': ProseText ), ?task.details !== '': ProseText } ), ?isAwaitingResolution: ResolveSupportTaskForm=( FormErrorNote, SubmitButton ), AcceptanceCriteriaSection=( DashboardPanel{ (n) CriterionRow }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), SubtaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ){ TaskSequencePanel=( DashboardPanel{ SequenceTrack=( (n) SequenceStepNode=( (2) TaskReferenceLink ) ) } ), TaskTodosPanel=( ?todos.length > 0: DashboardPanel, TodoStatusForm ), ChecklistSection=( DashboardPanel{ (n) ChecklistPanel=( ?items.length > 0: (n) ChecklistItemRow, AddChecklistItemForm=( SubmitButton, FormErrorNote ), RenameChecklistModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ), DangerConfirmModal=( DangerConfirmForm ) ) }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), TaskAttachmentsSection=( DashboardPanel{ (n) AttachmentRow=( AttachmentThumbnail=( ?isImage: ImageThumbnail ), ?canPreview: AttachmentPreviewModal=( Modal ), DangerConfirmModal=( DangerConfirmForm ) ), ?errorMessage !== null: FormErrorNote } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ) }, TaskAside=( TaskFactsPanel=( DashboardPanel{ ?task.dueDate !== null: TaskDueDate, TaskAutocompleteFact=( TaskAutocompleteModal ) } ), TaskComplexityPanel=( DashboardPanel{ [ (3) TaskComplexityCount=( FormField ) ], FormErrorNote, SubmitButton } ), TaskBranchPanel=( DashboardPanel{ TaskBranchLinks, ?isEditing: TaskBranchForm=( FormErrorNote, SubmitButton ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ) ), TaskPageModals=( Modal{ TaskEditForm=( (2) SmallCapsField=( FormField ), TaskStatusAndDueFields=( [ (2) SmallCapsField ] ), TaskPlanningFields=( [ (2) SmallCapsField ] ), TaskSequenceField=( SmallCapsField ), PriorityField=( PriorityControls ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), TaskDepartmentField=( SmallCapsField ), TaskMoveFields=( SmallCapsField, SmallCapsField ), UserStoryFields=( ?isUserStory: [ (3) FormField ] ), TeamPickerFieldset, FormErrorNote, SubmitButton ) }, Modal{ NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ) }"
+          "expanded": "TaskDetailHeader=( WorkspaceHeader{ TaskKindPill } ){ FlashMessage, TaskWaitingNote=( ?waitedFor !== null: TaskReferenceLink ), TaskStoryPanel=( DashboardPanel{ ?isSupportTask: SupportTaskFacts=( ?task.resolution !== '': ProseText ), ?task.details !== '': ProseText } ), ?isAwaitingResolution: ResolveSupportTaskForm=( FormErrorNote, SubmitButton ), AcceptanceCriteriaSection=( DashboardPanel{ (n) CriterionRow }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), SubtaskList=( DashboardPanel{ TaskLinkList=( TaskKindPill ) } ){ TaskSequencePanel=( DashboardPanel{ SequenceTrack=( (n) SequenceStepNode=( (2) TaskReferenceLink ) ) } ), TaskTodosPanel=( ?todos.length > 0: DashboardPanel, TodoStatusForm, TodoDeleteButton ), ChecklistSection=( DashboardPanel{ (n) ChecklistPanel=( ?items.length > 0: (n) ChecklistItemRow, AddChecklistItemForm=( SubmitButton, FormErrorNote ), RenameChecklistModal=( Modal{ SmallCapsField, FormErrorNote, SubmitButton } ), DangerConfirmModal=( DangerConfirmForm ) ) }, Modal{ SmallCapsField=( FormField ), FormErrorNote, SubmitButton } ), TaskAttachmentsSection=( DashboardPanel{ (n) AttachmentRow=( AttachmentThumbnail=( ?isImage: ImageThumbnail ), ?canPreview: AttachmentPreviewModal=( Modal ), DangerConfirmModal=( DangerConfirmForm ) ), ?errorMessage !== null: FormErrorNote } ), ConversationThread=( DashboardPanel{ ConversationBaton=( ?stations.length > 0: BatonTrack=( (n) BatonStationNode ) ), (n) MessageRow=( ProseText ), ConversationComposer=( FormErrorNote, [ HandOffPicker=( (2) FormField ) SubmitButton ] ) } ) }, TaskAside=( TaskFactsPanel=( DashboardPanel{ ?task.dueDate !== null: TaskDueDate, TaskAutocompleteFact=( TaskAutocompleteModal ) } ), TaskComplexityPanel=( DashboardPanel{ [ (3) TaskComplexityCount=( FormField ) ], FormErrorNote, SubmitButton } ), TaskBranchPanel=( DashboardPanel{ TaskBranchLinks, ?isEditing: TaskBranchForm=( FormErrorNote, SubmitButton ) } ), LifecyclePanel=( DashboardPanel{ (n) LifecycleStepItem } ), ConversationParticipantsPanel=( DashboardPanel{ (n) ParticipantChip, ?outsiders.length > 0: AddParticipantForm=( SubmitButton ) } ) ), TaskPageModals=( Modal{ TaskEditForm=( (2) SmallCapsField=( FormField ), TaskStatusAndDueFields=( [ (2) SmallCapsField ] ), TaskPlanningFields=( [ (2) SmallCapsField ] ), TaskSequenceField=( SmallCapsField ), PriorityField=( PriorityControls ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), TaskDepartmentField=( SmallCapsField ), TaskMoveFields=( SmallCapsField, SmallCapsField ), UserStoryFields=( ?isUserStory: [ (3) FormField ] ), TeamPickerFieldset, FormErrorNote, SubmitButton ) }, Modal{ NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) }, DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ) }"
         },
         {
           "route": "/projects/[projectId]/workflow-map",
@@ -5973,12 +5935,6 @@
           "usedBy": 2
         },
         {
-          "component": "StoryboardFilmWords",
-          "file": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
-          "definition": "",
-          "usedBy": 2
-        },
-        {
           "component": "TaskAutocompleteModal",
           "file": "src/lib/components/projects/TaskAutocompleteModal.svelte",
           "definition": "Modal{ FormErrorNote, (n) TaskAutocompleteOption }",
@@ -5999,6 +5955,12 @@
         {
           "component": "TeamMemberProfile",
           "file": "src/lib/components/team/TeamMemberProfile.svelte",
+          "definition": "",
+          "usedBy": 2
+        },
+        {
+          "component": "TodoDeleteButton",
+          "file": "src/lib/components/todos/TodoDeleteButton.svelte",
           "definition": "",
           "usedBy": 2
         },
@@ -6929,7 +6891,7 @@
         {
           "component": "ContentFilmMakingPanel",
           "file": "src/lib/components/brand/film/ContentFilmMakingPanel.svelte",
-          "definition": "DashboardPanel{ Button }",
+          "definition": "DashboardPanel",
           "usedBy": 1
         },
         {
@@ -7691,7 +7653,7 @@
         {
           "component": "InternalTodoRows",
           "file": "src/lib/components/projects/internalWork/InternalTodoRows.svelte",
-          "definition": "RecordsCell, RecordsCell{ TodoTickTitle }, RecordsCell{ TodoOwnerSelect }, RecordsCell{ StatusSelect }, RecordsCell{ DueDateField }, RecordsCell, AddTodoLine",
+          "definition": "RecordsCell, RecordsCell{ [ TodoTickTitle TodoDeleteButton ] }, RecordsCell{ TodoOwnerSelect }, RecordsCell{ StatusSelect }, RecordsCell{ DueDateField }, RecordsCell, AddTodoLine",
           "usedBy": 1
         },
         {
@@ -9099,9 +9061,9 @@
           "usedBy": 1
         },
         {
-          "component": "StoryboardFilmWordsStage",
-          "file": "src/lib/components/brand/film/StoryboardFilmWordsStage.svelte",
-          "definition": "?shot !== null: StoryboardFilmWords",
+          "component": "StoryboardFilmWords",
+          "file": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
+          "definition": "",
           "usedBy": 1
         },
         {
@@ -9449,7 +9411,7 @@
         {
           "component": "TaskTodosPanel",
           "file": "src/lib/components/todos/TaskTodosPanel.svelte",
-          "definition": "?todos.length > 0: DashboardPanel, TodoStatusForm",
+          "definition": "?todos.length > 0: DashboardPanel, TodoStatusForm, TodoDeleteButton",
           "usedBy": 1
         },
         {
@@ -9671,7 +9633,7 @@
         {
           "component": "+layout",
           "file": "src/routes/+layout.svelte",
-          "definition": "?!isBare: NavigationSpinner, ?isFramed: PortalFrame, ?!isBare && !isFramed: ( ?isPortal: PortalHeader, ?!isPortal: SiteHeader, SiteFooter )",
+          "definition": "NavigationSpinner, ?isFramed: PortalFrame, ?!isFramed: ( ?isPortal: PortalHeader, ?!isPortal: SiteHeader, SiteFooter )",
           "usedBy": 0
         },
         {
@@ -9685,59 +9647,59 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5541,
-        "backend": 1448,
-        "frontend": 1194,
-        "shared": 947,
-        "tests": 831,
-        "api": 643,
-        "database": 235,
-        "tooling": 145,
+        "totalFiles": 5579,
+        "backend": 1460,
+        "frontend": 1192,
+        "shared": 961,
+        "tests": 841,
+        "api": 647,
+        "database": 238,
+        "tooling": 142,
         "docs": 79,
         "infrastructure": 19
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 1448,
-          "sourceFiles": 1441,
-          "sourceLines": 48532
+          "files": 1460,
+          "sourceFiles": 1449,
+          "sourceLines": 48755
         },
         {
           "area": "frontend",
-          "files": 1194,
-          "sourceFiles": 1064,
-          "sourceLines": 36544
+          "files": 1192,
+          "sourceFiles": 1062,
+          "sourceLines": 36480
         },
         {
           "area": "shared",
-          "files": 947,
-          "sourceFiles": 930,
-          "sourceLines": 33658
+          "files": 961,
+          "sourceFiles": 943,
+          "sourceLines": 34274
         },
         {
           "area": "tests",
-          "files": 831,
-          "sourceFiles": 819,
-          "sourceLines": 39133
+          "files": 841,
+          "sourceFiles": 827,
+          "sourceLines": 39271
         },
         {
           "area": "api",
-          "files": 643,
-          "sourceFiles": 642,
-          "sourceLines": 29544
+          "files": 647,
+          "sourceFiles": 647,
+          "sourceLines": 29711
         },
         {
           "area": "database",
-          "files": 235,
-          "sourceFiles": 7,
-          "sourceLines": 212
+          "files": 238,
+          "sourceFiles": 8,
+          "sourceLines": 254
         },
         {
           "area": "tooling",
-          "files": 145,
-          "sourceFiles": 17,
-          "sourceLines": 638
+          "files": 142,
+          "sourceFiles": 10,
+          "sourceLines": 401
         },
         {
           "area": "docs",
@@ -9756,9 +9718,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 224,
+        "schemaTables": 225,
         "limitedColumns": 0,
-        "writeDoors": 396,
+        "writeDoors": 397,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },
@@ -9770,72 +9732,71 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 66,
-        "duplicatedLines": 617,
-        "totalLines": 151337,
-        "duplicatedPercentage": 0.41,
-        "carriedFromBaseline": true
+        "clones": 72,
+        "duplicatedLines": 610,
+        "totalLines": 192012,
+        "duplicatedPercentage": 0.32
       },
       "offenders": [
-        {
-          "file": "src/lib/server/mcp/actions/brandContentChannelActions.test.ts",
-          "duplicatedLineInstances": 93
-        },
-        {
-          "file": "src/lib/server/mcp/actions/brandCampaignMocks.ts",
-          "duplicatedLineInstances": 69
-        },
-        {
-          "file": "src/lib/server/mcp/actions/brandKitWriteActions.test.ts",
-          "duplicatedLineInstances": 62
-        },
         {
           "file": "src/lib/server/mcp/actions/booksDeletionActions.test.ts",
           "duplicatedLineInstances": 56
         },
         {
-          "file": "src/lib/server/mcp/actions/brandContentDraftAction.test.ts",
-          "duplicatedLineInstances": 55
+          "file": "src/lib/server/mcp/actions/brandKitWriteActions.test.ts",
+          "duplicatedLineInstances": 56
         },
         {
-          "file": "src/lib/server/brandCampaigns/brandCampaignMigration.test.ts",
-          "duplicatedLineInstances": 54
+          "file": "src/lib/server/mcp/actions/booksBankLineMatchActions.test.ts",
+          "duplicatedLineInstances": 44
         },
         {
           "file": "src/lib/server/mcp/actions/businessBrainActions.test.ts",
           "duplicatedLineInstances": 41
         },
         {
-          "file": "src/lib/server/brandContent/brandContentMigration.test.ts",
-          "duplicatedLineInstances": 28
+          "file": "src/lib/server/mcp/actions/booksBankLineActions.test.ts",
+          "duplicatedLineInstances": 35
+        },
+        {
+          "file": "src/lib/server/mcp/actions/booksCostMoveAnswers.test.ts",
+          "duplicatedLineInstances": 32
         },
         {
           "file": "src/lib/server/mcp/actions/chatbotGate.test.ts",
           "duplicatedLineInstances": 28
         },
         {
-          "file": "src/lib/server/mcp/actions/brandContentPlanActions.test.ts",
+          "file": "src/lib/server/mcp/actions/booksBankLineDeletionActions.test.ts",
           "duplicatedLineInstances": 27
+        },
+        {
+          "file": "src/lib/server/mcp/actions/booksInvoicePostingActions.test.ts",
+          "duplicatedLineInstances": 23
+        },
+        {
+          "file": "src/lib/server/mcp/actionRunTools.test.ts",
+          "duplicatedLineInstances": 22
+        },
+        {
+          "file": "src/lib/server/mcp/actions/booksCustomerActions.test.ts",
+          "duplicatedLineInstances": 21
         },
         {
           "file": "src/lib/server/mcp/actions/brandSheetAction.test.ts",
-          "duplicatedLineInstances": 27
+          "duplicatedLineInstances": 20
         },
         {
-          "file": "src/lib/server/mcp/actions/brandContentReadActions.test.ts",
-          "duplicatedLineInstances": 25
+          "file": "src/lib/server/mcp/actions/businessBrainChatbotActions.test.ts",
+          "duplicatedLineInstances": 20
         },
         {
-          "file": "src/lib/server/brandKits/brandKitMigration.test.ts",
-          "duplicatedLineInstances": 24
+          "file": "src/lib/server/mcp/productBrainRetired.test.ts",
+          "duplicatedLineInstances": 19
         },
         {
-          "file": "src/lib/server/businessBrain/businessBrainMigration.test.ts",
-          "duplicatedLineInstances": 24
-        },
-        {
-          "file": "src/lib/server/mcp/actions/booksCostMoveAnswers.test.ts",
-          "duplicatedLineInstances": 24
+          "file": "src/lib/server/mcp/actions/booksSettingsActions.test.ts",
+          "duplicatedLineInstances": 19
         }
       ]
     }
