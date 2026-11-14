@@ -3,20 +3,26 @@
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import { enhance } from '$app/forms';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
-	import { filmMakingExplained, filmStandingOnPage } from '$lib/brand/film/filmMakingPageWords';
-	import { FilmMakingStates, isFilmMakingOpen, type FilmMaking } from '$lib/brand/film/filmMaking';
+	import { filmMakingPageWords, filmStandingOnPage } from '$lib/brand/film/filmMakingPageWords';
+	import { FilmMakingStates, isFilmMakingOpen, type FilmMaking, type FilmMakingKind } from '$lib/brand/film/filmMaking';
 
-	let { making, libraryPath, answer }: { making: FilmMaking | null; libraryPath: string; answer: string | null } = $props();
+	let {
+		kind,
+		making,
+		libraryPath,
+		answer
+	}: { kind: FilmMakingKind; making: FilmMaking | null; libraryPath: string; answer: string | null } = $props();
 
+	const words = $derived(filmMakingPageWords[kind]);
 	const isOpen = $derived(isFilmMakingOpen(making));
 	const isReady = $derived(making?.state === FilmMakingStates.ready);
 	const tracker = new FormTracker();
 </script>
 
-<DashboardPanel title="The video" isPadded>
+<DashboardPanel title={words.title} isPadded>
 	<div class="flex flex-col gap-3 text-sm">
 		{#if making === null}
-			<p class="text-chalk-muted">{filmMakingExplained}</p>
+			<p class="text-chalk-muted">{words.explained}</p>
 		{/if}
 		{#if making !== null}
 			<p class="text-chalk">{filmStandingOnPage(making)}</p>
@@ -27,8 +33,9 @@
 		{#if answer !== null}
 			<p role="status" class="text-chalk">{answer}</p>
 		{/if}
-		<form method="POST" action="?/makeVideo" use:enhance={tracker.submit()} class="flex justify-end">
-			<Button type="submit" look="primary" disabled={isOpen} isSaving={tracker.isSaving}>Make the video</Button>
+		<form method="POST" action="?/make" use:enhance={tracker.submit()} class="flex justify-end">
+			<input type="hidden" name="kind" value={kind} />
+			<Button type="submit" look="primary" disabled={isOpen} isSaving={tracker.isSaving}>{words.button}</Button>
 		</form>
 	</div>
 </DashboardPanel>

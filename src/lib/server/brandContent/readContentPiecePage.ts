@@ -6,6 +6,8 @@ import { findContentPost } from './findContentPost';
 import { findItemStandings } from '$lib/server/brandLibrary/findItemStandings';
 import { isUuid } from '$lib/data/isUuid';
 import { libraryIdsOf } from '$lib/brand/content/checkDraftItems';
+import { makingKindOf } from '$lib/brand/film/pictureMaking';
+import type { FilmMakingKind } from '$lib/brand/film/filmMaking';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 /** One of the organisation's pieces as its page shows it, with every channel of its post, the files it names and its storyboard as a film, or null when the brand holds no piece of that id. */
@@ -13,7 +15,7 @@ export async function readContentPiecePage(
 	supabase: SupabaseClient,
 	organisationId: string,
 	contentPieceId: string
-): Promise<(ContentPiecePage & { film: StoryboardFilm }) | null> {
+): Promise<(ContentPiecePage & { film: StoryboardFilm; makingKind: FilmMakingKind }) | null> {
 	if (!isUuid(contentPieceId)) return null;
 	const found = await findContentPiece(supabase, organisationId, contentPieceId);
 	if (found === null) return null;
@@ -22,5 +24,6 @@ export async function readContentPiecePage(
 	const itemIds = libraryIdsOf(piece);
 	const library = await findItemStandings(supabase, organisationId, itemIds);
 	const files = await readFilmFiles(supabase, organisationId, itemIds);
-	return { ...contentPiecePageOf(piece, reviews, post, library), film: storyboardFilmOf(piece, files) };
+	const makingKind = makingKindOf(piece.mediumPath);
+	return { ...contentPiecePageOf(piece, reviews, post, library), film: storyboardFilmOf(piece, files), makingKind };
 }

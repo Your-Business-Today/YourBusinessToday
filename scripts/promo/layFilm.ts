@@ -43,3 +43,10 @@ export async function joinShots(segmentPaths: string[], musicUrl: string | null,
 	const inputs = ['-f', 'concat', '-safe', '0', '-i', listPath, ...sound];
 	await runFfmpeg([...inputs, '-filter_complex', '[1:a]apad[sound]', '-map', '0:v', '-map', '[sound]', '-c:v', 'copy', ...audioQuality, '-t', length, '-movflags', '+faststart', outputPath]);
 }
+
+/** One picture: its photo filling the frame, cut to it rather than stretched, with its words laid over, as a PNG. */
+export async function layPicture(photoUrl: string, wordsPath: string, frame: FilmFrame, picturePath: string): Promise<void> {
+	const { width, height } = frame;
+	const filled = `[0:v]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},setsar=1[photo];[photo][1:v]overlay=0:0[picture]`;
+	await runFfmpeg(['-i', photoUrl, '-i', wordsPath, '-filter_complex', filled, '-map', '[picture]', '-frames:v', '1', picturePath]);
+}

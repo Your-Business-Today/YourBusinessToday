@@ -1,5 +1,6 @@
 import { isVideoMedium } from '../content/checkMusicItemId';
 import { problemWithDraftItems } from '../content/checkDraftItems';
+import { OrderKinds } from './filmOrder';
 import type { ContentPiece } from '../content/contentPiece';
 import type { ItemStanding } from '../library/choosableItem';
 
@@ -13,10 +14,21 @@ export const FilmMakingStates = {
 
 export type FilmMakingState = (typeof FilmMakingStates)[keyof typeof FilmMakingStates];
 
-/** One request for a piece's video, as the piece's page and read_content show it. */
+/** What a request makes: one MP4 of a video piece, or one PNG a shot of a picture piece. */
+export const FilmMakingKinds = OrderKinds;
+
+export type FilmMakingKind = (typeof FilmMakingKinds)[keyof typeof FilmMakingKinds];
+
+export function isFilmMakingKind(candidate: unknown): candidate is FilmMakingKind {
+	return Object.values(FilmMakingKinds).some((kind) => kind === candidate);
+}
+
+/** One request for a piece's video or pictures, as the piece's page and read_content show it, with every picture it made in shot order. */
 export type FilmMaking = {
 	id: string;
+	kind: FilmMakingKind;
 	state: FilmMakingState;
+	pictureItemIds: string[];
 	failureReason: string | null;
 	libraryItemId: string | null;
 	askedAt: string;
@@ -26,7 +38,7 @@ export type FilmMaking = {
 /** The limits of a request's own columns (migration 0233). */
 export const FilmMakingLimits = { failureReasonCharacters: 500 } as const;
 
-const firstShotNumber = 1;
+export const firstShotNumber = 1;
 
 /** Whether the request is still to finish: waiting for the runner, or on it. */
 export function isFilmMakingOpen(making: FilmMaking | null): boolean {

@@ -11,7 +11,7 @@ const shot = { description: 'A door', seconds: 3, onScreenText: 'Shut', overline
 const piece = { title: 'Fire doors', mediumPath: 'video.short.tiktok', storyboard: [shot], musicItemId: null } as unknown as ContentPiece;
 const footage: ItemStanding = { filename: 'door.mp4', mimeType: 'video/mp4', posting: 'nothing_recognisable', recordedAt: '2026-11-14T10:00:00Z' };
 const library = new Map([[clipId, footage]]);
-const making = (state: FilmMaking['state']): FilmMaking => ({ id: 'm', state, failureReason: null, libraryItemId: null, askedAt: '', finishedAt: null });
+const making = (state: FilmMaking['state']): FilmMaking => ({ id: 'm', kind: 'video', pictureItemIds: [], state, failureReason: null, libraryItemId: null, askedAt: '', finishedAt: null });
 
 describe('asking for a piece’s video', () => {
 	it('is allowed for a video whose every shot has a clip that may go out', () => {

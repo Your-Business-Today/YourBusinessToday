@@ -4,18 +4,21 @@ import { findItemStandings } from '$lib/server/brandLibrary/findItemStandings';
 import { findLatestFilmMaking } from './findFilmMakings';
 import { keepFilmMaking, type FilmAsker } from './keepFilmMaking';
 import { libraryIdsOf } from '$lib/brand/content/checkDraftItems';
-import { FilmMakingStates, problemWithMakingFilm } from '$lib/brand/film/filmMaking';
+import { FilmMakingStates, problemWithMakingFilm, type FilmMakingKind } from '$lib/brand/film/filmMaking';
+import { problemWithMakingPictures } from '$lib/brand/film/pictureMaking';
 import { startFilmWorkflow } from './startFilmWorkflow';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import type { FilmMakingRecord } from './filmMakingRecord';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 
+const problemFor: Record<FilmMakingKind, typeof problemWithMakingFilm> = { video: problemWithMakingFilm, pictures: problemWithMakingPictures };
+
 /** The request kept and started, the piece not found, or why the video cannot be made. */
 export type FilmAsking = { making: FilmMakingRecord } | { refusal: string } | { isNoSuchPiece: true };
 
 /**
- * Asks for the piece's video: checked first, kept as waiting, then handed to GitHub's runner. When the runner cannot be
+ * Asks for the piece's video, or its pictures: checked first, kept as waiting, then handed to GitHub's runner. When the runner cannot be
  * started, the request is kept as failed with the reason, so the piece says why rather than waiting for ever.
  */
 export async function askForFilm(supabase: SupabaseClient, asker: FilmAsker): Promise<FilmAsking> {
@@ -25,10 +28,10 @@ export async function askForFilm(supabase: SupabaseClient, asker: FilmAsker): Pr
 	const { piece } = found;
 	const items = await findItemStandings(supabase, organisationId, libraryIdsOf(piece));
 	const latest = await findLatestFilmMaking(supabase, organisationId, contentPieceId);
-	const problem = problemWithMakingFilm(piece, items, latest);
+	const problem = problemFor[asker.kind](piece, items, latest);
 	if (problem !== null) return { refusal: problem };
 	const kept = await keepFilmMaking(supabase, asker);
-	if (kept === null) return { refusal: `“${piece.title}” is already being made; its video shows on the piece when it is ready` };
+	if (kept === null) return { refusal: `“${piece.title}” is already being made; what it makes shows on the piece when it is ready` };
 	return { making: await startOrFail(kept) };
 }
 

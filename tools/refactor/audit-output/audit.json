@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T19:41:53+00:00",
+  "generatedAt": "2026-11-14T19:54:02+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4908,
+        "measuredAgainst": 4920,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7650,
+        "measuredAgainst": 7669,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7075,
+        "measuredAgainst": 7094,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 187.8,
+        "measuredAgainst": 188.26,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 4,
-        "measuredAgainst": 187.8,
+        "measuredAgainst": 188.26,
         "score": 99.9
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 8385,
+        "measuredAgainst": 8404,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 187.8,
+        "measuredAgainst": 188.26,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 187.8,
+        "measuredAgainst": 188.26,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7650,
+        "measuredAgainst": 7669,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7075,
+        "measuredAgainst": 7094,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7075,
+        "measuredAgainst": 7094,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7650,
+        "measuredAgainst": 7669,
         "score": 100.0
       },
       {
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4908,
-      "totalLines": 187799,
+      "totalFiles": 4920,
+      "totalLines": 188261,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 7650,
+      "totalFunctions": 7669,
       "elseBlocks": 0,
-      "ifBlocks": 7075,
+      "ifBlocks": 7094,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -298,7 +298,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 624,
+      "overlongLines": 634,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,7 +308,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 7650
+      "functionsExamined": 7669
     },
     "designPatterns": {
       "roleFamilies": 247,
@@ -340,23 +340,23 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 223,
+      "schemaTables": 224,
       "limitedColumns": 0,
       "writeDoors": 396,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5503,
-      "backend": 1434,
-      "frontend": 1190,
-      "shared": 942,
-      "tests": 827,
-      "api": 638,
-      "database": 234,
-      "tooling": 141,
+      "totalFiles": 5541,
+      "backend": 1448,
+      "frontend": 1194,
+      "shared": 947,
+      "tests": 831,
+      "api": 643,
+      "database": 235,
+      "tooling": 145,
       "docs": 79,
-      "infrastructure": 18
+      "infrastructure": 19
     }
   },
   "details": {
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4908,
-        "totalLines": 187799,
+        "totalFiles": 4920,
+        "totalLines": 188261,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 7650,
+        "totalFunctions": 7669,
         "elseBlocks": 0,
-        "ifBlocks": 7075,
+        "ifBlocks": 7094,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -693,7 +693,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 624,
+        "overlongLines": 634,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -701,8 +701,20 @@
         "deepIndentation": [],
         "overlongLines": [
           {
+            "file": "src/lib/brand/film/filmMaking.test.ts",
+            "line": 10
+          },
+          {
+            "file": "src/lib/brand/film/filmMaking.test.ts",
+            "line": 14
+          },
+          {
             "file": "src/lib/brand/film/filmPosting.ts",
             "line": 20
+          },
+          {
+            "file": "src/lib/brand/film/pictureMaking.test.ts",
+            "line": 7
           },
           {
             "file": "src/lib/brand/library/checkLibraryFile.ts",
@@ -887,18 +899,6 @@
           {
             "file": "src/lib/data/legal/companyInformationSections.ts",
             "line": 52
-          },
-          {
-            "file": "src/lib/data/legal/companyInformationSections.ts",
-            "line": 53
-          },
-          {
-            "file": "src/lib/data/legal/companyInformationSections.ts",
-            "line": 67
-          },
-          {
-            "file": "src/lib/data/legal/privacyCollectionSections.ts",
-            "line": 8
           }
         ]
       }
@@ -919,7 +919,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 7650
+        "functionsExamined": 7669
       },
       "offenders": []
     },
@@ -1048,7 +1048,7 @@
           "link": 22,
           "links": 16,
           "list": 37,
-          "making": 4,
+          "making": 5,
           "map": 39,
           "match": 5,
           "meeting": 9,
@@ -1067,9 +1067,9 @@
           "node": 5,
           "note": 12,
           "notice": 5,
-          "of": 16,
+          "of": 15,
           "officers": 4,
-          "order": 9,
+          "order": 11,
           "organisation": 17,
           "organisations": 6,
           "origin": 4,
@@ -1089,7 +1089,7 @@
           "people": 9,
           "person": 15,
           "picker": 4,
-          "pictures": 5,
+          "pictures": 6,
           "piece": 10,
           "pieces": 4,
           "pill": 5,
@@ -1159,7 +1159,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 803,
+          "test": 806,
           "text": 15,
           "tiles": 5,
           "time": 5,
@@ -1178,7 +1178,7 @@
           "views": 10,
           "visitor": 4,
           "window": 4,
-          "words": 30,
+          "words": 31,
           "work": 9,
           "world": 5,
           "writer": 9,
@@ -1314,17 +1314,17 @@
             ]
           },
           {
+            "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
+            "lines": 81,
+            "widgets": [
+              "badge"
+            ]
+          },
+          {
             "page": "src/routes/projects/[projectId]/+page.svelte",
             "lines": 79,
             "widgets": [
               "modal"
-            ]
-          },
-          {
-            "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-            "lines": 78,
-            "widgets": [
-              "badge"
             ]
           },
           {
@@ -5121,8 +5121,8 @@
         {
           "route": "/organisations/[organisationId]/brand/content/[contentPieceId]",
           "file": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-          "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, ?hasFilm: ( DashboardPanel{ StoryboardFilmPlayer }, ContentFilmMakingPanel ), DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
-          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: ( DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ContentFilmMakingPanel=( DashboardPanel{ Button } ) ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
+          "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer }, ?hasFilm || makingKind === FilmM\u2026: ContentFilmMakingPanel, DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
+          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ?hasFilm || makingKind === FilmM\u2026: ContentFilmMakingPanel=( DashboardPanel{ Button } ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
         },
         {
           "route": "/organisations/[organisationId]/brand/library",
@@ -9685,59 +9685,59 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5503,
-        "backend": 1434,
-        "frontend": 1190,
-        "shared": 942,
-        "tests": 827,
-        "api": 638,
-        "database": 234,
-        "tooling": 141,
+        "totalFiles": 5541,
+        "backend": 1448,
+        "frontend": 1194,
+        "shared": 947,
+        "tests": 831,
+        "api": 643,
+        "database": 235,
+        "tooling": 145,
         "docs": 79,
-        "infrastructure": 18
+        "infrastructure": 19
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 1434,
-          "sourceFiles": 1437,
-          "sourceLines": 48400
+          "files": 1448,
+          "sourceFiles": 1441,
+          "sourceLines": 48532
         },
         {
           "area": "frontend",
-          "files": 1190,
+          "files": 1194,
           "sourceFiles": 1064,
-          "sourceLines": 36534
+          "sourceLines": 36544
         },
         {
           "area": "shared",
-          "files": 942,
-          "sourceFiles": 929,
-          "sourceLines": 33579
+          "files": 947,
+          "sourceFiles": 930,
+          "sourceLines": 33658
         },
         {
           "area": "tests",
-          "files": 827,
-          "sourceFiles": 816,
-          "sourceLines": 39008
+          "files": 831,
+          "sourceFiles": 819,
+          "sourceLines": 39133
         },
         {
           "area": "api",
-          "files": 638,
+          "files": 643,
           "sourceFiles": 642,
-          "sourceLines": 29500
+          "sourceLines": 29544
         },
         {
           "area": "database",
-          "files": 234,
+          "files": 235,
           "sourceFiles": 7,
           "sourceLines": 212
         },
         {
           "area": "tooling",
-          "files": 141,
-          "sourceFiles": 13,
-          "sourceLines": 566
+          "files": 145,
+          "sourceFiles": 17,
+          "sourceLines": 638
         },
         {
           "area": "docs",
@@ -9747,7 +9747,7 @@
         },
         {
           "area": "infrastructure",
-          "files": 18,
+          "files": 19,
           "sourceFiles": 0,
           "sourceLines": 0
         }
@@ -9756,7 +9756,7 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 223,
+        "schemaTables": 224,
         "limitedColumns": 0,
         "writeDoors": 396,
         "unvalidatedDoors": 0,

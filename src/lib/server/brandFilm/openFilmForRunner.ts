@@ -1,21 +1,23 @@
 import { failFilmMaking, startFilming } from './moveFilmMaking';
-import { filmOrderOf, type RunnerOpening } from './filmOrderOf';
 import { findContentPiece } from '$lib/server/brandContent/findContentPiece';
 import { findFilmMaking } from './findFilmMakings';
-import { FilmMakingStates } from '$lib/brand/film/filmMaking';
-import { grantFilmUpload } from './grantFilmUpload';
+import { FilmMakingStates, type FilmMakingKind } from '$lib/brand/film/filmMaking';
 import { hashSecret, mintSecret } from '$lib/server/oauth/oauthTokens';
 import { libraryIdsOf } from '$lib/brand/content/checkDraftItems';
+import { preparePictureOrder } from './preparePictureOrder';
+import { prepareVideoOrder } from './prepareVideoOrder';
 import { readSignedLibraryItems } from '$lib/server/brandLibrary/readFilmFiles';
 import type { FilmMakingRecord } from './filmMakingRecord';
+import type { OrderPreparer, RunnerOpening } from './orderPreparation';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 const filmingTokenPrefix = 'film_';
+const prepareFor: Record<FilmMakingKind, OrderPreparer> = { video: prepareVideoOrder, pictures: preparePictureOrder };
 
 /**
- * Hands a waiting request to the runner: grants the library item its video goes to, opens the film's page under a
- * token that holds only while it is filmed, and gives every clip by a short-lived link. A request that cannot be filmed
- * is failed with the reason, so the piece says why.
+ * Hands a waiting request to the runner: grants the library items what it makes go to, opens the page that draws its
+ * words under a token that holds only while it is made, and gives every file by a short-lived link. A request that
+ * cannot be made is failed with the reason, so the piece says why.
  */
 export async function openFilmForRunner(supabase: SupabaseClient, filmMakingId: string): Promise<RunnerOpening> {
 	const making = await findFilmMaking(supabase, filmMakingId);
@@ -33,10 +35,10 @@ async function openWaitingFilm(supabase: SupabaseClient, making: FilmMakingRecor
 	if (found === null) return { problem: 'the piece is no longer in the brand’s content' };
 	const { piece } = found;
 	const items = await readSignedLibraryItems(supabase, organisationId, libraryIdsOf(piece));
-	const grant = await grantFilmUpload(supabase, { organisationId, accountId: askedBy }, piece, items);
-	if ('problem' in grant) return grant;
 	const token = mintSecret(filmingTokenPrefix);
-	const isStarted = await startFilming(supabase, making.id, { tokenHash: hashSecret(token), libraryItemId: grant.itemId });
+	const prepared = await prepareFor[making.kind](supabase, { making, piece, items, filmPagePath: `/brand-film/${token}` });
+	if ('problem' in prepared) return prepared;
+	const isStarted = await startFilming(supabase, making.id, { tokenHash: hashSecret(token), libraryItemId: prepared.libraryItemId });
 	if (!isStarted) return { problem: 'the film was already taken by another run' };
-	return filmOrderOf({ piece, items, token, grant });
+	return { order: prepared.order };
 }
