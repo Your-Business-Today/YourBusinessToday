@@ -26,10 +26,14 @@ export const postKindField = textField(
 export const draftContentSchema = objectSchema(
 	{
 		organisationId: organisationIdField,
-		contentPieceId: textField('An idea’s id, as plan_content_idea or read_content_plan gives it, to write that idea up — leave out for a new piece'),
-		medium: textField('The medium the piece is for, such as video.short.tiktok or text.email, as read_brand_catalogue lists'),
+		contentPieceId: textField(
+			'An idea’s or a drafted piece’s id, as read_content_plan or list_content gives it, to draft it again — leave out for a new piece'
+		),
+		medium: textField(
+			'The medium the piece is for, such as video.short.tiktok or text.email, as read_brand_catalogue lists — needed for a new piece'
+		),
 		kind: postKindField,
-		title: textField(`A working title, at most ${titleCharacters} characters`),
+		title: textField(`A working title, at most ${titleCharacters} characters — needed for a new piece`),
 		hook: textField(`The first line or the first second, at most ${hookCharacters} characters`),
 		script: textField(`The full script or copy, at most ${scriptCharacters} characters`),
 		storyboard: { type: 'array', items: shotItem, description: `The shots, in order, up to ${shots}` },
@@ -40,7 +44,7 @@ export const draftContentSchema = objectSchema(
 			description: 'What the piece asks its audience to do, one the medium allows'
 		}
 	},
-	['organisationId', 'medium', 'title']
+	['organisationId']
 );
 
 export const listContentSchema = objectSchema(
