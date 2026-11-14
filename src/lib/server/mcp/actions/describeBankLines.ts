@@ -17,7 +17,7 @@ export function describeBankLineImport(organisationName: string, imported: BankL
 	return [opening, days, describeBalances(imported.balances)].join(' ');
 }
 
-/** The account's statement lines in the statement's order, each on one line with its id and what it is matched to, if it is. */
+/** The account's statement lines in the statement's order, each on one line with its id and what it is matched to, if it is; at least one. */
 export function describeBankLineList(
 	organisationName: string,
 	account: StatementAccount,
@@ -25,7 +25,6 @@ export function describeBankLineList(
 	journalDescriptions: Map<string, string>
 ): string {
 	const name = accountName(account);
-	if (lines.length === none) return `${organisationName}'s books hold no statement lines on ${name} that match.`;
 	const unmatchedCount = lines.filter((line) => line.matchedJournalId === null).length;
 	const heading = `Statement lines of ${organisationName} on ${name}, in the statement's order. ${lines.length} shown, ${unmatchedCount} unmatched.`;
 	return [heading, ...lines.map((line) => describeBankLine(line, journalDescriptions))].join('\n');

@@ -1,7 +1,7 @@
 import { importStatementApplyingRules } from '$lib/server/books/bankRuleRuns';
-import { findBankLines } from '$lib/server/books/bankLines';
-import { readBankLineReading } from '$lib/server/books/bankLineReading';
-import { findStatementAccountIfHeld } from '$lib/server/books/bankStatementAccount';
+import { BankLineMatchings, findBankLines } from '$lib/server/books/bankLines';
+import { readBankLineReading, type BankLineReading } from '$lib/server/books/bankLineReading';
+import { findStatementAccountIfHeld, type StatementAccount } from '$lib/server/books/bankStatementAccount';
 import { findMatchedJournalDescriptions } from '$lib/server/books/matchedJournals';
 import { SystemAccounts } from '$lib/data/books/systemAccounts';
 import { bankLineLimits } from '$lib/data/books/bankLineRules';
@@ -11,9 +11,11 @@ import { answerOrRefusal, booksRefusalOpenings } from './booksAnswer';
 import { booksOrganisationField } from './booksFields';
 import { bankLineReadingFields, bankStatementFields } from './booksBankLineFields';
 import { describeBankLineImport, describeBankLineList } from './describeBankLines';
+import { describeNoBankLines } from './describeNoBankLines';
 import { describeRulesOnImport } from './describeBankRules';
 import { applyRulesField } from './booksBankRuleFields';
 import type { McpAction } from '../actionTypes';
+import type { McpCaller } from '../resolveMcpCaller';
 
 const { bank } = SystemAccounts;
 
@@ -23,11 +25,20 @@ const giveTheLinesAsTheStatementShowsThem =
 	'adds nothing, so a statement that overlaps the last one is safe; ' +
 	`a statement longer than ${bankLineLimits.mostLines} lines goes in a month at a time. ` +
 	'Nothing is posted until a line is matched: with applyRules true, the lines the bank rules cover are matched as they say, ' +
-	'and the answer lists what is left for match_bank_line.';
+	'and the answer lists what is left for match_bank_line. A line brought in by mistake is taken out with delete_bank_lines.';
 
 const findTheLineBeforeMatchingIt =
 	'Lines come in the order of the statement, each with its id. Use it to see what is still to be matched and to find the line ' +
-	'the person means; give them the amounts as the statement has them, never a total you worked out yourself.';
+	'the person means; give them the amounts as the statement has them, never a total you worked out yourself. ' +
+	'A line the person says should not be there is taken out with delete_bank_lines.';
+
+const none = 0;
+
+async function countLinesInTheDays(caller: McpCaller, organisationId: string, account: StatementAccount, reading: BankLineReading) {
+	const query = { bankAccountId: account.id, ...reading, matching: BankLineMatchings.all };
+	const lines = await findBankLines(caller.supabase, organisationId, query);
+	return lines.length;
+}
 
 export const booksBankLineActions: McpAction[] = [
 	moduleAction('books', {
@@ -62,6 +73,10 @@ export const booksBankLineActions: McpAction[] = [
 				const account = await findStatementAccountIfHeld(caller.supabase, organisation.id, input.bankAccountCode);
 				if (account === null) return `${organisation.name}'s books have no ${bank.name} account yet, so no statement lines.`;
 				const lines = await findBankLines(caller.supabase, organisation.id, { bankAccountId: account.id, ...reading });
+				if (lines.length === none) {
+					const heldCount = await countLinesInTheDays(caller, organisation.id, account, reading);
+					return describeNoBankLines(organisation.name, account, reading, heldCount);
+				}
 				const journalDescriptions = await findMatchedJournalDescriptions(caller.supabase, organisation.id, lines);
 				return describeBankLineList(organisation.name, account, lines, journalDescriptions);
 			})

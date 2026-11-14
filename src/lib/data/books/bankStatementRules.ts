@@ -4,6 +4,9 @@ import { bankLineLimits, validateBankLine, type BankLineInput } from './bankLine
 /** A statement line with its place in the statement and its occurrence among identical lines on its day. */
 export type PlacedBankLine = BankLineInput & { position: number; occurrence: number };
 
+/** What tells one statement line from another on its account: its day, counterparty, reference and amount. */
+export type BankLineIdentity = Pick<BankLineInput, 'date' | 'counterparty' | 'reference' | 'amount'>;
+
 const firstPosition = 1;
 
 /** Every line as given, in the statement's order, or the first reason one cannot be kept, named by its number and field. */
@@ -23,7 +26,7 @@ export function validateBankStatement(lines: unknown): PlacedBankLine[] | string
 }
 
 /** The key two lines share when they are the same line: day, counterparty, reference and amount to the penny. */
-export function sameLineKey(line: BankLineInput): string {
+export function sameLineKey(line: BankLineIdentity): string {
 	return JSON.stringify([line.date, line.counterparty, line.reference, toPence(line.amount)]);
 }
 

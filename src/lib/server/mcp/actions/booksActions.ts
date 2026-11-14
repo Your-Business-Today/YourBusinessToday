@@ -16,6 +16,7 @@ import { booksBillingRunActions } from './booksBillingRunActions';
 import { booksExpenseActions } from './booksExpenseActions';
 import { booksExpenseReadActions } from './booksExpenseReadActions';
 import { booksBankLineActions } from './booksBankLineActions';
+import { booksBankLineDeletionActions } from './booksBankLineDeletionActions';
 import { booksBankRuleActions } from './booksBankRuleActions';
 import { booksBankLineMatchActions } from './booksBankLineMatchActions';
 import { booksBankReconciliationActions } from './booksBankReconciliationActions';
@@ -44,6 +45,7 @@ export const booksActions: McpAction[] = [
 	...booksExpenseActions,
 	...booksExpenseReadActions,
 	...booksBankLineActions,
+	...booksBankLineDeletionActions,
 	...booksBankRuleActions,
 	...booksBankLineMatchActions,
 	...booksBankReconciliationActions,
