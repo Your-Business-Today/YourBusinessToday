@@ -10,6 +10,7 @@ import { getTaskAcceptanceCriteria } from '$lib/server/projects/getTaskAcceptanc
 import { getTaskAttachments } from '$lib/server/projects/getTaskAttachments';
 import { getAssigneeIdsByTask } from '$lib/server/projects/getAssigneeIdsByTask';
 import { getTaskChecklists } from '$lib/server/projects/getTaskChecklists';
+import { getTaskFamily } from '$lib/server/projects/getTaskFamily';
 import { getTaskRoles } from '$lib/server/projects/getTaskRoles';
 import { getTaskSequence } from '$lib/server/projects/getTaskSequence';
 import { getConversationParticipantIds } from '$lib/server/conversations/getConversationParticipantIds';
@@ -42,12 +43,13 @@ export async function loadTaskWorkspace(
 }
 
 async function loadTaskRecords(supabase: SupabaseClient, task: ProjectTask) {
-	const [projectRecords, conversationRecords, planRecords] = await Promise.all([
+	const [projectRecords, conversationRecords, planRecords, family] = await Promise.all([
 		loadProjectRecords(supabase, task.projectId),
 		loadConversationRecords(supabase, task.id),
-		loadPlanRecords(supabase, task)
+		loadPlanRecords(supabase, task),
+		getTaskFamily(supabase, task)
 	]);
-	return { ...projectRecords, ...conversationRecords, ...planRecords };
+	return { ...projectRecords, ...conversationRecords, ...planRecords, ...family };
 }
 
 async function loadProjectRecords(supabase: SupabaseClient, projectId: string) {

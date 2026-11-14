@@ -1,7 +1,7 @@
 import { createGoal, type NewGoalSeed } from './createGoal';
 import { deleteGoal } from './deleteGoal';
 import { createTask, type NewTaskSeed } from '$lib/server/projects/createTask';
-import { deleteTask } from '$lib/server/projects/deleteTask';
+import { deleteTasksTogether } from '$lib/server/projects/deleteTasksTogether';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export type RaisedGoal = { goalId: string; taskIds: string[] };
@@ -26,12 +26,8 @@ export async function createGoalWithTasks(
 		}
 		return { goalId, taskIds };
 	} catch (failure) {
-		await undoRaisedGoal(supabase, { goalId, taskIds });
+		await deleteTasksTogether(supabase, { projectId, taskIds, deletedByAccountId: createdBy });
+		await deleteGoal(supabase, goalId);
 		throw failure;
 	}
-}
-
-async function undoRaisedGoal(supabase: SupabaseClient, raised: RaisedGoal): Promise<void> {
-	for (const taskId of raised.taskIds) await deleteTask(supabase, taskId);
-	await deleteGoal(supabase, raised.goalId);
 }

@@ -1,5 +1,6 @@
 import { attachmentLines } from './describeAttachments';
 import { taskTodoLines } from './describeTaskTodos';
+import { taskFamilyLines } from './describeTaskFamily';
 import { autocompleteSentence } from '$lib/data/autocomplete';
 import { buildableLine, complexityLine, storyLine } from './describeTaskWork';
 import { branchLine } from './describeBranch';
@@ -28,6 +29,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 		departmentLine(task.department),
 		repositoryLine(project),
 		priorityLine(task),
+		...taskFamilyLines(workspace),
 		`Goal: ${goalTitle(workspace)}. Due: ${task.dueDate ?? 'no date set'}.`,
 		raisedByLine(workspace),
 		teamLine(workspace),
