@@ -6,6 +6,7 @@
 	import ContentReviewList from '$lib/components/brand/ContentReviewList.svelte';
 	import ContentStageBadge from '$lib/components/brand/ContentStageBadge.svelte';
 	import ContentStoryboardTable from '$lib/components/brand/ContentStoryboardTable.svelte';
+	import ContentFilmMakingPanel from '$lib/components/brand/film/ContentFilmMakingPanel.svelte';
 	import StoryboardFilmPlayer from '$lib/components/brand/film/StoryboardFilmPlayer.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
@@ -17,11 +18,13 @@
 
 	let { data, form } = $props();
 
-	const { brandOrganisation: organisation, piece, pictures } = $derived(data);
+	const { brandOrganisation: organisation, piece, pictures, video } = $derived(data);
 	const { channels, film } = $derived(piece);
 	const filmShots = $derived(film.shots);
 	const hasFilm = $derived(filmShots.length > 0);
 	const answer = $derived(form?.message ?? null);
+	const videoAnswer = $derived(form?.videoMessage ?? null);
+	const libraryPath = $derived(`/organisations/${organisation.id}/brand/library`);
 </script>
 
 <svelte:head>
@@ -55,6 +58,7 @@
 				<DashboardPanel title="Watch the film" isPadded>
 					<StoryboardFilmPlayer {film} />
 				</DashboardPanel>
+				<ContentFilmMakingPanel making={video} {libraryPath} answer={videoAnswer} />
 			{/if}
 			<DashboardPanel title="Storyboard">
 				<ContentStoryboardTable shots={piece.shots} />

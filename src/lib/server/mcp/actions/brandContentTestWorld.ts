@@ -3,6 +3,7 @@ import { brandContentChannelActions } from './brandContentChannelActions';
 import { brandContentFlowActions } from './brandContentFlowActions';
 import { brandContentPictureActions } from './brandContentPictureActions';
 import { brandContentPlanActions } from './brandContentPlanActions';
+import { brandContentVideoActions } from './brandContentVideoActions';
 import type { McpCaller } from '../resolveMcpCaller';
 
 const nigelOnJewel = {
@@ -18,7 +19,8 @@ export function runContentAction(name: string, input: Record<string, unknown>): 
 		...brandContentChannelActions,
 		...brandContentFlowActions,
 		...brandContentPlanActions,
-		...brandContentPictureActions
+		...brandContentPictureActions,
+		...brandContentVideoActions
 	];
 	const action = contentActions.find((candidate) => candidate.name === name)!;
 	return action.run(nigelOnJewel, { organisationId: 'jewel', ...input }).then(String);

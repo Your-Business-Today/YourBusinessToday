@@ -7,7 +7,7 @@ const videoFamily = 'video';
 export type MusicGiven = { music: { musicItemId?: string | null } } | { problem: string };
 
 /** Whether the medium is one of the video family, the only pieces that carry music. */
-export function isVideoMedium(medium: Medium): boolean {
+export function isVideoMedium(medium: Pick<Medium, 'path'>): boolean {
 	return medium.path === videoFamily || medium.path.startsWith(`${videoFamily}.`);
 }
 

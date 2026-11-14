@@ -3,10 +3,12 @@ import { once } from 'node:events';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
-import { filmCut, filmLength, openFilm, recordSoundtrack, type FilmCut, type FilmSettings } from './filmCut.ts';
+import { filmCut, openFilm, type FilmCut, type FilmSettings } from './filmCut.ts';
+import { filmLength, filmSize, recordSoundtrack } from './filmReadings.ts';
 
 /**
- * Films the /promo page into an MP4 with its soundtrack, frame by frame, so the video matches the page exactly.
+ * Films the /promo page, or any page that offers promoFilming, into an MP4 with its soundtrack, frame by frame, so the
+ * video matches the page exactly. It is filmed at the size the page asks for, or 1920 by 1080 when it names none.
  *
  *   npm run dev                       (in another terminal)
  *   node scripts/promo/renderPromoVideo.ts [output.mp4] [page url] [workers]
@@ -59,6 +61,7 @@ async function render(): Promise<void> {
 	const folder = await mkdtemp(join(dirname(outputPath), 'promo-film-'));
 	const browser = await chromium.launch(browserOptions);
 	const soundtrackPage = await openFilm(browser, settings);
+	Object.assign(settings, await filmSize(soundtrackPage, settings));
 	const soundtrackPath = join(folder, 'soundtrack.wav');
 	await writeFile(soundtrackPath, await recordSoundtrack(soundtrackPage));
 	const frameCount = Math.round((await filmLength(soundtrackPage)) * settings.framesPerSecond);

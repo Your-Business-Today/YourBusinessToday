@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T19:22:27+00:00",
+  "generatedAt": "2026-11-14T19:41:53+00:00",
   "kitVersion": "1.41.0",
   "score": {
     "overall": 99.8,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4852,
+        "measuredAgainst": 4908,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7556,
+        "measuredAgainst": 7650,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6966,
+        "measuredAgainst": 7075,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 185.92,
+        "measuredAgainst": 187.8,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 4,
-        "measuredAgainst": 185.92,
+        "measuredAgainst": 187.8,
         "score": 99.9
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 8289,
+        "measuredAgainst": 8385,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 185.92,
+        "measuredAgainst": 187.8,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 185.92,
+        "measuredAgainst": 187.8,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7556,
+        "measuredAgainst": 7650,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 257,
+        "measuredAgainst": 259,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6966,
+        "measuredAgainst": 7075,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 6966,
+        "measuredAgainst": 7075,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7556,
+        "measuredAgainst": 7650,
         "score": 100.0
       },
       {
@@ -231,7 +231,7 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 463,
+        "measuredAgainst": 465,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 388,
+        "measuredAgainst": 396,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4852,
-      "totalLines": 185917,
+      "totalFiles": 4908,
+      "totalLines": 187799,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 7556,
+      "totalFunctions": 7650,
       "elseBlocks": 0,
-      "ifBlocks": 6966,
+      "ifBlocks": 7075,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -298,7 +298,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 604,
+      "overlongLines": 624,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -308,11 +308,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 7556
+      "functionsExamined": 7650
     },
     "designPatterns": {
-      "roleFamilies": 244,
-      "predictedFiles": 257,
+      "roleFamilies": 247,
+      "predictedFiles": 259,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -320,19 +320,19 @@
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 79,
-      "components": 733,
+      "pages": 80,
+      "components": 735,
       "orphanComponents": 0,
-      "averagePageLines": 44
+      "averagePageLines": 43
     },
     "siteDefinition": {
-      "routes": 78,
-      "views": 815,
-      "siteComponents": 721,
+      "routes": 79,
+      "views": 818,
+      "siteComponents": 723,
       "catalogue": 14,
-      "widgetUsages": 463,
+      "widgetUsages": 465,
       "handRolledElements": 0,
-      "widgetSlots": 463,
+      "widgetSlots": 465,
       "viewsWithHandRolled": 0,
       "boxedContentWidgets": 0,
       "designSheets": 8,
@@ -340,20 +340,20 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 220,
+      "schemaTables": 223,
       "limitedColumns": 0,
-      "writeDoors": 388,
+      "writeDoors": 396,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5469,
-      "backend": 1423,
-      "frontend": 1183,
-      "shared": 934,
-      "tests": 822,
-      "api": 636,
-      "database": 233,
+      "totalFiles": 5503,
+      "backend": 1434,
+      "frontend": 1190,
+      "shared": 942,
+      "tests": 827,
+      "api": 638,
+      "database": 234,
       "tooling": 141,
       "docs": 79,
       "infrastructure": 18
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4852,
-        "totalLines": 185917,
+        "totalFiles": 4908,
+        "totalLines": 187799,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 7556,
+        "totalFunctions": 7650,
         "elseBlocks": 0,
-        "ifBlocks": 6966,
+        "ifBlocks": 7075,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -693,13 +693,17 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 604,
+        "overlongLines": 624,
         "measurementIsHeuristic": true
       },
       "offenders": {
         "memberChains": [],
         "deepIndentation": [],
         "overlongLines": [
+          {
+            "file": "src/lib/brand/film/filmPosting.ts",
+            "line": 20
+          },
           {
             "file": "src/lib/brand/library/checkLibraryFile.ts",
             "line": 13
@@ -821,6 +825,22 @@
             "line": 49
           },
           {
+            "file": "src/lib/data/connectionsAnswer.ts",
+            "line": 12
+          },
+          {
+            "file": "src/lib/data/connectionsAnswer.ts",
+            "line": 13
+          },
+          {
+            "file": "src/lib/data/connectionsAnswer.ts",
+            "line": 17
+          },
+          {
+            "file": "src/lib/data/connectionsAnswer.ts",
+            "line": 18
+          },
+          {
             "file": "src/lib/data/departmentBoard.ts",
             "line": 67
           },
@@ -879,26 +899,6 @@
           {
             "file": "src/lib/data/legal/privacyCollectionSections.ts",
             "line": 8
-          },
-          {
-            "file": "src/lib/data/legal/privacyCollectionSections.ts",
-            "line": 9
-          },
-          {
-            "file": "src/lib/data/legal/privacyCollectionSections.ts",
-            "line": 17
-          },
-          {
-            "file": "src/lib/data/legal/privacyCollectionSections.ts",
-            "line": 19
-          },
-          {
-            "file": "src/lib/data/legal/privacyCollectionSections.ts",
-            "line": 21
-          },
-          {
-            "file": "src/lib/data/legal/privacyCollectionSections.ts",
-            "line": 22
           }
         ]
       }
@@ -919,15 +919,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 7556
+        "functionsExamined": 7650
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 244,
-        "predictedFiles": 257,
+        "roleFamilies": 247,
+        "predictedFiles": 259,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -937,18 +937,18 @@
       "offenders": {
         "roleFamilies": {
           "+layout.server.ts": 6,
-          "+page.server.ts": 71,
-          "+page.svelte": 79,
-          "+server.ts": 30,
+          "+page.server.ts": 72,
+          "+page.svelte": 80,
+          "+server.ts": 32,
           "access": 12,
           "account": 8,
           "accounts": 7,
           "action": 24,
-          "actions": 233,
+          "actions": 236,
           "address": 10,
           "adverts": 4,
-          "answer": 11,
-          "answers": 16,
+          "answer": 13,
+          "answers": 17,
           "approval": 6,
           "attachment": 6,
           "badge": 9,
@@ -1009,8 +1009,9 @@
           "figures": 5,
           "file": 11,
           "files": 7,
+          "film": 4,
           "filter": 9,
-          "fixture": 30,
+          "fixture": 31,
           "fixtures": 27,
           "for": 10,
           "form": 79,
@@ -1047,8 +1048,9 @@
           "link": 22,
           "links": 16,
           "list": 37,
+          "making": 4,
           "map": 39,
-          "match": 4,
+          "match": 5,
           "meeting": 9,
           "member": 6,
           "menu": 7,
@@ -1065,19 +1067,19 @@
           "node": 5,
           "note": 12,
           "notice": 5,
-          "of": 15,
+          "of": 16,
           "officers": 4,
-          "order": 8,
+          "order": 9,
           "organisation": 17,
           "organisations": 6,
           "origin": 4,
-          "outcome": 4,
+          "outcome": 5,
           "overview": 4,
           "owner": 5,
-          "page": 26,
-          "pages": 10,
+          "page": 27,
+          "pages": 11,
           "pane": 5,
-          "panel": 51,
+          "panel": 52,
           "paper": 12,
           "password": 5,
           "patch": 10,
@@ -1100,9 +1102,9 @@
           "prose": 4,
           "question": 5,
           "questions": 7,
-          "reading": 19,
-          "readings": 4,
-          "record": 65,
+          "reading": 20,
+          "readings": 5,
+          "record": 68,
           "records": 4,
           "refusal": 13,
           "register": 11,
@@ -1117,9 +1119,10 @@
           "row": 49,
           "rows": 31,
           "rule": 8,
-          "rules": 78,
+          "rules": 80,
           "run": 11,
-          "runs": 26,
+          "runner": 5,
+          "runs": 27,
           "schemas": 15,
           "scope": 4,
           "section": 40,
@@ -1134,7 +1137,7 @@
           "sheet": 5,
           "source": 20,
           "sources": 10,
-          "stage": 5,
+          "stage": 6,
           "standing": 22,
           "standings": 4,
           "state": 5,
@@ -1156,7 +1159,7 @@
           "targets": 5,
           "task": 23,
           "tasks": 14,
-          "test": 795,
+          "test": 803,
           "text": 15,
           "tiles": 5,
           "time": 5,
@@ -1169,16 +1172,16 @@
           "traits": 9,
           "types": 11,
           "up": 5,
-          "upload": 9,
+          "upload": 10,
           "versions": 5,
           "view": 8,
           "views": 10,
           "visitor": 4,
           "window": 4,
-          "words": 29,
+          "words": 30,
           "work": 9,
           "world": 5,
-          "writer": 8,
+          "writer": 9,
           "xml": 4
         },
         "patterns": [
@@ -1244,12 +1247,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 71,
+            "predicted": 72,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 79,
+            "predicted": 80,
             "missing": []
           }
         ],
@@ -1260,10 +1263,10 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 79,
-        "components": 733,
+        "pages": 80,
+        "components": 735,
         "orphanComponents": 0,
-        "averagePageLines": 44
+        "averagePageLines": 43
       },
       "offenders": {
         "pages": [
@@ -1318,6 +1321,13 @@
             ]
           },
           {
+            "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
+            "lines": 78,
+            "widgets": [
+              "badge"
+            ]
+          },
+          {
             "page": "src/routes/projects/kit-versions/+page.svelte",
             "lines": 76,
             "widgets": [
@@ -1329,13 +1339,6 @@
             "page": "src/routes/tax-calculator/+page.svelte",
             "lines": 76,
             "widgets": []
-          },
-          {
-            "page": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-            "lines": 74,
-            "widgets": [
-              "badge"
-            ]
           },
           {
             "page": "src/routes/organisations/[organisationId]/brand/+page.svelte",
@@ -1711,6 +1714,11 @@
             "widgets": []
           },
           {
+            "page": "src/routes/brand-film/[token]/+page.svelte",
+            "lines": 11,
+            "widgets": []
+          },
+          {
             "page": "src/routes/company/+page.svelte",
             "lines": 11,
             "widgets": []
@@ -1739,7 +1747,7 @@
         "componentReuse": [
           {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
-            "reusedBy": 88
+            "reusedBy": 89
           },
           {
             "component": "src/lib/components/site/SubmitButton.svelte",
@@ -1763,7 +1771,7 @@
           },
           {
             "component": "src/lib/components/site/Button.svelte",
-            "reusedBy": 41
+            "reusedBy": 42
           },
           {
             "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
@@ -1939,6 +1947,10 @@
           },
           {
             "component": "src/lib/components/brand/LibraryPreview.svelte",
+            "reusedBy": 3
+          },
+          {
+            "component": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
             "reusedBy": 3
           },
           {
@@ -2818,6 +2830,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/brand/film/ContentFilmMakingPanel.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/brand/film/StoryboardFilmClip.svelte",
             "reusedBy": 1
           },
@@ -2838,7 +2854,7 @@
             "reusedBy": 1
           },
           {
-            "component": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
+            "component": "src/lib/components/brand/film/StoryboardFilmWordsStage.svelte",
             "reusedBy": 1
           },
           {
@@ -4676,13 +4692,13 @@
     "siteDefinition": {
       "name": "siteDefinition",
       "summary": {
-        "routes": 78,
-        "views": 815,
-        "siteComponents": 721,
+        "routes": 79,
+        "views": 818,
+        "siteComponents": 723,
         "catalogue": 14,
-        "widgetUsages": 463,
+        "widgetUsages": 465,
         "handRolledElements": 0,
-        "widgetSlots": 463,
+        "widgetSlots": 465,
         "viewsWithHandRolled": 0,
         "boxedContentWidgets": 0,
         "designSheets": 8,
@@ -4911,6 +4927,12 @@
           "expanded": "PageTitle, DashboardPanel{ StripeEventsToCheckTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ Badge }, RecordsCell, RecordsCell{ Button } } ) }"
         },
         {
+          "route": "/brand-film/[token]",
+          "file": "src/routes/brand-film/[token]/+page.svelte",
+          "definition": "StoryboardFilmWordsStage",
+          "expanded": "StoryboardFilmWordsStage=( ?shot !== null: StoryboardFilmWords )"
+        },
+        {
           "route": "/case-study",
           "file": "src/routes/case-study/+page.svelte",
           "definition": "PageMeta, CaseStudyIntroSection, (n) CaseStudyBusinessSection, PortalScreensSection, CaseStudyMethodSection, DiscoveryCallSection",
@@ -5099,8 +5121,8 @@
         {
           "route": "/organisations/[organisationId]/brand/content/[contentPieceId]",
           "file": "src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte",
-          "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer }, DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
-          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
+          "definition": "WorkspaceHeader{ ContentStageBadge }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable }, ?hasFilm: ( DashboardPanel{ StoryboardFilmPlayer }, ContentFilmMakingPanel ), DashboardPanel{ ContentStoryboardTable }, DashboardPanel{ ContentPostPictures }, ContentReviewPanel, DashboardPanel{ ContentReviewList }",
+          "expanded": "WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: ( DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ContentFilmMakingPanel=( DashboardPanel{ Button } ) ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }"
         },
         {
           "route": "/organisations/[organisationId]/brand/library",
@@ -5947,6 +5969,12 @@
         {
           "component": "SignalBadge",
           "file": "src/lib/components/site/SignalBadge.svelte",
+          "definition": "",
+          "usedBy": 2
+        },
+        {
+          "component": "StoryboardFilmWords",
+          "file": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
           "definition": "",
           "usedBy": 2
         },
@@ -6896,6 +6924,12 @@
           "component": "ConstellationOverlays",
           "file": "src/lib/components/brain/ConstellationOverlays.svelte",
           "definition": "ConstellationHud, ?exploration.hover !== null && s\u2026: NeuronTooltip, ?selectedPage !== undefined: NeuronDetailPanel",
+          "usedBy": 1
+        },
+        {
+          "component": "ContentFilmMakingPanel",
+          "file": "src/lib/components/brand/film/ContentFilmMakingPanel.svelte",
+          "definition": "DashboardPanel{ Button }",
           "usedBy": 1
         },
         {
@@ -9065,9 +9099,9 @@
           "usedBy": 1
         },
         {
-          "component": "StoryboardFilmWords",
-          "file": "src/lib/components/brand/film/StoryboardFilmWords.svelte",
-          "definition": "",
+          "component": "StoryboardFilmWordsStage",
+          "file": "src/lib/components/brand/film/StoryboardFilmWordsStage.svelte",
+          "definition": "?shot !== null: StoryboardFilmWords",
           "usedBy": 1
         },
         {
@@ -9637,7 +9671,7 @@
         {
           "component": "+layout",
           "file": "src/routes/+layout.svelte",
-          "definition": "NavigationSpinner, ?isFramed: PortalFrame, ?!isFramed: ( ?isPortal: PortalHeader, ?!isPortal: SiteHeader, SiteFooter )",
+          "definition": "?!isBare: NavigationSpinner, ?isFramed: PortalFrame, ?!isBare && !isFramed: ( ?isPortal: PortalHeader, ?!isPortal: SiteHeader, SiteFooter )",
           "usedBy": 0
         },
         {
@@ -9651,13 +9685,13 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5469,
-        "backend": 1423,
-        "frontend": 1183,
-        "shared": 934,
-        "tests": 822,
-        "api": 636,
-        "database": 233,
+        "totalFiles": 5503,
+        "backend": 1434,
+        "frontend": 1190,
+        "shared": 942,
+        "tests": 827,
+        "api": 638,
+        "database": 234,
         "tooling": 141,
         "docs": 79,
         "infrastructure": 18
@@ -9665,45 +9699,45 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 1423,
-          "sourceFiles": 1413,
-          "sourceLines": 47647
+          "files": 1434,
+          "sourceFiles": 1437,
+          "sourceLines": 48400
         },
         {
           "area": "frontend",
-          "files": 1183,
-          "sourceFiles": 1060,
-          "sourceLines": 36426
+          "files": 1190,
+          "sourceFiles": 1064,
+          "sourceLines": 36534
         },
         {
           "area": "shared",
-          "files": 934,
-          "sourceFiles": 920,
-          "sourceLines": 33365
+          "files": 942,
+          "sourceFiles": 929,
+          "sourceLines": 33579
         },
         {
           "area": "tests",
-          "files": 822,
-          "sourceFiles": 808,
-          "sourceLines": 38591
+          "files": 827,
+          "sourceFiles": 816,
+          "sourceLines": 39008
         },
         {
           "area": "api",
-          "files": 636,
-          "sourceFiles": 635,
-          "sourceLines": 29294
+          "files": 638,
+          "sourceFiles": 642,
+          "sourceLines": 29500
         },
         {
           "area": "database",
-          "files": 233,
+          "files": 234,
           "sourceFiles": 7,
           "sourceLines": 212
         },
         {
           "area": "tooling",
           "files": 141,
-          "sourceFiles": 9,
-          "sourceLines": 382
+          "sourceFiles": 13,
+          "sourceLines": 566
         },
         {
           "area": "docs",
@@ -9722,9 +9756,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 220,
+        "schemaTables": 223,
         "limitedColumns": 0,
-        "writeDoors": 388,
+        "writeDoors": 396,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },

@@ -1,11 +1,12 @@
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
+import { drawFilmMoment } from './filmReadings.ts';
 
 export type FilmSettings = { pageUrl: string; width: number; height: number; framesPerSecond: number; jpegQuality: number };
 
 export type FilmCut = { firstFrame: number; frameCount: number; segmentPath: string };
 
-type FilmingPage = {
+export type FilmingPage = {
 	goto: (url: string, options: object) => Promise<unknown>;
 	waitForFunction: (test: () => boolean, argument: null, options: object) => Promise<unknown>;
 	evaluate: <Result, Argument>(run: (argument: Argument) => Result, argument: Argument) => Promise<Result>;
@@ -15,9 +16,9 @@ type FilmingPage = {
 
 type FilmingBrowser = { newPage: (options: object) => Promise<FilmingPage> };
 
-type Filming = { durationSeconds: number; frame: (seconds: number) => Promise<void>; soundtrack: () => Promise<string> };
+export type Filming = { durationSeconds: number; width?: number; height?: number; frame: (seconds: number) => Promise<void>; soundtrack: () => Promise<string> };
 
-type FilmingWindow = { promoFilming?: Filming };
+export type FilmingWindow = { promoFilming?: Filming };
 
 type FilmCamera = { browser: FilmingBrowser; settings: FilmSettings; page: FilmingPage };
 
@@ -33,18 +34,6 @@ export async function openFilm(browser: FilmingBrowser, settings: FilmSettings):
 	await page.goto(settings.pageUrl, { waitUntil: 'load', ...loadTimeout });
 	await page.waitForFunction(() => (globalThis as unknown as FilmingWindow).promoFilming !== undefined, null, loadTimeout);
 	return page;
-}
-
-export async function filmLength(page: FilmingPage): Promise<number> {
-	return page.evaluate(() => {
-		const { promoFilming } = globalThis as unknown as FilmingWindow;
-		return promoFilming?.durationSeconds ?? 0;
-	}, null);
-}
-
-export async function recordSoundtrack(page: FilmingPage): Promise<Buffer> {
-	const base64 = await page.evaluate(() => (globalThis as unknown as FilmingWindow).promoFilming?.soundtrack() ?? '', null);
-	return Buffer.from(base64, 'base64');
 }
 
 function startEncoder(settings: FilmSettings, segmentPath: string) {
@@ -63,7 +52,7 @@ function stoppedAnswering(milliseconds: number): Promise<never> {
 }
 
 async function photographOnce(page: FilmingPage, settings: FilmSettings, seconds: number): Promise<Buffer> {
-	const drawing = page.evaluate((moment) => (globalThis as unknown as FilmingWindow).promoFilming?.frame(moment), seconds);
+	const drawing = drawFilmMoment(page, seconds);
 	await Promise.race([drawing, stoppedAnswering(drawingTimeoutMilliseconds)]);
 	return page.screenshot({ type: 'jpeg', quality: settings.jpegQuality, ...photographTimeout });
 }
