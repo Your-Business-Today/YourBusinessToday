@@ -1,4 +1,5 @@
 import { bankLineLimits } from '$lib/data/books/bankLineRules';
+import { bankLineDeletionLimits } from '$lib/data/books/bankLineDeletionRules';
 import { BankLineMatchings } from '$lib/server/books/bankLines';
 import { textField } from '../actionTypes';
 
@@ -40,4 +41,10 @@ export const bankLineReadingFields = {
 		enum: Object.values(BankLineMatchings),
 		description: 'Leave out or all for every line, matched for those matched to an entry in the books, unmatched for the rest'
 	}
+};
+
+export const bankLineIdsField = {
+	type: 'array',
+	description: `${bankLineDeletionLimits.fewestLines} to ${bankLineDeletionLimits.mostLines} unmatched statement lines, each by its id as list_bank_lines gives it, each once`,
+	items: { type: 'string' }
 };

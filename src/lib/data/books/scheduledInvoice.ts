@@ -10,7 +10,7 @@ export type ScheduleToRaise = BillingScheduleSettings & { id: string; customerId
 /** The invoice a schedule raises on a day: its id made beforehand, its dates, its reference and the period it bills. */
 export type ScheduledInvoice = { id: string; issueDate: string; dueDate: string; reference: string; period: BillingPeriod };
 
-/** When the hourly run first raises a day's invoices, on a UK clock, so none goes out in the night. */
+/** When the billing run first raises a day's invoices, on a UK clock, so none goes out in the night. */
 export const billingRunOpensAt = '07:00';
 
 /** How many times the run emails an invoice that has not gone before it leaves it for a person. */

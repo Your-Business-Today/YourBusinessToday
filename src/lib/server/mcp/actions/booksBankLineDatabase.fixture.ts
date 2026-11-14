@@ -37,12 +37,28 @@ function keepNewLines(given: Row[]): Row[] {
 	return kept;
 }
 
-/** The books_bank_lines stand-in: an upsert that ignores lines already held, and reads narrowed by day and matching. */
+/** What the stand-in does just before it deletes, such as another person matching a line while it is being taken out. */
+export const beforeBankLinesDelete: { step: (() => void) | null } = { step: null };
+
+/** Deletes the lines every filter holds for, as delete ... returning does, and answers the lines it deleted. */
+function deleteLines(filters: ((row: Row) => boolean)[]): Row[] {
+	beforeBankLinesDelete.step?.();
+	const isDeleted = (row: Row) => filters.every((filter) => filter(row));
+	const deleted = heldBankLines().filter(isDeleted);
+	ledgerWrites.push({ table: linesTable, kind: 'delete', row: deleted.map((row) => row.id) });
+	ledgerTables[linesTable] = heldBankLines().filter((row) => !isDeleted(row));
+	return deleted;
+}
+
+/** The books_bank_lines stand-in: an upsert that ignores lines already held, a delete, and reads narrowed by day and matching. */
 function bankLinesStandIn() {
 	const filters: ((row: Row) => boolean)[] = [];
 	let answered: Row[] | null = null;
+	let isDeleting = false;
 	const chain = {
 		select: () => chain,
+		delete: () => ((isDeleting = true), chain),
+		in: (column: string, values: unknown[]) => (filters.push((row) => values.includes(row[column])), chain),
 		order: () => chain,
 		eq: (column: string, value: unknown) => (filters.push((row) => row[column] === value), chain),
 		gte: (column: string, value: string) => (filters.push((row) => String(row[column]) >= value), chain),
@@ -51,8 +67,9 @@ function bankLinesStandIn() {
 		not: (column: string, _operator: string, value: unknown) => (filters.push((row) => (row[column] ?? null) !== value), chain),
 		upsert: (given: Row[]) => ((answered = keepNewLines(given)), chain),
 		then: (resolve: (value: unknown) => unknown) => {
-			const data = answered ?? heldBankLines().filter((row) => filters.every((filter) => filter(row)));
-			return resolve({ data, error: null });
+			const read = () => answered ?? heldBankLines().filter((row) => filters.every((filter) => filter(row)));
+			const answer = isDeleting ? deleteLines : read;
+			return resolve({ data: answer(filters), error: null });
 		}
 	};
 	return chain;

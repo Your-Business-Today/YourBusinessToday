@@ -4,6 +4,7 @@ import { booksPostingActions } from './booksPostingActions';
 import { booksSettingsActions } from './booksSettingsActions';
 import { booksLedgerAccountActions } from './booksLedgerAccountActions';
 import { booksLoanAccountActions } from './booksLoanAccountActions';
+import { booksLoanAccountChangeActions } from './booksLoanAccountChangeActions';
 import { booksCostCentreActions } from './booksCostCentreActions';
 import { booksCustomerActions } from './booksCustomerActions';
 import { booksInvoiceActions } from './booksInvoiceActions';
@@ -15,6 +16,7 @@ import { booksBillingRunActions } from './booksBillingRunActions';
 import { booksExpenseActions } from './booksExpenseActions';
 import { booksExpenseReadActions } from './booksExpenseReadActions';
 import { booksBankLineActions } from './booksBankLineActions';
+import { booksBankLineDeletionActions } from './booksBankLineDeletionActions';
 import { booksBankRuleActions } from './booksBankRuleActions';
 import { booksBankLineMatchActions } from './booksBankLineMatchActions';
 import { booksBankReconciliationActions } from './booksBankReconciliationActions';
@@ -31,6 +33,7 @@ export const booksActions: McpAction[] = [
 	...booksSettingsActions,
 	...booksLedgerAccountActions,
 	...booksLoanAccountActions,
+	...booksLoanAccountChangeActions,
 	...booksCostCentreActions,
 	...booksCustomerActions,
 	...booksInvoiceActions,
@@ -42,6 +45,7 @@ export const booksActions: McpAction[] = [
 	...booksExpenseActions,
 	...booksExpenseReadActions,
 	...booksBankLineActions,
+	...booksBankLineDeletionActions,
 	...booksBankRuleActions,
 	...booksBankLineMatchActions,
 	...booksBankReconciliationActions,

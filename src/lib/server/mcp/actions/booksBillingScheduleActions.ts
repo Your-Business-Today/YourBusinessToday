@@ -14,7 +14,8 @@ const setUpOnlyWhatThePersonAgreed =
 	'Set up only what the person agreed with the customer: the lines, prices, how often, the first invoice date and ' +
 	'whether each invoice covers the period ahead or the one just gone. Ask whether invoices send by itself and never ' +
 	'assume it. A first date before today is refused: bring an earlier period in with create_invoice. Read the answer ' +
-	'back. From 07:00 UK time on its date, the hourly run raises its invoice, and issues and emails it when it sends by itself.';
+	'back. Between 07:00 and 08:00 UK time on its date, the billing run raises its invoice, and issues and emails it when it ' +
+	"sends by itself; list_billing_schedules says when today's run started.";
 
 const changeOnlyWhatThePersonAsked =
 	'Give only what the person asked to change. To pause give isPaused true, to resume false; to end it give endsOn, the ' +
@@ -23,7 +24,8 @@ const changeOnlyWhatThePersonAsked =
 
 const readAsTheBooksHoldIt =
 	'Give the person each schedule as the books hold it: what it bills, how often, its next invoice with its total and ' +
-	'period, whether it sends by itself, and its lines. Never work a figure out yourself.';
+	'period, whether it sends by itself, and its lines. Never work a figure out yourself. The last line says when ' +
+	"today's billing run started, or that it has not yet; give it as it reads.";
 
 export const booksBillingScheduleActions: McpAction[] = [
 	moduleAction('books', {

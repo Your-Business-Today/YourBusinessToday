@@ -1,4 +1,4 @@
-import { requestCompaniesHouse } from './companiesHouseRequest';
+import { CompaniesHouseRefusal, requestCompaniesHouse } from './companiesHouseRequest';
 import { searchUrlFor, type CompaniesHouseSearch } from './searchUrl';
 export type { CompaniesHouseSearch } from './searchUrl';
 import { describeRegisteredAddress, postcodeOfRegisteredAddress } from './registeredAddress';
@@ -17,6 +17,9 @@ export type CompaniesHouseCompany = {
 export type CompanySearchPage = { companies: CompaniesHouseCompany[]; totalHits: number };
 
 const longestResultPage = 50;
+/** The advanced search's own answer for a search that matches no company: "No companies found". */
+const noCompaniesFound = 404;
+const emptySearchAnswer: Record<string, unknown> = { items: [], hits: 0 };
 
 export function readCompaniesHouseSearch(searchParams: URLSearchParams): CompaniesHouseSearch | null {
 	const sicCodes = (searchParams.get('sicCodes') ?? '')
@@ -40,7 +43,14 @@ export async function searchCompaniesHousePage(
 	search: CompaniesHouseSearch,
 	pageSize: number
 ): Promise<CompanySearchPage> {
-	return parseCompanySearchPage(await requestCompaniesHouse(searchUrlFor(search, pageSize)));
+	const answer = await requestCompaniesHouse(searchUrlFor(search, pageSize)).catch(emptyWhenNoCompanyFound);
+	return parseCompanySearchPage(answer);
+}
+
+function emptyWhenNoCompanyFound(error: unknown): Record<string, unknown> {
+	const isNoCompanyFound = error instanceof CompaniesHouseRefusal && error.status === noCompaniesFound;
+	if (isNoCompanyFound) return emptySearchAnswer;
+	throw error;
 }
 
 export function parseCompanySearchPage(body: Record<string, unknown>): CompanySearchPage {

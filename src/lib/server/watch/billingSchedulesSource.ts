@@ -10,7 +10,7 @@ import type { WatchSource } from './watchSource';
 
 export const billingSchedulesSourceName = 'billing_schedules';
 
-/** Knocked every hour: raises, issues and sends each billing schedule's invoice on its day, in every organisation's books. */
+/** Knocked by Vercel's crons each morning, and by GitHub when it keeps its schedule: raises, issues and sends each billing schedule's invoice on its day, in every organisation's books. */
 export const billingSchedulesSource: WatchSource = {
 	name: billingSchedulesSourceName,
 	summary: "raises each billing schedule's invoice on its day, from 07:00 UK time, and issues and sends it when the schedule sends by itself",
