@@ -7,8 +7,8 @@ const asNamed = `"${projectName}"`;
 const contents: ProjectContents = { goalCount: 2, openTaskCount: 5, finishedTaskCount: 0, attachedFileCount: 1 };
 const emptyProject: ProjectContents = { goalCount: 0, openTaskCount: 0, finishedTaskCount: 0, attachedFileCount: 0 };
 const whatIsKept =
-	'A copy of each deleted task is kept on the record of deletions, with its conversation and history. ' +
-	'Its attached files are not kept. Nothing puts a project back.';
+	'A copy of each deleted task is kept on the record of deletions, with its conversation and history: ' +
+	'list_task_deletions lists them and read_task_deletion reads one. Its attached files are not kept. Nothing puts a project back.';
 
 describe('what delete_project answers', () => {
 	it('says why a project with finished work stays, how to keep it, and that nothing went', () => {

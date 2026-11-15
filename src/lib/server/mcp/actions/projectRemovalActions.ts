@@ -31,7 +31,8 @@ export const projectRemovalActions: McpAction[] = [
 			'what the project holds. It goes ahead only when confirmProjectName gives the project’s name ' +
 			'back, after the person has seen that answer, and it takes every goal, task and subtask in the ' +
 			'project with it, and their attached files. A copy of each deleted task is kept with its ' +
-			'conversation and history, though not its attached files, and nothing here puts a project back.',
+			'conversation and history, though not its attached files; list_task_deletions without a ' +
+			'projectId lists the ones you deleted, and nothing here puts a project back.',
 		inputSchema: objectSchema(
 			{ projectId: textField('The project id'), [confirmProjectName]: projectNameField },
 			['projectId']
