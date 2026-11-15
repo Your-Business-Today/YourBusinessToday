@@ -3,6 +3,7 @@ import { findOwnSeatOnMeeting, type OwnSeat } from './ownSeatOnMeeting';
 import { getControlsOfSeat } from './getBoardroomSeatControls';
 import { insertHeldAnswer } from './saveBoardroomSeatControls';
 import { sayInTheRoom } from './sayInTheRoom';
+import { callDirectorsToTheirTurns } from './callDirectorsToTheirTurns';
 import { placeBoardContribution, type RoomCaller } from '$lib/data/placeBoardContribution';
 import { heldAnswers, heldAwaitingAnswer, isPaused, type HeldContribution } from '$lib/data/boardroomSeatControls';
 import { seatControlRefusals } from '$lib/data/boardroomSeatControlRules';
@@ -26,6 +27,16 @@ async function sayHeld(supabase: SupabaseClient, ownSeat: OwnSeat, held: HeldCon
 	return { answer: said.answer, isKept: true };
 }
 
+/** The held piece and the seat it is held for. */
+type HeldOnSeat = { ownSeat: OwnSeat; held: HeldContribution };
+
+async function sayHeldThenCallTurns(supabase: SupabaseClient, organisation: Organisation, piece: HeldOnSeat, caller: RoomCaller): Promise<SeatAnswer> {
+	const answered = await sayHeld(supabase, piece.ownSeat, piece.held, caller);
+	const { meeting } = piece.ownSeat.record;
+	if (answered.isKept) await callDirectorsToTheirTurns(supabase, organisation, meeting.id, caller.now);
+	return answered;
+}
+
 /**
  * A director answers a piece their own Claude holds for them: yes says it in the room, in its turn; no keeps it
  * unsaid, as what was proposed. Only the director's own held pieces are found, so nobody answers for another.
@@ -44,7 +55,7 @@ export async function answerHeldContribution(
 	const held = heldAwaitingAnswer(controls).find((piece) => piece.id === draft.heldId);
 	if (held === undefined) return refused(seatControlRefusals.noSuchHeldPiece);
 	if (draft.isYes && isPaused(controls)) return refused(seatControlRefusals.claudeIsPaused);
-	if (draft.isYes) return sayHeld(supabase, ownSeat, held, caller);
+	if (draft.isYes) return sayHeldThenCallTurns(supabase, organisation, { ownSeat, held }, caller);
 	await insertHeldAnswer(supabase, placing, { heldId: held.id, answer: heldAnswers.keptUnsaid, contributionId: null });
 	return { answer: heldKeptUnsaidWords, isKept: true };
 }

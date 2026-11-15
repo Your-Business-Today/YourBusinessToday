@@ -12,6 +12,7 @@ const room = vi.hoisted(() => ({
 	keptInRoom: [] as Record<string, unknown>[],
 	held: [] as Record<string, unknown>[]
 }));
+vi.mock('./callDirectorsToTheirTurns', () => ({ callDirectorsToTheirTurns: async () => undefined }));
 vi.mock('./readBoardroomMeeting', () => ({ getMeetingRecord: async () => meetingInRoom({ contributions: [said('nigels-seat', 1, 'proposes')] }) }));
 vi.mock('./getBoardroomSeatControls', () => ({ getControlsOfSeat: async () => room.controls }));
 vi.mock('./saveBoardroomRoom', () => ({ insertBoardContribution: async (_supabase: unknown, placing: Record<string, unknown>) => room.keptInRoom.push(placing) }));
