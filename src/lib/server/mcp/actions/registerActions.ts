@@ -1,6 +1,6 @@
 import { companiesHouseNotConfigured } from '$lib/server/register/watchRegister';
 import { daysAgo } from '$lib/data/days';
-import { geocodeRegisterPostcodes } from '$lib/server/register/geocodeRegisterPostcodes';
+import { geocodeRegisterPostcodesUntil } from '$lib/server/register/geocodeRegisterPostcodes';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { patchCompaniesSource } from '$lib/server/watch/patchCompaniesSource';
@@ -13,18 +13,22 @@ import type { McpCaller } from '../resolveMcpCaller';
 import type { Patch } from '$lib/server/patches/patchRecord';
 
 const oneDay = 1;
+/** One call stays well inside the time a connector call may take, so the answer always comes back. */
+const geocodingTurnMilliseconds = 100_000;
 
 export const registerActions: McpAction[] = [
 	{
 		name: 'geocode_register_postcodes',
 		area: 'patches',
-		audience: 'admin',
+		audience: 'staff',
 		isWrite: true,
-		summary: 'geocode one page of register postcodes the territories have not located yet, and say how many remain',
-		guidance: 'Call it again until it answers that nothing remains; each call looks up one page through postcodes.io.',
+		summary: 'place on the map the register postcodes the territories have not located yet, for about a minute and a half, and say how many remain',
+		guidance:
+			'Call it again until it answers that nothing remains; it looks postcodes up a hundred at a time through postcodes.io. ' +
+			'A postcode that service does not know is left out for a month, then asked about again, so the count does reach nothing.',
 		inputSchema: objectSchema({}),
 		run: async (caller) => {
-			const progress = await geocodeRegisterPostcodes(caller.supabase);
+			const progress = await geocodeRegisterPostcodesUntil(caller.supabase, Date.now() + geocodingTurnMilliseconds);
 			if (progress.remainingCount === 0) return `${progress.geocodedCount} geocoded; every register postcode in the territories is now located.`;
 			return `${progress.geocodedCount} geocoded; ${progress.remainingCount} register postcodes still to geocode — call again.`;
 		}
