@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-11-15 00:45 UTC.
+Generated 2026-11-15 03:42 UTC.
 
 ## Headline
 
@@ -46,10 +46,10 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | tests | 868 | 853 | 40,794 |
 | api | 659 | 658 | 30,342 |
 | database | 241 | 8 | 254 |
-| tooling | 142 | 10 | 401 |
+| tooling | 160 | 10 | 401 |
 | docs | 79 | 0 | 0 |
 | infrastructure | 19 | 0 | 0 |
-| **whole repository** | **5,641** | **5,003** | **192,091** |
+| **whole repository** | **5,659** | **5,003** | **192,091** |
 
 ## Summary
 
@@ -59,7 +59,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | functionShape | limit: 30, functionsOverLimit: 0, totalFunctions: 7810, elseBlocks: 0, ifBlocks: 7180, measurementIsHeuristic: True |
 | functionNames | overlongFunctionNames: 0, maxWords: 5, maxLength: 40 |
 | accessorNames | gluedAccessorNames: 0, measurementIsHeuristic: True |
-| duplication | clones: 72, duplicatedLines: 610, totalLines: 192012, duplicatedPercentage: 0.32, carriedFromBaseline: True |
+| duplication | clones: 73, duplicatedLines: 631, totalLines: 195003, duplicatedPercentage: 0.32 |
 | naming | bannedAbbreviationHits: 110, unprefixedBooleans: 7 |
 | comments | explanatoryCommentLines: 0, filesWithComments: 0, taskMarkers: 0 |
 | magicValues | inlineHexColours: 0, inlineStyleAttributes: 0, repeatedStringLiterals: 0 |
@@ -70,7 +70,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | inventory | pages: 80, components: 738, orphanComponents: 0, averagePageLines: 43 |
 | siteDefinition | routes: 79, views: 821, siteComponents: 726, catalogue: 14, widgetUsages: 466, handRolledElements: 0, widgetSlots: 466, viewsWithHandRolled: 0, boxedContentWidgets: 0, designSheets: 8, designsLastChecked: 2026-11-13, brandCheckedAt: never |
 | inputValidation | schemaTables: 226, limitedColumns: 0, writeDoors: 402, unvalidatedDoors: 0, looserLimits: 0 |
-| fileAreas | totalFiles: 5641, backend: 1471, frontend: 1196, shared: 966, tests: 868, api: 659, database: 241, tooling: 142, docs: 79, infrastructure: 19 |
+| fileAreas | totalFiles: 5659, backend: 1471, frontend: 1196, shared: 966, tests: 868, api: 659, database: 241, tooling: 160, docs: 79, infrastructure: 19 |
 
 ## Against the baseline
 

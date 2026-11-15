@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-15T00:45:17+00:00",
-  "kitVersion": "1.42.0",
+  "generatedAt": "2026-11-15T03:42:24+00:00",
+  "kitVersion": "1.46.0",
   "score": {
     "overall": 99.9,
     "groups": [
@@ -275,11 +275,10 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 72,
-      "duplicatedLines": 610,
-      "totalLines": 192012,
-      "duplicatedPercentage": 0.32,
-      "carriedFromBaseline": true
+      "clones": 73,
+      "duplicatedLines": 631,
+      "totalLines": 195003,
+      "duplicatedPercentage": 0.32
     },
     "naming": {
       "bannedAbbreviationHits": 110,
@@ -347,14 +346,14 @@
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5641,
+      "totalFiles": 5659,
       "backend": 1471,
       "frontend": 1196,
       "shared": 966,
       "tests": 868,
       "api": 659,
       "database": 241,
-      "tooling": 142,
+      "tooling": 160,
       "docs": 79,
       "infrastructure": 19
     }
@@ -9691,14 +9690,14 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5641,
+        "totalFiles": 5659,
         "backend": 1471,
         "frontend": 1196,
         "shared": 966,
         "tests": 868,
         "api": 659,
         "database": 241,
-        "tooling": 142,
+        "tooling": 160,
         "docs": 79,
         "infrastructure": 19
       },
@@ -9741,7 +9740,7 @@
         },
         {
           "area": "tooling",
-          "files": 142,
+          "files": 160,
           "sourceFiles": 10,
           "sourceLines": 401
         },
@@ -9776,11 +9775,10 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 72,
-        "duplicatedLines": 610,
-        "totalLines": 192012,
-        "duplicatedPercentage": 0.32,
-        "carriedFromBaseline": true
+        "clones": 73,
+        "duplicatedLines": 631,
+        "totalLines": 195003,
+        "duplicatedPercentage": 0.32
       },
       "offenders": [
         {
@@ -9828,20 +9826,20 @@
           "duplicatedLineInstances": 21
         },
         {
+          "file": "src/lib/server/mcp/actions/taskDeletionListAction.test.ts",
+          "duplicatedLineInstances": 21
+        },
+        {
+          "file": "src/lib/server/mcp/actions/taskDeletionReadAction.test.ts",
+          "duplicatedLineInstances": 21
+        },
+        {
           "file": "src/lib/server/mcp/actions/brandSheetAction.test.ts",
           "duplicatedLineInstances": 20
         },
         {
           "file": "src/lib/server/mcp/actions/businessBrainChatbotActions.test.ts",
           "duplicatedLineInstances": 20
-        },
-        {
-          "file": "src/lib/server/mcp/productBrainRetired.test.ts",
-          "duplicatedLineInstances": 19
-        },
-        {
-          "file": "src/lib/server/mcp/actions/booksSettingsActions.test.ts",
-          "duplicatedLineInstances": 19
         }
       ]
     }
