@@ -188,6 +188,16 @@ its register gives it, and some are given with no `http://` in front, so one wid
 is not. The map's panel draws it through that widget, and so does a lead's trading line, which
 shows the listed page where the company did not take it as its own website (`pageListedBeside`).
 
+A premises says whether it arrived after its ground was first loaded: `is_later_arrival`, settled
+by a trigger as the row is first written (migration 0251), so both doors agree and a row written
+again keeps what it was given. A trading place is a later arrival exactly when the feed is told it
+arrived, since both read the word `upsert_places` gives of its load. A food business is one when
+its ground, which is its authority and its outcode, already held a premises the last time that
+authority was swept to the end: a new territory adds outcodes to an authority swept long before,
+and a sweep can be cut off and run again, and neither reads as an arrival. `list_patch_premises`
+with `newOnly` keeps the later arrivals of the last thirty days, which is how a newly opened
+business shows, so the day after a territory first fills it lists nothing.
+
 The trading places load themselves. Nobody types a release name, runs a loader or holds the
 database key: the `trading_places` watcher is knocked three times a night, each knock loading one
 territory that does not hold the newest release, and `load_patch_places` runs the same load for

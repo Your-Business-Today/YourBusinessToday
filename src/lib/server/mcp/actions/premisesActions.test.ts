@@ -5,13 +5,15 @@ import type { McpCaller } from '../resolveMcpCaller';
 
 const territory = { id: '33333333-3333-4333-8333-333333333333', name: 'Sutton', outcodes: ['SM6', 'SM7'] };
 const today = Date.parse('2026-11-15T12:00:00Z');
+const aMonthOn = Date.parse('2026-12-16T12:00:00Z');
 
 vi.mock('$lib/server/patches/getPatch', () => ({ getPatch: async () => territory }));
 
-/** A Sutton that holds more food businesses than the database hands back at once, all but one of them listed since September. */
-const inWallington = { sector: 'SM6 0', outcode: 'SM6', first_seen_at: '2026-09-01T02:00:00Z' };
+/** A Sutton first loaded yesterday with more food businesses than the database hands back at once, and one pub a later sweep added. */
+const inWallington = { sector: 'SM6 0', outcode: 'SM6', first_seen_at: '2026-11-14T02:00:00Z' };
 const wallington = Array.from({ length: 1201 }, (_, index) => premisesRowOf({ id: `wallington-${index}`, business_name: `Wallington ${index}`, ...inWallington }));
-const bansteadPub = premisesRowOf({ id: 'banstead', business_name: 'The Woolpack', sector: 'SM7 2', outcode: 'SM7', first_seen_at: '2026-11-10T02:00:00Z' });
+const arrivedToday = { first_seen_at: '2026-11-15T02:00:00Z', is_later_arrival: true };
+const bansteadPub = premisesRowOf({ id: 'banstead', business_name: 'The Woolpack', sector: 'SM7 2', outcode: 'SM7', ...arrivedToday });
 const sutton = premisesTableOf([...wallington, bansteadPub]);
 
 async function list(input: Record<string, unknown>, supabase = sutton): Promise<string> {
@@ -36,11 +38,21 @@ describe("listing a territory's premises through the connector", () => {
 		expect(lines.at(-1)).toBe('… and 1102 more — narrow by sector, source, category or newOnly.');
 	});
 
-	it('keeps only the premises first listed in the last thirty days when asked for the new ones', async () => {
+	it('lists nothing as new the day after a territory was first loaded', async () => {
+		vi.useFakeTimers({ now: today });
+		expect(await list({ newOnly: 'true' }, premisesTableOf(wallington))).toContain('No premises in this territory match that');
+	});
+
+	it('lists the business a later sweep added, and no other, when asked for the new ones', async () => {
 		vi.useFakeTimers({ now: today });
 		const answer = await list({ newOnly: 'true' });
 		expect(answer.split('\n')).toHaveLength(1);
 		expect(answer).toContain('The Woolpack');
+	});
+
+	it('stops listing a business as new thirty days after it arrived', async () => {
+		vi.useFakeTimers({ now: aMonthOn });
+		expect(await list({ newOnly: 'true' })).toContain('No premises in this territory match that');
 	});
 
 	it('says nothing matches when a source or a category fits none, and where the categories are listed', async () => {

@@ -25,13 +25,14 @@ export const premisesActions: McpAction[] = [
 		summary: 'the businesses trading in a territory at their real addresses: food businesses from the Food Standards Agency and trading places from Overture Maps, newest first, a hundred at most',
 		guidance:
 			'A café, pub, shop or office listed here is already known: add it with add_premises_as_lead rather than recording it ' +
-			'as a sighting. A territory can hold thousands, so narrow by sector: newOnly keeps the ones first listed in the last thirty days, ' +
-			'and source and category narrow further. list_patch_place_categories says which categories a territory holds. The last line says how many more fit.',
+			'as a sighting. A territory can hold thousands, so narrow by sector, and source and category narrow further. newOnly keeps the ones that ' +
+			'arrived in the last thirty days, which is how a newly opened business shows: the first load of a territory is no arrival, so a territory ' +
+			'just loaded has none. list_patch_place_categories says which categories a territory holds. The last line says how many more fit.',
 		inputSchema: objectSchema(
 			{
 				patchId: textField('The territory id, as given by list_patches'),
 				sector: textField('Narrow to one sector, such as KT1 1'),
-				newOnly: textField('true to keep only premises first listed in the last thirty days'),
+				newOnly: textField('true to keep only the premises that arrived in the last thirty days, after the territory was first loaded'),
 				source: textField(`One source: ${Object.keys(premisesSourceLabels).join(' or ')}`),
 				category: textField('Keep trading places whose category contains this word, in the singular, such as estate agent, accountant or cafe')
 			},
@@ -64,13 +65,13 @@ function narrowingOf(input: Record<string, unknown>): PremisesNarrowing {
 		sector: readText(input, 'sector').toUpperCase(),
 		source: source === '' ? null : parsePremisesSource(source),
 		category: asPlaceCategory(readText(input, 'category')),
-		firstSeenSince: isNewOnly ? newSince.toISOString() : null
+		arrivedSince: isNewOnly ? newSince.toISOString() : null
 	};
 }
 
 function isNarrowed(narrowing: PremisesNarrowing): boolean {
-	const { sector, source, category, firstSeenSince } = narrowing;
-	return sector !== '' || source !== null || category !== '' || firstSeenSince !== null;
+	const { sector, source, category, arrivedSince } = narrowing;
+	return sector !== '' || source !== null || category !== '' || arrivedSince !== null;
 }
 
 async function addAsLead(caller: McpCaller, patch: Patch, premisesId: string): Promise<string> {
