@@ -182,7 +182,11 @@ of its own and not a social page or a directory (`companyWebsiteRefusal`, the sa
 client's website passes at every other door). A client has no phone number of its own, so the
 premises stays the one place the number is kept: `getPremisesForClient` reads the premises tied
 to a client through the index on `client_id` (migration 0249), and `read_client` and the company
-page say from it where the company trades and on what number.
+page say from it where the company trades and on what number. The page a place lists is kept as
+its register gives it, and some are given with no `http://` in front, so one widget draws it,
+`ListedWebsite`: a link where it is a full web address (`isWebAddress`) and plain words where it
+is not. The map's panel draws it through that widget, and so does a lead's trading line, which
+shows the listed page where the company did not take it as its own website (`pageListedBeside`).
 
 The trading places load themselves. Nobody types a release name, runs a loader or holds the
 database key: the `trading_places` watcher is knocked three times a night, each knock loading one

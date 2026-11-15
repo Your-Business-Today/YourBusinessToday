@@ -34,7 +34,7 @@
 			· <a href={client.website} class="hover:text-signal">{client.website}</a>
 		{/if}
 	</p>
-	<ClientPremises {premises} />
+	<ClientPremises {premises} website={client.website} />
 	<ClientBroughtInByForm ownerId={client.ownerId} {staffMembers} />
 	{#if standing !== ''}
 		<p class="text-sm text-chalk/60">{standing}</p>

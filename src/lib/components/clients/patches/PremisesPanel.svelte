@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ListedWebsite from '$lib/components/clients/ListedWebsite.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { confirmButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import { formatBritishDate } from '$lib/data/britishDate';
@@ -29,7 +30,7 @@
 		<p class="text-xs text-chalk/50">{premises.businessType === '' ? '' : `${premises.businessType} · `}{rating}</p>
 		{#if premises.website !== '' || premises.phone !== ''}
 			<p class="flex flex-wrap gap-3 text-xs text-chalk/70">
-				{#if premises.website !== ''}<a href={premises.website} target="_blank" rel="noreferrer" class="hover:text-signal">{premises.website}</a>{/if}
+				{#if premises.website !== ''}<ListedWebsite address={premises.website} />{/if}
 				{#if premises.phone !== ''}<span>{premises.phone}</span>{/if}
 			</p>
 		{/if}
