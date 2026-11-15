@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { literalInLike } from '$lib/server/schema/likePattern';
 import { parsePremisesRecord, premisesColumns, type Premises } from './premisesRecord';
 import type { PremisesSource } from '$lib/data/foodHygieneRules';
 
@@ -24,9 +25,4 @@ export async function listPremisesMatching(supabase: SupabaseClient, outcodes: s
 	if (error) throw error;
 	const premises = data.map(parsePremisesRecord);
 	return { premises, matchedCount: count ?? premises.length };
-}
-
-/** The word with the pattern's own wildcards made plain characters, so a category such as hair_salon is matched as written. */
-function literalInLike(word: string): string {
-	return word.replace(/[\\%_]/g, (wildcard) => `\\${wildcard}`);
 }

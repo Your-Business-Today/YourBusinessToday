@@ -1,4 +1,5 @@
 import { addPremisesAsLead } from '$lib/server/premises/addPremisesAsLead';
+import { asPlaceCategory } from '$lib/data/placeCategory';
 import { describePremisesList } from './describePremises';
 import { getPremises } from '$lib/server/premises/getPremises';
 import { listPremisesMatching, type PremisesNarrowing } from '$lib/server/premises/listPremisesMatching';
@@ -25,14 +26,14 @@ export const premisesActions: McpAction[] = [
 		guidance:
 			'A café, pub, shop or office listed here is already known: add it with add_premises_as_lead rather than recording it ' +
 			'as a sighting. A territory can hold thousands, so narrow by sector: newOnly keeps the ones first listed in the last thirty days, ' +
-			'and source and category narrow further. The last line says how many more fit.',
+			'and source and category narrow further. list_patch_place_categories says which categories a territory holds. The last line says how many more fit.',
 		inputSchema: objectSchema(
 			{
 				patchId: textField('The territory id, as given by list_patches'),
 				sector: textField('Narrow to one sector, such as KT1 1'),
 				newOnly: textField('true to keep only premises first listed in the last thirty days'),
 				source: textField(`One source: ${Object.keys(premisesSourceLabels).join(' or ')}`),
-				category: textField('Keep places whose category contains this word, such as solicitor or cafe')
+				category: textField('Keep trading places whose category contains this word, in the singular, such as estate agent, accountant or cafe')
 			},
 			['patchId']
 		),
@@ -62,7 +63,7 @@ function narrowingOf(input: Record<string, unknown>): PremisesNarrowing {
 	return {
 		sector: readText(input, 'sector').toUpperCase(),
 		source: source === '' ? null : parsePremisesSource(source),
-		category: readText(input, 'category'),
+		category: asPlaceCategory(readText(input, 'category')),
 		firstSeenSince: isNewOnly ? newSince.toISOString() : null
 	};
 }
