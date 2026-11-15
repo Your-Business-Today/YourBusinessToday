@@ -1,16 +1,23 @@
 import { defaultRadiusMiles, parseRadiusMiles, radiusOrder, type RadiusMiles } from '$lib/data/mapRadii';
 import { postcodeIn } from './postcode';
+import { isBusinessTypeKey, readBusinessTypes, sicCodesOfTypes } from './businessTypes';
 import { isSicCode, readSicCodeList } from './sicCodes';
 
-export type AreaSearch = { postcode: string; radiusMiles: RadiusMiles; sicCodes: string[] };
+export type AreaSearch = { postcode: string; radiusMiles: RadiusMiles; businessTypeKeys: string[]; sicCodes: string[] };
+
+const businessTypeParameter = 'businessType';
 
 export function readAreaSearch(searchParams: URLSearchParams): AreaSearch | null {
 	const postcode = postcodeIn(searchParams.get('postcode') ?? '');
 	if (postcode === '') return null;
+	const businessTypeKeys = searchParams.getAll(businessTypeParameter).filter(isBusinessTypeKey);
+	const typedCodes = readSicCodeList(searchParams.get('sicCodes') ?? '');
+	const typeCodes = sicCodesOfTypes(readBusinessTypes(businessTypeKeys));
 	return {
 		postcode,
 		radiusMiles: parseRadiusMiles(searchParams.get('radiusMiles')),
-		sicCodes: readSicCodeList(searchParams.get('sicCodes') ?? '')
+		businessTypeKeys,
+		sicCodes: [...new Set([...typedCodes, ...typeCodes])]
 	};
 }
 
@@ -20,6 +27,7 @@ export function describeAreaSearchQuery(search: AreaSearch): string {
 		radiusMiles: String(search.radiusMiles),
 		sicCodes: search.sicCodes.join(',')
 	});
+	for (const key of search.businessTypeKeys) query.append(businessTypeParameter, key);
 	return query.toString();
 }
 
@@ -37,10 +45,15 @@ export function validateAreaSearch(values: Record<string, unknown>): AreaSearch 
 	if (radiusMiles === null) return areaSearchRefusals.radiusMiles;
 	const sicCodes = readSicCodeList(String(values.sicCodes ?? ''));
 	if (!sicCodes.every(isSicCode)) return areaSearchRefusals.sicCodes;
-	return { postcode, radiusMiles, sicCodes };
+	return { postcode, radiusMiles, businessTypeKeys: [], sicCodes };
 }
 
 function readRadius(value: unknown): RadiusMiles | null {
 	if (value === undefined || value === null || value === '') return defaultRadiusMiles;
 	return radiusOrder.find((radius) => radius === Number(value)) ?? null;
+}
+
+/** The same postcode and radius, narrowed to one type of business, for a crowded area's suggestions. */
+export function narrowedSearchQuery(search: AreaSearch, businessTypeKey: string): string {
+	return describeAreaSearchQuery({ ...search, businessTypeKeys: [businessTypeKey], sicCodes: [] });
 }
