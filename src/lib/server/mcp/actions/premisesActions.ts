@@ -1,7 +1,7 @@
 import { addPremisesAsLead } from '$lib/server/premises/addPremisesAsLead';
 import { describePremisesList } from './describePremises';
 import { getPremises } from '$lib/server/premises/getPremises';
-import { listPremisesForPatch } from '$lib/server/premises/listPremisesForPatch';
+import { listPremisesMatching, type PremisesNarrowing } from '$lib/server/premises/listPremisesMatching';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { parsePremisesSource } from '$lib/server/premises/premisesSource';
 import { premisesSourceLabels } from '$lib/data/foodHygieneRules';
@@ -10,7 +10,6 @@ import { withPatch } from '$lib/server/patches/withPatch';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Patch } from '$lib/server/patches/patchRecord';
-import type { Premises } from '$lib/server/premises/premisesRecord';
 
 const yes = 'true';
 const newForDays = 30;
@@ -22,10 +21,11 @@ export const premisesActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'every business trading in a territory at its real address: food businesses from the Food Standards Agency and trading places from Overture Maps, newest first',
+		summary: 'the businesses trading in a territory at their real addresses: food businesses from the Food Standards Agency and trading places from Overture Maps, newest first, a hundred at most',
 		guidance:
 			'A café, pub, shop or office listed here is already known: add it with add_premises_as_lead rather than recording it ' +
-			'as a sighting. newOnly keeps the ones first listed in the last thirty days; source and category narrow further.',
+			'as a sighting. A territory can hold thousands, so narrow by sector: newOnly keeps the ones first listed in the last thirty days, ' +
+			'and source and category narrow further. The last line says how many more fit.',
 		inputSchema: objectSchema(
 			{
 				patchId: textField('The territory id, as given by list_patches'),
@@ -50,26 +50,26 @@ export const premisesActions: McpAction[] = [
 ];
 
 async function list(caller: McpCaller, patch: Patch, input: Record<string, unknown>): Promise<string> {
-	const sector = readText(input, 'sector').toUpperCase();
-	const isNewOnly = readText(input, 'newOnly') === yes;
+	const narrowing = narrowingOf(input);
+	const matched = await listPremisesMatching(caller.supabase, patch.outcodes, narrowing);
+	return describePremisesList(matched, isNarrowed(narrowing));
+}
+
+function narrowingOf(input: Record<string, unknown>): PremisesNarrowing {
 	const source = readText(input, 'source');
-	const category = readText(input, 'category').toLowerCase();
-	const newSince = Date.now() - newForDays * millisecondsPerDay;
-	const premises = (await listPremisesForPatch(caller.supabase, patch.outcodes))
-		.filter((one) => sector === '' || one.sector === sector)
-		.filter((one) => !isNewOnly || isFirstSeenSince(one, newSince))
-		.filter((one) => source === '' || one.source === parsePremisesSource(source))
-		.filter((one) => category === '' || one.category.toLowerCase().includes(category))
-		.sort(byNewest);
-	return describePremisesList(premises);
+	const isNewOnly = readText(input, 'newOnly') === yes;
+	const newSince = new Date(Date.now() - newForDays * millisecondsPerDay);
+	return {
+		sector: readText(input, 'sector').toUpperCase(),
+		source: source === '' ? null : parsePremisesSource(source),
+		category: readText(input, 'category'),
+		firstSeenSince: isNewOnly ? newSince.toISOString() : null
+	};
 }
 
-function isFirstSeenSince(premises: Premises, since: number): boolean {
-	return new Date(premises.firstSeenAt).getTime() >= since;
-}
-
-function byNewest(first: Premises, second: Premises): number {
-	return second.firstSeenAt.localeCompare(first.firstSeenAt);
+function isNarrowed(narrowing: PremisesNarrowing): boolean {
+	const { sector, source, category, firstSeenSince } = narrowing;
+	return sector !== '' || source !== null || category !== '' || firstSeenSince !== null;
 }
 
 async function addAsLead(caller: McpCaller, patch: Patch, premisesId: string): Promise<string> {
