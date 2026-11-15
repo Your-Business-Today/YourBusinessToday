@@ -4,6 +4,11 @@ import { readAreaSearch } from '$lib/data/areaSearch';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import type { Actions, PageServerLoad } from './$types';
 
+/** A wide radius searches dozens of outcodes and places thousands of companies, which takes longer than a page usually may. */
+const longestMapSeconds = 300;
+
+export const config = { maxDuration: longestMapSeconds };
+
 export const load: PageServerLoad = async ({ locals, url }) => {
 	await requireStaff(locals);
 	const search = readAreaSearch(url.searchParams);
