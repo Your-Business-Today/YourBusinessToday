@@ -1,6 +1,6 @@
 import { accountsOutcomes, type AccountsReading } from './accountsReadingRules';
 import { connectionKinds, type CompanyConnection, type ConnectionsReading } from './connectionRules';
-import { failWords, leftOutWords, microEntityWords, ownCashWords, pdfWords, throughWords } from './cashScreenWords';
+import { failWords, leftOutWords, microEntityWords, ownCashWords, pdfWords, throughWords, unreadWords } from './cashScreenWords';
 
 /** What a screened company comes out as, one of four. */
 export const cashScreenOutcomes = { passes: 'passes', passesThroughConnected: 'passes_through_connected', maybe: 'maybe', fails: 'fails' } as const;
@@ -11,6 +11,9 @@ export type CompanyEvidence = { own: AccountsReading; connections: ConnectionsRe
 
 /** A company's outcome with the sentence that says why, and the day the deciding accounts are made up to. */
 export type ScreenVerdict = { outcome: CashScreenOutcome; reason: string; madeUpTo: string | null };
+
+/** A company the screen reached and could not read is worth a second look, never a fail: its cash is unknown, not short. */
+export const unreadVerdict: ScreenVerdict = { outcome: cashScreenOutcomes.maybe, reason: unreadWords, madeUpTo: null };
 
 /** A connected company whose cash counts as the company's own: one it owns through a director, or one that owns it. */
 export const ownedKinds: CompanyConnection['kind'][] = [connectionKinds.directorOwns, connectionKinds.ownsThisCompany];

@@ -17,6 +17,9 @@ export function pdfWords(reading: AccountsReading): string {
 	return `Its accounts were filed only as a PDF and nobody has read them yet: read the balance sheet at ${reading.documentUrl} and save it with save_company_accounts_reading.`;
 }
 
+/** Said of a company the screen reached and has no reading for: nobody knows its cash, which is not the same as its having none. */
+export const unreadWords = 'Its accounts could not be read from Companies House this time, so its cash is not known: read_company_accounts reads them again.';
+
 export function leftOutWords(officers: string[]): string {
 	return `Left out for holding more than ${mostAppointmentsForARealDirector} appointments, so their companies were not read: ${officers.join(', ')}.`;
 }
