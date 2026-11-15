@@ -3,7 +3,8 @@ import { premisesSourceLabels } from '$lib/data/foodHygieneRules';
 import type { Premises } from '$lib/server/premises/premisesRecord';
 import type { PremisesMatched } from '$lib/server/premises/listPremisesMatching';
 
-const noneListedYet = 'No food premises are listed in this territory yet: the nightly sweep loads them from the Food Standards Agency.';
+const noneListedYet =
+	'No premises are listed in this territory yet. The site loads them by itself overnight: food businesses from the Food Standards Agency and trading places from Overture Maps. load_patch_places loads the trading places now.';
 const noneMatch = 'No premises in this territory match that: leave out the sector, source, category or newOnly to see more.';
 
 /** The premises one answer lists, a line each, saying how many more fit what was asked for; isNarrowed says whether anything was asked for. */

@@ -170,9 +170,32 @@ the register geocoder, the Food Standards Agency sweep, the daily accounts file 
 **Premises** — `public.premises`: a business trading at a real address as an open register lists
 it, keyed by the source and its own id: the Food Standards Agency's food hygiene ratings
 (`food_hygiene`, swept nightly per local authority whose file moved, matched to the patches'
-districts through postcodes.io) and Overture Maps Places (`places_dataset`, loaded by hand each
-release through DuckDB over the public parquet, permissive licences only, marked gone only by the
-release's changelog). A trigger writes the feed's premises and place kinds through the same door.
+districts through postcodes.io) and Overture Maps Places (`places_dataset`, loaded by the site
+itself from the newest release Overture keeps, permissive licences only, marked gone only when the
+release says a place closed for good or its changelog took it out). A trigger writes the feed's
+premises and place kinds through the same door.
+
+The trading places load themselves. Nobody types a release name, runs a loader or holds the
+database key: the `trading_places` watcher is knocked three times a night, each knock loading one
+territory that does not hold the newest release, and `load_patch_places` runs the same load for
+one territory when a staff member's Claude asks. Both run `patchPlacesSource(patch)`, logged as
+`patch_places:<patch id>`, whose marker is what the territory holds: a release alone is held
+whole, and `held>loading:count` is a load part way (`placesStanding.ts`). The newest release is
+found from the bucket's own list (`overtureReleases.ts`). Its places are sixteen parquet files of
+some 800 MB each, and a function has neither the time nor the memory for one of them, so
+`readParquetRows.ts` reads each file's footer, keeps only the row groups whose corners could lie
+in the territory's box, and hands the reader a footer narrowed to the twelve leaves a premises is
+made from (`parquetLeaves.ts`): around Surbiton that is five row groups, read in six seconds
+under a 128 MB heap. `sortPlacesForPatch` keeps the places the rules accept whose postcode is in
+one of the territory's outcodes, in the order of their ids, and `loadOverturePlacesForPatch`
+writes them five hundred at a time, marking the count after each batch, for ninety seconds a run;
+a run cut off carries on at that count while the release is still the newest. A place is judged
+by the strictest licence among its sources, so one share-alike source refuses it. A territory's
+first load writes nothing to the feed (`upsert_places` is told `is_first_load`, migration 0247):
+ten thousand places arriving at once is not news. Two things are left out and counted in the
+run's note: a place with no postcode, which no reader could find by outcode, and a place whose
+postcode is outside the territory's outcodes. Only the newest release's changelog is read, so a
+territory that misses a whole release keeps the places that release took out until they close.
 A patch holds thousands, and the database hands back a thousand rows at a time, so no reader takes
 them in one select. The map reads a pin's worth of each a page at a time (`readPremisesOnMap`) and
 the page carries pins and a count for each sector; the record behind a pin is fetched when the pin
@@ -227,7 +250,9 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `recordObservation` | something noticed, once per page |
 | `runWatchSource` | a named watcher run from where it last stopped |
 | `sweepFoodHygiene`, `sweepAccountsFiled`, `sweepGazetteNotices` | the keyless sources, nightly |
-| `loadBuildingsForPatch`, `loadOverturePlacesForPatch` | the buildings and the trading places, by hand |
+| `loadBuildingsForPatch` | the buildings, by hand |
+| `loadOverturePlacesForPatch` | a territory's trading places from Overture's newest release, a batch at a time, by the site itself |
+| `tradingPlacesSource` | the trading places of every territory behind the newest release, loaded overnight |
 | `addPremisesAsLead` | a premises reaches the register |
 | `watchRegister`, `watchOutcode` | the daily Companies House watch, keyed |
 | `sweepFilings`, `sweepCompanyFilings` | the weekly filings sweep, keyed |
@@ -257,6 +282,6 @@ The connector's new `patches` area carries `list_patches`, `create_patch`, `read
 `record_sighting`, `list_sightings`, `add_sighting_as_lead`, `match_sighting_to_register`,
 `read_patch_feed`, `read_patch_brief`, `record_patch_observation`, `list_patch_premises`,
 `add_premises_as_lead`, `read_patch_company`, `read_company_filings`, `pull_patch_companies`,
-`geocode_register_postcodes` and, for admins, `run_patch_watch`;
+`geocode_register_postcodes`, `load_patch_places` and, for admins, `run_patch_watch`;
 the map tiles come from `basemap.ts`: Ordnance Survey's Light style on the free OpenData plan
 when `PUBLIC_OS_MAPS_API_KEY` is set, OpenStreetMap only as the fallback.

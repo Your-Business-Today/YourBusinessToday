@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { billingSchedulesSourceName } from './billingSchedulesSource';
 import { deployWindowsSourceName } from './deployWindowsSource';
 import { fillTerritoriesSourceName } from './fillTerritoriesSource';
+import { tradingPlacesSourceName } from './tradingPlacesSource';
 import { validateWatchSourceName } from './watchSources';
 
 vi.mock('$env/static/public', () => ({ PUBLIC_SUPABASE_URL: 'https://files.example/', PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-key' }));
@@ -55,5 +56,10 @@ describe("Vercel's crons", () => {
 	it('knock the filling of territories at twenty past two, three and four UTC, so three fill in a night before their postcodes are placed at five past six', () => {
 		const fillKnocks = crons.filter((cron) => cron.path === `${cronDoor}${fillTerritoriesSourceName}`).map((cron) => cron.schedule);
 		expect(fillKnocks).toEqual(['20 2 * * *', '20 3 * * *', '20 4 * * *']);
+	});
+
+	it('knock the loading of trading places at ten to three, four and five UTC, half an hour after each territory is filled, so three load in a night', () => {
+		const placesKnocks = crons.filter((cron) => cron.path === `${cronDoor}${tradingPlacesSourceName}`).map((cron) => cron.schedule);
+		expect(placesKnocks).toEqual(['50 2 * * *', '50 3 * * *', '50 4 * * *']);
 	});
 });

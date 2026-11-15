@@ -13,7 +13,7 @@
 		[
 			`${building.uprnCount} addressable place${building.uprnCount === 1 ? '' : 's'}`,
 			sightingCount === 0 ? '' : `${sightingCount} sighting${sightingCount === 1 ? '' : 's'}`,
-			premisesCount === 0 ? '' : `${premisesCount} food premises`
+			premisesCount === 0 ? '' : `${premisesCount} trading business${premisesCount === 1 ? '' : 'es'}`
 		]
 			.filter((part) => part !== '')
 			.join(' · ') + (beside.length === 0 ? '' : ' in or beside it')
