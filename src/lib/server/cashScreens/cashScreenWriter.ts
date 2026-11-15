@@ -4,6 +4,8 @@ import { isUuid } from '$lib/data/isUuid';
 import type { CashScreenNarrowing } from '$lib/data/cashScreenRules';
 
 const screensTable = 'cash_screens';
+/** A territory's list shows this many screens and no more: the newest, since an old screen's figures are old. */
+const mostScreensListed = 20;
 
 /** Records a screen for the watcher to work through; the narrowing has already been checked at the door. */
 export async function startCashScreen(supabase: SupabaseClient, patchId: string, narrowing: CashScreenNarrowing, accountId: string | null): Promise<CashScreen> {
@@ -18,6 +20,13 @@ export async function getCashScreen(supabase: SupabaseClient, screenId: string):
 	const { data, error } = await supabase.from(screensTable).select(cashScreenColumns).eq('id', screenId).maybeSingle();
 	if (error) throw error;
 	return data === null ? null : parseCashScreen(data);
+}
+
+/** The screens run on a territory, the newest first. */
+export async function readScreensOfPatch(supabase: SupabaseClient, patchId: string): Promise<CashScreen[]> {
+	const { data, error } = await supabase.from(screensTable).select(cashScreenColumns).eq('patch_id', patchId).order('started_at', { ascending: false }).limit(mostScreensListed);
+	if (error) throw error;
+	return (data ?? []).map(parseCashScreen);
 }
 
 /** The screen started longest ago that is not finished: screens are worked through one at a time, in the order they were asked for. */

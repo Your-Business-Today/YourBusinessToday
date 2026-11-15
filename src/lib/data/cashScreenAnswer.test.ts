@@ -1,12 +1,25 @@
 import { describe, expect, it } from 'vitest';
-import { describeCashScreen, describeScreenTurn, howToCarryOn, type CashScreenSummary } from './cashScreenAnswer';
+import { describeCashScreen, describeScreenCover, describeScreenTurn, howToCarryOn, type CashScreenSummary } from './cashScreenAnswer';
 import { cashScreenOutcomes } from './cashScreenOutcome';
 
 const screenId = '22222222-2222-4222-8222-222222222222';
 const passing = { companyNumber: '01234567', name: 'ACME BUILD LTD', outcome: cashScreenOutcomes.passes, reason: 'Cash at bank of £150k on 31 Mar 2026.', madeUpTo: '2026-03-31' };
+const failing = { companyNumber: '07654321', name: 'SHORT OF IT LTD', outcome: cashScreenOutcomes.fails, reason: 'Cash at bank £12k on 31 Mar 2026, short of £100k.', madeUpTo: '2026-03-31' };
 
 function screenOf(facts: Partial<CashScreenSummary>): CashScreenSummary {
-	return { id: screenId, territoryName: 'Surbiton', sector: '', sicCode: '41', leastCash: 100_000, startedAt: '2026-11-15T17:30:00Z', isFinished: false, screened: [passing], waiting: 423, ...facts };
+	return {
+		id: screenId,
+		territoryName: 'Surbiton',
+		sector: '',
+		sicCode: '41',
+		leastCash: 100_000,
+		startedAt: '2026-11-15T17:30:00Z',
+		isFinished: false,
+		screened: [passing],
+		waiting: 423,
+		isListingFails: false,
+		...facts
+	};
 }
 
 describe('what a staff member is told about a cash screen', () => {
@@ -20,6 +33,24 @@ describe('what a staff member is told about a cash screen', () => {
 		const answer = describeCashScreen(screenOf({ isFinished: true, waiting: 0 }));
 		expect(answer).toContain('Finished: all 1 companies screened.');
 		expect(answer).not.toContain('carry_on_cash_screen');
+	});
+
+	it('counts the fails and leaves them out, since nobody approaches them, and says how to list them', () => {
+		const answer = describeCashScreen(screenOf({ screened: [passing, failing] }));
+		expect(answer).toContain('Fails (1): not listed, since nobody approaches them: read_cash_screen with showFails true lists each with its reason.');
+		expect(answer).not.toContain('SHORT OF IT LTD');
+		expect(answer).toContain('- ACME BUILD LTD (01234567)');
+	});
+
+	it('lists the fails with their reasons when they are asked for', () => {
+		const answer = describeCashScreen(screenOf({ screened: [passing, failing], isListingFails: true }));
+		expect(answer).toContain('Fails (1):\n- SHORT OF IT LTD (07654321): Cash at bank £12k on 31 Mar 2026, short of £100k.');
+	});
+
+	it('says what a screen covers the same way in its header as in a list', () => {
+		expect(describeCashScreen(screenOf({}))).toContain(`Screen ${screenId} of Surbiton, SIC codes starting 41, for at least £100k cash at bank, started 15 Nov 2026.`);
+		expect(describeScreenCover({ sector: 'KT6 5', sicCode: '', leastCash: 50_000 })).toBe(', sector KT6 5, for at least £50k cash at bank');
+		expect(describeScreenCover({ sector: '', sicCode: '', leastCash: 100_000 })).toBe(', for at least £100k cash at bank');
 	});
 });
 

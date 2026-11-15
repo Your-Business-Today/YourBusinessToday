@@ -1,4 +1,5 @@
 import { nextTurnText } from '$lib/server/agent/nextTurnText';
+import { readOptionalFlag } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
 /** Whether the person asked to see everything at once; otherwise the summary goes one item at a time. */
@@ -20,10 +21,7 @@ const showEverythingRefusal = 'showEverything is true or false, or left out. Not
 
 /** Whether the whole list was asked for, or a refusal when showEverything is not a yes or no. */
 export function validateShowEverything(input: Record<string, unknown>): boolean | string {
-	const { showEverything } = input;
-	if (showEverything === undefined) return false;
-	if (typeof showEverything === 'boolean') return showEverything;
-	return showEverythingRefusal;
+	return readOptionalFlag(input, 'showEverything') ?? showEverythingRefusal;
 }
 
 /** The summary as the YBT agent gives it by default: the one item to raise now. */

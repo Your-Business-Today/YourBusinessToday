@@ -11,6 +11,7 @@ const pathToAFirstApproach = [
 	'create_patch',
 	'pull_patch_companies',
 	'geocode_register_postcodes',
+	'list_cash_screens',
 	'start_cash_screen',
 	'carry_on_cash_screen',
 	'read_cash_screen',
