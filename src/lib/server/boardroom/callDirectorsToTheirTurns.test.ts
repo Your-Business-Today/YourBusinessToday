@@ -19,7 +19,7 @@ vi.mock('./getBoardroomSeatControls', () => ({
 }));
 vi.mock('./saveBoardroomTurnCalls', () => ({
 	insertNewTurnCalls: async (_supabase: unknown, _meeting: unknown, turns: DirectorTurn[]) => {
-		const keyOf = (turn: DirectorTurn) => `${turn.item.id} ${turn.seatId} ${turn.round}`;
+		const keyOf = (turn: DirectorTurn) => `${turn.itemNumber} ${turn.seatId} ${turn.round}`;
 		const fresh = turns.filter((turn) => !board.calledBefore.has(keyOf(turn)));
 		fresh.forEach((turn) => board.calledBefore.add(keyOf(turn)));
 		return fresh;

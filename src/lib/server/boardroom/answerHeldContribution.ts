@@ -28,12 +28,11 @@ async function sayHeld(supabase: SupabaseClient, ownSeat: OwnSeat, held: HeldCon
 }
 
 /** The held piece and the seat it is held for. */
-type HeldOnSeat = { ownSeat: OwnSeat; held: HeldContribution };
+type HeldOnSeat = { ownSeat: OwnSeat; held: HeldContribution; meetingId: string };
 
 async function sayHeldThenCallTurns(supabase: SupabaseClient, organisation: Organisation, piece: HeldOnSeat, caller: RoomCaller): Promise<SeatAnswer> {
 	const answered = await sayHeld(supabase, piece.ownSeat, piece.held, caller);
-	const { meeting } = piece.ownSeat.record;
-	if (answered.isKept) await callDirectorsToTheirTurns(supabase, organisation, meeting.id, caller.now);
+	if (answered.isKept) await callDirectorsToTheirTurns(supabase, organisation, piece.meetingId, caller.now);
 	return answered;
 }
 
@@ -55,7 +54,7 @@ export async function answerHeldContribution(
 	const held = heldAwaitingAnswer(controls).find((piece) => piece.id === draft.heldId);
 	if (held === undefined) return refused(seatControlRefusals.noSuchHeldPiece);
 	if (draft.isYes && isPaused(controls)) return refused(seatControlRefusals.claudeIsPaused);
-	if (draft.isYes) return sayHeldThenCallTurns(supabase, organisation, { ownSeat, held }, caller);
+	if (draft.isYes) return sayHeldThenCallTurns(supabase, organisation, { ownSeat, held, meetingId }, caller);
 	await insertHeldAnswer(supabase, placing, { heldId: held.id, answer: heldAnswers.keptUnsaid, contributionId: null });
 	return { answer: heldKeptUnsaidWords, isKept: true };
 }

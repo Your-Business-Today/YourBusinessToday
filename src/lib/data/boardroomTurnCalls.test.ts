@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { meetingInRoom, said } from './boardroomRoom.fixtures';
 import { duringTheMeeting } from './boardroomMeeting.fixtures';
-import { seatsWithTurns, turnLine, turnsOfSeat, turnsOpenInRoom } from './boardroomTurnCalls';
+import { seatsWithTurns, turnLine, turnsOfSeat, turnsOpenInRoom, type DirectorTurn } from './boardroomTurnCalls';
 
-const placesOf = (record: ReturnType<typeof meetingInRoom>) =>
-	turnsOpenInRoom(record, duringTheMeeting).map((turn) => `${turn.item.id} ${turn.seatId} round ${turn.round}`);
+const placeOf = (turn: DirectorTurn) => `item-${turn.itemNumber} ${turn.seatId} round ${turn.round}`;
+const placesOf = (record: ReturnType<typeof meetingInRoom>) => turnsOpenInRoom(record, duringTheMeeting).map(placeOf);
 
 describe('the turns open in a board meeting room', () => {
 	it('gives every director a first-round turn on every item the moment the room opens', () => {
