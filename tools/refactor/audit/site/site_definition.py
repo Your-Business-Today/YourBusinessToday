@@ -5,7 +5,7 @@ from collections import Counter
 from pathlib import Path
 
 from ..check_names import CheckName
-from ..check_result import checkResult
+from ..check_result import SKIPPED, checkResult
 from ..source_files import SourceFile, matchesAny
 from .control_labels import labelControls
 from .definition import reduceView
@@ -19,7 +19,7 @@ from .widget_boxes import boxedContentWidgets
 
 NAME = CheckName.siteDefinition
 NOT_MEASURED = checkResult(
-    NAME, {"skipped": "no siteDefinition catalogue in rules.json"}, {"handRolled": [], "boxedWidgets": []}
+    NAME, {SKIPPED: "no siteDefinition catalogue in rules.json"}, {"handRolled": [], "boxedWidgets": []}
 )
 
 

@@ -1,15 +1,18 @@
 """Running the repository's checks on the working folder as it stands, and remembering what they answered.
 
-The folder is read as one tree before the checks run, and again once they have answered. A file the checks changed
-or removed means what is there now is not what they answered for, so nothing is remembered. A file they only added
-is a by-product: it is no part of what was checked, and is named so that it is left out of the commit and ignored.
+The checks are run only on work that holds what its base holds now, so no time goes on work whose answer would not
+stand once it is merged. The folder is read as one tree before the checks run, and again once they have answered. A
+file the checks changed or removed means what is there now is not what they answered for, so nothing is remembered. A
+file they only added is a by-product: it is no part of what was checked, and is named so that it is left out of the
+commit and ignored.
 """
 from __future__ import annotations
 
 from arming import arm
+from base_standing import standingWithItsBase
 from clone import Clone
 from commit_advice import tellWhatToCommit
-from exit_codes import CHECKS_CHANGED_THE_FOLDER_EXIT, DONE_EXIT, NO_CHECKS_EXIT, NOT_RUNNABLE_HERE_EXIT
+from exit_codes import BEHIND_ITS_BASE_EXIT, CHECKS_CHANGED_THE_FOLDER_EXIT, DONE_EXIT, NO_CHECKS_EXIT, NOT_RUNNABLE_HERE_EXIT
 from folder_tree import ADDED, differencesBetween, treeOfTheFolder
 from passed_trees import NOT_CHECKABLE_HERE, PASSED, remember
 from repository_checks import CHECKS_FILE, exitCodeOfTheChecks, hasChecks
@@ -34,13 +37,22 @@ BY_PRODUCTS_LEFT = (
 )
 
 
-def check(clone: Clone) -> int:
+def check(clone: Clone, namedBase: str | None) -> int:
     arming = arm(clone)
     if arming.notice:
         tell(arming.notice)
     if not hasChecks(clone.root):
         tell(NO_CHECKS)
         return NO_CHECKS_EXIT
+    standing = standingWithItsBase(clone, namedBase)
+    for sentence in standing.said:
+        tell(sentence)
+    if standing.isBehindItsBase:
+        return BEHIND_ITS_BASE_EXIT
+    return checkTheFolder(clone)
+
+
+def checkTheFolder(clone: Clone) -> int:
     checked = treeOfTheFolder(clone)
     exitCode = exitCodeOfTheChecks(clone.root)
     answer = ANSWER_FOR_EXIT.get(exitCode)

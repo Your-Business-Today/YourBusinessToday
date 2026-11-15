@@ -1,6 +1,6 @@
 # Refactor audit
 
-Generated 2026-11-15 03:42 UTC.
+Generated 2026-11-15 16:26 UTC.
 
 ## Headline
 
@@ -43,13 +43,13 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | backend | 1,471 | 1,460 | 49,195 |
 | frontend | 1,196 | 1,066 | 36,640 |
 | shared | 966 | 948 | 34,465 |
-| tests | 868 | 853 | 40,794 |
+| tests | 874 | 853 | 40,794 |
 | api | 659 | 658 | 30,342 |
 | database | 241 | 8 | 254 |
-| tooling | 160 | 10 | 401 |
+| tooling | 169 | 10 | 401 |
 | docs | 79 | 0 | 0 |
 | infrastructure | 19 | 0 | 0 |
-| **whole repository** | **5,659** | **5,003** | **192,091** |
+| **whole repository** | **5,674** | **5,003** | **192,091** |
 
 ## Summary
 
@@ -70,7 +70,7 @@ Each element scores 100% with no offenders and falls in a straight line to 0% wh
 | inventory | pages: 80, components: 738, orphanComponents: 0, averagePageLines: 43 |
 | siteDefinition | routes: 79, views: 821, siteComponents: 726, catalogue: 14, widgetUsages: 466, handRolledElements: 0, widgetSlots: 466, viewsWithHandRolled: 0, boxedContentWidgets: 0, designSheets: 8, designsLastChecked: 2026-11-13, brandCheckedAt: never |
 | inputValidation | schemaTables: 226, limitedColumns: 0, writeDoors: 402, unvalidatedDoors: 0, looserLimits: 0 |
-| fileAreas | totalFiles: 5659, backend: 1471, frontend: 1196, shared: 966, tests: 868, api: 659, database: 241, tooling: 160, docs: 79, infrastructure: 19 |
+| fileAreas | totalFiles: 5674, backend: 1471, frontend: 1196, shared: 966, tests: 874, api: 659, database: 241, tooling: 169, docs: 79, infrastructure: 19 |
 
 ## Against the baseline
 

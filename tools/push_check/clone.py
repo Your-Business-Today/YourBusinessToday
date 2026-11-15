@@ -13,6 +13,7 @@ from pathlib import Path
 
 CANNOT_ANSWER = (subprocess.CalledProcessError, OSError)
 HOOKS = "hooks"
+THE_OBJECT_NAMED = "rev-parse --verify --quiet"
 
 
 class GitRefused(Exception):

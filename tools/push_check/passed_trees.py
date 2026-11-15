@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from clone import Clone
+from clone import THE_OBJECT_NAMED, Clone
 
 PASSED = "passed"
 NOT_CHECKABLE_HERE = "could not be checked on this machine"
@@ -27,6 +27,10 @@ def remember(clone: Clone, tree: str, answer: str) -> None:
 
 def answerFor(clone: Clone, tree: str) -> str | None:
     return onlyLineOf(clone.folderItsWorktreesShare / ANSWERS / tree)
+
+
+def answerForTheFilesOf(clone: Clone, commit: str) -> str | None:
+    return answerFor(clone, clone.git(THE_OBJECT_NAMED, f"{commit}^{{tree}}"))
 
 
 def lastPassed(clone: Clone) -> str | None:

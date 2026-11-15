@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from clone import Clone
 from exit_codes import DONE_EXIT, PUSH_REFUSED_EXIT
-from passed_trees import LETS_A_PUSH_THROUGH, NOT_CHECKABLE_HERE, answerFor
+from passed_trees import LETS_A_PUSH_THROUGH, NOT_CHECKABLE_HERE, answerForTheFilesOf
 from push_refusal import refuse
 from pushes import Push, pushesIn
 from repository_checks import CHECKS_FILE
@@ -35,7 +35,7 @@ def mayLeave(clone: Clone, remote: str, push: Push) -> bool:
     if not carriesChecks(clone, push.commit):
         tell(f"{push.branch} is pushed unchecked: its commit carries no {CHECKS_FILE} for it to pass.")
         return True
-    answer = answerFor(clone, treeOf(clone, push.commit))
+    answer = answerForTheFilesOf(clone, push.commit)
     if answer == NOT_CHECKABLE_HERE:
         tell(f"{push.branch} is pushed unchecked: {NOT_CHECKABLE_SAID}")
     return answer in LETS_A_PUSH_THROUGH
@@ -47,7 +47,3 @@ def isNewToTheRemote(clone: Clone, remote: str, commit: str) -> bool:
 
 def carriesChecks(clone: Clone, commit: str) -> bool:
     return bool(clone.git("ls-tree --name-only", commit, "--", CHECKS_FILE.as_posix()))
-
-
-def treeOf(clone: Clone, commit: str) -> str:
-    return clone.git("rev-parse --verify --quiet", f"{commit}^{{tree}}")

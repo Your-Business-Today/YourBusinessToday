@@ -2,9 +2,12 @@
 
 Installed by the project-process kit as `tools/push_check`, and run from anywhere inside a clone:
 
-    python3 tools/push_check
+    python3 tools/push_check [--base <branch>]
         runs scripts/check-before-push.sh on the working folder as it stands, remembers the files that passed,
-        arms git in this clone, and says what is left to commit
+        arms git in this clone, and says what is left to commit; it runs nothing on work that does not hold what
+        its base holds now: the branch named, else staging where the remote has it, else the remote's default branch
+    python3 tools/push_check merged [--base <branch>]
+        says, once the work's pull request has merged, whether that base now holds files the checks passed on here
     python3 tools/push_check arm
         arms git in this clone and nothing else; the hook the kit registers for the start of a Claude Code
         session runs this, and it says nothing once git is armed
@@ -22,23 +25,30 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from typing import Callable
 
 from arming import arm
 from checking import check
-from clone import GitRefused, cloneAround
+from clone import Clone, GitRefused, cloneAround
+from command_line import MERGED_COMMAND, withTheBaseSetApart
 from exit_codes import DONE_EXIT, GIT_REFUSED_EXIT, USAGE_EXIT
+from merged_base import answerForTheBase
 from pre_push import answerThePush
 from telling import SAID_BY, tell
+from work_base import NoSuchBranch
 
 RUN_AS_SCRIPT = "__main__"
 ARM_COMMAND = "arm"
 HOOK_COMMAND = "hook"
-USAGE = "usage: python3 tools/push_check [arm]"
+USAGE = "usage: python3 tools/push_check [merged] [--base <branch>], or python3 tools/push_check arm"
 
 
 def main(arguments: list[str], folder: Path) -> int:
-    if not arguments:
-        return runTheChecks(folder)
+    words, namedBase = withTheBaseSetApart(arguments)
+    if not words:
+        return answerAboutTheWork(check, folder, namedBase)
+    if words == [MERGED_COMMAND]:
+        return answerAboutTheWork(answerForTheBase, folder, namedBase)
     command, *rest = arguments
     if command == ARM_COMMAND and not rest:
         return armTheClone(folder)
@@ -48,9 +58,12 @@ def main(arguments: list[str], folder: Path) -> int:
     return USAGE_EXIT
 
 
-def runTheChecks(folder: Path) -> int:
+def answerAboutTheWork(answer: Callable[[Clone, str | None], int], folder: Path, namedBase: str | None) -> int:
     try:
-        return check(cloneAround(folder))
+        return answer(cloneAround(folder), namedBase)
+    except NoSuchBranch as refusal:
+        tell(str(refusal))
+        return USAGE_EXIT
     except GitRefused as refusal:
         tell(str(refusal))
         return GIT_REFUSED_EXIT
