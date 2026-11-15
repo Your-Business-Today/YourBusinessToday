@@ -196,7 +196,10 @@ its ground, which is its authority and its outcode, already held a premises the 
 authority was swept to the end: a new territory adds outcodes to an authority swept long before,
 and a sweep can be cut off and run again, and neither reads as an arrival. `list_patch_premises`
 with `newOnly` keeps the later arrivals of the last thirty days, which is how a newly opened
-business shows, so the day after a territory first fills it lists nothing.
+business shows, so the day after a territory first fills it lists nothing. The feed's trigger
+reads the same mark (migration 0252): it says a food business was registered, or a trading place
+listed, only when that premises is a later arrival. So a territory's first food sweep announces
+nothing, as its first load of trading places never did, and the feed and new only agree.
 
 The trading places load themselves. Nobody types a release name, runs a loader or holds the
 database key: the `trading_places` watcher is knocked three times a night, each knock loading one
