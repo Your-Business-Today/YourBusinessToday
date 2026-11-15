@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 type Row = Record<string, unknown>;
 type Ordering = { column: string; isAscending: boolean };
+type Answer = { data: Row[] | null; error: { code: string } | null; count: number | null };
 
 /** The most rows the stand-in hands back for one request, as the database does without a word. */
 export const rowsHandedBackAtOnce = 1000;
@@ -26,6 +27,7 @@ export function premisesRowOf(facts: Row = {}): Row {
 		first_seen_at: '2026-10-26T02:00:00Z',
 		last_seen_at: '2026-11-15T02:00:00Z',
 		is_gone: false,
+		is_later_arrival: false,
 		source_url: 'https://ratings.food.gov.uk/business/1',
 		client_id: null,
 		category: '',
@@ -41,7 +43,12 @@ export function premisesTableOf(rows: Row[]): SupabaseClient {
 	return { from: () => premisesQuery(rows) } as unknown as SupabaseClient;
 }
 
-function premisesQuery(held: Row[]) {
+/** A stand-in database whose premises table fails whatever it is asked, with the error given. */
+export function premisesTableFailingWith(failure: { code: string }): SupabaseClient {
+	return { from: () => premisesQuery([], failure) } as unknown as SupabaseClient;
+}
+
+function premisesQuery(held: Row[], failure: { code: string } | null = null) {
 	const filters: ((row: Row) => boolean)[] = [];
 	const orderings: Ordering[] = [];
 	let firstRow = 0;
@@ -57,7 +64,8 @@ function premisesQuery(held: Row[]) {
 		order: (column: string, options: { ascending: boolean } = { ascending: true }) => (orderings.push({ column, isAscending: options.ascending }), chain),
 		range: (first: number, last: number) => ((firstRow = first), (lastRow = last), chain),
 		limit: (count: number) => ((lastRow = firstRow + count - 1), chain),
-		then: (resolve: (answer: { data: Row[]; error: null; count: number }) => unknown) => {
+		then: (resolve: (answer: Answer) => unknown) => {
+			if (failure !== null) return resolve({ data: null, error: failure, count: null });
 			const matched = [...held.filter((row) => filters.every((filter) => filter(row)))].sort(byEach(orderings));
 			const lastHandedBack = Math.min(lastRow, firstRow + rowsHandedBackAtOnce - 1);
 			return resolve({ data: matched.slice(firstRow, lastHandedBack + 1), error: null, count: matched.length });
