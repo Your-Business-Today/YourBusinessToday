@@ -4,6 +4,7 @@ import { companyNumberOf, hasCompanyNumber } from '$lib/server/clients/clientRec
 import { getChildrenOfClient } from '$lib/server/clients/getChildrenOfClient';
 import { getEventsForClient } from '$lib/server/clients/getEventsForClient';
 import { getPeopleForClient } from '$lib/server/clients/getPeopleForClient';
+import { getPremisesForClient } from '$lib/server/premises/getPremisesForClient';
 import { getProjectsForClient } from '$lib/server/clients/getProjectsForClient';
 import { getRegisterCompany } from '$lib/server/register/getRegisterCompany';
 import { standingLine } from '$lib/data/standingLine';
@@ -32,7 +33,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const client = await getClient(locals.supabase, params.clientId);
 	if (client === null) error(404, 'That company could not be found');
 	keepOnItsRegister(url, params.register, client.stage);
-	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany, jobAdverts, conversations, staffMembers] =
+	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany, jobAdverts, conversations, staffMembers, premises] =
 		await Promise.all([
 			getPeopleForClient(locals.supabase, client.id),
 			getProjectsForClient(locals.supabase, client.id),
@@ -46,12 +47,13 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 			getRegisterCompany(locals.supabase, companyNumberOf(client)),
 			getJobAdvertsForClient(locals.supabase, client.id),
 			getConversationsForClient(locals.supabase, client.id),
-			getStaffDirectory(locals.supabase)
+			getStaffDirectory(locals.supabase),
+			getPremisesForClient(locals.supabase, client.id)
 		]);
 	const canImportOfficers = hasCompanyNumber(client) && isCompaniesHouseConfigured();
 	const figures = registerCompany?.figures ?? null;
 	const standing = registerCompany === null ? '' : standingLine(registerCompany);
-	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, standing, canImportOfficers, jobAdverts, conversations, staffMembers, viewerId: viewer.id };
+	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, standing, canImportOfficers, jobAdverts, conversations, staffMembers, premises, viewerId: viewer.id };
 };
 
 export const actions: Actions = {

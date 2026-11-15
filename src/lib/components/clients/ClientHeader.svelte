@@ -1,20 +1,23 @@
 <script lang="ts">
 	import ClientBroughtInByForm from './ClientBroughtInByForm.svelte';
+	import ClientPremises from './ClientPremises.svelte';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
 	import { clientStageLabels } from '$lib/data/clientLifecycle';
 	import { describeFiledFigures, type FiledFigures } from '$lib/data/filedFigures';
 	import { leadSourceLabels } from '$lib/data/leadSources';
 	import { companyPagePath, registerOfStage } from '$lib/data/salesRegisters';
 	import type { Client } from '$lib/server/clients/clientRecord';
+	import type { Premises } from '$lib/server/premises/premisesRecord';
 	import type { StaffMember } from '$lib/server/projects/getStaffDirectory';
 
 	let {
 		client,
 		parent,
+		premises,
 		figures = null,
 		standing = '',
 		staffMembers
-	}: { client: Client; parent: Client | null; figures?: FiledFigures | null; standing?: string; staffMembers: StaffMember[] } = $props();
+	}: { client: Client; parent: Client | null; premises: Premises[]; figures?: FiledFigures | null; standing?: string; staffMembers: StaffMember[] } = $props();
 
 	const register = $derived(registerOfStage(client.stage));
 </script>
@@ -31,6 +34,7 @@
 			· <a href={client.website} class="hover:text-signal">{client.website}</a>
 		{/if}
 	</p>
+	<ClientPremises {premises} />
 	<ClientBroughtInByForm ownerId={client.ownerId} {staffMembers} />
 	{#if standing !== ''}
 		<p class="text-sm text-chalk/60">{standing}</p>

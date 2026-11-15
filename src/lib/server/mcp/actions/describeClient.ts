@@ -1,6 +1,7 @@
 import { clientEventLabels } from '$lib/data/clientEventLabels';
 import { clientStageLabels } from '$lib/data/clientLifecycle';
 import { formatBritishDate } from '$lib/data/britishDate';
+import { describeClientPremises } from './describeClientPremises';
 import { describeCompanyProfile } from './describeCompanyProfile';
 import { describeContinuityCopy } from './describeContinuityCopy';
 import { describeLeadConversations } from './describeLeadConversations';
@@ -10,6 +11,10 @@ import type { ClientEvent } from '$lib/server/clients/clientEventRecord';
 import type { ClientProject } from '$lib/server/clients/getProjectsForClient';
 import type { LeadConversation } from '$lib/data/leadConversationRules';
 import type { ClientSummary } from '$lib/server/clients/listClients';
+import type { Premises } from '$lib/server/premises/premisesRecord';
+
+/** The client as the register holds it: who brought it in, and the premises it was made from when it was made from one. */
+export type ClientOnRegister = { client: Client; broughtInBy: string; premises: Premises[] };
 
 export const noSuchClient = 'No client on the register has that id. Call list_clients to see them.';
 
@@ -29,7 +34,7 @@ function describeClientLine(client: ClientSummary): string {
 }
 
 export function describeClientInFull(
-	{ client, broughtInBy }: { client: Client; broughtInBy: string },
+	{ client, broughtInBy, premises }: ClientOnRegister,
 	contacts: ClientContact[],
 	projects: ClientProject[],
 	conversations: LeadConversation[]
@@ -42,6 +47,7 @@ export function describeClientInFull(
 		describeContinuityCopy(client.continuityCopy),
 		'',
 		...describeCompanyProfile(client),
+		...describeClientPremises(premises),
 		'',
 		'Contacts:',
 		contacts.length === 0 ? 'None yet.' : contacts.map(describeContactLine).join('\n'),
