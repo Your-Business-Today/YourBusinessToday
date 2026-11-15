@@ -1,38 +1,32 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { inBatches } from '$lib/data/inBatches';
 import { outcodeOf, sectorOf } from '$lib/data/postcode';
 import type { PlaceSeed } from '$lib/data/placeRules';
 
-export const placesSource = 'overture_places';
-const rowsPerBatch = 500;
+/** The places written in one request: few enough to be answered in seconds, so a load cut off loses little. */
+export const placesPerBatch = 500;
 const idsPerBatch = 1000;
 
-export async function upsertPlaces(supabase: SupabaseClient, places: PlaceSeed[], release: string, seenAt: string): Promise<number> {
-	let written = 0;
-	for (let start = 0; start < places.length; start += rowsPerBatch) {
-		const rows = places.slice(start, start + rowsPerBatch).map((place) => placeRowOf(place, release));
-		const { data, error } = await supabase.rpc('upsert_places', { rows, seen_at: seenAt });
-		if (error) throw error;
-		written += Number(data ?? 0);
-	}
-	return written;
+/** What every place of one load is written with: its release, when the load saw it, and whether the territory held none before. */
+export type PlacesLoad = { release: string; seenAt: string; isFirstLoad: boolean };
+
+/** Writes one batch of places, new or already held, and says how many. A territory's first load writes nothing to the feed. */
+export async function upsertPlaceBatch(supabase: SupabaseClient, places: PlaceSeed[], load: PlacesLoad): Promise<number> {
+	const rows = places.map((place) => placeRowOf(place, load.release));
+	const { data, error } = await supabase.rpc('upsert_places', { rows, seen_at: load.seenAt, is_first_load: load.isFirstLoad });
+	if (error) throw error;
+	return Number(data ?? 0);
 }
 
+/** Marks gone the places a release closed or took out, and says how many of them were held and still open. */
 export async function markPlacesGone(supabase: SupabaseClient, sourceIds: string[], seenAt: string): Promise<number> {
 	let marked = 0;
-	for (let start = 0; start < sourceIds.length; start += idsPerBatch) {
-		const { data, error } = await supabase.rpc('mark_places_gone', { gone_ids: sourceIds.slice(start, start + idsPerBatch), seen_at: seenAt });
+	for (const goneIds of inBatches(sourceIds, idsPerBatch)) {
+		const { data, error } = await supabase.rpc('mark_places_gone', { gone_ids: goneIds, seen_at: seenAt });
 		if (error) throw error;
 		marked += Number(data ?? 0);
 	}
 	return marked;
-}
-
-/** The ids of every place still held in the patch's outcodes, for the changelog to be asked about. */
-export async function readPlaceIdsInOutcodes(supabase: SupabaseClient, outcodes: string[]): Promise<string[]> {
-	if (outcodes.length === 0) return [];
-	const { data, error } = await supabase.from('premises').select('source_id').eq('source', 'places_dataset').eq('is_gone', false).in('outcode', outcodes);
-	if (error) throw error;
-	return data.map((row: Record<string, unknown>) => row.source_id as string);
 }
 
 function placeRowOf(place: PlaceSeed, release: string): Record<string, unknown> {
@@ -53,9 +47,4 @@ function placeRowOf(place: PlaceSeed, release: string): Record<string, unknown> 
 		source_licence: place.sourceLicence,
 		source_url: `https://explore.overturemaps.org/#${place.sourceId}`
 	};
-}
-
-export async function recordPlacesRun(supabase: SupabaseClient, rowsWritten: number, release: string, note: string, startedAt: string): Promise<void> {
-	const { error } = await supabase.from('watch_runs').insert({ source: placesSource, started_at: startedAt, finished_at: new Date().toISOString(), rows_written: rowsWritten, resume_marker: release, note });
-	if (error) throw error;
 }

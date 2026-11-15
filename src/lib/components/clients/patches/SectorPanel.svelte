@@ -43,7 +43,7 @@
 		<h2 class="font-display text-xl font-medium">
 			<a href={`/clients/patches/${patchId}/sectors/${encodeURIComponent(sector.sector)}`} class="hover:text-signal">{sector.sector}</a>
 		</h2>
-		<p class="text-sm text-chalk/70">{standing} · {sector.unitPostcodeCount} postcodes · {companyCount} companies registered here · {premisesCount} food premises</p>
+		<p class="text-sm text-chalk/70">{standing} · {sector.unitPostcodeCount} postcodes · {companyCount} companies registered here · {premisesCount} businesses trading here</p>
 		{#if buildingsLine !== ''}
 			<p class="text-xs text-chalk/50">{buildingsLine}</p>
 		{/if}

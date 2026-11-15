@@ -14,6 +14,7 @@ import { organisationActions } from './actions/organisationActions';
 import { patchActions } from './actions/patchActions';
 import { patchCompanyActions } from './actions/patchCompanyActions';
 import { patchLeadActions } from './actions/patchLeadActions';
+import { patchPlaceActions } from './actions/patchPlaceActions';
 import { portalActions } from './actions/portalActions';
 import { premisesActions } from './actions/premisesActions';
 import { projectActions } from './actions/projectActions';
@@ -54,6 +55,7 @@ const everyAction: McpAction[] = [
 	...sightingActions,
 	...sightingLeadActions,
 	...premisesActions,
+	...patchPlaceActions,
 	...areaFeedActions,
 	...observationActions,
 	...projectActions,

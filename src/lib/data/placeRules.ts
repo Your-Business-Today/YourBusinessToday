@@ -15,6 +15,8 @@ export type PlaceSeed = {
 
 /** A place the dataset is less sure of than this is not drawn: its coverage is uneven and its duplicates known. */
 export const placeConfidenceFloor = 0.7;
+/** The most sure the dataset can be, and the most the column holds. */
+export const placeConfidenceCeiling = 1;
 
 export const longestPlaceName = 200;
 export const longestPlaceCategory = 100;
@@ -39,6 +41,7 @@ export function validatePlace(seed: PlaceSeed): string | null {
 	if (phone.length > longestPlacePhone) return `${sourceId}: the phone is over ${longestPlacePhone} characters.`;
 	if (sourceLicence.length > longestPlaceLicence) return `${sourceId}: the licence name is over ${longestPlaceLicence} characters.`;
 	if (seed.confidence < placeConfidenceFloor) return `${sourceId}: confidence ${seed.confidence} is below ${placeConfidenceFloor}.`;
+	if (seed.confidence > placeConfidenceCeiling) return `${sourceId}: confidence ${seed.confidence} is above ${placeConfidenceCeiling}.`;
 	if (!placeLicencesAccepted.includes(sourceLicence)) return `${sourceId} ${placeLicenceRefused}`;
 	return null;
 }

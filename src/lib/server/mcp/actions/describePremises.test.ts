@@ -31,7 +31,7 @@ describe("a territory's premises as a Claude is told them", () => {
 	});
 
 	it('says none is loaded when nothing was asked for and the territory holds none', () => {
-		expect(describePremisesList({ premises: [], matchedCount: 0 }, false)).toContain('No food premises are listed in this territory yet');
+		expect(describePremisesList({ premises: [], matchedCount: 0 }, false)).toContain('No premises are listed in this territory yet. The site loads them by itself overnight');
 	});
 
 	it('says nothing matches, and not that none is loaded, when what was asked for fits none', () => {
