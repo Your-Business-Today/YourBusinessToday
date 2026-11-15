@@ -59,9 +59,19 @@ describe('parseFoodAuthorities', () => {
 		const sweptSame = new Map([['508', { code: '508', publishedOn: '2026-10-11', sweptAt: '2026-10-11T06:10:00Z' }]]);
 		const sweptEarlier = new Map([['508', { code: '508', publishedOn: '2026-10-10', sweptAt: '2026-10-10T06:10:00Z' }]]);
 		const finished = { resumeMarker: '', wasLastRunFinished: true };
-		expect(authoritiesToSweep(authorities, sweptSame, finished)).toHaveLength(0);
-		expect(authoritiesToSweep(authorities, sweptEarlier, finished)).toHaveLength(1);
-		expect(authoritiesToSweep(authorities, new Map(), { resumeMarker: '508', wasLastRunFinished: false })).toHaveLength(0);
-		expect(authoritiesToSweep(authorities, new Map(), { resumeMarker: '400', wasLastRunFinished: false })).toHaveLength(1);
+		expect(authoritiesToSweep(authorities, sweptSame, finished, null)).toHaveLength(0);
+		expect(authoritiesToSweep(authorities, sweptEarlier, finished, null)).toHaveLength(1);
+		expect(authoritiesToSweep(authorities, new Map(), { resumeMarker: '508', wasLastRunFinished: false }, null)).toHaveLength(0);
+		expect(authoritiesToSweep(authorities, new Map(), { resumeMarker: '400', wasLastRunFinished: false }, null)).toHaveLength(1);
+	});
+
+	it('sweeps an authority again when a patch was made after its last sweep, though its file has not moved', () => {
+		const sweptSame = new Map([['508', { code: '508', publishedOn: '2026-10-11', sweptAt: '2026-10-11T06:10:00.5+00:00' }]]);
+		const finished = { resumeMarker: '', wasLastRunFinished: true };
+		const madeTheDayBefore = '2026-10-10T16:00:00+00:00';
+		const madeThatAfternoon = '2026-10-11T16:00:00+00:00';
+		expect(authoritiesToSweep(authorities, sweptSame, finished, madeTheDayBefore)).toHaveLength(0);
+		expect(authoritiesToSweep(authorities, sweptSame, finished, madeThatAfternoon)).toHaveLength(1);
+		expect(authoritiesToSweep(authorities, sweptSame, { resumeMarker: '508', wasLastRunFinished: false }, madeThatAfternoon)).toHaveLength(0);
 	});
 });

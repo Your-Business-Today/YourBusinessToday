@@ -169,8 +169,8 @@ the register geocoder, the Food Standards Agency sweep, the daily accounts file 
 
 **Premises** — `public.premises`: a business trading at a real address as an open register lists
 it, keyed by the source and its own id: the Food Standards Agency's food hygiene ratings
-(`food_hygiene`, swept nightly per local authority whose file moved, matched to the patches'
-districts through postcodes.io) and Overture Maps Places (`places_dataset`, loaded by the site
+(`food_hygiene`, swept nightly per local authority whose file moved or that was last swept before
+the newest patch was made, matched to the patches' districts through postcodes.io) and Overture Maps Places (`places_dataset`, loaded by the site
 itself from the newest release Overture keeps, permissive licences only, marked gone only when the
 release says a place closed for good or its changelog took it out). A trigger writes the feed's
 premises and place kinds through the same door. Staff may read the table and write nothing in it,
