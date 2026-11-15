@@ -47,7 +47,7 @@ export function describeClientInFull(
 		describeContinuityCopy(client.continuityCopy),
 		'',
 		...describeCompanyProfile(client),
-		...describeClientPremises(premises),
+		...describeClientPremises(premises, client.website),
 		'',
 		'Contacts:',
 		contacts.length === 0 ? 'None yet.' : contacts.map(describeContactLine).join('\n'),
