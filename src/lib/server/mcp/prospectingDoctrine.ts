@@ -10,6 +10,18 @@ export const prospectingDoctrine = [
 	'   Food businesses and trading places are already listed by list_patch_premises, from the Food',
 	'   Standards Agency and Overture Maps: add_premises_as_lead for those, never a sighting. Before',
 	'   an approach, read_patch_company gathers everything known about the company in one answer.',
+	'   The short way to the firms worth approaching is the screen for cash at bank. create_patch',
+	'   saves a new territory around a postcode, and one that holds no companies is filled first:',
+	'   pull_patch_companies until every outcode is pulled, then geocode_register_postcodes until',
+	'   nothing remains. start_cash_screen narrows by a SIC code or a sector and by the least cash;',
+	'   carry_on_cash_screen until it answers that the screen is finished; read_cash_screen gives',
+	'   every company as a pass, a maybe or a fail, with the reason. For a pass worth approaching:',
+	'   add_patch_company_as_lead, then import_company_officers puts its directors on the People',
+	'   register; save_company_research and save_person_research keep what is found about the',
+	'   company and the one who decides; save_person_approach keeps the opening message and the call',
+	'   plan once the staff member says yes; update_person sets the next step and the day it is due.',
+	'   The staff member sends the approach themselves: nothing here sends a message to a lead, and',
+	'   log_lead_conversation records what was said once it has happened.',
 	'   Business-contact data only, never LinkedIn, X, Facebook or Instagram, nothing behind a login:',
 	'   the server refuses those pages whatever the doctrine says.'
 ];

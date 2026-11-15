@@ -18,7 +18,7 @@ export const patchCompanyActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'every company registered in a territory as at the last monthly file, one line each, narrowed by SIC code, status or date',
+		summary: 'every company the register holds in a territory and has placed on its map, one line each, narrowed by SIC code, status or date',
 		guidance:
 			'A company is pinned at its registered office, which may be an accountant: addresses holding many ' +
 			'companies are left out as hubs, and dormant companies are left out, unless you ask for them.',

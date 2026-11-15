@@ -134,7 +134,9 @@ and the only calls that reach YBT store what it found.
 
 A sighting becomes a lead with source `sighting`, its page as the profile source and a `sighted`
 event on the ledger; one already matched to a company number on the register claims that row.
-The connector's working doctrine gains the prospecting walk as its ninth rule.
+The connector's working doctrine gains the prospecting walk as its ninth rule. The same rule lays out
+the short way from a territory to a first approach, through the screen for cash at bank, and the
+`/ybt-prospect` command walks it; the staff member sends the approach themselves.
 
 **AreaEvent** — `public.area_events`, keyed to the outcode and sector rather than the patch, so
 two patches that share a sector both see it: the kind (a row of `area_event_kinds`, so a later
