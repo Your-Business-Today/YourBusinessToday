@@ -36,7 +36,7 @@ describe("a territory's premises as a Claude is told them", () => {
 
 	it('says nothing matches, and not that none is loaded, when what was asked for fits none', () => {
 		expect(describePremisesList({ premises: [], matchedCount: 0 }, true)).toBe(
-			'No premises in this territory match that: leave out the sector, source, category or newOnly to see more.'
+			'No premises in this territory match that: leave out the sector, source, category or newOnly to see more. A category is written in the singular, and list_patch_place_categories lists the ones this territory holds.'
 		);
 	});
 });

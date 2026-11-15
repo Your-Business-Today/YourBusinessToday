@@ -217,6 +217,16 @@ query and lists a hundred with the count of the rest (`listPremisesMatching`), a
 beside a point are asked for by the box around it (`listPremisesBeside`). The map draws its pins
 once and restyles only the picked one (`createPinLayer`), so a pick costs the same at any size.
 
+A trading place is filed under Overture's own category, in the singular with underscores
+(`real_estate_agent`), and a territory holds hundreds of them: 817 around Surbiton. So a Claude is
+not left to guess the word. `list_patch_place_categories` lists the categories a territory holds,
+the commonest first, each with how many places still trade there and how many of those list a
+phone number (`listPlaceCategories`); the database does the counting (`patch_place_categories`),
+since the places are more rows than one request hands back. A kind of business asked for in plain
+words is read as Overture writes it (`asPlaceCategory`: *estate agent* finds `real_estate_agent`),
+there and in `list_patch_premises`. A plural still finds nothing, and the answer says a category
+is in the singular.
+
 **Filed figures and status notes** — `register_companies` carries net assets, cash, creditors and
 the headcount read from the inline XBRL of the accounts the company filed, found through the
 daily Accounts Data Product zip opened by its central directory over HTTP range requests; and a
@@ -285,6 +295,7 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `getPremises` | the record behind one premises pin, read when it is picked |
 | `getPremisesForClient` | where a company made from a premises trades, and on what phone number |
 | `listPremisesMatching` | a hundred premises a Claude asked for, and how many more fit |
+| `listPlaceCategories` | the categories of trading place a patch holds, with how many places and how many phone numbers each |
 | `listPremisesBeside` | the premises within thirty metres of a point |
 | `listBuildingsInBounds`, `readSectorBuildings` | the footprints in view, and a sector's largest |
 | `readCompanyInPatch` | everything known about one company |
@@ -296,6 +307,7 @@ The connector's new `patches` area carries `list_patches`, `create_patch`, `read
 `record_sighting`, `list_sightings`, `add_sighting_as_lead`, `match_sighting_to_register`,
 `read_patch_feed`, `read_patch_brief`, `record_patch_observation`, `list_patch_premises`,
 `add_premises_as_lead`, `read_patch_company`, `read_company_filings`, `pull_patch_companies`,
-`geocode_register_postcodes`, `load_patch_places` and, for admins, `run_patch_watch`;
+`geocode_register_postcodes`, `load_patch_places`, `list_patch_place_categories` and, for admins,
+`run_patch_watch`;
 the map tiles come from `basemap.ts`: Ordnance Survey's Light style on the free OpenData plan
 when `PUBLIC_OS_MAPS_API_KEY` is set, OpenStreetMap only as the fallback.

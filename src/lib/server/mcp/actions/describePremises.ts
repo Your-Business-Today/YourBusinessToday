@@ -5,7 +5,8 @@ import type { PremisesMatched } from '$lib/server/premises/listPremisesMatching'
 
 const noneListedYet =
 	'No premises are listed in this territory yet. The site loads them by itself overnight: food businesses from the Food Standards Agency and trading places from Overture Maps. load_patch_places loads the trading places now.';
-const noneMatch = 'No premises in this territory match that: leave out the sector, source, category or newOnly to see more.';
+const noneMatch =
+	'No premises in this territory match that: leave out the sector, source, category or newOnly to see more. A category is written in the singular, and list_patch_place_categories lists the ones this territory holds.';
 
 /** The premises one answer lists, a line each, saying how many more fit what was asked for; isNarrowed says whether anything was asked for. */
 export function describePremisesList({ premises, matchedCount }: PremisesMatched, isNarrowed: boolean): string {

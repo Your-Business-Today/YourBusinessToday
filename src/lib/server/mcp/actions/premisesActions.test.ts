@@ -14,10 +14,10 @@ const wallington = Array.from({ length: 1201 }, (_, index) => premisesRowOf({ id
 const bansteadPub = premisesRowOf({ id: 'banstead', business_name: 'The Woolpack', sector: 'SM7 2', outcode: 'SM7', first_seen_at: '2026-11-10T02:00:00Z' });
 const sutton = premisesTableOf([...wallington, bansteadPub]);
 
-async function list(input: Record<string, unknown>): Promise<string> {
+async function list(input: Record<string, unknown>, supabase = sutton): Promise<string> {
 	const action = premisesActions.find((candidate) => candidate.name === 'list_patch_premises');
 	if (action === undefined) throw new Error('No action named list_patch_premises');
-	const answer = await action.run({ accountId: 'staff-1', supabase: sutton } as unknown as McpCaller, { patchId: territory.id, ...input });
+	const answer = await action.run({ accountId: 'staff-1', supabase } as unknown as McpCaller, { patchId: territory.id, ...input });
 	return String(answer);
 }
 
@@ -43,8 +43,15 @@ describe("listing a territory's premises through the connector", () => {
 		expect(answer).toContain('The Woolpack');
 	});
 
-	it('says nothing matches when a source or a category fits none', async () => {
+	it('says nothing matches when a source or a category fits none, and where the categories are listed', async () => {
 		expect(await list({ source: 'places_dataset' })).toContain('No premises in this territory match that');
-		expect(await list({ category: 'solicitor' })).toContain('No premises in this territory match that');
+		expect(await list({ category: 'solicitor' })).toContain('list_patch_place_categories lists the ones this territory holds');
+	});
+
+	it('finds a kind of business named in plain words, as Overture Maps files it', async () => {
+		const estateAgent = premisesRowOf({ id: 'agent', business_name: 'Banstead Homes', source: 'places_dataset', category: 'real_estate_agent', outcode: 'SM7' });
+		const answer = await list({ category: 'Estate Agent' }, premisesTableOf([estateAgent, bansteadPub]));
+		expect(answer.split('\n')).toHaveLength(1);
+		expect(answer).toContain('Banstead Homes');
 	});
 });

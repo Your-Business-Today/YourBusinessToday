@@ -79,7 +79,7 @@ function byEach(orderings: Ordering[]): (first: Row, second: Row) => number {
 const wildcardsAsRegularExpression: Record<string, string> = { '%': '.*', _: '.' };
 
 /** The pattern as the database reads it: % is anything, _ is any one character, and a backslash makes the next one plain. */
-function likePattern(pattern: string): RegExp {
+export function likePattern(pattern: string): RegExp {
 	const source = pattern.replace(/\\(.)|%|_|[.*+?^${}()|[\]]/g, (matched, escaped: string | undefined) => {
 		if (escaped !== undefined) return plainInRegularExpression(escaped);
 		return wildcardsAsRegularExpression[matched] ?? plainInRegularExpression(matched);

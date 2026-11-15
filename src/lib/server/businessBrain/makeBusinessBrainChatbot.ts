@@ -1,11 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { addChatbotMembers, ensurePartIds, insertChatbotParts } from './grantBusinessBrainChatbot';
+import { literalInLike } from '$lib/server/schema/likePattern';
 import type { BusinessBrainChatbotGiven } from '$lib/data/businessBrainChatbotRules';
 
 /** Who is making a chatbot on which organisation. */
 export type ChatbotMaker = { organisationId: string; accountId: string };
-
-const likeWildcards = /[\\%_]/g;
 
 /** Make the chatbot, let it read its parts and let its people use it; gives back its id. */
 export async function makeBusinessBrainChatbot(supabase: SupabaseClient, maker: ChatbotMaker, chatbot: BusinessBrainChatbotGiven): Promise<string> {
@@ -22,7 +21,7 @@ export async function makeBusinessBrainChatbot(supabase: SupabaseClient, maker: 
 
 /** Whether the organisation already has a chatbot of that name, in any case. */
 export async function hasChatbotNamed(supabase: SupabaseClient, organisationId: string, name: string): Promise<boolean> {
-	const exactName = name.replace(likeWildcards, (wildcard) => `\\${wildcard}`);
+	const exactName = literalInLike(name);
 	const { data, error } = await supabase
 		.from('business_brain_chatbots')
 		.select('id')
