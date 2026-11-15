@@ -173,7 +173,10 @@ it, keyed by the source and its own id: the Food Standards Agency's food hygiene
 districts through postcodes.io) and Overture Maps Places (`places_dataset`, loaded by the site
 itself from the newest release Overture keeps, permissive licences only, marked gone only when the
 release says a place closed for good or its changelog took it out). A trigger writes the feed's
-premises and place kinds through the same door.
+premises and place kinds through the same door. Staff may read the table and write nothing in it,
+so a premises that becomes a lead is tied to its client through the database's own door,
+`tie_premises_to_client` (migration 0248): it lets in a project manager or the service role,
+sets `client_id` alone, and refuses a premises that is a lead already.
 
 The trading places load themselves. Nobody types a release name, runs a loader or holds the
 database key: the `trading_places` watcher is knocked three times a night, each knock loading one

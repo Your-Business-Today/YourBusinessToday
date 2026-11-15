@@ -18,7 +18,7 @@ export async function addPremisesAsLead(
 	const profile = { ...emptyCompanyProfile, industry: premises.businessType, location: premises.address, postcode: premises.postcode, sourceUrl: premises.sourceUrl };
 	const seed = { name: premises.businessName, website: '', ownerId: actorAccountId, source: 'food_hygiene' as const, profile };
 	const clientId = await createClient(supabase, seed, actorAccountId);
-	await stampClient(supabase, premises.id, clientId);
+	await tieToLead(supabase, premises.id, clientId);
 	await recordAreaEvent(supabase, {
 		sector: premises.sector,
 		patchId,
@@ -31,7 +31,8 @@ export async function addPremisesAsLead(
 	return { clientId, wasAlreadyListed: false };
 }
 
-async function stampClient(supabase: SupabaseClient, premisesId: string, clientId: string): Promise<void> {
-	const { error } = await supabase.from('premises').update({ client_id: clientId }).eq('id', premisesId);
+/** The one door a premises is tied to its lead through: the database's own function, which refuses anyone but staff and a premises that is a lead already. */
+async function tieToLead(supabase: SupabaseClient, premisesId: string, clientId: string): Promise<void> {
+	const { error } = await supabase.rpc('tie_premises_to_client', { premises_id: premisesId, lead_client_id: clientId });
 	if (error) throw error;
 }
