@@ -1,5 +1,6 @@
 import { portalAddress } from '$lib/portal/portalAddress';
 import type { MergedPullRequest } from './mergedPullRequests';
+import { pullRequestAddressOf } from './pullRequestAddress';
 
 /** What a task carries that ties it to a pull request merged into staging. */
 export type DeployableTask = { id: string; projectId: string; title: string; branchName: string; pullRequestUrl: string };
@@ -11,14 +12,16 @@ export type DeploySummary = { deployed: DeployedTask[]; unclaimed: MergedPullReq
 
 export const emptyDeploySummary: DeploySummary = { deployed: [], unclaimed: [] };
 
-const pullRequestPathPattern = /\/pull\/(\d+)\/?$/;
-
-/** Matches each merged pull request to the task that recorded it, by its number first and its branch otherwise. */
+/**
+ * Matches each merged pull request to the task that recorded its number, across every task, and only a pull request
+ * no task recorded to a task on its branch that has recorded none, so a task newly put on a reused branch does not
+ * take the pull requests merged from it before.
+ */
 export function deploySummaryOf(merged: MergedPullRequest[], tasks: DeployableTask[]): DeploySummary {
 	const deployed: DeployedTask[] = [];
 	const unclaimed: MergedPullRequest[] = [];
 	for (const pullRequest of merged) {
-		const task = tasks.find((candidate) => claimsPullRequest(candidate, pullRequest));
+		const task = taskRecording(tasks, pullRequest) ?? taskAwaitingOnBranch(tasks, pullRequest);
 		if (task === undefined) unclaimed.push(pullRequest);
 		if (task !== undefined) deployed.push({ task, pullRequest });
 	}
@@ -33,15 +36,18 @@ export function describeDeploySummary(summary: DeploySummary, repositoryUrl: str
 	return [...taskLines, ...unclaimedLines].join('\n');
 }
 
-function claimsPullRequest(task: DeployableTask, pullRequest: MergedPullRequest): boolean {
-	const recordedNumber = pullRequestNumberOf(task.pullRequestUrl);
-	if (recordedNumber !== null) return recordedNumber === pullRequest.number;
-	return task.branchName !== '' && task.branchName === pullRequest.branchName;
+function taskRecording(tasks: DeployableTask[], pullRequest: MergedPullRequest): DeployableTask | undefined {
+	return tasks.find((candidate) => pullRequestNumberOf(candidate.pullRequestUrl) === pullRequest.number);
+}
+
+function taskAwaitingOnBranch(tasks: DeployableTask[], pullRequest: MergedPullRequest): DeployableTask | undefined {
+	const tasksWithNoPullRequest = tasks.filter((candidate) => pullRequestNumberOf(candidate.pullRequestUrl) === null);
+	return tasksWithNoPullRequest.find((candidate) => candidate.branchName !== '' && candidate.branchName === pullRequest.branchName);
 }
 
 function pullRequestNumberOf(pullRequestUrl: string): number | null {
-	const found = pullRequestPathPattern.exec(pullRequestUrl);
-	return found === null ? null : Number(found[1]);
+	const address = pullRequestAddressOf(pullRequestUrl);
+	return address === null ? null : address.number;
 }
 
 function deployedTaskLine({ task, pullRequest }: DeployedTask, repositoryUrl: string): string {
