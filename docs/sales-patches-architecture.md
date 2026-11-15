@@ -176,7 +176,13 @@ release says a place closed for good or its changelog took it out). A trigger wr
 premises and place kinds through the same door. Staff may read the table and write nothing in it,
 so a premises that becomes a lead is tied to its client through the database's own door,
 `tie_premises_to_client` (migration 0248): it lets in a project manager or the service role,
-sets `client_id` alone, and refuses a premises that is a lead already.
+sets `client_id` alone, and refuses a premises that is a lead already. The lead is filed under
+the register that lists the premises and takes the website the place lists, where that is a site
+of its own and not a social page or a directory (`companyWebsiteRefusal`, the same check a
+client's website passes at every other door). A client has no phone number of its own, so the
+premises stays the one place the number is kept: `getPremisesForClient` reads the premises tied
+to a client through the index on `client_id` (migration 0249), and `read_client` and the company
+page say from it where the company trades and on what number.
 
 The trading places load themselves. Nobody types a release name, runs a loader or holds the
 database key: the `trading_places` watcher is knocked three times a night, each knock loading one
@@ -273,6 +279,7 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `readPatchBrief` | what a weekly sweep looks at |
 | `readPremisesOnMap`, `pinsForPremises` | the premises, drawn at their real addresses |
 | `getPremises` | the record behind one premises pin, read when it is picked |
+| `getPremisesForClient` | where a company made from a premises trades, and on what phone number |
 | `listPremisesMatching` | a hundred premises a Claude asked for, and how many more fit |
 | `listPremisesBeside` | the premises within thirty metres of a point |
 | `listBuildingsInBounds`, `readSectorBuildings` | the footprints in view, and a sector's largest |

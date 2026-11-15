@@ -43,7 +43,7 @@ export const premisesActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: true,
-		summary: 'put a food premises from the territory on the clients register as a lead, with its Food Standards Agency page as the source',
+		summary: 'put a premises from the territory on the clients register as a lead, a food business or a trading place, with the page of the register that lists it as the source',
 		inputSchema: objectSchema({ patchId: textField('The territory id'), premisesId: textField('The premises id, as list_patch_premises gives it') }, ['patchId', 'premisesId']),
 		run: async (caller, input) => withPatch(caller, input, (patch) => addAsLead(caller, patch, readText(input, 'premisesId')))
 	}
