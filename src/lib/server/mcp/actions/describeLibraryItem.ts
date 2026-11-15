@@ -2,7 +2,7 @@ import { describeByteCount } from '$lib/data/taskAttachmentRules';
 import { describePostingFooting } from '$lib/brand/library/libraryWords';
 import { fetchLinkLifetimeMinutes } from '$lib/server/storage/signFetchLink';
 import { formatBritishDate, formatBritishDateTime } from '$lib/data/britishDate';
-import { isVideo, type LibraryItem } from '$lib/brand/library/libraryItem';
+import { isMusic, isVideo, type LibraryItem } from '$lib/brand/library/libraryItem';
 import { LibraryLimits } from '$lib/brand/library/libraryLimits';
 import type { KeptLibrary } from '$lib/server/brandLibrary/findLibraryItems';
 import type { Organisation } from '$lib/server/organisations/organisationRecord';
@@ -10,14 +10,16 @@ import type { Organisation } from '$lib/server/organisations/organisationRecord'
 /** The action that reads one item, named wherever the library is listed. */
 export const readLibraryItemAction = 'read_brand_library_item';
 
-const addedOnTheSite = 'Photos and videos are added on the site, on the Brand place’s Photos and videos page.';
+const howToAdd =
+	'Photos and videos are added on the Brand place’s Photos and videos page, or by your Claude with add_brand_library_item.';
 
 function libraryCountOf(keptCount: number): string {
-	if (keptCount === 1) return 'one photo or video';
-	return `${keptCount} photos and videos`;
+	if (keptCount === 1) return 'one item';
+	return `${keptCount} items`;
 }
 
 function kindOf(item: LibraryItem): string {
+	if (isMusic(item)) return 'piece of music';
 	return isVideo(item) ? 'video' : 'photo';
 }
 
@@ -29,7 +31,7 @@ function itemLine(item: LibraryItem): string {
 /** The brand's library, latest added first, each item with whether it may be posted. */
 export function describeLibrary(organisation: Organisation, library: KeptLibrary): string {
 	const { items, keptCount } = library;
-	if (keptCount === 0) return `${organisation.name}’s brand keeps no photos or videos yet. ${addedOnTheSite}`;
+	if (keptCount === 0) return `${organisation.name}’s brand keeps no photos, videos or music yet. ${howToAdd}`;
 	const heading = `${organisation.name}’s brand keeps ${libraryCountOf(keptCount)}, the latest added first:`;
 	const unlisted = keptCount - items.length;
 	const cutNote = unlisted > 0 ? [`${unlisted} older ones are not listed; the latest ${LibraryLimits.mostItemsListed} are.`] : [];
@@ -51,4 +53,4 @@ export function describeLibraryItem(item: LibraryItem, addedByName: string, link
 }
 
 export const noSuchLibraryItem =
-	'This brand’s library keeps no photo or video by that itemId. Find its id with list_brand_library; an item is kept once its file has arrived.';
+	'This brand’s library keeps no item by that itemId. Find its id with list_brand_library; an item is kept once its file has arrived.';

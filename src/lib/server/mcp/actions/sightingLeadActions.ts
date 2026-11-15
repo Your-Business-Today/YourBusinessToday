@@ -49,6 +49,6 @@ async function match(caller: McpCaller, input: Record<string, unknown>): Promise
 	const notANumber = validateCompanyNumber(companyNumber);
 	if (notANumber !== null) return notANumber;
 	const outcome = await matchSightingToRegister(caller.supabase, sighting.id, companyNumber);
-	if (outcome.kind === matchOutcomes.notOnRegister) return `${companyNumber} is not on the register in any patch.`;
+	if (outcome.kind === matchOutcomes.notOnRegister) return `${companyNumber} is not on the register in any territory.`;
 	return `${sighting.businessName} is matched to ${outcome.registeredName} (${companyNumber}).`;
 }

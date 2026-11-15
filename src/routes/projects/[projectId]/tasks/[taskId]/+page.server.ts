@@ -1,10 +1,11 @@
-import { error, fail, redirect } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 import { addAcceptanceCriterion } from '$lib/server/projects/addAcceptanceCriterion';
 import { accountNameLookup } from '$lib/data/accountNames';
 import { attachmentActions } from './attachmentActions';
 import { autocompleteActions } from './autocompleteActions';
 import { branchActions } from './branchActions';
 import { complexityActions } from './complexityActions';
+import { deleteTaskActions } from './deleteTaskActions';
 import { checklistActions } from './checklistActions';
 import { saveTaskActions } from './saveTaskActions';
 import { conversationActions } from './conversationActions';
@@ -12,9 +13,8 @@ import { todoFormActions } from '$lib/server/todos/todoFormActions';
 import { createTask, readNewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { deleteAcceptanceCriterion } from '$lib/server/projects/deleteAcceptanceCriterion';
-import { deleteTask } from '$lib/server/projects/deleteTask';
 import { getTask } from '$lib/server/projects/getTask';
-import { getTaskFamily } from '$lib/server/projects/getTaskFamily';
+import { getTaskDeletionPlan } from '$lib/server/projects/getTaskDeletionPlan';
 import { getOtherProjects } from '$lib/server/projects/getOtherProjects';
 import { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
 import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
@@ -33,7 +33,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	return {
 		...workspace,
 		otherProjects: await getOtherProjects(locals.supabase, params.projectId),
-		...(await getTaskFamily(locals.supabase, task)),
+		deletionPlan: await getTaskDeletionPlan(locals.supabase, task),
 		messages: withAuthorNames(workspace.messages, workspace.accounts),
 		raisedByName: accountNameLookup(workspace.accounts)(task.createdBy),
 		attachments: withUploaderNames(workspace.attachments, workspace.people),
@@ -50,7 +50,9 @@ export const actions: Actions = {
 	...complexityActions,
 	...autocompleteActions,
 	...conversationActions,
+	...deleteTaskActions,
 	updateTodo: todoFormActions.updateTodo,
+	deleteTodo: todoFormActions.deleteTodo,
 	addSubtask: async ({ locals, params, request }) => {
 		const { user } = await requireProjectAccess(locals, params.projectId);
 		const seed = readNewTaskSeed(await request.formData());
@@ -84,10 +86,5 @@ export const actions: Actions = {
 		if (criterionId === '') return fail(400, { message: 'A criterion is required.' });
 		await deleteAcceptanceCriterion(locals.supabase, criterionId);
 		return {};
-	},
-	deleteTask: async ({ locals, params }) => {
-		await requireProjectAccess(locals, params.projectId);
-		await deleteTask(locals.supabase, params.taskId);
-		redirect(303, `/projects/${params.projectId}`);
 	}
 };

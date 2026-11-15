@@ -3,19 +3,22 @@
 	import FormErrorNote from './FormErrorNote.svelte';
 	import SubmitButton from './SubmitButton.svelte';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
+	import type { Snippet } from 'svelte';
 
 	let {
 		action,
 		fields,
 		submitLabel,
 		confirmWord,
-		onClose
+		onClose,
+		children
 	}: {
 		action: string;
 		fields: Record<string, string>;
 		submitLabel: string;
 		confirmWord: string | null;
 		onClose: () => void;
+		children?: Snippet;
 	} = $props();
 
 	let typedConfirmation = $state('');
@@ -29,6 +32,7 @@
 	{#each Object.entries(fields) as [fieldName, fieldValue] (fieldName)}
 		<input type="hidden" name={fieldName} value={fieldValue} />
 	{/each}
+	{@render children?.()}
 	{#if confirmWord !== null}
 		<label class="flex flex-col gap-1 text-sm text-chalk/70">
 			Type <span class="font-display text-chalk">{confirmWord}</span> to confirm

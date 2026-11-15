@@ -1,11 +1,8 @@
+import './brandJewelMocks';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { contentPieceId } from './brandContentFixtures';
 import { moduleNotSwitchedOn } from '../organisationModuleGate';
 import { runContentAction as runPictureAction } from './brandContentTestWorld';
-
-vi.mock('$env/static/public', () => ({ PUBLIC_SUPABASE_URL: 'https://files.example/', PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-key' }));
-vi.mock('$env/dynamic/private', () => ({ env: {} }));
-vi.mock('$env/dynamic/public', () => ({ env: {} }));
 
 const world = vi.hoisted(() => ({
 	switchedOn: [] as string[],
@@ -14,10 +11,6 @@ const world = vi.hoisted(() => ({
 	chosen: [] as Record<string, unknown>[],
 	outcome: 'chosen'
 }));
-vi.mock('$lib/server/organisations/getOrganisation', async () => {
-	const { jewel } = await import('./brandContentFixtures');
-	return { getOrganisation: async (_supabase: unknown, organisationId: string) => (organisationId === jewel.id ? jewel : null) };
-});
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => world.switchedOn }));
 vi.mock('$lib/server/brandContent/findContentPiece', async () => {
 	const { contentPiece } = await import('./brandContentFixtures');
@@ -46,9 +39,9 @@ describe('a post’s picture over the connector', () => {
 		world.chosen = [];
 		world.outcome = 'chosen';
 		world.items = new Map([
-			[kitchenId, { filename: 'kitchen-finished.jpg', posting: 'permission_given', recordedAt: '2026-11-04T09:30:00Z' }],
-			[videoId, { filename: 'door-fitting.mp4', posting: 'not_to_be_posted', recordedAt: '2026-11-04T09:30:00Z' }],
-			[awaitedId, { filename: 'roof.jpg', posting: 'nothing_recognisable', recordedAt: null }]
+			[kitchenId, { filename: 'kitchen-finished.jpg', mimeType: 'image/jpeg', posting: 'permission_given', recordedAt: '2026-11-04T09:30:00Z' }],
+			[videoId, { filename: 'door-fitting.mp4', mimeType: 'video/mp4', posting: 'not_to_be_posted', recordedAt: '2026-11-04T09:30:00Z' }],
+			[awaitedId, { filename: 'roof.jpg', mimeType: 'image/jpeg', posting: 'nothing_recognisable', recordedAt: null }]
 		]);
 	});
 

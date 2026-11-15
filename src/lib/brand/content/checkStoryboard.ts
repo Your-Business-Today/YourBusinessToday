@@ -1,3 +1,4 @@
+import { checkShotFrame } from './checkShotFrame';
 import { StoryboardLimits } from './contentLimits';
 import type { StoryboardShot } from './contentPiece';
 
@@ -5,7 +6,7 @@ export type StoryboardCheck = { storyboard: StoryboardShot[] } | { problem: stri
 
 type ShotCheck = { shot: StoryboardShot } | { problem: string };
 
-const { shots, descriptionCharacters, onScreenTextCharacters, longestShotSeconds } = StoryboardLimits;
+const { shots, descriptionCharacters, longestShotSeconds } = StoryboardLimits;
 const firstShotNumber = 1;
 
 /** The storyboard as given, every shot checked against its limits, or why it cannot be kept. */
@@ -24,24 +25,20 @@ function checkShot(given: unknown, shotName: string): ShotCheck {
 	if (!isObject) return { problem: `${shotName} is not a shot: give its description, seconds and onScreenText` };
 	const shot = given as Record<string, unknown>;
 	const description = wordsOf(shot.description);
-	const onScreenText = wordsOf(shot.onScreenText);
 	const seconds = shot.seconds ?? 0;
-	if (description === null || onScreenText === null) return { problem: `${shotName}: description and onScreenText are words` };
-	const wordsProblem = problemWithWords(description, onScreenText);
-	if (wordsProblem !== null) return { problem: `${shotName}${wordsProblem}` };
+	if (description === null) return { problem: `${shotName}: description is words` };
+	const descriptionProblem = problemWithDescription(description);
+	if (descriptionProblem !== null) return { problem: `${shotName}${descriptionProblem}` };
 	if (!isShotLength(seconds)) return { problem: `${shotName}: seconds is a number from 0 to ${longestShotSeconds}` };
-	return { shot: { description, seconds, onScreenText } };
+	const frame = checkShotFrame(shot);
+	if ('problem' in frame) return { problem: `${shotName}${frame.problem}` };
+	return { shot: { description, seconds, ...frame.frame } };
 }
 
-function problemWithWords(description: string, onScreenText: string): string | null {
+function problemWithDescription(description: string): string | null {
 	if (description === '') return ' needs a description';
-	if (description.length > descriptionCharacters) {
-		return `: the description is ${description.length} characters; keep it to ${descriptionCharacters}`;
-	}
-	if (onScreenText.length > onScreenTextCharacters) {
-		return `: the on-screen text is ${onScreenText.length} characters; keep it to ${onScreenTextCharacters}`;
-	}
-	return null;
+	if (description.length <= descriptionCharacters) return null;
+	return `: the description is ${description.length} characters; keep it to ${descriptionCharacters}`;
 }
 
 function wordsOf(given: unknown): string | null {

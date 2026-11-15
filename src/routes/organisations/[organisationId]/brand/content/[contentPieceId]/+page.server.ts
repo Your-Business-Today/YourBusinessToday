@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit';
+import { findLatestFilmMaking } from '$lib/server/brandFilm/findFilmMakings';
 import { pageAnswerFor } from '$lib/server/brandContent/contentReviewPageAnswers';
 import { readContentPiecePage } from '$lib/server/brandContent/readContentPiecePage';
 import { readPostPicturesPage } from '$lib/server/brandContent/readPostPicturesPage';
@@ -13,7 +14,8 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 	const piece = await readContentPiecePage(locals.supabase, params.organisationId, params.contentPieceId);
 	if (piece === null) error(404, 'This piece is not in the brand’s content');
 	const pictures = await readPostPicturesPage(locals.supabase, params.organisationId, piece.postId);
-	return { piece, pictures };
+	const video = await findLatestFilmMaking(locals.supabase, params.organisationId, piece.id);
+	return { piece, pictures, video };
 };
 
 export const actions = {

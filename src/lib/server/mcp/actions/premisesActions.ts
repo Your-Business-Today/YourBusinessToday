@@ -22,13 +22,13 @@ export const premisesActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'every business trading in a patch at its real address: food businesses from the Food Standards Agency and trading places from Overture Maps, newest first',
+		summary: 'every business trading in a territory at its real address: food businesses from the Food Standards Agency and trading places from Overture Maps, newest first',
 		guidance:
 			'A café, pub, shop or office listed here is already known: add it with add_premises_as_lead rather than recording it ' +
 			'as a sighting. newOnly keeps the ones first listed in the last thirty days; source and category narrow further.',
 		inputSchema: objectSchema(
 			{
-				patchId: textField('The patch id, as given by list_patches'),
+				patchId: textField('The territory id, as given by list_patches'),
 				sector: textField('Narrow to one sector, such as KT1 1'),
 				newOnly: textField('true to keep only premises first listed in the last thirty days'),
 				source: textField(`One source: ${Object.keys(premisesSourceLabels).join(' or ')}`),
@@ -43,8 +43,8 @@ export const premisesActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: true,
-		summary: 'put a food premises from the patch on the clients register as a lead, with its Food Standards Agency page as the source',
-		inputSchema: objectSchema({ patchId: textField('The patch id'), premisesId: textField('The premises id, as list_patch_premises gives it') }, ['patchId', 'premisesId']),
+		summary: 'put a food premises from the territory on the clients register as a lead, with its Food Standards Agency page as the source',
+		inputSchema: objectSchema({ patchId: textField('The territory id'), premisesId: textField('The premises id, as list_patch_premises gives it') }, ['patchId', 'premisesId']),
 		run: async (caller, input) => withPatch(caller, input, (patch) => addAsLead(caller, patch, readText(input, 'premisesId')))
 	}
 ];

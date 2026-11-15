@@ -25,6 +25,7 @@ export const todoActions = {
 		return {};
 	},
 	updateTodo: todoFormActions.updateTodo,
+	deleteTodo: todoFormActions.deleteTodo,
 	setTodoOwner: async ({ locals, params, request }) => {
 		await requireProjectAccess(locals, params.projectId);
 		const formData = await request.formData();

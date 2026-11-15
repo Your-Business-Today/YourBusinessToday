@@ -3,6 +3,7 @@ import { moduleAreaActions } from './actions/moduleAreaActions';
 import { areaFeedActions } from './actions/areaFeedActions';
 import { claimActions } from './actions/claimActions';
 import { clientActions } from './actions/clientActions';
+import { companyReadingActions } from './actions/companyReadingActions';
 import { conversationActions } from './actions/conversationActions';
 import { dataInventoryActions } from './actions/dataInventoryActions';
 import { filingActions } from './actions/filingActions';
@@ -30,8 +31,7 @@ import { answerTurnActions } from './actions/answerTurnActions';
 import { linkPersonActions } from './actions/linkPersonActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
-import { todoReadActions } from './actions/todoReadActions';
-import { todoWriteActions } from './actions/todoWriteActions';
+import { todoActions } from './actions/todoActions';
 import { testResultActions } from './actions/testResultActions';
 import { waitingActions } from './actions/waitingActions';
 import { actionAudiences, type ActionArea, type McpAction } from './actionTypes';
@@ -40,6 +40,7 @@ import type { AccountStanding } from './resolveAccountStanding';
 const everyAction: McpAction[] = [
 	...accountActions,
 	...clientActions,
+	...companyReadingActions,
 	...organisationActions,
 	...moduleAreaActions,
 	...patchActions,
@@ -71,8 +72,7 @@ const everyAction: McpAction[] = [
 	...answerTurnActions,
 	...linkPersonActions,
 	...taskActions,
-	...todoReadActions,
-	...todoWriteActions,
+	...todoActions,
 	...testResultActions
 ];
 

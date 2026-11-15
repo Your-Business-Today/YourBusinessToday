@@ -16,7 +16,7 @@
 	<div class="flex flex-col gap-2">
 		<a href={`/clients/patches/${patch.id}`} class="font-display text-sm text-chalk/50 hover:text-chalk">← {patch.name}</a>
 		<PageTitle>Sightings</PageTitle>
-		<p class="text-chalk/70">Every business found on a public page while working this patch, newest first.</p>
+		<p class="text-chalk/70">Every business found on a public page while working this territory, newest first.</p>
 	</div>
 	{#if sightings.length === 0}
 		<EmptyState message="Nothing sighted yet. Claim a sector, send your Claude to work it, and the businesses it finds land here." />

@@ -12,7 +12,7 @@ import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Patch } from '$lib/server/patches/patchRecord';
 
-const patchIdField = textField('The patch id, as given by list_patches');
+const patchIdField = textField('The territory id, as given by list_patches');
 const sectorField = textField('The sector, such as KT1 1');
 
 export const sectorActions: McpAction[] = [
@@ -21,7 +21,7 @@ export const sectorActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'every postcode sector in a patch, residential ones included',
+		summary: 'every postcode sector in a territory, residential ones included',
 		inputSchema: objectSchema({ patchId: patchIdField }, ['patchId']),
 		run: async (caller, input) => withPatch(caller, input, async (patch) => describeSectorList((await readPatchCoverage(caller.supabase, patch)).sectors))
 	},
@@ -30,7 +30,7 @@ export const sectorActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'the sectors of a patch still to be worked, never searched first, then the longest ago',
+		summary: 'the sectors of a territory still to be worked, never searched first, then the longest ago',
 		guidance: 'Choose the next sector from the top of this list, claim it with claim_sector, then read it with read_sector before searching.',
 		inputSchema: objectSchema({ patchId: patchIdField }, ['patchId']),
 		run: async (caller, input) => withPatch(caller, input, (patch) => listUnsearched(caller, patch))

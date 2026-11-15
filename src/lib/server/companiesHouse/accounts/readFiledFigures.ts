@@ -6,7 +6,8 @@ const concepts = {
 	netAssets: ['NetAssetsLiabilities', 'NetAssetsLiabilitiesIncludingPensionAssetLiability', 'NetAssetsLiabilitiesIncludingPensionAssetLiabilityForStatementOfFinancialPosition'],
 	cash: ['CashBankOnHand', 'CashBankInHand'],
 	creditors: ['Creditors', 'CreditorsDueWithinOneYear'],
-	averageEmployees: ['AverageNumberEmployeesDuringPeriod', 'AverageNumberOfEmployees']
+	averageEmployees: ['AverageNumberEmployeesDuringPeriod', 'AverageNumberOfEmployees'],
+	currentAssets: ['CurrentAssets']
 };
 
 /** The latest filed figures in an inline XBRL accounts document: the balance sheet at the made-up date, dimensions set aside. */
@@ -22,6 +23,11 @@ export function readFiledFigures(document: string, madeUpTo: string, sourceUrl: 
 		madeUpTo,
 		sourceUrl
 	};
+}
+
+/** Current assets at the made-up date: a micro-entity files this and no cash line, and its cash cannot exceed it. */
+export function readCurrentAssets(document: string, madeUpTo: string): number | null {
+	return firstFound(concepts.currentAssets, readIxbrlFacts(document), readIxbrlContexts(document), madeUpTo);
 }
 
 function firstFound(names: string[], facts: IxbrlFact[], contexts: Map<string, IxbrlContext>, madeUpTo: string): number | null {

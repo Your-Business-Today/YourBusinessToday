@@ -2,7 +2,9 @@ import { showEverythingRequest } from '$lib/data/personRequests';
 import { agentDoctrine } from './agentDoctrine';
 import { askingDoctrine } from './askingDoctrine';
 import { closingDoctrine } from './closingDoctrine';
+import { keepingDoctrine } from './keepingDoctrine';
 import { lifecycleDoctrine } from './lifecycleDoctrine';
+import { ownerDoctrine } from './ownerDoctrine';
 import { prospectingDoctrine } from './prospectingDoctrine';
 
 const sessionDoctrine = [
@@ -89,5 +91,7 @@ export const workingDoctrine = [
 	...askingDoctrine,
 	...closingDoctrine,
 	...prospectingDoctrine,
-	...lifecycleDoctrine
+	...lifecycleDoctrine,
+	...ownerDoctrine,
+	...keepingDoctrine
 ].join('\n');

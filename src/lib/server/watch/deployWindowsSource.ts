@@ -5,7 +5,7 @@ import type { WatchSource } from './watchSource';
 
 export const deployWindowsSourceName = 'deploy_windows';
 
-/** Knocked every quarter hour: promotes staging to the default branch on each project whose deploy window has come. */
+/** Knocked by Vercel's crons a minute past every hour, and by GitHub at the quarter hours when it keeps its schedule: promotes staging to the default branch on each project whose deploy window has come. */
 export const deployWindowsSource: WatchSource = {
 	name: deployWindowsSourceName,
 	summary: 'opens the staging-to-main pull request on each project whose deploy time has come today',

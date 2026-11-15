@@ -1,4 +1,5 @@
 import { personNoteTitles } from '$lib/data/personNoteKind';
+import { exampleLinkLabel } from '$lib/data/personResearchRules';
 
 const publicBusinessPresenceOnly =
 	"Find the person's public business presence only: their companies' websites, press coverage, " +
@@ -23,7 +24,7 @@ export const savePersonResearchGuidance =
 	publicBusinessPresenceOnly +
 	' Write the summary in plain British English: who they are in business, what they are known for and ' +
 	'what they seem to be building. Give each role with the page it was read on, the pages worth keeping ' +
-	'on their record as links with a short label such as "Company site" or "Interview, 2025", and every ' +
+	`on their record as links with a short label such as "${exampleLinkLabel}" or "Interview, 2025", and every ` +
 	'page you read as sources. Show the staff member what you found before you save it. Saving adds the ' +
 	`summary as a "${personNoteTitles.research}" note, adds each link the person does not have yet, and records the ` +
 	'research on each of their companies; nothing already held is changed or removed.';

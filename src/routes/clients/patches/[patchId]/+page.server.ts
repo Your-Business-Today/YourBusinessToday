@@ -20,13 +20,13 @@ import type { RecordedSectorSearch } from '$lib/server/sectors/sectorSearchRecor
 import type { Sighting } from '$lib/server/sightings/sightingRecord';
 import type { Actions, PageServerLoad } from './$types';
 
-const mapFailedMessage = 'The patch could not be mapped just now — please try again.';
+const mapFailedMessage = 'The territory could not be mapped just now — please try again.';
 const nobodyOwnsIt = 'nobody';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	await requireStaff(locals);
 	const patch = await getPatch(locals.supabase, params.patchId);
-	if (patch === null) error(404, 'That patch could not be found');
+	if (patch === null) error(404, 'That territory could not be found');
 	const [outcome, coverage, searches, sightings, watchers, buildingCounts] = await Promise.all([
 		mapOf(locals.supabase, patch),
 		readPatchCoverage(locals.supabase, patch),
@@ -67,7 +67,7 @@ async function mapOf(supabase: SupabaseClient, patch: Patch): Promise<MapOutcome
 		const map = await mapPatch(supabase, patch);
 		return { map, notice: map === null ? mapFailedMessage : null };
 	} catch (failure) {
-		console.error('Patch map failed', failure);
+		console.error('Territory map failed', failure);
 		return { map: null, notice: mapFailedMessage };
 	}
 }

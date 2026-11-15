@@ -7,12 +7,13 @@ import { chooseTodoPlace } from './todoPlace';
 import { noSuchTodo, reachableTodo } from './todoAccess';
 import { todoFields, todoIdField, todoPlaceFields } from '$lib/server/todos/todoConnectorFields';
 import { todoLine } from './describeTodos';
+import { dayToDayDataRule } from '../ownerDoctrine';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Todo } from '$lib/server/todos/todoRecord';
 
 const todoGuidance =
-	'A to-do is a personal job on a person’s own list: one that belongs to no project. A job ' +
+	'A to-do is a personal job on a person’s own list: one that belongs to no project. ' + dayToDayDataRule + ' A job ' +
 	'done for a project — insurance, an account, a listing — is a task in its department ' +
 	'(create_task with department), assigned to them, so other tasks can wait for it. What a ' +
 	'person has to give before a build can go on is an ask instead (post_message with waitingOn).';

@@ -11,9 +11,12 @@
 		"whats_outstanding_for_me": {"inputs": {"name": "string", "onlyWhatIAskedFor": "boolean", "showEverything": "boolean"}, "required": []}
 	},
 	"actions": {
+		"add_todo": {"isWrite": true, "inputs": {"dueDate": "string", "notes": "string", "owner": "string", "status": "string", "taskId": "string", "title": "string"}, "required": ["title"]},
 		"attach_file_to_task": {"isWrite": true, "inputs": {"contentBase64": "string", "filename": "string", "mimeType": "string", "sourceUrl": "string", "taskId": "string"}, "required": ["taskId"]},
 		"create_goal": {"isWrite": true, "inputs": {"department": "string", "horizon": "string", "measure": "string", "projectId": "string", "title": "string"}, "required": ["projectId", "title"]},
 		"create_task": {"isWrite": true, "inputs": {"department": "string", "details": "string", "developmentKind": "string", "dueDate": "string", "goalId": "string", "kind": "string", "parentTaskId": "string", "projectId": "string", "raiseAnyway": "boolean", "requestedBy": "string", "storyBenefit": "string", "storyRole": "string", "storyWant": "string", "title": "string", "waitsForTaskId": "string"}, "required": ["projectId", "title"]},
+		"delete_project": {"isWrite": true, "inputs": {"confirmProjectName": "string", "projectId": "string"}, "required": ["projectId"]},
+		"delete_task": {"isWrite": true, "inputs": {"deleteOpenSubtasks": "boolean", "keepFinishedUnderTitle": "string", "taskId": "string"}, "required": ["taskId"]},
 		"deploy_staging_now": {"isWrite": true, "inputs": {"projectId": "string"}, "required": ["projectId"]},
 		"find_goals": {"isWrite": false, "inputs": {"projectId": "string", "words": "string"}, "required": ["projectId"]},
 		"find_tasks": {"isWrite": false, "inputs": {"goalId": "string", "projectId": "string", "words": "string"}, "required": ["projectId"]},
@@ -47,6 +50,7 @@
 		"set_task_autocomplete": {"isWrite": true, "inputs": {"autocomplete": "string", "taskId": "string"}, "required": ["autocomplete", "taskId"], "values": {"autocomplete": ["off", "on"]}},
 		"set_task_branch": {"isWrite": true, "inputs": {"branch": "string", "pullRequestUrl": "string", "taskId": "string"}, "required": ["branch", "taskId"]},
 		"set_task_buildable": {"isWrite": true, "inputs": {"isBuildable": "boolean", "modelId": "string", "taskId": "string"}, "required": ["isBuildable", "taskId"]},
+		"set_task_parent": {"isWrite": true, "inputs": {"parentTaskId": "string", "taskId": "string"}, "required": ["taskId"]},
 		"set_task_priority": {"isWrite": true, "inputs": {"priority": "integer", "taskId": "string"}, "required": ["priority", "taskId"]},
 		"set_task_waits_for": {"isWrite": true, "inputs": {"taskId": "string", "waitsForTaskId": "string"}, "required": ["taskId"]},
 		"submit_local_build": {"isWrite": true, "inputs": {"agent": "string", "branch": "string", "model": "string", "note": "string", "runUrl": "string", "taskId": "string"}, "required": ["agent", "branch", "taskId"]},

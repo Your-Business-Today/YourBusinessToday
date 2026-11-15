@@ -23,9 +23,9 @@
 				<PageTitle>What changed on the ground</PageTitle>
 				<LiveMarker {readAt} {isRefreshing} />
 			</div>
-			<p class="text-chalk/70">Every sector searched, business sighted and lead added across the patches, newest first.</p>
+			<p class="text-chalk/70">Every sector searched, business sighted and lead added across the territories, newest first.</p>
 		</div>
-		<a href="/clients/patches" class={quietButtonClasses}>Patches</a>
+		<a href="/clients/patches" class={quietButtonClasses}>Territories</a>
 	</div>
 	<FeedScopeChips scope={chosenScopeOf(view)} choices={scopeChoices} />
 	<FeedScopeChips scope={chosenKindOf(view)} choices={kindChoices} />

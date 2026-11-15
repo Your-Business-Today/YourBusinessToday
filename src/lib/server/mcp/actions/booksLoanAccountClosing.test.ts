@@ -1,13 +1,10 @@
+import './booksYourBusinessTodayMocks';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { runOnTheLedger as run } from './booksInvoicePostingWorld.fixture';
 import { softwareId } from './booksExpenseWorld.fixture';
 import { holdPartnersWhoPayCosts, jamesLedgerId, jamesLoanId, jeremyLoanId } from './booksPartnerPaidCostWorld.fixture';
 import { postToLoan } from './booksLoanWorld.fixture';
 
-vi.mock('$lib/server/organisations/getOrganisation', () => ({
-	getOrganisation: async (_supabase: unknown, id: string) => ({ id, parentOrganisationId: null, name: 'Your Business Today' })
-}));
-vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => ['books'] }));
 vi.mock('$lib/data/ukClock', () => ({ ukClockAt: () => ({ date: '2026-11-13', time: '20:00' }) }));
 
 const paidByJames = {

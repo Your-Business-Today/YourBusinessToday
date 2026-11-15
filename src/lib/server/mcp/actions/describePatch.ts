@@ -2,10 +2,10 @@ import { formatBritishDate } from '$lib/data/britishDate';
 import type { Patch } from '$lib/server/patches/patchRecord';
 import type { PatchWithCentre } from '$lib/server/patches/listPatchesWithCentres';
 
-export const noSuchPatch = 'No patch has that id. Call list_patches to see them.';
+export const noSuchPatch = 'No territory has that id. Call list_patches to see them.';
 
 export function describePatchList(patches: PatchWithCentre[]): string {
-	if (patches.length === 0) return 'No patches yet — create_patch starts one from a postcode and a radius.';
+	if (patches.length === 0) return 'No territories yet — create_patch starts one from a postcode and a radius.';
 	return patches.map(describePatchLine).join('\n');
 }
 

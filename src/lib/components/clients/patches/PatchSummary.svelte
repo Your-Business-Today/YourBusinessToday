@@ -23,7 +23,7 @@
 
 {#if map.asAtMonth === null}
 	<p class="text-sm text-caution">
-		The register has not been loaded for this patch yet: run the monthly Companies House file loader, then geocode its postcodes.
+		The register has not been loaded for this territory yet: run the monthly Companies House file loader, then geocode its postcodes.
 	</p>
 {:else}
 	<p class="text-sm text-chalk/70">{facts.join(' · ')}.</p>

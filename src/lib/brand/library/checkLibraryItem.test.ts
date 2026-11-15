@@ -26,7 +26,7 @@ describe('checking a photo or video before the brand keeps it', () => {
 	});
 
 	it('refuses anything but a photo or a video, and a file too large for the bucket', () => {
-		expect(checkLibraryItem({ ...kitchen, mimeType: 'application/pdf' }, today)).toContain('only photos and videos');
+		expect(checkLibraryItem({ ...kitchen, mimeType: 'application/pdf' }, today)).toContain('only photos, videos and music');
 		const tooLarge = { ...kitchen, byteCount: LibraryLimits.largestByteCount + 1 };
 		expect(checkLibraryItem(tooLarge, today)).toContain('50 MB');
 	});

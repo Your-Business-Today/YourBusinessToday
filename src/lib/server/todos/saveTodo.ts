@@ -47,6 +47,13 @@ export async function updateTodo(
 	return parseTodoRecord(data as unknown as Record<string, unknown>);
 }
 
+/** Deletes a to-do, answering whether it went: only its owner or whoever raised it may delete it. */
+export async function deleteTodo(supabase: SupabaseClient, todoId: string): Promise<boolean> {
+	const { data, error } = await supabase.from('todos').delete().eq('id', todoId).select('id');
+	if (error) throw error;
+	return (data ?? []).length > 0;
+}
+
 function changeColumns(changes: TodoChanges): Record<string, unknown> {
 	const columns: Record<string, unknown> = {};
 	if (changes.title !== undefined) columns.title = changes.title;

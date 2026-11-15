@@ -3,7 +3,8 @@ import { areaEventKinds } from '$lib/data/areaEventKind';
 import { describeFiledFigures } from '$lib/data/filedFigures';
 import { filingHistoryUrl, type AccountsBulkFile } from './accountsBulkFile';
 import { formatBritishDate } from '$lib/data/britishDate';
-import { readFiledFigures } from './readFiledFigures';
+import { readCurrentAssets, readFiledFigures } from './readFiledFigures';
+import { recordSweptReading } from './recordSweptReading';
 import { readZipEntry } from '$lib/server/zip/readZipEntry';
 import { recordAreaEvent } from '$lib/server/areaEvents/recordAreaEvent';
 import { recordFiledFigures } from '$lib/server/register/recordFiledFigures';
@@ -36,6 +37,7 @@ async function readAndRecordFigures(supabase: SupabaseClient, file: AccountsBulk
 	const figures = readFiledFigures(document, filing.madeUpTo, sourceUrl);
 	const refusal = await recordFiledFigures(supabase, company.companyNumber, figures);
 	if (refusal !== null) return;
+	await recordSweptReading(supabase, company.companyNumber, figures, readCurrentAssets(document, filing.madeUpTo));
 	await recordAreaEvent(supabase, {
 		sector: company.sector,
 		patchId: null,

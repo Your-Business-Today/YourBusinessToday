@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { areaEventKinds } from '$lib/data/areaEventKind';
-import { monthOf, watchedRowOf } from './watchedCompanyRow';
+import { monthOf } from './watchedCompanyRow';
+import { eachCompanyOnce, registeredInOutcode, upsertWatchedCompanies } from './watchedCompanyWriter';
 import { recordAreaEvent } from '$lib/server/areaEvents/recordAreaEvent';
 import { searchCompaniesHousePage, type CompaniesHouseCompany, type CompaniesHouseSearch } from '$lib/server/companiesHouse/searchCompaniesHouse';
 import { sectorOf } from '$lib/data/postcode';
@@ -17,8 +18,8 @@ export async function watchOutcode(supabase: SupabaseClient, outcode: string, si
 		everyPage({ sicCodes, location: outcode, dissolvedFrom: sinceDay, companyStatuses: [dissolved] }),
 		everyPage({ sicCodes, location: outcode, companyStatuses: troubledStatuses })
 	]);
-	const companies = dedupe([...incorporated, ...gone, ...troubled]).filter((company) => company.postcode.toUpperCase().startsWith(`${outcode} `));
-	await upsertWatched(supabase, companies, monthOf(sinceDay));
+	const companies = registeredInOutcode(eachCompanyOnce([...incorporated, ...gone, ...troubled]), outcode);
+	await upsertWatchedCompanies(supabase, companies, monthOf(sinceDay));
 	for (const company of companies.filter((company) => company.incorporatedOn >= sinceDay)) await tell(supabase, company, areaEventKinds.companyIncorporated, company.incorporatedOn);
 	for (const company of companies.filter((company) => company.dissolvedOn >= sinceDay && company.dissolvedOn !== '')) await tell(supabase, company, areaEventKinds.companyDissolved, company.dissolvedOn);
 	return companies.length;
@@ -32,16 +33,6 @@ async function everyPage(search: CompaniesHouseSearch): Promise<CompaniesHouseCo
 		if (found.length < pageSize) return companies;
 	}
 	return companies;
-}
-
-function dedupe(companies: CompaniesHouseCompany[]): CompaniesHouseCompany[] {
-	return [...new Map(companies.map((company) => [company.companyNumber, company])).values()];
-}
-
-async function upsertWatched(supabase: SupabaseClient, companies: CompaniesHouseCompany[], seenMonth: string): Promise<void> {
-	if (companies.length === 0) return;
-	const { error } = await supabase.rpc('upsert_watched_companies', { rows: companies.map((company) => watchedRowOf(company, seenMonth)) });
-	if (error) throw error;
 }
 
 function tell(supabase: SupabaseClient, company: CompaniesHouseCompany, kind: 'company_incorporated' | 'company_dissolved', happenedOn: string): Promise<void> {

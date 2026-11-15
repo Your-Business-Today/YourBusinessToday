@@ -58,8 +58,8 @@ export function areaFeedHref(view: AreaFeedView): string {
 /** Everything, my patches, then one chip per patch. */
 export function scopeChoicesFor(view: AreaFeedView, patches: { id: string; name: string }[]): ScopeChoice[] {
 	return [
-		{ scope: areaFeedScopes.everything, label: 'Everything', href: areaFeedHref({ ...view, scope: areaFeedScopes.everything, patchId: null }), title: 'Every patch' },
-		{ scope: areaFeedScopes.mine, label: 'My patches', href: areaFeedHref({ ...view, scope: areaFeedScopes.mine, patchId: null }), title: 'Only the patches you work' },
+		{ scope: areaFeedScopes.everything, label: 'Everything', href: areaFeedHref({ ...view, scope: areaFeedScopes.everything, patchId: null }), title: 'Every territory' },
+		{ scope: areaFeedScopes.mine, label: 'My territories', href: areaFeedHref({ ...view, scope: areaFeedScopes.mine, patchId: null }), title: 'Only the territories you work' },
 		...patches.map((patch) => ({
 			scope: patch.id,
 			label: patch.name,

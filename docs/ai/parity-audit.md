@@ -163,9 +163,11 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-131 | read the month's content plan and approve it | manager | write | `/organisations/{organisationId}/brand/plan` load | `read_content_plan` `plan_content_idea` `approve_content_month` | `/organisations/{organisationId}/brand/plan` |
 | US-132 | draft, review, approve, schedule and publish a piece of content | manager | write | `/organisations/{organisationId}/brand/content/{contentPieceId}` load | `list_content` `read_content` `draft_content` `review_content` `send_content_for_approval` `schedule_content` `move_content_to_day` `record_publication` `add_content_channel` | `/organisations/{organisationId}/brand/content/{contentPieceId}` |
 | US-133 | choose or ask for a post's picture | manager | write | `/organisations/{organisationId}/brand/content/{contentPieceId}` | `choose_post_picture` `say_post_picture_needed` `list_posts_awaiting_picture` | `/organisations/{organisationId}/brand/content/{contentPieceId}` |
+| US-133a | have a piece made into its video, or its pictures, in the library, by their own Claude | manager | write | — (the page says to ask your Claude) | `make_content_video` `make_content_pictures` `record_content_made` `read_content` | `/organisations/{organisationId}/brand/content/{contentPieceId}` |
 | US-134 | plan a campaign, add content to it and read its report | manager | write | `/organisations/{organisationId}/brand/campaigns/{campaignId}` load | `list_campaigns` `plan_campaign` `add_content_to_campaign` `set_campaign_status` `record_campaign_audience` `read_campaign_report` | `/organisations/{organisationId}/brand/campaigns/{campaignId}` |
 | US-135 | record and read how content performed | manager | write | `/organisations/{organisationId}/brand` | `record_performance` `read_performance` | `/organisations/{organisationId}/brand` |
 | US-136 | read the brand library | manager | read | `/organisations/{organisationId}/brand/library` load | `list_brand_library` `read_brand_library_item` | `/organisations/{organisationId}/brand/library` |
+| US-136a | add a photo or video to the brand library, sending its file | manager | write | `grantItem` `recordItem` | `add_brand_library_item` `record_brand_library_item` | `/organisations/{organisationId}/brand/library` |
 
 ## 12-books
 

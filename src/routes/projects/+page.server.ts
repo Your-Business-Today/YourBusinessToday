@@ -77,8 +77,9 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const projectId = String(formData.get('projectId') ?? '');
 		if (projectId === '') return fail(400, { message: 'A project is required.' });
-		await requireProjectAccess(locals, projectId);
-		await deleteProject(locals.supabase, projectId);
+		const { project } = await requireProjectAccess(locals, projectId);
+		const refusal = await deleteProject(locals.supabase, project);
+		if (refusal !== null) return fail(400, { message: refusal });
 		return { message: 'Project deleted.' };
 	}
 };

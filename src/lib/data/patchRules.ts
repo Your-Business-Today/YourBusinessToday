@@ -10,9 +10,9 @@ export type PatchFields = { name: string; centrePostcode: string; radiusMiles: s
 
 export const longestPatchName = 80;
 
-export const patchNeedsName = 'A patch needs a name.';
-export const patchNeedsPostcode = 'A patch needs a centre postcode, such as KT1 1EU.';
-export const patchRadiusRefusal = `A patch radius is ${radiusOrder.join(', ')} miles and nothing else.`;
+export const patchNeedsName = 'A territory needs a name.';
+export const patchNeedsPostcode = 'A territory needs a centre postcode, such as KT1 1EU.';
+export const patchRadiusRefusal = `A territory radius is ${radiusOrder.join(', ')} miles and nothing else.`;
 
 export function readPatchSeed(fields: PatchFields): PatchSeed {
 	return {
@@ -27,7 +27,7 @@ export function readPatchSeed(fields: PatchFields): PatchSeed {
 export function validatePatch(seed: PatchSeed): string | null {
 	const { name, centrePostcode, radiusMiles, sicCodes } = seed;
 	if (name === '') return patchNeedsName;
-	if (name.length > longestPatchName) return `The patch name is at most ${longestPatchName} characters.`;
+	if (name.length > longestPatchName) return `The territory name is at most ${longestPatchName} characters.`;
 	if (centrePostcode === '') return patchNeedsPostcode;
 	if (!isPatchRadius(radiusMiles)) return patchRadiusRefusal;
 	const notACode = sicCodes.find((code) => !isSicCode(code));

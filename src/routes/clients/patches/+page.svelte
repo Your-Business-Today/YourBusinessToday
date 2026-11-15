@@ -13,14 +13,14 @@
 </script>
 
 <svelte:head>
-	<title>Patches — Your Business Today</title>
+	<title>Territories — Your Business Today</title>
 </svelte:head>
 
 <div class="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-16">
 	<div class="flex flex-wrap items-end justify-between gap-4">
 		<div class="flex flex-col gap-2">
-			<PageTitle>Patches</PageTitle>
-			<p class="text-chalk/70">The ground we are working, patch by patch, across the whole country.</p>
+			<PageTitle>Territories</PageTitle>
+			<p class="text-chalk/70">The ground we are working, territory by territory, across the whole country.</p>
 		</div>
 		<div class="flex flex-wrap gap-3">
 			<a href="/leads" class={quietButtonClasses}>Leads</a>
@@ -31,7 +31,7 @@
 	<PatchesOverview {patches} />
 	<CreatePatchForm suggestedPostcode={data.suggestedPostcode} nearQuery={data.nearQuery} />
 	{#if patches.length === 0}
-		<EmptyState message="No patches yet. Click the map where you work, or type a postcode above." />
+		<EmptyState message="No territories yet. Click the map where you work, or type a postcode above." />
 	{:else}
 		<PatchTable {patches} />
 	{/if}

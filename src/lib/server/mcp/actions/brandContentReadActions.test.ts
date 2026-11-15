@@ -1,20 +1,10 @@
+import './brandJewelMocks';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { contentPieceId } from './brandContentFixtures';
 import { runContentAction } from './brandContentTestWorld';
 import { moduleNotSwitchedOn } from '../organisationModuleGate';
 
-vi.mock('$env/static/public', () => ({
-	PUBLIC_SUPABASE_URL: 'https://files.example/',
-	PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-key'
-}));
-vi.mock('$env/dynamic/private', () => ({ env: {} }));
-vi.mock('$env/dynamic/public', () => ({ env: {} }));
-
 const world = vi.hoisted(() => ({ switchedOn: [] as string[], stageAsked: null as unknown, otherChannels: [] as unknown[] }));
-vi.mock('$lib/server/organisations/getOrganisation', async () => {
-	const { jewel } = await import('./brandContentFixtures');
-	return { getOrganisation: async (_supabase: unknown, organisationId: string) => (organisationId === jewel.id ? jewel : null) };
-});
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => world.switchedOn }));
 vi.mock('$lib/server/brandContent/findContentPieces', async () => {
 	const { contentSummary } = await import('./brandContentFixtures');
@@ -32,6 +22,7 @@ vi.mock('$lib/server/brandContent/findContentPiece', async () => {
 	};
 });
 
+vi.mock('$lib/server/brandFilm/findFilmMakings', () => ({ findLatestFilmMaking: async () => null }));
 vi.mock('$lib/server/brandContent/findPostPictures', () => ({ findPostPictures: async () => new Map() }));
 vi.mock('$lib/server/brandContent/findContentPost', () => ({
 	findContentPost: async (_supabase: unknown, _organisationId: string, piece: { id: string }) => ({

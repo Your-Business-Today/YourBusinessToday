@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
+	import TodoDeleteButton from './TodoDeleteButton.svelte';
 	import TodoStatusForm from './TodoStatusForm.svelte';
 	import { accountNameLookup } from '$lib/data/accountNames';
 	import { panelListClasses } from '$lib/components/workspace/workspaceStyles';
@@ -28,6 +29,7 @@
 					<span class="min-w-0 flex-1 text-sm text-chalk/90">{todo.title}</span>
 					<span class="text-xs text-chalk/50">{ownerName(todo)}</span>
 					<TodoStatusForm todoId={todo.id} status={todo.status} />
+					<TodoDeleteButton {todo} />
 				</li>
 			{/each}
 		</ul>

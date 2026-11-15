@@ -23,10 +23,12 @@ export async function keepContentPiece(supabase: SupabaseClient, piece: ContentP
 
 /** The columns a draft writes, with the piece at drafted: a new piece's, or an idea's as it is written up, which keeps its kind when none is given. */
 export function draftColumnsOf(piece: ContentPieceToKeep): Record<string, unknown> {
-	const { medium, title, hook, script, storyboard, caption, invitedAction } = piece.draft;
+	const { medium, title, hook, script, storyboard, caption, invitedAction, musicItemId } = piece.draft;
 	const kindColumn = piece.kind === null ? {} : { kind: piece.kind };
+	const musicColumn = musicItemId === undefined ? {} : { music_item_id: musicItemId };
 	return {
 		...kindColumn,
+		...musicColumn,
 		medium_path: medium.path,
 		title,
 		hook,

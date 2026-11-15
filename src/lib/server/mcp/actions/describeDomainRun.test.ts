@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { describeDomainRun } from './describeDomainRun';
+import { workflowMapRequest } from '$lib/data/personRequests';
 import { contractStackMap } from '$lib/data/workflowMap/tests/contractStackMap';
 import { completeJoineryPages, heldOf, joineryPage, withPage } from '$lib/server/businessBrain/domainGaps/tests/joineryDomain';
 import type { DomainRunStanding } from './domainRunStanding';
@@ -36,7 +37,7 @@ describe('the domain run', () => {
 	it('offers to map the workflows first when no map is filed', () => {
 		const walk = describeDomainRun(firstRun);
 		expect(walk).toContain('The workflow map: none filed for Oak & Ash Joinery yet');
-		expect(walk).toContain('offer "map the workflows" (start_workflow_map_run) first');
+		expect(walk).toContain(`offer "${workflowMapRequest}" (start_workflow_map_run) first`);
 	});
 
 	it('names today’s map first and has every phrase on it resolved', () => {

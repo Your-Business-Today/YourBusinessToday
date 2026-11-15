@@ -10,9 +10,9 @@ import type { Actions, PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ locals, params }) => {
 	await requireStaff(locals);
 	const patch = await getPatch(locals.supabase, params.patchId);
-	if (patch === null) error(404, 'That patch could not be found');
+	if (patch === null) error(404, 'That territory could not be found');
 	const reading = await readSector(locals.supabase, patch, params.sector.toUpperCase());
-	if (reading === null || reading.coverage === null) error(404, 'That sector is not in this patch');
+	if (reading === null || reading.coverage === null) error(404, 'That sector is not in this territory');
 	const nameOf = accountNameLookup(reading.accounts);
 	const accountNames = Object.fromEntries(reading.accounts.map((account) => [account.id, nameOf(account.id)]));
 	return { patch, reading, coverage: reading.coverage, accountNames };

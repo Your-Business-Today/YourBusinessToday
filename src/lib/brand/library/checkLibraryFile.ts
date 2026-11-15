@@ -1,14 +1,16 @@
 import { isMimeTypeShaped } from '$lib/data/taskAttachmentRules';
-import { LibraryLimits } from './libraryLimits';
+import { LibraryLimits, libraryMusicTypes } from './libraryLimits';
 
 /** The file of a library item as described before it is sent. */
 export type LibraryFileGiven = { filename: string; mimeType: string; byteCount: number };
 
 const { longestFilename, largestByteCount, largestMegabytes } = LibraryLimits;
 const photoOrVideoPattern = /^(image|video)\//;
+const musicTypes: readonly string[] = libraryMusicTypes;
 
 export const filenameRefusal = `filename is what the file is called, such as kitchen-finished.jpg: required, at most ${longestFilename} characters`;
-export const mimeTypeRefusal = 'mimeType is the type of the file, and the library keeps only photos and videos, such as image/jpeg or video/mp4';
+export const mimeTypeRefusal =
+	`mimeType is the type of the file, and the library keeps only photos, videos and music, such as image/jpeg, video/mp4 or one of ${libraryMusicTypes.join(', ')}`;
 export const byteCountRefusal = `byteCount is the size of the file in bytes: a whole number from 1 up to ${largestByteCount} (${largestMegabytes} MB)`;
 
 /** The file as described, checked against its columns and the bucket, or the reason it cannot be kept. */
@@ -18,7 +20,8 @@ export function checkLibraryFile(input: Record<string, unknown>): LibraryFileGiv
 	if (!isFilenameFitting) return filenameRefusal;
 	const mimeType = typeof input.mimeType === 'string' ? input.mimeType : '';
 	const isPhotoOrVideo = isMimeTypeShaped(mimeType) && photoOrVideoPattern.test(mimeType);
-	if (!isPhotoOrVideo) return mimeTypeRefusal;
+	const isKeptKind = isPhotoOrVideo || musicTypes.includes(mimeType);
+	if (!isKeptKind) return mimeTypeRefusal;
 	const byteCount = input.byteCount;
 	if (!isFittingByteCount(byteCount)) return byteCountRefusal;
 	return { filename, mimeType, byteCount };

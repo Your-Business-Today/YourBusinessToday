@@ -91,7 +91,7 @@ describe('filing what one source teaches about the domain', () => {
 	it('keeps what each word names, each area’s part and how the areas relate, refusing a status the thing lacks', async () => {
 		const sealed = { ...clientWorkGlossary, terms: [{ ...signedWord, namesStatus: 'Sealed' }] };
 		const refusal = await fileDomain({ contexts: [clientWork], pages: [contractStack, sealed] });
-		expect(refusal).toContain('"signed contract stack" names contract-stack in Sealed, which is not a status of it: its statuses are Drafted, Signed.');
+		expect(refusal).toContain(`"${signedWord.word}" names contract-stack in Sealed, which is not a status of it: its statuses are Drafted, Signed.`);
 		await fileDomain({ contexts: [clientWork, money], pages: [contractStack, clientWorkGlossary, contextMap] });
 		expect(pageAt('client-work-glossary')).toMatchObject({ facts: { terms: [signedWord] } });
 		expect(pageAt('money')).toMatchObject({ facts: { isCoreDomain: false, subdomain: 'generic' } });

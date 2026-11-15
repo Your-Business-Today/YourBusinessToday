@@ -1,3 +1,4 @@
+import { dayToDayDataRule } from '../ownerDoctrine';
 import { reachableProject } from '../projectAccess';
 import { createTask } from '$lib/server/projects/createTask';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
@@ -37,10 +38,9 @@ export const taskWriteActions: McpAction[] = [
 			'infrastructure) or Internal work (administration, sales, marketing). A development task is built by ' +
 			'Claude and ends in a pull request; a job a person does for the project — a cloud setting or secret, ' +
 			'insurance, an account, a listing — is an infrastructure, administration, sales or marketing task, ' +
-			'needs no story, and is assigned to them (set_task_assignees). Never raise a task for what a person must give — an answer, a ' +
+			'needs no story, and is assigned to them (set_task_assignees). ' + dayToDayDataRule + ' Never raise a task for what a person must give — an answer, a ' +
 			'file, a test — and never title one with a person’s name: that is a message waiting on ' +
-			'them (post_message with waitingOn). Without a department the task takes its goal’s, ' +
-			'else development. Tasks titled ' +
+			'them (post_message with waitingOn). Without a department the task takes its goal’s, else development. Tasks titled ' +
 			'"REFACTOR: round N" are raised by the deploy count, never by hand. When you raise it ' +
 			'for someone else on the project — passed on in a message, a call or a chat — name them ' +
 			'with requestedBy, so it is worked as their request. A series of steps done in order is a ' +

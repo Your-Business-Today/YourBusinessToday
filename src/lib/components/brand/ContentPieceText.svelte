@@ -7,7 +7,8 @@
 		{ label: 'Hook', words: piece.hook },
 		{ label: 'Script', words: piece.script },
 		{ label: 'Caption', words: piece.caption },
-		{ label: 'Asks its audience to', words: piece.invitedAction }
+		{ label: 'Asks its audience to', words: piece.invitedAction },
+		...(piece.music === null ? [] : [{ label: 'Music', words: piece.music }])
 	]);
 </script>
 

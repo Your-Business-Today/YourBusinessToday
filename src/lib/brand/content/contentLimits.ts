@@ -14,5 +14,7 @@ export const StoryboardLimits = {
 	shots: 40,
 	descriptionCharacters: 500,
 	onScreenTextCharacters: 200,
+	overlineCharacters: 80,
+	underlineCharacters: 160,
 	longestShotSeconds: 600
 } as const;

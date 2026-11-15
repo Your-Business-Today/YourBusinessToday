@@ -1,17 +1,6 @@
+import './brandJewelMocks';
 import { vi } from 'vitest';
 
-vi.mock('$env/static/public', () => ({
-	PUBLIC_SUPABASE_URL: 'https://files.example/',
-	PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-key'
-}));
-vi.mock('$env/dynamic/private', () => ({ env: {} }));
-vi.mock('$env/dynamic/public', () => ({ env: {} }));
-vi.mock('$lib/server/organisations/getOrganisation', async () => {
-	const { jewel } = await import('./brandContentFixtures');
-	return {
-		getOrganisation: async (_supabase: unknown, organisationId: string) => (organisationId === jewel.id ? jewel : null)
-	};
-});
 vi.mock('$lib/server/organisations/getSwitchedOnModules', async () => {
 	const { libraryWorld } = await import('./brandLibraryFixtures');
 	return { getSwitchedOnModules: async () => libraryWorld.switchedOn };
@@ -31,3 +20,20 @@ vi.mock('$lib/server/storage/signFetchLink', () => ({
 	signFetchLink: async (_supabase: unknown, bucket: string, file: { storagePath: string }) =>
 		`https://files.example/${bucket}/${file.storagePath}?token=t`
 }));
+vi.mock('$lib/server/brandKits/keepBrandSummary', async () => {
+	const { libraryWorld } = await import('./brandLibraryFixtures');
+	return { findBrandSummary: async () => libraryWorld.brandSummary };
+});
+vi.mock('$lib/server/brandLibrary/grantLibraryUpload', async () => {
+	const { libraryWorld } = await import('./brandLibraryFixtures');
+	return {
+		grantLibraryUpload: async (_supabase: unknown, adder: unknown, item: unknown) => {
+			libraryWorld.granted.push({ adder, item });
+			return { itemId: 'item-1', uploadUrl: 'https://files.example/upload?token=u' };
+		}
+	};
+});
+vi.mock('$lib/server/brandLibrary/recordLibraryUpload', async (importOriginal) => {
+	const { libraryWorld } = await import('./brandLibraryFixtures');
+	return { ...(await importOriginal<object>()), recordLibraryUpload: async () => libraryWorld.recording };
+});

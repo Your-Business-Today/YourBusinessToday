@@ -1,8 +1,11 @@
 /** A position a public page gives the person, with the page it was read on. */
 export type FoundRole = { title: string; organisation: string; sourceUrl: string };
 
-/** A public page worth keeping on the person's record, with a short label such as "Company site". */
+/** A public page worth keeping on the person's record, with a short label such as exampleLinkLabel. */
 export type FoundLink = { label: string; url: string };
+
+/** The short label a link is given as the example, wherever a link's label is asked for. */
+export const exampleLinkLabel = 'Company site';
 
 /** What a staff member's Claude found about a person, as it sent it: checked by validatePersonResearch before anything is written. */
 export type PersonResearchFindings = {

@@ -1,10 +1,14 @@
 name: deploy windows
 
-# Vercel's Hobby plan runs a cron once a day at most, so this workflow knocks on the site's cron door every
-# quarter hour instead. The door opens the staging-to-main pull request of every project whose deploy time
-# has come. Actions minutes are free on this public repository. The knock never fails the workflow: a door
-# that answers anything but 200 is a warning in the log, because a red run here would raise a FIX task on
-# the project every quarter hour.
+# A further try at the deploy windows. Vercel's crons in vercel.json are the knock that is relied on: one in
+# every hour of the day, so a window set on the hour opens within that hour. GitHub does not keep this
+# quarter-hour schedule on this repository: while it was the only knock, from 8 to 14 November 2026, the
+# midnight windows opened between 01:40 and 05:49. When its knock does come, it opens a window set between
+# the hours sooner than the next hour's knock would. The door opens the staging-to-main pull request of
+# every project whose deploy time has come, and a window runs once a day however often the door is knocked,
+# so a knock that comes late or twice does no harm. Actions minutes are free on this public repository. The
+# knock never fails the workflow: a door that answers anything but 200 is a warning in the log, because a
+# red run here would raise a FIX task on the project every quarter hour.
 
 on:
   schedule:
