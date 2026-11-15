@@ -27,9 +27,12 @@ export async function readOldestUnfinishedScreen(supabase: SupabaseClient): Prom
 	return data === null ? null : parseCashScreen(data);
 }
 
-/** Committed after every company, so a run cut off part way carries on at the next one. */
+/**
+ * Committed after every company, so a run cut off part way carries on at the next one. A screen only moves forward:
+ * when two turns work it at once, the one behind never takes it back to a company the other has passed.
+ */
 export async function markScreenProgress(supabase: SupabaseClient, screenId: string, resumeAfter: string, companiesDone: number): Promise<void> {
-	const { error } = await supabase.from(screensTable).update({ resume_after: resumeAfter, companies_done: companiesDone }).eq('id', screenId);
+	const { error } = await supabase.from(screensTable).update({ resume_after: resumeAfter, companies_done: companiesDone }).eq('id', screenId).lt('resume_after', resumeAfter);
 	if (error) throw error;
 }
 
