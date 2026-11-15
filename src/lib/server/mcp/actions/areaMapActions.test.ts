@@ -37,7 +37,7 @@ describe('the area map through the connector', () => {
 				'Registered Office Services — 2 Hub Road — 1.3 mi — Registered-office hub — holding 40 companies'
 			].join('\n')
 		);
-		expect(mapping).toHaveBeenCalledWith(staff.supabase, { postcode: 'SW1A 1AA', radiusMiles: 3, sicCodes: [] });
+		expect(mapping).toHaveBeenCalledWith(staff.supabase, { postcode: 'SW1A 1AA', radiusMiles: 3, businessTypeKeys: [], sicCodes: [] });
 	});
 
 	it('searches as asked, and says when Companies House is not searched', async () => {
@@ -45,7 +45,7 @@ describe('the area map through the connector', () => {
 		const answer = String(await run({ postcode: 'SW1A 1AA', radiusMiles: 10, sicCodes: '43210, 43220' }));
 		expect(answer).toContain('1 company within 10 miles of SW1A 1AA, all from our register — 1 already on the register.');
 		expect(answer).toContain('COMPANIES_HOUSE_API_KEY');
-		expect(mapping).toHaveBeenCalledWith(staff.supabase, { postcode: 'SW1A 1AA', radiusMiles: 10, sicCodes: ['43210', '43220'] });
+		expect(mapping).toHaveBeenCalledWith(staff.supabase, { postcode: 'SW1A 1AA', radiusMiles: 10, businessTypeKeys: [], sicCodes: ['43210', '43220'] });
 	});
 
 	it('refuses a search that does not fit rather than correcting it, and passes on the page’s notices', async () => {

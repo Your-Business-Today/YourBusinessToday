@@ -4,6 +4,7 @@
 	import RegisterStandingLink from '$lib/components/clients/RegisterStandingLink.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { confirmButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
+	import { businessTypeNameOf } from '$lib/data/businessTypes';
 	import { describeDistance } from '$lib/data/distance';
 	import { describeFiledFigures, type FiledFigures } from '$lib/data/filedFigures';
 	import { formatBritishDate } from '$lib/data/britishDate';
@@ -32,6 +33,7 @@
 			company.isNonTrading ? 'Dormant, or no accounts filed' : '',
 			company.companyNumber === '' ? '' : `Company ${company.companyNumber}`,
 			company.incorporatedOn === '' ? '' : `Incorporated ${formatBritishDate(company.incorporatedOn)}`,
+			businessTypeNameOf(sicCodes),
 			sicCodes.length === 0 ? '' : `SIC ${sicCodes.join(', ')}`,
 			`${describeDistance(company.distanceMiles)} from the centre`
 		].filter((fact) => fact !== '');
