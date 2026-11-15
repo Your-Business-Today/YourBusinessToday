@@ -8,8 +8,8 @@ const moveItBackFirst = 'If a task in it was marked done by mistake, move it bac
 const nothingWasDeleted = 'Nothing was deleted.';
 const finishedInstead = 'A project that has simply finished is set to complete with update_project_details instead.';
 const whatIsKept =
-	'A copy of each task is kept on the record of deletions, with its conversation. Attached files are not kept, ' +
-	'and nothing puts a project back.';
+	'A copy of each task is kept on the record of deletions, with its conversation and history. Attached files ' +
+	'are not kept, and nothing puts a project back.';
 
 /** What delete_project answers for a project that holds finished work: why it stays, and what to do instead. */
 export function projectStays(refusal: string): string {

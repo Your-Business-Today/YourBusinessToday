@@ -27,7 +27,7 @@ describe('what delete_project answers', () => {
 
 	it('says what is kept and what is not, before the person decides', () => {
 		const answer = whatProjectHolds(projectName, contents, null);
-		expect(answer).toContain('A copy of each task is kept on the record of deletions, with its conversation.');
+		expect(answer).toContain('A copy of each task is kept on the record of deletions, with its conversation and history.');
 		expect(answer).toContain('Attached files are not kept, and nothing puts a project back.');
 		expect(answer).toContain('A project that has simply finished is set to complete');
 	});
