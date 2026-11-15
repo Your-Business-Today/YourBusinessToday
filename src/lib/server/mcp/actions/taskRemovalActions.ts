@@ -37,7 +37,7 @@ export const taskRemovalActions: McpAction[] = [
 			'the work they finished. The open ones are deleted only with deleteOpenSubtasks true, after the ' +
 			'person has seen the list; to keep one, move it out first with set_task_parent. A copy of every ' +
 			'deleted task is kept with its conversation and history, though not its attached files, and ' +
-			'nothing here puts one back, so read the task first with read_task, which shows its subtasks.',
+			'list_task_deletions shows it, but nothing here puts one back, so read the task first with read_task, which shows its subtasks.',
 		inputSchema: objectSchema(
 			{
 				taskId: textField('The task id'),

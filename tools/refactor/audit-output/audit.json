@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T00:23:54+00:00",
+  "generatedAt": "2026-11-15T00:38:12+00:00",
   "kitVersion": "1.42.0",
   "score": {
     "overall": 99.9,
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4979,
+        "measuredAgainst": 4988,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7774,
+        "measuredAgainst": 7796,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7139,
+        "measuredAgainst": 7165,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 191.02,
+        "measuredAgainst": 191.58,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 191.02,
+        "measuredAgainst": 191.58,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 8510,
+        "measuredAgainst": 8532,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 191.02,
+        "measuredAgainst": 191.58,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 191.02,
+        "measuredAgainst": 191.58,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7774,
+        "measuredAgainst": 7796,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7139,
+        "measuredAgainst": 7165,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7139,
+        "measuredAgainst": 7165,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7774,
+        "measuredAgainst": 7796,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 399,
+        "measuredAgainst": 401,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4979,
-      "totalLines": 191016,
+      "totalFiles": 4988,
+      "totalLines": 191583,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 7774,
+      "totalFunctions": 7796,
       "elseBlocks": 0,
-      "ifBlocks": 7139,
+      "ifBlocks": 7165,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -308,7 +308,7 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 7774
+      "functionsExamined": 7796
     },
     "designPatterns": {
       "roleFamilies": 248,
@@ -342,17 +342,17 @@
     "inputValidation": {
       "schemaTables": 226,
       "limitedColumns": 0,
-      "writeDoors": 399,
+      "writeDoors": 401,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5616,
-      "backend": 1466,
+      "totalFiles": 5625,
+      "backend": 1468,
       "frontend": 1193,
       "shared": 965,
-      "tests": 860,
-      "api": 652,
+      "tests": 863,
+      "api": 656,
       "database": 240,
       "tooling": 142,
       "docs": 79,
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4979,
-        "totalLines": 191016,
+        "totalFiles": 4988,
+        "totalLines": 191583,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 7774,
+        "totalFunctions": 7796,
         "elseBlocks": 0,
-        "ifBlocks": 7139,
+        "ifBlocks": 7165,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -902,7 +902,7 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 7774
+        "functionsExamined": 7796
       },
       "offenders": []
     },
@@ -923,11 +923,11 @@
           "+page.server.ts": 71,
           "+page.svelte": 79,
           "+server.ts": 30,
-          "access": 12,
+          "access": 13,
           "account": 8,
           "accounts": 7,
           "action": 24,
-          "actions": 239,
+          "actions": 240,
           "address": 10,
           "adverts": 4,
           "answer": 14,
@@ -995,7 +995,7 @@
           "files": 7,
           "filter": 9,
           "filters": 4,
-          "fixture": 33,
+          "fixture": 34,
           "fixtures": 27,
           "for": 10,
           "form": 79,
@@ -1086,7 +1086,7 @@
           "prose": 4,
           "question": 5,
           "questions": 7,
-          "reading": 21,
+          "reading": 22,
           "readings": 5,
           "record": 69,
           "records": 4,
@@ -1142,7 +1142,7 @@
           "targets": 5,
           "task": 24,
           "tasks": 14,
-          "test": 832,
+          "test": 835,
           "text": 15,
           "tiles": 5,
           "time": 5,
@@ -9658,12 +9658,12 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5616,
-        "backend": 1466,
+        "totalFiles": 5625,
+        "backend": 1468,
         "frontend": 1193,
         "shared": 965,
-        "tests": 860,
-        "api": 652,
+        "tests": 863,
+        "api": 656,
         "database": 240,
         "tooling": 142,
         "docs": 79,
@@ -9672,9 +9672,9 @@
       "offenders": [
         {
           "area": "backend",
-          "files": 1466,
-          "sourceFiles": 1455,
-          "sourceLines": 48967
+          "files": 1468,
+          "sourceFiles": 1457,
+          "sourceLines": 49080
         },
         {
           "area": "frontend",
@@ -9690,15 +9690,15 @@
         },
         {
           "area": "tests",
-          "files": 860,
-          "sourceFiles": 845,
-          "sourceLines": 40465
+          "files": 863,
+          "sourceFiles": 848,
+          "sourceLines": 40592
         },
         {
           "area": "api",
-          "files": 652,
-          "sourceFiles": 651,
-          "sourceLines": 29937
+          "files": 656,
+          "sourceFiles": 655,
+          "sourceLines": 30264
         },
         {
           "area": "database",
@@ -9731,7 +9731,7 @@
       "summary": {
         "schemaTables": 226,
         "limitedColumns": 0,
-        "writeDoors": 399,
+        "writeDoors": 401,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },
