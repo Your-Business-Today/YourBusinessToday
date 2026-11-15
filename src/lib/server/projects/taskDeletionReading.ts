@@ -11,6 +11,7 @@ export type TaskDeletion = {
 	title: string;
 	status: TaskStatus;
 	parentTaskId: string | null;
+	attachedFilenames: string[];
 	record: Row;
 	deletedByAccountId: string | null;
 	deletedAt: string;
@@ -80,9 +81,15 @@ function fromDeletionRow(row: TaskDeletionRow): TaskDeletion {
 		title: row.title,
 		status: parseTaskStatus(status),
 		parentTaskId: typeof parentTaskId === 'string' ? parentTaskId : null,
+		attachedFilenames: filenamesIn(record.task_attachments),
 		record,
 		deletedByAccountId: row.deleted_by_account_id,
 		deletedAt: row.deleted_at,
 		putBackAt: row.put_back_at ?? null
 	};
+}
+
+function filenamesIn(attachments: unknown): string[] {
+	if (!Array.isArray(attachments)) return [];
+	return (attachments as Row[]).map((attachment) => String(attachment.filename ?? ''));
 }

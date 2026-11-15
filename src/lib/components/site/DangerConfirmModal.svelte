@@ -11,6 +11,7 @@
 		action,
 		fields,
 		submitLabel,
+		savingLabel = 'Deleting…',
 		confirmWord = null,
 		isOpen = $bindable(),
 		children
@@ -20,6 +21,7 @@
 		action: string;
 		fields: Record<string, string>;
 		submitLabel: string;
+		savingLabel?: string;
 		confirmWord?: string | null;
 		isOpen: boolean;
 		children?: Snippet;
@@ -49,7 +51,7 @@
 		>
 			<h2 class="font-display text-xl font-medium text-signal">{title}</h2>
 			<p class="mt-3 text-sm text-chalk/70">{description}</p>
-			<DangerConfirmForm {action} {fields} {submitLabel} {confirmWord} onClose={close}>
+			<DangerConfirmForm {action} {fields} {submitLabel} {savingLabel} {confirmWord} onClose={close}>
 				{@render children?.()}
 			</DangerConfirmForm>
 		</div>
