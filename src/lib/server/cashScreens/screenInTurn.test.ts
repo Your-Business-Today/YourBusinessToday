@@ -3,14 +3,17 @@ import { screenInTurn, type ScreenTurn } from './screenInTurn';
 
 const companyNumbers = ['00000001', '00000002', '00000003', '00000004'];
 
-/** A screen of four companies whose run is cut off after the number of companies given. */
-function turnCutOffAfter(companiesBeforeCutOff: number, resumeAfter: string, screened: string[], marks: string[]): ScreenTurn {
+const neverLeftUnfinished = '';
+
+/** A screen of four companies whose run is cut off after the number of companies given, and which cannot finish the company named. */
+function turnCutOffAfter(companiesBeforeCutOff: number, resumeAfter: string, screened: string[], marks: string[], unfinishedCompany = neverLeftUnfinished): ScreenTurn {
 	return {
 		companyNumbers,
 		resumeAfter,
 		companiesDone: companyNumbers.filter((companyNumber) => companyNumber <= resumeAfter).length,
 		screenOne: async (companyNumber) => {
 			screened.push(companyNumber);
+			return companyNumber !== unfinishedCompany;
 		},
 		markDone: async (companyNumber, companiesDone) => {
 			marks.push(`${companyNumber}:${companiesDone}`);
@@ -35,5 +38,13 @@ describe('one run of a cash screen', () => {
 		expect(screened).toEqual(['00000003', '00000004']);
 		expect(marks).toEqual(['00000003:3', '00000004:4']);
 		expect(result.isFinished).toBe(true);
+	});
+
+	it('stops at a company it could not finish, leaving that company for the next run', async () => {
+		const screened: string[] = [];
+		const marks: string[] = [];
+		const result = await screenInTurn(turnCutOffAfter(10, '', screened, marks, '00000003'));
+		expect(result).toEqual({ lastDone: '00000002', screenedThisRun: 2, isFinished: false });
+		expect(marks).toEqual(['00000001:1', '00000002:2']);
 	});
 });

@@ -1,10 +1,13 @@
 name: cash screens
 
-# Vercel's Hobby plan runs a cron once a day at most, so this workflow knocks on the site's cron door every
-# five minutes instead. The door carries on the oldest screen of a territory for cash that staff have started,
-# for four minutes at a time, and answers at once when no screen is waiting. The knock never fails the
-# workflow: a door that answers anything but 200 is a warning in the log, because a red run here would raise
-# a FIX task on the project every five minutes.
+# Vercel's Hobby plan runs a cron once a day at most, so this workflow knocks on the site's cron door instead.
+# The door carries on the oldest screen of a territory for cash that staff have started, for four minutes at a
+# time, and answers at once when no screen is waiting. GitHub fires a five-minute schedule on this repository
+# only a few times a day, so one run keeps knocking until the door says nothing is left waiting: a screen left
+# alone is finished the next time the schedule fires, and a staff member who is waiting for one carries it on
+# from their own Claude (carry_on_cash_screen). Companies House allows 600 calls every five minutes, so a knock
+# that could screen nothing is followed by a rest. The knock never fails the workflow: a door that answers
+# anything but 200 is a warning in the log, because a red run here would raise a FIX task on the project.
 
 on:
   schedule:
@@ -19,12 +22,22 @@ jobs:
   knock:
     name: Carry on the cash screens staff have started
     runs-on: ubuntu-latest
+    timeout-minutes: 170
     steps:
       - run: |
-          status="$(curl --silent --show-error --location-trusted --max-time 320 --output answer.json --write-out '%{http_code}' \
-            --header "Authorization: Bearer $CRON_SECRET" "$DOOR" || true)"
-          cat answer.json; echo
-          if [ "$status" != "200" ]; then echo "::warning::The cron door answered $status. Set CRON_SECRET on Vercel and as this repository's secret, the same value."; fi
+          for knock in $(seq 1 "$MOST_KNOCKS"); do
+            : > answer.json
+            status="$(curl --silent --show-error --location-trusted --max-time 320 --output answer.json --write-out '%{http_code}' \
+              --header "Authorization: Bearer $CRON_SECRET" "$DOOR" || true)"
+            cat answer.json; echo
+            if [ "$status" != "200" ]; then echo "::warning::The cron door answered $status. Set CRON_SECRET on Vercel and as this repository's secret, the same value."; break; fi
+            if grep --quiet --fixed-strings "$NOTHING_WAITING" answer.json; then break; fi
+            if grep --quiet --fixed-strings "$SCREENED_NOTHING" answer.json; then sleep "$REST_SECONDS"; fi
+          done
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           DOOR: https://www.yourbusiness.today/api/watch/cash_screens
+          MOST_KNOCKS: 30
+          NOTHING_WAITING: '"isFinished":true'
+          SCREENED_NOTHING: '"rowsWritten":0,'
+          REST_SECONDS: 30
