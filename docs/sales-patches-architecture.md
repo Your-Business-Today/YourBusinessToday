@@ -173,6 +173,13 @@ it, keyed by the source and its own id: the Food Standards Agency's food hygiene
 districts through postcodes.io) and Overture Maps Places (`places_dataset`, loaded by hand each
 release through DuckDB over the public parquet, permissive licences only, marked gone only by the
 release's changelog). A trigger writes the feed's premises and place kinds through the same door.
+A patch holds thousands, and the database hands back a thousand rows at a time, so no reader takes
+them in one select. The map reads a pin's worth of each a page at a time (`readPremisesOnMap`) and
+the page carries pins and a count for each sector; the record behind a pin is fetched when the pin
+is picked (`/clients/patches/<patch>/premises/<premises>`). `list_patch_premises` narrows in the
+query and lists a hundred with the count of the rest (`listPremisesMatching`), and the premises
+beside a point are asked for by the box around it (`listPremisesBeside`). The map draws its pins
+once and restyles only the picked one (`createPinLayer`), so a pick costs the same at any size.
 
 **Filed figures and status notes** — `register_companies` carries net assets, cash, creditors and
 the headcount read from the inline XBRL of the accounts the company filed, found through the
@@ -236,7 +243,10 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `listSightingsForPatch`, `pinsForSightings` | the sightings, drawn at their postcodes |
 | `getFeedForPatches` | the feed, narrowed by patch, kind or date |
 | `readPatchBrief` | what a weekly sweep looks at |
-| `listPremisesForPatch`, `pinsForPremises` | the premises, drawn at their real addresses |
+| `readPremisesOnMap`, `pinsForPremises` | the premises, drawn at their real addresses |
+| `getPremises` | the record behind one premises pin, read when it is picked |
+| `listPremisesMatching` | a hundred premises a Claude asked for, and how many more fit |
+| `listPremisesBeside` | the premises within thirty metres of a point |
 | `listBuildingsInBounds`, `readSectorBuildings` | the footprints in view, and a sector's largest |
 | `readCompanyInPatch` | everything known about one company |
 | `getFilingHistory`, `getCompanyProfile`, `listFilingsForCompany` | a company's filings, live or stored |

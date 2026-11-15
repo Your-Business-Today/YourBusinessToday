@@ -1,11 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { buildingNearbyMetres } from '$lib/data/buildingNeighbours';
-import { distanceInMetres } from '$lib/data/distance';
 import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
 import { listBuildingsForSector } from './listBuildingsForSector';
-import { listPremisesForPatch } from '$lib/server/premises/listPremisesForPatch';
+import { listPremisesBeside } from '$lib/server/premises/listPremisesBeside';
 import type { Building } from './buildingRecord';
-import type { Premises } from '$lib/server/premises/premisesRecord';
 
 /** A building as a Claude reads it: the places it holds and the premises known in or beside it. */
 export type BuildingReading = { building: Building; knownNearby: string[] };
@@ -13,17 +10,15 @@ export type BuildingReading = { building: Building; knownNearby: string[] };
 /** The largest buildings of the sector with what is known in each, or none until the buildings migration has run. */
 export async function readSectorBuildings(supabase: SupabaseClient, patchId: string, outcodes: string[], sector: string): Promise<BuildingReading[]> {
 	try {
-		const [buildings, premises] = await Promise.all([listBuildingsForSector(supabase, patchId, sector), listPremisesForPatch(supabase, outcodes)]);
-		return buildings.map((building) => ({ building, knownNearby: premisesBeside(building, premises) }));
+		const buildings = await listBuildingsForSector(supabase, patchId, sector);
+		return await Promise.all(buildings.map((building) => readBuilding(supabase, outcodes, building)));
 	} catch (failure) {
 		if (isSchemaNotYetMigrated(failure)) return [];
 		throw failure;
 	}
 }
 
-function premisesBeside(building: Building, premises: Premises[]): string[] {
-	return premises
-		.filter((one) => one.latitude !== null && one.longitude !== null)
-		.filter((one) => distanceInMetres(building, { latitude: one.latitude ?? 0, longitude: one.longitude ?? 0 }) <= buildingNearbyMetres)
-		.map((one) => one.businessName);
+async function readBuilding(supabase: SupabaseClient, outcodes: string[], building: Building): Promise<BuildingReading> {
+	const premisesBeside = await listPremisesBeside(supabase, outcodes, building);
+	return { building, knownNearby: premisesBeside.map((one) => one.businessName) };
 }

@@ -2,14 +2,12 @@
 	import AreaCompanyList from '$lib/components/clients/map/AreaCompanyList.svelte';
 	import AreaCompanyPanel from '$lib/components/clients/map/AreaCompanyPanel.svelte';
 	import BuildingPanel from './BuildingPanel.svelte';
-	import PremisesPanel from './PremisesPanel.svelte';
+	import PickedPremises from './PickedPremises.svelte';
 	import SectorPanel from './SectorPanel.svelte';
 	import SightingPanel from './SightingPanel.svelte';
-	import { premisesIdOfKey } from '$lib/data/premisesKeys';
 	import { sightingIdOfKey } from '$lib/data/sightingKeys';
 	import { sectorOf } from '$lib/data/postcode';
 	import type { AreaPin } from '$lib/server/clients/area/areaPin';
-	import type { Premises } from '$lib/server/premises/premisesRecord';
 	import type { FiledFigures } from '$lib/data/filedFigures';
 	import type { Building } from '$lib/server/buildings/buildingRecord';
 	import type { BuildingCounts } from '$lib/server/buildings/buildingCounts';
@@ -24,7 +22,7 @@
 		coverage,
 		searches,
 		sightings,
-		premises,
+		premisesCountBySector,
 		figures,
 		standings,
 		buildingCounts,
@@ -40,7 +38,7 @@
 		coverage: PatchCoverage;
 		searches: RecordedSectorSearch[];
 		sightings: Sighting[];
-		premises: Premises[];
+		premisesCountBySector: Record<string, number>;
 		figures: Record<string, FiledFigures>;
 		standings: Record<string, string>;
 		buildingCounts: Record<string, BuildingCounts>;
@@ -54,17 +52,16 @@
 	const selectedPin = $derived(pins.find((pin) => pin.key === selectedKey) ?? null);
 	const selectedFigures = $derived(selectedPin === null ? null : (figures[selectedPin.companyNumber] ?? null));
 	const selectedStanding = $derived(selectedPin === null ? '' : (standings[selectedPin.companyNumber] ?? ''));
+	const selectedPremisesPin = $derived(selectedPin?.isPremises ? selectedPin : null);
 	const selectedSightingId = $derived(selectedKey === null ? null : sightingIdOfKey(selectedKey));
 	const selectedSighting = $derived(sightings.find((sighting) => sighting.id === selectedSightingId) ?? null);
-	const selectedPremisesId = $derived(selectedKey === null ? null : premisesIdOfKey(selectedKey));
-	const selectedPremises = $derived(premises.find((one) => one.id === selectedPremisesId) ?? null);
 	const sector = $derived(coverage.sectors.find((candidate) => candidate.sector === selectedSector) ?? null);
 	const sectorCoverage = $derived(coverage.coverage.find((candidate) => candidate.sector === selectedSector) ?? null);
 	const sectorSearches = $derived(searches.filter((search) => search.sector === selectedSector));
 	const sectorCompanyCount = $derived(
 		pins.filter((pin) => sectorOf(pin.postcode) === selectedSector).reduce((count, pin) => count + pin.companyCount, 0)
 	);
-	const sectorPremisesCount = $derived(premises.filter((one) => one.sector === selectedSector).length);
+	const sectorPremisesCount = $derived(selectedSector === null ? 0 : (premisesCountBySector[selectedSector] ?? 0));
 	const sectorBuildings = $derived(selectedSector === null ? null : (buildingCounts[selectedSector] ?? null));
 </script>
 
@@ -73,8 +70,8 @@
 		<BuildingPanel building={selectedBuilding} {pins} {onSelect} />
 	{:else if sector !== null && sectorCoverage !== null}
 		<SectorPanel {patchId} {sector} coverage={sectorCoverage} searches={sectorSearches} companyCount={sectorCompanyCount} premisesCount={sectorPremisesCount} buildings={sectorBuildings} {accountNames} />
-	{:else if selectedPremises !== null}
-		<PremisesPanel premises={selectedPremises} {patchId} />
+	{:else if selectedPremisesPin !== null}
+		<PickedPremises pin={selectedPremisesPin} {patchId} />
 	{:else if selectedSighting !== null}
 		<SightingPanel sighting={selectedSighting} seenByName={accountNames[selectedSighting.seenByAccountId] ?? 'Former account'} standing={selectedPin?.standing ?? null} />
 	{:else}

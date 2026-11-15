@@ -1,13 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { buildingNearbyMetres } from '$lib/data/buildingNeighbours';
-import { distanceInMetres } from '$lib/data/distance';
 import { findRegisterStanding } from '$lib/server/clients/area/findRegisterStanding';
 import { geocodePostcodes } from '$lib/server/postcodes/geocodePostcodes';
 import { getRegisterCompany } from '$lib/server/register/getRegisterCompany';
 import { listEventsForCompany } from '$lib/server/areaEvents/listEventsForCompany';
 import { listFilingsForCompany } from '$lib/server/register/listFilingsForCompany';
 import { listObservationsForCompany } from '$lib/server/observations/listObservations';
-import { listPremisesForPatch } from '$lib/server/premises/listPremisesForPatch';
+import { listPremisesBeside } from '$lib/server/premises/listPremisesBeside';
 import { listSightingsForCompany } from '$lib/server/sightings/listSightingsForCompany';
 import type { AreaEvent } from '$lib/data/areaEvent';
 import type { ClassifiedFiling } from '$lib/server/companiesHouse/filingHistoryRecord';
@@ -32,25 +30,22 @@ export type PatchCompanyReading = {
 export async function readCompanyInPatch(supabase: SupabaseClient, patch: Patch, companyNumber: string): Promise<PatchCompanyReading | null> {
 	const company = await getRegisterCompany(supabase, companyNumber);
 	if (company === null || !patch.outcodes.includes(company.outcode)) return null;
-	const [standings, sightings, observations, events, premises, filings] = await Promise.all([
+	const [standings, sightings, observations, events, filings] = await Promise.all([
 		findRegisterStanding(supabase, [companyNumber]),
 		listSightingsForCompany(supabase, companyNumber),
 		listObservationsForCompany(supabase, companyNumber),
 		listEventsForCompany(supabase, companyNumber),
-		listPremisesForPatch(supabase, patch.outcodes),
 		listFilingsForCompany(supabase, companyNumber)
 	]);
-	const premisesBeside = await premisesBesideSightings(supabase, sightings, premises);
+	const premisesBeside = await premisesBesideSightings(supabase, patch, sightings);
 	return { company, standing: standings.get(companyNumber) ?? null, sightings, premisesBeside, observations, events, filings };
 }
 
-/** Where a sighting with a postcode places the company, the premises within thirty metres of that postcode's point. */
-async function premisesBesideSightings(supabase: SupabaseClient, sightings: Sighting[], premises: Premises[]): Promise<Premises[]> {
+/** Where a sighting with a postcode places the company, the premises within thirty metres of that postcode's point, each once. */
+async function premisesBesideSightings(supabase: SupabaseClient, patch: Patch, sightings: Sighting[]): Promise<Premises[]> {
 	const located = await geocodePostcodes(supabase, sightings.map((sighting) => sighting.postcode));
 	const points = [...located.values()];
-	return premises.filter((one) => {
-		const { latitude, longitude } = one;
-		if (latitude === null || longitude === null) return false;
-		return points.some((point) => distanceInMetres(point, { latitude, longitude }) <= buildingNearbyMetres);
-	});
+	const besideEachPoint = await Promise.all(points.map((point) => listPremisesBeside(supabase, patch.outcodes, point)));
+	const premisesById = new Map(besideEachPoint.flat().map((one) => [one.id, one]));
+	return [...premisesById.values()];
 }

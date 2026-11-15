@@ -1,14 +1,16 @@
 import { formatBritishDate } from '$lib/data/britishDate';
 import { premisesSourceLabels } from '$lib/data/foodHygieneRules';
 import type { Premises } from '$lib/server/premises/premisesRecord';
+import type { PremisesMatched } from '$lib/server/premises/listPremisesMatching';
 
-export const longestPremisesAnswer = 200;
+const noneListedYet = 'No food premises are listed in this territory yet: the nightly sweep loads them from the Food Standards Agency.';
+const noneMatch = 'No premises in this territory match that: leave out the sector, source, category or newOnly to see more.';
 
-export function describePremisesList(premises: Premises[]): string {
-	if (premises.length === 0) return 'No food premises are listed in this territory yet: the nightly sweep loads them from the Food Standards Agency.';
-	const shown = premises.slice(0, longestPremisesAnswer);
-	const lines = shown.map(describePremisesLine);
-	if (premises.length > shown.length) lines.push(`… and ${premises.length - shown.length} more — narrow by sector or newOnly.`);
+/** The premises one answer lists, a line each, saying how many more fit what was asked for; isNarrowed says whether anything was asked for. */
+export function describePremisesList({ premises, matchedCount }: PremisesMatched, isNarrowed: boolean): string {
+	if (premises.length === 0) return isNarrowed ? noneMatch : noneListedYet;
+	const lines = premises.map(describePremisesLine);
+	if (matchedCount > premises.length) lines.push(`… and ${matchedCount - premises.length} more — narrow by sector, source, category or newOnly.`);
 	return lines.join('\n');
 }
 

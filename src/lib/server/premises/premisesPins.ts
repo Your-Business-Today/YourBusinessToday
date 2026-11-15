@@ -5,10 +5,10 @@ import { oneCompany } from '$lib/data/registerRules';
 import { premisesKeyPrefix } from '$lib/data/premisesKeys';
 import { premisesSources } from '$lib/data/foodHygieneRules';
 import type { AreaPin } from '$lib/server/clients/area/areaPin';
-import type { Premises } from './premisesRecord';
+import type { PremisesOnMap } from './premisesOnMap';
 
 /** A premises is pinned at the agency's own geocode, or at its postcode through the cache when the agency gave none. */
-export async function pinsForPremises(supabase: SupabaseClient, premises: Premises[], centre: Coordinates): Promise<AreaPin[]> {
+export async function pinsForPremises(supabase: SupabaseClient, premises: PremisesOnMap[], centre: Coordinates): Promise<AreaPin[]> {
 	const ungeocoded = premises.filter((one) => one.latitude === null || one.longitude === null);
 	const located = await geocodePostcodes(supabase, ungeocoded.map((one) => one.postcode));
 	return premises.flatMap((one) => {
@@ -18,13 +18,13 @@ export async function pinsForPremises(supabase: SupabaseClient, premises: Premis
 	});
 }
 
-function locationOf(premises: Premises, located: Map<string, Coordinates>): Coordinates | null {
+function locationOf(premises: PremisesOnMap, located: Map<string, Coordinates>): Coordinates | null {
 	const { latitude, longitude } = premises;
 	if (latitude !== null && longitude !== null) return { latitude, longitude };
 	return located.get(premises.postcode) ?? null;
 }
 
-function premisesPin(premises: Premises, location: Coordinates, centre: Coordinates): AreaPin {
+function premisesPin(premises: PremisesOnMap, location: Coordinates, centre: Coordinates): AreaPin {
 	return {
 		key: `${premisesKeyPrefix}${premises.id}`,
 		companyNumber: '',
