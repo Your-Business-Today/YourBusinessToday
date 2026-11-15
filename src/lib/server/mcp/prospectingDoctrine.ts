@@ -21,7 +21,9 @@ export const prospectingDoctrine = [
 	'   company and the one who decides; save_person_approach keeps the opening message and the call',
 	'   plan once the staff member says yes; update_person sets the next step and the day it is due.',
 	'   The staff member sends the approach themselves: nothing here sends a message to a lead, and',
-	'   log_lead_conversation records what was said once it has happened.',
+	'   log_lead_conversation records what was said once it has happened. list_follow_ups_due says',
+	'   whose next step has come due, the longest overdue first: read_person before each one, and',
+	'   after it the conversation is logged and update_person sets the next step and its day.',
 	'   Business-contact data only, never LinkedIn, X, Facebook or Instagram, nothing behind a login:',
 	'   the server refuses those pages whatever the doctrine says.'
 ];

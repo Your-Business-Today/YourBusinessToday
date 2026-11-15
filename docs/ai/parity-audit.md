@@ -113,6 +113,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-097 | import a person's current appointments as leads, grouped | staff | write | `importAppointments` `groupUnder` | `read_person_appointments` `import_person_appointments` | `/people/{personId}` |
 | US-098 | research a person on the web and save it, or draft the approach | staff | write | `/people/{personId}` modals | `save_person_research` `save_person_approach` | `/people/{personId}` |
 | US-099 | delete a person added by mistake | staff | write | `deletePerson` | `delete_person` | `/people/{personId}` |
+| US-181 | see whose next step is due, the longest overdue first | staff | read | `/leads` load | `list_follow_ups_due` | `/leads` |
 
 ## 08-patches-and-prospecting
 
