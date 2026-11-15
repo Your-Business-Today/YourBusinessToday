@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
 import { billingSchedulesSourceName } from './billingSchedulesSource';
 import { deployWindowsSourceName } from './deployWindowsSource';
+import { fillTerritoriesSourceName } from './fillTerritoriesSource';
 import { validateWatchSourceName } from './watchSources';
 
 vi.mock('$env/static/public', () => ({ PUBLIC_SUPABASE_URL: 'https://files.example/', PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-key' }));
@@ -49,5 +50,10 @@ describe("Vercel's crons", () => {
 	it('knock the deploy windows in every hour of the day, so a window set on the hour opens within that hour, whatever hour a project sets', () => {
 		const windowKnocks = crons.filter((cron) => cron.path === `${cronDoor}${deployWindowsSourceName}`).map((cron) => cron.schedule);
 		expect(windowKnocks).toEqual(hourlyKnocks());
+	});
+
+	it('knock the filling of territories at twenty past two, three and four UTC, so three fill in a night before their postcodes are placed at five past six', () => {
+		const fillKnocks = crons.filter((cron) => cron.path === `${cronDoor}${fillTerritoriesSourceName}`).map((cron) => cron.schedule);
+		expect(fillKnocks).toEqual(['20 2 * * *', '20 3 * * *', '20 4 * * *']);
 	});
 });

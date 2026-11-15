@@ -87,8 +87,16 @@ with `PUBLIC_SUPABASE_URL` and `SUPABASE_SECRET_KEY` set: it streams the CSV out
 keeps the rows whose outcode any patch holds, skips suppressed and malformed rows, upserts
 through `upsert_register_companies` (a company seen before keeps its first month), marks the
 missing gone, and writes `register_loads` and a `watch_runs` row. It does no geocoding: the
-`geocode_register_postcodes` admin action, called until nothing remains, fills
+`geocode_register_postcodes` action, called until nothing remains, fills
 `postcode_locations` through the same cache the map uses.
+
+A territory needs no file to hold its companies. `pull_patch_companies` asks Companies House for
+every active company in its outcodes, and the nightly `fill_territories` watcher does the same
+for every territory whose pull never finished, so a territory saved today is filled by morning.
+The territory's page says what it holds however it came to hold it: the register is as at the
+latest month any placed company was seen. **PostcodeNotFound** — `public.postcodes_not_found`: a
+postcode postcodes.io does not know, with when it was asked, left out of the postcodes still to
+place for thirty days so the list never stalls behind them.
 
 **PostcodeSector** — `public.postcode_sectors`: every sector in Great Britain from OS
 Code-Point Open (OGL, quarterly), its outcode, the centroid of its unit postcodes and how many,
@@ -193,7 +201,9 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | --- | --- |
 | `createPatch` | the area becomes a patch with its outcodes |
 | `loadRegisterFile` | the monthly file becomes register rows for every patch outcode |
-| `geocodeRegisterPostcodes` | one page of register postcodes located through the cache |
+| `geocodeRegisterPostcodes` | one page of register postcodes located through the cache, the ones nobody knows remembered |
+| `geocodeRegisterPostcodesUntil` | page after page until none remain or the moment given passes |
+| `fillTerritoriesSource` | the companies of every territory never filled, pulled overnight |
 | `loadCodePointOpen` | every sector in Great Britain with its centroid |
 | `loadSectorShapes` | every sector drawn as a shape rather than a circle, each quarter |
 | `recordSectorSearch` | a sector marked searched, the claim spent |
@@ -230,7 +240,7 @@ The connector's new `patches` area carries `list_patches`, `create_patch`, `read
 `read_sector`, `mark_sector_searched`, `claim_sector`, `release_sector`, `hand_sector_to`,
 `record_sighting`, `list_sightings`, `add_sighting_as_lead`, `match_sighting_to_register`,
 `read_patch_feed`, `read_patch_brief`, `record_patch_observation`, `list_patch_premises`,
-`add_premises_as_lead`, `read_patch_company`, `read_company_filings` and, for admins,
-`geocode_register_postcodes` and `run_patch_watch`;
+`add_premises_as_lead`, `read_patch_company`, `read_company_filings`, `pull_patch_companies`,
+`geocode_register_postcodes` and, for admins, `run_patch_watch`;
 the map tiles come from `basemap.ts`: Ordnance Survey's Light style on the free OpenData plan
 when `PUBLIC_OS_MAPS_API_KEY` is set, OpenStreetMap only as the fallback.
