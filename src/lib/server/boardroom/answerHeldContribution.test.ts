@@ -12,6 +12,7 @@ const room = vi.hoisted(() => ({
 	controlsBySeat: {} as Record<string, SeatControls>,
 	answers: [] as Record<string, unknown>[]
 }));
+vi.mock('./callDirectorsToTheirTurns', () => ({ callDirectorsToTheirTurns: async () => undefined }));
 vi.mock('./readBoardroomMeeting', () => ({ getMeetingRecord: async () => meetingInRoom({ contributions: room.said }) }));
 vi.mock('./getBoardroomSeatControls', () => ({
 	getControlsOfSeat: async (_supabase: unknown, _meetingId: string, seatId: string) => room.controlsBySeat[seatId] ?? controlsOf(seatId)

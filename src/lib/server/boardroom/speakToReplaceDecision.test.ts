@@ -9,6 +9,7 @@ import { duringTheMeeting, meetingId, yourBusinessToday } from '$lib/data/boardr
 import type { ContributionDraft } from '$lib/data/validateBoardContribution';
 
 const board = vi.hoisted(() => ({ earlierDecisionIds: [] as string[], kept: [] as Record<string, unknown>[] }));
+vi.mock('./callDirectorsToTheirTurns', () => ({ callDirectorsToTheirTurns: async () => undefined }));
 vi.mock('./readBoardroomMeeting', () => ({ getMeetingRecord: async () => meetingInRoom() }));
 vi.mock('./getBoardroomSeatControls', () => ({ getControlsOfSeat: async (_supabase: unknown, _meetingId: string, seatId: string) => controlsOf(seatId) }));
 vi.mock('./getBoardroomDecisions', () => ({

@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { getMeetingRecord } from './readBoardroomMeeting';
 import { insertBoardroomRoom } from './saveBoardroomRoom';
 import { getRoomOfMeeting } from './getBoardroomRoom';
+import { callDirectorsToTheirTurns } from './callDirectorsToTheirTurns';
 import { meetingStage, meetingStages } from '$lib/data/boardroomMeeting';
 import { boardroomMeetingRefusals } from '$lib/data/boardroomMeetingRules';
 import { boardRoomRefusals } from '$lib/data/boardroomRoomRules';
@@ -38,7 +39,12 @@ export async function openBoardroomRoom(
 	if (typeof seat === 'string') return seat;
 	const opening = { meeting: record.meeting, seatId: seat.id, openedBy: caller.accountId, roundsLimit };
 	const isNewlyOpened = await insertBoardroomRoom(supabase, opening);
-	if (isNewlyOpened) return roomOpenedWords(roundsLimit, true);
+	if (!isNewlyOpened) return roomOpenedMeanwhileWords(supabase, meetingId, roundsLimit);
+	await callDirectorsToTheirTurns(supabase, organisation, meetingId, caller.now);
+	return roomOpenedWords(roundsLimit, true);
+}
+
+async function roomOpenedMeanwhileWords(supabase: SupabaseClient, meetingId: string, roundsLimit: number): Promise<string> {
 	const openedMeanwhile = await getRoomOfMeeting(supabase, meetingId);
 	const roomOpenedMeanwhile = openRoomOf(openedMeanwhile);
 	return roomOpenedWords(roomOpenedMeanwhile?.roundsLimit ?? roundsLimit, false);

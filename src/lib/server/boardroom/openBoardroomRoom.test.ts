@@ -6,6 +6,10 @@ import { calledMeeting, dayBeforeTheMeeting, duringTheMeeting, meetingId, yourBu
 import type { MeetingRecord } from '$lib/data/describeBoardroomMeeting';
 
 const board = vi.hoisted(() => ({ record: null as MeetingRecord | null, opened: [] as Record<string, unknown>[] }));
+const turns = vi.hoisted(() => ({ calledFor: [] as string[] }));
+vi.mock('./callDirectorsToTheirTurns', () => ({
+	callDirectorsToTheirTurns: async (_supabase: unknown, _organisation: unknown, calledMeetingId: string) => turns.calledFor.push(calledMeetingId)
+}));
 vi.mock('./readBoardroomMeeting', () => ({ getMeetingRecord: async () => board.record }));
 vi.mock('./getBoardroomRoom', () => ({ getRoomOfMeeting: async () => ({ room: null, contributions: [], outcomes: [] }) }));
 vi.mock('./saveBoardroomRoom', () => ({ insertBoardroomRoom: async (_supabase: unknown, opening: Record<string, unknown>) => board.opened.push(opening) > 0 }));
@@ -18,11 +22,13 @@ describe('a director opens the room of a meeting', () => {
 	beforeEach(() => {
 		board.record = { ...meetingInRoom({ room: null }), meeting: calledMeeting };
 		board.opened = [];
+		turns.calledFor = [];
 	});
 
 	it('opens it from the meeting’s time under the caller’s own seat, with the rounds they give', async () => {
 		expect(await open('jeremy')).toContain('The room is open, and the meeting with it. Each item is talked through in at most 4 rounds');
 		expect(board.opened).toEqual([{ meeting: calledMeeting, seatId: 'jeremys-seat', openedBy: 'jeremy', roundsLimit: 4 }]);
+		expect(turns.calledFor).toEqual([meetingId]);
 	});
 
 	it('refuses before the meeting’s time, once it has closed, and anyone not on it', async () => {
@@ -37,5 +43,6 @@ describe('a director opens the room of a meeting', () => {
 		board.record = meetingInRoom();
 		expect(await open('nigel')).toContain('The room was already open. Each item is talked through in at most 3 rounds');
 		expect(board.opened).toEqual([]);
+		expect(turns.calledFor).toEqual([]);
 	});
 });
