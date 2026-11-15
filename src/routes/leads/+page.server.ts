@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { addLead, readLeadSeed } from '$lib/server/clients/addLead';
+import { getFollowUpsKeptBy } from '$lib/server/people/getFollowUpsDue';
 import { leadsRegister } from '$lib/data/salesRegisters';
 import { loadSalesRegister } from '$lib/server/salesRegisters/loadSalesRegister';
 import { deleteFromRegisterAction } from '$lib/server/salesRegisters/deleteFromRegisterAction';
@@ -8,13 +9,17 @@ import { readPickedOrganisationId } from '$lib/server/frame/pickedOrganisation';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { broughtInByRefusal, staffMemberWithId } from '$lib/data/broughtInByName';
 import { getStaffDirectory } from '$lib/server/projects/getStaffDirectory';
+import { ukClockAt } from '$lib/data/ukClock';
 import type { Actions, PageServerLoad } from './$types';
 
 const noOrganisationPicked = 'Pick an organisation in the side bar to add a lead to its register.';
 
 export const load: PageServerLoad = async ({ locals, url, parent }) => {
 	const { framePicks } = await parent();
-	return loadSalesRegister(locals, url, leadsRegister, framePicks);
+	const reading = await loadSalesRegister(locals, url, leadsRegister, framePicks);
+	const { date: today } = ukClockAt(new Date());
+	const followUpsDue = await getFollowUpsKeptBy(locals.supabase, framePicks?.pickedOrganisationId ?? null, today);
+	return { ...reading, followUpsDue, today };
 };
 
 export const actions: Actions = {

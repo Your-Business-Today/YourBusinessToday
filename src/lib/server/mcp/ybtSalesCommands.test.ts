@@ -3,6 +3,7 @@ import { prospectingDoctrine } from './prospectingDoctrine';
 import { salesCommands } from './ybtSalesCommands';
 
 const prospectTag = 'ybt-prospect';
+const followUpsTag = 'ybt-follow-ups';
 const actionName = /\b[a-z]+(?:_[a-z]+)+\b/g;
 
 const pathToAFirstApproach = [
@@ -21,6 +22,8 @@ const pathToAFirstApproach = [
 	'save_person_approach',
 	'update_person'
 ];
+
+const roundOfFollowUps = ['list_follow_ups_due', 'read_person', 'log_lead_conversation', 'update_person'];
 
 function textOf(tag: string): string {
 	const command = salesCommands.find((candidate) => candidate.name === tag);
@@ -42,5 +45,22 @@ describe('/ybt-prospect', () => {
 	it('leaves the sending to the staff member', () => {
 		expect(text).toContain('I send the approach myself: you never send anything to a lead.');
 		expect(doctrine).toContain('The staff member sends the approach themselves');
+	});
+});
+
+describe('/ybt-follow-ups', () => {
+	const text = textOf(followUpsTag);
+	const doctrine = prospectingDoctrine.join('\n');
+
+	it('names the actions of a round of follow-ups in the order they are used, and no other', () => {
+		expect(text.match(actionName)).toEqual(roundOfFollowUps);
+	});
+
+	it('names only actions rule 9 of the doctrine names', () => {
+		for (const action of roundOfFollowUps) expect(doctrine, action).toContain(action);
+	});
+
+	it('leaves the sending to the staff member', () => {
+		expect(text).toContain('I send them myself: you never send anything to a lead.');
 	});
 });
