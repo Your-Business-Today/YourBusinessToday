@@ -9,6 +9,7 @@
 		action,
 		fields,
 		submitLabel,
+		savingLabel,
 		confirmWord,
 		onClose,
 		children
@@ -16,6 +17,7 @@
 		action: string;
 		fields: Record<string, string>;
 		submitLabel: string;
+		savingLabel: string;
 		confirmWord: string | null;
 		onClose: () => void;
 		children?: Snippet;
@@ -57,7 +59,7 @@
 		<SubmitButton
 			isSaving={tracker.isSaving}
 			disabled={!isConfirmed}
-			savingLabel="Deleting…"
+			{savingLabel}
 			class="rounded-full bg-signal px-5 py-2 font-display text-sm font-medium text-night
 				transition hover:brightness-110 disabled:opacity-40"
 		>

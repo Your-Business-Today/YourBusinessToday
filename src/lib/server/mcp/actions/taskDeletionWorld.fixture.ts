@@ -30,7 +30,8 @@ function deletion(id: string, projectId: string, title: string, record: Row, del
 		record,
 		deletedByAccountId: deletedBy,
 		deletedAt,
-		putBackAt: null
+		putBackAt: null,
+		attachedFilenames: []
 	};
 }
 
