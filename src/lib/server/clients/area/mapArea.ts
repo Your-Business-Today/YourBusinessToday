@@ -4,7 +4,7 @@ import { byDistance, mergePins, pinForCompany, type AreaPin } from './areaPin';
 import { findCompaniesAround } from './findCompaniesAround';
 import { findOutcodesWithin } from '$lib/server/postcodes/findOutcodesWithin';
 import { findRegisterAround } from './findRegisterAround';
-import { findRegisterStanding } from './findRegisterStanding';
+import { readEveryStanding } from './findRegisterStanding';
 import { geocodePostcodes } from '$lib/server/postcodes/geocodePostcodes';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
 import type { CompaniesHouseCompany } from '$lib/server/companiesHouse/searchCompaniesHouse';
@@ -56,7 +56,7 @@ async function pinsForCompanies(
 ): Promise<AreaPin[]> {
 	const [located, standings] = await Promise.all([
 		geocodePostcodes(supabase, companies.map((company) => company.postcode)),
-		findRegisterStanding(supabase, companies.map((company) => company.companyNumber))
+		readEveryStanding(supabase)
 	]);
 	return companies
 		.flatMap((company) => {
