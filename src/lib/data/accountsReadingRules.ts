@@ -1,4 +1,4 @@
-import { largestFigure, mostEmployees } from './filedFigures';
+import { isHeadcount, largestFigure, mostEmployees } from './filedFigures';
 import { validateCompanyNumber } from './prospectRules';
 
 /** What a company's latest accounts say about its cash, one of five. */
@@ -46,7 +46,7 @@ export function validateAccountsReading(reading: AccountsReading): string | null
 	const amountTooLarge = amountBeyondLimit(reading);
 	if (amountTooLarge !== null) return amountTooLarge;
 	const { averageEmployees } = reading;
-	const isNotAHeadcount = averageEmployees !== null && (averageEmployees < 0 || averageEmployees > mostEmployees || !Number.isInteger(averageEmployees));
+	const isNotAHeadcount = averageEmployees !== null && !isHeadcount(averageEmployees);
 	if (isNotAHeadcount) return `averageEmployees must be a whole number from 0 to ${mostEmployees}: misread, not stored.`;
 	return null;
 }

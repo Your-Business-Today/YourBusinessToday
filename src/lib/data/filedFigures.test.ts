@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describeFiledFigures, formatPounds, validateFiledFigures } from './filedFigures';
+import { describeFiledFigures, formatPounds, isHeadcount, mostEmployees, validateFiledFigures } from './filedFigures';
 
 const figures = { netAssets: 84_200, cash: 12_000, creditors: 31_499, averageEmployees: 4, madeUpTo: '2026-03-31', sourceUrl: '' };
 
@@ -19,5 +19,10 @@ describe('filed figures', () => {
 		expect(validateFiledFigures(figures)).toBeNull();
 		expect(validateFiledFigures({ ...figures, netAssets: 1e15 })).toContain('misread');
 		expect(validateFiledFigures({ ...figures, averageEmployees: 2.5 })).toContain('headcount');
+	});
+
+	it('counts as a headcount only whole people, from none to the most a company employs', () => {
+		expect([0, 4, mostEmployees].every(isHeadcount)).toBe(true);
+		expect([2.5, -1, mostEmployees + 1].some(isHeadcount)).toBe(false);
 	});
 });

@@ -1,5 +1,5 @@
 import { readIxbrlContexts, readIxbrlFacts, type IxbrlContext, type IxbrlFact } from './ixbrlFacts';
-import type { FiledFigures } from '$lib/data/filedFigures';
+import { isHeadcount, type FiledFigures } from '$lib/data/filedFigures';
 
 /** The concepts a balance sheet files under, oldest taxonomy names last; the first found wins. */
 const concepts = {
@@ -19,10 +19,16 @@ export function readFiledFigures(document: string, madeUpTo: string, sourceUrl: 
 		netAssets: pick(concepts.netAssets),
 		cash: pick(concepts.cash),
 		creditors: pick(concepts.creditors),
-		averageEmployees: pick(concepts.averageEmployees),
+		averageEmployees: headcountOf(pick(concepts.averageEmployees)),
 		madeUpTo,
 		sourceUrl
 	};
+}
+
+/** The employees as whole people, or null: an average filed as a fraction is not a headcount, and never costs the reading its balance sheet. */
+function headcountOf(count: number | null): number | null {
+	const isStatedAsPeople = count !== null && isHeadcount(count);
+	return isStatedAsPeople ? count : null;
 }
 
 /** Current assets at the made-up date: a micro-entity files this and no cash line, and its cash cannot exceed it. */
