@@ -14,6 +14,7 @@ export type TaskDeletion = {
 	record: Row;
 	deletedByAccountId: string | null;
 	deletedAt: string;
+	putBackAt: string | null;
 };
 
 type TaskDeletionRow = {
@@ -24,13 +25,14 @@ type TaskDeletionRow = {
 	record: Row;
 	deleted_by_account_id: string | null;
 	deleted_at: string;
+	put_back_at?: string | null;
 };
 
 export const taskDeletionsTable = 'task_deletions';
 
 export const TaskDeletionReading = { mostShown: 50 } as const;
 
-const deletionColumns = 'id, task_id, project_id, title, record, deleted_by_account_id, deleted_at';
+const deletionColumns = '*';
 
 /** The project's latest deleted tasks, the newest first. */
 export async function findTaskDeletions(supabase: SupabaseClient, projectId: string): Promise<TaskDeletion[]> {
@@ -80,6 +82,7 @@ function fromDeletionRow(row: TaskDeletionRow): TaskDeletion {
 		parentTaskId: typeof parentTaskId === 'string' ? parentTaskId : null,
 		record,
 		deletedByAccountId: row.deleted_by_account_id,
-		deletedAt: row.deleted_at
+		deletedAt: row.deleted_at,
+		putBackAt: row.put_back_at ?? null
 	};
 }

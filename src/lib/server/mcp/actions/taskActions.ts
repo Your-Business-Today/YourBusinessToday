@@ -10,6 +10,7 @@ import { taskProjectActions } from './taskProjectActions';
 import { taskQueueActions } from './taskQueueActions';
 import { taskRemovalActions } from './taskRemovalActions';
 import { taskDeletionActions } from './taskDeletionActions';
+import { taskPutBackActions } from './taskPutBackActions';
 import { taskRoleActions } from './taskRoleActions';
 import { complexityActions } from './complexityActions';
 import { taskSequenceActions } from './taskSequenceActions';
@@ -55,6 +56,7 @@ export const taskActions: McpAction[] = [
 	...taskProjectActions,
 	...taskRemovalActions,
 	...taskDeletionActions,
+	...taskPutBackActions,
 	...acceptanceCriterionActions,
 	...checklistActions,
 	...checklistItemActions,

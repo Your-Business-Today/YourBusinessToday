@@ -28,7 +28,7 @@ const whatWentAndWho =
 const readTheCopy =
 	'The copy is the task’s row as the board held it, with its conversation, lifecycle, feed, merges, criteria, ' +
 	'checklists, assignees and roles. Its attached files are named but not kept: they went from storage with the ' +
-	'task. The record itself is never changed or deleted.';
+	'task. put_back_deleted_task puts the task back, only when the person asks. The record itself is never deleted.';
 
 export const taskDeletionActions: McpAction[] = [
 	{
