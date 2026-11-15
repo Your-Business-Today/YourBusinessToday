@@ -1,23 +1,21 @@
 import { carryOnCashScreen } from '$lib/server/cashScreens/carryOnCashScreen';
 import { companiesHouseNotConfigured } from '$lib/server/register/watchRegister';
 import { defaultLeastCash, readCashScreenNarrowing } from '$lib/data/cashScreenRules';
-import { describeCashScreen, describeScreenTurn, howToCarryOn } from '$lib/data/cashScreenAnswer';
+import { describeScreenTurn, howToCarryOn, noSuchScreen } from '$lib/data/cashScreenAnswer';
 import { getCashScreen, startCashScreen } from '$lib/server/cashScreens/cashScreenWriter';
 import { getPatch } from '$lib/server/patches/getPatch';
 import { isCompaniesHouseConfigured } from '$lib/server/companiesHouse/companiesHouseRequest';
 import { noSuchPatch } from './describePatch';
 import { objectSchema, readText, textField } from '../actionTypes';
-import { readCashScreen } from '$lib/server/cashScreens/readCashScreen';
-import type { CashScreen } from '$lib/server/cashScreens/cashScreenRecord';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
-const noSuchScreen = 'No cash screen has that id: start_cash_screen gives it.';
 const alreadyFinished = 'That screen is finished: read it with read_cash_screen.';
-const screenIdField = textField('The screen id, as start_cash_screen gave it');
+export const screenIdField = textField('The screen id, as start_cash_screen or list_cash_screens gave it');
 /** One turn stays well inside the time a connector call may take, so the answer always comes back. */
 const turnMilliseconds = 100_000;
 
+/** Screening a territory for cash: starting a screen and carrying it on; cashScreenReadingActions reads what screens there are and what one found. */
 export const cashScreenActions: McpAction[] = [
 	{
 		name: 'start_cash_screen',
@@ -27,7 +25,7 @@ export const cashScreenActions: McpAction[] = [
 		summary: "screen a territory's companies for cash at bank, in the background: each comes back as passes, passes through a connected company, maybe or fails",
 		guidance:
 			`Hubs and dormant companies are left out. Each company's latest accounts are read, and when its own cash falls short, who is behind it and their accounts. ` +
-			`The least cash is ${defaultLeastCash} unless you give another, in whole pounds. ${howToCarryOn}`,
+			`The least cash is ${defaultLeastCash} unless you give another, in whole pounds. Call list_cash_screens first: a screen already run for the same trade and cash is read, not run again. ${howToCarryOn}`,
 		inputSchema: objectSchema(
 			{
 				patchId: textField('The territory id, as given by list_patches'),
@@ -38,16 +36,6 @@ export const cashScreenActions: McpAction[] = [
 			['patchId']
 		),
 		run: async (caller, input) => startScreen(caller, input)
-	},
-	{
-		name: 'read_cash_screen',
-		area: 'patches',
-		audience: 'staff',
-		isWrite: false,
-		summary: 'how far a cash screen has got, and every company it has reached by outcome, with the reason and the day its accounts are made up to',
-		guidance: 'Outcomes are worked out as you read, from the readings kept, so a PDF you read and save later changes the answer. Cash is the balance on the made-up day, not today.',
-		inputSchema: objectSchema({ screenId: screenIdField }, ['screenId']),
-		run: async (caller, input) => readScreen(caller, readText(input, 'screenId'))
 	},
 	{
 		name: 'carry_on_cash_screen',
@@ -79,18 +67,4 @@ async function carryOn(caller: McpCaller, screenId: string): Promise<string> {
 	if (screen.finishedAt !== null) return alreadyFinished;
 	if (!isCompaniesHouseConfigured()) return companiesHouseNotConfigured;
 	return describeScreenTurn(await carryOnCashScreen(caller.supabase, screen, Date.now() + turnMilliseconds));
-}
-
-async function readScreen(caller: McpCaller, screenId: string): Promise<string> {
-	const screen = await getCashScreen(caller.supabase, screenId);
-	if (screen === null) return noSuchScreen;
-	const patch = await getPatch(caller.supabase, screen.patchId);
-	if (patch === null) return noSuchPatch;
-	const { screened, waiting } = await readCashScreen(caller.supabase, screen);
-	return describeCashScreen({ ...summaryOf(screen), territoryName: patch.name, screened, waiting });
-}
-
-function summaryOf(screen: CashScreen) {
-	const { id, sector, sicCode, leastCash, startedAt } = screen;
-	return { id, sector, sicCode, leastCash, startedAt, isFinished: screen.finishedAt !== null };
 }

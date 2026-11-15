@@ -20,7 +20,6 @@ vi.mock('$lib/server/companiesHouse/companiesHouseRequest', () => ({ isCompanies
 vi.mock('$lib/server/register/watchRegister', () => ({ companiesHouseNotConfigured: 'Companies House is not configured.' }));
 vi.mock('$lib/server/cashScreens/cashScreenWriter', () => ({ getCashScreen: screenRead, startCashScreen: screenStarted }));
 vi.mock('$lib/server/cashScreens/carryOnCashScreen', () => ({ carryOnCashScreen: screenCarriedOn }));
-vi.mock('$lib/server/cashScreens/readCashScreen', () => ({ readCashScreen: async () => ({ screened: [], waiting: 424 }) }));
 vi.mock('$lib/server/patches/getPatch', () => ({ getPatch: async () => territory }));
 
 function run(name: string, input: Record<string, unknown>) {
@@ -44,10 +43,6 @@ describe('screening a territory for cash through the connector', () => {
 		expect(await run('start_cash_screen', { patchId: territory.id, sicCode: '41' })).toBe(`Started screen ${screenId} of Surbiton. ${howToCarryOn}`);
 	});
 
-	it('tells whoever reads an unfinished screen how to carry it on', async () => {
-		expect(await run('read_cash_screen', { screenId })).toContain(`0 of 424 companies screened so far. ${howToCarryOn}`);
-	});
-
 	it('carries a screen on for a hundred seconds, well inside the time a connector call may take, and says how far it has got', async () => {
 		vi.useFakeTimers({ now: turnStartedAt });
 		expect(await run('carry_on_cash_screen', { screenId })).toBe('44 more companies screened: 44 of 424 so far. Call carry_on_cash_screen again to carry on.');
@@ -62,7 +57,7 @@ describe('screening a territory for cash through the connector', () => {
 
 	it('refuses an id no screen has', async () => {
 		screenRead.mockResolvedValue(null);
-		expect(await run('carry_on_cash_screen', { screenId: 'not-a-screen' })).toBe('No cash screen has that id: start_cash_screen gives it.');
+		expect(await run('carry_on_cash_screen', { screenId: 'not-a-screen' })).toBe("No cash screen has that id: list_cash_screens gives a territory's, and start_cash_screen starts one.");
 		expect(screenCarriedOn).not.toHaveBeenCalled();
 	});
 

@@ -6,11 +6,23 @@ import type { CashScreenNarrowing } from './cashScreenRules';
 /** One company the screen has reached, and what it comes out as. */
 export type ScreenedCompany = ScreenVerdict & { companyNumber: string; name: string };
 
-/** What a staff member's Claude is told about a screen: what it covers, how far it has got, and each company it reached. */
-export type CashScreenSummary = CashScreenNarrowing & { id: string; territoryName: string; startedAt: string; isFinished: boolean; screened: ScreenedCompany[]; waiting: number };
+/** What a staff member's Claude is told about a screen: what it covers, how far it has got, and each company it reached, the fails only when asked for. */
+export type CashScreenSummary = CashScreenNarrowing & {
+	id: string;
+	territoryName: string;
+	startedAt: string;
+	isFinished: boolean;
+	screened: ScreenedCompany[];
+	waiting: number;
+	isListingFails: boolean;
+};
 
 /** Said wherever a screen is not finished: a screen someone is waiting for is carried on by hand, because the background knock is rare. */
 export const howToCarryOn = 'Carry it on with carry_on_cash_screen until it answers that the screen is finished; left alone it is carried on in the background only a few times a day.';
+
+export const noSuchScreen = "No cash screen has that id: list_cash_screens gives a territory's, and start_cash_screen starts one.";
+
+const failsLeftOut = 'not listed, since nobody approaches them: read_cash_screen with showFails true lists each with its reason.';
 
 const outcomeHeadings: [CashScreenOutcome, string][] = [
 	[cashScreenOutcomes.passes, 'Passes'],
@@ -20,14 +32,19 @@ const outcomeHeadings: [CashScreenOutcome, string][] = [
 ];
 
 export function describeCashScreen(summary: CashScreenSummary): string {
-	const sections = outcomeHeadings.map(([outcome, heading]) => sectionFor(summary.screened, outcome, heading)).filter((section) => section !== '');
+	const sections = outcomeHeadings.map(([outcome, heading]) => sectionFor(summary, outcome, heading)).filter((section) => section !== '');
 	return [headerFor(summary), progressFor(summary), ...sections].join('\n\n');
 }
 
+/** What a screen covers, as its own header and its line in a territory's list both say it: ", SIC codes starting 41, for at least £100k cash at bank". */
+export function describeScreenCover(narrowing: CashScreenNarrowing): string {
+	const narrowedTo = [narrowing.sector === '' ? '' : `sector ${narrowing.sector}`, narrowing.sicCode === '' ? '' : `SIC codes starting ${narrowing.sicCode}`].filter((part) => part !== '');
+	const narrowingWords = narrowedTo.length === 0 ? '' : `, ${narrowedTo.join(', ')}`;
+	return `${narrowingWords}, for at least ${formatPounds(narrowing.leastCash)} cash at bank`;
+}
+
 function headerFor(summary: CashScreenSummary): string {
-	const narrowing = [summary.sector === '' ? '' : `sector ${summary.sector}`, summary.sicCode === '' ? '' : `SIC codes starting ${summary.sicCode}`].filter((part) => part !== '');
-	const narrowingWords = narrowing.length === 0 ? '' : `, ${narrowing.join(', ')}`;
-	return `Screen ${summary.id} of ${summary.territoryName}${narrowingWords}, for at least ${formatPounds(summary.leastCash)} cash at bank, started ${formatBritishDate(summary.startedAt.slice(0, 10))}.`;
+	return `Screen ${summary.id} of ${summary.territoryName}${describeScreenCover(summary)}, started ${formatBritishDate(summary.startedAt.slice(0, 10))}.`;
 }
 
 function progressFor(summary: CashScreenSummary): string {
@@ -49,9 +66,12 @@ export function describeScreenTurn(progress: ScreenTurnProgress): string {
 	return `${soFar} Companies House allows no more reading for the next ${progress.secondsUntilMoreCalls} seconds: call carry_on_cash_screen again after that.`;
 }
 
-function sectionFor(screened: ScreenedCompany[], outcome: CashScreenOutcome, heading: string): string {
-	const companies = screened.filter((company) => company.outcome === outcome);
+function sectionFor(summary: CashScreenSummary, outcome: CashScreenOutcome, heading: string): string {
+	const companies = summary.screened.filter((company) => company.outcome === outcome);
 	if (companies.length === 0) return '';
+	const title = `${heading} (${companies.length}):`;
+	const isLeftOut = outcome === cashScreenOutcomes.fails && !summary.isListingFails;
+	if (isLeftOut) return `${title} ${failsLeftOut}`;
 	const lines = companies.map((company) => `- ${company.name} (${company.companyNumber}): ${company.reason}`);
-	return [`${heading} (${companies.length}):`, ...lines].join('\n');
+	return [title, ...lines].join('\n');
 }
