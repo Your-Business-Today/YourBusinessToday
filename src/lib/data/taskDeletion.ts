@@ -47,6 +47,11 @@ export function taskDeletionRefusal(plan: TaskDeletionPlan, choices: TaskDeletio
 export const finishedTaskStays = (task: FamilyTask): string =>
 	`"${task.title}" is finished, so it stays as the record of the work and is not deleted.`;
 
+/** What stays of a task once it is deleted, by itself or with its whole project. */
+export const whatIsKeptOfDeletedTask =
+	'A copy of each deleted task is kept on the record of deletions, with its conversation and history. ' +
+	'Its attached files are not kept.';
+
 function isEverySubtaskDecided(plan: TaskDeletionPlan, choices: TaskDeletionChoices): boolean {
 	const { finishedSubtasks, openSubtasks } = plan;
 	const hasHomeForFinishedWork = finishedSubtasks.length === 0 || choices.completedParentTitle !== null;

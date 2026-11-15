@@ -1,15 +1,14 @@
 import { countOf } from '$lib/data/countOf';
 import { listedInWords } from '$lib/data/listedInWords';
 import { projectDeletionInputs, type ProjectContents } from '$lib/data/projectDeletion';
+import { whatIsKeptOfDeletedTask } from '$lib/data/taskDeletion';
 
 const { confirmProjectName } = projectDeletionInputs;
 const howToKeepIt = 'That is update_project_details with status complete.';
 const moveItBackFirst = 'If a task in it was marked done by mistake, move it back with update_task_status first.';
 const nothingWasDeleted = 'Nothing was deleted.';
 const finishedInstead = 'A project that has simply finished is set to complete with update_project_details instead.';
-const whatIsKept =
-	'A copy of each task is kept on the record of deletions, with its conversation. Attached files are not kept, ' +
-	'and nothing puts a project back.';
+const whatIsKept = `${whatIsKeptOfDeletedTask} Nothing puts a project back.`;
 
 /** What delete_project answers for a project that holds finished work: why it stays, and what to do instead. */
 export function projectStays(refusal: string): string {

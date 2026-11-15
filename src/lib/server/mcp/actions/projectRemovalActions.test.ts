@@ -68,7 +68,7 @@ describe('delete_project', () => {
 
 	it('deletes the project once its name is given back, and says what went with it', async () => {
 		const answer = await deleteProjectAction.run(onTheProject, namedBack);
-		expect(projectDeleted).toHaveBeenCalledWith(supabase, scratch);
+		expect(projectDeleted).toHaveBeenCalledWith(supabase, scratch, onTheProject.accountId);
 		expect(answer).toContain(`${asNamed} deleted, with 2 goals, 5 open tasks and one attached file.`);
 	});
 
