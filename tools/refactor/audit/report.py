@@ -5,12 +5,11 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
+from .baseline_table import baselineTable
 from .check_names import CHECKS_IN_REPORT_ORDER
-from .gate import RATCHETED_FIGURES
 from .inventory.file_areas import areasTable
 from .repository_layout import KIT_VERSION_FILE
 from .score.breakdown import breakdownTable, derivation, percentage
-
 
 
 def flattenSummaries(results: dict) -> dict:
@@ -54,21 +53,6 @@ def summaryTable(results: dict) -> str:
     return "\n".join(rows)
 
 
-def baselineTable(results: dict, score: dict, baselinePath: Path) -> str:
-    if not baselinePath.exists():
-        return "No `baseline.json` beside the audit — nothing to ratchet against."
-    baselineAudit = json.loads(baselinePath.read_text())
-    baseline, current = baselineAudit["summaries"], flattenSummaries(results)
-    scoreBefore = baselineAudit.get("score", {}).get("overall")
-    rows = ["| Ratcheted figure | Baseline | Now | Verdict |", "| --- | --- | --- | --- |"]
-    rows.append(f"| code quality score | {percentage(scoreBefore)} | {percentage(score['overall'])} | — |")
-    for checkName, figureName in RATCHETED_FIGURES:
-        was, now = baseline.get(checkName, {}).get(figureName), current.get(checkName, {}).get(figureName)
-        verdict = "—" if was is None or now is None else "worse" if now > was else "better" if now < was else "held"
-        rows.append(f"| {checkName}.{figureName} | {was} | {now} | {verdict} |")
-    return "\n".join(rows)
-
-
 def worstFilesSection(results: dict) -> str:
     offenders = results.get("fileLength", {}).get("offenders", [])[:20]
     if not offenders:
@@ -87,7 +71,7 @@ def writeMarkdown(results: dict, score: dict, outputDirectory: Path) -> Path:
         "## Code quality score", breakdownTable(score), derivation(),
         "## The repository by area", areasTable(results["fileAreas"]),
         "## Summary", summaryTable(results),
-        "## Against the baseline", baselineTable(results, score, baselinePath),
+        "## Against the baseline", baselineTable(flattenSummaries(results), score, baselinePath),
         "## Worst files by length", worstFilesSection(results),
         "Full detail, including every offender list, is in `audit.json`.",
     ])

@@ -3,20 +3,19 @@
 Usage: python3 -m tools.refactor.audit.run_audit [repositoryRoot] [--output outputDirectory] [--fast]
 --fast carries the duplication figure forward from the baseline instead of measuring it again, for the
 readings taken between the steps of a round; the first and last readings of a round are always full.
+A full reading that cannot measure duplication carries the baseline's figure too, and says so after the score.
 Requires Python 3.10+.
 """
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 from pathlib import Path
 
-from . import report
+from . import carried_duplication, report
 from .check_names import CheckName
-from .check_result import checkResult
 from .checks import (
-    accessor_names, comments, conditions, design_patterns, duplication, file_length,
+    accessor_names, comments, conditions, design_patterns, file_length,
     function_names, function_shape, input_validation, magic_values, naming, orphans, prose,
 )
 from .inventory import file_areas, pages_and_widgets
@@ -28,7 +27,7 @@ FILE_CHECKS = [
     file_length, function_shape, function_names, accessor_names, naming, comments, magic_values,
     prose, conditions, orphans, design_patterns, pages_and_widgets, site_definition,
 ]
-NOT_MEASURED = checkResult(CheckName.duplication, {"skipped": "--fast reading with no baseline to carry from"}, [])
+BASELINE_FILE = "baseline.json"
 RUN_AS_SCRIPT = "__main__"
 
 
@@ -40,14 +39,7 @@ def parseArguments() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def duplicationFromBaseline(baselinePath: Path) -> dict:
-    if not baselinePath.exists():
-        return NOT_MEASURED
-    carried = json.loads(baselinePath.read_text())["details"]["duplication"]
-    return {**carried, "summary": {**carried["summary"], "carriedFromBaseline": True}}
-
-
-def runChecks(repositoryRoot: Path, rules: dict, baselinePath: Path | None = None) -> dict:
+def runChecks(repositoryRoot: Path, rules: dict, baselinePath: Path, isFast: bool) -> dict:
     sourceFiles = resolveSourceFiles(repositoryRoot, rules)
     results = {}
     for module in FILE_CHECKS:
@@ -55,18 +47,25 @@ def runChecks(repositoryRoot: Path, rules: dict, baselinePath: Path | None = Non
         results[result["name"]] = result
     results["fileAreas"] = file_areas.check(repositoryRoot, sourceFiles, rules)
     results["inputValidation"] = input_validation.check(repositoryRoot, sourceFiles, rules)
-    results["duplication"] = duplicationFromBaseline(baselinePath) if baselinePath else duplication.check(repositoryRoot, rules)
+    results[CheckName.duplication] = carried_duplication.reading(repositoryRoot, rules, baselinePath, isFast)
     return results
+
+
+def sayUnmeasuredDuplication(duplication: dict) -> None:
+    notice = carried_duplication.unmeasuredNotice(duplication["summary"])
+    if notice:
+        print(notice)
 
 
 def audit(repositoryRoot: Path, outputDirectory: Path, isFast: bool = False) -> dict:
     rules = loadRules(repositoryRoot)
-    results = runChecks(repositoryRoot, rules, outputDirectory.parent / "baseline.json" if isFast else None)
+    results = runChecks(repositoryRoot, rules, outputDirectory.parent / BASELINE_FILE, isFast)
     score = calculate(report.flattenSummaries(results), rules)
     outputDirectory.mkdir(parents=True, exist_ok=True)
     jsonPath = report.writeJson(results, score, repositoryRoot, outputDirectory)
     markdownPath = report.writeMarkdown(results, score, outputDirectory)
     print(f"Code quality score {score['overall']}% — wrote {jsonPath} and {markdownPath}")
+    sayUnmeasuredDuplication(results[CheckName.duplication])
     return score
 
 
