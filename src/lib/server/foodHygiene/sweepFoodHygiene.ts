@@ -3,6 +3,7 @@ import { authoritiesToSweep } from './authoritiesToSweep';
 import { listFoodAuthorities } from './listFoodAuthorities';
 import { matchAuthoritiesToDistricts } from './matchAuthorities';
 import { readDistrictsOfOutcodes } from '$lib/server/postcodes/districtsOfOutcodes';
+import { readNewestPatchMadeAt } from '$lib/server/patches/readNewestPatchMadeAt';
 import { readOutcodesInUse } from '$lib/server/register/registerWriter';
 import { readSweptAuthorities } from '$lib/server/premises/readSweptAuthorities';
 import { sweepAuthority } from './sweepAuthority';
@@ -12,13 +13,15 @@ import type { WatchProgress, WatchStart } from '$lib/server/watch/watchSource';
 
 const timeBudgetMilliseconds = 240_000;
 
-/** Every authority a patch's outcodes fall in, read when its file moved; a run out of time says where it stopped. */
+/** Every authority a patch's outcodes fall in, read when its file moved or a patch was made since; a run out of time says where it stopped. */
 export async function sweepFoodHygiene(supabase: SupabaseClient, start: WatchStart, progress: WatchProgress): Promise<WatchOutcome> {
 	const outcodes = await readOutcodesInUse(supabase);
 	if (outcodes.size === 0) return { rowsWritten: 0, resumeMarker: '', note: 'No territory covers an outcode yet.', isFinished: true };
 	const districts = await readDistrictsOfOutcodes([...outcodes]);
 	const { matched, unmatched } = matchAuthoritiesToDistricts(await listFoodAuthorities(), [...districts.values()].flat());
-	const queue = authoritiesToSweep(matched, await readSweptAuthorities(supabase), start);
+	const swept = await readSweptAuthorities(supabase);
+	const newestPatchMadeAt = await readNewestPatchMadeAt(supabase);
+	const queue = authoritiesToSweep(matched, swept, start, newestPatchMadeAt);
 	const stopAt = Date.now() + timeBudgetMilliseconds;
 	const tally = { written: 0, gone: 0, refused: 0, swept: 0 };
 	let marker = start.wasLastRunFinished ? '' : start.resumeMarker;
@@ -49,7 +52,7 @@ function outOfTime(marker: string, tally: SweepTally, queued: number): WatchOutc
 
 function finishedNote(tally: SweepTally, queue: FoodAuthority[], unmatched: string[]): string {
 	const names = queue.map((authority) => authority.name).join(', ');
-	const swept = queue.length === 0 ? 'No authority file moved since the last sweep.' : `Swept ${names}: ${tally.gone} gone, ${tally.refused} rows refused.`;
+	const swept = queue.length === 0 ? 'No authority file moved and no territory was made since the last sweep.' : `Swept ${names}: ${tally.gone} gone, ${tally.refused} rows refused.`;
 	const districts = unmatched.length === 0 ? '' : ` No authority matched ${unmatched.join(', ')}.`;
 	return `${swept}${districts}`;
 }

@@ -3,7 +3,7 @@ import { foodHygieneSiteOrigin, requestFoodHygiene } from './requestFoodHygiene'
 
 const openDataFilesPath = '/api/open-data-files/';
 
-/** Every establishment in one authority's open-data file, fetched only when the sweep knows the file moved. */
+/** Every establishment in one authority's open-data file, fetched only when the sweep finds the authority due a reading. */
 export async function readAuthorityFile(fileName: string): Promise<Establishment[]> {
 	const body = await requestFoodHygiene(new URL(`${openDataFilesPath}${fileName}.json`, foodHygieneSiteOrigin));
 	return establishmentsIn(body);
