@@ -29,7 +29,8 @@ function deletion(id: string, projectId: string, title: string, record: Row, del
 		parentTaskId,
 		record,
 		deletedByAccountId: deletedBy,
-		deletedAt
+		deletedAt,
+		putBackAt: null
 	};
 }
 

@@ -50,7 +50,8 @@ export const finishedTaskStays = (task: FamilyTask): string =>
 /** What stays of a task once it is deleted, by itself or with its whole project. */
 export const whatIsKeptOfDeletedTask =
 	'A copy of each deleted task is kept on the record of deletions, with its conversation and history: ' +
-	'list_task_deletions lists them and read_task_deletion reads one. Its attached files are not kept.';
+	'list_task_deletions lists them, read_task_deletion reads one and put_back_deleted_task puts one back. ' +
+	'Its attached files are not kept.';
 
 function isEverySubtaskDecided(plan: TaskDeletionPlan, choices: TaskDeletionChoices): boolean {
 	const { finishedSubtasks, openSubtasks } = plan;
