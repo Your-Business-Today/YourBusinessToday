@@ -1,3 +1,4 @@
+import { meetingCommand } from './ybtMeetingCommand';
 import type { YbtCommand } from './ybtCommand';
 
 /** The commands of a staff member who sells: they walk the path rule 9 of the working doctrine lays out. */
@@ -28,5 +29,6 @@ export const salesCommands: YbtCommand[] = [
 			'For each, read_person says what is known and what was last said; then give me the words to send or say. I send them myself: you never send anything to a lead. ' +
 			'When I tell you how it went, log_lead_conversation records it at their company and update_person sets the next step and the day it is due, and their warmth when it has changed. ' +
 			'When nobody is due today, say so and offer me the week ahead.'
-	}
+	},
+	meetingCommand
 ];
