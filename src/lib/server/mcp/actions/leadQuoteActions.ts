@@ -48,7 +48,8 @@ async function fileQuote(caller: McpCaller, input: Record<string, unknown>): Pro
 	const client = await getClient(caller.supabase, quote.clientId);
 	if (client === null) return noSuchClient;
 	const version = await fileLeadQuote(caller.supabase, quote, caller.accountId);
-	return `Filed version ${version} of the quote for ${client.name}: ${quote.title}, ${quote.lines.length} line(s). read_lead_quote reads it back.`;
+	const { lines } = quote;
+	return `Filed version ${version} of the quote for ${client.name}: ${quote.title}, ${lines.length} line(s). read_lead_quote reads it back.`;
 }
 
 async function readQuote(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
