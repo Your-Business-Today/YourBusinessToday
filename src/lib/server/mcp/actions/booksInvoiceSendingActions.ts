@@ -7,6 +7,7 @@ import { booksOrganisationField } from './booksFields';
 import { invoiceIdField, invoiceSendToField } from './booksInvoiceFields';
 import { readInvoiceInFull } from './booksInvoiceReading';
 import type { McpAction } from '../actionTypes';
+import { emailSenders, sendsEmailFrom } from '../sendsEmail';
 
 const sendOnlyWhenThePersonSaysSo =
 	'Send an invoice only when the person says to, after reading it back to them with read_invoice: it emails the ' +
@@ -25,7 +26,7 @@ export const booksInvoiceSendingActions: McpAction[] = [
 		area: 'books',
 		audience: 'everyone',
 		isWrite: true,
-		summary: "email one of an organisation's issued invoices to its customer, keeping when it went",
+		summary: sendsEmailFrom(emailSenders.yourBusinessToday, "email one of an organisation's issued invoices to its customer, keeping when it went"),
 		guidance: sendOnlyWhenThePersonSaysSo,
 		inputSchema: objectSchema({ organisationId: booksOrganisationField, invoiceId: invoiceIdField, to: invoiceSendToField }, [
 			'organisationId',

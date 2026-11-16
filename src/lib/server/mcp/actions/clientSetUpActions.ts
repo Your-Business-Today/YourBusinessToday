@@ -8,6 +8,7 @@ import { clientSetUpLimits, type SetUpPerson } from '$lib/onboarding/onboarding'
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
+import { emailSenders, sendsEmailFrom } from '../sendsEmail';
 
 const personSchema = objectSchema(
 	{
@@ -29,7 +30,10 @@ export const clientSetUpActions: McpAction[] = [
 		area: 'clients',
 		audience: 'staff',
 		isWrite: true,
-		summary: 'set a client already on the register up: its organisation, Onboarding project and first people, each sent one link',
+		summary: sendsEmailFrom(
+			emailSenders.yourBusinessToday,
+			'set a client already on the register up: its organisation, Onboarding project and first people, each sent one link'
+		),
 		guidance:
 			'Nobody signs themselves up: this is how a client starts. It works on the client already on the ' +
 			'register and never makes a second one; a person already listed there is used as listed. Each person ' +

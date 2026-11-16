@@ -10,6 +10,7 @@ import { validateRecordId } from '$lib/data/isUuid';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
+import { emailSenders, sendsEmailFrom } from '../sendsEmail';
 
 const isPrimaryField = { type: 'boolean', description: 'Make this the client main contact' };
 const noSuchContact = 'No contact has that id. Call read_client to see who is listed.';
@@ -39,7 +40,7 @@ export const clientContactActions: McpAction[] = [
 		area: 'clients',
 		audience: 'staff',
 		isWrite: true,
-		summary: 'email a listed contact an invitation to sign in and see their requests',
+		summary: sendsEmailFrom(emailSenders.yourBusinessToday, 'email a listed contact an invitation to sign in and see their requests'),
 		guidance:
 			'An invitation gives that person a sign-in of their own and sight of everything their ' +
 			'company has raised, so invite the person the client named, never a shared inbox.',
