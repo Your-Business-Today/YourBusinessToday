@@ -21,7 +21,11 @@ export async function getFeedForPatches(supabase: SupabaseClient, request: AreaF
 }
 
 async function readRows(supabase: SupabaseClient, request: AreaFeedRequest): Promise<AreaEvent[]> {
-	let query = supabase.from('area_events').select(areaEventColumns).in('outcode', [...new Set(request.outcodes)]);
+	let query = supabase
+		.from('area_events')
+		.select(areaEventColumns)
+		.in('outcode', [...new Set(request.outcodes)])
+		.eq('is_withdrawn', false);
 	if (request.kinds !== null) query = query.in('kind', request.kinds);
 	if (request.since !== null) query = query.gte('created_at', request.since);
 	const { data, error } = await query.order('created_at', { ascending: false }).limit(areaFeedPageSize);
