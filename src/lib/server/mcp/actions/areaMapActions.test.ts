@@ -3,6 +3,7 @@ import { areaMapActions } from './areaMapActions';
 import { areaSearchRefusals } from '$lib/data/areaSearch';
 import { mapFailedMessage, unknownPostcodeMessage } from '$lib/server/clients/area/areaOutcome';
 import type { McpCaller } from '../resolveMcpCaller';
+import { pageNumberRefusal, pinsPerPage } from './areaMapPages';
 
 const clientId = '11111111-1111-4111-8111-111111111111';
 const staff = { accountId: 'staff-1', supabase: {} } as unknown as McpCaller;
@@ -57,5 +58,26 @@ describe('the area map through the connector', () => {
 		expect(await run({ postcode: 'SW1A 1AA' })).toBe(unknownPostcodeMessage);
 		mapping.mockRejectedValue(new Error('down'));
 		expect(await run({ postcode: 'SW1A 1AA' })).toBe(mapFailedMessage);
+	});
+
+	it('lists a wide map a page at a time, nearest first, and says which page lists the next', async () => {
+		const pinCount = pinsPerPage * 2 + 5;
+		const pins = Array.from({ length: pinCount }, (_, index) => pin({ key: `${index}`, name: `Company ${index + 1}`, distanceMiles: index / 100 }));
+		mapping.mockResolvedValue({ centre, radiusMiles: 5, pins, companiesHouseHits: pinCount, isSearchedOnCompaniesHouse: true });
+		const firstLines = String(await run({ postcode: 'SW1A 1AA', radiusMiles: 5 })).split('\n');
+		expect(firstLines).toHaveLength(pinsPerPage + 2);
+		expect(firstLines[1]).toBe(`Page 1 of 3: companies 1 to ${pinsPerPage}, nearest first. pageNumber 2 lists the next ${pinsPerPage}. Choose SIC codes or a smaller radius to narrow the map.`);
+		expect(firstLines[2]).toContain('Company 1 —');
+		const lastLines = String(await run({ postcode: 'SW1A 1AA', radiusMiles: 5, pageNumber: 3 })).split('\n');
+		expect(lastLines).toHaveLength(5 + 2);
+		expect(lastLines[1]).toBe(`Page 3 of 3: companies ${pinsPerPage * 2 + 1} to ${pinCount}, nearest first. Choose SIC codes or a smaller radius to narrow the map.`);
+		expect(await run({ postcode: 'SW1A 1AA', radiusMiles: 5, pageNumber: 4 })).toBe(`The map lists 3 pages of up to ${pinsPerPage} companies; pageNumber 4 is past the last.`);
+	});
+
+	it('refuses a page that is not a whole number from 1, and maps nothing', async () => {
+		expect(await run({ postcode: 'SW1A 1AA', pageNumber: 0 })).toBe(pageNumberRefusal);
+		expect(await run({ postcode: 'SW1A 1AA', pageNumber: 1.5 })).toBe(pageNumberRefusal);
+		expect(await run({ postcode: 'SW1A 1AA', pageNumber: 'two' })).toBe(pageNumberRefusal);
+		expect(mapping).not.toHaveBeenCalled();
 	});
 });

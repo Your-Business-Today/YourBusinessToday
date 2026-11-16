@@ -4,6 +4,7 @@ import { defaultRadiusMiles, radiusOrder } from '$lib/data/mapRadii';
 import { objectSchema, textField } from '../actionTypes';
 import { validateAreaSearch } from '$lib/data/areaSearch';
 import type { McpAction } from '../actionTypes';
+import { pageNumberRefusal, pinsPerPage, readPageNumber } from './areaMapPages';
 
 export const areaMapActions: McpAction[] = [
 	{
@@ -15,21 +16,25 @@ export const areaMapActions: McpAction[] = [
 		guidance:
 			'This is the area map: a company already on our register is shown with its stage and client id, and one that is not can be added ' +
 			'with add_company_as_lead by its company number. Companies House shows the nearest around a busy postcode; narrow with SIC codes ' +
-			'or a smaller radius to see the rest. A registered-office hub is one address holding many companies, most of them not trading there.',
+			`or a smaller radius to see the rest. A wide map is listed ${pinsPerPage} companies a page, nearest first, and the answer says ` +
+			'which pageNumber lists the next. A registered-office hub is one address holding many companies, most of them not trading there.',
 		inputSchema: objectSchema(
 			{
 				postcode: textField('The postcode at the centre, such as SW1A 1AA'),
 				radiusMiles: { type: 'integer', enum: radiusOrder, description: `How far around it, in miles; leave out for ${defaultRadiusMiles}` },
-				sicCodes: textField('Five-digit SIC codes to narrow the search to, separated by commas')
+				sicCodes: textField('Five-digit SIC codes to narrow the search to, separated by commas'),
+				pageNumber: { type: 'integer', minimum: 1, description: `Which page of ${pinsPerPage} companies, nearest first, from 1; leave out for the first` }
 			},
 			['postcode']
 		),
 		run: async (caller, input) => {
 			const search = validateAreaSearch(input);
 			if (typeof search === 'string') return search;
+			const pageNumber = readPageNumber(input.pageNumber);
+			if (pageNumber === null) return pageNumberRefusal;
 			const outcome = await areaFor(caller.supabase, search);
 			if (outcome.area === null) return outcome.notice ?? '';
-			return describeAreaMap(outcome.area);
+			return describeAreaMap(outcome.area, pageNumber);
 		}
 	}
 ];
