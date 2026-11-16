@@ -36,8 +36,8 @@ vi.mock('$lib/server/people/getPerson', () => ({
 vi.mock('$lib/server/people/getCompaniesForPerson', () => ({
 	getCompaniesForPerson: async () => [{ id: 'client-1', name: 'Rivers Ltd', contactId: samsListingId }]
 }));
-vi.mock('$lib/server/people/updatePersonProfile', () => ({
-	personProfileSaves: { saved: 'saved', emailTaken: 'email_taken' },
+vi.mock('$lib/server/people/updatePersonProfile', async (importOriginal) => ({
+	...(await importOriginal<typeof import('$lib/server/people/updatePersonProfile')>()),
 	updatePersonProfile: profileSaved
 }));
 vi.mock('$lib/server/clients/updateContactRole', () => ({ updateContactRole: roleSaved }));
