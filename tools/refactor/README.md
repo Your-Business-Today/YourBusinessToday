@@ -10,7 +10,7 @@ From the repository root:
 python3 -m tools.refactor.audit.quality_check .
 ```
 
-Runs the full audit, scores it, and writes three things: the box at the bottom of `README.md` (the score, with its breakdown, the repository's files by area and the refactoring plan expandable beneath it — only the block between the `code-quality` markers is touched), `refactor-plan.md` here (the steps a refactor of this repository follows, in order, with the measured detail behind the first targets), and `audit-output/`. It changes no source and never moves the baseline.
+Runs the full audit, scores it, and writes three things: the box at the bottom of `README.md` (the score, with its breakdown, the repository's files by area and the refactoring plan expandable beneath it — only the block between the `code-quality` markers is touched), `refactor-plan.md` here (the steps a refactor of this repository follows, in order, with the measured detail behind the first targets), and `audit-output/`. It changes no source and never moves the baseline. `audit-output/` is ignored by git (`tools/.gitignore`): every session takes a reading before it says its work is done, and a committed reading would make two sessions' pull requests clash on it, so only what is published — the box, the plan, the site definition and, after a round, `baseline.json` and `baseline-report.md` — is tracked.
 
 ## The site definition
 
