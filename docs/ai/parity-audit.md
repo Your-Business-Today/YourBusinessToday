@@ -87,6 +87,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-073 | read a client in full, with its history | staff | read | `/clients/{clientId}` load | `read_client` `read_client_history` | `/clients/{clientId}` |
 | US-074 | list a contact at a client, invite them, assign a project | staff | write | `addContact` `inviteContact` `assignProject` | `add_client_contact` `invite_client_contact` `assign_project_to_client` | `/clients/{clientId}` |
 | US-075 | set a new client up on Your Business Today | staff | write | `setUpClient` | `set_up_client` | `/clients/{clientId}` |
+| US-182 | open a lead's own organisation before it signs, inviting nobody, and reach its domain and organisation from the lead's page | staff | write | `openOrganisation` | `open_lead_organisation` `read_client` | `/clients/{clientId}` |
 | US-076 | change a client's company profile | staff | write | `updateProfile` | `update_company_profile` | `/clients/{clientId}` |
 | US-077 | record a client's continuity copy | staff | write | `recordContinuityCopy` | `record_client_continuity_copy` | `/clients/{clientId}` |
 | US-078 | group a client under a parent and import its officers from Companies House | staff | write | `groupUnder` `importOfficers` | `group_client_under` `import_company_officers` | `/clients/{clientId}` |

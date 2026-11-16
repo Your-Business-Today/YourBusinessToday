@@ -185,6 +185,8 @@ contact, want from the title, benefit from their stated reason. The task and the
 then reference each other; neither copy of the wording drifts, because the task's `details`
 links back rather than restating.
 
+**A lead may have its own organisation before it signs.** `openLeadOrganisation` (`src/lib/server/onboarding/`, the lead page's *Open its organisation* button and the connector's `open_lead_organisation`) gives a company on the register the organisation already linked to it, else links the top-level organisation carrying its exact name that is linked to nothing, else makes one in its name, and switches Your Business Brain on for it, so its domain and workflow map can be built and shown at the first meeting. It invites nobody, sends no email and makes no project. `organisations.client_id` is one per company, so setting the client up later (`setClientUp`, through `organisationForClient`) finds and reuses the same organisation and carries on from what was built.
+
 ## Status
 
 Steps 1 and 3 to 6 are built and on `main`'s working tree; migrations 0034 and 0035 are

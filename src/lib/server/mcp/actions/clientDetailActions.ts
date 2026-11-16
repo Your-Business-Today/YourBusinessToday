@@ -10,6 +10,7 @@ import { getConversationsForClient } from '$lib/server/leadConversations/getConv
 import { getEmailsForClient } from '$lib/server/filedEmails/getFiledEmails';
 import { filedEmailLimits } from '$lib/data/filedEmailRules';
 import { getPremisesForClient } from '$lib/server/premises/getPremisesForClient';
+import { findOrganisationLinkOfClient } from '$lib/server/onboarding/leadOrganisationRows';
 import { readClientResearchGuidance } from './companyResearchGuidance';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
@@ -42,16 +43,17 @@ export const clientDetailActions: McpAction[] = [
 async function readClientInFull(caller: McpCaller, clientId: string): Promise<string> {
 	const client = await getClient(caller.supabase, clientId);
 	if (client === null) return noSuchClient;
-	const [contacts, projects, conversations, staffMembers, premises, emails] = await Promise.all([
+	const [contacts, projects, conversations, staffMembers, premises, emails, organisation] = await Promise.all([
 		getContactsForClient(caller.supabase, client.id),
 		getProjectsForClient(caller.supabase, client.id),
 		getConversationsForClient(caller.supabase, client.id),
 		getStaffDirectory(caller.supabase),
 		getPremisesForClient(caller.supabase, client.id),
-		getEmailsForClient(caller.supabase, client.id, filedEmailLimits.mostShownToClaude)
+		getEmailsForClient(caller.supabase, client.id, filedEmailLimits.mostShownToClaude),
+		findOrganisationLinkOfClient(caller.supabase, client.id)
 	]);
 	const broughtInBy = broughtInByName(staffMembers, client.ownerId);
-	return describeClientInFull({ client, broughtInBy, premises }, { contacts, projects, conversations, emails });
+	return describeClientInFull({ client, broughtInBy, organisation, premises }, { contacts, projects, conversations, emails });
 }
 
 async function readHistoryForClient(caller: McpCaller, clientId: string): Promise<string> {
