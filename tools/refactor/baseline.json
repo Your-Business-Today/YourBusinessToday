@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-16T11:59:35+00:00",
-  "kitVersion": "1.52.0",
+  "generatedAt": "2026-11-16T19:07:06+00:00",
+  "kitVersion": "1.55.0",
   "score": {
     "overall": 99.9,
     "groups": [
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 5122,
+        "measuredAgainst": 5213,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7998,
+        "measuredAgainst": 8166,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7253,
+        "measuredAgainst": 7442,
         "score": 100.0
       },
       {
@@ -87,7 +87,7 @@
         "zeroAt": 20,
         "unit": "",
         "isMeasured": true,
-        "offenders": 0.32,
+        "offenders": 0.33,
         "measuredAgainst": 1,
         "score": 98.4
       },
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 197.51,
+        "measuredAgainst": 201.26,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 197.51,
+        "measuredAgainst": 201.26,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 8743,
+        "measuredAgainst": 8914,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 197.51,
+        "measuredAgainst": 201.26,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 197.51,
+        "measuredAgainst": 201.26,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7998,
+        "measuredAgainst": 8166,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7253,
+        "measuredAgainst": 7442,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7253,
+        "measuredAgainst": 7442,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7998,
+        "measuredAgainst": 8166,
         "score": 100.0
       },
       {
@@ -231,7 +231,7 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 468,
+        "measuredAgainst": 470,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 404,
+        "measuredAgainst": 416,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 5122,
-      "totalLines": 197506,
+      "totalFiles": 5213,
+      "totalLines": 201256,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 7998,
+      "totalFunctions": 8166,
       "elseBlocks": 0,
-      "ifBlocks": 7253,
+      "ifBlocks": 7442,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -275,13 +275,13 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 74,
-      "duplicatedLines": 637,
-      "totalLines": 200393,
-      "duplicatedPercentage": 0.32
+      "clones": 76,
+      "duplicatedLines": 681,
+      "totalLines": 204085,
+      "duplicatedPercentage": 0.33
     },
     "naming": {
-      "bannedAbbreviationHits": 128,
+      "bannedAbbreviationHits": 172,
       "unprefixedBooleans": 11
     },
     "comments": {
@@ -297,7 +297,7 @@
     "prose": {
       "longMemberChainLines": 0,
       "deeplyIndentedLines": 0,
-      "overlongLines": 770,
+      "overlongLines": 792,
       "measurementIsHeuristic": true
     },
     "conditions": {
@@ -307,10 +307,10 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 7998
+      "functionsExamined": 8166
     },
     "designPatterns": {
-      "roleFamilies": 251,
+      "roleFamilies": 252,
       "predictedFiles": 249,
       "predictedFilesMissing": 0,
       "entities": 0,
@@ -320,18 +320,18 @@
     },
     "inventory": {
       "pages": 80,
-      "components": 745,
+      "components": 748,
       "orphanComponents": 0,
       "averagePageLines": 44
     },
     "siteDefinition": {
       "routes": 79,
-      "views": 828,
-      "siteComponents": 733,
+      "views": 831,
+      "siteComponents": 736,
       "catalogue": 14,
-      "widgetUsages": 468,
+      "widgetUsages": 470,
       "handRolledElements": 0,
-      "widgetSlots": 468,
+      "widgetSlots": 470,
       "viewsWithHandRolled": 0,
       "boxedContentWidgets": 0,
       "designSheets": 8,
@@ -339,22 +339,22 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 228,
+      "schemaTables": 230,
       "limitedColumns": 0,
-      "writeDoors": 404,
+      "writeDoors": 416,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5802,
-      "backend": 1506,
-      "frontend": 1205,
-      "shared": 972,
-      "tests": 936,
-      "api": 667,
-      "database": 251,
-      "tooling": 167,
-      "docs": 79,
+      "totalFiles": 5897,
+      "backend": 1529,
+      "frontend": 1208,
+      "shared": 982,
+      "tests": 966,
+      "api": 692,
+      "database": 256,
+      "tooling": 165,
+      "docs": 80,
       "infrastructure": 19
     }
   },
@@ -364,8 +364,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 5122,
-        "totalLines": 197506,
+        "totalFiles": 5213,
+        "totalLines": 201256,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -376,9 +376,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 7998,
+        "totalFunctions": 8166,
         "elseBlocks": 0,
-        "ifBlocks": 7253,
+        "ifBlocks": 7442,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -403,7 +403,7 @@
     "naming": {
       "name": "naming",
       "summary": {
-        "bannedAbbreviationHits": 128,
+        "bannedAbbreviationHits": 172,
         "unprefixedBooleans": 11
       },
       "offenders": {
@@ -505,6 +505,10 @@
             "line": 14
           },
           {
+            "file": "src/lib/server/filedEmails/findEmailSender.test.ts",
+            "line": 5
+          },
+          {
             "file": "src/lib/server/goals/createGoalWithTasks.test.ts",
             "line": 9
           },
@@ -519,6 +523,10 @@
           {
             "file": "src/lib/server/goals/createGoalWithTasks.test.ts",
             "line": 12
+          },
+          {
+            "file": "src/lib/server/leadsFromEmail/leadEnquiry.fixture.ts",
+            "line": 25
           },
           {
             "file": "src/lib/server/mcp/actions/acceptanceCriterionActions.test.ts",
@@ -553,8 +561,12 @@
             "line": 15
           },
           {
+            "file": "src/lib/server/mcp/actions/addTodoFromEmail.test.ts",
+            "line": 19
+          },
+          {
             "file": "src/lib/server/mcp/actions/areaMapActions.test.ts",
-            "line": 10
+            "line": 11
           },
           {
             "file": "src/lib/server/mcp/actions/blueprintRefreshActions.test.ts",
@@ -595,18 +607,6 @@
           {
             "file": "src/lib/server/mcp/actions/businessBrainActions.test.ts",
             "line": 13
-          },
-          {
-            "file": "src/lib/server/mcp/actions/businessBrainFileActions.test.ts",
-            "line": 12
-          },
-          {
-            "file": "src/lib/server/mcp/actions/businessBrainFileActions.test.ts",
-            "line": 13
-          },
-          {
-            "file": "src/lib/server/mcp/actions/businessBrainOpenFile.test.ts",
-            "line": 10
           }
         ],
         "booleans": [
@@ -695,7 +695,7 @@
       "summary": {
         "longMemberChainLines": 0,
         "deeplyIndentedLines": 0,
-        "overlongLines": 770,
+        "overlongLines": 792,
         "measurementIsHeuristic": true
       },
       "offenders": {
@@ -921,14 +921,14 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 7998
+        "functionsExamined": 8166
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 251,
+        "roleFamilies": 252,
         "predictedFiles": 249,
         "predictedFilesMissing": 0,
         "entities": 0,
@@ -946,7 +946,7 @@
           "account": 8,
           "accounts": 7,
           "action": 24,
-          "actions": 243,
+          "actions": 249,
           "address": 10,
           "adverts": 4,
           "answer": 15,
@@ -969,7 +969,7 @@
           "card": 23,
           "catalogue": 5,
           "cell": 7,
-          "cells": 5,
+          "cells": 6,
           "chatbot": 5,
           "check": 12,
           "checklist": 4,
@@ -993,28 +993,29 @@
           "date": 7,
           "days": 5,
           "decision": 6,
+          "decisions": 5,
           "deletion": 8,
           "deploy": 4,
           "details": 12,
           "director": 6,
-          "doctrine": 10,
+          "doctrine": 11,
           "document": 7,
-          "domain": 7,
+          "domain": 8,
           "door": 4,
           "draft": 5,
-          "email": 15,
+          "email": 27,
           "entries": 9,
           "entry": 13,
           "event": 12,
           "facts": 26,
           "field": 26,
-          "fields": 55,
+          "fields": 58,
           "figures": 5,
           "file": 11,
           "files": 7,
           "filter": 9,
           "filters": 4,
-          "fixture": 40,
+          "fixture": 42,
           "fixtures": 27,
           "for": 10,
           "form": 79,
@@ -1031,7 +1032,7 @@
           "icon": 5,
           "id": 4,
           "ids": 11,
-          "input": 5,
+          "input": 6,
           "invoice": 11,
           "invoices": 7,
           "item": 19,
@@ -1050,7 +1051,7 @@
           "lines": 15,
           "link": 22,
           "links": 16,
-          "list": 37,
+          "list": 38,
           "making": 7,
           "map": 40,
           "match": 5,
@@ -1065,7 +1066,7 @@
           "modal": 16,
           "model": 8,
           "name": 15,
-          "names": 13,
+          "names": 14,
           "navigation": 4,
           "node": 5,
           "note": 12,
@@ -1079,9 +1080,9 @@
           "origin": 4,
           "outcome": 6,
           "overview": 4,
-          "owner": 5,
+          "owner": 6,
           "page": 27,
-          "pages": 10,
+          "pages": 11,
           "pane": 5,
           "panel": 53,
           "paper": 12,
@@ -1114,7 +1115,7 @@
           "refusal": 13,
           "register": 11,
           "report": 4,
-          "request": 24,
+          "request": 25,
           "requests": 5,
           "review": 5,
           "rhythm": 4,
@@ -1123,14 +1124,14 @@
           "row": 50,
           "rows": 32,
           "rule": 8,
-          "rules": 81,
+          "rules": 84,
           "run": 11,
           "runs": 28,
           "schemas": 15,
           "scope": 4,
           "screen": 4,
-          "section": 40,
-          "sections": 15,
+          "section": 42,
+          "sections": 16,
           "sector": 4,
           "select": 6,
           "sentence": 8,
@@ -1150,7 +1151,7 @@
           "stations": 9,
           "status": 11,
           "step": 7,
-          "steps": 14,
+          "steps": 15,
           "storage": 5,
           "strip": 4,
           "styles": 10,
@@ -1161,10 +1162,10 @@
           "table": 57,
           "tabs": 13,
           "targets": 5,
-          "task": 27,
+          "task": 28,
           "tasks": 15,
-          "test": 902,
-          "text": 15,
+          "test": 925,
+          "text": 16,
           "tiles": 5,
           "time": 5,
           "title": 8,
@@ -1260,25 +1261,25 @@
       "name": "inventory",
       "summary": {
         "pages": 80,
-        "components": 745,
+        "components": 748,
         "orphanComponents": 0,
         "averagePageLines": 44
       },
       "offenders": {
         "pages": [
           {
-            "page": "src/routes/[register=salesRegister]/[clientId]/+page.svelte",
-            "lines": 100,
-            "widgets": [
-              "modal",
-              "error"
-            ]
-          },
-          {
             "page": "src/routes/projects/[projectId]/tasks/[taskId]/+page.svelte",
             "lines": 98,
             "widgets": [
               "modal"
+            ]
+          },
+          {
+            "page": "src/routes/[register=salesRegister]/[clientId]/+page.svelte",
+            "lines": 96,
+            "widgets": [
+              "modal",
+              "error"
             ]
           },
           {
@@ -1757,11 +1758,11 @@
           },
           {
             "component": "src/lib/components/workspace/RecordsCell.svelte",
-            "reusedBy": 54
+            "reusedBy": 55
           },
           {
             "component": "src/lib/components/workspace/RecordsTable.svelte",
-            "reusedBy": 52
+            "reusedBy": 53
           },
           {
             "component": "src/lib/components/site/FormField.svelte",
@@ -1769,7 +1770,7 @@
           },
           {
             "component": "src/lib/components/site/Button.svelte",
-            "reusedBy": 41
+            "reusedBy": 42
           },
           {
             "component": "src/lib/components/workspace/WorkspaceHeader.svelte",
@@ -3012,6 +3013,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/clients/ClientSupportSection.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/clients/ClientTable.svelte",
             "reusedBy": 1
           },
@@ -3073,6 +3078,14 @@
           },
           {
             "component": "src/lib/components/clients/conversations/LeadConversationsSection.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/emails/FiledEmailCells.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/clients/emails/FiledEmailsSection.svelte",
             "reusedBy": 1
           },
           {
@@ -4731,12 +4744,12 @@
       "name": "siteDefinition",
       "summary": {
         "routes": 79,
-        "views": 828,
-        "siteComponents": 733,
+        "views": 831,
+        "siteComponents": 736,
         "catalogue": 14,
-        "widgetUsages": 468,
+        "widgetUsages": 470,
         "handRolledElements": 0,
-        "widgetSlots": 468,
+        "widgetSlots": 470,
         "viewsWithHandRolled": 0,
         "boxedContentWidgets": 0,
         "designSheets": 8,
@@ -4907,8 +4920,8 @@
         {
           "route": "/[register=salesRegister]/[clientId]",
           "file": "src/routes/[register=salesRegister]/[clientId]/+page.svelte",
-          "definition": "ClientHeader, FormErrorNote, CompanyJobAdverts, CompanyProfileForm, ClientPeopleSection, LeadConversationsSection, ClientGroupSection, ClientProjectList, ClientContinuityCopySection, SupportTaskTable, ClientObservations, ClientEventLedger, ClientDeletion, Modal{ AssignProjectForm }",
-          "expanded": "ClientHeader=( PageTitle, ClientPremises=( ?listedPage !== '': ListedWebsite ), ClientBroughtInByForm=( FormField{ BroughtInBySelect } ) ), FormErrorNote, CompanyJobAdverts=( FindJobAdvertsButton=( Modal{ AskClaudeToFindJobAdverts=( CopyTextButton ) } ), (n) JobAdvertRow ), CompanyProfileForm=( [ FormField CompanyPlaceFields=( (2) FormField ) FormField CompanyScaleFields=( (2) FormField ) ], CompanyNarrativeFields=( (2) FormField ), SubmitButton ), ClientPeopleSection=( ClientPeopleActions=( ?canImportOfficers: SubmitButton ), (n) PersonCard=( ?canInvite: SubmitButton, PersonFacts=( WarmthPill ), PersonLinkList=( (n) PersonLinkChip, SubmitButton ), PersonNoteTimeline=( ProseText, SubmitButton ) ), Modal{ NewContactForm=( (4) FormField, SubmitButton ) }, Modal{ ClientSetUpForm=( (2) FormField, SubmitButton ) }, Modal{ ?personBeingEdited !== null: PersonFieldsForm=( [ FormField ?contactId !== null: FormField (2) FormField PersonProfileFields=( (5) FormField ) ], SubmitButton ) }, Modal{ ?personToApproach !== null: AskClaudeToDraftApproach=( CopyTextButton ) } ), LeadConversationsSection=( LeadConversationTable=( RecordsTable{ (6) RecordsCell } ), Modal{ LeadConversationForm=( (6) FormField, SubmitButton ) }, Modal{ ?conversationBeingRead !== null: LeadConversationRead } ), ClientGroupSection=( ?children.length > 0: StagePill, ?children.length === 0 && parent\u2026: GroupUnderForm=( SubmitButton ) ), ClientProjectList, ClientContinuityCopySection=( [ (3) FormField ], SubmitButton ), SupportTaskTable=( RecordsTable{ (4) RecordsCell } ), ClientObservations=( ?observations.length > 0: (n) ObservationRow ), ClientEventLedger, ClientDeletion=( DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), Modal{ AssignProjectForm=( FormField, (2) FormField, SubmitButton ) }"
+          "definition": "ClientHeader, FormErrorNote, CompanyJobAdverts, CompanyProfileForm, ClientPeopleSection, LeadConversationsSection, FiledEmailsSection, ClientGroupSection, ClientProjectList, ClientContinuityCopySection, ClientSupportSection, ClientObservations, ClientEventLedger, ClientDeletion, Modal{ AssignProjectForm }",
+          "expanded": "ClientHeader=( PageTitle, ClientPremises=( ?listedPage !== '': ListedWebsite ), ClientBroughtInByForm=( FormField{ BroughtInBySelect } ) ), FormErrorNote, CompanyJobAdverts=( FindJobAdvertsButton=( Modal{ AskClaudeToFindJobAdverts=( CopyTextButton ) } ), (n) JobAdvertRow ), CompanyProfileForm=( [ FormField CompanyPlaceFields=( (2) FormField ) FormField CompanyScaleFields=( (2) FormField ) ], CompanyNarrativeFields=( (2) FormField ), SubmitButton ), ClientPeopleSection=( ClientPeopleActions=( ?canImportOfficers: SubmitButton ), (n) PersonCard=( ?canInvite: SubmitButton, PersonFacts=( WarmthPill ), PersonLinkList=( (n) PersonLinkChip, SubmitButton ), PersonNoteTimeline=( ProseText, SubmitButton ) ), Modal{ NewContactForm=( (4) FormField, SubmitButton ) }, Modal{ ClientSetUpForm=( (2) FormField, SubmitButton ) }, Modal{ ?personBeingEdited !== null: PersonFieldsForm=( [ FormField ?contactId !== null: FormField (2) FormField PersonProfileFields=( (5) FormField ) ], SubmitButton ) }, Modal{ ?personToApproach !== null: AskClaudeToDraftApproach=( CopyTextButton ) } ), LeadConversationsSection=( LeadConversationTable=( RecordsTable{ (6) RecordsCell } ), Modal{ LeadConversationForm=( (6) FormField, SubmitButton ) }, Modal{ ?conversationBeingRead !== null: LeadConversationRead } ), FiledEmailsSection=( RecordsTable{ FiledEmailCells=( (4) RecordsCell, RecordsCell{ Button } ) } ), ClientGroupSection=( ?children.length > 0: StagePill, ?children.length === 0 && parent\u2026: GroupUnderForm=( SubmitButton ) ), ClientProjectList, ClientContinuityCopySection=( [ (3) FormField ], SubmitButton ), ClientSupportSection=( SupportTaskTable=( RecordsTable{ (4) RecordsCell } ) ), ClientObservations=( ?observations.length > 0: (n) ObservationRow ), ClientEventLedger, ClientDeletion=( DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) ) ), Modal{ AssignProjectForm=( FormField, (2) FormField, SubmitButton ) }"
         },
         {
           "route": "/[register=salesRegister]/[clientId]/workflow-map",
@@ -5396,7 +5409,7 @@
           "component": "RecordsCell",
           "file": "src/lib/components/workspace/RecordsCell.svelte",
           "definition": "",
-          "usedBy": 53
+          "usedBy": 54
         },
         {
           "component": "SmallCapsField",
@@ -6893,6 +6906,12 @@
           "usedBy": 1
         },
         {
+          "component": "ClientSupportSection",
+          "file": "src/lib/components/clients/ClientSupportSection.svelte",
+          "definition": "SupportTaskTable",
+          "usedBy": 1
+        },
+        {
           "component": "ClientTable",
           "file": "src/lib/components/clients/ClientTable.svelte",
           "definition": "(n) ClientRow",
@@ -7568,6 +7587,18 @@
           "component": "FigureSources",
           "file": "src/lib/components/taxCalculator/FigureSources.svelte",
           "definition": "",
+          "usedBy": 1
+        },
+        {
+          "component": "FiledEmailCells",
+          "file": "src/lib/components/clients/emails/FiledEmailCells.svelte",
+          "definition": "(4) RecordsCell, RecordsCell{ Button }",
+          "usedBy": 1
+        },
+        {
+          "component": "FiledEmailsSection",
+          "file": "src/lib/components/clients/emails/FiledEmailsSection.svelte",
+          "definition": "RecordsTable{ FiledEmailCells }",
           "usedBy": 1
         },
         {
@@ -9783,63 +9814,63 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5802,
-        "backend": 1506,
-        "frontend": 1205,
-        "shared": 972,
-        "tests": 936,
-        "api": 667,
-        "database": 251,
-        "tooling": 167,
-        "docs": 79,
+        "totalFiles": 5897,
+        "backend": 1529,
+        "frontend": 1208,
+        "shared": 982,
+        "tests": 966,
+        "api": 692,
+        "database": 256,
+        "tooling": 165,
+        "docs": 80,
         "infrastructure": 19
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 1506,
-          "sourceFiles": 1495,
-          "sourceLines": 50669
+          "files": 1529,
+          "sourceFiles": 1518,
+          "sourceLines": 51520
         },
         {
           "area": "frontend",
-          "files": 1205,
-          "sourceFiles": 1075,
-          "sourceLines": 36843
+          "files": 1208,
+          "sourceFiles": 1078,
+          "sourceLines": 36919
         },
         {
           "area": "shared",
-          "files": 972,
-          "sourceFiles": 954,
-          "sourceLines": 34673
+          "files": 982,
+          "sourceFiles": 964,
+          "sourceLines": 34969
         },
         {
           "area": "tests",
-          "files": 936,
-          "sourceFiles": 915,
-          "sourceLines": 44068
+          "files": 966,
+          "sourceFiles": 945,
+          "sourceLines": 45670
         },
         {
           "area": "api",
-          "files": 667,
-          "sourceFiles": 666,
-          "sourceLines": 30629
+          "files": 692,
+          "sourceFiles": 691,
+          "sourceLines": 31554
         },
         {
           "area": "database",
-          "files": 251,
+          "files": 256,
           "sourceFiles": 8,
           "sourceLines": 254
         },
         {
           "area": "tooling",
-          "files": 167,
+          "files": 165,
           "sourceFiles": 9,
           "sourceLines": 370
         },
         {
           "area": "docs",
-          "files": 79,
+          "files": 80,
           "sourceFiles": 0,
           "sourceLines": 0
         },
@@ -9854,9 +9885,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 228,
+        "schemaTables": 230,
         "limitedColumns": 0,
-        "writeDoors": 404,
+        "writeDoors": 416,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },
@@ -9868,10 +9899,10 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 74,
-        "duplicatedLines": 637,
-        "totalLines": 200393,
-        "duplicatedPercentage": 0.32
+        "clones": 76,
+        "duplicatedLines": 681,
+        "totalLines": 204085,
+        "duplicatedPercentage": 0.33
       },
       "offenders": [
         {
@@ -9891,6 +9922,14 @@
           "duplicatedLineInstances": 41
         },
         {
+          "file": "src/lib/server/mcp/actions/leadFromEmailActions.test.ts",
+          "duplicatedLineInstances": 38
+        },
+        {
+          "file": "src/lib/server/mcp/actions/leadFromEmailRefusals.test.ts",
+          "duplicatedLineInstances": 38
+        },
+        {
           "file": "src/lib/server/mcp/actions/booksBankLineActions.test.ts",
           "duplicatedLineInstances": 35
         },
@@ -9907,6 +9946,10 @@
           "duplicatedLineInstances": 27
         },
         {
+          "file": "src/lib/server/mcp/emailSendingActions.test.ts",
+          "duplicatedLineInstances": 25
+        },
+        {
           "file": "src/lib/server/mcp/actions/booksInvoicePostingActions.test.ts",
           "duplicatedLineInstances": 23
         },
@@ -9921,18 +9964,6 @@
         {
           "file": "src/lib/server/mcp/actions/taskDeletionListAction.test.ts",
           "duplicatedLineInstances": 21
-        },
-        {
-          "file": "src/lib/server/mcp/actions/taskDeletionReadAction.test.ts",
-          "duplicatedLineInstances": 21
-        },
-        {
-          "file": "src/lib/server/mcp/actions/brandSheetAction.test.ts",
-          "duplicatedLineInstances": 20
-        },
-        {
-          "file": "src/lib/server/mcp/actions/businessBrainChatbotActions.test.ts",
-          "duplicatedLineInstances": 20
         }
       ]
     }

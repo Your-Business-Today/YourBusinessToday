@@ -86,7 +86,7 @@ python3 -m tools.refactor.audit.quality_check .
 cp tools/refactor/audit-output/audit.json tools/refactor/baseline.json
 ```
 
-The quality check runs the full audit, writes the new score box at the bottom of `README.md` and rewrites `tools/refactor/refactor-plan.md` from what is left. Then rewrite `tools/refactor/baseline-report.md` in this shape and commit it with `baseline.json`, `README.md`, the plan and `audit-output/` as the round's last commit, "Baseline vN: <the round's name>":
+The quality check runs the full audit, writes the new score box at the bottom of `README.md` and rewrites `tools/refactor/refactor-plan.md` from what is left. Then rewrite `tools/refactor/baseline-report.md` in this shape and commit it with `baseline.json`, `README.md` and the plan as the round's last commit (`audit-output/` is ignored by git and never committed), "Baseline vN: <the round's name>":
 
 ```
 # Refactor audit — baseline vN, after round N-1

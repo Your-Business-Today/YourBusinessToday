@@ -5,7 +5,7 @@ export const privacyCollectionSections: LegalSection[] = [
 	{
 		heading: 'Who we are',
 		paragraphs: [
-			`${companyDetails.legalName}, a company registered in England and Wales under number ${companyDetails.registrationNumber} with its registered office at ${companyDetails.registeredAddress}, is the data controller for the personal information handled by yourbusiness.today and by our consultancy. For anything in this statement, write to ${companyDetails.consultingEmail}.`,
+			`${companyDetails.legalName}, a company registered in England and Wales under number ${companyDetails.registrationNumber} with its registered office at ${companyDetails.registeredAddress}, is the data controller for the personal information described in this statement, except the information we process for a business that is our client, which is set out under ‘What we process for your business’ below. For anything in this statement, write to ${companyDetails.consultingEmail}.`,
 			'The promise, stated once here and meant everywhere: what we learn about your business is used to do your work and nothing else. It is never sold, never pooled with another client’s, never used to train anything for anybody else, and it leaves with you when you go.'
 		]
 	},
@@ -16,9 +16,8 @@ export const privacyCollectionSections: LegalSection[] = [
 			'Account details — the email address we invited, a display name, and the password you set.',
 			'Client register records — the businesses we work with or hope to, the people named as contacts, their role and contact details, and the history of our dealings with them.',
 			'Enquiries — the name, email address, company, website and message sent through the contact page, which becomes a lead in that register.',
-			'Portal content — the projects, goals and tasks we run for your business, the requests your people raise, the messages on each thread, and the files attached to them.',
-			'What you give us during an engagement — the documents, exports and working material you hand over so that we can understand how the business runs.',
-			'Questions asked through a chatbot — when a business gives you a chatbot onto its Your Business Brain, every question asked through it is recorded for that business: who asked, with the email they signed in with, the question in their words, when it was asked, what was read for it and what came back, and the answer their Claude reports it gave. The business’s managers can read that record, so it can show what was and was not asked.',
+			'The record of our work for your business — the projects, goals and tasks we run for it, the requests your people raise and the messages on each thread.',
+			'YBT Weekly — when you sign up for the newsletter, we keep your email address and when you signed up, and pass the address to beehiiv, which sends the newsletter. You can leave with the link at the foot of every issue.',
 			'Tax deadline emails — when you ask the tax calculator to email you the deadlines, we receive your email address and the tax year, and your take-home and tax figures only if you tick to include them. We use them once, because you asked, to send that one email, and we do not store them anywhere.',
 			'Activity records — notifications, the API tokens and authorisations you grant, and a log of what changed and who changed it.',
 			'Payments — when you pay one of our invoices from the Billing section of the portal, you pay on Stripe’s payment page. Your card details go to Stripe and never reach us: Stripe tells us which invoice was paid, how much and when, and we record that payment in our books.',

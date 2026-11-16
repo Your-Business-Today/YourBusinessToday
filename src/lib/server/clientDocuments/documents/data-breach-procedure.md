@@ -1,6 +1,6 @@
 # Data Breach Procedure
 
-**Internal — Your Business Today Ltd — Version 1.0 — 24 September 2026**
+**Internal — Your Business Today Ltd — Version 1.1 — 16 November 2026**
 
 What YBT does when personal data it holds may have been lost, stolen, seen by the wrong person, altered, encrypted or made unavailable. A client may ask to see this procedure.
 
@@ -18,11 +18,11 @@ If in doubt, treat it as a breach and follow this procedure. Deciding later that
 
 ## 2. Who does what
 
-| Role                                                | Who                    |
-| --------------------------------------------------- | ---------------------- |
-| Breach lead — owns the response and the decisions   | Nigel Reilly, Director |
-| Deputy, if the lead cannot be reached within 1 hour | [Name]                 |
-| Contact for clients and the ICO                     | The breach lead        |
+| Role                                                | Who                         |
+| --------------------------------------------------- | --------------------------- |
+| Breach lead — owns the response and the decisions   | Jeremy Ferendinos, Director |
+| Deputy, if the lead cannot be reached within 1 hour | James Beadle                |
+| Contact for clients and the ICO                     | The breach lead             |
 
 ## 3. The steps
 
@@ -54,7 +54,7 @@ If in doubt, treat it as a breach and follow this procedure. Deciding later that
 > **Likely consequences:** [what could happen to the people concerned]
 > **What we have done:** [containment steps taken]
 > **What we propose to do next:** [next steps]
-> **Your contact at YBT:** Nigel Reilly, [phone], consulting@yourbusiness.today
+> **Your contact at YBT:** Jeremy Ferendinos, [phone], consulting@yourbusiness.today
 >
 > Your 72-hour period to report to the Information Commissioner, if the breach is reportable, runs from the time of this notice. We will help you with that and with any notice to the people affected. We will send updates as we learn more.
 
