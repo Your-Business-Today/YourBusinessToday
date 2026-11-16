@@ -1,19 +1,16 @@
-import { parseCompanyProfileForm } from '$lib/server/clients/companyProfile';
 import { fail } from '@sveltejs/kit';
-import { validateCompanyProfileForm } from '$lib/server/clients/validateCompanyProfileForm';
 import { requireStaff } from '$lib/server/auth/requireStaff';
-import { updateCompanyProfile } from '$lib/server/clients/updateCompanyProfile';
+import { saveCompanyProfileForm } from '$lib/server/clients/saveCompanyProfileForm';
 import type { Actions } from './$types';
+
+const badRequest = 400;
 
 export const profileActions: Actions = {
 	updateProfile: async ({ locals, params, request }) => {
-		await requireStaff(locals);
+		const staffMember = await requireStaff(locals);
 		const formData = await request.formData();
-		const website = String(formData.get('website') ?? '').trim();
-		const refusal = validateCompanyProfileForm(formData);
-		if (refusal !== null) return fail(400, { message: refusal });
-		const profile = parseCompanyProfileForm(formData);
-		await updateCompanyProfile(locals.supabase, params.clientId, website, profile);
+		const refusal = await saveCompanyProfileForm(locals.supabase, params.clientId, formData, staffMember.id);
+		if (refusal !== null) return fail(badRequest, { message: refusal });
 		return { message: 'Profile saved.' };
 	}
 };
