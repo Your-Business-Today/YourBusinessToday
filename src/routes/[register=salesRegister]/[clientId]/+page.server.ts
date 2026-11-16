@@ -27,6 +27,8 @@ import { leadConversationActions } from './leadConversationActions';
 import { getEmailsForClient } from '$lib/server/filedEmails/getFiledEmails';
 import { filedEmailActions } from './filedEmailActions';
 import { broughtInByActions } from './broughtInByActions';
+import { leadOrganisationActions } from './leadOrganisationActions';
+import { findOrganisationOfClient } from '$lib/server/onboarding/organisationForClient';
 import { keepOnItsRegister } from '$lib/server/salesRegisters/keepOnItsRegister';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -35,7 +37,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const client = await getClient(locals.supabase, params.clientId);
 	if (client === null) error(404, 'That company could not be found');
 	keepOnItsRegister(url, params.register, client.stage);
-	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany, jobAdverts, conversations, staffMembers, premises, emails] =
+	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany, jobAdverts, conversations, staffMembers, premises, emails, organisationId] =
 		await Promise.all([
 			getPeopleForClient(locals.supabase, client.id),
 			getProjectsForClient(locals.supabase, client.id),
@@ -51,12 +53,13 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 			getConversationsForClient(locals.supabase, client.id),
 			getStaffDirectory(locals.supabase),
 			getPremisesForClient(locals.supabase, client.id),
-			getEmailsForClient(locals.supabase, client.id)
+			getEmailsForClient(locals.supabase, client.id),
+			findOrganisationOfClient(locals.supabase, client.id)
 		]);
 	const canImportOfficers = hasCompanyNumber(client) && isCompaniesHouseConfigured();
 	const figures = registerCompany?.figures ?? null;
 	const standing = registerCompany === null ? '' : standingLine(registerCompany);
-	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, standing, canImportOfficers, jobAdverts, conversations, emails, staffMembers, premises, viewerId: viewer.id };
+	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, standing, canImportOfficers, jobAdverts, conversations, emails, staffMembers, premises, organisationId, viewerId: viewer.id };
 };
 
 export const actions: Actions = {
@@ -68,5 +71,6 @@ export const actions: Actions = {
 	...groupActions,
 	...leadConversationActions,
 	...filedEmailActions,
-	...broughtInByActions
+	...broughtInByActions,
+	...leadOrganisationActions
 };

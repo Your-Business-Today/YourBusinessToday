@@ -14,41 +14,44 @@ const wordsField = (description: string, limit: number) => ({
 	description: `${description}, at most ${limits.mostWordsInAList}, each at most ${limit} characters`
 });
 
-const stationSchema = objectSchema(
-	{
-		key: textField(
-			`Your own key for the task, lower-case words joined by hyphens, at most ${limits.keyLength} characters; ` +
-				'keep it in every version and in Before and After'
-		),
-		name: textField(`What the business calls the task, at most ${limits.nameLength} characters`),
-		summary: textField(`One sentence on it, at most ${limits.summaryLength} characters`),
-		takesIn: wordsField('What it takes in, as kinds of record', limits.wordLength),
-		produces: wordsField('What it produces, as kinds of record', limits.wordLength),
-		doneIn: textField(`Where it is done: a product, a spreadsheet, email, paper; at most ${limits.doneInLength} characters`),
-		isOutput: { type: 'boolean', description: 'true when it produces an output the business runs on, such as a cashflow forecast' },
-		state: {
-			type: 'string',
-			enum: [...stationStates],
-			description: 'ours (done in one of our products), planned (for one) or elsewhere; elsewhere when left out'
-		},
-		productId: textField('With ours or planned: the id of the product, as list_projects gives it'),
-		takesInThings: wordsField("The slugs of the Domain things it takes in, as the organisation's Domain names them", limits.thingSlugLength),
-		producesThings: wordsField('The slugs of the Domain things it produces', limits.thingSlugLength)
+export const stationFields = {
+	key: textField(
+		`Your own key for the task, lower-case words joined by hyphens, at most ${limits.keyLength} characters; ` +
+			'keep it in every version and in Before and After'
+	),
+	name: textField(`What the business calls the task, at most ${limits.nameLength} characters`),
+	summary: textField(`One sentence on it, at most ${limits.summaryLength} characters`),
+	takesIn: wordsField('What it takes in, as kinds of record', limits.wordLength),
+	produces: wordsField('What it produces, as kinds of record', limits.wordLength),
+	doneIn: textField(`Where it is done: a product, a spreadsheet, email, paper; at most ${limits.doneInLength} characters`),
+	isOutput: { type: 'boolean', description: 'true when it produces an output the business runs on, such as a cashflow forecast' },
+	state: {
+		type: 'string',
+		enum: [...stationStates],
+		description: 'ours (done in one of our products), planned (for one) or elsewhere; elsewhere when left out'
 	},
-	['key', 'name', 'summary']
-);
+	productId: textField('With ours or planned: the id of the product, as list_projects gives it'),
+	takesInThings: wordsField("The slugs of the Domain things it takes in, as the organisation's Domain names them", limits.thingSlugLength),
+	producesThings: wordsField('The slugs of the Domain things it produces', limits.thingSlugLength)
+};
+
+export const stationSchema = objectSchema(stationFields, ['key', 'name', 'summary']);
+
+export const lineFields = {
+	key: textField(`Your own key for the role, lower-case words joined by hyphens, at most ${limits.keyLength} characters`),
+	name: textField(`The role, outside party or system, never a person; at most ${limits.nameLength} characters`),
+	kind: {
+		type: 'string',
+		enum: [...lineKinds],
+		description:
+			'role (a hat someone wears in the business), outside_party (a customer, a supplier, a regulator) or system ' +
+			'(software the work runs through on its own); role when left out'
+	}
+};
 
 const lineSchema = objectSchema(
 	{
-		key: textField(`Your own key for the role, lower-case words joined by hyphens, at most ${limits.keyLength} characters`),
-		name: textField(`The role, outside party or system, never a person; at most ${limits.nameLength} characters`),
-		kind: {
-			type: 'string',
-			enum: [...lineKinds],
-			description:
-				'role (a hat someone wears in the business), outside_party (a customer, a supplier, a regulator) or system ' +
-				'(software the work runs through on its own); role when left out'
-		},
+		...lineFields,
 		stations: {
 			type: 'array',
 			items: stationSchema,
@@ -58,7 +61,7 @@ const lineSchema = objectSchema(
 	['key', 'name', 'stations']
 );
 
-const handoverSchema = objectSchema(
+export const handoverSchema = objectSchema(
 	{
 		fromKey: textField('The key of the station that hands it over'),
 		toKey: textField('The key of the station on another line that receives it'),
@@ -68,7 +71,7 @@ const handoverSchema = objectSchema(
 	['fromKey', 'toKey', 'handedOver']
 );
 
-const arrivalSchema = objectSchema(
+export const arrivalSchema = objectSchema(
 	{
 		whatArrives: textField(`What arrives from outside to start the work, as a kind of record; at most ${limits.whatArrivesLength} characters`),
 		arrivesFrom: textField(

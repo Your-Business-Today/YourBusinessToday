@@ -25,11 +25,18 @@ function validateMapHandover(candidate: unknown, label: string, lineOfStation: M
 	const fields = fieldsOf(candidate);
 	const ends = readEnds(fields, label, lineOfStation);
 	if (isRefused(ends)) return ends;
+	const words = readHandoverWords(fields, label);
+	if (isRefused(words)) return words;
+	return { ...ends, ...words };
+}
+
+/** What a hand-over passes and how it goes wrong today, each checked against its column. */
+export function readHandoverWords(fields: Record<string, unknown>, label: string): Omit<MapHandover, keyof Ends> | Refusal {
 	const handedOver = readRequiredText(fields.handedOver, { field: `${label} handedOver`, limit: limits.handedOverLength });
 	if (isRefused(handedOver)) return handedOver;
 	const goesWrong = readOptionalText(fields.goesWrong, { field: `${label} goesWrong`, limit: limits.goesWrongLength });
 	if (isRefused(goesWrong)) return goesWrong;
-	return { ...ends, handedOver, goesWrong };
+	return { handedOver, goesWrong };
 }
 
 function readEnds(fields: Record<string, unknown>, label: string, lineOfStation: Map<string, string>): Ends | Refusal {
