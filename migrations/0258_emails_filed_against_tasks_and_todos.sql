@@ -1,4 +1,4 @@
--- 0257: an email can be filed against the task or to-do it set off, as well as under a client.
+-- 0258: an email can be filed against the task or to-do it set off, as well as under a client.
 --
 -- James, 16 Nov 2026: "integrate the gmail, so we can triage it and trigger
 -- things". His Claude raises a task, a support request or a to-do from an

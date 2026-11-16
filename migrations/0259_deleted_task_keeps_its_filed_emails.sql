@@ -1,6 +1,6 @@
--- 0258: a deleted task keeps the emails filed against it on its record, and gets them back when it is put back.
+-- 0259: a deleted task keeps the emails filed against it on its record, and gets them back when it is put back.
 --
--- 0257 lets an email be filed against the task it set off. Those filings go
+-- 0258 lets an email be filed against the task it set off. Those filings go
 -- with the task when it is deleted, so, as for everything else that hangs off
 -- a task, keep_record_of_deleted_task copies them onto the task's record in
 -- task_deletions, and put_back_deleted_task puts them back with the ids they

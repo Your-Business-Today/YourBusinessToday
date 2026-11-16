@@ -1,10 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { fileEmailAgainst } from './fileEmail';
-import type { EmailFacts, FilingTarget } from '$lib/data/filedEmailRules';
+import type { EmailDetails, FilingTarget } from '$lib/data/filedEmailRules';
 import type { EmailSender } from './findEmailSender';
 
 /** An email that set something off: what it says, who sent it, and the task or to-do it set off. */
-export type EmailSource = { facts: EmailFacts; sender: EmailSender; raised: FilingTarget };
+export type EmailSource = { facts: EmailDetails; sender: EmailSender; raised: FilingTarget };
 
 const nobodyKnown =
 	'The sender is not one client or lead we hold, so it is filed under none: file it with file_email_to_client once you know whose it is.';

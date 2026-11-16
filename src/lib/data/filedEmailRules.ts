@@ -33,6 +33,9 @@ export type FiledEmailGiven = {
 	summary: string;
 };
 
+/** The email itself, apart from the client and person it is filed under. */
+export type EmailDetails = Omit<FiledEmailGiven, 'clientId' | 'personId'>;
+
 /** An email kept on a client, with the name of the person at the client it names. */
 export type FiledEmail = Omit<FiledEmailGiven, 'clientId'> & {
 	id: string;
@@ -56,8 +59,5 @@ export type FilingTargetKind = 'client' | 'task' | 'todo';
 
 export type FilingTarget = { kind: FilingTargetKind; id: string };
 
-/** An email as a Claude gives it, before anyone says what it is filed against or who it is with. */
-export type EmailFacts = Omit<FiledEmailGiven, 'clientId' | 'personId'>;
-
 /** One email to keep: what it says, who at the sender it is with, and what it is filed against. */
-export type EmailFiling = EmailFacts & { personId: string | null; target: FilingTarget };
+export type EmailFiling = EmailDetails & { personId: string | null; target: FilingTarget };

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { emailPathwayActions } from './emailPathwayActions';
-import { filedEmailRefusals } from '$lib/server/filedEmails/validateEmailFacts';
+import { filedEmailRefusals } from '$lib/server/filedEmails/filedEmailRefusals';
 import type { McpCaller } from '../resolveMcpCaller';
 
 const staff = { accountId: 'staff-1', supabase: {} } as unknown as McpCaller;

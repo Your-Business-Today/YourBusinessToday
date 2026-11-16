@@ -1,3 +1,5 @@
+import { filedEmailDirections } from '$lib/data/filedEmailRules';
+import { emailContentFields, emailMessageFields } from './filedEmailFields';
 import { validateRecordId } from '$lib/data/isUuid';
 import { getClient } from '$lib/server/clients/getClient';
 import { getContactsForClient } from '$lib/server/clients/getContactsForClient';
@@ -5,7 +7,6 @@ import { fileEmail } from '$lib/server/filedEmails/fileEmail';
 import { unfileEmail } from '$lib/server/filedEmails/unfileEmail';
 import { validateFiledEmail } from '$lib/server/filedEmails/validateFiledEmail';
 import { noSuchClient } from './describeClient';
-import { emailFactFields, requiredEmailFacts } from './emailFactFields';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
@@ -21,9 +22,11 @@ const filingSchema = objectSchema(
 	{
 		clientId: textField('The client or lead, as list_clients gives its id'),
 		personId: textField('Who at the client the email is with: their person id, as read_client gives it. Leave it out when they are not listed'),
-		...emailFactFields
+		...emailMessageFields,
+		direction: textField(`One of ${filedEmailDirections.join(', ')}`),
+		...emailContentFields
 	},
-	['clientId', ...requiredEmailFacts]
+	['clientId', 'mailbox', 'messageId', 'threadId', 'direction', 'from', 'sentAt', 'summary']
 );
 
 const takenOffTaskOrTodo = 'Taken off the task or to-do it was filed against. The email itself stays in Gmail.';

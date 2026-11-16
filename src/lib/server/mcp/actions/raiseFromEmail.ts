@@ -1,5 +1,5 @@
-import { gmailThreadLink, type EmailFacts } from '$lib/data/filedEmailRules';
-import { validateEmailFacts } from '$lib/server/filedEmails/validateEmailFacts';
+import { gmailThreadLink, type EmailDetails } from '$lib/data/filedEmailRules';
+import { validateEmailDetails } from '$lib/server/filedEmails/validateFiledEmail';
 import { findEmailSender, isSentByClient, type EmailSender } from '$lib/server/filedEmails/findEmailSender';
 import { fileEmailFromSender } from '$lib/server/filedEmails/fileEmailFromSender';
 import { reachableProject } from '../projectAccess';
@@ -14,7 +14,7 @@ import type { McpCaller } from '../resolveMcpCaller';
 
 /** Raises what an email asks for: a support request when the sender is the client whose project it is, else a task; the email is kept as its source. */
 export async function raiseTaskFromEmail(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
-	const facts = validateEmailFacts(input);
+	const facts = validateEmailDetails(input);
 	if (typeof facts === 'string') return facts;
 	const project = await reachableProject(caller, readText(input, 'projectId'));
 	if (project === null) return noSuchProject;
@@ -28,7 +28,7 @@ export async function raiseTaskFromEmail(caller: McpCaller, input: Record<string
 
 /** Puts a job an email asks for on someone's to-do list, its notes naming the email, and keeps the email as its source. */
 export async function addTodoFromEmail(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
-	const facts = validateEmailFacts(input);
+	const facts = validateEmailDetails(input);
 	if (typeof facts === 'string') return facts;
 	const todo = await addTodoFromInput(caller, { ...input, notes: notesNamingEmail(input, facts) });
 	if (typeof todo === 'string') return todo;
@@ -38,7 +38,7 @@ export async function addTodoFromEmail(caller: McpCaller, input: Record<string, 
 	return `Added:\n${todoLine(todo)}\n${filing}`;
 }
 
-type Raising = { input: Record<string, unknown>; facts: EmailFacts; sender: EmailSender; project: Project };
+type Raising = { input: Record<string, unknown>; facts: EmailDetails; sender: EmailSender; project: Project };
 
 function raiseForSender(caller: McpCaller, raising: Raising): Promise<RaisedTask | string> {
 	const { sender, project, input } = raising;
@@ -54,7 +54,7 @@ function asSupportRequest(raising: Raising): Record<string, unknown> {
 	return { ...input, want: details ?? facts.summary, benefit: readText(input, 'storyBenefit') };
 }
 
-function notesNamingEmail(input: Record<string, unknown>, facts: EmailFacts): string {
+function notesNamingEmail(input: Record<string, unknown>, facts: EmailDetails): string {
 	const notes = readOptionalText(input, 'notes');
 	const source = `From the email "${facts.subject}" from ${facts.from}, sent ${facts.sentAt}: ${gmailThreadLink(facts)}`;
 	return notes === null ? source : `${notes}\n\n${source}`;

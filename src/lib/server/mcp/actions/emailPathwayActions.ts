@@ -1,8 +1,9 @@
-import { objectSchema } from '../actionTypes';
+import { objectSchema, textField } from '../actionTypes';
 import { todoFields, todoPlaceFields } from '$lib/server/todos/todoConnectorFields';
 import { dayToDayDataRule } from '../ownerDoctrine';
 import { createTaskFields } from './createTaskFields';
-import { emailFactFields, requiredEmailFacts } from './emailFactFields';
+import { filedEmailDirections } from '$lib/data/filedEmailRules';
+import { emailContentFields, emailMessageFields } from './filedEmailFields';
 import { addTodoFromEmail, raiseTaskFromEmail } from './raiseFromEmail';
 import type { McpAction } from '../actionTypes';
 
@@ -22,6 +23,13 @@ const todoGuidance =
 	'a small company job no task waits on. ' + dayToDayDataRule + ' Work for a project is raise_task_from_email. ' +
 	keptAsSource;
 
+const emailFields = {
+	...emailMessageFields,
+	direction: textField(`One of ${filedEmailDirections.join(', ')}`),
+	...emailContentFields
+};
+const requiredEmailFields = ['mailbox', 'messageId', 'threadId', 'direction', 'from', 'sentAt', 'summary'];
+
 export const emailPathwayActions: McpAction[] = [
 	{
 		name: 'raise_task_from_email',
@@ -30,7 +38,7 @@ export const emailPathwayActions: McpAction[] = [
 		isWrite: true,
 		summary: 'raise a task, or a support request on the sender’s own project, from an email in a Gmail inbox, with the email kept as its source',
 		guidance: raisingGuidance,
-		inputSchema: objectSchema({ ...createTaskFields, ...emailFactFields }, ['projectId', 'title', ...requiredEmailFacts]),
+		inputSchema: objectSchema({ ...createTaskFields, ...emailFields }, ['projectId', 'title', ...requiredEmailFields]),
 		run: async (caller, input) => raiseTaskFromEmail(caller, input)
 	},
 	{
@@ -40,7 +48,7 @@ export const emailPathwayActions: McpAction[] = [
 		isWrite: true,
 		summary: 'put a to-do on someone’s own list from an email in a Gmail inbox, its notes naming the email, with the email kept as its source',
 		guidance: todoGuidance,
-		inputSchema: objectSchema({ ...todoFields, ...todoPlaceFields, ...emailFactFields }, ['title', ...requiredEmailFacts]),
+		inputSchema: objectSchema({ ...todoFields, ...todoPlaceFields, ...emailFields }, ['title', ...requiredEmailFields]),
 		run: async (caller, input) => addTodoFromEmail(caller, input)
 	}
 ];
