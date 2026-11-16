@@ -20,7 +20,7 @@ const { gettingClient, gettingContacts, gettingNotes, gettingEmails, gettingConv
 vi.mock('$lib/server/clients/getClient', () => ({ getClient: gettingClient }));
 vi.mock('$lib/server/clients/getContactsForClient', () => ({ getContactsForClient: gettingContacts }));
 vi.mock('$lib/server/people/getNotesForPeople', () => ({ getNotesForPeople: gettingNotes }));
-vi.mock('$lib/server/filedEmails/getEmailsForClient', () => ({ getEmailsForClient: gettingEmails }));
+vi.mock('$lib/server/filedEmails/getFiledEmails', () => ({ getEmailsForClient: gettingEmails }));
 vi.mock('$lib/server/leadConversations/getConversationsForClient', () => ({ getConversationsForClient: gettingConversations }));
 
 function prepare(input: Record<string, unknown>) {

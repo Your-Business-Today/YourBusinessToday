@@ -2,7 +2,7 @@ import { emailToSendContext } from '$lib/data/emailToSendRules';
 import { personNoteKinds } from '$lib/data/personNoteKind';
 import { getClient } from '$lib/server/clients/getClient';
 import { getContactsForClient } from '$lib/server/clients/getContactsForClient';
-import { getEmailsForClient } from '$lib/server/filedEmails/getEmailsForClient';
+import { getEmailsForClient } from '$lib/server/filedEmails/getFiledEmails';
 import { getConversationsForClient } from '$lib/server/leadConversations/getConversationsForClient';
 import { getNotesForPeople } from '$lib/server/people/getNotesForPeople';
 import { validateEmailRequest } from '$lib/server/emailsToSend/validateEmailRequest';
