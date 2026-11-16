@@ -114,6 +114,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-098 | research a person on the web and save it, or draft the approach | staff | write | `/people/{personId}` modals | `save_person_research` `save_person_approach` | `/people/{personId}` |
 | US-099 | delete a person added by mistake | staff | write | `deletePerson` | `delete_person` | `/people/{personId}` |
 | US-181 | see whose next step is due, the longest overdue first | staff | read | `/leads` load | `list_follow_ups_due` | `/leads` |
+| US-182 | put a quote on a lead, the plan a stage at a time with its fees, and show it to them | staff | write | `/leads/{clientId}/quote` load (the quote is filed by the person's Claude, as a workflow map is) | `file_lead_quote` `read_lead_quote`, and `read_client` names the latest | `/leads/{clientId}/quote` |
 
 ## 08-patches-and-prospecting
 

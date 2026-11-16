@@ -42,6 +42,7 @@
 			<h2 class="font-display text-xl">Company profile</h2>
 			<div class="flex flex-wrap gap-2">
 				<a href={`${companyPagePath(client)}/workflow-map`} class={quietButtonClasses}>Workflow map</a>
+				<a href={`${companyPagePath(client)}/quote`} class={quietButtonClasses}>Quote</a>
 				<a href={researchAgainHref} class={quietButtonClasses}>Ask your Claude to research</a>
 			</div>
 		</div>
