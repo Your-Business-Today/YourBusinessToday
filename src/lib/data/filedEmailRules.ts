@@ -33,6 +33,9 @@ export type FiledEmailGiven = {
 	summary: string;
 };
 
+/** The email itself, apart from the client and person it is filed under. */
+export type EmailDetails = Omit<FiledEmailGiven, 'clientId' | 'personId'>;
+
 /** An email kept on a client, with the name of the person at the client it names. */
 export type FiledEmail = Omit<FiledEmailGiven, 'clientId'> & {
 	id: string;
