@@ -1,4 +1,3 @@
-import { filedEmailDirections, filedEmailLimits } from '$lib/data/filedEmailRules';
 import { validateRecordId } from '$lib/data/isUuid';
 import { getClient } from '$lib/server/clients/getClient';
 import { getContactsForClient } from '$lib/server/clients/getContactsForClient';
@@ -6,11 +5,10 @@ import { fileEmail } from '$lib/server/filedEmails/fileEmail';
 import { unfileEmail } from '$lib/server/filedEmails/unfileEmail';
 import { validateFiledEmail } from '$lib/server/filedEmails/validateFiledEmail';
 import { noSuchClient } from './describeClient';
+import { emailFactFields, requiredEmailFacts } from './emailFactFields';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
-
-const { longestSubject, longestSummary, mostRecipients } = filedEmailLimits;
 
 const filingGuidance =
 	'File an email you have read in Gmail under the client or lead it is about, so its page and read_client list it for ' +
@@ -23,18 +21,12 @@ const filingSchema = objectSchema(
 	{
 		clientId: textField('The client or lead, as list_clients gives its id'),
 		personId: textField('Who at the client the email is with: their person id, as read_client gives it. Leave it out when they are not listed'),
-		mailbox: textField('The address whose inbox it was read in, such as consulting@yourbusiness.today'),
-		messageId: textField("The Gmail message's id, as the Gmail connector gives it"),
-		threadId: textField("The Gmail thread's id, as the Gmail connector gives it"),
-		direction: textField(`One of ${filedEmailDirections.join(', ')}`),
-		from: textField("The sender's address alone, such as name@example.com"),
-		to: { type: 'array', items: { type: 'string' }, description: `The addresses it was sent to, each alone, at most ${mostRecipients}` },
-		subject: textField(`The subject line, at most ${longestSubject} characters`),
-		sentAt: textField('When it was sent, as ISO 8601 with its time zone, such as 2026-11-16T09:30:00Z'),
-		summary: textField(`What it says and asks for, never the body and nothing personal, at most ${longestSummary} characters`)
+		...emailFactFields
 	},
-	['clientId', 'mailbox', 'messageId', 'threadId', 'direction', 'from', 'sentAt', 'summary']
+	['clientId', ...requiredEmailFacts]
 );
+
+const takenOffTaskOrTodo = 'Taken off the task or to-do it was filed against. The email itself stays in Gmail.';
 
 export const noSuchFiledEmail = 'No filed email has that id. read_client lists the emails filed under a client, each with its id.';
 
@@ -79,9 +71,10 @@ async function fileTheEmail(caller: McpCaller, input: Record<string, unknown>): 
 async function unfileTheEmail(caller: McpCaller, filedEmailId: string): Promise<string> {
 	const idRefusal = validateRecordId('filedEmailId', filedEmailId);
 	if (idRefusal !== null) return idRefusal;
-	const clientId = await unfileEmail(caller.supabase, filedEmailId);
-	if (clientId === null) return noSuchFiledEmail;
-	const client = await getClient(caller.supabase, clientId);
+	const unfiled = await unfileEmail(caller.supabase, filedEmailId);
+	if (unfiled === null) return noSuchFiledEmail;
+	if (unfiled.clientId === null) return takenOffTaskOrTodo;
+	const client = await getClient(caller.supabase, unfiled.clientId);
 	const clientName = client?.name ?? 'its client';
 	return `Taken off ${clientName}. Take the label YBT/${clientName} off the thread in Gmail too.`;
 }

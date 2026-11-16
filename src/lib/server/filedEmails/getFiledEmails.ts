@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
-import type { FiledEmail, FiledEmailDirection } from '$lib/data/filedEmailRules';
+import { filingTargetColumns } from './fileEmail';
+import type { FiledEmail, FiledEmailDirection, FilingTarget } from '$lib/data/filedEmailRules';
 
 const nobodyNamed = '';
 const filedEmailColumns =
@@ -8,10 +9,19 @@ const filedEmailColumns =
 
 /** The emails filed under a client, the latest sent first; all of them unless a most is given. */
 export async function getEmailsForClient(supabase: SupabaseClient, clientId: string, most?: number): Promise<FiledEmail[]> {
+	return getEmailsFiledAgainst(supabase, { kind: 'client', id: clientId }, most);
+}
+
+/** The emails filed against a task, the ones it was raised from among them, the latest sent first. */
+export async function getEmailsForTask(supabase: SupabaseClient, taskId: string): Promise<FiledEmail[]> {
+	return getEmailsFiledAgainst(supabase, { kind: 'task', id: taskId });
+}
+
+async function getEmailsFiledAgainst(supabase: SupabaseClient, target: FilingTarget, most?: number): Promise<FiledEmail[]> {
 	const query = supabase
 		.from('filed_emails')
 		.select(filedEmailColumns)
-		.eq('client_id', clientId)
+		.eq(filingTargetColumns[target.kind], target.id)
 		.order('sent_at', { ascending: false });
 	const { data, error } = await (most === undefined ? query : query.limit(most));
 	if (isSchemaNotYetMigrated(error)) return [];

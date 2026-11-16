@@ -28,12 +28,14 @@ import { taskTeamActions } from './taskTeamActions';
 import { taskUploadActions } from './taskUploadActions';
 import { taskUpdateActions } from './taskUpdateActions';
 import { taskWriteActions } from './taskWriteActions';
+import { emailPathwayActions } from './emailPathwayActions';
 import { similarTaskActions } from './similarTaskActions';
 import type { McpAction } from '../actionTypes';
 
 export const taskActions: McpAction[] = [
 	...taskReadActions,
 	...taskWriteActions,
+	...emailPathwayActions,
 	...similarTaskActions,
 	...taskUpdateActions,
 	...taskStatusActions,
