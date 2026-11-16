@@ -16,15 +16,7 @@ const administrator: FrameAccess = { ...member, isStaff: true, isAdmin: true };
 const clientContact: FrameAccess = { ...member, isPortalAccount: true };
 const clientAdministrator: FrameAccess = { ...clientContact, isPortalAdministrator: true };
 
-const noPicks: FramePicks = {
-	organisations: [],
-	pickedOrganisationId: null,
-	projects: [],
-	pickedProjectId: null,
-	organisationLinks: [],
-	moduleLinks: [],
-	homePath: null
-};
+const noPicks: FramePicks = { organisations: [], pickedOrganisationId: null, projects: [], pickedProjectId: null, organisationLinks: [], moduleLinks: [], homePath: null };
 
 const salesModuleLink: FrameLink = { href: '/organisations/harbour/sales', label: 'Prospecting', icon: 'compass', group: 'sales' };
 const salesSwitchedOn: FramePicks = { ...noPicks, pickedOrganisationId: 'harbour', moduleLinks: [salesModuleLink] };
@@ -37,13 +29,8 @@ const menuLabelsFor = (access: FrameAccess) => viewAt(access, '/').menuLinks.map
 const trailAt = (access: FrameAccess, path: string) => viewAt(access, path).trail;
 
 describe('frameViewFor', () => {
-	it('gives a member of staff the work inside an organisation, and the sales registers where Sales is switched on', () => {
-		const labels = salesViewAt(staff, '/').links.map(({ label }) => label);
-		expect(labels).toEqual(['Prospecting', 'Projects', 'Leads', 'Clients', 'Leaderboard']);
-	});
-
-	it('lists no sales register where the picked organisation has Sales switched off, or none is picked', () => {
-		expect(frameViewFor(staff, siteUrl('/'), noPicks).links.map(({ label }) => label)).toEqual(['Projects']);
+	it('gives a member of staff the sales registers only where the picked organisation has Sales switched on', () => {
+		expect(salesViewAt(staff, '/').links.map(({ label }) => label)).toEqual(['Prospecting', 'Projects', 'Leads', 'Clients', 'Leaderboard']);
 		expect(labelsFor(staff)).toEqual(['Projects']);
 	});
 

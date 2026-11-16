@@ -2,7 +2,7 @@ import { toStaffMember, type StaffMember } from '$lib/server/projects/getStaffDi
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 /** Everyone on one organisation, named as the staff directory names them. */
-export async function getOrganisationPeople(supabase: SupabaseClient, organisationId: string): Promise<StaffMember[]> {
+export async function findPeopleOn(supabase: SupabaseClient, organisationId: string): Promise<StaffMember[]> {
 	const { data, error } = await supabase.rpc('organisation_people', {
 		organisation: organisationId
 	});

@@ -1,4 +1,4 @@
-import { getOrganisationPeople } from './getOrganisationPeople';
+import { findPeopleOn } from './findPeopleOn';
 import { getStaffDirectory, type StaffMember } from '$lib/server/projects/getStaffDirectory';
 import { salespeopleOf } from '$lib/data/organisationSalespeople';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -9,6 +9,6 @@ export async function loadOrganisationSalespeople(
 	organisationId: string,
 	ownerIds: (string | null)[] = []
 ): Promise<StaffMember[]> {
-	const [members, staffMembers] = await Promise.all([getOrganisationPeople(supabase, organisationId), getStaffDirectory(supabase)]);
+	const [members, staffMembers] = await Promise.all([findPeopleOn(supabase, organisationId), getStaffDirectory(supabase)]);
 	return salespeopleOf(members, staffMembers, ownerIds);
 }
