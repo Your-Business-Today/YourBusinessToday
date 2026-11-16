@@ -11,6 +11,7 @@ import type { Account } from '$lib/server/accounts/accountRecord';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import { isOnThroughOrganisation } from '$lib/data/projectMemberStanding';
+import { emailSenders, sendsEmailFrom } from '../sendsEmail';
 	import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 
 export const projectPeopleActions: McpAction[] = [
@@ -33,7 +34,7 @@ export const projectPeopleActions: McpAction[] = [
 		area: 'projects',
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'bring someone on to a project you are on, by email — they join at once and are emailed',
+		summary: sendsEmailFrom(emailSenders.yourBusinessToday, 'bring someone on to a project you are on, by email — they join at once and are emailed'),
 		guidance:
 			'Someone new here gets a link to set a password; someone with an account is told to ' +
 			'sign in. Once on the project they work and manage it as you do, and reach nothing ' +

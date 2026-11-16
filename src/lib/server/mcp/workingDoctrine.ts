@@ -6,6 +6,7 @@ import { keepingDoctrine } from './keepingDoctrine';
 import { lifecycleDoctrine } from './lifecycleDoctrine';
 import { ownerDoctrine } from './ownerDoctrine';
 import { prospectingDoctrine } from './prospectingDoctrine';
+import { sendingDoctrine } from './sendingDoctrine';
 
 const sessionDoctrine = [
 	'How we work here — read once per session, then follow it:',
@@ -93,5 +94,6 @@ export const workingDoctrine = [
 	...prospectingDoctrine,
 	...lifecycleDoctrine,
 	...ownerDoctrine,
-	...keepingDoctrine
+	...keepingDoctrine,
+	...sendingDoctrine
 ].join('\n');

@@ -9,6 +9,7 @@ import { organisationInviteOutcomeMessage } from '$lib/server/members/inviteOutc
 import type { Account } from '$lib/server/accounts/accountRecord';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
+import { emailSenders, sendsEmailFrom } from '../sendsEmail';
 
 export const organisationInviteActions: McpAction[] = [
 	{
@@ -16,8 +17,10 @@ export const organisationInviteActions: McpAction[] = [
 		area: 'organisations',
 		audience: 'everyone',
 		isWrite: true,
-		summary:
-			'bring someone on to an organisation you manage, by email — they are on every project under it at once, and are emailed',
+		summary: sendsEmailFrom(
+			emailSenders.yourBusinessToday,
+			'bring someone on to an organisation you manage, by email — they are on every project under it at once, and are emailed'
+		),
 		guidance:
 			'Someone new here gets a link to set a password; someone with an account is told to sign in. ' +
 			'They reach the projects of that organisation alone. Make them a project manager only if they are to bring people on themselves. ' +

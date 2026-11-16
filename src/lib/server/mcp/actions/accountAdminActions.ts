@@ -11,6 +11,7 @@ import { validateEmailAddress } from '$lib/data/emailShape';
 import type { AccountOnRegister } from '$lib/server/admin/accountOnRegister';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
+import { emailSenders, sendsEmailFrom } from '../sendsEmail';
 
 type AccountChange = (caller: McpCaller, account: AccountOnRegister, input: Record<string, unknown>) => Promise<string>;
 
@@ -36,7 +37,7 @@ export const accountAdminActions: McpAction[] = [
 	},
 	adminAction('set_staff_access', 'make an account staff, or no longer staff', { isStaff: { type: 'boolean', description: 'True to make them staff' } }, setStaff),
 	adminAction('set_account_restriction', 'restrict an account so it can no longer sign in or connect, or lift the restriction', { isRestricted: { type: 'boolean', description: 'True to restrict them' } }, setRestriction),
-	adminAction('send_password_reset', 'email someone a one-time link to set a new password', {}, sendReset),
+	adminAction('send_password_reset', sendsEmailFrom(emailSenders.yourBusinessToday, 'email someone a one-time link to set a new password'), {}, sendReset),
 	adminAction('delete_account', 'delete an account and all of its own data outright — admin accounts and accounts that own team data are protected', {}, deleteAccount)
 ];
 
