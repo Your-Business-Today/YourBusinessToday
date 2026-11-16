@@ -1,15 +1,13 @@
 import type { AgendaKind } from './agendaItem';
 
-/** What the person said to the item raised: the answer itself, a promise, work started or finished, a test, a tick, or not now. */
-export type TurnOutcome = 'answered' | 'promised' | 'started' | 'finished' | 'confirmed' | 'failed' | 'done' | 'snoozed';
+/** What the person said to the item raised: the answer itself, a promise, work started or finished, a tick, or not now. */
+export type TurnOutcome = 'answered' | 'promised' | 'started' | 'finished' | 'done' | 'snoozed';
 
 export const turnOutcomes = {
 	answered: 'answered',
 	promised: 'promised',
 	started: 'started',
 	finished: 'finished',
-	confirmed: 'confirmed',
-	failed: 'failed',
 	done: 'done',
 	snoozed: 'snoozed'
 } as const;
@@ -20,7 +18,6 @@ export const turnOutcomeOrder: TurnOutcome[] = Object.values(turnOutcomes);
 export const outcomesByKind: Record<AgendaKind, TurnOutcome[]> = {
 	information: [turnOutcomes.answered, turnOutcomes.promised, turnOutcomes.snoozed],
 	setup: [turnOutcomes.answered, turnOutcomes.promised, turnOutcomes.snoozed],
-	testing: [turnOutcomes.confirmed, turnOutcomes.failed, turnOutcomes.snoozed],
 	task: [turnOutcomes.started, turnOutcomes.finished, turnOutcomes.promised, turnOutcomes.answered, turnOutcomes.snoozed],
 	promise: [turnOutcomes.done, turnOutcomes.snoozed],
 	todo: [turnOutcomes.done, turnOutcomes.snoozed],

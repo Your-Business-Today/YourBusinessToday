@@ -8,14 +8,13 @@ describe('reading the person’s answer to a turn', () => {
 	it('takes an answer with its words', () => {
 		const answer = validateTurnAnswer({ itemKey: 'message:1', outcome: 'answered', text: 'The key is in 1Password' }, today);
 		expect(answer).toEqual({
-			itemKey: 'message:1', outcome: 'answered', text: 'The key is in 1Password', fault: null, untilDay: null
+			itemKey: 'message:1', outcome: 'answered', text: 'The key is in 1Password', untilDay: null
 		});
 	});
 
-	it('refuses an answer with no words, a fault on a pass, and a day already gone', () => {
+	it('refuses an answer with no words, a test outcome, and a day already gone', () => {
 		expect(validateTurnAnswer({ itemKey: 'task:1', outcome: 'started' }, today)).toContain('text');
-		expect(validateTurnAnswer({ itemKey: 'task:1', outcome: 'confirmed', text: 'ok', fault: 'x' }, today)).toContain('fault');
-		expect(validateTurnAnswer({ itemKey: 'task:1', outcome: 'failed', text: 'saw an error' }, today)).toContain('fault');
+		expect(validateTurnAnswer({ itemKey: 'task:1', outcome: 'confirmed', text: 'ok' }, today)).toContain('outcome is one of');
 		expect(validateTurnAnswer({ itemKey: 'todo:1', outcome: 'snoozed', untilDay: today }, today)).toContain('after today');
 	});
 

@@ -24,7 +24,7 @@ const stillInYourName =
 	'Development tasks in your name (older work that is really an ask, or a job for a business ' +
 	'department: offer to turn each into one, and building is never theirs)';
 
-/** What the person has to do, by kind: information, setup, testing, their department tasks, then their to-dos. Building is Claude's. */
+/** What the person has to do, by kind: information, setup, their department tasks, then their to-dos. Building is Claude's. */
 export function describeSummary(sources: SummarySources): string[] {
 	const { owed } = sources;
 	const unnamed = owed.name === null ? [unnamedAccountNotice, ''] : [];
@@ -49,11 +49,9 @@ function isNothingOwed({ waiting, todos, owed }: SummarySources): boolean {
 function totalsLine({ waiting, todos, owed }: SummarySources): string {
 	const information = asksOfKind(waiting, askKinds.information).length;
 	const setup = asksOfKind(waiting, askKinds.setup).length;
-	const testing = asksOfKind(waiting, askKinds.testing).length;
 	const parts = [
 		`${countOf(information, 'answer')} to give`,
 		`${countOf(setup, 'thing')} to set up`,
-		`${countOf(testing, 'feature')} to test`,
 		`${countOf(businessTasksOf(owed).length, 'task')} to do`,
 		`${countOf(todos.length, 'to-do')}`
 	];

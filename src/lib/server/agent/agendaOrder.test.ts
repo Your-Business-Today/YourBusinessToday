@@ -12,17 +12,17 @@ const everyFocus = { projectId: null, isBugsOnly: false };
 const active = ['ybt', 'pfp', 'carp', 'jbb'];
 const items = [
 	item('chase-nigel', { kind: 'chase', projectId: null }),
-	item('test-export', { kind: 'testing' }),
+	item('task-export', { kind: 'task' }),
 	item('newer-answer', { since: '2026-11-04T09:00:00Z' }),
 	item('older-answer', { since: '2026-10-01T09:00:00Z' }),
-	item('bug-test', { kind: 'testing', isBug: true, projectId: 'pfp' })
+	item('bug-task', { kind: 'task', isBug: true, projectId: 'pfp' })
 ];
 const keysOf = (ordered: AgendaItem[]) => ordered.map(({ key }) => key);
 
 describe('the order the agent raises things', () => {
 	it('puts every bug first, then the quick answers, then each kind in turn, the longest waiting first', () => {
 		const keys = keysOf(orderAgenda(items, everyFocus, new Set(), active));
-		expect(keys).toEqual(['bug-test', 'older-answer', 'newer-answer', 'test-export', 'chase-nigel']);
+		expect(keys).toEqual(['bug-task', 'older-answer', 'newer-answer', 'task-export', 'chase-nigel']);
 	});
 
 	it('gives the same order however the items arrive', () => {
@@ -32,7 +32,7 @@ describe('the order the agent raises things', () => {
 	});
 
 	it('leaves out what the person put off', () => {
-		expect(keysOf(orderAgenda(items, everyFocus, new Set(['bug-test']), active))).not.toContain('bug-test');
+		expect(keysOf(orderAgenda(items, everyFocus, new Set(['bug-task']), active))).not.toContain('bug-task');
 	});
 
 	it('keeps to one project, or to bugs alone, when asked', () => {

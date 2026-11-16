@@ -33,7 +33,6 @@ import { linkPersonActions } from './actions/linkPersonActions';
 import { supportTaskActions } from './actions/supportTaskActions';
 import { taskActions } from './actions/taskActions';
 import { todoActions } from './actions/todoActions';
-import { testResultActions } from './actions/testResultActions';
 import { waitingActions } from './actions/waitingActions';
 import { actionAudiences, type ActionArea, type McpAction } from './actionTypes';
 import type { AccountStanding } from './resolveAccountStanding';
@@ -74,8 +73,7 @@ const everyAction: McpAction[] = [
 	...answerTurnActions,
 	...linkPersonActions,
 	...taskActions,
-	...todoActions,
-	...testResultActions
+	...todoActions
 ];
 
 export function actionsFor(standing: AccountStanding, area: ActionArea | null): McpAction[] {
