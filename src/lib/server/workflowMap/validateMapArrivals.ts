@@ -21,14 +21,21 @@ export function validateMapArrivals(value: unknown, lines: MapLine[]): MapArriva
 
 function validateMapArrival(candidate: unknown, label: string, stationKeys: Set<string>): MapArrival | Refusal {
 	const fields = fieldsOf(candidate);
+	const words = validateArrivalWords(fields, label);
+	if (isRefused(words)) return words;
+	const stationKey = String(fields.stationKey ?? '').trim();
+	const isOnTheMap = stationKeys.has(stationKey);
+	if (!isOnTheMap) return { refusal: `${label} stationKey "${stationKey}" is not the key of a station on this map: name the station it starts.` };
+	return { ...words, stationKey };
+}
+
+/** What arrives and who or what it arrives from, each checked against its column. */
+export function validateArrivalWords(fields: Record<string, unknown>, label: string): Omit<MapArrival, 'stationKey'> | Refusal {
 	const whatArrives = readRequiredText(fields.whatArrives, { field: `${label} whatArrives`, limit: limits.whatArrivesLength });
 	if (isRefused(whatArrives)) return whatArrives;
 	const arrivesFrom = readRequiredText(fields.arrivesFrom, { field: `${label} arrivesFrom`, limit: limits.arrivesFromLength });
 	if (isRefused(arrivesFrom)) return arrivesFrom;
-	const stationKey = String(fields.stationKey ?? '').trim();
-	const isOnTheMap = stationKeys.has(stationKey);
-	if (!isOnTheMap) return { refusal: `${label} stationKey "${stationKey}" is not the key of a station on this map: name the station it starts.` };
-	return { whatArrives, arrivesFrom, stationKey };
+	return { whatArrives, arrivesFrom };
 }
 
 function isSameArrival(earlier: MapArrival, later: MapArrival): boolean {

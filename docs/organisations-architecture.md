@@ -186,6 +186,11 @@ Each organisation has one workflow map: its roles as lines, their tasks as stati
 between them, filed by the person's own Claude as versions of a Before and an After. The sections below
 say how it is filed, drawn, checked and confirmed.
 
+A small change, one station, line, hand-over or arrival, is filed with `amend_workflow_map`: the amendment is
+applied to the latest version of that stage by `amendWorkflowMap` (`src/lib/data/workflowMap/`) and the whole
+result goes through the same checks and filing as `file_workflow_map`, so it is the next numbered version and
+every untouched station is carried forward exactly, keeping its mark with the client.
+
 ### The one prompt
 
 Every client runs the same prompt (`onePrompt` in `src/lib/onboarding/onboarding.ts`), shown on the
