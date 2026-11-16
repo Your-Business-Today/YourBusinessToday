@@ -154,6 +154,9 @@ load is *arrived* when incorporated within ninety days of the month, *moved in* 
 later file no longer carries has *left*; a changed status, account category or charge count, and
 accounts falling overdue, each write theirs; and a company registered under a holding or
 head-office SIC code at the address of a live trading company is flagged the month it appears.
+It is flagged only when it was itself incorporated within those ninety days (0253), so a
+territory's first load, by the monthly file or the pull with the key, announces no old holding
+company as formed.
 
 **Observation** — `public.observations`: something a staff member's own Claude noticed on a
 public page in the last week about a register company or a sighting, with the page, once per
