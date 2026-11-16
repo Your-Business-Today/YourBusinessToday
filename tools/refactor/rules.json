@@ -231,7 +231,8 @@
       "src/routes/terms/+page.server.ts",
       "src/routes/organisations/[organisationId]/sales/+page.server.ts",
       "src/lib/server/mcp/actions/businessBrainBatchActions.ts",
-      "src/lib/server/mcp/actions/businessBrainBatchSchemas.ts"
+      "src/lib/server/mcp/actions/businessBrainBatchSchemas.ts",
+      "src/lib/server/businessBrain/businessBrainFieldActions.ts"
     ]
   },
   "siteDefinition": {

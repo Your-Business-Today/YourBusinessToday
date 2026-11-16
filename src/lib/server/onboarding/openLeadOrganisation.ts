@@ -5,14 +5,8 @@ import { isRefusal, type Refusal } from '$lib/server/portal/portalFormReading';
 import { setOrganisationModule } from '$lib/server/organisations/setOrganisationModule';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { leadOrganisationRefusals as refusals } from './leadOrganisationRefusals';
-import {
-	createOrganisationForClient,
-	findOrganisationLinkById,
-	findOrganisationLinkOfClient,
-	findTopOrganisationNamed,
-	linkOrganisationToClient,
-	type OrganisationLink
-} from './leadOrganisationRows';
+import { createOrganisationForClient, linkOrganisationToClient } from './leadOrganisationRows';
+import { findOrganisationLinkById, findOrganisationLinkOfClient, findTopOrganisationNamed, type OrganisationLink } from './organisationLinks';
 import type { OrganisationModule } from '$lib/data/organisationModules';
 
 export type LeadOrganisationRequest = { clientId: string; organisationId: string | null; actorAccountId: string };
@@ -40,24 +34,30 @@ export async function openLeadOrganisation(request: LeadOrganisationRequest): Pr
 	const opener = { service, company, actorAccountId: request.actorAccountId };
 	const opened = await organisationToOpen(opener, request.organisationId);
 	if (isRefusal(opened)) return opened;
-	const moduleSwitch = { organisationId: opened.organisation.id, module: domainKeeper, isOn: true, switchedBy: request.actorAccountId };
-	await setOrganisationModule(service, moduleSwitch);
+	await switchDomainKeeperOn(opener, opened.organisation);
 	return { ...opened, companyName: company.name };
 }
 
+async function switchDomainKeeperOn({ service, actorAccountId }: Opener, organisation: OrganisationLink): Promise<void> {
+	await setOrganisationModule(service, { organisationId: organisation.id, module: domainKeeper, isOn: true, switchedBy: actorAccountId });
+}
+
 async function organisationToOpen(opener: Opener, namedOrganisationId: string | null): Promise<Opening | Refusal> {
-	const linked = await findOrganisationLinkOfClient(opener.service, opener.company.id);
+	const { service, company } = opener;
+	const linked = await findOrganisationLinkOfClient(service, company.id);
 	if (namedOrganisationId !== null) return openNamedOrganisation(opener, namedOrganisationId, linked);
 	if (linked !== null) return { organisation: linked, opening: leadOrganisationOpenings.alreadyLinked };
 	return openByName(opener);
 }
 
 async function openNamedOrganisation(opener: Opener, organisationId: string, linked: OrganisationLink | null): Promise<Opening | Refusal> {
+	const { service, company } = opener;
 	const isAnotherLinkedAlready = linked !== null && linked.id !== organisationId;
-	if (isAnotherLinkedAlready) return refusals.companyHasAnother(opener.company, linked);
-	const organisation = await findOrganisationLinkById(opener.service, organisationId);
+	if (isAnotherLinkedAlready) return refusals.companyHasAnother(company, linked);
+	const organisation = await findOrganisationLinkById(service, organisationId);
 	if (organisation === null) return refusals.noSuchOrganisation;
-	if (organisation.clientId === opener.company.id) return { organisation, opening: leadOrganisationOpenings.alreadyLinked };
+	const isLinkedToThisCompany = organisation.clientId === company.id;
+	if (isLinkedToThisCompany) return { organisation, opening: leadOrganisationOpenings.alreadyLinked };
 	return linkUnlinkedOrganisation(opener, organisation);
 }
 
@@ -74,7 +74,8 @@ async function openByName(opener: Opener): Promise<Opening | Refusal> {
 async function linkUnlinkedOrganisation(opener: Opener, organisation: OrganisationLink): Promise<Opening | Refusal> {
 	const isLinkedElsewhere = organisation.clientId !== null;
 	if (isLinkedElsewhere) return refusals.linkedElsewhere(organisation);
-	const linked = await linkOrganisationToClient(opener.service, organisation.id, opener.company.id);
+	const { service, company } = opener;
+	const linked = await linkOrganisationToClient(service, organisation.id, company.id);
 	if (linked === null) return refusals.linkedElsewhere(organisation);
 	return { organisation: linked, opening: leadOrganisationOpenings.linked };
 }

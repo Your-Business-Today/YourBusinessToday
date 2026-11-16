@@ -15,10 +15,12 @@ vi.mock('$lib/server/payments/supabaseServiceClient', () => ({ supabaseServiceCl
 vi.mock('$lib/server/clients/getClient', () => ({ getClient: doubles.getClient }));
 vi.mock('$lib/server/organisations/setOrganisationModule', () => ({ setOrganisationModule: doubles.setOrganisationModule }));
 vi.mock('./inviteSetUpPerson', () => ({ inviteSetUpPerson: doubles.inviteSetUpPerson }));
-vi.mock('./leadOrganisationRows', () => ({
+vi.mock('./organisationLinks', () => ({
 	findOrganisationLinkById: doubles.findOrganisationLinkById,
 	findOrganisationLinkOfClient: doubles.findOrganisationLinkOfClient,
-	findTopOrganisationNamed: doubles.findTopOrganisationNamed,
+	findTopOrganisationNamed: doubles.findTopOrganisationNamed
+}));
+vi.mock('./leadOrganisationRows', () => ({
 	linkOrganisationToClient: doubles.linkOrganisationToClient,
 	createOrganisationForClient: doubles.createOrganisationForClient
 }));

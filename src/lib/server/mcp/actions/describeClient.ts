@@ -13,7 +13,7 @@ import type { LeadConversation } from '$lib/data/leadConversationRules';
 import type { FiledEmail } from '$lib/data/filedEmailRules';
 import type { ClientSummary } from '$lib/server/clients/listClients';
 import type { Premises } from '$lib/server/premises/premisesRecord';
-import type { OrganisationLink } from '$lib/server/onboarding/leadOrganisationRows';
+import type { OrganisationLink } from '$lib/server/onboarding/organisationLinks';
 
 /** The client as the register holds it: who brought it in, its own organisation, and the premises it was made from when it was made from one. */
 export type ClientOnRegister = { client: Client; broughtInBy: string; organisation: OrganisationLink | null; premises: Premises[] };

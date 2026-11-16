@@ -1,5 +1,5 @@
 import { longestOrganisationName } from '$lib/data/organisationRules';
-import type { OrganisationLink } from './leadOrganisationRows';
+import type { OrganisationLink } from './organisationLinks';
 import type { Refusal } from '$lib/server/portal/portalFormReading';
 
 type Company = { name: string };

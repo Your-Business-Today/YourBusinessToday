@@ -10,7 +10,7 @@ import { getConversationsForClient } from '$lib/server/leadConversations/getConv
 import { getEmailsForClient } from '$lib/server/filedEmails/getFiledEmails';
 import { filedEmailLimits } from '$lib/data/filedEmailRules';
 import { getPremisesForClient } from '$lib/server/premises/getPremisesForClient';
-import { findOrganisationLinkOfClient } from '$lib/server/onboarding/leadOrganisationRows';
+import { findOrganisationLinkOfClient } from '$lib/server/onboarding/organisationLinks';
 import { readClientResearchGuidance } from './companyResearchGuidance';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';

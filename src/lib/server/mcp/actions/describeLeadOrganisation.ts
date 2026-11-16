@@ -1,4 +1,4 @@
-import type { OrganisationLink } from '$lib/server/onboarding/leadOrganisationRows';
+import type { OrganisationLink } from '$lib/server/onboarding/organisationLinks';
 
 /** The company's own organisation as read_client gives it, or how to open one. */
 export function describeLeadOrganisation(organisation: OrganisationLink | null): string {

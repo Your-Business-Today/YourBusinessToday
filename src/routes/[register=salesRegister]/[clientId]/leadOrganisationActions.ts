@@ -12,6 +12,7 @@ export const leadOrganisationActions: Actions = {
 		const request = { clientId: params.clientId, organisationId: null, actorAccountId: user.id };
 		const opened = await openLeadOrganisation(request);
 		if (isRefusal(opened)) return fail(badRequest, { message: opened.refusal });
-		return { message: `${opened.companyName}'s organisation, ${opened.organisation.name}, is open. Its domain and workflow map can be built now.` };
+		const { companyName, organisation } = opened;
+		return { message: `${companyName}'s organisation, ${organisation.name}, is open. Its domain and workflow map can be built now.` };
 	}
 };
