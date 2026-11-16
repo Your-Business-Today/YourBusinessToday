@@ -1,6 +1,6 @@
 # Master Services Agreement
 
-**Version 1.2 — 7 November 2026**
+**Version 1.3 — 16 November 2026**
 
 This agreement is made on [date] between:
 
@@ -31,7 +31,8 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 - "**Background IP**" means everything YBT owned or developed before or outside an Order Form — its frameworks, libraries, templates, tooling, methods and know-how — and any improvement to them that is not specific to you.
 - "**Business Day**" means a day other than a Saturday, Sunday or public holiday in England.
-- "**Client Data**" means all data, including personal data, that you or your users put into the Solution or that we receive from you.
+- "**Client Data**" means all data, including personal data, that you or your users put into the Solution or into YBT's platform at yourbusiness.today (such as its Books, Your Business Brain, Boardroom and workflow map), or that we receive from you, including the documents, exports and files you hand over during an engagement. It does not include the Engagement Records.
+- "**Engagement Records**" means the record YBT keeps of the work under this agreement: the Order Forms, change requests, acceptance notices and invoices; the projects, goals, tasks, requests and messages through which the work is run in YBT's portal; and the names, roles and work contact details of your people that appear in them.
 - "**Deliverables**" means everything we produce for you under an Order Form: the source code, database schema, configuration, infrastructure definitions and documentation specific to you, and the written record of how your business works.
 - "**Foreground IP**" means the intellectual property rights in the Deliverables, other than Background IP and third-party components.
 - "**Order Form**" means a signed order for a Discovery stage, a Build stage or the Run service, in the form YBT provides.
@@ -86,15 +87,15 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 8.1 While you take the Run service, YBT provides the Solution as a single managed service. YBT contracts for all of the infrastructure and platform services underneath it (including Microsoft Azure) in its own name and at its own risk, and is your only counterparty for them. You acquire the Solution, not any underlying cloud service, and nothing in this agreement is a resale, sub-licence or redistribution of a third-party service.
 
-8.2 The Solution runs in a Microsoft Azure subscription held by YBT and dedicated to you alone, in the Microsoft Azure regions the Order Form names, in the United Kingdom or the European Economic Area, separated from every other client's systems. The monthly fee is a single inclusive figure; we do not pass through or itemise the cost of underlying services.
+8.2 The Solution runs in a Microsoft Azure subscription held by YBT and dedicated to you alone, in the Microsoft Azure regions the Order Form names, in the United Kingdom or the European Economic Area, separated from every other client's systems. Client Data you keep in YBT's platform at yourbusiness.today is not in that subscription: it is held for YBT by the sub-processors named for the platform in Annex C of Schedule 1, in London, United Kingdom, kept apart from every other client's data by access controls on every record. The monthly fee is a single inclusive figure; we do not pass through or itemise the cost of underlying services.
 
 8.3 Schedule 4 sets out how the Solution and its subscription can be transferred to you, or to someone you nominate, when the Run service ends or if YBT cannot continue.
 
 ## 9. Intellectual property
 
-9.1 **Assignment of Foreground IP.** In consideration of the fees for each stage, YBT hereby assigns to the Client, with full title guarantee and by way of present assignment of present and future rights, all Foreground IP in the Deliverables of that stage, with effect from the date the fees for that stage are paid in full. Until then, you have a licence to use the Deliverables for the purpose of testing and accepting them.
+9.1 **Assignment of Foreground IP.** In consideration of the fees for each stage, YBT hereby assigns to the Client, with full title guarantee and by way of present assignment of present and future rights, all Foreground IP in the Deliverables of that stage, with effect from the date the fees for that stage are paid in full. Change work done under the Run service is not a stage: YBT assigns the Foreground IP in it on the same terms, with effect from the date the monthly fee covering that work is paid in full. Until then, you have a licence to use the Deliverables for the purpose of testing and accepting them.
 
-9.2 **Moral rights.** YBT will procure that each individual who creates Deliverables waives their moral rights in them, so far as the law allows.
+9.2 **Moral rights and our own people.** Everyone who creates Deliverables for YBT first assigns their rights in them to YBT, so that YBT can assign them to you under clause 9.1. YBT will procure that each of them waives their moral rights in the Deliverables, so far as the law allows.
 
 9.3 **Background IP.** YBT keeps its Background IP. It grants you a perpetual, irrevocable, worldwide, royalty-free, non-exclusive licence to use, copy and modify the Background IP embedded in the Deliverables, for the purpose of using, maintaining and developing the Solution, including through another supplier. You may not sell the Background IP on its own.
 
@@ -115,6 +116,8 @@ YBT learns how a business runs and then builds and runs the software that runs i
 10.3 YBT will not use Client Data for its own purposes — including analytics, benchmarking, product development, case studies or AI training — and will never combine it with another client's data.
 
 10.4 Your authorised administrator can export the Client Data at any time, without asking us, in the formats named in Schedule 4.
+
+10.5 **Engagement Records.** YBT is the controller of the Engagement Records, which it keeps to run the work, to bill for it and to answer any question about it later. It keeps them for six years after this agreement ends and then deletes them, as its privacy statement says. They are not Client Data, so Schedule 4 does not require their deletion, but clauses 10.3 and 11 apply to them.
 
 ## 11. Confidentiality
 

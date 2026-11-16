@@ -20,7 +20,7 @@ export const outstandingTools: McpTool[] = [
 			'For what they need to do, what is on or what is next, use what_do_i_need_to_do. Left as it is, ' +
 			'this also gives just the one item to raise now. Only when the person asks in so many words to ' +
 			'see everything at once, give showEverything true for the whole list: one read-only answer ' +
-			'across every project they are on: the information they need to give, the things to set up, the features to test and their to-dos, each in a section of its own, and ' +
+			'across every project they are on: the information they need to give, the things to set up and their to-dos, each in a section of its own, and ' +
 			'who to chase, person by person (onlyWhatIAskedFor narrows it to what they asked for). Bugs ' +
 			'come first. The answer opens with how to walk them through it.',
 		inputSchema: objectSchema({

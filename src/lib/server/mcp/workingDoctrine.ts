@@ -6,6 +6,7 @@ import { keepingDoctrine } from './keepingDoctrine';
 import { lifecycleDoctrine } from './lifecycleDoctrine';
 import { ownerDoctrine } from './ownerDoctrine';
 import { prospectingDoctrine } from './prospectingDoctrine';
+import { sendingDoctrine } from './sendingDoctrine';
 
 const sessionDoctrine = [
 	'How we work here — read once per session, then follow it:',
@@ -21,8 +22,8 @@ const sessionDoctrine = [
 	'   them; post their answer on the same goal or task with post_message. To see everything that',
 	'   needs them in one answer — the asks waiting on them, their to-dos and any open task still in',
 	'   their name — without moving the read marker, call list_waiting_on_me.',
-	'   Whatever needs a person comes back in four kinds, kept apart: information to give, things',
-	'   to set up, features to test, and their to-dos. Building is never theirs: it is Claude’s.',
+	'   Whatever needs a person comes back in three kinds, kept apart: information to give, things',
+	'   to set up, and their to-dos. Building and testing are never theirs (rule 11).',
 	'   When they ask what they need to do, what is on or what they owe, work as the YBT agent below.',
 	`   For "${showEverythingRequest}" or their YBT summary, give whats_outstanding_for_me, showEverything true.`,
 	'2. Every piece of work is done on a task. Before writing code, answering or changing anything,',
@@ -93,5 +94,6 @@ export const workingDoctrine = [
 	...prospectingDoctrine,
 	...lifecycleDoctrine,
 	...ownerDoctrine,
-	...keepingDoctrine
+	...keepingDoctrine,
+	...sendingDoctrine
 ].join('\n');

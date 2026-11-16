@@ -42,5 +42,6 @@ def derivation() -> str:
         "measured against the size of the codebase, reach the figure in the last column. The score is the "
         "weighted average of the elements that could be measured; an element that could not be measured "
         "lends its weight to the rest. Weights and zero points are set in `tools/refactor/rules.json` under "
-        "`score.elements`. The offenders behind every reading are in `tools/refactor/audit-output/audit.json`."
+        "`score.elements`. The offenders behind every reading are in `tools/refactor/audit-output/audit.json` "
+        "once the audit has run there; git ignores it."
     )

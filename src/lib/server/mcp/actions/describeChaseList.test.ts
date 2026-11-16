@@ -20,7 +20,7 @@ const insuranceAnswer: ChaseItem = {
 	since: '2026-10-20T09:00:00Z'
 };
 
-const exportTest: ChaseItem = { ...insuranceAnswer, subject: exportGoal, askKind: 'testing', askedById: scarlett.id, question: 'Download a real export?' };
+const exportTest: ChaseItem = { ...insuranceAnswer, subject: exportGoal, askKind: 'setup', askedById: scarlett.id, question: 'Switch the export bucket on?' };
 
 const termsWork: ChaseItem = {
 	personId: scarlett.id,
@@ -47,10 +47,11 @@ describe('who to chase', () => {
 		expect(described).toContain('4 items waiting on 2 people.');
 	});
 
-	it('lists each kind of thing owed apart, tests included, whoever asked', () => {
+	it('lists each kind of thing owed apart, whoever asked', () => {
 		expect(described).toContain('Answers to give (1):');
 		expect(described).toContain('"Buy cyber insurance" on YourBusinessToday (task id: insurance). You asked on 20 Oct 2026: Nigel, which insurer do we go with?');
-		expect(described).toContain('Features to test (1):');
+		expect(described).toContain('Things to set up (1):');
+		expect(described).not.toContain('to test');
 		expect(described).toContain('(goal id: export). Scarlett asked on 20 Oct 2026');
 	});
 

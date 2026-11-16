@@ -24,6 +24,8 @@ import { requireStaff } from '$lib/server/auth/requireStaff';
 import { getConversationsForClient } from '$lib/server/leadConversations/getConversationsForClient';
 import { getStaffDirectory } from '$lib/server/projects/getStaffDirectory';
 import { leadConversationActions } from './leadConversationActions';
+import { getEmailsForClient } from '$lib/server/filedEmails/getFiledEmails';
+import { filedEmailActions } from './filedEmailActions';
 import { broughtInByActions } from './broughtInByActions';
 import { keepOnItsRegister } from '$lib/server/salesRegisters/keepOnItsRegister';
 import type { Actions, PageServerLoad } from './$types';
@@ -33,7 +35,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const client = await getClient(locals.supabase, params.clientId);
 	if (client === null) error(404, 'That company could not be found');
 	keepOnItsRegister(url, params.register, client.stage);
-	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany, jobAdverts, conversations, staffMembers, premises] =
+	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany, jobAdverts, conversations, staffMembers, premises, emails] =
 		await Promise.all([
 			getPeopleForClient(locals.supabase, client.id),
 			getProjectsForClient(locals.supabase, client.id),
@@ -48,12 +50,13 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 			getJobAdvertsForClient(locals.supabase, client.id),
 			getConversationsForClient(locals.supabase, client.id),
 			getStaffDirectory(locals.supabase),
-			getPremisesForClient(locals.supabase, client.id)
+			getPremisesForClient(locals.supabase, client.id),
+			getEmailsForClient(locals.supabase, client.id)
 		]);
 	const canImportOfficers = hasCompanyNumber(client) && isCompaniesHouseConfigured();
 	const figures = registerCompany?.figures ?? null;
 	const standing = registerCompany === null ? '' : standingLine(registerCompany);
-	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, standing, canImportOfficers, jobAdverts, conversations, staffMembers, premises, viewerId: viewer.id };
+	return { client, people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, figures, standing, canImportOfficers, jobAdverts, conversations, emails, staffMembers, premises, viewerId: viewer.id };
 };
 
 export const actions: Actions = {
@@ -64,5 +67,6 @@ export const actions: Actions = {
 	...personFormActions,
 	...groupActions,
 	...leadConversationActions,
+	...filedEmailActions,
 	...broughtInByActions
 };

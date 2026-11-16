@@ -8,6 +8,7 @@ import { readItemInTheRoom } from '$lib/server/boardroom/readItemInTheRoom';
 import { speakOnBoardroomItem } from '$lib/server/boardroom/speakOnBoardroomItem';
 import { boardroomRoomGuidance } from './boardroomRoomGuidance';
 import { openRoomSchema, readItemSchema, speakSchema } from './boardroomRoomFields';
+import { emailSenders, sendsEmailFrom } from '../sendsEmail';
 
 export const boardroomRoomActions: McpAction[] = [
 	boardroomAction({
@@ -15,7 +16,11 @@ export const boardroomRoomActions: McpAction[] = [
 		area: 'boardroom',
 		audience: 'everyone',
 		isWrite: true,
-		summary: "open a board meeting's room for the directors' Claudes, from the meeting's time, with the most rounds each item takes",
+		summary: sendsEmailFrom(
+			emailSenders.yourBusinessToday,
+			"open a board meeting's room for the directors' Claudes, from the meeting's time, with the most rounds each item takes, " +
+				'emailing each director it calls to their turn'
+		),
 		guidance: boardroomRoomGuidance.open,
 		inputSchema: openRoomSchema,
 		run: async (caller, input, organisation) => {
@@ -45,7 +50,11 @@ export const boardroomRoomActions: McpAction[] = [
 		area: 'boardroom',
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'say your piece on an agenda item in the room, for your own director, in your turn: propose, support, object or comment',
+		summary: sendsEmailFrom(
+			emailSenders.yourBusinessToday,
+			'say your piece on an agenda item in the room, for your own director, in your turn: propose, support, object or comment, ' +
+				'emailing each director it calls to their turn'
+		),
 		guidance: boardroomRoomGuidance.speak,
 		inputSchema: speakSchema,
 		run: async (caller, input, organisation) => {

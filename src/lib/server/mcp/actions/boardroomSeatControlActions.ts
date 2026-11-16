@@ -5,6 +5,7 @@ import { answerHeldContribution } from '$lib/server/boardroom/answerHeldContribu
 import { changeOwnClaudeSetting, steerOwnClaude } from '$lib/server/boardroom/steerOwnClaude';
 import { boardroomSeatControlGuidance } from './boardroomSeatControlGuidance';
 import { heldAnswerSchema, settingSchema, steerSchema } from './boardroomSeatControlFields';
+import { emailSenders, sendsEmailFrom } from '../sendsEmail';
 
 export const boardroomSeatControlActions: McpAction[] = [
 	boardroomAction({
@@ -44,7 +45,11 @@ export const boardroomSeatControlActions: McpAction[] = [
 		area: 'boardroom',
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'record your own director’s answer to a piece you held for them: yes says it in the room, no keeps it unsaid',
+		summary: sendsEmailFrom(
+			emailSenders.yourBusinessToday,
+			'record your own director’s answer to a piece you held for them: yes says it in the room, no keeps it unsaid, ' +
+				'and a yes emails each director it calls to their turn'
+		),
 		guidance: boardroomSeatControlGuidance.answerHeld,
 		inputSchema: heldAnswerSchema,
 		run: async (caller, input, organisation) => {

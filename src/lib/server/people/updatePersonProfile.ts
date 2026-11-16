@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { parseSeniority, parseWarmth } from '$lib/data/contactProfileFields';
-import { toPersonProfileColumns, type PersonProfile } from './personRecord';
+import { toPersonProfileColumns, type Person, type PersonProfile } from './personRecord';
 
 const duplicateRowCode = '23505';
 
@@ -52,6 +52,21 @@ export async function updatePersonProfile(
 	if (error !== null && error.code === duplicateRowCode) return 'email_taken';
 	if (error) throw error;
 	return 'saved';
+}
+
+/** A person as an edit of their profile starts from: everything they hold now. */
+export function profileEditOf(person: Person): PersonProfileEdit {
+	return {
+		name: person.name,
+		email: person.email,
+		phone: person.phone,
+		seniority: person.seniority,
+		isDecisionMaker: person.isDecisionMaker,
+		warmth: person.warmth,
+		lastContactedOn: person.lastContactedOn,
+		nextAction: person.nextAction,
+		nextActionDue: person.nextActionDue
+	};
 }
 
 function readTrimmed(formData: FormData, field: string): string {

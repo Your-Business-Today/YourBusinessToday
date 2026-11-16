@@ -22,12 +22,13 @@ class NoSuchBranch(Exception):
 class Base:
     tracked: str
     commit: str
+    isStaging: bool
 
 
 def baseOfTheWork(clone: Clone, named: str | None) -> Base:
     remote = remoteOf(clone)
     branch = branchToMergeInto(clone, remote, named)
-    return Base(f"{remote}/{branch}", fetched(clone, remote, branch))
+    return Base(f"{remote}/{branch}", fetched(clone, remote, branch), isStaging=branch == STAGING)
 
 
 def remoteOf(clone: Clone) -> str:

@@ -2,6 +2,8 @@ import { areaMapActions } from './areaMapActions';
 import { clientContactActions } from './clientContactActions';
 import { clientDocumentActions } from './clientDocumentActions';
 import { companyResearchActions } from './companyResearchActions';
+import { emailOwnerActions } from './emailOwnerActions';
+import { inboxTriageActions } from './inboxTriageActions';
 import { followUpActions } from './followUpActions';
 import { peopleRegisterActions } from './peopleRegisterActions';
 import { personApproachActions } from './personApproachActions';
@@ -18,6 +20,9 @@ import { clientRegisterActions } from './clientRegisterActions';
 import { clientSetUpActions } from './clientSetUpActions';
 import { clientRemovalActions } from './clientRemovalActions';
 import { leadConversationActions } from './leadConversationActions';
+import { filedEmailActions } from './filedEmailActions';
+import { gmailSendingActions } from './gmailSendingActions';
+import { leadFromEmailActions } from './leadFromEmailActions';
 import { officerActions } from './officerActions';
 import { officerAppointmentActions } from './officerAppointmentActions';
 import { salesLeaderboardActions } from './salesLeaderboardActions';
@@ -32,12 +37,17 @@ export const clientActions: McpAction[] = [
 	...clientContinuityCopyActions,
 	...clientContactActions,
 	...leadConversationActions,
+	...filedEmailActions,
+	...gmailSendingActions,
+	...leadFromEmailActions,
 	...salesLeaderboardActions,
 	...companyResearchActions,
 	...clientSetUpActions,
 	...peopleRegisterActions,
 	...personUpdateActions,
 	...followUpActions,
+	...emailOwnerActions,
+	...inboxTriageActions,
 	...personLinkActions,
 	...officerActions,
 	...officerAppointmentActions,

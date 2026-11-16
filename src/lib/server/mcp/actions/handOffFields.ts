@@ -22,8 +22,7 @@ export const handOffFields = {
 	askKind: textField(
 		'With waitingOn only: what the ask wants from them — "information" (the default: an ' +
 			'answer or a file only they hold), "setup" (an account, a key, a DNS record or a payment ' +
-			'they put in place) or "testing" (confirm a merged feature works: say what to try and ' +
-			'what proof counts). Building is never asked of a person'
+			'they put in place). Building and testing are never asked of a person'
 	)
 };
 

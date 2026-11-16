@@ -17,17 +17,16 @@ export const answerTurnActions: McpAction[] = [
 		guidance:
 			'The second half of the YBT agent’s turn. Once the person has answered the item next_turn raised, ' +
 			'record it here with its itemKey and the outcome next_turn listed for it, and text in their words: ' +
-			'the answer, the promise, what was done, or the proof of a test. A failed test also gives fault, ' +
-			'which raises a FIX. snoozed puts it off until untilDay, tomorrow by default; every answer puts its ' +
+			'the answer, the promise or what was done. Nobody is asked to test: a fault the person reports ' +
+			'is raised as a FIX with create_task. snoozed puts it off until untilDay, tomorrow by default; every answer puts its ' +
 			'item off until then too, so the next turn moves on. The answer is recorded by the action that owns ' +
-			'it (post_message, record_test_results, complete_todo), so their rules hold. Then put the next turn ' +
+			'it (post_message, complete_todo), so their rules hold. Then put the next turn ' +
 			'it hands back to the person, one item, never the list.',
 		inputSchema: objectSchema(
 			{
 				itemKey: textField('The item key next_turn gave'),
 				outcome: textField(turnOutcomeOrder.join(', ')),
-				text: proseField('What the person said: the answer, promise, work done, or proof'),
-				fault: textField('For a failed test: what is wrong, in a line'),
+				text: proseField('What the person said: the answer, promise or work done'),
 				untilDay: textField('The day to raise it again, YYYY-MM-DD; tomorrow when left out'),
 				...turnFocusFields
 			},

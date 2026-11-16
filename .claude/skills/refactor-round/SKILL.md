@@ -12,11 +12,11 @@ Read, in this order, before the first change: the coding rules at the top of `CL
 ## 0. Branch
 
 ```
-git fetch origin && git switch <base> && git pull --ff-only
-git switch -c refactor/round-N
+git fetch origin +refs/heads/<base>:refs/remotes/origin/<base>
+git switch -c refactor/round-N --no-track origin/<base>
 ```
 
-`<base>` is `staging` where the repository has one (`git branch -r` lists `origin/staging`), else the default branch — the branch the pull request goes into, so the work starts from what it will merge into.
+`<base>` is `staging` where the repository has one (`git ls-remote --heads origin staging` prints a line; `git branch -r` proves nothing in a clone made to fetch one branch), else the default branch — the branch the pull request goes into, so the work starts from what it will merge into.
 
 If the working tree holds uncommitted changes, stop and ask the person what they belong to — a round starts clean.
 
@@ -86,7 +86,7 @@ python3 -m tools.refactor.audit.quality_check .
 cp tools/refactor/audit-output/audit.json tools/refactor/baseline.json
 ```
 
-The quality check runs the full audit, writes the new score box at the bottom of `README.md` and rewrites `tools/refactor/refactor-plan.md` from what is left. Then rewrite `tools/refactor/baseline-report.md` in this shape and commit it with `baseline.json`, `README.md`, the plan and `audit-output/` as the round's last commit, "Baseline vN: <the round's name>":
+The quality check runs the full audit, writes the new score box at the bottom of `README.md` and rewrites `tools/refactor/refactor-plan.md` from what is left. Then rewrite `tools/refactor/baseline-report.md` in this shape and commit it with `baseline.json`, `README.md` and the plan as the round's last commit (`audit-output/` is ignored by git and never committed), "Baseline vN: <the round's name>":
 
 ```
 # Refactor audit — baseline vN, after round N-1

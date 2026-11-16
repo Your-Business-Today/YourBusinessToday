@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { markPlacesGone, upsertPlaceBatch } from './placesWriter';
-import type { PlaceSeed } from '$lib/data/placeRules';
+import type { GroundedPlace } from './placesForPatch';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 type Asked = { door: string; sent: Record<string, unknown> };
@@ -12,7 +12,7 @@ const supabase = { rpc } as unknown as SupabaseClient;
 const seenAt = '2026-11-16T02:50:00.000Z';
 const firstLoad = { release: '2026-10-21.0', seenAt, isFirstLoad: true };
 
-const lamb: PlaceSeed = {
+const lamb: GroundedPlace = {
 	sourceId: 'lamb',
 	businessName: 'The Lamb',
 	category: 'pub',
@@ -23,7 +23,8 @@ const lamb: PlaceSeed = {
 	website: 'https://thelamb.example/',
 	phone: '+442083990000',
 	confidence: 0.95,
-	sourceLicence: 'CDLA-Permissive-2.0'
+	sourceLicence: 'CDLA-Permissive-2.0',
+	groundPostcode: 'KT6 5NF'
 };
 
 describe('writing trading places', () => {
@@ -65,6 +66,12 @@ describe('writing trading places', () => {
 				source_url: 'https://explore.overturemaps.org/#lamb'
 			}
 		]);
+	});
+
+	it('files a place that lists no postcode under the postcode nearest its point, keeping its own postcode empty', async () => {
+		await upsertPlaceBatch(supabase, [{ ...lamb, postcode: '', groundPostcode: 'KT6 4QB' }], firstLoad);
+		const [{ sent }] = asked;
+		expect(sent.rows).toEqual([expect.objectContaining({ postcode: '', sector: 'KT6 4', outcode: 'KT6' })]);
 	});
 
 	it('stops at what the database refuses', async () => {

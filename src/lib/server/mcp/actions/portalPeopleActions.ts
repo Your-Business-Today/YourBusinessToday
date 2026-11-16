@@ -12,6 +12,7 @@ import { validateRecordId } from '$lib/data/isUuid';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { PortalVisitor } from '$lib/portal/portalVisitor';
+import { emailSenders, sendsEmailFrom } from '../sendsEmail';
 
 type AdministratorStep = (caller: McpCaller, visitor: PortalVisitor, input: Record<string, unknown>) => Promise<string>;
 
@@ -37,7 +38,7 @@ export const portalPeopleActions: McpAction[] = [
 			return `${describeVisitorStanding(visitor)}\n${describePortalPeople(people)}`;
 		}
 	},
-	administratorAction('invite_portal_person', 'for a portal administrator: add someone at your organisation and email them their invitation to the portal', {
+	administratorAction('invite_portal_person', sendsEmailFrom(emailSenders.yourBusinessToday, 'for a portal administrator: add someone at your organisation and email them their invitation to the portal'), {
 		name: textField('Their name'),
 		email: textField('Their email address, where the invitation goes'),
 		role: textField('Their role at your organisation'),

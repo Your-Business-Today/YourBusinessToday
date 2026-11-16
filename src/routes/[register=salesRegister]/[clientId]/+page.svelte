@@ -9,11 +9,12 @@
 	import ClientDeletion from '$lib/components/clients/ClientDeletion.svelte';
 	import ClientContinuityCopySection from '$lib/components/clients/ClientContinuityCopySection.svelte';
 	import LeadConversationsSection from '$lib/components/clients/conversations/LeadConversationsSection.svelte';
+	import FiledEmailsSection from '$lib/components/clients/emails/FiledEmailsSection.svelte';
 	import ClientProjectList from '$lib/components/clients/ClientProjectList.svelte';
 	import CompanyProfileForm from '$lib/components/clients/CompanyProfileForm.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
-	import SupportTaskTable from '$lib/components/support/SupportTaskTable.svelte';
+	import ClientSupportSection from '$lib/components/clients/ClientSupportSection.svelte';
 	import { primaryButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
 	import { companyPagePath } from '$lib/data/salesRegisters';
 
@@ -52,6 +53,8 @@
 
 	<LeadConversationsSection conversations={data.conversations} people={data.people} staffMembers={data.staffMembers} viewerId={data.viewerId} />
 
+	<FiledEmailsSection emails={data.emails} />
+
 	<ClientGroupSection
 		{client}
 		{parent}
@@ -77,14 +80,7 @@
 
 	<ClientContinuityCopySection continuityCopy={client.continuityCopy} />
 
-	<section class="flex flex-col gap-4">
-		<h2 class="font-display text-xl">Support</h2>
-		{#if supportTasks.length === 0}
-			<p class="text-sm text-chalk/50">Nothing raised yet.</p>
-		{:else}
-			<SupportTaskTable tasks={supportTasks} />
-		{/if}
-	</section>
+	<ClientSupportSection {supportTasks} />
 
 	<section class="flex flex-col gap-4">
 		<h2 class="font-display text-xl">History</h2>

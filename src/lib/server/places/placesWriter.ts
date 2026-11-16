@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { inBatches } from '$lib/data/inBatches';
 import { outcodeOf, sectorOf } from '$lib/data/postcode';
-import type { PlaceSeed } from '$lib/data/placeRules';
+import type { GroundedPlace } from './placesForPatch';
 
 /** The places written in one request: few enough to be answered in seconds, so a load cut off loses little. */
 export const placesPerBatch = 500;
@@ -10,8 +10,11 @@ const idsPerBatch = 1000;
 /** What every place of one load is written with: its release, when the load saw it, and whether the territory held none before. */
 export type PlacesLoad = { release: string; seenAt: string; isFirstLoad: boolean };
 
-/** Writes one batch of places, new or already held, and says how many. A territory's first load writes nothing to the feed. */
-export async function upsertPlaceBatch(supabase: SupabaseClient, places: PlaceSeed[], load: PlacesLoad): Promise<number> {
+/**
+ * Writes one batch of places, new or already held, and says how many. A territory's first load writes nothing to the
+ * feed. A place is filed under the sector and outcode of the postcode it is found by, and keeps the postcode it listed.
+ */
+export async function upsertPlaceBatch(supabase: SupabaseClient, places: GroundedPlace[], load: PlacesLoad): Promise<number> {
 	const rows = places.map((place) => placeRowOf(place, load.release));
 	const { data, error } = await supabase.rpc('upsert_places', { rows, seen_at: load.seenAt, is_first_load: load.isFirstLoad });
 	if (error) throw error;
@@ -29,15 +32,15 @@ export async function markPlacesGone(supabase: SupabaseClient, sourceIds: string
 	return marked;
 }
 
-function placeRowOf(place: PlaceSeed, release: string): Record<string, unknown> {
+function placeRowOf(place: GroundedPlace, release: string): Record<string, unknown> {
 	return {
 		source_id: place.sourceId,
 		business_name: place.businessName,
 		category: place.category,
 		address: place.address,
 		postcode: place.postcode,
-		sector: sectorOf(place.postcode),
-		outcode: outcodeOf(place.postcode),
+		sector: sectorOf(place.groundPostcode),
+		outcode: outcodeOf(place.groundPostcode),
 		latitude: place.latitude,
 		longitude: place.longitude,
 		website: place.website,

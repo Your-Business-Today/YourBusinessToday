@@ -12,11 +12,11 @@ If the repository has no `tools/refactor/`, run the project-process bootstrap fi
 ## 0. Branch
 
 ```
-git fetch origin && git switch <base> && git pull --ff-only
-git switch -c quality/check-<YYYY-MM-DD>
+git fetch origin +refs/heads/<base>:refs/remotes/origin/<base>
+git switch -c quality/check-<YYYY-MM-DD> --no-track origin/<base>
 ```
 
-`<base>` is `staging` where the repository has one (`git branch -r` lists `origin/staging`), else the default branch — the branch the pull request goes into, so the work starts from what it will merge into.
+`<base>` is `staging` where the repository has one (`git ls-remote --heads origin staging` prints a line; `git branch -r` proves nothing in a clone made to fetch one branch), else the default branch — the branch the pull request goes into, so the work starts from what it will merge into.
 
 If the working tree holds uncommitted changes, stop and ask the person what they belong to. If today's branch already exists, switch to it and continue there.
 
@@ -28,7 +28,7 @@ python3 -m tools.refactor.audit.quality_check .
 
 It runs the full audit, scores it, writes the plan and places the box, and prints the score. Duplication is measured with jscpd, and the audit finds it for itself: the one on `PATH`, else the one version the kit names, fetched by `npx`, so nothing is installed first. Where it can be had neither way the command says after the score that duplication was not measured, and the pull request says so too: where the baseline holds a figure, that figure is carried forward and scored as it stood; where it holds none, the box shows duplication as *not measured* and lends its weight to the rest, which makes the score incomparable with one that measured it.
 
-What it writes: `README.md` (only the block between the `code-quality` markers, at the bottom; everything else in the file is left as it was), `tools/refactor/refactor-plan.md`, `tools/refactor/site-definition.md` (when `rules.json` names the widget catalogue), and `tools/refactor/audit-output/` (`audit.json` with the offender lists, `audit-report.md`, `refactor-plan.json`).
+What it writes: `README.md` (only the block between the `code-quality` markers, at the bottom; everything else in the file is left as it was), `tools/refactor/refactor-plan.md`, `tools/refactor/site-definition.md` (when `rules.json` names the widget catalogue), and `tools/refactor/audit-output/` (`audit.json` with the offender lists, `audit-report.md`, `refactor-plan.json`). That last folder is ignored by git: it is the working reading, never committed, so that one session's reading cannot clash with another's; what the check publishes is the box, the plan and the site definition.
 
 ## 2. Read it before handing it over
 
@@ -37,7 +37,7 @@ Open `tools/refactor/audit-output/audit-report.md`. The score is only as good as
 ## 3. Commit, push, open the pull request
 
 ```
-git add README.md tools/refactor/refactor-plan.md tools/refactor/site-definition.md tools/refactor/audit-output tools/refactor/rules.json
+git add README.md tools/refactor/refactor-plan.md tools/refactor/site-definition.md tools/refactor/rules.json
 git commit -m "Code quality <score>%: the score box and the refactoring plan"
 git push -u origin quality/check-<YYYY-MM-DD>
 gh pr create --base <base> --title "QUALITY: <score>% on <YYYY-MM-DD>" --body "<the three group scores, the five lowest elements, the first five steps of the plan>"

@@ -6,14 +6,16 @@ import { getTask } from '$lib/server/projects/getTask';
 import { longestMessageBody } from '$lib/server/conversations/postMessage';
 import { readOptionalText, readText } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
+import type { RaisedTask } from './raiseTask';
 
 const ownerRole = 'owner of the project';
 const memberRole = 'member of the project';
 
+/** Raises a support request from create_support_task's input, through every check it makes, or says why it cannot. */
 export async function raiseSupportTask(
 	caller: McpCaller,
 	input: Record<string, unknown>
-): Promise<string> {
+): Promise<RaisedTask | string> {
 	const project = await reachableProject(caller, readText(input, 'projectId'));
 	if (project === null) return noReachableProject;
 	const title = readOptionalText(input, 'title');
@@ -37,7 +39,8 @@ export async function raiseSupportTask(
 		},
 		caller.accountId
 	);
-	return `Raised "${title}" on ${project.name} (task id: ${taskId}). Someone will answer in its conversation.`;
+	const sentence = `Raised "${title}" on ${project.name} (task id: ${taskId}). Someone will answer in its conversation.`;
+	return { taskId, sentence };
 }
 
 /** Why the want cannot be raised as it stands: too long, or the day's ceiling reached. */

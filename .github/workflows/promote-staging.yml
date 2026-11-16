@@ -1,8 +1,9 @@
 # Installed by the project-process kit (re-run its bootstrap to refresh; do not edit by hand).
 # The deploy window. Every pull request merges into staging, which deploys nothing;
-# main moves only when this workflow promotes staging into it as one pull
-# request that merges itself at green, and that merge is the one deploy. Your Business Today fires it
-# at the project's deploy time (workflow_dispatch); "Run workflow" in the Actions tab does the same.
+# main moves only when staging is promoted into it as one pull request that
+# merges itself at green, and that merge is the one deploy. Your Business Today opens that pull request
+# itself at the project's deploy time and turns its auto-merge on; this workflow's promote job is the
+# by-hand route, opening the same pull request when "Run workflow" is pressed in the Actions tab.
 # It needs the repository secret PROMOTION_TOKEN: a pull request opened with the Actions token runs
 # no checks and its merge deploys nothing, so the token is a person's or an app's.
 # After the promotion merges, staging is brought level with main: nothing when

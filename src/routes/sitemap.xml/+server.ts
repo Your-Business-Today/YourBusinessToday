@@ -1,5 +1,6 @@
 import { caseStudyPath } from '$lib/data/caseStudies';
 import { whatWeDoPath } from '$lib/data/consultancyOffer';
+import { newsletterPath } from '$lib/data/newsletterSignUp';
 import { taxCalculatorPath } from '$lib/data/taxCalculator/taxCalculatorPath';
 import type { RequestHandler } from './$types';
 
@@ -11,6 +12,7 @@ const publicPagePaths = [
 	taxCalculatorPath,
 	'/demo',
 	'/contact',
+	newsletterPath,
 	'/terms',
 	'/privacy',
 	'/company',

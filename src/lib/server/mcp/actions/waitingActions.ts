@@ -27,7 +27,7 @@ export const waitingActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'everything that needs you in one answer — the information, setup and testing asked of you, ' +
+			'everything that needs you in one answer — the information and setup asked of you, ' +
 			'your to-dos, and any open task still in your name — without moving the read marker',
 		guidance:
 			'Use it on a routine check, or whenever the person asks what needs them or what they owe: ' +

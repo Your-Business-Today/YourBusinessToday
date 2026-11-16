@@ -1,14 +1,17 @@
 <script lang="ts">
 	import BrandWordmark from './BrandWordmark.svelte';
+	import NewsletterFooterSignUp from '$lib/components/newsletter/NewsletterFooterSignUp.svelte';
 	import { caseStudyPath } from '$lib/data/caseStudies';
 	import { companyDetails } from '$lib/data/companyDetails';
 	import { buildTimeline, whatWeDoLabel, whatWeDoPath } from '$lib/data/consultancyOffer';
 	import { discoveryCallPath, discoveryCallShortLabel } from '$lib/data/discoveryCall';
+	import { newsletterName, newsletterPath } from '$lib/data/newsletterSignUp';
 	import { taxCalculatorLabel, taxCalculatorPath } from '$lib/data/taxCalculator/taxCalculatorPath';
 </script>
 
 <footer class="border-t border-hairline bg-night print:hidden">
 	<div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-6">
+		<NewsletterFooterSignUp />
 		<div class="flex flex-col gap-1">
 			<div class="flex items-center gap-3">
 				<BrandWordmark fontSize={18} />
@@ -36,6 +39,9 @@
 			</a>
 			<a href={discoveryCallPath} class="text-sm text-chalk/60 transition hover:text-chalk">
 				{discoveryCallShortLabel}
+			</a>
+			<a href={newsletterPath} class="text-sm text-chalk/60 transition hover:text-chalk">
+				{newsletterName}
 			</a>
 			<a href="/terms" class="text-sm text-chalk/60 transition hover:text-chalk">
 				Terms of service

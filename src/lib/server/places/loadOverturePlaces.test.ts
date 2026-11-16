@@ -4,6 +4,7 @@ import { patchBoundsOnGround } from '$lib/data/patchBounds';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 const newest = '2026-10-21.0';
+const holdingNewest = '2026-10-21.0+by-point';
 const centre = { latitude: 51.3925, longitude: -0.3045 };
 const { located, readRelease, markedGone } = vi.hoisted(() => ({ located: new Map<string, unknown>(), readRelease: vi.fn(), markedGone: vi.fn() }));
 
@@ -11,6 +12,7 @@ vi.mock('./overtureReleases', () => ({ findNewestRelease: async () => '2026-10-2
 vi.mock('./readPlacesInRelease', () => ({ readPlacesInRelease: readRelease }));
 vi.mock('./placesWriter', async () => ({ placesPerBatch: 2, upsertPlaceBatch: (await import('./placesLoad.fixture')).writeBatch, markPlacesGone: markedGone }));
 vi.mock('$lib/server/postcodes/geocodePostcodes', () => ({ geocodePostcodes: async () => located }));
+vi.mock('./placesByPoint', () => ({ nearestPostcodesOf: async () => new Map() }));
 
 const { loadOverturePlacesForPatch } = await import('./loadOverturePlaces');
 const supabase = {} as SupabaseClient;
@@ -29,8 +31,8 @@ describe("loading a territory's trading places", () => {
 	});
 	afterEach(() => vi.restoreAllMocks());
 
-	it('leaves alone a territory that already holds the newest release, reading and writing nothing', async () => {
-		expect(await load(newest)).toEqual({ rowsWritten: 0, resumeMarker: newest, note: 'Already holds release 2026-10-21.0.', isFinished: true });
+	it('leaves alone a territory that already holds the newest release placed by point, reading and writing nothing', async () => {
+		expect(await load(holdingNewest)).toEqual({ rowsWritten: 0, resumeMarker: holdingNewest, note: 'Already holds release 2026-10-21.0.', isFinished: true });
 		expect(readRelease).not.toHaveBeenCalled();
 		expect(batches).toEqual([]);
 	});
@@ -40,8 +42,8 @@ describe("loading a territory's trading places", () => {
 		expect(readRelease).toHaveBeenCalledWith(newest, patchBoundsOnGround(centre, 3));
 		expect(batches).toEqual([asFirstLoad('a', 'b'), asFirstLoad('c', 'd'), asFirstLoad('e')]);
 		expect(markedGone).toHaveBeenCalledWith(supabase, ['closed-cafe'], expect.any(String));
-		expect(outcome).toMatchObject({ rowsWritten: 5, resumeMarker: newest, isFinished: true });
-		expect(outcome.note).toBe('Release 2026-10-21.0: 5 trading places held. Left out: 0 the rules refuse (unsure, share-alike or too long), 0 with no postcode, 0 outside its outcodes, 1 with no name or point. 1 marked gone.');
+		expect(outcome).toMatchObject({ rowsWritten: 5, resumeMarker: holdingNewest, isFinished: true });
+		expect(outcome.note).toBe('Release 2026-10-21.0: 5 trading places held, 0 of them placed by the postcode nearest their point. Left out: 0 the rules refuse (unsure, share-alike or too long), 0 with no postcode listed or near their point, 0 outside its outcodes, 1 with no name or point. 1 marked gone.');
 	});
 
 	it('marks where it has got to before it reads and after every batch, so a run cut off carries on there', async () => {
@@ -50,10 +52,10 @@ describe("loading a territory's trading places", () => {
 	});
 
 	it('loads a later release as a later load, still holding the one before until the new one is whole', async () => {
-		const outcome = await load('2026-09-23.1');
+		const outcome = await load('2026-09-23.1+by-point');
 		expect(batches.map((batch) => batch.isFirstLoad)).toEqual([false, false, false]);
-		expect(marks[0]).toEqual(['2026-09-23.1>2026-10-21.0:0', 0]);
-		expect(outcome.resumeMarker).toBe(newest);
+		expect(marks[0]).toEqual(['2026-09-23.1+by-point>2026-10-21.0:0', 0]);
+		expect(outcome.resumeMarker).toBe(holdingNewest);
 	});
 
 	it('stops when its time is up, saying how far it got, and marks nothing gone until the release is whole', async () => {
@@ -72,11 +74,11 @@ describe("loading a territory's trading places", () => {
 	it('carries on where the last run stopped, writing only what is left, still as a first load', async () => {
 		const outcome = await load('>2026-10-21.0:2');
 		expect(batches).toEqual([asFirstLoad('c', 'd'), asFirstLoad('e')]);
-		expect(outcome).toMatchObject({ rowsWritten: 3, resumeMarker: newest, isFinished: true });
+		expect(outcome).toMatchObject({ rowsWritten: 3, resumeMarker: holdingNewest, isFinished: true });
 	});
 
 	it('finishes a load whose places were all written before it was cut off, by marking what has gone', async () => {
-		expect(await load('>2026-10-21.0:5')).toMatchObject({ rowsWritten: 0, resumeMarker: newest, isFinished: true });
+		expect(await load('>2026-10-21.0:5')).toMatchObject({ rowsWritten: 0, resumeMarker: holdingNewest, isFinished: true });
 		expect(batches).toEqual([]);
 		expect(markedGone).toHaveBeenCalledTimes(1);
 	});

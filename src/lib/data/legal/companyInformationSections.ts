@@ -49,7 +49,7 @@ export const companyInformationSections: LegalSection[] = [
 	{
 		heading: 'What we do',
 		paragraphs: [
-			`We learn how a business really runs, then build the software that runs it and, if the client wants us to, host and run it for them in our own Microsoft Azure, in the United Kingdom. How the work is structured is set out at ${companyDetails.websiteUrl}${whatWeDoPath}.`,
+			`We learn how a business really runs, then build the software that runs it and, if the client wants us to, host and run it for them in our own Microsoft Azure, in the United Kingdom or the European Economic Area, in the regions each client’s order names. How the work is structured is set out at ${companyDetails.websiteUrl}${whatWeDoPath}.`,
 			'Our prices are not fixed in advance for every client. Discovery is a fixed price, each build stage is priced before it starts, and running the system is one monthly fee — all set out in a written offer before anything is agreed.'
 		]
 	},

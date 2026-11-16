@@ -15,7 +15,7 @@
 <FormField label="Waiting on an answer from">
 	<select
 		name="handOff"
-		title="Only when you are asking them for something: information, setup or testing"
+		title="Only when you are asking them for something: information or setup"
 		class="rounded-full border border-hairline bg-transparent px-4 py-1.5 font-display text-sm
 			text-chalk/80"
 	>
