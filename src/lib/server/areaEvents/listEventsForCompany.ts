@@ -11,6 +11,7 @@ export async function listEventsForCompany(supabase: SupabaseClient, companyNumb
 		.from('area_events')
 		.select(areaEventColumns)
 		.eq('company_number', companyNumber)
+		.eq('is_withdrawn', false)
 		.order('created_at', { ascending: false })
 		.limit(mostEventsRead);
 	if (error) throw error;
