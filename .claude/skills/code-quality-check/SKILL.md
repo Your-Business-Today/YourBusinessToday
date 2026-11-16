@@ -28,7 +28,7 @@ python3 -m tools.refactor.audit.quality_check .
 
 It runs the full audit, scores it, writes the plan and places the box, and prints the score. Duplication is measured with jscpd, and the audit finds it for itself: the one on `PATH`, else the one version the kit names, fetched by `npx`, so nothing is installed first. Where it can be had neither way the command says after the score that duplication was not measured, and the pull request says so too: where the baseline holds a figure, that figure is carried forward and scored as it stood; where it holds none, the box shows duplication as *not measured* and lends its weight to the rest, which makes the score incomparable with one that measured it.
 
-What it writes: `README.md` (only the block between the `code-quality` markers, at the bottom; everything else in the file is left as it was), `tools/refactor/refactor-plan.md`, `tools/refactor/site-definition.md` (when `rules.json` names the widget catalogue), and `tools/refactor/audit-output/` (`audit.json` with the offender lists, `audit-report.md`, `refactor-plan.json`).
+What it writes: `README.md` (only the block between the `code-quality` markers, at the bottom; everything else in the file is left as it was), `tools/refactor/refactor-plan.md`, `tools/refactor/site-definition.md` (when `rules.json` names the widget catalogue), and `tools/refactor/audit-output/` (`audit.json` with the offender lists, `audit-report.md`, `refactor-plan.json`). That last folder is ignored by git: it is the working reading, never committed, so that one session's reading cannot clash with another's; what the check publishes is the box, the plan and the site definition.
 
 ## 2. Read it before handing it over
 
@@ -37,7 +37,7 @@ Open `tools/refactor/audit-output/audit-report.md`. The score is only as good as
 ## 3. Commit, push, open the pull request
 
 ```
-git add README.md tools/refactor/refactor-plan.md tools/refactor/site-definition.md tools/refactor/audit-output tools/refactor/rules.json
+git add README.md tools/refactor/refactor-plan.md tools/refactor/site-definition.md tools/refactor/rules.json
 git commit -m "Code quality <score>%: the score box and the refactoring plan"
 git push -u origin quality/check-<YYYY-MM-DD>
 gh pr create --base <base> --title "QUALITY: <score>% on <YYYY-MM-DD>" --body "<the three group scores, the five lowest elements, the first five steps of the plan>"

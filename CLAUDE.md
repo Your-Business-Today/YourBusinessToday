@@ -1,5 +1,5 @@
 <!-- project-process:begin -->
-<!-- project-process kit v1.52.0 — replaced whole by bootstrap.sh; edit the kit, and write this repository's own instructions in PROJECT.md -->
+<!-- project-process kit v1.55.0 — replaced whole by bootstrap.sh; edit the kit, and write this repository's own instructions in PROJECT.md -->
 
 # How We Work
 
@@ -96,7 +96,7 @@ A process that changes a tracked file — the check's README box, a round's code
 
 Behind all of them the repository carries `tools/refactor/` — an audit that measures the code against the rules below, a score made from every figure it takes, and a gate that fails when a ratcheted figure is worse than the committed baseline. Nothing runs on GitHub: the measuring is run by the skills. Your Business Today can also raise `REFACTOR: round N` on the project as the reminder when its own deploy count reaches N. Refactor rounds never add a feature or change the schema. Every element the score counts is fixable by a round, and the plan carries steps for each one: a figure that is scored but never fixed would not be a criterion.
 
-The score is the measure of the rules below, so new code is written to score 100%: every rule in *How I Write Code* is one the audit counts. Before saying any piece of work is done, run the fast reading and the gate — `python3 -m tools.refactor.audit.run_audit . --output tools/refactor/audit-output --fast` then `python3 -m tools.refactor.audit.gate tools/refactor/baseline.json tools/refactor/audit-output/audit.json` — and fix what the work introduced.
+The score is the measure of the rules below, so new code is written to score 100%: every rule in *How I Write Code* is one the audit counts. Before saying any piece of work is done, run the fast reading and the gate — `python3 -m tools.refactor.audit.run_audit . --output tools/refactor/audit-output --fast` then `python3 -m tools.refactor.audit.gate tools/refactor/baseline.json tools/refactor/audit-output/audit.json` — and fix what the work introduced. The reading lands in `tools/refactor/audit-output/`, which git ignores, so it never rides along with the work and two sessions' pull requests never clash on it; what is published stays tracked — `baseline.json`, `baseline-report.md`, `refactor-plan.md`, `site-definition.md` and the README's score box.
 
 ## The rules travel with the repository
 

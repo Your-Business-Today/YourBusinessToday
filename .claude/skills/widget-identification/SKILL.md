@@ -28,4 +28,4 @@ When the question was narrower, answer it from the same reading: *which views ha
 
 ## 3. Leave it there
 
-`site-definition.md` and `audit-output/` are refreshed in the working tree, exactly as the next quality check or round would write them; they ride along with whatever is committed next, and the person can `git restore tools/refactor/site-definition.md tools/refactor/audit-output` if they want the tree as it was. No branch, no commit, no pull request, no README box, no plan, no baseline. If the session is logged against a task in Your Business Today, post the four sentences there.
+`site-definition.md` is refreshed in the working tree, exactly as the next quality check or round would write it; it rides along with whatever is committed next, and the person can `git restore tools/refactor/site-definition.md` if they want the tree as it was. `audit-output/` is refreshed too, but git ignores it, so it is never committed. No branch, no commit, no pull request, no README box, no plan, no baseline. If the session is logged against a task in Your Business Today, post the four sentences there.
