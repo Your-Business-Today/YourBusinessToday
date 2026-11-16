@@ -22,7 +22,8 @@ import { setUpActions } from './setUpActions';
 import { getJobAdvertsForClient } from '$lib/server/jobAdverts/getJobAdvertsForClient';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { getConversationsForClient } from '$lib/server/leadConversations/getConversationsForClient';
-import { getStaffDirectory } from '$lib/server/projects/getStaffDirectory';
+import { loadOrganisationSalespeople } from '$lib/server/salesPeople/loadOrganisationSalespeople';
+import { requireSalesSwitchedOn } from '$lib/server/salesPeople/requireSalesSwitchedOn';
 import { leadConversationActions } from './leadConversationActions';
 import { getEmailsForClient } from '$lib/server/filedEmails/getFiledEmails';
 import { filedEmailActions } from './filedEmailActions';
@@ -36,6 +37,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const viewer = await requireStaff(locals);
 	const client = await getClient(locals.supabase, params.clientId);
 	if (client === null) error(404, 'That company could not be found');
+	await requireSalesSwitchedOn(locals, client.keptByOrganisationId);
 	keepOnItsRegister(url, params.register, client.stage);
 	const [people, projects, supportTasks, unassignedProjects, events, children, parents, parent, observations, registerCompany, jobAdverts, conversations, staffMembers, premises, emails, organisationId] =
 		await Promise.all([
@@ -51,7 +53,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 			getRegisterCompany(locals.supabase, companyNumberOf(client)),
 			getJobAdvertsForClient(locals.supabase, client.id),
 			getConversationsForClient(locals.supabase, client.id),
-			getStaffDirectory(locals.supabase),
+			loadOrganisationSalespeople(locals.supabase, client.keptByOrganisationId, [client.ownerId]),
 			getPremisesForClient(locals.supabase, client.id),
 			getEmailsForClient(locals.supabase, client.id),
 			findOrganisationOfClient(locals.supabase, client.id)

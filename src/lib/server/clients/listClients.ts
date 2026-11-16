@@ -12,13 +12,6 @@ export type ClientSummary = Client & {
 
 const summaryColumns = '*, client_contacts(is_primary, people(name)), projects(id, tasks(kind, status))';
 
-/** Every record on every organisation's register. */
-export async function listClients(supabase: SupabaseClient): Promise<ClientSummary[]> {
-	const { data, error } = await supabase.from('clients').select(summaryColumns).order('name');
-	if (error) throw error;
-	return data.map(toSummary);
-}
-
 /** The records one organisation's register keeps at the stages given. */
 export async function listClientsKeptBy(
 	supabase: SupabaseClient,

@@ -8,6 +8,6 @@ describe('describeSalesStandings', () => {
 	});
 
 	it('says so when there is nobody to count', () => {
-		expect(describeSalesStandings([])).toContain('Nobody on the staff');
+		expect(describeSalesStandings([])).toContain('Nobody on this organisation');
 	});
 });

@@ -1,7 +1,7 @@
 import { isUuid } from '$lib/data/isUuid';
 import type { StaffMember } from '$lib/server/projects/getStaffDirectory';
 
-export const broughtInByRefusal = 'Brought in by must name someone on the staff.';
+export const broughtInByRefusal = 'Brought in by must name someone on this organisation.';
 
 /** The staff member an account id names, or null when it names nobody on the staff and is refused. */
 export function staffMemberWithId(staffMembers: StaffMember[], accountId: string): StaffMember | null {

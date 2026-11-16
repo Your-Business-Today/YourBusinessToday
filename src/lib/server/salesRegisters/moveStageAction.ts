@@ -4,6 +4,8 @@ import { clientStageLabels, parseClientStage, validateClientStage } from '$lib/d
 import { registerOfStage } from '$lib/data/salesRegisters';
 import { validateRecordId } from '$lib/data/isUuid';
 import { requireStaff } from '$lib/server/auth/requireStaff';
+import { getClient } from '$lib/server/clients/getClient';
+import { requireSalesSwitchedOn } from '$lib/server/salesPeople/requireSalesSwitchedOn';
 
 /** Moves a record to another stage from either register; a record that signs, or falls back, changes register with it. */
 export async function moveStageAction({ locals, request }: RequestEvent) {
@@ -13,6 +15,9 @@ export async function moveStageAction({ locals, request }: RequestEvent) {
 	const requestedStage = String(formData.get('stage') ?? '');
 	const refusal = validateRecordId('client', clientId) ?? validateClientStage(requestedStage);
 	if (refusal !== null) return fail(400, { message: refusal });
+	const client = await getClient(locals.supabase, clientId);
+	if (client === null) return fail(404, { message: 'That record could not be found.' });
+	await requireSalesSwitchedOn(locals, client.keptByOrganisationId);
 	const stage = parseClientStage(requestedStage);
 	await moveClientStage(locals.supabase, clientId, stage, user.id);
 	const register = registerOfStage(stage);

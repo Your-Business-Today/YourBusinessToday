@@ -1,6 +1,6 @@
 import type { SalesStanding } from '$lib/data/salesLeaderboard';
 
-const nothingCounted = 'Nobody on the staff has brought anything in on this organisation\'s registers yet.';
+const nothingCounted = 'Nobody on this organisation has brought anything in on its registers yet.';
 
 /** The leaderboard as lines, the most won first: who, how many they brought in, and how many are open, won and lost. */
 export function describeSalesStandings(standings: SalesStanding[]): string {

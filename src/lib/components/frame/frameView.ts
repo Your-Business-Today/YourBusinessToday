@@ -1,5 +1,6 @@
 import { frameLinksFor, frameMenuLinksFor, type FrameAccess } from './frameNavigation';
 import { salesPages } from '$lib/data/salesPages';
+import { holdsSalesModule } from './moduleFolders';
 import { deepestLinkAt } from './deepestLink';
 import { frameSectionsOf, type FrameLink, type FrameSection } from './frameGroups';
 import { frameTrailTo, type FrameTrail, type OpenProject } from './frameTrail';
@@ -34,8 +35,9 @@ export function frameViewFor(
 	openProject: OpenProject | null = null
 ): FrameView {
 	const { pathname } = url;
-	const pickedLinks = picks === null ? [] : [...picks.organisationLinks, ...picks.moduleLinks];
-	const links = eachHrefOnce([...pickedLinks, ...frameLinksFor(access)]);
+	const moduleLinks = picks?.moduleLinks ?? [];
+	const pickedLinks = picks === null ? [] : [...picks.organisationLinks, ...moduleLinks];
+	const links = eachHrefOnce([...pickedLinks, ...frameLinksFor(access, holdsSalesModule(moduleLinks))]);
 	const menuLinks = frameMenuLinksFor(access);
 	const headingsOutsideTheSideBar = [...menuLinks, ...salesPages, notificationsHeading];
 	const currentLink = deepestLinkAt([...links, ...headingsOutsideTheSideBar], pathname);
