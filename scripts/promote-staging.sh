@@ -8,6 +8,9 @@
 #            when the default branch holds changes staging lacks (an urgent fix merged straight into
 #            it), staging is fast-forwarded where its ruleset allows a push, else a pull request from
 #            the default branch into staging is opened, merging at green.
+# Where the two branches conflict, neither pull request can merge and nothing deploys: the move stops
+# red, names the pull request and the files that clash, and says how to put it right, rather than
+# leaving a pull request open that never merges.
 # Nothing to do is a quiet success. Needs the GitHub CLI signed in as a person or an app (GH_TOKEN),
 # never the Actions token, so a pull request runs its checks and the promotion's merge deploys.
 #
@@ -20,6 +23,10 @@ STAGING="${1:-staging}"
 DEFAULT="${2:-main}"
 TODAY="$(date -u +%Y-%m-%d)"
 LISTED_COMMITS=50
+MERGEABILITY_LOOKS=6
+SECONDS_BETWEEN_LOOKS=5
+MERGEABLE="MERGEABLE"
+CONFLICTING="CONFLICTING"
 
 requireToken() {
   if [ -n "${GH_TOKEN:-}" ]; then return; fi
@@ -65,6 +72,36 @@ openOrReusePullRequest() {
   echo "$number"
 }
 
+mergeabilityOf() {
+  gh pr view "$1" --json mergeable --jq '.mergeable'
+}
+
+settledMergeability() {
+  local number="$1" look mergeability
+  for ((look = 1; look <= MERGEABILITY_LOOKS; look++)); do
+    mergeability="$(mergeabilityOf "$number")"
+    if [ "$mergeability" = "$MERGEABLE" ] || [ "$mergeability" = "$CONFLICTING" ]; then break; fi
+    if [ "$look" -lt "$MERGEABILITY_LOOKS" ]; then sleep "$SECONDS_BETWEEN_LOOKS"; fi
+  done
+  echo "$mergeability"
+}
+
+clashingFiles() {
+  git merge-tree --write-tree --name-only --no-messages "origin/$1" "origin/$2" 2>/dev/null \
+    | awk 'NR > 1 { printf "%s%s", separator, $0; separator = ", " }' || true
+}
+
+stopOnConflict() {
+  local number="$1" base="$2" head="$3"
+  local mergeability; mergeability="$(settledMergeability "$number")"
+  if [ "$mergeability" = "$MERGEABLE" ]; then return; fi
+  if [ "$mergeability" != "$CONFLICTING" ]; then echo "GitHub had not yet said whether pull request #$number can be merged."; return; fi
+  local files; files="$(clashingFiles "$base" "$head")"
+  echo "::error::Pull request #$number cannot merge: $head conflicts with $base${files:+ in $files}. Neither branch can be merged into the other, so nothing deploys until it is put right."
+  echo "::error::Put it right: merge $DEFAULT into a branch cut from fresh $STAGING, settle the clashes there, regenerate any generated files, keep $STAGING's copies of the audit's reading files (tools/refactor/audit-output), and send the branch into $STAGING as a pull request merged with a merge commit, never a squash."
+  exit 1
+}
+
 mergeAtGreen() {
   if gh pr merge --auto --merge "$1"; then echo "Pull request #$1 merges itself once its checks pass."; return; fi
   echo "::error::Auto-merge is not allowed on this repository: tick 'Allow auto-merge' in its settings, or merge pull request #$1 by hand at green."
@@ -76,6 +113,7 @@ promote() {
   fetchBothBranches
   if holdTheSameFiles; then echo "Nothing to promote: $DEFAULT already holds every file on $STAGING."; return; fi
   local number; number="$(openOrReusePullRequest "$DEFAULT" "$STAGING" "DEPLOY: $STAGING to $DEFAULT, $TODAY" "$(promotionBody)")"
+  stopOnConflict "$number" "$DEFAULT" "$STAGING"
   mergeAtGreen "$number"
 }
 
@@ -89,6 +127,7 @@ level() {
   if fastForwardStaging; then echo "Fast-forwarded $STAGING to $DEFAULT."; return; fi
   requireToken
   local number; number="$(openOrReusePullRequest "$STAGING" "$DEFAULT" "LEVEL: $DEFAULT into $STAGING, $TODAY" "$(levellingBody)")"
+  stopOnConflict "$number" "$STAGING" "$DEFAULT"
   mergeAtGreen "$number"
 }
 
