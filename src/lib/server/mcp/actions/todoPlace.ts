@@ -40,7 +40,7 @@ async function placeOnOwnList(caller: McpCaller, owner: string | null): Promise<
 	const ownList = { projectId: null, taskId: null };
 	const isTheCaller = owner === null || owner === caller.accountId;
 	if (isTheCaller) return { ...ownList, ownerAccountId: caller.accountId };
-	const colleague = findProjectPerson(await getPeopleIWorkWith(caller.supabase), owner);
+	const colleague = findProjectPerson(await getPeopleIWorkWith(caller.supabase, caller.accountId), owner);
 	if (colleague === null) return ownerNotAColleague;
 	return { ...ownList, ownerAccountId: colleague.id };
 }
