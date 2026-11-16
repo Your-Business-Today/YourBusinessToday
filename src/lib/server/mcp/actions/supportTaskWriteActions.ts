@@ -5,6 +5,7 @@ import { noReachableProject, reachableTask } from '../projectAccess';
 import { noReachableTask } from './describeSupportTask';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { raiseSupportTask } from './raiseSupportTask';
+import { raisingAnswer } from './raiseTask';
 import { resolveSupportTask } from '$lib/server/support/resolveSupportTask';
 import { supportTaskIdField } from './supportTaskReadActions';
 import type { McpAction } from '../actionTypes';
@@ -32,7 +33,7 @@ export const supportTaskWriteActions: McpAction[] = [
 			},
 			['projectId', 'title', 'want']
 		),
-		run: async (caller, input) => raiseSupportTask(caller, input)
+		run: async (caller, input) => raisingAnswer(await raiseSupportTask(caller, input))
 	},
 	{
 		name: 'resolve_support_task',

@@ -53,3 +53,11 @@ export function gmailThreadLink(email: Pick<FiledEmail, 'mailbox' | 'threadId'>)
 	const thread = encodeURIComponent(email.threadId);
 	return `https://mail.google.com/mail/u/?authuser=${mailbox}#all/${thread}`;
 }
+
+/** What an email is filed against: a client or lead, or the task or to-do it set off. */
+export type FilingTargetKind = 'client' | 'task' | 'todo';
+
+export type FilingTarget = { kind: FilingTargetKind; id: string };
+
+/** One email to keep: what it says, who at the sender it is with, and what it is filed against. */
+export type EmailFiling = EmailDetails & { personId: string | null; target: FilingTarget };

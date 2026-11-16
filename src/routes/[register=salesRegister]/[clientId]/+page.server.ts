@@ -24,7 +24,7 @@ import { requireStaff } from '$lib/server/auth/requireStaff';
 import { getConversationsForClient } from '$lib/server/leadConversations/getConversationsForClient';
 import { getStaffDirectory } from '$lib/server/projects/getStaffDirectory';
 import { leadConversationActions } from './leadConversationActions';
-import { getEmailsForClient } from '$lib/server/filedEmails/getEmailsForClient';
+import { getEmailsForClient } from '$lib/server/filedEmails/getFiledEmails';
 import { filedEmailActions } from './filedEmailActions';
 import { broughtInByActions } from './broughtInByActions';
 import { keepOnItsRegister } from '$lib/server/salesRegisters/keepOnItsRegister';

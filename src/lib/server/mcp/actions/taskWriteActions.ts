@@ -1,21 +1,7 @@
 import { dayToDayDataRule } from '../ownerDoctrine';
-import { reachableProject } from '../projectAccess';
-import { createTask } from '$lib/server/projects/createTask';
-import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
-import { noSuchProject } from './describeProject';
-import { objectSchema, proseField, readOptionalText, readText, textField } from '../actionTypes';
-import { taskKindOrder } from '$lib/data/taskKind';
-import { readConnectorTaskSeed } from './connectorTaskSeed';
-import { autocompleteWord, isTaskAutocomplete } from '$lib/data/autocomplete';
-import { withRaiserAutocomplete } from '$lib/data/autocompleteStanding';
-import { readRequester, requestedByField } from './requestedByField';
-import { storyFields } from './storyFields';
-import { similarTasksRefusal } from './similarTasksRefusal';
-import { raiseAnywayField } from './similarTaskCheck';
-import { chooseTaskDepartment, departmentField, isDepartmentRefused } from './departmentChoice';
-import { isPersonLedTitle, personLedTitleRefusal } from '$lib/data/personLedTitle';
-import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
-import { developmentKindField, isTitleRefused, validateDevelopmentKind } from './developmentKindField';
+import { objectSchema } from '../actionTypes';
+import { createTaskFields } from './createTaskFields';
+import { raiseTask, raisingAnswer } from './raiseTask';
 import type { McpAction } from '../actionTypes';
 
 export const taskWriteActions: McpAction[] = [
@@ -49,52 +35,8 @@ export const taskWriteActions: McpAction[] = [
 			'with attach_file_to_task once it exists. A development task raised here by staff starts ' +
 			'with autocomplete on, and by anyone else off; set_task_autocomplete switches it. An ' +
 			'infrastructure, administration, sales or marketing task is always off: a person does it.',
-		inputSchema: objectSchema(
-			{
-				projectId: textField('The project the task belongs to'),
-				title: textField('What the task is called'),
-				details: proseField('What the task involves'),
-				dueDate: textField('When it is due, as YYYY-MM-DD'),
-				goalId: textField('The goal it serves, as given by find_goals'),
-				parentTaskId: textField('The task it is a subtask of'),
-				waitsForTaskId: textField(
-					'The task that must be done before this one can start — the step before it in a sequence'
-				),
-				kind: textField(
-					`${taskKindOrder.join(' or ')} — work unless somebody is waiting on an answer`
-				),
-				department: departmentField,
-				developmentKind: developmentKindField,
-				requestedBy: requestedByField,
-				raiseAnyway: raiseAnywayField,
-				...storyFields
-			},
-			['projectId', 'title']
-		),
-		run: async (caller, input) => {
-			const project = await reachableProject(caller, readText(input, 'projectId'));
-			if (project === null) return noSuchProject;
-			const typedTitle = readOptionalText(input, 'title');
-			if (typedTitle === null) return 'A task needs a title. Say what to call it and try again.';
-			const people = await getPeopleOnProject(caller.supabase, project.id);
-			if (isPersonLedTitle(typedTitle, people)) return personLedTitleRefusal;
-			const requester = await readRequester(caller, project.id, input);
-			if ('refusal' in requester) return requester.refusal;
-			const department = await chooseTaskDepartment(caller, input);
-			if (isDepartmentRefused(department)) return department.refusal;
-			const titleChoice = validateDevelopmentKind(input, typedTitle, department);
-			if (isTitleRefused(titleChoice)) return titleChoice.refusal;
-			const { title } = titleChoice;
-			const raised = readConnectorTaskSeed(input, title, requester.accountId);
-			const seed = withRaiserAutocomplete({ ...raised, department }, caller.isStaff);
-			const refusal = await newTaskRefusal(caller.supabase, project.id, seed);
-			if (refusal !== null) return refusal;
-			const similarRefusal = await similarTasksRefusal(caller, project, seed, input.raiseAnyway);
-			if (similarRefusal !== null) return similarRefusal;
-			const taskId = await createTask(caller.supabase, project.id, seed, caller.accountId);
-			const autocomplete = autocompleteWord(isTaskAutocomplete(seed.autocomplete ?? null, null));
-			return `"${title}" added to ${project.name} with autocomplete ${autocomplete} (task id: ${taskId}).`;
-		}
+		inputSchema: objectSchema(createTaskFields, ['projectId', 'title']),
+		run: async (caller, input) => raisingAnswer(await raiseTask(caller, input))
 	}
 ];
 

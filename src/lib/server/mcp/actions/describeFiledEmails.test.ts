@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describeFiledEmails } from './describeFiledEmails';
+import { describeFiledEmails, describeTaskEmails } from './describeFiledEmails';
 import type { FiledEmail } from '$lib/data/filedEmailRules';
 
 const enquiry: FiledEmail = {
@@ -32,5 +32,18 @@ describe('describeFiledEmails', () => {
 
 	it('says when an email had no subject', () => {
 		expect(describeFiledEmails([{ ...enquiry, subject: '' }])[0]).toContain('(no subject)');
+	});
+});
+
+describe('describeTaskEmails', () => {
+	it('says when no email is filed against the task', () => {
+		expect(describeTaskEmails([])).toEqual(['Emails: none filed against it.']);
+	});
+
+	it('lists the emails filed against the task under a heading, each with its Gmail link', () => {
+		const lines = describeTaskEmails([enquiry]);
+		expect(lines[0]).toBe('Emails filed against it, the latest first:');
+		expect(lines[1]).toContain('"Help with our bookings" — filed email filed-1');
+		expect(lines[3]).toContain('#all/t1');
 	});
 });

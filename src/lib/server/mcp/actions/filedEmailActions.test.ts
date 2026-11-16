@@ -78,7 +78,7 @@ describe('unfiling an email through the connector', () => {
 	});
 
 	it('takes the email off its client and asks for the Gmail label to go too', async () => {
-		unfiling.mockResolvedValue(clientId);
+		unfiling.mockResolvedValue({ clientId });
 		expect(await run('unfile_email', { filedEmailId })).toContain('Taken off Acme Ltd');
 		expect(unfiling).toHaveBeenCalledWith(staff.supabase, filedEmailId);
 	});

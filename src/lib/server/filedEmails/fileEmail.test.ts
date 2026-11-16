@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { fileEmail } from './fileEmail';
+import { fileEmail, fileEmailAgainst } from './fileEmail';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { FiledEmailGiven } from '$lib/data/filedEmailRules';
 
@@ -44,5 +44,21 @@ describe('fileEmail', () => {
 		expect(first).toEqual({ id: 'filed-1', isAlreadyFiled: false });
 		expect(second).toEqual({ id: 'filed-1', isAlreadyFiled: true });
 		expect(rows).toHaveLength(1);
+	});
+});
+
+describe('fileEmailAgainst', () => {
+	it('files the email against a task in the task column alone, leaving the client empty', async () => {
+		const inserted: Record<string, unknown>[] = [];
+		const insert = (row: Record<string, unknown>) => {
+			inserted.push(row);
+			return { select: () => ({ single: async () => ({ data: { id: 'filed-9' }, error: null }) }) };
+		};
+		const supabase = { from: () => ({ insert }) } as unknown as SupabaseClient;
+		const { clientId: _clientId, personId, ...facts } = enquiry;
+		const outcome = await fileEmailAgainst(supabase, { ...facts, personId, target: { kind: 'task', id: 'task-1' } }, 'staff-1');
+		expect(outcome).toEqual({ id: 'filed-9', isAlreadyFiled: false });
+		expect(inserted[0]).toMatchObject({ task_id: 'task-1', gmail_message_id: 'm1' });
+		expect(inserted[0]).not.toHaveProperty('client_id');
 	});
 });

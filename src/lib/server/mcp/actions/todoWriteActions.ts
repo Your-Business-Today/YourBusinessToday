@@ -1,9 +1,9 @@
-import { addTodo, updateTodo } from '$lib/server/todos/saveTodo';
+import { updateTodo } from '$lib/server/todos/saveTodo';
+import { addTodoFromInput } from './addTodoFromInput';
 import { todoStatuses } from '$lib/data/todo';
 import { validateTodoChanges } from '$lib/data/validateTodo';
 import { objectSchema, readOptionalText, textField } from '../actionTypes';
 import { chooseTodoOwner, type TodoOwnerChoice } from '$lib/server/todos/chooseTodoOwner';
-import { chooseTodoPlace } from './todoPlace';
 import { noSuchTodo, reachableTodo } from './todoAccess';
 import { todoFields, todoIdField, todoPlaceFields } from '$lib/server/todos/todoConnectorFields';
 import { todoLine } from './describeTodos';
@@ -34,13 +34,8 @@ export const todoWriteActions: McpAction[] = [
 		guidance: todoGuidance,
 		inputSchema: objectSchema({ ...todoFields, ...todoPlaceFields }, ['title']),
 		run: async (caller, input) => {
-			const changes = validateTodoChanges(input);
-			if (typeof changes === 'string') return changes;
-			if (changes.title === undefined) return 'A to-do needs a title.';
-			const place = await chooseTodoPlace(caller, input);
-			if (typeof place === 'string') return place;
-			const todo = await addTodo(caller.supabase, place, { ...changes, title: changes.title }, caller.accountId);
-			return `Added:\n${todoLine(todo)}`;
+			const todo = await addTodoFromInput(caller, input);
+			return typeof todo === 'string' ? todo : `Added:\n${todoLine(todo)}`;
 		}
 	},
 	{
