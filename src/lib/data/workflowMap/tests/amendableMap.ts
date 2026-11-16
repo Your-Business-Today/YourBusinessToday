@@ -1,5 +1,5 @@
 import { lineKind, mapStage, stationState, type MapStation, type WorkflowMapDraft } from '../workflowMap';
-import { noAmendment, type WorkflowMapAmendment } from '../workflowMapAmendment';
+import { noAmendment, type MapRemovals, type WorkflowMapAmendment } from '../workflowMapAmendment';
 import { amendWorkflowMap } from '../amendWorkflowMap';
 
 /** A station with only its key, name and summary filled, as a short map in a test needs. */
@@ -25,7 +25,7 @@ export function amendableMap(): WorkflowMapDraft {
 	return { stage: mapStage.before, lines: amendableLines(), handovers: amendableHandovers(), arrivals };
 }
 
-export const noRemovals = { stationKeys: [], lineKeys: [], handovers: [], arrivals: [] };
+export const noRemovals: MapRemovals = { stationKeys: [], lineKeys: [], handovers: [], arrivals: [] };
 
 export function amendment(changes: Partial<WorkflowMapAmendment>): WorkflowMapAmendment {
 	return { stage: mapStage.before, ...noAmendment, ...changes, remove: { ...noAmendment.remove, ...changes.remove } };
