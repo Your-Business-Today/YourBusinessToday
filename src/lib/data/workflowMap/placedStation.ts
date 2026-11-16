@@ -1,4 +1,4 @@
-import type { LineKind, MapStation, WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
+import type { LineKind, MapStation, WorkflowMapVersion } from './workflowMap';
 
 /** A station as it sits on a map: the task, with the key, name and kind of the line it is on. */
 export type PlacedStation = MapStation & { lineKey: string; lineName: string; lineKind: LineKind };

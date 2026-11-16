@@ -1,5 +1,5 @@
 import { inputsOf, outputsOf, type StationInput, type StationOutput } from './stationFlows';
-import { placedStation, type PlacedStation } from './placedStation';
+import { placedStation, type PlacedStation } from '$lib/data/workflowMap/placedStation';
 import { thingNameOf } from './thingNames';
 import { firstLineColour } from './workflowLineMap';
 import { isPhraseInDomain, isVocabularyFiled, type MapVocabulary } from '$lib/data/workflowMap/phraseInDomain';
