@@ -89,6 +89,7 @@ function isAddress(text: string): boolean {
 	return text.length <= longestAddress && isEmailShaped(text);
 }
 
-function isGmailId(text: string): boolean {
+/** Whether the text can be a Gmail message or thread id as the Gmail connector gives it. */
+export function isGmailId(text: string): boolean {
 	return text !== '' && text.length <= longestGmailId && !whiteSpace.test(text);
 }

@@ -3,13 +3,12 @@ import { getPerson } from '$lib/server/people/getPerson';
 import { noSuchPerson } from './describePerson';
 import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import { personFields, personIdField } from './personFieldSchema';
-import { personProfileSaves, updatePersonProfile, type PersonProfileEdit } from '$lib/server/people/updatePersonProfile';
+import { personProfileSaves, profileEditOf, updatePersonProfile, type PersonProfileEdit } from '$lib/server/people/updatePersonProfile';
 import { updateContactRole } from '$lib/server/clients/updateContactRole';
 import { validatePersonFields } from '$lib/data/validatePersonFields';
 import { validateRecordId } from '$lib/data/isUuid';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
-import type { PersonInFull } from '$lib/server/people/getPerson';
 
 const emailTaken = 'That email address already belongs to someone else on the People register.';
 const noSuchContact = 'No company lists this person under that contact id. read_client gives each contact id beside the person.';
@@ -51,7 +50,7 @@ async function changePerson(caller: McpCaller, input: Record<string, unknown>): 
 	if (hasNothingToChange) return nothingToChange;
 	const person = await getPerson(caller.supabase, personId);
 	if (person === null) return noSuchPerson;
-	const edit: PersonProfileEdit = { ...profileOf(person), ...changes };
+	const edit: PersonProfileEdit = { ...profileEditOf(person), ...changes };
 	const outcome = await updatePersonProfile(caller.supabase, person.id, edit);
 	if (outcome === personProfileSaves.emailTaken) return emailTaken;
 	const roleRefusal = await changeRole(caller, person.id, contactId, readText(input, 'role'));
@@ -61,20 +60,6 @@ async function changePerson(caller: McpCaller, input: Record<string, unknown>): 
 
 function fieldsOfThePerson(input: Record<string, unknown>): Record<string, unknown> {
 	return Object.fromEntries(Object.entries(input).filter(([field]) => !ownFields.includes(field)));
-}
-
-function profileOf(person: PersonInFull): PersonProfileEdit {
-	return {
-		name: person.name,
-		email: person.email,
-		phone: person.phone,
-		seniority: person.seniority,
-		isDecisionMaker: person.isDecisionMaker,
-		warmth: person.warmth,
-		lastContactedOn: person.lastContactedOn,
-		nextAction: person.nextAction,
-		nextActionDue: person.nextActionDue
-	};
 }
 
 /** The role is saved on the person's listing at that company, once the listing is shown to be theirs. */
