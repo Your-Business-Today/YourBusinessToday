@@ -1,6 +1,6 @@
 # Schedule 1 — Data Processing Agreement
 
-**Version 1.2 — 7 November 2026**
+**Version 1.3 — 16 November 2026**
 
 This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It is the contract required by Article 28(3) of the UK GDPR. Where it conflicts with anything else in the agreement about personal data, this schedule wins.
 
@@ -50,7 +50,7 @@ YBT will:
 
 ## 4. International transfers
 
-4.1 The Client's personal data is hosted in the Microsoft Azure regions the Order Form names. They are in the United Kingdom or the European Economic Area, and backups are replicated to the region Azure pairs with the one the database runs in. Hosting in the European Economic Area is covered by the United Kingdom's adequacy regulations, so it needs no further transfer safeguard.
+4.1 The Client's personal data is hosted in the Microsoft Azure regions the Order Form names. They are in the United Kingdom or the European Economic Area, and backups are replicated to the region Azure pairs with the one the database runs in. Hosting in the European Economic Area is covered by the United Kingdom's adequacy regulations, so it needs no further transfer safeguard. Personal data the Client keeps in YBT's platform at yourbusiness.today is hosted in London, United Kingdom, by the sub-processors named for the platform in Annex C.
 
 4.2 Some sub-processors in Annex C may access personal data from outside the United Kingdom, including for support. Where they do, YBT will make sure the transfer is covered by UK adequacy regulations or by the International Data Transfer Agreement or the UK Addendum to the EU Standard Contractual Clauses, supported by a documented transfer risk assessment.
 
@@ -64,7 +64,7 @@ YBT will:
 
 |                                           |                                                                                                                                                                                                                                                                                        |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Subject matter                            | Hosting and operating the Solution built for the Client, and providing the services in each Order Form.                                                                                                                                                                                |
+| Subject matter                            | Hosting and operating the Solution built for the Client, hosting the Client Data the Client keeps in YBT's platform at yourbusiness.today (such as its Books, Your Business Brain, Boardroom and workflow map), and providing the services in each Order Form.                         |
 | Duration                                  | For the term of the agreement, and afterwards until the data is returned and deleted under Schedule 4.                                                                                                                                                                                 |
 | Nature of the processing                  | Collection through the Solution, storage, hosting, backup, retrieval, organisation, display, transmission, export, correction and deletion; and, where the Order Form says so, sending records to an AI service to generate text from them.                                            |
 | Purpose                                   | To provide the Solution and the services to the Client.                                                                                                                                                                                                                                |
@@ -83,17 +83,17 @@ YBT will:
 6. **Secure development and updates.** Code is reviewed by a person before release. Security updates are applied to the platform and dependencies promptly, and critical ones within 14 days.
 7. **Staff.** Everyone with access is bound by confidentiality and briefed on this schedule and the breach procedure.
 8. **Breach notification content.** A notification under section 2.7 will describe, as far as known: the nature of the breach, the categories and approximate number of individuals and records concerned, the likely consequences, the measures taken or proposed to deal with it, and a contact at YBT. Further information will follow as it becomes available.
-9. **Certification.** YBT holds, or is working towards, Cyber Essentials certification.
-
 ## Annex C — Sub-processor register
 
 | Sub-processor                                          | What it does for the Solution                                                              | Where the data is                                                                                                                                  | Transfer safeguard                                                                                          |
 | ------------------------------------------------------ | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | Microsoft Ireland Operations Limited (Microsoft Azure) | Hosting, database, file storage, backups and monitoring                                    | The United Kingdom or the European Economic Area, in the regions the Order Form names. Microsoft support staff may access remotely from elsewhere. | Microsoft Products and Services Data Protection Addendum, including the UK Addendum                         |
 | Anthropic, PBC                                         | AI text generation from records — only where the Order Form says AI services are used      | United States                                                                                                                                      | Anthropic's data processing addendum with the UK Addendum. Anthropic does not train its models on API data. |
-| Resend, Inc.                                           | Sending the Solution's emails, such as notifications — only where the Solution sends email | United States                                                                                                                                      | Resend's data processing agreement with the UK Addendum                                                     |
+| Resend, Inc.                                           | Sending the Solution's emails, such as notifications — only where the Solution sends email; and the emails YBT's platform sends, such as invoices from Books, Boardroom notices and invitations | United States                                                                                                                                      | Resend's data processing agreement with the UK Addendum                                                     |
+| Supabase, Inc.                                         | YBT's platform at yourbusiness.today: the database, sign-in and file storage that hold the Client's Books, Your Business Brain, Boardroom, workflow map and portal data | London, United Kingdom. Supabase support staff may access remotely from elsewhere.                                                                 | Supabase's data processing addendum with the UK Addendum                                                    |
+| Vercel Inc.                                            | YBT's platform at yourbusiness.today: running the application that serves those records    | London, United Kingdom. Vercel support staff may access remotely from elsewhere.                                                                   | Vercel's data processing addendum with the UK Addendum                                                      |
 
-_Last updated 1 November 2026. YBT keeps this register current and gives notice of changes under section 3.2._
+_Last updated 16 November 2026. YBT keeps this register current and gives notice of changes under section 3.2._
 
 ## Signed
 
