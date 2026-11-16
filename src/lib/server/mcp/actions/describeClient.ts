@@ -5,19 +5,29 @@ import { describeCompanyProfile } from './describeCompanyProfile';
 import { describeContinuityCopy } from './describeContinuityCopy';
 import { describeLeadConversations } from './describeLeadConversations';
 import { describeFiledEmails } from './describeFiledEmails';
+import { describeLeadOrganisation } from './describeLeadOrganisation';
+import { describeLatestQuote } from './describeLeadQuote';
 import type { Client } from '$lib/server/clients/clientRecord';
 import type { ClientContact } from '$lib/server/clients/clientContactRecord';
 import type { ClientProject } from '$lib/server/clients/getProjectsForClient';
 import type { LeadConversation } from '$lib/data/leadConversationRules';
 import type { FiledEmail } from '$lib/data/filedEmailRules';
+import type { LeadQuote } from '$lib/data/leadQuoteRules';
 import type { ClientSummary } from '$lib/server/clients/listClients';
 import type { Premises } from '$lib/server/premises/premisesRecord';
+import type { OrganisationLink } from '$lib/server/onboarding/organisationLinks';
 
-/** The client as the register holds it: who brought it in, and the premises it was made from when it was made from one. */
-export type ClientOnRegister = { client: Client; broughtInBy: string; premises: Premises[] };
+/** The client as the register holds it: who brought it in, its own organisation, and the premises it was made from when it was made from one. */
+export type ClientOnRegister = { client: Client; broughtInBy: string; organisation: OrganisationLink | null; premises: Premises[] };
 
-/** What is kept about a client beyond its own row: its contacts, projects, conversations and filed emails. */
-export type ClientRecords = { contacts: ClientContact[]; projects: ClientProject[]; conversations: LeadConversation[]; emails: FiledEmail[] };
+/** What is kept about a client beyond its own row: its contacts, projects, conversations, filed emails and latest quote. */
+export type ClientRecords = {
+	contacts: ClientContact[];
+	projects: ClientProject[];
+	conversations: LeadConversation[];
+	emails: FiledEmail[];
+	quote: LeadQuote | null;
+};
 
 export const noSuchClient = 'No client on the register has that id. Call list_clients to see them.';
 
@@ -37,14 +47,15 @@ function describeClientLine(client: ClientSummary): string {
 }
 
 export function describeClientInFull(
-	{ client, broughtInBy, premises }: ClientOnRegister,
-	{ contacts, projects, conversations, emails }: ClientRecords
+	{ client, broughtInBy, organisation, premises }: ClientOnRegister,
+	{ contacts, projects, conversations, emails, quote }: ClientRecords
 ): string {
 	return [
 		`${client.name} — ${clientStageLabels[client.stage]} — id ${client.id}`,
 		client.website === '' ? null : `Website: ${client.website}`,
 		broughtInBy === '' ? 'Brought in by nobody named yet (set_client_brought_in_by)' : `Brought in by ${broughtInBy}`,
 		`On the register since ${formatBritishDate(client.createdAt)}`,
+		describeLeadOrganisation(organisation),
 		describeContinuityCopy(client.continuityCopy),
 		'',
 		...describeCompanyProfile(client),
@@ -55,6 +66,8 @@ export function describeClientInFull(
 		'',
 		'Conversations, the latest first:',
 		...describeLeadConversations(conversations),
+		'',
+		describeLatestQuote(quote),
 		'',
 		'Emails filed, the latest first:',
 		...describeFiledEmails(emails),

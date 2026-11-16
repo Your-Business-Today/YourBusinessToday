@@ -3,7 +3,9 @@ import { requireStaff } from '$lib/server/auth/requireStaff';
 import { stageOnRegister, type SalesRegister } from '$lib/data/salesRegisters';
 import type { ClientStage } from '$lib/data/clientLifecycle';
 import type { FramePicks } from '$lib/components/frame/framePicks';
-import { getStaffDirectory, type StaffMember } from '$lib/server/projects/getStaffDirectory';
+import type { StaffMember } from '$lib/server/projects/getStaffDirectory';
+import { loadOrganisationSalespeople } from '$lib/server/salesPeople/loadOrganisationSalespeople';
+import { requireSalesSwitchedOn } from '$lib/server/salesPeople/requireSalesSwitchedOn';
 
 /** A register's records, those at the stage its tab asks for, how many sit at each of its stages, and the staff who bring them in. */
 export type SalesRegisterReading = {
@@ -27,10 +29,8 @@ export async function loadSalesRegister(
 	const viewer = await requireStaff(locals);
 	const stage = stageOnRegister(register, url.searchParams.get(stageParameter));
 	const pickedOrganisationId = framePicks?.pickedOrganisationId ?? null;
-	const [everyRecord, staffMembers] = await Promise.all([
-		recordsKeptBy(locals, pickedOrganisationId, register),
-		getStaffDirectory(locals.supabase)
-	]);
+	const everyRecord = await recordsKeptBy(locals, pickedOrganisationId, register);
+	const staffMembers = await salespeopleFor(locals, pickedOrganisationId, everyRecord);
 	return {
 		clients: everyRecord.filter((client) => stage === null || client.stage === stage),
 		stage,
@@ -47,7 +47,13 @@ async function recordsKeptBy(
 	register: SalesRegister
 ): Promise<ClientSummary[]> {
 	if (organisationId === null) return [];
+	await requireSalesSwitchedOn(locals, organisationId);
 	return listClientsKeptBy(locals.supabase, organisationId, register.stages);
+}
+
+async function salespeopleFor(locals: App.Locals, organisationId: string | null, records: ClientSummary[]): Promise<StaffMember[]> {
+	if (organisationId === null) return [];
+	return loadOrganisationSalespeople(locals.supabase, organisationId, records.map(({ ownerId }) => ownerId));
 }
 
 function countByStage(clients: ClientSummary[]): Record<ClientStage, number> {

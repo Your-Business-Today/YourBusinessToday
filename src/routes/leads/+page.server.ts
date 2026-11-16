@@ -8,7 +8,8 @@ import { moveStageAction } from '$lib/server/salesRegisters/moveStageAction';
 import { readPickedOrganisationId } from '$lib/server/frame/pickedOrganisation';
 import { requireStaff } from '$lib/server/auth/requireStaff';
 import { broughtInByRefusal, staffMemberWithId } from '$lib/data/broughtInByName';
-import { getStaffDirectory } from '$lib/server/projects/getStaffDirectory';
+import { loadOrganisationSalespeople } from '$lib/server/salesPeople/loadOrganisationSalespeople';
+import { requireSalesSwitchedOn } from '$lib/server/salesPeople/requireSalesSwitchedOn';
 import { ukClockAt } from '$lib/data/ukClock';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -27,8 +28,9 @@ export const actions: Actions = {
 		const user = await requireStaff(locals);
 		const organisationId = await readPickedOrganisationId(locals, user.id);
 		if (organisationId === null) return fail(400, { message: noOrganisationPicked });
+		await requireSalesSwitchedOn(locals, organisationId);
 		const formData = await request.formData();
-		const owner = staffMemberWithId(await getStaffDirectory(locals.supabase), String(formData.get('ownerId') ?? ''));
+		const owner = staffMemberWithId(await loadOrganisationSalespeople(locals.supabase, organisationId), String(formData.get('ownerId') ?? ''));
 		if (owner === null) return fail(400, { message: broughtInByRefusal });
 		const seed = readLeadSeed(formData, owner.id, organisationId);
 		if (seed === null) return fail(400, { message: 'A company name is required.' });

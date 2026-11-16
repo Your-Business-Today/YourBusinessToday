@@ -12,6 +12,7 @@
 	import FiledEmailsSection from '$lib/components/clients/emails/FiledEmailsSection.svelte';
 	import ClientProjectList from '$lib/components/clients/ClientProjectList.svelte';
 	import CompanyProfileForm from '$lib/components/clients/CompanyProfileForm.svelte';
+	import LeadOrganisationLinks from '$lib/components/clients/LeadOrganisationLinks.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import ClientSupportSection from '$lib/components/clients/ClientSupportSection.svelte';
@@ -42,6 +43,8 @@
 			<h2 class="font-display text-xl">Company profile</h2>
 			<div class="flex flex-wrap gap-2">
 				<a href={`${companyPagePath(client)}/workflow-map`} class={quietButtonClasses}>Workflow map</a>
+				<LeadOrganisationLinks organisationId={data.organisationId} />
+				<a href={`${companyPagePath(client)}/quote`} class={quietButtonClasses}>Quote</a>
 				<a href={researchAgainHref} class={quietButtonClasses}>Ask your Claude to research</a>
 			</div>
 		</div>

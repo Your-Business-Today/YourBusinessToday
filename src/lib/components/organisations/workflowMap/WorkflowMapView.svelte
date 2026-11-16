@@ -93,5 +93,5 @@
 		<p class="text-sm text-chalk-subtle">{messages.chooseStation}</p>
 	{/if}
 {:else}
-	<WorkflowMapTablePane {pane} {changes} questions={questions ?? []} noChangesMessage={messages.noChanges} onChooseStation={openQuestionStation} />
+	<WorkflowMapTablePane {pane} {maps} {changes} questions={questions ?? []} noChangesMessage={messages.noChanges} onChooseStation={openQuestionStation} />
 {/if}

@@ -134,6 +134,8 @@ belongs on the task, which clients cannot see.
 **ClientEvent** — the ledger: stage moved, contact invited, project assigned, request
 raised, request decided, request promoted. Same idiom as `brain_events`.
 
+**LeadQuote** — `public.lead_quotes` and `public.lead_quote_lines` (migration 0261): the plan going forwards for a lead, priced a stage at a time. A quote has a title, the day it was prepared, the day it stands until, an introduction and its terms; a line has its name, what it delivers, when, and its fee, an amount on a basis (fixed, monthly or daily) or no amount and a note. Each filing is the next numbered version for the company and never changes one filed before; the latest is the quote. The person's Claude files it with `file_lead_quote`, from the rates sheet or the person's own figures, and the staff page `/leads/<id>/quote` shows it to the lead on a screen or on paper: the fixed fees added to build, the monthly fees added each month, the day rates listed. Nothing internal is on that page. A deleted company's quotes are kept in its deletion record.
+
 ## Access
 
 Staff see everything through the existing `is_project_manager()` idiom. A client contact
@@ -184,6 +186,8 @@ with `is_user_story` true and the story fields filled from the request: role fro
 contact, want from the title, benefit from their stated reason. The task and the request
 then reference each other; neither copy of the wording drifts, because the task's `details`
 links back rather than restating.
+
+**A lead may have its own organisation before it signs.** `openLeadOrganisation` (`src/lib/server/onboarding/`, the lead page's *Open its organisation* button and the connector's `open_lead_organisation`) gives a company on the register the organisation already linked to it, else links the top-level organisation carrying its exact name that is linked to nothing, else makes one in its name, and switches Your Business Brain on for it, so its domain and workflow map can be built and shown at the first meeting. It invites nobody, sends no email and makes no project. `organisations.client_id` is one per company, so setting the client up later (`setClientUp`, through `organisationForClient`) finds and reuses the same organisation and carries on from what was built.
 
 ## Status
 

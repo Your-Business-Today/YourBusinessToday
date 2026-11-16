@@ -14,6 +14,7 @@ export type Client = {
 	profile: CompanyProfile;
 	continuityCopy: ContinuityCopy;
 	ownerId: string | null;
+	keptByOrganisationId: string;
 	parentClientId: string | null;
 	isArchived: boolean;
 	createdAt: string;
@@ -30,6 +31,7 @@ export function parseClientRecord(row: Record<string, unknown>): Client {
 		profile: parseCompanyProfileRecord(row),
 		continuityCopy: parseContinuityCopyRecord(row),
 		ownerId: (row.owner_id ?? null) as string | null,
+		keptByOrganisationId: row.kept_by_organisation_id as string,
 		parentClientId: (row.parent_client_id ?? null) as string | null,
 		isArchived: row.is_archived as boolean,
 		createdAt: row.created_at as string

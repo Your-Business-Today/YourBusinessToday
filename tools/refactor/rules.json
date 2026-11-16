@@ -231,7 +231,8 @@
       "src/routes/terms/+page.server.ts",
       "src/routes/organisations/[organisationId]/sales/+page.server.ts",
       "src/lib/server/mcp/actions/businessBrainBatchActions.ts",
-      "src/lib/server/mcp/actions/businessBrainBatchSchemas.ts"
+      "src/lib/server/mcp/actions/businessBrainBatchSchemas.ts",
+      "src/lib/server/businessBrain/businessBrainFieldActions.ts"
     ]
   },
   "siteDefinition": {
@@ -365,9 +366,11 @@
       "src/lib/server/mcp/actions/dataInventoryActions.ts",
       "src/lib/server/mcp/actions/storyFields.ts",
       "src/lib/server/mcp/actions/filedEmailFields.ts",
+      "src/lib/server/mcp/actions/leadQuoteFields.ts",
       "src/lib/server/mcp/actions/businessBrainSchemas.ts",
       "src/lib/server/mcp/actions/businessBrainChatbotSchemas.ts",
       "src/lib/server/mcp/actions/workflowMapFields.ts",
+      "src/lib/server/mcp/actions/amendWorkflowMapFields.ts",
       "src/lib/server/mcp/actions/journeyMapFields.ts",
       "src/lib/server/mcp/actions/booksFields.ts",
       "src/lib/server/mcp/actions/booksCustomerFields.ts",

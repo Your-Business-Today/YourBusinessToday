@@ -186,6 +186,11 @@ Each organisation has one workflow map: its roles as lines, their tasks as stati
 between them, filed by the person's own Claude as versions of a Before and an After. The sections below
 say how it is filed, drawn, checked and confirmed.
 
+A small change, one station, line, hand-over or arrival, is filed with `amend_workflow_map`: the amendment is
+applied to the latest version of that stage by `amendWorkflowMap` (`src/lib/data/workflowMap/`) and the whole
+result goes through the same checks and filing as `file_workflow_map`, so it is the next numbered version and
+every untouched station is carried forward exactly, keeping its mark with the client.
+
 ### The one prompt
 
 Every client runs the same prompt (`onePrompt` in `src/lib/onboarding/onboarding.ts`), shown on the
@@ -242,8 +247,13 @@ listed and shown only where Your Business Brain is open to the person, as Domain
   its place and its role its colour (`drawnWorkflowMaps.ts`, `workflowLineMap.ts`).
 - **One row of tabs when there is something to compare:** Before, After and What changes, whose table lists
   each task that moves into one of our products and each hand-over that stops going wrong
-  (`workflowMapChanges.ts`). With only today's map filed it is drawn alone, with no tabs; with none, the page
+  (`workflowMapChanges.ts`). With only a Before filed it is drawn alone, with no tabs; with none, the page
   says to ask for "map the workflows".
+- **Products and People in the loop, once an After is filed.** Products groups the After's stations in our
+  products by product, named by its project, else by `doneIn`, with the steps each takes on and what goes wrong
+  today around them (`productsOnTheMap.ts`); People in the loop gives each role what stays theirs, what they do
+  inside our products and what moved to a system line or off the map since the Before (`peopleInTheLoop.ts`).
+  A Claude reads the same with `read_map_products` and `read_people_in_the_loop`.
 - **Choosing a station opens its panel under the map** (`stationDetails.ts`): its role and sentence, what it
   takes in and from whom, what it produces and for whom, where it is done and where it was done before, and
   the Domain things it names. `?station=<station key>` opens the page with that station chosen, on the After

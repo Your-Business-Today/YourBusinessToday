@@ -87,7 +87,8 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-073 | read a client in full, with its history | staff | read | `/clients/{clientId}` load | `read_client` `read_client_history` | `/clients/{clientId}` |
 | US-074 | list a contact at a client, invite them, assign a project | staff | write | `addContact` `inviteContact` `assignProject` | `add_client_contact` `invite_client_contact` `assign_project_to_client` | `/clients/{clientId}` |
 | US-075 | set a new client up on Your Business Today | staff | write | `setUpClient` | `set_up_client` | `/clients/{clientId}` |
-| US-076 | change a client's company profile | staff | write | `updateProfile` | `update_company_profile` | `/clients/{clientId}` |
+| US-183 | open a lead's own organisation before it signs, inviting nobody, and reach its domain and organisation from the lead's page | staff | write | `openOrganisation` | `open_lead_organisation` `read_client` | `/clients/{clientId}` |
+| US-076 | change a client's company profile, website or name | staff | write | `updateProfile` | `update_company_profile` | `/clients/{clientId}` |
 | US-077 | record a client's continuity copy | staff | write | `recordContinuityCopy` | `record_client_continuity_copy` | `/clients/{clientId}` |
 | US-078 | group a client under a parent and import its officers from Companies House | staff | write | `groupUnder` `importOfficers` | `group_client_under` `import_company_officers` | `/clients/{clientId}` |
 | US-079 | delete a mistaken client record | staff | write | `deleteClient` | `delete_client` | `/clients/{clientId}` |
@@ -114,6 +115,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-098 | research a person on the web and save it, or draft the approach | staff | write | `/people/{personId}` modals | `save_person_research` `save_person_approach` | `/people/{personId}` |
 | US-099 | delete a person added by mistake | staff | write | `deletePerson` | `delete_person` | `/people/{personId}` |
 | US-181 | see whose next step is due, the longest overdue first | staff | read | `/leads` load | `list_follow_ups_due` | `/leads` |
+| US-182 | put a quote on a lead, the plan a stage at a time with its fees, and show it to them | staff | write | `/leads/{clientId}/quote` load (the quote is filed by the person's Claude, as a workflow map is) | `file_lead_quote` `read_lead_quote`, and `read_client` names the latest | `/leads/{clientId}/quote` |
 
 ## 08-patches-and-prospecting
 
@@ -140,8 +142,9 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-116 | see the open work of an organisation's team, department by department, with who owns each job, filtered by owner, product and status | member | read | `/organisations/{organisationId}/task-management` load | `read_team_work` | `/organisations/{organisationId}/task-management` |
 | US-116a | put a name on one of the team's open jobs from the organisation's Tasks page | member | write | `setAssignees` | `set_task_assignees` | `/organisations/{organisationId}/task-management` |
 | US-117 | read and set an organisation's domain | manager | write | `/organisations/{organisationId}/domain` load | `read_business_brain_domain` `file_business_brain_domain` `start_business_brain_domain_run` | `/organisations/{organisationId}/domain` |
-| US-118 | file an organisation's workflow map, Before or After, and read it back | member | write | — | `file_workflow_map` `read_workflow_map` | — |
+| US-118 | file an organisation's workflow map, Before or After, change one part of it, and read it back | member | write | — | `file_workflow_map` `amend_workflow_map` `read_workflow_map` | — |
 | US-119 | say "map the workflows" and be walked through finding the roles, their tasks and the hand-overs | member | read | — | `start_workflow_map_run` | — |
+| US-182 | see the products an organisation's After map recommends and where its people stay in the loop, to walk a lead through both | member | read | `/organisations/{organisationId}/workflow-map` load | `read_map_products` `read_people_in_the_loop` | `/organisations/{organisationId}/workflow-map` `/leads/{leadId}/workflow-map` `/portal/workflow-map` |
 
 ## 10-boardroom
 

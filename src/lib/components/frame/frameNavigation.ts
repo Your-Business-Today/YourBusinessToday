@@ -45,11 +45,14 @@ const salesRegisterLinks: FrameLink[] = [
 	{ ...leaderboardLink, icon: 'trophy', group: 'sales' }
 ];
 
-/** The side bar's links beyond the picked organisation's own: work inside an organisation, and nothing above one. */
-export function frameLinksFor(access: FrameAccess): FrameLink[] {
+/**
+ * The side bar's links beyond the picked organisation's own: work inside an organisation, and nothing above one.
+ * The sales registers are listed only to staff, and only where the picked organisation has Sales switched on.
+ */
+export function frameLinksFor(access: FrameAccess, isSalesSwitchedOn: boolean): FrameLink[] {
 	if (access.isPortalAccount) return portalLinksFor(access.isPortalAdministrator);
 	const { isStaff } = siteAccessOf(access);
-	if (!isStaff) return [workProjectsLink];
+	if (!isStaff || !isSalesSwitchedOn) return [workProjectsLink];
 	return [workProjectsLink, ...salesRegisterLinks];
 }
 

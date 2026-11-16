@@ -16,8 +16,16 @@ function filedSizes({ stage, lines, handovers, arrivals }: WorkflowMapDraft): st
 }
 
 /** What filing a workflow map answers: the version filed, its size, the questions it still leaves open, and the Domain run that follows it. */
-export function filedWorkflowMapAnswer(organisationName: string, versionNumber: number, draft: WorkflowMapDraft, questions: MapQuestion[]): string {
-	return `Filed version ${versionNumber} of ${organisationName}'s ${filedSizes(draft)}. ${openQuestions(questions)} ${domainNextStep}`;
+export function filedWorkflowMapAnswer(
+	organisationName: string,
+	versionNumber: number,
+	draft: WorkflowMapDraft,
+	questions: MapQuestion[],
+	changesSaid: string | null = null
+): string {
+	const filed = `Filed version ${versionNumber} of ${organisationName}'s ${filedSizes(draft)}.`;
+	const sentences = [filed, changesSaid, openQuestions(questions), domainNextStep];
+	return sentences.filter((sentence) => sentence !== null).join(' ');
 }
 
 function openQuestions(questions: MapQuestion[]): string {
