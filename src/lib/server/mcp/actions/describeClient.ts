@@ -5,6 +5,7 @@ import { describeCompanyProfile } from './describeCompanyProfile';
 import { describeContinuityCopy } from './describeContinuityCopy';
 import { describeLeadConversations } from './describeLeadConversations';
 import { describeFiledEmails } from './describeFiledEmails';
+import { describeLeadOrganisation } from './describeLeadOrganisation';
 import { describeLatestQuote } from './describeLeadQuote';
 import type { Client } from '$lib/server/clients/clientRecord';
 import type { ClientContact } from '$lib/server/clients/clientContactRecord';
@@ -14,9 +15,10 @@ import type { FiledEmail } from '$lib/data/filedEmailRules';
 import type { LeadQuote } from '$lib/data/leadQuoteRules';
 import type { ClientSummary } from '$lib/server/clients/listClients';
 import type { Premises } from '$lib/server/premises/premisesRecord';
+import type { OrganisationLink } from '$lib/server/onboarding/organisationLinks';
 
-/** The client as the register holds it: who brought it in, and the premises it was made from when it was made from one. */
-export type ClientOnRegister = { client: Client; broughtInBy: string; premises: Premises[] };
+/** The client as the register holds it: who brought it in, its own organisation, and the premises it was made from when it was made from one. */
+export type ClientOnRegister = { client: Client; broughtInBy: string; organisation: OrganisationLink | null; premises: Premises[] };
 
 /** What is kept about a client beyond its own row: its contacts, projects, conversations, filed emails and latest quote. */
 export type ClientRecords = {
@@ -45,7 +47,7 @@ function describeClientLine(client: ClientSummary): string {
 }
 
 export function describeClientInFull(
-	{ client, broughtInBy, premises }: ClientOnRegister,
+	{ client, broughtInBy, organisation, premises }: ClientOnRegister,
 	{ contacts, projects, conversations, emails, quote }: ClientRecords
 ): string {
 	return [
@@ -53,6 +55,7 @@ export function describeClientInFull(
 		client.website === '' ? null : `Website: ${client.website}`,
 		broughtInBy === '' ? 'Brought in by nobody named yet (set_client_brought_in_by)' : `Brought in by ${broughtInBy}`,
 		`On the register since ${formatBritishDate(client.createdAt)}`,
+		describeLeadOrganisation(organisation),
 		describeContinuityCopy(client.continuityCopy),
 		'',
 		...describeCompanyProfile(client),
