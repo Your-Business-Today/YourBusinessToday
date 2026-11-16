@@ -1,12 +1,14 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { cacheLocations, readCachedLocations } from './postcodeLocationCache';
-import { inBatches } from '$lib/data/inBatches';
+import { eachBatchInTurn, inBatches } from '$lib/data/inBatches';
 import { parsePostcodeLocation, type PostcodeLocation } from './postcodeLocation';
 import { postcodeIn } from '$lib/data/postcode';
 import { postcodesApiOrigin, requestPostcodes } from './postcodesRequest';
 
 const bulkLookupPath = '/postcodes';
 const longestBulkLookup = 100;
+/** Bulk lookups in flight together: a wide map needs dozens, and postcodes.io refuses a burst of them all at once. */
+const bulkLookupsAtOnce = 4;
 
 export type GeocodedPostcodes = Map<string, PostcodeLocation>;
 
@@ -25,6 +27,10 @@ export async function geocodePostcodes(
 }
 
 async function lookupInBatches(postcodes: string[]): Promise<PostcodeLocation[]> {
+	return eachBatchInTurn(postcodes, longestBulkLookup * bulkLookupsAtOnce, lookupTogether);
+}
+
+async function lookupTogether(postcodes: string[]): Promise<PostcodeLocation[]> {
 	const results = await Promise.all(inBatches(postcodes, longestBulkLookup).map(lookupBatch));
 	return results.flat();
 }

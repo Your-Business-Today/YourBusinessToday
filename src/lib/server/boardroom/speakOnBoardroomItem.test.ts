@@ -15,6 +15,10 @@ const room = vi.hoisted(() => ({
 	kept: [] as Record<string, unknown>[],
 	outcomes: [] as OutcomeDraft[]
 }));
+const turns = vi.hoisted(() => ({ calledFor: [] as string[] }));
+vi.mock('./callDirectorsToTheirTurns', () => ({
+	callDirectorsToTheirTurns: async (_supabase: unknown, _organisation: unknown, calledMeetingId: string) => turns.calledFor.push(calledMeetingId)
+}));
 vi.mock('./readBoardroomMeeting', () => ({
 	getMeetingRecord: async (): Promise<MeetingRecord | null> => (room.isMissing ? null : meetingInRoom({ contributions: room.said }))
 }));
@@ -41,6 +45,7 @@ describe('a director’s Claude speaks on an item in the room', () => {
 		room.isMissing = false;
 		room.kept = [];
 		room.outcomes = [];
+		turns.calledFor = [];
 	});
 
 	it('keeps what it says under its own director’s seat and account, and the item comes out agreed', async () => {
@@ -49,6 +54,7 @@ describe('a director’s Claude speaks on an item in the room', () => {
 		expect(answer).toContain('Kept as contribution 2 on item 1, in round 1.');
 		expect(answer).toContain('Came out agreed in round 1; it goes to the directors as what the board proposes to note: "Approve the accounts."');
 		expect(room.outcomes).toEqual([{ outcome: 'agreed', proposalId: room.said[0].id, wording: 'Approve the accounts.', roundsTaken: 1 }]);
+		expect(turns.calledFor).toEqual([meetingId]);
 	});
 
 	it('says whose turn is left while the item is still being talked through', async () => {
@@ -62,5 +68,6 @@ describe('a director’s Claude speaks on an item in the room', () => {
 		room.isMissing = true;
 		expect(await speak('jeremy', support)).toBe(boardroomMeetingRefusals.noSuchMeeting);
 		expect(room.kept).toEqual([]);
+		expect(turns.calledFor).toEqual([]);
 	});
 });

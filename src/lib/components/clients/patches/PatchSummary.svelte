@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { formatBritishDate } from '$lib/data/britishDate';
+	import { registerNotOnMapSentence } from '$lib/data/territoryRegisterSentences';
 	import type { PatchMap } from '$lib/server/patches/mapPatch';
 
 	let { map, listedCount }: { map: PatchMap; listedCount: number } = $props();
 
 	const facts = $derived(factsAbout(map));
+	const notOnMap = $derived(registerNotOnMapSentence(map));
 
 	function factsAbout(mapped: PatchMap): string[] {
 		const { pins } = mapped;
@@ -21,10 +23,8 @@
 	}
 </script>
 
-{#if map.asAtMonth === null}
-	<p class="text-sm text-caution">
-		The register has not been loaded for this territory yet: run the monthly Companies House file loader, then geocode its postcodes.
-	</p>
+{#if notOnMap !== null}
+	<p class="text-sm text-caution">{notOnMap}</p>
 {:else}
 	<p class="text-sm text-chalk/70">{facts.join(' · ')}.</p>
 {/if}

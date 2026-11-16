@@ -2,13 +2,16 @@
 	import AreaMapWorkspace from '$lib/components/clients/map/AreaMapWorkspace.svelte';
 	import AreaSearchForm from '$lib/components/clients/map/AreaSearchForm.svelte';
 	import AreaSummary from '$lib/components/clients/map/AreaSummary.svelte';
+	import CrowdedAreaPrompt from '$lib/components/clients/map/CrowdedAreaPrompt.svelte';
+	import { isCrowdedArea } from '$lib/components/clients/map/areaSummary';
 	import LeadOutcomeNote from '$lib/components/clients/map/LeadOutcomeNote.svelte';
 	import { describeAreaSearchQuery } from '$lib/data/areaSearch';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data, form } = $props();
 
-	const { area } = $derived(data);
+	const { area, search } = $derived(data);
+	const isCrowded = $derived(area !== null && search !== null && isCrowdedArea(area, search));
 
 	const searchQuery = $derived(data.search === null ? '' : `&${describeAreaSearchQuery(data.search)}`);
 	const addLeadAction = $derived(`?/addLead${searchQuery}`);
@@ -27,6 +30,9 @@
 	</div>
 	<AreaSearchForm search={data.search} />
 	<LeadOutcomeNote message={data.notice ?? form?.message ?? null} clientId={form?.clientId} />
+	{#if area !== null && search !== null && isCrowded}
+		<CrowdedAreaPrompt {area} {search} />
+	{/if}
 	{#if area !== null}
 		<AreaSummary {area} />
 		<AreaMapWorkspace {area} listedPins={area.pins} {addLeadAction} {addWithDirectorsAction} />

@@ -14,13 +14,18 @@ export type FiledFigures = {
 export const largestFigure = 99_999_999_999_999;
 export const mostEmployees = 10_000_000;
 
+/** Whether a count is one the column can hold: whole people, none or more, never beyond the most a company employs. */
+export function isHeadcount(count: number): boolean {
+	return Number.isInteger(count) && count >= 0 && count <= mostEmployees;
+}
+
 /** Why the figures cannot be stored as read, or null when every value fits its column. */
 export function validateFiledFigures(figures: FiledFigures): string | null {
 	const amounts = [figures.netAssets, figures.cash, figures.creditors];
 	const isTooLarge = amounts.some((amount) => amount !== null && Math.abs(amount) > largestFigure);
 	if (isTooLarge) return `The figures made up to ${figures.madeUpTo} are beyond ${largestFigure}: misread, not stored.`;
 	const { averageEmployees } = figures;
-	const isNotAHeadcount = averageEmployees !== null && (averageEmployees < 0 || averageEmployees > mostEmployees || !Number.isInteger(averageEmployees));
+	const isNotAHeadcount = averageEmployees !== null && !isHeadcount(averageEmployees);
 	if (isNotAHeadcount) return `The employee count made up to ${figures.madeUpTo} is not a headcount: misread, not stored.`;
 	return null;
 }

@@ -4,6 +4,7 @@ import { ukClockAt, type UkClock } from '$lib/data/ukClock';
 import { deployWindowOutcomes } from '$lib/data/deployWindow';
 import { findProjectsWithDeployWindow } from './findProjectsWithDeployWindow';
 import { promoteStaging, type Promotion } from './promoteStaging';
+import { raiseConflictTaskOnce } from './raiseConflictTask';
 import { readLatestTimedWindow } from './readLatestDeployWindow';
 import { recordTimedWindow } from './recordDeployWindow';
 import { timedWindowStart } from '$lib/data/deployStart';
@@ -12,7 +13,7 @@ import type { Project } from '$lib/server/projects/projectRecord';
 
 export type DeployWindowRun = Promotion & { projectId: string; projectName: string };
 
-/** Runs the window of every project whose deploy time has come today and has not run yet, and records each. */
+/** Runs the window of every project whose deploy time has come today and has not run yet, records each, and raises a task for one that conflicts. */
 export async function runDeployWindows(supabase: SupabaseClient, now: Date = new Date()): Promise<DeployWindowRun[]> {
 	const clock = ukClockAt(now);
 	const projects = await findProjectsWithDeployWindow(supabase);
@@ -36,5 +37,6 @@ async function runWindowIfDue(supabase: SupabaseClient, project: Project, clock:
 	const tasks = await getTasksForProject(supabase, project.id);
 	const promotion = await promoteStaging(project, clock, { start: timedWindowStart, tasks });
 	await recordTimedWindow(supabase, project.id, clock.date, promotion);
+	await raiseConflictTaskOnce(supabase, project, promotion, tasks);
 	return { projectId: project.id, projectName: project.name, ...promotion };
 }

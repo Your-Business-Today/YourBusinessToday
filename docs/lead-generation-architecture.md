@@ -141,6 +141,11 @@ each as today, and let them become clients one by one or together under a parent
 
 ### The views
 
+- `/leads` — above the register, *Follow-ups due*: everyone at a company the picked
+  organisation keeps whose next action has come due, the longest overdue first, each with
+  the action, the day and how overdue it is, and their companies. It shows only when
+  someone is due. The connector reads the same with `list_follow_ups_due`, across every
+  organisation as `list_people` does, and the `/ybt-follow-ups` command walks it.
 - `/people` — every person on the register: warmth, decision-maker flag, next action and
   its due date, and a dot per company coloured by stage. Add a person inline (name, email,
   phone, seniority). Find on Companies House: an officer search by name, results with the

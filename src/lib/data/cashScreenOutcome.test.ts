@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { accountsOutcomes } from './accountsReadingRules';
-import { cashScreenOutcomes, screenVerdict } from './cashScreenOutcome';
+import { cashScreenOutcomes, screenVerdict, unreadVerdict } from './cashScreenOutcome';
 import { connectionKinds } from './connectionRules';
 import { cashOf, connectedNumber, connectedThrough, evidenceOf, leastCash, noConnections, readingOf, screenedNumber } from './cashScreenEvidence.fixture';
 
@@ -57,6 +57,12 @@ describe('what a screened company comes out as', () => {
 		const verdict = screenVerdict(evidence, leastCash);
 		expect(verdict.outcome).toBe(cashScreenOutcomes.fails);
 		expect(verdict.reason).toContain('short of £100k');
+	});
+
+	it('is a maybe, never a fail, when nobody could read its accounts, saying how to read them again', () => {
+		expect(unreadVerdict.outcome).toBe(cashScreenOutcomes.maybe);
+		expect(unreadVerdict.reason).toContain('its cash is not known');
+		expect(unreadVerdict.reason).toContain('read_company_accounts');
 	});
 
 	it('fails a new company with no accounts filed yet', () => {

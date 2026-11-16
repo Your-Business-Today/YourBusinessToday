@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-14T23:25:55+00:00",
-  "kitVersion": "1.42.0",
+  "generatedAt": "2026-11-15T17:11:35+00:00",
+  "kitVersion": "1.48.0",
   "score": {
     "overall": 99.9,
     "groups": [
@@ -40,7 +40,7 @@
         "unit": "files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 4976,
+        "measuredAgainst": 5011,
         "score": 100.0
       },
       {
@@ -64,7 +64,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7772,
+        "measuredAgainst": 7831,
         "score": 100.0
       },
       {
@@ -76,7 +76,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7138,
+        "measuredAgainst": 7191,
         "score": 100.0
       },
       {
@@ -100,7 +100,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 190.82,
+        "measuredAgainst": 192.48,
         "score": 100.0
       },
       {
@@ -112,7 +112,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 190.82,
+        "measuredAgainst": 192.48,
         "score": 100.0
       },
       {
@@ -124,7 +124,7 @@
         "unit": "components and functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 8508,
+        "measuredAgainst": 8569,
         "score": 100.0
       },
       {
@@ -136,7 +136,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 190.82,
+        "measuredAgainst": 192.48,
         "score": 100.0
       },
       {
@@ -148,7 +148,7 @@
         "unit": "thousand lines",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 190.82,
+        "measuredAgainst": 192.48,
         "score": 100.0
       },
       {
@@ -160,7 +160,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7772,
+        "measuredAgainst": 7831,
         "score": 100.0
       },
       {
@@ -172,7 +172,7 @@
         "unit": "predicted files",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 247,
+        "measuredAgainst": 249,
         "score": 100.0
       },
       {
@@ -195,7 +195,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7138,
+        "measuredAgainst": 7191,
         "score": 100.0
       },
       {
@@ -207,7 +207,7 @@
         "unit": "branches",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7138,
+        "measuredAgainst": 7191,
         "score": 100.0
       },
       {
@@ -219,7 +219,7 @@
         "unit": "functions",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 7772,
+        "measuredAgainst": 7831,
         "score": 100.0
       },
       {
@@ -231,7 +231,7 @@
         "unit": "widget slots",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 465,
+        "measuredAgainst": 466,
         "score": 100.0
       },
       {
@@ -243,7 +243,7 @@
         "unit": "write doors",
         "isMeasured": true,
         "offenders": 0,
-        "measuredAgainst": 399,
+        "measuredAgainst": 402,
         "score": 100.0
       }
     ]
@@ -252,17 +252,17 @@
     "fileLength": {
       "limit": 100,
       "filesOverLimit": 0,
-      "totalFiles": 4976,
-      "totalLines": 190823,
+      "totalFiles": 5011,
+      "totalLines": 192479,
       "worstFileLines": 0,
       "worstFileTimesOverLimit": 0.0
     },
     "functionShape": {
       "limit": 30,
       "functionsOverLimit": 0,
-      "totalFunctions": 7772,
+      "totalFunctions": 7831,
       "elseBlocks": 0,
-      "ifBlocks": 7138,
+      "ifBlocks": 7191,
       "measurementIsHeuristic": true
     },
     "functionNames": {
@@ -275,14 +275,14 @@
       "measurementIsHeuristic": true
     },
     "duplication": {
-      "clones": 72,
-      "duplicatedLines": 610,
-      "totalLines": 192012,
+      "clones": 73,
+      "duplicatedLines": 631,
+      "totalLines": 195003,
       "duplicatedPercentage": 0.32,
       "carriedFromBaseline": true
     },
     "naming": {
-      "bannedAbbreviationHits": 109,
+      "bannedAbbreviationHits": 110,
       "unprefixedBooleans": 7
     },
     "comments": {
@@ -308,11 +308,11 @@
     },
     "orphans": {
       "orphanFunctions": 0,
-      "functionsExamined": 7772
+      "functionsExamined": 7831
     },
     "designPatterns": {
-      "roleFamilies": 248,
-      "predictedFiles": 247,
+      "roleFamilies": 249,
+      "predictedFiles": 249,
       "predictedFilesMissing": 0,
       "entities": 0,
       "entitiesOutOfRange": 0,
@@ -320,19 +320,19 @@
       "measurementIsHeuristic": true
     },
     "inventory": {
-      "pages": 79,
-      "components": 736,
+      "pages": 80,
+      "components": 738,
       "orphanComponents": 0,
-      "averagePageLines": 44
+      "averagePageLines": 43
     },
     "siteDefinition": {
-      "routes": 78,
-      "views": 818,
-      "siteComponents": 724,
+      "routes": 79,
+      "views": 821,
+      "siteComponents": 726,
       "catalogue": 14,
-      "widgetUsages": 465,
+      "widgetUsages": 466,
       "handRolledElements": 0,
-      "widgetSlots": 465,
+      "widgetSlots": 466,
       "viewsWithHandRolled": 0,
       "boxedContentWidgets": 0,
       "designSheets": 8,
@@ -340,21 +340,21 @@
       "brandCheckedAt": "never"
     },
     "inputValidation": {
-      "schemaTables": 226,
+      "schemaTables": 227,
       "limitedColumns": 0,
-      "writeDoors": 399,
+      "writeDoors": 402,
       "unvalidatedDoors": 0,
       "looserLimits": 0
     },
     "fileAreas": {
-      "totalFiles": 5612,
-      "backend": 1466,
-      "frontend": 1193,
-      "shared": 964,
-      "tests": 858,
-      "api": 652,
-      "database": 239,
-      "tooling": 142,
+      "totalFiles": 5683,
+      "backend": 1475,
+      "frontend": 1196,
+      "shared": 967,
+      "tests": 877,
+      "api": 659,
+      "database": 242,
+      "tooling": 169,
       "docs": 79,
       "infrastructure": 19
     }
@@ -365,8 +365,8 @@
       "summary": {
         "limit": 100,
         "filesOverLimit": 0,
-        "totalFiles": 4976,
-        "totalLines": 190823,
+        "totalFiles": 5011,
+        "totalLines": 192479,
         "worstFileLines": 0,
         "worstFileTimesOverLimit": 0.0
       },
@@ -377,9 +377,9 @@
       "summary": {
         "limit": 30,
         "functionsOverLimit": 0,
-        "totalFunctions": 7772,
+        "totalFunctions": 7831,
         "elseBlocks": 0,
-        "ifBlocks": 7138,
+        "ifBlocks": 7191,
         "measurementIsHeuristic": true
       },
       "offenders": []
@@ -404,7 +404,7 @@
     "naming": {
       "name": "naming",
       "summary": {
-        "bannedAbbreviationHits": 109,
+        "bannedAbbreviationHits": 110,
         "unprefixedBooleans": 7
       },
       "offenders": {
@@ -902,15 +902,15 @@
       "name": "orphans",
       "summary": {
         "orphanFunctions": 0,
-        "functionsExamined": 7772
+        "functionsExamined": 7831
       },
       "offenders": []
     },
     "designPatterns": {
       "name": "designPatterns",
       "summary": {
-        "roleFamilies": 248,
-        "predictedFiles": 247,
+        "roleFamilies": 249,
+        "predictedFiles": 249,
         "predictedFilesMissing": 0,
         "entities": 0,
         "entitiesOutOfRange": 0,
@@ -920,14 +920,14 @@
       "offenders": {
         "roleFamilies": {
           "+layout.server.ts": 6,
-          "+page.server.ts": 71,
-          "+page.svelte": 79,
+          "+page.server.ts": 72,
+          "+page.svelte": 80,
           "+server.ts": 30,
-          "access": 12,
+          "access": 13,
           "account": 8,
           "accounts": 7,
           "action": 24,
-          "actions": 239,
+          "actions": 241,
           "address": 10,
           "adverts": 4,
           "answer": 14,
@@ -983,9 +983,9 @@
           "domain": 7,
           "door": 4,
           "draft": 5,
-          "email": 14,
+          "email": 15,
           "entries": 9,
-          "entry": 12,
+          "entry": 13,
           "event": 12,
           "facts": 26,
           "field": 26,
@@ -995,7 +995,7 @@
           "files": 7,
           "filter": 9,
           "filters": 4,
-          "fixture": 33,
+          "fixture": 34,
           "fixtures": 27,
           "for": 10,
           "form": 79,
@@ -1008,7 +1008,7 @@
           "groups": 5,
           "guidance": 17,
           "header": 21,
-          "history": 4,
+          "history": 5,
           "icon": 5,
           "id": 4,
           "ids": 11,
@@ -1043,7 +1043,7 @@
           "minutes": 7,
           "mocks": 8,
           "mockup": 4,
-          "modal": 15,
+          "modal": 16,
           "model": 8,
           "name": 15,
           "names": 13,
@@ -1086,7 +1086,7 @@
           "prose": 4,
           "question": 5,
           "questions": 7,
-          "reading": 21,
+          "reading": 22,
           "readings": 5,
           "record": 69,
           "records": 4,
@@ -1140,9 +1140,9 @@
           "table": 57,
           "tabs": 13,
           "targets": 5,
-          "task": 24,
-          "tasks": 14,
-          "test": 830,
+          "task": 26,
+          "tasks": 15,
+          "test": 843,
           "text": 15,
           "tiles": 5,
           "time": 5,
@@ -1154,6 +1154,7 @@
           "trail": 6,
           "traits": 9,
           "turn": 4,
+          "turns": 4,
           "types": 11,
           "up": 5,
           "upload": 10,
@@ -1221,12 +1222,12 @@
           },
           {
             "pattern": "every +page.server.ts has a +page.svelte",
-            "predicted": 71,
+            "predicted": 72,
             "missing": []
           },
           {
             "pattern": "every +page.svelte has a +page.server.ts",
-            "predicted": 79,
+            "predicted": 80,
             "missing": []
           }
         ],
@@ -1237,10 +1238,10 @@
     "inventory": {
       "name": "inventory",
       "summary": {
-        "pages": 79,
-        "components": 736,
+        "pages": 80,
+        "components": 738,
         "orphanComponents": 0,
-        "averagePageLines": 44
+        "averagePageLines": 43
       },
       "offenders": {
         "pages": [
@@ -1597,6 +1598,13 @@
             "widgets": []
           },
           {
+            "page": "src/routes/projects/[projectId]/deleted/+page.svelte",
+            "lines": 31,
+            "widgets": [
+              "list"
+            ]
+          },
+          {
             "page": "src/routes/projects/[projectId]/goals/+page.svelte",
             "lines": 31,
             "widgets": []
@@ -1716,7 +1724,7 @@
         "componentReuse": [
           {
             "component": "src/lib/components/workspace/DashboardPanel.svelte",
-            "reusedBy": 89
+            "reusedBy": 90
           },
           {
             "component": "src/lib/components/site/SubmitButton.svelte",
@@ -1772,7 +1780,7 @@
           },
           {
             "component": "src/lib/components/site/DangerConfirmModal.svelte",
-            "reusedBy": 12
+            "reusedBy": 13
           },
           {
             "component": "src/lib/components/site/LineIcon.svelte",
@@ -1791,6 +1799,10 @@
             "reusedBy": 9
           },
           {
+            "component": "src/lib/components/projects/ProjectPageHeader.svelte",
+            "reusedBy": 8
+          },
+          {
             "component": "src/lib/components/site/CopyTextButton.svelte",
             "reusedBy": 8
           },
@@ -1801,10 +1813,6 @@
           {
             "component": "src/lib/components/workspace/HeaderFact.svelte",
             "reusedBy": 8
-          },
-          {
-            "component": "src/lib/components/projects/ProjectPageHeader.svelte",
-            "reusedBy": 7
           },
           {
             "component": "src/lib/components/site/ProseText.svelte",
@@ -3859,6 +3867,10 @@
             "reusedBy": 1
           },
           {
+            "component": "src/lib/components/projects/DeletedTaskEntry.svelte",
+            "reusedBy": 1
+          },
+          {
             "component": "src/lib/components/projects/DeployHistoryEntry.svelte",
             "reusedBy": 1
           },
@@ -4004,6 +4016,10 @@
           },
           {
             "component": "src/lib/components/projects/ProjectsTabs.svelte",
+            "reusedBy": 1
+          },
+          {
+            "component": "src/lib/components/projects/PutBackTaskModal.svelte",
             "reusedBy": 1
           },
           {
@@ -4665,13 +4681,13 @@
     "siteDefinition": {
       "name": "siteDefinition",
       "summary": {
-        "routes": 78,
-        "views": 818,
-        "siteComponents": 724,
+        "routes": 79,
+        "views": 821,
+        "siteComponents": 726,
         "catalogue": 14,
-        "widgetUsages": 465,
+        "widgetUsages": 466,
         "handRolledElements": 0,
-        "widgetSlots": 465,
+        "widgetSlots": 466,
         "viewsWithHandRolled": 0,
         "boxedContentWidgets": 0,
         "designSheets": 8,
@@ -5218,6 +5234,12 @@
           "expanded": "ProjectDetailHeader=( ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ){ ( ?isInternalProject: InternalProjectBadge=( Badge ) | KitVersionBadge=( ?standing !== kitStandings.noRep\u2026: Badge ) ), ProjectHeaderMenu=( ActionsMenu ){ HeaderFacts=( ?facts.length > 0: (n) HeaderFact ) } }, Modal{ EditProjectForm=( (2) SmallCapsField=( FormField ), [ SmallCapsField=( FormField ) ProjectPositionField=( PriorityField ) ], OrganisationSelect=( ?organisations.length > 0: SmallCapsField ), (2) SmallCapsField=( FormField ), [ (3) SmallCapsField=( FormField ) ], ProjectDatabaseFields=( [ SmallCapsField ?hasDatabase: SmallCapsField ], ?isAzureSql: [ (3) SmallCapsField ] ), FormErrorNote, SubmitButton ) } ), ?isDevelopmentSide: DevelopmentTabs=( TabStrip ), FlashMessage, ( ?isDevelopmentSide: TaskTreePanel=( DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips=( (n) CountedFilterChip ){ ?isDoneFilterShown: DoneTaskFilter } } ), TaskGroupSections=( (n) TaskGroupSection=( TaskGroupHeader{ ?isOpen: TaskGroupList } ) ) }, ?longTermGroups.length > 0: DashboardPanel{ TaskGroupSections=( (n) TaskGroupSection=( TaskGroupHeader{ ?isOpen: TaskGroupList } ) ) } ) | ProjectDashboard=( ProjectPulseStrip=( [ (4) StatTile ] ), PanelTabs=( TabStrip ), InternalWorkBoard=( TabStrip, DashboardPanel{ BacklogFilterBar=( CountedFilterChip{ AssigneeFilterChips{ ?isDoneFilterShown: DoneTaskFilter } } ), ( ?isTableShown: InternalWorkTable=( (n) InternalWorkGroupTable ) | ?chosenView.key === internalWork\u2026: InternalStatusBoard=( [ (n) Badge ?column.items as item (item.id): StatusBoardCard ] ) | InternalWorkCalendar=( CalendarNavigation{ CalendarGrid }, UndatedEntries ) ) } ), [ (2) GoalListPanel=( DashboardPanel{ GoalStatusFilter, GoalList=( (n) GoalRow ) }, Modal{ AddGoalForm=( (2) SmallCapsField, GoalHorizonField, FormErrorNote, SubmitButton ) }, ?priorityGoal !== null: PriorityModal=( Modal{ PriorityField, FormErrorNote, SubmitButton } ) ) ProjectPeoplePanel=( DashboardPanel{ (n) PersonRow=( PersonInitials ) }, Modal{ InvitePersonForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, Modal{ TransferOwnershipForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, ?personAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm ) ) ] ) ), ProjectNewTaskModal=( Modal{ ( ?isInternalSide: NewInternalTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), TaskOwnerField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) | NewTaskForm=( NewTaskFormShell=( NewTaskFormFooter ){ SmallCapsField=( FormField ), NewTaskDetailsField=( SmallCapsField ), NewTaskDueDateField=( SmallCapsField ), ?!isSubtask: NewTaskStoryFields, TaskGoalAndKindFields=( [ SmallCapsField{ GoalSelectOptions } ?shouldOfferKind: SmallCapsField ] ), ?sequenceChoices.length > 0: TaskSequenceField=( SmallCapsField ) } ) ) } ), TaskRowModals=( ?statusTask !== null: TaskStatusModal=( Modal{ FormErrorNote, (n) TaskStatusOption } ), ?goalTask !== null: TaskGoalModal=( Modal{ FormErrorNote, (n) TaskGoalChoiceForm } ), ?priorityTask !== null: PriorityModal=( Modal{ PriorityField=( PriorityControls ), FormErrorNote, SubmitButton } ), ?storyPointsTask !== null: TaskStoryPointsModal=( Modal{ FormErrorNote, (n) TaskStoryPointsOption } ), ?autocompleteTask !== null: TaskAutocompleteModal=( Modal{ FormErrorNote, (n) TaskAutocompleteOption } ) ), TaskSheet=( ?target !== null && href !== null: Sheet, ( ?taskData === null: BrandSpinner | TaskPage ) )"
         },
         {
+          "route": "/projects/[projectId]/deleted",
+          "file": "src/routes/projects/[projectId]/deleted/+page.svelte",
+          "definition": "ProjectPageHeader, DashboardPanel{ (n) DeletedTaskEntry }",
+          "expanded": "ProjectPageHeader=( TabStrip, WorkspaceHeader{ ProjectStatusBadge=( Badge ) } ), DashboardPanel{ (n) DeletedTaskEntry=( PutBackTaskModal=( DangerConfirmModal=( DangerConfirmForm ) ) ) }"
+        },
+        {
           "route": "/projects/[projectId]/deploys",
           "file": "src/routes/projects/[projectId]/deploys/+page.svelte",
           "definition": "ProjectPageHeader, DevelopmentTabs, DashboardPanel{ DeployHistoryFilterBar, (n) DeployHistoryEntry }, ProjectPagination",
@@ -5337,7 +5359,7 @@
           "component": "DangerConfirmModal",
           "file": "src/lib/components/site/DangerConfirmModal.svelte",
           "definition": "DangerConfirmForm",
-          "usedBy": 12
+          "usedBy": 13
         },
         {
           "component": "FlashMessage",
@@ -5370,6 +5392,12 @@
           "usedBy": 8
         },
         {
+          "component": "ProjectPageHeader",
+          "file": "src/lib/components/projects/ProjectPageHeader.svelte",
+          "definition": "TabStrip, WorkspaceHeader{ ProjectStatusBadge }",
+          "usedBy": 8
+        },
+        {
           "component": "DisclosureMarker",
           "file": "src/lib/components/taxCalculator/DisclosureMarker.svelte",
           "definition": "",
@@ -5379,12 +5407,6 @@
           "component": "HeaderFacts",
           "file": "src/lib/components/workspace/HeaderFacts.svelte",
           "definition": "?facts.length > 0: (n) HeaderFact",
-          "usedBy": 7
-        },
-        {
-          "component": "ProjectPageHeader",
-          "file": "src/lib/components/projects/ProjectPageHeader.svelte",
-          "definition": "TabStrip, WorkspaceHeader{ ProjectStatusBadge }",
           "usedBy": 7
         },
         {
@@ -7098,6 +7120,12 @@
           "usedBy": 1
         },
         {
+          "component": "DeletedTaskEntry",
+          "file": "src/lib/components/projects/DeletedTaskEntry.svelte",
+          "definition": "PutBackTaskModal",
+          "usedBy": 1
+        },
+        {
           "component": "DemoActivityRow",
           "file": "src/lib/components/demo/DemoActivityRow.svelte",
           "definition": "",
@@ -8748,6 +8776,12 @@
           "usedBy": 1
         },
         {
+          "component": "PutBackTaskModal",
+          "file": "src/lib/components/projects/PutBackTaskModal.svelte",
+          "definition": "DangerConfirmModal",
+          "usedBy": 1
+        },
+        {
           "component": "QuarterlyDeadlines",
           "file": "src/lib/components/taxCalculator/QuarterlyDeadlines.svelte",
           "definition": "",
@@ -9658,57 +9692,57 @@
     "fileAreas": {
       "name": "fileAreas",
       "summary": {
-        "totalFiles": 5612,
-        "backend": 1466,
-        "frontend": 1193,
-        "shared": 964,
-        "tests": 858,
-        "api": 652,
-        "database": 239,
-        "tooling": 142,
+        "totalFiles": 5683,
+        "backend": 1475,
+        "frontend": 1196,
+        "shared": 967,
+        "tests": 877,
+        "api": 659,
+        "database": 242,
+        "tooling": 169,
         "docs": 79,
         "infrastructure": 19
       },
       "offenders": [
         {
           "area": "backend",
-          "files": 1466,
-          "sourceFiles": 1455,
-          "sourceLines": 48955
+          "files": 1475,
+          "sourceFiles": 1464,
+          "sourceLines": 49358
         },
         {
           "area": "frontend",
-          "files": 1193,
-          "sourceFiles": 1063,
-          "sourceLines": 36542
+          "files": 1196,
+          "sourceFiles": 1066,
+          "sourceLines": 36640
         },
         {
           "area": "shared",
-          "files": 964,
-          "sourceFiles": 946,
-          "sourceLines": 34415
+          "files": 967,
+          "sourceFiles": 949,
+          "sourceLines": 34515
         },
         {
           "area": "tests",
-          "files": 858,
-          "sourceFiles": 843,
-          "sourceLines": 40320
+          "files": 877,
+          "sourceFiles": 856,
+          "sourceLines": 40969
         },
         {
           "area": "api",
-          "files": 652,
-          "sourceFiles": 651,
-          "sourceLines": 29936
+          "files": 659,
+          "sourceFiles": 658,
+          "sourceLines": 30342
         },
         {
           "area": "database",
-          "files": 239,
+          "files": 242,
           "sourceFiles": 8,
           "sourceLines": 254
         },
         {
           "area": "tooling",
-          "files": 142,
+          "files": 169,
           "sourceFiles": 10,
           "sourceLines": 401
         },
@@ -9729,9 +9763,9 @@
     "inputValidation": {
       "name": "inputValidation",
       "summary": {
-        "schemaTables": 226,
+        "schemaTables": 227,
         "limitedColumns": 0,
-        "writeDoors": 399,
+        "writeDoors": 402,
         "unvalidatedDoors": 0,
         "looserLimits": 0
       },
@@ -9743,9 +9777,9 @@
     "duplication": {
       "name": "duplication",
       "summary": {
-        "clones": 72,
-        "duplicatedLines": 610,
-        "totalLines": 192012,
+        "clones": 73,
+        "duplicatedLines": 631,
+        "totalLines": 195003,
         "duplicatedPercentage": 0.32,
         "carriedFromBaseline": true
       },
@@ -9795,20 +9829,20 @@
           "duplicatedLineInstances": 21
         },
         {
+          "file": "src/lib/server/mcp/actions/taskDeletionListAction.test.ts",
+          "duplicatedLineInstances": 21
+        },
+        {
+          "file": "src/lib/server/mcp/actions/taskDeletionReadAction.test.ts",
+          "duplicatedLineInstances": 21
+        },
+        {
           "file": "src/lib/server/mcp/actions/brandSheetAction.test.ts",
           "duplicatedLineInstances": 20
         },
         {
           "file": "src/lib/server/mcp/actions/businessBrainChatbotActions.test.ts",
           "duplicatedLineInstances": 20
-        },
-        {
-          "file": "src/lib/server/mcp/productBrainRetired.test.ts",
-          "duplicatedLineInstances": 19
-        },
-        {
-          "file": "src/lib/server/mcp/actions/booksSettingsActions.test.ts",
-          "duplicatedLineInstances": 19
         }
       ]
     }

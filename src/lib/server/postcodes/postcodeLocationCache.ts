@@ -1,13 +1,20 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { eachBatchInTurn, inBatches } from '$lib/data/inBatches';
 import type { PostcodeLocation } from './postcodeLocation';
 
 const cacheTable = 'postcode_locations';
+/** Postcodes named in one read: a wide map asks after thousands, which in one address is longer than the database will take. */
+const postcodesReadAtOnce = 200;
+const locationsWrittenAtOnce = 500;
 
 export async function readCachedLocations(
 	supabase: SupabaseClient,
 	postcodes: string[]
 ): Promise<PostcodeLocation[]> {
-	if (postcodes.length === 0) return [];
+	return eachBatchInTurn(postcodes, postcodesReadAtOnce, (batch) => readCachedBatch(supabase, batch));
+}
+
+async function readCachedBatch(supabase: SupabaseClient, postcodes: string[]): Promise<PostcodeLocation[]> {
 	const { data, error } = await supabase
 		.from(cacheTable)
 		.select('postcode, outcode, latitude, longitude')
@@ -25,7 +32,10 @@ export async function cacheLocations(
 	supabase: SupabaseClient,
 	locations: PostcodeLocation[]
 ): Promise<void> {
-	if (locations.length === 0) return;
+	for (const batch of inBatches(locations, locationsWrittenAtOnce)) await cacheBatch(supabase, batch);
+}
+
+async function cacheBatch(supabase: SupabaseClient, locations: PostcodeLocation[]): Promise<void> {
 	const { error } = await supabase.from(cacheTable).upsert(
 		locations.map((location) => ({
 			postcode: location.postcode,

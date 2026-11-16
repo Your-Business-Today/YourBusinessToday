@@ -7,12 +7,14 @@ import { setTaskBranch } from '$lib/server/projects/setTaskBranch';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
 import { pullRequestChanges, type PullRequestEvent } from './readPullRequestEvent';
+import { isTakingPullRequest } from '$lib/data/pullRequestOwnership';
 
 export type BranchOutcome = { kind: 'no_task_on_branch' } | { kind: 'recorded'; taskIds: string[] };
 
 /**
  * A pull request from a task's branch is recorded on the task, and its merge is recorded as the task's work
- * reaching staging or the default branch.
+ * reaching staging or the default branch. A task on the branch that another pull request already finished is left
+ * as it is.
  */
 export async function handleTaskBranchPullRequest(
 	supabase: SupabaseClient,
@@ -20,7 +22,8 @@ export async function handleTaskBranchPullRequest(
 ): Promise<BranchOutcome> {
 	const projects = await findProjectsByRepository(supabase, pullRequest.repositoryUrl);
 	const projectIds = projects.map((project) => project.id);
-	const tasks = await findTasksOnBranch(supabase, pullRequest.branchName, projectIds);
+	const tasksOnBranch = await findTasksOnBranch(supabase, pullRequest.branchName, projectIds);
+	const tasks = tasksOnBranch.filter((task) => isTakingPullRequest(task, pullRequest.url));
 	if (tasks.length === 0) return { kind: 'no_task_on_branch' };
 	for (const task of tasks) await recordOnTask(supabase, task, projects, pullRequest);
 	return { kind: 'recorded', taskIds: tasks.map((task) => task.id) };

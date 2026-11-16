@@ -87,8 +87,16 @@ with `PUBLIC_SUPABASE_URL` and `SUPABASE_SECRET_KEY` set: it streams the CSV out
 keeps the rows whose outcode any patch holds, skips suppressed and malformed rows, upserts
 through `upsert_register_companies` (a company seen before keeps its first month), marks the
 missing gone, and writes `register_loads` and a `watch_runs` row. It does no geocoding: the
-`geocode_register_postcodes` admin action, called until nothing remains, fills
+`geocode_register_postcodes` action, called until nothing remains, fills
 `postcode_locations` through the same cache the map uses.
+
+A territory needs no file to hold its companies. `pull_patch_companies` asks Companies House for
+every active company in its outcodes, and the nightly `fill_territories` watcher does the same
+for every territory whose pull never finished, so a territory saved today is filled by morning.
+The territory's page says what it holds however it came to hold it: the register is as at the
+latest month any placed company was seen. **PostcodeNotFound** — `public.postcodes_not_found`: a
+postcode postcodes.io does not know, with when it was asked, left out of the postcodes still to
+place for thirty days so the list never stalls behind them.
 
 **PostcodeSector** — `public.postcode_sectors`: every sector in Great Britain from OS
 Code-Point Open (OGL, quarterly), its outcode, the centroid of its unit postcodes and how many,
@@ -126,7 +134,13 @@ and the only calls that reach YBT store what it found.
 
 A sighting becomes a lead with source `sighting`, its page as the profile source and a `sighted`
 event on the ledger; one already matched to a company number on the register claims that row.
-The connector's working doctrine gains the prospecting walk as its ninth rule.
+The connector's working doctrine gains the prospecting walk as its ninth rule. The same rule lays out
+the short way from a territory to a first approach, through the screen for cash at bank, and the
+`/ybt-prospect` command walks it; the staff member sends the approach themselves. A screen asks
+Companies House about every company, so one already run is found again with `list_cash_screens`
+and read rather than run twice, and its reading counts the fails without listing them unless
+they are asked for: nobody approaches a fail, and hundreds of them made the answer too long for a
+Claude to take in one reply.
 
 **AreaEvent** — `public.area_events`, keyed to the outcode and sector rather than the patch, so
 two patches that share a sector both see it: the kind (a row of `area_event_kinds`, so a later
@@ -155,10 +169,76 @@ the register geocoder, the Food Standards Agency sweep, the daily accounts file 
 
 **Premises** — `public.premises`: a business trading at a real address as an open register lists
 it, keyed by the source and its own id: the Food Standards Agency's food hygiene ratings
-(`food_hygiene`, swept nightly per local authority whose file moved, matched to the patches'
-districts through postcodes.io) and Overture Maps Places (`places_dataset`, loaded by hand each
-release through DuckDB over the public parquet, permissive licences only, marked gone only by the
-release's changelog). A trigger writes the feed's premises and place kinds through the same door.
+(`food_hygiene`, swept nightly per local authority whose file moved or that was last swept before
+the newest patch was made, matched to the patches' districts through postcodes.io) and Overture Maps Places (`places_dataset`, loaded by the site
+itself from the newest release Overture keeps, permissive licences only, marked gone only when the
+release says a place closed for good or its changelog took it out). A trigger writes the feed's
+premises and place kinds through the same door. Staff may read the table and write nothing in it,
+so a premises that becomes a lead is tied to its client through the database's own door,
+`tie_premises_to_client` (migration 0248): it lets in a project manager or the service role,
+sets `client_id` alone, and refuses a premises that is a lead already. The lead is filed under
+the register that lists the premises and takes the website the place lists, where that is a site
+of its own and not a social page or a directory (`companyWebsiteRefusal`, the same check a
+client's website passes at every other door). A client has no phone number of its own, so the
+premises stays the one place the number is kept: `getPremisesForClient` reads the premises tied
+to a client through the index on `client_id` (migration 0249), and `read_client` and the company
+page say from it where the company trades and on what number. The page a place lists is kept as
+its register gives it, and some are given with no `http://` in front, so one widget draws it,
+`ListedWebsite`: a link where it is a full web address (`isWebAddress`) and plain words where it
+is not. The map's panel draws it through that widget, and so does a lead's trading line, which
+shows the listed page where the company did not take it as its own website (`pageListedBeside`).
+
+A premises says whether it arrived after its ground was first loaded: `is_later_arrival`, settled
+by a trigger as the row is first written (migration 0251), so both doors agree and a row written
+again keeps what it was given. A trading place is a later arrival exactly when the feed is told it
+arrived, since both read the word `upsert_places` gives of its load. A food business is one when
+its ground, which is its authority and its outcode, already held a premises the last time that
+authority was swept to the end: a new territory adds outcodes to an authority swept long before,
+and a sweep can be cut off and run again, and neither reads as an arrival. `list_patch_premises`
+with `newOnly` keeps the later arrivals of the last thirty days, which is how a newly opened
+business shows, so the day after a territory first fills it lists nothing. The feed's trigger
+reads the same mark (migration 0252): it says a food business was registered, or a trading place
+listed, only when that premises is a later arrival. So a territory's first food sweep announces
+nothing, as its first load of trading places never did, and the feed and new only agree.
+
+The trading places load themselves. Nobody types a release name, runs a loader or holds the
+database key: the `trading_places` watcher is knocked three times a night, each knock loading one
+territory that does not hold the newest release, and `load_patch_places` runs the same load for
+one territory when a staff member's Claude asks. Both run `patchPlacesSource(patch)`, logged as
+`patch_places:<patch id>`, whose marker is what the territory holds: a release alone is held
+whole, and `held>loading:count` is a load part way (`placesStanding.ts`). The newest release is
+found from the bucket's own list (`overtureReleases.ts`). Its places are sixteen parquet files of
+some 800 MB each, and a function has neither the time nor the memory for one of them, so
+`readParquetRows.ts` reads each file's footer, keeps only the row groups whose corners could lie
+in the territory's box, and hands the reader a footer narrowed to the twelve leaves a premises is
+made from (`parquetLeaves.ts`): around Surbiton that is five row groups, read in six seconds
+under a 128 MB heap. `sortPlacesForPatch` keeps the places the rules accept whose postcode is in
+one of the territory's outcodes, in the order of their ids, and `loadOverturePlacesForPatch`
+writes them five hundred at a time, marking the count after each batch, for ninety seconds a run;
+a run cut off carries on at that count while the release is still the newest. A place is judged
+by the strictest licence among its sources, so one share-alike source refuses it. A territory's
+first load writes nothing to the feed (`upsert_places` is told `is_first_load`, migration 0247):
+ten thousand places arriving at once is not news. Two things are left out and counted in the
+run's note: a place with no postcode, which no reader could find by outcode, and a place whose
+postcode is outside the territory's outcodes. Only the newest release's changelog is read, so a
+territory that misses a whole release keeps the places that release took out until they close.
+A patch holds thousands, and the database hands back a thousand rows at a time, so no reader takes
+them in one select. The map reads a pin's worth of each a page at a time (`readPremisesOnMap`) and
+the page carries pins and a count for each sector; the record behind a pin is fetched when the pin
+is picked (`/clients/patches/<patch>/premises/<premises>`). `list_patch_premises` narrows in the
+query and lists a hundred with the count of the rest (`listPremisesMatching`), and the premises
+beside a point are asked for by the box around it (`listPremisesBeside`). The map draws its pins
+once and restyles only the picked one (`createPinLayer`), so a pick costs the same at any size.
+
+A trading place is filed under Overture's own category, in the singular with underscores
+(`real_estate_agent`), and a territory holds hundreds of them: 817 around Surbiton. So a Claude is
+not left to guess the word. `list_patch_place_categories` lists the categories a territory holds,
+the commonest first, each with how many places still trade there and how many of those list a
+phone number (`listPlaceCategories`); the database does the counting (`patch_place_categories`),
+since the places are more rows than one request hands back. A kind of business asked for in plain
+words is read as Overture writes it (`asPlaceCategory`: *estate agent* finds `real_estate_agent`),
+there and in `list_patch_premises`. A plural still finds nothing, and the answer says a category
+is in the singular.
 
 **Filed figures and status notes** — `register_companies` carries net assets, cash, creditors and
 the headcount read from the inline XBRL of the accounts the company filed, found through the
@@ -193,7 +273,9 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | --- | --- |
 | `createPatch` | the area becomes a patch with its outcodes |
 | `loadRegisterFile` | the monthly file becomes register rows for every patch outcode |
-| `geocodeRegisterPostcodes` | one page of register postcodes located through the cache |
+| `geocodeRegisterPostcodes` | one page of register postcodes located through the cache, the ones nobody knows remembered |
+| `geocodeRegisterPostcodesUntil` | page after page until none remain or the moment given passes |
+| `fillTerritoriesSource` | the companies of every territory never filled, pulled overnight |
 | `loadCodePointOpen` | every sector in Great Britain with its centroid |
 | `loadSectorShapes` | every sector drawn as a shape rather than a circle, each quarter |
 | `recordSectorSearch` | a sector marked searched, the claim spent |
@@ -204,7 +286,9 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `recordObservation` | something noticed, once per page |
 | `runWatchSource` | a named watcher run from where it last stopped |
 | `sweepFoodHygiene`, `sweepAccountsFiled`, `sweepGazetteNotices` | the keyless sources, nightly |
-| `loadBuildingsForPatch`, `loadOverturePlacesForPatch` | the buildings and the trading places, by hand |
+| `loadBuildingsForPatch` | the buildings, by hand |
+| `loadOverturePlacesForPatch` | a territory's trading places from Overture's newest release, a batch at a time, by the site itself |
+| `tradingPlacesSource` | the trading places of every territory behind the newest release, loaded overnight |
 | `addPremisesAsLead` | a premises reaches the register |
 | `watchRegister`, `watchOutcode` | the daily Companies House watch, keyed |
 | `sweepFilings`, `sweepCompanyFilings` | the weekly filings sweep, keyed |
@@ -220,7 +304,12 @@ the form action and the connector action; `validatePatch` refuses rather than re
 | `listSightingsForPatch`, `pinsForSightings` | the sightings, drawn at their postcodes |
 | `getFeedForPatches` | the feed, narrowed by patch, kind or date |
 | `readPatchBrief` | what a weekly sweep looks at |
-| `listPremisesForPatch`, `pinsForPremises` | the premises, drawn at their real addresses |
+| `readPremisesOnMap`, `pinsForPremises` | the premises, drawn at their real addresses |
+| `getPremises` | the record behind one premises pin, read when it is picked |
+| `getPremisesForClient` | where a company made from a premises trades, and on what phone number |
+| `listPremisesMatching` | a hundred premises a Claude asked for, and how many more fit |
+| `listPlaceCategories` | the categories of trading place a patch holds, with how many places and how many phone numbers each |
+| `listPremisesBeside` | the premises within thirty metres of a point |
 | `listBuildingsInBounds`, `readSectorBuildings` | the footprints in view, and a sector's largest |
 | `readCompanyInPatch` | everything known about one company |
 | `getFilingHistory`, `getCompanyProfile`, `listFilingsForCompany` | a company's filings, live or stored |
@@ -230,7 +319,8 @@ The connector's new `patches` area carries `list_patches`, `create_patch`, `read
 `read_sector`, `mark_sector_searched`, `claim_sector`, `release_sector`, `hand_sector_to`,
 `record_sighting`, `list_sightings`, `add_sighting_as_lead`, `match_sighting_to_register`,
 `read_patch_feed`, `read_patch_brief`, `record_patch_observation`, `list_patch_premises`,
-`add_premises_as_lead`, `read_patch_company`, `read_company_filings` and, for admins,
-`geocode_register_postcodes` and `run_patch_watch`;
+`add_premises_as_lead`, `read_patch_company`, `read_company_filings`, `pull_patch_companies`,
+`geocode_register_postcodes`, `load_patch_places`, `list_patch_place_categories` and, for admins,
+`run_patch_watch`;
 the map tiles come from `basemap.ts`: Ordnance Survey's Light style on the free OpenData plan
 when `PUBLIC_OS_MAPS_API_KEY` is set, OpenStreetMap only as the fallback.

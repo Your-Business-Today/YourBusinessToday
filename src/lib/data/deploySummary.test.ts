@@ -30,6 +30,31 @@ describe('deploySummaryOf', () => {
 	});
 });
 
+describe('deploySummaryOf on a branch a project thread reuses', () => {
+	const threadBranch = 'claude/project-thread-abc123';
+	const earlier = [574, 575, 576].map((number) => ({ number, branchName: threadBranch }));
+	const recordedEarlier = earlier.map((pullRequest) => ({
+		...byNumber,
+		id: `done-${pullRequest.number}`,
+		branchName: threadBranch,
+		pullRequestUrl: `https://github.com/example/ybt/pull/${pullRequest.number}`
+	}));
+	const newlyOnBranch: DeployableTask = { ...byBranch, id: 'new', branchName: threadBranch };
+
+	it('gives each pull request to the task that recorded it, even when a task with none is listed first', () => {
+		const summary = deploySummaryOf(earlier, [newlyOnBranch, ...recordedEarlier]);
+		const deployedTasks = summary.deployed.map((deployed) => deployed.task);
+		expect(deployedTasks.map((task) => task.id)).toEqual(['done-574', 'done-575', 'done-576']);
+	});
+
+	it('gives the task with none only the pull request on its branch that no task recorded', () => {
+		const latest = { number: 578, branchName: threadBranch };
+		const summary = deploySummaryOf([...earlier, latest], [newlyOnBranch, ...recordedEarlier]);
+		const deployedTasks = summary.deployed.map((deployed) => deployed.task);
+		expect(deployedTasks.map((task) => task.id)).toEqual(['done-574', 'done-575', 'done-576', 'new']);
+	});
+});
+
 describe('describeDeploySummary', () => {
 	it('links each task and its pull request, and names the pull requests no task recorded', () => {
 		const lines = describeDeploySummary(deploySummaryOf(merged, [byNumber]), repositoryUrl).split('\n');

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BusinessTypePicker from './BusinessTypePicker.svelte';
 	import FormField from '$lib/components/site/FormField.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { defaultRadiusMiles, radiusOrder } from '$lib/data/mapRadii';
@@ -27,17 +28,12 @@
 				{/each}
 			</select>
 		</FormField>
-		<FormField label="SIC codes (optional)">
-			<input
-				name="sicCodes"
-				value={search?.sicCodes.join(', ') ?? ''}
-				placeholder="41100, 43390"
-				class={inputClasses}
-			/>
+		<FormField label="Type of business">
+			<BusinessTypePicker chosenKeys={search?.businessTypeKeys ?? []} />
 		</FormField>
 		<SubmitButton savingLabel="Mapping…">Map the area</SubmitButton>
 	</div>
 	<p class="text-xs text-chalk/50">
-		Every active company registered within the radius, and everyone already on our register there.
+		Every active company registered within the radius, and everyone already on our register there. Leave the type of business as it is to see every kind.
 	</p>
 </form>

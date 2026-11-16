@@ -24,7 +24,8 @@ const nothingUnderIt = { task: story, finishedSubtasks: [], openSubtasks: [] };
 const bothKindsUnderIt = { task: story, finishedSubtasks: [shipped], openSubtasks: [unbuilt] };
 const completedParent = { id: 'kept', title: 'Rods and reels shipped' };
 const copyIsKept =
-	'A copy of each deleted task is kept on the record of deletions, with its conversation and history. ' +
+	'A copy of each deleted task is kept on the record of deletions, with its conversation and history: ' +
+	'list_task_deletions lists them, read_task_deletion reads one and put_back_deleted_task puts one back. ' +
 	'Its attached files are not kept.';
 
 describe('what delete_task answers', () => {

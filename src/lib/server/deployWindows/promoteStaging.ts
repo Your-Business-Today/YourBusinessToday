@@ -7,18 +7,23 @@ import {
 	rewritePullRequestBody,
 	type PullRequest
 } from '$lib/server/github/pullRequests';
+import { mergeabilities, settledMergeability } from '$lib/server/github/pullRequestMergeability';
 import { githubRepositoryAddress } from '$lib/server/kit/readRepositoryFile';
 import { stagingBranch } from '$lib/data/stagingBranch';
 import { deployWindowOutcomes, type DeployWindowOutcome } from '$lib/data/deployWindow';
 import { deploySummaryOf, describeDeploySummary, type DeployableTask } from '$lib/data/deploySummary';
 import { mergedPullRequestsOf } from '$lib/data/mergedPullRequests';
+import { conflictNote, mergeabilityNotKnownSentence } from './promotionConflict';
 import { promotionBody, promotionDraft, type PromotionWording } from './promotionPullRequest';
 import type { DeployStart } from '$lib/data/deployStart';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { UkClock } from '$lib/data/ukClock';
 
-/** What the promotion did for one project: the pull request it opened or found and the tasks it carries, or why nothing was promoted. */
-export type Promotion = { outcome: DeployWindowOutcome; pullRequestUrl: string; note: string; summary: string };
+/**
+ * What the promotion did for one project: the pull request it opened or found and the tasks it carries, or why nothing was promoted.
+ * A conflict between the two branches keeps the pull request's address, so what has to be put right can be found.
+ */
+export type Promotion = { outcome: DeployWindowOutcome; pullRequestUrl: string; note: string; summary: string; hasConflict: boolean };
 
 /** What a promotion is asked for: by whom, and against which tasks its merged pull requests are matched. */
 export type PromotionRequest = { start: DeployStart; tasks: DeployableTask[] };
@@ -28,7 +33,8 @@ const noSummary = '';
 
 /**
  * Opens the pull request from staging into the default branch when staging holds files the default branch lacks, reuses the one already open,
- * and turns auto-merge on; nothing to promote is a quiet skip, and anything GitHub refuses is kept as the note.
+ * and turns auto-merge on; nothing to promote is a quiet skip, a conflict between the two branches fails with what puts it right,
+ * and anything GitHub refuses is kept as the note.
  */
 export async function promoteStaging(project: Project, clock: UkClock, request: PromotionRequest): Promise<Promotion> {
 	const repositoryAddress = githubRepositoryAddress(project.repositoryUrl);
@@ -49,7 +55,7 @@ async function promoteThroughGithub(
 	const comparison = await compareBranches(repositoryAddress, project.defaultBranch, stagingBranch);
 	if (comparison.hasTheSameFiles) {
 		const note = `${project.defaultBranch} already holds every file on ${stagingBranch}.`;
-		return { outcome: deployWindowOutcomes.nothingToPromote, pullRequestUrl: '', note, summary: noSummary };
+		return { outcome: deployWindowOutcomes.nothingToPromote, pullRequestUrl: '', note, summary: noSummary, hasConflict: false };
 	}
 	const deploySummary = deploySummaryOf(mergedPullRequestsOf(comparison.commits), request.tasks);
 	const summary = describeDeploySummary(deploySummary, project.repositoryUrl);
@@ -61,9 +67,12 @@ async function promoteThroughGithub(
 	if (isReused) {
 		await rewritePullRequestBody(repositoryAddress, pullRequest, body);
 	}
+	const mergeability = await settledMergeability(repositoryAddress, pullRequest);
+	if (mergeability === mergeabilities.conflicting) return stoppedByConflict(project, pullRequest);
 	const outcome = isReused ? deployWindowOutcomes.reused : deployWindowOutcomes.opened;
-	const note = await mergeAtGreen(repositoryAddress, pullRequest);
-	return { outcome, pullRequestUrl: pullRequest.url, note, summary };
+	const merging = await mergeAtGreen(repositoryAddress, pullRequest);
+	const note = mergeability === mergeabilities.notYetKnown ? `${merging} ${mergeabilityNotKnownSentence}` : merging;
+	return { outcome, pullRequestUrl: pullRequest.url, note, summary, hasConflict: false };
 }
 
 /** Auto-merge, or the merge itself when GitHub says there is nothing left to wait for; any other refusal is reported. */
@@ -79,6 +88,11 @@ async function mergeAtGreen(repositoryAddress: string, pullRequest: PullRequest)
 	}
 }
 
+function stoppedByConflict(project: Project, pullRequest: PullRequest): Promotion {
+	const note = conflictNote(project, pullRequest.url);
+	return { outcome: deployWindowOutcomes.failed, pullRequestUrl: pullRequest.url, note, summary: noSummary, hasConflict: true };
+}
+
 function failed(note: string): Promotion {
-	return { outcome: deployWindowOutcomes.failed, pullRequestUrl: '', note, summary: noSummary };
+	return { outcome: deployWindowOutcomes.failed, pullRequestUrl: '', note, summary: noSummary, hasConflict: false };
 }

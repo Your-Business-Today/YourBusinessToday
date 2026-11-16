@@ -1,7 +1,8 @@
 import { addPremisesAsLead } from '$lib/server/premises/addPremisesAsLead';
+import { asPlaceCategory } from '$lib/data/placeCategory';
 import { describePremisesList } from './describePremises';
 import { getPremises } from '$lib/server/premises/getPremises';
-import { listPremisesForPatch } from '$lib/server/premises/listPremisesForPatch';
+import { listPremisesMatching, type PremisesNarrowing } from '$lib/server/premises/listPremisesMatching';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { parsePremisesSource } from '$lib/server/premises/premisesSource';
 import { premisesSourceLabels } from '$lib/data/foodHygieneRules';
@@ -10,7 +11,6 @@ import { withPatch } from '$lib/server/patches/withPatch';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Patch } from '$lib/server/patches/patchRecord';
-import type { Premises } from '$lib/server/premises/premisesRecord';
 
 const yes = 'true';
 const newForDays = 30;
@@ -22,17 +22,19 @@ export const premisesActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'every business trading in a territory at its real address: food businesses from the Food Standards Agency and trading places from Overture Maps, newest first',
+		summary: 'the businesses trading in a territory at their real addresses: food businesses from the Food Standards Agency and trading places from Overture Maps, newest first, a hundred at most',
 		guidance:
 			'A café, pub, shop or office listed here is already known: add it with add_premises_as_lead rather than recording it ' +
-			'as a sighting. newOnly keeps the ones first listed in the last thirty days; source and category narrow further.',
+			'as a sighting. A territory can hold thousands, so narrow by sector, and source and category narrow further. newOnly keeps the ones that ' +
+			'arrived in the last thirty days, which is how a newly opened business shows: the first load of a territory is no arrival, so a territory ' +
+			'just loaded has none. list_patch_place_categories says which categories a territory holds. The last line says how many more fit.',
 		inputSchema: objectSchema(
 			{
 				patchId: textField('The territory id, as given by list_patches'),
 				sector: textField('Narrow to one sector, such as KT1 1'),
-				newOnly: textField('true to keep only premises first listed in the last thirty days'),
+				newOnly: textField('true to keep only the premises that arrived in the last thirty days, after the territory was first loaded'),
 				source: textField(`One source: ${Object.keys(premisesSourceLabels).join(' or ')}`),
-				category: textField('Keep places whose category contains this word, such as solicitor or cafe')
+				category: textField('Keep trading places whose category contains this word, in the singular, such as estate agent, accountant or cafe')
 			},
 			['patchId']
 		),
@@ -43,33 +45,33 @@ export const premisesActions: McpAction[] = [
 		area: 'patches',
 		audience: 'staff',
 		isWrite: true,
-		summary: 'put a food premises from the territory on the clients register as a lead, with its Food Standards Agency page as the source',
+		summary: 'put a premises from the territory on the clients register as a lead, a food business or a trading place, with the page of the register that lists it as the source',
 		inputSchema: objectSchema({ patchId: textField('The territory id'), premisesId: textField('The premises id, as list_patch_premises gives it') }, ['patchId', 'premisesId']),
 		run: async (caller, input) => withPatch(caller, input, (patch) => addAsLead(caller, patch, readText(input, 'premisesId')))
 	}
 ];
 
 async function list(caller: McpCaller, patch: Patch, input: Record<string, unknown>): Promise<string> {
-	const sector = readText(input, 'sector').toUpperCase();
-	const isNewOnly = readText(input, 'newOnly') === yes;
+	const narrowing = narrowingOf(input);
+	const matched = await listPremisesMatching(caller.supabase, patch.outcodes, narrowing);
+	return describePremisesList(matched, isNarrowed(narrowing));
+}
+
+function narrowingOf(input: Record<string, unknown>): PremisesNarrowing {
 	const source = readText(input, 'source');
-	const category = readText(input, 'category').toLowerCase();
-	const newSince = Date.now() - newForDays * millisecondsPerDay;
-	const premises = (await listPremisesForPatch(caller.supabase, patch.outcodes))
-		.filter((one) => sector === '' || one.sector === sector)
-		.filter((one) => !isNewOnly || isFirstSeenSince(one, newSince))
-		.filter((one) => source === '' || one.source === parsePremisesSource(source))
-		.filter((one) => category === '' || one.category.toLowerCase().includes(category))
-		.sort(byNewest);
-	return describePremisesList(premises);
+	const isNewOnly = readText(input, 'newOnly') === yes;
+	const newSince = new Date(Date.now() - newForDays * millisecondsPerDay);
+	return {
+		sector: readText(input, 'sector').toUpperCase(),
+		source: source === '' ? null : parsePremisesSource(source),
+		category: asPlaceCategory(readText(input, 'category')),
+		arrivedSince: isNewOnly ? newSince.toISOString() : null
+	};
 }
 
-function isFirstSeenSince(premises: Premises, since: number): boolean {
-	return new Date(premises.firstSeenAt).getTime() >= since;
-}
-
-function byNewest(first: Premises, second: Premises): number {
-	return second.firstSeenAt.localeCompare(first.firstSeenAt);
+function isNarrowed(narrowing: PremisesNarrowing): boolean {
+	const { sector, source, category, arrivedSince } = narrowing;
+	return sector !== '' || source !== null || category !== '' || arrivedSince !== null;
 }
 
 async function addAsLead(caller: McpCaller, patch: Patch, premisesId: string): Promise<string> {

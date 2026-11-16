@@ -71,7 +71,7 @@
 				{coverage}
 				searches={data.searches}
 				sightings={data.sightings}
-				premises={map.premises}
+				premisesCountBySector={map.premisesCountBySector}
 				figures={map.figuresByCompanyNumber}
 				standings={map.standingByCompanyNumber}
 				buildingCounts={data.buildingCounts}

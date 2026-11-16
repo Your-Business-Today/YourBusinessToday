@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { cashScreenOutcomes, screenVerdict, type ScreenVerdict } from '$lib/data/cashScreenOutcome';
+import { screenVerdict, unreadVerdict } from '$lib/data/cashScreenOutcome';
 import { companiesToScreen } from './companiesToScreen';
 import { readAccountsReadings } from '$lib/server/register/accountsReadingWriter';
 import { readConnectionsReadings } from '$lib/server/connections/connectionsReader';
@@ -7,8 +7,6 @@ import { readSuppressedCompanies } from '$lib/server/register/registerWriter';
 import type { CashScreen } from './cashScreenRecord';
 import type { ScreenedCompany } from '$lib/data/cashScreenAnswer';
 import type { LocatedRegisterCompany } from '$lib/server/register/registerCompanyRecord';
-
-const unreadVerdict: ScreenVerdict = { outcome: cashScreenOutcomes.fails, reason: 'Its accounts could not be read from Companies House.', madeUpTo: null };
 
 /** Each company the screen has reached, with what it comes out as, worked out now from the kept readings; and how many are still to come. */
 export async function readCashScreen(supabase: SupabaseClient, screen: CashScreen): Promise<{ screened: ScreenedCompany[]; waiting: number }> {

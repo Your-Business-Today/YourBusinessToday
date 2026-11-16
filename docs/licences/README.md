@@ -11,6 +11,6 @@ The data itself is never checked in; the loaders read it and the rows carry the 
 | The Gazette notice feeds and per-notice data | Open Government Licence v3.0 | as above | — |
 | Overture Maps Foundation Places | CDLA-Permissive 2.0 for the dataset; each row's `sources[].license` names its own (Meta's places under CDLA-Permissive 2.0, Microsoft's under ODbL, Foursquare's open places under Apache 2.0) | https://cdla.dev/permissive-2-0/ and the release's own NOTICE file at https://docs.overturemaps.org/attribution/ | Overture Maps Foundation, with the per-source lines the attribution page gives |
 
-A row from Overture whose source licence is ODbL is kept out by the loader (`placeLicencesAccepted` in `src/lib/data/placeRules.ts`), because a share-alike licence would bind this database.
+A place from Overture is judged by the strictest licence among its sources (`strictestLicenceOf` in `src/lib/server/places/placeRow.ts`), so one source under ODbL keeps the whole place out (`placeLicencesAccepted` in `src/lib/data/placeRules.ts`), because a share-alike licence would bind this database.
 
 The sector shapes (`boundary_source` `code_point_voronoi`) are derived from Code-Point Open and Boundary-Line, so they carry Code-Point Open's credit, shown at the foot of the patch map whenever a shape is drawn (`sectorShapeCredit` in `src/lib/data/sectorBoundarySources.ts`).

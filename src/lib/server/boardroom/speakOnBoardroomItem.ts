@@ -4,6 +4,7 @@ import { getControlsOfSeat } from './getBoardroomSeatControls';
 import { insertHeldContribution } from './saveBoardroomSeatControls';
 import { isEarlierDecisionOfBoard } from './getBoardroomDecisions';
 import { placingOf, sayInTheRoom } from './sayInTheRoom';
+import { callDirectorsToTheirTurns } from './callDirectorsToTheirTurns';
 import { placeBoardContribution, type ContributionPlace, type RoomCaller } from '$lib/data/placeBoardContribution';
 import { heldAwaitingOnItem, isAskingFirst, isPaused, type SeatControls } from '$lib/data/boardroomSeatControls';
 import { seatControlRefusals } from '$lib/data/boardroomSeatControlRules';
@@ -57,5 +58,6 @@ export async function speakOnBoardroomItem(
 	if (isPaused(controls)) return seatControlRefusals.claudeIsPaused;
 	if (isAskingFirst(controls)) return holdForDirector(supabase, controls, { record, place, draft, caller });
 	const said = await sayInTheRoom(supabase, record, place, draft, caller);
+	if (said.keptId !== null) await callDirectorsToTheirTurns(supabase, organisation, meetingId, caller.now);
 	return said.answer;
 }

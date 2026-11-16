@@ -43,6 +43,14 @@ export function readOptionalText(input: Record<string, unknown>, field: string):
 	return value;
 }
 
+/** A yes or no that may be left out, read as no; null when what was sent is neither true nor false. */
+export function readOptionalFlag(input: Record<string, unknown>, field: string): boolean | null {
+	const answer = input[field];
+	if (answer === undefined) return false;
+	if (typeof answer === 'boolean') return answer;
+	return null;
+}
+
 export function objectSchema(
 	properties: Record<string, unknown>,
 	required: string[] = []

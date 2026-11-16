@@ -23,3 +23,8 @@ export function readDay(value: unknown): string | null | undefined {
 export function daysAhead(days: number, now: number = Date.now()): string {
 	return dayOf(now + days * millisecondsPerDay);
 }
+
+/** How many days the later day falls after the earlier one, both written YYYY-MM-DD; negative when it falls before. */
+export function daysBetween(earlierDay: string, laterDay: string): number {
+	return Math.round((Date.parse(laterDay) - Date.parse(earlierDay)) / millisecondsPerDay);
+}

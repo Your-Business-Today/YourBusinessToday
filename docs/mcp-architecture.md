@@ -119,6 +119,8 @@ commands work in every client:
 | `/ybt-project` | `read_project_state` for the project they name, its verdict first |
 | `/ybt-raise` | what they just described as a task, on their yes, as the doctrine's rule 2 says |
 | `/ybt-tie-off` | the session's task tied off as rule 4 says, so the chat can be archived |
+| `/ybt-prospect` | a territory worked to a first approach as rule 9 says: filled, screened for cash at bank, the passes put on the Leads register, researched, and the opening message drafted for the staff member to send |
+| `/ybt-follow-ups` | everyone whose next step is due (`list_follow_ups_due`), one person at a time: what is known, the words to send or say, then the conversation logged and the next step set |
 | `/ybt-help` | this list |
 
 A new command is a new entry in the family, nothing more: the menu, the context line and

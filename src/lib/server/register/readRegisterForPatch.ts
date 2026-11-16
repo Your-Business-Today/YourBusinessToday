@@ -23,18 +23,10 @@ async function readPage(supabase: SupabaseClient, patchId: string, firstRowIndex
 	return data.map(parseLocatedRegisterCompany);
 }
 
-export type RegisterLoadState = { asAtMonth: string | null };
-
-/** The month the register was last loaded for any of the outcodes, or null when it never was. */
-export async function readRegisterLoadState(supabase: SupabaseClient, outcodes: string[]): Promise<RegisterLoadState> {
-	if (outcodes.length === 0) return { asAtMonth: null };
-	const { data, error } = await supabase
-		.from('register_loads')
-		.select('loaded_month')
-		.in('outcode', outcodes)
-		.order('loaded_month', { ascending: false })
-		.limit(1)
-		.maybeSingle();
+/** How many live companies the register holds in the outcodes, whether or not their postcodes are placed on the map yet. */
+export async function countRegisterCompaniesIn(supabase: SupabaseClient, outcodes: string[]): Promise<number> {
+	if (outcodes.length === 0) return 0;
+	const { count, error } = await supabase.from('register_companies').select('company_number', { count: 'exact', head: true }).in('outcode', outcodes).eq('is_gone', false);
 	if (error) throw error;
-	return { asAtMonth: data === null ? null : (data.loaded_month as string) };
+	return count ?? 0;
 }

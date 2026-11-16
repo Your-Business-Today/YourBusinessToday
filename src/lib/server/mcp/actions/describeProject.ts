@@ -4,7 +4,7 @@ import { hasDatabase, migrationsFolderOf } from '$lib/data/projectDatabase';
 import { personalProjectLabel } from '$lib/data/personalProject';
 import { internalProjectLabel } from '$lib/data/internalProject';
 import { goalSectionLines } from './describeGoal';
-import { noRepositoryRecorded, repositoryPhrase } from './describeRepository';
+import { noRepositoryRecorded, repositoryLine } from './describeRepository';
 import { projectStatusLabels } from '$lib/data/projectStatus';
 import { backlogSideLines } from './describeBacklogSides';
 import type { InternalItemFacts } from './describeInternalItems';
@@ -61,7 +61,7 @@ export function descriptionLine(project: { description: string }): string {
 
 function codeLine(project: Project, cadenceLine: string): string {
 	if (project.repositoryUrl === '') return `${noRepositoryRecorded}, so nothing is built or refactored by itself.`;
-	return `${repositoryPhrase(project)}. ${cadenceLine}`;
+	return `${repositoryLine(project)} ${cadenceLine}`;
 }
 
 function databaseLine(project: Project): string {

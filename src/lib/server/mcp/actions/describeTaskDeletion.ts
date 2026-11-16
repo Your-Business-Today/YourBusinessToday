@@ -1,5 +1,10 @@
 import { countOf } from '$lib/data/countOf';
-import { finishedTaskStays, taskDeletionInputs, taskDeletionRefusals } from '$lib/data/taskDeletion';
+import {
+	finishedTaskStays,
+	taskDeletionInputs,
+	taskDeletionRefusals,
+	whatIsKeptOfDeletedTask
+} from '$lib/data/taskDeletion';
 import type { FamilyTask, TaskDeletionPlan } from '$lib/data/taskDeletion';
 import { subtaskLine } from './describeTaskFamily';
 import type { CompletedParent } from '$lib/server/projects/keepFinishedSubtasks';
@@ -10,9 +15,6 @@ const moveItBackFirst = 'If it was marked done by mistake, move it back with upd
 const nameTheCompletedTask = `${keepFinishedUnderTitle}, naming the completed task for the work those subtasks finished`;
 const sayTheOpenOnesGo = `${deleteOpenSubtasks} true, once the person has seen this list`;
 const keepAnOpenOne = 'To keep one of them, move it out first with set_task_parent.';
-const copyIsKept =
-	'A copy of each deleted task is kept on the record of deletions, with its conversation and history. ' +
-	'Its attached files are not kept.';
 
 /** What delete_task answers: why nothing was deleted and what would be, or what was deleted and what was kept. */
 export function describeTaskDeletion(outcome: TaskDeletionOutcome): string {
@@ -53,7 +55,7 @@ function whatWasDeleted(plan: TaskDeletionPlan, completedParent: CompletedParent
 	const { task, finishedSubtasks, openSubtasks } = plan;
 	const deleted = whatWentLines(task, openSubtasks);
 	const kept = whatStayedLines(finishedSubtasks, completedParent);
-	return [...deleted, ...kept, copyIsKept].join('\n');
+	return [...deleted, ...kept, whatIsKeptOfDeletedTask].join('\n');
 }
 
 function whatWentLines(task: FamilyTask, openSubtasks: FamilyTask[]): string[] {

@@ -12,6 +12,30 @@
 			"schedule": "0 6 * * *"
 		},
 		{
+			"path": "/api/watch/fill_territories",
+			"schedule": "20 2 * * *"
+		},
+		{
+			"path": "/api/watch/fill_territories",
+			"schedule": "20 3 * * *"
+		},
+		{
+			"path": "/api/watch/fill_territories",
+			"schedule": "20 4 * * *"
+		},
+		{
+			"path": "/api/watch/trading_places",
+			"schedule": "50 2 * * *"
+		},
+		{
+			"path": "/api/watch/trading_places",
+			"schedule": "50 3 * * *"
+		},
+		{
+			"path": "/api/watch/trading_places",
+			"schedule": "50 4 * * *"
+		},
+		{
 			"path": "/api/watch/geocode_register",
 			"schedule": "5 6 * * *"
 		},

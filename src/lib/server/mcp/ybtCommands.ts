@@ -1,7 +1,6 @@
+import { salesCommands } from './ybtSalesCommands';
 import { showEverythingRequest } from '$lib/data/personRequests';
-
-/** A command the person types in chat as /ybt-<name>, or picks from their Claude's prompt menu: what it asks their Claude to do. */
-export type YbtCommand = { name: string; title: string; description: string; text: string };
+import type { YbtCommand } from './ybtCommand';
 
 export const commandPrefix = '/';
 const asTheAgent = 'recording my answer with answer_turn on my yes, and carrying on one item at a time until nothing is left';
@@ -69,7 +68,8 @@ const namedCommands: YbtCommand[] = [
 			'Tie this session’s task off as the doctrine says: raise anything it asked for that is not finished as a task of its own, post every ' +
 			'open question as a message waiting on the person who answers it, post one work log on the task, mark it done unless its pull request ' +
 			'will, and tell me the chat can be archived, naming the tasks that carry the rest and who has them.'
-	}
+	},
+	...salesCommands
 ];
 
 /** Each command as the context and the help command list it: the tag, then what it does. */

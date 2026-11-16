@@ -6,6 +6,10 @@ const projectName = 'Scratch';
 const asNamed = `"${projectName}"`;
 const contents: ProjectContents = { goalCount: 2, openTaskCount: 5, finishedTaskCount: 0, attachedFileCount: 1 };
 const emptyProject: ProjectContents = { goalCount: 0, openTaskCount: 0, finishedTaskCount: 0, attachedFileCount: 0 };
+const whatIsKept =
+	'A copy of each deleted task is kept on the record of deletions, with its conversation and history: ' +
+	'list_task_deletions lists them, read_task_deletion reads one and put_back_deleted_task puts one back. ' +
+	'Its attached files are not kept. Nothing puts a project back.';
 
 describe('what delete_project answers', () => {
 	it('says why a project with finished work stays, how to keep it, and that nothing went', () => {
@@ -27,8 +31,7 @@ describe('what delete_project answers', () => {
 
 	it('says what is kept and what is not, before the person decides', () => {
 		const answer = whatProjectHolds(projectName, contents, null);
-		expect(answer).toContain('A copy of each task is kept on the record of deletions, with its conversation.');
-		expect(answer).toContain('Attached files are not kept, and nothing puts a project back.');
+		expect(answer).toContain(whatIsKept);
 		expect(answer).toContain('A project that has simply finished is set to complete');
 	});
 
@@ -41,7 +44,7 @@ describe('what delete_project answers', () => {
 	it('says what went with the project once it is deleted', () => {
 		const answer = projectDeleted(projectName, contents);
 		expect(answer).toContain(`${asNamed} deleted, with 2 goals, 5 open tasks and one attached file.`);
-		expect(answer).toContain('A copy of each task is kept on the record of deletions');
+		expect(answer.endsWith(whatIsKept)).toBe(true);
 	});
 
 	it('says so plainly when the project held nothing', () => {
