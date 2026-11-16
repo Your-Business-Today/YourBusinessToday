@@ -12,7 +12,7 @@ import { titleNameField } from './waitingActions';
 import type { McpAction } from '../actionTypes';
 
 const summaryHeading =
-	'# What needs you\nYour YBT summary: the information, setup and testing waiting on you, and your to-dos.';
+	'# What needs you\nYour YBT summary: the information and setup waiting on you, and your to-dos.';
 
 export const summaryActions: McpAction[] = [
 	{
@@ -21,13 +21,13 @@ export const summaryActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'the YBT summary — the information, setup and testing waiting on you and your to-dos, ' +
+			'the YBT summary — the information and setup waiting on you and your to-dos, ' +
 			'across every project, then who to chase, and how to walk the person through them',
 		guidance:
 			'Left as it is, it gives the one item to raise now, as what_do_i_need_to_do does. With ' +
 			'showEverything true, only when the person asks to see everything at once, its answer opens with ' +
-			'how to give the summary: information one question at a time, setup as a checklist, testing ' +
-			'as one bulk pass, then their to-dos, then who to chase. Building is never listed: it is ' +
+			'how to give the summary: information one question at a time, setup as a checklist, ' +
+			'then their tasks and to-dos, then who to chase. Building is never listed: it is ' +
 			'Claude’s. It holds what list_waiting_on_me holds, by kind, bugs first. Who to chase is read ' +
 			'from the same calculation for everyone else on their projects, so it lists exactly what each ' +
 			'person’s own summary lists; onlyWhatIAskedFor narrows it to what they asked for.',

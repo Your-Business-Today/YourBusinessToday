@@ -15,11 +15,11 @@ A project is a business project with a large development part. Every goal and ta
 
 - **Development**: a change to the repository, a bug titled `FIX: …` or a user story, that Claude builds and that ends in a pull request. It is Claude's: nobody is assigned to it, and it is the only department that goes in the build queue.
 - **Infrastructure**: the systems the project runs on, set by hand by a developer and never built into a pull request (cloud and app settings, secrets and key vaults, servers, DNS, hosting and CI accounts, running a setup script against live infrastructure, applying a migration by hand).
-- **Administration**: the running of the business (insurance, accounts, registrations, contracts, testing what was built).
+- **Administration**: the running of the business (insurance, accounts, registrations, contracts).
 - **Sales**: winning the work (leads, calls, quotes, follow-ups).
 - **Marketing**: being found (site copy, posts, listings, campaigns, launches).
 
-An Infrastructure or business task is a job a person does. It is assigned to that person, is titled with the job and never with their name, and they mark it done. Tasks wait for each other across departments with `set_task_waits_for`, for example the site page that publishes the insurance waits for the Administration task that buys it. What a person has to *give* for a task (an answer, a file, a credential, a test) is not a task: it is a message on the task waiting on them, with `askKind` set to `information`, `setup` or `testing`. Personal to-dos are only for jobs that belong to no project.
+An Infrastructure or business task is a job a person does. It is assigned to that person, is titled with the job and never with their name, and they mark it done. Tasks wait for each other across departments with `set_task_waits_for`, for example the site page that publishes the insurance waits for the Administration task that buys it. What a person has to *give* for a task (an answer, a file, a credential) is not a task: it is a message on the task waiting on them, with `askKind` set to `information` or `setup`. Testing is never anybody's: there are no testing tasks and no testing asks (the owner's rule 11 in the working doctrine). A task is done when its work merges, and a fault found later is a new `FIX:` task. Personal to-dos are only for jobs that belong to no project.
 
 ## 0. Before the first project
 
@@ -41,11 +41,12 @@ Work the projects in board priority order. For each project, do steps 1–7 belo
 
 For each open task, read its title and details and ask whether it ends in a pull request.
 
-1. **A person's job filed in Development** (deciding, confirming, choosing, a call, an account, testing against live services, a launch, a purchase): move it with `update_task_details` `department` to Infrastructure, Administration, Sales or Marketing by the list above (testing goes to Administration, even of infrastructure), and keep its assignee. If it carries a person's name in the title (`Jeremy: …`, `Directors: …`), retitle it to the job and assign that person instead (step 7).
+1. **A person's job filed in Development** (deciding, choosing, a call, an account, a launch, a purchase): move it with `update_task_details` `department` to Infrastructure, Administration, Sales or Marketing by the list above, and keep its assignee. If it carries a person's name in the title (`Jeremy: …`, `Directors: …`), retitle it to the job and assign that person instead (step 7).
 2. **A code change filed in a business department or Infrastructure**: move it to Development. **Infrastructure work filed in Administration** (an Azure, Vercel, Supabase or GitHub setting, a secret, a script run against live systems): move it to Infrastructure and keep its assignee.
-3. **A Development task asking a person for something** (an answer, a file, a key, a test): leave the task in Development and post the ask on it as a message waiting on that person with its `askKind`; never raise a task for it. The connector refuses an ask that waits on the signed-in person; leave those as they are.
-4. **A goal's department** is where most of its open tasks sit. A goal whose measure is a business outcome (insurance in force, apps on the stores, the first client signed) sits in that business department even when a Development task serves it; `update_goal` with `department` moves it. A goal shows on every tab that holds one of its tasks, so never split a goal to tidy its tabs.
-5. When the department is not clear from the task, leave it and record why in the goal's `released` note. Never move a task a person placed and explained.
+3. **A testing task** (test or try a feature, check it on a real device, confirm a merged change works) is no longer wanted, by the owner's rule 11: delete it with `delete_task` after `read_task`, keeping any finished subtasks as rule 12 says, and record on the goal's `released` note which went. When the task carries other work besides the test, take the test out of its details with `update_task_details` instead. A testing ask still waiting on someone is answered on its task with `post_message`: "Nobody tests (rule 11): this is done since its work merged; a fault found is a new FIX."
+4. **A Development task asking a person for something** (an answer, a file, a key): leave the task in Development and post the ask on it as a message waiting on that person with its `askKind`; never raise a task for it. The connector refuses an ask that waits on the signed-in person; leave those as they are.
+5. **A goal's department** is where most of its open tasks sit. A goal whose measure is a business outcome (insurance in force, apps on the stores, the first client signed) sits in that business department even when a Development task serves it; `update_goal` with `department` moves it. A goal shows on every tab that holds one of its tasks, so never split a goal to tidy its tabs.
+6. When the department is not clear from the task, leave it and record why in the goal's `released` note. Never move a task a person placed and explained.
 
 ## 3. Place the tasks that have no goal
 

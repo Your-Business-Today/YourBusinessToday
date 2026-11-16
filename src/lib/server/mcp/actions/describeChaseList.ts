@@ -9,7 +9,7 @@ type NameOf = (accountId: string) => string;
 type Section = { heading: string; isIn: (item: ChaseItem) => boolean; line: (item: ChaseItem) => string };
 
 export const chaseHeading = '# Who to chase';
-export const nobodyToChase = 'Nobody: no one else on your projects owes an answer, a setup, a test, a task or a promise.';
+export const nobodyToChase = 'Nobody: no one else on your projects owes an answer, a setup, a task or a promise.';
 export const nothingYouAskedFor = 'Nobody: nothing you asked for waits on anyone else.';
 const onlyYourAsks = 'Only what you asked for. Leave out onlyWhatIAskedFor to see everything everyone owes.';
 
@@ -35,7 +35,6 @@ function sectionsSeenBy(nameOf: NameOf, viewerId: string): Section[] {
 	return [
 		{ heading: 'Answers to give', isIn: isAskOf(askKinds.information), line: asked },
 		{ heading: 'Things to set up', isIn: isAskOf(askKinds.setup), line: asked },
-		{ heading: 'Features to test', isIn: isAskOf(askKinds.testing), line: asked },
 		{ heading: 'Tasks in their name', isIn: (item) => item.reason === 'work', line: subjectWhere },
 		{ heading: 'To-dos they promised', isIn: (item) => item.reason === 'promise', line: promiseLine }
 	];

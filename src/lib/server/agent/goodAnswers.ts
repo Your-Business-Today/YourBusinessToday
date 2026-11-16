@@ -4,8 +4,6 @@ import type { AgendaKind } from './agendaItem';
 export const goodAnswers: Record<AgendaKind, string> = {
 	information: 'The answer itself, or the file (answered); or what they will do to get it and by when (promised).',
 	setup: 'Done, with where it was set up (answered); or what they will do and by when (promised).',
-	testing:
-		'Tried it: it works (confirmed) or it fails (failed, with the fault), and the proof either way: a screenshot or what they saw. A failure raises a FIX.',
 	task: 'Started or finished, with what was done; or what they will do and by when (promised).',
 	promise: 'Done (done); or a day to come back to it (snoozed, with untilDay).',
 	todo: 'Done (done); or a day to come back to it (snoozed, with untilDay).',

@@ -4,12 +4,11 @@ import type { GoalHorizon } from '$lib/data/goalHorizon';
  * What the YBT agent can raise with a person, one at a time: an ask of each kind, a task in their
  * name, a to-do they promised on a task, one on their own list, or someone to chase.
  */
-export type AgendaKind = 'information' | 'setup' | 'testing' | 'task' | 'promise' | 'todo' | 'chase' | 'build' | 'goal';
+export type AgendaKind = 'information' | 'setup' | 'task' | 'promise' | 'todo' | 'chase' | 'build' | 'goal';
 
 export const agendaKinds = {
 	information: 'information',
 	setup: 'setup',
-	testing: 'testing',
 	task: 'task',
 	promise: 'promise',
 	todo: 'todo',
@@ -19,10 +18,10 @@ export const agendaKinds = {
 } as const;
 
 /**
- * The order the agent works through, after every bug and the quick answers: information, setup, testing,
+ * The order the agent works through, after every bug and the quick answers: information, setup,
  * tasks, promises, to-dos, chasing and building; a long term goal to make current comes after everything.
  */
-export const agendaKindOrder: AgendaKind[] = ['information', 'setup', 'testing', 'task', 'promise', 'todo', 'chase', 'build', 'goal'];
+export const agendaKindOrder: AgendaKind[] = ['information', 'setup', 'task', 'promise', 'todo', 'chase', 'build', 'goal'];
 
 /** The kinds that ask only a quick answer of the person, a yes, a no or a fact, so they come first. */
 export const quickAnswerKinds: AgendaKind[] = ['information', 'setup'];
@@ -30,7 +29,6 @@ export const quickAnswerKinds: AgendaKind[] = ['information', 'setup'];
 export const agendaKindLabels: Record<AgendaKind, string> = {
 	information: 'Information to give',
 	setup: 'Something to set up',
-	testing: 'A feature to test',
 	task: 'A task in your name',
 	promise: 'Something you promised',
 	todo: 'On your own list',

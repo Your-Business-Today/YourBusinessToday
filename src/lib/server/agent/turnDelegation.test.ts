@@ -8,7 +8,7 @@ const item = (fields: Partial<AgendaItem>): AgendaItem => ({
 	subjectId: 't1', subjectTitle: 'Export', ask: '', askedById: null, since: null, goal: null, taskPriority: null, storyPoints: null, ...fields
 });
 const answer = (fields: Partial<TurnAnswer>): TurnAnswer => ({
-	itemKey: 'message:m1', outcome: 'answered', text: 'Yes', fault: null, untilDay: null, ...fields
+	itemKey: 'message:m1', outcome: 'answered', text: 'Yes', untilDay: null, ...fields
 });
 
 describe('where an answer is recorded', () => {
@@ -25,19 +25,13 @@ describe('where an answer is recorded', () => {
 		expect(started).toEqual({ actionName: 'post_message', input: { taskId: 't1', body: 'Half done', progress: 'started' } });
 	});
 
-	it('records a failed test with its fault', () => {
-		const failed = turnDelegation(item({ kind: 'testing' }), answer({ outcome: 'failed', text: 'Blank page', fault: 'Export is blank' }));
-		const result = { taskId: 't1', outcome: 'failed', proof: 'Blank page', fault: 'Export is blank' };
-		expect(failed).toEqual({ actionName: 'record_test_results', input: { results: [result] } });
-	});
-
 	it('ticks a to-do by the id in its key, and needs nothing to put an item off', () => {
 		const done = turnDelegation(item({ key: 'todo:d1', kind: 'todo' }), answer({ outcome: 'done', text: null }));
 		expect(done).toEqual({ actionName: 'complete_todo', input: { todoId: 'd1' } });
 		expect(turnDelegation(item({}), answer({ outcome: 'snoozed', text: null }))).toBeNull();
 	});
 
-	it('refuses a test on a goal', () => {
-		expect(turnDelegation(item({ kind: 'testing', subjectKind: 'goal' }), answer({ outcome: 'confirmed' }))).toContain('task');
+	it('refuses an answer that has no goal or task to go on', () => {
+		expect(turnDelegation(item({ subjectId: null }), answer({}))).toContain('Nothing was recorded');
 	});
 });

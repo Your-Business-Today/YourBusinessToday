@@ -18,7 +18,8 @@ const postMessageGuidance =
 	'Their Claude picks it up through read_latest_messages and posts the answer here. ' +
 	'Anything asked of a person is posted here as a message waiting on them, never only on ' +
 	'WhatsApp, email or a call: an ask that is not on the task is one their Claude cannot see. ' +
-	'Say with askKind what the ask wants: information, setup or testing. ' +
+	'Say with askKind what the ask wants: information or setup. Never ask anyone to test: a ' +
+	'task is done when its work merges, and a fault found later is a new FIX task. ' +
 	'An ask is how anything a person must give reaches them — never a task raised for it. A job ' +
 	'a person does for the project is a task in its department, assigned to them; building is ' +
 	'never asked of a person. ' +

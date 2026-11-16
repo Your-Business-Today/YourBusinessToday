@@ -1,25 +1,28 @@
-"""What git says about the repository the command runs in."""
+"""What git and the working tree say about the repository the command runs in."""
 from __future__ import annotations
 
 import subprocess
+from pathlib import Path
 
 GIT_TRUE = "true"
 STAGING_BRANCH = "staging"
 LOCAL_BRANCHES = "refs/heads/"
 REMOTE_BRANCHES = "refs/remotes/origin/"
+REVISION_PARSE = "rev-parse"
+PROMOTION_FILES = (".github/workflows/promote-staging.yml", "scripts/promote-staging.sh")
 
 
 def protectedBranchesOf(repository: str) -> list[str] | None:
     defaultBranch = defaultBranchOf(repository)
     if defaultBranch is None:
         return None
-    if hasBranch(repository, STAGING_BRANCH):
+    if hasBranch(repository, STAGING_BRANCH) or promotesStaging(repository):
         return [defaultBranch, STAGING_BRANCH]
     return [defaultBranch]
 
 
 def defaultBranchOf(repository: str) -> str | None:
-    if git(repository, "rev-parse", "--is-inside-work-tree") != GIT_TRUE:
+    if git(repository, REVISION_PARSE, "--is-inside-work-tree") != GIT_TRUE:
         return None
     origin = git(repository, "symbolic-ref", "--short", f"{REMOTE_BRANCHES}HEAD")
     if origin:
@@ -31,12 +34,17 @@ def defaultBranchOf(repository: str) -> str | None:
 
 
 def hasBranch(repository: str, name: str) -> bool:
-    isOnOrigin = bool(git(repository, "rev-parse", "--verify", "--quiet", f"{REMOTE_BRANCHES}{name}"))
+    isOnOrigin = bool(git(repository, REVISION_PARSE, "--verify", "--quiet", f"{REMOTE_BRANCHES}{name}"))
     return isOnOrigin or hasLocalBranch(repository, name)
 
 
+def promotesStaging(repository: str) -> bool:
+    workingTree = Path(git(repository, REVISION_PARSE, "--show-toplevel") or repository)
+    return any((workingTree / promotionFile).is_file() for promotionFile in PROMOTION_FILES)
+
+
 def hasLocalBranch(repository: str, name: str) -> bool:
-    return bool(git(repository, "rev-parse", "--verify", "--quiet", f"{LOCAL_BRANCHES}{name}"))
+    return bool(git(repository, REVISION_PARSE, "--verify", "--quiet", f"{LOCAL_BRANCHES}{name}"))
 
 
 def currentBranchOf(repository: str) -> str | None:

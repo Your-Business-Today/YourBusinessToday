@@ -8,7 +8,7 @@ describe('the YBT summary', () => {
 
 	it('opens with the totals by kind, and leaves building to Claude', () => {
 		expect(described).toContain(
-			"In all: one answer to give, one thing to set up, no features to test, one task to do, one to-do. Everything to be built is Claude's."
+			"In all: one answer to give, one thing to set up, one task to do, one to-do. Everything to be built is Claude's."
 		);
 	});
 
