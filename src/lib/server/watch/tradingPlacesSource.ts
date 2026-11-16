@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { findNewestRelease } from '$lib/server/places/overtureReleases';
 import { lastRunOfEveryTerritory, longestUntriedFirst, runHeadOfLine, type TerritoryRun } from './territoryRuns';
-import { parsePlacesStanding } from '$lib/server/places/placesStanding';
+import { isHoldingWhole, parsePlacesStanding } from '$lib/server/places/placesStanding';
 import { patchPlacesSource } from './patchPlacesSource';
 import type { WatchOutcome } from './watchRunLog';
 import type { WatchSource } from './watchSource';
@@ -22,10 +22,9 @@ async function loadNextTerritory(supabase: SupabaseClient): Promise<WatchOutcome
 	return runHeadOfLine(supabase, { waiting: behind, watcherFor: patchPlacesSource, noneLeftNote: `Every territory holds release ${release}.` });
 }
 
-/** Whether the territory's last load left it holding that release whole. */
+/** Whether the territory's last load left it holding that release whole, with its places placed by their point. */
 function isHolding(load: TerritoryRun, release: string): boolean {
 	const { lastRun } = load;
 	if (lastRun === null) return false;
-	const { heldRelease } = parsePlacesStanding(lastRun.resumeMarker);
-	return heldRelease === release;
+	return isHoldingWhole(parsePlacesStanding(lastRun.resumeMarker), release);
 }
