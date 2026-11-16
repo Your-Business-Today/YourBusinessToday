@@ -1,5 +1,6 @@
 import { boardroomActions } from './boardroomActions';
 import { confirmedWorkflowMapActions } from './confirmedWorkflowMapActions';
+import { mapProductsAndPeopleActions } from './mapProductsAndPeopleActions';
 import { organisationInviteActions } from './organisationInviteActions';
 import { organisationModuleActions } from './organisationModuleActions';
 import { organisationPeopleActions } from './organisationPeopleActions';
@@ -21,6 +22,7 @@ export const organisationActions: McpAction[] = [
 	...organisationProjectActions,
 	...teamWorkActions,
 	...workflowMapActions,
+	...mapProductsAndPeopleActions,
 	...confirmedWorkflowMapActions,
 	...workflowMapRunActions
 ];
