@@ -17,6 +17,7 @@ export const privacyCollectionSections: LegalSection[] = [
 			'Client register records — the businesses we work with or hope to, the people named as contacts, their role and contact details, and the history of our dealings with them.',
 			'Enquiries — the name, email address, company, website and message sent through the contact page, which becomes a lead in that register.',
 			'The record of our work for your business — the projects, goals and tasks we run for it, the requests your people raise and the messages on each thread.',
+			'YBT Weekly — when you sign up for the newsletter, we keep your email address and when you signed up, and pass the address to beehiiv, which sends the newsletter. You can leave with the link at the foot of every issue.',
 			'Tax deadline emails — when you ask the tax calculator to email you the deadlines, we receive your email address and the tax year, and your take-home and tax figures only if you tick to include them. We use them once, because you asked, to send that one email, and we do not store them anywhere.',
 			'Activity records — notifications, the API tokens and authorisations you grant, and a log of what changed and who changed it.',
 			'Payments — when you pay one of our invoices from the Billing section of the portal, you pay on Stripe’s payment page. Your card details go to Stripe and never reach us: Stripe tells us which invoice was paid, how much and when, and we record that payment in our books.',
