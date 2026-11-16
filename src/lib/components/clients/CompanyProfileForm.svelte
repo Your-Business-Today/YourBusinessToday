@@ -4,6 +4,7 @@
 	import CompanyScaleFields from './CompanyScaleFields.svelte';
 	import FormField from '$lib/components/site/FormField.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
+	import { companyResearchLimits } from '$lib/data/companyResearchRules';
 	import { inputClasses } from '$lib/components/site/formStyles';
 	import type { Client } from '$lib/server/clients/clientRecord';
 
@@ -14,6 +15,9 @@
 
 <form method="POST" action="?/updateProfile" class="flex flex-col gap-4">
 	<input type="hidden" name="sourceUrl" value={profile.sourceUrl} />
+	<FormField label="Name">
+		<input name="name" value={client.name} required maxlength={companyResearchLimits.longestName} class={inputClasses} />
+	</FormField>
 	<div class="grid gap-4 sm:grid-cols-2">
 		<FormField label="Website">
 			<input name="website" value={client.website} placeholder="https://" class={inputClasses} />
