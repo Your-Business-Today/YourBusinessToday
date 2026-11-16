@@ -2,27 +2,16 @@ import { isGmailId, isMailboxAddress } from '$lib/data/gmailFields';
 import { isInstantWithZone } from '$lib/data/instantWithZone';
 import { trimmedText } from '$lib/data/trimmedText';
 import { validateRecordId } from '$lib/data/isUuid';
+import { filedEmailRefusals } from './filedEmailRefusals';
 import {
-	filedEmailDirections,
 	filedEmailLimits,
 	isFiledEmailDirection,
+	type EmailDetails,
 	type FiledEmailGiven
 } from '$lib/data/filedEmailRules';
 
 const { longestAddress, longestGmailId, mostRecipients, longestSubject, longestSummary } = filedEmailLimits;
 const noPersonNamed = '';
-
-export const filedEmailRefusals = {
-	mailbox: `The mailbox is the address the email was read in, such as consulting@yourbusiness.today, at most ${longestAddress} characters.`,
-	messageId: `The messageId is the Gmail message's id, as the Gmail connector gives it: 1 to ${longestGmailId} characters, no spaces.`,
-	threadId: `The threadId is the Gmail thread's id, as the Gmail connector gives it: 1 to ${longestGmailId} characters, no spaces.`,
-	direction: `The direction is one of ${filedEmailDirections.join(', ')}.`,
-	from: `The from is the sender's address alone, such as name@example.com, at most ${longestAddress} characters.`,
-	to: `The to is a list of at most ${mostRecipients} addresses, each alone, such as name@example.com.`,
-	subject: `The subject is at most ${longestSubject} characters.`,
-	sentAt: 'The sentAt is when the email was sent, as ISO 8601 with its time zone, such as 2026-11-16T09:30:00Z.',
-	summary: `The summary is 1 to ${longestSummary} characters: what the email is about and asks for, never its body and nothing personal.`
-} as const;
 
 /** The email as given, each field checked against its column, or the sentence naming the one that does not fit. */
 export function validateFiledEmail(input: Record<string, unknown>): FiledEmailGiven | string {
@@ -31,11 +20,18 @@ export function validateFiledEmail(input: Record<string, unknown>): FiledEmailGi
 	if (clientRefusal !== null) return clientRefusal;
 	const personId = personNamedIn(input);
 	if (personId.refusal !== null) return personId.refusal;
+	const details = validateEmailDetails(input);
+	if (typeof details === 'string') return details;
+	return { clientId, personId: personId.id, ...details };
+}
+
+/** The email itself, apart from where it is filed: each field checked against its column, or the sentence naming the one that does not fit. */
+export function validateEmailDetails(input: Record<string, unknown>): EmailDetails | string {
 	const message = readMessage(input);
 	if (typeof message === 'string') return message;
 	const content = readContent(input);
 	if (typeof content === 'string') return content;
-	return { clientId, personId: personId.id, ...message, ...content };
+	return { ...message, ...content };
 }
 
 function personNamedIn(input: Record<string, unknown>): { id: string | null; refusal: string | null } {

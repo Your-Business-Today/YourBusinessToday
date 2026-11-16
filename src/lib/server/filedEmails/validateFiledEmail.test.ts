@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { filedEmailLimits } from '$lib/data/filedEmailRules';
-import { filedEmailRefusals, validateFiledEmail } from './validateFiledEmail';
+import { filedEmailRefusals } from './filedEmailRefusals';
+import { validateFiledEmail } from './validateFiledEmail';
 
 const clientId = '11111111-1111-4111-8111-111111111111';
 const personId = '22222222-2222-4222-8222-222222222222';

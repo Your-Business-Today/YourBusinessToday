@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { filedEmailActions, noSuchFiledEmail } from './filedEmailActions';
-import { filedEmailRefusals } from '$lib/server/filedEmails/validateFiledEmail';
+import { filedEmailRefusals } from '$lib/server/filedEmails/filedEmailRefusals';
 import { noSuchClient } from './describeClient';
 import type { McpCaller } from '../resolveMcpCaller';
 
