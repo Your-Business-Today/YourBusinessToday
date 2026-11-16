@@ -13,7 +13,7 @@ const broughtInBy = 'James';
 function readingOf(website: string, listedPage: string, isMadeFromPremises = true): string[] {
 	const client = parseClientRecord({ ...leadRow, website });
 	const premises = isMadeFromPremises ? [parsePremisesRecord(premisesRowOf({ ...placeRow, website: listedPage }))] : [];
-	return describeClientInFull({ client, broughtInBy, premises }, [], [], []).split('\n');
+	return describeClientInFull({ client, broughtInBy, premises }, { contacts: [], projects: [], conversations: [], emails: [] }).split('\n');
 }
 
 describe('one client in full, as a Claude reads it', () => {
