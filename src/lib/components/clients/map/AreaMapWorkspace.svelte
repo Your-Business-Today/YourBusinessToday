@@ -19,7 +19,7 @@
 	const selectedPin = $derived(area.pins.find((pin) => pin.key === selectedKey) ?? null);
 </script>
 
-<div class="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
 	<AreaMapPane {area} {selectedKey} onSelect={(key) => (selectedKey = key)} />
 	<div class="flex flex-col gap-4">
 		<AreaCompanyPanel pin={selectedPin} {addLeadAction} {addWithDirectorsAction} />

@@ -50,7 +50,7 @@
 	<CoverageStrip counts={coverage.counts} />
 	{#if map !== null}
 		<PatchSummary {map} listedCount={nearestListed} />
-		<div class="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+		<div class="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
 			<PatchMapPane
 				patchId={patch.id}
 				centre={map.centre}
