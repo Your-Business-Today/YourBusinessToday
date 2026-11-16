@@ -1,7 +1,7 @@
 import { isGmailId, isMailboxAddress } from '$lib/data/gmailFields';
 import { isUuid } from '$lib/data/isUuid';
 import { trimmedText } from '$lib/data/trimmedText';
-import { filedEmailRefusals } from '$lib/server/filedEmails/validateFiledEmail';
+import { filedEmailRefusals } from '$lib/server/filedEmails/filedEmailRefusals';
 import {
 	isTriageOutcome,
 	triageDecisionLimits,

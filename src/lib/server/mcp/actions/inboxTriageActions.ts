@@ -4,7 +4,7 @@ import { triageDecisionLimits, triageOutcomes } from '$lib/data/triageDecisionRu
 import { readInboxTriage } from '$lib/server/emailTriage/readInboxTriage';
 import { recordTriageDecisions } from '$lib/server/emailTriage/recordTriageDecisions';
 import { validateTriageDecisions } from '$lib/server/emailTriage/validateTriageDecisions';
-import { filedEmailRefusals } from '$lib/server/filedEmails/validateFiledEmail';
+import { filedEmailRefusals } from '$lib/server/filedEmails/filedEmailRefusals';
 import { describeInboxTriage } from './describeInboxTriage';
 import { describeTriageRecording } from './describeTriageRecording';
 import { objectSchema, textField } from '../actionTypes';

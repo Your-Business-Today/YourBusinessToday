@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { inboxTriageActions } from './inboxTriageActions';
 import { unknownFiling } from './describeTriageRecording';
-import { filedEmailRefusals } from '$lib/server/filedEmails/validateFiledEmail';
+import { filedEmailRefusals } from '$lib/server/filedEmails/filedEmailRefusals';
 import type { McpCaller } from '../resolveMcpCaller';
 
 const staff = { accountId: 'staff-1', supabase: {} } as unknown as McpCaller;

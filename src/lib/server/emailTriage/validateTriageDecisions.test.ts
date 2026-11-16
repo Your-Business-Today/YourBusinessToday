@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { triageDecisionRefusals, validateTriageDecisions } from './validateTriageDecisions';
-import { filedEmailRefusals } from '$lib/server/filedEmails/validateFiledEmail';
+import { filedEmailRefusals } from '$lib/server/filedEmails/filedEmailRefusals';
 
 const filedEmailId = '33333333-3333-4333-8333-333333333333';
 const filed = { messageId: '18c2f0a9b1d3e4f5', threadId: '18c2f0a9b1d3e4f0', outcome: 'filed', filedEmailId };
