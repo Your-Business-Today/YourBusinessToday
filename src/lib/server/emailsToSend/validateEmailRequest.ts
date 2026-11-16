@@ -1,7 +1,8 @@
 import { trimmedText } from '$lib/data/trimmedText';
 import { validateRecordId } from '$lib/data/isUuid';
 import { emailPurposeOf, emailPurposes, isEmailPurpose, type EmailRequest } from '$lib/data/emailToSendRules';
-import { filedEmailRefusals, isGmailId } from '$lib/server/filedEmails/validateFiledEmail';
+import { isGmailId } from '$lib/data/gmailFields';
+import { filedEmailRefusals } from '$lib/server/filedEmails/filedEmailRefusals';
 
 const nothingGiven = '';
 

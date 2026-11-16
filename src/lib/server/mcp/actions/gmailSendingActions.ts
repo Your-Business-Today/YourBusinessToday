@@ -2,6 +2,7 @@ import { consultingMailbox, emailPurposes } from '$lib/data/emailToSendRules';
 import { filedEmailLimits } from '$lib/data/filedEmailRules';
 import { emailSenders, sendsEmailFrom } from '../sendsEmail';
 import { gmailSendingGuidance } from './gmailSendingSteps';
+import { emailMessageFields } from './filedEmailFields';
 import { objectSchema, textField } from '../actionTypes';
 import { prepareEmail } from './prepareEmail';
 import { recordEmailSent } from './recordEmailSent';
@@ -11,7 +12,6 @@ const { longestSubject, longestSummary, mostRecipients } = filedEmailLimits;
 
 const clientIdField = textField('The client or lead, as list_clients gives its id');
 const personIdField = textField('Who at the client: their person id, as read_client gives it');
-const threadIdField = textField("The Gmail thread's id, as the Gmail connector gives it");
 
 const preparingSchema = objectSchema(
 	{
@@ -28,7 +28,7 @@ const recordingSchema = objectSchema(
 		clientId: clientIdField,
 		personId: personIdField,
 		messageId: textField("The sent Gmail message's id, as the Gmail connector gives it"),
-		threadId: threadIdField,
+		threadId: emailMessageFields.threadId,
 		to: { type: 'array', items: { type: 'string' }, description: `The addresses it went to, each alone, at most ${mostRecipients}` },
 		subject: textField(`The subject line, at most ${longestSubject} characters`),
 		sentAt: textField('When it was sent, as ISO 8601 with its time zone, such as 2026-11-16T09:30:00Z'),

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { gmailSendingActions } from './gmailSendingActions';
 import { emailSentRefusals } from '$lib/server/emailsToSend/validateEmailSent';
-import { filedEmailRefusals } from '$lib/server/filedEmails/validateFiledEmail';
+import { filedEmailRefusals } from '$lib/server/filedEmails/filedEmailRefusals';
 import type { McpCaller } from '../resolveMcpCaller';
 
 const clientId = '11111111-1111-4111-8111-111111111111';
