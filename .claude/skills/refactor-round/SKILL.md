@@ -12,11 +12,11 @@ Read, in this order, before the first change: the coding rules at the top of `CL
 ## 0. Branch
 
 ```
-git fetch origin && git switch <base> && git pull --ff-only
-git switch -c refactor/round-N
+git fetch origin +refs/heads/<base>:refs/remotes/origin/<base>
+git switch -c refactor/round-N --no-track origin/<base>
 ```
 
-`<base>` is `staging` where the repository has one (`git branch -r` lists `origin/staging`), else the default branch — the branch the pull request goes into, so the work starts from what it will merge into.
+`<base>` is `staging` where the repository has one (`git ls-remote --heads origin staging` prints a line; `git branch -r` proves nothing in a clone made to fetch one branch), else the default branch — the branch the pull request goes into, so the work starts from what it will merge into.
 
 If the working tree holds uncommitted changes, stop and ask the person what they belong to — a round starts clean.
 

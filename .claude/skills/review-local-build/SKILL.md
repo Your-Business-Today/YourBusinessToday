@@ -12,7 +12,7 @@ The local model on the Mac mini builds easy tasks on a branch and never opens a 
 `next_buildable_task` has already recorded *building* on the review task for you. Record `reviewing` on the **parent** task too (`record_lifecycle_step`, with the branch), so every AI looking at the board sees the build is under review. Then read:
 
 - The parent task in full (`read_task`), its acceptance criteria and every attachment. That is what the branch has to deliver — not what the local model says it did.
-- The diff against the base branch (`staging` where the repository has one, else the default branch): `git fetch origin`, `git switch <branch>`, `git diff origin/<base>...HEAD`. Read every file it touches, and the siblings it should have copied (the sizing skill names them on the task when the work was sized as a copy).
+- The diff against the base branch (`staging` where the repository has one, else the default branch): fetch both by name, since a plain `git fetch origin` brings only the branches the clone was made to fetch (`git fetch origin +refs/heads/<base>:refs/remotes/origin/<base> +refs/heads/<branch>:refs/remotes/origin/<branch>`), then `git switch -c <branch> --no-track origin/<branch>` and `git diff origin/<base>...HEAD`. Read every file it touches, and the siblings it should have copied (the sizing skill names them on the task when the work was sized as a copy).
 - The repository's `CLAUDE.md` and `PROJECT.md`. The rules are the same for the local model as for you.
 
 ## 2. Run the checks
