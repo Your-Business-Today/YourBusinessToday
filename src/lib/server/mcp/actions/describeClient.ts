@@ -1,20 +1,23 @@
-import { clientEventLabels } from '$lib/data/clientEventLabels';
 import { clientStageLabels } from '$lib/data/clientLifecycle';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { describeClientPremises } from './describeClientPremises';
 import { describeCompanyProfile } from './describeCompanyProfile';
 import { describeContinuityCopy } from './describeContinuityCopy';
 import { describeLeadConversations } from './describeLeadConversations';
+import { describeFiledEmails } from './describeFiledEmails';
 import type { Client } from '$lib/server/clients/clientRecord';
 import type { ClientContact } from '$lib/server/clients/clientContactRecord';
-import type { ClientEvent } from '$lib/server/clients/clientEventRecord';
 import type { ClientProject } from '$lib/server/clients/getProjectsForClient';
 import type { LeadConversation } from '$lib/data/leadConversationRules';
+import type { FiledEmail } from '$lib/data/filedEmailRules';
 import type { ClientSummary } from '$lib/server/clients/listClients';
 import type { Premises } from '$lib/server/premises/premisesRecord';
 
 /** The client as the register holds it: who brought it in, and the premises it was made from when it was made from one. */
 export type ClientOnRegister = { client: Client; broughtInBy: string; premises: Premises[] };
+
+/** What is kept about a client beyond its own row: its contacts, projects, conversations and filed emails. */
+export type ClientRecords = { contacts: ClientContact[]; projects: ClientProject[]; conversations: LeadConversation[]; emails: FiledEmail[] };
 
 export const noSuchClient = 'No client on the register has that id. Call list_clients to see them.';
 
@@ -35,9 +38,7 @@ function describeClientLine(client: ClientSummary): string {
 
 export function describeClientInFull(
 	{ client, broughtInBy, premises }: ClientOnRegister,
-	contacts: ClientContact[],
-	projects: ClientProject[],
-	conversations: LeadConversation[]
+	{ contacts, projects, conversations, emails }: ClientRecords
 ): string {
 	return [
 		`${client.name} — ${clientStageLabels[client.stage]} — id ${client.id}`,
@@ -54,6 +55,9 @@ export function describeClientInFull(
 		'',
 		'Conversations, the latest first:',
 		...describeLeadConversations(conversations),
+		'',
+		'Emails filed, the latest first:',
+		...describeFiledEmails(emails),
 		'',
 		'Projects:',
 		projects.length === 0 ? 'None assigned yet.' : projects.map(describeProjectLine).join('\n')
@@ -77,20 +81,4 @@ function describeContactRole(contact: ClientContact): string {
 function describeProjectLine(project: ClientProject): string {
 	const awaiting = `${project.awaitingAnswerCount} support task(s) awaiting an answer`;
 	return `${project.name} — id ${project.id} — ${awaiting}`;
-}
-
-export function describeClientEvents(events: ClientEvent[]): string {
-	if (events.length === 0) return 'Nothing has been recorded against this client yet.';
-	return events.map(describeEventLine).join('\n');
-}
-
-function describeEventLine(event: ClientEvent): string {
-	const when = formatBritishDate(event.createdAt);
-	return `${when} — ${clientEventLabels[event.kind]}${describeEventDetail(event.detail)}`;
-}
-
-function describeEventDetail(detail: Record<string, unknown>): string {
-	const words = Object.values(detail).filter((value) => typeof value === 'string');
-	if (words.length === 0) return '';
-	return `: ${words.join(', ')}`;
 }
