@@ -63,3 +63,8 @@ body {
 	color: var(--color-chalk);
 	font-family: var(--font-sans);
 }
+
+/* Leaflet numbers its own layers up to 1000, above every pop-up and menu here, so each map keeps them to itself. */
+.leaflet-container {
+	isolation: isolate;
+}
