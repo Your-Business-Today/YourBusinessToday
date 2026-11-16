@@ -69,6 +69,13 @@ export const clientDocumentCatalogue: ClientDocumentEntry[] = [
 		summary:
 			'Why YBT is a processor and the rules that keep it one, the decisions recorded, the processor contract log and the Article 30 record per client.',
 		audience: 'internal'
+	},
+	{
+		slug: 'ip-assignment-and-waiver',
+		title: 'Assignment of Rights and Waiver of Moral Rights',
+		summary:
+			'Signed as a deed by everyone who writes for YBT, so that YBT owns what they make and can assign it to a client under MSA clause 9.',
+		audience: 'internal'
 	}
 ];
 
