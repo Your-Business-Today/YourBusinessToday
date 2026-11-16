@@ -3,6 +3,7 @@ import { clientContactActions } from './clientContactActions';
 import { clientDocumentActions } from './clientDocumentActions';
 import { companyResearchActions } from './companyResearchActions';
 import { emailOwnerActions } from './emailOwnerActions';
+import { inboxTriageActions } from './inboxTriageActions';
 import { followUpActions } from './followUpActions';
 import { peopleRegisterActions } from './peopleRegisterActions';
 import { personApproachActions } from './personApproachActions';
@@ -42,6 +43,7 @@ export const clientActions: McpAction[] = [
 	...personUpdateActions,
 	...followUpActions,
 	...emailOwnerActions,
+	...inboxTriageActions,
 	...personLinkActions,
 	...officerActions,
 	...officerAppointmentActions,

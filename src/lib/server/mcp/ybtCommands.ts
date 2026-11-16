@@ -1,3 +1,4 @@
+import { inboxCommand } from './ybtInboxCommand';
 import { salesCommands } from './ybtSalesCommands';
 import { showEverythingRequest } from '$lib/data/personRequests';
 import type { YbtCommand } from './ybtCommand';
@@ -69,6 +70,7 @@ const namedCommands: YbtCommand[] = [
 			'open question as a message waiting on the person who answers it, post one work log on the task, mark it done unless its pull request ' +
 			'will, and tell me the chat can be archived, naming the tasks that carry the rest and who has them.'
 	},
+	inboxCommand,
 	...salesCommands
 ];
 

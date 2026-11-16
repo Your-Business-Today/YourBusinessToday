@@ -8,7 +8,7 @@ describe('the /ybt- command family', () => {
 		const names = ybtCommands.map((command) => command.name);
 		expect(names.every((name) => tagShape.test(name))).toBe(true);
 		expect(new Set(names).size).toBe(names.length);
-		expect(names).toEqual(['ybt-chat', 'ybt-summary', 'ybt-outstanding', 'ybt-bugs', 'ybt-chase', 'ybt-project', 'ybt-raise', 'ybt-tie-off', 'ybt-prospect', 'ybt-follow-ups', 'ybt-help']);
+		expect(names).toEqual(['ybt-chat', 'ybt-summary', 'ybt-outstanding', 'ybt-bugs', 'ybt-chase', 'ybt-project', 'ybt-raise', 'ybt-tie-off', 'ybt-inbox', 'ybt-prospect', 'ybt-follow-ups', 'ybt-help']);
 	});
 
 	it('teaches the typed commands in the current context, so they work in any chat', () => {

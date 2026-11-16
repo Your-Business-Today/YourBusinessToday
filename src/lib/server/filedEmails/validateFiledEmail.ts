@@ -1,4 +1,4 @@
-import { isEmailShaped } from '$lib/data/emailShape';
+import { isGmailId, isMailboxAddress } from '$lib/data/gmailFields';
 import { isInstantWithZone } from '$lib/data/instantWithZone';
 import { trimmedText } from '$lib/data/trimmedText';
 import { validateRecordId } from '$lib/data/isUuid';
@@ -11,7 +11,6 @@ import {
 
 const { longestAddress, longestGmailId, mostRecipients, longestSubject, longestSummary } = filedEmailLimits;
 const noPersonNamed = '';
-const whiteSpace = /\s/;
 
 export const filedEmailRefusals = {
 	mailbox: `The mailbox is the address the email was read in, such as consulting@yourbusiness.today, at most ${longestAddress} characters.`,
@@ -49,7 +48,7 @@ type MessageFields = Pick<FiledEmailGiven, 'mailbox' | 'messageId' | 'threadId' 
 
 function readMessage(input: Record<string, unknown>): MessageFields | string {
 	const mailbox = trimmedText(input.mailbox);
-	if (!isAddress(mailbox)) return filedEmailRefusals.mailbox;
+	if (!isMailboxAddress(mailbox)) return filedEmailRefusals.mailbox;
 	const messageId = trimmedText(input.messageId);
 	if (!isGmailId(messageId)) return filedEmailRefusals.messageId;
 	const threadId = trimmedText(input.threadId);
@@ -57,7 +56,7 @@ function readMessage(input: Record<string, unknown>): MessageFields | string {
 	const direction = trimmedText(input.direction);
 	if (!isFiledEmailDirection(direction)) return filedEmailRefusals.direction;
 	const from = trimmedText(input.from);
-	if (!isAddress(from)) return filedEmailRefusals.from;
+	if (!isMailboxAddress(from)) return filedEmailRefusals.from;
 	const to = readRecipients(input.to);
 	if (to === null) return filedEmailRefusals.to;
 	return { mailbox, messageId, threadId, direction, from, to };
@@ -81,14 +80,6 @@ function readRecipients(given: unknown): string[] | null {
 	if (!Array.isArray(given)) return null;
 	if (given.length > mostRecipients) return null;
 	const addresses = given.map(trimmedText);
-	const isEveryOneAnAddress = addresses.every(isAddress);
+	const isEveryOneAnAddress = addresses.every(isMailboxAddress);
 	return isEveryOneAnAddress ? addresses : null;
-}
-
-function isAddress(text: string): boolean {
-	return text.length <= longestAddress && isEmailShaped(text);
-}
-
-function isGmailId(text: string): boolean {
-	return text !== '' && text.length <= longestGmailId && !whiteSpace.test(text);
 }
