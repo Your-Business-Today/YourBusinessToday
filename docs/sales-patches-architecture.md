@@ -205,22 +205,32 @@ The trading places load themselves. Nobody types a release name, runs a loader o
 database key: the `trading_places` watcher is knocked three times a night, each knock loading one
 territory that does not hold the newest release, and `load_patch_places` runs the same load for
 one territory when a staff member's Claude asks. Both run `patchPlacesSource(patch)`, logged as
-`patch_places:<patch id>`, whose marker is what the territory holds: a release alone is held
-whole, and `held>loading:count` is a load part way (`placesStanding.ts`). The newest release is
+`patch_places:<patch id>`, whose marker is what the territory holds: `release+by-point` is held
+whole with its places placed by their point, a release alone is held whole from before they were,
+and `held>loading:count` is a load part way (`placesStanding.ts`). The newest release is
 found from the bucket's own list (`overtureReleases.ts`). Its places are sixteen parquet files of
 some 800 MB each, and a function has neither the time nor the memory for one of them, so
 `readParquetRows.ts` reads each file's footer, keeps only the row groups whose corners could lie
 in the territory's box, and hands the reader a footer narrowed to the twelve leaves a premises is
 made from (`parquetLeaves.ts`): around Surbiton that is five row groups, read in six seconds
-under a 128 MB heap. `sortPlacesForPatch` keeps the places the rules accept whose postcode is in
-one of the territory's outcodes, in the order of their ids, and `loadOverturePlacesForPatch`
+under a 128 MB heap. A place the rules accept whose listing gives no postcode (about one in
+twenty) is given the postcode nearest its point, asked of postcodes.io a hundred points a request
+(`reverseLookupPostcodes.ts`, `placesByPoint.ts`); the row keeps the listing's empty postcode and
+takes only its sector and outcode from the nearest one. A lookup that fails fails the run, which
+starts again next time. `sortPlacesForPatch` keeps the places the rules accept whose postcode, its
+own or the nearest, is in one of the territory's outcodes, in the order of their ids, and `loadOverturePlacesForPatch`
 writes them five hundred at a time, marking the count after each batch, for ninety seconds a run;
 a run cut off carries on at that count while the release is still the newest. A place is judged
 by the strictest licence among its sources, so one share-alike source refuses it. A territory's
 first load writes nothing to the feed (`upsert_places` is told `is_first_load`, migration 0247):
-ten thousand places arriving at once is not news. Two things are left out and counted in the
-run's note: a place with no postcode, which no reader could find by outcode, and a place whose
-postcode is outside the territory's outcodes. Only the newest release's changelog is read, so a
+ten thousand places arriving at once is not news. A territory loaded before places were placed
+by their point (its marker a release alone) is topped up: it counts as not holding the newest
+release, loads it again, and that whole load is told `is_first_load` too, so the places it already
+held are written again unchanged and the ones now placed by their point arrive without a word to the
+feed or to new only. The one cost: a territory whose top-up meets a newer release does not announce
+that release's real arrivals. Two things are left out and counted in the run's note: a place with no
+postcode listed or near its point, which no reader could find by outcode, and a place whose postcode
+is outside the territory's outcodes; the note also says how many held were placed by their point. Only the newest release's changelog is read, so a
 territory that misses a whole release keeps the places that release took out until they close.
 A patch holds thousands, and the database hands back a thousand rows at a time, so no reader takes
 them in one select. The map reads a pin's worth of each a page at a time (`readPremisesOnMap`) and
