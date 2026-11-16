@@ -29,6 +29,8 @@ const filingSchema = objectSchema(
 	['clientId', 'mailbox', 'messageId', 'threadId', 'direction', 'from', 'sentAt', 'summary']
 );
 
+const takenOffTaskOrTodo = 'Taken off the task or to-do it was filed against. The email itself stays in Gmail.';
+
 export const noSuchFiledEmail = 'No filed email has that id. read_client lists the emails filed under a client, each with its id.';
 
 export const filedEmailActions: McpAction[] = [
@@ -72,9 +74,10 @@ async function fileTheEmail(caller: McpCaller, input: Record<string, unknown>): 
 async function unfileTheEmail(caller: McpCaller, filedEmailId: string): Promise<string> {
 	const idRefusal = validateRecordId('filedEmailId', filedEmailId);
 	if (idRefusal !== null) return idRefusal;
-	const clientId = await unfileEmail(caller.supabase, filedEmailId);
-	if (clientId === null) return noSuchFiledEmail;
-	const client = await getClient(caller.supabase, clientId);
+	const unfiled = await unfileEmail(caller.supabase, filedEmailId);
+	if (unfiled === null) return noSuchFiledEmail;
+	if (unfiled.clientId === null) return takenOffTaskOrTodo;
+	const client = await getClient(caller.supabase, unfiled.clientId);
 	const clientName = client?.name ?? 'its client';
 	return `Taken off ${clientName}. Take the label YBT/${clientName} off the thread in Gmail too.`;
 }

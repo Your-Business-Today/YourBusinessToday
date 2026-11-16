@@ -14,8 +14,8 @@ export const filedEmailActions: Actions = {
 		const filedEmailId = String(formData.get('filedEmailId') ?? '').trim();
 		const idRefusal = validateRecordId('filedEmailId', filedEmailId);
 		if (idRefusal !== null) return fail(badRequest, { message: idRefusal });
-		const clientId = await unfileEmail(locals.supabase, filedEmailId);
-		if (clientId === null) return fail(notFound, { message: 'That email was not filed here, or has been taken off already.' });
+		const unfiled = await unfileEmail(locals.supabase, filedEmailId);
+		if (unfiled === null) return fail(notFound, { message: 'That email was not filed here, or has been taken off already.' });
 		return { message: 'Email taken off this company. It is still in Gmail.' };
 	}
 };

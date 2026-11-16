@@ -7,7 +7,7 @@ import { getContactsForClient } from '$lib/server/clients/getContactsForClient';
 import { getEventsForClient } from '$lib/server/clients/getEventsForClient';
 import { getProjectsForClient } from '$lib/server/clients/getProjectsForClient';
 import { getConversationsForClient } from '$lib/server/leadConversations/getConversationsForClient';
-import { getEmailsForClient } from '$lib/server/filedEmails/getEmailsForClient';
+import { getEmailsForClient } from '$lib/server/filedEmails/getFiledEmails';
 import { filedEmailLimits } from '$lib/data/filedEmailRules';
 import { getPremisesForClient } from '$lib/server/premises/getPremisesForClient';
 import { readClientResearchGuidance } from './companyResearchGuidance';
