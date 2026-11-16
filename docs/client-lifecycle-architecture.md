@@ -134,6 +134,8 @@ belongs on the task, which clients cannot see.
 **ClientEvent** — the ledger: stage moved, contact invited, project assigned, request
 raised, request decided, request promoted. Same idiom as `brain_events`.
 
+**LeadQuote** — `public.lead_quotes` and `public.lead_quote_lines` (migration 0261): the plan going forwards for a lead, priced a stage at a time. A quote has a title, the day it was prepared, the day it stands until, an introduction and its terms; a line has its name, what it delivers, when, and its fee, an amount on a basis (fixed, monthly or daily) or no amount and a note. Each filing is the next numbered version for the company and never changes one filed before; the latest is the quote. The person's Claude files it with `file_lead_quote`, from the rates sheet or the person's own figures, and the staff page `/leads/<id>/quote` shows it to the lead on a screen or on paper: the fixed fees added to build, the monthly fees added each month, the day rates listed. Nothing internal is on that page. A deleted company's quotes are kept in its deletion record.
+
 ## Access
 
 Staff see everything through the existing `is_project_manager()` idiom. A client contact

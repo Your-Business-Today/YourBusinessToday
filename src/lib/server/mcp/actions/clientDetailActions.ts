@@ -9,6 +9,7 @@ import { getProjectsForClient } from '$lib/server/clients/getProjectsForClient';
 import { getConversationsForClient } from '$lib/server/leadConversations/getConversationsForClient';
 import { getEmailsForClient } from '$lib/server/filedEmails/getFiledEmails';
 import { filedEmailLimits } from '$lib/data/filedEmailRules';
+import { readLeadQuote } from '$lib/server/leadQuotes/readLeadQuote';
 import { getPremisesForClient } from '$lib/server/premises/getPremisesForClient';
 import { readClientResearchGuidance } from './companyResearchGuidance';
 import { objectSchema, readText, textField } from '../actionTypes';
@@ -23,7 +24,7 @@ export const clientDetailActions: McpAction[] = [
 		area: 'clients',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'one client in full, with their company profile, where they trade and on what phone number when they were made from a premises, their contacts, every conversation logged with them, the latest emails filed under them and the projects we run for them',
+		summary: 'one client in full, with their company profile, where they trade and on what phone number when they were made from a premises, their contacts, every conversation logged with them, their latest quote, the latest emails filed under them and the projects we run for them',
 		guidance: readClientResearchGuidance,
 		inputSchema: objectSchema({ clientId: clientIdField }, ['clientId']),
 		run: async (caller, input) => readClientInFull(caller, readText(input, 'clientId'))
@@ -42,16 +43,17 @@ export const clientDetailActions: McpAction[] = [
 async function readClientInFull(caller: McpCaller, clientId: string): Promise<string> {
 	const client = await getClient(caller.supabase, clientId);
 	if (client === null) return noSuchClient;
-	const [contacts, projects, conversations, staffMembers, premises, emails] = await Promise.all([
+	const [contacts, projects, conversations, staffMembers, premises, emails, quote] = await Promise.all([
 		getContactsForClient(caller.supabase, client.id),
 		getProjectsForClient(caller.supabase, client.id),
 		getConversationsForClient(caller.supabase, client.id),
 		getStaffDirectory(caller.supabase),
 		getPremisesForClient(caller.supabase, client.id),
-		getEmailsForClient(caller.supabase, client.id, filedEmailLimits.mostShownToClaude)
+		getEmailsForClient(caller.supabase, client.id, filedEmailLimits.mostShownToClaude),
+		readLeadQuote(caller.supabase, client.id)
 	]);
 	const broughtInBy = broughtInByName(staffMembers, client.ownerId);
-	return describeClientInFull({ client, broughtInBy, premises }, { contacts, projects, conversations, emails });
+	return describeClientInFull({ client, broughtInBy, premises }, { contacts, projects, conversations, emails, quote });
 }
 
 async function readHistoryForClient(caller: McpCaller, clientId: string): Promise<string> {
