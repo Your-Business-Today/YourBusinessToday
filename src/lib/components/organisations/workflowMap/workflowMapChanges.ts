@@ -1,4 +1,4 @@
-import { placedStation } from './placedStation';
+import { placedStation } from '$lib/data/workflowMap/placedStation';
 import { stationState, type MapHandover, type MapLine, type MapStation, type WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 import { changeWords } from './workflowMapWords';
 import type { OrganisationWorkflowMaps } from '$lib/data/workflowMap/organisationWorkflowMaps';

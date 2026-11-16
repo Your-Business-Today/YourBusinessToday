@@ -87,7 +87,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-073 | read a client in full, with its history | staff | read | `/clients/{clientId}` load | `read_client` `read_client_history` | `/clients/{clientId}` |
 | US-074 | list a contact at a client, invite them, assign a project | staff | write | `addContact` `inviteContact` `assignProject` | `add_client_contact` `invite_client_contact` `assign_project_to_client` | `/clients/{clientId}` |
 | US-075 | set a new client up on Your Business Today | staff | write | `setUpClient` | `set_up_client` | `/clients/{clientId}` |
-| US-076 | change a client's company profile | staff | write | `updateProfile` | `update_company_profile` | `/clients/{clientId}` |
+| US-076 | change a client's company profile, website or name | staff | write | `updateProfile` | `update_company_profile` | `/clients/{clientId}` |
 | US-077 | record a client's continuity copy | staff | write | `recordContinuityCopy` | `record_client_continuity_copy` | `/clients/{clientId}` |
 | US-078 | group a client under a parent and import its officers from Companies House | staff | write | `groupUnder` `importOfficers` | `group_client_under` `import_company_officers` | `/clients/{clientId}` |
 | US-079 | delete a mistaken client record | staff | write | `deleteClient` | `delete_client` | `/clients/{clientId}` |
@@ -142,6 +142,7 @@ What the audit leaves out, on purpose, is listed under *By design* at the end: s
 | US-117 | read and set an organisation's domain | manager | write | `/organisations/{organisationId}/domain` load | `read_business_brain_domain` `file_business_brain_domain` `start_business_brain_domain_run` | `/organisations/{organisationId}/domain` |
 | US-118 | file an organisation's workflow map, Before or After, change one part of it, and read it back | member | write | — | `file_workflow_map` `amend_workflow_map` `read_workflow_map` | — |
 | US-119 | say "map the workflows" and be walked through finding the roles, their tasks and the hand-overs | member | read | — | `start_workflow_map_run` | — |
+| US-182 | see the products an organisation's After map recommends and where its people stay in the loop, to walk a lead through both | member | read | `/organisations/{organisationId}/workflow-map` load | `read_map_products` `read_people_in_the_loop` | `/organisations/{organisationId}/workflow-map` `/leads/{leadId}/workflow-map` `/portal/workflow-map` |
 
 ## 10-boardroom
 
