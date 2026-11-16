@@ -1,6 +1,6 @@
 import { listedInWords } from '$lib/data/listedInWords';
 import { arrivesFromSentence } from '$lib/data/workflowMap/workflowMapWords';
-import { placedStation, type PlacedStation } from './placedStation';
+import { placedStation, type PlacedStation } from '$lib/data/workflowMap/placedStation';
 import type { MapArrival, MapHandover, MapStation, WorkflowMapVersion } from '$lib/data/workflowMap/workflowMap';
 
 /** Something a station takes in, who gives it or where outside it arrives from, and how that goes wrong today when it does. */

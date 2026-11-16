@@ -2,6 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { clientProfileActions } from './clientProfileActions';
 import { emptyCompanyProfile } from '$lib/server/clients/companyProfile';
 import { noSuchClient } from './describeClient';
+import { companyNameRefusals } from '$lib/server/clients/validateCompanyName';
+import { companyResearchLimits } from '$lib/data/companyResearchRules';
 import type { McpCaller } from '../resolveMcpCaller';
 
 const acmeId = '11111111-1111-4111-8111-111111111111';
@@ -9,12 +11,13 @@ const unknownId = '22222222-2222-4222-8222-222222222222';
 const acmeProfile = { ...emptyCompanyProfile, industry: 'Roofing', companyNumber: '12345678' };
 const acme = { id: acmeId, name: 'Acme Roofing', website: 'https://acme.example', profile: acmeProfile };
 
-const { profileSaved } = vi.hoisted(() => ({ profileSaved: vi.fn() }));
+const { profileSaved, renamed } = vi.hoisted(() => ({ profileSaved: vi.fn(), renamed: vi.fn() }));
 
 vi.mock('$lib/server/clients/getClient', () => ({
 	getClient: async (_supabase: unknown, clientId: string) => (clientId === acmeId ? acme : null)
 }));
 vi.mock('$lib/server/clients/updateCompanyProfile', () => ({ updateCompanyProfile: profileSaved }));
+vi.mock('$lib/server/clients/renameClient', () => ({ renameClient: renamed }));
 
 const staff = { accountId: 'staff-1', supabase: {} } as unknown as McpCaller;
 
@@ -24,7 +27,10 @@ function run(input: Record<string, unknown>) {
 }
 
 describe('changing a company profile through the connector', () => {
-	beforeEach(() => vi.clearAllMocks());
+	beforeEach(() => {
+		vi.clearAllMocks();
+		renamed.mockResolvedValue(false);
+	});
 
 	it('changes only the fields given and keeps the rest', async () => {
 		expect(await run({ clientId: acmeId, location: 'Kingston', postcode: 'kt1 1aa' })).toBe("Acme Roofing's profile is saved.");
@@ -47,6 +53,27 @@ describe('changing a company profile through the connector', () => {
 		expect(await run({ clientId: acmeId })).toContain('Nothing was given to change');
 		expect(await run({ clientId: unknownId, industry: 'Roofing' })).toBe(noSuchClient);
 		expect(await run({ clientId: 'acme', industry: 'Roofing' })).toContain('The clientId must be an id');
+		expect(profileSaved).not.toHaveBeenCalled();
+	});
+
+	it('corrects the name, says so, and says an organisation keeps its own', async () => {
+		renamed.mockResolvedValue(true);
+		const answer = await run({ clientId: acmeId, name: ' Acme Roofing Ltd ' });
+		expect(answer).toContain('Acme Roofing is now Acme Roofing Ltd on the register');
+		expect(answer).toContain('keeps its own name');
+		expect(renamed).toHaveBeenCalledWith(staff.supabase, acme, 'Acme Roofing Ltd', 'staff-1');
+		expect(profileSaved).toHaveBeenCalledWith(staff.supabase, acmeId, 'https://acme.example', acmeProfile);
+	});
+
+	it('keeps the name when none is sent', async () => {
+		await run({ clientId: acmeId, industry: 'Cladding' });
+		expect(renamed).toHaveBeenCalledWith(staff.supabase, acme, 'Acme Roofing', 'staff-1');
+	});
+
+	it('refuses an empty name or one over the limit before writing', async () => {
+		expect(await run({ clientId: acmeId, name: ' ' })).toBe(companyNameRefusals.nameMissing);
+		expect(await run({ clientId: acmeId, name: 'n'.repeat(companyResearchLimits.longestName + 1) })).toBe(companyNameRefusals.nameTooLong);
+		expect(renamed).not.toHaveBeenCalled();
 		expect(profileSaved).not.toHaveBeenCalled();
 	});
 });

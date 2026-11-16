@@ -35,9 +35,13 @@ function outputsFirst({ station: first }: PlacedStation, { station: second }: Pl
 }
 
 function withTroubles({ station, lineName }: PlacedStation, handovers: MapHandover[]): PlannedStation {
-	const touching = handovers.filter((handover) => handover.fromKey === station.key || handover.toKey === station.key);
-	const goesWrong = touching.flatMap((handover) => (handover.goesWrong === null ? [] : [handover.goesWrong]));
-	return { station, lineName, goesWrong };
+	return { station, lineName, goesWrong: goesWrongAround(station.key, handovers) };
+}
+
+/** How the hand-overs into and out of a station go wrong, one sentence each, in the map's order. */
+export function goesWrongAround(stationKey: string, handovers: MapHandover[]): string[] {
+	const touching = handovers.filter((handover) => handover.fromKey === stationKey || handover.toKey === stationKey);
+	return touching.flatMap((handover) => (handover.goesWrong === null ? [] : [handover.goesWrong]));
 }
 
 function troubledHandoversOf(handovers: MapHandover[], placed: PlacedStation[]): TroubledHandover[] {

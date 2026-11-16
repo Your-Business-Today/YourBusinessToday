@@ -35,3 +35,4 @@ export const questionWords = {
 	wholeMap: 'The whole map',
 	noQuestions: 'The map passes every test of a complete map: nothing is left to ask.'
 } as const;
+

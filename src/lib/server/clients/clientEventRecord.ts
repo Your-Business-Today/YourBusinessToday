@@ -23,7 +23,8 @@ export type ClientEventKind =
 	| 'client_set_up'
 	| 'context_confirmed'
 	| 'owner_changed'
-	| 'workflow_map_confirmed';
+	| 'workflow_map_confirmed'
+	| 'renamed';
 
 export type ClientEvent = {
 	id: string;

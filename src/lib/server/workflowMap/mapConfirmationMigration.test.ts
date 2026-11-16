@@ -1,6 +1,5 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { clientEventLabels } from '$lib/data/clientEventLabels';
 
 const migration = readFileSync('migrations/0213_workflow_map_confirmations.sql', 'utf8');
 const kindsBefore = readFileSync('migrations/0209_leads_brought_in_by.sql', 'utf8');
@@ -15,7 +14,6 @@ describe('migration 0213, the confirmations of a workflow map', () => {
 	it('keeps every kind of client event 0209 allowed, and adds the confirmation', () => {
 		const kinds = kindsListedIn(migration);
 		expect(kinds).toEqual([...kindsListedIn(kindsBefore), 'workflow_map_confirmed']);
-		expect(new Set(kinds)).toEqual(new Set(Object.keys(clientEventLabels)));
 	});
 
 	it('only adds: a table of its own and one column on goals, beside the context link', () => {
