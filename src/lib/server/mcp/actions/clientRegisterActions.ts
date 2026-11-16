@@ -3,9 +3,10 @@ import { createClient } from '$lib/server/clients/createClient';
 import { describeClientList, noSuchClient } from './describeClient';
 import { validateRecordId } from '$lib/data/isUuid';
 import { getClient } from '$lib/server/clients/getClient';
-import { listClients } from '$lib/server/clients/listClients';
+import { listClientsKeptBy } from '$lib/server/clients/listClients';
 import { moveClientStage } from '$lib/server/clients/moveClientStage';
-import { resolveStaffMember } from '$lib/server/projects/resolveStaffMember';
+import { resolveSalesperson } from '$lib/server/salesPeople/resolveSalesperson';
+import { salesNotSwitchedOn, salesOrganisationField, salesOrganisationOf } from './salesOrganisation';
 import { broughtInByField, notOneStaffMember } from './salesLeaderboardActions';
 import { objectSchema, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
@@ -19,18 +20,19 @@ export const clientRegisterActions: McpAction[] = [
 		area: 'clients',
 		audience: 'staff',
 		isWrite: false,
-		summary: 'every client on the register, with their stage, named contact and open requests',
-		inputSchema: objectSchema({}),
-		run: async (caller) => describeClientList(await listClients(caller.supabase))
+		summary: 'every record on one organisation\'s sales register, Your Business Today\'s own unless another is named, with their stage, named contact and open requests',
+		inputSchema: objectSchema({ organisationId: salesOrganisationField }),
+		run: async (caller, input) => listRegister(caller, input)
 	},
 	{
 		name: 'create_client',
 		area: 'clients',
 		audience: 'staff',
 		isWrite: true,
-		summary: 'put a new company on the register as a lead',
+		summary: 'put a new company on an organisation\'s register as a lead, Your Business Today\'s own unless another is named',
 		inputSchema: objectSchema(
 			{
+				organisationId: salesOrganisationField,
 				name: textField('The company name'),
 				website: textField('Their website, if you have it'),
 				broughtInBy: broughtInByField
@@ -57,17 +59,22 @@ export const clientRegisterActions: McpAction[] = [
 	}
 ];
 
-async function addClientToRegister(
-	caller: McpCaller,
-	input: Record<string, unknown>
-): Promise<string> {
+async function listRegister(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
+	const organisation = await salesOrganisationOf(caller, input);
+	if (organisation === null) return salesNotSwitchedOn;
+	return describeClientList(await listClientsKeptBy(caller.supabase, organisation.id, clientStageOrder));
+}
+
+async function addClientToRegister(caller: McpCaller, input: Record<string, unknown>): Promise<string> {
 	const name = readText(input, 'name');
 	if (name === '') return 'A company needs a name before it can go on the register.';
-	const owner = await resolveStaffMember(caller.supabase, readText(input, 'broughtInBy'), caller.accountId);
+	const organisation = await salesOrganisationOf(caller, input);
+	if (organisation === null) return salesNotSwitchedOn;
+	const owner = await resolveSalesperson(caller.supabase, organisation.id, readText(input, 'broughtInBy'), caller.accountId);
 	if (owner === null) return notOneStaffMember;
-	const seed = { name, website: readText(input, 'website'), ownerId: owner.id };
+	const seed = { name, website: readText(input, 'website'), ownerId: owner.id, keptByOrganisationId: organisation.id };
 	const clientId = await createClient(caller.supabase, seed, caller.accountId);
-	return `${name} is on the register as a lead, brought in by ${owner.name} — id ${clientId}.`;
+	return `${name} is on ${organisation.name}'s register as a lead, brought in by ${owner.name} — id ${clientId}.`;
 }
 
 async function moveToStage(caller: McpCaller, input: Record<string, unknown>): Promise<string> {

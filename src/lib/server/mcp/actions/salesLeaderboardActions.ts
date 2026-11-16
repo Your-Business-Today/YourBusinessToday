@@ -1,6 +1,7 @@
 import { getClient } from '$lib/server/clients/getClient';
 import { loadSalesLeaderboard } from '$lib/server/salesLeaderboard/loadSalesLeaderboard';
-import { resolveStaffMember } from '$lib/server/projects/resolveStaffMember';
+import { resolveSalesperson } from '$lib/server/salesPeople/resolveSalesperson';
+import { salesNotSwitchedOn, salesOrganisationWithId } from './salesOrganisation';
 import { setClientOwner } from '$lib/server/clients/setClientOwner';
 import { validateRecordId } from '$lib/data/isUuid';
 import { describeSalesStandings } from './describeSalesStandings';
@@ -10,9 +11,9 @@ import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
 export const broughtInByField = textField(
-	"Who brought it in: a staff member's name, such as Nigel. Leave it out when it was you"
+	"Who brought it in: the name of someone on the organisation whose register it is, such as Nigel. Leave it out when it was you"
 );
-export const notOneStaffMember = 'broughtInBy names nobody on the staff, or more than one of them. Give their whole name.';
+export const notOneStaffMember = 'broughtInBy names nobody on the organisation whose register it is, or more than one of them. Give their whole name.';
 
 export const salesLeaderboardActions: McpAction[] = [
 	{
@@ -35,7 +36,7 @@ export const salesLeaderboardActions: McpAction[] = [
 		area: 'clients',
 		audience: 'staff',
 		isWrite: false,
-		summary: "each staff member's leads and won sales on an organisation's registers, the most won first",
+		summary: "each of an organisation's own people's leads and won sales on its registers, the most won first",
 		inputSchema: objectSchema(
 			{ organisationId: textField('The organisation whose registers to count, as list_organisations gives it') },
 			['organisationId']
@@ -48,10 +49,12 @@ async function setBroughtInBy(caller: McpCaller, input: Record<string, unknown>)
 	const clientId = readText(input, 'clientId');
 	const idRefusal = validateRecordId('clientId', clientId);
 	if (idRefusal !== null) return idRefusal;
-	const owner = await resolveStaffMember(caller.supabase, readText(input, 'broughtInBy'), caller.accountId);
-	if (owner === null) return notOneStaffMember;
 	const client = await getClient(caller.supabase, clientId);
 	if (client === null) return noSuchClient;
+	const organisation = await salesOrganisationWithId(caller, client.keptByOrganisationId);
+	if (organisation === null) return salesNotSwitchedOn;
+	const owner = await resolveSalesperson(caller.supabase, organisation.id, readText(input, 'broughtInBy'), caller.accountId);
+	if (owner === null) return notOneStaffMember;
 	await setClientOwner(caller.supabase, client.id, owner, caller.accountId);
 	return `${client.name} was brought in by ${owner.name}.`;
 }
@@ -59,5 +62,7 @@ async function setBroughtInBy(caller: McpCaller, input: Record<string, unknown>)
 async function readLeaderboard(caller: McpCaller, organisationId: string): Promise<string> {
 	const refusal = validateRecordId('organisationId', organisationId);
 	if (refusal !== null) return refusal;
-	return describeSalesStandings(await loadSalesLeaderboard(caller.supabase, organisationId));
+	const organisation = await salesOrganisationWithId(caller, organisationId);
+	if (organisation === null) return salesNotSwitchedOn;
+	return describeSalesStandings(await loadSalesLeaderboard(caller.supabase, organisation.id));
 }

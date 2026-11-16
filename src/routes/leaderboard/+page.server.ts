@@ -1,5 +1,6 @@
 import { loadSalesLeaderboard } from '$lib/server/salesLeaderboard/loadSalesLeaderboard';
 import { requireStaff } from '$lib/server/auth/requireStaff';
+import { requireSalesSwitchedOn } from '$lib/server/salesPeople/requireSalesSwitchedOn';
 import type { PageServerLoad } from './$types';
 
 /** The picked organisation's leaderboard; with no organisation picked there are no registers to count. */
@@ -8,5 +9,6 @@ export const load: PageServerLoad = async ({ locals, parent }) => {
 	const { framePicks } = await parent();
 	const organisationId = framePicks?.pickedOrganisationId ?? null;
 	if (organisationId === null) return { standings: [] };
+	await requireSalesSwitchedOn(locals, organisationId);
 	return { standings: await loadSalesLeaderboard(locals.supabase, organisationId) };
 };

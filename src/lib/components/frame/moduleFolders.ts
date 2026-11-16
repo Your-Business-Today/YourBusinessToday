@@ -41,6 +41,14 @@ const domainFolder: ModuleFolder = { group: 'knowledge', label: framePageLabels.
 const workflowMapFolder: ModuleFolder = { group: 'knowledge', label: framePageLabels.workflowMap, icon: 'route' };
 const domainKeeper: OrganisationModule = 'business_brain';
 
+const salesModule: OrganisationModule = 'sales';
+
+/** Whether the side bar's module links hold the Sales module's own page, which it lists only where Sales is switched on. */
+export function holdsSalesModule(moduleLinks: FrameLink[]): boolean {
+	const { group } = moduleFolders[salesModule];
+	return moduleLinks.some((link) => link.group === group);
+}
+
 /** A module's page as the side bar lists it, in its folder. */
 export function moduleFrameLink(module: OrganisationModule, href: string): FrameLink {
 	return { href, ...moduleFolders[module] };

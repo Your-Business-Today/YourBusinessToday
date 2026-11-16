@@ -26,15 +26,25 @@ const noPicks: FramePicks = {
 	homePath: null
 };
 
+const salesModuleLink: FrameLink = { href: '/organisations/harbour/sales', label: 'Prospecting', icon: 'compass', group: 'sales' };
+const salesSwitchedOn: FramePicks = { ...noPicks, pickedOrganisationId: 'harbour', moduleLinks: [salesModuleLink] };
+
 const siteUrl = (path: string) => new URL(path, 'https://yourbusiness.today');
 const viewAt = (access: FrameAccess, path: string) => frameViewFor(access, siteUrl(path), null);
+const salesViewAt = (access: FrameAccess, path: string) => frameViewFor(access, siteUrl(path), salesSwitchedOn);
 const labelsFor = (access: FrameAccess) => viewAt(access, '/').links.map(({ label }) => label);
 const menuLabelsFor = (access: FrameAccess) => viewAt(access, '/').menuLinks.map(({ label }) => label);
 const trailAt = (access: FrameAccess, path: string) => viewAt(access, path).trail;
 
 describe('frameViewFor', () => {
-	it('gives a member of staff the work inside an organisation, and leaves the sales pages to the Sales module', () => {
-		expect(labelsFor(staff)).toEqual(['Projects', 'Leads', 'Clients', 'Leaderboard']);
+	it('gives a member of staff the work inside an organisation, and the sales registers where Sales is switched on', () => {
+		const labels = salesViewAt(staff, '/').links.map(({ label }) => label);
+		expect(labels).toEqual(['Prospecting', 'Projects', 'Leads', 'Clients', 'Leaderboard']);
+	});
+
+	it('lists no sales register where the picked organisation has Sales switched off, or none is picked', () => {
+		expect(frameViewFor(staff, siteUrl('/'), noPicks).links.map(({ label }) => label)).toEqual(['Projects']);
+		expect(labelsFor(staff)).toEqual(['Projects']);
 	});
 
 	it('puts what sits above an organisation in the top-right menu, with Admin for an administrator only', () => {
@@ -57,7 +67,7 @@ describe('frameViewFor', () => {
 	});
 
 	it('marks the link the page sits under most closely and heads the page with it', () => {
-		expect(viewAt(staff, '/clients/c-1').currentHref).toBe('/clients');
+		expect(salesViewAt(staff, '/clients/c-1').currentHref).toBe('/clients');
 		expect(trailAt(staff, '/clients/patches/patch-1')).toMatchObject({ crumbs: [], heading: 'Territories' });
 		expect(trailAt(staff, '/organisations')).toMatchObject({ heading: 'Organisations' });
 		expect(trailAt(clientContact, '/portal/projects/project-1')).toMatchObject({ heading: 'Your projects' });
@@ -82,11 +92,11 @@ describe('frameViewFor', () => {
 			{ href: '/organisations/harbour', label: 'Overview', icon: 'layoutDashboard' },
 			{ href: '/projects', label: 'Projects', icon: 'folderKanban' }
 		];
-		const moduleLinks: FrameLink[] = [{ href: '/organisations/harbour/books', label: 'Accounts', icon: 'chartColumn' }];
+		const moduleLinks: FrameLink[] = [{ href: '/organisations/harbour/books', label: 'Accounts', icon: 'chartColumn' }, salesModuleLink];
 		const picks = { ...noPicks, organisationLinks, moduleLinks, homePath: '/projects' };
 		const view = frameViewFor(staff, siteUrl('/projects/harbour-site/tasks/one'), picks);
 		const labels = view.links.map(({ label }) => label);
-		expect(labels).toEqual(['Overview', 'Projects', 'Accounts', 'Leads', 'Clients', 'Leaderboard']);
+		expect(labels).toEqual(['Overview', 'Projects', 'Accounts', 'Prospecting', 'Leads', 'Clients', 'Leaderboard']);
 		expect(labels.filter((label) => label === 'Projects')).toHaveLength(1);
 		expect(view.currentHref).toBe('/projects');
 		expect(view.homePath).toBe('/projects');
