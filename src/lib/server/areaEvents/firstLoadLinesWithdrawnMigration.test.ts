@@ -21,9 +21,16 @@ describe('the migration that withdraws the lines two first loads wrote as news',
 	});
 
 	it("withdraws an arrival only for a premises that is not a later arrival, tied to it by the line's key", () => {
+		expect(statements).toMatch(/'premises_opened:' \|\| listed\.source \|\| ':' \|\| listed\.source_id \|\| ':' as key_without_date/);
+		expect(statements).toMatch(/and not listed\.is_later_arrival\s+\)/);
 		expect(statements).toMatch(
-			/line\.kind = 'premises_opened'[\s\S]+line\.source_key = public\.premises_change_key\('premises_opened', listed, line\.happened_at\)\s+and not listed\.is_later_arrival;/
+			/line\.kind = 'premises_opened'[\s\S]+and line\.source_key = arrival\.key_without_date \|\| line\.happened_at::text;/
 		);
+	});
+
+	it('gives up in seconds rather than holding the live site behind its lock', () => {
+		expect(statements).toContain("set local lock_timeout = '10s';");
+		expect(statements).toContain("set local statement_timeout = '2min';");
 	});
 
 	it('withdraws a holding company line only when the company was not newly incorporated, by the test the trigger now uses', () => {
