@@ -61,7 +61,8 @@ Pipeline* in Your Business Today, one task per step, and are written here as eac
   and searched, businesses sighted, leads added, companies arrived, moved in or left, status and
   accounts changes, charges, a holding company formed over a trading one, and what a weekly sweep
   observed. Chips narrow it to my patches, one patch, or one kind; it re-reads itself every half
-  minute while open. Each company's own page lists what was observed about it.
+  minute while open. Each company's own page lists what was observed about it. A line marked
+  withdrawn (`area_events.is_withdrawn`, 0254) is kept but never shown, here or on a company's page.
 - `/clients` gains a Patches door beside Map an area; the Business menu gains Patches.
 
 ## The entities
