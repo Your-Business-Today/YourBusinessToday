@@ -38,7 +38,7 @@ export function exportWorld(options: { isStoredFileMissing?: boolean } = {}) {
 	return { client, storedFile, loggedExports, removedPaths, storedParts: () => uploads };
 }
 
-type KeptInStorage = { storedFile: Uint8Array; uploads: Uint8Array[]; removedPaths: string[]; isStoredFileMissing: boolean };
+type KeptInStorage = { storedFile: Uint8Array<ArrayBuffer>; uploads: Uint8Array[]; removedPaths: string[]; isStoredFileMissing: boolean };
 
 const missingObject = { data: null, error: new Error('Object not found') };
 
