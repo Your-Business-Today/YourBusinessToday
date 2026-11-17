@@ -36,7 +36,9 @@ const identifiersEachActionChecksItself = new Set([
 ]);
 
 const everyAction = actionsFor(anAdministrator, null);
-const everyIdPath = everyAction.flatMap((action) => idPathsOf(action).map((path) => ({ action, ...path })));
+const everyIdPath = everyAction.flatMap(({ name, inputSchema }) =>
+	idPathsOf(inputSchema).map((path) => ({ actionName: name, ...path }))
+);
 const everyRequiredIdPath = everyIdPath.filter((path) => path.isRequired);
 
 describe('every action’s id inputs are refused at the gate, before the database', () => {
@@ -44,20 +46,20 @@ describe('every action’s id inputs are refused at the gate, before the databas
 		expect(everyIdPath.length).toBeGreaterThan(everyAction.length);
 	});
 
-	it.each(everyIdPath.map((path) => [path.action.name, path.shownAs, path]))(
-		'%s refuses a value of %s that is not an id',
-		async (_name, shownAs, path) => {
-			const answer = await runAction(caller, path.action.name, path.inputGiving(notAnId));
+	it.each(everyIdPath)(
+		'$actionName refuses a value of $shownAs that is not an id',
+		async ({ actionName, shownAs, inputGiving }) => {
+			const answer = await runAction(caller, actionName, inputGiving(notAnId));
 			expect(answer).toContain(shownAs);
 			expect(answer).toContain(refusedAtTheGate);
 		}
 	);
 
-	it.each(everyRequiredIdPath.map((path) => [path.action.name, path.shownAs, path]))(
-		'%s refuses %s when it is empty or left out',
-		async (_name, shownAs, path) => {
-			const emptyAnswer = await runAction(caller, path.action.name, path.inputGiving(''));
-			const leftOutAnswer = await runAction(caller, path.action.name, path.inputGiving(undefined));
+	it.each(everyRequiredIdPath)(
+		'$actionName refuses $shownAs when it is empty or left out',
+		async ({ actionName, shownAs, inputGiving }) => {
+			const emptyAnswer = await runAction(caller, actionName, inputGiving(''));
+			const leftOutAnswer = await runAction(caller, actionName, inputGiving(undefined));
 			expect(emptyAnswer).toContain(shownAs);
 			expect(leftOutAnswer).toContain(shownAs);
 			expect(leftOutAnswer).toContain(refusedAtTheGate);
@@ -66,7 +68,7 @@ describe('every action’s id inputs are refused at the gate, before the databas
 
 	it('names every input that holds an id with a name ending in Id, or checks it in its own action', () => {
 		const unnamed = everyAction
-			.flatMap((action) => fieldsDescribedAsIdsOf(action.inputSchema))
+			.flatMap(({ inputSchema }) => fieldsDescribedAsIdsOf(inputSchema))
 			.filter((name) => !identifiersEachActionChecksItself.has(name));
 		expect(unnamed).toEqual([]);
 	});

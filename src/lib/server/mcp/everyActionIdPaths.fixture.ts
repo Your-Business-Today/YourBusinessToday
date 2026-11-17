@@ -1,5 +1,4 @@
 import { nestedRecordsOf, recordIdFieldsOf, type NestedRecord } from './recordIdFields';
-import type { McpAction } from './actionTypes';
 
 type Reading = Record<string, unknown>;
 
@@ -10,9 +9,9 @@ type Placing = { shownAs: string; isRequired: boolean; place: (value: unknown) =
 const idInWords = /\bids?\b/i;
 const namedAsAnId = /Ids?$/;
 
-/** Every place in an action's input that names a record by id, at any depth, with a way to put a value there. */
-export function idPathsOf(action: McpAction): IdPath[] {
-	return placingsIn(action.inputSchema, '').map(({ shownAs, isRequired, place }) => ({
+/** Every place in an input schema that names a record by id, at any depth, with a way to put a value there. */
+export function idPathsOf(inputSchema: Reading): IdPath[] {
+	return placingsIn(inputSchema, '').map(({ shownAs, isRequired, place }) => ({
 		shownAs,
 		isRequired,
 		inputGiving: place
