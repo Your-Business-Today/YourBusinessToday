@@ -1,4 +1,5 @@
 <script lang="ts">
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 	import { initialsOf } from '$lib/data/initialsOf';
 	import type { LinkPage } from '$lib/data/linkPages/linkPage';
 
@@ -21,7 +22,7 @@
 		>
 	{/if}
 	<div class="flex flex-col gap-1">
-		<h1 class="font-display text-3xl font-medium text-chalk">{linkPage.fullName}</h1>
+		<PageTitle>{linkPage.fullName}</PageTitle>
 		<p class="text-sm text-signal">{linkPage.role}</p>
 	</div>
 	<p class="text-chalk-muted">{linkPage.introduction}</p>
