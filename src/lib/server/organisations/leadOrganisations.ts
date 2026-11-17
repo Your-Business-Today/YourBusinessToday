@@ -15,7 +15,7 @@ export async function findLeadOrganisationIds(): Promise<Set<string>> {
 	if (linkError) throw linkError;
 	if (links.length === 0) return new Set();
 	const clientIds = links.map((link) => link.client_id as string);
-	const { data: leads, error: leadError } = await service.from('clients').select('id').in('id', clientIds).in('stage', leadsRegister.stages);
+	const { data: leads, error: leadError } = await service.from('clients').select('id').in('id', clientIds).in('lifecycle_stage', leadsRegister.stages);
 	if (leadError) throw leadError;
 	const leadIds = new Set(leads.map((lead) => lead.id as string));
 	return new Set(links.filter((link) => leadIds.has(link.client_id as string)).map((link) => link.id as string));
