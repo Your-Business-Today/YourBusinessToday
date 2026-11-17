@@ -75,5 +75,6 @@ export const tablesKeptByOrganisation = [
 	'brand_film_makings',
 	'brand_film_making_pictures',
 	'brand_performance_readings',
-	'workflow_map_versions'
+	'workflow_map_versions',
+	'news_watch_list'
 ];
