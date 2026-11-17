@@ -5,9 +5,10 @@ import type { Tab } from '$lib/components/workspace/TabStrip.svelte';
 
 /**
  * The tabs of a company's own page, "Their business". Overview holds our sales notes; every other tab shows only
- * what has been built for the company, so it can be shown to them on a screen.
+ * what has been built for the company, so it can be shown to them on a screen. The brand tab is brand-kit, because a
+ * route segment named brand is the Brand module's, which is gated by the organisation's own switch.
  */
-export const leadTabKeys = { overview: 'overview', domain: 'domain', workflowMap: 'workflow-map', brand: 'brand', quote: 'quote' } as const;
+export const leadTabKeys = { overview: 'overview', domain: 'domain', workflowMap: 'workflow-map', brand: 'brand-kit', quote: 'quote' } as const;
 
 export type LeadTabKey = (typeof leadTabKeys)[keyof typeof leadTabKeys];
 
@@ -17,7 +18,7 @@ export const leadTabLabels: Record<LeadTabKey, string> = {
 	overview: 'Overview',
 	domain: 'Domain',
 	'workflow-map': 'Workflow map',
-	brand: 'Brand',
+	'brand-kit': 'Brand',
 	quote: 'Quote'
 };
 

@@ -10,14 +10,14 @@ describe('leadTabs', () => {
 			'/leads/conservaqua',
 			'/leads/conservaqua/domain',
 			'/leads/conservaqua/workflow-map',
-			'/leads/conservaqua/brand',
+			'/leads/conservaqua/brand-kit',
 			'/leads/conservaqua/quote'
 		]);
 	});
 
 	it('moves the tabs to the Clients register once the company signs', () => {
 		const signed = { ...conservaqua, stage: 'client' as const };
-		expect(leadTabHref(signed, leadTabKeys.brand)).toBe('/clients/conservaqua/brand');
+		expect(leadTabHref(signed, leadTabKeys.brand)).toBe('/clients/conservaqua/brand-kit');
 	});
 
 	it('leads back through the register and the company', () => {
