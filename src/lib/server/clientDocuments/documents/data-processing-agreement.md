@@ -1,8 +1,8 @@
 # Schedule 1 — Data Processing Agreement
 
-**Version 1.3 — 16 November 2026**
+**Version 1.4 — 17 November 2026**
 
-This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It is the contract required by Article 28(3) of the UK GDPR. Where it conflicts with anything else in the agreement about personal data, this schedule wins.
+This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It is the contract required by Article 28(3) of the UK GDPR. Where it conflicts with anything else in the agreement about personal data, this schedule wins. In this schedule, "**data protection law**" means the UK GDPR and the Data Protection Act 2018, as amended or replaced from time to time, and any other law on the processing of personal data that applies to the services; other words have the meaning given in the Master Services Agreement.
 
 ## 1. Roles
 
@@ -20,7 +20,7 @@ YBT will:
 
 2.1 **Instructions.** Process the personal data only on the Client's documented instructions — which are the agreement, each Order Form, and the Client's use of the Solution's features — including as to international transfers, unless the law requires otherwise (in which case YBT will tell the Client first, unless the law forbids it). YBT will tell the Client immediately if it thinks an instruction breaks data protection law.
 
-2.2 **Confidentiality.** Ensure that everyone YBT authorises to process the personal data — employees, contractors or agency staff — is under a duty of confidence.
+2.2 **Confidentiality.** Ensure that everyone YBT authorises to process the personal data — employees, contractors or agency staff — is under a duty of confidence, given in writing in the deed each of them signs before working for YBT.
 
 2.3 **Security.** Take the technical and organisational measures required by Article 32 of the UK GDPR. The measures are described in Annex B. YBT may improve them but will not reduce the overall level of protection.
 
@@ -50,7 +50,7 @@ YBT will:
 
 ## 4. International transfers
 
-4.1 The Client's personal data is hosted in the Microsoft Azure regions the Order Form names. They are in the United Kingdom or the European Economic Area, and backups are replicated to the region Azure pairs with the one the database runs in. Hosting in the European Economic Area is covered by the United Kingdom's adequacy regulations, so it needs no further transfer safeguard. Personal data the Client keeps in YBT's platform at yourbusiness.today is hosted in London, United Kingdom, by the sub-processors named for the platform in Annex C.
+4.1 The Client's personal data is hosted in the Microsoft Azure regions the Order Form names. They are in the United Kingdom or the European Economic Area, and backups are replicated to the region Azure pairs with the one the database runs in. Hosting in the European Economic Area is covered by the United Kingdom's adequacy regulations, so it needs no further transfer safeguard. Personal data the Client keeps in YBT's Platform at yourbusiness.today is hosted in London, United Kingdom, by the sub-processors named for the platform in Annex C.
 
 4.2 Some sub-processors in Annex C may access personal data from outside the United Kingdom, including for support. Where they do, YBT will make sure the transfer is covered by UK adequacy regulations or by the International Data Transfer Agreement or the UK Addendum to the EU Standard Contractual Clauses, supported by a documented transfer risk assessment.
 
@@ -66,7 +66,7 @@ YBT will:
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Subject matter                            | Hosting and operating the Solution built for the Client, hosting the Client Data the Client keeps in YBT's platform at yourbusiness.today (such as its Books, Your Business Brain, Boardroom and workflow map), and providing the services in each Order Form.                         |
 | Duration                                  | For the term of the agreement, and afterwards until the data is returned and deleted under Schedule 4.                                                                                                                                                                                 |
-| Nature of the processing                  | Collection through the Solution, storage, hosting, backup, retrieval, organisation, display, transmission, export, correction and deletion; and, where the Order Form says so, sending records to an AI service to generate text from them.                                            |
+| Nature of the processing                  | Collection through the Solution, storage, hosting, backup, retrieval, organisation, display, transmission, export, correction and deletion; and reading by the AI sessions YBT's people work with while they build and support the Solution (Annex B, point 9).                                            |
 | Purpose                                   | To provide the Solution and the services to the Client.                                                                                                                                                                                                                                |
 | Types of personal data                    | [Names; work contact details (email, phone); job titles; records of work done, messages and files that the Client's users put into the Solution; sign-in and access logs. Add anything specific to this client.]                                                                       |
 | Special category or criminal offence data | [None. If the Solution will hold any, list it here and the additional measures agreed.]                                                                                                                                                                                                |
@@ -75,20 +75,22 @@ YBT will:
 
 ## Annex B — Security measures
 
-1. **Separation between clients.** Each client's Solution runs in its own Azure subscription with its own database, storage and credentials. No sign-in or administrative session spans more than one client.
+1. **Separation between clients.** Each client's Solution runs in its own Azure subscription with its own database, storage and credentials. No sign-in or administrative session spans more than one client. An AI session a YBT person works with works on one client at a time; the one exception is companies in one group, where that group has agreed in writing that a session may work across them.
 2. **Access control.** Access is on a least-privilege basis and granted to named individuals only. Every administrative and privileged account uses multi-factor authentication. Access is removed on the day someone stops working on the Client's Solution.
 3. **Encryption.** Data is encrypted in transit (TLS 1.2 or higher) and at rest, including in backups, using Azure platform encryption.
 4. **Logging.** Changes to production are recorded in the Azure activity log and kept for 90 days. The Solution's application logs, including sign-ins to the Solution, are kept for at least 30 days.
 5. **Backups and recovery.** Automated backups are geo-redundant, replicated to the paired Azure region, and kept for 35 days for point-in-time restore, with weekly backups kept for 12 weeks and monthly backups for 12 months. Restores are tested at least every six months, and each test is recorded against the recovery targets in Schedule 2.
-6. **Secure development and updates.** Code is reviewed by a person before release. Security updates are applied to the platform and dependencies promptly, and critical ones within 14 days.
+6. **Secure development and updates.** Every change passes YBT's automated checks — its tests, type checks and code quality gate — before it is released, and changes are released through a recorded pull request. YBT is responsible for every change as if a person had written it; it does not promise that a person reviews each change before release. Security updates are applied to the platform and dependencies promptly, and critical ones within 14 days.
 7. **Staff.** Everyone with access is bound by confidentiality and briefed on this schedule and the breach procedure.
 8. **Breach notification content.** A notification under section 2.7 will describe, as far as known: the nature of the breach, the categories and approximate number of individuals and records concerned, the likely consequences, the measures taken or proposed to deal with it, and a contact at YBT. Further information will follow as it becomes available.
+9. **AI.** The Solution and YBT's Platform send nothing to an AI model themselves. YBT's people build and support with Claude sessions, which can read the Client Data the work needs, with no more access than the person using them; and with a model YBT runs on its own computer, which sends nothing to an outside AI service. Where the Client's own users connect their AI assistant to the Solution or the Platform through YBT's connector, it works under that user's own sign-in and the Client's own account with its AI provider, which is the Client's supplier, not YBT's sub-processor.
+
 ## Annex C — Sub-processor register
 
 | Sub-processor                                          | What it does for the Solution                                                              | Where the data is                                                                                                                                  | Transfer safeguard                                                                                          |
 | ------------------------------------------------------ | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | Microsoft Ireland Operations Limited (Microsoft Azure) | Hosting, database, file storage, backups and monitoring                                    | The United Kingdom or the European Economic Area, in the regions the Order Form names. Microsoft support staff may access remotely from elsewhere. | Microsoft Products and Services Data Protection Addendum, including the UK Addendum                         |
-| Anthropic, PBC                                         | AI text generation from records — only where the Order Form says AI services are used      | United States                                                                                                                                      | Anthropic's data processing addendum with the UK Addendum. Anthropic does not train its models on API data. |
+| Anthropic, PBC                                         | The Claude sessions YBT's people work with to build and support the Solution, which can read the Client Data the work needs (Annex B, point 9) | United States                                                                                                                                      | Anthropic's data processing addendum with the UK Addendum |
 | Resend, Inc.                                           | Sending the Solution's emails, such as notifications — only where the Solution sends email; and the emails YBT's platform sends, such as invoices from Books, Boardroom notices and invitations | United States                                                                                                                                      | Resend's data processing agreement with the UK Addendum                                                     |
 | Supabase, Inc.                                         | YBT's platform at yourbusiness.today: the database, sign-in and file storage that hold the Client's Books, Your Business Brain, Boardroom, workflow map and portal data | London, United Kingdom. Supabase support staff may access remotely from elsewhere.                                                                 | Supabase's data processing addendum with the UK Addendum                                                    |
 | Vercel Inc.                                            | YBT's platform at yourbusiness.today: running the application that serves those records    | London, United Kingdom. Vercel support staff may access remotely from elsewhere.                                                                   | Vercel's data processing addendum with the UK Addendum                                                      |
@@ -101,4 +103,5 @@ _Last updated 16 November 2026. YBT keeps this register current and gives notice
 | --------- | --------------------------- | ----------------------- |
 | Signature |                             |                         |
 | Name      | Jeremy Ferendinos           | [Name]                  |
+| Position  | Director                    | [Position]              |
 | Date      |                             |                         |

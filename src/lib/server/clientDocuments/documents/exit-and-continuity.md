@@ -1,6 +1,6 @@
 # Schedule 4 — Exit and Continuity
 
-**Version 1.4 — 16 November 2026**
+**Version 1.5 — 17 November 2026**
 
 This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It says how the Client gets its data and its system back — when the Run service ends normally, and if YBT cannot continue.
 
@@ -22,6 +22,8 @@ This schedule forms part of the Master Services Agreement between Your Business 
 - the same data as CSV files, one per table;
 - the documented database schema, describing each table and field;
 - all files and attachments stored by the Solution, in their original formats.
+
+2.5 **The Platform.** Client Data kept in YBT's Platform at yourbusiness.today is given to the Client on written request, as clause 8.6 of the Master Services Agreement says.
 
 ## 3. When the Run service ends
 

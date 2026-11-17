@@ -1,6 +1,6 @@
 # Assignment of Rights and Waiver of Moral Rights
 
-**Internal — Your Business Today Ltd — Version 1.0 — 16 November 2026**
+**Internal — Your Business Today Ltd — Version 1.1 — 17 November 2026**
 
 Signed by everyone who writes code, documents or anything else for YBT that may become a Deliverable for a client: directors, employees, contractors and agency staff. It is what lets YBT assign the Foreground IP to a client under clause 9.1 of the Master Services Agreement, and keep the promise about moral rights in clause 9.2.
 
@@ -18,13 +18,21 @@ This deed is made on [date] between **Your Business Today Ltd**, a company regis
 
 2.1 The Contributor unconditionally and irrevocably waives, in favour of YBT, its licensees and successors in title, and every client to whom YBT assigns or licenses the Works, all moral rights in the Works under Chapter IV of Part I of the Copyright, Designs and Patents Act 1988, and any similar rights anywhere in the world, so far as the law allows.
 
-## 3. What the Contributor keeps
+## 3. Confidentiality
 
-3.1 This deed does not take from the Contributor anything created before working for YBT or outside that work, nor general skills, know-how and experience.
+3.1 The Contributor will keep confidential everything they learn about YBT's clients while working for YBT, including client data, personal data and how each client's business works, and will use it only to do that work. They will not disclose it to anyone except people at YBT who need it for the same work, or where the law requires.
 
-## 4. Law
+3.2 The Contributor will work on client data only in the accounts and tools YBT approves, will keep each client's data apart from every other client's, and will tell YBT straight away if they think client data has been lost, seen by someone who should not see it, or put at risk.
 
-4.1 This deed is governed by the law of England and Wales, and the courts of England and Wales have exclusive jurisdiction.
+3.3 This duty continues after the work for YBT ends, without limit of time.
+
+## 4. What the Contributor keeps
+
+4.1 This deed does not take from the Contributor anything created before working for YBT or outside that work, nor general skills, know-how and experience.
+
+## 5. Law
+
+5.1 This deed is governed by the law of England and Wales, and the courts of England and Wales have exclusive jurisdiction.
 
 ## Executed as a deed
 

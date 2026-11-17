@@ -11,6 +11,7 @@ export const privacySharingSections: LegalSection[] = [
 			'Anthropic — the Claude assistant our staff work with, as described above.',
 			'Stripe — taking card payments for our invoices. Stripe holds your card details itself, to the payment card industry’s security standard (PCI DSS), and shares with us only what a payment was for, its amount and its date.',
 			'beehiiv — sending YBT Weekly to the people who signed up for it, with the link to leave in every issue.',
+			'Google — our own email, through Google Workspace, so the emails you send us and we send you are held there.',
 			'Resend — sending the service’s emails, such as invitations, enquiry notifications and the tax deadlines email the calculator sends when you ask for it.'
 		]
 	},

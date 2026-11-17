@@ -71,10 +71,24 @@ export const clientDocumentCatalogue: ClientDocumentEntry[] = [
 		audience: 'internal'
 	},
 	{
+		slug: 'dpia-pack',
+		title: 'DPIA Pack',
+		summary:
+			'YBT’s side of a client’s data protection impact assessment: the processing, how the data moves, where it is held, security, retention and deletion, and the risks.',
+		audience: 'internal'
+	},
+	{
+		slug: 'transfer-risk-assessment',
+		title: 'Transfer Risk Assessment',
+		summary:
+			'The assessment behind Microsoft support access, Anthropic, Resend, Supabase and Vercel reaching client data from outside the United Kingdom.',
+		audience: 'internal'
+	},
+	{
 		slug: 'ip-assignment-and-waiver',
 		title: 'Assignment of Rights and Waiver of Moral Rights',
 		summary:
-			'Signed as a deed by everyone who writes for YBT, so that YBT owns what they make and can assign it to a client under MSA clause 9.',
+			'Signed as a deed by everyone who writes for YBT, so that YBT owns what they make and can assign it to a client under MSA clause 9, and so that they keep client data confidential.',
 		audience: 'internal'
 	}
 ];
