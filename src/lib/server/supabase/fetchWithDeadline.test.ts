@@ -9,17 +9,19 @@ const storageAddress = `${supabaseOrigin}/storage/v1/object/attachments/report.p
 function supabaseThatNeverAnswers(): typeof fetch {
 	return (_input, init) =>
 		new Promise<Response>((_resolve, reject) => {
-			init?.signal?.addEventListener('abort', () => reject(init.signal?.reason));
+			const signal = init?.signal;
+			signal?.addEventListener('abort', () => reject(signal.reason));
 		});
 }
 
 function supabaseThatAnswersAfter(milliseconds: number): typeof fetch {
 	return (_input, init) =>
 		new Promise<Response>((resolve, reject) => {
+			const signal = init?.signal;
 			const answer = setTimeout(() => resolve(new Response('[]')), milliseconds);
-			init?.signal?.addEventListener('abort', () => {
+			signal?.addEventListener('abort', () => {
 				clearTimeout(answer);
-				reject(init.signal?.reason);
+				reject(signal.reason);
 			});
 		});
 }
