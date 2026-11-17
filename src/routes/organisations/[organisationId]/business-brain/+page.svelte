@@ -1,29 +1,12 @@
 <script lang="ts">
-	import BusinessBrainDrawn from '$lib/components/businessBrain/BusinessBrainDrawn.svelte';
-	import BusinessBrainFilesTable from '$lib/components/businessBrain/BusinessBrainFilesTable.svelte';
-	import BusinessBrainQuestionRecordLinks from '$lib/components/businessBrain/BusinessBrainQuestionRecordLinks.svelte';
-	import BusinessBrainPagesTable from '$lib/components/businessBrain/BusinessBrainPagesTable.svelte';
-	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
-	import TabStrip from '$lib/components/workspace/TabStrip.svelte';
+	import BusinessBrainBody from '$lib/components/businessBrain/BusinessBrainBody.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
-	import { businessBrainAddresses } from '$lib/data/businessBrainAddresses';
 	import { businessBrainCrumbs } from '$lib/components/businessBrain/businessBrainCrumbs';
-	import { businessBrainTabKeys, businessBrainTabOf, businessBrainTabsFor } from '$lib/components/businessBrain/businessBrainTabs';
-	import { filesListedSentence, pagesListedSentence } from '$lib/components/businessBrain/businessBrainSentences';
-	import { page } from '$app/state';
-	import { panelEmptyClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
 
-	const { organisation, index, listedFiles, drawing, brainsWithRecords } = $derived(data);
-	const { entries: pages, pageCount } = $derived(index);
-	const { files, fileCount } = $derived(listedFiles);
-	const addresses = $derived(businessBrainAddresses(organisation.id));
-	const tabs = $derived(businessBrainTabsFor({ pageCount, fileCount }));
-	const shownTab = $derived(businessBrainTabOf(page.url));
-	const hasMorePages = $derived(pages.length < pageCount);
-	const hasMoreFiles = $derived(files.length < fileCount);
-	const nothingFiledYet = 'Nothing is filed yet. Ask your Claude to file what the business knows through the connector.';
+	const { organisation, brain } = $derived(data);
 </script>
 
 <svelte:head>
@@ -35,23 +18,5 @@
 </WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>
-	<nav aria-label="Your Business Brain">
-		<TabStrip {tabs} selectedKey={shownTab} />
-	</nav>
-	<DashboardPanel>
-		{#if shownTab === businessBrainTabKeys.brain}
-			<BusinessBrainDrawn {drawing} {addresses} />
-			<BusinessBrainQuestionRecordLinks brains={brainsWithRecords} {addresses} />
-		{:else if shownTab === businessBrainTabKeys.files}
-			<BusinessBrainFilesTable {files} {addresses} />
-			{#if hasMoreFiles}
-				<p class={panelEmptyClasses}>{filesListedSentence(files.length, fileCount)}</p>
-			{/if}
-		{:else if shownTab === businessBrainTabKeys.pages}
-			<BusinessBrainPagesTable {pages} {addresses} emptyMessage={nothingFiledYet} />
-			{#if hasMorePages}
-				<p class={panelEmptyClasses}>{pagesListedSentence(pages.length, pageCount)}</p>
-			{/if}
-		{/if}
-	</DashboardPanel>
+	<BusinessBrainBody organisationId={organisation.id} {brain} />
 </div>
