@@ -1,12 +1,17 @@
 # Master Services Agreement
 
-**Version 1.3 — 16 November 2026**
+**Version 1.4 — 17 November 2026**
 
 This agreement is made on [date] between:
 
 **Your Business Today Ltd**, a private company limited by shares registered in England and Wales under company number 17329446, whose registered office is at 8 Eastleigh Close, Sutton, England, SM2 6QY ("**YBT**", "**we**"); and
 
 **[Client legal name]**, a company registered in [England and Wales] under company number [number], whose registered office is at [address] (the "**Client**", "**you**").
+
+_Where the Client is not a company, use one of these instead:_
+
+- _a sole trader: **[Full name]**, trading as [trading name], of [business address] (the "**Client**", "**you**");_
+- _a partnership: **[Full name of each partner]**, trading in partnership as [partnership name], of [business address], each of whom is bound jointly and severally (the "**Client**", "**you**"). A limited liability partnership is a company for this purpose and uses the company wording above with its LLP number._
 
 ## Background
 
@@ -31,17 +36,20 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 - "**Background IP**" means everything YBT owned or developed before or outside an Order Form — its frameworks, libraries, templates, tooling, methods and know-how — and any improvement to them that is not specific to you.
 - "**Business Day**" means a day other than a Saturday, Sunday or public holiday in England.
-- "**Client Data**" means all data, including personal data, that you or your users put into the Solution or into YBT's platform at yourbusiness.today (such as its Books, Your Business Brain, Boardroom and workflow map), or that we receive from you, including the documents, exports and files you hand over during an engagement. It does not include the Engagement Records.
+- "**Client Data**" means all data, including personal data, that you or your users put into the Solution or into the Platform, or that we receive from you, including the documents, exports and files you hand over during an engagement. It does not include the Engagement Records.
+- "**Contract year**" means each period of 12 months starting on the date this agreement is signed or on an anniversary of that date.
+- "**Data protection law**" means the UK GDPR and the Data Protection Act 2018, as amended or replaced from time to time, and any other law on the processing of personal data that applies to the services.
 - "**Engagement Records**" means the record YBT keeps of the work under this agreement: the Order Forms, change requests, acceptance notices and invoices; the projects, goals, tasks, requests and messages through which the work is run in YBT's portal; and the names, roles and work contact details of your people that appear in them.
 - "**Deliverables**" means everything we produce for you under an Order Form: the source code, database schema, configuration, infrastructure definitions and documentation specific to you, and the written record of how your business works.
 - "**Foreground IP**" means the intellectual property rights in the Deliverables, other than Background IP and third-party components.
 - "**Order Form**" means a signed order for a Discovery stage, a Build stage or the Run service, in the form YBT provides.
+- "**Platform**" means YBT's own software at yourbusiness.today that YBT runs for all its clients, such as the client portal, Books, Your Business Brain, Boardroom and the workflow map, and the connector through which AI assistants reach it. The Platform is not a Deliverable and is not part of the Solution.
 - "**Run service**" means YBT hosting, operating, monitoring, backing up, updating and supporting the Solution for a monthly fee.
 - "**Solution**" means the software YBT builds for you and, while you take the Run service, the managed environment in which it runs.
 
 ## 3. Ordering work in stages
 
-3.1 Work is ordered in stages. Each Discovery or Build stage has its own Order Form setting out its scope, deliverables, acceptance criteria, fee and dates.
+3.1 Work is ordered in stages. Each Discovery or Build stage has its own Order Form setting out its scope, deliverables, acceptance criteria, fee and dates. Discovery, the mapping of how your business works, is done by your own AI assistant through the Platform's connector and carries no fee.
 
 3.2 Signing an Order Form commits both of us to that stage only. You are never obliged to order the next stage, and choosing not to is how you stop. There is no termination fee for not ordering further stages.
 
@@ -57,6 +65,10 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 4.3 A stage is accepted when you say so in writing, when the ten Business Days pass without a written rejection, or when you start using it in live operation — whichever is first. A failure that is not against an acceptance criterion is not a reason to reject; we will deal with it as support under Schedule 2.
 
+4.4 **Our warranty.** YBT warrants that it will provide the services with reasonable skill and care. If, within [90] days after a stage is accepted, the stage fails an acceptance criterion in its Order Form, YBT will fix it at no charge once you tell us in writing. Fixing it is your remedy for that failure, without limiting clause 12.1.
+
+4.5 **No other warranties.** The warranties in this agreement are the only ones YBT gives. All other warranties, conditions and terms implied by statute or common law, including as to satisfactory quality and fitness for purpose, are excluded as far as the law allows.
+
 ## 5. Changes
 
 5.1 Scope, price or dates in a signed Order Form change only by a written change request signed by both of us, stating the effect on price and timetable.
@@ -71,25 +83,35 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 6.3 You are responsible for your users' compliance with the Acceptable Use Policy in Schedule 3, and for keeping your own users' sign-in credentials secure.
 
+6.4 **Your AI accounts and connected systems.** You are responsible for your own accounts with AI providers, for what your users' AI assistants do through the connector to the Solution or the Platform while signed in as each user (which is what that user could do themselves), and for the outside systems you connect to the Solution or the Platform, such as Xero and Microsoft 365, and the terms you hold with their providers. Those providers are your suppliers, not YBT's sub-processors.
+
+6.5 **Software, not advice.** YBT supplies software. It does not give accounting, tax, legal, fire safety or other professional advice, and nothing the Solution, the Platform or an AI assistant produces is that advice. You check AI output before you rely on it, and you remain responsible for your own filings, returns, certificates and records.
+
 ## 7. Fees and payment
 
-7.1 You will pay the fees in each Order Form. Unless the Order Form says otherwise, we invoice a Discovery stage on signature, a Build stage 50% on signature and 50% on acceptance, and the Run service monthly in advance.
+7.1 You will pay the fees in each Order Form. Unless the Order Form says otherwise, we invoice a Build stage 50% on signature and 50% on acceptance, and the Run service monthly in advance.
 
 7.2 Invoices are payable within 14 days of the invoice date. All fees are exclusive of VAT, which is added where it applies.
 
 7.3 **Late payment.** If an invoice is not paid on time we may charge interest and compensation under the Late Payment of Commercial Debts (Interest) Act 1998, at 8% a year above the Bank of England base rate, from the due date until payment.
 
-7.4 **Suspension.** If an undisputed invoice is more than 30 days overdue, we may give you written notice that we will suspend your users' access to the Solution unless it is paid within a further 14 days. If it is not, we may suspend access until it is. **Suspension never suspends our duties to export, return and delete Client Data under Schedule 1 and Schedule 4. We will never withhold your data to secure payment.**
+7.4 **Suspension.** If an undisputed invoice is more than 30 days overdue, we may give you written notice that we will suspend your users' access to the Solution unless it is paid within a further 14 days. If it is not, we may suspend access until it is, and on the same notice we may also pause Build stage work until it is paid, with the dates that depend on that work moving by at least the time it is paused. **Suspension never suspends our duties to export, return and delete Client Data under Schedule 1 and Schedule 4. We will never withhold your data to secure payment.**
 
 7.5 **Run service price changes.** We may change the monthly Run service fee on at least 60 days' written notice. If you do not accept the change you may end the Run service on notice given before the change takes effect, without paying the new price.
 
-## 8. The managed Solution
+## 8. The managed Solution and the Platform
 
 8.1 While you take the Run service, YBT provides the Solution as a single managed service. YBT contracts for all of the infrastructure and platform services underneath it (including Microsoft Azure) in its own name and at its own risk, and is your only counterparty for them. You acquire the Solution, not any underlying cloud service, and nothing in this agreement is a resale, sub-licence or redistribution of a third-party service.
 
-8.2 The Solution runs in a Microsoft Azure subscription held by YBT and dedicated to you alone, in the Microsoft Azure regions the Order Form names, in the United Kingdom or the European Economic Area, separated from every other client's systems. Client Data you keep in YBT's platform at yourbusiness.today is not in that subscription: it is held for YBT by the sub-processors named for the platform in Annex C of Schedule 1, in London, United Kingdom, kept apart from every other client's data by access controls on every record. The monthly fee is a single inclusive figure; we do not pass through or itemise the cost of underlying services.
+8.2 The Solution runs in a Microsoft Azure subscription held by YBT and dedicated to you alone, in the Microsoft Azure regions the Order Form names, in the United Kingdom or the European Economic Area, separated from every other client's systems. Client Data you keep in the Platform is not in that subscription: it is held for YBT by the sub-processors named for the platform in Annex C of Schedule 1, in London, United Kingdom, kept apart from every other client's data by access controls on every record. The monthly fee is a single inclusive figure; we do not pass through or itemise the cost of underlying services.
 
 8.3 Schedule 4 sets out how the Solution and its subscription can be transferred to you, or to someone you nominate, when the Run service ends or if YBT cannot continue.
+
+8.4 **Using the Platform.** While at least one Order Form is in force, YBT grants you and your users a non-exclusive, non-transferable right to use the Platform for your own business, under this agreement and the Acceptable Use Policy. YBT may change and improve the Platform, but will not take away a feature you use without telling you at least 30 days before.
+
+8.5 **Rights in the Platform.** YBT keeps all rights in the Platform. Nothing in this agreement assigns or licenses it to you beyond clause 8.4, and clause 9.1 does not apply to it. The Client Data you keep in the Platform is yours, and clause 10 and Schedule 1 apply to it as to any other Client Data.
+
+8.6 **Getting your data out of the Platform.** On your written request, at any time and when your last Order Form ends, YBT will give you the Client Data you keep in the Platform within 10 Business Days, at no charge, as CSV files with the files and attachments in their original formats. Schedule 4, section 3.3, applies to deleting it afterwards.
 
 ## 9. Intellectual property
 
@@ -103,7 +125,7 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 9.5 **Open-source components.** The Order Form (or the documentation delivered with a stage) lists the material open-source components in the Deliverables and their licences. We will not include a component under a copyleft licence (such as the GPL or AGPL) in anything distributed to you without your written consent.
 
-9.6 **AI-assisted development.** We use AI tools to help write code and documents, and every Deliverable is reviewed by a person before it is delivered. The assignment in clause 9.1 covers whatever rights subsist in AI-assisted output, and as between us, those rights belong to you on payment. We do not warrant that copyright subsists in any particular piece of AI-assisted output. Client Data is never used to train a third-party AI model, and we only send Client Data to an AI service named in the sub-processor register in Schedule 1.
+9.6 **AI-assisted development.** YBT builds with AI. Its people work with Claude sessions, and with a model YBT runs on its own computer, to write code and documents and to support the Solution, and those sessions may read Client Data while they do. Every change passes YBT's automated checks before it is released, and YBT is responsible for every Deliverable and every change as if a person had written it. YBT does not promise that a person reviews each change before it is released. The assignment in clause 9.1 covers whatever rights subsist in AI-assisted output, and as between us, those rights belong to you on payment. We do not warrant that copyright subsists in any particular piece of AI-assisted output. The Solution and the Platform send nothing to an AI model themselves. The AI services that may process Client Data for YBT are named in the sub-processor register in Schedule 1, and Client Data is never used to train an AI model.
 
 9.7 **Warranty against infringement.** YBT warrants that, to its knowledge, the Deliverables (excluding open-source components and anything you supplied) do not infringe any third party's intellectual property rights.
 
@@ -149,11 +171,11 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 13.1 This agreement starts on the date it is signed and continues until every Order Form under it has ended and either of us gives written notice to end it.
 
-13.2 **Ending the Run service.** Either of us may end the Run service on one calendar month's written notice, expiring at the end of a billing month. We will not end the Run service on less than three months' notice unless clause 13.3 applies.
+13.2 **Ending the Run service.** You may end the Run service on one calendar month's written notice. YBT may end it on three calendar months' written notice. Either notice expires at the end of a billing month. This does not limit clause 13.3.
 
 13.3 **Ending for cause.** Either of us may end this agreement or any Order Form immediately by written notice if the other (a) commits a material breach that cannot be remedied, or that is not remedied within 30 days of written notice describing it; or (b) becomes insolvent, enters administration or liquidation, or ceases to trade.
 
-13.4 **What happens when it ends.** You pay for work done and services provided up to the end date. Schedule 4 (Exit and Continuity) applies. Clauses 7.3, 9, 10, 11, 12, 13.4, 15 and 16, and Schedules 1 and 4, survive.
+13.4 **What happens when it ends.** You pay for work done and services provided up to the end date. Schedule 4 (Exit and Continuity) applies. Clauses 7.3, 8.6, 9, 10, 11, 12, 13.4, 14, 15 and 16, and Schedules 1 and 4, survive.
 
 ## 14. Insurance
 
@@ -164,9 +186,7 @@ YBT learns how a business runs and then builds and runs the software that runs i
 - public and products liability insurance with a limit of not less than £2,000,000 for any one claim; and
 - employers' liability insurance as the law requires, from the time YBT employs anyone.
 
-  14.2 Professional indemnity and cyber insurance are written on a claims-made basis, so YBT keeps the cover in place for the six years after this agreement ends by renewing those policies each year, not by buying run-off cover. The cyber insurance does not cover stolen funds or income YBT loses while it cannot trade.
-
-  14.3 YBT will give the Client a copy of its insurance certificates on request.
+  14.2 YBT will give the Client a copy of its insurance certificates on request.
 
 ## 15. Data protection, subcontracting and people
 
@@ -195,6 +215,10 @@ YBT learns how a business runs and then builds and runs the software that runs i
 16.8 **Counterparts and electronic signature.** This agreement may be signed in counterparts and by electronic signature.
 
 16.9 **Governing law and jurisdiction.** This agreement and any dispute arising from it, including non-contractual disputes, are governed by the law of England and Wales, and the courts of England and Wales have exclusive jurisdiction.
+
+16.10 **Settling a dispute.** If a dispute arises, either of us may give the other written notice of it, and a director (or, for a Client that is not a company, the Client or a partner) of each side will meet or talk within ten Business Days to try to settle it. If they cannot, we will try mediation with a mediator we agree, or one appointed by the Centre for Effective Dispute Resolution, before either of us goes to court. Nothing in this clause stops either of us seeking urgent relief from a court at any time.
+
+16.11 **Following the law.** Each of us will comply with the laws that apply to it in performing this agreement, including the Bribery Act 2010, and will not offer, give or accept any bribe in connection with it.
 
 ## Signed
 

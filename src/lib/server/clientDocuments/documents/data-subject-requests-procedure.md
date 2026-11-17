@@ -1,6 +1,6 @@
 # Data Subject Requests and Erasure Procedure
 
-**Internal — Your Business Today Ltd — Version 1.1 — 1 November 2026**
+**Internal — Your Business Today Ltd — Version 1.2 — 17 November 2026**
 
 How YBT helps a client when someone asks to see, correct, move or delete their personal data held in a Solution YBT runs.
 
@@ -32,7 +32,7 @@ Search every place the Solution keeps personal data:
 | Application and access logs  | Search by user id and email                                                | Logs roll off after 30 to 90 days, depending on the Solution                    |
 | Exports held by YBT          | Check the export folder for that client                                    | Delete old exports once delivered                                               |
 | Email sent by the Solution   | Check the email provider's log                                             | Metadata only                                                                   |
-| AI requests                  | Check whether the Solution stores AI requests or responses for that client | The AI provider does not keep API data for training; retention is per its terms |
+| AI sessions                  | Search the Claude chats YBT's people used on that client's work, and delete any that hold the person's data | The Solution sends nothing to an AI model itself. What the client's own users' AI assistants hold sits in the client's own AI accounts, so the client searches those |
 | Backups                      | Cannot be edited — see section 4                                           | Point-in-time backups expire after 35 days, long-term ones after 12 months      |
 
 ## 4. Erasure

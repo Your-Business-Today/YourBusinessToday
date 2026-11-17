@@ -1,6 +1,6 @@
 # Schedule 2 — Service Levels and Support
 
-**Version 1.2 — 1 November 2026**
+**Version 1.3 — 17 November 2026**
 
 This schedule forms part of the Master Services Agreement between Your Business Today Ltd ("**YBT**") and [Client legal name] (the "**Client**"). It applies while the Client takes the Run service.
 
@@ -56,6 +56,7 @@ Unavailability does not count against the target, and no credit is due, to the e
 - a third-party service or API the Client asked the Solution to use;
 - the Client's own network, devices, identity provider or internet connection;
 - use of the Solution in breach of the Acceptable Use Policy, or the Client's instructions;
+- routine nightly releases, which YBT makes every night at about 00:00 UK time and which may include changes to the database, up to 30 minutes a night;
 - planned maintenance announced at least 3 Business Days in advance and carried out between 19:00 and 07:00 UK time or at weekends, up to 4 hours a month;
 - emergency security patching needed to protect the Solution or the Client's data;
 - a force majeure event under the Master Services Agreement;
@@ -63,7 +64,7 @@ Unavailability does not count against the target, and no credit is due, to the e
 
 ## 6. Monthly change work
 
-6.1 The Run service includes the change-work allowance stated in the Order Form each month. Unused time does not carry forward. Work beyond the allowance is quoted as a change request under clause 5 of the Master Services Agreement.
+6.1 The Run service includes the change-work allowance stated in the Order Form each month, in story points. A story point is YBT's measure of the size of a change, set the same way for every change by counting the screens it changes and adds, whether the data structure changes and the kinds of record it involves; YBT tells the Client the points of a change before starting it. Unused points do not carry forward. Work beyond the allowance is quoted as a change request under clause 5 of the Master Services Agreement.
 
 ## 7. Reporting
 

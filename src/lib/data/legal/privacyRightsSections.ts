@@ -1,3 +1,4 @@
+import { companyDetails } from '$lib/data/companyDetails';
 import type { LegalSection } from '$lib/data/legalDocument';
 
 export const privacyRightsSections: LegalSection[] = [
@@ -15,7 +16,8 @@ export const privacyRightsSections: LegalSection[] = [
 		heading: 'Your rights',
 		paragraphs: [
 			'Under United Kingdom data protection law you can ask us for a copy of your information, ask us to correct it, delete it or restrict how we use it, object to our use of it, and receive it in a portable form. Write to us and we will answer within a month.',
-			'If you are unhappy with how we have handled your information you can complain to the Information Commissioner’s Office at ico.org.uk, though we would rather you told us first so that we can put it right.'
+			`If you are unhappy with how we have handled your information, complain to us by email to ${companyDetails.consultingEmail}. We will acknowledge your complaint within 30 days, look into it, and tell you what we found and what we have done about it.`,
+			'You can also complain to the Information Commissioner’s Office at ico.org.uk, though we would rather you told us first so that we can put it right.'
 		]
 	},
 	{
