@@ -4,6 +4,7 @@ import { deleteProject } from '$lib/server/projects/deleteProject';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
 import { getAssignedTaskCounts } from '$lib/server/projects/getAssignedTaskCounts';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
+import { getPickableOrganisations } from '$lib/server/organisations/leadOrganisations';
 import { matchesOrganisationFilter, pickedOrganisationFilter } from '$lib/data/organisationFilter';
 import { getProjectsForUser } from '$lib/server/projects/getProjectsForUser';
 import { getTasksWaitingOnYou } from '$lib/server/conversations/getTasksWaitingOnYou';
@@ -26,7 +27,7 @@ export const load: PageServerLoad = async ({ locals, parent, cookies }) => {
 	const [everyWaitingTask, everyProject, organisations, latestKitVersion, layout] = await Promise.all([
 		getTasksWaitingOnYou(supabase, user.id),
 		getProjectsForUser(supabase, user.id, assignedTaskCounts),
-		getOrganisations(supabase),
+		getPickableOrganisations(supabase),
 		getLatestKitVersion(supabase),
 		parent()
 	]);

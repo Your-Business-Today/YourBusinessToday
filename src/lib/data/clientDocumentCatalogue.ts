@@ -1,3 +1,5 @@
+import { internalDocumentEntries } from './internalDocumentEntries';
+
 export type ClientDocumentAudience = 'client' | 'internal';
 
 export type ClientDocumentEntry = {
@@ -49,34 +51,7 @@ export const clientDocumentCatalogue: ClientDocumentEntry[] = [
 			'Self-service export at any time and for 30 days after the Run service ends, data return and deletion, hand-over of the Azure subscription and what the client needs to take it, a monthly continuity copy, and step-in if YBT cannot continue.',
 		audience: 'client'
 	},
-	{
-		slug: 'data-breach-procedure',
-		title: 'Data Breach Procedure',
-		summary:
-			'Contain, log, assess, tell the client within 24 hours, fix and review — with the breach log.',
-		audience: 'internal'
-	},
-	{
-		slug: 'data-subject-requests-procedure',
-		title: 'Data Subject Requests and Erasure Procedure',
-		summary:
-			'Passing on requests, finding one person’s data everywhere it lives, erasure, backups and the suppression list.',
-		audience: 'internal'
-	},
-	{
-		slug: 'processing-records',
-		title: 'Processor Position and Records of Processing',
-		summary:
-			'Why YBT is a processor and the rules that keep it one, the decisions recorded, the processor contract log and the Article 30 record per client.',
-		audience: 'internal'
-	},
-	{
-		slug: 'ip-assignment-and-waiver',
-		title: 'Assignment of Rights and Waiver of Moral Rights',
-		summary:
-			'Signed as a deed by everyone who writes for YBT, so that YBT owns what they make and can assign it to a client under MSA clause 9.',
-		audience: 'internal'
-	}
+	...internalDocumentEntries
 ];
 
 export function findClientDocumentEntry(slug: string): ClientDocumentEntry | undefined {

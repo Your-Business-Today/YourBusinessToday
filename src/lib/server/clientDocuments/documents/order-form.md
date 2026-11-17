@@ -1,6 +1,6 @@
 # Order Form
 
-**Order number:** [YBT-0001] — **Version 1.3 — 7 November 2026**
+**Order number:** [YBT-0001] — **Version 1.4 — 17 November 2026**
 
 This Order Form is made under, and incorporates by reference, the Master Services Agreement between Your Business Today Ltd and the Client dated [date of MSA] (the "**MSA**"). Words defined in the MSA have the same meaning here. It changes a clause of the MSA only where section 9 below names that clause.
 
@@ -17,9 +17,9 @@ This Order Form is made under, and incorporates by reference, the Master Service
 
 Tick one:
 
-- [ ] **Discovery** — two weeks with the people who do the work, ending in a written map of how work moves through the business, a prioritised list of what is worth automating, and a fixed price for the first Build stage.
+- [ ] **Discovery** — free of charge. The Client's own AI assistant maps how work moves through the business through YBT's connector, with the people who do the work, ending in the written map, a prioritised list of what is worth automating, and a fixed price for the first Build stage.
 - [ ] **Build stage [number]** — the scope in section 3.
-- [ ] **Run service** — hosting, operating, monitoring, backing up, updating and supporting the Solution under Schedule 2, with [one] day of change work each month.
+- [ ] **Run service** — hosting, operating, monitoring, backing up, updating and supporting the Solution under Schedule 2, with [number] story points of change work each month (Schedule 2, section 6).
 
 ## 3. Scope and deliverables
 
@@ -51,7 +51,7 @@ The stage is accepted under clause 4 of the MSA when each of these is met:
 
 | Item                                  | Fee (excluding VAT) | When invoiced                                            |
 | ------------------------------------- | ------------------- | -------------------------------------------------------- |
-| [Discovery / Build stage fee — fixed] | £[amount]           | [On signature / 50% on signature and 50% on acceptance]  |
+| Build stage fee — fixed               | £[amount]           | 50% on signature and 50% on acceptance                   |
 | Run service — monthly, all inclusive  | £[amount] a month   | Monthly in advance                                       |
 | Additional work at the day rate       | £[amount] a day     | Monthly in arrears, only against a signed change request |
 
@@ -67,7 +67,7 @@ Payment terms are as set out in clause 7 of the MSA: 14 days from invoice.
 | Kinds of personal data                            | [e.g. names, work contact details, job records — see Schedule 1, Annex A]                                                                                     |
 | Special category data?                            | [No — if yes, stop and discuss before signing]                                                                                                                |
 | Hosting region                                    | [Microsoft Azure region of the database, and of the web front end if different, e.g. North Europe (Ireland), backups paired to West Europe (the Netherlands)] |
-| AI services used on Client Data                   | [None / Anthropic Claude via API, as listed in the sub-processor register]                                                                                    |
+| AI services used on Client Data                   | The Solution sends nothing to an AI model itself. YBT's people build and support with Claude (Anthropic, in the sub-processor register). [The Client's users connect their own AI assistants through YBT's connector, under the Client's own AI accounts / None.] |
 | Successor nominated under Schedule 4, section 5.3 | [Name and company, or none]                                                                                                                                   |
 
 ## 8. Open-source components
