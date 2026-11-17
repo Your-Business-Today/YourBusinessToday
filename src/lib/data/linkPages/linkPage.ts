@@ -7,10 +7,8 @@ export type LinkPageLink = {
 };
 
 export type LinkPage = {
-  name: string;
-  fullName: string;
-  role: string;
+  path: string;
+  title: string;
   introduction: string;
-  photoPath: string | null;
   links: LinkPageLink[];
 };

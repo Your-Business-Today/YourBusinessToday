@@ -5,7 +5,8 @@
 
 	let { links }: { links: LinkPageLink[] } = $props();
 
-	const isWebsite = (link: LinkPageLink) => link.kind === 'website';
+	const otherSitePrefix = 'https://';
+	const isOnAnotherSite = (link: LinkPageLink) => link.address.startsWith(otherSitePrefix);
 </script>
 
 <ul class="flex flex-col gap-3">
@@ -13,8 +14,8 @@
 		<li>
 			<a
 				href={link.address}
-				target={isWebsite(link) ? '_blank' : undefined}
-				rel={isWebsite(link) ? 'noopener' : undefined}
+				target={isOnAnotherSite(link) ? '_blank' : undefined}
+				rel={isOnAnotherSite(link) ? 'noopener' : undefined}
 				class="flex min-h-14 items-center gap-3 rounded-xl border border-hairline bg-carriage px-5 py-4 font-medium text-chalk transition hover:border-signal hover:bg-carriage-raised focus-visible:outline-2 focus-visible:outline-signal"
 			>
 				<LineIcon kind={linkPageIcons[link.kind]} class="h-5 w-5 shrink-0 text-chalk-subtle" />

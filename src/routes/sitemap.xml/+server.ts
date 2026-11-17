@@ -16,6 +16,7 @@ const publicPagePaths = [
 	'/terms',
 	'/privacy',
 	'/company',
+	'/links',
 	'/account/sign-in'
 ];
 
