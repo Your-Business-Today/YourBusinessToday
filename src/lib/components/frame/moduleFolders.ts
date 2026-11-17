@@ -22,7 +22,8 @@ const moduleFolders: Record<OrganisationModule, ModuleFolder> = {
 	sales: { group: 'sales', label: 'Prospecting', icon: 'compass' },
 	business_brain: { group: 'knowledge', label: 'Your Business Brain', icon: 'brain' },
 	brand: { group: 'more', label: 'Brand', icon: 'swatchBook' },
-	boardroom: { group: 'more', label: 'Boardroom', icon: 'presentation' }
+	boardroom: { group: 'more', label: 'Boardroom', icon: 'presentation' },
+	news: { group: 'more', label: 'Business News', icon: 'newspaper' }
 };
 
 /** A page a module keeps beneath its own, listed after it in the same folder. */

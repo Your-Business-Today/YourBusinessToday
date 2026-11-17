@@ -8,6 +8,7 @@ export type LineIconKind =
 	| 'check'
 	| 'externalLink'
 	| 'mute'
+	| 'newspaper'
 	| 'pause'
 	| 'play'
 	| 'refresh'
@@ -21,6 +22,12 @@ export type LineIconKind =
 export const lineIconPaths: Record<LineIconKind, string[]> = {
 	...navigationIconPaths,
 	arrow: ['M5 12h14', 'm12 5 7 7-7 7'],
+	newspaper: [
+		'M15 18h-5',
+		'M18 14h-8',
+		'M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2',
+		'M10 6h8v4h-8V6Z'
+	],
 	briefcase: [
 		'M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16',
 		'M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z'
