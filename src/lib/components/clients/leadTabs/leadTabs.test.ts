@@ -9,6 +9,7 @@ describe('leadTabs', () => {
 		expect(hrefs).toEqual([
 			'/leads/conservaqua',
 			'/leads/conservaqua/domain',
+			'/leads/conservaqua/brain',
 			'/leads/conservaqua/workflow-map',
 			'/leads/conservaqua/brand-kit',
 			'/leads/conservaqua/quote'
