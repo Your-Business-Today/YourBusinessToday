@@ -367,6 +367,7 @@
       "src/lib/server/mcp/actions/storyFields.ts",
       "src/lib/server/mcp/actions/filedEmailFields.ts",
       "src/lib/server/mcp/actions/leadQuoteFields.ts",
+      "src/lib/server/mcp/actions/newsWatchListFields.ts",
       "src/lib/server/mcp/actions/businessBrainSchemas.ts",
       "src/lib/server/mcp/actions/businessBrainChatbotSchemas.ts",
       "src/lib/server/mcp/actions/workflowMapFields.ts",

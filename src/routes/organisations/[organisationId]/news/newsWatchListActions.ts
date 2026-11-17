@@ -18,26 +18,26 @@ async function requireWatchListKeeper({ locals, params }: Pick<RequestEvent, 'lo
 }
 
 export const newsWatchListActions = {
-	addWatched: async (event) => {
-		const keeper = await requireWatchListKeeper(event);
-		const formData = Object.fromEntries(await event.request.formData());
-		const added = await addWatchedThing(event.locals.supabase, keeper, formData);
+	addWatched: async ({ locals, params, request }) => {
+		const keeper = await requireWatchListKeeper({ locals, params });
+		const formData = Object.fromEntries(await request.formData());
+		const added = await addWatchedThing(locals.supabase, keeper, formData);
 		if (typeof added === 'string') return fail(400, { message: added });
 		return { message: `Now watching ${added.value}.` };
 	},
-	removeWatched: async (event) => {
-		const { organisationId } = await requireWatchListKeeper(event);
-		const formData = await event.request.formData();
-		const removed = await removeWatchedThing(event.locals.supabase, organisationId, trimmedText(formData.get('watchedThingId')));
+	removeWatched: async ({ locals, params, request }) => {
+		const { organisationId } = await requireWatchListKeeper({ locals, params });
+		const formData = await request.formData();
+		const removed = await removeWatchedThing(locals.supabase, organisationId, trimmedText(formData.get('watchedThingId')));
 		if (typeof removed === 'string') return fail(400, { message: removed });
 		return { message: `No longer watching ${removed.value}.` };
 	},
-	addSuggested: async (event) => {
-		const keeper = await requireWatchListKeeper(event);
-		const formData = await event.request.formData();
+	addSuggested: async ({ locals, params, request }) => {
+		const keeper = await requireWatchListKeeper({ locals, params });
+		const formData = await request.formData();
 		const tickedKeys = formData.getAll(suggestionField).map(trimmedText);
-		const watchList = await findWatchList(event.locals.supabase, keeper.organisationId);
-		const outcome = await addTickedSuggestions(event.locals.supabase, keeper, { watchList, tickedKeys });
+		const watchList = await findWatchList(locals.supabase, keeper.organisationId);
+		const outcome = await addTickedSuggestions(locals.supabase, keeper, { watchList, tickedKeys });
 		if (outcome.refusal !== null) return fail(400, { message: outcome.refusal });
 		return { message: `Now watching ${outcome.addedCount} more.` };
 	}

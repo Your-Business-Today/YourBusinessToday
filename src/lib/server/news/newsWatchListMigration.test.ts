@@ -4,6 +4,7 @@ import { organisationModules } from '$lib/data/organisationModules';
 import { watchedKinds, watchedValuePatterns, watchListLimits as limits } from '$lib/data/news/watchListRules';
 
 const migration = readFileSync('migrations/0264_business_news_watch_list.sql', 'utf8');
+const { sector_code: sectorCodePattern, company: companyPattern } = watchedValuePatterns;
 const quotedList = (values: readonly string[]) => values.map((value) => `'${value}'`).join(', ');
 
 describe('migration 0264, Business News and its watch list, and the limits the site and the connector check', () => {
@@ -15,8 +16,8 @@ describe('migration 0264, Business News and its watch list, and the limits the s
 		expect(migration).toContain(`kind in (${quotedList(watchedKinds)})`);
 		expect(migration).toContain(`char_length(value) between 1 and ${limits.longestValue}`);
 		expect(migration).toContain(`char_length(label) <= ${limits.longestLabel}`);
-		expect(migration).toContain(`kind <> 'sector_code' or value ~ '${watchedValuePatterns.sector_code?.source}'`);
-		expect(migration).toContain(`kind <> 'company' or value ~ '${watchedValuePatterns.company?.source}'`);
+		expect(migration).toContain(`kind <> 'sector_code' or value ~ '${sectorCodePattern?.source}'`);
+		expect(migration).toContain(`kind <> 'company' or value ~ '${companyPattern?.source}'`);
 		expect(migration).toContain('unique (organisation_id, kind, value)');
 	});
 
