@@ -1,6 +1,7 @@
 <script lang="ts">
 	import OrganisationBillingPanel from './billing/OrganisationBillingPanel.svelte';
 	import OrganisationDetailsPanel from './OrganisationDetailsPanel.svelte';
+	import OrganisationDataPanel from './OrganisationDataPanel.svelte';
 	import OrganisationDirectorsPanel from './OrganisationDirectorsPanel.svelte';
 	import OrganisationModulesPanel from './OrganisationModulesPanel.svelte';
 	import OrganisationPeoplePanel from './OrganisationPeoplePanel.svelte';
@@ -9,6 +10,7 @@
 	import type { BoardroomDirector } from '$lib/data/boardroomDirector';
 	import type { Organisation } from '$lib/server/organisations/organisationRecord';
 	import type { OrganisationMember } from '$lib/server/organisations/organisationMemberRecord';
+	import type { OrganisationExportRecord } from '$lib/server/organisationExport/organisationExportRecord';
 	import type { OrganisationModule } from '$lib/data/organisationModules';
 	import { billingScheduleCountOf, type OrganisationBilling } from '$lib/data/books/organisationBilling';
 
@@ -18,6 +20,8 @@
 		modules,
 		directors,
 		billing,
+		exports,
+		exportLinks,
 		canManage,
 		isStaff
 	}: {
@@ -26,6 +30,8 @@
 		modules: OrganisationModule[];
 		directors: BoardroomDirector[];
 		billing: OrganisationBilling | null;
+		exports: OrganisationExportRecord[] | null;
+		exportLinks: string[];
 		canManage: boolean;
 		isStaff: boolean;
 	} = $props();
@@ -39,7 +45,8 @@
 			switchedOnModuleCount: modules.length,
 			hasModulesTab: isStaff || modules.length > 0,
 			directorCount: hasBoardroom ? directors.length : null,
-			billingScheduleCount: billingScheduleCountOf(billing)
+			billingScheduleCount: billingScheduleCountOf(billing),
+			exportCount: exports?.length ?? null
 		})
 	);
 	const shownTab = $derived(tabs.some((tab) => tab.key === selectedTab) ? selectedTab : organisationOverviewTabs.people);
@@ -59,4 +66,6 @@
 	<OrganisationDirectorsPanel {directors} {members} canName={isStaff} />
 {:else if shownTab === organisationOverviewTabs.billing && billing !== null}
 	<OrganisationBillingPanel {billing} />
+{:else if shownTab === organisationOverviewTabs.data && exports !== null}
+	<OrganisationDataPanel organisationName={organisation.name} {exports} {members} {exportLinks} />
 {/if}
