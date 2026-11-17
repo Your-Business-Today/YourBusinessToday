@@ -5,19 +5,14 @@
 	import LeadQuoteVersions from '$lib/components/clients/quote/LeadQuoteVersions.svelte';
 	import NoLeadQuote from '$lib/components/clients/quote/NoLeadQuote.svelte';
 	import PrintOnPaper from '$lib/components/workspace/PrintOnPaper.svelte';
-	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
-	import { companyPagePath, registerOfStage } from '$lib/data/salesRegisters';
+	import LeadWorkspaceHeader from '$lib/components/clients/leadTabs/LeadWorkspaceHeader.svelte';
+	import { leadTabHref, leadTabKeys } from '$lib/components/clients/leadTabs/leadTabs';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
 
 	const { client, quote, versions } = $derived(data);
-	const register = $derived(registerOfStage(client.stage));
-	const crumbs = $derived([
-		{ label: register.title, href: register.path },
-		{ label: client.name, href: companyPagePath(client) }
-	]);
-	const quotePath = $derived(`${companyPagePath(client)}/quote`);
+	const quotePath = $derived(leadTabHref(client, leadTabKeys.quote));
 	const printOrSave = () => window.print();
 </script>
 
@@ -27,14 +22,14 @@
 
 <PrintOnPaper>
 	<div class="print:hidden">
-		<WorkspaceHeader {crumbs} title="Quote">
+		<LeadWorkspaceHeader company={client} shownTab={leadTabKeys.quote}>
 			{#snippet actions()}
 				{#if quote !== null}
 					<Button look="primary" onclick={printOrSave}>Print</Button>
 				{/if}
 			{/snippet}
 			<p class="text-sm text-chalk-subtle">The plan going forwards for {client.name}, a stage at a time, with its fees.</p>
-		</WorkspaceHeader>
+		</LeadWorkspaceHeader>
 	</div>
 	<div class={`${workspaceBodyClasses} print:p-0`}>
 		{#if quote === null}
