@@ -2,7 +2,7 @@ import { getAssigneeIdsByTask } from '$lib/server/projects/getAssigneeIdsByTask'
 import { countStagedTasks } from '$lib/server/projects/countStagedTasks';
 import { buildBoardOf, readBuildFacts, type BuildFacts } from '$lib/server/lifecycle/buildFacts';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
-import { getOrganisations } from '$lib/server/organisations/getOrganisations';
+import { getPickableOrganisations } from '$lib/server/organisations/leadOrganisations';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { getTodosByTask } from '$lib/server/todos/getTodosByTask';
 import { getTaskTurns } from '$lib/server/conversations/conversationTurns';
@@ -29,7 +29,7 @@ export function readBoard(locals: App.Locals, project: Project, url: URL) {
 		todosByTask: workRead.then((work) => todosShownOn(supabase, work)),
 		turnsByTask: taskIdsRead.then((taskIds) => getTaskTurns(supabase, taskIds)),
 		latestKitVersion: getLatestKitVersion(supabase),
-		organisations: getOrganisations(supabase),
+		organisations: getPickableOrganisations(supabase, project.organisationId),
 		canTurnOnAutocomplete: isStaffMember(locals),
 		people: getPeopleOnProject(supabase, project.id),
 		buildBoard: buildFactsRead.then(buildBoardOf),

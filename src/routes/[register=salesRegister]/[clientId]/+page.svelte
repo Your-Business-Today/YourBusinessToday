@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ClientObservations from '$lib/components/clients/ClientObservations.svelte';
-	import AssignProjectForm from '$lib/components/clients/AssignProjectForm.svelte';
 	import CompanyJobAdverts from '$lib/components/clients/CompanyJobAdverts.svelte';
 	import ClientHeader from '$lib/components/clients/ClientHeader.svelte';
 	import ClientEventLedger from '$lib/components/clients/ClientEventLedger.svelte';
@@ -10,20 +9,18 @@
 	import ClientContinuityCopySection from '$lib/components/clients/ClientContinuityCopySection.svelte';
 	import LeadConversationsSection from '$lib/components/clients/conversations/LeadConversationsSection.svelte';
 	import FiledEmailsSection from '$lib/components/clients/emails/FiledEmailsSection.svelte';
-	import ClientProjectList from '$lib/components/clients/ClientProjectList.svelte';
 	import CompanyProfileForm from '$lib/components/clients/CompanyProfileForm.svelte';
-	import LeadOrganisationLinks from '$lib/components/clients/LeadOrganisationLinks.svelte';
+	import LeadTabs from '$lib/components/clients/leadTabs/LeadTabs.svelte';
+	import OpenLeadOrganisationButton from '$lib/components/clients/leadTabs/OpenLeadOrganisationButton.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
-	import Modal from '$lib/components/site/Modal.svelte';
+	import ClientProjectsSection from '$lib/components/clients/ClientProjectsSection.svelte';
 	import ClientSupportSection from '$lib/components/clients/ClientSupportSection.svelte';
-	import { primaryButtonClasses, quietButtonClasses } from '$lib/components/site/formStyles';
-	import { companyPagePath } from '$lib/data/salesRegisters';
+	import { quietButtonClasses } from '$lib/components/site/formStyles';
+	import { leadTabKeys } from '$lib/components/clients/leadTabs/leadTabs';
 
 	let { data, form } = $props();
 
 	const { client, parent, projects, supportTasks } = $derived(data);
-
-	let isAssignProjectModalOpen = $state(false);
 
 	const researchAgainHref = $derived(
 		`/clients/research?clientId=${client.id}&query=${encodeURIComponent(client.website || client.name)}`
@@ -35,16 +32,19 @@
 </svelte:head>
 
 <div class="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-16">
-	<ClientHeader {client} {parent} premises={data.premises} figures={data.figures} standing={data.standing} staffMembers={data.staffMembers} />
+	<div class="flex flex-col gap-4">
+		<ClientHeader {client} {parent} premises={data.premises} figures={data.figures} standing={data.standing} staffMembers={data.staffMembers} />
+		<LeadTabs company={client} shownTab={leadTabKeys.overview} />
+	</div>
 	<FormErrorNote message={form?.message ?? null} />
 
 	<section class="flex flex-col gap-4">
 		<div class="flex items-center justify-between gap-4">
 			<h2 class="font-display text-xl">Company profile</h2>
 			<div class="flex flex-wrap gap-2">
-				<a href={`${companyPagePath(client)}/workflow-map`} class={quietButtonClasses}>Workflow map</a>
-				<LeadOrganisationLinks organisationId={data.organisationId} />
-				<a href={`${companyPagePath(client)}/quote`} class={quietButtonClasses}>Quote</a>
+				{#if data.organisationId === null}
+					<OpenLeadOrganisationButton action="?/openOrganisation" />
+				{/if}
 				<a href={researchAgainHref} class={quietButtonClasses}>Ask your Claude to research</a>
 			</div>
 		</div>
@@ -65,21 +65,7 @@
 		parents={data.parents}
 	/>
 
-	<section class="flex flex-col gap-4">
-		<div class="flex items-center justify-between gap-4">
-			<h2 class="font-display text-xl">Projects</h2>
-			<button class={primaryButtonClasses} onclick={() => (isAssignProjectModalOpen = true)}>
-				Add project
-			</button>
-		</div>
-		{#if projects.length === 0}
-			<p class="text-sm text-chalk/50">
-				No projects yet — set this client on a project from its own page.
-			</p>
-		{:else}
-			<ClientProjectList {projects} />
-		{/if}
-	</section>
+	<ClientProjectsSection {projects} unassignedProjects={data.unassignedProjects} />
 
 	<ClientContinuityCopySection continuityCopy={client.continuityCopy} />
 
@@ -93,7 +79,3 @@
 
 	<ClientDeletion {client} />
 </div>
-
-<Modal title="Add project" bind:isOpen={isAssignProjectModalOpen}>
-	<AssignProjectForm projects={data.unassignedProjects} />
-</Modal>
