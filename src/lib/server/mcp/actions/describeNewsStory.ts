@@ -16,10 +16,11 @@ export function describeNewsStory(story: NewsStory): string {
 
 /** The stories new to the caller in an organisation's news, and whether more wait for the next reading. */
 export function describeNewStories(organisationName: string, reading: NewStoriesReading): string {
-	if (reading.stories.length === 0) return `${organisationName}'s Business News: ${nothingNew}`;
+	const { stories, isMoreWaiting } = reading;
+	if (stories.length === 0) return `${organisationName}'s Business News: ${nothingNew}`;
 	const opening = `New in ${organisationName}'s Business News since you last looked, now marked seen by you:`;
-	const lines = [opening, ...reading.stories.map(describeNewsStory)];
-	if (reading.isMoreWaiting) lines.push('', moreWaiting);
+	const lines = [opening, ...stories.map(describeNewsStory)];
+	if (isMoreWaiting) lines.push('', moreWaiting);
 	return lines.join('\n');
 }
 
