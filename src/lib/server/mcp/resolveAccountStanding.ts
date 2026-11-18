@@ -1,3 +1,4 @@
+import { isAdmitted } from '$lib/server/admission/isAdmitted';
 import { getMemberProjectIds } from '$lib/server/members/getMemberProjectIds';
 import { getMembershipsForAccount } from '$lib/server/organisations/getMembershipsOfOrganisations';
 import { getOwnedProjectIds } from '$lib/server/projects/getOwnedProjectIds';
@@ -20,11 +21,13 @@ export async function resolveAccountStanding(
 ): Promise<AccountStanding | null> {
 	const { data, error } = await supabase
 		.from('profiles')
-		.select('email, is_staff, is_admin, is_restricted')
+		.select('email, is_staff, is_admin, is_restricted, created_at')
 		.eq('id', accountId)
 		.maybeSingle();
 	if (error) throw error;
 	if (data === null || data.is_restricted === true) return null;
+	const isLetIn = await isAdmitted(supabase, { accountId, createdAt: data.created_at as string | null });
+	if (!isLetIn) return null;
 	return {
 		accountId,
 		email: data.email ?? '',
