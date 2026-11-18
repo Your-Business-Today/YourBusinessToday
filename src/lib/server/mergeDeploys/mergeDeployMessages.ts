@@ -14,6 +14,14 @@ export function promotedLiveMessage(project: Project, promotionUrl: string): str
 	return `Staging was promoted to ${project.defaultBranch} (${promotionUrl}), so this task\u2019s work is live.`;
 }
 
+export function promotedDeployingMessage(project: Project, promotionUrl: string): string {
+	return `Staging was promoted to ${project.defaultBranch} (${promotionUrl}). This task\u2019s work is live once the deploy\u2019s checks there pass.`;
+}
+
+export function promotionPublishedMessage(project: Project, promotionUrl: string): string {
+	return `The deploy of staging to ${project.defaultBranch} (${promotionUrl}) has finished and its checks passed, so this task\u2019s work is live.`;
+}
+
 export function promotedBeforeRecordedMessage(project: Project): string {
 	return `Staging had already been promoted to ${project.defaultBranch} when this pull request was recorded, so this task’s work is live.`;
 }
