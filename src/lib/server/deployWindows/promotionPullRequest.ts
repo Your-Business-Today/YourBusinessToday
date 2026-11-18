@@ -32,7 +32,7 @@ export function promotionBody(project: Project, wording: PromotionWording): stri
 }
 
 function startedByPhrase(project: Project, start: DeployStart): string {
-	if (isStartedByHand(start)) return `when ${start.personName} pressed Deploy now`;
+	if (isStartedByHand(start)) return 'when Deploy now was pressed';
 	return `at the project's deploy window (${project.deployStagingAt} UK time)`;
 }
 
