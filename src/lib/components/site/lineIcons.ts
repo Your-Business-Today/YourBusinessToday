@@ -7,8 +7,12 @@ export type LineIconKind =
 	| 'calendar'
 	| 'check'
 	| 'externalLink'
+	| 'globe'
+	| 'mail'
 	| 'mute'
+	| 'newspaper'
 	| 'pause'
+	| 'phone'
 	| 'play'
 	| 'refresh'
 	| 'rocket'
@@ -21,6 +25,12 @@ export type LineIconKind =
 export const lineIconPaths: Record<LineIconKind, string[]> = {
 	...navigationIconPaths,
 	arrow: ['M5 12h14', 'm12 5 7 7-7 7'],
+	newspaper: [
+		'M15 18h-5',
+		'M18 14h-8',
+		'M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2',
+		'M10 6h8v4h-8V6Z'
+	],
 	briefcase: [
 		'M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16',
 		'M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z'
@@ -33,8 +43,13 @@ export const lineIconPaths: Record<LineIconKind, string[]> = {
 	],
 	check: ['M21.8 10A10 10 0 1 1 17 3.34', 'm9 11 3 3L22 4'],
 	externalLink: ['M15 3h6v6', 'M10 14 21 3', 'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'],
+	globe: ['M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0', 'M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20', 'M2 12h20'],
+	mail: ['M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z', 'm22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'],
 	mute: ['M11 5 6 9H2v6h4l5 4z', 'm22 9-6 6', 'm16 9 6 6'],
 	pause: ['M8 5v14', 'M16 5v14'],
+	phone: [
+		'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'
+	],
 	play: ['M7 4.5v15l12-7.5z'],
 	refresh: [
 		'M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8',

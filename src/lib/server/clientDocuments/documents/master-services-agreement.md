@@ -1,6 +1,6 @@
 # Master Services Agreement
 
-**Version 1.4 — 17 November 2026**
+**Version 1.5 — 17 November 2026**
 
 This agreement is made on [date] between:
 
@@ -111,7 +111,7 @@ YBT learns how a business runs and then builds and runs the software that runs i
 
 8.5 **Rights in the Platform.** YBT keeps all rights in the Platform. Nothing in this agreement assigns or licenses it to you beyond clause 8.4, and clause 9.1 does not apply to it. The Client Data you keep in the Platform is yours, and clause 10 and Schedule 1 apply to it as to any other Client Data.
 
-8.6 **Getting your data out of the Platform.** On your written request, at any time and when your last Order Form ends, YBT will give you the Client Data you keep in the Platform within 10 Business Days, at no charge, as CSV files with the files and attachments in their original formats. Schedule 4, section 3.3, applies to deleting it afterwards.
+8.6 **Getting your data out of the Platform.** A manager of your organisation in the Platform can export the Client Data you keep there at any time, including after your last Order Form ends, as often as you wish, without asking YBT and at no charge: a CSV file for each table, with the files and attachments you stored in their original formats. Every export is logged in the Platform. If the Platform cannot be used to export for any reason, YBT will give you the same on your written request within 10 Business Days, at no charge. Schedule 4, section 3.3, applies to deleting it afterwards.
 
 ## 9. Intellectual property
 

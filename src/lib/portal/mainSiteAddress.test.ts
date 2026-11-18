@@ -23,6 +23,7 @@ const sectionsKeptOnTheMainSite = new Set([
 	'contact',
 	'demo',
 	'jewel-demo',
+	'links',
 	'oauth',
 	'newsletter',
 	'offer',

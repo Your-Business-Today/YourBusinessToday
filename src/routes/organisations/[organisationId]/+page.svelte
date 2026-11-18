@@ -35,6 +35,8 @@
 		modules={data.modules}
 		directors={data.directors}
 		billing={data.billing}
+		exports={data.exports}
+		exportLinks={form?.exportLinks ?? []}
 		canManage={data.canManage}
 		isStaff={data.isStaff}
 	/>

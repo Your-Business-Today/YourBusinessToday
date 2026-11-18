@@ -7,6 +7,7 @@ import { portalPageInsteadOf } from '$lib/portal/mainSiteAddress';
 import { portalOrganisationCookie } from '$lib/portal/portalVisitor';
 import { onceForThisRequest } from '$lib/server/http/onceForThisRequest';
 import { readRememberedPicks } from '$lib/server/frame/rememberedPicks';
+import { fetchWithDeadline } from '$lib/server/supabase/fetchWithDeadline';
 import type { Cookies, Handle } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -38,6 +39,7 @@ function movedTo(location: string): Response {
 
 function supabaseClientFor(cookies: Cookies): SupabaseClient {
 	return createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY, {
+		global: { fetch: fetchWithDeadline() },
 		cookies: {
 			getAll: () => cookies.getAll(),
 			setAll: (cookiesToSet) => {
