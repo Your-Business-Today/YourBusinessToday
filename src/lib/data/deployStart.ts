@@ -1,13 +1,11 @@
 import { deployWindowStarts, type DeployWindowStart } from './deployWindow';
 
-/** Who set a promotion going: the timed window, or the named person who pressed Deploy now. */
-export type DeployStart = { startedBy: DeployWindowStart; personName: string };
+/** What set a promotion going: the timed window, or Deploy now pressed by hand. Nobody is named, since the pull request is public on GitHub. */
+export type DeployStart = { startedBy: DeployWindowStart };
 
-export const timedWindowStart: DeployStart = { startedBy: deployWindowStarts.window, personName: '' };
+export const timedWindowStart: DeployStart = { startedBy: deployWindowStarts.window };
 
-export function deployByHand(personName: string): DeployStart {
-	return { startedBy: deployWindowStarts.manual, personName };
-}
+export const deployByHandStart: DeployStart = { startedBy: deployWindowStarts.manual };
 
 export function isStartedByHand(start: DeployStart): boolean {
 	return start.startedBy === deployWindowStarts.manual;
