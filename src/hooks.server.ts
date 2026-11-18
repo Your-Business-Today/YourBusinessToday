@@ -8,6 +8,7 @@ import { portalOrganisationCookie } from '$lib/portal/portalVisitor';
 import { onceForThisRequest } from '$lib/server/http/onceForThisRequest';
 import { readRememberedPicks } from '$lib/server/frame/rememberedPicks';
 import { fetchWithDeadline } from '$lib/server/supabase/fetchWithDeadline';
+import { sendAwaitingAccountsToContact } from '$lib/server/admission/sendAwaitingAccountsToContact';
 import type { Cookies, Handle } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -27,6 +28,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	locals.portalOrganisationId = event.cookies.get(portalOrganisationCookie) ?? null;
 	locals.rememberedPicks = readRememberedPicks(event.cookies);
 	locals.safeGetSession = onceForThisRequest(() => readSession(locals));
+	await sendAwaitingAccountsToContact(locals, event.url);
 	return resolve(event, {
 		filterSerializedResponseHeaders: (headerName) =>
 			headerName === 'content-range' || headerName === 'x-supabase-api-version'

@@ -9,6 +9,7 @@ declare global {
 			resolvedUser?: User | null;
 			portalOrganisationId: string | null;
 			rememberedPicks: RememberedPicks;
+			isAwaitingAccess?: boolean;
 		}
 		interface PageState {
 			taskSheet?: { projectId: string; taskId: string };
