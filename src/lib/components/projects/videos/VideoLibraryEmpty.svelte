@@ -1,5 +1,10 @@
 <script lang="ts">
-	let { projectName }: { projectName: string } = $props();
+	import { videoLibraryInvitations } from './videoLibraryInvitations';
+	import type { VideoLibrary } from '$lib/projectVideos/videoLibraries';
+
+	let { projectName, library }: { projectName: string; library: VideoLibrary } = $props();
+
+	const invitation = $derived(videoLibraryInvitations[library](projectName));
 </script>
 
 <section class="flex flex-col gap-6 border border-hairline bg-carriage px-6 py-10 sm:px-10">
@@ -12,11 +17,11 @@
 	<div class="flex max-w-2xl flex-col gap-2">
 		<h2 class="font-display text-lg font-semibold text-chalk">No videos on this line yet</h2>
 		<p class="text-sm text-chalk-muted">
-			Tutorial videos for {projectName} show here, in sections, for everyone on the project to watch. Your Claude makes them and puts them up
+			{invitation.purpose} Your Claude makes them and puts them up
 			through the Your Business Today connector. Ask it, for example:
 		</p>
 		<p class="border-l-4 border-go bg-carriage-raised px-4 py-3 text-sm text-chalk">
-			“Make a short tutorial video showing how to sign in to {projectName}, and put it in the project’s videos under Getting started.”
+			{invitation.exampleAsk}
 		</p>
 	</div>
 </section>

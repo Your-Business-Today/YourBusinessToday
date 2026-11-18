@@ -1,10 +1,13 @@
-/** What a project video is called and where it sits in the library: the words a person reads and the order they watch in. */
+import type { VideoLibrary } from './videoLibraries';
+
+/** What a project video is called and where it sits in the library: the words a person reads, the order they watch in and the library it sits in. */
 export type VideoDetails = {
 	title: string;
 	description: string;
 	section: string;
 	position: number;
 	durationSeconds: number | null;
+	library: VideoLibrary;
 };
 
 /** A file as described before it is sent. */
@@ -13,7 +16,7 @@ export type VideoFileGiven = { filename: string; mimeType: string; byteCount: nu
 /** A video as it is first described: its words, its film and, if it has them, its thumbnail and its captions. */
 export type VideoGiven = { details: VideoDetails; film: VideoFileGiven; thumbnail: VideoFileGiven | null; captions: VideoFileGiven | null };
 
-/** A tutorial video kept on a project, once its film has arrived. */
+/** A video kept on a project, once its film has arrived. */
 export type ProjectVideo = VideoDetails & {
 	id: string;
 	projectId: string;

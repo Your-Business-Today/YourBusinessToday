@@ -5,9 +5,10 @@
 	import VideoTheatre from './VideoTheatre.svelte';
 	import { nowWatching, videoQueryKeys } from './videoWatching';
 	import { videoSectionsOf } from '$lib/projectVideos/videoSections';
+	import type { VideoLibrary } from '$lib/projectVideos/videoLibraries';
 	import type { WatchableVideo } from '$lib/projectVideos/projectVideo';
 
-	let { videos, projectName }: { videos: WatchableVideo[]; projectName: string } = $props();
+	let { videos, projectName, library }: { videos: WatchableVideo[]; projectName: string; library: VideoLibrary } = $props();
 
 	const { url } = $derived(page);
 	const sections = $derived(videoSectionsOf(videos));
@@ -16,7 +17,7 @@
 </script>
 
 {#if sections.length === 0}
-	<VideoLibraryEmpty {projectName} />
+	<VideoLibraryEmpty {projectName} {library} />
 {:else}
 	{#if watching !== null}
 		<VideoTheatre {watching} />

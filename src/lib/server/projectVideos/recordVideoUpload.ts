@@ -19,7 +19,7 @@ export async function recordVideoUpload(supabase: SupabaseClient, adder: VideoAd
 	if (recording.status !== uploadRecordings.recorded) return recording;
 	const hasThumbnail = await keepCompanionIfArrived(supabase, upload.id, upload.thumbnailStoragePath, companionColumns.thumbnail);
 	const hasCaptions = await keepCompanionIfArrived(supabase, upload.id, upload.captionsStoragePath, companionColumns.captions);
-	return { ...recording, hasThumbnail, hasCaptions };
+	return { ...recording, library: upload.library, hasThumbnail, hasCaptions };
 }
 
 async function keepCompanionIfArrived(supabase: SupabaseClient, videoId: string, storagePath: string | null, column: string): Promise<boolean> {

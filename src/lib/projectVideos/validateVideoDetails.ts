@@ -1,4 +1,4 @@
-import { checkDescription, checkDuration, checkPosition, checkSection, checkTitle, type FieldCheck } from './videoFieldChecks';
+import { checkDescription, checkDuration, checkLibrary, checkPosition, checkSection, checkTitle, type FieldCheck } from './videoFieldChecks';
 import type { VideoDetails } from './projectVideo';
 
 type Input = Record<string, unknown>;
@@ -8,7 +8,8 @@ const detailChecks = {
 	description: checkDescription,
 	section: checkSection,
 	position: checkPosition,
-	durationSeconds: checkDuration
+	durationSeconds: checkDuration,
+	library: checkLibrary
 } as const satisfies Record<keyof VideoDetails, (value: unknown) => FieldCheck<unknown>>;
 
 type DetailField = keyof typeof detailChecks;

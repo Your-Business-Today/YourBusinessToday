@@ -1,4 +1,4 @@
-import { describeVideo, describeVideoLibrary, noSuchVideo } from './describeProjectVideos';
+import { describeVideo, describeVideoLibraries, noSuchVideo } from './describeProjectVideos';
 import { fetchLinkLifetimeMinutes, signFetchLink } from '$lib/server/storage/signFetchLink';
 import { findKeptVideo, readKeptVideos } from '$lib/server/projectVideos/findProjectVideos';
 import { noReachableProject, reachableProject } from '../projectAccess';
@@ -8,11 +8,11 @@ import type { McpCaller } from '../resolveMcpCaller';
 
 type Input = Record<string, unknown>;
 
-/** The project's tutorial videos, section by section, in the order they are watched. */
+/** The project's tutorial and promotional videos, library by library and section by section, in the order they are watched. */
 export async function listProjectVideos(caller: McpCaller, input: Input): Promise<string> {
 	const project = await reachableProject(caller, readText(input, 'projectId'));
 	if (project === null) return noReachableProject;
-	return describeVideoLibrary(project, await readKeptVideos(caller.supabase, project.id));
+	return describeVideoLibraries(project, await readKeptVideos(caller.supabase, project.id));
 }
 
 /** One of the project's videos in full, with a short-lived link to fetch its film. */
