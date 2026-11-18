@@ -4,6 +4,7 @@ export const projectSegments = {
 	siteMap: 'site-map',
 	staged: 'staged',
 	deploys: 'deploys',
+	videos: 'videos',
 	deleted: 'deleted',
 	goals: 'goals',
 	people: 'people'

@@ -9,12 +9,13 @@ function addressOf(path: string): URL {
 }
 
 describe('projectPageLinks', () => {
-	it('gives a product Development, Task Management and its Workflow map', () => {
+	it('gives a product Development, Task Management, its Videos and its Workflow map', () => {
 		const links = projectPageLinks(harbour);
-		expect(links.map(({ label }) => label)).toEqual(['Development', 'Task Management', 'Workflow map']);
+		expect(links.map(({ label }) => label)).toEqual(['Development', 'Task Management', 'Videos', 'Workflow map']);
 		expect(links[0].href).toBe('/projects/harbour-site');
 		expect(links[1].href).toBe('/projects/harbour-site?department=administration');
-		expect(links[2].href).toBe('/projects/harbour-site/workflow-map');
+		expect(links[2].href).toBe('/projects/harbour-site/videos');
+		expect(links[3].href).toBe('/projects/harbour-site/workflow-map');
 	});
 
 	it('gives an internal project its Task Management alone, since it has no code, domain or deploys', () => {
@@ -22,7 +23,7 @@ describe('projectPageLinks', () => {
 	});
 
 	it('leaves Task Management off a product under an organisation, whose Tasks page holds the team’s jobs', () => {
-		expect(projectPageLinks(harbour, false, true).map(({ label }) => label)).toEqual(['Development', 'Workflow map']);
+		expect(projectPageLinks(harbour, false, true).map(({ label }) => label)).toEqual(['Development', 'Videos', 'Workflow map']);
 	});
 });
 
@@ -37,6 +38,11 @@ describe('currentProjectPage', () => {
 	it('puts the team’s own departments under Task Management and the map under Workflow map', () => {
 		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site?department=sales'))).toBe(projectPages.taskManagement);
 		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/workflow-map'))).toBe(projectPages.workflowMap);
+	});
+
+	it('puts the tutorial videos, and a video on screen, under Videos', () => {
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/videos'))).toBe(projectPages.videos);
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/videos?watch=one'))).toBe(projectPages.videos);
 	});
 });
 

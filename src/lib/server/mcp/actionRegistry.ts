@@ -18,6 +18,7 @@ import { patchPlaceActions } from './actions/patchPlaceActions';
 import { portalActions } from './actions/portalActions';
 import { premisesActions } from './actions/premisesActions';
 import { projectActions } from './actions/projectActions';
+import { projectVideoActions } from './actions/projectVideoActions';
 import { projectMembershipActions } from './actions/projectMembershipActions';
 import { projectPeopleActions } from './actions/projectPeopleActions';
 import { registerActions } from './actions/registerActions';
@@ -58,6 +59,7 @@ const everyAction: McpAction[] = [
 	...areaFeedActions,
 	...observationActions,
 	...projectActions,
+	...projectVideoActions,
 	...projectPeopleActions,
 	...projectMembershipActions,
 	...goalActions,
