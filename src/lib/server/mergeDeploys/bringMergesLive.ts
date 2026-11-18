@@ -23,8 +23,9 @@ export async function bringMergesLive(supabase: SupabaseClient, project: Project
 	const liveAt = new Date().toISOString();
 	for (const merge of nowLive) {
 		await recordMergeLive(supabase, merge, liveAt);
-		if (promotedTaskIds.has(merge.taskId)) await bringPromotedTaskLive(supabase, project, merge, liveAt);
-		else await finishMergedTask(supabase, project, merge);
+		const isPromoted = promotedTaskIds.has(merge.taskId);
+		const tellTask = isPromoted ? bringPromotedTaskLive : finishMergedTask;
+		await tellTask(supabase, project, merge, liveAt);
 	}
 	return nowLive.map((merge) => merge.taskId);
 }
