@@ -6,11 +6,11 @@ const harbourId = '11111111-1111-4111-8111-111111111111';
 const videoId = '22222222-2222-4222-8222-222222222222';
 const harbour = { id: harbourId, name: 'Harbour' };
 const signingIn = {
-	id: videoId, projectId: harbourId, title: 'Signing in', description: '', section: 'Getting started', position: 1,
+	id: videoId, projectId: harbourId, title: 'Signing in', description: '', section: 'Getting started', position: 1, library: 'tutorials',
 	durationSeconds: 95, filename: 'signing-in.mp4', mimeType: 'video/mp4', byteCount: 2_097_152,
 	storagePath: `${harbourId}/${videoId}/signing-in.mp4`, thumbnailStoragePath: null, captionsStoragePath: null, addedBy: 'nigel', recordedAt: '2026-11-18T10:00:00Z'
 };
-const world = { granted: [] as unknown[], changed: [] as unknown[], removed: [] as unknown[], recording: { status: 'recorded', byteCount: 2_097_152, hasThumbnail: true, hasCaptions: false } as object };
+const world = { granted: [] as unknown[], changed: [] as unknown[], removed: [] as unknown[], recording: { status: 'recorded', byteCount: 2_097_152, library: 'promotional', hasThumbnail: true, hasCaptions: false } as object };
 
 vi.mock('../projectAccess', () => ({
 	noReachableProject: 'No project you are on has that id.',
@@ -43,7 +43,7 @@ function runVideoAction(name: string, input: Record<string, unknown> = {}): Prom
 
 const newVideo = { title: 'Signing in', section: 'Getting started', position: 1, filename: 'signing-in.mp4', mimeType: 'video/mp4', byteCount: 2_097_152 };
 
-describe('a project’s tutorial videos over the connector', () => {
+describe('a project’s tutorial and promotional videos over the connector', () => {
 	beforeEach(() => Object.assign(world, { granted: [], changed: [], removed: [] }));
 
 	it('lists the library section by section, with where to watch it', async () => {
@@ -51,6 +51,8 @@ describe('a project’s tutorial videos over the connector', () => {
 		expect(answer).toContain('## Getting started');
 		expect(answer).toContain(`Signing in (position 1, 1:35, 2.0 MB, video id: ${videoId})`);
 		expect(answer).toContain(`/projects/${harbourId}/videos`);
+		expect(answer).toContain('Harbour has no promotional videos yet');
+		expect(answer).toContain(`/projects/${harbourId}/videos/promotional`);
 	});
 
 	it('keeps a new video under the person asking and gives the links to send its film and thumbnail', async () => {
@@ -71,7 +73,7 @@ describe('a project’s tutorial videos over the connector', () => {
 	});
 
 	it('records the film once it arrives', async () => {
-		expect(await runVideoAction('record_project_video', { videoId })).toContain('In Harbour\'s tutorial videos (2.0 MB, with its thumbnail, with no captions');
+		expect(await runVideoAction('record_project_video', { videoId })).toContain('In Harbour\'s promotional videos (2.0 MB, with its thumbnail, with no captions');
 		world.recording = { status: 'not_arrived' };
 		expect(await runVideoAction('record_project_video', { videoId })).toContain('Nothing has arrived');
 	});
@@ -79,6 +81,7 @@ describe('a project’s tutorial videos over the connector', () => {
 	it('changes only what is named, and takes a video out on request', async () => {
 		expect(await runVideoAction('update_project_video', { videoId, position: 5 })).toContain('is changed: position');
 		expect(world.changed).toEqual([{ position: 5 }]);
+		expect(await runVideoAction('update_project_video', { videoId, library: 'promotional' })).toContain('/videos/promotional');
 		expect(await runVideoAction('update_project_video', { videoId })).toContain('name at least one of');
 		expect(await runVideoAction('delete_project_video', { videoId })).toContain('out of Harbour');
 		expect(world.removed).toHaveLength(1);

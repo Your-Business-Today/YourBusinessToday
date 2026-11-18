@@ -7,7 +7,8 @@ const columnOfDetail: Record<keyof VideoDetails, string> = {
 	description: 'description',
 	section: 'section',
 	position: 'position',
-	durationSeconds: 'duration_seconds'
+	durationSeconds: 'duration_seconds',
+	library: 'library'
 };
 
 /** Changes the details named on a kept video of the project. */

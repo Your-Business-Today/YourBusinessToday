@@ -1,5 +1,6 @@
 import { VideoLimits, captionsTypes, thumbnailTypes, videoFileTypes } from '$lib/projectVideos/videoLimits';
 import { objectSchema, textField } from '../actionTypes';
+import { videoLibraryNames } from '$lib/projectVideos/videoLibraries';
 
 const {
 	longestTitle,
@@ -21,7 +22,12 @@ const detailFields = {
 	description: textField(`What the video teaches, in a sentence or two, at most ${longestDescription} characters`),
 	section: textField(`The part of the library it sits in, such as Getting started, at most ${longestSection} characters`),
 	position: { type: 'integer', description: `Where it plays, lowest first, from 0 up to ${highestPosition}; sections are ordered by their first video` },
-	durationSeconds: { type: 'integer', description: `How long it runs, in whole seconds, from 1 up to ${longestDurationSeconds}` }
+	durationSeconds: { type: 'integer', description: `How long it runs, in whole seconds, from 1 up to ${longestDurationSeconds}` },
+	library: {
+		type: 'string',
+		enum: videoLibraryNames,
+		description: 'Which library it sits in: tutorials, teaching people to use what was built, or promotional, showing it off; tutorials when left out'
+	}
 };
 
 const fileFields = {

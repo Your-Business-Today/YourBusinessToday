@@ -9,6 +9,7 @@ import { noSuchVideo, videosPageAddress } from './describeProjectVideos';
 import { readText } from '../actionTypes';
 import { recordVideoUpload } from '$lib/server/projectVideos/recordVideoUpload';
 import type { McpCaller } from '../resolveMcpCaller';
+import { videoLibraryWords } from '$lib/projectVideos/videoLibraries';
 
 type Input = Record<string, unknown>;
 
@@ -40,7 +41,8 @@ export async function updateProjectVideo(caller: McpCaller, input: Input): Promi
 	const video = await findKeptVideo(caller.supabase, project.id, readText(input, 'videoId'));
 	if (video === null) return noSuchVideo;
 	await changeVideoDetails(caller.supabase, video, changes);
-	return `"${changes.title ?? video.title}" is changed: ${Object.keys(changes).join(', ')}. It shows at ${videosPageAddress(project)}.`;
+	const library = changes.library ?? video.library;
+	return `"${changes.title ?? video.title}" is changed: ${Object.keys(changes).join(', ')}. It shows at ${videosPageAddress(project, library)}.`;
 }
 
 /** Takes a video and its files out of the project's library. */
@@ -50,5 +52,6 @@ export async function deleteProjectVideo(caller: McpCaller, input: Input): Promi
 	const video = await findKeptVideo(caller.supabase, project.id, readText(input, 'videoId'));
 	if (video === null) return noSuchVideo;
 	await removeProjectVideo(caller.supabase, video);
-	return `"${video.title}" and its files are out of ${project.name}'s tutorial videos.`;
+	const { videosAre } = videoLibraryWords[video.library];
+	return `"${video.title}" and its files are out of ${project.name}'s ${videosAre}.`;
 }

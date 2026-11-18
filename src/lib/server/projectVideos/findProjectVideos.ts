@@ -3,6 +3,7 @@ import { VideoLimits } from '$lib/projectVideos/videoLimits';
 import { parseProjectVideo, parseVideoUpload, projectVideoColumns, videoUploadColumns, type VideoUpload } from './projectVideoRecord';
 import type { ProjectVideo } from '$lib/projectVideos/projectVideo';
 import type { VideoAdder } from './videoAdder';
+import type { VideoLibrary } from '$lib/projectVideos/videoLibraries';
 
 const lastListedRow = VideoLimits.mostVideosListed - 1;
 
@@ -34,13 +35,11 @@ export async function findKeptVideo(supabase: SupabaseClient, projectId: string,
 	return parseProjectVideo(data);
 }
 
-/** The project's kept videos in the order they are watched, as many as the library shows. */
-export async function readKeptVideos(supabase: SupabaseClient, projectId: string): Promise<ProjectVideo[]> {
-	const { data, error } = await supabase
-		.from('project_videos')
-		.select(projectVideoColumns)
-		.eq('project_id', projectId)
-		.not('recorded_at', 'is', null)
+/** The project's kept videos in the order they are watched, as many as the library shows: one library's, or both when none is named. */
+export async function readKeptVideos(supabase: SupabaseClient, projectId: string, library?: VideoLibrary): Promise<ProjectVideo[]> {
+	const kept = supabase.from('project_videos').select(projectVideoColumns).eq('project_id', projectId).not('recorded_at', 'is', null);
+	const inLibrary = library === undefined ? kept : kept.eq('library', library);
+	const { data, error } = await inLibrary
 		.order('position', { ascending: true })
 		.order('title', { ascending: true })
 		.range(0, lastListedRow);

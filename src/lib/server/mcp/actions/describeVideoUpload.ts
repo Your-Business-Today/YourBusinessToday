@@ -5,6 +5,7 @@ import { videoUploadRecordings, type VideoUploadRecording } from '$lib/server/pr
 import type { GrantedVideoUpload } from '$lib/server/projectVideos/grantedVideoUpload';
 import type { Project } from '$lib/server/projects/projectRecord';
 import type { VideoFileGiven, VideoGiven } from '$lib/projectVideos/projectVideo';
+import { videoLibraryWords } from '$lib/projectVideos/videoLibraries';
 
 const sendingCommand = (contentType: string, url: string) =>
 	`curl --fail --upload-file <path to the file> -H "content-type: ${contentType}" "${url}"`;
@@ -13,7 +14,7 @@ const sendingCommand = (contentType: string, url: string) =>
 export function describeVideoUpload(project: Project, video: VideoGiven, grant: GrantedVideoUpload): string {
 	const { details, film, thumbnail, captions } = video;
 	return [
-		`Upload link for "${details.title}" in ${project.name}'s tutorial videos, to be used once within ${videoUploadLinkLifetimeHours} hours. ` +
+		`Upload link for "${details.title}" in ${project.name}'s ${videoLibraryWords[details.library].videosAre}, to be used once within ${videoUploadLinkLifetimeHours} hours. ` +
 			`Send the film "${film.filename}" to it as an HTTP PUT with the raw bytes as the body, for example:`,
 		sendingCommand(film.mimeType, grant.filmUploadUrl),
 		...companionLines('thumbnail', thumbnail, grant.thumbnailUploadUrl),
@@ -42,5 +43,6 @@ export function describeVideoRecording(project: Project, videoId: string, record
 	const thumbnail = recording.hasThumbnail ? 'with its thumbnail' : 'with no thumbnail, so the page shows its first frame';
 	const captions = recording.hasCaptions ? 'with captions' : 'with no captions';
 	const kept = `${describeByteCount(recording.byteCount)}, ${thumbnail}, ${captions}, video id ${videoId}`;
-	return `In ${project.name}'s tutorial videos (${kept}). Watch it at ${videosPageAddress(project)}.`;
+	const { videosAre } = videoLibraryWords[recording.library];
+	return `In ${project.name}'s ${videosAre} (${kept}). Watch it at ${videosPageAddress(project, recording.library)}.`;
 }

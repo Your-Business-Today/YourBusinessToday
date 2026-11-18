@@ -49,6 +49,7 @@ function grantRow(adder: VideoAdder, video: VideoGiven, paths: GrantPaths): Reco
 		section: details.section,
 		position: details.position,
 		duration_seconds: details.durationSeconds,
+		library: details.library,
 		filename: film.filename,
 		mime_type: film.mimeType,
 		storage_path: paths.filmPath,
