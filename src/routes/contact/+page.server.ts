@@ -7,13 +7,17 @@ import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClien
 import { companyDetails } from '$lib/data/companyDetails';
 import { signedInOriginSeenFrom } from '$lib/portal/mainSiteAddress';
 import type { WebsiteEnquiry } from '$lib/data/enquiryForm';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
 const recordingFailedMessage = `We could not save your request just now — please email ${companyDetails.consultingEmail} instead.`;
 const tenMinutesInMilliseconds = 10 * 60 * 1000;
 const enquiriesPerAddress = addressRateLimit({
 	allowance: 5,
 	windowMilliseconds: tenMinutesInMilliseconds
+});
+
+export const load: PageServerLoad = ({ locals }) => ({
+	isAwaitingAccess: locals.isAwaitingAccess === true
 });
 
 export const actions: Actions = {

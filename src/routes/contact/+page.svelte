@@ -1,11 +1,12 @@
 <script lang="ts">
 	import DiscoveryCallForm from '$lib/components/contact/DiscoveryCallForm.svelte';
 	import DiscoveryCallThankYou from '$lib/components/contact/DiscoveryCallThankYou.svelte';
+	import AwaitingAccessNotice from '$lib/components/contact/AwaitingAccessNotice.svelte';
 	import PageMeta from '$lib/components/site/PageMeta.svelte';
 	import { companyDetails } from '$lib/data/companyDetails';
 	import { discoveryCallLabel } from '$lib/data/discoveryCall';
 
-	let { form } = $props();
+	let { data, form } = $props();
 
 	const isSent = $derived(form?.isSent === true);
 
@@ -18,6 +19,9 @@
 
 <div class="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-2">
 	<div class="flex flex-col gap-4">
+		{#if data.isAwaitingAccess}
+			<AwaitingAccessNotice />
+		{/if}
 		<p class="font-display text-sm tracking-widest text-signal uppercase">Free discovery call</p>
 		<h1 class="font-display text-4xl leading-tight font-medium">
 			Book your free<br />discovery call<span class="text-signal">.</span>
