@@ -1,12 +1,10 @@
 import { deployStagingNow } from '$lib/server/deployWindows/deployStagingNow';
 import { describePromotion, noRepositoryToDeploy } from '$lib/server/deployWindows/promotionSentence';
-import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { noSuchProject } from './describeProject';
 import { objectSchema, readText, textField } from '../actionTypes';
 import { reachableProject } from '../projectAccess';
 import { stagingBranch } from '$lib/data/stagingBranch';
 import type { McpAction } from '../actionTypes';
-import type { McpCaller } from '../resolveMcpCaller';
 
 export const deployActions: McpAction[] = [
 	{
@@ -25,13 +23,9 @@ export const deployActions: McpAction[] = [
 			const project = await reachableProject(caller, readText(input, 'projectId'));
 			if (project === null) return noSuchProject;
 			if (project.repositoryUrl === '') return noRepositoryToDeploy;
-			const promotion = await deployStagingNow(caller.supabase, project, await callerName(caller));
+			const promotion = await deployStagingNow(caller.supabase, project);
 			return describePromotion(promotion);
 		}
 	}
 ];
 
-async function callerName(caller: McpCaller): Promise<string> {
-	const accounts = await getAccountsById(caller.supabase, [caller.accountId]);
-	return accounts[0]?.name ?? caller.email;
-}
