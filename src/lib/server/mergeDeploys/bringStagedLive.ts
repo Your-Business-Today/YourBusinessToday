@@ -1,16 +1,16 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { findStagedTasks } from '$lib/server/projects/findStagedTasks';
 import { markTaskLive } from './markTaskLive';
 import type { Project } from '$lib/server/projects/projectRecord';
+import type { ProjectTask } from '$lib/server/projects/taskRecord';
 import { promotedLiveMessage } from './mergeDeployMessages';
 
-/** Marks live every task on the project whose work the promotion of staging has just carried. */
+/** Marks live at once every staged task the promotion of staging carried, for a project whose deploy reports no checks. */
 export async function bringStagedLive(
 	supabase: SupabaseClient,
 	project: Project,
-	promotionUrl: string
+	promotionUrl: string,
+	stagedTasks: ProjectTask[]
 ): Promise<string[]> {
-	const stagedTasks = await findStagedTasks(supabase, project.id);
 	const liveAt = new Date().toISOString();
 	const sentence = promotedLiveMessage(project, promotionUrl);
 	for (const task of stagedTasks) {
