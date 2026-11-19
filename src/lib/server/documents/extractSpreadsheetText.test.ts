@@ -10,16 +10,14 @@ async function workbookBytes(fillSheet: (sheet: ExcelJS.Worksheet) => void): Pro
 	return new Uint8Array(buffer);
 }
 
-const onePixelPicture = Buffer.from(
-	'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
-	'base64'
-);
+const onePixelPicture =
+	'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 const drawingPartName = 'xl/drawings/drawing1.xml';
 
 async function workbookWithPicture(): Promise<Uint8Array> {
 	return workbookBytes((sheet) => {
 		sheet.getCell('A1').value = 'Door';
-		const pictureId = sheet.workbook.addImage({ buffer: onePixelPicture, extension: 'png' });
+		const pictureId = sheet.workbook.addImage({ base64: onePixelPicture, extension: 'png' });
 		sheet.addImage(pictureId, 'C1:D3');
 	});
 }
