@@ -1,19 +1,14 @@
 import ExcelJS from 'exceljs';
 import { csvLine } from '$lib/data/csvLine';
+import { workbookWithoutDrawings } from './workbookWithoutDrawings';
 
 const sheetHeading = (name: string) => `=== ${name} ===`;
 
 /** Every sheet as CSV, each under its name. */
 export async function extractSpreadsheetText(fileBytes: Uint8Array): Promise<string> {
 	const workbook = new ExcelJS.Workbook();
-	await workbook.xlsx.load(arrayBufferOf(fileBytes));
+	await workbook.xlsx.load(await workbookWithoutDrawings(fileBytes));
 	return workbook.worksheets.map(sheetAsCsv).join('\n\n');
-}
-
-function arrayBufferOf(bytes: Uint8Array): ArrayBuffer {
-	const copy = new ArrayBuffer(bytes.byteLength);
-	new Uint8Array(copy).set(bytes);
-	return copy;
 }
 
 function sheetAsCsv(sheet: ExcelJS.Worksheet): string {
