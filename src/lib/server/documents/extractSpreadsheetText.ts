@@ -33,8 +33,13 @@ function rowAsCsv(row: ExcelJS.Row, columnCount: number): string {
 }
 
 function cellText(cell: ExcelJS.Cell): string {
+	if (isCoveredByMerge(cell)) return '';
 	if (cell.value instanceof Date) return isoDateOrTime(cell.value);
 	return cell.text;
+}
+
+function isCoveredByMerge(cell: ExcelJS.Cell): boolean {
+	return cell.isMerged && cell.master !== cell;
 }
 
 function isoDateOrTime(date: Date): string {
