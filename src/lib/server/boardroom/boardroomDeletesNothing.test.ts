@@ -10,7 +10,7 @@ vi.mock('$env/dynamic/public', () => ({ env: {} }));
 
 const anAdministrator = { isAdmin: true, isStaff: true } as AccountStanding;
 const deletingWords = /delete|remove|erase|purge|destroy/i;
-const boardroomSources = ['src/lib/server/boardroom', 'src/routes/organisations/[organisationId]/boardroom'];
+const boardroomSources = ['src/lib/server/boardroom', 'src/routes/organisations/[organisationId=uuid]/boardroom'];
 
 function sourceFilesUnder(folder: string): string[] {
 	return readdirSync(folder, { recursive: true, encoding: 'utf8' })
