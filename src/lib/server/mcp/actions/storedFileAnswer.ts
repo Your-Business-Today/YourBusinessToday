@@ -5,6 +5,7 @@ import {
 	imageAnswer,
 	linkAnswer,
 	pdfAnswer,
+	spreadsheetAnswer,
 	textAnswer,
 	type AttachmentAnswer
 } from './attachmentAnswers';
@@ -14,7 +15,7 @@ import type { StoredFile } from '$lib/server/projects/attachmentRecord';
 const answerByKind: Record<AttachmentContentKind, AttachmentAnswer> = {
 	text: textAnswer,
 	wordDocument: textAnswer,
-	spreadsheet: textAnswer,
+	spreadsheet: spreadsheetAnswer,
 	pdf: pdfAnswer,
 	image: imageAnswer,
 	file: fileAnswer,
