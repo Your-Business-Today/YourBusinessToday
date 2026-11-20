@@ -7,12 +7,14 @@
 		quietButtonClasses
 	} from './accountFormStyles';
 	import SmallCapsField from '$lib/components/site/SmallCapsField.svelte';
+	import { focusWhen } from '$lib/client/focusWhen';
 
 	let {
 		next = '',
 		message = null,
-		isProblem = false
-	}: { next?: string; message?: string | null; isProblem?: boolean } = $props();
+		isProblem = false,
+		emailAddress = ''
+	}: { next?: string; message?: string | null; isProblem?: boolean; emailAddress?: string } = $props();
 
 	let isCreatingAccount = $state(false);
 
@@ -22,6 +24,8 @@
 
 	const problemMessage = $derived(isProblem ? message : null);
 	const noticeMessage = $derived(isProblem ? null : message);
+	const hasEmailAddress = $derived(emailAddress !== '');
+	const shouldFocusPassword = $derived(isProblem && hasEmailAddress);
 </script>
 
 <form
@@ -31,13 +35,21 @@
 >
 	<input type="hidden" name="next" value={next} />
 	<SmallCapsField label="Email">
-		<input name="email" type="email" autocomplete="email" required class={fieldClasses} />
+		<input
+			name="email"
+			type="email"
+			autocomplete="email"
+			value={emailAddress}
+			required
+			class={fieldClasses}
+		/>
 	</SmallCapsField>
 	<SmallCapsField label="Password">
 		<input
 			name="password"
 			type="password"
 			autocomplete={isCreatingAccount ? 'new-password' : 'current-password'}
+			use:focusWhen={shouldFocusPassword}
 			required
 			class={fieldClasses}
 		/>
