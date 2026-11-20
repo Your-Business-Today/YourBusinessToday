@@ -34,6 +34,7 @@
 		next={data.next}
 		message={form?.message ?? null}
 		isProblem={form?.isProblem ?? false}
+		emailAddress={form?.emailAddress ?? ''}
 	/>
 	<div class="flex items-center gap-3 font-display text-xs tracking-widest text-chalk/40 uppercase">
 		<span class="h-px flex-1 bg-hairline"></span>
