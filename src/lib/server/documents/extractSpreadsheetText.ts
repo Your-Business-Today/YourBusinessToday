@@ -1,14 +1,26 @@
 import ExcelJS from 'exceljs';
 import { csvLine } from '$lib/data/csvLine';
-import { workbookWithoutDrawings } from './workbookWithoutDrawings';
+import { readableWorkbook } from './readableWorkbook';
 
 const sheetHeading = (name: string) => `=== ${name} ===`;
 
+/** A file that is not a workbook whose cells can be read: an old .xls, or a damaged one. */
+export class UnreadableWorkbook extends Error {}
+
 /** Every sheet as CSV, each under its name. */
 export async function extractSpreadsheetText(fileBytes: Uint8Array): Promise<string> {
-	const workbook = new ExcelJS.Workbook();
-	await workbook.xlsx.load(await workbookWithoutDrawings(fileBytes));
+	const workbook = await loadedWorkbook(fileBytes);
 	return workbook.worksheets.map(sheetAsCsv).join('\n\n');
+}
+
+async function loadedWorkbook(fileBytes: Uint8Array): Promise<ExcelJS.Workbook> {
+	const workbook = new ExcelJS.Workbook();
+	try {
+		await workbook.xlsx.load(await readableWorkbook(fileBytes));
+	} catch (error) {
+		throw new UnreadableWorkbook(String(error), { cause: error });
+	}
+	return workbook;
 }
 
 function sheetAsCsv(sheet: ExcelJS.Worksheet): string {

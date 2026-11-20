@@ -12,6 +12,7 @@ import {
 	signAttachmentLink
 } from '$lib/server/projects/signAttachmentLink';
 import type { StoredFile } from '$lib/server/projects/attachmentRecord';
+import { UnreadableWorkbook } from '$lib/server/documents/extractSpreadsheetText';
 
 export type AttachmentAnswer = (
 	supabase: SupabaseClient,
@@ -21,6 +22,8 @@ export type AttachmentAnswer = (
 export const characterCap = maxAttachmentTextCharacters.toLocaleString('en-GB');
 
 const noTextLayer = 'This PDF has no text layer — it is probably a scan.';
+const unreadableWorkbook =
+	'Its cells cannot be read: it is not an .xlsx workbook, or it is damaged (an old .xls saved under the .xlsx type is the usual cause).';
 
 export const textAnswer: AttachmentAnswer = async (supabase, attachment) =>
 	textOf(attachment, await readAttachmentText(supabase, attachment));
@@ -29,6 +32,15 @@ export const pdfAnswer: AttachmentAnswer = async (supabase, attachment) => {
 	const attachmentText = await readAttachmentText(supabase, attachment);
 	if (attachmentText.text === '') return linkAnswerBecause(supabase, attachment, noTextLayer);
 	return textOf(attachment, attachmentText);
+};
+
+export const spreadsheetAnswer: AttachmentAnswer = async (supabase, attachment) => {
+	try {
+		return await textAnswer(supabase, attachment);
+	} catch (error) {
+		if (!(error instanceof UnreadableWorkbook)) throw error;
+		return linkAnswerBecause(supabase, attachment, unreadableWorkbook);
+	}
 };
 
 export const imageAnswer: AttachmentAnswer = async (supabase, attachment) => {
