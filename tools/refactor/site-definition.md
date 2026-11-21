@@ -247,155 +247,155 @@ PageTitle, [ (2) SubmitButton ]
 OrganisationsPageHeader=( WorkspaceHeader ){ FlashMessage, ( ?organisations.length === 0: EmptyState | OrganisationRegister=( (n) OrganisationRow ) ), Modal{ NewOrganisationForm=( OrganisationDetailsFields=( FormField, (n) OrganisationDetailInput=( FormField ) ), FormErrorNote, SubmitButton ) } }
 ```
 
-### `/organisations/[organisationId]`
-`src/routes/organisations/[organisationId]/+page.svelte`
+### `/organisations/[organisationId=uuid]`
+`src/routes/organisations/[organisationId=uuid]/+page.svelte`
 
 ```
 WorkspaceHeader, FlashMessage, OrganisationOverviewTabs=( TabStrip, ( ?shownTab === organisationOvervi…: OrganisationPeoplePanel=( ?canManage: Button, DashboardPanel{ RecordsTable{ OrganisationMemberCells=( RecordsCell{ PersonLine }, RecordsCell{ Badge }, RecordsCell, ?canManage: RecordsCell{ Button }, Button ) } }, Modal{ InviteMemberForm=( SmallCapsField, FormErrorNote, SubmitButton ) }, ?memberAwaitingRemoval !== null: DangerConfirmModal=( DangerConfirmForm ) ) | ?shownTab === organisationOvervi…: OrganisationDetailsPanel=( ?canManage: Button, (n) DashboardPanel{ OrganisationDetailList }, Modal{ OrganisationDetailsForm=( OrganisationDetailsFields, FormErrorNote, SubmitButton ) } ) | ?shownTab === organisationOvervi…: OrganisationModulesPanel=( DashboardPanel{ RecordsTable{ OrganisationModuleCells=( RecordsCell, RecordsCell{ Badge }, ?canSwitch: RecordsCell{ Button } ) } } ) | ?shownTab === organisationOvervi…: OrganisationDirectorsPanel=( ?canNameAnother: Button, DashboardPanel{ RecordsTable{ OrganisationDirectorCells=( RecordsCell{ PersonLine }, RecordsCell, ?canName: RecordsCell{ ?director.accountId !== null: Button } ) } }, Modal{ NameDirectorForm=( FormField, FormErrorNote, SubmitButton ) } ) | ?shownTab === organisationOvervi…: OrganisationBillingPanel=( Button, ( ?billing.schedules as schedule (…: BillingScheduleSection=( DashboardPanel{ BillingScheduleMenu, BillingScheduleLinesTable } ) | EmptyState ), BilledInvoicesTable=( DashboardPanel{ RecordsTable{ (4) RecordsCell, RecordsCell{ Badge }, RecordsCell } } ), ?openForm !== null: Modal{ BillingScheduleForm=( BillingScheduleSettingsFields, BillingScheduleLineRows, FormErrorNote, SubmitButton ) } ) ) ), DangerConfirmModal=( DangerConfirmForm=( FormErrorNote, SubmitButton ) )
 ```
 
-### `/organisations/[organisationId]/boardroom`
-`src/routes/organisations/[organisationId]/boardroom/+page.svelte`
+### `/organisations/[organisationId=uuid]/boardroom`
+`src/routes/organisations/[organisationId=uuid]/boardroom/+page.svelte`
 
 ```
 WorkspaceHeader, DashboardPanel{ BoardMeetingsTable=( RecordsTable{ MeetingStageBadge=( Badge ) } ) }, CallMeetingPanel=( DashboardPanel{ [ (2) FormField ], FormField, (n) AgendaItemFields=( FormField, [ FormField ?canRemove: Button ] ), [ (2) Button ] } )
 ```
 
-### `/organisations/[organisationId]/boardroom/[meetingId]`
-`src/routes/organisations/[organisationId]/boardroom/[meetingId]/+page.svelte`
+### `/organisations/[organisationId=uuid]/boardroom/[meetingId]`
+`src/routes/organisations/[organisationId=uuid]/boardroom/[meetingId]/+page.svelte`
 
 ```
 WorkspaceHeader{ MeetingStageBadge=( Badge ) }, ?minutes.isClosed: MeetingMinutesPanel=( DashboardPanel{ ?minutes.latestVersion !== null: Badge, CopyTextButton, ?minutes.canAnswer && minutes.la…: MinutesAnswerForm=( FormField, [ (2) Button ] ), (n) MinutesVersionEntry=( ?answers.length > 0: (n) MinutesAnswerEntry=( DirectorAnswerEntry ) ) } ), MeetingAgendaPanel=( DashboardPanel{ (n) AgendaItemEntry=( [ Badge ?item.isAnyOtherBusiness: Badge ], ?papers.length > 0: (n) BoardPaperEntry, AgendaItemBriefing=( ?ownBrief !== null: OwnBriefSummary, ?briefing.canBrief: BoardBriefForm ), ItemRoomTalk=( ?badge !== null: Badge, ?said.length > 0: (n) BoardContributionEntry ), ?item.held !== null: HeldPieceCard=( [ (2) Button ] ), ?item.decision !== null: ItemDecision=( Badge, ?answers.length > 0: (n) DecisionAnswerEntry, ?decision.canAnswer: DecisionAnswerForm ), ItemActions=( ?entries.length > 0 || actions.c…: ( ?entries.length > 0: (n) BoardActionEntry, ?actions.canRaiseAgain: Button ), ?actions.canRecord: BoardActionForm ) ), ?withdrawnTitles.length > 0: WithdrawnAgendaItems } ), ?close.canClose: MeetingClosePanel=( DashboardPanel{ Button } ), ?meeting.ownClaude !== null: OwnClaudePanel=( DashboardPanel{ [ Badge ?ownClaude.isAskingFirst: Badge ], ?ownClaude.canChange: ( [ (2) SeatSettingForm=( Button ) ], SteerNoteForm=( FormField, Button ) ), SteerNotesList } ), MeetingFactsPanel=( DashboardPanel )
 ```
 
-### `/organisations/[organisationId]/books`
-`src/routes/organisations/[organisationId]/books/+page.svelte`
+### `/organisations/[organisationId=uuid]/books`
+`src/routes/organisations/[organisationId=uuid]/books/+page.svelte`
 
 ```
 WorkspaceHeader, ?tabs.length > 0: TabStrip, BooksPeriodForm=( Button ), DashboardPanel{ ?shownStatement !== undefined: StatementTable=( RecordsTable{ RecordsCell, StatementFigureCell=( RecordsCell ) } ) }
 ```
 
-### `/organisations/[organisationId]/books/accounts/[accountCode]`
-`src/routes/organisations/[organisationId]/books/accounts/[accountCode]/+page.svelte`
+### `/organisations/[organisationId=uuid]/books/accounts/[accountCode]`
+`src/routes/organisations/[organisationId=uuid]/books/accounts/[accountCode]/+page.svelte`
 
 ```
 WorkspaceHeader, DashboardPanel{ AccountEntriesTable=( RecordsTable{ (3) RecordsCell, (3) StatementFigureCell=( RecordsCell ), (5) RecordsCell, StatementFigureCell=( RecordsCell ) } ) }
 ```
 
-### `/organisations/[organisationId]/books/bank`
-`src/routes/organisations/[organisationId]/books/bank/+page.svelte`
+### `/organisations/[organisationId=uuid]/books/bank`
+`src/routes/organisations/[organisationId=uuid]/books/bank/+page.svelte`
 
 ```
 WorkspaceHeader, TabStrip, DashboardPanel{ BankLinesTable=( RecordsTable{ (3) RecordsCell, (3) StatementFigureCell=( RecordsCell ), RecordsCell } ) }
 ```
 
-### `/organisations/[organisationId]/books/costs`
-`src/routes/organisations/[organisationId]/books/costs/+page.svelte`
+### `/organisations/[organisationId=uuid]/books/costs`
+`src/routes/organisations/[organisationId=uuid]/books/costs/+page.svelte`
 
 ```
 WorkspaceHeader, TabStrip, DashboardPanel{ CostsTable=( RecordsTable{ (6) RecordsCell } ) }
 ```
 
-### `/organisations/[organisationId]/books/invoices`
-`src/routes/organisations/[organisationId]/books/invoices/+page.svelte`
+### `/organisations/[organisationId=uuid]/books/invoices`
+`src/routes/organisations/[organisationId=uuid]/books/invoices/+page.svelte`
 
 ```
 WorkspaceHeader, TabStrip, DashboardPanel{ ( ?isInvoiceTab(selectedTab): InvoicesTable=( RecordsTable{ (6) RecordsCell, RecordsCell{ Badge }, RecordsCell } ) | ?selectedTab === SetApartTabs.cu…: BooksCustomersTable=( RecordsTable{ (5) RecordsCell } ) | BillingSchedulesTable=( RecordsTable{ (7) RecordsCell } ) ) }
 ```
 
-### `/organisations/[organisationId]/books/invoices/[invoiceId]`
-`src/routes/organisations/[organisationId]/books/invoices/[invoiceId]/+page.svelte`
+### `/organisations/[organisationId=uuid]/books/invoices/[invoiceId]`
+`src/routes/organisations/[organisationId=uuid]/books/invoices/[invoiceId]/+page.svelte`
 
 ```
 InvoiceDocumentPage=( PrintOnPaper{ WorkspaceHeader{ Badge, (2) Button }, DashboardPanel{ InvoiceDocument=( [ InvoiceDocumentParty=( InvoiceDocumentFacts ) InvoiceDocumentFacts ], InvoiceDocumentParty=( InvoiceDocumentFacts ), BilledLinesTable=( RecordsTable{ (8) RecordsCell } ), InvoiceDocumentFacts, ?isSayingHowToPay(document): InvoiceDocumentPayment=( InvoiceDocumentFacts ) ) } } )
 ```
 
-### `/organisations/[organisationId]/books/loans`
-`src/routes/organisations/[organisationId]/books/loans/+page.svelte`
+### `/organisations/[organisationId=uuid]/books/loans`
+`src/routes/organisations/[organisationId=uuid]/books/loans/+page.svelte`
 
 ```
 WorkspaceHeader, DashboardPanel{ LoansTable=( RecordsTable{ (4) RecordsCell } ) }, ?openedLoan !== null: LoanStatementModal=( Modal{ LoanStatementTable=( RecordsTable{ RecordsCell, RecordsCell{ ?row.isOverdrawn: Badge }, (3) StatementFigureCell=( RecordsCell ) } ) } )
 ```
 
-### `/organisations/[organisationId]/brand`
-`src/routes/organisations/[organisationId]/brand/+page.svelte`
+### `/organisations/[organisationId=uuid]/brand`
+`src/routes/organisations/[organisationId=uuid]/brand/+page.svelte`
 
 ```
 WorkspaceHeader{ (2) Button }, DashboardPanel{ BrandAwaitingTable=( RecordsTable{ (3) RecordsCell } ) }, DashboardPanel{ BrandSwatches=( BrandDecisionNote ) }, (2) DashboardPanel{ BrandKitList=( BrandDecisionNote ) }, DashboardPanel{ BrandChannelTable=( RecordsTable{ (5) RecordsCell } ) }, DashboardPanel{ BrandCampaignTable=( RecordsTable{ (4) RecordsCell } ) }, (4) DashboardPanel{ BrandKitList=( BrandDecisionNote ) }
 ```
 
-### `/organisations/[organisationId]/brand/campaigns/[campaignId]`
-`src/routes/organisations/[organisationId]/brand/campaigns/[campaignId]/+page.svelte`
+### `/organisations/[organisationId=uuid]/brand/campaigns/[campaignId]`
+`src/routes/organisations/[organisationId=uuid]/brand/campaigns/[campaignId]/+page.svelte`
 
 ```
 PrintOnPaper{ WorkspaceHeader{ Button }, DashboardPanel{ CampaignFigureTiles=( [ (6) StatTile ] ) }, DashboardPanel{ [ (2) CampaignAudienceTable=( RecordsTable{ (4) RecordsCell } ) ] } }
 ```
 
-### `/organisations/[organisationId]/brand/content/[contentPieceId]`
-`src/routes/organisations/[organisationId]/brand/content/[contentPieceId]/+page.svelte`
+### `/organisations/[organisationId=uuid]/brand/content/[contentPieceId]`
+`src/routes/organisations/[organisationId=uuid]/brand/content/[contentPieceId]/+page.svelte`
 
 ```
 WorkspaceHeader{ ContentStageBadge=( Badge ) }, DashboardPanel{ ContentPieceText }, DashboardPanel{ ContentPostChannelTable=( RecordsTable{ ?row.isThisPiece: RecordsCell, Badge, RecordsCell, RecordsCell{ ContentStageBadge=( Badge ) }, RecordsCell } ) }, ?hasFilm: DashboardPanel{ StoryboardFilmPlayer=( StoryboardFilmFrame=( ?shot !== null: ( ?shot.clip !== null: StoryboardFilmClip, StoryboardFilmWords ) ), StoryboardFilmControls=( LineIcon ), ?film.musicUrl !== null: StoryboardFilmMusic ) }, ?hasFilm || makingKind === FilmM…: ContentFilmMakingPanel=( DashboardPanel{ Button } ), DashboardPanel{ ContentStoryboardTable=( RecordsTable{ (8) RecordsCell } ) }, DashboardPanel{ ContentPostPictures=( ?badge !== null: Badge, (n) [ LibraryPreview Badge ] ) }, ContentReviewPanel=( DashboardPanel{ ?isAwaitingApproval: ContentReviewForm=( FormField, FormErrorNote, [ (2) Button ] ) } ), DashboardPanel{ ContentReviewList }
 ```
 
-### `/organisations/[organisationId]/brand/library`
-`src/routes/organisations/[organisationId]/brand/library/+page.svelte`
+### `/organisations/[organisationId=uuid]/brand/library`
+`src/routes/organisations/[organisationId=uuid]/brand/library/+page.svelte`
 
 ```
 WorkspaceHeader, DashboardPanel{ BrandLibraryTable=( RecordsTable{ RecordsCell{ LibraryPreview }, (2) RecordsCell, RecordsCell{ Badge }, RecordsCell } ) }, DashboardPanel{ ?hasBrand: BrandLibraryForm=( (3) FormField, ?isPermissionGiven: FormField, FormErrorNote, Button ) }
 ```
 
-### `/organisations/[organisationId]/brand/plan`
-`src/routes/organisations/[organisationId]/brand/plan/+page.svelte`
+### `/organisations/[organisationId=uuid]/brand/plan`
+`src/routes/organisations/[organisationId=uuid]/brand/plan/+page.svelte`
 
 ```
 WorkspaceHeader{ (2) Button }, ?isAnyAwaitingApproval: DashboardPanel{ ContentPlanApproveForm=( FormErrorNote, Button ), ContentPlanApprovalTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ ContentPlanApprovalChannels }, RecordsCell{ ContentPlanApprovalPicture=( (n) LibraryPreview ) } } ) }, DashboardPanel{ ContentPlanCounts=( [ (5) StatTile ] ) }, DashboardPanel{ ContentPlanRhythmTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ ContentPlanKindTable=( RecordsTable{ (2) RecordsCell } ) }, (n) ( ContentPlanWeekTallies=( (n) ( Badge, ?tally.extra !== noneExtra: Badge ) ), DashboardPanel{ ContentPlanWeekTable=( RecordsTable{ RecordsCell, ?row.post === null: RecordsCell, (2) RecordsCell, ( ?row.dueFor === null: RecordsCell | RecordsCell{ Badge } ), (4) RecordsCell, ( RecordsCell, RecordsCell{ ContentPlanChannelLinks }, (3) RecordsCell, RecordsCell{ ContentPlanPictureCell=( Badge ) }, RecordsCell{ ContentPlanChannelStages=( (n) ( ContentStageBadge=( Badge ), ?channel.isExtra: Badge ) ) }, RecordsCell{ ContentPlanChannelMoves=( (n) ?channel.canMove: Button ) } ) } ) } ), ContentPlanMoveModal=( Modal{ ?entry !== null: ( (2) FormField, FormErrorNote, [ (2) Button ] ) } )
 ```
 
-### `/organisations/[organisationId]/business-brain`
-`src/routes/organisations/[organisationId]/business-brain/+page.svelte`
+### `/organisations/[organisationId=uuid]/business-brain`
+`src/routes/organisations/[organisationId=uuid]/business-brain/+page.svelte`
 
 ```
 WorkspaceHeader, TabStrip, DashboardPanel{ ( ?shownTab === businessBrainTabKe…: ( BusinessBrainDrawn=( BrainConstellation=( ?hasNeurons: ConstellationOverlays=( ConstellationHud, ?exploration.hover !== null && s…: NeuronTooltip, ?selectedPage !== undefined: NeuronDetailPanel ) ) ), BusinessBrainQuestionRecordLinks ) | ?shownTab === businessBrainTabKe…: BusinessBrainFilesTable=( RecordsTable{ RecordsCell, RecordsCell{ ( ?file.isNamedByPage: Badge | Badge ) }, (2) RecordsCell } ) | ?shownTab === businessBrainTabKe…: BusinessBrainPagesTable=( RecordsTable{ (3) RecordsCell } ) ) }
 ```
 
-### `/organisations/[organisationId]/business-brain/chatbots/[chatbotId=uuid]/questions`
-`src/routes/organisations/[organisationId]/business-brain/chatbots/[chatbotId=uuid]/questions/+page.svelte`
+### `/organisations/[organisationId=uuid]/business-brain/chatbots/[chatbotId=uuid]/questions`
+`src/routes/organisations/[organisationId=uuid]/business-brain/chatbots/[chatbotId=uuid]/questions/+page.svelte`
 
 ```
 WorkspaceHeader, DashboardPanel{ ChatbotQuestionsFilterForm=( (3) FormField, [ (3) Button ] ), (n) ChatbotQuestionEntry=( ?question.readings as reading, r…: ChatbotReadingLine, ChatbotAnswerReported ) }
 ```
 
-### `/organisations/[organisationId]/business-brain/pages/[pageId=uuid]`
-`src/routes/organisations/[organisationId]/business-brain/pages/[pageId=uuid]/+page.svelte`
+### `/organisations/[organisationId=uuid]/business-brain/pages/[pageId=uuid]`
+`src/routes/organisations/[organisationId=uuid]/business-brain/pages/[pageId=uuid]/+page.svelte`
 
 ```
 WorkspaceHeader{ Badge }, BusinessBrainPageText=( DashboardPanel{ ProseText } ), BusinessBrainSourcePanel=( DashboardPanel ), BusinessBrainFilesPanel=( DashboardPanel{ (n) BusinessBrainFileRow } ), BusinessBrainHistoryPanel=( DashboardPanel ), BusinessBrainLinksPanel=( DashboardPanel )
 ```
 
-### `/organisations/[organisationId]/domain`
-`src/routes/organisations/[organisationId]/domain/+page.svelte`
+### `/organisations/[organisationId=uuid]/domain`
+`src/routes/organisations/[organisationId=uuid]/domain/+page.svelte`
 
 ```
 WorkspaceHeader, ( ?!isBrainOpen: EmptyState | ( ?domain === null: EmptyState, TabStrip, ( ?shownTab === domainTabKeys.map: DomainMapPane=( DomainExplorer=( DomainDiagramKey, DomainMap=( (n) DomainContextBox, (n) DomainGroupOutline, (n) DomainRelationshipLine, (n) DomainEntityNode ), ( ?chosenEntity === undefined: EmptyState | EntityPanel=( DashboardPanel{ ?isOfAProject: RaiseChangeButton, EntityPlacement, EntityFieldList, ?relationships.length > 0: EntityRelationshipList, ?projectId !== null && screens.l…: EntityScreenLinks } ) ) ), DashboardPanel{ DomainAreasTable=( RecordsTable{ (3) RecordsCell } ) }, DashboardPanel{ DomainAreaRelationshipsTable=( RecordsTable{ (4) RecordsCell } ) } ) | ?shownTab === domainTabKeys.thin…: DomainThingsPane=( DashboardPanel{ DomainThingsTable=( RecordsTable{ (5) RecordsCell } ) }, ?openedThing !== undefined && th…: DomainThingPanels=( DashboardPanel{ DomainThingFacts, ?isEvent: DomainEventFacts }, ( ?isGroup: DashboardPanel{ DomainGroupMembersTable=( RecordsTable{ (4) RecordsCell } ) } | ?hasLifecycle: DashboardPanel{ DomainThingLifecycleTable=( RecordsTable{ (4) RecordsCell } ) } ), DashboardPanel{ DomainThingExamplesTable=( RecordsTable{ RecordsCell } ) }, DashboardPanel{ DomainThingFieldsTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ DomainRulesTable=( RecordsTable{ (2) RecordsCell, RecordsCell{ DomainRulePlaces }, RecordsCell } ) }, DashboardPanel{ DomainThingStationsTable=( RecordsTable{ (4) RecordsCell } ) }, DashboardPanel{ DomainThingSourcesTable=( RecordsTable{ (3) RecordsCell } ) } ) ) | ?shownTab === domainTabKeys.rules: DashboardPanel{ DomainRulesTable=( RecordsTable{ (2) RecordsCell, RecordsCell{ DomainRulePlaces }, RecordsCell } ) } | ?shownTab === domainTabKeys.ques…: DashboardPanel{ DomainQuestionsTable=( RecordsTable{ (4) RecordsCell } ) } | DashboardPanel{ DomainWordsTable=( RecordsTable{ (2) RecordsCell, RecordsCell{ DomainWordNames }, (3) RecordsCell } ) } ) ) )
 ```
 
-### `/organisations/[organisationId]/sales`
-`src/routes/organisations/[organisationId]/sales/+page.svelte`
+### `/organisations/[organisationId=uuid]/sales`
+`src/routes/organisations/[organisationId=uuid]/sales/+page.svelte`
 
 ```
 WorkspaceHeader, DashboardPanel{ SalesPagesTable=( RecordsTable{ (2) RecordsCell } ) }
 ```
 
-### `/organisations/[organisationId]/task-management`
-`src/routes/organisations/[organisationId]/task-management/+page.svelte`
+### `/organisations/[organisationId=uuid]/task-management`
+`src/routes/organisations/[organisationId=uuid]/task-management/+page.svelte`
 
 ```
 WorkspaceHeader, TabStrip, TeamWorkFilterBar=( (n) CountedFilterChip ), DashboardPanel{ TeamWorkTable=( RecordsTable{ (3) RecordsCell, RecordsCell{ OwnerPicker=( (n) PersonInitials, Button ) }, RecordsCell{ Badge }, RecordsCell } ) }
 ```
 
-### `/organisations/[organisationId]/workflow-map`
-`src/routes/organisations/[organisationId]/workflow-map/+page.svelte`
+### `/organisations/[organisationId=uuid]/workflow-map`
+`src/routes/organisations/[organisationId=uuid]/workflow-map/+page.svelte`
 
 ```
 WorkspaceHeader, ( ?maps === null: EmptyState | ?openingStage === null || statio…: EmptyState | WorkflowMapView=( ?tabs !== null: TabStrip, ( ?shownStage !== null && shownLin…: ( WorkflowMapPanel=( DashboardPanel{ LineMap, WorkflowMapLegend=( (n) LegendSample ) } ), ?details !== null: StationPanel=( DashboardPanel{ [ (2) StationColumn{ (n) StationFlowItem } StationColumn{ StationPlaceLine } StationColumn{ StationDomainColumn } ] } ) ) | WorkflowMapTablePane=( DashboardPanel{ ( ?pane === questionsPane: MapQuestionsTable=( RecordsTable{ (4) RecordsCell } ) | MapChangesTable=( RecordsTable{ (5) RecordsCell } ) ) } ) ) ) )

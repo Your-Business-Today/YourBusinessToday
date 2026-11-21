@@ -32,12 +32,12 @@ function readDestination(formData: FormData): string | null {
 	return next;
 }
 
-function problemResponse(message: string) {
-	return fail(badRequestStatus, { message, isProblem: true });
+function problemResponse(message: string, emailAddress: string) {
+	return fail(badRequestStatus, { message, isProblem: true, emailAddress });
 }
 
-function noticeResponse(message: string) {
-	return { message, isProblem: false };
+function noticeResponse(message: string, emailAddress: string) {
+	return { message, isProblem: false, emailAddress };
 }
 
 export const actions: Actions = {
@@ -48,31 +48,33 @@ export const actions: Actions = {
 	signInWithPassword: async ({ locals, request }) => {
 		const formData = await request.formData();
 		const credentials = readEmailAndPassword(formData);
+		const { emailAddress } = credentials;
 		const inputProblem = problemWithCredentials(credentials);
-		if (inputProblem !== null) return problemResponse(inputProblem);
+		if (inputProblem !== null) return problemResponse(inputProblem, emailAddress);
 		const signInProblem = await signInWithPassword(locals.supabase, credentials);
-		if (signInProblem !== null) return problemResponse(signInProblem);
+		if (signInProblem !== null) return problemResponse(signInProblem, emailAddress);
 		redirect(303, await destinationAfterSignIn(locals, readDestination(formData)));
 	},
 	createAccount: async ({ request, url, getClientAddress }) => {
 		const formData = await request.formData();
 		const credentials = readEmailAndPassword(formData);
+		const { emailAddress } = credentials;
 		const inputProblem = problemWithCredentials(credentials);
-		if (inputProblem !== null) return problemResponse(inputProblem);
+		if (inputProblem !== null) return problemResponse(inputProblem, emailAddress);
 		const isAllowed = emailSendAllowance.isAllowedFrom(getClientAddress());
-		if (!isAllowed) return problemResponse(tooManyEmailsMessage);
+		if (!isAllowed) return problemResponse(tooManyEmailsMessage, emailAddress);
 		const destination = readDestination(formData);
 		const signUpProblem = await createAccountWithPassword({ credentials, origin: url.origin, destination });
-		if (signUpProblem !== null) return problemResponse(signUpProblem);
-		return noticeResponse(confirmationEmailSent);
+		if (signUpProblem !== null) return problemResponse(signUpProblem, emailAddress);
+		return noticeResponse(confirmationEmailSent, emailAddress);
 	},
 	sendPasswordReset: async ({ request, url, getClientAddress }) => {
 		const { emailAddress } = readEmailAndPassword(await request.formData());
 		const inputProblem = problemWithEmailAddress(emailAddress);
-		if (inputProblem !== null) return problemResponse(inputProblem);
+		if (inputProblem !== null) return problemResponse(inputProblem, emailAddress);
 		const isAllowed = emailSendAllowance.isAllowedFrom(getClientAddress());
-		if (!isAllowed) return problemResponse(tooManyEmailsMessage);
+		if (!isAllowed) return problemResponse(tooManyEmailsMessage, emailAddress);
 		await sendUserPasswordReset(emailAddress, url.origin);
-		return noticeResponse(resetEmailSent);
+		return noticeResponse(resetEmailSent, emailAddress);
 	}
 };
