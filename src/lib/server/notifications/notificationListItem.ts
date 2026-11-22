@@ -10,6 +10,7 @@ export type NotificationListItem = {
 	subjectId: string;
 	subjectTitle: string;
 	projectId: string;
+	organisationId: string;
 	path: string;
 	eventKind: FeedEventKind | null;
 	messageBody: string;
@@ -32,6 +33,7 @@ export function parseNotificationRow(row: Record<string, unknown>): Notification
 		subjectId: subject.id,
 		subjectTitle: subject.title,
 		projectId: subject.projectId,
+		organisationId: subject.organisationId,
 		path: subject.path,
 		eventKind: parseFeedEventKind(event?.kind),
 		messageBody: said.body,

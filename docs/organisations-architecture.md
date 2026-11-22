@@ -340,7 +340,8 @@ one module rule and then the director check: `call_board_meeting`, `list_board_m
 Chat is a module like the others: an administrator switches it on for an organisation, and from then
 everyone on the organisation who can use the module may open, rename and archive its rooms at
 `/organisations/<id>/chat`. The first step shipped the rooms; the second, below, the messages in them;
-the third, moving a stray conversation to the right room.
+the third, moving a stray conversation to the right room; the fourth, a person's own Claude reading
+the rooms over the connector.
 
 - **One row per room** in `chat_rooms`: its name (1 to 60 characters), what it is for (up to 300),
   and the room it sits under when it is a subroom. The limits are stated once in
@@ -435,3 +436,38 @@ Nothing is deleted, and a move is undone by another move back.
 - **The five-second refresh leaves the ticks alone.** The ticks live in the open room's panel, which
   a refresh keeps, and only the ticked messages still in the room are sent; the panel starts afresh
   when another room is opened.
+
+## A person's own Claude reads the rooms (migration `0274`)
+
+Each director connects their own Claude (or any MCP client) and asks it what is new in the business
+chat; it reads the rooms as that person. The connector's `chat` area has three actions, all
+`isWrite: false`, run through `run_read_action`, offered to everyone and each gated by `moduleAction`
+on the `chat` module of the organisation named, so a caller who may not use that organisation's chat
+is told Chat is not switched on for any organisation of theirs with that id.
+
+- **`list_chat_rooms`** gives every room not archived, General first, then rooms by name with their
+  subrooms beneath (`chatRoomTree`), each with its id, what it is for and the caller's unread count.
+  With no rooms yet it says so and points at the chat home on the site: the rooms are opened by the
+  first visit there, never by a read.
+- **`read_chat_room`** gives one room of that organisation, archived or not (an archived one says
+  so), oldest to newest: each message with who said it by name, when, whether they said it
+  themselves or through their Claude, and where it was moved from. `since` is `unread` (the
+  default) or `all`; `limit` is 1 to 200, the room's own 200, and 50 when left out. The limits and
+  refusals are stated once in `src/lib/data/chat/chatReadingRules.ts` and checked by
+  `validateChatReading`. With `unread` it gives the messages the rule below counts, and the moves
+  out of the room made after the reader's place, as the room's marker line tells of them
+  (`chatFlowWithin`). A room of another organisation is refused by name.
+- **`read_chat_unread`** gives everything unread across the rooms, room by room in the list's
+  order, leaving out the rooms with nothing new, or one plain line when nothing is.
+- **Reading marks nothing read.** None of the three moves the reader's place or marks their
+  notification read, so a Claude checking in never hides what is new from its person. Marking read
+  is a write that comes with the chat's write actions.
+- **One unread rule, for the site and the connector.** The connector runs as the service role, for
+  which `auth.uid()` is nobody. `chat_unread_messages_for_reader(organisation, reader)` now holds the
+  rule (messages newer than the reader's place in the room they are in now, not their own; a room
+  never opened counts every message not theirs), and `chat_unread_counts_for_reader` counts it room
+  by room; the service role alone may call either. `chat_unread_counts`, which the site calls
+  unchanged, counts through the same rule for `auth.uid()`, running as its owner and asking the
+  module rule itself.
+- **A room notification points at the room.** The connector's notification answer names
+  `read_chat_room` with the organisation and room ids, as it names `read_task` for a task.

@@ -64,8 +64,8 @@ are shortcuts to the readings a person asks for most:
 | `perform_upload_box_step` | one step of that upload box, called by the box itself and never by Claude |
 
 The actions live in `src/lib/server/mcp/actions/`, one file per concern, gathered by area
-(`account`, `boardroom`, `books`, `brand`, `business_brain`, `clients`, `organisations`,
-`patches`, `projects`, `goals`, `support`, `conversations`, `tasks`) into `actionRegistry.ts`
+(`account`, `boardroom`, `books`, `brand`, `business_brain`, `chat`, `clients`, `news`,
+`organisations`, `patches`, `projects`, `goals`, `support`, `conversations`, `tasks`) into `actionRegistry.ts`
 (334 actions on 12 November 2026). Each action names its audience — `everyone`, `staff` or
 `admin` — and the registry filters by the caller's standing on every lookup, so an account
 holder cannot list, describe or run a staff action; it does not exist for them. An
