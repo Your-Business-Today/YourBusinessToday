@@ -3,7 +3,7 @@ import { objectSchema, textField } from '../actionTypes';
 
 const { mostMessagesRead, usualMessagesRead } = chatReadingLimits;
 
-const chatOrganisationField = textField('The organisation whose chat this is, as list_organisations gives it; Chat must be switched on for it');
+export const chatOrganisationField = textField('The organisation whose chat this is, as list_organisations gives it; Chat must be switched on for it');
 
 const chatRoomIdField = textField('The room, as list_chat_rooms gives it; an archived room is read too');
 

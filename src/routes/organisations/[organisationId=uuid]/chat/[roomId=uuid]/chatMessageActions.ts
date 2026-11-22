@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { postChatMessage } from '$lib/server/chat/postChatMessage';
+import { postedViaChannels } from '$lib/data/conversationTurn';
 import { requireChatRoomKeeper } from '$lib/server/chat/requireChatRoomKeeper';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { refusedStatus } from '../chatRoomActions';
@@ -7,7 +8,8 @@ import type { Actions } from './$types';
 
 export const chatMessageActions = {
 	postMessage: async ({ locals, params, request }) => {
-		const author = await requireChatRoomKeeper({ locals, params });
+		const keeper = await requireChatRoomKeeper({ locals, params });
+		const author = { ...keeper, postedVia: postedViaChannels.site };
 		const formData = Object.fromEntries(await request.formData());
 		const posted = await postChatMessage(supabaseServiceClient(), author, params.roomId, formData);
 		if (typeof posted === 'string') return fail(refusedStatus, { message: posted });

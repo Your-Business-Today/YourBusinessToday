@@ -1,11 +1,11 @@
-import { trimmedText } from '$lib/data/trimmedText';
+import { checkRequiredWords } from '$lib/data/fieldChecks';
 import { chatMessageLimits, chatMessageRefusals } from './chatMessageRules';
 
 export type ChatMessageBody = { body: string };
 
 /** The words as given, checked against the body's column, or the sentence naming the limit they break. */
 export function validateChatMessageBody(input: Record<string, unknown>): ChatMessageBody | string {
-	const body = trimmedText(input.body);
-	if (body === '' || body.length > chatMessageLimits.longestBody) return chatMessageRefusals.body;
-	return { body };
+	const checked = checkRequiredWords(input.body, chatMessageLimits.longestBody, chatMessageRefusals.body);
+	if ('refusal' in checked) return checked.refusal;
+	return { body: checked.value };
 }

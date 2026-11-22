@@ -1,4 +1,5 @@
 import { actionsFor, areasFor } from './actionRegistry';
+import { chatDoctrine } from './chatDoctrine';
 import { clientContactsOf } from './clientContactAccess';
 import { countOf } from '$lib/data/countOf';
 import { domainRunLine } from './domainRunLine';
@@ -31,7 +32,9 @@ export async function describeContext(caller: McpCaller): Promise<string> {
 		'',
 		workingDoctrine,
 		'',
-		raisingDoctrine
+		raisingDoctrine,
+		'',
+		chatDoctrine
 	]
 		.filter((line) => line !== null)
 		.join('\n');

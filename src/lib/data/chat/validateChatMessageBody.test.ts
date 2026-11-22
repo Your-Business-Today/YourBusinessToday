@@ -12,6 +12,11 @@ describe('validateChatMessageBody', () => {
 		expect(validateChatMessageBody({})).toBe(chatMessageRefusals.body);
 	});
 
+	it('refuses words that are not text, never reading a number or a list as words', () => {
+		expect(validateChatMessageBody({ body: 42 })).toBe(chatMessageRefusals.body);
+		expect(validateChatMessageBody({ body: ['Morning'] })).toBe(chatMessageRefusals.body);
+	});
+
 	it('takes the longest message the column holds and refuses one character more, never shortening it', () => {
 		const longest = 'a'.repeat(chatMessageLimits.longestBody);
 		expect(validateChatMessageBody({ body: longest })).toEqual({ body: longest });

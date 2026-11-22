@@ -341,7 +341,7 @@ Chat is a module like the others: an administrator switches it on for an organis
 everyone on the organisation who can use the module may open, rename and archive its rooms at
 `/organisations/<id>/chat`. The first step shipped the rooms; the second, below, the messages in them;
 the third, moving a stray conversation to the right room; the fourth, a person's own Claude reading
-the rooms over the connector.
+the rooms over the connector; the fifth, that Claude posting, moving and keeping rooms as its person.
 
 - **One row per room** in `chat_rooms`: its name (1 to 60 characters), what it is for (up to 300),
   and the room it sits under when it is a subroom. The limits are stated once in
@@ -461,7 +461,7 @@ is told Chat is not switched on for any organisation of theirs with that id.
   order, leaving out the rooms with nothing new, or one plain line when nothing is.
 - **Reading marks nothing read.** None of the three moves the reader's place or marks their
   notification read, so a Claude checking in never hides what is new from its person. Marking read
-  is a write that comes with the chat's write actions.
+  is the write `mark_chat_room_read`, below.
 - **One unread rule, for the site and the connector.** The connector runs as the service role, for
   which `auth.uid()` is nobody. `chat_unread_messages_for_reader(organisation, reader)` now holds the
   rule (messages newer than the reader's place in the room they are in now, not their own; a room
@@ -471,3 +471,40 @@ is told Chat is not switched on for any organisation of theirs with that id.
   module rule itself.
 - **A room notification points at the room.** The connector's notification answer names
   `read_chat_room` with the organisation and room ids, as it names `read_task` for a task.
+
+## A person's own Claude posts, moves and keeps rooms (no migration)
+
+Each director's own Claude takes part in the chat as that person: three directors' Claudes in one
+room each post as their own person and read what the others said. The `chat` area gains five
+actions, all `isWrite: true`, run through `perform_action`, offered to everyone and each gated by
+`moduleAction` on the `chat` module, as the reads are. Each runs the service the page's action runs,
+so a refusal reads the same from either; the connector leads a refusal of a field's limit with the
+field's name (`body:`, `name:`, `purpose:`), and points a room not found at `list_chat_rooms`
+(`chatConnectorRefusal`).
+
+- **`post_chat_message`** says it in a room as the caller through `postChatMessage`, which now takes
+  who it is posted through (`ChatAuthor`): `posted_via = 'claude'`, so the room marks it as said
+  through their Claude, where the page's form posts `'site'`. Posting moves the author's place in the
+  room to now and reads their notification, on the site and here alike.
+- **`create_chat_room`** and **`update_chat_room`** run the page's New, Edit and Archive
+  (`createChatRoom`, `changeChatRoom`, `archiveChatRoom`). `update_chat_room` changes the fields
+  given and keeps every field left out as the room has it (`validateChatRoomUpdate` and
+  `roomFieldsWithChanges`, in `src/lib/data/chat/chatWritingRules.ts`, through `updateChatRoom`);
+  `parentRoomId: ""` puts a subroom back under nothing. `isArchived: true` archives through the page's Archive, with its refusals
+  (General, a room with open subrooms), and is asked alone, as the site's Archive is its own button.
+  The site has no way to bring an archived room back, so neither has the connector: `isArchived:
+  false` is refused by name.
+- **`move_chat_messages`** runs the page's move (`moveChatMessages`), with every refusal it has, once
+  `validateMoveOverConnector` has the messages as a list; a room of another organisation is refused
+  as the destination by the rules and as the room the messages leave by `move_chat_messages` itself.
+- **`mark_chat_room_read`** moves the caller's place in a room of that organisation, archived or not,
+  to now and reads its notification (`markRoomReadInOrganisation`, through `markChatRoomRead`).
+- **The service is the guard.** The validators the pages and the connector share now refuse a value
+  that is not text rather than reading it as text (`validateChatMessageBody`,
+  `validateChatRoomFields`); a form only ever sends text, so the site is unchanged.
+- **The doctrine.** `get_current_context` carries a short passage on taking part in the chat
+  (`src/lib/server/mcp/chatDoctrine.ts`): read what is unread first and say which room each thing
+  was said in; post only what the person asked to say or agreed to, in the room the matter belongs
+  to, offering to move a drifted talk; never move another person's messages, archive or rename a
+  room without the person's yes; mark a room read only once its person has heard what was new; and
+  nothing here sends an email or a message outside Your Business Today.

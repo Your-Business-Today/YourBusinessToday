@@ -1,4 +1,3 @@
-import { chatMessageRefusals } from '$lib/data/chat/chatMessageRules';
 import { listChatRoomsForReader } from '$lib/server/chat/readChatUnreadCounts';
 import { readChatRooms } from '$lib/server/chat/readChatRooms';
 import { readChatRoomAsAsked } from '$lib/server/chat/readChatRoomAsAsked';
@@ -9,17 +8,8 @@ import { chatOrganisationSchema, chatRoomReadingSchema } from './chatReadingFiel
 import { chatReadingGuidance } from './chatReadingGuidance';
 import { describeChatRooms } from './describeChatRooms';
 import { describeChatRoomReading, describeChatUnread } from './describeChatRoom';
-import type { McpCaller } from '../resolveMcpCaller';
-import type { Organisation } from '$lib/server/organisations/organisationRecord';
-
-const readerOf = (caller: McpCaller, organisation: Organisation) => ({ organisationId: organisation.id, accountId: caller.accountId });
-
-const roomNotFound = `${chatMessageRefusals.noSuchRoom} Call list_chat_rooms for the rooms of this organisation and their ids.`;
-
-function refusalOf(refusal: string): string {
-	if (refusal === chatMessageRefusals.noSuchRoom) return roomNotFound;
-	return refusal;
-}
+import { chatKeeperOf } from './chatConnectorCaller';
+import { chatConnectorRefusal } from './chatConnectorRefusals';
 
 export const chatReadingActions: McpAction[] = [
 	moduleAction('chat', {
@@ -32,7 +22,7 @@ export const chatReadingActions: McpAction[] = [
 		inputSchema: chatOrganisationSchema,
 		run: async (caller, _input, organisation) => {
 			const rooms = await readChatRooms(caller.supabase, organisation.id);
-			const listedRooms = await listChatRoomsForReader(caller.supabase, readerOf(caller, organisation), rooms);
+			const listedRooms = await listChatRoomsForReader(caller.supabase, chatKeeperOf(caller, organisation), rooms);
 			return describeChatRooms(organisation, listedRooms);
 		}
 	}),
@@ -45,8 +35,8 @@ export const chatReadingActions: McpAction[] = [
 		guidance: chatReadingGuidance.read,
 		inputSchema: chatRoomReadingSchema,
 		run: async (caller, input, organisation) => {
-			const reading = await readChatRoomAsAsked(caller.supabase, readerOf(caller, organisation), readText(input, 'roomId'), input);
-			if (typeof reading === 'string') return refusalOf(reading);
+			const reading = await readChatRoomAsAsked(caller.supabase, chatKeeperOf(caller, organisation), readText(input, 'roomId'), input);
+			if (typeof reading === 'string') return chatConnectorRefusal(reading);
 			return describeChatRoomReading(organisation.name, reading);
 		}
 	}),
@@ -59,7 +49,7 @@ export const chatReadingActions: McpAction[] = [
 		guidance: chatReadingGuidance.unread,
 		inputSchema: chatOrganisationSchema,
 		run: async (caller, _input, organisation) => {
-			const readings = await readUnreadInEveryRoom(caller.supabase, readerOf(caller, organisation));
+			const readings = await readUnreadInEveryRoom(caller.supabase, chatKeeperOf(caller, organisation));
 			return describeChatUnread(organisation.name, readings);
 		}
 	})
