@@ -6,12 +6,13 @@ import type { FramePickOption } from '$lib/components/frame/framePicks';
 import type { OpenProject } from '$lib/components/frame/frameTrail';
 
 /** The top tabs of a product: building it, the team's own jobs on it, and its part of the organisation's workflow map. */
-export type ProjectPage = 'development' | 'task-management' | 'videos' | 'workflow-map';
+export type ProjectPage = 'development' | 'task-management' | 'videos' | 'documents' | 'workflow-map';
 
 export const projectPages = {
 	development: 'development',
 	taskManagement: 'task-management',
 	videos: 'videos',
+	documents: 'documents',
 	workflowMap: 'workflow-map'
 } as const;
 
@@ -20,32 +21,36 @@ export type ProjectPageLink = { key: ProjectPage; label: string; href: string };
 const projectRoute = '/projects/[projectId]';
 const workflowMapLabel = 'Workflow map';
 const videosLabel = 'Videos';
+const documentsLabel = 'Documents';
 const taskManagementQuery = `?${boardQueryKeys.department}=${boardTabs.administration}`;
 const tabPageSegments = ['', ...Object.values(projectSegments)];
 
 /**
- * A product's top tabs: Development, holding its backlog, board, deploys and site map, its tutorial Videos, and its
+ * A product's top tabs: Development, holding its backlog, board, deploys and site map, its tutorial Videos, its Documents, and its
  * Workflow map, the stations of its organisation's map it runs. The team's own jobs sit on the organisation's Tasks page, so only a product under no
- * organisation keeps a Task Management tab. An internal project is not a product, so it has Task Management alone.
+ * organisation keeps a Task Management tab. An internal project is not a product, so it has Task Management and its Documents alone.
  */
 export function projectPageLinks(projectId: string, isInternalProject = false, isUnderOrganisation = false): ProjectPageLink[] {
 	const boardHref = projectHref(projectId);
 	const taskManagement = { key: projectPages.taskManagement, label: boardSideLabels.internal, href: `${boardHref}${taskManagementQuery}` };
-	if (isInternalProject) return [taskManagement];
+	const documents = { key: projectPages.documents, label: documentsLabel, href: projectHref(projectId, projectSegments.documents) };
+	if (isInternalProject) return [taskManagement, documents];
 	const development = { key: projectPages.development, label: boardSideLabels.development, href: boardHref };
 	const workflowMapHref = projectHref(projectId, projectSegments.workflowMap);
 	const workflowMap = { key: projectPages.workflowMap, label: workflowMapLabel, href: workflowMapHref };
 	const videos = { key: projectPages.videos, label: videosLabel, href: projectHref(projectId, projectSegments.videos) };
-	if (isUnderOrganisation) return [development, videos, workflowMap];
-	return [development, taskManagement, videos, workflowMap];
+	if (isUnderOrganisation) return [development, videos, documents, workflowMap];
+	return [development, taskManagement, videos, documents, workflowMap];
 }
 
-/** The top tab a page sits under: Workflow map for the map, Videos for the videos, Task Management for the team's jobs, Development for the rest. */
+/** The top tab a page sits under: Workflow map for the map, Videos and Documents for theirs, Task Management for the team's jobs, Development for the rest. */
 export function currentProjectPage(projectId: string, address: URL): ProjectPage {
 	const workflowMapHref = projectHref(projectId, projectSegments.workflowMap);
 	if (isAtOrUnder(address.pathname, workflowMapHref)) return projectPages.workflowMap;
 	const videosHref = projectHref(projectId, projectSegments.videos);
 	if (isAtOrUnder(address.pathname, videosHref)) return projectPages.videos;
+	const documentsHref = projectHref(projectId, projectSegments.documents);
+	if (isAtOrUnder(address.pathname, documentsHref)) return projectPages.documents;
 	const namedTab = parseBoardTab(address.searchParams.get(boardQueryKeys.department));
 	const isTeamWork = namedTab !== null && boardSideOfTab(namedTab) === boardSides.internal;
 	if (address.pathname === projectHref(projectId) && isTeamWork) return projectPages.taskManagement;

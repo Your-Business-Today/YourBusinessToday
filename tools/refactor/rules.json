@@ -372,6 +372,7 @@
       "src/lib/server/mcp/actions/newsStoryFields.ts",
       "src/lib/server/mcp/actions/businessBrainSchemas.ts",
       "src/lib/server/mcp/actions/projectVideoSchemas.ts",
+      "src/lib/server/mcp/actions/projectDocumentSchemas.ts",
       "src/lib/server/mcp/actions/businessBrainChatbotSchemas.ts",
       "src/lib/server/mcp/actions/workflowMapFields.ts",
       "src/lib/server/mcp/actions/amendWorkflowMapFields.ts",

@@ -9,21 +9,22 @@ function addressOf(path: string): URL {
 }
 
 describe('projectPageLinks', () => {
-	it('gives a product Development, Task Management, its Videos and its Workflow map', () => {
+	it('gives a product Development, Task Management, its Videos, its Documents and its Workflow map', () => {
 		const links = projectPageLinks(harbour);
-		expect(links.map(({ label }) => label)).toEqual(['Development', 'Task Management', 'Videos', 'Workflow map']);
+		expect(links.map(({ label }) => label)).toEqual(['Development', 'Task Management', 'Videos', 'Documents', 'Workflow map']);
 		expect(links[0].href).toBe('/projects/harbour-site');
 		expect(links[1].href).toBe('/projects/harbour-site?department=administration');
 		expect(links[2].href).toBe('/projects/harbour-site/videos');
-		expect(links[3].href).toBe('/projects/harbour-site/workflow-map');
+		expect(links[3].href).toBe('/projects/harbour-site/documents');
+		expect(links[4].href).toBe('/projects/harbour-site/workflow-map');
 	});
 
-	it('gives an internal project its Task Management alone, since it has no code, domain or deploys', () => {
-		expect(projectPageLinks(harbour, true).map(({ label }) => label)).toEqual(['Task Management']);
+	it('gives an internal project its Task Management and Documents alone, since it has no code, domain or deploys', () => {
+		expect(projectPageLinks(harbour, true).map(({ label }) => label)).toEqual(['Task Management', 'Documents']);
 	});
 
 	it('leaves Task Management off a product under an organisation, whose Tasks page holds the team’s jobs', () => {
-		expect(projectPageLinks(harbour, false, true).map(({ label }) => label)).toEqual(['Development', 'Videos', 'Workflow map']);
+		expect(projectPageLinks(harbour, false, true).map(({ label }) => label)).toEqual(['Development', 'Videos', 'Documents', 'Workflow map']);
 	});
 });
 
@@ -38,6 +39,11 @@ describe('currentProjectPage', () => {
 	it('puts the team’s own departments under Task Management and the map under Workflow map', () => {
 		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site?department=sales'))).toBe(projectPages.taskManagement);
 		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/workflow-map'))).toBe(projectPages.workflowMap);
+	});
+
+	it('puts the documents, and one open to read, under Documents', () => {
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/documents'))).toBe(projectPages.documents);
+		expect(currentProjectPage(harbour, addressOf('/projects/harbour-site/documents/one'))).toBe(projectPages.documents);
 	});
 
 	it('puts the tutorial videos, and a video on screen, under Videos', () => {

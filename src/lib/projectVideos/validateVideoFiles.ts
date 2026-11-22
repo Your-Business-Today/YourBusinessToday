@@ -1,5 +1,5 @@
 import { VideoLimits, captionsTypes, thumbnailTypes, videoFileTypes } from './videoLimits';
-import { isWholeNumberWithin } from './videoFieldChecks';
+import { isWholeNumberWithin } from '$lib/data/fieldChecks';
 import type { VideoFileGiven } from './projectVideo';
 
 type Input = Record<string, unknown>;

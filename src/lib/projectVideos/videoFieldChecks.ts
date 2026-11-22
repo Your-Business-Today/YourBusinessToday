@@ -1,8 +1,8 @@
 import { VideoLibraries, videoLibraryNames, type VideoLibrary } from './videoLibraries';
 import { VideoLimits } from './videoLimits';
+import { checkOptionalWords, checkRequiredWords, isWholeNumberWithin, type FieldCheck } from '$lib/data/fieldChecks';
 
-/** A value that fits its column, or the sentence that refuses it by name. */
-export type FieldCheck<Value> = { value: Value } | { refusal: string };
+export type { FieldCheck };
 
 const { longestTitle, longestDescription, longestSection, highestPosition, longestDurationSeconds } = VideoLimits;
 
@@ -15,17 +15,15 @@ export const durationRefusal = `durationSeconds is how long the video runs: a wh
 export const libraryRefusal = `library is which of the project's video libraries it sits in: one of ${videoLibraryNames.join(', ')}`;
 
 export function checkTitle(value: unknown): FieldCheck<string> {
-	return checkWords(value, longestTitle, titleRefusal);
+	return checkRequiredWords(value, longestTitle, titleRefusal);
 }
 
 export function checkSection(value: unknown): FieldCheck<string> {
-	return checkWords(value, longestSection, sectionRefusal);
+	return checkRequiredWords(value, longestSection, sectionRefusal);
 }
 
 export function checkDescription(value: unknown): FieldCheck<string> {
-	if (value === undefined) return { value: '' };
-	if (typeof value !== 'string' || value.length > longestDescription) return { refusal: descriptionRefusal };
-	return { value: value.trim() };
+	return checkOptionalWords(value, longestDescription, descriptionRefusal);
 }
 
 export function checkPosition(value: unknown): FieldCheck<number> {
@@ -44,16 +42,4 @@ export function checkLibrary(value: unknown): FieldCheck<VideoLibrary> {
 	const isLibrary = videoLibraryNames.includes(value as VideoLibrary);
 	if (!isLibrary) return { refusal: libraryRefusal };
 	return { value: value as VideoLibrary };
-}
-
-export function isWholeNumberWithin(value: unknown, lowest: number, highest: number): value is number {
-	if (typeof value !== 'number' || !Number.isInteger(value)) return false;
-	return value >= lowest && value <= highest;
-}
-
-function checkWords(value: unknown, longest: number, refusal: string): FieldCheck<string> {
-	const words = typeof value === 'string' ? value.trim() : '';
-	const isFitting = words !== '' && words.length <= longest;
-	if (!isFitting) return { refusal };
-	return { value: words };
 }

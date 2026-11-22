@@ -1,4 +1,5 @@
 import { checkDescription, checkDuration, checkLibrary, checkPosition, checkSection, checkTitle, type FieldCheck } from './videoFieldChecks';
+import { checkNamedFields } from '$lib/data/fieldChecks';
 import type { VideoDetails } from './projectVideo';
 
 type Input = Record<string, unknown>;
@@ -29,11 +30,5 @@ export function validateVideoChanges(input: Input): Partial<VideoDetails> | stri
 }
 
 function checkFields(input: Input, fields: DetailField[]): Partial<VideoDetails> | string {
-	const checked: Record<string, unknown> = {};
-	for (const field of fields) {
-		const check = detailChecks[field](input[field]);
-		if ('refusal' in check) return check.refusal;
-		checked[field] = check.value;
-	}
-	return checked as Partial<VideoDetails>;
+	return checkNamedFields(input, fields, detailChecks) as Partial<VideoDetails> | string;
 }
