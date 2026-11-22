@@ -18,6 +18,7 @@ export type ChatMessageRow = {
 	moved_by_move_id?: string | null;
 };
 
+/** The message as its own row has it; the files it carries are read beside it, from chat_message_files. */
 export function chatMessageOf(row: ChatMessageRow): ChatMessage {
 	return {
 		id: row.id,
@@ -26,6 +27,7 @@ export function chatMessageOf(row: ChatMessageRow): ChatMessage {
 		body: row.body,
 		postedVia: parsePostedVia(row.posted_via),
 		createdAt: row.created_at,
-		movedByMoveId: row.moved_by_move_id ?? null
+		movedByMoveId: row.moved_by_move_id ?? null,
+		files: []
 	};
 }

@@ -24,7 +24,7 @@ export const chatWritingActions: McpAction[] = [
 		inputSchema: chatPostingSchema,
 		run: async (caller, input, organisation) => {
 			const author = { ...chatKeeperOf(caller, organisation), postedVia: postedViaChannels.claude };
-			const posted = await postChatMessage(caller.supabase, author, readText(input, 'roomId'), input);
+			const posted = await postChatMessage(caller.supabase, author, readText(input, 'roomId'), { body: input.body });
 			if (typeof posted === 'string') return chatConnectorRefusal(posted);
 			return describePostedMessage(organisation.name, posted);
 		}

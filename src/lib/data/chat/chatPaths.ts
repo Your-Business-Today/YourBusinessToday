@@ -7,3 +7,8 @@ export function chatHomePath(organisationId: string): string {
 export function chatRoomPath(organisationId: string, roomId: string): string {
 	return `${chatHomePath(organisationId)}/${roomId}`;
 }
+
+/** Where a file said in an organisation's chat opens: the site checks the reader, then sends them to a short-lived link. */
+export function chatFilePath(organisationId: string, fileId: string): string {
+	return `${chatHomePath(organisationId)}/files/${fileId}`;
+}

@@ -1,3 +1,4 @@
+import { chatFileRefusals } from '$lib/data/chat/chatFileRules';
 import { chatMessageRefusals } from '$lib/data/chat/chatMessageRules';
 import { chatMoveRefusals } from '$lib/data/chat/chatMoveRules';
 import { chatRoomPlacementRefusals } from '$lib/data/chat/chatRoomPlacement';
@@ -13,6 +14,7 @@ const roomNotFoundRefusals = new Set<string>([
 
 const fieldsByRefusal = new Map<string, string>([
 	[chatMessageRefusals.body, 'body'],
+	[chatFileRefusals.wordsOrFiles, 'body'],
 	[chatRoomFieldRefusals.name, 'name'],
 	[chatRoomFieldRefusals.purpose, 'purpose']
 ]);
