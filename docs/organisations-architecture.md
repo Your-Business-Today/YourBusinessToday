@@ -341,7 +341,8 @@ Chat is a module like the others: an administrator switches it on for an organis
 everyone on the organisation who can use the module may open, rename and archive its rooms at
 `/organisations/<id>/chat`. The first step shipped the rooms; the second, below, the messages in them;
 the third, moving a stray conversation to the right room; the fourth, a person's own Claude reading
-the rooms over the connector; the fifth, that Claude posting, moving and keeping rooms as its person.
+the rooms over the connector; the fifth, that Claude posting, moving and keeping rooms as its person;
+the sixth, photos and files on a message.
 
 - **One row per room** in `chat_rooms`: its name (1 to 60 characters), what it is for (up to 300),
   and the room it sits under when it is a subroom. The limits are stated once in
@@ -508,3 +509,63 @@ field's name (`body:`, `name:`, `purpose:`), and points a room not found at `lis
   to, offering to move a drifted talk; never move another person's messages, archive or rename a
   room without the person's yes; mark a room read only once its person has heard what was new; and
   nothing here sends an email or a message outside Your Business Today.
+
+## Photos and files on a message (migration `0275`)
+
+A director on site takes a photo with their phone, or picks a document, and shares it in the room,
+as they do on WhatsApp today. Under the box to say something the composer has **Attach files** and
+**Take a photo** (a picture input with `capture`, which opens the camera on a phone). Each file
+chosen is sent at once and listed with where it has got to (sending, ready to send, not sent and
+why) and a **Take off**; Send waits while any is on its way. A message may be files alone, with no
+words.
+
+- **One row per file** in `chat_message_files`: the message (tied to a message of the same
+  organisation by a composite key, `on delete restrict`), where storage keeps it (unique, so a file
+  is on one message only), its name (1 to 200), its kind (up to 120) and its size (1 byte to 25 MB),
+  as storage measured them when the message was posted. Read by the module rule; no policy writes.
+  The files sit in the private `chat-files` bucket, which no policy opens.
+- **The limits are stated once** in `src/lib/data/chat/chatFileRules.ts`: at most 5 files on a
+  message, each at most 25 MB (the limit the site's other signed uploads already keep), of the
+  pictures (JPEG, PNG, WebP, GIF, HEIC) and the kinds a project document may be (`documentFileTypes`,
+  reused: PDF, Word, Excel, PowerPoint, text, CSV, Markdown). `chatFileRefusal` is asked of a file by
+  the composer (with `accept` on both inputs), by the grant, and by posting; the sentences are the
+  same from each. `chatMessageFilesMigration.test.ts` holds the columns and the bucket to the rules.
+- **Words, or at least one file.** `chat_messages.body` may now be empty: its check became "at most
+  4000 characters" (the wider check added before the narrower one was dropped). A check cannot look
+  across two tables, so the rule that a message with no words carries a file lives in the one
+  service, `validateChatMessage` and `postChatMessage`, and again in `post_chat_message_with_files`.
+- **The flow is the site's signed upload.** The composer asks the room's `grantChatFile` action for a
+  signed link for each file (`grantChatFileUpload`: the file as the browser describes it fits the
+  rules and the room is open), sends the file straight to storage, then posts the message naming each
+  arrived file by its storage path. The path is the grant: `<organisation>/<sender>/<upload id>/<name>`,
+  signed only by the site, so `isSentBy` takes only a path in the sender's own folder for a file of
+  that name. Posting (`checkSentChatFiles`) reads each file's size and kind as storage holds them
+  (`inspectStoredFile`), never as the browser said, refuses one that never arrived, and
+  `post_chat_message_with_files` writes the message and its file rows in one step; a file already on
+  a message is refused by the unique path. A file sent and never put on a message stays in the
+  bucket, as an upload whose link lapsed does elsewhere, and is shown nowhere, since only a row here
+  names a file.
+- **The room shows them.** Under the words a picture is drawn at a bounded size (`ChatMessageFiles`,
+  a content widget with no box of its own) and opens full size when pressed; a HEIC photo, which
+  most browsers cannot draw, and any other file show as a named link with its size. Every file opens
+  through `/organisations/<id>/chat/files/<fileId>`, which checks the reader can use the
+  organisation's chat, reads the row by the module rule and redirects to a ten-minute signed link
+  (a picture shown in the browser, any other file downloaded under its name), as a Boardroom paper
+  opens. The room re-reads itself every five seconds, so its load signs nothing: it reads the file
+  rows of the messages shown in one query, which answers none while the migration has not run.
+- **A moved message keeps its files.** A file is tied to its message, never to a room, and
+  `move_chat_messages` sets only a message's room and its move; this was run on a scratch database
+  built by `build-stand-in-database.sh`, moving a message with two files and reading both in the room
+  it went to.
+- **The connector names them.** `read_chat_room` and `read_chat_unread` give each message's files
+  under its words, each with its name, kind, size and a ten-minute link to fetch it
+  (`signChatReadingLinks`, one call for a reading), with the wording project documents use: fetch it
+  to look at it now and do not pass the link on. `post_chat_message` is unchanged: it passes only the
+  words, and attaching a file over the connector is not offered.
+- **The bell reads sensibly.** A files-only message notifies as any message does (the trigger fires
+  on the message's insert); the bell and the connector's `list_notifications` say what was sent
+  ("sent 2 photos", `describeFilesShared`) where a message has no words to quote. The bell reads the
+  files through the notification's message, and falls back to the columns before 0275 while it has
+  not run. The organisation export carries the rows and the files themselves
+  (`organisationExportFileStores`, which takes a row here as arrived, since it is written only once
+  its file has).
