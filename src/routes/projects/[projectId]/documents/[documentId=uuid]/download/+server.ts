@@ -3,7 +3,7 @@ import { downloadWrittenDocument } from '$lib/server/projectDocuments/downloadWr
 import { requireProjectDocument } from '$lib/server/projectDocuments/requireProjectDocument';
 import { signFetchLink } from '$lib/server/storage/signFetchLink';
 import { projectDocumentBucket } from '$lib/server/projectDocuments/projectDocumentFiles';
-import { writtenDownloadKindAt } from '$lib/components/projects/documents/documentAddresses';
+import { writtenDownloadKindAt } from '$lib/components/projects/documents/documentAddress';
 import type { RequestHandler } from './$types';
 
 const seeOther = 303;

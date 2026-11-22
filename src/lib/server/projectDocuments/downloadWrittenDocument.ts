@@ -4,7 +4,7 @@ import { buildWordDocument } from '$lib/server/clientDocuments/docx/buildWordDoc
 import { markdownType } from '$lib/projectDocuments/documentLimits';
 import { readDocumentMarkdown } from './findProjectDocuments';
 import { wordDocumentMimeType } from '$lib/data/officeMimeTypes';
-import { writtenDownloadKinds, type WrittenDownloadKind } from '$lib/components/projects/documents/documentAddresses';
+import { writtenDownloadKinds, type WrittenDownloadKind } from '$lib/components/projects/documents/documentAddress';
 import type { ProjectDocument } from '$lib/projectDocuments/projectDocument';
 
 const markdownExtension = /\.md$/;

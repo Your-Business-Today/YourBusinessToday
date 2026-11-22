@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { documentDownloadHref, documentHref } from './documentAddresses';
+	import DocumentRemoval from './DocumentRemoval.svelte';
+	import { documentDownloadHref, documentHref } from './documentAddress';
 	import { documentKindWords } from './documentKinds';
 	import { panelButtonClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { ProjectDocument } from '$lib/projectDocuments/projectDocument';
@@ -18,5 +19,6 @@
 	<div class="flex items-center gap-2">
 		<a href={documentHref(document)} class={panelButtonClasses}>Read</a>
 		<a href={documentDownloadHref(document)} data-sveltekit-reload class={panelButtonClasses}>Download</a>
+		<DocumentRemoval {document} />
 	</div>
 </li>

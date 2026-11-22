@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { documentDownloadHref, documentsHref, writtenDownloadKinds } from './documentAddresses';
+	import { documentDownloadHref, documentsHref, writtenDownloadKinds } from './documentAddress';
 	import { headerButtonClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { ProjectDocument } from '$lib/projectDocuments/projectDocument';
 

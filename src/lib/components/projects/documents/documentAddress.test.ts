@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { documentDownloadHref, documentHref, documentsHref, writtenDownloadKindAt, writtenDownloadKinds } from './documentAddresses';
+import { documentDownloadHref, documentHref, documentsHref, writtenDownloadKindAt, writtenDownloadKinds } from './documentAddress';
 
 const guide = { projectId: 'harbour', id: 'guide' };
 
