@@ -50,6 +50,7 @@
 	<div class="flex shrink-0 items-center gap-2">
 		<a
 			href={attachmentHref(projectId, taskId, attachment.id, 'download')}
+			download
 			class="rounded-full border border-hairline px-3 py-1 font-display text-xs text-chalk/60
 				transition hover:border-chalk/40 hover:text-chalk"
 		>
