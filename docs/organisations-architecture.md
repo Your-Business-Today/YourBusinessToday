@@ -335,7 +335,7 @@ one module rule and then the director check: `call_board_meeting`, `list_board_m
   predicts, is an accepted gap: nothing on the site hands a director a request to give their Claude
   yet.
 
-## Chat rooms and subrooms (migration `0270`)
+## Chat rooms and subrooms (migration `0271`)
 
 Chat is a module like the others: an administrator switches it on for an organisation, and from then
 everyone on the organisation who can use the module may open, rename and archive its rooms at

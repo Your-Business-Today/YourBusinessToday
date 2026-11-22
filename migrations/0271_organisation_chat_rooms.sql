@@ -1,4 +1,4 @@
--- 0270: Chat joins the modules an administrator switches on for an
+-- 0271: Chat joins the modules an administrator switches on for an
 -- organisation, and each organisation keeps its chat rooms and subrooms.
 --
 -- The module column's check (0145, widened by 0202 and 0264) now accepts

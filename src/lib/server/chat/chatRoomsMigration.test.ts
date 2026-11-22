@@ -3,10 +3,10 @@ import { describe, expect, it } from 'vitest';
 import { organisationModules } from '$lib/data/organisationModules';
 import { chatRoomLimits as limits } from '$lib/data/chat/chatRoomRules';
 
-const migration = readFileSync('migrations/0270_organisation_chat_rooms.sql', 'utf8');
+const migration = readFileSync('migrations/0271_organisation_chat_rooms.sql', 'utf8');
 const quotedList = (values: readonly string[]) => values.map((value) => `'${value}'`).join(', ');
 
-describe('migration 0270, Chat and its rooms, and the limits the site checks', () => {
+describe('migration 0271, Chat and its rooms, and the limits the site checks', () => {
 	it('lets every module be switched on, chat among them', () => {
 		expect(migration).toContain(`check (module in (${quotedList(organisationModules)}))`);
 	});

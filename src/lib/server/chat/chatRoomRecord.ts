@@ -4,7 +4,7 @@ export const chatRoomsTable = 'chat_rooms';
 
 export const chatRoomColumns = 'id, name, purpose, parent_room_id, is_general, archived_at';
 
-/** Two rooms sharing a parent and a name, or a second General room: the unique rules of migration 0270. */
+/** Two rooms sharing a parent and a name, or a second General room: the unique rules of migration 0271. */
 export const uniqueViolation = '23505';
 
 /** Whose organisation's chat a write is for, and who makes it. */

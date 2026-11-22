@@ -1,6 +1,6 @@
 /**
  * The modules an administrator switches on for an organisation. The values are the ones the
- * organisation_modules.module column accepts (migrations 0145, 0202, 0264 and 0270): a new module is added to both.
+ * organisation_modules.module column accepts (migrations 0145, 0202, 0264 and 0271): a new module is added to both.
  */
 export const organisationModules = ['books', 'brand', 'business_brain', 'boardroom', 'sales', 'news', 'chat'] as const;
 

@@ -1,4 +1,4 @@
-/** The limits on a chat room, stated once and mirrored by the checks on migration 0270's columns. */
+/** The limits on a chat room, stated once and mirrored by the checks on migration 0271's columns. */
 export const chatRoomLimits = {
 	longestName: 60,
 	longestPurpose: 300
