@@ -77,5 +77,6 @@ export const tablesKeptByOrganisation = [
 	'brand_performance_readings',
 	'workflow_map_versions',
 	'news_watch_list',
-	'news_stories'
+	'news_stories',
+	'chat_rooms'
 ];

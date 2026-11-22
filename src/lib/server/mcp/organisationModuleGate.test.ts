@@ -36,7 +36,8 @@ const moduleWords: Record<OrganisationModule, RegExp> = {
 	business_brain: /(^|_)brain(_|$)/,
 	boardroom: /(^|_)boardroom(_|$)/,
 	sales: /(^|_)sales(_|$)/,
-	news: /(^|_)news(_|$)/
+	news: /(^|_)news(_|$)/,
+	chat: /(^|_)chat(_|$)/
 };
 
 const readLedger = moduleAction('books', {

@@ -334,3 +334,27 @@ one module rule and then the director check: `call_board_meeting`, `list_board_m
   record cannot be deleted. `boardroomMeetingRequest.ts`, which the guidance-and-request pattern
   predicts, is an accepted gap: nothing on the site hands a director a request to give their Claude
   yet.
+
+## Chat rooms and subrooms (migration `0271`)
+
+Chat is a module like the others: an administrator switches it on for an organisation, and from then
+everyone on the organisation who can use the module may open, rename and archive its rooms at
+`/organisations/<id>/chat`. This first step ships the rooms alone; messages come in later steps.
+
+- **One row per room** in `chat_rooms`: its name (1 to 60 characters), what it is for (up to 300),
+  and the room it sits under when it is a subroom. The limits are stated once in
+  `src/lib/data/chat/chatRoomRules.ts`, read by the form actions and the form's fields, and held to
+  the migration by `chatRoomsMigration.test.ts`.
+- **Subrooms go one level deep.** A room sits under a room that sits under nothing, and a room that
+  has subrooms is not put under another; `chatRoomPlacement.ts` refuses both, and the
+  `chat_rooms_keep_their_shape` trigger refuses them whatever writes the row.
+- **General is the one room every organisation has.** It is listed first, keeps its name, sits under
+  nothing and is never archived (a partial unique index keeps one per organisation). The first visit
+  to an organisation with no rooms opens General, Operations, Finance and Company decisions in one
+  insert; two first visits at once both try, and the unique rules let one through.
+- **A room is archived, never deleted.** Archiving a room archives nothing else, so a room is
+  archived only once its subrooms are. Names differ, whatever their case, among the rooms sharing a
+  parent that are not archived.
+- **People read the rooms by the module rule; no policy lets the app write.** The site writes
+  through the service role after `requireOrganisationModule` and its own checks, as the Boardroom
+  tables are written.
