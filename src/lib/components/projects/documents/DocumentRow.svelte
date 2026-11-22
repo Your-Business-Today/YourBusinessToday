@@ -1,4 +1,5 @@
 <script lang="ts">
+	import DocumentDetailsChange from './DocumentDetailsChange.svelte';
 	import DocumentRemoval from './DocumentRemoval.svelte';
 	import { documentDownloadHref, documentHref } from './documentAddress';
 	import { documentKindWords } from './documentKinds';
@@ -19,6 +20,7 @@
 	<div class="flex items-center gap-2">
 		<a href={documentHref(document)} class={panelButtonClasses}>Read</a>
 		<a href={documentDownloadHref(document)} data-sveltekit-reload class={panelButtonClasses}>Download</a>
+		<DocumentDetailsChange {document} />
 		<DocumentRemoval {document} />
 	</div>
 </li>
