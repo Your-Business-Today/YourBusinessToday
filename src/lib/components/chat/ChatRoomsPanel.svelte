@@ -8,22 +8,23 @@
 	import RecordsTable from '$lib/components/workspace/RecordsTable.svelte';
 	import { paneToolbarClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { ChatRoom } from '$lib/data/chat/chatRoomRules';
-	import type { ListedChatRoom } from '$lib/data/chat/chatRoomTree';
+	import type { ChatRoomWithUnread } from '$lib/data/chat/chatUnreadCounts';
 	import type { RecordsColumn } from '$lib/components/workspace/recordsTable';
 
 	let {
-		organisationName,
+		organisation,
 		listedRooms,
 		parentChoices
-	}: { organisationName: string; listedRooms: ListedChatRoom[]; parentChoices: ChatRoom[] } = $props();
+	}: { organisation: { id: string; name: string }; listedRooms: ChatRoomWithUnread[]; parentChoices: ChatRoom[] } = $props();
 
 	let isNewRoomOpen = $state(false);
 	let isEditRoomOpen = $state(false);
 	let editedRoom = $state<ChatRoom | null>(null);
 
-	const columns: RecordsColumn<ListedChatRoom>[] = [
+	const columns: RecordsColumn<ChatRoomWithUnread>[] = [
 		{ key: 'room', label: 'Room' },
 		{ key: 'purpose', label: 'What it is for' },
+		{ key: 'unread', label: 'New' },
 		{ key: 'actions', label: '' }
 	];
 	const editTitle = $derived(`Edit ${editedRoom?.name ?? 'the room'}`);
@@ -44,7 +45,7 @@
 
 <DashboardPanel title="Rooms" count={listedRooms.length}>
 	<RecordsTable
-		label={`${organisationName}’s chat rooms`}
+		label={`${organisation.name}’s chat rooms`}
 		{columns}
 		rows={listedRooms}
 		keyOf={(room) => room.id}
@@ -52,12 +53,12 @@
 		emptyMessage="No room is open yet."
 	>
 		{#snippet cells(room)}
-			<ChatRoomCells {room} onEdit={openEditRoom} />
+			<ChatRoomCells organisationId={organisation.id} {room} onEdit={openEditRoom} />
 		{/snippet}
 	</RecordsTable>
 </DashboardPanel>
 
-<Modal title={`New room for ${organisationName}`} bind:isOpen={isNewRoomOpen}>
+<Modal title={`New room for ${organisation.name}`} bind:isOpen={isNewRoomOpen}>
 	<ChatRoomForm action="?/createRoom" room={null} {parentChoices} submitLabel="Open the room" onSaved={() => (isNewRoomOpen = false)} />
 </Modal>
 

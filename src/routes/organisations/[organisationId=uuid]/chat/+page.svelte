@@ -21,5 +21,5 @@
 </WorkspaceHeader>
 
 <div class={workspaceBodyClasses}>
-	<ChatRoomsPanel organisationName={organisation.name} {listedRooms} {parentChoices} />
+	<ChatRoomsPanel {organisation} {listedRooms} {parentChoices} />
 </div>
