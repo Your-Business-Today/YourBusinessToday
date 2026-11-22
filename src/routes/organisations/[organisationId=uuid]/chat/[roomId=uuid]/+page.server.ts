@@ -2,10 +2,11 @@ import { error } from '@sveltejs/kit';
 import { chatRoomDependency } from '$lib/data/chat/chatMessageRules';
 import { listChatRoomsWithUnread } from '$lib/server/chat/readChatUnreadCounts';
 import { markChatRoomRead } from '$lib/server/chat/markChatRoomRead';
-import { readChatMessages } from '$lib/server/chat/readChatMessages';
+import { readChatFlowOfRoom } from '$lib/server/chat/readChatFlowOfRoom';
 import { readRoomsOpeningTheTemplates } from '$lib/server/chat/seedTemplateRooms';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { chatMessageActions } from './chatMessageActions';
+import { chatMoveActions } from './chatMoveActions';
 import type { ChatRoomKeeper } from '$lib/server/chat/chatRoomRecord';
 import type { PageServerLoad } from './$types';
 
@@ -24,11 +25,11 @@ export const load: PageServerLoad = async ({ locals, params, parent, depends }) 
 	const room = rooms.find((candidate) => candidate.id === params.roomId);
 	if (room === undefined) error(404, noSuchRoom);
 	await recordRoomOpened(reader, room.id);
-	const [messages, listedRooms] = await Promise.all([
-		readChatMessages(locals.supabase, room.id),
+	const [flow, listedRooms] = await Promise.all([
+		readChatFlowOfRoom(locals.supabase, room.id, rooms),
 		listChatRoomsWithUnread(locals.supabase, reader.organisationId, rooms)
 	]);
-	return { room, messages, listedRooms };
+	return { room, flow, listedRooms };
 };
 
-export const actions = chatMessageActions;
+export const actions = { ...chatMessageActions, ...chatMoveActions };

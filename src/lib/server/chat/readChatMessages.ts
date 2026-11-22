@@ -2,7 +2,7 @@ import { chatMessageLimits, type ChatMessage } from '$lib/data/chat/chatMessageR
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
 import { withAuthorNames, type Named } from '$lib/server/conversations/withAuthorNames';
-import { chatMessageColumns, chatMessageOf, chatMessagesTable, type ChatMessageRow } from './chatMessageRecord';
+import { chatMessageOf, roomMessageColumns, chatMessagesTable, type ChatMessageRow } from './chatMessageRecord';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export type NamedChatMessage = Named<ChatMessage>;
@@ -11,7 +11,7 @@ export type NamedChatMessage = Named<ChatMessage>;
 async function readLatestMessages(supabase: SupabaseClient, roomId: string): Promise<ChatMessage[]> {
 	const { data, error } = await supabase
 		.from(chatMessagesTable)
-		.select(chatMessageColumns)
+		.select(roomMessageColumns)
 		.eq('room_id', roomId)
 		.order('created_at', { ascending: false })
 		.limit(chatMessageLimits.latestMessagesShown);
