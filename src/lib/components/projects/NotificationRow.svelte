@@ -24,6 +24,7 @@
 		})
 	);
 	const hasBody = $derived(notification.messageBody !== '');
+	const hasFilesShared = $derived(notification.filesShared !== '');
 </script>
 
 <li class="flex items-start gap-4 px-5 py-4" class:opacity-60={notification.isRead}>
@@ -40,6 +41,9 @@
 		</p>
 		{#if hasBody}
 			<p class="truncate text-sm text-chalk/60">{notification.messageBody}</p>
+		{/if}
+		{#if hasFilesShared}
+			<p class="text-sm text-chalk/60">{notification.filesShared}</p>
 		{/if}
 		<p class="text-xs text-chalk/40">{formattedDate}</p>
 	</div>
