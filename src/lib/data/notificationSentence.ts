@@ -13,11 +13,15 @@ export type NotificationSentence = { who: string; what: string; which: string };
 
 const mergedPullRequest = 'A merged pull request';
 
+const saidInPlaces: Record<string, string> = { room: 'in' };
+const saidOnASubject = 'on';
+
 export function notificationSentence(telling: NotificationTelling): NotificationSentence {
 	if (telling.eventKind === null) {
+		const preposition = saidInPlaces[telling.subjectKind] ?? saidOnASubject;
 		return {
 			who: telling.actorName ?? '',
-			what: ` said on the ${telling.subjectKind} `,
+			what: ` said ${preposition} the ${telling.subjectKind} `,
 			which: telling.subjectTitle
 		};
 	}
