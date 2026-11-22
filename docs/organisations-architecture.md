@@ -339,7 +339,8 @@ one module rule and then the director check: `call_board_meeting`, `list_board_m
 
 Chat is a module like the others: an administrator switches it on for an organisation, and from then
 everyone on the organisation who can use the module may open, rename and archive its rooms at
-`/organisations/<id>/chat`. The first step shipped the rooms; the second, below, the messages in them.
+`/organisations/<id>/chat`. The first step shipped the rooms; the second, below, the messages in them;
+the third, moving a stray conversation to the right room.
 
 - **One row per room** in `chat_rooms`: its name (1 to 60 characters), what it is for (up to 300),
   and the room it sits under when it is a subroom. The limits are stated once in
@@ -396,3 +397,41 @@ another organisation, or none, is a 404.
 - **Authors are named through the service role**, by `withAuthorNames` and the account directory as
   conversations are, because the directory names only the people on a visitor's projects and
   everyone on the organisation talks in its rooms.
+
+## Moving a stray conversation to the right room (migration `0273`)
+
+A team talking in General drifts onto finance; someone presses **Move to room** in the room's
+toolbar. Move mode puts a tick box on each message, with **From here on**, which ticks that message
+and every later one the room shows. They choose the room to send them to (every room not archived
+but this one, subrooms beneath their room) and confirm in a `Modal`; the room then shows the line
+the move left, and Move mode ends. Anyone on the organisation who can use chat may move any messages.
+Nothing is deleted, and a move is undone by another move back.
+
+- **One row per move** in `chat_moves`: the room left and the room gone to (both tied to the
+  organisation by composite keys, `on delete restrict`), who moved them (no foreign key, so the
+  record outlives the account), how many (1 to 200) and when. `chat_messages.moved_by_move_id` is
+  the latest move that brought a message to the room it is in now. The limit is stated once in
+  `src/lib/data/chat/chatMoveRules.ts`, read by the form action and the confirming form, and held to
+  the migration by `chatMovesMigration.test.ts`.
+- **A move is one step.** `move_chat_messages`, callable by the service role alone, checks every
+  message is in the room they leave and in this organisation, that the rooms differ and that the room
+  gone to is not archived, writes the move and sets each message's room and move, all or nothing. It
+  is the one place a `chat_messages` row is updated, and only its room and its move: a message keeps
+  its words, its author and its `created_at`, so moved messages fall into the room they go to in
+  their own order and times. It refuses in the same words as `chatMoveRefusals`, and
+  `moveChatMessages` passes those refusals on by name: no messages chosen, more than 200, a message
+  not in this room, this room, an archived room, a room of another organisation.
+- **The marks are read, never written as messages.** The room left shows "Moved 3 messages to
+  Finance, by James", linked to that room, in the flow at the moment of the move; each moved message
+  carries "moved from General by James". `readChatFlowOfRoom` reads both from `chat_moves`, and
+  `chatRoomFlow` places each line among the messages (a move older than every message shown is left
+  out when the room shows only its latest 200).
+- **What step 2 built keeps working.** Unread counts go by the room a message is in now against the
+  reader's place there, so a moved message is new to a reader of the room it went to when it was said
+  after their place in that room. The bell's trigger fires on insert alone, so a move writes no
+  notification. A reply and the message it answers may now sit in different rooms: the key that tied
+  a reply to a message in the same room gave way to one tying it to a message of the same
+  organisation.
+- **The five-second refresh leaves the ticks alone.** The ticks live in the open room's panel, which
+  a refresh keeps, and only the ticked messages still in the room are sent; the panel starts afresh
+  when another room is opened.
