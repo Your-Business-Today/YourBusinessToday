@@ -7,6 +7,13 @@ export function isWholeNumberWithin(value: unknown, lowest: number, highest: num
 	return value >= lowest && value <= highest;
 }
 
+/** Text that may be left out, read as blank, without the space around it; null when what was sent is not text. */
+export function textLeftOutAsBlank(value: unknown): string | null {
+	if (value === undefined) return '';
+	if (typeof value !== 'string') return null;
+	return value.trim();
+}
+
 /** Words that must be given, trimmed, of at most the longest length the column holds. */
 export function checkRequiredWords(value: unknown, longest: number, refusal: string): FieldCheck<string> {
 	const words = typeof value === 'string' ? value.trim() : '';

@@ -39,6 +39,12 @@ describe('validateChatRoomFields', () => {
 		expect(validateChatRoomFields({ name: 'Finance', parentRoomId: 'Operations' })).toContain('room it sits under');
 	});
 
+	it('refuses a field that is not text, never reading a number or a list as one', () => {
+		expect(validateChatRoomFields({ name: 7 })).toBe(chatRoomFieldRefusals.name);
+		expect(validateChatRoomFields({ name: 'Finance', purpose: 7 })).toBe(chatRoomFieldRefusals.purpose);
+		expect(validateChatRoomFields({ name: 'Finance', parentRoomId: [parentId] })).toContain('room it sits under');
+	});
+
 	it('names each field and its limit in its refusal', () => {
 		expect(chatRoomFieldRefusals.name).toContain(String(chatRoomLimits.longestName));
 		expect(chatRoomFieldRefusals.purpose).toContain(String(chatRoomLimits.longestPurpose));
