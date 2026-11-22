@@ -1,6 +1,8 @@
 <script lang="ts">
 	import DocumentAddForm from '$lib/components/projects/documents/DocumentAddForm.svelte';
 	import DocumentShelf from '$lib/components/projects/documents/DocumentShelf.svelte';
+	import LibrarySearchBox from '$lib/components/projects/library/LibrarySearchBox.svelte';
+	import LibrarySearchResults from '$lib/components/projects/library/LibrarySearchResults.svelte';
 	import ProjectPageHeader from '$lib/components/projects/ProjectPageHeader.svelte';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
@@ -16,8 +18,13 @@
 <ProjectPageHeader {project} />
 
 <div class={workspaceBodyClasses}>
+	<LibrarySearchBox search={data.search} />
 	<div class={dashboardGridClasses}>
-		<DocumentShelf documents={data.documents} projectName={project.name} />
+		{#if data.search === null}
+			<DocumentShelf documents={data.documents} projectName={project.name} />
+		{:else}
+			<LibrarySearchResults search={data.search} />
+		{/if}
 		<DocumentAddForm />
 	</div>
 </div>
