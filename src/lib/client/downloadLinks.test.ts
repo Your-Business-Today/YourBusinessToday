@@ -25,7 +25,7 @@ function isLeftToTheBrowser(anchor: string): boolean {
   return downloadAttribute.test(anchor) || reloadAttribute.test(anchor);
 }
 
-function downloadAnchorsTheRouterWouldClaim(filePath: string): string[] {
+function unmarkedDownloadAnchors(filePath: string): string[] {
   const source = readFileSync(filePath, "utf8");
   const anchors = source.match(anchorTag) ?? [];
   const downloadAnchors = anchors.filter((anchor) =>
@@ -39,7 +39,7 @@ function downloadAnchorsTheRouterWouldClaim(filePath: string): string[] {
 describe("download links", () => {
   it("are left to the browser, so the loading spinner never waits on a page that will not come", () => {
     const claimedAnchors = svelteFilePaths().flatMap(
-      downloadAnchorsTheRouterWouldClaim,
+      unmarkedDownloadAnchors,
     );
 
     expect(claimedAnchors).toEqual([]);
