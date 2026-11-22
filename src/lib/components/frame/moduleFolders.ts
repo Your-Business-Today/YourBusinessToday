@@ -23,7 +23,8 @@ const moduleFolders: Record<OrganisationModule, ModuleFolder> = {
 	business_brain: { group: 'knowledge', label: 'Your Business Brain', icon: 'brain' },
 	brand: { group: 'more', label: 'Brand', icon: 'swatchBook' },
 	boardroom: { group: 'more', label: 'Boardroom', icon: 'presentation' },
-	news: { group: 'more', label: 'Business News', icon: 'newspaper' }
+	news: { group: 'more', label: 'Business News', icon: 'newspaper' },
+	chat: { group: 'more', label: 'Chat', icon: 'messagesSquare' }
 };
 
 /** A page a module keeps beneath its own, listed after it in the same folder. */

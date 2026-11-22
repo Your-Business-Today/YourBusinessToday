@@ -6,10 +6,11 @@ import { watchedKinds, watchedValuePatterns, watchListLimits as limits } from '$
 const migration = readFileSync('migrations/0264_business_news_watch_list.sql', 'utf8');
 const { sector_code: sectorCodePattern, company: companyPattern } = watchedValuePatterns;
 const quotedList = (values: readonly string[]) => values.map((value) => `'${value}'`).join(', ');
+const modulesUpToNews = organisationModules.slice(0, organisationModules.indexOf('news') + 1);
 
 describe('migration 0264, Business News and its watch list, and the limits the site and the connector check', () => {
-	it('lets every module be switched on, news among them', () => {
-		expect(migration).toContain(`check (module in (${quotedList(organisationModules)}))`);
+	it('lets every module up to news be switched on, news among them', () => {
+		expect(migration).toContain(`check (module in (${quotedList(modulesUpToNews)}))`);
 	});
 
 	it('holds the same kinds, lengths and shapes as the rules', () => {
