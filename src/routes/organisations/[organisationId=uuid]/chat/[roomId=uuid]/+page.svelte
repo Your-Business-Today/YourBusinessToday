@@ -6,13 +6,15 @@
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { chatHomePath } from '$lib/data/chat/chatPaths';
+	import { moveDestinations } from '$lib/data/chat/chatMoveChoices';
 	import { chatRoomViewGridClasses, chatTitle } from '$lib/components/chat/chatPageWords';
 	import { organisationCrumbsFor } from '$lib/components/organisations/organisationCrumbs';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
 
-	const { chatOrganisation: organisation, room, messages, listedRooms } = $derived(data);
+	const { chatOrganisation: organisation, room, flow, listedRooms } = $derived(data);
+	const destinations = $derived(moveDestinations(listedRooms, room.id));
 	const chatCrumb = $derived({ label: chatTitle, href: chatHomePath(organisation.id) });
 	const crumbs = $derived([...organisationCrumbsFor(organisation), chatCrumb]);
 </script>
@@ -39,6 +41,8 @@
 				<ChatRoomList organisationId={organisation.id} rooms={listedRooms} openRoomId={room.id} />
 			</DashboardPanel>
 		</div>
-		<ChatRoomPanel {room} {messages} />
+		{#key room.id}
+			<ChatRoomPanel organisationId={organisation.id} {room} {flow} {destinations} />
+		{/key}
 	</div>
 </div>

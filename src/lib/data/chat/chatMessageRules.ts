@@ -20,6 +20,7 @@ export type ChatMessage = {
 	body: string;
 	postedVia: PostedVia;
 	createdAt: string;
+	movedByMoveId: string | null;
 };
 
 export const chatMessageRefusals = {
