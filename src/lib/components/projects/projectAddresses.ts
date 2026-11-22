@@ -5,6 +5,7 @@ export const projectSegments = {
 	staged: 'staged',
 	deploys: 'deploys',
 	videos: 'videos',
+	documents: 'documents',
 	deleted: 'deleted',
 	goals: 'goals',
 	people: 'people'
