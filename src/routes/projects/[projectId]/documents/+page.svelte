@@ -1,7 +1,8 @@
 <script lang="ts">
+	import DocumentAddForm from '$lib/components/projects/documents/DocumentAddForm.svelte';
 	import DocumentShelf from '$lib/components/projects/documents/DocumentShelf.svelte';
 	import ProjectPageHeader from '$lib/components/projects/ProjectPageHeader.svelte';
-	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
+	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
 	let { data } = $props();
 
@@ -15,5 +16,8 @@
 <ProjectPageHeader {project} />
 
 <div class={workspaceBodyClasses}>
-	<DocumentShelf documents={data.documents} projectName={project.name} />
+	<div class={dashboardGridClasses}>
+		<DocumentShelf documents={data.documents} projectName={project.name} />
+		<DocumentAddForm />
+	</div>
 </div>

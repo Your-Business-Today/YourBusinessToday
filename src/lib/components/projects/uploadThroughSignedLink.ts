@@ -62,7 +62,8 @@ export function describeUpload(file: File): AttachmentUpload {
 	};
 }
 
-async function postAction(
+/** Posts the fields to one of the page's form actions, as the page's own forms would, and reads what it answered. */
+export async function postAction(
 	action: string,
 	fields: Record<string, string | number>
 ): Promise<ActionResult> {
