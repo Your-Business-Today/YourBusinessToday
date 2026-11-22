@@ -23,13 +23,13 @@ export const termsGeneralSections: LegalSection[] = [
 		heading: 'Our liability',
 		paragraphs: [
 			'Nothing in these terms excludes liability that cannot be excluded under the law of England and Wales, including liability for death or personal injury caused by negligence, or for fraud.',
-			'Beyond that, liability for the consultancy work itself is governed by your written agreement. For the portal and this website, our liability to you is limited to the fees you paid us in the twelve months before the event giving rise to the claim, and we are not liable for loss of profit, loss of business, or loss caused by acting on AI-generated output without checking it.'
+			'Beyond that, liability for the consultancy work itself is governed by your written agreement. For the portal and this website, our liability to you is limited to the fees you paid us in the twelve months before the event giving rise to the claim, and we are not liable for loss of profit, loss of business, or loss caused by relying on anything generated on the site, by you or by AI, without checking it.'
 		]
 	},
 	{
 		heading: 'Changes to these terms',
 		paragraphs: [
-			'We may update these terms as the way we work changes. If a change is material we will tell the people whose accounts it affects before it takes effect. Continuing to use the portal after that means you accept it.'
+			'We may update these terms as the way we work changes. If a change is material we will tell the people whose accounts it affects before it takes effect, and each new version is accepted on the site before the site can be used again, as the section on accepting these terms says.'
 		]
 	},
 	{
