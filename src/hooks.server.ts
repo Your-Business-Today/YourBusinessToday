@@ -9,6 +9,7 @@ import { onceForThisRequest } from '$lib/server/http/onceForThisRequest';
 import { readRememberedPicks } from '$lib/server/frame/rememberedPicks';
 import { fetchWithDeadline } from '$lib/server/supabase/fetchWithDeadline';
 import { sendAwaitingAccountsToContact } from '$lib/server/admission/sendAwaitingAccountsToContact';
+import { sendUnacceptedAccountsToTerms } from '$lib/server/termsAcceptance/sendUnacceptedAccountsToTerms';
 import type { Cookies, Handle } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -29,6 +30,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	locals.rememberedPicks = readRememberedPicks(event.cookies);
 	locals.safeGetSession = onceForThisRequest(() => readSession(locals));
 	await sendAwaitingAccountsToContact(locals, event.url);
+	await sendUnacceptedAccountsToTerms(locals, event.url);
 	return resolve(event, {
 		filterSerializedResponseHeaders: (headerName) =>
 			headerName === 'content-range' || headerName === 'x-supabase-api-version'
