@@ -1,7 +1,7 @@
 const marksNothingRead =
 	'Reading marks nothing read: the person’s place in each room and their notification for it stay as they were, so ' +
-	'checking in never hides from them what is new. Marking a room read is a separate action that writes, which comes ' +
-	'with the chat’s actions that write; until then the person marks a room read by opening it on the site.';
+	'checking in never hides from them what is new. Once you have told the person what was new in a room, mark it ' +
+	'read with mark_chat_room_read, which writes, or leave it for them to open on the site.';
 
 const readsAsThePerson =
 	'You read the rooms as the person you act for: their unread counts, their place in each room. Everyone on the ' +
