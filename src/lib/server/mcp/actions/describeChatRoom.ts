@@ -1,5 +1,6 @@
 import { chatReadingLimits, type ChatReadingSince } from '$lib/data/chat/chatReadingRules';
 import { describeChatFlowEntry } from './describeChatFlowEntry';
+import type { ChatFileLinks } from './describeChatMessageFiles';
 import type { ChatRoomReading } from '$lib/server/chat/readChatRoomAsAsked';
 
 const archivedLine = 'This room is archived: it is read, never written in.';
@@ -27,29 +28,29 @@ function leftOutLine(messagesLeftOut: number): string | null {
 	return `${messagesLeftOut} earlier ones are left out; read the room again with a larger limit, up to ${chatReadingLimits.mostMessagesRead}.`;
 }
 
-function linesOf(reading: ChatRoomReading): string[] {
+function linesOf(reading: ChatRoomReading, links: ChatFileLinks): string[] {
 	const { entries, since } = reading;
 	if (entries.length === 0) return [emptyReadings[since]];
-	return [openings[since], ...entries.map(describeChatFlowEntry)];
+	return [openings[since], ...entries.map((entry) => describeChatFlowEntry(entry, links))];
 }
 
 /** The lines of one room's reading, under its heading: archived or not, then its lines, then what was left out. */
-export function describeRoomLines(organisationName: string, reading: ChatRoomReading): string[] {
+export function describeRoomLines(organisationName: string, reading: ChatRoomReading, links: ChatFileLinks): string[] {
 	const { room, messagesLeftOut } = reading;
 	const archived = room.isArchived ? archivedLine : null;
-	const lines = [headingOf(organisationName, reading), archived, ...linesOf(reading), leftOutLine(messagesLeftOut)];
+	const lines = [headingOf(organisationName, reading), archived, ...linesOf(reading, links), leftOutLine(messagesLeftOut)];
 	return lines.filter((line) => line !== null);
 }
 
 /** One room as read_chat_room gives it, ending with the reminder that reading marks nothing read. */
-export function describeChatRoomReading(organisationName: string, reading: ChatRoomReading): string {
-	return [...describeRoomLines(organisationName, reading), marksNothingRead].join('\n');
+export function describeChatRoomReading(organisationName: string, reading: ChatRoomReading, links: ChatFileLinks): string {
+	return [...describeRoomLines(organisationName, reading, links), marksNothingRead].join('\n');
 }
 
 /** Everything new to the reader across the organisation's chat, room by room, or one plain line when nothing is. */
-export function describeChatUnread(organisationName: string, readings: ChatRoomReading[]): string {
+export function describeChatUnread(organisationName: string, readings: ChatRoomReading[], links: ChatFileLinks): string {
 	if (readings.length === 0) return `Nothing is unread in ${organisationName}'s chat.`;
 	const opening = `New to you in ${organisationName}'s chat, room by room. Reading marks nothing read.`;
-	const rooms = readings.map((reading) => describeRoomLines(organisationName, reading).join('\n'));
+	const rooms = readings.map((reading) => describeRoomLines(organisationName, reading, links).join('\n'));
 	return [opening, ...rooms].join('\n\n');
 }

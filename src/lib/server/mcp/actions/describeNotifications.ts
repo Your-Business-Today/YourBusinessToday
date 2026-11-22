@@ -31,13 +31,20 @@ export function describeNotificationSubject(notification: NotificationListItem):
 }
 
 function describeNotificationLine(notification: NotificationListItem, nameOf: (accountId: string) => string): string {
-	const { messageAuthorId, messageBody, isRead, createdAt, id, subjectKind, subjectId } = notification;
+	const { messageAuthorId, isRead, createdAt, id, subjectKind, subjectId } = notification;
 	const actorName = messageAuthorId === null ? null : nameOf(messageAuthorId);
 	const sentence = notificationSentence({ ...notification, actorName });
 	const telling = `${sentence.who}${sentence.what}${sentence.which}`;
-	const said = messageBody === '' ? null : `"${shortenedToFit(firstLineOf(messageBody), longestBodyShown)}"`;
-	const parts = [isRead ? readMark : unreadMark, formatBritishDateTime(createdAt), telling, said, `notification ${id}`, `${subjectKind} ${subjectId}`];
+	const parts = [isRead ? readMark : unreadMark, formatBritishDateTime(createdAt), telling, ...whatWasSaid(notification), `notification ${id}`, `${subjectKind} ${subjectId}`];
 	return parts.filter((part) => part !== null).join(' — ');
+}
+
+/** The words quoted, then what files the message carries, each left out when there is none. */
+function whatWasSaid(notification: NotificationListItem): string[] {
+	const { messageBody, filesShared } = notification;
+	const quoted = messageBody === '' ? null : `"${shortenedToFit(firstLineOf(messageBody), longestBodyShown)}"`;
+	const shared = filesShared === '' ? null : filesShared;
+	return [quoted, shared].filter((part) => part !== null);
 }
 
 function firstLineOf(body: string): string {

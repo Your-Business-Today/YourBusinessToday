@@ -60,6 +60,18 @@ describe("a person's own Claude reading the organisation's chat, through the con
 		expect(await run('read_chat_room', { roomId: 'elsewhere' })).toContain('Call list_chat_rooms');
 	});
 
+	it('hands each file of a message a ten-minute link to fetch it through, signed by where it is kept', async () => {
+		const plan = { id: 'f1', storagePath: 'jewel/nigel/u1/plan.pdf', fileName: 'plan.pdf', contentType: 'application/pdf', sizeBytes: 2048 };
+		const message = { id: 'm1', roomId: 'general', authorAccountId: 'nigel', authorName: 'Nigel', body: '', postedVia: 'site', createdAt: '2026-11-22T09:00:00Z', movedByMoveId: null, movedHere: null, files: [plan] };
+		reading.mockResolvedValue({ room: general, since: 'all', entries: [{ kind: 'message', key: 'm1', moment: message.createdAt, message }], messagesLeftOut: 0 });
+		const createSignedUrls = vi.fn(async () => ({ data: [{ path: plan.storagePath, signedUrl: 'https://files.example/plan', error: null }], error: null }));
+		const signing = { ...nigel, supabase: { storage: { from: () => ({ createSignedUrls }) } } } as unknown as McpCaller;
+		const action = chatReadingActions.find((candidate) => candidate.name === 'read_chat_room');
+		const answer = await action?.run(signing, { organisationId: 'jewel', roomId: 'general', since: 'all' });
+		expect(createSignedUrls).toHaveBeenCalledWith([plan.storagePath], 600, { download: true });
+		expect(answer).toContain('  - plan.pdf, application/pdf, 2 KB: https://files.example/plan');
+	});
+
 	it('says in one line when nothing is unread anywhere', async () => {
 		expect(await run('read_chat_unread', {})).toBe("Nothing is unread in Jewel's chat.");
 		expect(catchingUp).toHaveBeenCalledWith(nigel.supabase, nigelOnJewel);

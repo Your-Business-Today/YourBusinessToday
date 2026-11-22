@@ -28,7 +28,7 @@ vi.mock('$lib/server/notifications/markNotificationRead', () => ({ markNotificat
 vi.mock('$lib/server/notifications/markAllNotificationsRead', () => ({ markAllNotificationsRead: everyMarked }));
 vi.mock('$lib/server/notifications/getUnreadNotificationCount', () => ({ getUnreadNotificationCount: unreadCounted }));
 
-const onTheTask = { subjectKind: 'task', subjectId: taskId, subjectTitle: 'Fix the invoice total', projectId, path: `/projects/${projectId}/tasks/${taskId}` };
+const onTheTask = { subjectKind: 'task', subjectId: taskId, subjectTitle: 'Fix the invoice total', projectId, path: `/projects/${projectId}/tasks/${taskId}`, filesShared: '' };
 const jamesSaid = { ...onTheTask, id: saidId, eventKind: null, messageBody: 'Can you check the rounding?\nIt is out by a penny.', messageAuthorId: jamesId, isRead: false, createdAt: '2026-11-12T19:40:00Z' };
 const taskDone = { ...onTheTask, id: doneId, eventKind: 'task_done', messageBody: '', messageAuthorId: null, isRead: true, createdAt: '2026-11-11T09:05:00Z' };
 

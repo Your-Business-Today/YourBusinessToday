@@ -2,6 +2,7 @@ import { listChatRoomsForReader } from '$lib/server/chat/readChatUnreadCounts';
 import { readChatRooms } from '$lib/server/chat/readChatRooms';
 import { readChatRoomAsAsked } from '$lib/server/chat/readChatRoomAsAsked';
 import { readUnreadInEveryRoom } from '$lib/server/chat/readUnreadInEveryRoom';
+import { signChatReadingLinks } from '$lib/server/chat/signChatReadingLinks';
 import { moduleAction } from '../organisationModuleGate';
 import { readText, type McpAction } from '../actionTypes';
 import { chatOrganisationSchema, chatRoomReadingSchema } from './chatReadingFields';
@@ -37,7 +38,8 @@ export const chatReadingActions: McpAction[] = [
 		run: async (caller, input, organisation) => {
 			const reading = await readChatRoomAsAsked(caller.supabase, chatKeeperOf(caller, organisation), readText(input, 'roomId'), input);
 			if (typeof reading === 'string') return chatConnectorRefusal(reading);
-			return describeChatRoomReading(organisation.name, reading);
+			const links = await signChatReadingLinks(caller.supabase, [reading]);
+			return describeChatRoomReading(organisation.name, reading, links);
 		}
 	}),
 	moduleAction('chat', {
@@ -50,7 +52,8 @@ export const chatReadingActions: McpAction[] = [
 		inputSchema: chatOrganisationSchema,
 		run: async (caller, _input, organisation) => {
 			const readings = await readUnreadInEveryRoom(caller.supabase, chatKeeperOf(caller, organisation));
-			return describeChatUnread(organisation.name, readings);
+			const links = await signChatReadingLinks(caller.supabase, readings);
+			return describeChatUnread(organisation.name, readings, links);
 		}
 	})
 ];
