@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { projectVideoBucket, videoCaptionsPath, videoFilmPath, videoThumbnailPath } from './projectVideoStorage';
+import { signUploadLink } from '$lib/server/storage/signUploadLink';
 import { videoUploadLinkLifetimeHours } from '$lib/projectVideos/videoLimits';
 import type { GrantedVideoUpload } from './grantedVideoUpload';
 import type { VideoAdder } from './videoAdder';
@@ -28,9 +29,9 @@ export async function grantVideoUpload(supabase: SupabaseClient, adder: VideoAdd
 	if (error !== null) throw error;
 	return {
 		videoId,
-		filmUploadUrl: await signUploadLink(supabase, paths.filmPath),
-		thumbnailUploadUrl: paths.thumbnailPath === null ? null : await signUploadLink(supabase, paths.thumbnailPath),
-		captionsUploadUrl: paths.captionsPath === null ? null : await signUploadLink(supabase, paths.captionsPath)
+		filmUploadUrl: await signUploadLink(supabase, projectVideoBucket, paths.filmPath),
+		thumbnailUploadUrl: paths.thumbnailPath === null ? null : await signUploadLink(supabase, projectVideoBucket, paths.thumbnailPath),
+		captionsUploadUrl: paths.captionsPath === null ? null : await signUploadLink(supabase, projectVideoBucket, paths.captionsPath)
 	};
 }
 
@@ -58,10 +59,4 @@ function grantRow(adder: VideoAdder, video: VideoGiven, paths: GrantPaths): Reco
 		added_by: adder.accountId,
 		expires_at: new Date(Date.now() + videoUploadLinkLifetimeHours * millisecondsInAnHour).toISOString()
 	};
-}
-
-async function signUploadLink(supabase: SupabaseClient, storagePath: string): Promise<string> {
-	const { data, error } = await supabase.storage.from(projectVideoBucket).createSignedUploadUrl(storagePath);
-	if (error !== null) throw error;
-	return data.signedUrl;
 }
