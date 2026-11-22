@@ -45,9 +45,6 @@
 	</div>
 	<form method="POST" action="?/openNotification" use:enhance={tracker.submit()}>
 		<input type="hidden" name="notificationId" value={notification.id} />
-		<input type="hidden" name="projectId" value={notification.projectId} />
-		<input type="hidden" name="subjectKind" value={notification.subjectKind} />
-		<input type="hidden" name="subjectId" value={notification.subjectId} />
 		<SubmitButton
 			isSaving={tracker.isSaving}
 			savingLabel="Opening…"

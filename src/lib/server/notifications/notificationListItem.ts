@@ -1,16 +1,16 @@
 import { parseFeedEventKind, type FeedEventKind } from '$lib/data/feedEventKind';
+import { subjectOf, type NotificationSubjectKind } from './notificationSubject';
 
-export type NotificationSubjectKind = 'task' | 'goal';
+export { conversationPath, notificationSubjectKinds, type NotificationSubjectKind } from './notificationSubject';
 
-export const notificationSubjectKinds = { task: 'task', goal: 'goal' } as const;
-
-/** What the bell tells of: something said on a conversation, or a task event, such as it being done. */
+/** What the bell tells of: something said on a conversation or in a chat room, or a task event, such as it being done. */
 export type NotificationListItem = {
 	id: string;
 	subjectKind: NotificationSubjectKind;
 	subjectId: string;
 	subjectTitle: string;
 	projectId: string;
+	path: string;
 	eventKind: FeedEventKind | null;
 	messageBody: string;
 	messageAuthorId: string | null;
@@ -18,14 +18,8 @@ export type NotificationListItem = {
 	createdAt: string;
 };
 
-type Subject = {
-	kind: NotificationSubjectKind;
-	id: string;
-	title: string;
-	projectId: string;
-};
 type SaidBy = { body: string; authorId: string | null };
-type TitledRow = { title: string; project_id: string } | null;
+type SaidRow = { body: string; author_account_id: string } | null | undefined;
 type EventRow = { kind: string; actor_account_id: string | null } | null;
 
 export function parseNotificationRow(row: Record<string, unknown>): NotificationListItem {
@@ -38,6 +32,7 @@ export function parseNotificationRow(row: Record<string, unknown>): Notification
 		subjectId: subject.id,
 		subjectTitle: subject.title,
 		projectId: subject.projectId,
+		path: subject.path,
 		eventKind: parseFeedEventKind(event?.kind),
 		messageBody: said.body,
 		messageAuthorId: event === null || event === undefined ? said.authorId : event.actor_account_id,
@@ -46,38 +41,8 @@ export function parseNotificationRow(row: Record<string, unknown>): Notification
 	};
 }
 
-export function conversationPath(
-	kind: NotificationSubjectKind,
-	projectId: string,
-	subjectId: string
-): string {
-	return `/projects/${projectId}/${kind}s/${subjectId}`;
-}
-
-function subjectOf(row: Record<string, unknown>): Subject {
-	const goal = row.goals as TitledRow;
-	if (goal !== null && goal !== undefined) {
-		return {
-			kind: 'goal',
-			id: row.goal_id as string,
-			title: goal.title,
-			projectId: goal.project_id
-		};
-	}
-	const task = row.tasks as TitledRow;
-	return {
-		kind: 'task',
-		id: row.task_id as string,
-		title: task?.title ?? '',
-		projectId: task?.project_id ?? ''
-	};
-}
-
 function whatWasSaid(row: Record<string, unknown>): SaidBy {
-	const message = row.conversation_messages as {
-		body: string;
-		author_account_id: string;
-	} | null;
+	const message = (row.conversation_messages ?? row.chat_messages) as SaidRow;
 	if (message !== null && message !== undefined) {
 		return { body: message.body, authorId: message.author_account_id };
 	}

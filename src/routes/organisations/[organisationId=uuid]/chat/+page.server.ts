@@ -1,5 +1,6 @@
 import { readRoomsOpeningTheTemplates } from '$lib/server/chat/seedTemplateRooms';
-import { chatRoomTree, topLevelRooms } from '$lib/data/chat/chatRoomTree';
+import { listChatRoomsWithUnread } from '$lib/server/chat/readChatUnreadCounts';
+import { topLevelRooms } from '$lib/data/chat/chatRoomTree';
 import { chatRoomActions } from './chatRoomActions';
 import type { PageServerLoad } from './$types';
 
@@ -11,7 +12,9 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
 		accountId: chatAccountId
 	});
 	return {
-		listedRooms: chatRoomTree(rooms),
+		listedRooms: await listChatRoomsWithUnread(locals.supabase, organisationId, rooms),
 		parentChoices: topLevelRooms(rooms)
 	};
 };
+
+export const actions = chatRoomActions;

@@ -78,5 +78,7 @@ export const tablesKeptByOrganisation = [
 	'workflow_map_versions',
 	'news_watch_list',
 	'news_stories',
-	'chat_rooms'
+	'chat_rooms',
+	'chat_messages',
+	'chat_room_reads'
 ];

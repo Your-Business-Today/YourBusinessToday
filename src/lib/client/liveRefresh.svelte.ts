@@ -1,17 +1,19 @@
 import { invalidate } from '$app/navigation';
+import { pageVisibility } from './pageVisibility.svelte';
 
 const refreshEveryMilliseconds = 30_000;
 
 /**
  * Re-reads one load dependency on a steady beat while the page is open, so a
  * feed shows what happened without the person reloading. Create inside a
- * component; it stops when the component goes.
+ * component; it rests while the tab is hidden and stops when the component goes.
  */
 export class LiveRefresh {
 	isRefreshing = $state(false);
 
 	constructor(dependency: string, everyMilliseconds: number = refreshEveryMilliseconds) {
 		$effect(() => {
+			if (pageVisibility.isHidden) return;
 			const timer = setInterval(() => this.refresh(dependency), everyMilliseconds);
 			return () => clearInterval(timer);
 		});

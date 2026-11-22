@@ -339,7 +339,7 @@ one module rule and then the director check: `call_board_meeting`, `list_board_m
 
 Chat is a module like the others: an administrator switches it on for an organisation, and from then
 everyone on the organisation who can use the module may open, rename and archive its rooms at
-`/organisations/<id>/chat`. This first step ships the rooms alone; messages come in later steps.
+`/organisations/<id>/chat`. The first step shipped the rooms; the second, below, the messages in them.
 
 - **One row per room** in `chat_rooms`: its name (1 to 60 characters), what it is for (up to 300),
   and the room it sits under when it is a subroom. The limits are stated once in
@@ -358,3 +358,41 @@ everyone on the organisation who can use the module may open, rename and archive
 - **People read the rooms by the module rule; no policy lets the app write.** The site writes
   through the service role after `requireOrganisationModule` and its own checks, as the Boardroom
   tables are written.
+
+## Messages in a room, with unread counts (migration `0272`)
+
+Each room is opened at `/organisations/<id>/chat/<roomId>`: on a wide screen the room list sits on
+the left and the room on the right; on a phone chat home is the list, and the room has a way back
+to it. The room shows its name and what it is for, its latest 200 messages oldest first with the
+page opened at the newest, each with who said it, when, and a mark when their Claude said it; then
+the box to say something. An archived room is read, never written in, and says so. A room of
+another organisation, or none, is a 404.
+
+- **One row per thing said** in `chat_messages`: the room (tied to the same organisation by a
+  composite key, `on delete restrict`, so a room or organisation with something said in it is never
+  deleted), the author's account (no foreign key, so what was said outlives the account), the words
+  (1 to 4000 characters), whether it came from the site or their Claude, and the message in the
+  same room it answers. The limits are stated once in `src/lib/data/chat/chatMessageRules.ts`, read
+  by the form action and the textarea, and held to the migration by `chatMessagesMigration.test.ts`.
+  The site always writes `site`; `claude` and the answered message are there for later steps.
+- **Nothing said is edited or deleted.** No policy lets anyone change a row, and the service has no
+  such function. Posting goes through `postChatMessage`, which refuses blank or over-long words and
+  an archived room by name, writes through the service role after `requireOrganisationModule`, and
+  moves the author's place to now.
+- **Each person's place in a room** is one row of `chat_room_reads`, read only by its own person.
+  `mark_chat_room_read` moves it to now and marks their notification for the room read, in one
+  step; the room's load calls it (the one write it makes, in `recordRoomOpened`) and so does posting.
+- **Unread counts** are the messages newer than the reader's place and not their own; a room never
+  opened counts every message not theirs. `chat_unread_counts` counts every room of the organisation
+  in one query, and chat home and the room view show each count on their room list.
+- **The open room reads itself again every five seconds** while its tab is on screen, through
+  SvelteKit's `invalidate` on its own `depends` key (`LiveRefresh`, which now rests while the tab is
+  hidden). No websocket, no Realtime, no browser Supabase client.
+- **The bell tells of a new message.** `notifications` gains the room and the message, its
+  one-subject check is widened to take a room, and a trigger on `chat_messages` tells everyone else
+  on the organisation (or the one it sits under), unless they already have an unread notification
+  for that room: a partial unique index keeps one per person per room. It opens the room, and
+  opening the room marks it read.
+- **Authors are named through the service role**, by `withAuthorNames` and the account directory as
+  conversations are, because the directory names only the people on a visitor's projects and
+  everyone on the organisation talks in its rooms.
