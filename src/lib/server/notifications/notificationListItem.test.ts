@@ -79,6 +79,7 @@ describe('parseNotificationRow', () => {
 		});
 		expect(item.subjectKind).toBe('room');
 		expect(item.subjectTitle).toBe('Finance');
+		expect(item.organisationId).toBe('o1');
 		expect(item.path).toBe('/organisations/o1/chat/r1');
 		expect(item.messageBody).toBe('The VAT return is in.');
 		expect(item.messageAuthorId).toBe('nigel');

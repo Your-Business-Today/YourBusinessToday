@@ -10,6 +10,7 @@ export type NotificationSubject = {
 	id: string;
 	title: string;
 	projectId: string;
+	organisationId: string;
 	path: string;
 };
 
@@ -17,19 +18,21 @@ type TitledRow = { title: string; project_id: string } | null;
 type ChatRoomRow = { name: string; organisation_id: string } | null;
 
 const noProject = '';
+const noOrganisation = '';
 
 export function conversationPath(kind: NotificationSubjectKind, projectId: string, subjectId: string): string {
 	return `/projects/${projectId}/${kind}s/${subjectId}`;
 }
 
 function roomSubjectOf(roomId: string, room: ChatRoomRow): NotificationSubject {
-	const organisationId = room?.organisation_id ?? '';
-	return { kind: 'room', id: roomId, title: room?.name ?? '', projectId: noProject, path: chatRoomPath(organisationId, roomId) };
+	const organisationId = room?.organisation_id ?? noOrganisation;
+	return { kind: 'room', id: roomId, title: room?.name ?? '', projectId: noProject, organisationId, path: chatRoomPath(organisationId, roomId) };
 }
 
 function titledSubjectOf(kind: 'task' | 'goal', subjectId: string, titled: TitledRow): NotificationSubject {
 	const projectId = titled?.project_id ?? noProject;
-	return { kind, id: subjectId, title: titled?.title ?? '', projectId, path: conversationPath(kind, projectId, subjectId) };
+	const path = conversationPath(kind, projectId, subjectId);
+	return { kind, id: subjectId, title: titled?.title ?? '', projectId, organisationId: noOrganisation, path };
 }
 
 /** The room, goal or task a notification row is about, from the columns and the rows embedded beside it. */

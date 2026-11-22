@@ -8,6 +8,7 @@ export const skillAreaLabels: Record<ActionArea, string> = {
 	brand: 'Brand',
 	boardroom: 'Boardroom',
 	news: 'Business News',
+	chat: 'Chat',
 	clients: 'Clients',
 	patches: 'Territories',
 	projects: 'Projects',

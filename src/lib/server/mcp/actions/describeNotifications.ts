@@ -23,8 +23,10 @@ export function describeNotificationList(notifications: NotificationListItem[], 
 
 /** Where to go after a notification is read: the action that reads its conversation and the page that shows it. */
 export function describeNotificationSubject(notification: NotificationListItem): string {
-	const { subjectKind, subjectId, path } = notification;
-	if (subjectKind === notificationSubjectKinds.room) return `The chat room is on the site at ${path}.`;
+	const { subjectKind, subjectId, path, organisationId } = notification;
+	if (subjectKind === notificationSubjectKinds.room) {
+		return `Read the chat room with read_chat_room, organisationId ${organisationId} and roomId ${subjectId}; on the site it is at ${path}.`;
+	}
 	return `Read the ${subjectKind} with read_${subjectKind} ${subjectId}; on the site it is at ${path}.`;
 }
 
