@@ -55,7 +55,7 @@
 	<ul bind:this={list} class={panelListClasses} aria-label="Messages, oldest first">
 		{#each flow as entry (entry.key)}
 			{#if entry.kind === chatFlowKinds.message}
-				<ChatMessageRow message={entry.message} {selection} onChooseFromHere={chooseFromHere} />
+				<ChatMessageRow {organisationId} message={entry.message} {selection} onChooseFromHere={chooseFromHere} />
 			{:else}
 				<ChatMoveMarker {organisationId} marker={entry.marker} />
 			{/if}

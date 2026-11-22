@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ChatMessageChoice from './ChatMessageChoice.svelte';
+	import ChatMessageFiles from './ChatMessageFiles.svelte';
 	import ProseText from '$lib/components/site/ProseText.svelte';
 	import { formatBritishDateTime } from '$lib/data/britishDate';
 	import { movedHereNote } from '$lib/data/chat/chatRoomFlow';
@@ -8,11 +9,13 @@
 	import type { ChatRoomMessage } from '$lib/server/chat/readChatFlowOfRoom';
 
 	let {
+		organisationId,
 		message,
 		selection,
 		onChooseFromHere
-	}: { message: ChatRoomMessage; selection: ChatMoveSelection; onChooseFromHere: (messageId: string) => void } = $props();
+	}: { organisationId: string; message: ChatRoomMessage; selection: ChatMoveSelection; onChooseFromHere: (messageId: string) => void } = $props();
 
+	const hasWords = $derived(message.body !== '');
 	const isByClaude = $derived(message.postedVia === postedViaChannels.claude);
 	const movedNote = $derived(message.movedHere === null ? null : movedHereNote(message.movedHere));
 </script>
@@ -37,6 +40,9 @@
 				<span class="text-chalk-faint">· {movedNote}</span>
 			{/if}
 		</p>
-		<ProseText text={message.body} class="text-chalk/90" />
+		{#if hasWords}
+			<ProseText text={message.body} class="text-chalk/90" />
+		{/if}
+		<ChatMessageFiles {organisationId} files={message.files} />
 	</div>
 </li>
