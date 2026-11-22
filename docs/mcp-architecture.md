@@ -72,9 +72,8 @@ holder cannot list, describe or run a staff action; it does not exist for them. 
 `everyone` action that touches a project, an organisation or a module checks reachability
 itself: `projectAccess.ts`, `organisationAccess.ts`, `clientContactAccess.ts`,
 `portalVisitorAccess.ts`, and the `moduleAction`, `boardroomAction` and `chatbotAction`
-gates. The `chat` area's reads and writes (`chatReadingActions.ts`, `chatTalkingActions.ts`,
-`chatRoomKeepingActions.ts`) are all `moduleAction`s, writing as the caller in the organisation the
-gate let them into. The review of 12 November 2026 traced every `everyone` action to one of those gates
+gates. The `chat` area's reads and writes (`chatReadingActions.ts`, `chatWritingActions.ts`) are
+all `moduleAction`s, writing as the caller in the organisation the gate let them into. The review of 12 November 2026 traced every `everyone` action to one of those gates
 or to the caller's own account id.
 
 This shape keeps the tool list small and stable while the site grows: adding a capability

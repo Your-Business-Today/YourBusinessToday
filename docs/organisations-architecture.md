@@ -488,15 +488,15 @@ field's name (`body:`, `name:`, `purpose:`), and points a room not found at `lis
   room to now and reads their notification, on the site and here alike.
 - **`create_chat_room`** and **`update_chat_room`** run the page's New, Edit and Archive
   (`createChatRoom`, `changeChatRoom`, `archiveChatRoom`). `update_chat_room` changes the fields
-  given and keeps every field left out as the room has it (`roomFieldsWithChanges`, in
-  `src/lib/data/chat/chatRoomUpdate.ts`, through `updateChatRoom`); `parentRoomId: ""` puts a subroom
-  back under nothing. `isArchived: true` archives through the page's Archive, with its refusals
+  given and keeps every field left out as the room has it (`validateChatRoomUpdate` and
+  `roomFieldsWithChanges`, in `src/lib/data/chat/chatWritingRules.ts`, through `updateChatRoom`);
+  `parentRoomId: ""` puts a subroom back under nothing. `isArchived: true` archives through the page's Archive, with its refusals
   (General, a room with open subrooms), and is asked alone, as the site's Archive is its own button.
   The site has no way to bring an archived room back, so neither has the connector: `isArchived:
   false` is refused by name.
-- **`move_chat_messages`** runs the page's move (`moveChatMessages`), with every refusal it has; a
-  room of another organisation is refused as the destination by the rules and as the room the
-  messages leave by `move_chat_messages` itself.
+- **`move_chat_messages`** runs the page's move (`moveChatMessages`), with every refusal it has, once
+  `validateMoveOverConnector` has the messages as a list; a room of another organisation is refused
+  as the destination by the rules and as the room the messages leave by `move_chat_messages` itself.
 - **`mark_chat_room_read`** moves the caller's place in a room of that organisation, archived or not,
   to now and reads its notification (`markRoomReadInOrganisation`, through `markChatRoomRead`).
 - **The service is the guard.** The validators the pages and the connector share now refuse a value
