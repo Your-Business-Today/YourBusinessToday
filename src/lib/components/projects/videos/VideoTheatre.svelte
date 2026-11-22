@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import VideoDetailsChange from './VideoDetailsChange.svelte';
 	import VideoRoute from './VideoRoute.svelte';
 	import { videoLineClasses } from './videoLineClasses';
 	import { watchHref, type NowWatching } from './videoWatching';
@@ -36,6 +37,7 @@
 			{#if video.description !== ''}
 				<p class="max-w-3xl text-sm whitespace-pre-line text-chalk-muted">{video.description}</p>
 			{/if}
+			<VideoDetailsChange {video} />
 			{#if nextVideo !== null}
 				<p class="text-sm text-chalk-subtle">
 					Next stop: <a href={watchHref(nextVideo)} class="font-medium text-chalk hover:text-go">{nextVideo.title}</a>
