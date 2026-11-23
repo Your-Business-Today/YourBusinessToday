@@ -614,3 +614,54 @@ model and has no button that makes one: with unread messages and no catch-up yet
   room is opened. The reader of the new table answers none while the migration has not run
   (`findLatestSummaryOfRoom`, `isSchemaNotYetMigrated`). The panel is a `DashboardPanel` with the
   words in `ProseText`; the organisation export carries the rows.
+
+## Decisions raised in a room (migration `0277`)
+
+When a discussion in a room needs a decision, a director raises it from the message it came from
+and names who it waits on; it is tracked until someone closes it with its outcome, while the other
+rooms carry on. Each message of an open room has **Raise a decision** beside its files (hidden while
+Move mode is on), which opens a modal showing the message's words, a box for the decision to be
+taken and a list of the organisation's people for who it waits on. A room with decisions shows a
+**Decisions** panel above its messages, open ones first (newest raised first), then closed ones
+(latest closed first): the wording, the words of the message it came from, who raised it (or their
+Claude), who it waits on and when, a Badge for open or closed, and once closed the outcome and who
+closed it when. An open one has **Close with an outcome**, a modal with the outcome box. A message a
+decision came from shows "⚑ Decision raised here" with its status, linking to the decision's line.
+Chat home has two tabs, **Rooms** and **Decisions**; the second lists every decision across the
+rooms in a `RecordsTable` (decision, room linking to it, waiting on, raised by, status, outcome),
+open ones first, or an `EmptyState` when none has been raised.
+
+- **One row per decision** in `chat_decisions`: the room it was raised in and the message it came
+  from (each tied to the same organisation by a composite key, `on delete restrict`), the wording
+  (1 to 2000 characters), who raised it and how (`raised_via`, `site` or `claude`, ready for the
+  connector), who it waits on, `status` (`open` or `closed`), and once closed the outcome (1 to
+  2000), who closed it and when. The accounts have no foreign key, so the record outlives them.
+  `chat_decisions_whole_when_closed` keeps a closed row whole and an open row with none of the
+  three. Read by the module rule; no policy writes, and nothing deletes a row.
+- **A decision stays in the room it was raised in.** Its message may later be moved (`0273`): the
+  decision keeps pointing at the message, shows the message's words itself and stays listed where it
+  was raised; the marker on the message shows only in that room. A message may have more than one
+  decision; no rule limits that.
+- **Closing is the one update.** `closeChatDecision` sets the status, outcome, closer and moment on
+  a row still open (`eq('status', 'open')`, so two people closing at once cannot both close it), and
+  the `chat_decisions_keep_their_words` trigger refuses any other change whatever writes the row: the
+  wording, room, message, raiser and who it waits on are never edited, and a closed decision is not
+  reopened. Anyone who can use the organisation's chat may close one, in an archived room too.
+- **The limits and refusals are stated once** in `src/lib/data/chat/chatDecisionRules.ts`, checked
+  by `validateDecisionRaising` and `validateDecisionClosing`, mirrored by the forms' `maxlength` and
+  `required`, and held to the migration by `chatDecisionsMigration.test.ts`.
+- **`raiseChatDecision`** is the one service for raising: the wording fits, the room is one of the
+  organisation's and not archived (`raisingRefusal`), the message is of the organisation and in that
+  room now, and the person waited on is on the organisation (`organisation_people`, matched by id,
+  email or name with `findOrganisationMember`, as a Boardroom action's owner is). It takes the
+  raiser as a `ChatAuthor`, so the connector's coming `raise_chat_decision` passes `claude`. Raising
+  posts nothing in the room, writes no notification and sends no email.
+- **`listDecisionsOfRoom` and `listDecisionsOfOrganisation`** read the latest 200 by the module rule,
+  name the people through the service role, give each its room's name and its message's words, and
+  order them open first (`decisionsOpenFirst`). Both answer none while the migration has not run,
+  since the room and chat home ask on every visit. The organisation export carries the rows.
+- **Not built here:** the connector's actions (`raise_chat_decision`, `close_chat_decision`,
+  `list_chat_decisions`) are the next step, on these services unchanged. The person waited on is not
+  told by the bell: a notification is about a room, a goal or a task, and one about a room shows the
+  message it points at as if newly said, so telling of a decision needs a subject of its own.
+  Sending a chat decision to a Boardroom agenda, reopening, editing and voting are not built.
