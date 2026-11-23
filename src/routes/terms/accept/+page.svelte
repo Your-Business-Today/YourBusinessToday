@@ -40,4 +40,7 @@
 			<a href="/" class={quietButtonClasses}>Not now, go to the home page</a>
 		</div>
 	</form>
+	<form method="POST" action="/account?/signOut">
+		<button type="submit" class={quietButtonClasses}>Sign out</button>
+	</form>
 </div>

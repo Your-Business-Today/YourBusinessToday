@@ -6,7 +6,8 @@ describe('isFromAnEarlierDeploy', () => {
 		for (const message of [
 			'Failed to fetch dynamically imported module: https://www.yourbusiness.today/_app/immutable/nodes/2.abc.js',
 			'error loading dynamically imported module',
-			'Importing a module script failed.'
+			'Importing a module script failed.',
+			'Unable to preload CSS for /_app/immutable/assets/2.abc.css'
 		]) {
 			expect(isFromAnEarlierDeploy(new Error(message))).toBe(true);
 		}
