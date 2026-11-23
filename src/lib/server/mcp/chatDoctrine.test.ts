@@ -38,6 +38,15 @@ describe('the doctrine on taking part in the chat', () => {
 		expect(chatDoctrine).toContain('It never replaces reading the messages when they ask for detail');
 	});
 
+	it('raises and closes decisions only on the person’s word, never guessing who waits, and lists what waits on them', () => {
+		expect(chatDoctrine).toContain('only when the person asks for one, in their words');
+		expect(chatDoctrine).toContain('never guess that person');
+		expect(chatDoctrine).toContain('with the outcome as they gave it, read back to them first');
+		expect(chatDoctrine).toContain('decision is never reopened or changed');
+		expect(chatDoctrine).toContain('what waits on them (list_chat_decisions)');
+		expect(chatDoctrine).toContain('A chat decision is not a Boardroom decision');
+	});
+
 	it('sends nothing outside Your Business Today', () => {
 		expect(chatDoctrine).toContain('Nothing here sends an email or a message outside Your Business Today');
 	});

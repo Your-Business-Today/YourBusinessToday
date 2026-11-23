@@ -4,7 +4,8 @@ import type { PostedVia } from '$lib/data/conversationTurn';
 export const chatDecisionLimits = {
 	longestWording: 2000,
 	longestOutcome: 2000,
-	latestDecisionsShown: 200
+	latestDecisionsShown: 200,
+	usualDecisionsListed: 50
 } as const;
 
 /** Where a decision stands: waiting on someone, or closed out with its outcome. */
@@ -46,7 +47,16 @@ export type ChatDecisionRaising = { messageId: string; wording: string; waitingO
 /** A decision as it is asked to be closed, checked by validateDecisionClosing. */
 export type ChatDecisionClosing = { decisionId: string; outcome: string };
 
-const { longestWording, longestOutcome } = chatDecisionLimits;
+/** What a listing of decisions asks for: one room or every one, open or closed or both, and how many at most. */
+export type ChatDecisionListingAsked = { roomId: string | null; status: ChatDecisionStatus | null; limit: number };
+
+const { longestWording, longestOutcome, latestDecisionsShown, usualDecisionsListed } = chatDecisionLimits;
+const { open, closed } = chatDecisionStatuses;
+
+export const chatDecisionListingRefusals = {
+	status: `status is ${open} or ${closed}; leave it out for both, the open ones first.`,
+	limit: `limit is a whole number of decisions from 1 to ${latestDecisionsShown}; leave it out for ${usualDecisionsListed}.`
+} as const;
 
 export const chatDecisionRefusals = {
 	wording: `A decision's wording is 1 to ${longestWording} characters.`,
