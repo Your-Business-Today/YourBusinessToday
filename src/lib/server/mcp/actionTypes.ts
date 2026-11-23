@@ -8,6 +8,7 @@ export type ActionArea =
 	| 'books'
 	| 'brand'
 	| 'business_brain'
+	| 'chat'
 	| 'clients'
 	| 'news'
 	| 'organisations'

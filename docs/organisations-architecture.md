@@ -334,3 +334,238 @@ one module rule and then the director check: `call_board_meeting`, `list_board_m
   record cannot be deleted. `boardroomMeetingRequest.ts`, which the guidance-and-request pattern
   predicts, is an accepted gap: nothing on the site hands a director a request to give their Claude
   yet.
+
+## Chat rooms and subrooms (migration `0271`)
+
+Chat is a module like the others: an administrator switches it on for an organisation, and from then
+everyone on the organisation who can use the module may open, rename and archive its rooms at
+`/organisations/<id>/chat`. The first step shipped the rooms; the second, below, the messages in them;
+the third, moving a stray conversation to the right room; the fourth, a person's own Claude reading
+the rooms over the connector; the fifth, that Claude posting, moving and keeping rooms as its person;
+the sixth, photos and files on a message.
+
+- **One row per room** in `chat_rooms`: its name (1 to 60 characters), what it is for (up to 300),
+  and the room it sits under when it is a subroom. The limits are stated once in
+  `src/lib/data/chat/chatRoomRules.ts`, read by the form actions and the form's fields, and held to
+  the migration by `chatRoomsMigration.test.ts`.
+- **Subrooms go one level deep.** A room sits under a room that sits under nothing, and a room that
+  has subrooms is not put under another; `chatRoomPlacement.ts` refuses both, and the
+  `chat_rooms_keep_their_shape` trigger refuses them whatever writes the row.
+- **General is the one room every organisation has.** It is listed first, keeps its name, sits under
+  nothing and is never archived (a partial unique index keeps one per organisation). The first visit
+  to an organisation with no rooms opens General, Operations, Finance and Company decisions in one
+  insert; two first visits at once both try, and the unique rules let one through.
+- **A room is archived, never deleted.** Archiving a room archives nothing else, so a room is
+  archived only once its subrooms are. Names differ, whatever their case, among the rooms sharing a
+  parent that are not archived.
+- **People read the rooms by the module rule; no policy lets the app write.** The site writes
+  through the service role after `requireOrganisationModule` and its own checks, as the Boardroom
+  tables are written.
+
+## Messages in a room, with unread counts (migration `0272`)
+
+Each room is opened at `/organisations/<id>/chat/<roomId>`: on a wide screen the room list sits on
+the left and the room on the right; on a phone chat home is the list, and the room has a way back
+to it. The room shows its name and what it is for, its latest 200 messages oldest first with the
+page opened at the newest, each with who said it, when, and a mark when their Claude said it; then
+the box to say something. An archived room is read, never written in, and says so. A room of
+another organisation, or none, is a 404.
+
+- **One row per thing said** in `chat_messages`: the room (tied to the same organisation by a
+  composite key, `on delete restrict`, so a room or organisation with something said in it is never
+  deleted), the author's account (no foreign key, so what was said outlives the account), the words
+  (1 to 4000 characters), whether it came from the site or their Claude, and the message in the
+  same room it answers. The limits are stated once in `src/lib/data/chat/chatMessageRules.ts`, read
+  by the form action and the textarea, and held to the migration by `chatMessagesMigration.test.ts`.
+  The site always writes `site`; `claude` and the answered message are there for later steps.
+- **Nothing said is edited or deleted.** No policy lets anyone change a row, and the service has no
+  such function. Posting goes through `postChatMessage`, which refuses blank or over-long words and
+  an archived room by name, writes through the service role after `requireOrganisationModule`, and
+  moves the author's place to now.
+- **Each person's place in a room** is one row of `chat_room_reads`, read only by its own person.
+  `mark_chat_room_read` moves it to now and marks their notification for the room read, in one
+  step; the room's load calls it (the one write it makes, in `recordRoomOpened`) and so does posting.
+- **Unread counts** are the messages newer than the reader's place and not their own; a room never
+  opened counts every message not theirs. `chat_unread_counts` counts every room of the organisation
+  in one query, and chat home and the room view show each count on their room list.
+- **The open room reads itself again every five seconds** while its tab is on screen, through
+  SvelteKit's `invalidate` on its own `depends` key (`LiveRefresh`, which now rests while the tab is
+  hidden). No websocket, no Realtime, no browser Supabase client.
+- **The bell tells of a new message.** `notifications` gains the room and the message, its
+  one-subject check is widened to take a room, and a trigger on `chat_messages` tells everyone else
+  on the organisation (or the one it sits under), unless they already have an unread notification
+  for that room: a partial unique index keeps one per person per room. It opens the room, and
+  opening the room marks it read.
+- **Authors are named through the service role**, by `withAuthorNames` and the account directory as
+  conversations are, because the directory names only the people on a visitor's projects and
+  everyone on the organisation talks in its rooms.
+
+## Moving a stray conversation to the right room (migration `0273`)
+
+A team talking in General drifts onto finance; someone presses **Move to room** in the room's
+toolbar. Move mode puts a tick box on each message, with **From here on**, which ticks that message
+and every later one the room shows. They choose the room to send them to (every room not archived
+but this one, subrooms beneath their room) and confirm in a `Modal`; the room then shows the line
+the move left, and Move mode ends. Anyone on the organisation who can use chat may move any messages.
+Nothing is deleted, and a move is undone by another move back.
+
+- **One row per move** in `chat_moves`: the room left and the room gone to (both tied to the
+  organisation by composite keys, `on delete restrict`), who moved them (no foreign key, so the
+  record outlives the account), how many (1 to 200) and when. `chat_messages.moved_by_move_id` is
+  the latest move that brought a message to the room it is in now. The limit is stated once in
+  `src/lib/data/chat/chatMoveRules.ts`, read by the form action and the confirming form, and held to
+  the migration by `chatMovesMigration.test.ts`.
+- **A move is one step.** `move_chat_messages`, callable by the service role alone, checks every
+  message is in the room they leave and in this organisation, that the rooms differ and that the room
+  gone to is not archived, writes the move and sets each message's room and move, all or nothing. It
+  is the one place a `chat_messages` row is updated, and only its room and its move: a message keeps
+  its words, its author and its `created_at`, so moved messages fall into the room they go to in
+  their own order and times. It refuses in the same words as `chatMoveRefusals`, and
+  `moveChatMessages` passes those refusals on by name: no messages chosen, more than 200, a message
+  not in this room, this room, an archived room, a room of another organisation.
+- **The marks are read, never written as messages.** The room left shows "Moved 3 messages to
+  Finance, by James", linked to that room, in the flow at the moment of the move; each moved message
+  carries "moved from General by James". `readChatFlowOfRoom` reads both from `chat_moves`, and
+  `chatRoomFlow` places each line among the messages (a move older than every message shown is left
+  out when the room shows only its latest 200).
+- **What step 2 built keeps working.** Unread counts go by the room a message is in now against the
+  reader's place there, so a moved message is new to a reader of the room it went to when it was said
+  after their place in that room. The bell's trigger fires on insert alone, so a move writes no
+  notification. A reply and the message it answers may now sit in different rooms: the key that tied
+  a reply to a message in the same room gave way to one tying it to a message of the same
+  organisation.
+- **The five-second refresh leaves the ticks alone.** The ticks live in the open room's panel, which
+  a refresh keeps, and only the ticked messages still in the room are sent; the panel starts afresh
+  when another room is opened.
+
+## A person's own Claude reads the rooms (migration `0274`)
+
+Each director connects their own Claude (or any MCP client) and asks it what is new in the business
+chat; it reads the rooms as that person. The connector's `chat` area has three actions, all
+`isWrite: false`, run through `run_read_action`, offered to everyone and each gated by `moduleAction`
+on the `chat` module of the organisation named, so a caller who may not use that organisation's chat
+is told Chat is not switched on for any organisation of theirs with that id.
+
+- **`list_chat_rooms`** gives every room not archived, General first, then rooms by name with their
+  subrooms beneath (`chatRoomTree`), each with its id, what it is for and the caller's unread count.
+  With no rooms yet it says so and points at the chat home on the site: the rooms are opened by the
+  first visit there, never by a read.
+- **`read_chat_room`** gives one room of that organisation, archived or not (an archived one says
+  so), oldest to newest: each message with who said it by name, when, whether they said it
+  themselves or through their Claude, and where it was moved from. `since` is `unread` (the
+  default) or `all`; `limit` is 1 to 200, the room's own 200, and 50 when left out. The limits and
+  refusals are stated once in `src/lib/data/chat/chatReadingRules.ts` and checked by
+  `validateChatReading`. With `unread` it gives the messages the rule below counts, and the moves
+  out of the room made after the reader's place, as the room's marker line tells of them
+  (`chatFlowWithin`). A room of another organisation is refused by name.
+- **`read_chat_unread`** gives everything unread across the rooms, room by room in the list's
+  order, leaving out the rooms with nothing new, or one plain line when nothing is.
+- **Reading marks nothing read.** None of the three moves the reader's place or marks their
+  notification read, so a Claude checking in never hides what is new from its person. Marking read
+  is the write `mark_chat_room_read`, below.
+- **One unread rule, for the site and the connector.** The connector runs as the service role, for
+  which `auth.uid()` is nobody. `chat_unread_messages_for_reader(organisation, reader)` now holds the
+  rule (messages newer than the reader's place in the room they are in now, not their own; a room
+  never opened counts every message not theirs), and `chat_unread_counts_for_reader` counts it room
+  by room; the service role alone may call either. `chat_unread_counts`, which the site calls
+  unchanged, counts through the same rule for `auth.uid()`, running as its owner and asking the
+  module rule itself.
+- **A room notification points at the room.** The connector's notification answer names
+  `read_chat_room` with the organisation and room ids, as it names `read_task` for a task.
+
+## A person's own Claude posts, moves and keeps rooms (no migration)
+
+Each director's own Claude takes part in the chat as that person: three directors' Claudes in one
+room each post as their own person and read what the others said. The `chat` area gains five
+actions, all `isWrite: true`, run through `perform_action`, offered to everyone and each gated by
+`moduleAction` on the `chat` module, as the reads are. Each runs the service the page's action runs,
+so a refusal reads the same from either; the connector leads a refusal of a field's limit with the
+field's name (`body:`, `name:`, `purpose:`), and points a room not found at `list_chat_rooms`
+(`chatConnectorRefusal`).
+
+- **`post_chat_message`** says it in a room as the caller through `postChatMessage`, which now takes
+  who it is posted through (`ChatAuthor`): `posted_via = 'claude'`, so the room marks it as said
+  through their Claude, where the page's form posts `'site'`. Posting moves the author's place in the
+  room to now and reads their notification, on the site and here alike.
+- **`create_chat_room`** and **`update_chat_room`** run the page's New, Edit and Archive
+  (`createChatRoom`, `changeChatRoom`, `archiveChatRoom`). `update_chat_room` changes the fields
+  given and keeps every field left out as the room has it (`validateChatRoomUpdate` and
+  `roomFieldsWithChanges`, in `src/lib/data/chat/chatWritingRules.ts`, through `updateChatRoom`);
+  `parentRoomId: ""` puts a subroom back under nothing. `isArchived: true` archives through the page's Archive, with its refusals
+  (General, a room with open subrooms), and is asked alone, as the site's Archive is its own button.
+  The site has no way to bring an archived room back, so neither has the connector: `isArchived:
+  false` is refused by name.
+- **`move_chat_messages`** runs the page's move (`moveChatMessages`), with every refusal it has, once
+  `validateMoveOverConnector` has the messages as a list; a room of another organisation is refused
+  as the destination by the rules and as the room the messages leave by `move_chat_messages` itself.
+- **`mark_chat_room_read`** moves the caller's place in a room of that organisation, archived or not,
+  to now and reads its notification (`markRoomReadInOrganisation`, through `markChatRoomRead`).
+- **The service is the guard.** The validators the pages and the connector share now refuse a value
+  that is not text rather than reading it as text (`validateChatMessageBody`,
+  `validateChatRoomFields`); a form only ever sends text, so the site is unchanged.
+- **The doctrine.** `get_current_context` carries a short passage on taking part in the chat
+  (`src/lib/server/mcp/chatDoctrine.ts`): read what is unread first and say which room each thing
+  was said in; post only what the person asked to say or agreed to, in the room the matter belongs
+  to, offering to move a drifted talk; never move another person's messages, archive or rename a
+  room without the person's yes; mark a room read only once its person has heard what was new; and
+  nothing here sends an email or a message outside Your Business Today.
+
+## Photos and files on a message (migration `0275`)
+
+A director on site takes a photo with their phone, or picks a document, and shares it in the room,
+as they do on WhatsApp today. Under the box to say something the composer has **Attach files** and
+**Take a photo** (a picture input with `capture`, which opens the camera on a phone). Each file
+chosen is sent at once and listed with where it has got to (sending, ready to send, not sent and
+why) and a **Take off**; Send waits while any is on its way. A message may be files alone, with no
+words.
+
+- **One row per file** in `chat_message_files`: the message (tied to a message of the same
+  organisation by a composite key, `on delete restrict`), where storage keeps it (unique, so a file
+  is on one message only), its name (1 to 200), its kind (up to 120) and its size (1 byte to 25 MB),
+  as storage measured them when the message was posted. Read by the module rule; no policy writes.
+  The files sit in the private `chat-files` bucket, which no policy opens.
+- **The limits are stated once** in `src/lib/data/chat/chatFileRules.ts`: at most 5 files on a
+  message, each at most 25 MB (the limit the site's other signed uploads already keep), of the
+  pictures (JPEG, PNG, WebP, GIF, HEIC) and the kinds a project document may be (`documentFileTypes`,
+  reused: PDF, Word, Excel, PowerPoint, text, CSV, Markdown). `chatFileRefusal` is asked of a file by
+  the composer (with `accept` on both inputs), by the grant, and by posting; the sentences are the
+  same from each. `chatMessageFilesMigration.test.ts` holds the columns and the bucket to the rules.
+- **Words, or at least one file.** `chat_messages.body` may now be empty: its check became "at most
+  4000 characters" (the wider check added before the narrower one was dropped). A check cannot look
+  across two tables, so the rule that a message with no words carries a file lives in the one
+  service, `validateChatMessage` and `postChatMessage`, and again in `post_chat_message_with_files`.
+- **The flow is the site's signed upload.** The composer asks the room's `grantChatFile` action for a
+  signed link for each file (`grantChatFileUpload`: the file as the browser describes it fits the
+  rules and the room is open), sends the file straight to storage, then posts the message naming each
+  arrived file by its storage path. The path is the grant: `<organisation>/<sender>/<upload id>/<name>`,
+  signed only by the site, so `isSentBy` takes only a path in the sender's own folder for a file of
+  that name. Posting (`checkSentChatFiles`) reads each file's size and kind as storage holds them
+  (`inspectStoredFile`), never as the browser said, refuses one that never arrived, and
+  `post_chat_message_with_files` writes the message and its file rows in one step; a file already on
+  a message is refused by the unique path. A file sent and never put on a message stays in the
+  bucket, as an upload whose link lapsed does elsewhere, and is shown nowhere, since only a row here
+  names a file.
+- **The room shows them.** Under the words a picture is drawn at a bounded size (`ChatMessageFiles`,
+  a content widget with no box of its own) and opens full size when pressed; a HEIC photo, which
+  most browsers cannot draw, and any other file show as a named link with its size. Every file opens
+  through `/organisations/<id>/chat/files/<fileId>`, which checks the reader can use the
+  organisation's chat, reads the row by the module rule and redirects to a ten-minute signed link
+  (a picture shown in the browser, any other file downloaded under its name), as a Boardroom paper
+  opens. The room re-reads itself every five seconds, so its load signs nothing: it reads the file
+  rows of the messages shown in one query, which answers none while the migration has not run.
+- **A moved message keeps its files.** A file is tied to its message, never to a room, and
+  `move_chat_messages` sets only a message's room and its move; this was run on a scratch database
+  built by `build-stand-in-database.sh`, moving a message with two files and reading both in the room
+  it went to.
+- **The connector names them.** `read_chat_room` and `read_chat_unread` give each message's files
+  under its words, each with its name, kind, size and a ten-minute link to fetch it
+  (`signChatReadingLinks`, one call for a reading), with the wording project documents use: fetch it
+  to look at it now and do not pass the link on. `post_chat_message` is unchanged: it passes only the
+  words, and attaching a file over the connector is not offered.
+- **The bell reads sensibly.** A files-only message notifies as any message does (the trigger fires
+  on the message's insert); the bell and the connector's `list_notifications` say what was sent
+  ("sent 2 photos", `describeFilesShared`) where a message has no words to quote. The bell reads the
+  files through the notification's message, and falls back to the columns before 0275 while it has
+  not run. The organisation export carries the rows and the files themselves
+  (`organisationExportFileStores`, which takes a row here as arrived, since it is written only once
+  its file has).

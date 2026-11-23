@@ -370,6 +370,8 @@
       "src/lib/server/mcp/actions/leadQuoteFields.ts",
       "src/lib/server/mcp/actions/newsWatchListFields.ts",
       "src/lib/server/mcp/actions/newsStoryFields.ts",
+      "src/lib/server/mcp/actions/chatReadingFields.ts",
+      "src/lib/server/mcp/actions/chatWritingFields.ts",
       "src/lib/server/mcp/actions/businessBrainSchemas.ts",
       "src/lib/server/mcp/actions/projectVideoSchemas.ts",
       "src/lib/server/mcp/actions/projectDocumentSchemas.ts",

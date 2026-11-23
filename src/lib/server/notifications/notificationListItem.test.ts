@@ -60,6 +60,29 @@ describe('parseNotificationRow', () => {
 		expect(item.subjectId).toBe('g1');
 		expect(item.subjectTitle).toBe('Grow to 1,000 players');
 		expect(item.projectId).toBe('p2');
+		expect(item.path).toBe('/projects/p2/goals/g1');
+	});
+
+	it('reads a message in a chat room as a room notification that opens the room', () => {
+		const item = parseNotificationRow({
+			id: 'n4',
+			task_id: null,
+			goal_id: null,
+			chat_room_id: 'r1',
+			tasks: null,
+			goals: null,
+			conversation_messages: null,
+			chat_rooms: { name: 'Finance', organisation_id: 'o1' },
+			chat_messages: { body: 'The VAT return is in.', author_account_id: 'nigel' },
+			is_read: false,
+			created_at: '2026-11-22T09:15:00Z'
+		});
+		expect(item.subjectKind).toBe('room');
+		expect(item.subjectTitle).toBe('Finance');
+		expect(item.organisationId).toBe('o1');
+		expect(item.path).toBe('/organisations/o1/chat/r1');
+		expect(item.messageBody).toBe('The VAT return is in.');
+		expect(item.messageAuthorId).toBe('nigel');
 	});
 });
 

@@ -24,6 +24,7 @@
 		})
 	);
 	const hasBody = $derived(notification.messageBody !== '');
+	const hasFilesShared = $derived(notification.filesShared !== '');
 </script>
 
 <li class="flex items-start gap-4 px-5 py-4" class:opacity-60={notification.isRead}>
@@ -41,13 +42,13 @@
 		{#if hasBody}
 			<p class="truncate text-sm text-chalk/60">{notification.messageBody}</p>
 		{/if}
+		{#if hasFilesShared}
+			<p class="text-sm text-chalk/60">{notification.filesShared}</p>
+		{/if}
 		<p class="text-xs text-chalk/40">{formattedDate}</p>
 	</div>
 	<form method="POST" action="?/openNotification" use:enhance={tracker.submit()}>
 		<input type="hidden" name="notificationId" value={notification.id} />
-		<input type="hidden" name="projectId" value={notification.projectId} />
-		<input type="hidden" name="subjectKind" value={notification.subjectKind} />
-		<input type="hidden" name="subjectId" value={notification.subjectId} />
 		<SubmitButton
 			isSaving={tracker.isSaving}
 			savingLabel="Opening…"
