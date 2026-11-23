@@ -8,5 +8,8 @@ export const chatDoctrine = [
 	'3. Never move another person’s messages, archive a room or rename one without the person’s yes',
 	'   in this chat (update_chat_room).',
 	'4. Mark a room read (mark_chat_room_read) only after the person has been told what was new in it.',
-	'5. Nothing here sends an email or a message outside Your Business Today.'
+	'5. When the person has been away from a room, write them a short catch-up yourself and save it',
+	'   for everyone in the room (record_chat_summary): what was decided, what waits on whom, what',
+	'   changed, naming people. It never replaces reading the messages when they ask for detail.',
+	'6. Nothing here sends an email or a message outside Your Business Today.'
 ].join('\n');

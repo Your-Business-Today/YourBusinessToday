@@ -32,7 +32,8 @@ const reading: ChatRoomReading = {
 	room: finance,
 	since: 'unread',
 	entries: [{ kind: chatFlowKinds.message, key: 'm1', moment: vatMessage.createdAt, message: vatMessage }, movedAway],
-	messagesLeftOut: 0
+	messagesLeftOut: 0,
+	latestSummary: null
 };
 
 describe('describeChatRoomReading', () => {
@@ -40,9 +41,11 @@ describe('describeChatRoomReading', () => {
 		expect(describeChatRoomReading('Jewel', reading, noLinks)).toBe(
 			[
 				"Finance, in Jewel's chat, room finance — Money in and out.",
+				'No catch-up has been written of this room yet.',
 				'New to you since you last read it, oldest first:',
 				"- 22 Nov 2026, 09:15 — Nigel Smith's Claude, message m1, moved from General by James:\n  The VAT return is in.\n  Paid on Friday.",
 				'- 22 Nov 2026, 10:00 — Moved 2 messages to Operations, by James; they are read in Operations now, room ops.',
+				'To save a catch-up of these messages with record_chat_summary, give coversUpTo 2026-11-22T09:15:00Z.',
 				'Reading marks nothing read: your place in the room and your notification for it stay as they were.'
 			].join('\n')
 		);

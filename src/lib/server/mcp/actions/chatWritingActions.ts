@@ -1,17 +1,18 @@
-import { postedViaChannels } from '$lib/data/conversationTurn';
 import { validateMoveOverConnector } from '$lib/data/chat/chatWritingRules';
 import { createChatRoom } from '$lib/server/chat/keepChatRooms';
 import { markRoomReadInOrganisation } from '$lib/server/chat/markChatRoomRead';
 import { moveChatMessages } from '$lib/server/chat/moveChatMessages';
 import { postChatMessage } from '$lib/server/chat/postChatMessage';
+import { recordChatSummary } from '$lib/server/chat/recordChatSummary';
 import { updateChatRoom } from '$lib/server/chat/updateChatRoom';
 import { moduleAction } from '../organisationModuleGate';
 import { readText, type McpAction } from '../actionTypes';
-import { chatKeeperOf } from './chatConnectorCaller';
+import { chatAuthorOf, chatKeeperOf } from './chatConnectorCaller';
 import { chatConnectorRefusal } from './chatConnectorRefusals';
-import { chatMoveSchema, chatPostingSchema, chatRoomMarkingSchema, chatRoomOpeningSchema, chatRoomUpdateSchema } from './chatWritingFields';
+import { chatMoveSchema, chatPostingSchema, chatRoomMarkingSchema, chatRoomOpeningSchema, chatRoomUpdateSchema, chatSummarySchema } from './chatWritingFields';
 import { chatWritingGuidance } from './chatWritingGuidance';
 import { describeMadeMove, describeOpenedRoom, describePostedMessage, describeRoomMarkedRead, describeUpdatedRoom } from './describeChatWrites';
+import { describeRecordedSummary } from './describeChatSummary';
 
 const writesInTheChat = { area: 'chat', audience: 'everyone', isWrite: true } as const;
 
@@ -23,8 +24,7 @@ export const chatWritingActions: McpAction[] = [
 		guidance: chatWritingGuidance.post,
 		inputSchema: chatPostingSchema,
 		run: async (caller, input, organisation) => {
-			const author = { ...chatKeeperOf(caller, organisation), postedVia: postedViaChannels.claude };
-			const posted = await postChatMessage(caller.supabase, author, readText(input, 'roomId'), { body: input.body });
+			const posted = await postChatMessage(caller.supabase, chatAuthorOf(caller, organisation), readText(input, 'roomId'), { body: input.body });
 			if (typeof posted === 'string') return chatConnectorRefusal(posted);
 			return describePostedMessage(organisation.name, posted);
 		}
@@ -65,6 +65,18 @@ export const chatWritingActions: McpAction[] = [
 			const moved = await moveChatMessages(caller.supabase, chatKeeperOf(caller, organisation), readText(input, 'fromRoomId'), asked);
 			if (typeof moved === 'string') return chatConnectorRefusal(moved);
 			return describeMadeMove(moved);
+		}
+	}),
+	moduleAction('chat', {
+		name: 'record_chat_summary',
+		...writesInTheChat,
+		summary: "save a catch-up you wrote of a room of an organisation's chat, for everyone in it who has been away",
+		guidance: chatWritingGuidance.catchUp,
+		inputSchema: chatSummarySchema,
+		run: async (caller, input, organisation) => {
+			const recorded = await recordChatSummary(caller.supabase, chatAuthorOf(caller, organisation), readText(input, 'roomId'), input);
+			if (typeof recorded === 'string') return chatConnectorRefusal(recorded);
+			return describeRecordedSummary(organisation.name, recorded);
 		}
 	}),
 	moduleAction('chat', {
