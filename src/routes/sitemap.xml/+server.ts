@@ -1,24 +1,5 @@
-import { caseStudyPath } from '$lib/data/caseStudies';
-import { whatWeDoPath } from '$lib/data/consultancyOffer';
-import { newsletterPath } from '$lib/data/newsletterSignUp';
-import { taxCalculatorPath } from '$lib/data/taxCalculator/taxCalculatorPath';
+import { publicPagePaths } from '$lib/data/publicPages';
 import type { RequestHandler } from './$types';
-
-const publicPagePaths = [
-	'/',
-	'/about',
-	whatWeDoPath,
-	caseStudyPath,
-	taxCalculatorPath,
-	'/demo',
-	'/contact',
-	newsletterPath,
-	'/terms',
-	'/privacy',
-	'/company',
-	'/links',
-	'/account/sign-in'
-];
 
 const XML_CONTENT_TYPE = 'application/xml';
 

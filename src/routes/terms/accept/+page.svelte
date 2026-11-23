@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { primaryButtonClasses } from '$lib/components/account/accountFormStyles';
+	import { primaryButtonClasses, quietButtonClasses } from '$lib/components/account/accountFormStyles';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import LegalSections from '$lib/components/site/LegalSections.svelte';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
@@ -37,4 +37,10 @@
 		<FormErrorNote message={form?.message ?? null} />
 		<button type="submit" class={primaryButtonClasses}>Accept and carry on</button>
 	</form>
+	<div class="flex flex-wrap items-center gap-6">
+		<a href="/" class={quietButtonClasses}>Not now, take me to the home page</a>
+		<form method="POST" action="/account?/signOut">
+			<button type="submit" class={quietButtonClasses}>Sign out</button>
+		</form>
+	</div>
 </div>

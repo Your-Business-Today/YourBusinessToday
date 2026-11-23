@@ -18,8 +18,14 @@ describe('isOpenBeforeAcceptingTerms', () => {
 		}
 	});
 
+	it('opens the public site, so a signed-in visitor from a search result reaches the home page', () => {
+		for (const path of ['/', '/about', '/what-we-do', '/contact', '/company', '/demo']) {
+			expect(isOpenBeforeAcceptingTerms(path)).toBe(true);
+		}
+	});
+
 	it('closes every page that uses the site', () => {
-		for (const path of ['/', '/projects', '/organisations', '/oauth/authorize', '/upload/abc', '/admin']) {
+		for (const path of ['/projects', '/organisations', '/oauth/authorize', '/upload/abc', '/admin']) {
 			expect(isOpenBeforeAcceptingTerms(path)).toBe(false);
 		}
 	});
