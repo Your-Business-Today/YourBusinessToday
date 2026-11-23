@@ -3,6 +3,7 @@ import { chatMessageRefusals } from '$lib/data/chat/chatMessageRules';
 import { chatMoveRefusals } from '$lib/data/chat/chatMoveRules';
 import { chatRoomPlacementRefusals } from '$lib/data/chat/chatRoomPlacement';
 import { chatRoomFieldRefusals } from '$lib/data/chat/chatRoomRules';
+import { chatSummaryRefusals } from '$lib/data/chat/chatSummaryRules';
 
 const listTheRooms = 'Call list_chat_rooms for the rooms of this organisation and their ids.';
 
@@ -16,7 +17,11 @@ const fieldsByRefusal = new Map<string, string>([
 	[chatMessageRefusals.body, 'body'],
 	[chatFileRefusals.wordsOrFiles, 'body'],
 	[chatRoomFieldRefusals.name, 'name'],
-	[chatRoomFieldRefusals.purpose, 'purpose']
+	[chatRoomFieldRefusals.purpose, 'purpose'],
+	[chatSummaryRefusals.words, 'words'],
+	[chatSummaryRefusals.coversUpTo, 'coversUpTo'],
+	[chatSummaryRefusals.coversTheFuture, 'coversUpTo'],
+	[chatSummaryRefusals.coversPastTheLatest, 'coversUpTo']
 ]);
 
 /**

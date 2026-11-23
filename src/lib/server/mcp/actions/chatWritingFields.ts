@@ -1,12 +1,14 @@
 import { chatMessageLimits } from '$lib/data/chat/chatMessageRules';
 import { chatMoveLimits } from '$lib/data/chat/chatMoveRules';
 import { chatRoomLimits } from '$lib/data/chat/chatRoomRules';
+import { chatSummaryLimits } from '$lib/data/chat/chatSummaryRules';
 import { objectSchema, textField } from '../actionTypes';
 import { chatOrganisationField } from './chatReadingFields';
 
 const { longestBody } = chatMessageLimits;
 const { longestName, longestPurpose } = chatRoomLimits;
 const { mostMessagesInOneMove } = chatMoveLimits;
+const { longestWords } = chatSummaryLimits;
 
 const roomField = (description: string) => textField(`${description}, as list_chat_rooms gives it`);
 
@@ -71,4 +73,23 @@ export const chatMoveSchema = objectSchema(
 export const chatRoomMarkingSchema = objectSchema(
 	{ organisationId: chatOrganisationField, roomId: roomField('The room to mark read for you, archived or not') },
 	['organisationId', 'roomId']
+);
+
+const summaryWordsField = {
+	type: 'string',
+	minLength: 1,
+	maxLength: longestWords,
+	description:
+		`The catch-up you wrote of the room, 1 to ${longestWords} characters, for everyone in it; ` +
+		'the room shows it as written by the person through their Claude'
+};
+
+const coversUpToField = textField(
+	"The moment of the last message the catch-up covers, as the reading's last line gives it (such as 2026-11-22T09:30:00.123456+00:00); " +
+		"never in the future or later than the room's latest message"
+);
+
+export const chatSummarySchema = objectSchema(
+	{ organisationId: chatOrganisationField, roomId: roomField('The room to catch up on, not archived'), words: summaryWordsField, coversUpTo: coversUpToField },
+	['organisationId', 'roomId', 'words', 'coversUpTo']
 );

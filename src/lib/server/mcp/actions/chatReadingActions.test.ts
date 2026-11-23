@@ -40,7 +40,7 @@ describe("a person's own Claude reading the organisation's chat, through the con
 		vi.clearAllMocks();
 		chat.switchedOn = ['chat'];
 		listing.mockResolvedValue([{ ...general, isSubroom: false, unreadCount: 2 }]);
-		reading.mockResolvedValue({ room: general, since: 'unread', entries: [], messagesLeftOut: 0 });
+		reading.mockResolvedValue({ room: general, since: 'unread', entries: [], messagesLeftOut: 0, latestSummary: null });
 		catchingUp.mockResolvedValue([]);
 	});
 
@@ -63,7 +63,7 @@ describe("a person's own Claude reading the organisation's chat, through the con
 	it('hands each file of a message a ten-minute link to fetch it through, signed by where it is kept', async () => {
 		const plan = { id: 'f1', storagePath: 'jewel/nigel/u1/plan.pdf', fileName: 'plan.pdf', contentType: 'application/pdf', sizeBytes: 2048 };
 		const message = { id: 'm1', roomId: 'general', authorAccountId: 'nigel', authorName: 'Nigel', body: '', postedVia: 'site', createdAt: '2026-11-22T09:00:00Z', movedByMoveId: null, movedHere: null, files: [plan] };
-		reading.mockResolvedValue({ room: general, since: 'all', entries: [{ kind: 'message', key: 'm1', moment: message.createdAt, message }], messagesLeftOut: 0 });
+		reading.mockResolvedValue({ room: general, since: 'all', entries: [{ kind: 'message', key: 'm1', moment: message.createdAt, message }], messagesLeftOut: 0, latestSummary: null });
 		const createSignedUrls = vi.fn(async () => ({ data: [{ path: plan.storagePath, signedUrl: 'https://files.example/plan', error: null }], error: null }));
 		const signing = { ...nigel, supabase: { storage: { from: () => ({ createSignedUrls }) } } } as unknown as McpCaller;
 		const action = chatReadingActions.find((candidate) => candidate.name === 'read_chat_room');

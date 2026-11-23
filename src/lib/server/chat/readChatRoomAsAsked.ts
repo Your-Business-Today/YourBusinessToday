@@ -4,12 +4,14 @@ import { chatReadingSpans, type ChatReadingAsked, type ChatReadingSince } from '
 import { validateChatReading } from '$lib/data/chat/validateChatReading';
 import { readChatFlowOfRoom, type ChatRoomMessage } from './readChatFlowOfRoom';
 import { readChatRooms } from './readChatRooms';
+import { findLatestSummaryOfRoom } from './findLatestChatSummary';
+import type { NamedChatSummary } from '$lib/data/chat/chatSummaryRules';
 import type { ChatRoom } from '$lib/data/chat/chatRoomRules';
 import type { ChatRoomKeeper } from './chatRoomRecord';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-/** One room as a reading gives it: the room, what the reading spans, and its lines oldest first. */
-export type ChatRoomReading = ChatFlowRead<ChatRoomMessage> & { room: ChatRoom; since: ChatReadingSince };
+/** One room as a reading gives it: the room, what the reading spans, its lines oldest first, and its latest catch-up. */
+export type ChatRoomReading = ChatFlowRead<ChatRoomMessage> & { room: ChatRoom; since: ChatReadingSince; latestSummary: NamedChatSummary | null };
 
 type UnreadMessageRow = { message_id: string };
 
@@ -23,7 +25,8 @@ async function unreadMessageIdsInRoom(serviceSupabase: SupabaseClient, reader: C
 	return new Set((data as UnreadMessageRow[]).map((row) => row.message_id));
 }
 
-async function placeInRoom(serviceSupabase: SupabaseClient, reader: ChatRoomKeeper, roomId: string): Promise<string | null> {
+/** The moment the reader had read the room up to, or null when they have never opened it. */
+export async function placeInRoom(serviceSupabase: SupabaseClient, reader: ChatRoomKeeper, roomId: string): Promise<string | null> {
 	const { data, error } = await serviceSupabase
 		.from('chat_room_reads')
 		.select('read_up_to')
@@ -46,7 +49,7 @@ async function windowFor(serviceSupabase: SupabaseClient, reader: ChatRoomKeeper
 
 /**
  * The room read as the reader asks, through the service role: the room's flow as the site shows it, cut to what is
- * new to them when they ask for that. Nothing is marked read: the reader's place and their notification stay.
+ * new to them when they ask for that, with the room's latest catch-up. Nothing is marked read: the reader's place and their notification stay.
  */
 export async function readRoomForReader(
 	serviceSupabase: SupabaseClient,
@@ -55,8 +58,12 @@ export async function readRoomForReader(
 	rooms: ChatRoom[],
 	asked: ChatReadingAsked
 ): Promise<ChatRoomReading> {
-	const [flow, window] = await Promise.all([readChatFlowOfRoom(serviceSupabase, room.id, rooms), windowFor(serviceSupabase, reader, room.id, asked)]);
-	return { ...chatFlowWithin(flow, window), room, since: asked.since };
+	const [flow, window, latestSummary] = await Promise.all([
+		readChatFlowOfRoom(serviceSupabase, room.id, rooms),
+		windowFor(serviceSupabase, reader, room.id, asked),
+		findLatestSummaryOfRoom(serviceSupabase, room.id)
+	]);
+	return { ...chatFlowWithin(flow, window), room, since: asked.since, latestSummary };
 }
 
 /** One room of the reader's organisation, archived or not, read as they ask once what they ask fits, or why not. */

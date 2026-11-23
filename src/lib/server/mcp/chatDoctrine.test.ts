@@ -33,6 +33,11 @@ describe('the doctrine on taking part in the chat', () => {
 		expect(chatDoctrine).toContain('only after the person has been told what was new in it');
 	});
 
+	it('writes a catch-up for someone who has been away, for the whole room, never in place of reading', () => {
+		expect(chatDoctrine).toContain('save it\n   for everyone in the room (record_chat_summary)');
+		expect(chatDoctrine).toContain('It never replaces reading the messages when they ask for detail');
+	});
+
 	it('sends nothing outside Your Business Today', () => {
 		expect(chatDoctrine).toContain('Nothing here sends an email or a message outside Your Business Today');
 	});
