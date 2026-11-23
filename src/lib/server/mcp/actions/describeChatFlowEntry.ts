@@ -3,6 +3,7 @@ import { postedViaChannels } from '$lib/data/conversationTurn';
 import { formatUkDayAndTime } from '$lib/data/britishDate';
 import { describeMessageFiles, type ChatFileLinks } from './describeChatMessageFiles';
 import type { ChatRoomFlowEntry, ChatRoomMessage } from '$lib/server/chat/readChatFlowOfRoom';
+import { indentedLines } from './indentedLines';
 
 const bodyIndent = '  ';
 
@@ -18,20 +19,13 @@ function movedHereClause(message: ChatRoomMessage): string {
 	return `, ${movedHereNote(movedHere)}`;
 }
 
-function indentedBody(body: string): string {
-	return body
-		.split('\n')
-		.map((line) => `${bodyIndent}${line}`)
-		.join('\n');
-}
-
 /**
  * One message: when, who said it (themselves or through their Claude), its id, where it was moved from, then its
  * words, if it has any, and the files it carries, each with a link to fetch it.
  */
 export function describeChatMessage(message: ChatRoomMessage, links: ChatFileLinks): string {
 	const heading = `- ${formatUkDayAndTime(message.createdAt)} — ${speakerOf(message)}, message ${message.id}${movedHereClause(message)}:`;
-	const words = message.body === '' ? [] : [indentedBody(message.body)];
+	const words = message.body === '' ? [] : [indentedLines(message.body, bodyIndent)];
 	return [heading, ...words, ...describeMessageFiles(message.files, links)].join('\n');
 }
 

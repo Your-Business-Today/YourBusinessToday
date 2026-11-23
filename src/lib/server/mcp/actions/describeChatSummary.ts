@@ -3,16 +3,10 @@ import { writerOfSummary } from '$lib/data/chat/chatCatchUpWords';
 import { messagesIn } from '$lib/data/chat/chatRoomFlow';
 import type { ChatSummary, NamedChatSummary } from '$lib/data/chat/chatSummaryRules';
 import type { ChatRoomReading } from '$lib/server/chat/readChatRoomAsAsked';
+import { indentedLines } from './indentedLines';
 
 const wordsIndent = '  ';
 const noCatchUpYet = 'No catch-up has been written of this room yet.';
-
-function indentedWords(words: string): string {
-	return words
-		.split('\n')
-		.map((line) => `${wordsIndent}${line}`)
-		.join('\n');
-}
 
 /** The catch-up as it is saved: which room, the moment it covers up to, and that it is for everyone in the room. */
 export function describeRecordedSummary(organisationName: string, summary: ChatSummary): string {
@@ -29,7 +23,7 @@ export function describeLatestSummary(summary: NamedChatSummary | null): string 
 	const heading =
 		`Latest catch-up, written by ${writerOfSummary(summary)} on ${formatUkDayAndTime(summary.createdAt)}, ` +
 		`covering up to ${formatUkDayAndTime(summary.coversUpTo)} (${summary.coversUpTo}):`;
-	return [heading, indentedWords(summary.words)].join('\n');
+	return [heading, indentedLines(summary.words, wordsIndent)].join('\n');
 }
 
 /** The moment of the last message the reading gives, to save a catch-up of it with record_chat_summary, or null. */

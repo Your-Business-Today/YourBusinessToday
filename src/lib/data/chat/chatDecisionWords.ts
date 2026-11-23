@@ -10,7 +10,7 @@ export function decisionAnchor(decisionId: string): string {
 }
 
 /** Who raised the decision: the person, or the person through their Claude. */
-function raiserOf(decision: ListedChatDecision): string {
+export function raiserOf(decision: ListedChatDecision): string {
 	const isByTheirClaude = decision.raisedVia === postedViaChannels.claude;
 	if (isByTheirClaude) return `${decision.raiserName}'s Claude`;
 	return decision.raiserName;

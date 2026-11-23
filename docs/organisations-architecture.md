@@ -654,14 +654,48 @@ open ones first, or an `EmptyState` when none has been raised.
   organisation's and not archived (`raisingRefusal`), the message is of the organisation and in that
   room now, and the person waited on is on the organisation (`organisation_people`, matched by id,
   email or name with `findOrganisationMember`, as a Boardroom action's owner is). It takes the
-  raiser as a `ChatAuthor`, so the connector's coming `raise_chat_decision` passes `claude`. Raising
+  raiser as a `ChatAuthor`, so the connector's `raise_chat_decision` passes `claude`. Raising
   posts nothing in the room, writes no notification and sends no email.
 - **`listDecisionsOfRoom` and `listDecisionsOfOrganisation`** read the latest 200 by the module rule,
   name the people through the service role, give each its room's name and its message's words, and
   order them open first (`decisionsOpenFirst`). Both answer none while the migration has not run,
   since the room and chat home ask on every visit. The organisation export carries the rows.
-- **Not built here:** the connector's actions (`raise_chat_decision`, `close_chat_decision`,
-  `list_chat_decisions`) are the next step, on these services unchanged. The person waited on is not
+- **Not built here:** the person waited on is not
   told by the bell: a notification is about a room, a goal or a task, and one about a room shows the
   message it points at as if newly said, so telling of a decision needs a subject of its own.
   Sending a chat decision to a Boardroom agenda, reopening, editing and voting are not built.
+
+## A person's own Claude raises, closes and lists decisions (no migration)
+
+A director asks their own Claude to raise a decision from a message, close one with its outcome, or
+say what decisions wait on them, without opening the site. The `chat` area gains three actions in
+`src/lib/server/mcp/actions/chatDecisionActions.ts`, offered to everyone and each gated by
+`moduleAction` on the `chat` module, each running the service the page runs, so a refusal reads the
+same from either.
+
+- **`list_chat_decisions`** (`isWrite: false`) gives the organisation's decisions, or one room's,
+  archived or not, through `listDecisionsOfOrganisation` or `listDecisionsOfRoom`, open first: each
+  with its id, status, who it waits on, room, wording, the message it came from and that message's
+  words in full, who raised it (or their Claude) and when, and once closed who closed it, when and
+  its outcome. The ones open on the caller say "waiting on you", and the opening counts them.
+  `status` is `open` or `closed` (both when left out) and `limit` 1 to 200, 50 when left out; what
+  the limit leaves out is counted, and a listing that reached the 200 the site reads says so. The
+  limits and refusals are in `chatDecisionRules.ts`, checked by `validateDecisionListing` in
+  `listChatDecisionsAsked`, which refuses a room of another organisation before reading anything.
+- **`raise_chat_decision`** runs `raiseChatDecision` with the caller as a `ChatAuthor` posted
+  through `claude`, so the row's `raised_via` is `claude` and the room shows it as raised by their
+  Claude. `waitingOn` is matched by account id, email or name as the page's list is.
+- **`close_chat_decision`** runs `closeChatDecision` as the caller; a closed decision is refused as
+  closed already, and one not found points at `list_chat_decisions`.
+- **Refused by the field.** Every value is checked by the service the action runs before anything
+  is read, against `chatDecisionRules.ts`; `chatConnectorRefusal` leads each refusal with its field
+  (`wording:`, `outcome:`, `waitingOn:`, `messageId:`, `decisionId:`), and the input schemas carry
+  the same limits (`chatDecisionFields.ts`).
+- **`read_chat_room` names the room's open decisions** after its messages: how many, each one's
+  wording, id and who it waits on, pointing at `list_chat_decisions` for the rest.
+- **The doctrine** (`chatDoctrine.ts`) and each action's guidance say: raise a decision only when
+  the person asks for one, in their words, naming who it waits on and never guessing that person;
+  close one only on the person's word with the outcome as they gave it, read back to them first,
+  since a closed decision is never reopened or changed; list what waits on the person when they
+  ask what is outstanding in chat; nothing here emails anyone; and a chat decision is not a
+  Boardroom decision.
