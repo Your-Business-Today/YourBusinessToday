@@ -4,7 +4,8 @@ import { readStored, writeStored, type StorageArea } from './browserStorage';
 const missingScriptMessages = [
 	'Failed to fetch dynamically imported module',
 	'error loading dynamically imported module',
-	'Importing a module script failed'
+	'Importing a module script failed',
+	'Unable to preload CSS'
 ];
 
 const reloadedPageKey = 'reloadedForFreshCode';
