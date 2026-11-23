@@ -4,14 +4,24 @@
 	import { chatFlowKinds } from '$lib/data/chat/chatRoomFlow';
 	import { panelEmptyClasses, panelListClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { ChatMoveSelection } from './chatMoveSelection.svelte';
+	import type { ListedChatDecision } from '$lib/data/chat/chatDecisionRules';
 	import type { ChatRoomFlowEntry, ChatRoomMessage } from '$lib/server/chat/readChatFlowOfRoom';
 
 	let {
 		organisationId,
 		flow,
 		messages,
-		selection
-	}: { organisationId: string; flow: ChatRoomFlowEntry[]; messages: ChatRoomMessage[]; selection: ChatMoveSelection } = $props();
+		selection,
+		decisionsOfMessage,
+		onRaiseDecision
+	}: {
+		organisationId: string;
+		flow: ChatRoomFlowEntry[];
+		messages: ChatRoomMessage[];
+		selection: ChatMoveSelection;
+		decisionsOfMessage: Map<string, ListedChatDecision[]>;
+		onRaiseDecision: ((message: ChatRoomMessage) => void) | null;
+	} = $props();
 
 	const nearTheBottomPixels = 120;
 	const lastPlace = -1;
@@ -31,6 +41,10 @@
 	function showTheNewest() {
 		const newestRow = list?.lastElementChild;
 		newestRow?.scrollIntoView({ block: 'end' });
+	}
+
+	function decisionsOf(message: ChatRoomMessage): ListedChatDecision[] {
+		return decisionsOfMessage.get(message.id) ?? [];
 	}
 
 	function chooseFromHere(messageId: string) {
@@ -55,7 +69,14 @@
 	<ul bind:this={list} class={panelListClasses} aria-label="Messages, oldest first">
 		{#each flow as entry (entry.key)}
 			{#if entry.kind === chatFlowKinds.message}
-				<ChatMessageRow {organisationId} message={entry.message} {selection} onChooseFromHere={chooseFromHere} />
+				<ChatMessageRow
+					{organisationId}
+					message={entry.message}
+					{selection}
+					decisions={decisionsOf(entry.message)}
+					onChooseFromHere={chooseFromHere}
+					{onRaiseDecision}
+				/>
 			{:else}
 				<ChatMoveMarker {organisationId} marker={entry.marker} />
 			{/if}

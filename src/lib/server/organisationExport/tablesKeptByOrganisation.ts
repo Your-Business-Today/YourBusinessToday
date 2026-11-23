@@ -83,5 +83,6 @@ export const tablesKeptByOrganisation = [
 	'chat_room_reads',
 	'chat_moves',
 	'chat_message_files',
-	'chat_room_summaries'
+	'chat_room_summaries',
+	'chat_decisions'
 ];
