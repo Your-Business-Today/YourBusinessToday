@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { primaryButtonClasses } from '$lib/components/account/accountFormStyles';
+	import { primaryButtonClasses, quietButtonClasses } from '$lib/components/account/accountFormStyles';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import LegalSections from '$lib/components/site/LegalSections.svelte';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
@@ -35,6 +35,9 @@
 			</span>
 		</label>
 		<FormErrorNote message={form?.message ?? null} />
-		<button type="submit" class={primaryButtonClasses}>Accept and carry on</button>
+		<div class="flex flex-wrap items-center gap-4">
+			<button type="submit" class={primaryButtonClasses}>Accept and carry on</button>
+			<a href="/" class={quietButtonClasses}>Not now, go to the home page</a>
+		</div>
 	</form>
 </div>
