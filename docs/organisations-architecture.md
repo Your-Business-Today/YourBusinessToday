@@ -339,10 +339,11 @@ one module rule and then the director check: `call_board_meeting`, `list_board_m
 
 Chat is a module like the others: an administrator switches it on for an organisation, and from then
 everyone on the organisation who can use the module may open, rename and archive its rooms at
-`/organisations/<id>/chat`. The first step shipped the rooms; the second, below, the messages in them;
-the third, moving a stray conversation to the right room; the fourth, a person's own Claude reading
-the rooms over the connector; the fifth, that Claude posting, moving and keeping rooms as its person;
-the sixth, photos and files on a message; the seventh, a catch-up for someone who has been away.
+`/organisations/<id>/chat`. It was built in nine steps, each a section below: the rooms; the
+messages in them; moving a stray conversation to the right room; a person's own Claude reading the
+rooms over the connector; that Claude posting, moving and keeping rooms as its person; photos and
+files on a message; a catch-up for someone who has been away; decisions raised in a room, on the
+site and through each person's Claude; and a whiteboard in a room, posted to it as a picture.
 
 - **One row per room** in `chat_rooms`: its name (1 to 60 characters), what it is for (up to 300),
   and the room it sits under when it is a subroom. The limits are stated once in
@@ -377,7 +378,8 @@ another organisation, or none, is a 404.
   (1 to 4000 characters), whether it came from the site or their Claude, and the message in the
   same room it answers. The limits are stated once in `src/lib/data/chat/chatMessageRules.ts`, read
   by the form action and the textarea, and held to the migration by `chatMessagesMigration.test.ts`.
-  The site always writes `site`; `claude` and the answered message are there for later steps.
+  The site writes `site` and the connector `claude`. The answered message is kept by the schema
+  but nothing writes it: chat has no replies.
 - **Nothing said is edited or deleted.** No policy lets anyone change a row, and the service has no
   such function. Posting goes through `postChatMessage`, which refuses blank or over-long words and
   an archived room by name, writes through the service role after `requireOrganisationModule`, and
@@ -699,3 +701,65 @@ same from either.
   since a closed decision is never reopened or changed; list what waits on the person when they
   ask what is outstanding in chat; nothing here emails anyone; and a chat decision is not a
   Boardroom decision.
+
+## A whiteboard in a room (migration `0278`)
+
+A team in a room sketches an idea and shares it in the room, so a quick drawing can settle what
+words cannot. The room's header has **Whiteboards · n**, a `Modal` listing the room's boards in a
+`RecordsTable` (title, who saved it last and when, the latest saved first; an `EmptyState` when
+there are none) and, in an open room, **New whiteboard** with a `FormField` for the title, which
+starts a blank board and opens it. A board opens at
+`/organisations/<id>/chat/<roomId>/whiteboards/<whiteboardId>`: its title, a toolbar (Pen, Eraser,
+Text, the palette, pen width or text size, Undo), the board, **Save**, **Post to the room** and the
+way back to the room, with who saved it last and when, and whether there are changes not saved yet.
+In an archived room a board is shown and not drawn on.
+
+- **One row per board** in `chat_whiteboards`: the room (tied to a room of the same organisation by
+  a composite key, `on delete restrict`), the title (1 to 120 characters), the drawing in `strokes`,
+  who saved it last and who started it (no foreign key, so the board outlives the accounts), and
+  when it was started and last saved. Read by the module rule; no policy writes, nothing deletes a
+  row, and the `chat_whiteboards_keep_their_place` trigger keeps a board in its room and
+  organisation with who started it and when.
+- **A board is the one thing in chat that is written again.** Saving replaces its title and drawing.
+  What is posted to the room is a message with a picture, and is never changed.
+- **The drawing is plain data**, in the board's own coordinates of 1600 by 900, whole units: a list
+  of items, oldest first, each a pen stroke (`tool: 'pen'`, colour, width, points as `[across,
+  down]`) or a text item (`tool: 'text'`, colour, size, the point of its baseline, one line of words).
+  The rules are stated once in `src/lib/data/chat/chatWhiteboardRules.ts`: the tools (pen, eraser,
+  text), the palette (black, red, blue, green, amber, each drawn in a colour of the site's theme,
+  `whiteboardColours.ts`), the pen widths and text sizes, at most 500 items on a board, 1000 points
+  in a stroke, 200 characters in a text item, and 500000 bytes in the drawing. `validateWhiteboardItems`
+  checks every item and refuses the first that does not fit, naming it and the limit
+  (`strokes[3].colour is one of …`); nothing is cut to fit. The migration holds the list to the most
+  items and bytes (`chat_whiteboards_drawing_fits`, on `octet_length(strokes::text)`), and
+  `whiteboardDrawingBytes` counts the drawing exactly as Postgres writes jsonb back as text, so the
+  site refuses before the database would. `chatWhiteboardsMigration.test.ts` holds the two to each other.
+- **Drawing is pure functions**, tested without a browser: `whiteboardPen` (a point of the screen to
+  the board's units, a line taking a point only once the pen has moved, a full line carried on in a
+  new stroke from its end), `whiteboardErasing` (the eraser takes off whole items it touches, so the
+  data stays exact; its button says "whole lines"), and `whiteboardHistory` (Undo goes back one
+  change at a time, a drawn line, placed words or a whole eraser drag, up to 100 while the board is
+  open).
+- **The browser's own canvas, no library.** `ChatWhiteboardCanvas` draws the board at its own size,
+  scaled to the width of the screen, and takes touch, mouse and stylus alike through pointer events
+  (`touch-action: none`, pointer capture, one hand at a time); `whiteboardRendering` draws the items
+  on the 2D context, on the theme's light paper whatever the site's theme. Text is placed by tapping
+  the board with Text in hand and typing the words in a field beneath it.
+- **One person draws at a time, simply and honestly.** Each save carries the moment the board had
+  last been saved as the saver opened it (`openedAsSavedAt`); `saveChatWhiteboard` saves only while
+  that is still the board's last save (`eq('updated_at', …)`), and otherwise refuses, losing
+  nothing of either: "Sam saved this board at 14:02. Open it again to carry on from theirs." No
+  locks, no presence, no live drawing together. Saving and starting are refused in an archived room.
+- **Posting is the room's own file path.** Post to the room saves the board first, then draws it
+  afresh as a PNG (`canvas.toBlob`, `whiteboardPicture`), sends it through the room's
+  `grantChatFile` and posts it through the room's `postMessage` (`sendChatFile`, which the composer
+  uses too), so the picture is checked as storage holds it and kept like any photo said in the room.
+  The message says "Whiteboard: <title>", linked back to the board, and the room shows the picture
+  under it. The connector's readings already hand out the picture as one of the message's files; no
+  connector action draws, saves or lists boards.
+- **The room asks on every visit.** `listWhiteboardsOfRoom` answers none while the migration has not
+  run (`isSchemaNotYetMigrated`); the board page itself may fail until it has. The organisation
+  export carries the rows; a posted picture is exported with the message's files.
+- **Not built here:** two people drawing at once, shapes, pictures on a board, zoom and pan, and any
+  way out of a board but the picture posted. A page left with changes not saved gives no warning,
+  since the site has no pattern for one yet.
