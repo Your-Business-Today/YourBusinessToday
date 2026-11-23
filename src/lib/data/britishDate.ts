@@ -45,3 +45,8 @@ export function formatUkDayAndTime(isoDate: string): string {
 		minute: '2-digit'
 	});
 }
+
+/** The time of day as the UK clock read it, whatever clock the server or browser keeps: "14:02". */
+export function formatUkTime(isoDate: string): string {
+	return new Date(isoDate).toLocaleTimeString(britishLocale, { timeZone: londonTimeZone, hour: '2-digit', minute: '2-digit' });
+}

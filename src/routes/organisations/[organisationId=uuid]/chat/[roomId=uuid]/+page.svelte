@@ -5,6 +5,7 @@
 	import ChatDecisionsPanel from '$lib/components/chat/ChatDecisionsPanel.svelte';
 	import ChatRoomList from '$lib/components/chat/ChatRoomList.svelte';
 	import ChatRoomPanel from '$lib/components/chat/ChatRoomPanel.svelte';
+	import ChatWhiteboardsControl from '$lib/components/chat/ChatWhiteboardsControl.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { chatHomePath } from '$lib/data/chat/chatPaths';
@@ -15,7 +16,7 @@
 
 	let { data } = $props();
 
-	const { chatOrganisation: organisation, room, flow, listedRooms, catchUp, decisions, people } = $derived(data);
+	const { chatOrganisation: organisation, room, flow, listedRooms, catchUp, decisions, people, whiteboards } = $derived(data);
 	const hasDecisions = $derived(decisions.length > 0);
 	const destinations = $derived(moveDestinations(listedRooms, room.id));
 	const chatCrumb = $derived({ label: chatTitle, href: chatHomePath(organisation.id) });
@@ -31,6 +32,9 @@
 		{#if room.isArchived}
 			<Badge label="Archived" tone="notStarted" />
 		{/if}
+	{/snippet}
+	{#snippet actions()}
+		<ChatWhiteboardsControl organisationId={organisation.id} {room} {whiteboards} />
 	{/snippet}
 </WorkspaceHeader>
 
