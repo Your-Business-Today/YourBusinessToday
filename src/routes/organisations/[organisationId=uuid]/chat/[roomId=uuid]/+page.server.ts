@@ -7,6 +7,9 @@ import { placeInRoom } from '$lib/server/chat/readChatRoomAsAsked';
 import { readCatchUpForReader } from '$lib/server/chat/readCatchUpForReader';
 import { readRoomsOpeningTheTemplates } from '$lib/server/chat/seedTemplateRooms';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
+import { listDecisionsOfRoom } from '$lib/server/chat/listChatDecisions';
+import { getMembersOfOrganisation } from '$lib/server/organisations/getMembersOfOrganisation';
+import { chatDecisionActions } from './chatDecisionActions';
 import { chatMessageActions } from './chatMessageActions';
 import { chatMoveActions } from './chatMoveActions';
 import type { ChatRoomKeeper } from '$lib/server/chat/chatRoomRecord';
@@ -28,12 +31,15 @@ export const load: PageServerLoad = async ({ locals, params, parent, depends }) 
 	if (room === undefined) error(404, noSuchRoom);
 	const readUpToBeforeOpening = await placeInRoom(supabaseServiceClient(), reader, room.id);
 	await recordRoomOpened(reader, room.id);
-	const [flow, listedRooms] = await Promise.all([
+	const [flow, listedRooms, decisions, members] = await Promise.all([
 		readChatFlowOfRoom(locals.supabase, room.id, rooms),
-		listChatRoomsWithUnread(locals.supabase, reader.organisationId, rooms)
+		listChatRoomsWithUnread(locals.supabase, reader.organisationId, rooms),
+		listDecisionsOfRoom(locals.supabase, room.id, rooms),
+		getMembersOfOrganisation(locals.supabase, reader.organisationId)
 	]);
 	const catchUp = await readCatchUpForReader(locals.supabase, reader, room.id, flow, readUpToBeforeOpening);
-	return { room, flow, listedRooms, catchUp };
+	const people = members.map((member) => ({ id: member.id, name: member.name }));
+	return { room, flow, listedRooms, catchUp, decisions, people };
 };
 
-export const actions = { ...chatMessageActions, ...chatMoveActions };
+export const actions = { ...chatMessageActions, ...chatMoveActions, ...chatDecisionActions };

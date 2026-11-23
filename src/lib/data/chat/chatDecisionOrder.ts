@@ -7,10 +7,17 @@ function latestMomentOf(decision: ChatDecision): string {
 	return decision.closedAt ?? decision.createdAt;
 }
 
+function latestFirst(first: ChatDecision, second: ChatDecision): number {
+	const firstMoment = latestMomentOf(first);
+	const secondMoment = latestMomentOf(second);
+	return secondMoment.localeCompare(firstMoment);
+}
+
 function openFirst(first: ChatDecision, second: ChatDecision): number {
 	const isFirstOpen = first.status === chatDecisionStatuses.open;
 	const isSecondOpen = second.status === chatDecisionStatuses.open;
-	if (isFirstOpen === isSecondOpen) return latestMomentOf(second).localeCompare(latestMomentOf(first));
+	const isSameStanding = isFirstOpen === isSecondOpen;
+	if (isSameStanding) return latestFirst(first, second);
 	if (isFirstOpen) return comesFirst;
 	return comesAfter;
 }

@@ -37,6 +37,9 @@ export type ListedChatDecision = ChatDecision & {
 	closerName: string | null;
 };
 
+/** A person of the organisation a decision can wait on, as the form lists them. */
+export type ChatPerson = { id: string; name: string };
+
 /** A decision as it is asked to be raised, checked by validateDecisionRaising. */
 export type ChatDecisionRaising = { messageId: string; wording: string; waitingOn: string };
 

@@ -2,6 +2,7 @@
 	import Badge from '$lib/components/site/Badge.svelte';
 	import Button from '$lib/components/site/Button.svelte';
 	import ChatCatchUpPanel from '$lib/components/chat/ChatCatchUpPanel.svelte';
+	import ChatDecisionsPanel from '$lib/components/chat/ChatDecisionsPanel.svelte';
 	import ChatRoomList from '$lib/components/chat/ChatRoomList.svelte';
 	import ChatRoomPanel from '$lib/components/chat/ChatRoomPanel.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
@@ -14,7 +15,8 @@
 
 	let { data } = $props();
 
-	const { chatOrganisation: organisation, room, flow, listedRooms, catchUp } = $derived(data);
+	const { chatOrganisation: organisation, room, flow, listedRooms, catchUp, decisions, people } = $derived(data);
+	const hasDecisions = $derived(decisions.length > 0);
 	const destinations = $derived(moveDestinations(listedRooms, room.id));
 	const chatCrumb = $derived({ label: chatTitle, href: chatHomePath(organisation.id) });
 	const crumbs = $derived([...organisationCrumbsFor(organisation), chatCrumb]);
@@ -45,7 +47,10 @@
 		{#key room.id}
 			<div class="flex min-w-0 flex-col gap-4">
 				<ChatCatchUpPanel {catchUp} />
-				<ChatRoomPanel organisationId={organisation.id} {room} {flow} {destinations} />
+				{#if hasDecisions}
+					<ChatDecisionsPanel {decisions} />
+				{/if}
+				<ChatRoomPanel organisationId={organisation.id} {room} {flow} {destinations} {decisions} {people} />
 			</div>
 		{/key}
 	</div>

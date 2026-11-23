@@ -10,7 +10,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 type DecisionsAsked = { column: 'room_id' | 'organisation_id'; value: string };
 
 /** The latest decisions asked for, read as the reader reads them; none while migration 0277 has not run. */
-async function readDecisionRows(supabase: SupabaseClient, asked: DecisionsAsked): Promise<ChatDecision[]> {
+async function findDecisionsAsked(supabase: SupabaseClient, asked: DecisionsAsked): Promise<ChatDecision[]> {
 	const { data, error } = await supabase
 		.from(chatDecisionsTable)
 		.select(chatDecisionColumns)
@@ -23,7 +23,7 @@ async function readDecisionRows(supabase: SupabaseClient, asked: DecisionsAsked)
 }
 
 async function listDecisions(supabase: SupabaseClient, asked: DecisionsAsked, rooms: ChatRoom[]): Promise<ListedChatDecision[]> {
-	const decisions = await readDecisionRows(supabase, asked);
+	const decisions = await findDecisionsAsked(supabase, asked);
 	const named = await nameDecisions(supabase, decisions, rooms);
 	return decisionsOpenFirst(named);
 }
