@@ -342,7 +342,7 @@ everyone on the organisation who can use the module may open, rename and archive
 `/organisations/<id>/chat`. The first step shipped the rooms; the second, below, the messages in them;
 the third, moving a stray conversation to the right room; the fourth, a person's own Claude reading
 the rooms over the connector; the fifth, that Claude posting, moving and keeping rooms as its person;
-the sixth, photos and files on a message.
+the sixth, photos and files on a message; the seventh, a catch-up for someone who has been away.
 
 - **One row per room** in `chat_rooms`: its name (1 to 60 characters), what it is for (up to 300),
   and the room it sits under when it is a subroom. The limits are stated once in
@@ -569,3 +569,48 @@ words.
   not run. The organisation export carries the rows and the files themselves
   (`organisationExportFileStores`, which takes a row here as arrived, since it is written only once
   its file has).
+
+## A catch-up for someone who has been away (migration `0276`)
+
+A director comes back to a room after a week away. Their own Claude reads what is new over the
+connector, writes a short catch-up of it (what was decided, what waits on whom, what changed, naming
+people) and saves it for everyone in the room. Opening the room, a reader with unread messages sees
+the latest catch-up above it, with the moment it covers up to and who wrote it. The site calls no AI
+model and has no button that makes one: with unread messages and no catch-up yet, the room says
+"Ask your Claude to catch you up on this room." and nothing more.
+
+- **One row per catch-up** in `chat_room_summaries`: the room (tied to the same organisation by a
+  composite key, `on delete restrict`), `covers_up_to` (the moment of the last message it covers),
+  the words (1 to 4000 characters), who wrote it (no foreign key, so it outlives the account) and
+  how (`written_via`, `claude` from the connector, as `posted_via` says of a message), and when.
+  Read by the module rule; no policy writes. Nothing is edited or deleted: a newer catch-up is a new
+  row, and the index `(room_id, created_at desc)` serves the one question asked, the latest of a
+  room. A catch-up is for the whole room, never one person's own.
+- **The limits are stated once** in `src/lib/data/chat/chatSummaryRules.ts` and checked by
+  `validateChatSummary`, held to the migration by `chatRoomSummariesMigration.test.ts`. `coversUpTo`
+  is a date and time with its offset, to the second at least, and is refused, naming the field, when
+  it is in the future or later than the room's latest message, or when nothing has been said in the
+  room (`coverageRefusal`). It is stored as given, never rounded.
+- **`recordChatSummary`** is the one service: the words and moment fit, the room is one of the
+  organisation's and not archived (`postingRefusal`, as posting treats a room), then the moment is
+  checked against the room's latest message. Saving marks nothing read and tells no one.
+- **`record_chat_summary`** is the connector's write in the `chat` area (`isWrite: true`, a
+  `moduleAction` on `chat`), taking the organisation, the room, the words and `coversUpTo`, and
+  refusing a field's limit led by its name (`words:`, `coversUpTo:`). Its guidance gives the flow
+  (read with `read_chat_unread` or `read_chat_room`, write the catch-up yourself, save it here) and
+  what a good one holds; it never replaces reading when the person asks for detail, and sends no
+  email. The chat doctrine gains the same as its fifth point.
+- **The readings show the latest catch-up.** `read_chat_room` and each room of `read_chat_unread`
+  give the room's latest catch-up under its heading, with who wrote it, when and the moment it
+  covers up to (`describeLatestSummary`), so a Claude sees whether a fresh one exists; and end with
+  the exact moment of the last message given, to pass as `coversUpTo` (`coversUpToLine`), since a
+  message's own time is shown to the minute.
+- **What is unread is measured as the page opens.** The room's load reads the reader's place before
+  it marks the room read (`placeInRoom`), and counts the messages shown said after it and not by
+  them (`unreadMessagesOf`, the unread rule); only then is the latest catch-up read
+  (`readCatchUpForReader`), and a catch-up that covers less than what is unread says how many new
+  messages came after it, in one line. The room reads itself again every five seconds, and by then
+  nothing is unread, so `ChatCatchUpPanel` keeps the catch-up the page opened with until another
+  room is opened. The reader of the new table answers none while the migration has not run
+  (`findLatestSummaryOfRoom`, `isSchemaNotYetMigrated`). The panel is a `DashboardPanel` with the
+  words in `ProseText`; the organisation export carries the rows.
