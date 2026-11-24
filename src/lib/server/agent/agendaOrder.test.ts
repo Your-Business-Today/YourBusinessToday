@@ -53,14 +53,24 @@ describe('the order the agent raises things', () => {
 		expect(keysOf(orderAgenda([parked, live, loose], everyFocus, new Set(), active))).toEqual(['live', 'loose']);
 	});
 
-	it('works the first three active projects with anything to raise, and the fourth once one runs dry', () => {
-		const onEach = ['ybt', 'pfp', 'carp', 'jbb'].map((projectId) => item(projectId, { projectId }));
+	it('builds on the first three active projects with work to build, and the fourth once one runs dry', () => {
+		const onEach = ['ybt', 'pfp', 'carp', 'jbb'].map((projectId) => item(projectId, { kind: 'build', projectId }));
 		expect(keysOf(orderAgenda(onEach, everyFocus, new Set(), active))).not.toContain('jbb');
 		expect(keysOf(orderAgenda(onEach.slice(1), everyFocus, new Set(), active))).toContain('jbb');
 	});
 
-	it('leaves out projects that are not active', () => {
-		expect(orderAgenda([item('paused', { projectId: 'old' })], everyFocus, new Set(), active)).toHaveLength(0);
+	it('leaves out work to build on projects that are not active', () => {
+		expect(orderAgenda([item('paused', { kind: 'build', projectId: 'old' })], everyFocus, new Set(), active)).toHaveLength(0);
+	});
+
+	it('raises what the person owes on every project they are on, active or not, first three or not', () => {
+		const owed = ['information', 'setup', 'task', 'promise', 'todo'] as const;
+		const onHold = owed.map((kind) => item(`${kind}-on-hold`, { kind, projectId: 'old' }));
+		const onFourth = item('job-on-fourth', { kind: 'task', projectId: 'jbb' });
+		const building = ['ybt', 'pfp', 'carp'].map((projectId) => item(`build-${projectId}`, { kind: 'build', projectId }));
+		const keys = keysOf(orderAgenda([...onHold, onFourth, ...building], everyFocus, new Set(), active));
+		expect(keys).toEqual(expect.arrayContaining([...onHold.map(({ key }) => key), 'job-on-fourth']));
+		expect(keys).toHaveLength(9);
 	});
 
 	it('weighs the rest by priority and size blended, the lowest score first', () => {

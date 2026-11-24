@@ -1,4 +1,4 @@
-import { agendaKey, agendaKindOrder, agendaKinds, quickAnswerKinds, type AgendaItem } from './agendaItem';
+import { agendaKey, agendaKindOrder, agendaKinds, owedKinds, quickAnswerKinds, type AgendaItem } from './agendaItem';
 import { byBlendedScore } from './blendedScore';
 import { longTermGoalHorizon } from '$lib/data/goalHorizon';
 
@@ -9,9 +9,10 @@ const focusProjectCount = 3;
 export type AgendaFocus = { projectId: string | null; isBugsOnly: boolean };
 
 /**
- * The agenda in the order the agent raises it. Only current work on the person's active projects, and
- * of those only the first three, in their own order, that have anything to raise; work on no project
- * stays. Within that: every bug first, then the quick answers, then the rest by priority and size
+ * The agenda in the order the agent raises it. What the person owes themselves (their asks, jobs,
+ * promises and to-dos) is raised on every project they are on, whatever its status; the rest (work to
+ * build, people to chase, long term goals) only on their active projects, and of those only the first
+ * three, in their own order, that have any; work on no project stays. Only current work. Within that: every bug first, then the quick answers, then the rest by priority and size
  * blended, and a long term goal to make current last of all. Items put off until a later day are left
  * out, with the promises made on a task that was put off, and so is anything outside the focus.
  */
@@ -21,18 +22,27 @@ export function orderAgenda(
 	snoozedKeys: Set<string>,
 	activeProjectIds: string[]
 ): AgendaItem[] {
-	const isActive = (item: AgendaItem) => item.projectId === null || activeProjectIds.includes(item.projectId);
 	const raisable = items.filter(
-		(item) => isActive(item) && isCurrentWork(item) && isInFocus(item, focus) && !isPutOff(item, snoozedKeys)
+		(item) => isOnProjects(item, activeProjectIds) && isCurrentWork(item) && isInFocus(item, focus) && !isPutOff(item, snoozedKeys)
 	);
 	const focused = focus.projectId === null ? onTheFirstProjects(raisable, activeProjectIds) : raisable;
 	return focused.sort(byAgendaOrder);
 }
 
 function onTheFirstProjects(items: AgendaItem[], activeProjectIds: string[]): AgendaItem[] {
-	const projectsWithWork = activeProjectIds.filter((projectId) => items.some((item) => item.projectId === projectId));
+	const boardWork = items.filter((item) => !isOwed(item));
+	const projectsWithWork = activeProjectIds.filter((projectId) => boardWork.some((item) => item.projectId === projectId));
 	const firstProjects = projectsWithWork.slice(0, focusProjectCount);
-	return items.filter((item) => item.projectId === null || firstProjects.includes(item.projectId));
+	return items.filter((item) => isOnProjects(item, firstProjects));
+}
+
+function isOnProjects(item: AgendaItem, projectIds: string[]): boolean {
+	if (isOwed(item) || item.projectId === null) return true;
+	return projectIds.includes(item.projectId);
+}
+
+function isOwed(item: AgendaItem): boolean {
+	return owedKinds.includes(item.kind);
 }
 
 function isCurrentWork(item: AgendaItem): boolean {
