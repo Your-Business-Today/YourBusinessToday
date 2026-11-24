@@ -12,15 +12,24 @@ vi.mock('$env/static/public', () => ({
 vi.mock('$env/dynamic/private', () => ({ env: {} }));
 vi.mock('$env/dynamic/public', () => ({ env: {} }));
 
-const world = vi.hoisted(() => ({ switchedOn: [] as string[], decisions: [] as unknown[] }));
+const world = vi.hoisted(() => ({
+	switchedOn: [] as string[],
+	decisions: [] as unknown[],
+	productDecisions: [] as unknown[],
+	productSummary: null as string | null
+}));
 vi.mock('$lib/server/organisations/getOrganisation', () => ({
 	getOrganisation: async (_supabase: unknown, organisationId: string) =>
 		organisationId === 'jewel' ? { id: 'jewel', parentOrganisationId: null, name: 'Jewel Enterprises' } : null
 }));
 vi.mock('$lib/server/organisations/getSwitchedOnModules', () => ({ getSwitchedOnModules: async () => world.switchedOn }));
 vi.mock('$lib/server/brandKits/loadBrandKit', () => ({
-	loadBrandKit: async () => ({ catalogue: builtInTraits, decisions: world.decisions })
+	loadBrandKit: async (_supabase: unknown, owner: { ownerColumn: string }) => ({
+		catalogue: builtInTraits,
+		decisions: owner.ownerColumn === 'project_id' ? world.productDecisions : world.decisions
+	})
 }));
+vi.mock('$lib/server/brandKits/keepBrandSummary', () => ({ findBrandSummary: async () => world.productSummary }));
 vi.mock('$lib/server/projects/getProject', () => ({
 	getProject: async (_supabase: unknown, projectId: string) =>
 		({
@@ -41,6 +50,8 @@ describe('reading a project’s brand sheet', () => {
 	beforeEach(() => {
 		world.switchedOn = ['brand'];
 		world.decisions = [adoptedDecision('look.colour.accent', 'web', '#e63946')];
+		world.productDecisions = [];
+		world.productSummary = null;
 	});
 
 	it('is refused while Brand is off for the organisation', async () => {
@@ -60,5 +71,16 @@ describe('reading a project’s brand sheet', () => {
 		const refusal = notAProjectOf('Jewel Enterprises');
 		expect(await brandSheetAction.run(nigelOnJewel, { organisationId: 'jewel', projectId: 'other-site' })).toBe(refusal);
 		expect(await brandSheetAction.run(nigelOnJewel, { organisationId: 'jewel', projectId: 'elsewhere' })).toBe(refusal);
+	});
+
+	it('writes a product’s own brand over its organisation’s, trait by trait', async () => {
+		world.productSummary = 'A yacht builder’s spec sheet';
+		world.productDecisions = [adoptedDecision('look.colour.accent', 'all', '#ff5a1f')];
+		world.decisions.push(adoptedDecision('look.colour.primary', 'all', '#0b1220'));
+		const sheet = String(await brandSheetAction.run(nigelOnJewel, { organisationId: 'jewel', projectId: 'jewel-site' }));
+		expect(sheet.startsWith("# Brand\n\nSources: Jewel website's brand kit")).toBe(true);
+		expect(sheet).toContain('| `--brand-colour-accent` | Accent colour · #ff5a1f |');
+		expect(sheet).toContain('#0b1220');
+		expect(sheet).not.toContain('#e63946');
 	});
 });

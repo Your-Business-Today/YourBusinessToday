@@ -1,5 +1,6 @@
 import * as answers from './brandKitWriteAnswers';
 import { changeDecisionStatus, findBrandDecision, retireAdoptedAt } from '$lib/server/brandKits/brandDecisionStatus';
+import { brandHolderOfInput } from './brandHolderOfInput';
 import { DecisionStatuses } from '$lib/brand/decisions/decision';
 import { readText } from '../actionTypes';
 import { validateRecordId } from '$lib/data/isUuid';
@@ -19,7 +20,7 @@ export async function adoptBrandDecision(caller: McpCaller, input: Record<string
 	if ('answer' in found) return found.answer;
 	const { decision } = found;
 	if (decision.status === DecisionStatuses.adopted) return answers.decisionAlready(decision);
-	await retireAdoptedAt(caller.supabase, { organisationId: organisation.id, ...decision });
+	await retireAdoptedAt(caller.supabase, decision);
 	const isChanged = await changeDecisionStatus(caller.supabase, decision, DecisionStatuses.adopted);
 	if (!isChanged) return answers.adoptedMeanwhile;
 	return answers.decisionMovedTo(decision, DecisionStatuses.adopted) + formerlyAdoptedNote;
@@ -43,7 +44,9 @@ async function decisionOf(caller: McpCaller, input: Record<string, unknown>, org
 	const decisionId = readText(input, decisionIdFieldName);
 	const idRefusal = validateRecordId(decisionIdFieldName, decisionId);
 	if (idRefusal !== null) return { answer: idRefusal };
-	const decision = await findBrandDecision(caller.supabase, organisation.id, decisionId);
+	const holder = await brandHolderOfInput(caller, input, organisation);
+	if ('refusal' in holder) return { answer: holder.refusal };
+	const decision = await findBrandDecision(caller.supabase, holder.owner, decisionId);
 	if (decision === null) return { answer: answers.noSuchDecision };
 	return { decision };
 }

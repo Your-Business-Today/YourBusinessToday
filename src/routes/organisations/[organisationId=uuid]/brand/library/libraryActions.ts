@@ -1,3 +1,4 @@
+import { organisationBrand } from '$lib/server/brandKits/brandKitOwner';
 import { fail } from '@sveltejs/kit';
 import { checkLibraryItem } from '$lib/brand/library/checkLibraryItem';
 import { findBrandSummary } from '$lib/server/brandKits/keepBrandSummary';
@@ -33,7 +34,7 @@ export const libraryActions: Actions = {
 		const described = describedItem(await request.formData());
 		const item = checkLibraryItem(described);
 		if (typeof item === 'string') return refuseItem(item);
-		const summary = await findBrandSummary(locals.supabase, adder.organisationId);
+		const summary = await findBrandSummary(locals.supabase, organisationBrand(adder.organisationId));
 		if (summary === null) return fail(conflictStatus, { message: libraryRefusals.noBrandYet });
 		return grantLibraryUpload(locals.supabase, adder, item);
 	},

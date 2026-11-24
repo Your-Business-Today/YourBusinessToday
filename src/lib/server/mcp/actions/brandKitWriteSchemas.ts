@@ -3,6 +3,7 @@ import { facetKeys } from '$lib/brand/facets';
 import { KitLimits } from '$lib/brand/kitLimits';
 import { objectSchema, textField } from '../actionTypes';
 import { organisationIdField } from './organisationDetailsFields';
+import { productProjectIdField } from './brandHolderOfInput';
 import { customTraitKinds } from '$lib/brand/values/traitValue';
 
 const { traitLabelCharacters, traitPurposeCharacters, traitChoices, traitChoiceCharacters } = KitLimits;
@@ -27,6 +28,7 @@ const decisionEntry = objectSchema(
 export const describeBrandSchema = objectSchema(
 	{
 		organisationId: organisationIdField,
+		projectId: productProjectIdField,
 		summary: textField(`What the brand is, in a sentence or two — at most ${KitLimits.summaryCharacters} characters`)
 	},
 	['organisationId', 'summary']
@@ -35,6 +37,7 @@ export const describeBrandSchema = objectSchema(
 export const defineBrandTraitSchema = objectSchema(
 	{
 		organisationId: organisationIdField,
+		projectId: productProjectIdField,
 		facet: { type: 'string', enum: [...facetKeys], description: 'The facet the trait belongs to' },
 		name: textField('The trait’s name within its facet, in words joined by dots, such as colour.seasonal'),
 		kind: { type: 'string', enum: customTraitKinds, description: 'What kind of value a decision on it holds' },
@@ -52,6 +55,7 @@ export const defineBrandTraitSchema = objectSchema(
 export const recordBrandDecisionsSchema = objectSchema(
 	{
 		organisationId: organisationIdField,
+		projectId: productProjectIdField,
 		status: {
 			type: 'string',
 			enum: recordedStatuses,
@@ -63,6 +67,6 @@ export const recordBrandDecisionsSchema = objectSchema(
 );
 
 export const decisionOnlySchema = objectSchema(
-	{ organisationId: organisationIdField, decisionId: decisionIdField },
+	{ organisationId: organisationIdField, projectId: productProjectIdField, decisionId: decisionIdField },
 	['organisationId', 'decisionId']
 );
