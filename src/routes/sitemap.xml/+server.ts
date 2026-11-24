@@ -1,24 +1,5 @@
-import { caseStudyPath } from '$lib/data/caseStudies';
-import { whatWeDoPath } from '$lib/data/consultancyOffer';
-import { newsletterPath } from '$lib/data/newsletterSignUp';
-import { taxCalculatorPath } from '$lib/data/taxCalculator/taxCalculatorPath';
+import { indexedPublicPagePaths } from '$lib/data/publicPages';
 import type { RequestHandler } from './$types';
-
-const publicPagePaths = [
-	'/',
-	'/about',
-	whatWeDoPath,
-	caseStudyPath,
-	taxCalculatorPath,
-	'/demo',
-	'/contact',
-	newsletterPath,
-	'/terms',
-	'/privacy',
-	'/company',
-	'/links',
-	'/account/sign-in'
-];
 
 const XML_CONTENT_TYPE = 'application/xml';
 
@@ -29,7 +10,7 @@ export const GET: RequestHandler = ({ url }) => {
 };
 
 function sitemapFor(origin: string): string {
-	const urlEntries = publicPagePaths.map((path) => `  <url><loc>${origin}${path}</loc></url>`);
+	const urlEntries = indexedPublicPagePaths.map((path) => `  <url><loc>${origin}${path}</loc></url>`);
 	return [
 		'<?xml version="1.0" encoding="UTF-8"?>',
 		'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',

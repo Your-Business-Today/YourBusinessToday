@@ -1,3 +1,4 @@
+import { listDecisionsOfRoom } from '$lib/server/chat/listChatDecisions';
 import { listChatRoomsForReader } from '$lib/server/chat/readChatUnreadCounts';
 import { readChatRooms } from '$lib/server/chat/readChatRooms';
 import { readChatRoomAsAsked } from '$lib/server/chat/readChatRoomAsAsked';
@@ -9,6 +10,7 @@ import { chatOrganisationSchema, chatRoomReadingSchema } from './chatReadingFiel
 import { chatReadingGuidance } from './chatReadingGuidance';
 import { describeChatRooms } from './describeChatRooms';
 import { describeChatRoomReading, describeChatUnread } from './describeChatRoom';
+import { describeOpenDecisionsOfRoom } from './describeChatDecisions';
 import { chatKeeperOf } from './chatConnectorCaller';
 import { chatConnectorRefusal } from './chatConnectorRefusals';
 
@@ -38,8 +40,12 @@ export const chatReadingActions: McpAction[] = [
 		run: async (caller, input, organisation) => {
 			const reading = await readChatRoomAsAsked(caller.supabase, chatKeeperOf(caller, organisation), readText(input, 'roomId'), input);
 			if (typeof reading === 'string') return chatConnectorRefusal(reading);
-			const links = await signChatReadingLinks(caller.supabase, [reading]);
-			return describeChatRoomReading(organisation.name, reading, links);
+			const { room } = reading;
+			const [links, decisions] = await Promise.all([
+				signChatReadingLinks(caller.supabase, [reading]),
+				listDecisionsOfRoom(caller.supabase, room.id, [room])
+			]);
+			return [describeChatRoomReading(organisation.name, reading, links), describeOpenDecisionsOfRoom(decisions, caller.accountId)].join('\n');
 		}
 	}),
 	moduleAction('chat', {

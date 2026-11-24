@@ -12,3 +12,8 @@ export function chatRoomPath(organisationId: string, roomId: string): string {
 export function chatFilePath(organisationId: string, fileId: string): string {
 	return `${chatHomePath(organisationId)}/files/${fileId}`;
 }
+
+/** Where one whiteboard of a room opens to be drawn on. */
+export function chatWhiteboardPath(organisationId: string, roomId: string, whiteboardId: string): string {
+	return `${chatRoomPath(organisationId, roomId)}/whiteboards/${whiteboardId}`;
+}

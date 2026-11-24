@@ -1,5 +1,6 @@
 import { chatReadingLimits, type ChatReadingSince } from '$lib/data/chat/chatReadingRules';
 import { describeChatFlowEntry } from './describeChatFlowEntry';
+import { coversUpToLine, describeLatestSummary } from './describeChatSummary';
 import type { ChatFileLinks } from './describeChatMessageFiles';
 import type { ChatRoomReading } from '$lib/server/chat/readChatRoomAsAsked';
 
@@ -34,11 +35,16 @@ function linesOf(reading: ChatRoomReading, links: ChatFileLinks): string[] {
 	return [openings[since], ...entries.map((entry) => describeChatFlowEntry(entry, links))];
 }
 
-/** The lines of one room's reading, under its heading: archived or not, then its lines, then what was left out. */
+/**
+ * The lines of one room's reading, under its heading: archived or not, its latest catch-up, then its lines, what was
+ * left out, and the moment a catch-up of them covers up to.
+ */
 export function describeRoomLines(organisationName: string, reading: ChatRoomReading, links: ChatFileLinks): string[] {
-	const { room, messagesLeftOut } = reading;
+	const { room, messagesLeftOut, latestSummary } = reading;
 	const archived = room.isArchived ? archivedLine : null;
-	const lines = [headingOf(organisationName, reading), archived, ...linesOf(reading, links), leftOutLine(messagesLeftOut)];
+	const heading = headingOf(organisationName, reading);
+	const catchUp = describeLatestSummary(latestSummary);
+	const lines = [heading, archived, catchUp, ...linesOf(reading, links), leftOutLine(messagesLeftOut), coversUpToLine(reading)];
 	return lines.filter((line) => line !== null);
 }
 

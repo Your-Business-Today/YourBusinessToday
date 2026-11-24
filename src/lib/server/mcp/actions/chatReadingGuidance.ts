@@ -20,13 +20,15 @@ export const chatReadingGuidance = {
 		'their Claude, and where it was moved from, then the photos and files it carries, each with its name, kind, ' +
 		'size and a link to fetch it within ten minutes; fetch one only to look at it for the person, and never pass ' +
 		'a link on. A message may be files alone, with no words. Messages moved out of the room are told of by the line the move ' +
-		'left, at its moment; they are read in the room they went to. ' +
+		'left, at its moment; they are read in the room they went to. The room’s latest catch-up comes first, with who ' +
+		'wrote it and the moment it covers up to, and the reading ends with the moment to give record_chat_summary. ' +
 		readsAsThePerson +
 		' ' +
 		marksNothingRead,
 	unread:
 		'Gives everything new to the person across the organisation’s chat, room by room in the order the rooms are ' +
-		'listed, each message with its photos and files as read_chat_room gives them. Bring them what touches them, ' +
-		'in a few lines, and say which room each came from. ' +
+		'listed, each message with its photos and files as read_chat_room gives them, and each room with its latest ' +
+		'catch-up. Bring them what touches them, in a few lines, and say which room each came from. When they have ' +
+		'been away from a room and no catch-up covers what is new, write one and save it with record_chat_summary. ' +
 		marksNothingRead
 } as const;

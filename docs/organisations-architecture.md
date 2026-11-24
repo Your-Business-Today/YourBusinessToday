@@ -339,10 +339,11 @@ one module rule and then the director check: `call_board_meeting`, `list_board_m
 
 Chat is a module like the others: an administrator switches it on for an organisation, and from then
 everyone on the organisation who can use the module may open, rename and archive its rooms at
-`/organisations/<id>/chat`. The first step shipped the rooms; the second, below, the messages in them;
-the third, moving a stray conversation to the right room; the fourth, a person's own Claude reading
-the rooms over the connector; the fifth, that Claude posting, moving and keeping rooms as its person;
-the sixth, photos and files on a message.
+`/organisations/<id>/chat`. It was built in nine steps, each a section below: the rooms; the
+messages in them; moving a stray conversation to the right room; a person's own Claude reading the
+rooms over the connector; that Claude posting, moving and keeping rooms as its person; photos and
+files on a message; a catch-up for someone who has been away; decisions raised in a room, on the
+site and through each person's Claude; and a whiteboard in a room, posted to it as a picture.
 
 - **One row per room** in `chat_rooms`: its name (1 to 60 characters), what it is for (up to 300),
   and the room it sits under when it is a subroom. The limits are stated once in
@@ -377,7 +378,8 @@ another organisation, or none, is a 404.
   (1 to 4000 characters), whether it came from the site or their Claude, and the message in the
   same room it answers. The limits are stated once in `src/lib/data/chat/chatMessageRules.ts`, read
   by the form action and the textarea, and held to the migration by `chatMessagesMigration.test.ts`.
-  The site always writes `site`; `claude` and the answered message are there for later steps.
+  The site writes `site` and the connector `claude`. The answered message is kept by the schema
+  but nothing writes it: chat has no replies.
 - **Nothing said is edited or deleted.** No policy lets anyone change a row, and the service has no
   such function. Posting goes through `postChatMessage`, which refuses blank or over-long words and
   an archived room by name, writes through the service role after `requireOrganisationModule`, and
@@ -569,3 +571,195 @@ words.
   not run. The organisation export carries the rows and the files themselves
   (`organisationExportFileStores`, which takes a row here as arrived, since it is written only once
   its file has).
+
+## A catch-up for someone who has been away (migration `0276`)
+
+A director comes back to a room after a week away. Their own Claude reads what is new over the
+connector, writes a short catch-up of it (what was decided, what waits on whom, what changed, naming
+people) and saves it for everyone in the room. Opening the room, a reader with unread messages sees
+the latest catch-up above it, with the moment it covers up to and who wrote it. The site calls no AI
+model and has no button that makes one: with unread messages and no catch-up yet, the room says
+"Ask your Claude to catch you up on this room." and nothing more.
+
+- **One row per catch-up** in `chat_room_summaries`: the room (tied to the same organisation by a
+  composite key, `on delete restrict`), `covers_up_to` (the moment of the last message it covers),
+  the words (1 to 4000 characters), who wrote it (no foreign key, so it outlives the account) and
+  how (`written_via`, `claude` from the connector, as `posted_via` says of a message), and when.
+  Read by the module rule; no policy writes. Nothing is edited or deleted: a newer catch-up is a new
+  row, and the index `(room_id, created_at desc)` serves the one question asked, the latest of a
+  room. A catch-up is for the whole room, never one person's own.
+- **The limits are stated once** in `src/lib/data/chat/chatSummaryRules.ts` and checked by
+  `validateChatSummary`, held to the migration by `chatRoomSummariesMigration.test.ts`. `coversUpTo`
+  is a date and time with its offset, to the second at least, and is refused, naming the field, when
+  it is in the future or later than the room's latest message, or when nothing has been said in the
+  room (`coverageRefusal`). It is stored as given, never rounded.
+- **`recordChatSummary`** is the one service: the words and moment fit, the room is one of the
+  organisation's and not archived (`postingRefusal`, as posting treats a room), then the moment is
+  checked against the room's latest message. Saving marks nothing read and tells no one.
+- **`record_chat_summary`** is the connector's write in the `chat` area (`isWrite: true`, a
+  `moduleAction` on `chat`), taking the organisation, the room, the words and `coversUpTo`, and
+  refusing a field's limit led by its name (`words:`, `coversUpTo:`). Its guidance gives the flow
+  (read with `read_chat_unread` or `read_chat_room`, write the catch-up yourself, save it here) and
+  what a good one holds; it never replaces reading when the person asks for detail, and sends no
+  email. The chat doctrine gains the same as its fifth point.
+- **The readings show the latest catch-up.** `read_chat_room` and each room of `read_chat_unread`
+  give the room's latest catch-up under its heading, with who wrote it, when and the moment it
+  covers up to (`describeLatestSummary`), so a Claude sees whether a fresh one exists; and end with
+  the exact moment of the last message given, to pass as `coversUpTo` (`coversUpToLine`), since a
+  message's own time is shown to the minute.
+- **What is unread is measured as the page opens.** The room's load reads the reader's place before
+  it marks the room read (`placeInRoom`), and counts the messages shown said after it and not by
+  them (`unreadMessagesOf`, the unread rule); only then is the latest catch-up read
+  (`readCatchUpForReader`), and a catch-up that covers less than what is unread says how many new
+  messages came after it, in one line. The room reads itself again every five seconds, and by then
+  nothing is unread, so `ChatCatchUpPanel` keeps the catch-up the page opened with until another
+  room is opened. The reader of the new table answers none while the migration has not run
+  (`findLatestSummaryOfRoom`, `isSchemaNotYetMigrated`). The panel is a `DashboardPanel` with the
+  words in `ProseText`; the organisation export carries the rows.
+
+## Decisions raised in a room (migration `0277`)
+
+When a discussion in a room needs a decision, a director raises it from the message it came from
+and names who it waits on; it is tracked until someone closes it with its outcome, while the other
+rooms carry on. Each message of an open room has **Raise a decision** beside its files (hidden while
+Move mode is on), which opens a modal showing the message's words, a box for the decision to be
+taken and a list of the organisation's people for who it waits on. A room with decisions shows a
+**Decisions** panel above its messages, open ones first (newest raised first), then closed ones
+(latest closed first): the wording, the words of the message it came from, who raised it (or their
+Claude), who it waits on and when, a Badge for open or closed, and once closed the outcome and who
+closed it when. An open one has **Close with an outcome**, a modal with the outcome box. A message a
+decision came from shows "⚑ Decision raised here" with its status, linking to the decision's line.
+Chat home has two tabs, **Rooms** and **Decisions**; the second lists every decision across the
+rooms in a `RecordsTable` (decision, room linking to it, waiting on, raised by, status, outcome),
+open ones first, or an `EmptyState` when none has been raised.
+
+- **One row per decision** in `chat_decisions`: the room it was raised in and the message it came
+  from (each tied to the same organisation by a composite key, `on delete restrict`), the wording
+  (1 to 2000 characters), who raised it and how (`raised_via`, `site` or `claude`, ready for the
+  connector), who it waits on, `status` (`open` or `closed`), and once closed the outcome (1 to
+  2000), who closed it and when. The accounts have no foreign key, so the record outlives them.
+  `chat_decisions_whole_when_closed` keeps a closed row whole and an open row with none of the
+  three. Read by the module rule; no policy writes, and nothing deletes a row.
+- **A decision stays in the room it was raised in.** Its message may later be moved (`0273`): the
+  decision keeps pointing at the message, shows the message's words itself and stays listed where it
+  was raised; the marker on the message shows only in that room. A message may have more than one
+  decision; no rule limits that.
+- **Closing is the one update.** `closeChatDecision` sets the status, outcome, closer and moment on
+  a row still open (`eq('status', 'open')`, so two people closing at once cannot both close it), and
+  the `chat_decisions_keep_their_words` trigger refuses any other change whatever writes the row: the
+  wording, room, message, raiser and who it waits on are never edited, and a closed decision is not
+  reopened. Anyone who can use the organisation's chat may close one, in an archived room too.
+- **The limits and refusals are stated once** in `src/lib/data/chat/chatDecisionRules.ts`, checked
+  by `validateDecisionRaising` and `validateDecisionClosing`, mirrored by the forms' `maxlength` and
+  `required`, and held to the migration by `chatDecisionsMigration.test.ts`.
+- **`raiseChatDecision`** is the one service for raising: the wording fits, the room is one of the
+  organisation's and not archived (`raisingRefusal`), the message is of the organisation and in that
+  room now, and the person waited on is on the organisation (`organisation_people`, matched by id,
+  email or name with `findOrganisationMember`, as a Boardroom action's owner is). It takes the
+  raiser as a `ChatAuthor`, so the connector's `raise_chat_decision` passes `claude`. Raising
+  posts nothing in the room, writes no notification and sends no email.
+- **`listDecisionsOfRoom` and `listDecisionsOfOrganisation`** read the latest 200 by the module rule,
+  name the people through the service role, give each its room's name and its message's words, and
+  order them open first (`decisionsOpenFirst`). Both answer none while the migration has not run,
+  since the room and chat home ask on every visit. The organisation export carries the rows.
+- **Not built here:** the person waited on is not
+  told by the bell: a notification is about a room, a goal or a task, and one about a room shows the
+  message it points at as if newly said, so telling of a decision needs a subject of its own.
+  Sending a chat decision to a Boardroom agenda, reopening, editing and voting are not built.
+
+## A person's own Claude raises, closes and lists decisions (no migration)
+
+A director asks their own Claude to raise a decision from a message, close one with its outcome, or
+say what decisions wait on them, without opening the site. The `chat` area gains three actions in
+`src/lib/server/mcp/actions/chatDecisionActions.ts`, offered to everyone and each gated by
+`moduleAction` on the `chat` module, each running the service the page runs, so a refusal reads the
+same from either.
+
+- **`list_chat_decisions`** (`isWrite: false`) gives the organisation's decisions, or one room's,
+  archived or not, through `listDecisionsOfOrganisation` or `listDecisionsOfRoom`, open first: each
+  with its id, status, who it waits on, room, wording, the message it came from and that message's
+  words in full, who raised it (or their Claude) and when, and once closed who closed it, when and
+  its outcome. The ones open on the caller say "waiting on you", and the opening counts them.
+  `status` is `open` or `closed` (both when left out) and `limit` 1 to 200, 50 when left out; what
+  the limit leaves out is counted, and a listing that reached the 200 the site reads says so. The
+  limits and refusals are in `chatDecisionRules.ts`, checked by `validateDecisionListing` in
+  `listChatDecisionsAsked`, which refuses a room of another organisation before reading anything.
+- **`raise_chat_decision`** runs `raiseChatDecision` with the caller as a `ChatAuthor` posted
+  through `claude`, so the row's `raised_via` is `claude` and the room shows it as raised by their
+  Claude. `waitingOn` is matched by account id, email or name as the page's list is.
+- **`close_chat_decision`** runs `closeChatDecision` as the caller; a closed decision is refused as
+  closed already, and one not found points at `list_chat_decisions`.
+- **Refused by the field.** Every value is checked by the service the action runs before anything
+  is read, against `chatDecisionRules.ts`; `chatConnectorRefusal` leads each refusal with its field
+  (`wording:`, `outcome:`, `waitingOn:`, `messageId:`, `decisionId:`), and the input schemas carry
+  the same limits (`chatDecisionFields.ts`).
+- **`read_chat_room` names the room's open decisions** after its messages: how many, each one's
+  wording, id and who it waits on, pointing at `list_chat_decisions` for the rest.
+- **The doctrine** (`chatDoctrine.ts`) and each action's guidance say: raise a decision only when
+  the person asks for one, in their words, naming who it waits on and never guessing that person;
+  close one only on the person's word with the outcome as they gave it, read back to them first,
+  since a closed decision is never reopened or changed; list what waits on the person when they
+  ask what is outstanding in chat; nothing here emails anyone; and a chat decision is not a
+  Boardroom decision.
+
+## A whiteboard in a room (migration `0278`)
+
+A team in a room sketches an idea and shares it in the room, so a quick drawing can settle what
+words cannot. The room's header has **Whiteboards · n**, a `Modal` listing the room's boards in a
+`RecordsTable` (title, who saved it last and when, the latest saved first; an `EmptyState` when
+there are none) and, in an open room, **New whiteboard** with a `FormField` for the title, which
+starts a blank board and opens it. A board opens at
+`/organisations/<id>/chat/<roomId>/whiteboards/<whiteboardId>`: its title, a toolbar (Pen, Eraser,
+Text, the palette, pen width or text size, Undo), the board, **Save**, **Post to the room** and the
+way back to the room, with who saved it last and when, and whether there are changes not saved yet.
+In an archived room a board is shown and not drawn on.
+
+- **One row per board** in `chat_whiteboards`: the room (tied to a room of the same organisation by
+  a composite key, `on delete restrict`), the title (1 to 120 characters), the drawing in `strokes`,
+  who saved it last and who started it (no foreign key, so the board outlives the accounts), and
+  when it was started and last saved. Read by the module rule; no policy writes, nothing deletes a
+  row, and the `chat_whiteboards_keep_their_place` trigger keeps a board in its room and
+  organisation with who started it and when.
+- **A board is the one thing in chat that is written again.** Saving replaces its title and drawing.
+  What is posted to the room is a message with a picture, and is never changed.
+- **The drawing is plain data**, in the board's own coordinates of 1600 by 900, whole units: a list
+  of items, oldest first, each a pen stroke (`tool: 'pen'`, colour, width, points as `[across,
+  down]`) or a text item (`tool: 'text'`, colour, size, the point of its baseline, one line of words).
+  The rules are stated once in `src/lib/data/chat/chatWhiteboardRules.ts`: the tools (pen, eraser,
+  text), the palette (black, red, blue, green, amber, each drawn in a colour of the site's theme,
+  `whiteboardColours.ts`), the pen widths and text sizes, at most 500 items on a board, 1000 points
+  in a stroke, 200 characters in a text item, and 500000 bytes in the drawing. `validateWhiteboardItems`
+  checks every item and refuses the first that does not fit, naming it and the limit
+  (`strokes[3].colour is one of …`); nothing is cut to fit. The migration holds the list to the most
+  items and bytes (`chat_whiteboards_drawing_fits`, on `octet_length(strokes::text)`), and
+  `whiteboardDrawingBytes` counts the drawing exactly as Postgres writes jsonb back as text, so the
+  site refuses before the database would. `chatWhiteboardsMigration.test.ts` holds the two to each other.
+- **Drawing is pure functions**, tested without a browser: `whiteboardPen` (a point of the screen to
+  the board's units, a line taking a point only once the pen has moved, a full line carried on in a
+  new stroke from its end), `whiteboardErasing` (the eraser takes off whole items it touches, so the
+  data stays exact; its button says "whole lines"), and `whiteboardHistory` (Undo goes back one
+  change at a time, a drawn line, placed words or a whole eraser drag, up to 100 while the board is
+  open).
+- **The browser's own canvas, no library.** `ChatWhiteboardCanvas` draws the board at its own size,
+  scaled to the width of the screen, and takes touch, mouse and stylus alike through pointer events
+  (`touch-action: none`, pointer capture, one hand at a time); `whiteboardRendering` draws the items
+  on the 2D context, on the theme's light paper whatever the site's theme. Text is placed by tapping
+  the board with Text in hand and typing the words in a field beneath it.
+- **One person draws at a time, simply and honestly.** Each save carries the moment the board had
+  last been saved as the saver opened it (`openedAsSavedAt`); `saveChatWhiteboard` saves only while
+  that is still the board's last save (`eq('updated_at', …)`), and otherwise refuses, losing
+  nothing of either: "Sam saved this board at 14:02. Open it again to carry on from theirs." No
+  locks, no presence, no live drawing together. Saving and starting are refused in an archived room.
+- **Posting is the room's own file path.** Post to the room saves the board first, then draws it
+  afresh as a PNG (`canvas.toBlob`, `whiteboardPicture`), sends it through the room's
+  `grantChatFile` and posts it through the room's `postMessage` (`sendChatFile`, which the composer
+  uses too), so the picture is checked as storage holds it and kept like any photo said in the room.
+  The message says "Whiteboard: <title>", linked back to the board, and the room shows the picture
+  under it. The connector's readings already hand out the picture as one of the message's files; no
+  connector action draws, saves or lists boards.
+- **The room asks on every visit.** `listWhiteboardsOfRoom` answers none while the migration has not
+  run (`isSchemaNotYetMigrated`); the board page itself may fail until it has. The organisation
+  export carries the rows; a posted picture is exported with the message's files.
+- **Not built here:** two people drawing at once, shapes, pictures on a board, zoom and pan, and any
+  way out of a board but the picture posted. A page left with changes not saved gives no warning,
+  since the site has no pattern for one yet.

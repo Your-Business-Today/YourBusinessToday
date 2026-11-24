@@ -28,6 +28,15 @@ export const chatWritingGuidance = {
 		'the room they leave keeps a line saying where they went. Read the room first with read_chat_room for the ' +
 		'messages’ ids. Never move another person’s messages without the person’s yes in this chat. ' +
 		saysAsThePerson,
+	catchUp:
+		'Saves a catch-up of a room for someone who has been away. First read what is unread with read_chat_unread, or ' +
+		'the room with read_chat_room; each reading shows the room’s latest catch-up, so write a new one only when ' +
+		'messages have come since it. Write it yourself, in plain sentences that name people: what was decided, what ' +
+		'is waiting on whom, what changed. No padding, no greeting. Give coversUpTo as the reading’s last line gives ' +
+		'it, the moment of the last message you covered. The catch-up is for everyone in the room, never private to ' +
+		'one person, and it never replaces reading: when the person asks for detail, read them the messages. Saving ' +
+		'it marks nothing read and tells no one. ' +
+		saysAsThePerson,
 	markRead:
 		'Moves your place in the room to now and reads your notification for it, as opening the room on the site ' +
 		'does. Mark a room read only after the person has been told what was new in it, so nothing new is hidden ' +

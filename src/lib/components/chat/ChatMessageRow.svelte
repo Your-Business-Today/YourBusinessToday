@@ -1,23 +1,36 @@
 <script lang="ts">
 	import ChatMessageChoice from './ChatMessageChoice.svelte';
+	import ChatMessageDecisions from './ChatMessageDecisions.svelte';
 	import ChatMessageFiles from './ChatMessageFiles.svelte';
 	import ProseText from '$lib/components/site/ProseText.svelte';
 	import { formatBritishDateTime } from '$lib/data/britishDate';
 	import { movedHereNote } from '$lib/data/chat/chatRoomFlow';
 	import { postedViaChannels } from '$lib/data/conversationTurn';
 	import type { ChatMoveSelection } from './chatMoveSelection.svelte';
+	import type { ListedChatDecision } from '$lib/data/chat/chatDecisionRules';
 	import type { ChatRoomMessage } from '$lib/server/chat/readChatFlowOfRoom';
 
 	let {
 		organisationId,
 		message,
 		selection,
-		onChooseFromHere
-	}: { organisationId: string; message: ChatRoomMessage; selection: ChatMoveSelection; onChooseFromHere: (messageId: string) => void } = $props();
+		decisions,
+		onChooseFromHere,
+		onRaiseDecision
+	}: {
+		organisationId: string;
+		message: ChatRoomMessage;
+		selection: ChatMoveSelection;
+		decisions: ListedChatDecision[];
+		onChooseFromHere: (messageId: string) => void;
+		onRaiseDecision: ((message: ChatRoomMessage) => void) | null;
+	} = $props();
 
 	const hasWords = $derived(message.body !== '');
 	const isByClaude = $derived(message.postedVia === postedViaChannels.claude);
 	const movedNote = $derived(message.movedHere === null ? null : movedHereNote(message.movedHere));
+	const canRaiseHere = $derived(onRaiseDecision !== null && !selection.isMoving);
+	const raiseFromHere = $derived(canRaiseHere ? () => onRaiseDecision?.(message) : null);
 </script>
 
 <li class="flex gap-3 px-4 py-3">
@@ -44,5 +57,6 @@
 			<ProseText text={message.body} class="text-chalk/90" />
 		{/if}
 		<ChatMessageFiles {organisationId} files={message.files} />
+		<ChatMessageDecisions {decisions} onRaise={raiseFromHere} />
 	</div>
 </li>

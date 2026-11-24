@@ -1,9 +1,7 @@
-import { actionResultTypes } from '$lib/client/actionResultTypes';
-import { postAction } from '$lib/components/projects/uploadThroughSignedLink';
+import { couldNotBeSent, sendChatFile } from './sendChatFile';
 import { chatFileRefusal } from '$lib/data/chat/chatFileChecks';
 import { chatFileLimits, chatFileRefusals } from '$lib/data/chat/chatFileRules';
 import type { ChatFileSent } from '$lib/data/chat/validateChatMessage';
-import type { ActionResult } from '@sveltejs/kit';
 
 /** Where one chosen file has got to: on its way to storage, arrived there ready to go on the message, or refused. */
 export const chosenFileStates = { sending: 'sending', arrived: 'arrived', refused: 'refused' } as const;
@@ -11,34 +9,6 @@ export const chosenFileStates = { sending: 'sending', arrived: 'arrived', refuse
 export type ChosenFileState = (typeof chosenFileStates)[keyof typeof chosenFileStates];
 
 export type ChosenFile = { key: number; fileName: string; state: ChosenFileState; problem: string | null; sent: ChatFileSent | null };
-
-const grantAction = '?/grantChatFile';
-const couldNotBeSent = 'That file could not be sent. Check your connection, take it off and attach it again.';
-
-type Granted = { uploadUrl: string; storagePath: string };
-
-function grantedOf(answer: Record<string, unknown>): Granted {
-	return { uploadUrl: String(answer.uploadUrl ?? ''), storagePath: String(answer.storagePath ?? '') };
-}
-
-/** What the grant answered with, success or refusal alike; nothing for a redirect or an error. */
-function answerOf(result: ActionResult): Record<string, unknown> {
-	const hasAnswer = result.type === actionResultTypes.failure || result.type === actionResultTypes.success;
-	if (!hasAnswer) return {};
-	return result.data ?? {};
-}
-
-async function sendThroughGrantedLink(file: File): Promise<ChatFileSent | string> {
-	const facts = { fileName: file.name, contentType: file.type, sizeBytes: file.size };
-	const grant = await postAction(grantAction, facts);
-	const answer = answerOf(grant);
-	if (grant.type === actionResultTypes.failure) return String(answer.message ?? couldNotBeSent);
-	if (grant.type !== actionResultTypes.success) return couldNotBeSent;
-	const { uploadUrl, storagePath } = grantedOf(answer);
-	const stored = await fetch(uploadUrl, { method: 'PUT', headers: { 'content-type': file.type }, body: file });
-	if (!stored.ok) return couldNotBeSent;
-	return { storagePath, fileName: file.name };
-}
 
 /**
  * The files chosen for the message being written, each sent to storage as soon as it is chosen, with where it has
@@ -79,7 +49,7 @@ export class ChatAttachments {
 	}
 
 	private async send(file: File, chosenFile: ChosenFile): Promise<void> {
-		const outcome = await sendThroughGrantedLink(file).catch(() => couldNotBeSent);
+		const outcome = await sendChatFile(file).catch(() => couldNotBeSent);
 		if (typeof outcome === 'string') {
 			Object.assign(chosenFile, { state: chosenFileStates.refused, problem: outcome });
 			return;

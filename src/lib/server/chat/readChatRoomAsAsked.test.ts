@@ -8,6 +8,9 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 const finance = { id: 'finance', name: 'Finance', purpose: '', parentRoomId: null, isGeneral: false, isArchived: true };
 const said = (id: string, createdAt: string) => ({ kind: chatFlowKinds.message, key: id, moment: createdAt, message: { id, createdAt } });
 
+vi.mock('$env/static/public', () => ({ PUBLIC_SUPABASE_URL: 'https://files.example/', PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'a-publishable-key' }));
+vi.mock('$env/dynamic/private', () => ({ env: {} }));
+
 const { flowOfRoom } = vi.hoisted(() => ({ flowOfRoom: vi.fn() }));
 vi.mock('./readChatRooms', () => ({ readChatRooms: async () => [finance] }));
 vi.mock('./readChatFlowOfRoom', () => ({ readChatFlowOfRoom: flowOfRoom }));
@@ -17,7 +20,8 @@ const nigelOnJewel = { organisationId: 'jewel', accountId: 'nigel' };
 function serviceRoleHolding(unreadMessageIds: string[], readUpTo: string | null) {
 	const unread = { eq: () => unread, order: () => unread, limit: async () => ({ data: unreadMessageIds.map((message_id) => ({ message_id })), error: null }) };
 	const place = { select: () => place, eq: () => place, maybeSingle: async () => ({ data: readUpTo === null ? null : { read_up_to: readUpTo }, error: null }) };
-	return { rpc: vi.fn(() => unread), from: vi.fn(() => place) };
+	const noCatchUp = { select: () => noCatchUp, eq: () => noCatchUp, order: () => noCatchUp, limit: () => noCatchUp, maybeSingle: async () => ({ data: null, error: null }) };
+	return { rpc: vi.fn(() => unread), from: vi.fn((table: string) => (table === 'chat_room_summaries' ? noCatchUp : place)) };
 }
 
 describe('readChatRoomAsAsked', () => {
@@ -31,7 +35,7 @@ describe('readChatRoomAsAsked', () => {
 		expect(serviceRole.rpc).toHaveBeenCalledWith('chat_unread_messages_for_reader', { organisation: 'jewel', reader: 'nigel' });
 		expect(serviceRole.rpc).not.toHaveBeenCalledWith('mark_chat_room_read', expect.anything());
 		expect(serviceRole.from).toHaveBeenCalledWith('chat_room_reads');
-		expect(reading).toMatchObject({ room: finance, since: 'unread', messagesLeftOut: 0 });
+		expect(reading).toMatchObject({ room: finance, since: 'unread', messagesLeftOut: 0, latestSummary: null });
 		expect(typeof reading !== 'string' && reading.entries.map((entry) => entry.key)).toEqual(['m2']);
 	});
 
