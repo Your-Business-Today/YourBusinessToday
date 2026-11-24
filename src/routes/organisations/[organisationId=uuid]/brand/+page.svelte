@@ -2,6 +2,7 @@
 	import BrandAwaitingTable from '$lib/components/brand/BrandAwaitingTable.svelte';
 	import BrandCampaignTable from '$lib/components/brand/BrandCampaignTable.svelte';
 	import BrandKitPanels from '$lib/components/brand/BrandKitPanels.svelte';
+	import ProductBrandTable from '$lib/components/brand/ProductBrandTable.svelte';
 	import Button from '$lib/components/site/Button.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
@@ -12,7 +13,7 @@
 
 	let { data } = $props();
 
-	const { brandOrganisation: organisation, kit, awaitingApproval, campaigns } = $derived(data);
+	const { brandOrganisation: organisation, kit, awaitingApproval, campaigns, products } = $derived(data);
 </script>
 
 <svelte:head>
@@ -38,6 +39,9 @@
 			</DashboardPanel>
 		{/snippet}
 		{#snippet afterKit()}
+			<DashboardPanel title="Products with a brand of their own" count={products.length}>
+				<ProductBrandTable organisationId={organisation.id} {products} />
+			</DashboardPanel>
 			<DashboardPanel title="Paid campaigns" count={campaigns.length}>
 				<BrandCampaignTable organisationId={organisation.id} {campaigns} />
 			</DashboardPanel>

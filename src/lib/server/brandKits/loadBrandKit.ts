@@ -2,6 +2,7 @@ import { catalogueWith } from '$lib/brand/traits/traitCatalogue';
 import type { Decision } from '$lib/brand/decisions/decision';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { TraitDefinition } from '$lib/brand/traits/traitDefinition';
+import type { BrandKitOwner } from './brandKitOwner';
 
 export type BrandKit = { catalogue: TraitDefinition[]; decisions: Decision[] };
 
@@ -9,29 +10,26 @@ const RetiredStatus = 'retired';
 const traitColumns = 'key, facet, kind, label, purpose, choices';
 const decisionColumns = 'id, trait_key, medium_path, value, rationale, source, status, created_at';
 
-/** An organisation's kit: the catalogue with the brand's own traits in it, and every decision not retired. */
-export async function loadBrandKit(supabase: SupabaseClient, organisationId: string): Promise<BrandKit> {
-	const [ownTraits, decisions] = await Promise.all([
-		loadOwnTraits(supabase, organisationId),
-		loadDecisions(supabase, organisationId)
-	]);
+/** A brand's kit: the catalogue with the brand's own traits in it, and every decision not retired. */
+export async function loadBrandKit(supabase: SupabaseClient, owner: BrandKitOwner): Promise<BrandKit> {
+	const [ownTraits, decisions] = await Promise.all([loadOwnTraits(supabase, owner), loadDecisions(supabase, owner)]);
 	return { catalogue: catalogueWith(ownTraits), decisions };
 }
 
-async function loadOwnTraits(supabase: SupabaseClient, organisationId: string): Promise<TraitDefinition[]> {
+async function loadOwnTraits(supabase: SupabaseClient, owner: BrandKitOwner): Promise<TraitDefinition[]> {
 	const { data, error } = await supabase
-		.from('brand_kit_traits')
+		.from(owner.traitsTable)
 		.select(traitColumns)
-		.eq('organisation_id', organisationId);
+		.eq(owner.ownerColumn, owner.ownerId);
 	if (error) throw error;
 	return (data ?? []).map((row) => ({ ...row, isCustom: true }));
 }
 
-async function loadDecisions(supabase: SupabaseClient, organisationId: string): Promise<Decision[]> {
+async function loadDecisions(supabase: SupabaseClient, owner: BrandKitOwner): Promise<Decision[]> {
 	const { data, error } = await supabase
-		.from('brand_kit_decisions')
+		.from(owner.decisionsTable)
 		.select(decisionColumns)
-		.eq('organisation_id', organisationId)
+		.eq(owner.ownerColumn, owner.ownerId)
 		.neq('status', RetiredStatus)
 		.order('created_at');
 	if (error) throw error;

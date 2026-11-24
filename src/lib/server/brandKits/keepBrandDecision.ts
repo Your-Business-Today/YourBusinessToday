@@ -1,10 +1,11 @@
 import { connectorSource, DecisionStatuses, type CheckedDecision, type RecordedStatus } from '$lib/brand/decisions/decision';
 import { retireAdoptedAt } from './brandDecisionStatus';
+import type { BrandKitOwner } from './brandKitOwner';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export type DecisionToKeep = CheckedDecision & { rationale: string };
 
-export type DecisionKeeping = { organisationId: string; accountId: string; status: RecordedStatus };
+export type DecisionKeeping = { owner: BrandKitOwner; accountId: string; status: RecordedStatus };
 
 const uniqueViolation = '23505';
 
@@ -17,18 +18,19 @@ export async function keepBrandDecision(
 	keeping: DecisionKeeping,
 	decision: DecisionToKeep
 ): Promise<string | null> {
-	const { organisationId, status } = keeping;
+	const { owner, status } = keeping;
 	const isAdopted = status === DecisionStatuses.adopted;
-	if (isAdopted) await retireAdoptedAt(supabase, { organisationId, ...decision });
-	const { data, error } = await supabase.from('brand_kit_decisions').insert(rowOf(keeping, decision)).select('id').single();
+	if (isAdopted) await retireAdoptedAt(supabase, { owner, ...decision });
+	const { data, error } = await supabase.from(owner.decisionsTable).insert(rowOf(keeping, decision)).select('id').single();
 	if (error?.code === uniqueViolation) return null;
 	if (error) throw error;
 	return data.id as string;
 }
 
 function rowOf(keeping: DecisionKeeping, decision: DecisionToKeep): Record<string, unknown> {
+	const { owner } = keeping;
 	return {
-		organisation_id: keeping.organisationId,
+		[owner.ownerColumn]: owner.ownerId,
 		trait_key: decision.traitKey,
 		medium_path: decision.mediumPath,
 		value: decision.value,

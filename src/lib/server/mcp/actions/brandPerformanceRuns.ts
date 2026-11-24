@@ -1,3 +1,4 @@
+import { organisationBrand } from '$lib/server/brandKits/brandKitOwner';
 import { checkReadings, sortReadings } from '$lib/brand/performance/sortReadings';
 import { describeMediumPerformance, describeRecording } from './describePerformance';
 import { findBrandRecordsKnown } from '$lib/server/brandPerformance/findBrandRecordsKnown';
@@ -23,7 +24,7 @@ export async function recordPerformance(caller: McpCaller, input: Input, organis
 	if (given.length === 0) return noReadings;
 	const isTooMany = given.length > mostReadingsAtOnce;
 	if (isTooMany) return `Nothing was recorded: ${given.length} readings were given; send at most ${mostReadingsAtOnce} at once.`;
-	const summary = await findBrandSummary(caller.supabase, organisation.id);
+	const summary = await findBrandSummary(caller.supabase, organisationBrand(organisation.id));
 	if (summary === null) return noBrandYet(organisation);
 	const { checked, refusals } = checkReadings(given);
 	const known = await findBrandRecordsKnown(caller.supabase, organisation.id, checked);

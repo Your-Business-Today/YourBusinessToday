@@ -1,3 +1,4 @@
+import { organisationHolder } from '$lib/server/brandKits/brandHolder';
 import { brandSnapshotOf } from '$lib/brand/projections/brandSnapshot';
 import { captionRulesOf } from '$lib/brand/captions/captionRules';
 import { checkNewChannel, type NewChannel } from '$lib/brand/posts/checkNewChannel';
@@ -29,7 +30,7 @@ export async function addContentChannel(caller: McpCaller, input: Record<string,
 	const source = found.piece;
 	const post = await findContentPost(caller.supabase, organisation.id, source);
 	if (hasChannel(post, medium.path)) return notAdded(`the post already goes out on ${medium.label}`);
-	const resolved = await resolveBrandKitFor(caller.supabase, organisation.id, medium);
+	const resolved = await resolveBrandKitFor(caller.supabase, organisationHolder(organisation), medium);
 	const invitedAction = channel.invitedAction ?? source.invitedAction;
 	const problem = problemWithInvitedAction(invitedAction, medium) ?? problemWithCaption(channel.caption, captionRulesOf(resolved));
 	if (problem !== null) return notAdded(problem);

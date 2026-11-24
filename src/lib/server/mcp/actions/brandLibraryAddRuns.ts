@@ -1,3 +1,4 @@
+import { organisationBrand } from '$lib/server/brandKits/brandKitOwner';
 import { checkLibraryItem } from '$lib/brand/library/checkLibraryItem';
 import { describeLibraryRecording, describeLibraryUpload } from './describeLibraryUpload';
 import { findBrandSummary } from '$lib/server/brandKits/keepBrandSummary';
@@ -15,7 +16,7 @@ type Input = Record<string, unknown>;
 export async function addLibraryItem(caller: McpCaller, input: Input, organisation: Organisation): Promise<string> {
 	const item = checkLibraryItem(input);
 	if (typeof item === 'string') return `Not added: ${item}. Nothing was kept.`;
-	const summary = await findBrandSummary(caller.supabase, organisation.id);
+	const summary = await findBrandSummary(caller.supabase, organisationBrand(organisation.id));
 	if (summary === null) return noBrandYet(organisation);
 	const adder = { organisationId: organisation.id, accountId: caller.accountId };
 	const grant = await grantLibraryUpload(caller.supabase, adder, item);

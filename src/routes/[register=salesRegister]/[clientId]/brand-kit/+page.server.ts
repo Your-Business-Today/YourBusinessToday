@@ -1,3 +1,4 @@
+import { organisationHolder } from '$lib/server/brandKits/brandHolder';
 import { readBrandKitPage } from '$lib/server/brandKits/readBrandKitPage';
 import { readLeadOfPage } from '$lib/server/clients/readLeadOfPage';
 import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
@@ -7,5 +8,5 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async (event) => {
 	const { client, organisationId } = await readLeadOfPage(event.locals, event);
 	if (organisationId === null) return { client, kit: null };
-	return { client, kit: await readBrandKitPage(supabaseServiceClient(), organisationId) };
+	return { client, kit: await readBrandKitPage(supabaseServiceClient(), organisationHolder({ id: organisationId, name: client.name })) };
 };

@@ -1,3 +1,4 @@
+import { organisationBrand } from '$lib/server/brandKits/brandKitOwner';
 import { campaignStatuses, isCampaignStatus, type PieceForCampaign } from '$lib/brand/campaigns/campaign';
 import { checkCampaignPlan } from '$lib/brand/campaigns/checkCampaignPlan';
 import { describeCampaign } from './describeCampaign';
@@ -25,7 +26,7 @@ const notConnected = 'Nothing here connects to an ad account: the money is spent
 export async function planCampaign(caller: McpCaller, input: Input, organisation: Organisation) {
 	const check = checkCampaignPlan(input);
 	if ('problem' in check) return `The campaign was not planned: ${check.problem}. Nothing was kept.`;
-	const summary = await findBrandSummary(caller.supabase, organisation.id);
+	const summary = await findBrandSummary(caller.supabase, organisationBrand(organisation.id));
 	if (summary === null) return noBrandYet(organisation);
 	const { plan } = check;
 	const campaignId = await keepCampaign(caller.supabase, { organisationId: organisation.id, accountId: caller.accountId, plan });

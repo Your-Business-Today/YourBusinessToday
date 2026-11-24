@@ -17,6 +17,7 @@ const contextParts: ParentLink = { tableName: 'company_context_parts', keyColumn
 const mapVersions: ParentLink = { tableName: 'workflow_map_versions', keyColumn: organisationColumn };
 const mapStations: ParentLink = { tableName: 'workflow_map_stations', keyColumn: 'version_id' };
 const newsStories: ParentLink = { tableName: 'news_stories', keyColumn: organisationColumn };
+const projects: ParentLink = { tableName: 'projects', keyColumn: organisationColumn };
 
 const underAParent = (tableName: string, keyColumn: string, ...parents: ParentLink[]): ExportedTable => ({
 	tableName,
@@ -38,7 +39,10 @@ const tablesKeptUnderAParent: ExportedTable[] = [
 	underAParent('workflow_map_handovers', 'version_id', mapVersions),
 	underAParent('workflow_map_confirmations', 'version_id', mapVersions),
 	underAParent('workflow_map_station_reviews', 'station_id', mapStations, mapVersions),
-	underAParent('news_story_marks', 'story_id', newsStories)
+	underAParent('news_story_marks', 'story_id', newsStories),
+	underAParent('project_brand_kits', 'project_id', projects),
+	underAParent('project_brand_kit_traits', 'project_id', projects),
+	underAParent('project_brand_kit_decisions', 'project_id', projects)
 ];
 
 /** Every table that holds an organisation's rows, the organisation's own row first. */
