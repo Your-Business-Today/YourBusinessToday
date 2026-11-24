@@ -1,3 +1,5 @@
+import { organisationHolder } from '$lib/server/brandKits/brandHolder';
+import { organisationBrand } from '$lib/server/brandKits/brandKitOwner';
 import { brandSnapshotOf } from '$lib/brand/projections/brandSnapshot';
 import { captionRulesOf } from '$lib/brand/captions/captionRules';
 import { checkContentDraft } from '$lib/brand/content/checkContentDraft';
@@ -29,13 +31,13 @@ export async function checkDraftFor(
 ): Promise<CheckedDraft> {
 	const check = checkContentDraft(input);
 	if ('problem' in check) return notDrafted(check.problem);
-	const summary = await findBrandSummary(caller.supabase, organisation.id);
+	const summary = await findBrandSummary(caller.supabase, organisationBrand(organisation.id));
 	if (summary === null) return { refusal: noBrandYet(organisation) };
 	const { draft } = check;
 	const items = await findItemStandings(caller.supabase, organisation.id, libraryIdsOf(draft));
 	const itemsProblem = problemWithDraftItems(draft, items);
 	if (itemsProblem !== null) return notDrafted(itemsProblem);
-	const resolved = await resolveBrandKitFor(caller.supabase, organisation.id, draft.medium);
+	const resolved = await resolveBrandKitFor(caller.supabase, organisationHolder(organisation), draft.medium);
 	const kindCheck = checkKind(input.kind, postKindsOnOfferOf(resolved));
 	if ('problem' in kindCheck) return notDrafted(kindCheck.problem);
 	const captionProblem = problemWithCaption(draft.caption, captionRulesOf(resolved));

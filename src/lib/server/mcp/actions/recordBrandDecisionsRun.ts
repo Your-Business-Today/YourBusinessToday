@@ -2,7 +2,8 @@ import { validateDecisionEntry, decisionEntriesOf, type EntryCheck } from './bra
 import { describeTraitValue } from '$lib/brand/values/traitValue';
 import { findBrandSummary } from '$lib/server/brandKits/keepBrandSummary';
 import { keepBrandDecision, type DecisionKeeping, type DecisionToKeep } from '$lib/server/brandKits/keepBrandDecision';
-import { loadBrandKit } from '$lib/server/brandKits/loadBrandKit';
+import { brandHolderOfInput } from './brandHolderOfInput';
+import { loadHeldBrandKit } from '$lib/server/brandKits/loadHeldBrandKit';
 import { noBrandYet } from './brandKitWriteAnswers';
 import { readText } from '../actionTypes';
 import { DecisionStatuses, type RecordedStatus } from '$lib/brand/decisions/decision';
@@ -21,10 +22,12 @@ export async function recordBrandDecisions(caller: McpCaller, input: Record<stri
 	if (!recordedStatuses.includes(status)) return statusRefusal;
 	const entries = decisionEntriesOf(input.decisions);
 	if (typeof entries === 'string') return entries;
-	const summary = await findBrandSummary(caller.supabase, organisation.id);
-	if (summary === null) return noBrandYet(organisation);
-	const { catalogue } = await loadBrandKit(caller.supabase, organisation.id);
-	const keeping = { organisationId: organisation.id, accountId: caller.accountId, status: status as RecordedStatus };
+	const holder = await brandHolderOfInput(caller, input, organisation);
+	if ('refusal' in holder) return holder.refusal;
+	const summary = await findBrandSummary(caller.supabase, holder.owner);
+	if (summary === null) return noBrandYet(holder);
+	const { catalogue } = await loadHeldBrandKit(caller.supabase, holder);
+	const keeping = { owner: holder.owner, accountId: caller.accountId, status: status as RecordedStatus };
 	const recordedLines: string[] = [];
 	const refusals: string[] = [];
 	for (const entry of entries) {
@@ -32,7 +35,7 @@ export async function recordBrandDecisions(caller: McpCaller, input: Record<stri
 		if ('refusal' in outcome) refusals.push(outcome.refusal);
 		if ('line' in outcome) recordedLines.push(outcome.line);
 	}
-	return answerOf(organisation, keeping.status, recordedLines, refusals);
+	return answerOf(holder.name, keeping.status, recordedLines, refusals);
 }
 
 async function recordEntry(caller: McpCaller, keeping: DecisionKeeping, check: EntryCheck) {
@@ -47,9 +50,9 @@ function placeOf(decision: DecisionToKeep): string {
 	return `${decision.traitKey} @ ${decision.mediumPath}`;
 }
 
-function answerOf(organisation: Organisation, status: RecordedStatus, recordedLines: string[], refusals: string[]): string {
+function answerOf(brandName: string, status: RecordedStatus, recordedLines: string[], refusals: string[]): string {
 	const total = recordedLines.length + refusals.length;
-	const heading = `Recorded ${recordedLines.length} of ${total} decisions in ${organisation.name}’s brand kit as ${status}.`;
+	const heading = `Recorded ${recordedLines.length} of ${total} decisions in ${brandName}’s brand kit as ${status}.`;
 	const hasRecorded = recordedLines.length > 0;
 	const hasRefused = refusals.length > 0;
 	const hasRetiredAny = hasRecorded && status === DecisionStatuses.adopted;

@@ -1,3 +1,4 @@
+import { organisationBrand } from '$lib/server/brandKits/brandKitOwner';
 import { contentPlanOf } from '$lib/brand/plan/contentPlanOf';
 import { findPlannedPieces } from './findPlannedPieces';
 import { findPostPictures } from './findPostPictures';
@@ -14,7 +15,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 export async function findContentPlan(supabase: SupabaseClient, organisationId: string, month: PlanMonth): Promise<ContentPlan> {
 	const [pieces, kit] = await Promise.all([
 		findPlannedPieces(supabase, organisationId, monthBoundsOf(month)),
-		loadBrandKit(supabase, organisationId)
+		loadBrandKit(supabase, organisationBrand(organisationId))
 	]);
 	const postIds = [...new Set(pieces.map((piece) => piece.postId))];
 	const pictures = await findPostPictures(supabase, organisationId, postIds);

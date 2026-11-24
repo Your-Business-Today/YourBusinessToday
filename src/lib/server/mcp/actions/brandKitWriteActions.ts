@@ -14,8 +14,10 @@ export const brandKitWriteActions: McpAction[] = [
 		area: brandArea,
 		audience: 'everyone',
 		isWrite: true,
-		summary: 'say what an organisation’s brand is, in a sentence or two; an organisation with no brand gets one here',
-		guidance: 'An organisation has one brand, named by the organisation. Describing it again replaces the sentence, and the answer says what it read before.',
+		summary: 'say what an organisation’s or a product’s brand is, in a sentence or two; one with no brand gets one here',
+		guidance:
+			'An organisation has one brand, named by the organisation. A product with a look of its own gets a brand of its own, named by its projectId as well, ' +
+			'read over its organisation’s. Describing it again replaces the sentence, and the answer says what it read before.',
 		inputSchema: describeBrandSchema,
 		run: describeBrand
 	}),
