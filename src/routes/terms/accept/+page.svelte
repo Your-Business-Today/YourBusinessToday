@@ -2,6 +2,7 @@
 	import Button from '$lib/components/site/Button.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import LegalSections from '$lib/components/site/LegalSections.svelte';
+	import PageTitle from '$lib/components/site/PageTitle.svelte';
 	import { termsSoftwareSections } from '$lib/data/legal/termsSoftwareSections';
 	import { termsAddresses, termsVersionPublishedOn } from '$lib/data/termsVersion';
 
@@ -17,7 +18,7 @@
 		<p class="font-display text-xs tracking-widest text-signal uppercase">
 			Terms of service · {termsVersionPublishedOn}
 		</p>
-		<h1 class="font-display text-2xl font-medium">Accept the terms to carry on</h1>
+		<PageTitle size="compact">Accept the terms to carry on</PageTitle>
 		<p class="text-sm text-chalk/60">
 			Our terms changed. The new parts are below; the
 			<a href={termsAddresses.terms} class="text-chalk underline underline-offset-4 hover:text-signal">
