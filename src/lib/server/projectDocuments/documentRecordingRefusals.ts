@@ -1,4 +1,4 @@
-import { documentUploadRecordings } from '$lib/server/projectDocuments/recordDocumentUpload';
+import { documentUploadRecordings } from './recordDocumentUpload';
 
 /** Why a file sent from the page was not kept, by what recording it found; a kept file has none. */
 export const recordingRefusals: Record<string, string | undefined> = {

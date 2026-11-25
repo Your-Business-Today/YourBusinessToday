@@ -1,19 +1,24 @@
 import type { GrantedUpload } from '$lib/server/storage/recordArrivedUpload';
-import type { ProjectDocument } from '$lib/projectDocuments/projectDocument';
+import { ownerOfRow } from '$lib/projectDocuments/documentOwner';
+import type { DocumentFlow, DocumentStatus } from '$lib/projectDocuments/documentStanding';
+import type { KeptDocument } from '$lib/projectDocuments/projectDocument';
 
 /** The columns a kept document is read with: everything but its text, which is read only when the document is opened. */
 export const projectDocumentColumns =
-	'id, project_id, title, summary, section, position, filename, mime_type, byte_count, storage_path, added_by, recorded_at';
+	'id, project_id, organisation_id, title, summary, section, position, status, flow, version_number, filename, mime_type, byte_count, storage_path, added_by, recorded_at';
 
 /** The columns a granted upload is read with, whether or not its file has arrived. */
 export const documentUploadColumns = 'id, storage_path, expires_at, recorded_at';
 
 /** A kept document from its row. */
-export function parseProjectDocument(row: Record<string, unknown>): ProjectDocument {
+export function parseKeptDocument(row: Record<string, unknown>): KeptDocument {
 	const storagePath = (row.storage_path as string | null) ?? null;
 	return {
 		id: row.id as string,
-		projectId: row.project_id as string,
+		owner: ownerOfRow(row),
+		versionNumber: row.version_number as number,
+		status: row.status as DocumentStatus,
+		flow: row.flow as DocumentFlow,
 		title: row.title as string,
 		summary: row.summary as string,
 		section: row.section as string,

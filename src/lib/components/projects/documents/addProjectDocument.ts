@@ -6,7 +6,7 @@ import { postAction, uploadOutcomeStatuses, uploadThroughSignedLink, type Signed
 export const documentUploadActions: SignedUploadActions = { grant: '?/grantDocument', record: '?/recordDocument', idField: 'documentId' };
 
 const writeAction = '?/writeDocument';
-const describedFields = ['title', 'summary', 'section'];
+const describedFields = ['title', 'summary', 'section', 'status', 'flow'];
 const markdownFilename = /\.(md|markdown)$/i;
 const { largestByteCount, largestMegabytes } = DocumentLimits;
 

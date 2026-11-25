@@ -1,2 +1,4 @@
-/** Who is adding a document, and to which project. */
-export type DocumentAdder = { projectId: string; accountId: string };
+import type { DocumentOwner } from '$lib/projectDocuments/documentOwner';
+
+/** Who is adding a document, and to whose documents. */
+export type DocumentAdder = { owner: DocumentOwner; accountId: string };

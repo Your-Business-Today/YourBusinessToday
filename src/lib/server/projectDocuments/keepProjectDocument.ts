@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { writtenDocumentByteCount } from '$lib/projectDocuments/writtenDocumentSize';
-import { documentFilePath, projectDocumentBucket, writtenDocumentFilename } from './projectDocumentFiles';
+import { documentFilePath, documentTable, projectDocumentBucket, writtenDocumentFilename } from './projectDocumentFiles';
+import { ownerColumnOf } from '$lib/projectDocuments/documentOwner';
 import { documentUploadLinkLifetimeHours, markdownType } from '$lib/projectDocuments/documentLimits';
 import { signUploadLink } from '$lib/server/storage/signUploadLink';
 import type { DocumentAdder } from './documentAdder';
@@ -9,7 +10,7 @@ import type { DocumentDetails, DocumentFileGiven } from '$lib/projectDocuments/p
 
 const millisecondsInAnHour = 60 * 60 * 1000;
 
-/** Keeps a document written in Markdown on the project at once, and gives its id. */
+/** Keeps a document written in Markdown on its owner's documents at once, and gives its id. */
 export async function keepWrittenDocument(supabase: SupabaseClient, adder: DocumentAdder, details: DocumentDetails, markdown: string): Promise<string> {
 	const documentId = crypto.randomUUID();
 	const row = {
@@ -20,7 +21,7 @@ export async function keepWrittenDocument(supabase: SupabaseClient, adder: Docum
 		byte_count: writtenDocumentByteCount(markdown),
 		recorded_at: new Date().toISOString()
 	};
-	const { error } = await supabase.from('project_documents').insert(row);
+	const { error } = await supabase.from(documentTable).insert(row);
 	if (error !== null) throw error;
 	return documentId;
 }
@@ -36,7 +37,7 @@ export async function grantDocumentUpload(
 	file: DocumentFileGiven
 ): Promise<GrantedDocumentUpload> {
 	const documentId = crypto.randomUUID();
-	const storagePath = documentFilePath(adder.projectId, documentId, file.filename);
+	const storagePath = documentFilePath(adder.owner, documentId, file.filename);
 	const row = {
 		...detailColumns(adder, documentId, details),
 		filename: file.filename,
@@ -44,11 +45,12 @@ export async function grantDocumentUpload(
 		storage_path: storagePath,
 		expires_at: new Date(Date.now() + documentUploadLinkLifetimeHours * millisecondsInAnHour).toISOString()
 	};
-	const { error } = await supabase.from('project_documents').insert(row);
+	const { error } = await supabase.from(documentTable).insert(row);
 	if (error !== null) throw error;
 	return { documentId, uploadUrl: await signUploadLink(supabase, projectDocumentBucket, storagePath) };
 }
 
 function detailColumns(adder: DocumentAdder, documentId: string, details: DocumentDetails): Record<string, unknown> {
-	return { id: documentId, project_id: adder.projectId, added_by: adder.accountId, ...details };
+	const { owner } = adder;
+	return { id: documentId, [ownerColumnOf(owner)]: owner.id, added_by: adder.accountId, ...details };
 }

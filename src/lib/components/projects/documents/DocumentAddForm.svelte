@@ -3,6 +3,7 @@
 	import Button from '$lib/components/site/Button.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
+	import DocumentStandingFields from './DocumentStandingFields.svelte';
 	import FormField from '$lib/components/site/FormField.svelte';
 	import { DocumentLimits, defaultDocumentSection } from '$lib/projectDocuments/documentLimits';
 	import { addProjectDocument } from './addProjectDocument';
@@ -38,6 +39,7 @@
 		<FormField label="Summary">
 			<textarea name="summary" rows="2" maxlength={longestSummary}></textarea>
 		</FormField>
+		<DocumentStandingFields />
 		<FormErrorNote message={errorMessage} />
 		<div><Button type="submit" look="primary" isSaving={isAdding} savingLabel="Adding…">Add document</Button></div>
 	</form>

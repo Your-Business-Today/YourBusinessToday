@@ -24,6 +24,7 @@ const databaseNeverReached = new Proxy({}, {
 const caller = { ...anAdministrator, accountId: '', supabase: databaseNeverReached } as unknown as McpCaller;
 
 const identifiersEachActionChecksItself = new Set([
+	'askedOf',
 	'assignedTo',
 	'chair',
 	'member',

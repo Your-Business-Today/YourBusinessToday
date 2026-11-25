@@ -6,12 +6,13 @@ import type { PickOrganisation } from './pickOrganisations';
 const overviewLabel = 'Overview';
 const projectsLabel = 'Projects';
 const tasksLabel = 'Tasks';
+const documentsLabel = 'Documents';
 const portalHomeLabel = 'Home';
 const projectsPath = '/projects';
 
 /**
- * The picked organisation's own pages in the side bar: its overview, then its projects and the team's tasks
- * across them for the people on it, and the picked project's progress for a client company reached only at the portal.
+ * The picked organisation's own pages in the side bar: its overview, then its projects, the team's tasks
+ * across them and its own documents for the people on it, and the picked project's progress for a client company reached only at the portal.
  */
 export function organisationPageLinksFor(organisation: PickOrganisation, pickedProjectId: string | null): FrameLink[] {
 	const { organisationId, portalClientId } = organisation;
@@ -20,7 +21,8 @@ export function organisationPageLinksFor(organisation: PickOrganisation, pickedP
 	return [
 		{ href: organisationHref(organisationId), label: overviewLabel, icon: 'layoutDashboard' },
 		{ href: projectsPath, label: projectsLabel, icon: 'folderKanban', group: 'work' },
-		{ href: organisationHref(organisationId, organisationPages.taskManagement), label: tasksLabel, icon: 'listChecks', group: 'work' }
+		{ href: organisationHref(organisationId, organisationPages.taskManagement), label: tasksLabel, icon: 'listChecks', group: 'work' },
+		{ href: organisationHref(organisationId, organisationPages.documents), label: documentsLabel, icon: 'fileText', group: 'work' }
 	];
 }
 
