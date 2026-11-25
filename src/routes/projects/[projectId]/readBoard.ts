@@ -1,5 +1,6 @@
 import { getAssigneeIdsByTask } from '$lib/server/projects/getAssigneeIdsByTask';
-import { getTaskIdsAssignedTo } from '$lib/server/projects/getTaskIdsAssignedTo';
+import { getNextActionsByTask } from '$lib/server/projects/getNextActionsByTask';
+import { isTaskDone } from '$lib/data/taskStatus';
 import { countStagedTasks } from '$lib/server/projects/countStagedTasks';
 import { buildBoardOf, readBuildFacts, type BuildFacts } from '$lib/server/lifecycle/buildFacts';
 import { getLatestKitVersion } from '$lib/server/kit/kitVersions';
@@ -15,11 +16,12 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Project } from '$lib/server/projects/projectRecord';
 
 /**
- * Everything the project page reads, started at once: only the tasks' assignees and turns wait,
- * for the tasks they belong to, and every other read runs beside them. To-dos are read only for
+ * Everything the project page reads, started at once: only the tasks' assignees, turns and next
+ * moves wait, for the tasks they belong to, and every other read runs beside them. The next moves
+ * are read for every open task of the project, so a count on one tab knows what the others hold. To-dos are read only for
  * Task Management, where each item shows its to-dos beneath it.
  */
-export function readBoard(locals: App.Locals, project: Project, url: URL, viewerId: string) {
+export function readBoard(locals: App.Locals, project: Project, url: URL) {
 	const { supabase } = locals;
 	const workRead = loadDepartmentWork(supabase, project, url);
 	const buildFactsRead = readBuildFacts(supabase, project.id);
@@ -27,7 +29,7 @@ export function readBoard(locals: App.Locals, project: Project, url: URL, viewer
 	return readTogether({
 		work: workRead,
 		assigneeIdsByTask: taskIdsRead.then((taskIds) => getAssigneeIdsByTask(supabase, taskIds)),
-		viewerAssignedTaskIds: getTaskIdsAssignedTo(supabase, project.id, viewerId),
+		nextActionsByTask: workRead.then(({ projectTasks }) => getNextActionsByTask(supabase, projectTasks.filter(isOpen))),
 		todosByTask: workRead.then((work) => todosShownOn(supabase, work)),
 		turnsByTask: taskIdsRead.then((taskIds) => getTaskTurns(supabase, taskIds)),
 		latestKitVersion: getLatestKitVersion(supabase),
@@ -37,6 +39,10 @@ export function readBoard(locals: App.Locals, project: Project, url: URL, viewer
 		buildBoard: buildFactsRead.then(buildBoardOf),
 		stagedTaskCount: countStagedTasks(supabase, project.id)
 	});
+}
+
+function isOpen(task: { status: Parameters<typeof isTaskDone>[0] }): boolean {
+	return !isTaskDone(task.status);
 }
 
 type ShownWork = { boardSide: BoardSide; tasks: { id: string }[] };

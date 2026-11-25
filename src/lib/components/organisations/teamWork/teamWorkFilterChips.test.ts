@@ -14,7 +14,7 @@ const people = [
 function jobOf(id: string, productName: string, assigneeIds: string[]): TeamWorkItem {
 	const department = departments.administration;
 	const status = taskStatuses.backlog;
-	return { id, title: id, department, status, dueDate: null, productId: productName, productName, assigneeIds, href: `/${id}` };
+	return { id, title: id, department, status, dueDate: null, productId: productName, productName, assigneeIds, nextActionIds: assigneeIds, href: `/${id}` };
 }
 
 const tabJobs = [jobOf('insurance', 'YBT', ['james']), jobOf('stripe', 'YBT', ['jeremy']), jobOf('listing', 'Carp Mania', [])];
@@ -27,7 +27,7 @@ const summaryOf = (groupIndex: number, filter = noFilter) =>
 describe('teamWorkFilterChips', () => {
 	it('offers me first, then whoever has a job, then nobody, each counting the tab’s jobs', () => {
 		expect(summaryOf(0)).toEqual([
-			['Assigned to me', 1, false],
+			['My move', 1, false],
 			['Jeremy', 1, false],
 			['Nobody', 1, false]
 		]);

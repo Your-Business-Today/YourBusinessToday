@@ -26,7 +26,7 @@ export type FilterSource = { tabJobs: TeamWorkItem[]; everyJob: TeamWorkItem[]; 
 export function teamWorkFilterChips(source: FilterSource, filter: TeamWorkFilter): FilterChipGroup[] {
 	const chipsFor = (field: TeamWorkFilterField, choices: Choice[]) => choices.map((choice) => chipOf(source.tabJobs, filter, field, choice));
 	const productChoices = productChoicesOf(source.everyJob);
-	const assigned = { label: 'Owner', chips: chipsFor('assignedTo', assigneeChoicesOf(source)) };
+	const assigned = { label: 'Next move', chips: chipsFor('assignedTo', assigneeChoicesOf(source)) };
 	const products = { label: 'Product', chips: chipsFor('productId', productChoices) };
 	const statuses = { label: 'Status', chips: chipsFor('status', statusChoices) };
 	const isProductWorthFiltering = productChoices.length >= fewestProductsWorthFiltering;
@@ -41,10 +41,10 @@ function chipOf(items: TeamWorkItem[], filter: TeamWorkFilter, field: TeamWorkFi
 }
 
 function assigneeChoicesOf({ everyJob, people, viewerId }: FilterSource): Choice[] {
-	const assignedIds = new Set(everyJob.flatMap((item) => item.assigneeIds));
-	const others = people.filter((person) => person.id !== viewerId && assignedIds.has(person.id));
-	const viewerChoice = { value: viewerId, label: 'Assigned to me', title: 'Open jobs assigned to you' };
-	const otherChoices = others.map((person) => ({ value: person.id, label: person.name, title: `Open jobs assigned to ${person.name}` }));
+	const movingIds = new Set(everyJob.flatMap((item) => item.nextActionIds));
+	const others = people.filter((person) => person.id !== viewerId && movingIds.has(person.id));
+	const viewerChoice = { value: viewerId, label: 'My move', title: 'Open jobs whose next move is yours' };
+	const otherChoices = others.map((person) => ({ value: person.id, label: person.name, title: `Open jobs whose next move is ${person.name}'s` }));
 	const nobodyChoice = { value: nobodyAssigned, label: 'Nobody', title: 'Open jobs nobody has taken yet' };
 	return [viewerChoice, ...otherChoices, nobodyChoice];
 }

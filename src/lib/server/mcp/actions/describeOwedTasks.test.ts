@@ -23,6 +23,7 @@ const promiseMessage = parseMessageRecord({
 
 const jeremyOwes: OwedTasks = {
 	assigned: [promise],
+	followUps: [],
 	named: [xeroScope],
 	name: 'Jeremy',
 	latestByTask: new Map([['promise', promiseMessage]]),

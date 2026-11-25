@@ -7,11 +7,11 @@ import type { WhatPersonOwes } from '$lib/server/owed/whatPersonOwes';
 
 /** What one person owes on these projects as things to chase them for, bugs first. */
 export function chaseItemsOwedBy(owes: WhatPersonOwes, projectIds: string[]): ChaseItem[] {
-	const { person, questions, assigned, named, todos } = owes;
+	const { person, questions, assigned, followUps, named, todos } = owes;
 	const personId = person.accountId;
 	const answers = questions.map((question) => answerItem(personId, question));
 	const askedSubjectIds = new Set(questions.map((question) => question.subjectId));
-	const tasks = [...assigned, ...named].filter((task) => !askedSubjectIds.has(task.id));
+	const tasks = [...assigned, ...followUps, ...named].filter((task) => !askedSubjectIds.has(task.id));
 	const work = tasks.map((task) => workItem(personId, task));
 	const promised = todos.filter((todo) => isPromiseOnProjects(todo, projectIds));
 	const promises = promised.map((todo) => promiseItem(personId, todo));

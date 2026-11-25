@@ -19,6 +19,7 @@ export const tablesKeptByOrganisation = [
 	'books_bank_rules',
 	'books_expenses',
 	'books_loan_accounts',
+	'books_cashflow_items',
 	'books_billing_schedules',
 	'books_billing_schedule_lines',
 	'books_deletions',

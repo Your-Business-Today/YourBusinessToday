@@ -10,19 +10,19 @@ export type TaskPredicate = (task: TaskTreeNode) => boolean;
 
 export type BacklogSources = {
 	taskTree: () => TaskTreeNode[];
-	assigneeIdsByTask: () => Record<string, string[]>;
+	nextActionIdsByTask: () => Record<string, string[]>;
 	isWaitingOnMe: TaskPredicate;
 };
 
 /**
- * The backlog's filters — open or all, what is waiting on the viewer, one
- * person's tasks — and the tree they leave visible. The sources are read on
+ * The backlog's filters — open or all, what is waiting on the viewer, the
+ * tasks whose next move is one person's — and the tree they leave visible. The sources are read on
  * every question so the view follows the page's data as it reloads.
  */
 export class BacklogView {
 	shouldIncludeDone = $state(false);
 	isWaitingOnMeOnly = $state(false);
-	assigneeId = $state<string | null>(null);
+	personId = $state<string | null>(null);
 	#sources: BacklogSources;
 
 	constructor(sources: BacklogSources) {
@@ -50,16 +50,16 @@ export class BacklogView {
 		return taskLists.reduce((count, tasks) => count + this.countOf(tasks), 0);
 	}
 
-	assignedCountFor(personId: string): number {
-		return countTasksWhere(this.#openTasks(), this.#isAssignedTo(personId));
+	moveCountFor(personId: string): number {
+		return countTasksWhere(this.#openTasks(), this.#isMoveOf(personId));
 	}
 
 	toggleWaitingOnMe(): void {
 		this.isWaitingOnMeOnly = !this.isWaitingOnMeOnly;
 	}
 
-	toggleAssignee(personId: string): void {
-		this.assigneeId = this.assigneeId === personId ? null : personId;
+	togglePerson(personId: string): void {
+		this.personId = this.personId === personId ? null : personId;
 	}
 
 	/** What the waiting and person filters leave, done or not: a status board's Done column and a calendar show both. */
@@ -77,7 +77,7 @@ export class BacklogView {
 	}
 
 	get #isNarrowed(): boolean {
-		return this.isWaitingOnMeOnly || this.assigneeId !== null;
+		return this.isWaitingOnMeOnly || this.personId !== null;
 	}
 
 	#openTasks(): TaskTreeNode[] {
@@ -86,12 +86,12 @@ export class BacklogView {
 
 	#isWanted(task: TaskTreeNode): boolean {
 		const isWaitingWanted = !this.isWaitingOnMeOnly || this.#sources.isWaitingOnMe(task);
-		const isAssigneeWanted = this.assigneeId === null || this.#isAssignedTo(this.assigneeId)(task);
-		return isWaitingWanted && isAssigneeWanted;
+		const isPersonWanted = this.personId === null || this.#isMoveOf(this.personId)(task);
+		return isWaitingWanted && isPersonWanted;
 	}
 
-	#isAssignedTo(personId: string): TaskPredicate {
-		const assigneeIdsByTask = this.#sources.assigneeIdsByTask();
-		return (task) => (assigneeIdsByTask[task.id] ?? []).includes(personId);
+	#isMoveOf(personId: string): TaskPredicate {
+		const nextActionIdsByTask = this.#sources.nextActionIdsByTask();
+		return (task) => (nextActionIdsByTask[task.id] ?? []).includes(personId);
 	}
 }

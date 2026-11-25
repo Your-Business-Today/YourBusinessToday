@@ -9,7 +9,7 @@ const jeremy = 'jeremy';
 
 function jobOf(id: string, productId: string, status: TeamWorkItem['status'], assigneeIds: string[]): TeamWorkItem {
 	const department = departments.administration;
-	return { id, title: id, department, status, dueDate: null, productId, productName: productId, assigneeIds, href: `/${id}` };
+	return { id, title: id, department, status, dueDate: null, productId, productName: productId, assigneeIds, nextActionIds: assigneeIds, href: `/${id}` };
 }
 
 const jobs = [
@@ -34,5 +34,14 @@ describe('jobsShownBy', () => {
 	it('narrows by product and by status together', () => {
 		expect(idsOf(jobsShownBy(jobs, { ...everyJob, productId: 'meadow' }))).toEqual(['listing', 'stripe']);
 		expect(idsOf(jobsShownBy(jobs, { assignedTo: james, productId: 'harbour', status: taskStatuses.backlog }))).toEqual(['insurance']);
+	});
+});
+
+describe('jobsShownBy, a person asked for', () => {
+	it('shows the jobs whose next move is theirs, not the ones assigned to them that wait on someone else', () => {
+		const waitingOnJeremy = { ...jobOf('cover', 'harbour', taskStatuses.backlog, [james]), nextActionIds: [jeremy] };
+		const shown = jobsShownBy([waitingOnJeremy], { ...everyJob, assignedTo: jeremy });
+		expect(idsOf(shown)).toEqual(['cover']);
+		expect(jobsShownBy([waitingOnJeremy], { ...everyJob, assignedTo: james })).toEqual([]);
 	});
 });
