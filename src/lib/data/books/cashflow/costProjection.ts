@@ -1,9 +1,11 @@
 import { differenceOf, sumMoney } from '../money';
 import { LedgerAccountTypes } from '../ledgerAccountTypes';
 import type { LedgerEntry } from '../ledgerEntry';
-import type { MonthKey } from '../monthKey';
+import { monthOfDay, type MonthKey } from '../monthKey';
 import { naturalMovement } from '../reports/accountBalances';
 import type { ReportedCostCentre } from '../reports/profitByCostCentre';
+import type { ApportionedEntry, CostSharing } from '../sharing/apportionedEntries';
+import { sharedForecastParts } from '../sharing/sharedForecastParts';
 import { CashflowDirections, type CashflowItem } from './cashflowItem';
 import { forecastEntriesOfItems } from './forecastEntriesOfItems';
 import type { ForecastEntry } from './cashflowForecast';
@@ -17,21 +19,37 @@ export type ProjectedMonth = CostAndIncome & { month: MonthKey };
 /** A cost centre's figures so far, as the books hold them, and by the end of each month ahead, adding its forecast items. */
 export type CostProjection = { costCentreId: string; label: string; soFar: CostAndIncome; months: ProjectedMonth[] };
 
-/** The forecast items, each with the cost centre it is kept against, read beside the books' own lines. */
-export type ProjectionInputs = { entries: LedgerEntry[]; items: CashflowItem[]; itemCostCentres: Map<string, string>; months: MonthKey[] };
+/**
+ * The books' lines with every shared cost split among its projects, the day they are read to, the forecast items each
+ * with the cost centre it is kept against, the months ahead, and the shared costs that split the items kept against them.
+ */
+export type ProjectionInputs = {
+	entries: ApportionedEntry[];
+	asAt: string;
+	items: CashflowItem[];
+	itemCostCentres: Map<string, string>;
+	months: MonthKey[];
+	sharing: CostSharing;
+};
 
 /** Each live cost centre, and each archived one still carrying figures, so far and month by month ahead. */
 export function buildCostProjections(inputs: ProjectionInputs, costCentres: ReportedCostCentre[]): CostProjection[] {
-	const projections = costCentres.map((costCentre) => ({ costCentre, projection: costProjectionOf(costCentre, inputs) }));
+	const { items, itemCostCentres, months, sharing } = inputs;
+	const sharedIds = new Set(sharing.shares.map((share) => share.costCentreId));
+	const sharedParts = sharedForecastParts(items, itemCostCentres, months, sharing);
+	const ownCostCentres = costCentres.filter((costCentre) => !sharedIds.has(costCentre.id));
+	const projections = ownCostCentres.map((costCentre) => ({ costCentre, projection: costProjectionOf(costCentre, inputs, sharedParts) }));
 	return projections.filter(({ costCentre, projection }) => !costCentre.isArchived || hasFigures(projection)).map(({ projection }) => projection);
 }
 
-function costProjectionOf(costCentre: ReportedCostCentre, inputs: ProjectionInputs): CostProjection {
-	const { entries, items, itemCostCentres, months: monthsAhead } = inputs;
+function costProjectionOf(costCentre: ReportedCostCentre, inputs: ProjectionInputs, sharedParts: ApportionedEntry[]): CostProjection {
+	const { entries, asAt, items, itemCostCentres, months: monthsAhead } = inputs;
 	const within = entries.filter((entry) => entry.costCentreId === costCentre.id);
+	const booked = within.filter((entry) => entry.journalDate <= asAt);
+	const ahead = [...within.filter((entry) => entry.journalDate > asAt), ...sharedParts.filter((entry) => entry.costCentreId === costCentre.id)];
 	const itemsKept = items.filter((item) => itemCostCentres.get(item.id) === costCentre.id);
-	const soFar = netOf(sideTotal(within, LedgerAccountTypes.expense), sideTotal(within, LedgerAccountTypes.income));
-	const forecast = forecastEntriesOfItems(itemsKept, monthsAhead);
+	const soFar = netOf(sideTotal(booked, LedgerAccountTypes.expense), sideTotal(booked, LedgerAccountTypes.income));
+	const forecast = [...forecastEntriesOfItems(itemsKept, monthsAhead), ...ahead.map(asForecastEntry)];
 	let runningTotal = soFar;
 	const months = monthsAhead.map((month) => {
 		const inMonth = forecast.filter((entry) => entry.month === month);
@@ -39,6 +57,12 @@ function costProjectionOf(costCentre: ReportedCostCentre, inputs: ProjectionInpu
 		return { month, ...runningTotal };
 	});
 	return { costCentreId: costCentre.id, label: costCentre.label, soFar, months };
+}
+
+function asForecastEntry(entry: LedgerEntry): ForecastEntry {
+	const isIncome = entry.accountType === LedgerAccountTypes.income;
+	const direction = isIncome ? CashflowDirections.moneyIn : CashflowDirections.moneyOut;
+	return { month: monthOfDay(entry.journalDate), source: entry.accountName, direction, amount: naturalMovement(entry.accountType, entry.debit, entry.credit) };
 }
 
 function addMonth(before: CostAndIncome, inMonth: ForecastEntry[]): CostAndIncome {

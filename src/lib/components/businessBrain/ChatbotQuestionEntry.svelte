@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ChatbotAnswerReported from './ChatbotAnswerReported.svelte';
+	import ChatbotQuestionDeleteButton from './ChatbotQuestionDeleteButton.svelte';
 	import ChatbotReadingLine from './ChatbotReadingLine.svelte';
 	import { whenOnUkClock } from '$lib/data/businessBrainChatbotTrailWording';
 	import type { BusinessBrainAddresses } from '$lib/data/businessBrainAddresses';
@@ -24,4 +25,5 @@
 		{/each}
 	</ul>
 	<ChatbotAnswerReported {question} />
+	<ChatbotQuestionDeleteButton questionId={question.questionId} />
 </li>

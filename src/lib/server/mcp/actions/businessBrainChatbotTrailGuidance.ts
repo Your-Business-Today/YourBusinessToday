@@ -1,7 +1,7 @@
 import { everyQuestionIsRecorded } from './businessBrainChatbotGuidance';
 
 const howLongItIsKept =
-	"The record is kept for as long as the organisation's Your Business Brain is kept, and nothing in the app deletes it.";
+	"The record is kept for as long as the organisation's Your Business Brain is kept, or the shorter period its manager sets with set_business_brain_chatbot_record_keeping. A manager deletes a question with delete_business_brain_chatbot_question, and every deletion is itself recorded.";
 
 export const recordChatbotAnswerGuidance = [
 	everyQuestionIsRecorded,

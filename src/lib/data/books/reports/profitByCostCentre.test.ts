@@ -19,14 +19,16 @@ describe('buildProfitByCostCentre', () => {
 				label: 'Shop (Carp Mania)',
 				income: { period: 0, yearToDate: 1000 },
 				costs: { period: 0, yearToDate: 0 },
-				netProfit: { period: 0, yearToDate: 1000 }
+				netProfit: { period: 0, yearToDate: 1000 },
+				sharedCosts: []
 			},
 			{
 				costCentreId: costCentres.office,
 				label: 'Office',
 				income: { period: 0, yearToDate: 0 },
 				costs: { period: 300.1, yearToDate: 300.1 },
-				netProfit: { period: -300.1, yearToDate: -300.1 }
+				netProfit: { period: -300.1, yearToDate: -300.1 },
+				sharedCosts: []
 			}
 		]);
 		const { unallocated } = report;
@@ -49,5 +51,23 @@ describe('buildProfitByCostCentre', () => {
 		const emptyArchive = { id: 'cost-centre-closed', label: 'Closed', isArchived: true };
 		const report = buildProfitByCostCentre(juneEntries, june, [closedShop, emptyArchive]);
 		expect(report.lines.map((line) => line.label)).toEqual(['Shop (Carp Mania)']);
+	});
+});
+
+describe('buildProfitByCostCentre with a shared cost', () => {
+	const apple = { id: 'cost-centre-apple', label: 'Apple developer licence', isArchived: false };
+	const licencePaid: LedgerEntry = { journalDate: '2026-06-10', ...accounts.rent, costCentreId: apple.id, debit: 120, credit: 0 };
+	const juneShare = { ...licencePaid, costCentreId: costCentres.shop, debit: 10, sharedFromCostCentreId: apple.id };
+	const julyShare = { ...juneShare, journalDate: '2026-07-01' };
+
+	it('shows a project its share of the shared cost, leaves the shared cost off its own line, and moves the rest to the timing line', () => {
+		const asBooked = [...juneEntries, licencePaid];
+		const apportioned = [...juneEntries, juneShare, julyShare];
+		const report = buildProfitByCostCentre(apportioned, june, [shop, office, apple], { asBooked, sharedCostCentres: [apple] });
+		expect(report.lines.map((line) => line.label)).toEqual(['Shop (Carp Mania)', 'Office']);
+		expect(report.lines[0].sharedCosts).toEqual([{ costCentreId: apple.id, label: apple.label, costs: { period: 10, yearToDate: 10 } }]);
+		const { sharedTiming, total } = report;
+		expect(sharedTiming.costs).toEqual({ period: 110, yearToDate: 110 });
+		expect(total.costs).toMatchObject({ period: 460.1 });
 	});
 });

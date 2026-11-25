@@ -3,7 +3,8 @@ import { getNotificationList } from '$lib/server/notifications/getNotificationLi
 import { getAccountsById } from '$lib/server/accounts/getAccountsById';
 import { findNotificationFor } from '$lib/server/notifications/findNotificationFor';
 import { markAllNotificationsRead } from '$lib/server/notifications/markAllNotificationsRead';
-import { markNotificationRead } from '$lib/server/notifications/markNotificationRead';
+import { markSubjectNotificationsRead } from '$lib/server/notifications/markSubjectNotificationsRead';
+import { groupNotificationsBySubject } from '$lib/server/notifications/notificationGroup';
 import { requireUser } from '$lib/server/auth/requireUser';
 import { trimmedText } from '$lib/data/trimmedText';
 import { validateRecordId } from '$lib/data/isUuid';
@@ -12,21 +13,22 @@ import type { Actions, PageServerLoad } from './$types';
 const refusedStatus = 400;
 const notFoundStatus = 404;
 const seeOtherStatus = 303;
+const notificationsRolledUp = 200;
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = await requireUser(locals);
-	const notifications = await getNotificationList(locals.supabase, user.id);
+	const notifications = await getNotificationList(locals.supabase, user.id, notificationsRolledUp);
 	const authorIds = notifications.flatMap((notification) =>
 		notification.messageAuthorId === null ? [] : [notification.messageAuthorId]
 	);
 	return {
-		notifications,
+		notificationGroups: groupNotificationsBySubject(notifications),
 		authors: await getAccountsById(locals.supabase, authorIds)
 	};
 };
 
 export const actions: Actions = {
-	openNotification: async ({ locals, request }) => {
+	openSubject: async ({ locals, request }) => {
 		const user = await requireUser(locals);
 		const formData = await request.formData();
 		const notificationId = trimmedText(formData.get('notificationId'));
@@ -34,7 +36,7 @@ export const actions: Actions = {
 		if (idRefusal !== null) return fail(refusedStatus, { message: idRefusal });
 		const notification = await findNotificationFor(locals.supabase, user.id, notificationId);
 		if (notification === null) return fail(notFoundStatus, { message: 'No notification of yours has that id.' });
-		await markNotificationRead(locals.supabase, notificationId);
+		await markSubjectNotificationsRead(locals.supabase, user.id, notification.subjectKind, notification.subjectId);
 		redirect(seeOtherStatus, notification.path);
 	},
 	markAllRead: async ({ locals }) => {

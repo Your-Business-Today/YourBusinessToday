@@ -18,6 +18,7 @@ import { chatReadingActions } from './chatReadingActions';
 import { chatWritingActions } from './chatWritingActions';
 import { chatbotReadingActions } from './chatbotReadingActions';
 import { chatbotTrailActions } from './businessBrainChatbotTrailActions';
+import { chatbotRecordKeepingActions } from './chatbotRecordKeepingActions';
 import { myBrainsActions } from './myBrainsActions';
 import { newsWatchListActions } from './newsWatchListActions';
 import { newsStoryActions } from './newsStoryActions';
@@ -45,6 +46,7 @@ export const moduleAreaActions: McpAction[] = [
 	...chatDecisionActions,
 	...chatbotReadingActions,
 	...chatbotTrailActions,
+	...chatbotRecordKeepingActions,
 	...myBrainsActions,
 	...newsWatchListActions,
 	...newsStoryActions

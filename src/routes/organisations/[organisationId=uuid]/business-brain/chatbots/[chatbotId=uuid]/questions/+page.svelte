@@ -1,6 +1,8 @@
 <script lang="ts">
 	import ChatbotQuestionEntry from '$lib/components/businessBrain/ChatbotQuestionEntry.svelte';
 	import ChatbotQuestionsFilterForm from '$lib/components/businessBrain/ChatbotQuestionsFilterForm.svelte';
+	import ChatbotRecordDeletionsList from '$lib/components/businessBrain/ChatbotRecordDeletionsList.svelte';
+	import ChatbotRecordKeepingForm from '$lib/components/businessBrain/ChatbotRecordKeepingForm.svelte';
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
 	import { businessBrainAddresses } from '$lib/data/businessBrainAddresses';
@@ -12,7 +14,7 @@
 
 	let { data } = $props();
 
-	const { organisation, chatbot, asked, downloadHref, trail, refusal } = $derived(data);
+	const { organisation, chatbot, asked, downloadHref, keeping, deletions, trail, refusal } = $derived(data);
 	const addresses = $derived(businessBrainAddresses(organisation.id));
 	const questions = $derived(trail?.questions ?? []);
 	const questionCount = $derived(trail?.questionCount ?? null);
@@ -29,7 +31,7 @@
 <WorkspaceHeader crumbs={businessBrainPageCrumbs(organisation)} title={`Questions asked of ${chatbot.name}`}>
 	<p class="text-sm text-chalk-muted">
 		Every question asked through this chatbot, newest first: who asked, what was read for it and the answer their Claude reported.
-		Only managers see this record, and nothing on it can be changed.
+		Only managers see this record. Nothing on it is ever changed; a manager can delete a question, and each deletion is recorded.
 	</p>
 </WorkspaceHeader>
 
@@ -54,5 +56,11 @@
 				{/each}
 			</ul>
 		{/if}
+	</DashboardPanel>
+	<DashboardPanel title="How long the record is kept" isPadded>
+		<ChatbotRecordKeepingForm {keeping} />
+	</DashboardPanel>
+	<DashboardPanel title="Deleted from the record" count={deletions.length}>
+		<ChatbotRecordDeletionsList {deletions} />
 	</DashboardPanel>
 </div>
