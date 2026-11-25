@@ -6,10 +6,17 @@ import type { CostShareSplitByChoice, UsageReadings } from './costShareUsage';
 export const CostShareLimits = { fewestMonthsCovered: 1, mostMonthsCovered: 36 } as const;
 
 /**
- * One project's place in a shared cost: from the month it joins, and to the month it leaves, null while it carries on,
+ * One project's place in a shared cost, or a cost centre's that has no project: from the month it joins, and to the month it leaves, null while it carries on,
  * with the weight its part is reckoned by, such as the seats it uses; a member with no weight set takes an equal part.
  */
-export type CostShareMember = { id: string; projectId: string | null; joinedMonth: MonthKey; leftMonth: MonthKey | null; weight?: number };
+export type CostShareMember = {
+	id: string;
+	projectId: string | null;
+	joinedMonth: MonthKey;
+	leftMonth: MonthKey | null;
+	weight?: number;
+	costCentreId?: string | null;
+};
 
 /**
  * A cost centre whose lines several projects share: each line is spread over the months it covers, counted from the

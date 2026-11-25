@@ -9,8 +9,10 @@ import { CostShareTables } from './costShares';
 import { costShareUsageTable } from './costShareUsageReadings';
 import { findCostShare } from './costShareWrites';
 
-/** One project's usage of a shared cost in a month, such as its dollars of Vercel usage on the bill. */
-export type UsageReading = { projectId: string; usage: number };
+/** One member's usage of a shared cost in a month, such as its dollars of Vercel usage on the bill: by its project, or its cost centre when it has none. */
+export type UsageReading = { projectId: string | null; costCentreId: string | null; usage: number };
+
+const foreignKeyViolation = '23503';
 
 /** Sets how a shared cost's months are split: by usage readings, or by the members' weights, equal where none is set. */
 export async function setCostShareSplitBy(supabase: SupabaseClient, organisationId: string, costCentreId: unknown, splitBy: unknown): Promise<void> {
@@ -39,8 +41,9 @@ export async function recordCostShareUsage(
 	const cleared = await supabase.from(costShareUsageTable).delete().eq('organisation_id', organisationId).eq('cost_share_id', share.id).eq('month', kept.month);
 	if (cleared.error !== null) throw cleared.error;
 	if (readings.length === 0) return readings;
-	const rows = readings.map((reading) => ({ ...kept, project_id: reading.projectId, usage: reading.usage }));
+	const rows = readings.map((reading) => ({ ...kept, project_id: reading.projectId, cost_centre_id: reading.costCentreId, usage: reading.usage }));
 	const { error } = await supabase.from(costShareUsageTable).insert(rows);
+	if (error?.code === foreignKeyViolation) throw new BooksRefusal("A cost centre in readings is not in this organisation's books; list_cost_centres lists them.");
 	if (error !== null) throw error;
 	return readings;
 }
@@ -50,21 +53,23 @@ function validatedReadings(candidate: unknown): UsageReading[] {
 	if (!Array.isArray(candidate)) throw new BooksRefusal('readings is a list of { projectId, usage }, one for each project that used the cost that month.');
 	if (candidate.length > mostReadings) throw new BooksRefusal(`readings holds at most ${mostReadings} projects; ${candidate.length} were given.`);
 	const readings = candidate.map((reading) => readingOf(reading));
-	const projectIds = new Set(readings.map((reading) => reading.projectId));
-	if (projectIds.size < readings.length) throw new BooksRefusal('readings names a project more than once; give each project one reading for the month.');
+	const readers = new Set(readings.map((reading) => reading.projectId ?? reading.costCentreId));
+	if (readers.size < readings.length) throw new BooksRefusal('readings names a project or cost centre more than once; give each one reading for the month.');
 	return readings;
 }
 
 function readingOf(candidate: unknown): UsageReading {
-	const { projectId, usage } = (candidate ?? {}) as { projectId?: unknown; usage?: unknown };
-	refuseWhen(validateRecordId('project', String(projectId ?? '')));
+	const { projectId, costCentreId, usage } = (candidate ?? {}) as { projectId?: unknown; costCentreId?: unknown; usage?: unknown };
 	refuseWhen(usageRefusal(usage));
-	return { projectId: projectId as string, usage: usage as number };
+	const isByCostCentre = projectId === undefined || projectId === null || projectId === '';
+	if (!isByCostCentre) refuseWhen(validateRecordId('project', String(projectId)));
+	if (isByCostCentre) refuseWhen(validateRecordId('cost centre', String(costCentreId ?? '')));
+	return { projectId: isByCostCentre ? null : (projectId as string), costCentreId: isByCostCentre ? (costCentreId as string) : null, usage: usage as number };
 }
 
 async function refuseProjectsNotOwned(supabase: SupabaseClient, organisationId: string, readings: UsageReading[]): Promise<void> {
-	if (readings.length === 0) return;
-	const projectIds = readings.map((reading) => reading.projectId);
+	const projectIds = readings.flatMap((reading) => (reading.projectId === null ? [] : [reading.projectId]));
+	if (projectIds.length === 0) return;
 	const { data, error } = await supabase.from('projects').select('id').eq('organisation_id', organisationId).in('id', projectIds);
 	if (error !== null) throw error;
 	const owned = new Set((data as { id: string }[]).map((project) => project.id));

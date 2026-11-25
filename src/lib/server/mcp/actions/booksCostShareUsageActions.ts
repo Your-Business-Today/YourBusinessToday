@@ -14,17 +14,18 @@ const readingsField = {
 	maxItems: CostShareUsageLimits.mostReadings,
 	items: objectSchema(
 		{
-			projectId: textField("The project that used the cost, by its id as list_projects gives it, one of the organisation's own"),
+			projectId: textField("The project that used the cost, by its id as list_projects gives it, one of the organisation's own; leave out for a cost centre member"),
+			costCentreId: textField('For a member that is a cost centre with no project, that cost centre, by its id as list_cost_centres gives it'),
 			usage: { type: 'number', minimum: 0, maximum: CostShareUsageLimits.largestUsage, description: 'What it used that month, such as 12.03 for $12.03 of Vercel usage' }
 		},
-		['projectId', 'usage']
+		['usage']
 	),
 	description: 'One reading for each project that used the cost that month; an empty list clears the month, which is then split equally'
 };
 
 const usageGuidance =
 	"Read each project's usage from the supplier's bill with its own CLI or connector: for Vercel `vercel billing usage --group-by project`, for Supabase each project's compute on the organisation's usage page. " +
-	'Match each to its YBT project by name and record the figures as they come, in one unit for the month. Each month is split in proportion to the readings among the projects sharing the cost; ' +
+	'Match each to its YBT project by name, adding together several that belong to one project, and record the figures as they come, in one unit for the month. Each month is split in proportion to the readings among the projects sharing the cost; ' +
 	'a reading for a project not sharing it that month takes no part. A month with no reading is split equally, and read_cost_shares says so.';
 
 export const booksCostShareUsageActions: McpAction[] = [

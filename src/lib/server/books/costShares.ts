@@ -10,7 +10,7 @@ import { findUsageReadings } from './costShareUsageReadings';
 
 export const CostShareTables = { shares: 'books_cost_shares', members: 'books_cost_share_members' } as const;
 export const costShareColumns = 'id, cost_centre_id, months_covered, members_by, split_by';
-export const costShareMemberColumns = 'id, cost_share_id, project_id, joined_month, left_month, weight';
+export const costShareMemberColumns = 'id, cost_share_id, project_id, joined_month, left_month, weight, cost_centre_id';
 
 export type CostShareRow = {
 	id: string;
@@ -26,11 +26,12 @@ export type CostShareMemberRow = {
 	joined_month: string;
 	left_month: string | null;
 	weight?: number | string;
+	cost_centre_id?: string | null;
 };
 
 /**
  * Every shared cost in the organisation's books with the projects that share it, by the month each joined: its named
- * members, or every project live each month for one kept by rule; none until the migration that keeps them has run.
+ * members, or every project live each month for one kept by rule, beside any cost centres named; none until the migration has run.
  */
 export async function findCostShares(supabase: SupabaseClient, organisationId: string): Promise<CostShare[]> {
 	const [shares, members] = await Promise.all([
@@ -46,7 +47,9 @@ export async function findCostShares(supabase: SupabaseClient, organisationId: s
 	const memberRows = members.data as CostShareMemberRow[];
 	const usage = await findUsageReadings(supabase, organisationId, shareRows);
 	return shareRows.map((row) => {
-		const share = isKeptByRule(row) ? { ...fromCostShareRow(row, []), members: liveMembers } : fromCostShareRow(row, memberRows);
+		const named = fromCostShareRow(row, memberRows);
+		const costCentreMembers = named.members.filter((member) => member.costCentreId !== null);
+		const share = isKeptByRule(row) ? { ...named, members: [...liveMembers, ...costCentreMembers] } : named;
 		return { ...share, usage: usage.get(row.id) };
 	});
 }
@@ -61,7 +64,8 @@ export function fromCostShareRow(row: CostShareRow, memberRows: CostShareMemberR
 export function fromCostShareMemberRow(row: CostShareMemberRow): CostShareMember {
 	const leftMonth = row.left_month === null ? null : monthOfDay(row.left_month);
 	const weight = row.weight === undefined ? equalWeight : Number(row.weight);
-	return { id: row.id, projectId: row.project_id, joinedMonth: monthOfDay(row.joined_month), leftMonth, weight };
+	const costCentreId = row.cost_centre_id ?? null;
+	return { id: row.id, projectId: row.project_id, joinedMonth: monthOfDay(row.joined_month), leftMonth, weight, costCentreId };
 }
 
 function isKeptByRule(row: CostShareRow): boolean {

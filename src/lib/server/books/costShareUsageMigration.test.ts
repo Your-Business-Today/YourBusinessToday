@@ -12,7 +12,8 @@ describe('migration 0295, shared costs split by usage and the readings they are 
 		const choices = Object.values(CostShareSplitBy).map((choice) => `'${choice}'`);
 		expect(statements).toContain(`check (split_by in (${choices.join(', ')}))`);
 		expect(statements).toContain(`numeric(14, ${CostShareUsageLimits.decimalPlaces}) not null check (usage >= 0 and usage <= ${CostShareUsageLimits.largestUsage})`);
-		expect(statements).toContain('unique (cost_share_id, month, project_id)');
+		expect(statements).toContain('unique nulls not distinct (cost_share_id, month, project_id, cost_centre_id)');
+		expect(statements).toContain('check (project_id is null or cost_centre_id is null)');
 	});
 
 	it('is read by the server alone and goes out with the organisation’s data', () => {

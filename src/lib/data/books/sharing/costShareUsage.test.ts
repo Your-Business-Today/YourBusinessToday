@@ -33,4 +33,12 @@ describe('a shared cost split by usage', () => {
 		const [october, november] = costShareSplit(apportionEntries([vercelPro('2026-10-04'), vercelPro('2026-11-04')], sharing), share, ['2026-10', '2026-11']);
 		expect([october.isSplitEquallyForWantOfUsage, november.isSplitEquallyForWantOfUsage]).toEqual([true, false]);
 	});
+
+	it('gives a cost centre with no project its part by its own reading, beside the projects', () => {
+		const jewel = { id: 'm-jewel', projectId: null, costCentreId: 'cc-jewel', joinedMonth: '2026-01', leftMonth: null };
+		const usage = new Map([['2026-11', new Map([['ybt', 30], ['carp', 10], ['cc-jewel', 40]])]]);
+		const withJewel = { ...sharing, shares: [{ ...share, members: [...share.members, jewel], usage }] };
+		const entries = apportionEntries([vercelPro('2026-11-04')], withJewel);
+		expect([costIn(entries, 'cc-ybt'), costIn(entries, 'cc-carp'), costIn(entries, 'cc-jewel')]).toEqual([7.5, 2.5, 10]);
+	});
 });

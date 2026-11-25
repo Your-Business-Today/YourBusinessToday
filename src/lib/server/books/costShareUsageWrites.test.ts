@@ -44,7 +44,7 @@ describe('recordCostShareUsage', () => {
 		await recordCostShareUsage(books.supabase, organisationId, { costCentreId, month: '2026-11', readings });
 		expect(books.changes).toEqual([
 			{ delete: 'books_cost_share_usage' },
-			{ insert: readings.map(({ projectId, usage }) => expect.objectContaining({ project_id: projectId, usage, month: '2026-11-01' })) }
+			{ insert: readings.map(({ projectId, usage }) => expect.objectContaining({ project_id: projectId, cost_centre_id: null, usage, month: '2026-11-01' })) }
 		]);
 	});
 
