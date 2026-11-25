@@ -2,15 +2,23 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { CostShare, CostShareMember } from '$lib/data/books/sharing/costShare';
 import { CostShareMembersBy, type CostShareMembersByChoice } from '$lib/data/books/sharing/costShareMembersBy';
 import { equalWeight } from '$lib/data/books/sharing/costShareWeights';
+import { CostShareSplitBy, type CostShareSplitByChoice } from '$lib/data/books/sharing/costShareUsage';
 import { monthOfDay } from '$lib/data/books/monthKey';
 import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
 import { findLiveProjectMembers } from './costShareStatusMembers';
+import { findUsageReadings } from './costShareUsageReadings';
 
 export const CostShareTables = { shares: 'books_cost_shares', members: 'books_cost_share_members' } as const;
-export const costShareColumns = 'id, cost_centre_id, months_covered, members_by';
+export const costShareColumns = 'id, cost_centre_id, months_covered, members_by, split_by';
 export const costShareMemberColumns = 'id, cost_share_id, project_id, joined_month, left_month, weight';
 
-export type CostShareRow = { id: string; cost_centre_id: string; months_covered: number; members_by: CostShareMembersByChoice };
+export type CostShareRow = {
+	id: string;
+	cost_centre_id: string;
+	months_covered: number;
+	members_by: CostShareMembersByChoice;
+	split_by?: CostShareSplitByChoice;
+};
 export type CostShareMemberRow = {
 	id: string;
 	cost_share_id: string;
@@ -36,13 +44,18 @@ export async function findCostShares(supabase: SupabaseClient, organisationId: s
 	const isAnyByRule = shareRows.some(isKeptByRule);
 	const liveMembers = isAnyByRule ? await findLiveProjectMembers(supabase, organisationId) : [];
 	const memberRows = members.data as CostShareMemberRow[];
-	return shareRows.map((row) => (isKeptByRule(row) ? { ...fromCostShareRow(row, []), members: liveMembers } : fromCostShareRow(row, memberRows)));
+	const usage = await findUsageReadings(supabase, organisationId, shareRows);
+	return shareRows.map((row) => {
+		const share = isKeptByRule(row) ? { ...fromCostShareRow(row, []), members: liveMembers } : fromCostShareRow(row, memberRows);
+		return { ...share, usage: usage.get(row.id) };
+	});
 }
 
 export function fromCostShareRow(row: CostShareRow, memberRows: CostShareMemberRow[]): CostShare {
 	const members = memberRows.filter((member) => member.cost_share_id === row.id).map(fromCostShareMemberRow);
 	const membersBy = row.members_by ?? CostShareMembersBy.named;
-	return { id: row.id, costCentreId: row.cost_centre_id, monthsCovered: row.months_covered, membersBy, members };
+	const splitBy = row.split_by ?? CostShareSplitBy.weight;
+	return { id: row.id, costCentreId: row.cost_centre_id, monthsCovered: row.months_covered, membersBy, members, splitBy };
 }
 
 export function fromCostShareMemberRow(row: CostShareMemberRow): CostShareMember {

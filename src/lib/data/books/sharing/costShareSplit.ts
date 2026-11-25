@@ -2,13 +2,14 @@ import { naturalMovement } from '../reports/accountBalances';
 import { monthOfDay, shiftMonth, type MonthKey } from '../monthKey';
 import { sumMoney } from '../money';
 import type { ApportionedEntry } from './apportionedEntries';
-import type { CostShare } from './costShare';
+import { isSharingIn, type CostShare } from './costShare';
+import { isSplitEquallyForWantOfUsage } from './costShareUsage';
 
 /** What one cost centre took of a shared cost in a month; null is the part kept against no project. */
 export type CostSharePart = { costCentreId: string | null; amount: number };
 
-/** How a shared cost's lines were split in one month. */
-export type CostShareMonth = { month: MonthKey; parts: CostSharePart[] };
+/** How a shared cost's lines were split in one month, and whether a cost split by usage was split equally for want of a reading. */
+export type CostShareMonth = { month: MonthKey; parts: CostSharePart[]; isSplitEquallyForWantOfUsage: boolean };
 
 /** The twelve months to the month given, the first of them eleven months before. */
 export function twelveMonthsTo(lastMonth: MonthKey): MonthKey[] {
@@ -22,7 +23,9 @@ export function costShareSplit(entries: ApportionedEntry[], share: CostShare, mo
 	return months.map((month) => {
 		const inMonth = parts.filter((entry) => monthOfDay(entry.journalDate) === month);
 		const receivers = [...new Set(inMonth.map((entry) => entry.costCentreId))];
-		return { month, parts: receivers.map((costCentreId) => partOf(inMonth, costCentreId)) };
+		const sharing = share.members.filter((member) => isSharingIn(member, month));
+		const isEqualForWant = inMonth.length > 0 && isSplitEquallyForWantOfUsage(share, sharing, month);
+		return { month, parts: receivers.map((costCentreId) => partOf(inMonth, costCentreId)), isSplitEquallyForWantOfUsage: isEqualForWant };
 	});
 }
 

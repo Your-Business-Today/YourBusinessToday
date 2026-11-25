@@ -18,15 +18,16 @@ describe('costShareSplit', () => {
 		const entries = [part('2026-07-01', 'carp', 3.29), part('2026-07-01', 'cod', 3.29), part('2026-08-01', null, 6.58)];
 		const split = costShareSplit(entries, share, ['2026-06', '2026-07', '2026-08']);
 		expect(split).toEqual([
-			{ month: '2026-06', parts: [] },
+			{ month: '2026-06', parts: [], isSplitEquallyForWantOfUsage: false },
 			{
 				month: '2026-07',
 				parts: [
 					{ costCentreId: 'carp', amount: 3.29 },
 					{ costCentreId: 'cod', amount: 3.29 }
-				]
+				],
+				isSplitEquallyForWantOfUsage: false
 			},
-			{ month: '2026-08', parts: [{ costCentreId: null, amount: 6.58 }] }
+			{ month: '2026-08', parts: [{ costCentreId: null, amount: 6.58 }], isSplitEquallyForWantOfUsage: false }
 		]);
 	});
 });

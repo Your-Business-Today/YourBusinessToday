@@ -16,6 +16,7 @@ import { booksCostProjectionActions } from './booksCostProjectionActions';
 import { booksCostShareActions } from './booksCostShareActions';
 import { booksCostShareRuleActions } from './booksCostShareRuleActions';
 import { booksCostShareSyncActions } from './booksCostShareSyncActions';
+import { booksCostShareUsageActions } from './booksCostShareUsageActions';
 import { booksCostShareWeightActions } from './booksCostShareWeightActions';
 import { booksCustomerActions } from './booksCustomerActions';
 import { booksInvoiceActions } from './booksInvoiceActions';
@@ -56,6 +57,7 @@ export const booksActions: McpAction[] = [
 	...booksCostShareActions,
 	...booksCostShareRuleActions,
 	...booksCostShareSyncActions,
+	...booksCostShareUsageActions,
 	...booksCostShareWeightActions,
 	...booksCustomerActions,
 	...booksInvoiceActions,
