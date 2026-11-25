@@ -22,7 +22,9 @@ const inputs = {
 	entries: [azureSoFar, sponsorPaid],
 	items: [azureMonthly],
 	itemCostCentres: new Map([['azure', costCentres.office]]),
-	months: ['2026-12', '2027-01']
+	months: ['2026-12', '2027-01'],
+	asAt: '2026-11-25',
+	sharing: { shares: [], projectCostCentres: new Map<string, string>() }
 };
 
 describe('buildCostProjections', () => {

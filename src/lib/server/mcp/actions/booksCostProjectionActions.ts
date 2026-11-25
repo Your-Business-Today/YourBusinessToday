@@ -44,7 +44,9 @@ export const booksCostProjectionActions: McpAction[] = [
 		summary: 'read what each project has cost and earned so far, and what it will have by the end of each month to a month asked for',
 		guidance:
 			'So far is every line kept within the project’s cost centre to today; each month after adds the forecast items ' +
-			'kept against it. Give the figures as they come; an item with no cost centre counts towards no project.',
+			'kept against it. A project also takes its part of each shared cost (read_cost_shares) and of the items kept ' +
+			'against one, from the month it is planned to join, so a project due to join lowers the others from then. ' +
+			'Give the figures as they come; an item with no cost centre counts towards no project.',
 		inputSchema: objectSchema({ organisationId: booksOrganisationField, byMonth: byMonthField }, ['organisationId']),
 		run: async (caller, input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.reading, async () => {
