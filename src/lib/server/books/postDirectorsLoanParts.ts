@@ -5,7 +5,7 @@ import { directorsLoanJournalOf } from '$lib/data/books/sharing/directorsLoanJou
 import { directorsLoanPartsOf, type DirectorsLoanPart } from '$lib/data/books/sharing/directorsLoanParts';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { findLatestClose } from './booksClosing';
-import { claimLoanPosting, findLoanPostings, releaseLoanPosting } from './costShareLoanPostings';
+import { claimLoanPosting, findLoanPostings, releaseLoanPosting } from './costShareLoanMovedMonths';
 import { postJournalSet } from './journalSet';
 import { isJournalPosted, prepareStepJournal } from './journalStep';
 import { readSharedLedgerUpTo } from './sharedLedgerEntries';
@@ -32,7 +32,9 @@ export async function postDirectorsLoanParts(
 ) {
 	refuseWhen(validateMonthKey('month', request.month));
 	const month = request.month as MonthKey;
-	if (monthStart(month) > today) throw new BooksRefusal(`${describeMonth(month)} has not begun; a month is moved onto the director's loan once it has.`);
+	const monthName = describeMonth(month);
+	const hasBegun = monthStart(month) <= today;
+	if (!hasBegun) throw new BooksRefusal(`${monthName} has not begun; a month is moved onto the director's loan once it has.`);
 	await refuseClosedMonth(supabase, organisationId, month);
 	const journalDate = monthEnd(month) < today ? monthEnd(month) : today;
 	const { entries, shares, costCentres } = await readSharedLedgerUpTo(supabase, organisationId, journalDate);
@@ -40,9 +42,10 @@ export async function postDirectorsLoanParts(
 	if (share === undefined) throw new BooksRefusal(`Cost centre ${request.costCentreId} is not a shared cost; read_cost_shares lists them.`);
 	const label = costCentres.find((costCentre) => costCentre.id === share.costCentreId)?.label ?? 'a shared cost';
 	const parts = directorsLoanPartsOf(entries, share, month);
-	if (parts.length === 0) throw new BooksRefusal(`No member keeps its part of ${label} on a director's loan in ${describeMonth(month)}.`);
+	const isAnyKeptOnLoan = parts.length > 0;
+	if (!isAnyKeptOnLoan) throw new BooksRefusal(`No member keeps its part of ${label} on a director's loan in ${monthName}.`);
 	const postings = await findLoanPostings(supabase, organisationId);
-	const isPosted = (part: DirectorsLoanPart) => postings.some((posting) => posting.memberId === part.member.id && posting.month === month);
+	const isPosted = (part: DirectorsLoanPart) => postings.some((posting) => posting.memberId === part.memberId && posting.month === month);
 	const alreadyPosted = parts.filter(isPosted);
 	const empty = parts.filter((part) => !isPosted(part) && part.pence === 0);
 	const toPost = parts.filter((part) => !isPosted(part) && part.pence > 0);
@@ -54,16 +57,19 @@ async function refuseClosedMonth(supabase: SupabaseClient, organisationId: strin
 	const latest = await findLatestClose(supabase, organisationId);
 	if (latest === null) return;
 	const closedTo = monthOfDay(latest.closed_to_month);
-	if (month <= closedTo) throw new BooksRefusal(`The books are closed to ${describeMonth(closedTo)}, so ${describeMonth(month)} cannot take a journal.`);
+	const isClosed = month <= closedTo;
+	const refusal = `The books are closed to ${describeMonth(closedTo)}, so ${describeMonth(month)} cannot take a journal.`;
+	if (isClosed) throw new BooksRefusal(refusal);
 }
 
 type LoanJournal = ReturnType<typeof directorsLoanJournalOf>;
 
 async function postPart(supabase: SupabaseClient, organisationId: string, fields: LoanJournal, part: DirectorsLoanPart, month: MonthKey): Promise<void> {
 	const journal = await prepareStepJournal(supabase, organisationId, fields);
-	const posting = { memberId: part.member.id, month, journalId: journal.id, amount: fromPence(part.pence) };
+	const posting = { memberId: part.memberId, month, journalId: journal.id, amount: fromPence(part.pence) };
 	const isClaimed = await claimLoanPosting(supabase, organisationId, posting);
-	if (!isClaimed) throw new BooksRefusal(`${describeMonth(month)} was moved onto the director's loan a moment ago; read_cost_shares shows it.`);
+	const refusal = `${describeMonth(month)} was moved onto the director's loan a moment ago; read_cost_shares shows it.`;
+	if (!isClaimed) throw new BooksRefusal(refusal);
 	const words = { move: `the journal "${journal.description}" was posted`, whereItStands: 'read_cost_shares says which months have moved' };
 	await postJournalSet(supabase, organisationId, [journal], words).catch(async (failure) => {
 		const isPostedAfterAll = await isJournalPosted(supabase, organisationId, journal.id);

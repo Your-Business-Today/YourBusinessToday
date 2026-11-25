@@ -42,10 +42,10 @@ function describePosting(posting: DirectorsLoanPosting): string {
 	const month = describeMonth(posting.month);
 	const posted = posting.posted.map((part) => `- ${partText(part)} moved onto the director's loan, dated ${posting.journalDate}`);
 	const already = posting.alreadyPosted.map((part) => `- ${partText(part)}: ${month} was already moved, so nothing was posted`);
-	const empty = posting.empty.map((part) => `- member ${part.member.id} took nothing of the cost in ${month}, so nothing was posted`);
+	const empty = posting.empty.map((part) => `- member ${part.memberId} took nothing of the cost in ${month}, so nothing was posted`);
 	return [`${month}, parts kept on a director's loan:`, ...posted, ...already, ...empty].join('\n');
 }
 
 function partText(part: DirectorsLoanPart): string {
-	return `member ${part.member.id}'s ${formatPoundsAndPence(fromPence(part.pence))}`;
+	return `member ${part.memberId}'s ${formatPoundsAndPence(fromPence(part.pence))}`;
 }

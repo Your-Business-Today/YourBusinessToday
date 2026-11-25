@@ -4,7 +4,7 @@ import type { CostShare } from '$lib/data/books/sharing/costShare';
 import { costShareSplit, twelveMonthsTo, type CostShareMonth } from '$lib/data/books/sharing/costShareSplit';
 import { BooksRefusal } from './booksRefusal';
 import { readSharedLedgerUpTo } from './sharedLedgerEntries';
-import { findLoanPostings, type CostShareLoanPosting } from './costShareLoanPostings';
+import { findLoanPostings, type CostShareLoanPosting } from './costShareLoanMovedMonths';
 
 /** One shared cost with the names it is read by, and how its lines were split month by month. */
 export type CostShareReading = { share: CostShare; label: string; months: CostShareMonth[] };

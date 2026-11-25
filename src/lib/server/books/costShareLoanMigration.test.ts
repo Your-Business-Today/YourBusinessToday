@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { tablesKeptByOrganisation } from '$lib/server/organisationExport/tablesKeptByOrganisation';
-import { costShareLoanPostingsTable } from './costShareLoanPostings';
+import { costShareLoanPostingsTable } from './costShareLoanMovedMonths';
 
 const statements = readFileSync('migrations/0296_cost_share_directors_loan.sql', 'utf8').replace(/^--.*$/gm, '');
 

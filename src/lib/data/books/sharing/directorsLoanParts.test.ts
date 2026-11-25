@@ -29,7 +29,7 @@ const sharing: CostSharing = { shares: [share], projectCostCentres: new Map([['p
 describe("a shared cost's part kept on a director's loan", () => {
 	it('is what the member took of the cost that month, account by account', () => {
 		const [part] = directorsLoanPartsOf(apportionEntries([julyBill, julyBank], sharing), share, '2026-07');
-		expect(part.member.id).toBe(personal.id);
+		expect(part.memberId).toBe(personal.id);
 		expect(part.pence).toBe(549);
 		expect(part.lines).toEqual([{ accountId: hosting.accountId, accountCode: '6010', pence: 549 }]);
 	});

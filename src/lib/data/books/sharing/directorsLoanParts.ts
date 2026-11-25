@@ -8,7 +8,7 @@ import { isSharingIn, type CostShare, type CostShareMember } from './costShare';
 export type DirectorsLoanLine = { accountId: string; accountCode: string; pence: number };
 
 /** A member's part of a shared cost in a month, account by account, to be moved onto the director's loan account it names. */
-export type DirectorsLoanPart = { member: CostShareMember; directorsLoanAccountId: string; costCentreId: string; lines: DirectorsLoanLine[]; pence: number };
+export type DirectorsLoanPart = { memberId: string; directorsLoanAccountId: string; costCentreId: string; lines: DirectorsLoanLine[]; pence: number };
 
 /** Each member of the shared cost kept on a director's loan and sharing it in the month, with what it took of the cost that month. */
 export function directorsLoanPartsOf(entries: ApportionedEntry[], share: CostShare, month: MonthKey): DirectorsLoanPart[] {
@@ -40,5 +40,5 @@ function partOf(member: CostShareMember, costsInMonth: ApportionedEntry[]): Dire
 	}
 	const lines = [...byAccount.values()].filter((line) => line.pence > 0);
 	const pence = lines.reduce((total, line) => total + line.pence, 0);
-	return { member, directorsLoanAccountId: member.directorsLoanAccountId as string, costCentreId, lines, pence };
+	return { memberId: member.id, directorsLoanAccountId: member.directorsLoanAccountId as string, costCentreId, lines, pence };
 }
