@@ -13,6 +13,10 @@
 	const owner = $derived({ kind: documentOwnerKinds.organisation, id: organisationId });
 	const documentsHref = $derived(documentsHrefOf(owner));
 	const countersignature = $derived(pack.countersignature);
+
+	function signedCopyHref(documentId: string, versionNumber: number): string {
+		return documentDownloadHref({ owner, id: documentId }, undefined, versionNumber);
+	}
 	const stage = $derived(contractPackStageWords[pack.stage]);
 	const preparedAt = $derived(formatUkDateTime(pack.preparedAt));
 	const sending = $derived(pack.sending);
@@ -42,9 +46,7 @@
 					<span class="text-chalk/50"> — signed by {signature.signerName}</span>
 				{/if}
 				{#if signedCopyVersion !== null}
-					<a href={documentDownloadHref({ owner, id: document.documentId }, undefined, signedCopyVersion)} class="text-chalk/80 underline hover:text-chalk">
-						— signed PDF
-					</a>
+					<a href={signedCopyHref(document.documentId, signedCopyVersion)} class="underline hover:text-chalk">— signed PDF</a>
 				{/if}
 				{#if openBlanks.length > 0}
 					<span class="text-signal"> — still open: {bracketedBlanks(openBlanks)}</span>

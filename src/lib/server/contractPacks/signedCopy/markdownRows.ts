@@ -21,9 +21,21 @@ export function markdownRows(markdown: string): TextRow[] {
 
 function rowOfLine(line: string): TextRow {
 	const heading = headingMarks.exec(line);
-	if (heading !== null) return rowOf(plainTextOf(line.replace(headingMarks, '')), headingStyleOf(heading[1].length));
-	if (listMark.test(line)) return rowOf(`${bullet}${plainTextOf(line.replace(listMark, ''))}`, penStyles.body);
-	return rowOf(plainTextOf(line.replace(tableEdges, '').replace(tableCells, tableGap)), penStyles.body);
+	const isListItem = listMark.test(line);
+	if (heading !== null) return headingRowOf(line, heading[1].length);
+	if (isListItem) return listItemRowOf(line);
+	const cells = line.replace(tableEdges, '').replace(tableCells, tableGap);
+	return rowOf(plainTextOf(cells), penStyles.body);
+}
+
+function headingRowOf(line: string, level: number): TextRow {
+	const words = plainTextOf(line.replace(headingMarks, ''));
+	return rowOf(words, headingStyleOf(level));
+}
+
+function listItemRowOf(line: string): TextRow {
+	const words = plainTextOf(line.replace(listMark, ''));
+	return rowOf(`${bullet}${words}`, penStyles.body);
 }
 
 function headingStyleOf(level: number): PenStyle {
