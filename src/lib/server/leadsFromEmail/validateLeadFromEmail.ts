@@ -34,14 +34,14 @@ function readLead(input: Record<string, unknown>): Lead | string {
 	const companyName = trimmedText(input.companyName);
 	const isCompanyNamed = companyName !== '';
 	if (isCompanyNamed === isPrivateIndividual) return leadFromEmailRefusals.companyOrPrivate;
-	const companyNumber = readCompanyNumber(input, isPrivateIndividual);
+	const companyNumber = readCompanyNumberFromInput(input, isPrivateIndividual);
 	if (companyNumber.refusal !== null) return companyNumber.refusal;
 	const leadName = isPrivateIndividual ? senderName : companyName;
 	const senderPhone = trimmedText(input.senderPhone);
 	return { leadName, isPrivateIndividual, senderName, senderPhone, companyNumber: companyNumber.number };
 }
 
-function readCompanyNumber(input: Record<string, unknown>, isPrivateIndividual: boolean): { number: string; refusal: string | null } {
+function readCompanyNumberFromInput(input: Record<string, unknown>, isPrivateIndividual: boolean): { number: string; refusal: string | null } {
 	const number = normaliseCompanyNumber(trimmedText(input.companyNumber));
 	if (number === noCompanyNumber) return { number, refusal: null };
 	if (isPrivateIndividual) return { number, refusal: leadFromEmailRefusals.numberForCompanyOnly };

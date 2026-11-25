@@ -271,7 +271,7 @@
       "maxLength": 40
     },
     "accessorNames": {
-      "gluedAccessorNames": 4,
+      "gluedAccessorNames": 0,
       "measurementIsHeuristic": true
     },
     "duplication": {
@@ -396,31 +396,10 @@
     "accessorNames": {
       "name": "accessorNames",
       "summary": {
-        "gluedAccessorNames": 4,
+        "gluedAccessorNames": 0,
         "measurementIsHeuristic": true
       },
-      "offenders": [
-        {
-          "file": "src/lib/server/businessBrain/readKeptBusinessBrainFiles.ts",
-          "line": 41,
-          "name": "readNamedFileIds"
-        },
-        {
-          "file": "src/lib/server/companiesHouse/getCompanyOfficers.ts",
-          "line": 6,
-          "name": "getCompanyOfficers"
-        },
-        {
-          "file": "src/lib/server/leadsFromEmail/validateLeadFromEmail.ts",
-          "line": 44,
-          "name": "readCompanyNumber"
-        },
-        {
-          "file": "src/lib/server/people/authoredNotes.ts",
-          "line": 9,
-          "name": "getAuthoredNotes"
-        }
-      ]
+      "offenders": []
     },
     "naming": {
       "name": "naming",

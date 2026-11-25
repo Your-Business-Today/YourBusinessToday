@@ -1,4 +1,4 @@
-import { companyOfficersUrl } from './getCompanyOfficers';
+import { companyOfficersUrl } from './getOfficersOfCompany';
 import { officerAppointmentsUrl } from './getOfficerAppointments';
 import { parseDirectors, type Director } from './directorRecord';
 import { parseOfficerAppointments, type OfficerAppointment } from './officerAppointmentRecord';
