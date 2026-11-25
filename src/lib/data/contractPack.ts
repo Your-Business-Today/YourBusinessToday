@@ -16,6 +16,9 @@ export type ContractPackDocument = {
 	signature: ContractPackSignature | null;
 };
 
+/** When the pack was last sent to the client, and the address it went to. */
+export type ContractPackSending = { sentAt: string; sentTo: string };
+
 /** A client's contract pack as it is read: where it stands, what it chose, the documents it holds in order and the comments on them. */
 export type ContractPack = {
 	id: string;
@@ -25,8 +28,20 @@ export type ContractPack = {
 	quoteVersion: number | null;
 	preparedAt: string;
 	viewedAt: string | null;
+	sending: ContractPackSending | null;
 	documents: ContractPackDocument[];
 	comments: ContractPackComment[];
+};
+
+/** Exactly what sending a pack does: the one email, to whom, about which documents, with the one link to the pack. */
+export type PackSendingPlan = {
+	packId: string;
+	from: string;
+	clientName: string;
+	contact: { id: string; name: string; email: string };
+	documents: { title: string; versionNumber: number }[];
+	subject: string;
+	packUrl: string;
 };
 
 /** The blanks still open, each in its brackets, as a person reads them. */
