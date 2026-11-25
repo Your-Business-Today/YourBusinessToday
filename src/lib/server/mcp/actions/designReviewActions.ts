@@ -7,6 +7,7 @@ import { noSuchTask } from './describeTask';
 import { designChangeField, isDesignTextRefused, validateDesignText } from './designChangeField';
 import { approveDesignChange, rejectDesignChange } from './designAnswerAction';
 import { designRequestsAction } from './designRequestsAction';
+import { approveGoalPlanAction } from './approveGoalPlanAction';
 import type { McpAction } from '../actionTypes';
 
 const requestApproval: McpAction = {
@@ -18,7 +19,8 @@ const requestApproval: McpAction = {
 	guidance:
 		'For a task on the board that turns out to change the design — a new way of doing what the system ' +
 		'already does, the same fact kept in a second place, a rule worked around — once you have pushed ' +
-		'back and the person still wants it. Nothing builds it until YBT approves it.',
+		'back and the person still wants it. Nothing builds it, nor anything else under its goal, until YBT ' +
+		'approves it; the goal waits on Requested whole.',
 	inputSchema: objectSchema(
 		{ taskId: textField('The task id'), designChange: designChangeField },
 		['taskId', 'designChange']
@@ -38,4 +40,10 @@ const requestApproval: McpAction = {
 	}
 };
 
-export const designReviewActions: McpAction[] = [requestApproval, designRequestsAction, approveDesignChange, rejectDesignChange];
+export const designReviewActions: McpAction[] = [
+	requestApproval,
+	designRequestsAction,
+	approveGoalPlanAction,
+	approveDesignChange,
+	rejectDesignChange
+];

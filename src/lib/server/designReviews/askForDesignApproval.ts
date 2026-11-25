@@ -20,7 +20,8 @@ export async function askForDesignApproval(
 	const body =
 		`${designReviewStageName}. This request changes the system's design or what it runs on, so nothing builds it ` +
 		`until YBT approves it.\n\nWhat it changes: ${request.change}\n\n` +
-		'YBT answers with approve_design_change or reject_design_change, giving the reason.';
+		'YBT accepts the goal’s plan with approve_goal_plan (approve_design_change for a request under no goal), or ' +
+		'turns this request down with reject_design_change, giving the reason.';
 	const origin = { postedVia: postedViaChannels.claude, awaiting: approver, askKind: askKinds.information };
 	await postMessage(supabase, { taskId: request.taskId }, request.raisedBy, body, origin);
 }

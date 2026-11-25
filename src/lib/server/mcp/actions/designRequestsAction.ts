@@ -14,7 +14,8 @@ export const designRequestsAction: McpAction = {
 	summary: `the tasks ${designReviewStageName.toLowerCase()}, oldest first, with what each changes`,
 	guidance:
 		'Read each with read_task before answering it, and put it to a YBT director one at a time; ' +
-		'approve_design_change or reject_design_change records their answer.',
+		'approve_goal_plan accepts a goal’s plan, approve_design_change one request under no goal, and ' +
+		'reject_design_change turns one down.',
 	inputSchema: objectSchema({ projectId: textField('Narrow to one project — leave out for every project you are on') }),
 	run: async (caller, input) => {
 		const projectId = readOptionalText(input, 'projectId');

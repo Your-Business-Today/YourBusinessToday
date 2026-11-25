@@ -9,6 +9,7 @@ import { projectStateOf } from './projectState';
 import { readTogether } from '$lib/server/http/readTogether';
 import { summariseGoals } from '$lib/server/goals/summariseGoals';
 import { tabsOnBoardSide } from '$lib/data/boardSide';
+import { goalsOffRequested } from '$lib/data/requestedHold';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 /** Development's Goals tab: how the project stands, and every goal its bugs, features and infrastructure serve. */
@@ -28,7 +29,8 @@ export async function readDevelopmentGoals(supabase: SupabaseClient, projectId: 
 	});
 	const developmentTabs = tabsOnBoardSide.development;
 	const developmentTasks = inBoardTabs(projectTasks, developmentTabs);
-	const developmentGoals = goalsForBoardTabs(projectGoals, developmentTasks, developmentTabs);
+	const boardGoals = goalsForBoardTabs(projectGoals, developmentTasks, developmentTabs);
+	const developmentGoals = goalsOffRequested(boardGoals, projectTasks);
 	return {
 		people,
 		projectState: projectStateOf({
