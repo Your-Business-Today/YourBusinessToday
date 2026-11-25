@@ -7,7 +7,9 @@ import type { McpAction } from '../actionTypes';
 const documentsGuidance =
 	'These are the documents we sign a client with and the procedures behind them, kept in the repository and ' +
 	'read as written. The Word pack a client is sent is downloaded from the admin Documents page, not through ' +
-	'the connector; read_client_document gives the same text as Markdown.';
+	'the connector; read_client_document gives the same text as Markdown. A contract also lists its blanks, each ' +
+	'in square brackets with where a client\'s pack fills it from, and its optional clauses, which a pack chooses ' +
+	'or leaves out without changing the template.';
 
 export const clientDocumentActions: McpAction[] = [
 	{

@@ -25,8 +25,11 @@ describe('the client documents through the connector', () => {
 		expect(listing.indexOf('Contracts a client signs')).toBeLessThan(listing.indexOf('Internal procedures'));
 	});
 
-	it('reads one document as Markdown under its title', async () => {
-		expect(await run('read_client_document', { slug: 'order-form' })).toBe(`Order Form\n\n${orderFormText}`);
+	it('reads one contract as Markdown under its title, then its blanks and its optional clauses', async () => {
+		const reading = String(await run('read_client_document', { slug: 'order-form' }));
+		expect(reading.startsWith(`Order Form\n\n${orderFormText}`)).toBe(true);
+		expect(reading).toContain('Blanks to fill: none.');
+		expect(reading).toContain('Optional clauses, chosen per client:\n\nOwnership and licence (clause ybt-owns-the-software');
 	});
 
 	it('names the documents there are when the slug is unknown or its file is missing', async () => {

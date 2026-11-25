@@ -1,0 +1,1 @@
+**What the monthly fee covers.** The monthly fee covers up to [Named users included] named users and [Stored data included in GB] GB of stored data. If the Client goes above either for two months running, YBT may raise the monthly fee in proportion, on 30 days' written notice.
