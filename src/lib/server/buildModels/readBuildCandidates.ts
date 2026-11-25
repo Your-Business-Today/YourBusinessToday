@@ -5,6 +5,7 @@ import { departments } from '$lib/data/department';
 import { isBugTitle } from '$lib/data/developmentKind';
 import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskRecord';
 import { isHeldForDesignReview, parseDesignReview, type DesignReview } from '$lib/data/designReview';
+import { goalsAwaitingApproval } from '$lib/server/designReviews/goalsAwaitingApproval';
 
 const candidatesRead = 200;
 
@@ -25,7 +26,7 @@ export type BuildCandidate = {
 
 /**
  * Every open buildable development task on the projects not on hold, in the order the queue will take them; a task
- * that changes the design and has not been approved by YBT is never one of them.
+ * that changes the design and has not been approved by YBT is never one of them, nor any task of a goal holding one.
  */
 export async function readBuildCandidates(
 	supabase: SupabaseClient,
@@ -43,7 +44,9 @@ export async function readBuildCandidates(
 		.order('priority', { ascending: true })
 		.limit(candidatesRead);
 	if (error) throw error;
-	return (data ?? []).map(parseCandidate).filter(isFreeOfDesignReview).sort(byQueuePlace);
+	const candidates = (data ?? []).map(parseCandidate).filter(isFreeOfDesignReview);
+	const heldGoalIds = await goalsAwaitingApproval(supabase, candidates.map(({ task }) => task.goalId));
+	return candidates.filter(({ task }) => task.goalId === null || !heldGoalIds.has(task.goalId)).sort(byQueuePlace);
 }
 
 function isFreeOfDesignReview(candidate: BuildCandidate): boolean {

@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { designReviewHoldRefusal } from '$lib/data/designReview';
-import { isHeldWithItsParent } from '$lib/server/designReviews/isHeldWithItsParent';
+import { isHeldByDesignReview } from '$lib/server/designReviews/isHeldByDesignReview';
 import { lifecycleOutcomes, lifecycleSteps } from '$lib/data/lifecycleStep';
 import { isGoalSubject, type ConversationSubject } from '$lib/server/conversations/conversationSubject';
 import { getTask } from '$lib/server/projects/getTask';
@@ -15,7 +15,7 @@ export async function designReviewStepRefusal(
 	if (isGoalSubject(subject) || !isBuildingStep(step)) return null;
 	const task = await getTask(supabase, subject.taskId);
 	if (task === null) return null;
-	const isHeld = await isHeldWithItsParent(supabase, task);
+	const isHeld = await isHeldByDesignReview(supabase, task);
 	if (!isHeld) return null;
 	return designReviewHoldRefusal;
 }

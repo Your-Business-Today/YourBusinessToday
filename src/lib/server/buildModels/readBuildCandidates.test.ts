@@ -50,3 +50,26 @@ describe('readBuildCandidates', () => {
 		expect(candidates.map(({ task }) => task.id)).toEqual(['approved-chunk']);
 	});
 });
+
+function databaseWithHeldGoals(rows: Record<string, unknown>[], heldGoalIds: string[]): SupabaseClient {
+	const answers = [{ data: rows, error: null }, { data: heldGoalIds.map((goal_id) => ({ goal_id })), error: null }];
+	const from = () => {
+		const answer = answers.shift();
+		const query: Record<string, unknown> = { then: (resolve: (value: unknown) => void) => resolve(answer) };
+		for (const step of ['select', 'in', 'eq', 'neq', 'order']) query[step] = () => query;
+		query.limit = () => Promise.resolve(answer);
+		return query;
+	};
+	return { from } as unknown as SupabaseClient;
+}
+
+describe('a goal holding a request for YBT', () => {
+	it('holds every task of the goal, so nothing is half built before YBT accepts its plan', async () => {
+		const rows = [
+			{ ...buildableRow('in-held-goal', null), goal_id: 'passwords' },
+			{ ...buildableRow('in-other-goal', null), goal_id: 'homepage' }
+		];
+		const candidates = await readBuildCandidates(databaseWithHeldGoals(rows, ['passwords']), ['project-1']);
+		expect(candidates.map(({ task }) => task.id)).toEqual(['in-other-goal']);
+	});
+});

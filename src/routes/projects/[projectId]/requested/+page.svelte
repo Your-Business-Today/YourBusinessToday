@@ -7,7 +7,7 @@
 
 	let { data } = $props();
 
-	const { project, designRequests } = $derived(data);
+	const { project, requestedGoals } = $derived(data);
 </script>
 
 <svelte:head>
@@ -18,5 +18,9 @@
 
 <div class={workspaceBodyClasses}>
 	<DevelopmentTabs projectId={project.id} selected={developmentPages.requested} counts={data.developmentTabCounts} />
-	<DesignRequestsPanel {designRequests} />
+	<DesignRequestsPanel
+		{requestedGoals}
+		requestCount={data.developmentTabCounts.requested ?? 0}
+		canAnswer={data.canAnswerDesignRequests}
+	/>
 </div>

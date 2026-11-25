@@ -2,6 +2,7 @@ import { chosenBoardTab, departmentTabs, goalsForBoardTabs, inBoardTabs, tabsSho
 import { departmentOfBoardTab, developmentKindOfBoardTab } from '$lib/data/boardTab';
 import { boardSideOfTab } from '$lib/data/boardSide';
 import { boardSidesOfProject, isInternalProject } from '$lib/data/internalProject';
+import { goalsOffRequested } from '$lib/data/requestedHold';
 import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
 import { getTasksForProject } from '$lib/server/projects/getTasksForProject';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -28,7 +29,7 @@ export async function loadDepartmentWork(supabase: SupabaseClient, project: Boar
 		projectTasks,
 		projectGoals,
 		tasks,
-		goals: goalsForBoardTabs(projectGoals, tasks, shownTabs),
+		goals: goalsOffRequested(goalsForBoardTabs(projectGoals, tasks, shownTabs), projectTasks),
 		boardTab,
 		departmentTabs: tabs,
 		department: departmentOfBoardTab(boardTab),

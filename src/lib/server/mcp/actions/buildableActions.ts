@@ -10,7 +10,7 @@ import { reachableTask } from '../projectAccess';
 import { setTaskBuildable } from '$lib/server/projects/setTaskBuildable';
 import { validateTaskBuildable } from '$lib/data/validateTaskBuildable';
 import { designReviewHoldRefusal } from '$lib/data/designReview';
-import { isHeldWithItsParent } from '$lib/server/designReviews/isHeldWithItsParent';
+import { isHeldByDesignReview } from '$lib/server/designReviews/isHeldByDesignReview';
 import type { McpAction } from '../actionTypes';
 
 export const buildableActions: McpAction[] = [
@@ -39,7 +39,7 @@ export const buildableActions: McpAction[] = [
 			if (task === null) return noSuchTask;
 			const isBuiltByClaude = isDevelopment(task.department);
 			if (input.isBuildable === true && !isBuiltByClaude) return onlyDevelopmentIsBuilt;
-			const isHeld = input.isBuildable === true && (await isHeldWithItsParent(caller.supabase, task));
+			const isHeld = input.isBuildable === true && (await isHeldByDesignReview(caller.supabase, task));
 			if (isHeld) return designReviewHoldRefusal;
 			const { models } = await getBuildModelSettings(caller.supabase);
 			const fields = { isBuildable: input.isBuildable, modelId: input.modelId };

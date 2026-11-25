@@ -11,7 +11,7 @@ import {
 	type BoardTab
 } from './boardTab';
 import { openingTabOfSide } from './boardSideTabs';
-import { isAwaitingWithItsParent } from './awaitingWithItsParent';
+import { goalIdsAwaitingApproval, isOnRequested } from './requestedHold';
 import type { DesignReview } from './designReview';
 import { boardSideOfTab, boardSideOrder, boardSides, tabsOnBoardSide, type BoardSide } from './boardSide';
 
@@ -21,6 +21,7 @@ type BoardTask = Departmental & {
 	id: string;
 	parentTaskId: string | null;
 	title: string;
+	goalId?: string | null;
 	designReview?: DesignReview | null;
 };
 
@@ -56,7 +57,8 @@ export function inBoardTab<Item extends BoardTask>(
 
 export function inBoardTabs<Item extends BoardTask>(items: Item[], tabs: BoardTab[], allTasks: BoardTask[] = items): Item[] {
 	const tasksById = new Map(allTasks.map((task) => [task.id, task]));
-	const onTheBoard = items.filter((item) => !isAwaitingWithItsParent(item, tasksById));
+	const heldGoalIds = goalIdsAwaitingApproval(allTasks);
+	const onTheBoard = items.filter((item) => !isOnRequested(item, tasksById, heldGoalIds));
 	return onTheBoard.filter((item) => tabs.includes(boardTabOfTask(item, tasksById)));
 }
 

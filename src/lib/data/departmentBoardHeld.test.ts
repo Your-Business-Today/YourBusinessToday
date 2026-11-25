@@ -35,3 +35,12 @@ describe('a request awaiting YBT on the board', () => {
 		expect(features?.openTaskCount).toBe(3);
 	});
 });
+
+describe('a goal holding a request', () => {
+	it('keeps every task of the goal off the board, request or not, until its plan is approved', () => {
+		const inGoal = { ...vault, goalId: 'passwords' };
+		const siblingInGoal = { ...plain, id: 'sibling', goalId: 'passwords' };
+		const shownIds = inBoardTab([inGoal, siblingInGoal, plain], boardTabs.features).map((task) => task.id);
+		expect(shownIds).toEqual(['plain']);
+	});
+});
