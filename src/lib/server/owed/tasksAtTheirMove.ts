@@ -21,11 +21,11 @@ export async function getTasksAtTheirMove(
 	const assignedIds = new Set(assigned.map((task) => task.id));
 	const candidates = followUpCandidates.filter((task) => !assignedIds.has(task.id));
 	const nextActions = await getNextActionsByTask(supabase, [...assigned, ...candidates]);
-	const isTheirMove = (task: GlobalTask) => isMoveTheirsOutsideAnAsk(nextActions.get(task.id), person.accountIds);
+	const isTheirMove = (task: GlobalTask) => isTheirOwnMove(nextActions.get(task.id), person.accountIds);
 	return { assigned: assigned.filter(isTheirMove), followUps: candidates.filter(isTheirMove) };
 }
 
-function isMoveTheirsOutsideAnAsk(nextAction: NextAction | undefined, accountIds: string[]): boolean {
+function isTheirOwnMove(nextAction: NextAction | undefined, accountIds: string[]): boolean {
 	if (nextAction === undefined) return false;
 	if (nextAction.reason === nextActionReasons.ask) return false;
 	return isNextActionWith(nextAction, accountIds);

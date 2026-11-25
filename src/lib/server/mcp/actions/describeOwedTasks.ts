@@ -25,9 +25,10 @@ export function describeOwedTasks(owed: OwedTasks): string[] {
 }
 
 function followUpSection(owed: OwedTasks): string[] {
-	if (owed.followUps.length === 0) return [];
-	const heading = countedHeading('Tasks back with you: an ask of yours answered, or a job you raised that nobody took', owed.followUps);
-	return [heading, ...owed.followUps.map((task) => owedTaskLine(task, owed)), ''];
+	const { followUps } = owed;
+	if (followUps.length === 0) return [];
+	const heading = countedHeading('Tasks back with you: an ask of yours answered, or a job you raised that nobody took', followUps);
+	return [heading, ...followUps.map((task) => owedTaskLine(task, owed)), ''];
 }
 
 function namedSection(owed: OwedTasks): string[] {

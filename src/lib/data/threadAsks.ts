@@ -41,9 +41,9 @@ function distinct(accountIds: string[]): string[] {
 
 /** A thread's messages as the asks on it are read: who wrote each, who it waits on, when. */
 export function threadPostsOf(messages: { authorAccountId: string; awaiting: { accountId: string } | null; createdAt: string }[]): ThreadPost[] {
-	return messages.map((message) => ({
-		authorAccountId: message.authorAccountId,
-		awaitingAccountId: message.awaiting?.accountId ?? null,
-		createdAt: message.createdAt
+	return messages.map(({ authorAccountId, awaiting, createdAt }) => ({
+		authorAccountId,
+		awaitingAccountId: awaiting?.accountId ?? null,
+		createdAt
 	}));
 }

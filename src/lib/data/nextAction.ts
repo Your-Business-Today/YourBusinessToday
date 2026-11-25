@@ -30,13 +30,14 @@ export type NextActionFacts = {
  * otherwise the task is with everyone assigned to it; otherwise with whoever raised it.
  */
 export function nextActionOf(facts: NextActionFacts): NextAction {
-	const askedIds = openAskedIds(facts.posts);
+	const { posts, assigneeIds, raisedBy } = facts;
+	const askedIds = openAskedIds(posts);
 	if (askedIds.length > 0) return { accountIds: askedIds, reason: nextActionReasons.ask };
 	if (facts.isDevelopment) return { accountIds: [], reason: nextActionReasons.build };
-	const askerIds = returnedAskerIds(facts.posts);
+	const askerIds = returnedAskerIds(posts);
 	if (askerIds.length > 0) return { accountIds: askerIds, reason: nextActionReasons.answered };
-	if (facts.assigneeIds.length > 0) return { accountIds: facts.assigneeIds, reason: nextActionReasons.assigned };
-	const raisedIds = facts.raisedBy === null ? [] : [facts.raisedBy];
+	if (assigneeIds.length > 0) return { accountIds: assigneeIds, reason: nextActionReasons.assigned };
+	const raisedIds = raisedBy === null ? [] : [raisedBy];
 	return { accountIds: raisedIds, reason: nextActionReasons.raised };
 }
 

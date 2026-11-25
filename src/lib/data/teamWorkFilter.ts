@@ -28,7 +28,8 @@ function isAsked(value: string, asked: string | null): boolean {
 
 /** A person's jobs are the ones whose next move is theirs; "nobody" still asks for the jobs nobody has taken. */
 function isMoveAsAsked(item: TeamWorkItem, assignedTo: string | null): boolean {
+	const { assigneeIds, nextActionIds } = item;
 	if (assignedTo === null) return true;
-	if (assignedTo === nobodyAssigned) return item.assigneeIds.length === 0;
-	return item.nextActionIds.includes(assignedTo);
+	if (assignedTo === nobodyAssigned) return assigneeIds.length === 0;
+	return nextActionIds.includes(assignedTo);
 }

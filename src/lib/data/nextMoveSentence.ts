@@ -13,8 +13,9 @@ const becauseOf: Record<NextActionReason, string> = {
 
 /** The panel's line for who makes the next move on a task, from where the viewer stands. */
 export function nextMoveSentence(nextAction: NextAction, nameOf: NameOf, viewerId: string): string {
-	if (nextAction.reason === nextActionReasons.build) return 'Next move: Claude builds it. Nothing here waits on a person.';
-	if (nextAction.accountIds.length === 0) return 'Next move: nobody is named yet.';
-	const names = nextAction.accountIds.map((accountId) => (accountId === viewerId ? viewerWord : nameOf(accountId)));
-	return `Next move: ${names.join(' and ')}, as ${becauseOf[nextAction.reason]}.`;
+	const { reason, accountIds } = nextAction;
+	if (reason === nextActionReasons.build) return 'Next move: Claude builds it. Nothing here waits on a person.';
+	if (accountIds.length === 0) return 'Next move: nobody is named yet.';
+	const names = accountIds.map((accountId) => (accountId === viewerId ? viewerWord : nameOf(accountId)));
+	return `Next move: ${names.join(' and ')}, as ${becauseOf[reason]}.`;
 }
