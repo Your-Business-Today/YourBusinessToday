@@ -5,10 +5,11 @@ import { boardQueryKeys, projectHref, projectSegments } from './projectAddresses
 import type { BadgeTone } from '$lib/components/site/badgeTones';
 import type { DevelopmentTabCounts } from './developmentTabCounts';
 
-/** A page inside Development: one backlog per kind of work, what is staged and deployed, the site map, the goals and the people. */
-export type DevelopmentPage = BoardTab | 'staged' | 'deploys' | 'site-map' | 'goals' | 'people';
+/** A page inside Development: one backlog per kind of work, the requests awaiting YBT, what is staged and deployed, the site map, the goals and the people. */
+export type DevelopmentPage = BoardTab | 'requested' | 'staged' | 'deploys' | 'site-map' | 'goals' | 'people';
 
 export const developmentPages = {
+	requested: projectSegments.requested,
 	staged: projectSegments.staged,
 	deploys: projectSegments.deploys,
 	siteMap: projectSegments.siteMap,
@@ -28,6 +29,7 @@ const bugCountTone: BadgeTone = 'negative';
 const itemCountTone: BadgeTone = 'neutral';
 
 const pagesBeneathBoard = [
+	{ key: developmentPages.requested, label: 'Requested' },
 	{ key: developmentPages.staged, label: 'Staged' },
 	{ key: developmentPages.deploys, label: 'Deployments' },
 	{ key: developmentPages.siteMap, label: 'Site map' },
@@ -36,7 +38,7 @@ const pagesBeneathBoard = [
 ];
 
 /**
- * Development's own tabs, one row beneath the product's: the Bugs, Features and Infrastructure backlogs, then what is
+ * Development's own tabs, one row beneath the product's: the Bugs, Features and Infrastructure backlogs, then the requests awaiting YBT, what is
  * staged, what deployed, the site map, the goals and the people. A tab holding items shows how many; an empty or uncounted tab shows none.
  */
 export function developmentPageLinks(projectId: string, counts: DevelopmentTabCounts = {}): DevelopmentPageLink[] {

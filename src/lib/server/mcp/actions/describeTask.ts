@@ -14,6 +14,7 @@ import { goalHorizonLabels } from '$lib/data/goalHorizon';
 import { supportTaskKind, taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import { threadLines } from './describeMessages';
 import { departmentLine } from '$lib/data/department';
+import { designReviewLine } from '$lib/data/designReview';
 import type { loadTaskWorkspace } from '$lib/server/projects/loadTaskWorkspace';
 import type { Goal } from '$lib/server/goals/goalRecord';
 import type { ProjectTask } from '$lib/server/projects/taskRecord';
@@ -35,6 +36,7 @@ export function describeTask(workspace: TaskWorkspace): string {
 		raisedByLine(workspace),
 		teamLine(workspace),
 		storyLine(task),
+		designReviewLine(task.designReview ?? null),
 		complexityLine(task),
 		branchLine(task),
 		autocompleteSentence(task.autocompleteSetting, goalOf(workspace)?.isAutocomplete ?? null),

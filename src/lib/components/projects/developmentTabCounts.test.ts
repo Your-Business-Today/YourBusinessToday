@@ -15,6 +15,7 @@ describe('developmentTabCountsOf', () => {
 			bugs: 2,
 			features: 7,
 			infrastructure: 0,
+			requested: 0,
 			staged: 3
 		});
 	});

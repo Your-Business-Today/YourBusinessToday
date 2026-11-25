@@ -2,6 +2,7 @@
 export const projectSegments = {
 	workflowMap: 'workflow-map',
 	siteMap: 'site-map',
+	requested: 'requested',
 	staged: 'staged',
 	deploys: 'deploys',
 	videos: 'videos',

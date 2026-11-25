@@ -1,6 +1,6 @@
 import { countStagedTasks } from './countStagedTasks';
 import { departmentTabs } from '$lib/data/departmentBoard';
-import { developmentTabCountsOf, type DevelopmentTabCounts } from '$lib/components/projects/developmentTabCounts';
+import { designRequestCountOf, developmentTabCountsOf, type DevelopmentTabCounts } from '$lib/components/projects/developmentTabCounts';
 import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
 import { getTasksForProject } from './getTasksForProject';
 import { readTogether } from '$lib/server/http/readTogether';
@@ -16,5 +16,5 @@ export async function readDevelopmentTabCounts(
 		goals: getGoalsForProject(supabase, projectId),
 		stagedTaskCount: countStagedTasks(supabase, projectId)
 	});
-	return developmentTabCountsOf(departmentTabs(tasks, goals), stagedTaskCount);
+	return developmentTabCountsOf(departmentTabs(tasks, goals), stagedTaskCount, designRequestCountOf(tasks));
 }

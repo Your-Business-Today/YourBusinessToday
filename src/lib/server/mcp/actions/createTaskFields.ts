@@ -5,6 +5,7 @@ import { storyFields } from './storyFields';
 import { raiseAnywayField } from './similarTaskCheck';
 import { departmentField } from './departmentChoice';
 import { developmentKindField } from './developmentKindField';
+import { designChangeField } from './designChangeField';
 
 /** The fields create_task takes, which every action that raises a task the same way takes too. */
 export const createTaskFields = {
@@ -24,5 +25,6 @@ export const createTaskFields = {
 	developmentKind: developmentKindField,
 	requestedBy: requestedByField,
 	raiseAnyway: raiseAnywayField,
+	designChange: designChangeField,
 	...storyFields
 };
