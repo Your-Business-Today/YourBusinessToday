@@ -2,15 +2,17 @@
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
 	import TabStrip from '$lib/components/workspace/TabStrip.svelte';
 	import WorkspaceHeader from '$lib/components/workspace/WorkspaceHeader.svelte';
+	import BooksClosingForm from '$lib/components/books/BooksClosingForm.svelte';
 	import BooksPeriodForm from '$lib/components/books/BooksPeriodForm.svelte';
 	import StatementTable from '$lib/components/books/StatementTable.svelte';
 	import { framePageLabels } from '$lib/components/frame/moduleFolders';
 	import { workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 
-	let { data } = $props();
+	let { data, form } = $props();
 
 	const reportsTitle = framePageLabels.reports;
-	const { asked, period, statements, refusal, booksOrganisation } = $derived(data);
+	const { asked, period, statements, refusal, booksOrganisation, closing } = $derived(data);
+	const closingMessage = $derived(form?.closingMessage ?? '');
 	const tabs = $derived(statements.map(({ key, title }) => ({ key, label: title, count: null })));
 	let pickedKey = $state('');
 	const selectedKey = $derived(pickedKey === '' ? (tabs[0]?.key ?? '') : pickedKey);
@@ -39,6 +41,7 @@
 		<p class="text-sm text-chalk-subtle">{shownStatement?.caption}</p>
 		<BooksPeriodForm start={formStart} end={formEnd} />
 	</div>
+	<BooksClosingForm closedInWords={closing.closedInWords} lastClosableMonth={closing.lastClosableMonth} message={closingMessage} />
 	<DashboardPanel errorMessage={refusal ?? ''}>
 		{#if shownStatement !== undefined}
 			<div class="overflow-x-auto">

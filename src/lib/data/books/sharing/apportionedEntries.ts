@@ -12,7 +12,8 @@ export type ApportionedEntry = LedgerEntry & { sharedFromCostCentreId?: string |
 /** The organisation's shared costs, and the cost centre each project is kept in, by project. */
 export type CostSharing = { shares: CostShare[]; projectCostCentres: Map<string, string> };
 
-type MonthPart = { month: MonthKey; journalDate: string; debitPence: number; creditPence: number };
+/** One month's part of a shared line, in whole pence, and the day it is dated. */
+export type MonthPart = { month: MonthKey; journalDate: string; debitPence: number; creditPence: number };
 
 const keptAgainstNoProject = null;
 
@@ -40,7 +41,8 @@ function monthPartsOf(entry: LedgerEntry, monthsCovered: number): MonthPart[] {
 	});
 }
 
-function projectPartsOf(entry: LedgerEntry, share: CostShare, part: MonthPart, projectCostCentres: Map<string, string>): ApportionedEntry[] {
+/** One month's part of a shared line split among the projects sharing the cost that month; kept against no project when none does. */
+export function projectPartsOf(entry: LedgerEntry, share: CostShare, part: MonthPart, projectCostCentres: Map<string, string>): ApportionedEntry[] {
 	const sharing = share.members.filter((member) => isSharingIn(member, part.month));
 	const costCentreIds = sharing.map((member) => (member.projectId === null ? keptAgainstNoProject : (projectCostCentres.get(member.projectId) ?? null)));
 	const receivers = costCentreIds.length === 0 ? [keptAgainstNoProject] : costCentreIds;
