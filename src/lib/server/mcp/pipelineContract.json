@@ -11,6 +11,7 @@
 		"whats_outstanding_for_me": {"inputs": {"name": "string", "onlyWhatIAskedFor": "boolean", "showEverything": "boolean"}, "required": []}
 	},
 	"actions": {
+		"add_project_video": {"isWrite": true, "inputs": {"byteCount": "integer", "captionsByteCount": "integer", "captionsFilename": "string", "captionsMimeType": "string", "description": "string", "durationSeconds": "integer", "filename": "string", "library": "string", "mimeType": "string", "position": "integer", "projectId": "string", "section": "string", "thumbnailByteCount": "integer", "thumbnailFilename": "string", "thumbnailMimeType": "string", "title": "string"}, "required": ["projectId", "title", "section", "position", "filename", "mimeType", "byteCount"]},
 		"add_todo": {"isWrite": true, "inputs": {"dueDate": "string", "notes": "string", "owner": "string", "status": "string", "taskId": "string", "title": "string"}, "required": ["title"]},
 		"attach_file_to_task": {"isWrite": true, "inputs": {"contentBase64": "string", "filename": "string", "mimeType": "string", "sourceUrl": "string", "taskId": "string"}, "required": ["taskId"]},
 		"create_goal": {"isWrite": true, "inputs": {"department": "string", "horizon": "string", "measure": "string", "projectId": "string", "title": "string"}, "required": ["projectId", "title"]},
@@ -43,6 +44,7 @@
 		"read_ybt_summary": {"isWrite": false, "inputs": {"name": "string", "onlyWhatIAskedFor": "boolean", "showEverything": "boolean"}, "required": []},
 		"record_complexity": {"isWrite": true, "inputs": {"changesDataStructure": "boolean", "domainObjects": "integer", "newViews": "integer", "taskId": "string", "viewsChanged": "integer"}, "required": ["changesDataStructure", "domainObjects", "newViews", "taskId", "viewsChanged"]},
 		"record_lifecycle_step": {"isWrite": true, "inputs": {"agent": "string", "branchName": "string", "goalId": "string", "model": "string", "note": "string", "outcome": "string", "runUrl": "string", "step": "string", "taskId": "string"}, "required": ["agent", "step"], "values": {"outcome": ["buildable", "needs_infrastructure", "needs_splitting", "waiting_on_person"], "step": ["building", "built", "considered", "considering", "pull_request_open", "released", "reviewing"]}},
+		"record_project_video": {"isWrite": true, "inputs": {"projectId": "string", "videoId": "string"}, "required": ["projectId", "videoId"]},
 		"set_goal_autocomplete": {"isWrite": true, "inputs": {"goalId": "string", "isAutocomplete": "boolean"}, "required": ["goalId", "isAutocomplete"]},
 		"set_goal_priority": {"isWrite": true, "inputs": {"goalId": "string", "priority": "integer"}, "required": ["goalId", "priority"]},
 		"set_task_assignees": {"isWrite": true, "inputs": {"accountIds": "array", "taskId": "string"}, "required": ["accountIds", "taskId"]},
@@ -74,8 +76,12 @@
 		"read_code_quality_score": "a tool on the project-process server",
 		"read_refactor_round_due": "a tool on the project-process server",
 		"read_template_drift": "a tool on the portal template's server",
+		"site_url": "the Supabase auth setting for the site's address, which the project-setup skill sets",
+		"uri_allow_list": "the Supabase auth setting listing the addresses sign-in may return to, which the project-setup skill sets",
 		"run_code_quality_check": "a tool on the project-process server",
 		"run_end_of_day": "a tool on the project-process server",
+		"run_tutorial_films": "a tool on the project-process server",
+		"run_project_setup": "a tool on the project-process server",
 		"run_input_validation_check": "a tool on the project-process server",
 		"run_refactor_round": "a tool on the project-process server",
 		"run_widget_design": "a tool on the project-process server",
