@@ -34,8 +34,9 @@ export async function recordCostShareUsage(
 	const month = request.month as MonthKey;
 	const share = await findCostShare(supabase, organisationId, request.costCentreId);
 	const latest = await findLatestClose(supabase, organisationId);
-	const isClosed = latest !== null && month <= monthOfDay(latest.closed_to_month);
-	if (isClosed) throw new BooksRefusal(`The books are closed to ${monthOfDay(latest.closed_to_month)}, so ${month} keeps the split it closed with.`);
+	const closedTo = latest === null ? null : monthOfDay(latest.closed_to_month);
+	const isClosed = closedTo !== null && month <= closedTo;
+	if (isClosed) throw new BooksRefusal(`The books are closed to ${closedTo}, so ${month} keeps the split it closed with.`);
 	await refuseProjectsNotOwned(supabase, organisationId, readings);
 	const kept = { organisation_id: organisationId, cost_share_id: share.id, month: monthStart(month) };
 	const cleared = await supabase.from(costShareUsageTable).delete().eq('organisation_id', organisationId).eq('cost_share_id', share.id).eq('month', kept.month);
@@ -62,8 +63,8 @@ function readingOf(candidate: unknown): UsageReading {
 	const { projectId, costCentreId, usage } = (candidate ?? {}) as { projectId?: unknown; costCentreId?: unknown; usage?: unknown };
 	refuseWhen(usageRefusal(usage));
 	const isByCostCentre = projectId === undefined || projectId === null || projectId === '';
-	if (!isByCostCentre) refuseWhen(validateRecordId('project', String(projectId)));
-	if (isByCostCentre) refuseWhen(validateRecordId('cost centre', String(costCentreId ?? '')));
+	const idRefusal = isByCostCentre ? validateRecordId('cost centre', String(costCentreId ?? '')) : validateRecordId('project', String(projectId));
+	refuseWhen(idRefusal);
 	return { projectId: isByCostCentre ? null : (projectId as string), costCentreId: isByCostCentre ? (costCentreId as string) : null, usage: usage as number };
 }
 
@@ -73,6 +74,6 @@ async function refuseProjectsNotOwned(supabase: SupabaseClient, organisationId: 
 	const { data, error } = await supabase.from('projects').select('id').eq('organisation_id', organisationId).in('id', projectIds);
 	if (error !== null) throw error;
 	const owned = new Set((data as { id: string }[]).map((project) => project.id));
-	const strangers = projectIds.filter((projectId) => !owned.has(projectId));
-	if (strangers.length > 0) throw new BooksRefusal(`Not one of this organisation's own projects: ${strangers.join(', ')}; list_projects gives each project's id.`);
+	const strangers = projectIds.filter((projectId) => !owned.has(projectId)).join(', ');
+	if (strangers !== '') throw new BooksRefusal(`Not one of this organisation's own projects: ${strangers}; list_projects gives each project's id.`);
 }

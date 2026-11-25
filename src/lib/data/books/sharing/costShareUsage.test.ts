@@ -31,7 +31,7 @@ describe('a shared cost split by usage', () => {
 		const entries = apportionEntries([vercelPro('2026-10-04')], sharing);
 		expect([costIn(entries, 'cc-ybt'), costIn(entries, 'cc-carp')]).toEqual([10, 10]);
 		const [october, november] = costShareSplit(apportionEntries([vercelPro('2026-10-04'), vercelPro('2026-11-04')], sharing), share, ['2026-10', '2026-11']);
-		expect([october.isSplitEquallyForWantOfUsage, november.isSplitEquallyForWantOfUsage]).toEqual([true, false]);
+		expect([october.isSplitEquallyWithoutUsage, november.isSplitEquallyWithoutUsage]).toEqual([true, false]);
 	});
 
 	it('gives a cost centre with no project its part by its own reading, beside the projects', () => {

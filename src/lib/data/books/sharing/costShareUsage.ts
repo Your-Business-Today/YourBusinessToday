@@ -20,7 +20,7 @@ export function partWeightsOf(share: CostShare, sharing: CostShareMember[], mont
 }
 
 /** Whether a month of a cost split by usage has no reading for any project sharing it, and so is split equally instead. */
-export function isSplitEquallyForWantOfUsage(share: CostShare, sharing: CostShareMember[], month: MonthKey): boolean {
+export function isSplitEquallyWithoutUsage(share: CostShare, sharing: CostShareMember[], month: MonthKey): boolean {
 	if (share.splitBy !== CostShareSplitBy.usage || sharing.length === 0) return false;
 	return sharing.every((member) => usageOf(share, month, member) === 0);
 }

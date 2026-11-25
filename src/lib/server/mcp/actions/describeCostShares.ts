@@ -49,7 +49,7 @@ function monthText(month: CostShareMonth, reading: CostSharesReading): string {
 		const receiver = part.costCentreId === null ? keptAgainstNoProject : (reading.costCentreLabels.get(part.costCentreId) ?? part.costCentreId);
 		return `${receiver} ${formatPoundsAndPence(part.amount)}`;
 	});
-	const equally = month.isSplitEquallyForWantOfUsage ? ' (split equally: no usage reading for this month)' : '';
+	const equally = month.isSplitEquallyWithoutUsage ? ' (split equally: no usage reading for this month)' : '';
 	return `${describeMonth(month.month)}: ${parts.join(', ')}${equally}`;
 }
 
