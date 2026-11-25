@@ -11,21 +11,20 @@
 
 	const tracker = new FormTracker();
 
-	const latest = $derived(group.latest);
 	const hasUnread = $derived(group.unreadCount > 0);
-	const formattedDate = $derived(formatBritishDateTime(latest.createdAt));
+	const formattedDate = $derived(formatBritishDateTime(group.createdAt));
 	const countLabel = $derived(notificationCountLabel(group.unreadCount, group.notificationCount));
 
 	const sentence = $derived(
 		notificationSentence({
-			subjectKind: latest.subjectKind,
-			subjectTitle: latest.subjectTitle,
-			eventKind: latest.eventKind,
+			subjectKind: group.subjectKind,
+			subjectTitle: group.subjectTitle,
+			eventKind: group.eventKind,
 			actorName: authorName
 		})
 	);
-	const hasBody = $derived(latest.messageBody !== '');
-	const hasFilesShared = $derived(latest.filesShared !== '');
+	const hasBody = $derived(group.messageBody !== '');
+	const hasFilesShared = $derived(group.filesShared !== '');
 </script>
 
 <li class="flex items-start gap-4 px-5 py-4" class:opacity-60={!hasUnread}>
@@ -41,10 +40,10 @@
 			<span class="font-display text-chalk/90">{sentence.which}</span>
 		</p>
 		{#if hasBody}
-			<p class="truncate text-sm text-chalk/60">{latest.messageBody}</p>
+			<p class="truncate text-sm text-chalk/60">{group.messageBody}</p>
 		{/if}
 		{#if hasFilesShared}
-			<p class="text-sm text-chalk/60">{latest.filesShared}</p>
+			<p class="text-sm text-chalk/60">{group.filesShared}</p>
 		{/if}
 		<p class="text-xs text-chalk/40">
 			{formattedDate}
@@ -54,14 +53,14 @@
 		</p>
 	</div>
 	<form method="POST" action="?/openSubject" use:enhance={tracker.submit()}>
-		<input type="hidden" name="notificationId" value={latest.id} />
+		<input type="hidden" name="notificationId" value={group.id} />
 		<SubmitButton
 			isSaving={tracker.isSaving}
 			savingLabel="Opening…"
 			class="rounded-full border border-hairline px-4 py-1.5 font-display text-xs text-chalk/70
 				transition hover:border-go hover:text-go"
 		>
-			Open {latest.subjectKind}
+			Open {group.subjectKind}
 		</SubmitButton>
 	</form>
 </li>

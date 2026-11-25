@@ -1,8 +1,7 @@
 import type { NotificationListItem } from './notificationListItem';
 
-/** Every notification about one task, goal or room, told by its latest and counted. */
-export type NotificationGroup = {
-	latest: NotificationListItem;
+/** Every notification about one task, goal or room: the latest of them, with how many there are and how many unread. */
+export type NotificationGroup = NotificationListItem & {
 	unreadCount: number;
 	notificationCount: number;
 };
@@ -21,7 +20,7 @@ export function groupNotificationsBySubject(notifications: NotificationListItem[
 	const groupsBySubject = new Map<string, NotificationGroup>();
 	for (const notification of notifications) {
 		const key = subjectKey(notification);
-		const group = groupsBySubject.get(key) ?? { latest: notification, unreadCount: 0, notificationCount: 0 };
+		const group = groupsBySubject.get(key) ?? { ...notification, unreadCount: 0, notificationCount: 0 };
 		countIn(group, notification);
 		groupsBySubject.set(key, group);
 	}

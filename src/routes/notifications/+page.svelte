@@ -35,8 +35,8 @@
 		</p>
 	{:else}
 		<ul class="flex flex-col divide-y divide-hairline rounded-2xl border border-hairline">
-			{#each notificationGroups as group (group.latest.id)}
-				<NotificationRow {group} authorName={nameOrNobody(group.latest.messageAuthorId)} />
+			{#each notificationGroups as group (group.id)}
+				<NotificationRow {group} authorName={nameOrNobody(group.messageAuthorId)} />
 			{/each}
 		</ul>
 	{/if}

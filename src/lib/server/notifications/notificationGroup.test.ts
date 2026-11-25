@@ -30,11 +30,12 @@ describe('groupNotificationsBySubject', () => {
 	const groups = groupNotificationsBySubject(newestFirst);
 
 	it('gives one group per task, in the order of each task’s latest notification', () => {
-		expect(groups.map((group) => group.latest.subjectId)).toEqual(['loan', 'name']);
+		expect(groups.map((group) => group.subjectId)).toEqual(['loan', 'name']);
 	});
 
 	it('tells each group by its latest notification', () => {
-		expect(groups[0].latest.id).toBe('n4');
+		const [loanGroup] = groups;
+		expect(loanGroup.id).toBe('n4');
 	});
 
 	it('counts the unread notifications and all of them', () => {
