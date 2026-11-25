@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { autocompleteActions } from './autocompleteActions';
+import { priorityMarkActions } from './priorityMarkActions';
 import { teamJobsAddressFor } from '$lib/components/projects/teamJobsAddress';
 import { developmentTabCountsOf } from '$lib/components/projects/developmentTabCounts';
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
@@ -47,5 +48,6 @@ export const actions = {
 	...memberActions,
 	...taskActions,
 	...autocompleteActions,
+	...priorityMarkActions,
 	...internalWorkActions
 } satisfies Actions;

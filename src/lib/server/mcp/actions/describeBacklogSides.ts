@@ -1,5 +1,6 @@
 import { boardSideLabels, boardSideMeanings, boardSideOfDepartment, boardSideOrder, boardSides, type BoardSide } from '$lib/data/boardSide';
 import { departmentTag } from '$lib/data/department';
+import { priorityMarkTag } from '$lib/data/priorityMark';
 import { isStagedNotLive, notLiveYetLabel } from '$lib/data/stagedTasks';
 import { taskKindLabels, taskStatusLabelFor } from '$lib/data/taskKind';
 import { internalItemLines, type InternalItemFacts } from './describeInternalItems';
@@ -42,5 +43,5 @@ function developmentLine(task: TaskTreeNode, indent: string, goals: Goal[]): str
 	const status = taskStatusLabelFor(task.kind, task.status);
 	const staged = isStagedNotLive(task) ? `, ${notLiveYetLabel}` : '';
 	const facts = `${status}${staged}, ${task.storyPoints} points${underGoalPhrase(task.goalId, goals)}`;
-	return `${indent}${task.title}${departmentTag(task.department)} — ${taskKindLabels[task.kind]} task, ${facts} (priority ${task.priority}, id: ${task.id})`;
+	return `${indent}${task.title}${departmentTag(task.department)}${priorityMarkTag(task.isPriority)} — ${taskKindLabels[task.kind]} task, ${facts} (priority ${task.priority}, id: ${task.id})`;
 }

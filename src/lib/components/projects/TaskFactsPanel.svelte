@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DashboardPanel from '$lib/components/workspace/DashboardPanel.svelte';
+	import PriorityMarkToggle from './PriorityMarkToggle.svelte';
 	import TaskAutocompleteFact from './TaskAutocompleteFact.svelte';
 	import TaskDueDate from './TaskDueDate.svelte';
 	import { buildableSentence } from '$lib/data/taskModel';
@@ -41,6 +42,8 @@
 			<dt class="font-display text-xs text-chalk/50">{fact.label}</dt>
 			<dd class="min-w-0 font-display break-words">{fact.value}</dd>
 		{/each}
+		<dt class="font-display text-xs text-chalk/50">Marked</dt>
+		<dd class="flex font-display"><PriorityMarkToggle taskId={task.id} isPriority={task.isPriority} /></dd>
 		<dt class="font-display text-xs text-chalk/50">Due</dt>
 		<dd class="font-display">
 			{#if task.dueDate !== null}

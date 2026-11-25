@@ -1,5 +1,6 @@
 import { accountNameLookup } from '$lib/data/accountNames';
 import { departmentTag } from '$lib/data/department';
+import { priorityMarkTag } from '$lib/data/priorityMark';
 import { formatBritishDate } from '$lib/data/britishDate';
 import { internalStatusLabels, todoStatusWords } from '$lib/data/internalStatus';
 import { isPastDue } from '$lib/data/dueDate';
@@ -42,7 +43,7 @@ function itemLine(task: TaskTreeNode, indent: string, context: ItemContext): str
 	const due = duePhrase(task.dueDate, isTaskDone(task.status));
 	const goal = underGoalPhrase(task.goalId, context.goals);
 	const place = `priority ${task.priority}, id: ${task.id}`;
-	return `${indent}${task.title}${departmentTag(task.department)} — ${internalStatusLabels[task.status]}, ${owners}, ${due}${goal} (${place})`;
+	return `${indent}${task.title}${departmentTag(task.department)}${priorityMarkTag(task.isPriority)} — ${internalStatusLabels[task.status]}, ${owners}, ${due}${goal} (${place})`;
 }
 
 function todoLine(todo: Todo, indent: string, nameOf: (accountId: string) => string): string {

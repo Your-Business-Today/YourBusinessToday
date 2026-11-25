@@ -59,9 +59,10 @@ function headline(task: ProjectTask): string {
 }
 
 function priorityLine(task: ProjectTask): string {
-	if (task.parentTaskId !== null) return `Priority ${task.priority} among the subtasks of its parent.`;
+	const marked = task.isPriority ? ' Marked as priority.' : '';
+	if (task.parentTaskId !== null) return `Priority ${task.priority} among the subtasks of its parent.${marked}`;
 	const queuePosition = task.globalPriority === null ? '' : `; position ${task.globalPriority} in the owner\u2019s queue`;
-	return `Priority ${task.priority} among the project\u2019s top level tasks${queuePosition}.`;
+	return `Priority ${task.priority} among the project\u2019s top level tasks${queuePosition}.${marked}`;
 }
 
 function goalOf(workspace: TaskWorkspace): Goal | null {
