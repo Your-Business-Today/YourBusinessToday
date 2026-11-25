@@ -24,7 +24,10 @@ export const taskWriteActions: McpAction[] = [
 			'infrastructure) or Internal work (administration, sales, marketing). A development task is built by ' +
 			'Claude and ends in a pull request; a job a person does for the project — a cloud setting or secret, ' +
 			'insurance, an account, a listing — is an infrastructure, administration, sales or marketing task, ' +
-			'needs no story, and is assigned to them (set_task_assignees). ' + dayToDayDataRule + ' Never raise a task for what a person must give — an answer, a ' +
+			'needs no story, and is assigned to them (add_task_assignees), every one of them when several must act. ' +
+			'Anything the task needs someone to answer or confirm is posted, once it is raised, as a message waiting on ' +
+			'each person who must answer (post_message with waitingOn), one per person: a question left only in the details ' +
+			'notifies nobody and is never counted as theirs. ' + dayToDayDataRule + ' Never raise a task for what a person must give — an answer, a ' +
 			'file, a setting — and never title one with a person’s name: that is a message waiting on ' +
 			'them (post_message with waitingOn). Never raise a task, or an ask, to test what was built: it is done when it merges, and a fault is a new FIX. Without a department the task takes its goal’s, else development. Tasks titled ' +
 			'"REFACTOR: round N" are raised by the deploy count, never by hand. When you raise it ' +

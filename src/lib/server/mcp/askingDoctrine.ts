@@ -10,7 +10,7 @@ export const askingDoctrine = [
 	'   read_project lists the backlog as those two sections. A development task is built by',
 	'   Claude and ends in a pull request; building is never asked of a person at all. A job a person does',
 	'   for the project — put insurance in place, open an account, publish a listing — is a task',
-	'   in its department (create_task with department), assigned to them (set_task_assignees),',
+	'   in its department (create_task with department), assigned to them (add_task_assignees),',
 	'   and they mark it done. Tasks wait for each other across departments as any tasks do: the',
 	'   development task that cannot go on until the insurance is in place waits for that',
 	'   administration task (set_task_waits_for), and the administration task never waits on a',

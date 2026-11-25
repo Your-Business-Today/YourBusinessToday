@@ -2,6 +2,7 @@ import { boardroomPapersBucket } from '$lib/server/boardroom/boardroomPaperStora
 import { brandLibraryBucket } from '$lib/server/brandLibrary/brandLibraryStorage';
 import { businessBrainFilesBucket } from '$lib/server/businessBrain/businessBrainFileStorage';
 import { chatFilesBucket } from '$lib/server/chat/chatFileBucket';
+import { projectDocumentBucket } from '$lib/server/projectDocuments/projectDocumentFiles';
 import type { ExportedRow } from './rowsKeptIn';
 
 /**
@@ -19,7 +20,8 @@ export const organisationExportFileStores: ExportFileStore[] = [
 	{ tableName: 'business_brain_files', bucket: businessBrainFilesBucket },
 	{ tableName: 'boardroom_agenda_papers', bucket: boardroomPapersBucket },
 	{ tableName: 'brand_library_items', bucket: brandLibraryBucket },
-	{ tableName: 'chat_message_files', bucket: chatFilesBucket, isWrittenOnArrival: true }
+	{ tableName: 'chat_message_files', bucket: chatFilesBucket, isWrittenOnArrival: true },
+	{ tableName: 'project_document_versions', bucket: projectDocumentBucket }
 ];
 
 /** The files a table's rows name that have arrived: a row whose upload never finished names no file. */

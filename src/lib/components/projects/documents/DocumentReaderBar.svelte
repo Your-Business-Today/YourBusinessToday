@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { documentDownloadHref, documentsHref, writtenDownloadKinds } from './documentAddress';
+	import { documentDownloadHref, writtenDownloadKinds } from './documentAddress';
+	import { documentsHrefOf } from '$lib/projectDocuments/documentOwner';
 	import { headerButtonClasses } from '$lib/components/workspace/workspaceStyles';
-	import type { ProjectDocument } from '$lib/projectDocuments/projectDocument';
+	import type { KeptDocument } from '$lib/projectDocuments/projectDocument';
 
-	let { document }: { document: ProjectDocument } = $props();
+	let { document }: { document: KeptDocument } = $props();
 </script>
 
 <div class="flex flex-wrap items-center justify-between gap-3 print:hidden">
-	<a href={documentsHref(document.projectId)} class="font-display text-xs text-chalk-muted transition hover:text-chalk">← Documents</a>
+	<a href={documentsHrefOf(document.owner)} class="font-display text-xs text-chalk-muted transition hover:text-chalk">← Documents</a>
 	<div class="flex flex-wrap items-center gap-2">
 		{#if document.isWritten}
 			<button type="button" onclick={() => window.print()} class={headerButtonClasses}>Print or save as PDF</button>

@@ -7,7 +7,7 @@ const pdf = { filename: 'spec.pdf', mimeType: 'application/pdf', byteCount: 2048
 describe('a new project document as described', () => {
 	it('keeps a written document with the section and position it is given, or the defaults', () => {
 		expect(validateDocumentGiven({ title: ' How it works ', markdown: '# How it works' })).toEqual({
-			details: { title: 'How it works', summary: '', section: 'General', position: 0 },
+			details: { title: 'How it works', summary: '', section: 'General', position: 0, status: 'draft', flow: 'output' },
 			content: { markdown: '# How it works' }
 		});
 	});

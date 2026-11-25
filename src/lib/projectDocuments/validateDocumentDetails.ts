@@ -1,4 +1,4 @@
-import { checkPosition, checkSection, checkSummary, checkTitle } from './documentFieldChecks';
+import { checkFlow, checkPosition, checkSection, checkStatus, checkSummary, checkTitle } from './documentFieldChecks';
 import type { DocumentDetails } from './projectDocument';
 import { checkNamedFields, type FieldCheck } from '$lib/data/fieldChecks';
 
@@ -8,7 +8,9 @@ const detailChecks = {
 	title: checkTitle,
 	summary: checkSummary,
 	section: checkSection,
-	position: checkPosition
+	position: checkPosition,
+	status: checkStatus,
+	flow: checkFlow
 } as const satisfies Record<keyof DocumentDetails, (value: unknown) => FieldCheck<unknown>>;
 
 type DetailField = keyof typeof detailChecks;

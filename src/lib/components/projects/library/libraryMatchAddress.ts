@@ -1,4 +1,5 @@
 import { documentHref } from '../documents/documentAddress';
+import { documentOwnerKinds } from '$lib/projectDocuments/documentOwner';
 import { libraryMatchKinds, type LibraryMatch, type LibraryMatchKind } from '$lib/projectLibrary/libraryMatch';
 import { VideoLibraries } from '$lib/projectVideos/videoLibraries';
 import { videoLibraryHref } from '../videos/videoLibraryAddress';
@@ -6,7 +7,7 @@ import { videoQueryKeys } from '../videos/videoWatching';
 
 /** Where a match is opened: a video on screen in its library, a document to read. */
 export function libraryMatchHref(match: LibraryMatch): string {
-	if (match.kind === libraryMatchKinds.document) return documentHref(match);
+	if (match.kind === libraryMatchKinds.document) return documentHref({ owner: { kind: documentOwnerKinds.project, id: match.projectId }, id: match.id });
 	const libraryHref = videoLibraryHref(match.projectId, match.library ?? VideoLibraries.tutorials);
 	return `${libraryHref}?${videoQueryKeys.watch}=${encodeURIComponent(match.id)}`;
 }

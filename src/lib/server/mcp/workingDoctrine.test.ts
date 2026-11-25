@@ -6,6 +6,7 @@ import { raisingDoctrine } from './raisingDoctrine';
 import { nextTurnToolName } from './nextTurnToolName';
 import { outstandingToolName } from './outstandingToolName';
 import { showUploadBoxToolName } from './uploadBox/uploadBoxNames';
+import { openWorkToolName } from './openWorkToolName';
 import { workingDoctrine } from './workingDoctrine';
 
 const actionsDirectory = join(import.meta.dirname, 'actions');
@@ -13,7 +14,7 @@ const declaredName = /^\s*name: '([a-z_]+)'/gm;
 const guidanceBlock = /guidance:\s*((?:'[^']*'\s*\+?\s*)+)/g;
 const snakeCaseName = /(?<![/.])\b[a-z]+(?:_[a-z]+)+\b(?![/.])/g;
 const statusWords = new Set<string>(taskStatusOrder);
-const toolsTheDoctrineNames = [showUploadBoxToolName, outstandingToolName, nextTurnToolName];
+const toolsTheDoctrineNames = [showUploadBoxToolName, outstandingToolName, nextTurnToolName, openWorkToolName];
 
 function actionSources(): { file: string; source: string }[] {
 	return readdirSync(actionsDirectory)

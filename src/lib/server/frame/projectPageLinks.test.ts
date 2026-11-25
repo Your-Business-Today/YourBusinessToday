@@ -10,7 +10,8 @@ describe('organisationPageLinksFor', () => {
 		expect(organisationPageLinksFor(organisation, projectId)).toEqual([
 			{ href: '/organisations/harbour', label: 'Overview', icon: 'layoutDashboard' },
 			{ href: '/projects', label: 'Projects', icon: 'folderKanban', group: 'work' },
-			{ href: '/organisations/harbour/task-management', label: 'Tasks', icon: 'listChecks', group: 'work' }
+			{ href: '/organisations/harbour/task-management', label: 'Tasks', icon: 'listChecks', group: 'work' },
+			{ href: '/organisations/harbour/documents', label: 'Documents', icon: 'fileText', group: 'work' }
 		]);
 	});
 

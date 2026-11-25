@@ -29,7 +29,8 @@ function validateDocumentContent(input: Input): DocumentContent | string {
 	return { markdown: markdown.value };
 }
 
-function validateDocumentFile(input: Input): { file: DocumentFileGiven } | string {
+/** A file as described, each value checked against its column, or the first that does not fit. */
+export function validateDocumentFile(input: Input): { file: DocumentFileGiven } | string {
 	const filename = typeof input.filename === 'string' ? input.filename.trim() : '';
 	const isFilenameFitting = filename !== '' && filename.length <= longestFilename;
 	if (!isFilenameFitting) return `filename is what the file is called: required, at most ${longestFilename} characters`;

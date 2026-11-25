@@ -35,4 +35,9 @@ describe('notificationSentence', () => {
 		});
 		expect(byMerge.who).toBe('A merged pull request');
 	});
+
+	it('tells a person given a task that it is theirs', () => {
+		const sentence = notificationSentence({ subjectKind: 'task', subjectTitle: 'Start Up Loan', eventKind: 'task_assigned', actorName: 'Jeremy' });
+		expect(`${sentence.who}${sentence.what}${sentence.which}`).toBe('Jeremy gave you the task Start Up Loan');
+	});
 });

@@ -1,12 +1,13 @@
 <script lang="ts">
 	import DocumentDetailsChange from './DocumentDetailsChange.svelte';
+	import DocumentNewVersion from './DocumentNewVersion.svelte';
 	import DocumentRemoval from './DocumentRemoval.svelte';
 	import { documentDownloadHref, documentHref } from './documentAddress';
 	import { documentKindWords } from './documentKinds';
 	import { panelButtonClasses } from '$lib/components/workspace/workspaceStyles';
-	import type { ProjectDocument } from '$lib/projectDocuments/projectDocument';
+	import type { KeptDocument } from '$lib/projectDocuments/projectDocument';
 
-	let { document }: { document: ProjectDocument } = $props();
+	let { document }: { document: KeptDocument } = $props();
 </script>
 
 <li class="flex flex-wrap items-start justify-between gap-4 px-5 py-4">
@@ -20,6 +21,7 @@
 	<div class="flex items-center gap-2">
 		<a href={documentHref(document)} class={panelButtonClasses}>Read</a>
 		<a href={documentDownloadHref(document)} data-sveltekit-reload class={panelButtonClasses}>Download</a>
+		<DocumentNewVersion {document} />
 		<DocumentDetailsChange {document} />
 		<DocumentRemoval {document} />
 	</div>

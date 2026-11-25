@@ -1,9 +1,9 @@
 <script lang="ts">
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
 	import { fileViewingOf, fileViewings } from '$lib/projectDocuments/documentViewing';
-	import type { ProjectDocument } from '$lib/projectDocuments/projectDocument';
+	import type { KeptDocument } from '$lib/projectDocuments/projectDocument';
 
-	let { document, viewUrl }: { document: ProjectDocument; viewUrl: string } = $props();
+	let { document, viewUrl }: { document: KeptDocument; viewUrl: string } = $props();
 
 	const viewing = $derived(fileViewingOf(document.mimeType));
 </script>

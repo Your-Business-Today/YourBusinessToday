@@ -14,14 +14,18 @@ import { requireProjectAccess } from '$lib/server/auth/requireProjectAccess';
 import { sequenceStandingsOf } from '$lib/data/taskSequenceStanding';
 import { taskActions } from './taskActions';
 import { readBoard } from './readBoard';
+import { assignedElsewhere } from '$lib/data/assignedElsewhere';
+import { assignedElsewhereLinks } from '$lib/components/projects/assignedElsewhereLinks';
+import { tabsShownWith } from '$lib/data/departmentBoard';
 import type { Actions, PageServerLoad } from './$types';
 
 const seeOther = 303;
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const { project, isOwner, user } = await requireProjectAccess(locals, params.projectId);
-	const { work, assigneeIdsByTask, turnsByTask, buildBoard, stagedTaskCount, ...reads } = await readBoard(locals, project, url);
-	const { projectTasks, projectGoals: _projectGoals, tasks, goals, departmentTabs, shownSides, ...board } = work;
+	const { work, assigneeIdsByTask, turnsByTask, buildBoard, stagedTaskCount, viewerAssignedTaskIds, ...reads } = await readBoard(locals, project, url, user.id);
+	const { projectTasks, projectGoals, tasks, goals, departmentTabs, shownSides, ...board } = work;
+	const elsewhere = assignedElsewhere({ tasks: projectTasks, goals: projectGoals, assignedTaskIds: viewerAssignedTaskIds, shownTabs: tabsShownWith(board.boardTab) });
 	const teamJobsAddress = teamJobsAddressFor(project, url, shownSides);
 	if (teamJobsAddress !== null) redirect(seeOther, teamJobsAddress);
 	return {
@@ -38,7 +42,8 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 		...board,
 		developmentTabCounts: developmentTabCountsOf(departmentTabs, stagedTaskCount, designRequestCountOf(projectTasks)),
 		...buildBoard,
-		viewerId: user.id
+		viewerId: user.id,
+		assignedElsewhere: assignedElsewhereLinks(project, elsewhere, shownSides)
 	};
 };
 
