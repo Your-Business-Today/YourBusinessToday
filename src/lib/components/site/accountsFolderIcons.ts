@@ -1,4 +1,4 @@
-/** The icons of the Accounts folder's Bank and Loans pages: stroke paths on a 24 by 24 grid, drawn after Lucide's. */
+/** The icons of the Accounts folder's Bank, Loans and Cashflow pages: stroke paths on a 24 by 24 grid, drawn after Lucide's. */
 export const accountsFolderIconPaths = {
 	landmark: [
 		'M10 18v-7',
@@ -14,5 +14,6 @@ export const accountsFolderIconPaths = {
 		'm2 16 6 6',
 		'M13.1 9a2.9 2.9 0 1 0 5.8 0a2.9 2.9 0 1 0 -5.8 0',
 		'M3 5a3 3 0 1 0 6 0a3 3 0 1 0 -6 0'
-	]
+	],
+	trendingUp: ['M22 7l-8.5 8.5-5-5L2 17', 'M16 7h6v6']
 };
