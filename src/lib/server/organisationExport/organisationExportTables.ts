@@ -47,7 +47,9 @@ const tablesKeptUnderAParent: ExportedTable[] = [
 	underAParent('project_brand_kit_decisions', 'project_id', projects),
 	underAParent('project_document_versions', 'document_id', documents),
 	underAParent('project_document_input_requests', 'document_id', documents),
-	underAParent('contract_pack_documents', 'pack_id', contractPacks)
+	underAParent('contract_pack_documents', 'pack_id', contractPacks),
+	underAParent('contract_pack_comments', 'pack_id', contractPacks),
+	underAParent('contract_pack_signatures', 'pack_id', contractPacks)
 ];
 
 /** Every table that holds an organisation's rows, the organisation's own row first. */

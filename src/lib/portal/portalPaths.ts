@@ -5,6 +5,7 @@ export const portalPeoplePath = `${portalHomePath}/people`;
 export const portalConnectPath = `${portalHomePath}/connect`;
 export const portalWorkflowMapPath = `${portalHomePath}/workflow-map`;
 export const portalBillingPath = `${portalHomePath}/billing`;
+export const portalContractPath = `${portalHomePath}/contract`;
 export const portalSignInPath = `/account/sign-in?next=${encodeURIComponent(portalHomePath)}`;
 
 const destinationParameter = 'next';
@@ -43,4 +44,9 @@ export function portalBilledInvoicePath(invoiceId: string): string {
 /** The same invoice as a PDF to download. */
 export function portalBilledInvoicePdfPath(invoiceId: string): string {
 	return `${portalBilledInvoicePath(invoiceId)}/${invoicePdfSegment}`;
+}
+
+/** One document of the client's contract pack, to read, comment on and sign. */
+export function portalContractDocumentPath(documentId: string): string {
+	return `${portalContractPath}/${documentId}`;
 }

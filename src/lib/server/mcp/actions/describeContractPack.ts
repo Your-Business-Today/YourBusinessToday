@@ -1,5 +1,5 @@
 import { contractPackStageWords } from '$lib/data/contractPackRules';
-import { formatUkDateTime } from '$lib/data/britishDate';
+import { formatBritishDate, formatUkDateTime } from '$lib/data/britishDate';
 import { organisationDocumentNames } from './documentHomes';
 import { bracketedBlanks, type ContractPack, type ContractPackDocument } from '$lib/data/contractPack';
 
@@ -12,7 +12,8 @@ export function describeContractPack(clientName: string, pack: ContractPack): st
 		describeQuote(pack.quoteVersion),
 		`Documents, each kept on the organisation: ${organisationDocumentNames.read} reads one in full, and ` +
 			`${organisationDocumentNames.update} keeps a change to this client's copy, such as their own clause, as a new version without touching the template.`,
-		...pack.documents.map(describeDocument)
+		...pack.documents.map(describeDocument),
+		...describeComments(pack)
 	].join('\n');
 }
 
@@ -26,8 +27,31 @@ function describeQuote(quoteVersion: number | null): string {
 	return `Fees from version ${quoteVersion} of the client's quote.`;
 }
 
-function describeDocument({ title, versionNumber, documentId, openBlanks }: ContractPackDocument, index: number): string {
-	const heading = `${index + 1}. ${title}, version ${versionNumber} (document id: ${documentId})`;
-	if (openBlanks.length === 0) return `${heading} — every blank filled.`;
-	return `${heading} — still open: ${bracketedBlanks(openBlanks)}.`;
+function describeDocument(document: ContractPackDocument, index: number): string {
+	const { title, versionNumber, documentId } = document;
+	return `${index + 1}. ${title}, version ${versionNumber} (document id: ${documentId}) — ${describeBlanks(document)} ${describeSignature(document)}`;
+}
+
+function describeBlanks({ openBlanks }: ContractPackDocument): string {
+	if (openBlanks.length === 0) return 'every blank filled.';
+	return `still open: ${bracketedBlanks(openBlanks)}.`;
+}
+
+function describeSignature({ signature }: ContractPackDocument): string {
+	if (signature === null) return 'Not signed by the client yet.';
+	const { signerName, signerPosition, signedOn, versionNumber } = signature;
+	return `Signed by ${signerName}, ${signerPosition}, on ${formatBritishDate(signedOn)}, against version ${versionNumber}.`;
+}
+
+function describeComments({ comments, documents }: ContractPack): string[] {
+	if (comments.length === 0) return [];
+	const titleOf = (documentId: string) => {
+		const commentedDocument = documents.find((document) => document.documentId === documentId);
+		return commentedDocument?.title ?? 'a document';
+	};
+	const lines = comments.map(({ documentId, clause, comment, madeAt }) => {
+		const where = clause === '' ? titleOf(documentId) : `${titleOf(documentId)}, clause ${clause}`;
+		return `- ${formatUkDateTime(madeAt)}, on ${where}: ${comment}`;
+	});
+	return ["The client's comments:", ...lines];
 }
