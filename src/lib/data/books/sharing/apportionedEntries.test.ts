@@ -39,6 +39,13 @@ describe('apportionEntries', () => {
 		expect(sumMoney(entries.map((entry) => entry.debit))).toBe(79);
 	});
 
+	it('splits each month by the members’ weights, three quarters to weight 3 and a quarter to weight 1', () => {
+		const monthly: LedgerEntry = { ...licencePaid, debit: 10 };
+		const sharing = { ...sharingOf([{ ...carpManiaAllYear, weight: 3 }, { ...codManiaFromJuly, joinedMonth: '2026-01', weight: 1 }]) };
+		const entries = apportionEntries([monthly], { ...sharing, shares: [{ ...sharing.shares[0], monthsCovered: 1 }] });
+		expect([costIn(entries, CostCentres.carpMania, '2026-01'), costIn(entries, CostCentres.codMania, '2026-01')]).toEqual([7.5, 2.5]);
+	});
+
 	it('dates the first month on the day the line was dated, and each month after on its first day', () => {
 		const entries = apportionEntries([licencePaid], sharingOf([carpManiaAllYear]));
 		expect(entries.map((entry) => entry.journalDate).slice(0, 2)).toEqual(['2026-01-15', '2026-02-01']);

@@ -6,7 +6,9 @@ import { CostShareTables, costShareColumns, costShareMemberColumns } from './cos
 
 const migration = readFileSync('migrations/0291_books_cost_shares.sql', 'utf8');
 const statements = migration.replace(/^--.*$/gm, '');
-const columnsAddedLater = readFileSync('migrations/0292_cost_shares_by_project_status.sql', 'utf8');
+const columnsAddedLater = ['0292_cost_shares_by_project_status', '0294_cost_share_member_weights']
+	.map((name) => readFileSync(`migrations/${name}.sql`, 'utf8'))
+	.join('\n');
 const columnsOf = (list: string) => list.split(', ').filter((column) => column !== 'id');
 
 describe('migration 0291, the shared costs and the projects that share them, and the limits the connector checks', () => {

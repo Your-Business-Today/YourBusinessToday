@@ -9,7 +9,7 @@ describe('addCostShareMember', () => {
 		const member = await addCostShareMember(books.supabase, organisationId, { costCentreId, projectId: codManiaId, joinedMonth: '2026-07' });
 		expect(member.joinedMonth).toBe('2026-07');
 		expect(books.writes).toEqual([
-			{ organisation_id: organisationId, cost_share_id: appleShare.id, project_id: codManiaId, joined_month: '2026-07-01', left_month: null }
+			{ organisation_id: organisationId, cost_share_id: appleShare.id, project_id: codManiaId, joined_month: '2026-07-01', left_month: null, weight: 1 }
 		]);
 	});
 
