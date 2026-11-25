@@ -2,14 +2,15 @@
 	import { enhance } from '$app/forms';
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import FormField from '$lib/components/site/FormField.svelte';
+	import DocumentStandingFields from './DocumentStandingFields.svelte';
 	import Modal from '$lib/components/site/Modal.svelte';
 	import SubmitButton from '$lib/components/site/SubmitButton.svelte';
 	import { DocumentLimits } from '$lib/projectDocuments/documentLimits';
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { panelButtonClasses } from '$lib/components/workspace/workspaceStyles';
-	import type { ProjectDocument } from '$lib/projectDocuments/projectDocument';
+	import type { KeptDocument } from '$lib/projectDocuments/projectDocument';
 
-	let { document }: { document: ProjectDocument } = $props();
+	let { document }: { document: KeptDocument } = $props();
 
 	const { longestTitle, longestSummary } = DocumentLimits;
 	const tracker = new FormTracker();
@@ -31,6 +32,7 @@
 		<FormField label="Summary" hint="What the document is about, in a sentence or two">
 			<textarea name="summary" rows="4" maxlength={longestSummary} value={document.summary}></textarea>
 		</FormField>
+		<DocumentStandingFields status={document.status} flow={document.flow} />
 		<FormErrorNote message={tracker.errorMessage} />
 		<div class="flex justify-end"><SubmitButton isSaving={tracker.isSaving}>Save</SubmitButton></div>
 	</form>

@@ -1,4 +1,4 @@
-const wordFields = ['title', 'summary', 'section', 'markdown', 'filename', 'mimeType', 'documentId'] as const;
+const wordFields = ['title', 'summary', 'section', 'status', 'flow', 'markdown', 'filename', 'mimeType', 'documentId'] as const;
 const numberFields = ['byteCount', 'position'] as const;
 
 /**

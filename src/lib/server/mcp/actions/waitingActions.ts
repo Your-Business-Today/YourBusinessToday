@@ -4,6 +4,7 @@ import { getTasklessGoalsRaisedBy } from '$lib/server/goals/getTasklessGoalsRais
 import { reachableProjectIds } from '../projectAccess';
 import { askSections } from './describeAskSections';
 import { nothingWaiting } from './describeWaitingQuestions';
+import { describeInputWaiting } from './describeInputWaiting';
 import { describeTodos } from './describeTodos';
 import { getOwedTasks } from './owedTasks';
 import { getWhatCallerOwes } from '$lib/server/owed/callerOwes';
@@ -27,7 +28,7 @@ export const waitingActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary:
-			'everything that needs you in one answer — the information and setup asked of you, ' +
+			'everything that needs you in one answer — the information and setup asked of you, the input asked of you on documents, ' +
 			'your to-dos, and any open task still in your name — without moving the read marker',
 		guidance:
 			'Use it on a routine check, or whenever the person asks what needs them or what they owe: ' +
@@ -49,7 +50,8 @@ export const waitingActions: McpAction[] = [
 			const owed = await getOwedTasks(caller, owes);
 			const unfinished = describeTasklessGoals(await getTasklessGoals(caller));
 			const owedLines = describeOwedTasks(owed);
-			const sections = [...unfinished, ...questions, '## Your to-dos', ...todos, '', ...owedLines];
+			const documentInput = await describeInputWaiting(caller);
+			const sections = [...unfinished, ...questions, ...documentInput, '## Your to-dos', ...todos, '', ...owedLines];
 			return [everythingHeading, '', ...sections].join('\n');
 		}
 	}

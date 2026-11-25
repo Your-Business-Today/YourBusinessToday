@@ -1,6 +1,6 @@
 const megabyte = 1024 * 1024;
 
-/** The limits of a project document's own columns and of its bucket (migration 0268), read by every door that adds or changes one. */
+/** The limits of a document's own columns and of its bucket (migrations 0268 and 0281), read by every door that adds or changes one. */
 export const DocumentLimits = {
 	longestTitle: 160,
 	longestSummary: 2000,
@@ -10,6 +10,9 @@ export const DocumentLimits = {
 	largestByteCount: 25 * megabyte,
 	largestMegabytes: 25,
 	highestPosition: 9999,
+	highestVersion: 9999,
+	longestQuestion: 2000,
+	longestAnswer: 10000,
 	mostDocumentsListed: 200
 } as const;
 

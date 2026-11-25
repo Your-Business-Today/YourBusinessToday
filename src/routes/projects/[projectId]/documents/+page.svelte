@@ -21,7 +21,7 @@
 	<LibrarySearchBox search={data.search} />
 	<div class={dashboardGridClasses}>
 		{#if data.search === null}
-			<DocumentShelf documents={data.documents} projectName={project.name} />
+			<DocumentShelf documents={data.documents} ownerName={project.name} />
 		{:else}
 			<LibrarySearchResults search={data.search} />
 		{/if}

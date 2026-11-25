@@ -1,9 +1,10 @@
-/** The organisation's own pages: what it is, the team's jobs across its products, its domain and its workflow map. */
-export type OrganisationPage = 'overview' | 'task-management' | 'domain' | 'workflow-map';
+/** The organisation's own pages: what it is, the team's jobs across its products, its own documents, its domain and its workflow map. */
+export type OrganisationPage = 'overview' | 'task-management' | 'documents' | 'domain' | 'workflow-map';
 
 export const organisationPages = {
 	overview: 'overview',
 	taskManagement: 'task-management',
+	documents: 'documents',
 	domain: 'domain',
 	workflowMap: 'workflow-map'
 } as const;
