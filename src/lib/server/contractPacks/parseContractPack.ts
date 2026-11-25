@@ -1,5 +1,5 @@
 import { blanksIn } from '$lib/data/contractBlanks';
-import type { ContractPack, ContractPackComment, ContractPackDocument, ContractPackSignature } from '$lib/data/contractPack';
+import type { ContractPack, ContractPackComment, ContractPackDocument, ContractPackSending, ContractPackSignature } from '$lib/data/contractPack';
 import type { CommentRow, PackDocumentRow, PackRow, SignatureRow } from './contractPackRows';
 
 /** A pack as its row and the rows under it give it, documents in order and comments oldest first. */
@@ -15,6 +15,7 @@ export function parseContractPack(row: PackRow): ContractPack {
 		quoteVersion: row.quote_version,
 		preparedAt: row.prepared_at,
 		viewedAt: row.viewed_at,
+		sending: parseSending(row),
 		documents: documents.map((document) => parseDocument(document, signatures)),
 		comments: comments.map(parseComment)
 	};
@@ -30,6 +31,11 @@ function parseDocument({ template_slug, document_id, project_documents: kept }: 
 		openBlanks: blanksIn(kept.markdown ?? ''),
 		signature: signature === null ? null : parseSignature(signature)
 	};
+}
+
+function parseSending({ sent_at, sent_to }: PackRow): ContractPackSending | null {
+	if (sent_at === null || sent_to === null) return null;
+	return { sentAt: sent_at, sentTo: sent_to };
 }
 
 function parseSignature(row: SignatureRow): ContractPackSignature {

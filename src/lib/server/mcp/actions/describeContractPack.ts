@@ -8,6 +8,7 @@ export function describeContractPack(clientName: string, pack: ContractPack): st
 	const stage = contractPackStageWords[pack.stage];
 	return [
 		`${clientName}'s contract pack (id: ${pack.id}), prepared ${formatUkDateTime(pack.preparedAt)} — ${stage}.`,
+		describeSending(pack),
 		describeClauses(pack.chosenClauses),
 		describeQuote(pack.quoteVersion),
 		`Documents, each kept on the organisation: ${organisationDocumentNames.read} reads one in full, and ` +
@@ -15,6 +16,11 @@ export function describeContractPack(clientName: string, pack: ContractPack): st
 		...pack.documents.map(describeDocument),
 		...describeComments(pack)
 	].join('\n');
+}
+
+function describeSending({ sending }: ContractPack): string {
+	if (sending === null) return 'Not sent to the client yet: preview_contract_pack_sending shows what would go.';
+	return `Last sent to ${sending.sentTo} on ${formatUkDateTime(sending.sentAt)}.`;
 }
 
 function describeClauses(clauses: string[]): string {

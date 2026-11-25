@@ -10,11 +10,15 @@
 	const documentsHref = $derived(documentsHrefOf({ kind: documentOwnerKinds.organisation, id: organisationId }));
 	const stage = $derived(contractPackStageWords[pack.stage]);
 	const preparedAt = $derived(formatUkDateTime(pack.preparedAt));
+	const sending = $derived(pack.sending);
 </script>
 
 <section class="flex flex-col gap-3">
 	<h2 class="font-display text-lg text-chalk">Latest pack — {stage}</h2>
 	<p class="text-sm text-chalk/60">Prepared {preparedAt}. Each document is kept on the organisation, where a change to this client's copy is kept as a new version.</p>
+	{#if sending !== null}
+		<p class="text-sm text-chalk/60">Last sent to {sending.sentTo} on {formatUkDateTime(sending.sentAt)}.</p>
+	{/if}
 	<ol class="flex flex-col gap-2">
 		{#each pack.documents as document (document.documentId)}
 			{@const openBlanks = document.openBlanks}

@@ -2,7 +2,7 @@ import type { ContractPackStage } from '$lib/data/contractPackRules';
 
 /** The columns a pack is read with: its own, its documents with the organisation document each is kept as, their signatures and the comments. */
 export const packColumns =
-	'id, organisation_id, stage, chosen_clauses, quote_version, prepared_at, viewed_at, ' +
+	'id, organisation_id, stage, chosen_clauses, quote_version, prepared_at, viewed_at, sent_at, sent_to, ' +
 	'contract_pack_documents (position, template_slug, document_id, project_documents (title, version_number, markdown)), ' +
 	'contract_pack_signatures (document_id, version_number, signer_name, signer_position, signed_on, signed_at), ' +
 	'contract_pack_comments (document_id, clause, comment, made_at)';
@@ -20,6 +20,8 @@ export type PackRow = {
 	quote_version: number | null;
 	prepared_at: string;
 	viewed_at: string | null;
+	sent_at: string | null;
+	sent_to: string | null;
 	contract_pack_documents: PackDocumentRow[];
 	contract_pack_signatures: SignatureRow[];
 	contract_pack_comments: CommentRow[];

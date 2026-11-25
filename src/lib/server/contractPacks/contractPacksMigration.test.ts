@@ -40,3 +40,19 @@ describe('migration 0285, a client signing their pack', () => {
 		expect(signingMigration).not.toMatch(/\bdelete from\b|\bupdate public\./);
 	});
 });
+
+const sendingMigration = readFileSync('migrations/0286_contract_pack_sending.sql', 'utf8');
+
+describe('migration 0286, YBT sending a pack', () => {
+	it('keeps when the pack went, to which contact and which address', () => {
+		expect(sendingMigration).toContain('add column if not exists sent_at timestamptz');
+		expect(sendingMigration).toContain('add column if not exists sent_to_contact_id uuid references public.client_contacts (id) on delete set null');
+		expect(sendingMigration).toContain('char_length(sent_to) between 3 and 254');
+	});
+
+	it('only adds columns, and gives up on a lock in seconds', () => {
+		expect(sendingMigration).not.toMatch(/\bdrop (table|column)\b/);
+		expect(sendingMigration).not.toMatch(/\bdelete from\b|\bupdate public\./);
+		expect(sendingMigration).toContain("set local lock_timeout = '5s';");
+	});
+});

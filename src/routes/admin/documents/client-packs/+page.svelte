@@ -1,12 +1,13 @@
 <script lang="ts">
 	import ContractPackForm from '$lib/components/admin/contractPacks/ContractPackForm.svelte';
 	import ContractPackSummary from '$lib/components/admin/contractPacks/ContractPackSummary.svelte';
+	import PackSendingPanel from '$lib/components/admin/contractPacks/PackSendingPanel.svelte';
 	import OrganisationPicker from '$lib/components/admin/contractPacks/OrganisationPicker.svelte';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
 
 	let { data, form } = $props();
 
-	const { picked, pack } = $derived(data);
+	const { picked, pack, sending } = $derived(data);
 	const documents = $derived(data.contractDocuments.map((entry) => ({ ...entry, isTicked: true })));
 	const clauses = $derived(data.optionalClauses.map((clause) => ({ ...clause, isTicked: clause.isChosenByDefault })));
 </script>
@@ -28,6 +29,9 @@
 	{#if picked !== null}
 		{#if pack !== null}
 			<ContractPackSummary {pack} organisationId={picked.id} />
+		{/if}
+		{#if sending !== null}
+			<PackSendingPanel organisationId={picked.id} {sending} errorMessage={form?.sendMessage ?? null} />
 		{/if}
 		<h2 class="font-display text-lg text-chalk">Prepare a new pack for {picked.name}</h2>
 		<ContractPackForm
