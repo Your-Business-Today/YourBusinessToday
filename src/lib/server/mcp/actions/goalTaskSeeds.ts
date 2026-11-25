@@ -3,6 +3,8 @@ import { taskKinds } from '$lib/data/taskKind';
 import { proseField, readOptionalText, readText, textField } from '../actionTypes';
 import { readStory, storyFields } from './storyFields';
 import { developmentKindField } from './developmentKindField';
+import { designReviewLimits } from '$lib/data/designReview';
+import { designChangeField, isDesignTextRefused, validateDesignText } from './designChangeField';
 import { parseDevelopmentKind, titleForDevelopmentKind } from '$lib/data/developmentKind';
 import type { NewTaskSeed } from '$lib/server/projects/createTask';
 
@@ -12,6 +14,7 @@ const goalTaskProperties = {
 	title: textField('What the task is called: the user story, or "FIX: <what is wrong>"'),
 	details: proseField('What the task involves'),
 	developmentKind: developmentKindField,
+	designChange: designChangeField,
 	...storyFields
 };
 
@@ -30,7 +33,8 @@ export const goalTasksField = {
 
 export const goalTasksRefusal =
 	`Give tasks as a list of 1 to ${mostTasksRaisedWithGoal} tasks, each with a title and only ` +
-	`${goalTaskFieldNames.join(', ')}. Nothing was raised.`;
+	`${goalTaskFieldNames.join(', ')}, any designChange at most ${designReviewLimits.longestText} characters. ` +
+	'Nothing was raised.';
 
 /** The seeds of the tasks a goal is raised with, or null when the list is not one this action takes. */
 export function listedTaskSeeds(input: Record<string, unknown>): NewTaskSeed[] | null {
@@ -54,6 +58,8 @@ function listedTaskSeed(task: unknown): NewTaskSeed | null {
 	const kind = parseDevelopmentKind(kindNamed);
 	if (kindNamed !== null && kind === null) return null;
 	const title = titleForDevelopmentKind(typedTitle, kind);
+	const designChange = validateDesignText(fields, 'designChange');
+	if (isDesignTextRefused(designChange)) return null;
 	return {
 		title,
 		details: readText(fields, 'details'),
@@ -63,6 +69,7 @@ function listedTaskSeed(task: unknown): NewTaskSeed | null {
 		goalId: null,
 		kind: taskKinds.work,
 		story: readStory(fields),
-		autocomplete: connectorTaskAutocomplete
+		autocomplete: connectorTaskAutocomplete,
+		designChange: designChange.text
 	};
 }

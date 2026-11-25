@@ -1,7 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import { autocompleteActions } from './autocompleteActions';
+import { priorityMarkActions } from './priorityMarkActions';
 import { teamJobsAddressFor } from '$lib/components/projects/teamJobsAddress';
-import { developmentTabCountsOf } from '$lib/components/projects/developmentTabCounts';
+import { designRequestCountOf, developmentTabCountsOf } from '$lib/components/projects/developmentTabCounts';
 import { buildTaskTree } from '$lib/server/projects/buildTaskTree';
 import { summariseGoals } from '$lib/server/goals/summariseGoals';
 import { goalActions } from './goalActions';
@@ -35,7 +36,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 		turnsByTask: Object.fromEntries(turnsByTask),
 		sequenceByTask: sequenceStandingsOf(projectTasks),
 		...board,
-		developmentTabCounts: developmentTabCountsOf(departmentTabs, stagedTaskCount),
+		developmentTabCounts: developmentTabCountsOf(departmentTabs, stagedTaskCount, designRequestCountOf(projectTasks)),
 		...buildBoard,
 		viewerId: user.id
 	};
@@ -47,5 +48,6 @@ export const actions = {
 	...memberActions,
 	...taskActions,
 	...autocompleteActions,
+	...priorityMarkActions,
 	...internalWorkActions
 } satisfies Actions;

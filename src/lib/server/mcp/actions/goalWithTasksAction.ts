@@ -10,6 +10,7 @@ import { raiseAnywayField } from './similarTaskCheck';
 import { similarTasksRefusal } from './similarTasksRefusal';
 import { departmentField, readDepartment, isDepartmentRefused } from './departmentChoice';
 import { isMapLinkRefused, mapLinkSentence, readGoalMapLink, workflowMapVersionIdField } from './goalWorkflowMapVersion';
+import { designRequestSentence, raiseDesignRequest } from './raiseDesignRequest';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { NewGoalSeed } from '$lib/server/goals/createGoal';
@@ -30,7 +31,8 @@ export const goalWithTasksAction: McpAction = {
 		'chosen raiseAnyway. A development goal’s tasks are each a feature, a user story, or a bug, ' +
 		'"FIX: <what is wrong>" — say which with each task’s developmentKind; bugs are built first. ' +
 		'The tasks take the goal’s department. A service raised from a client’s confirmed workflow map gives ' +
-		'workflowMapVersionId, so the goal links back to it.',
+		'workflowMapVersionId, so the goal links back to it. A task that changes the system’s design, ' +
+		'which the person still wants after you pushed back, carries designChange and waits for YBT’s approval.',
 	inputSchema: objectSchema(
 		{
 			projectId: projectIdField,
@@ -60,6 +62,7 @@ export const goalWithTasksAction: McpAction = {
 		if (refusal !== null) return `Nothing was raised. ${refusal}`;
 		const goal = { ...goalSeedFrom(input, title), department, workflowMapVersionId: mapLink.workflowMapVersionId };
 		const raised = await createGoalWithTasks(caller.supabase, project.id, goal, seeds, caller.accountId);
+		for (const [index, seed] of seeds.entries()) await raiseDesignRequest(caller, project, raised.taskIds[index], seed);
 		const heading = `"${title}" added to ${project.name} as a ${goal.horizon} goal (goal id: ${raised.goalId}).${mapLinkSentence(mapLink)} With:`;
 		return [heading, ...seeds.map((seed, index) => raisedTaskLine(seed, raised.taskIds[index]))].join('\n');
 	}
@@ -71,7 +74,7 @@ function goalSeedFrom(input: Record<string, unknown>, title: string): NewGoalSee
 }
 
 function raisedTaskLine(seed: NewTaskSeed, taskId: string): string {
-	return `- "${seed.title}" (task id: ${taskId})`;
+	return `- "${seed.title}" (task id: ${taskId})${designRequestSentence(seed)}`;
 }
 
 async function firstTaskRefusal(

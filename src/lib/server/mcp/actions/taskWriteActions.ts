@@ -34,7 +34,10 @@ export const taskWriteActions: McpAction[] = [
 			'so it shows as a sequence. Files the task needs go on it ' +
 			'with attach_file_to_task once it exists. A development task raised here by staff starts ' +
 			'with autocomplete on, and by anyone else off; set_task_autocomplete switches it. An ' +
-			'infrastructure, administration, sales or marketing task is always off: a person does it.',
+			'infrastructure, administration, sales or marketing task is always off: a person does it. ' +
+			'Before raising, check the request against the system’s design as the raising doctrine says: one that ' +
+			'changes the design is pushed back on first, and raised with designChange only when the person still ' +
+			'wants it, so it waits for YBT’s approval before anything builds it.',
 		inputSchema: objectSchema(createTaskFields, ['projectId', 'title']),
 		run: async (caller, input) => raisingAnswer(await raiseTask(caller, input))
 	}

@@ -5,6 +5,7 @@ import { checklistActions } from './checklistActions';
 import { checklistItemActions } from './checklistItemActions';
 import { taskBranchActions } from './taskBranchActions';
 import { taskOrderActions } from './taskOrderActions';
+import { priorityMarkActions } from './priorityMarkActions';
 import { taskParentActions } from './taskParentActions';
 import { taskProjectActions } from './taskProjectActions';
 import { taskQueueActions } from './taskQueueActions';
@@ -30,11 +31,13 @@ import { taskUpdateActions } from './taskUpdateActions';
 import { taskWriteActions } from './taskWriteActions';
 import { emailPathwayActions } from './emailPathwayActions';
 import { similarTaskActions } from './similarTaskActions';
+import { designReviewActions } from './designReviewActions';
 import type { McpAction } from '../actionTypes';
 
 export const taskActions: McpAction[] = [
 	...taskReadActions,
 	...taskWriteActions,
+	...designReviewActions,
 	...emailPathwayActions,
 	...similarTaskActions,
 	...taskUpdateActions,
@@ -53,6 +56,7 @@ export const taskActions: McpAction[] = [
 	...buildableActions,
 	...localBuildActions,
 	...taskOrderActions,
+	...priorityMarkActions,
 	...taskQueueActions,
 	...taskParentActions,
 	...taskProjectActions,

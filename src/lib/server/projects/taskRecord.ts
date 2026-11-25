@@ -3,6 +3,7 @@ import { parseStoryPoints } from '$lib/data/storyPoints';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
 import { parseTaskStatus, type TaskStatus } from '$lib/data/taskStatus';
 import { readStoredDepartment, type Department } from '$lib/data/department';
+import { parseDesignReview, type DesignReview } from '$lib/data/designReview';
 
 export type ProjectTask = TaskBuildFields & {
 	id: string;
@@ -17,6 +18,7 @@ export type ProjectTask = TaskBuildFields & {
 	status: TaskStatus;
 	priority: number;
 	globalPriority: number | null;
+	isPriority: boolean;
 	storyPoints: number;
 	completionPercent: number;
 	isUserStory: boolean;
@@ -29,6 +31,7 @@ export type ProjectTask = TaskBuildFields & {
 	createdBy: string;
 	requestedBy: string;
 	createdAt: string;
+	designReview?: DesignReview | null;
 };
 
 export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
@@ -45,6 +48,7 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		status: parseTaskStatus(row.status),
 		priority: row.priority as number,
 		globalPriority: (row.global_priority as number) ?? null,
+		isPriority: row.is_priority === true,
 		storyPoints: parseStoryPoints(row.story_points),
 		completionPercent: row.completion_percent as number,
 		isUserStory: row.is_user_story as boolean,
@@ -57,6 +61,7 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		resolvedAt: (row.resolved_at as string) ?? null,
 		createdBy: row.created_by as string,
 		requestedBy: (row.requested_by as string) ?? (row.created_by as string),
-		createdAt: row.created_at as string
+		createdAt: row.created_at as string,
+		designReview: parseDesignReview(row)
 	};
 }

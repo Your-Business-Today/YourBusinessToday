@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ChevronIcon from '$lib/components/site/ChevronIcon.svelte';
+	import PriorityMarkToggle from '../PriorityMarkToggle.svelte';
 	import { taskPagePath, taskSheet } from '$lib/client/taskSheet.svelte';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
 
@@ -37,6 +38,7 @@
 	>
 		{task.title}
 	</a>
+	<PriorityMarkToggle taskId={task.id} isPriority={task.isPriority} />
 	{#if hasTodos}
 		<span class="mt-0.5 shrink-0 whitespace-nowrap rounded-full bg-night/60 px-2 py-px text-xs tabular-nums text-chalk-subtle">
 			{todoWords}

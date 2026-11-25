@@ -1,4 +1,5 @@
 <script lang="ts">
+	import PriorityMarkToggle from './PriorityMarkToggle.svelte';
 	import TaskFoldButton from './TaskFoldButton.svelte';
 	import { taskPagePath, taskSheet } from '$lib/client/taskSheet.svelte';
 	import type { TaskTreeNode } from '$lib/server/projects/buildTaskTree';
@@ -28,4 +29,5 @@
 	>
 		{task.title}
 	</a>
+	<PriorityMarkToggle taskId={task.id} isPriority={task.isPriority} />
 </div>
