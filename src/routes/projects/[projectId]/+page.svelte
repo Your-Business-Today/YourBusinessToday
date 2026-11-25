@@ -2,6 +2,7 @@
 	import FlashMessage from '$lib/components/workspace/FlashMessage.svelte';
 	import ProjectDashboard from '$lib/components/projects/ProjectDashboard.svelte';
 	import DevelopmentTabs from '$lib/components/projects/DevelopmentTabs.svelte';
+	import AssignedElsewhereNote from '$lib/components/projects/AssignedElsewhereNote.svelte';
 	import ProjectDetailHeader from '$lib/components/projects/ProjectDetailHeader.svelte';
 	import ProjectNewTaskModal from '$lib/components/projects/ProjectNewTaskModal.svelte';
 	import TaskTreePanel from '$lib/components/projects/TaskTreePanel.svelte';
@@ -61,6 +62,7 @@
 	{#if isDevelopmentSide}
 		<DevelopmentTabs projectId={project.id} selected={data.boardTab} counts={data.developmentTabCounts} />
 	{/if}
+	<AssignedElsewhereNote links={data.assignedElsewhere} />
 	<FlashMessage message={form?.message} />
 	{#key data.boardTab}
 		<div in:fade={tabSwap} class="flex flex-col gap-4">

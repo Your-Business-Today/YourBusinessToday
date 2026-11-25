@@ -30,6 +30,7 @@ const identifiersEachActionChecksItself = new Set([
 	'member',
 	'owner',
 	'pagesCited',
+	'person',
 	'replacesDecision',
 	'requestedBy',
 	'route',
