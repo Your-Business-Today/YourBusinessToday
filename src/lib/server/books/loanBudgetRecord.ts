@@ -1,4 +1,4 @@
-import type { LoanBudget, LoanBudgetLine, LoanBudgetSettings, LoanDraw } from '$lib/data/books/loanBudget/loanBudget';
+import type { LoanBudget, LoanBudgetLine, LoanBudgetSettings, LoanDraw, LoanSpend } from '$lib/data/books/loanBudget/loanBudget';
 import { monthOfDay, monthStart } from '$lib/data/books/monthKey';
 
 export const LoanBudgetTables = { budgets: 'books_loan_budgets', draws: 'books_loan_draws', lines: 'books_loan_budget_lines' } as const;
@@ -65,9 +65,9 @@ export function fromLoanDrawRow(row: LoanDrawRow): LoanDraw {
 	return { id: row.id, month: monthOfDay(row.month), amount: Number(row.amount) };
 }
 
-export function fromLoanBudgetLineRow(row: LoanBudgetLineRow): LoanBudgetLine {
+export function fromLoanBudgetLineRow(row: LoanBudgetLineRow, spends: LoanSpend[]): LoanBudgetLine {
 	const approvedByName = row.approved_by_name ?? null;
 	const approvedAt = row.approved_at ?? null;
 	const approval = approvedByName === null || approvedAt === null ? null : { approvedByName, approvedAt };
-	return { id: row.id, purpose: row.purpose, amount: Number(row.amount), expectedReturn: row.expected_return, approval };
+	return { id: row.id, purpose: row.purpose, amount: Number(row.amount), expectedReturn: row.expected_return, approval, spends };
 }

@@ -4,9 +4,7 @@ import { ledgerTables } from './booksLedgerDatabase.fixture';
 import { holdThreePartnersLoans, loanOrganisationId } from './booksLoanWorld.fixture';
 import { idOf, runOnTheLoans as run } from './booksLoanSteps.fixture';
 
-vi.mock('$lib/data/ukClock', () => ({
-	ukClockAt: () => ({ date: '2026-11-25', time: '18:00' })
-}));
+vi.mock('$lib/data/ukClock', () => ({ ukClockAt: () => ({ date: '2026-11-25', time: '18:00' }) }));
 
 const startUpLoan = {
 	title: 'Start Up Loan',
@@ -21,7 +19,8 @@ const laptops = { purpose: 'Laptops', amount: 3000, expectedReturn: 'Two more bu
 
 function holdNigelAsADirector(): void {
 	holdThreePartnersLoans();
-	for (const table of ['books_cashflow_items', 'books_loan_budgets', 'books_loan_draws', 'books_loan_budget_lines']) ledgerTables[table] = [];
+	for (const table of ['books_cashflow_items', 'books_loan_budgets', 'books_loan_draws', 'books_loan_budget_lines', 'books_loan_spends'])
+		ledgerTables[table] = [];
 	ledgerTables.boardroom_directors = [
 		{ id: 'seat', organisation_id: loanOrganisationId, account_id: 'nigel', director_name: 'Nigel Reilly', named_at: '2026-11-01', stood_down_at: null }
 	];
@@ -56,7 +55,9 @@ describe('the ring-fenced loan budget over the connector', () => {
 		expect(await run('approve_loan_budget_line', { budgetLineId })).toContain('approved by Nigel Reilly on');
 		expect(await run('approve_loan_budget_line', { budgetLineId })).toContain('Nothing was saved. Laptops was already approved by Nigel Reilly');
 		const changed = await run('update_loan_budget_line', { budgetLineId, amount: 3500 });
-		expect(changed).toContain('It now reads:\n- Laptops: £3,500.00, expected return: Two more builds a month; awaiting a director’s approval');
+		expect(changed).toContain(
+			'It now reads:\n- Laptops: £3,500.00, £0.00 spent, £3,500.00 left, expected return: Two more builds a month; awaiting a director’s approval'
+		);
 	});
 
 	it('refuses an approval from someone who is not a sitting director', async () => {
