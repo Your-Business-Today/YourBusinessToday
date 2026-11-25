@@ -20,6 +20,7 @@ export const booksLoanBudgetActions: McpAction[] = [
 		audience: 'everyone',
 		isWrite: false,
 		summary: "read the ring-fenced loan budgets in an organisation's books: each loan, its repayment, draws and lines, and who approved each line",
+		guidance: 'Give each line as the books hold it, and say plainly which lines still await a director, as nothing may be spent from those.',
 		inputSchema: objectSchema({ organisationId: booksOrganisationField }, ['organisationId']),
 		run: async (caller, _input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.reading, async () =>
