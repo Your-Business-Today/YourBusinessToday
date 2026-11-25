@@ -17,26 +17,30 @@ import { readBoard } from './readBoard';
 import { assignedElsewhere } from '$lib/data/assignedElsewhere';
 import { assignedElsewhereLinks } from '$lib/components/projects/assignedElsewhereLinks';
 import { tabsShownWith } from '$lib/data/departmentBoard';
+import { nextActionIdsOf, taskIdsWithMoveOf } from '$lib/data/nextActionIds';
 import type { Actions, PageServerLoad } from './$types';
 
 const seeOther = 303;
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
 	const { project, isOwner, user } = await requireProjectAccess(locals, params.projectId);
-	const { work, assigneeIdsByTask, turnsByTask, buildBoard, stagedTaskCount, viewerAssignedTaskIds, ...reads } = await readBoard(locals, project, url, user.id);
+	const { work, assigneeIdsByTask, turnsByTask, buildBoard, stagedTaskCount, nextActionsByTask, ...reads } = await readBoard(locals, project, url);
 	const { projectTasks, projectGoals, tasks, goals, departmentTabs, shownSides, ...board } = work;
-	const elsewhere = assignedElsewhere({ tasks: projectTasks, goals: projectGoals, assignedTaskIds: viewerAssignedTaskIds, shownTabs: tabsShownWith(board.boardTab) });
+	const nextActionIdsByTask = nextActionIdsOf(nextActionsByTask);
+	const viewersMoveTaskIds = taskIdsWithMoveOf(nextActionIdsByTask, user.id);
+	const elsewhere = assignedElsewhere({ tasks: projectTasks, goals: projectGoals, assignedTaskIds: viewersMoveTaskIds, shownTabs: tabsShownWith(board.boardTab) });
 	const teamJobsAddress = teamJobsAddressFor(project, url, shownSides);
 	if (teamJobsAddress !== null) redirect(seeOther, teamJobsAddress);
 	return {
 		project,
 		...reads,
 		isOwner,
-		pulse: summariseProjectPulse({ tasks, goals, assigneeIdsByTask, turnsByTask, viewerId: user.id }),
+		pulse: summariseProjectPulse({ tasks, goals, viewersMoveTaskIds, turnsByTask, viewerId: user.id }),
 		taskTree: buildTaskTree(tasks),
 		goalSummaries: summariseGoals(goals, tasks),
 		goals,
 		assigneeIdsByTask: Object.fromEntries(assigneeIdsByTask),
+		nextActionIdsByTask,
 		turnsByTask: Object.fromEntries(turnsByTask),
 		sequenceByTask: sequenceStandingsOf(projectTasks),
 		...board,

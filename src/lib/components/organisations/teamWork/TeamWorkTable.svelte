@@ -20,6 +20,14 @@
 		return owners.map((owner) => owner.name).join(', ');
 	}
 
+	function nextMoveNoteOf(item: TeamWorkItem): string | null {
+		const isWithOwners = item.nextActionIds.every((accountId) => item.assigneeIds.includes(accountId));
+		if (isWithOwners) return null;
+		const people = peopleByProduct[item.productId] ?? [];
+		const movers = people.filter((person) => item.nextActionIds.includes(person.id));
+		return `Next move: ${movers.map((mover) => mover.name).join(', ')}`;
+	}
+
 	const columns: RecordsColumn<TeamWorkItem>[] = [
 		{ key: 'item', label: 'Item', sortValue: (item) => item.title },
 		{ key: 'department', label: 'Department', sortValue: (item) => departmentLabels[item.department] },
@@ -51,7 +59,11 @@
 		</RecordsCell>
 		<RecordsCell label="Product">{item.productName}</RecordsCell>
 		<RecordsCell label="Owner">
+			{@const nextMoveNote = nextMoveNoteOf(item)}
 			<OwnerPicker taskId={item.id} ownerIds={item.assigneeIds} people={peopleByProduct[item.productId] ?? []} isNamesShown />
+			{#if nextMoveNote !== null}
+				<span class="block text-xs text-caution">{nextMoveNote}</span>
+			{/if}
 		</RecordsCell>
 		<RecordsCell kind="status" label="Status"><Badge label={internalStatusLabels[item.status]} tone={taskStatusTones[item.status]} /></RecordsCell>
 		<RecordsCell label="Due date" tone={isLate ? 'negative' : 'plain'}>

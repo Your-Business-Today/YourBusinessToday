@@ -37,6 +37,7 @@ export type TaskRowSources = {
 	goals: Goal[];
 	people: ProjectPerson[];
 	assigneeIdsByTask: Record<string, string[]>;
+	nextActionIdsByTask: Record<string, string[]>;
 	turnsByTask: Record<string, ConversationTurn>;
 	sequenceByTask: Record<string, SequenceStanding>;
 	lifecycleByTask: Record<string, LifecycleBadge>;

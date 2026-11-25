@@ -19,8 +19,16 @@ export function describeOwedTasks(owed: OwedTasks): string[] {
 		assignedHeading,
 		...owed.assigned.map((task) => owedTaskLine(task, owed)),
 		'',
+		...followUpSection(owed),
 		...namedSection(owed)
 	];
+}
+
+function followUpSection(owed: OwedTasks): string[] {
+	const { followUps } = owed;
+	if (followUps.length === 0) return [];
+	const heading = countedHeading('Tasks back with you: an ask of yours answered, or a job you raised that nobody took', followUps);
+	return [heading, ...followUps.map((task) => owedTaskLine(task, owed)), ''];
 }
 
 function namedSection(owed: OwedTasks): string[] {

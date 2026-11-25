@@ -11,7 +11,7 @@ describe('counting what a person has open', () => {
 	it('counts every task, ask and to-do, with nothing dropped', () => {
 		const assigned = [task('YBT', 'development', 'backlog'), task('YBT', 'administration', 'in_progress'), task('PFP', 'development', 'backlog')];
 		const named = [task('PFP', 'sales', 'on_hold')];
-		const counted = countOpenWork({ assigned, named, askKinds: ['information', null, 'setup'], todoCount: 4 });
+		const counted = countOpenWork({ assigned, followUps: [], named, askKinds: ['information', null, 'setup'], todoCount: 4 });
 		expect(counted.assignedCount).toBe(3);
 		expect(counted.namedCount).toBe(1);
 		expect(counted.answerCount).toBe(2);
@@ -24,7 +24,7 @@ describe('counting what a person has open', () => {
 	});
 
 	it('says zero only when there is nothing at all', () => {
-		const counted = countOpenWork({ assigned: [], named: [], askKinds: [], todoCount: 0 });
+		const counted = countOpenWork({ assigned: [], followUps: [], named: [], askKinds: [], todoCount: 0 });
 		expect(counted.total).toBe(0);
 	});
 });
