@@ -48,6 +48,10 @@
 			"schedule": "20 6 * * 2-6"
 		},
 		{
+			"path": "/api/watch/chatbot_record_keeping",
+			"schedule": "15 3 * * *"
+		},
+		{
 			"path": "/api/watch/gazette_notices",
 			"schedule": "30 4 * * *"
 		},

@@ -37,7 +37,7 @@ const whatAChatbotGives =
 
 export const everyQuestionIsRecorded =
 	"Every question asked through a chatbot is kept on the organisation's record, which its manager reads: the question in the person's words, " +
-	'each reading made for it and what came back, and the answer you report. Nothing on it is ever changed or deleted. Tell the person so if they ask.';
+	'each reading made for it and what came back, and the answer you report. Nothing on it is ever changed; only the organisation deletes an entry, or sets how long it is kept, and each deletion is itself recorded. Tell the person so if they ask.';
 
 const howToAskForTheRecord = [
 	"Give the person's question in their own words as question on every reading: nothing is read without it. Do not reword it or leave parts out.",
