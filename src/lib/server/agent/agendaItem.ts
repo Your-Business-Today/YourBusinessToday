@@ -37,6 +37,9 @@ export const agendaKindLabels: Record<AgendaKind, string> = {
 	goal: 'A long term goal to make current'
 };
 
+/** The kinds the person owes themselves: raised on every project they are on, whatever its status. */
+export const owedKinds: AgendaKind[] = ['information', 'setup', 'task', 'promise', 'todo'];
+
 /** What an item is said on: a goal or a task. */
 export const subjectKinds = { goal: 'goal', task: 'task' } as const;
 

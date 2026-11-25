@@ -49,6 +49,17 @@ export async function loadAgendaBoard(supabase: SupabaseClient, projectIds: stri
 	};
 }
 
+/** The part of a board on some of its projects. */
+export function boardOnProjects(board: AgendaBoard, projectIds: string[]): AgendaBoard {
+	const isOnThem = ([, record]: [string, { projectId: string }]) => projectIds.includes(record.projectId);
+	const names = [...board.projectNamesById].filter(([projectId]) => projectIds.includes(projectId));
+	return {
+		projectNamesById: new Map(names),
+		goalsById: new Map([...board.goalsById].filter(isOnThem)),
+		tasksById: new Map([...board.tasksById].filter(isOnThem))
+	};
+}
+
 function readGoal(row: Record<string, unknown>, projectId: string): BoardGoal {
 	const horizon = parseGoalHorizon(row.horizon);
 	return { id: row.id as string, title: row.title as string, horizon, projectId, status: parseGoalStatus(row.status) };
