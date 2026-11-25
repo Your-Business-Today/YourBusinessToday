@@ -7,8 +7,8 @@ type TitledGoal = { id: string; title: string };
 /** A top level task waiting on the Requested tab, with every chunk beneath it, as the board would show them. */
 export type TaskWithChunks<Task> = { task: Task; chunks: Task[] };
 
-/** A goal's plan waiting on the Requested tab as one: every task under it; goal is null for requests under no goal. */
-export type RequestedGoal<Task, Goal> = { goal: Goal | null; tasks: TaskWithChunks<Task>[] };
+/** A goal's plan waiting on the Requested tab as one: every task under it; goalId is null for requests under no goal. */
+export type RequestedGoal<Task> = { goalId: string | null; goalTitle: string | null; tasks: TaskWithChunks<Task>[] };
 
 /**
  * The work awaiting YBT, a goal at a time: every goal holding a request, with all its tasks, because approving
@@ -17,12 +17,16 @@ export type RequestedGoal<Task, Goal> = { goal: Goal | null; tasks: TaskWithChun
 export function requestedGoalsOf<Task extends HeldTask, Goal extends TitledGoal>(
 	tasks: Task[],
 	goals: Goal[]
-): RequestedGoal<Task, Goal>[] {
+): RequestedGoal<Task>[] {
 	const heldGoalIds = goalIdsAwaitingApproval(tasks);
 	const heldGoals = goals.filter((goal) => heldGoalIds.has(goal.id));
-	const goalPlans = heldGoals.map((goal) => ({ goal, tasks: topTasksWithChunks(tasks, (task) => task.goalId === goal.id) }));
+	const goalPlans = heldGoals.map(({ id, title }) => ({
+		goalId: id,
+		goalTitle: title,
+		tasks: topTasksWithChunks(tasks, (task) => task.goalId === id)
+	}));
 	const looseRequests = topTasksWithChunks(tasks, (task) => task.goalId === null && isAwaitingDesignApproval(task));
-	const loosePlan = looseRequests.length === 0 ? [] : [{ goal: null, tasks: looseRequests }];
+	const loosePlan = looseRequests.length === 0 ? [] : [{ goalId: null, goalTitle: null, tasks: looseRequests }];
 	return [...goalPlans, ...loosePlan];
 }
 

@@ -16,15 +16,16 @@ const tasks = [vault, vaultChunk, chunkStep, plainInGoal, loose, elsewhere];
 describe('the Requested tab', () => {
 	it('moves a goal holding a request across whole, every task with the chunks beneath it', () => {
 		const [plan, loosePlan] = requestedGoalsOf(tasks, [passwords, homepage]);
-		expect(plan.goal?.id).toBe('passwords');
+		expect(plan.goalId).toBe('passwords');
 		expect(plan.tasks.map(({ task }) => task.id)).toEqual(['vault', 'plain-in-goal']);
-		expect(plan.tasks[0].chunks.map((chunk) => chunk.id)).toEqual(['vault-chunk', 'chunk-step']);
-		expect(loosePlan.goal).toBeNull();
+		const [vaultWithChunks] = plan.tasks;
+		expect(vaultWithChunks.chunks.map((chunk) => chunk.id)).toEqual(['vault-chunk', 'chunk-step']);
+		expect(loosePlan.goalId).toBeNull();
 		expect(loosePlan.tasks.map(({ task }) => task.id)).toEqual(['loose']);
 	});
 
 	it('leaves a goal with no request on the board', () => {
-		const goalIds = requestedGoalsOf(tasks, [passwords, homepage]).map((plan) => plan.goal?.id ?? null);
+		const goalIds = requestedGoalsOf(tasks, [passwords, homepage]).map(({ goalId }) => goalId);
 		expect(goalIds).not.toContain('homepage');
 	});
 });

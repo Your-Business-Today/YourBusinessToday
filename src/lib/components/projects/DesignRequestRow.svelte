@@ -1,12 +1,12 @@
 <script lang="ts">
 	import DesignRequestAnswerForm from './DesignRequestAnswerForm.svelte';
-	import { isAwaitingDesignApproval } from '$lib/data/designReview';
+	import { designChangeOf, isAwaitingDesignApproval } from '$lib/data/designReview';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
 	let { task, chunks, canAnswer }: { task: ProjectTask; chunks: ProjectTask[]; canAnswer: boolean } = $props();
 
 	const isRequest = $derived(isAwaitingDesignApproval(task));
-	const change = $derived(task.designReview?.change ?? '');
+	const change = $derived(designChangeOf(task));
 </script>
 
 <li class="flex min-w-0 flex-col gap-1 px-4 py-3">

@@ -49,6 +49,12 @@ export function isAwaitingDesignApproval(task: ReviewedTask): boolean {
 	return review?.state === designReviewStates.awaiting;
 }
 
+/** What a request would change, as its requester put it; empty for a task that only extends the design. */
+export function designChangeOf(task: ReviewedTask): string {
+	const review = task.designReview ?? null;
+	return review?.change ?? '';
+}
+
 export const designReviewHoldRefusal =
 	`This task changes the system's design or what it runs on, and is ${designReviewStageName.toLowerCase()}, or YBT ` +
 	'turned it down: nothing builds it until YBT approves it, with approve_goal_plan for its goal.';

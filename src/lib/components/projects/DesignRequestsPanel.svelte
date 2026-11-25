@@ -5,13 +5,12 @@
 	import { panelEmptyClasses } from '$lib/components/workspace/workspaceStyles';
 	import type { RequestedGoal } from '$lib/data/requestedGoals';
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
-	import type { Goal } from '$lib/server/goals/goalRecord';
 
 	let {
 		requestedGoals,
 		requestCount,
 		canAnswer
-	}: { requestedGoals: RequestedGoal<ProjectTask, Goal>[]; requestCount: number; canAnswer: boolean } = $props();
+	}: { requestedGoals: RequestedGoal<ProjectTask>[]; requestCount: number; canAnswer: boolean } = $props();
 </script>
 
 <DashboardPanel title={designReviewStageName} count={requestCount}>
@@ -20,7 +19,7 @@
 			Nothing is waiting for YBT: every request on this project extends the design it already has.
 		</p>
 	{:else}
-		{#each requestedGoals as plan (plan.goal?.id ?? '')}
+		{#each requestedGoals as plan, index (index)}
 			<RequestedGoalSection {plan} {canAnswer} />
 		{/each}
 	{/if}
