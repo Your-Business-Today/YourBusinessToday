@@ -1,6 +1,6 @@
 import { countStagedTasks } from './countStagedTasks';
 import { departmentTabs, goalsForBoardTabs, inBoardTabs } from '$lib/data/departmentBoard';
-import { developmentTabCountsOf } from '$lib/components/projects/developmentTabCounts';
+import { designRequestCountOf, developmentTabCountsOf } from '$lib/components/projects/developmentTabCounts';
 import { getGoalsForProject } from '$lib/server/goals/getGoalsForProject';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { getTaskTurns } from '$lib/server/conversations/conversationTurns';
@@ -38,6 +38,10 @@ export async function readDevelopmentGoals(supabase: SupabaseClient, projectId: 
 			now: new Date()
 		}),
 		goalSummaries: summariseGoals(developmentGoals, developmentTasks),
-		developmentTabCounts: developmentTabCountsOf(departmentTabs(projectTasks, projectGoals), stagedTaskCount)
+		developmentTabCounts: developmentTabCountsOf(
+			departmentTabs(projectTasks, projectGoals),
+			stagedTaskCount,
+			designRequestCountOf(projectTasks)
+		)
 	};
 }

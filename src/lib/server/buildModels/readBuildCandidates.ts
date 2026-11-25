@@ -4,6 +4,7 @@ import { onHoldProjectStatus } from '$lib/data/projectStatus';
 import { departments } from '$lib/data/department';
 import { isBugTitle } from '$lib/data/developmentKind';
 import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskRecord';
+import { isHeldForDesignReview } from '$lib/data/designReview';
 
 const candidatesRead = 200;
 
@@ -21,7 +22,10 @@ export type BuildCandidate = {
 	isBug: boolean;
 };
 
-/** Every open buildable development task on the projects not on hold, in the order the queue will take them. */
+/**
+ * Every open buildable development task on the projects not on hold, in the order the queue will take them; a task
+ * that changes the design and has not been approved by YBT is never one of them.
+ */
 export async function readBuildCandidates(
 	supabase: SupabaseClient,
 	projectIds: string[]
@@ -38,7 +42,11 @@ export async function readBuildCandidates(
 		.order('priority', { ascending: true })
 		.limit(candidatesRead);
 	if (error) throw error;
-	return (data ?? []).map(parseCandidate).sort(byQueuePlace);
+	return (data ?? []).map(parseCandidate).filter(isFreeOfDesignReview).sort(byQueuePlace);
+}
+
+function isFreeOfDesignReview(candidate: BuildCandidate): boolean {
+	return !isHeldForDesignReview(candidate.task.designReview ?? null);
 }
 
 export function isQueued(candidate: BuildCandidate): boolean {

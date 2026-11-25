@@ -30,11 +30,13 @@ import { taskUpdateActions } from './taskUpdateActions';
 import { taskWriteActions } from './taskWriteActions';
 import { emailPathwayActions } from './emailPathwayActions';
 import { similarTaskActions } from './similarTaskActions';
+import { designReviewActions } from './designReviewActions';
 import type { McpAction } from '../actionTypes';
 
 export const taskActions: McpAction[] = [
 	...taskReadActions,
 	...taskWriteActions,
+	...designReviewActions,
 	...emailPathwayActions,
 	...similarTaskActions,
 	...taskUpdateActions,

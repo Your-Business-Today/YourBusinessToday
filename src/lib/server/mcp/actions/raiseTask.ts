@@ -1,5 +1,5 @@
 import { reachableProject } from '../projectAccess';
-import { createTask } from '$lib/server/projects/createTask';
+import { createTask, type NewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { noSuchProject } from './describeProject';
 import { readOptionalText, readText } from '../actionTypes';
@@ -12,7 +12,10 @@ import { chooseTaskDepartment, isDepartmentRefused } from './departmentChoice';
 import { isPersonLedTitle, personLedTitleRefusal } from '$lib/data/personLedTitle';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { isTitleRefused, validateDevelopmentKind } from './developmentKindField';
+import { isDesignTextRefused, validateDesignText } from './designChangeField';
+import { designRequestSentence, raiseDesignRequest } from './raiseDesignRequest';
 import type { McpCaller } from '../resolveMcpCaller';
+import type { Project } from '$lib/server/projects/projectRecord';
 
 /** A task the connector raised: its id, and the sentence that tells the caller so. */
 export type RaisedTask = { taskId: string; sentence: string };
@@ -26,6 +29,24 @@ export function raisingAnswer(raised: RaisedTask | string): string {
 export async function raiseTask(caller: McpCaller, input: Record<string, unknown>): Promise<RaisedTask | string> {
 	const project = await reachableProject(caller, readText(input, 'projectId'));
 	if (project === null) return noSuchProject;
+	const seed = await checkedSeed(caller, project, input);
+	if (typeof seed === 'string') return seed;
+	const refusal = await newTaskRefusal(caller.supabase, project.id, seed);
+	if (refusal !== null) return refusal;
+	const similarRefusal = await similarTasksRefusal(caller, project, seed, input.raiseAnyway);
+	if (similarRefusal !== null) return similarRefusal;
+	const taskId = await createTask(caller.supabase, project.id, seed, caller.accountId);
+	await raiseDesignRequest(caller, project, taskId, seed);
+	const autocomplete = autocompleteWord(isTaskAutocomplete(seed.autocomplete ?? null, null));
+	const raised = `"${seed.title}" added to ${project.name} with autocomplete ${autocomplete} (task id: ${taskId}).`;
+	return { taskId, sentence: `${raised}${designRequestSentence(seed)}` };
+}
+
+async function checkedSeed(
+	caller: McpCaller,
+	project: Project,
+	input: Record<string, unknown>
+): Promise<NewTaskSeed | string> {
 	const typedTitle = readOptionalText(input, 'title');
 	if (typedTitle === null) return 'A task needs a title. Say what to call it and try again.';
 	const people = await getPeopleOnProject(caller.supabase, project.id);
@@ -36,14 +57,9 @@ export async function raiseTask(caller: McpCaller, input: Record<string, unknown
 	if (isDepartmentRefused(department)) return department.refusal;
 	const titleChoice = validateDevelopmentKind(input, typedTitle, department);
 	if (isTitleRefused(titleChoice)) return titleChoice.refusal;
-	const { title } = titleChoice;
-	const raised = readConnectorTaskSeed(input, title, requester.accountId);
-	const seed = withRaiserAutocomplete({ ...raised, department }, caller.isStaff);
-	const refusal = await newTaskRefusal(caller.supabase, project.id, seed);
-	if (refusal !== null) return refusal;
-	const similarRefusal = await similarTasksRefusal(caller, project, seed, input.raiseAnyway);
-	if (similarRefusal !== null) return similarRefusal;
-	const taskId = await createTask(caller.supabase, project.id, seed, caller.accountId);
-	const autocomplete = autocompleteWord(isTaskAutocomplete(seed.autocomplete ?? null, null));
-	return { taskId, sentence: `"${title}" added to ${project.name} with autocomplete ${autocomplete} (task id: ${taskId}).` };
+	const designChange = validateDesignText(input, 'designChange');
+	if (isDesignTextRefused(designChange)) return designChange.refusal;
+	const raised = readConnectorTaskSeed(input, titleChoice.title, requester.accountId);
+	const seed = { ...raised, department, designChange: designChange.text };
+	return withRaiserAutocomplete(seed, caller.isStaff);
 }

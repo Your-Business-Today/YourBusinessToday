@@ -3,6 +3,7 @@ import { parseStoryPoints } from '$lib/data/storyPoints';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
 import { parseTaskStatus, type TaskStatus } from '$lib/data/taskStatus';
 import { readStoredDepartment, type Department } from '$lib/data/department';
+import { parseDesignReview, type DesignReview } from '$lib/data/designReview';
 
 export type ProjectTask = TaskBuildFields & {
 	id: string;
@@ -29,6 +30,7 @@ export type ProjectTask = TaskBuildFields & {
 	createdBy: string;
 	requestedBy: string;
 	createdAt: string;
+	designReview?: DesignReview | null;
 };
 
 export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
@@ -57,6 +59,7 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		resolvedAt: (row.resolved_at as string) ?? null,
 		createdBy: row.created_by as string,
 		requestedBy: (row.requested_by as string) ?? (row.created_by as string),
-		createdAt: row.created_at as string
+		createdAt: row.created_at as string,
+		designReview: parseDesignReview(row)
 	};
 }

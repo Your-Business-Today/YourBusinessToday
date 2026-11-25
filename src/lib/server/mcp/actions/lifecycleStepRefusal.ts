@@ -4,6 +4,7 @@ import type { Claim } from '$lib/data/lifecycleClaim';
 import { lifecycleSteps } from '$lib/data/lifecycleStep';
 import { getLifecycleSteps } from '$lib/server/lifecycle/getLifecycleSteps';
 import { goalConsideredRefusal } from './goalConsideredRefusal';
+import { designReviewStepRefusal } from './designReviewStepRefusal';
 import { isGoalSubject } from '$lib/server/conversations/conversationSubject';
 import type { LifecycleStepInput } from '$lib/data/validateLifecycleStep';
 import type { ResolvedSubject } from './resolveSubject';
@@ -14,6 +15,8 @@ export async function lifecycleStepRefusal(
 	resolved: ResolvedSubject,
 	step: LifecycleStepInput
 ): Promise<string | null> {
+	const designRefusal = await designReviewStepRefusal(supabase, resolved.subject, step);
+	if (designRefusal !== null) return designRefusal;
 	if (isHoldingStep(step.step)) return claimRefusal(supabase, resolved, step.agent);
 	const { subject } = resolved;
 	const isGoalConsidered = step.step === lifecycleSteps.considered && isGoalSubject(subject);

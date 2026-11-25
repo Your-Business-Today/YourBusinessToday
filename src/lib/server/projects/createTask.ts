@@ -1,10 +1,10 @@
 import { parseDevelopmentKind, titleForDevelopmentKind } from '$lib/data/developmentKind';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { isStoryComplete, type UserStory } from '$lib/data/userStoryRule';
+import type { UserStory } from '$lib/data/userStoryRule';
 import { parseTaskKind, type TaskKind } from '$lib/data/taskKind';
 import { nextQueueRank, nextSiblingRank } from '$lib/server/projects/nextRanks';
 import type { AutocompleteSetting } from '$lib/data/autocomplete';
-import { departmentColumns } from '$lib/server/departments/departmentColumns';
+import { requestColumns, storyColumns } from './newTaskColumns';
 import { parseDepartment, type Department } from '$lib/data/department';
 
 export type NewTaskSeed = {
@@ -20,6 +20,7 @@ export type NewTaskSeed = {
 	requestedBy?: string;
 	autocomplete?: AutocompleteSetting;
 	department?: Department;
+	designChange?: string;
 };
 
 export function readNewTaskSeed(formData: FormData): NewTaskSeed | null {
@@ -74,22 +75,6 @@ export async function createTask(
 		.single();
 	if (error) throw error;
 	return data.id;
-}
-
-function requestColumns(seed: NewTaskSeed): Record<string, unknown> {
-	const requester = { requested_by: seed.requestedBy ?? null, is_autocomplete: seed.autocomplete ?? null };
-	const givenId = seed.id === undefined ? {} : { id: seed.id };
-	return { ...givenId, ...requester, ...departmentColumns(seed.department) };
-}
-
-function storyColumns(story: UserStory | undefined): Record<string, unknown> {
-	if (story === undefined || !isStoryComplete(story)) return {};
-	return {
-		is_user_story: true,
-		story_role: story.role,
-		story_want: story.want,
-		story_benefit: story.benefit
-	};
 }
 
 function emptyAsNull(value: string): string | null {
