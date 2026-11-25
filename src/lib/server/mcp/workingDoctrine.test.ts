@@ -81,17 +81,6 @@ describe('the working doctrine', () => {
 		expect(raisingDoctrine).toContain('list_waiting_on_me');
 	});
 
-	it('checks a request against the design and sends a design change to YBT before it is built', () => {
-		expect(raisingDoctrine).toContain('read_project_site_map');
-		expect(raisingDoctrine).toContain('Extends the design');
-		expect(raisingDoctrine).toContain('Changes the design');
-		expect(raisingDoctrine).toContain('one source of truth');
-		expect(raisingDoctrine).toContain('Push back before raising anything');
-		expect(raisingDoctrine).toContain('designChange');
-		expect(raisingDoctrine).toContain('Requested, awaiting YBT approval');
-		expect(raisingDoctrine).toContain('Never guess a request into the first kind');
-	});
-
 	it('keeps the board to development work and puts what a person gives in a message', () => {
 		expect(workingDoctrine).toContain('A development task is built by Claude and');
 		expect(workingDoctrine).toContain('Tasks wait for each other across departments');

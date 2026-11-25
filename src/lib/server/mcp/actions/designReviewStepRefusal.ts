@@ -13,7 +13,7 @@ export async function designReviewStepRefusal(
 ): Promise<string | null> {
 	if (isGoalSubject(subject) || !isBuildingStep(step)) return null;
 	const task = await getTask(supabase, subject.taskId);
-	if (!isHeldForDesignReview(task?.designReview ?? null)) return null;
+	if (task === null || !isHeldForDesignReview(task)) return null;
 	return designReviewHoldRefusal;
 }
 

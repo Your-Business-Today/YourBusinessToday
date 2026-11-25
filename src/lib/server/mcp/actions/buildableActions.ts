@@ -38,7 +38,7 @@ export const buildableActions: McpAction[] = [
 			if (task === null) return noSuchTask;
 			const isBuiltByClaude = isDevelopment(task.department);
 			if (input.isBuildable === true && !isBuiltByClaude) return onlyDevelopmentIsBuilt;
-			if (input.isBuildable === true && isHeldForDesignReview(task.designReview ?? null)) return designReviewHoldRefusal;
+			if (input.isBuildable === true && isHeldForDesignReview(task)) return designReviewHoldRefusal;
 			const { models } = await getBuildModelSettings(caller.supabase);
 			const fields = { isBuildable: input.isBuildable, modelId: input.modelId };
 			const buildable = validateTaskBuildable(fields, models);

@@ -1,9 +1,7 @@
 <script lang="ts">
 	import type { ProjectTask } from '$lib/server/projects/taskRecord';
 
-	let { task }: { task: ProjectTask } = $props();
-
-	const change = $derived(task.designReview?.change ?? '');
+	let { task, change }: { task: ProjectTask; change: string } = $props();
 </script>
 
 <li class="flex min-w-0 flex-col gap-1 px-4 py-3">

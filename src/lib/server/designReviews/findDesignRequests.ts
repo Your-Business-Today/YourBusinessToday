@@ -5,7 +5,8 @@ import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskReco
 
 const mostRequestsRead = 200;
 
-export type DesignRequestOnBoard = { task: ProjectTask; projectName: string };
+/** A request awaiting YBT: the task, its project's name, and what it would change. */
+export type DesignRequestOnBoard = { task: ProjectTask; projectName: string; change: string };
 
 /** The tasks on these projects that change the design and wait for YBT's approval, oldest first. */
 export async function findDesignRequests(supabase: SupabaseClient, projectIds: string[]): Promise<DesignRequestOnBoard[]> {
@@ -24,5 +25,6 @@ export async function findDesignRequests(supabase: SupabaseClient, projectIds: s
 
 function parseRequest(row: Record<string, unknown>): DesignRequestOnBoard {
 	const project = row.project as { name?: string } | null;
-	return { task: parseTaskRecord(row), projectName: project?.name ?? '' };
+	const change = (row.design_change as string) ?? '';
+	return { task: parseTaskRecord(row), projectName: project?.name ?? '', change };
 }

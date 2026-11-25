@@ -12,14 +12,14 @@ const awaitingRow = { design_review_state: designReviewStates.awaiting, design_c
 describe('a task’s design review', () => {
 	it('is absent from a task that only extends the design', () => {
 		expect(parseDesignReview({ design_review_state: null })).toBeNull();
-		expect(isHeldForDesignReview(null)).toBe(false);
+		expect(isHeldForDesignReview({ designReview: null })).toBe(false);
 		expect(designReviewLine(null)).toBeNull();
 	});
 
 	it('holds a task waiting for YBT or turned down, and frees one YBT approved', () => {
-		const awaiting = parseDesignReview(awaitingRow);
-		const rejected = parseDesignReview({ ...awaitingRow, design_review_state: designReviewStates.rejected });
-		const approved = parseDesignReview({ ...awaitingRow, design_review_state: designReviewStates.approved });
+		const awaiting = { designReview: parseDesignReview(awaitingRow) };
+		const rejected = { designReview: parseDesignReview({ ...awaitingRow, design_review_state: designReviewStates.rejected }) };
+		const approved = { designReview: parseDesignReview({ ...awaitingRow, design_review_state: designReviewStates.approved }) };
 		expect(isHeldForDesignReview(awaiting)).toBe(true);
 		expect(isAwaitingDesignApproval(awaiting)).toBe(true);
 		expect(isHeldForDesignReview(rejected)).toBe(true);

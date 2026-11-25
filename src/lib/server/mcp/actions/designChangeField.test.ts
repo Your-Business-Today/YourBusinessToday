@@ -12,6 +12,6 @@ describe('validateDesignText', () => {
 		expect(validateDesignText({ designChange: fits }, 'designChange')).toEqual({ text: fits });
 		const choice = validateDesignText({ designChange: `${fits}a` }, 'designChange');
 		expect(isDesignTextRefused(choice)).toBe(true);
-		if (isDesignTextRefused(choice)) expect(choice.refusal).toContain('designChange');
+		expect(choice).toEqual({ refusal: expect.stringContaining('designChange') });
 	});
 });

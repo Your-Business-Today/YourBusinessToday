@@ -27,7 +27,6 @@ export const designRequestsAction: McpAction = {
 };
 
 function requestLine(request: DesignRequestOnBoard): string {
-	const { task, projectName } = request;
-	const change = task.designReview?.change ?? '';
+	const { task, projectName, change } = request;
 	return `- ${projectName}: "${task.title}" (task id: ${task.id}). What it changes: ${change}`;
 }

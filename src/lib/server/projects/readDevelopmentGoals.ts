@@ -38,10 +38,6 @@ export async function readDevelopmentGoals(supabase: SupabaseClient, projectId: 
 			now: new Date()
 		}),
 		goalSummaries: summariseGoals(developmentGoals, developmentTasks),
-		developmentTabCounts: developmentTabCountsOf(
-			departmentTabs(projectTasks, projectGoals),
-			stagedTaskCount,
-			designRequestCountOf(projectTasks)
-		)
+		developmentTabCounts: developmentTabCountsOf(departmentTabs(projectTasks, projectGoals), stagedTaskCount, designRequestCountOf(projectTasks))
 	};
 }

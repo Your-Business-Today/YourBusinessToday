@@ -35,13 +35,17 @@ export function parseDesignReview(row: Record<string, unknown>): DesignReview | 
 	};
 }
 
+type ReviewedTask = { designReview?: DesignReview | null };
+
 /** A task held by its design review is never built: it waits for YBT's approval, or YBT turned it down. */
-export function isHeldForDesignReview(review: DesignReview | null): boolean {
+export function isHeldForDesignReview(task: ReviewedTask): boolean {
+	const review = task.designReview ?? null;
 	if (review === null) return false;
 	return heldStates.includes(review.state);
 }
 
-export function isAwaitingDesignApproval(review: DesignReview | null): boolean {
+export function isAwaitingDesignApproval(task: ReviewedTask): boolean {
+	const review = task.designReview ?? null;
 	return review?.state === designReviewStates.awaiting;
 }
 

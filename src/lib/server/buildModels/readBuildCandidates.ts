@@ -46,7 +46,8 @@ export async function readBuildCandidates(
 }
 
 function isFreeOfDesignReview(candidate: BuildCandidate): boolean {
-	return !isHeldForDesignReview(candidate.task.designReview ?? null);
+	const { task } = candidate;
+	return !isHeldForDesignReview(task);
 }
 
 export function isQueued(candidate: BuildCandidate): boolean {

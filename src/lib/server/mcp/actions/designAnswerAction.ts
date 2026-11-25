@@ -31,7 +31,7 @@ async function answerDesignRequest(
 ): Promise<string> {
 	const task = await reachableTask(caller, readText(input, 'taskId'));
 	if (task === null) return noSuchTask;
-	if (!isAwaitingDesignApproval(task.designReview ?? null)) return `"${task.title}" is not ${designReviewStageName.toLowerCase()}.`;
+	if (!isAwaitingDesignApproval(task)) return `"${task.title}" is not ${designReviewStageName.toLowerCase()}.`;
 	const reason = validateDesignText(input, 'reason');
 	if (isDesignTextRefused(reason)) return reason.refusal;
 	if (shape.isReasonRequired && reason.text === undefined) return 'Give the reason, for whoever asked for it.';

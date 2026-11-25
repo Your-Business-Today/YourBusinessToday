@@ -20,5 +20,5 @@ export function developmentTabCountsOf(
 
 /** How many of these tasks change the design and wait for YBT's approval. */
 export function designRequestCountOf(tasks: ProjectTask[]): number {
-	return tasks.filter((task) => isAwaitingDesignApproval(task.designReview ?? null)).length;
+	return tasks.filter((task) => isAwaitingDesignApproval(task)).length;
 }

@@ -26,14 +26,15 @@ const requestApproval: McpAction = {
 	run: async (caller, input) => {
 		const found = await reachableTaskWithProject(caller, readText(input, 'taskId'));
 		if (found === null) return noSuchTask;
+		const { task, project } = found;
 		const change = validateDesignText(input, 'designChange');
 		if (isDesignTextRefused(change)) return change.refusal;
 		if (change.text === undefined) return 'Say what the request changes in designChange. Nothing was changed.';
-		if (isAwaitingDesignApproval(found.task.designReview ?? null)) return `"${found.task.title}" already waits for YBT.`;
-		await holdForDesignReview(caller.supabase, found.task.id, change.text);
-		const request = { taskId: found.task.id, raisedBy: caller.accountId, change: change.text };
-		await askForDesignApproval(caller.supabase, found.project, request);
-		return `"${found.task.title}" is now ${designReviewStageName}: nothing builds it until YBT approves it.`;
+		if (isAwaitingDesignApproval(task)) return `"${task.title}" already waits for YBT.`;
+		await holdForDesignReview(caller.supabase, task.id, change.text);
+		const request = { taskId: task.id, raisedBy: caller.accountId, change: change.text };
+		await askForDesignApproval(caller.supabase, project, request);
+		return `"${task.title}" is now ${designReviewStageName}: nothing builds it until YBT approves it.`;
 	}
 };
 

@@ -11,5 +11,5 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		designRequests: findDesignRequests(supabase, [project.id]),
 		developmentTabCounts: readDevelopmentTabCounts(supabase, project.id)
 	});
-	return { project, requestedTasks: reads.designRequests.map(({ task }) => task), developmentTabCounts: reads.developmentTabCounts };
+	return { project, ...reads };
 };
