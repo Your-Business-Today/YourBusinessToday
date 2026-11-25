@@ -9,6 +9,8 @@ import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { findLedgerEntriesUpTo } from './ledgerEntries';
 import { findFinancialYear } from './financialYear';
 import { validatedCostCentreId } from './costCentreChoice';
+import { buildProfitByCostCentre, type ProfitByCostCentre } from '$lib/data/books/reports/profitByCostCentre';
+import { findReportedCostCentres } from './costCentreProjects';
 
 /** The trial balance of an organisation's books at the end of the day asAt. */
 export async function readTrialBalance(supabase: SupabaseClient, organisationId: string, asAt: unknown): Promise<TrialBalance> {
@@ -33,6 +35,25 @@ export async function readProfitAndLoss(supabase: SupabaseClient, organisationId
 	if (typeof period === 'string') throw new BooksRefusal(period);
 	const entries = await findLedgerEntriesUpTo(supabase, organisationId, period.end);
 	return buildProfitAndLoss(entries, period, costCentreId);
+}
+
+export type ProfitByCostCentreRequest = { periodStart: unknown; periodEnd: unknown };
+
+/** Each cost centre's profit and loss side by side for a period and its year to date, with what no cost centre carries. */
+export async function readProfitByCostCentre(
+	supabase: SupabaseClient,
+	organisationId: string,
+	request: ProfitByCostCentreRequest
+): Promise<ProfitByCostCentre> {
+	refuseWhen(validateRecordId('organisation', organisationId));
+	const financialYear = await findFinancialYear(supabase, organisationId);
+	const period = validateReportPeriod(request.periodStart, request.periodEnd, financialYear);
+	if (typeof period === 'string') throw new BooksRefusal(period);
+	const [entries, costCentres] = await Promise.all([
+		findLedgerEntriesUpTo(supabase, organisationId, period.end),
+		findReportedCostCentres(supabase, organisationId)
+	]);
+	return buildProfitByCostCentre(entries, period, costCentres);
 }
 
 function validatedDay(organisationId: string, fieldName: string, candidate: unknown): string {
