@@ -4,12 +4,19 @@ import type { CostShare } from '$lib/data/books/sharing/costShare';
 import { costShareSplit, twelveMonthsTo, type CostShareMonth } from '$lib/data/books/sharing/costShareSplit';
 import { BooksRefusal } from './booksRefusal';
 import { readSharedLedgerUpTo } from './sharedLedgerEntries';
+import { findLoanPostings, type CostShareLoanPosting } from './costShareLoanMovedMonths';
 
 /** One shared cost with the names it is read by, and how its lines were split month by month. */
 export type CostShareReading = { share: CostShare; label: string; months: CostShareMonth[] };
 
 /** Every shared cost to the day, each with its twelve months to the month asked for; the names of the cost centres and projects they reach. */
-export type CostSharesReading = { toMonth: MonthKey; shares: CostShareReading[]; costCentreLabels: Map<string, string>; projectNames: Map<string, string> };
+export type CostSharesReading = {
+	toMonth: MonthKey;
+	shares: CostShareReading[];
+	costCentreLabels: Map<string, string>;
+	projectNames: Map<string, string>;
+	loanPostings: CostShareLoanPosting[];
+};
 
 /** Every shared cost of the organisation, its members, and what each project took of it in each of the twelve months to toMonth. */
 export async function readCostShares(supabase: SupabaseClient, organisationId: string, today: string, toMonth: unknown): Promise<CostSharesReading> {
@@ -24,8 +31,8 @@ export async function readCostShares(supabase: SupabaseClient, organisationId: s
 		label: costCentreLabels.get(share.costCentreId) ?? share.costCentreId,
 		months: costShareSplit(entries, share, months)
 	}));
-	const projectNames = await findProjectNames(supabase, shares);
-	return { toMonth: lastMonth as MonthKey, shares: readings, costCentreLabels, projectNames };
+	const [projectNames, loanPostings] = await Promise.all([findProjectNames(supabase, shares), findLoanPostings(supabase, organisationId)]);
+	return { toMonth: lastMonth as MonthKey, shares: readings, costCentreLabels, projectNames, loanPostings };
 }
 
 async function findProjectNames(supabase: SupabaseClient, shares: CostShare[]): Promise<Map<string, string>> {

@@ -7,7 +7,8 @@ export const CostShareLimits = { fewestMonthsCovered: 1, mostMonthsCovered: 36 }
 
 /**
  * One project's place in a shared cost, or a cost centre's that has no project: from the month it joins, and to the month it leaves, null while it carries on,
- * with the weight its part is reckoned by, such as the seats it uses; a member with no weight set takes an equal part.
+ * with the weight its part is reckoned by, such as the seats it uses; a member with no weight set takes an equal part. A cost centre's part
+ * can be kept on a director's loan account, moved there month by month by a journal.
  */
 export type CostShareMember = {
 	id: string;
@@ -16,6 +17,7 @@ export type CostShareMember = {
 	leftMonth: MonthKey | null;
 	weight?: number;
 	costCentreId?: string | null;
+	directorsLoanAccountId?: string | null;
 };
 
 /**
