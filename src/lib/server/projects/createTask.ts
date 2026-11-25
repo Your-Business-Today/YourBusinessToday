@@ -21,7 +21,11 @@ export type NewTaskSeed = {
 	autocomplete?: AutocompleteSetting;
 	department?: Department;
 	designChange?: string;
+	subtasks?: SubtaskSeed[];
 };
+
+/** One chunk a task is built in, raised as its subtask. */
+export type SubtaskSeed = { title: string; details: string };
 
 export function readNewTaskSeed(formData: FormData): NewTaskSeed | null {
 	const typedTitle = String(formData.get('title') ?? '').trim();

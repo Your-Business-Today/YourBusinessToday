@@ -17,10 +17,11 @@ export const taskWriteActions: McpAction[] = [
 			'A bug — built, not working — is "FIX: <what is wrong>" and built before any feature: ask ' +
 			'what was expected and what happened. A feature is a user story — give storyRole, ' +
 			'storyWant and storyBenefit, and title it with the story. Subtasks are steps of a story and need none. A task is one ' +
-			'session’s work: size it so one Claude session finishes it and ties it off, and raise ' +
-			'anything larger as tasks of that size. When a session stops short, the rest is raised ' +
-			'here as tasks of its own — subtasks of the task — never left in prose or for a next ' +
-			'chat. Give its department, which puts it on one of the project’s two sides: Development (development, ' +
+			'session’s work: size it so one Claude session finishes it and ties it off. A feature larger than ' +
+			'that is raised as one parent carrying the story with its chunks in subtasks, in the same call; ' +
+			'a piece found later, of a bug or a feature, is a subtask (parentTaskId), never a new top level task. ' +
+			'When a session stops short, the rest is raised as subtasks of the task, never left in prose or for a next ' +
+			'chat. Put it under the goal it serves (goalId, from find_goals); rename a goal that has outgrown its title with update_goal. Give its department, which puts it on one of the project’s two sides: Development (development, ' +
 			'infrastructure) or Internal work (administration, sales, marketing). A development task is built by ' +
 			'Claude and ends in a pull request; a job a person does for the project — a cloud setting or secret, ' +
 			'insurance, an account, a listing — is an infrastructure, administration, sales or marketing task, ' +
@@ -39,8 +40,9 @@ export const taskWriteActions: McpAction[] = [
 			'with autocomplete on, and by anyone else off; set_task_autocomplete switches it. An ' +
 			'infrastructure, administration, sales or marketing task is always off: a person does it. ' +
 			'Before raising, check the request against the system’s design as the raising doctrine says: one that ' +
-			'changes the design is pushed back on first, and raised with designChange only when the person still ' +
-			'wants it, so it waits for YBT’s approval before anything builds it.',
+			'changes the design, or needs an infrastructure change or upgrade, a cost or a new dependency, is pushed ' +
+			'back on first, and raised with designChange only when the person still wants it, so it waits on ' +
+			'Requested for YBT’s approval before anything builds it or its subtasks.',
 		inputSchema: objectSchema(createTaskFields, ['projectId', 'title']),
 		run: async (caller, input) => raisingAnswer(await raiseTask(caller, input))
 	}

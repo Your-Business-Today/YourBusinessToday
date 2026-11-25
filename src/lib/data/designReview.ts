@@ -50,7 +50,7 @@ export function isAwaitingDesignApproval(task: ReviewedTask): boolean {
 }
 
 export const designReviewHoldRefusal =
-	`This task changes the system's design and is ${designReviewStageName.toLowerCase()}, or YBT ` +
+	`This task changes the system's design or what it runs on, and is ${designReviewStageName.toLowerCase()}, or YBT ` +
 	'turned it down: nothing builds it until YBT approves it with approve_design_change.';
 
 const stateSentences: Record<DesignReviewState, string> = {

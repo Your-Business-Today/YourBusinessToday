@@ -4,12 +4,12 @@ import { onHoldProjectStatus } from '$lib/data/projectStatus';
 import { departments } from '$lib/data/department';
 import { isBugTitle } from '$lib/data/developmentKind';
 import { parseTaskRecord, type ProjectTask } from '$lib/server/projects/taskRecord';
-import { isHeldForDesignReview } from '$lib/data/designReview';
+import { isHeldForDesignReview, parseDesignReview, type DesignReview } from '$lib/data/designReview';
 
 const candidatesRead = 200;
 
 const candidateColumns =
-	'*, project:project_id!inner(name, status), goal:goal_id(is_autocomplete), waits_for:waits_for_task_id(status), parent:parent_task_id(global_priority, title)';
+	'*, project:project_id!inner(name, status), goal:goal_id(is_autocomplete), waits_for:waits_for_task_id(status), parent:parent_task_id(global_priority, title, design_review_state)';
 
 const unqueued = Number.POSITIVE_INFINITY;
 
@@ -20,6 +20,7 @@ export type BuildCandidate = {
 	isWaiting: boolean;
 	queuePlace: number;
 	isBug: boolean;
+	parentDesignReview?: DesignReview | null;
 };
 
 /**
@@ -46,8 +47,8 @@ export async function readBuildCandidates(
 }
 
 function isFreeOfDesignReview(candidate: BuildCandidate): boolean {
-	const { task } = candidate;
-	return !isHeldForDesignReview(task);
+	const { task, parentDesignReview } = candidate;
+	return !isHeldForDesignReview(task) && !isHeldForDesignReview({ designReview: parentDesignReview ?? null });
 }
 
 export function isQueued(candidate: BuildCandidate): boolean {
@@ -58,13 +59,15 @@ function parseCandidate(row: Record<string, unknown>): BuildCandidate {
 	const project = row.project as { name?: string } | null;
 	const goal = row.goal as { is_autocomplete?: boolean } | null;
 	const waitedFor = row.waits_for as { status?: string } | null;
-	const parent = row.parent as { global_priority?: number | null; title?: string } | null;
+	const parent = row.parent as ({ global_priority?: number | null; title?: string } & Record<string, unknown>) | null;
 	const isWaiting = waitedFor !== null && !isTaskDone(parseTaskStatus(waitedFor.status));
 	const task = parseTaskRecord(row);
 	const queuePlace = task.globalPriority ?? parent?.global_priority ?? unqueued;
 	const projectName = project?.name ?? '';
 	const isBug = isBugTitle(parent?.title ?? task.title);
-	return { task, projectName, isGoalAutocomplete: goal?.is_autocomplete ?? null, isWaiting, queuePlace, isBug };
+	const parentDesignReview = parent === null ? null : parseDesignReview(parent);
+	const isGoalAutocomplete = goal?.is_autocomplete ?? null;
+	return { task, projectName, isGoalAutocomplete, isWaiting, queuePlace, isBug, parentDesignReview };
 }
 
 /**

@@ -51,10 +51,7 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		isPriority: row.is_priority === true,
 		storyPoints: parseStoryPoints(row.story_points),
 		completionPercent: row.completion_percent as number,
-		isUserStory: row.is_user_story as boolean,
-		storyRole: row.story_role as string,
-		storyWant: row.story_want as string,
-		storyBenefit: row.story_benefit as string,
+		...parseTaskStory(row),
 		dueDate: (row.due_date as string) ?? null,
 		...parseTaskBuildFields(row),
 		resolution: (row.resolution as string) ?? '',
@@ -63,5 +60,14 @@ export function parseTaskRecord(row: Record<string, unknown>): ProjectTask {
 		requestedBy: (row.requested_by as string) ?? (row.created_by as string),
 		createdAt: row.created_at as string,
 		designReview: parseDesignReview(row)
+	};
+}
+
+function parseTaskStory(row: Record<string, unknown>) {
+	return {
+		isUserStory: row.is_user_story as boolean,
+		storyRole: row.story_role as string,
+		storyWant: row.story_want as string,
+		storyBenefit: row.story_benefit as string
 	};
 }

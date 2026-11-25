@@ -1,6 +1,7 @@
 import { createGoal, type NewGoalSeed } from './createGoal';
 import { deleteGoal } from './deleteGoal';
-import { createTask, type NewTaskSeed } from '$lib/server/projects/createTask';
+import { createTaskWithSubtasks } from '$lib/server/projects/createTaskWithSubtasks';
+import type { NewTaskSeed } from '$lib/server/projects/createTask';
 import { deleteTasksTogether } from '$lib/server/projects/deleteTasksTogether';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -19,14 +20,17 @@ export async function createGoalWithTasks(
 ): Promise<RaisedGoal> {
 	const goalId = await createGoal(supabase, projectId, goal, createdBy);
 	const taskIds: string[] = [];
+	const raisedIds: string[] = [];
 	try {
 		for (const task of tasks) {
 			const seed = { ...task, goalId, department: goal.department };
-			taskIds.push(await createTask(supabase, projectId, seed, createdBy));
+			const family = await createTaskWithSubtasks(supabase, projectId, seed, createdBy);
+			taskIds.push(family.taskId);
+			raisedIds.push(family.taskId, ...family.subtaskIds);
 		}
 		return { goalId, taskIds };
 	} catch (failure) {
-		await deleteTasksTogether(supabase, { projectId, taskIds, deletedByAccountId: createdBy });
+		await deleteTasksTogether(supabase, { projectId, taskIds: raisedIds, deletedByAccountId: createdBy });
 		await deleteGoal(supabase, goalId);
 		throw failure;
 	}

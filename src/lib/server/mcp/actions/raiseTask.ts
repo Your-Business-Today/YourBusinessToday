@@ -1,5 +1,6 @@
 import { reachableProject } from '../projectAccess';
-import { createTask, type NewTaskSeed } from '$lib/server/projects/createTask';
+import { createTaskWithSubtasks } from '$lib/server/projects/createTaskWithSubtasks';
+import type { NewTaskSeed } from '$lib/server/projects/createTask';
 import { newTaskRefusal } from '$lib/server/projects/newTaskRefusal';
 import { noSuchProject } from './describeProject';
 import { readOptionalText, readText } from '../actionTypes';
@@ -14,6 +15,8 @@ import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { isTitleRefused, validateDevelopmentKind } from './developmentKindField';
 import { isDesignTextRefused, validateDesignText } from './designChangeField';
 import { designRequestSentence, raiseDesignRequest } from './raiseDesignRequest';
+import { isSubtasksRefused, validateSubtasks } from './subtasksField';
+import { placementSentence } from './raisedTaskPlacement';
 import type { McpCaller } from '../resolveMcpCaller';
 import type { Project } from '$lib/server/projects/projectRecord';
 
@@ -35,11 +38,12 @@ export async function raiseTask(caller: McpCaller, input: Record<string, unknown
 	if (refusal !== null) return refusal;
 	const similarRefusal = await similarTasksRefusal(caller, project, seed, input.raiseAnyway);
 	if (similarRefusal !== null) return similarRefusal;
-	const taskId = await createTask(caller.supabase, project.id, seed, caller.accountId);
+	const family = await createTaskWithSubtasks(caller.supabase, project.id, seed, caller.accountId);
+	const { taskId } = family;
 	await raiseDesignRequest(caller, project, taskId, seed);
 	const autocomplete = autocompleteWord(isTaskAutocomplete(seed.autocomplete ?? null, null));
 	const raised = `"${seed.title}" added to ${project.name} with autocomplete ${autocomplete} (task id: ${taskId}).`;
-	return { taskId, sentence: `${raised}${designRequestSentence(seed)}` };
+	return { taskId, sentence: `${raised}${placementSentence(seed, family)}${designRequestSentence(seed)}` };
 }
 
 async function checkedSeed(
@@ -59,7 +63,9 @@ async function checkedSeed(
 	if (isTitleRefused(titleChoice)) return titleChoice.refusal;
 	const designChange = validateDesignText(input, 'designChange');
 	if (isDesignTextRefused(designChange)) return designChange.refusal;
+	const chunks = validateSubtasks(input);
+	if (isSubtasksRefused(chunks)) return chunks.refusal;
 	const raised = readConnectorTaskSeed(input, titleChoice.title, requester.accountId);
-	const seed = { ...raised, department, designChange: designChange.text };
+	const seed = { ...raised, department, designChange: designChange.text, subtasks: chunks.subtasks };
 	return withRaiserAutocomplete(seed, caller.isStaff);
 }
