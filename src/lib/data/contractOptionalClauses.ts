@@ -64,7 +64,7 @@ export const contractOptionalClauses: readonly ContractOptionalClause[] = [
 ];
 
 export function optionalClausesFor(documentSlug: string): ContractOptionalClause[] {
-	return contractOptionalClauses.filter((clause) => clause.place.documentSlug === documentSlug);
+	return contractOptionalClauses.filter(({ place }) => place.documentSlug === documentSlug);
 }
 
 export function findOptionalClause(slug: string): ContractOptionalClause | undefined {

@@ -10,10 +10,11 @@ export function assembleContractDocument(slug: string, chosenClauseSlugs: readon
 	if (template === undefined) return undefined;
 	const lines = template.split('\n');
 	const chosen = contractOptionalClauses.filter((clause) => chosenClauseSlugs.includes(clause.slug));
-	const afterEntireAgreement = chosen.filter((clause) => clause.place === clausePlaces.afterEntireAgreement);
-	const orderFormChanges = chosen.filter((clause) => clause.place === clausePlaces.orderFormChanges);
-	const withMsaClauses = insertAfterAnchor(lines, clausePlaces.afterEntireAgreement.anchor, afterEntireAgreement.map(textOf));
-	return replaceAnchor(withMsaClauses, clausePlaces.orderFormChanges.anchor, orderFormChanges.map(numberedChange)).join('\n');
+	const { afterEntireAgreement, orderFormChanges } = clausePlaces;
+	const msaClauses = chosen.filter(({ place }) => place === afterEntireAgreement);
+	const changes = chosen.filter(({ place }) => place === orderFormChanges);
+	const withMsaClauses = insertAfterAnchor(lines, afterEntireAgreement.anchor, msaClauses.map(textOf));
+	return replaceAnchor(withMsaClauses, orderFormChanges.anchor, changes.map(numberedChange)).join('\n');
 }
 
 function textOf({ slug }: { slug: string }): string {

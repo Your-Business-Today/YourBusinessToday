@@ -8,9 +8,9 @@ const timesFound = (text: string, part: string) => text.split(part).length - 1;
 
 describe('a contract with the optional clauses a pack chose', () => {
 	it('has a text for every optional clause, and one place for each in its template', () => {
-		for (const clause of contractOptionalClauses) {
-			expect(readOptionalClause(clause.slug)).toBeTruthy();
-			expect(timesFound(readClientDocumentBySlug(clause.place.documentSlug) ?? '', clause.place.anchor)).toBe(1);
+		for (const { slug, place } of contractOptionalClauses) {
+			expect(readOptionalClause(slug)).toBeTruthy();
+			expect(timesFound(readClientDocumentBySlug(place.documentSlug) ?? '', place.anchor)).toBe(1);
 		}
 	});
 
