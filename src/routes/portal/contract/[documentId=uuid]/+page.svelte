@@ -13,6 +13,7 @@
 
 	const { visitor, document, comments } = $derived(data);
 	const signature = $derived(document.signature);
+	const versionRead = $derived(signature === null ? document.versionNumber : signature.versionNumber);
 	const crumbs = $derived([
 		{ label: visitor.organisationName, href: portalHomePath },
 		{ label: 'Your contract', href: portalContractPath }
@@ -27,7 +28,7 @@
 <WorkspaceHeader {crumbs} title={document.title} />
 
 <div class={workspaceBodyClasses}>
-	<p class="text-sm text-chalk-subtle">Version {document.versionNumber}</p>
+	<p class="text-sm text-chalk-subtle">Version {versionRead}</p>
 	<DocumentProse documentHtml={data.documentHtml} />
 	<h2 class="font-display text-lg text-chalk">Comments</h2>
 	<PackCommentList {comments} />

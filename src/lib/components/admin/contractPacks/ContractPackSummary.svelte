@@ -4,10 +4,15 @@
 	import { documentsHrefOf, documentOwnerKinds } from '$lib/projectDocuments/documentOwner';
 	import PackCommentList from '$lib/components/portal/contract/PackCommentList.svelte';
 	import { bracketedBlanks, type ContractPack } from '$lib/data/contractPack';
+	import { formatBritishDate } from '$lib/data/britishDate';
+	import { companyDetails } from '$lib/data/companyDetails';
+	import { documentDownloadHref } from '$lib/components/projects/documents/documentAddress';
 
 	let { pack, organisationId }: { pack: ContractPack; organisationId: string } = $props();
 
-	const documentsHref = $derived(documentsHrefOf({ kind: documentOwnerKinds.organisation, id: organisationId }));
+	const owner = $derived({ kind: documentOwnerKinds.organisation, id: organisationId });
+	const documentsHref = $derived(documentsHrefOf(owner));
+	const countersignature = $derived(pack.countersignature);
 	const stage = $derived(contractPackStageWords[pack.stage]);
 	const preparedAt = $derived(formatUkDateTime(pack.preparedAt));
 	const sending = $derived(pack.sending);
@@ -19,15 +24,27 @@
 	{#if sending !== null}
 		<p class="text-sm text-chalk/60">Last sent to {sending.sentTo} on {formatUkDateTime(sending.sentAt)}.</p>
 	{/if}
+	{#if countersignature !== null}
+		<p class="text-sm text-chalk/60">
+			Countersigned for {companyDetails.legalName} by {countersignature.signerName}, {countersignature.signerPosition}, on
+			{formatBritishDate(countersignature.signedOn)}. Each document's signed PDF is kept as its newest version.
+		</p>
+	{/if}
 	<ol class="flex flex-col gap-2">
 		{#each pack.documents as document (document.documentId)}
 			{@const openBlanks = document.openBlanks}
 			{@const signature = document.signature}
+			{@const signedCopyVersion = document.signedCopyVersion}
 			<li class="text-sm text-chalk/80">
 				<a href={`${documentsHref}/${document.documentId}`} class="underline hover:text-chalk">{document.title}</a>
 				<span class="text-chalk/50">, version {document.versionNumber}</span>
 				{#if signature !== null}
 					<span class="text-chalk/50"> — signed by {signature.signerName}</span>
+				{/if}
+				{#if signedCopyVersion !== null}
+					<a href={documentDownloadHref({ owner, id: document.documentId }, undefined, signedCopyVersion)} class="text-chalk/80 underline hover:text-chalk">
+						— signed PDF
+					</a>
 				{/if}
 				{#if openBlanks.length > 0}
 					<span class="text-signal"> — still open: {bracketedBlanks(openBlanks)}</span>

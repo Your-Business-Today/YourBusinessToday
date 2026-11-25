@@ -1,5 +1,6 @@
 import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
 import { contractPackTable } from './contractPackTables';
+import { documentVersionTable } from '$lib/server/projectDocuments/projectDocumentFiles';
 import { packColumns, type PackRow } from './contractPackRows';
 import { parseContractPack } from './parseContractPack';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -34,11 +35,21 @@ async function findOrganisationsForClient(service: SupabaseClient, clientId: str
 	return data.map((row) => row.id as string);
 }
 
-/** The text of one document of the pack as it stands now, to read and sign; null when the pack does not hold it. */
+/**
+ * The text of one document of the pack, to read and sign: its newest written version, which is what it holds until the
+ * pack is countersigned and its signed PDF becomes the newest. Null when the pack does not hold it.
+ */
 export async function readPackDocumentText(service: SupabaseClient, pack: ContractPack, documentId: string): Promise<string | null> {
 	const isInPack = pack.documents.some((document) => document.documentId === documentId);
 	if (!isInPack) return null;
-	const { data, error } = await service.from('project_documents').select('markdown').eq('id', documentId).maybeSingle();
+	const { data, error } = await service
+		.from(documentVersionTable)
+		.select('markdown')
+		.eq('document_id', documentId)
+		.not('markdown', 'is', null)
+		.order('version_number', { ascending: false })
+		.limit(1)
+		.maybeSingle();
 	if (error) throw error;
 	return (data?.markdown as string | null) ?? null;
 }

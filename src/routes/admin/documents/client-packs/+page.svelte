@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ContractPackForm from '$lib/components/admin/contractPacks/ContractPackForm.svelte';
 	import ContractPackSummary from '$lib/components/admin/contractPacks/ContractPackSummary.svelte';
+	import PackCountersignPanel from '$lib/components/admin/contractPacks/PackCountersignPanel.svelte';
 	import PackSendingPanel from '$lib/components/admin/contractPacks/PackSendingPanel.svelte';
 	import OrganisationPicker from '$lib/components/admin/contractPacks/OrganisationPicker.svelte';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
@@ -29,6 +30,9 @@
 	{#if picked !== null}
 		{#if pack !== null}
 			<ContractPackSummary {pack} organisationId={picked.id} />
+		{/if}
+		{#if pack !== null && data.isAwaitingCountersignature}
+			<PackCountersignPanel organisationId={picked.id} packId={pack.id} today={data.today} errorMessage={form?.countersignMessage ?? null} />
 		{/if}
 		{#if sending !== null}
 			<PackSendingPanel organisationId={picked.id} {sending} errorMessage={form?.sendMessage ?? null} />
