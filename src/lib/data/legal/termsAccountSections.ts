@@ -12,14 +12,14 @@ export const termsAccountSections: LegalSection[] = [
 	{
 		heading: 'Who this is for',
 		paragraphs: [
-			'This is not a product anybody can sign up to. There is no public registration. Accounts exist for the businesses we work with, for the people those businesses name as contacts, and for our own staff. We create each one, and the person we create it for is invited by email to set a password.',
+			'This is not a product anybody can sign up to. There is no public registration. Accounts exist for the businesses we work with, for the people those businesses name as contacts, and for our own staff. We create each one, and the person we create it for is invited by email to set a password. People who use a chatbot a business has set up are covered by the section on chatbots.',
 			'If you are using the portal on behalf of a business, you confirm you have that business’s authority to do so. Using an account we have given you means you accept these terms.'
 		]
 	},
 	{
 		heading: 'Your written agreement comes first',
 		paragraphs: [
-			'Every engagement is set out in writing before it starts: the scope, what we deliver, the fees, the notice either side gives. If anything in these terms disagrees with your written agreement, your written agreement wins for that engagement.',
+			'Every engagement is set out in writing before it starts: the scope, what we deliver, the fees, the notice either side gives. Where your written agreement, or the data processing terms in it, says something different from these terms, the written agreement wins.',
 			'An enquiry sent through the contact page is not a contract, and neither is a conversation about what we might do. It records you in our client register so that we can reply, and nothing more.'
 		]
 	},
