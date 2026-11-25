@@ -1,4 +1,4 @@
-import { feedEventVerbs, type FeedEventKind } from './feedEventKind';
+import { feedEventVerbs, isTaskAssignedEvent, type FeedEventKind } from './feedEventKind';
 
 /** The parts of a bell notification its sentence is built from. */
 export type NotificationTelling = {
@@ -12,6 +12,7 @@ export type NotificationTelling = {
 export type NotificationSentence = { who: string; what: string; which: string };
 
 const mergedPullRequest = 'A merged pull request';
+const aClaude = 'A Claude through the connector';
 
 const saidInPlaces: Record<string, string> = { room: 'in' };
 const saidOnASubject = 'on';
@@ -24,6 +25,9 @@ export function notificationSentence(telling: NotificationTelling): Notification
 			what: ` said ${preposition} the ${telling.subjectKind} `,
 			which: telling.subjectTitle
 		};
+	}
+	if (isTaskAssignedEvent(telling.eventKind)) {
+		return { who: telling.actorName ?? aClaude, what: ' gave you the task ', which: telling.subjectTitle };
 	}
 	return {
 		who: telling.actorName ?? mergedPullRequest,

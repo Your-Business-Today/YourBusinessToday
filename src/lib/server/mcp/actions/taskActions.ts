@@ -23,6 +23,7 @@ import { saveBuildModelAction } from './saveBuildModelAction';
 import { taskAttachmentReadActions } from './taskAttachmentReadActions';
 import { taskAttachmentWriteActions } from './taskAttachmentWriteActions';
 import { taskReadActions } from './taskReadActions';
+import { openWorkActions } from './openWorkActions';
 import { taskStatusActions } from './taskStatusActions';
 import { taskStoryActions } from './taskStoryActions';
 import { taskTeamActions } from './taskTeamActions';
@@ -36,6 +37,7 @@ import type { McpAction } from '../actionTypes';
 
 export const taskActions: McpAction[] = [
 	...taskReadActions,
+	...openWorkActions,
 	...taskWriteActions,
 	...designReviewActions,
 	...emailPathwayActions,

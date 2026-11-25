@@ -6,7 +6,7 @@ const nameLeadSeparator = ':';
 
 export const personLedTitleRefusal =
 	'A task title says what the job is, never whose it is: drop the name before the colon, give the ' +
-	'task its department, and assign it to them with set_task_assignees.';
+	'task its department, and assign it to them with add_task_assignees.';
 
 /** Whether a title opens with a project person's name and a colon, as in "Jeremy: call Hiscox". */
 export function isPersonLedTitle(title: string, people: Person[]): boolean {
