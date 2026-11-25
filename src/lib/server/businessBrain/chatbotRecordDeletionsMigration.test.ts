@@ -4,7 +4,7 @@ import { businessBrainChatbotLimits } from '$lib/data/businessBrainChatbotRules'
 import { chatbotRecordDeletionReasons, chatbotRecordKeepingLimits } from '$lib/data/chatbotRecordKeepingRules';
 import { findDataLoss } from '$lib/server/migrations/migrationDataLoss';
 
-const migrationFile = 'migrations/0291_business_brain_chatbot_record_deletions.sql';
+const migrationFile = 'migrations/0292_business_brain_chatbot_record_deletions.sql';
 const migration = readFileSync(migrationFile, 'utf8');
 const statements = migration.replace(/--.*$/gm, '');
 const moduleRule = "public.can_use_organisation_module(organisation_id, 'business_brain')";

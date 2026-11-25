@@ -14,7 +14,7 @@ type DeletionRow = {
 const firstListedRow = 0;
 const lastListedRow = chatbotRecordKeepingLimits.mostDeletionsListed - 1;
 
-/** The latest deletions from the organisation's chatbot record, of one chatbot or all; none until migration 0291 has run. */
+/** The latest deletions from the organisation's chatbot record, of one chatbot or all; none until migration 0292 has run. */
 export async function readChatbotRecordDeletions(
 	supabase: SupabaseClient,
 	organisationId: string,

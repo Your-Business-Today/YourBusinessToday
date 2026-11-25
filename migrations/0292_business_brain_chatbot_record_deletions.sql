@@ -1,4 +1,4 @@
--- 0291: a business deletes entries from its chatbot record, and sets how long
+-- 0292: a business deletes entries from its chatbot record, and sets how long
 -- the record is kept, as the terms of 26 November 2026 say it can.
 --
 --   business_brain_chatbot_record_keeping    how many days the organisation keeps

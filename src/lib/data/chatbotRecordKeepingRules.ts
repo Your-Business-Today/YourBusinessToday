@@ -1,4 +1,4 @@
-/** How long a business keeps its chatbot record, in whole days, and how many deletions are listed: stated once and mirrored by migration 0291. */
+/** How long a business keeps its chatbot record, in whole days, and how many deletions are listed: stated once and mirrored by migration 0292. */
 export const chatbotRecordKeepingLimits = {
 	shortestKeptDays: 1,
 	longestKeptDays: 3650,

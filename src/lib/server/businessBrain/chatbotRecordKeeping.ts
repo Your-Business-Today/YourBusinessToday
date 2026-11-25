@@ -7,7 +7,7 @@ export type ChatbotRecordKeepingChange = { organisationId: string; accountId: st
 
 type KeepingRow = { kept_days: number | null; set_at: string };
 
-/** How long the organisation keeps its chatbot record; for the Brain's life until it sets a period, or until migration 0291 has run. */
+/** How long the organisation keeps its chatbot record; for the Brain's life until it sets a period, or until migration 0292 has run. */
 export async function readChatbotRecordKeeping(supabase: SupabaseClient, organisationId: string): Promise<ChatbotRecordKeeping> {
 	const { data, error } = await supabase
 		.from('business_brain_chatbot_record_keeping')
