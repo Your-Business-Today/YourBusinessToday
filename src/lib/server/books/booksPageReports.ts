@@ -5,9 +5,8 @@ import { buildBalanceSheet } from '$lib/data/books/reports/balanceSheet';
 import { booksPagePeriod } from '$lib/data/books/page/booksPagePeriod';
 import type { AskedPeriod } from '$lib/data/books/page/booksPeriodQuery';
 import type { BooksReports } from '$lib/data/books/page/booksStatements';
-import { findLedgerEntriesUpTo } from './ledgerEntries';
 import { findFinancialYear } from './financialYear';
-import { findReportedCostCentres } from './costCentreProjects';
+import { readSharedLedgerUpTo } from './sharedLedgerEntries';
 import { buildProfitByCostCentre } from '$lib/data/books/reports/profitByCostCentre';
 
 const everyCostCentre = null;
@@ -17,14 +16,12 @@ export async function readBooksReports(supabase: SupabaseClient, organisationId:
 	const financialYear = await findFinancialYear(supabase, organisationId);
 	const period = booksPagePeriod(asked, today, financialYear);
 	if (typeof period === 'string') return period;
-	const [entries, costCentres] = await Promise.all([
-		findLedgerEntriesUpTo(supabase, organisationId, period.end),
-		findReportedCostCentres(supabase, organisationId)
-	]);
+	const shared = await readSharedLedgerUpTo(supabase, organisationId, period.end);
+	const entries = shared.sharing.asBooked;
 	return {
 		period,
 		profitAndLoss: buildProfitAndLoss(entries, period, everyCostCentre),
-		profitByCostCentre: buildProfitByCostCentre(entries, period, costCentres),
+		profitByCostCentre: buildProfitByCostCentre(shared.entries, period, shared.costCentres, shared.sharing),
 		balanceSheet: buildBalanceSheet(entries, period.end),
 		trialBalance: buildTrialBalance(entries, period.end)
 	};
