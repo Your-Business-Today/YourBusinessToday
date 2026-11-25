@@ -10,7 +10,7 @@
 	<title>The skills — Your Business Today</title>
 	<meta
 		name="description"
-		content="Every skill Claude follows on Your Business Today, published in full so you can review what shapes your accounts and everything else the site generates."
+		content="Every skill Claude follows on Your Business Today, published in full so you can read what shapes your accounts and everything else the site generates."
 	/>
 </svelte:head>
 
@@ -20,12 +20,11 @@
 	<p class="text-chalk/80">
 		When Claude works on the site for you, it follows these written instructions: what each thing
 		it can do does, and how it is to go about it. They are published here in full, exactly as your
-		Claude receives them, so that you can review the skills behind anything you rely on, starting
-		with your books and accounts.
+		Claude receives them, and you can read any of them at any time.
 	</p>
 	<p class="text-chalk/80">
-		What the site generates is your own use of software, not a professional service, and you are
-		responsible for checking it, as our
+		What the site generates is produced by the software from what you put in, not professional
+		advice, and you are responsible for checking it, as our
 		<a href={termsAddresses.terms} class="text-chalk underline underline-offset-4">terms</a> say.
 	</p>
 	{#each data.skillAreas as skillArea, position (skillArea.label)}
