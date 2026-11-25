@@ -8,7 +8,7 @@ const openStatuses = taskStatusOrder.filter((status) => status !== doneTaskStatu
 
 /** The filters read_team_work takes, the same as the Tasks page's filter bar. */
 export const teamWorkFilterFields = {
-	assignedTo: textField(`Only the jobs assigned to "${assignedToMe}", to "${nobodyAssigned}", or to a person's account id`),
+	assignedTo: textField(`Only the jobs whose next move is "${assignedToMe}" (yours) or a person's account id, or "${nobodyAssigned}" for the jobs nobody is assigned to`),
 	productId: textField("Only the jobs on one of the organisation's products, by its project id"),
 	status: textField(`Only the jobs at one status: ${openStatuses.join(', ')}`)
 };

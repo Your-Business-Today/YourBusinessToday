@@ -17,6 +17,7 @@
 	import { openSiblingsOf } from '$lib/components/projects/openSiblings';
 	import { dashboardGridClasses, workspaceBodyClasses } from '$lib/components/workspace/workspaceStyles';
 	import { isTaskDone } from '$lib/data/taskStatus';
+	import { isDevelopment } from '$lib/data/department';
 	import { supportTaskKind } from '$lib/data/taskKind';
 	import { page } from '$app/state';
 
@@ -72,6 +73,7 @@
 				messages={data.messages}
 				people={data.people}
 				viewerId={data.viewerId}
+				taskFacts={{ isDevelopment: isDevelopment(task.department), assigneeIds: data.assigneeIds, raisedBy: task.createdBy }}
 			/>
 		</div>
 		<TaskAside {task} {project} {goal} {assigneeNames} people={data.people}

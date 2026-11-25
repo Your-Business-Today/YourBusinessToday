@@ -26,8 +26,8 @@
 		tone={waitingTone}
 	/>
 	<StatTile
-		label="Assigned to you"
-		value={`${pulse.assignedToViewerCount}`}
+		label="Your move"
+		value={`${pulse.viewersMoveCount}`}
 		caption="open current tasks"
 	/>
 </div>

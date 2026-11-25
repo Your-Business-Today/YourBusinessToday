@@ -20,6 +20,7 @@ vi.mock('$lib/server/organisations/getOrganisation', () => ({
 vi.mock('$lib/server/organisations/getReachableProjectsOf', () => ({ getReachableProjectsOf: async () => [{ id: portalId, name: 'Portal' }] }));
 vi.mock('$lib/server/organisations/getOpenTeamWork', () => ({ getOpenTeamWork: async () => board.tasks }));
 vi.mock('$lib/server/projects/getAssigneeIdsByTask', () => ({ getAssigneeIdsByTask: async () => new Map([[contractTaskId, [jamesId]]]) }));
+vi.mock('$lib/server/projects/getNextActionsByTask', () => ({ getNextActionsByTask: async () => new Map([[contractTaskId, { accountIds: [jamesId], reason: 'assigned' }]]) }));
 vi.mock('$lib/server/members/getPeopleOnProject', () => ({ getPeopleOnProject: async () => [{ id: jamesId, name: 'James', email: '' }] }));
 
 const sendTheContract = { id: contractTaskId, projectId: portalId, department: 'sales', title: 'Send the contract', status: 'in_progress', dueDate: '2026-11-20' };

@@ -63,6 +63,7 @@ export const jeremyOwes: SummarySources = {
 	waiting: { questions: [termsQuestion, informationQuestion], askers: [scarlett] },
 	todos: [insuranceTodo],
 	owed: {
+		followUps: [],
 		assigned: [
 			taskOn(propertyServe, 'backlog', 'Move the enquiries backlog'),
 			taskOn(propertyServe, 'insurance', 'Put public liability insurance in place', 'administration')

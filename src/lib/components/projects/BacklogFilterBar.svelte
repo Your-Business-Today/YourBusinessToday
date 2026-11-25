@@ -25,9 +25,9 @@
 	<AssigneeFilterChips
 		{people}
 		{viewerId}
-		selectedPersonId={backlog.assigneeId}
-		countFor={(personId) => backlog.assignedCountFor(personId)}
-		onToggle={(personId) => backlog.toggleAssignee(personId)}
+		selectedPersonId={backlog.personId}
+		countFor={(personId) => backlog.moveCountFor(personId)}
+		onToggle={(personId) => backlog.togglePerson(personId)}
 	/>
 	{#if isDoneFilterShown}
 		<DoneTaskFilter bind:shouldIncludeDone={backlog.shouldIncludeDone} />

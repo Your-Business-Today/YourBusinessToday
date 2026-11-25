@@ -28,7 +28,7 @@
 	const actions = $derived(createTaskRowActions(sources, handlers));
 	const backlog = new BacklogView({
 		taskTree: () => taskTree,
-		assigneeIdsByTask: () => sources.assigneeIdsByTask,
+		nextActionIdsByTask: () => sources.nextActionIdsByTask,
 		isWaitingOnMe: (task) => actions.turnFor(task.id)?.isOnViewer === true
 	});
 	const taskGroups = $derived(
@@ -39,7 +39,7 @@
 	const longTermNote =
 		'Not scoped enough to count yet, so kept out of the tab, backlog and completion until the goal is made current.';
 	const nameOf = $derived(accountNameLookup(sources.people));
-	const assigneeLabel = $derived(assigneeLabelFor(backlog.assigneeId));
+	const assigneeLabel = $derived(assigneeLabelFor(backlog.personId));
 	const emptyStateMessage = $derived(
 		backlogEmptyMessage({
 			assigneeLabel,

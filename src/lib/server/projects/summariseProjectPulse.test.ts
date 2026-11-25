@@ -35,7 +35,7 @@ describe('summariseProjectPulse', () => {
 		const pulse = summariseProjectPulse({
 			tasks,
 			goals: [],
-			assigneeIdsByTask: new Map(),
+			viewersMoveTaskIds: [],
 			turnsByTask: new Map(),
 			viewerId
 		});
@@ -43,31 +43,24 @@ describe('summariseProjectPulse', () => {
 		expect(pulse.completionPercent).toBe(25);
 	});
 
-	it('counts the open tile, the completion and the viewer’s assignments over current work only', () => {
+	it('counts the open tile, the completion and the viewer’s moves over current work only', () => {
 		const pulse = summariseProjectPulse({
 			tasks: [...tasks, taskWith('e', 'backlog', 'goal-someday'), taskWith('f', 'in_progress', 'goal-someday')],
 			goals: [someday],
-			assigneeIdsByTask: new Map([
-				['a', [viewerId]],
-				['e', [viewerId]]
-			]),
+			viewersMoveTaskIds: ['a', 'e'],
 			turnsByTask: new Map(),
 			viewerId
 		});
 		expect(pulse).toMatchObject({ taskCount: 6, currentTaskCount: 4, openCurrentTaskCount: 3, inProgressCount: 1 });
 		expect(pulse.completionPercent).toBe(25);
-		expect(pulse.assignedToViewerCount).toBe(1);
+		expect(pulse.viewersMoveCount).toBe(1);
 	});
 
-	it('counts only the open tasks waiting on or assigned to the viewer', () => {
+	it('counts only the open tasks waiting on the viewer or whose move is theirs', () => {
 		const pulse = summariseProjectPulse({
 			tasks,
 			goals: [],
-			assigneeIdsByTask: new Map([
-				['a', [viewerId]],
-				['c', [viewerId]],
-				['d', ['someone']]
-			]),
+			viewersMoveTaskIds: ['a', 'c'],
 			turnsByTask: new Map([
 				['b', turnAwaiting(viewerId)],
 				['c', turnAwaiting(viewerId)],
@@ -76,6 +69,6 @@ describe('summariseProjectPulse', () => {
 			viewerId
 		});
 		expect(pulse.waitingOnViewerCount).toBe(1);
-		expect(pulse.assignedToViewerCount).toBe(1);
+		expect(pulse.viewersMoveCount).toBe(1);
 	});
 });
