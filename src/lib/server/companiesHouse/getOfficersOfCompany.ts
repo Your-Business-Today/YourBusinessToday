@@ -3,7 +3,7 @@ import { parseCompanyOfficers, type CompanyOfficer } from './companyOfficerRecor
 
 const longestResultPage = 100;
 
-export async function getCompanyOfficers(companyNumber: string): Promise<CompanyOfficer[]> {
+export async function getOfficersOfCompany(companyNumber: string): Promise<CompanyOfficer[]> {
 	return parseCompanyOfficers(await requestCompaniesHouse(companyOfficersUrl(companyNumber)));
 }
 

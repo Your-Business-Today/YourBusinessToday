@@ -18,8 +18,9 @@ const detailsGuidance =
 
 const deletionGuidance =
 	'Deleting is for an organisation set up by mistake or never signed. Its projects stay, under no organisation, ' +
-	'and the project memberships it granted go with it. One still holding records that are always kept — its books, ' +
-	'its Your Business Brain or the directors named to its board — is refused and kept.';
+	'and the project memberships it granted go with it, as does a brand kit that has made nothing yet. One still ' +
+	'holding records that are always kept — its books, its Your Business Brain, the directors named to its board, or ' +
+	'the content its brand has made — is refused and kept, and the refusal names which.';
 
 export const organisationWriteActions: McpAction[] = [
 	{

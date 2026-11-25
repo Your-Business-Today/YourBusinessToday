@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { affiliatePersonWithClient } from './affiliatePersonWithClient';
 import { ensurePersonForOfficer } from '$lib/server/people/ensurePersonForOfficer';
-import { getCompanyOfficers } from '$lib/server/companiesHouse/getCompanyOfficers';
+import { getOfficersOfCompany } from '$lib/server/companiesHouse/getOfficersOfCompany';
 import type { CompanyOfficer } from '$lib/server/companiesHouse/companyOfficerRecord';
 import { recordClientEvent } from './recordClientEvent';
 import type { Client } from './clientRecord';
@@ -14,7 +14,7 @@ export async function importCompanyOfficers(
 	actorAccountId: string
 ): Promise<OfficerImport> {
 	const { profile } = client;
-	const officers = await getCompanyOfficers(profile.companyNumber);
+	const officers = await getOfficersOfCompany(profile.companyNumber);
 	const outcome: OfficerImport = { importedCount: 0, alreadyListedCount: 0 };
 	const importedNames: string[] = [];
 	for (const officer of officers) {

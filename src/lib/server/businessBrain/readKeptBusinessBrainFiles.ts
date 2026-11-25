@@ -25,7 +25,7 @@ export async function readFilesNamedByPage(
 	supabase: SupabaseClient,
 	place: { organisationId: string; pageId: string }
 ): Promise<KeptBusinessBrainFile[]> {
-	const fileIds = await readNamedFileIds(supabase, place);
+	const fileIds = await readFileIdsOfPage(supabase, place);
 	if (fileIds.length === 0) return [];
 	const { data, error } = await supabase
 		.from('business_brain_files')
@@ -38,7 +38,7 @@ export async function readFilesNamedByPage(
 	return (data ?? []).map(parseKeptFile);
 }
 
-async function readNamedFileIds(supabase: SupabaseClient, place: { organisationId: string; pageId: string }): Promise<string[]> {
+async function readFileIdsOfPage(supabase: SupabaseClient, place: { organisationId: string; pageId: string }): Promise<string[]> {
 	const { data, error } = await supabase
 		.from('business_brain_page_files')
 		.select('file_id')
