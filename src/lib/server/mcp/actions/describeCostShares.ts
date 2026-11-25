@@ -1,6 +1,7 @@
 import { formatPoundsAndPence } from '$lib/data/books/money';
 import { describeMonth } from '$lib/data/books/monthKey';
 import type { CostShareMember } from '$lib/data/books/sharing/costShare';
+import { CostShareSplitBy } from '$lib/data/books/sharing/costShareUsage';
 import { equalWeight } from '$lib/data/books/sharing/costShareWeights';
 import { CostShareMembersBy } from '$lib/data/books/sharing/costShareMembersBy';
 import { beforeTheHistoryBegan } from '$lib/data/books/sharing/statusSpells';
@@ -17,7 +18,7 @@ export function describeCostShares(organisationName: string, reading: CostShares
 }
 
 function shareLines(share: CostShareReading, reading: CostSharesReading): string[] {
-	const { monthsCovered, members, costCentreId, membersBy } = share.share;
+	const { monthsCovered, members, costCentreId, membersBy, splitBy } = share.share;
 	const covering = monthsCovered === 1 ? 'each line covers its own month' : `each line covers ${monthsCovered} months from the month it is dated`;
 	const isByRule = membersBy === CostShareMembersBy.liveProjects;
 	const ruleLine = isByRule ? ['  - shared by every live project, month by month, from its status:'] : [];
@@ -25,15 +26,22 @@ function shareLines(share: CostShareReading, reading: CostSharesReading): string
 	const memberLines = [...ruleLine, ...(members.length === 0 ? [noMemberLine] : members.map((member) => `  - ${memberText(member, reading)}`))];
 	const monthLines = share.months.filter(hasParts).map((month) => `  - ${monthText(month, reading)}`);
 	const splitLines = monthLines.length === 0 ? ['  - nothing to split in these months'] : monthLines;
-	return ['', `${share.label} (cost centre ${costCentreId}), ${covering}:`, ...memberLines, '  Split:', ...splitLines];
+	const splitHeading = splitBy === CostShareSplitBy.usage ? "  Split by each month's usage readings:" : '  Split:';
+	return ['', `${share.label} (cost centre ${costCentreId}), ${covering}:`, ...memberLines, splitHeading, ...splitLines];
 }
 
 function memberText(member: CostShareMember, reading: CostSharesReading): string {
-	const name = member.projectId === null ? 'a project since deleted' : (reading.projectNames.get(member.projectId) ?? member.projectId);
+	const name = memberName(member, reading);
 	const until = member.leftMonth === null ? 'and carries on' : `to ${describeMonth(member.leftMonth)}`;
 	const from = member.joinedMonth === beforeTheHistoryBegan ? 'from before its status was kept' : `from ${describeMonth(member.joinedMonth)}`;
 	const weighted = member.weight === undefined || member.weight === equalWeight ? '' : `, weight ${member.weight}`;
 	return `${name} shares it ${from} ${until}${weighted} (member ${member.id})`;
+}
+
+function memberName(member: CostShareMember, reading: CostSharesReading): string {
+	const { projectId, costCentreId } = member;
+	if (costCentreId !== undefined && costCentreId !== null) return `cost centre ${reading.costCentreLabels.get(costCentreId) ?? costCentreId}`;
+	return projectId === null ? 'a project since deleted' : (reading.projectNames.get(projectId) ?? projectId);
 }
 
 function monthText(month: CostShareMonth, reading: CostSharesReading): string {
@@ -41,7 +49,8 @@ function monthText(month: CostShareMonth, reading: CostSharesReading): string {
 		const receiver = part.costCentreId === null ? keptAgainstNoProject : (reading.costCentreLabels.get(part.costCentreId) ?? part.costCentreId);
 		return `${receiver} ${formatPoundsAndPence(part.amount)}`;
 	});
-	return `${describeMonth(month.month)}: ${parts.join(', ')}`;
+	const equally = month.isSplitEquallyWithoutUsage ? ' (split equally: no usage reading for this month)' : '';
+	return `${describeMonth(month.month)}: ${parts.join(', ')}${equally}`;
 }
 
 function hasParts(month: CostShareMonth): boolean {
