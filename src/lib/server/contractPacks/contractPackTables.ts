@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { DraftedContractDocument } from './draftContractDocuments';
 
-/** The tables a pack and its documents are kept in (migration 0283). */
+/** The tables a pack and its documents are kept in (migration 0284). */
 export const contractPackTable = 'contract_packs';
 export const contractPackDocumentTable = 'contract_pack_documents';
 

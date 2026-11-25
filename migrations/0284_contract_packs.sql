@@ -1,4 +1,4 @@
--- 0283: a client's contract pack, prepared from the templates and kept on the
+-- 0284: a client's contract pack, prepared from the templates and kept on the
 -- client's organisation.
 --
 -- James, task 8459f5c1: staff say through the connector "send the NDA, MSA,

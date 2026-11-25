@@ -2,9 +2,9 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { contractPackLimits as limits, contractPackStages } from '$lib/data/contractPackRules';
 
-const migration = readFileSync('migrations/0283_contract_packs.sql', 'utf8');
+const migration = readFileSync('migrations/0284_contract_packs.sql', 'utf8');
 
-describe('migration 0283, contract packs, and the limits the doors check', () => {
+describe('migration 0284, contract packs, and the limits the doors check', () => {
 	it('allows every stage and only those', () => {
 		expect(migration).toContain(`check (stage in (${contractPackStages.map((stage) => `'${stage}'`).join(', ')}))`);
 	});

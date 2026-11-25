@@ -1,6 +1,6 @@
 import type { MonthKey } from '../monthKey';
 
-/** Which way a forecast item moves cash: into the bank or out of it, as books_cashflow_items.direction holds it (migration 0283). */
+/** Which way a forecast item moves cash: into the bank or out of it, as books_cashflow_items.direction holds it (migration 0284). */
 export const CashflowDirections = { moneyIn: 'in', moneyOut: 'out' } as const;
 
 export type CashflowDirection = (typeof CashflowDirections)[keyof typeof CashflowDirections];

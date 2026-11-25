@@ -1,4 +1,4 @@
-/** Where a contract pack stands, from prepared to signed by both sides (migration 0283). */
+/** Where a contract pack stands, from prepared to signed by both sides (migration 0284). */
 export const contractPackStages = ['drafted', 'sent', 'viewed', 'commented', 'signed_by_client', 'countersigned'] as const;
 
 export type ContractPackStage = (typeof contractPackStages)[number];
@@ -12,7 +12,7 @@ export const contractPackStageWords: Record<ContractPackStage, string> = {
 	countersigned: 'Countersigned'
 };
 
-/** The limits on a pack, mirrored by the checks on migration 0283's columns. */
+/** The limits on a pack, mirrored by the checks on migration 0284's columns. */
 export const contractPackLimits = {
 	mostDocuments: 20,
 	mostClauses: 20,
