@@ -53,3 +53,11 @@ function projectNameEntry(row: ProjectLinkRow): [string, string] {
 	const project = row.projects;
 	return [row.id, project?.name ?? ''];
 }
+
+/** The cost centre each project is kept in, by project; empty until the migration that keeps it has run. */
+export async function findProjectCostCentres(supabase: SupabaseClient, organisationId: string): Promise<Map<string, string>> {
+	const { data, error } = await supabase.from(costCentresTable).select('id, project_id').eq('organisation_id', organisationId).not('project_id', 'is', null);
+	if (error !== null && isSchemaNotYetMigrated(error)) return new Map();
+	if (error !== null) throw error;
+	return new Map((data as { id: string; project_id: string }[]).map((row) => [row.project_id, row.id]));
+}

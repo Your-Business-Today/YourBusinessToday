@@ -10,7 +10,7 @@ import { findLedgerEntriesUpTo } from './ledgerEntries';
 import { findFinancialYear } from './financialYear';
 import { validatedCostCentreId } from './costCentreChoice';
 import { buildProfitByCostCentre, type ProfitByCostCentre } from '$lib/data/books/reports/profitByCostCentre';
-import { findReportedCostCentres } from './costCentreProjects';
+import { readSharedLedgerUpTo } from './sharedLedgerEntries';
 
 /** The trial balance of an organisation's books at the end of the day asAt. */
 export async function readTrialBalance(supabase: SupabaseClient, organisationId: string, asAt: unknown): Promise<TrialBalance> {
@@ -49,11 +49,8 @@ export async function readProfitByCostCentre(
 	const financialYear = await findFinancialYear(supabase, organisationId);
 	const period = validateReportPeriod(request.periodStart, request.periodEnd, financialYear);
 	if (typeof period === 'string') throw new BooksRefusal(period);
-	const [entries, costCentres] = await Promise.all([
-		findLedgerEntriesUpTo(supabase, organisationId, period.end),
-		findReportedCostCentres(supabase, organisationId)
-	]);
-	return buildProfitByCostCentre(entries, period, costCentres);
+	const { entries, costCentres, sharing } = await readSharedLedgerUpTo(supabase, organisationId, period.end);
+	return buildProfitByCostCentre(entries, period, costCentres, sharing);
 }
 
 function validatedDay(organisationId: string, fieldName: string, candidate: unknown): string {
