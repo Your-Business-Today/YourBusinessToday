@@ -1,4 +1,5 @@
 import { clientDocumentsFor, type ClientDocumentEntry } from '$lib/data/clientDocumentCatalogue';
+import { describeContractBlanks, describeOptionalClauses } from './describeContractBlanks';
 
 /** The catalogue as the admin Documents page lists it: the contracts a client signs, then the internal procedures. */
 export function describeClientDocumentCatalogue(): string {
@@ -8,7 +9,9 @@ export function describeClientDocumentCatalogue(): string {
 }
 
 export function describeClientDocument(entry: ClientDocumentEntry, markdown: string): string {
-	return `${entry.title}\n\n${markdown}`;
+	const document = `${entry.title}\n\n${markdown}`;
+	if (entry.audience !== 'client') return document;
+	return [document, describeContractBlanks(markdown), describeOptionalClauses(entry.slug)].join('\n\n');
 }
 
 function describeEntry({ title, summary, slug }: ClientDocumentEntry): string {
