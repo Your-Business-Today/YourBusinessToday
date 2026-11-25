@@ -23,4 +23,13 @@ describe('which tool the plain question reaches', () => {
 		const schema = tool?.inputSchema as { properties: Record<string, unknown> };
 		expect(Object.keys(schema.properties)).toContain('showEverything');
 	});
+
+	it('sends "how many tasks does James have" to the real count, never the one-item turn', () => {
+		const count = descriptionOf('count_open_work');
+		expect(count).toContain('how many tasks');
+		expect(count).toContain('never say "none" without it');
+		const tool = describeMcpTools().find((candidate) => candidate.name === 'count_open_work');
+		const schema = tool?.inputSchema as { properties: Record<string, unknown> };
+		expect(Object.keys(schema.properties)).toEqual(['person']);
+	});
 });

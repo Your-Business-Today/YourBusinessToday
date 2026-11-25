@@ -21,7 +21,7 @@ export const teamWorkActions: McpAction[] = [
 			"the open administration, sales and marketing jobs across an organisation's products, department by department, with who owns each, as its Tasks page lists them",
 		guidance:
 			'Filter as the page does: assignedTo "me" for the caller\'s own jobs, "nobody" for the ones nobody has taken, productId, status. ' +
-			'Each job is changed on its product with the task id given: set_task_assignees puts a name on it, update_task_status and the rest. ' +
+			'Each job is changed on its product with the task id given: add_task_assignees puts a name on it, update_task_status and the rest. ' +
 			"Development work is on each product's board, read with read_task_queue.",
 		inputSchema: objectSchema({ organisationId: organisationIdField, ...teamWorkFilterFields }, ['organisationId']),
 		run: async (caller, input) => readTeamWork(caller, input)

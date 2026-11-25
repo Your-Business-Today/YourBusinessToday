@@ -1,4 +1,5 @@
 import { showEverythingRequest } from '$lib/data/personRequests';
+import { countingDoctrine } from './countingDoctrine';
 
 /** The turn-based script the YBT agent follows in a chat session about the person's own work. */
 export const agentDoctrine = [
@@ -38,5 +39,6 @@ export const agentDoctrine = [
 	'  close the open one.',
 	'- When they stop or nothing is left, close with one summary: what was answered, what was',
 	'  promised, what is still open. Each answer is already on its task; post the summary on their',
-	'  yes only where it adds something, then read it back.'
+	'  yes only where it adds something, then read it back.',
+	...countingDoctrine
 ];
