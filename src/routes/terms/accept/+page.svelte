@@ -20,11 +20,11 @@
 		</p>
 		<PageTitle size="compact">Accept the terms to carry on</PageTitle>
 		<p class="text-sm text-chalk/60">
-			Our terms changed. The new parts are below; the
+			Our terms changed on {termsVersionPublishedOn}. The parts that changed are below; the
 			<a href={termsAddresses.terms} class="text-chalk underline underline-offset-4 hover:text-signal">
 				full terms
 			</a>
-			are on their own page.
+			are on their own page. If you have a written agreement with us, it still comes first.
 		</p>
 	</div>
 	<div class="flex flex-col overflow-hidden rounded-2xl border border-hairline bg-carriage">
@@ -37,18 +37,15 @@
 			<label class="flex items-start gap-3 text-sm text-chalk/80">
 				<input name="hasAgreed" type="checkbox" required class="mt-0.5 size-4 shrink-0 accent-go" />
 				<span>
-					I have read and accept the terms of service of {termsVersionPublishedOn}, and I understand that what the site
-					produces is software output from what I put in, not professional advice.
+					I have read and accept the terms of service of {termsVersionPublishedOn}. I understand that what the software
+					generates is not professional advice and that I must check it before relying on it.
 				</span>
 			</label>
 			<FormErrorNote message={form?.message ?? null} />
-			<div class="flex flex-wrap items-center gap-2">
-				<Button type="submit" look="primary">Accept and carry on</Button>
-				<Button href="/" look="ghost">Not now</Button>
-			</div>
+			<Button type="submit" look="primary">Accept and carry on</Button>
+		</form>
+		<form method="POST" action="/account?/signOut" class="border-t border-hairline px-5 py-3">
+			<Button type="submit" look="ghost">Not now (sign out)</Button>
 		</form>
 	</div>
-	<form method="POST" action="/account?/signOut" class="self-center">
-		<Button type="submit" look="ghost">Sign out</Button>
-	</form>
 </div>
