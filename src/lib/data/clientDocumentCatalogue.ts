@@ -1,6 +1,8 @@
 import { internalDocumentEntries } from './internalDocumentEntries';
 
-export type ClientDocumentAudience = 'client' | 'internal';
+export const documentAudiences = { client: 'client', internal: 'internal' } as const;
+
+export type ClientDocumentAudience = (typeof documentAudiences)[keyof typeof documentAudiences];
 
 export type ClientDocumentEntry = {
 	slug: string;

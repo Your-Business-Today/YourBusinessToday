@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DocumentProse from '$lib/components/admin/documents/DocumentProse.svelte';
+	import OptionalClauseList from '$lib/components/admin/documents/OptionalClauseList.svelte';
 
 	let { data } = $props();
 
@@ -34,4 +35,5 @@
 		</div>
 	</div>
 	<DocumentProse documentHtml={data.documentHtml} />
+	<OptionalClauseList clauses={data.optionalClauses} />
 </div>

@@ -2,11 +2,11 @@
 
 **Version 1.5 — 17 November 2026**
 
-This agreement is made on [date] between:
+This agreement is made on [Date of the MSA] between:
 
 **Your Business Today Ltd**, a private company limited by shares registered in England and Wales under company number 17329446, whose registered office is at 8 Eastleigh Close, Sutton, England, SM2 6QY ("**YBT**", "**we**"); and
 
-**[Client legal name]**, a company registered in [England and Wales] under company number [number], whose registered office is at [address] (the "**Client**", "**you**").
+**[Client legal name]**, a company registered in [Client registered in] under company number [Client company number], whose registered office is at [Client registered office] (the "**Client**", "**you**").
 
 _Where the Client is not a company, use one of these instead:_
 
@@ -225,7 +225,7 @@ YBT learns how a business runs and then builds and runs the software that runs i
 |               | For Your Business Today Ltd   | For [Client legal name] |
 | ------------- | ----------------------------- | ----------------------- |
 | Signature     |                               |                         |
-| Name          | Jeremy Ferendinos             | [Name]                  |
-| Position      | Director                      | [Position]              |
+| Name          | Jeremy Ferendinos             | [Client signatory]      |
+| Position      | Director                      | [Client signatory's position] |
 | Date          |                               |                         |
-| Notices email | consulting@yourbusiness.today | [Email]                 |
+| Notices email | consulting@yourbusiness.today | [Client notices email]  |

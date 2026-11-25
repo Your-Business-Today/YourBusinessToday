@@ -13,6 +13,7 @@ export const framePageLabels = {
 	costs: 'Costs',
 	bank: 'Bank',
 	loans: 'Loans',
+	cashflow: 'Cashflow',
 	domain: 'Domain',
 	workflowMap: 'Workflow map'
 } as const;
@@ -35,7 +36,8 @@ const moduleSubpages: Partial<Record<OrganisationModule, ModuleSubpage[]>> = {
 		{ segment: 'invoices', label: framePageLabels.invoices, icon: 'fileText' },
 		{ segment: 'costs', label: framePageLabels.costs, icon: 'receipt' },
 		{ segment: 'bank', label: framePageLabels.bank, icon: 'landmark' },
-		{ segment: 'loans', label: framePageLabels.loans, icon: 'handCoins' }
+		{ segment: 'loans', label: framePageLabels.loans, icon: 'handCoins' },
+		{ segment: 'cashflow', label: framePageLabels.cashflow, icon: 'trendingUp' }
 	]
 };
 
