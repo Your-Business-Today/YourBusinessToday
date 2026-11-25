@@ -3,7 +3,7 @@ import type { TeamWorkItem } from './organisationTeamWork';
 /** What the assignee filter asks for to see the jobs nobody has taken. */
 export const nobodyAssigned = 'nobody';
 
-/** What narrows the Tasks page's list: who has the job, its product and where it stands. Null lets every job through. */
+/** What narrows the Tasks page's list: whose move the job is, its product and where it stands. Null lets every job through. */
 export type TeamWorkFilter = { assignedTo: string | null; productId: string | null; status: string | null };
 
 export type TeamWorkFilterField = keyof TeamWorkFilter;
@@ -16,7 +16,7 @@ export function jobsShownBy(items: TeamWorkItem[], filter: TeamWorkFilter): Team
 }
 
 function isShownBy(item: TeamWorkItem, filter: TeamWorkFilter): boolean {
-	const isWithAskedPerson = isAssignedAsAsked(item.assigneeIds, filter.assignedTo);
+	const isWithAskedPerson = isMoveAsAsked(item, filter.assignedTo);
 	const isOnAskedProduct = isAsked(item.productId, filter.productId);
 	const isAtAskedStatus = isAsked(item.status, filter.status);
 	return isWithAskedPerson && isOnAskedProduct && isAtAskedStatus;
@@ -26,8 +26,10 @@ function isAsked(value: string, asked: string | null): boolean {
 	return asked === null || value === asked;
 }
 
-function isAssignedAsAsked(assigneeIds: string[], assignedTo: string | null): boolean {
+/** A person's jobs are the ones whose next move is theirs; "nobody" still asks for the jobs nobody has taken. */
+function isMoveAsAsked(item: TeamWorkItem, assignedTo: string | null): boolean {
+	const { assigneeIds, nextActionIds } = item;
 	if (assignedTo === null) return true;
 	if (assignedTo === nobodyAssigned) return assigneeIds.length === 0;
-	return assigneeIds.includes(assignedTo);
+	return nextActionIds.includes(assignedTo);
 }

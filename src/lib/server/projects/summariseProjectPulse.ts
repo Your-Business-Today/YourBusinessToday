@@ -11,18 +11,18 @@ export type ProjectPulse = {
 	inProgressCount: number;
 	completionPercent: number;
 	waitingOnViewerCount: number;
-	assignedToViewerCount: number;
+	viewersMoveCount: number;
 };
 
 export type PulseSources = {
 	tasks: ProjectTask[];
 	goals: HorizonedGoal[];
-	assigneeIdsByTask: Map<string, string[]>;
+	viewersMoveTaskIds: string[];
 	turnsByTask: Map<string, ConversationTurn>;
 	viewerId: string;
 };
 
-/** The open tile, the completion and the assignments are current work's: a task under a long term goal counts toward neither. */
+/** The open tile, the completion and the viewer's moves are current work's: a task under a long term goal counts toward neither. */
 export function summariseProjectPulse(sources: PulseSources): ProjectPulse {
 	const { tasks } = sources;
 	const openTasks = tasks.filter((task) => !isTaskDone(task.status));
@@ -35,16 +35,11 @@ export function summariseProjectPulse(sources: PulseSources): ProjectPulse {
 		inProgressCount: openCurrentTasks.filter((task) => task.status === inProgressTaskStatus).length,
 		completionPercent: weightedCompletionPercent(currentTasks),
 		waitingOnViewerCount: openTasks.filter((task) => isWaitingOnViewer(task, sources)).length,
-		assignedToViewerCount: openCurrentTasks.filter((task) => isAssignedToViewer(task, sources)).length
+		viewersMoveCount: openCurrentTasks.filter((task) => sources.viewersMoveTaskIds.includes(task.id)).length
 	};
 }
 
 function isWaitingOnViewer(task: ProjectTask, sources: PulseSources): boolean {
 	const awaiting = sources.turnsByTask.get(task.id)?.awaiting ?? null;
 	return awaiting?.accountId === sources.viewerId;
-}
-
-function isAssignedToViewer(task: ProjectTask, sources: PulseSources): boolean {
-	const assigneeIds = sources.assigneeIdsByTask.get(task.id) ?? [];
-	return assigneeIds.includes(sources.viewerId);
 }

@@ -21,13 +21,13 @@
 	const peopleViewerFirst = $derived([...viewer, ...others]);
 
 	function labelFor(person: ProjectPerson): string {
-		if (person.id === viewerId) return 'Assigned to me';
+		if (person.id === viewerId) return 'My move';
 		return person.name;
 	}
 
 	function titleFor(person: ProjectPerson): string {
-		if (person.id === viewerId) return 'Open tasks assigned to you';
-		return `Open tasks assigned to ${person.name}`;
+		if (person.id === viewerId) return 'Open tasks whose next move is yours: an ask waiting on you, a job assigned to you, or one back with you';
+		return `Open tasks whose next move is ${person.name}'s`;
 	}
 </script>
 

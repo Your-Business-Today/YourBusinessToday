@@ -4,12 +4,15 @@
 	import { elapsedPhrase } from '$lib/data/elapsedTime';
 	import { personLabel, readTurn, type NameOf } from '$lib/data/turnLabels';
 	import { postedViaChannels, turnStages, type ConversationTurn } from '$lib/data/conversationTurn';
+	import { nextMoveSentence } from '$lib/data/nextMoveSentence';
+	import type { NextAction } from '$lib/data/nextAction';
 
 	let {
 		turn,
 		nameOf,
-		viewerId
-	}: { turn: ConversationTurn | null; nameOf: NameOf; viewerId: string } = $props();
+		viewerId,
+		nextAction = null
+	}: { turn: ConversationTurn | null; nameOf: NameOf; viewerId: string; nextAction?: NextAction | null } = $props();
 
 	const reading = $derived(turn === null ? null : readTurn(turn, nameOf, viewerId));
 	const stations = $derived(turn === null ? [] : batonStations(turn, nameOf, viewerId));
@@ -19,6 +22,7 @@
 		const via = turn.postedVia === postedViaChannels.claude ? ' via Claude' : '';
 		return `last word ${elapsedPhrase(turn.since)} · ${speaker}${via}`;
 	});
+	const nextMove = $derived(nextAction === null ? null : nextMoveSentence(nextAction, nameOf, viewerId));
 	const isInFlight = $derived(reading?.stage === turnStages.sent);
 	const accent = $derived.by(() => {
 		if (reading === null || reading.stage === turnStages.quiet) return 'hairline';
@@ -55,5 +59,8 @@
 				Ask your Claude to read the latest messages and it will pick this up — or answer below.
 			</p>
 		{/if}
+	{/if}
+	{#if nextMove !== null}
+		<p class="text-sm text-chalk/80">{nextMove}</p>
 	{/if}
 </section>

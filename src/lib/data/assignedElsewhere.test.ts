@@ -20,7 +20,7 @@ const tasks = [
 ];
 
 describe('the viewer’s tasks on tabs the page is not showing', () => {
-	it('names each other tab holding their open tasks, so "Assigned to me" never hides them', () => {
+	it('names each other tab holding their open tasks, so "My move" never hides them', () => {
 		const elsewhere = assignedElsewhere({ tasks, goals: [], assignedTaskIds: ['dpa', 'fix', 'old'], shownTabs: ['features'] });
 		expect(elsewhere).toEqual([
 			{ tab: 'bugs', label: 'Bugs', count: 1 },

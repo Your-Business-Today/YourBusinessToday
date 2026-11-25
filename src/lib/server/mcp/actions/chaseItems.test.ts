@@ -30,6 +30,7 @@ const owes: WhatPersonOwes = {
 	person: { accountId: 'jeremy', accountIds: ['jeremy'], titleName: 'Jeremy' },
 	questions: [question],
 	assigned: [task('insurance', 'Buy cyber insurance'), task('terms', 'Add terms')],
+	followUps: [],
 	named: [task('login', 'FIX: Jeremy cannot sign in')],
 	todos: [todo('on-task', project, 'insurance'), todo('errand', null, null), todo('hidden', elsewhere, 'other')]
 };

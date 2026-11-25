@@ -9,7 +9,7 @@ function task(id: string, subtasks: TaskTreeNode[] = []): TaskTreeNode {
 const jeremy = 'jeremy';
 const james = 'james';
 const taskTree = [task('receipt-photos', [task('anthropic-key')]), task('walkthroughs')];
-const assigneeIdsByTask = {
+const nextActionIdsByTask = {
 	'receipt-photos': [james],
 	'anthropic-key': [jeremy],
 	walkthroughs: [jeremy]
@@ -18,7 +18,7 @@ const assigneeIdsByTask = {
 function backlogFor(): BacklogView {
 	return new BacklogView({
 		taskTree: () => taskTree,
-		assigneeIdsByTask: () => assigneeIdsByTask,
+		nextActionIdsByTask: () => nextActionIdsByTask,
 		isWaitingOnMe: () => false
 	});
 }
@@ -31,8 +31,8 @@ describe('BacklogView.countOf', () => {
 
 	it('leaves out a parent shown only to hold a matching subtask', () => {
 		const backlog = backlogFor();
-		backlog.toggleAssignee(jeremy);
+		backlog.togglePerson(jeremy);
 		expect(backlog.visibleTasks).toHaveLength(2);
-		expect(backlog.countOf(backlog.visibleTasks)).toBe(backlog.assignedCountFor(jeremy));
+		expect(backlog.countOf(backlog.visibleTasks)).toBe(backlog.moveCountFor(jeremy));
 	});
 });

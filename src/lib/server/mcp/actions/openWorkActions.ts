@@ -24,8 +24,8 @@ export const openWorkActions: McpAction[] = [
 			'how many tasks, asks and to-dos a person has open, and which: a real count across every project you can see',
 		guidance:
 			'Use it for every "how many…", "what does X have", "what is on X’s plate" or "has X got anything" ' +
-			'question, about yourself or anyone on your projects. It counts every open task assigned to them ' +
-			'or named in a title, of every department and status, every ask waiting on them and their ' +
+			'question, about yourself or anyone on your projects. It counts every open task whose next ' +
+			'move is theirs, of every department and status, every ask waiting on them and their ' +
 			'to-dos, and lists each one. Nothing is ranked away: the one-item turn and the team’s internal ' +
 			'jobs list are never a count.',
 		inputSchema: objectSchema({ person: personAskedField }),

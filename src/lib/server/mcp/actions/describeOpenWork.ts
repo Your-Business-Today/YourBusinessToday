@@ -12,21 +12,24 @@ export type OpenWork = {
 	isCaller: boolean;
 	projectCount: number;
 	assigned: GlobalTask[];
+	followUps: GlobalTask[];
 	named: GlobalTask[];
 	questions: WaitingQuestion[];
 	todos: Todo[];
 };
 
 const howToAnswer =
-	'This is the real count: every open item, nothing ranked away or left out but done work. Give the ' +
-	'person these numbers as they are. Never answer a count from what_do_i_need_to_do (one item) or ' +
-	'read_team_work (internal jobs only).';
+	'This is the real count of every open item whose next move is theirs, nothing ranked away. A task ' +
+	'is theirs when an open ask on it waits on them; else, unless it is a build, which is Claude\u2019s, ' +
+	'when an ask of theirs on it was answered, when it is assigned to them, or when they raised it and ' +
+	'nobody is assigned. Give the person these numbers as they are. Never answer a count from ' +
+	'what_do_i_need_to_do (one item) or read_team_work (internal jobs only).';
 
 /** The counts first, then every open task and ask, so a total can be checked line by line. */
 export function describeOpenWork(work: OpenWork): string {
-	const { assigned, named, questions, todos } = work;
+	const { assigned, followUps, named, questions, todos } = work;
 	const askKinds = questions.map((question) => question.askKind);
-	const count = countOpenWork({ assigned, named, askKinds, todoCount: todos.length });
+	const count = countOpenWork({ assigned, followUps, named, askKinds, todoCount: todos.length });
 	const who = work.isCaller ? 'You have' : `${work.name} has`;
 	return [
 		howToAnswer,
@@ -35,7 +38,8 @@ export function describeOpenWork(work: OpenWork): string {
 		scopeLine(work),
 		...countLines(count, work.isCaller),
 		...breakdowns(count),
-		...listed('Tasks in their name', work.assigned.map(taskLine)),
+		...listed('Tasks in their name, their move', work.assigned.map(taskLine)),
+		...listed('Tasks back with them', work.followUps.map(taskLine)),
 		...listed('Tasks whose title names them', work.named.map(taskLine)),
 		...listed('Asks waiting on them', work.questions.map(askLine)),
 		...listed(work.isCaller ? 'Your to-dos' : 'To-dos they promised on these projects', work.todos.map(todoLine))
@@ -50,7 +54,8 @@ function scopeLine(work: OpenWork): string {
 
 function countLines(count: OpenWorkCount, isCaller: boolean): string[] {
 	return [
-		`- Open tasks assigned to them: ${count.assignedCount}`,
+		`- Open tasks assigned to them, their move: ${count.assignedCount}`,
+		`- Tasks back with them (an ask of theirs answered, or a job they raised that nobody took): ${count.followUpCount}`,
 		`- Open tasks whose title names them, not assigned: ${count.namedCount}`,
 		`- Answers to give: ${count.answerCount}`,
 		`- Things to set up: ${count.setupCount}`,
@@ -59,7 +64,7 @@ function countLines(count: OpenWorkCount, isCaller: boolean): string[] {
 }
 
 function breakdowns(count: OpenWorkCount): string[] {
-	if (count.assignedCount + count.namedCount === 0) return [];
+	if (count.assignedCount + count.followUpCount + count.namedCount === 0) return [];
 	const byDepartment = [...count.byDepartment].map(([department, total]) => `${departmentLabels[department as Department]} ${total}`);
 	const byStatus = [...count.byStatus].map(([status, total]) => `${taskStatusLabels[status as TaskStatus]} ${total}`);
 	const byProject = [...count.byProject].sort((left, right) => right[1] - left[1]).map(([project, total]) => `${project} ${total}`);

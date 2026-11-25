@@ -8,6 +8,7 @@ export type CountedTask = { projectName: string; department: Department; status:
 /** What one person has open, counted: nothing is filtered out but done work. */
 export type OpenWorkCount = {
 	assignedCount: number;
+	followUpCount: number;
 	namedCount: number;
 	answerCount: number;
 	setupCount: number;
@@ -18,17 +19,18 @@ export type OpenWorkCount = {
 	total: number;
 };
 
-type Counting = { assigned: CountedTask[]; named: CountedTask[]; askKinds: (AskKind | null)[]; todoCount: number };
+type Counting = { assigned: CountedTask[]; followUps: CountedTask[]; named: CountedTask[]; askKinds: (AskKind | null)[]; todoCount: number };
 
 /** Every open item counted once, the tasks broken down by project, department and status. */
 export function countOpenWork(counting: Counting): OpenWorkCount {
-	const { assigned, named, todoCount } = counting;
+	const { assigned, followUps, named, todoCount } = counting;
 	const kinds = counting.askKinds.map((kind) => kind ?? defaultAskKind);
 	const answerCount = kinds.filter((kind) => kind === askKinds.information).length;
 	const setupCount = kinds.filter((kind) => kind === askKinds.setup).length;
-	const tasks = [...assigned, ...named];
+	const tasks = [...assigned, ...followUps, ...named];
 	return {
 		assignedCount: assigned.length,
+		followUpCount: followUps.length,
 		namedCount: named.length,
 		answerCount,
 		setupCount,

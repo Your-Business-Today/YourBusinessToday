@@ -7,10 +7,10 @@ import type { Todo } from '$lib/server/todos/todoRecord';
 import type { WaitingQuestion } from '$lib/server/conversations/waitingQuestion';
 import type { WhatPersonOwes } from '$lib/server/owed/whatPersonOwes';
 
-/** Everything a person owes as things the agent can raise: their asks, the jobs in their name, and their to-dos. Building is never theirs. */
+/** Everything a person owes as things the agent can raise: their asks, the jobs whose next move is theirs, and their to-dos. Building is never theirs. */
 export function agendaFromOwes(owes: WhatPersonOwes): AgendaItem[] {
-	const { questions, assigned, named, todos } = owes;
-	const jobs = [...assigned, ...named].filter((task) => !isDevelopment(task.department));
+	const { questions, assigned, followUps, named, todos } = owes;
+	const jobs = [...assigned, ...followUps, ...named].filter((task) => !isDevelopment(task.department));
 	return [...questions.map(askItem), ...jobs.map(taskItem), ...todos.map(todoItem)];
 }
 
