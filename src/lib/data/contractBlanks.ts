@@ -1,3 +1,5 @@
+import type { FeeBasis } from './leadQuoteRules';
+
 /** Where a pack takes a blank's value from: the client organisation's details, the lead's quote, or what is written into the pack. */
 export const blankSources = { organisation: 'organisation', quote: 'quote', pack: 'pack' } as const;
 
@@ -8,6 +10,7 @@ export type ContractBlank = {
 	label: string;
 	source: BlankSource;
 	organisationDetail?: string;
+	feeBasis?: FeeBasis;
 	meaning: string;
 };
 
@@ -18,7 +21,12 @@ const fromOrganisation = (label: string, organisationDetail: string, meaning: st
 	meaning
 });
 
-const fromQuote = (label: string, meaning: string): ContractBlank => ({ label, source: blankSources.quote, meaning });
+const fromQuote = (label: string, feeBasis: FeeBasis, meaning: string): ContractBlank => ({
+	label,
+	source: blankSources.quote,
+	feeBasis,
+	meaning
+});
 
 const writtenInPack = (label: string, meaning: string): ContractBlank => ({ label, source: blankSources.pack, meaning });
 
@@ -31,9 +39,9 @@ export const contractBlanks: readonly ContractBlank[] = [
 	fromOrganisation('Client signatory\'s position', 'signatoryPosition', 'The signatory’s position'),
 	fromOrganisation('Client signatory\'s email', 'signatoryEmail', 'Where the pack is sent to be signed'),
 	fromOrganisation('Client notices email', 'noticesEmail', 'Where notices under the contract are sent'),
-	fromQuote('Build stage fee', 'The fixed fee of the build stage the Order Form orders'),
-	fromQuote('Run service monthly fee', 'The monthly fee of the Run service'),
-	fromQuote('Day rate', 'The day rate for additional work'),
+	fromQuote('Build stage fee', 'fixed', 'The fixed fee of the build stage the Order Form orders'),
+	fromQuote('Run service monthly fee', 'monthly', 'The monthly fee of the Run service'),
+	fromQuote('Day rate', 'daily', 'The day rate for additional work'),
 	writtenInPack('Date of the MSA', 'The day the MSA is signed'),
 	writtenInPack('Order number', 'The Order Form’s number, such as YBT-0001'),
 	writtenInPack('Build stage number', 'Which build stage the Order Form orders'),
@@ -49,11 +57,16 @@ export function findContractBlank(label: string): ContractBlank | undefined {
 	return contractBlanks.find((blank) => blank.label === label);
 }
 
-const blankPattern = /\[([^[\]]+)\](?!\()/g;
+export const blankPattern = /\[([^[\]]+)\](?!\()/g;
 const ticks = new Set([' ', 'x']);
+
+/** Whether square brackets hold a blank, rather than a task list's tick box. */
+export function isBlankLabel(label: string): boolean {
+	return !ticks.has(label);
+}
 
 /** Every blank a document still holds, each once, in the order they first appear. */
 export function blanksIn(markdown: string): string[] {
 	const labels = [...markdown.matchAll(blankPattern)].map((match) => match[1]);
-	return [...new Set(labels.filter((label) => !ticks.has(label)))];
+	return [...new Set(labels.filter(isBlankLabel))];
 }
