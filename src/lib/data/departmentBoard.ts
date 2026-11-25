@@ -11,6 +11,8 @@ import {
 	type BoardTab
 } from './boardTab';
 import { openingTabOfSide } from './boardSideTabs';
+import { isAwaitingWithItsParent } from './awaitingWithItsParent';
+import type { DesignReview } from './designReview';
 import { boardSideOfTab, boardSideOrder, boardSides, tabsOnBoardSide, type BoardSide } from './boardSide';
 
 type Departmental = { department: Department };
@@ -19,6 +21,7 @@ type BoardTask = Departmental & {
 	id: string;
 	parentTaskId: string | null;
 	title: string;
+	designReview?: DesignReview | null;
 };
 
 export type DepartmentTab = {
@@ -53,7 +56,8 @@ export function inBoardTab<Item extends BoardTask>(
 
 export function inBoardTabs<Item extends BoardTask>(items: Item[], tabs: BoardTab[], allTasks: BoardTask[] = items): Item[] {
 	const tasksById = new Map(allTasks.map((task) => [task.id, task]));
-	return items.filter((item) => tabs.includes(boardTabOfTask(item, tasksById)));
+	const onTheBoard = items.filter((item) => !isAwaitingWithItsParent(item, tasksById));
+	return onTheBoard.filter((item) => tabs.includes(boardTabOfTask(item, tasksById)));
 }
 
 /** The tabs whose work a page shows together: one Development tab, or every Internal work department, which is one board grouped by department. */
