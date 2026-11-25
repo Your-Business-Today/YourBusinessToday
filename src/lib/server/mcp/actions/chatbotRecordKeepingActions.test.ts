@@ -27,7 +27,8 @@ const recordAction = (name: string) => chatbotRecordKeepingActions.find((candida
 
 describe("a business deletes from its chatbot record and sets how long it is kept", () => {
 	beforeEach(() => {
-		record.questionIds.splice(0, record.questionIds.length, questionId);
+		record.questionIds.splice(0);
+		record.questionIds.push(questionId);
 		record.deleted.splice(0);
 		record.keptDays.splice(0);
 	});

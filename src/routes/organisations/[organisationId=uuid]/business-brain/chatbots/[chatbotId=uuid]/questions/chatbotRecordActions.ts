@@ -31,7 +31,8 @@ export const chatbotRecordActions = {
 		const keeper = await requireRecordKeeper(event);
 		const kept = validateChatbotRecordKeptDays(Object.fromEntries(await event.request.formData()));
 		if (typeof kept === 'string') return fail(400, { message: kept });
-		await setChatbotRecordKeeping(event.locals.supabase, { ...keeper, keptDays: kept.keptDays });
+		const { supabase } = event.locals;
+		await setChatbotRecordKeeping(supabase, { ...keeper, keptDays: kept.keptDays });
 		if (kept.keptDays === null) return { message: 'The record is now kept for as long as Your Business Brain is kept.' };
 		return { message: `Each question is now kept for ${daysPhrase(kept.keptDays)}.` };
 	}
