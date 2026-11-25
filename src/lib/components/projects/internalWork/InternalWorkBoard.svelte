@@ -37,7 +37,7 @@
 	const actions = $derived(createTaskRowActions(sources, handlers));
 	const board = new BacklogView({
 		taskTree: () => taskTree,
-		assigneeIdsByTask: () => sources.assigneeIdsByTask,
+		nextActionIdsByTask: () => sources.nextActionIdsByTask,
 		isWaitingOnMe: (task) => actions.turnFor(task.id)?.isOnViewer === true
 	});
 	const isTableShown = $derived(chosenView.key === internalWorkViews.table);

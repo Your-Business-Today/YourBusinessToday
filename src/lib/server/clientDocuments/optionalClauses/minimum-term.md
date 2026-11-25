@@ -1,0 +1,1 @@
+**Minimum term.** The Run service lasts at least [Minimum term in months] months from go-live. After that it continues until either party gives [Notice period in months] months' written notice. If the Client ends it early, other than for YBT's material breach, it pays the monthly fees for the rest of the minimum term.

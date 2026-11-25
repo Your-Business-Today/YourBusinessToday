@@ -40,6 +40,9 @@ const postMessageGuidance =
 	'decisions and why, and which tasks carry what is left — then the person is told in ' +
 	'chat that the chat can be archived.';
 
+const addressedNote =
+	'It asks a question and opens by naming one person, so it waits on them as an ask. ';
+
 export const postMessageAction: McpAction = {
 	name: 'post_message',
 	area: 'conversations',
@@ -71,7 +74,7 @@ export const postMessageAction: McpAction = {
 		const progress = readProgress(input);
 		const isProgressOffTask = progress !== null && !('taskId' in resolved.subject);
 		if (progress === undefined || isProgressOffTask) return progressRefusal;
-		const choice = await chooseHandOff(caller, input, resolved);
+		const choice = await chooseHandOff(caller, input, resolved, body);
 		if ('refusal' in choice) return choice.refusal;
 		const origin = {
 			postedVia: postedViaChannels.claude,
@@ -83,6 +86,7 @@ export const postMessageAction: McpAction = {
 		const baton = await batonSentence(caller, resolved.subject);
 		const promised = promise === null ? '' : await raisePromise(caller, resolved, promise);
 		const moved = progress === null ? '' : await applyProgress(caller, resolved, progress);
-		return `Posted on "${resolved.title}". ${baton}${promised}${moved}`;
+		const addressed = choice.isAddressed === true ? addressedNote : '';
+		return `Posted on "${resolved.title}". ${addressed}${baton}${promised}${moved}`;
 	}
 };

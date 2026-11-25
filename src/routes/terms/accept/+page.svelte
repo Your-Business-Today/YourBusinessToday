@@ -3,7 +3,7 @@
 	import FormErrorNote from '$lib/components/site/FormErrorNote.svelte';
 	import LegalSections from '$lib/components/site/LegalSections.svelte';
 	import PageTitle from '$lib/components/site/PageTitle.svelte';
-	import { termsSoftwareSections } from '$lib/data/legal/termsSoftwareSections';
+	import { termsChangedSections } from '$lib/data/legal/termsChangedSections';
 	import { termsAddresses, termsVersionPublishedOn } from '$lib/data/termsVersion';
 
 	let { data, form } = $props();
@@ -29,7 +29,7 @@
 	</div>
 	<div class="flex flex-col overflow-hidden rounded-2xl border border-hairline bg-carriage">
 		<div class="flex max-h-80 flex-col gap-2 overflow-y-auto px-5 py-4">
-			<LegalSections sections={termsSoftwareSections} size="compact" />
+			<LegalSections sections={termsChangedSections} size="compact" />
 		</div>
 		<form method="POST" action="?/accept" class="flex flex-col gap-4 border-t border-hairline px-5 py-4">
 			<input type="hidden" name="termsVersion" value={data.termsVersion} />
@@ -38,7 +38,7 @@
 				<input name="hasAgreed" type="checkbox" required class="mt-0.5 size-4 shrink-0 accent-go" />
 				<span>
 					I have read and accept the terms of service of {termsVersionPublishedOn}, and I understand that what the site
-					generates is my own use of software, not a professional service.
+					produces is software output from what I put in, not professional advice.
 				</span>
 			</label>
 			<FormErrorNote message={form?.message ?? null} />

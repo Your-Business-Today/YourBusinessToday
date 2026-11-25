@@ -14,7 +14,7 @@ describe('moduleFrameLink', () => {
 });
 
 describe('moduleFrameLinks', () => {
-	it('lists the books’ Invoices, Costs, Bank and Loans pages after Reports, in the Accounts folder', () => {
+	it('lists the books’ Invoices, Costs, Bank, Loans and Cashflow pages after Reports, in the Accounts folder', () => {
 		const [accounts] = frameSectionsOf(moduleFrameLinks('books', '/organisations/harbour/books'));
 		expect(accounts.folder).toEqual({ label: 'Accounts', icon: 'poundSterling' });
 		expect(accounts.links).toEqual([
@@ -22,7 +22,8 @@ describe('moduleFrameLinks', () => {
 			{ href: '/organisations/harbour/books/invoices', label: 'Invoices', icon: 'fileText' },
 			{ href: '/organisations/harbour/books/costs', label: 'Costs', icon: 'receipt' },
 			{ href: '/organisations/harbour/books/bank', label: 'Bank', icon: 'landmark' },
-			{ href: '/organisations/harbour/books/loans', label: 'Loans', icon: 'handCoins' }
+			{ href: '/organisations/harbour/books/loans', label: 'Loans', icon: 'handCoins' },
+			{ href: '/organisations/harbour/books/cashflow', label: 'Cashflow', icon: 'trendingUp' }
 		]);
 	});
 

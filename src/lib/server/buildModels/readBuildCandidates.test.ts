@@ -38,4 +38,15 @@ describe('readBuildCandidates', () => {
 		const candidates = await readBuildCandidates(databaseHolding(rows), ['project-1']);
 		expect(candidates.map(({ task }) => task.id)).toEqual(['extends', 'approved']);
 	});
+
+	it('holds a subtask while the feature it is a chunk of waits for YBT', async () => {
+		const heldParent = { global_priority: 1, title: 'Statements', design_review_state: designReviewStates.awaiting };
+		const approvedParent = { global_priority: 1, title: 'Reports', design_review_state: designReviewStates.approved };
+		const rows = [
+			{ ...buildableRow('held-chunk', null), parent: heldParent },
+			{ ...buildableRow('approved-chunk', null), parent: approvedParent }
+		];
+		const candidates = await readBuildCandidates(databaseHolding(rows), ['project-1']);
+		expect(candidates.map(({ task }) => task.id)).toEqual(['approved-chunk']);
+	});
 });

@@ -102,6 +102,6 @@ _Last updated 16 November 2026. YBT keeps this register current and gives notice
 |           | For Your Business Today Ltd | For [Client legal name] |
 | --------- | --------------------------- | ----------------------- |
 | Signature |                             |                         |
-| Name      | Jeremy Ferendinos           | [Name]                  |
-| Position  | Director                    | [Position]              |
+| Name      | Jeremy Ferendinos           | [Client signatory]      |
+| Position  | Director                    | [Client signatory's position] |
 | Date      |                             |                         |

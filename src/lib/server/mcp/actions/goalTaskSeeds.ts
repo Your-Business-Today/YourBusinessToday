@@ -6,6 +6,7 @@ import { developmentKindField } from './developmentKindField';
 import { designReviewLimits } from '$lib/data/designReview';
 import { designChangeField, isDesignTextRefused, validateDesignText } from './designChangeField';
 import { parseDevelopmentKind, titleForDevelopmentKind } from '$lib/data/developmentKind';
+import { subtasksField, validateSubtasks, isSubtasksRefused } from './subtasksField';
 import type { NewTaskSeed } from '$lib/server/projects/createTask';
 
 export const mostTasksRaisedWithGoal = 12;
@@ -15,6 +16,7 @@ const goalTaskProperties = {
 	details: proseField('What the task involves'),
 	developmentKind: developmentKindField,
 	designChange: designChangeField,
+	subtasks: subtasksField,
 	...storyFields
 };
 
@@ -60,6 +62,8 @@ function listedTaskSeed(task: unknown): NewTaskSeed | null {
 	const title = titleForDevelopmentKind(typedTitle, kind);
 	const designChange = validateDesignText(fields, 'designChange');
 	if (isDesignTextRefused(designChange)) return null;
+	const chunks = validateSubtasks(fields);
+	if (isSubtasksRefused(chunks)) return null;
 	return {
 		title,
 		details: readText(fields, 'details'),
@@ -70,6 +74,7 @@ function listedTaskSeed(task: unknown): NewTaskSeed | null {
 		kind: taskKinds.work,
 		story: readStory(fields),
 		autocomplete: connectorTaskAutocomplete,
-		designChange: designChange.text
+		designChange: designChange.text,
+		subtasks: chunks.subtasks
 	};
 }

@@ -19,6 +19,11 @@ export const tablesKeptByOrganisation = [
 	'books_bank_rules',
 	'books_expenses',
 	'books_loan_accounts',
+	'books_cashflow_items',
+	'books_loan_budgets',
+	'books_loan_draws',
+	'books_loan_budget_lines',
+	'books_loan_spends',
 	'books_billing_schedules',
 	'books_billing_schedule_lines',
 	'books_deletions',
@@ -86,5 +91,6 @@ export const tablesKeptByOrganisation = [
 	'chat_room_summaries',
 	'chat_decisions',
 	'chat_whiteboards',
-	'project_documents'
+	'project_documents',
+	'contract_packs'
 ];

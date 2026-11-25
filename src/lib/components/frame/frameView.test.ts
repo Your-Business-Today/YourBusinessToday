@@ -47,7 +47,7 @@ describe('frameViewFor', () => {
 	});
 
 	it('gives a client contact the portal’s links, and People to its administrators', () => {
-		const portalLabels = ['Your projects', 'Your workflow map', 'Billing', 'Connect your Claude'];
+		const portalLabels = ['Your projects', 'Your workflow map', 'Billing', 'Your contract', 'Connect your Claude'];
 		expect(labelsFor(clientContact)).toEqual(portalLabels);
 		expect(labelsFor(clientAdministrator)).toEqual([...portalLabels, 'People']);
 		expect(menuLabelsFor(clientContact)).toEqual([]);

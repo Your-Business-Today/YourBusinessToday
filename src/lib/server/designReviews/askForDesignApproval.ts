@@ -18,7 +18,7 @@ export async function askForDesignApproval(
 ): Promise<void> {
 	const approver = await approverFor(supabase, project, request.raisedBy);
 	const body =
-		`${designReviewStageName}. This request changes the system's design, so nothing builds it ` +
+		`${designReviewStageName}. This request changes the system's design or what it runs on, so nothing builds it ` +
 		`until YBT approves it.\n\nWhat it changes: ${request.change}\n\n` +
 		'YBT answers with approve_design_change or reject_design_change, giving the reason.';
 	const origin = { postedVia: postedViaChannels.claude, awaiting: approver, askKind: askKinds.information };

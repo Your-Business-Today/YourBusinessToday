@@ -12,4 +12,17 @@ describe('the raising doctrine', () => {
 		expect(raisingDoctrine).toContain('Requested, awaiting YBT approval');
 		expect(raisingDoctrine).toContain('Never guess a request into the first kind');
 	});
+
+	it('keeps a bug to one FIX and raises a feature with its chunks as subtasks under one goal', () => {
+		expect(raisingDoctrine).toContain('one task is all a bug needs');
+		expect(raisingDoctrine).toContain('never as a new top level task');
+		expect(raisingDoctrine).toContain('subtasks');
+		expect(raisingDoctrine).toContain('credit control');
+		expect(raisingDoctrine).toContain('update_goal');
+	});
+
+	it('sends infrastructure, cost and new dependencies to Requested as well', () => {
+		expect(raisingDoctrine).toContain('infrastructure change or upgrade, costs money');
+		expect(raisingDoctrine).toContain('new dependency');
+	});
 });

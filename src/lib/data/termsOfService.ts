@@ -8,7 +8,7 @@ import type { LegalDocument } from './legalDocument';
 export const termsOfService: LegalDocument = {
 	title: 'Terms of service',
 	metaDescription:
-		'The terms that govern this website and the Your Business Today client portal — who it is for, that what it generates is your use of software and not a professional service, how it sits under your written agreement, what we build for you, confidentiality, and the rest of the small print.',
+		'The terms that govern this website and the Your Business Today client portal — who it is for, that what it generates is produced by software and is not professional advice, how it sits under your written agreement, who owns what we build, confidentiality, and the rest of the small print.',
 	lastUpdatedOn: termsVersionPublishedOn,
 	sections: [
 		...termsAccountSections,

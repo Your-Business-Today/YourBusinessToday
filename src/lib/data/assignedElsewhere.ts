@@ -11,8 +11,8 @@ export type AssignedElsewhere = { tab: BoardTab; label: string; count: number };
 type Placing = { tasks: AssignableTask[]; goals: HorizonedGoal[]; assignedTaskIds: string[]; shownTabs: BoardTab[] };
 
 /**
- * The viewer's open current tasks on the project's other tabs, counted as the project list counts
- * them, so "Assigned to me" on one tab never hides work that the project's own count includes.
+ * The viewer's open current tasks on the project's other tabs, the ones whose next move is theirs,
+ * so "My move" on one tab never hides work that the project's own count includes.
  */
 export function assignedElsewhere(placing: Placing): AssignedElsewhere[] {
 	const { tasks, goals, assignedTaskIds, shownTabs } = placing;

@@ -1,4 +1,5 @@
 import { getAssigneeIdsByTask } from '$lib/server/projects/getAssigneeIdsByTask';
+import { getNextActionsByTask } from '$lib/server/projects/getNextActionsByTask';
 import { getOpenTeamWork } from './getOpenTeamWork';
 import { getPeopleOnProject } from '$lib/server/members/getPeopleOnProject';
 import { getReachableProjectsOf } from './getReachableProjectsOf';
@@ -6,7 +7,7 @@ import { teamWorkGroups, type TeamWorkGroup } from '$lib/data/organisationTeamWo
 import type { ProjectPerson } from '$lib/server/members/projectPersonRecord';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-/** The team's open jobs across an organisation's products, with who has each, and the people each product's jobs can go to. */
+/** The team's open jobs across an organisation's products, with who has each and whose move each is, and the people each product's jobs can go to. */
 export type TeamWork = { groups: TeamWorkGroup[]; peopleByProduct: Record<string, ProjectPerson[]> };
 
 /** The open administration, sales and marketing jobs on every product of the organisation the viewer can open. */
@@ -19,5 +20,7 @@ export async function loadTeamWork(supabase: SupabaseClient, viewerId: string, o
 		Promise.all(productIdsWithJobs.map((productId) => getPeopleOnProject(supabase, productId)))
 	]);
 	const peopleByProduct = Object.fromEntries(productIdsWithJobs.map((productId, index) => [productId, peopleLists[index]]));
-	return { groups: teamWorkGroups(tasks, products, assigneeIdsByTask), peopleByProduct };
+	const nextActions = await getNextActionsByTask(supabase, tasks, assigneeIdsByTask);
+	const nextActionIdsByTask = new Map([...nextActions].map(([taskId, nextAction]) => [taskId, nextAction.accountIds]));
+	return { groups: teamWorkGroups(tasks, products, { assigneeIdsByTask, nextActionIdsByTask }), peopleByProduct };
 }

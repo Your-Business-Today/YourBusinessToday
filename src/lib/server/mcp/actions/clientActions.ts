@@ -1,6 +1,9 @@
 import { areaMapActions } from './areaMapActions';
 import { clientContactActions } from './clientContactActions';
 import { clientDocumentActions } from './clientDocumentActions';
+import { contractPackActions } from './contractPackActions';
+import { contractPackSendingActions } from './contractPackSendingActions';
+import { contractPackCountersigningActions } from './contractPackCountersigningActions';
 import { companyResearchActions } from './companyResearchActions';
 import { emailOwnerActions } from './emailOwnerActions';
 import { inboxTriageActions } from './inboxTriageActions';
@@ -60,5 +63,8 @@ export const clientActions: McpAction[] = [
 	...clientProjectActions,
 	...clientRemovalActions,
 	...clientDocumentActions,
+	...contractPackActions,
+	...contractPackSendingActions,
+	...contractPackCountersigningActions,
 	...areaMapActions
 ];

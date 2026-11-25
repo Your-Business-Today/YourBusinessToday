@@ -1,0 +1,58 @@
+<script lang="ts">
+	import { contractPackStageWords } from '$lib/data/contractPackRules';
+	import { formatUkDateTime } from '$lib/data/britishDate';
+	import { documentsHrefOf, documentOwnerKinds } from '$lib/projectDocuments/documentOwner';
+	import PackCommentList from '$lib/components/portal/contract/PackCommentList.svelte';
+	import { bracketedBlanks, type ContractPack } from '$lib/data/contractPack';
+	import { formatBritishDate } from '$lib/data/britishDate';
+	import { companyDetails } from '$lib/data/companyDetails';
+	import { documentDownloadHref } from '$lib/components/projects/documents/documentAddress';
+
+	let { pack, organisationId }: { pack: ContractPack; organisationId: string } = $props();
+
+	const owner = $derived({ kind: documentOwnerKinds.organisation, id: organisationId });
+	const documentsHref = $derived(documentsHrefOf(owner));
+	const countersignature = $derived(pack.countersignature);
+
+	function signedCopyHref(documentId: string, versionNumber: number): string {
+		return documentDownloadHref({ owner, id: documentId }, undefined, versionNumber);
+	}
+	const stage = $derived(contractPackStageWords[pack.stage]);
+	const preparedAt = $derived(formatUkDateTime(pack.preparedAt));
+	const sending = $derived(pack.sending);
+</script>
+
+<section class="flex flex-col gap-3">
+	<h2 class="font-display text-lg text-chalk">Latest pack — {stage}</h2>
+	<p class="text-sm text-chalk/60">Prepared {preparedAt}. Each document is kept on the organisation, where a change to this client's copy is kept as a new version.</p>
+	{#if sending !== null}
+		<p class="text-sm text-chalk/60">Last sent to {sending.sentTo} on {formatUkDateTime(sending.sentAt)}.</p>
+	{/if}
+	{#if countersignature !== null}
+		<p class="text-sm text-chalk/60">
+			Countersigned for {companyDetails.legalName} by {countersignature.signerName}, {countersignature.signerPosition}, on
+			{formatBritishDate(countersignature.signedOn)}. Each document's signed PDF is kept as its newest version.
+		</p>
+	{/if}
+	<ol class="flex flex-col gap-2">
+		{#each pack.documents as document (document.documentId)}
+			{@const openBlanks = document.openBlanks}
+			{@const signature = document.signature}
+			{@const signedCopyVersion = document.signedCopyVersion}
+			<li class="text-sm text-chalk/80">
+				<a href={`${documentsHref}/${document.documentId}`} class="underline hover:text-chalk">{document.title}</a>
+				<span class="text-chalk/50">, version {document.versionNumber}</span>
+				{#if signature !== null}
+					<span class="text-chalk/50"> — signed by {signature.signerName}</span>
+				{/if}
+				{#if signedCopyVersion !== null}
+					<a href={signedCopyHref(document.documentId, signedCopyVersion)} class="underline hover:text-chalk">— signed PDF</a>
+				{/if}
+				{#if openBlanks.length > 0}
+					<span class="text-signal"> — still open: {bracketedBlanks(openBlanks)}</span>
+				{/if}
+			</li>
+		{/each}
+	</ol>
+	<PackCommentList comments={pack.comments} />
+</section>

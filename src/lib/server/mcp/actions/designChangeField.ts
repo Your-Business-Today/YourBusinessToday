@@ -2,10 +2,12 @@ import { designReviewLimits, designReviewStageName } from '$lib/data/designRevie
 import { proseField, readOptionalText } from '../actionTypes';
 
 export const designChangeField = proseField(
-	'Only for a request that changes the system’s design, after you have pushed back and the person ' +
-		'still wants it: what it changes and why they need it, in their words. The task then waits as ' +
+	'Only for a request that falls outside or changes the system’s design patterns, or that needs an ' +
+		'infrastructure change or upgrade, costs money, or adds a new dependency (ours or a third ' +
+		'party’s), after you have pushed back and the person still wants it: what it changes, what it ' +
+		'costs or depends on, and why they need it, in their words. The task then waits as ' +
 		`${designReviewStageName}, and nothing builds it until YBT approves it. Leave out for a request ` +
-		'that extends the design in the shape it already has, and for a bug fix'
+		'that extends the design in the shape it already has, and for a bug fix that needs none of these'
 );
 
 export const designReasonField = proseField('Why, in a sentence or two, for whoever asked for it');

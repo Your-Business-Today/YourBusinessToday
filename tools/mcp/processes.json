@@ -64,6 +64,26 @@
       "commands": []
     },
     {
+      "tool": "run_tutorial_films",
+      "skill": "tutorial-films",
+      "title": "Film the tutorials",
+      "sentences": ["Film the tutorials", "make a tutorial video", "film a tutorial for <feature>", "remake the <name> tutorial"],
+      "summary": "Short narrated films of the site on made-up data, made with the kit's tools in tools/tutorial_videos (installed with --with-tutorial-films) and put in the project's tutorial library in Your Business Today. The film scripts are the repository's own; the films live only in Your Business Today.",
+      "branch": "the task's feature/<slug> branch",
+      "writes": ["tools/tutorial_videos/videos/", "tools/tutorial_videos/places.js", "tools/tutorial_videos/film-look.json", "Your Business Today tutorial library"],
+      "commands": []
+    },
+    {
+      "tool": "run_project_setup",
+      "skill": "project-setup",
+      "title": "Set up the project",
+      "sentences": ["Set up the project", "set up a new project", "add the project process", "set up Supabase and Vercel"],
+      "summary": "Set up a new project by its type, decided first: a business portal goes to the portal template (Blazor on Azure), a high volume SaaS to SvelteKit, Tailwind and TypeScript on Vercel with one Supabase project. Claude does the setup itself, through the CLIs signed in beside Claude Desktop or the Vercel and Supabase connectors, and follows the kit's steps rather than inventing any.",
+      "branch": "the task's feature/<slug> branch",
+      "writes": ["the site's skeleton", "PROJECT.md", "supabase/migrations/", "the Supabase project", "Vercel variables", "GitHub settings and the SUPABASE_DB_URL secret"],
+      "commands": []
+    },
+    {
       "tool": "read_code_quality_score",
       "skill": null,
       "title": "What is the code quality score?",
