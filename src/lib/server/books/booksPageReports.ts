@@ -7,23 +7,24 @@ import type { AskedPeriod } from '$lib/data/books/page/booksPeriodQuery';
 import type { BooksReports } from '$lib/data/books/page/booksStatements';
 import { findLedgerEntriesUpTo } from './ledgerEntries';
 import { findFinancialYear } from './financialYear';
+import { findReportedCostCentres } from './costCentreProjects';
+import { buildProfitByCostCentre } from '$lib/data/books/reports/profitByCostCentre';
 
 const everyCostCentre = null;
 
 /** The three statements over the days the books page shows, read from one pass over the entries, or why the days are refused. */
-export async function readBooksReports(
-	supabase: SupabaseClient,
-	organisationId: string,
-	asked: AskedPeriod,
-	today: string
-): Promise<BooksReports | string> {
+export async function readBooksReports(supabase: SupabaseClient, organisationId: string, asked: AskedPeriod, today: string): Promise<BooksReports | string> {
 	const financialYear = await findFinancialYear(supabase, organisationId);
 	const period = booksPagePeriod(asked, today, financialYear);
 	if (typeof period === 'string') return period;
-	const entries = await findLedgerEntriesUpTo(supabase, organisationId, period.end);
+	const [entries, costCentres] = await Promise.all([
+		findLedgerEntriesUpTo(supabase, organisationId, period.end),
+		findReportedCostCentres(supabase, organisationId)
+	]);
 	return {
 		period,
 		profitAndLoss: buildProfitAndLoss(entries, period, everyCostCentre),
+		profitByCostCentre: buildProfitByCostCentre(entries, period, costCentres),
 		balanceSheet: buildBalanceSheet(entries, period.end),
 		trialBalance: buildTrialBalance(entries, period.end)
 	};

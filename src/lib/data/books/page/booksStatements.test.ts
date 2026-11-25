@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildBalanceSheet } from '../reports/balanceSheet';
 import { buildProfitAndLoss } from '../reports/profitAndLoss';
+import { buildProfitByCostCentre } from '../reports/profitByCostCentre';
 import { buildTrialBalance } from '../reports/trialBalance';
 import { firstQuarterEntries } from '../reports/ledgerEntries.fixtures';
 import { validateReportPeriod, type ReportPeriod } from '../reports/reportPeriod';
@@ -13,10 +14,11 @@ const linkEntries: EntriesLinker = (accountCode, span) => `${accountCode}:${span
 const reports = {
 	period: june,
 	profitAndLoss: buildProfitAndLoss(firstQuarterEntries, june, null),
+	profitByCostCentre: buildProfitByCostCentre(firstQuarterEntries, june, []),
 	balanceSheet: buildBalanceSheet(firstQuarterEntries, june.end),
 	trialBalance: buildTrialBalance(firstQuarterEntries, june.end)
 };
-const [profitAndLoss, balanceSheet, trialBalance] = booksStatementsOf(reports, linkEntries);
+const [profitAndLoss, balanceSheet, trialBalance, profitByProject] = booksStatementsOf(reports, linkEntries);
 
 function rowLabelled(rows: StatementRow[], label: string): StatementRow | undefined {
 	return rows.find((row) => row.label === label);
@@ -51,5 +53,7 @@ describe('booksStatementsOf', () => {
 	it('names its statements in the order the page shows them, with their columns', () => {
 		expect([profitAndLoss.title, balanceSheet.title, trialBalance.title]).toEqual(['Profit and loss', 'Balance sheet', 'Trial balance']);
 		expect(trialBalance.figureLabels).toEqual(['Debit', 'Credit']);
+		expect(profitByProject.title).toBe('Profit by project');
+		expect(profitByProject.figureLabels).toEqual(['Income', 'Costs', 'Net profit', 'Net profit, year to date']);
 	});
 });
