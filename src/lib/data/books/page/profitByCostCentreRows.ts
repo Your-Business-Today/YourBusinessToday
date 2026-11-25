@@ -22,7 +22,8 @@ function lineRows(line: CostCentreProfitLine): StatementRow[] {
 }
 
 function sharedPartRow(lineKey: string, part: SharedCostPart): StatementRow {
-	const costs = { amount: part.costs.period, href: null };
+	const { costs: partCosts } = part;
+	const costs = { amount: partCosts.period, href: null };
 	const key = `${lineKey}-${RowKeys.sharedPart}-${part.costCentreId}`;
 	return { key, label: `of which its share of ${part.label}`, href: null, weight: StatementRowWeights.line, figures: [blank, costs, blank, blank] };
 }
@@ -33,7 +34,8 @@ function costCentreRow(key: string, profit: CostCentreProfit): StatementRow {
 }
 
 function hasAnyFigure(profit: CostCentreProfit): boolean {
-	return figuresOf(profit).some((amount) => amount !== 0) || profit.costs.yearToDate !== 0;
+	const { costs } = profit;
+	return figuresOf(profit).some((amount) => amount !== 0) || costs.yearToDate !== 0;
 }
 
 function figuresOf(profit: CostCentreProfit): number[] {

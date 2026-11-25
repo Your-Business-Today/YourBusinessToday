@@ -6,7 +6,7 @@ import { leftMonthRefusal, memberMonthsRefusal, spellsOverlap } from '$lib/data/
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { projectOfOrganisation } from './costCentreProjectOwner';
 import { CostShareTables, costShareMemberColumns, fromCostShareMemberRow, type CostShareMemberRow } from './costShares';
-import { findCostShareOfCostCentre, monthColumn } from './costShareWrites';
+import { findCostShare, monthColumn } from './costShareWrites';
 
 /** What a project is to share a cost from and to: the cost centre shared, the project, the month it joins and the month it leaves, if any. */
 export type CostShareMemberRequest = { costCentreId: unknown; projectId: unknown; joinedMonth: unknown; leftMonth?: unknown };
@@ -16,11 +16,12 @@ export async function addCostShareMember(supabase: SupabaseClient, organisationI
 	const leftMonth = request.leftMonth === undefined || request.leftMonth === '' ? null : request.leftMonth;
 	refuseWhen(memberMonthsRefusal(request.joinedMonth, leftMonth));
 	const spell = { joinedMonth: request.joinedMonth as MonthKey, leftMonth: leftMonth as MonthKey | null };
-	const share = await findCostShareOfCostCentre(supabase, organisationId, request.costCentreId);
+	const share = await findCostShare(supabase, organisationId, request.costCentreId);
 	const project = await projectOfOrganisation(supabase, organisationId, request.projectId);
 	if (project === null) throw new BooksRefusal('projectId is needed: the project that shares the cost, by its id as list_projects gives it.');
 	const spells = await spellsOfProject(supabase, organisationId, share.id, project.id);
-	if (spells.some((existing) => spellsOverlap(existing, spell)))
+	const isAlreadySharing = spells.some((existing) => spellsOverlap(existing, spell));
+	if (isAlreadySharing)
 		throw new BooksRefusal(`Project ${project.name} already shares this cost in some of those months; set_cost_share_member_leaving ends a spell.`);
 	const row = {
 		organisation_id: organisationId,
@@ -48,8 +49,8 @@ export async function setCostShareMemberLeaving(
 	refuseWhen(carriesOn ? null : leftMonthRefusal(member.joinedMonth, leftMonth));
 	const spell = { joinedMonth: member.joinedMonth, leftMonth: carriesOn ? null : (leftMonth as MonthKey) };
 	const otherSpells = await otherSpellsOf(supabase, organisationId, memberRow);
-	if (otherSpells.some((existing) => spellsOverlap(existing, spell)))
-		throw new BooksRefusal('The project shares this cost again in a later spell; it cannot carry on into the months of that spell.');
+	const meetsLaterSpell = otherSpells.some((existing) => spellsOverlap(existing, spell));
+	if (meetsLaterSpell) throw new BooksRefusal('The project shares this cost again in a later spell; it cannot carry on into the months of that spell.');
 	const { data, error } = await supabase
 		.from(CostShareTables.members)
 		.update({ left_month: carriesOn ? null : monthColumn(leftMonth as MonthKey), updated_at: new Date().toISOString() })

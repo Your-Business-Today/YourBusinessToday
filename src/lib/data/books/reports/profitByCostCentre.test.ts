@@ -66,7 +66,8 @@ describe('buildProfitByCostCentre with a shared cost', () => {
 		const report = buildProfitByCostCentre(apportioned, june, [shop, office, apple], { asBooked, sharedCostCentres: [apple] });
 		expect(report.lines.map((line) => line.label)).toEqual(['Shop (Carp Mania)', 'Office']);
 		expect(report.lines[0].sharedCosts).toEqual([{ costCentreId: apple.id, label: apple.label, costs: { period: 10, yearToDate: 10 } }]);
-		expect(report.sharedTiming.costs).toEqual({ period: 110, yearToDate: 110 });
-		expect(report.total.costs.period).toBe(460.1);
+		const { sharedTiming, total } = report;
+		expect(sharedTiming.costs).toEqual({ period: 110, yearToDate: 110 });
+		expect(total.costs).toMatchObject({ period: 460.1 });
 	});
 });

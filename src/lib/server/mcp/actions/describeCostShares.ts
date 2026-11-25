@@ -8,18 +8,19 @@ const keptAgainstNoProject = 'kept against no project';
 
 export function describeCostShares(organisationName: string, reading: CostSharesReading): string {
 	const heading = `The shared costs of ${organisationName}, with what each project took of each in the twelve months to ${describeMonth(reading.toMonth)}:`;
-	if (reading.shares.length === 0) return `${heading}\n- No shared costs yet: set_cost_share shares a cost centre's lines among projects.`;
-	return [heading, ...reading.shares.flatMap((share) => shareLines(share, reading))].join('\n');
+	const { shares } = reading;
+	if (shares.length === 0) return `${heading}\n- No shared costs yet: set_cost_share shares a cost centre's lines among projects.`;
+	return [heading, ...shares.flatMap((share) => shareLines(share, reading))].join('\n');
 }
 
 function shareLines(share: CostShareReading, reading: CostSharesReading): string[] {
-	const { monthsCovered, members } = share.share;
+	const { monthsCovered, members, costCentreId } = share.share;
 	const covering = monthsCovered === 1 ? 'each line covers its own month' : `each line covers ${monthsCovered} months from the month it is dated`;
 	const memberLines =
 		members.length === 0 ? ['  - shared by no project yet: add_cost_share_member adds one'] : members.map((member) => `  - ${memberText(member, reading)}`);
-	const monthLines = share.months.filter((month) => month.parts.length > 0).map((month) => `  - ${monthText(month, reading)}`);
+	const monthLines = share.months.filter(hasParts).map((month) => `  - ${monthText(month, reading)}`);
 	const splitLines = monthLines.length === 0 ? ['  - nothing to split in these months'] : monthLines;
-	return ['', `${share.label} (cost centre ${share.share.costCentreId}), ${covering}:`, ...memberLines, '  Split:', ...splitLines];
+	return ['', `${share.label} (cost centre ${costCentreId}), ${covering}:`, ...memberLines, '  Split:', ...splitLines];
 }
 
 function memberText(member: CostShareMember, reading: CostSharesReading): string {
@@ -34,4 +35,9 @@ function monthText(month: CostShareMonth, reading: CostSharesReading): string {
 		return `${receiver} ${formatPoundsAndPence(part.amount)}`;
 	});
 	return `${describeMonth(month.month)}: ${parts.join(', ')}`;
+}
+
+function hasParts(month: CostShareMonth): boolean {
+	const { parts } = month;
+	return parts.length > 0;
 }

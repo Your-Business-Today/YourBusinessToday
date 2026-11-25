@@ -25,7 +25,7 @@ export async function setCostShare(supabase: SupabaseClient, organisationId: str
 }
 
 /** The organisation's shared cost kept in the cost centre, or a refusal saying how to share it first. */
-export async function findCostShareOfCostCentre(supabase: SupabaseClient, organisationId: string, costCentreId: unknown): Promise<CostShareRow> {
+export async function findCostShare(supabase: SupabaseClient, organisationId: string, costCentreId: unknown): Promise<CostShareRow> {
 	refuseWhen(validateRecordId('cost centre', String(costCentreId ?? '')));
 	const { data, error } = await supabase
 		.from(CostShareTables.shares)

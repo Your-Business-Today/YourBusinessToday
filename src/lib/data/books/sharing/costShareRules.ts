@@ -7,7 +7,8 @@ export function monthsCoveredRefusal(candidate: unknown): string | null {
 	const isWholeMonths = Number.isInteger(candidate);
 	const isWithinLimits = isWholeMonths && (candidate as number) >= fewestMonthsCovered && (candidate as number) <= mostMonthsCovered;
 	if (isWithinLimits) return null;
-	return `monthsCovered is a whole number of months from ${fewestMonthsCovered} to ${mostMonthsCovered}, such as 12 for a yearly licence; ${JSON.stringify(candidate)} was given.`;
+	const limits = `from ${fewestMonthsCovered} to ${mostMonthsCovered}, such as 12 for a yearly licence`;
+	return `monthsCovered is a whole number of months ${limits}; ${JSON.stringify(candidate)} was given.`;
 }
 
 /** Why the months a member shares from and to cannot be kept, or null when they can: real months, the last no earlier than the first. */

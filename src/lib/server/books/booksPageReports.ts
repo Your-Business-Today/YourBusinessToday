@@ -16,12 +16,12 @@ export async function readBooksReports(supabase: SupabaseClient, organisationId:
 	const financialYear = await findFinancialYear(supabase, organisationId);
 	const period = booksPagePeriod(asked, today, financialYear);
 	if (typeof period === 'string') return period;
-	const shared = await readSharedLedgerUpTo(supabase, organisationId, period.end);
-	const entries = shared.sharing.asBooked;
+	const { entries: apportioned, costCentres, sharing } = await readSharedLedgerUpTo(supabase, organisationId, period.end);
+	const entries = sharing.asBooked;
 	return {
 		period,
 		profitAndLoss: buildProfitAndLoss(entries, period, everyCostCentre),
-		profitByCostCentre: buildProfitByCostCentre(shared.entries, period, shared.costCentres, shared.sharing),
+		profitByCostCentre: buildProfitByCostCentre(apportioned, period, costCentres, sharing),
 		balanceSheet: buildBalanceSheet(entries, period.end),
 		trialBalance: buildTrialBalance(entries, period.end)
 	};
