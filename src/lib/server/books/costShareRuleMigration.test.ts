@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { CostShareMembersBy, liveProjectStatuses } from '$lib/data/books/sharing/costShareMembersBy';
-import { tablesKeptByOrganisation } from '$lib/server/organisationExport/tablesKeptByOrganisation';
+import { organisationExportTables } from '$lib/server/organisationExport/organisationExportTables';
 import { projectStatusChangesTable } from './costShareStatusMembers';
 
 const migration = readFileSync('migrations/0292_cost_shares_by_project_status.sql', 'utf8');
@@ -22,7 +22,7 @@ describe('migration 0292, shared costs kept by rule and the history of each proj
 
 	it('is read by the server alone and goes out with the organisation’s data', () => {
 		expect(statements).toContain(`alter table public.${projectStatusChangesTable} enable row level security;`);
-		expect(tablesKeptByOrganisation).toContain(projectStatusChangesTable);
+		expect(organisationExportTables.map((table) => table.tableName)).toContain(projectStatusChangesTable);
 		expect(statements).not.toMatch(/create policy/);
 	});
 

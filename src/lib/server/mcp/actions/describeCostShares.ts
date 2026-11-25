@@ -16,9 +16,9 @@ export function describeCostShares(organisationName: string, reading: CostShares
 }
 
 function shareLines(share: CostShareReading, reading: CostSharesReading): string[] {
-	const { monthsCovered, members, costCentreId } = share.share;
+	const { monthsCovered, members, costCentreId, membersBy } = share.share;
 	const covering = monthsCovered === 1 ? 'each line covers its own month' : `each line covers ${monthsCovered} months from the month it is dated`;
-	const isByRule = share.share.membersBy === CostShareMembersBy.liveProjects;
+	const isByRule = membersBy === CostShareMembersBy.liveProjects;
 	const ruleLine = isByRule ? ['  - shared by every live project, month by month, from its status:'] : [];
 	const noMemberLine = isByRule ? '  - no project has been live' : '  - shared by no project yet: add_cost_share_member adds one';
 	const memberLines = [...ruleLine, ...(members.length === 0 ? [noMemberLine] : members.map((member) => `  - ${memberText(member, reading)}`))];
