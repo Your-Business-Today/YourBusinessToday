@@ -3,15 +3,32 @@ import { accountEntriesPathOf } from '$lib/data/books/page/booksPaths';
 import { booksStatementsOf } from '$lib/data/books/page/booksStatements';
 import type { EntriesLinker } from '$lib/data/books/page/statementRows';
 import { ukClockAt } from '$lib/data/ukClock';
+import { requireOrganisationModule } from '$lib/server/auth/requireOrganisationModule';
 import { readBooksReports } from '$lib/server/books/booksPageReports';
-import type { PageServerLoad } from './$types';
+import { closeBooksFromForm, readBooksClosingStanding } from '$lib/server/books/booksClosingPage';
+import { supabaseServiceClient } from '$lib/server/payments/supabaseServiceClient';
+import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals, parent, url }) => {
+/** The layout has already let the person into the organisation's books, so the service client may read its shared costs and closes. */
+export const load: PageServerLoad = async ({ parent, url }) => {
 	const { booksOrganisation } = await parent();
 	const asked = askedPeriodOf(url.searchParams);
 	const today = ukClockAt(new Date()).date;
-	const reports = await readBooksReports(locals.supabase, booksOrganisation.id, asked, today);
-	if (typeof reports === 'string') return { asked, period: null, statements: [], refusal: reports };
+	const supabase = supabaseServiceClient();
+	const [reports, closing] = await Promise.all([
+		readBooksReports(supabase, booksOrganisation.id, asked, today),
+		readBooksClosingStanding(supabase, booksOrganisation.id, today)
+	]);
+	if (typeof reports === 'string') return { asked, period: null, statements: [], refusal: reports, closing };
 	const linkEntries: EntriesLinker = (accountCode, span) => accountEntriesPathOf(booksOrganisation.id, accountCode, span);
-	return { asked, period: reports.period, statements: booksStatementsOf(reports, linkEntries), refusal: null };
+	return { asked, period: reports.period, statements: booksStatementsOf(reports, linkEntries), refusal: null, closing };
+};
+
+export const actions: Actions = {
+	closeMonth: async ({ locals, params, request }) => {
+		const { user, organisation } = await requireOrganisationModule(locals, params.organisationId, 'books');
+		const today = ukClockAt(new Date()).date;
+		const closer = { accountId: user.id };
+		return closeBooksFromForm(supabaseServiceClient(), organisation.id, await request.formData(), closer, today);
+	}
 };
