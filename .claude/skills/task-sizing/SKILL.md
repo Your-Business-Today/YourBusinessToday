@@ -24,7 +24,7 @@ Record them with `record_complexity`. YBT answers with the points the formula gi
 
 ## Split before it is sized again
 
-Anything that comes to more than 13 points is more than one session's work. Split it before sizing it again: one subtask per step a session can finish and tie off, each with `create_task` (`parentTaskId` the task, `waitsForTaskId` the step before it) and each sized in turn with this skill. Record the split on the parent with `record_lifecycle_step` (`considered`, outcome `needs_splitting`). A task of 13 points is sized as it is and goes to the model whose range holds 13.
+Anything that comes to more than 13 points is more than one session's work. A feature raised with its chunks as subtasks is sized chunk by chunk, each chunk on its own. Split anything else before sizing it again, always into subtasks, never new top-level tasks: one subtask per step a session can finish and tie off, each with `create_task` (`parentTaskId` the task, `waitsForTaskId` the step before it) and each sized in turn with this skill. Record the split on the parent with `record_lifecycle_step` (`considered`, outcome `needs_splitting`). A task of 13 points is sized as it is and goes to the model whose range holds 13.
 
 ## Copying a pattern is the local model's work
 
