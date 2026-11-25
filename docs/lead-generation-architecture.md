@@ -235,7 +235,7 @@ only then drops the moved columns. `client_id_for_account()` is untouched.
 | `getPersonEventsForClients` | their ledger across companies |
 | `getPeopleForClient` | a company's people and what else each owns |
 | `listGroupParents`, `getChildrenOfClient` | the groups to choose from, and a group's companies |
-| `searchOfficers`, `getOfficerAppointments`, `getCompanyOfficers` | Companies House |
+| `searchOfficers`, `getOfficerAppointments`, `getOfficersOfCompany` | Companies House |
 
 Companies House lives in `src/lib/server/companiesHouse/`: the advanced company search
 that was already there, `GET /search/officers`, `GET /officers/{id}/appointments` (active

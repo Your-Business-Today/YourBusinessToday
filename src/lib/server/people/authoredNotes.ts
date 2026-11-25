@@ -6,7 +6,7 @@ export type AuthoredNote = PersonNote & { authorName: string };
 
 const unknownAuthor = 'Someone';
 
-export async function getAuthoredNotes(
+export async function getAuthoredNotesForPeople(
 	supabase: SupabaseClient,
 	personIds: string[]
 ): Promise<AuthoredNote[]> {
