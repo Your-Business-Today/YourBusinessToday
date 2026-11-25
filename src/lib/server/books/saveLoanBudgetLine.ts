@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { LoanBudgetLine, LoanBudgetLineSettings } from '$lib/data/books/loanBudget/loanBudget';
 import { validateLoanBudgetLine, validateLoanBudgetLineChange } from '$lib/data/books/loanBudget/loanBudgetLineRules';
 import { overBudgetRefusal } from '$lib/data/books/loanBudget/loanBudgetTotals';
+import { belowSpentRefusal } from '$lib/data/books/loanBudget/loanLineSpending';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { LoanBudgetTables } from './loanBudgetRecord';
 import { findLoanBudget, findLoanBudgetLine } from './loanBudgets';
@@ -20,17 +21,22 @@ export async function addLoanBudgetLine(supabase: SupabaseClient, organisationId
 	const row = { organisation_id: organisationId, budget_id: budget.id, ...toLineColumns(settings) };
 	const { data, error } = await supabase.from(LoanBudgetTables.lines).insert(row).select('id').single();
 	if (error !== null) throw error;
-	return { ...settings, id: (data as { id: string }).id, approval: null };
+	return { ...settings, id: (data as { id: string }).id, approval: null, spends: [] };
 }
 
 /** Changes only what was given of a line; an approved line goes back to awaiting approval, as what was approved has changed. */
-export async function changeLoanBudgetLine(supabase: SupabaseClient, organisationId: string, fields: Record<string, unknown>): Promise<LoanBudgetLineCorrection> {
+export async function changeLoanBudgetLine(
+	supabase: SupabaseClient,
+	organisationId: string,
+	fields: Record<string, unknown>
+): Promise<LoanBudgetLineCorrection> {
 	const change = validateLoanBudgetLineChange(fields);
 	if (typeof change === 'string') throw new BooksRefusal(change);
 	const { budget, line } = await findLoanBudgetLine(supabase, organisationId, fields.budgetLineId);
 	const isAmountChanged = change.amount !== undefined;
 	if (isAmountChanged) {
 		refuseWhen(overBudgetRefusal(budget, change.amount as number, line.id));
+		refuseWhen(belowSpentRefusal(line, change.amount as number));
 	}
 	const columns = { ...toLineColumns(change), ...noApproval, updated_at: new Date().toISOString() };
 	const { error } = await supabase.from(LoanBudgetTables.lines).update(columns).eq('organisation_id', organisationId).eq('id', line.id);

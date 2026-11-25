@@ -44,3 +44,11 @@ export const newLoanDrawFields = {
 export const newBudgetLineFields = { loanBudgetId: loanBudgetIdField, ...lineFields('') };
 
 export const budgetLineChangeFields = { budgetLineId: budgetLineIdField, ...lineFields(keepWhatIsThere) };
+
+export const newLoanSpendFields = {
+	budgetLineId: textField('The approved budget line the money was spent from, by its id as read_loan_budgets gives it'),
+	spentOn: textField('The day the money was spent, written as 2026-12-03'),
+	amount: amountField('How much was spent, in pounds'),
+	description: textField(`What the money was spent on, at most ${longestTitle} characters, such as Two laptops from Dell`),
+	expenseId: textField('The cost in the books this spend matches, by its id as list_expenses gives it; leave out when there is none')
+};

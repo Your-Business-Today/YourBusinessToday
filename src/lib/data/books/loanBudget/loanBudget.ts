@@ -28,6 +28,11 @@ export type LoanBudgetLineSettings = { purpose: string; amount: number; expected
 /** Who approved a line and when; a line is spent from only once a director has approved it. */
 export type LineApproval = { approvedByName: string; approvedAt: string };
 
-export type LoanBudgetLine = LoanBudgetLineSettings & { id: string; approval: LineApproval | null };
+/** Money spent from a line: the day, how much, what it was, and the cost in the books it matches where there is one. */
+export type LoanSpendSettings = { spentOn: string; amount: number; description: string; expenseId: string | null };
+
+export type LoanSpend = LoanSpendSettings & { id: string };
+
+export type LoanBudgetLine = LoanBudgetLineSettings & { id: string; approval: LineApproval | null; spends: LoanSpend[] };
 
 export type LoanBudget = LoanBudgetSettings & { id: string; draws: LoanDraw[]; lines: LoanBudgetLine[] };

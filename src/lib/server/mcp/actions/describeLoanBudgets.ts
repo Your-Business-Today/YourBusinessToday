@@ -1,6 +1,8 @@
-import type { LoanBudget, LoanBudgetLine, LoanDraw } from '$lib/data/books/loanBudget/loanBudget';
+import type { LoanBudget, LoanBudgetLine, LoanDraw, LoanSpend } from '$lib/data/books/loanBudget/loanBudget';
 import { totalsOf } from '$lib/data/books/loanBudget/loanBudgetTotals';
 import { approvalInWords } from '$lib/data/books/loanBudget/approvalInWords';
+import { spendingOf } from '$lib/data/books/loanBudget/loanLineSpending';
+import { formatBritishDate } from '$lib/data/britishDate';
 import { formatPoundsAndPence } from '$lib/data/books/money';
 import { describeMonth } from '$lib/data/books/monthKey';
 
@@ -16,15 +18,25 @@ export function describeLoanBudget(budget: LoanBudget): string {
 	return [
 		`${budget.title}: ${formatPoundsAndPence(budget.loanAmount)}, repaid ${repayment} (id ${budget.id}).${budget.notes === '' ? '' : ` Notes: ${budget.notes}`}`,
 		`Drawn ${formatPoundsAndPence(totals.drawn)}, ${formatPoundsAndPence(totals.undrawn)} still to draw${describeDraws(budget.draws)}.`,
-		`Budgeted ${formatPoundsAndPence(totals.budgeted)}, of which ${formatPoundsAndPence(totals.approved)} is approved; ${formatPoundsAndPence(totals.unbudgeted)} is not yet budgeted.`,
+		`Budgeted ${formatPoundsAndPence(totals.budgeted)}, of which ${formatPoundsAndPence(totals.approved)} is approved and ${formatPoundsAndPence(totals.spent)} spent; ${formatPoundsAndPence(totals.unbudgeted)} is not yet budgeted.`,
 		...budget.lines.map(describeBudgetLine)
 	].join('\n');
 }
 
-/** One line as the connector names it, with whether it may be spent from yet. */
+/** One line as the connector names it, with whether it may be spent from yet, what has been spent and what is left. */
 export function describeBudgetLine(line: LoanBudgetLine): string {
-	const standing = line.approval === null ? 'awaiting a director’s approval, so nothing may be spent from it yet' : `approved by ${approvalInWords(line.approval)}`;
-	return `- ${line.purpose}: ${formatPoundsAndPence(line.amount)}, expected return: ${line.expectedReturn}; ${standing} (id ${line.id}).`;
+	const standing =
+		line.approval === null ? 'awaiting a director’s approval, so nothing may be spent from it yet' : `approved by ${approvalInWords(line.approval)}`;
+	const { spent, left } = spendingOf(line);
+	const spending = `${formatPoundsAndPence(spent)} spent, ${formatPoundsAndPence(left)} left`;
+	const summary = `- ${line.purpose}: ${formatPoundsAndPence(line.amount)}, ${spending}, expected return: ${line.expectedReturn}; ${standing} (id ${line.id}).`;
+	return [summary, ...line.spends.map(describeLoanSpend)].join('\n');
+}
+
+/** One spend from a line: the day, how much, what it was, and the cost it matches when there is one. */
+export function describeLoanSpend(spend: LoanSpend): string {
+	const matched = spend.expenseId === null ? '' : `, matching cost ${spend.expenseId}`;
+	return `  - ${formatBritishDate(spend.spentOn)}: ${formatPoundsAndPence(spend.amount)} on ${spend.description}${matched} (id ${spend.id}).`;
 }
 
 function describeDraws(draws: LoanDraw[]): string {
