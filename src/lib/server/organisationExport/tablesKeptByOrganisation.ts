@@ -46,6 +46,8 @@ export const tablesKeptByOrganisation = [
 	'business_brain_chatbot_questions',
 	'business_brain_chatbot_answers',
 	'business_brain_chatbot_readings',
+	'business_brain_chatbot_record_keeping',
+	'business_brain_chatbot_record_deletions',
 	'company_context_versions',
 	'boardroom_rooms',
 	'boardroom_directors',
