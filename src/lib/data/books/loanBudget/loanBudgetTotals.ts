@@ -2,7 +2,7 @@ import { differenceOf, formatPoundsAndPence, sumMoney, toPence } from '../money'
 import type { LoanBudget } from './loanBudget';
 
 /** What the lines and the draws of a budget come to, and what is left of the loan for each. */
-export type LoanBudgetTotals = { budgeted: number; approved: number; unbudgeted: number; drawn: number; undrawn: number };
+export type LoanBudgetTotals = { budgeted: number; approved: number; unbudgeted: number; drawn: number; undrawn: number; spent: number };
 
 /** A part of the loan held against it: a line budgeted or a draw, by its id and amount. */
 type LoanShare = { id: string; amount: number };
@@ -11,7 +11,8 @@ export function totalsOf(budget: LoanBudget): LoanBudgetTotals {
 	const budgeted = sumMoney(budget.lines.map((line) => line.amount));
 	const approved = sumMoney(budget.lines.filter((line) => line.approval !== null).map((line) => line.amount));
 	const drawn = sumMoney(budget.draws.map((draw) => draw.amount));
-	return { budgeted, approved, unbudgeted: differenceOf(budget.loanAmount, budgeted), drawn, undrawn: differenceOf(budget.loanAmount, drawn) };
+	const spent = sumMoney(budget.lines.flatMap((line) => line.spends).map((spend) => spend.amount));
+	return { budgeted, approved, unbudgeted: differenceOf(budget.loanAmount, budgeted), drawn, undrawn: differenceOf(budget.loanAmount, drawn), spent };
 }
 
 /** Why the lines would come to more than the loan once one line is the amount given, or null when they fit. */

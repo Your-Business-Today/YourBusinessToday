@@ -23,8 +23,8 @@ const budget: LoanBudget = {
 	notes: '',
 	draws: [{ id: 'first', month: '2026-12', amount: 10000 }],
 	lines: [
-		{ id: 'laptops', purpose: 'Laptops', amount: 3000, expectedReturn: 'Two more builders', approval: nigelsApproval },
-		{ id: 'ads', purpose: 'Advertising', amount: 5000, expectedReturn: 'Three new clients', approval: null }
+		{ id: 'laptops', purpose: 'Laptops', amount: 3000, expectedReturn: 'Two more builders', approval: nigelsApproval, spends: [] },
+		{ id: 'ads', purpose: 'Advertising', amount: 5000, expectedReturn: 'Three new clients', approval: null, spends: [] }
 	]
 };
 
@@ -50,7 +50,7 @@ describe('a loan budget checked against its columns', () => {
 
 describe('what a loan budget comes to', () => {
 	it('adds up its lines, what is approved and what is drawn', () => {
-		expect(totalsOf(budget)).toEqual({ budgeted: 8000, approved: 3000, unbudgeted: 12000, drawn: 10000, undrawn: 10000 });
+		expect(totalsOf(budget)).toEqual({ budgeted: 8000, approved: 3000, unbudgeted: 12000, drawn: 10000, undrawn: 10000, spent: 0 });
 	});
 
 	it('refuses lines or draws that would come to more than the loan, saying what is left', () => {

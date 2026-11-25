@@ -23,6 +23,7 @@ export const tablesKeptByOrganisation = [
 	'books_loan_budgets',
 	'books_loan_draws',
 	'books_loan_budget_lines',
+	'books_loan_spends',
 	'books_billing_schedules',
 	'books_billing_schedule_lines',
 	'books_deletions',

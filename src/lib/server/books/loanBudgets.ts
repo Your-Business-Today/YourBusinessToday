@@ -14,25 +14,34 @@ import {
 	type LoanBudgetRow,
 	type LoanDrawRow
 } from './loanBudgetRecord';
+import { fromLoanSpendRow, loanSpendColumns, loanSpendsTable, type LoanSpendRow } from './loanSpendRecord';
 
 /** Every loan budget in the organisation's books, by title, each with its draws by month and its lines as they were added. */
 export async function findLoanBudgets(supabase: SupabaseClient, organisationId: string): Promise<LoanBudget[]> {
-	const [budgets, draws, lines] = await Promise.all([
+	const [budgets, draws, lines, spends] = await Promise.all([
 		supabase.from(LoanBudgetTables.budgets).select(loanBudgetColumns).eq('organisation_id', organisationId).order('title'),
 		supabase.from(LoanBudgetTables.draws).select(loanDrawColumns).eq('organisation_id', organisationId).order('month'),
-		supabase.from(LoanBudgetTables.lines).select(loanBudgetLineColumns).eq('organisation_id', organisationId).order('created_at')
+		supabase.from(LoanBudgetTables.lines).select(loanBudgetLineColumns).eq('organisation_id', organisationId).order('created_at'),
+		supabase.from(loanSpendsTable).select(loanSpendColumns).eq('organisation_id', organisationId).order('spent_on')
 	]);
-	const failure = budgets.error ?? draws.error ?? lines.error;
+	const failure = budgets.error ?? draws.error ?? lines.error ?? spends.error;
 	if (failure !== null) throw failure;
 	const drawRows = draws.data as LoanDrawRow[];
-	const lineRows = lines.data as LoanBudgetLineRow[];
+	const lineRows = linesWithSpends(lines.data as LoanBudgetLineRow[], spends.data as LoanSpendRow[]);
 	return (budgets.data as LoanBudgetRow[]).map((row) =>
 		fromLoanBudgetRow(
 			row,
 			drawRows.filter((draw) => draw.budget_id === row.id).map(fromLoanDrawRow),
-			lineRows.filter((line) => line.budget_id === row.id).map(fromLoanBudgetLineRow)
+			lineRows.filter((held) => held.budgetId === row.id).map((held) => held.budgetLine)
 		)
 	);
+}
+
+function linesWithSpends(lineRows: LoanBudgetLineRow[], spendRows: LoanSpendRow[]) {
+	return lineRows.map((row) => {
+		const spends = spendRows.filter((spend) => spend.line_id === row.id).map(fromLoanSpendRow);
+		return { budgetId: row.budget_id, budgetLine: fromLoanBudgetLineRow(row, spends) };
+	});
 }
 
 /** The organisation's loan budget with the id, or a refusal naming the reading that lists them. */
