@@ -18,6 +18,13 @@
 		<div class="flex flex-wrap items-baseline justify-between gap-3">
 			<PageTitle>Client documents</PageTitle>
 			<a
+				href="/admin/documents/client-packs"
+				class="rounded-full border border-chalk/30 px-5 py-2 font-display text-sm text-chalk
+					transition hover:bg-chalk hover:text-night"
+			>
+				Prepare a client's pack
+			</a>
+			<a
 				href="/admin/documents/pack"
 				data-sveltekit-reload
 				class="rounded-full border border-signal/60 px-5 py-2 font-display text-sm text-signal

@@ -10,7 +10,7 @@ const quotedList = (values: readonly string[]) => values.map((value) => `'${valu
 
 const anItem = { title: 'Hosting', direction: 'out', amount: 20, repeats: 'monthly', firstMonth: '2026-12', lastMonth: null, notes: '' } as const;
 
-describe('migration 0283, the items of the cashflow forecast, and the limits the connector checks', () => {
+describe('migration 0284, the items of the cashflow forecast, and the limits the connector checks', () => {
 	it('holds the same lengths and choices as the rules, with every column the site writes', () => {
 		expect(statements).toContain(`check (char_length(title) between 1 and ${CashflowItemLimits.longestTitle} and btrim(title) = title)`);
 		expect(statements).toContain(`check (char_length(notes) <= ${CashflowItemLimits.longestNotes})`);
