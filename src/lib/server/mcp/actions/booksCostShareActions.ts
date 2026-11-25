@@ -50,14 +50,15 @@ export const booksCostShareActions: McpAction[] = [
 				costCentreId: costCentreIdField,
 				projectId: costShareFields.projectId,
 				joinedMonth: costShareFields.joinedMonth,
-				leftMonth: costShareFields.leftMonth
+				leftMonth: costShareFields.leftMonth,
+				weight: costShareFields.weight
 			},
 			['organisationId', 'costCentreId', 'projectId', 'joinedMonth']
 		),
 		run: async (caller, input, organisation) =>
 			answerOrRefusal(booksRefusalOpenings.saving, async () => {
-				const { costCentreId, projectId, joinedMonth, leftMonth } = input;
-				const member = await addCostShareMember(caller.supabase, organisation.id, { costCentreId, projectId, joinedMonth, leftMonth });
+				const { costCentreId, projectId, joinedMonth, leftMonth, weight } = input;
+				const member = await addCostShareMember(caller.supabase, organisation.id, { costCentreId, projectId, joinedMonth, leftMonth, weight });
 				return `Project ${member.projectId} shares cost centre ${input.costCentreId} from ${describeMonth(member.joinedMonth)} and ${leavingText(member.leftMonth)} (member ${member.id}).`;
 			})
 	}),

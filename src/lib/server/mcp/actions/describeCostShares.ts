@@ -1,6 +1,7 @@
 import { formatPoundsAndPence } from '$lib/data/books/money';
 import { describeMonth } from '$lib/data/books/monthKey';
 import type { CostShareMember } from '$lib/data/books/sharing/costShare';
+import { equalWeight } from '$lib/data/books/sharing/costShareWeights';
 import { CostShareMembersBy } from '$lib/data/books/sharing/costShareMembersBy';
 import { beforeTheHistoryBegan } from '$lib/data/books/sharing/statusSpells';
 import type { CostShareMonth } from '$lib/data/books/sharing/costShareSplit';
@@ -31,7 +32,8 @@ function memberText(member: CostShareMember, reading: CostSharesReading): string
 	const name = member.projectId === null ? 'a project since deleted' : (reading.projectNames.get(member.projectId) ?? member.projectId);
 	const until = member.leftMonth === null ? 'and carries on' : `to ${describeMonth(member.leftMonth)}`;
 	const from = member.joinedMonth === beforeTheHistoryBegan ? 'from before its status was kept' : `from ${describeMonth(member.joinedMonth)}`;
-	return `${name} shares it ${from} ${until} (member ${member.id})`;
+	const weighted = member.weight === undefined || member.weight === equalWeight ? '' : `, weight ${member.weight}`;
+	return `${name} shares it ${from} ${until}${weighted} (member ${member.id})`;
 }
 
 function monthText(month: CostShareMonth, reading: CostSharesReading): string {

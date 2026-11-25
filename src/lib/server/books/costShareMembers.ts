@@ -3,6 +3,7 @@ import { validateRecordId } from '$lib/data/isUuid';
 import type { MonthKey } from '$lib/data/books/monthKey';
 import type { CostShareMember } from '$lib/data/books/sharing/costShare';
 import { CostShareMembersBy } from '$lib/data/books/sharing/costShareMembersBy';
+import { equalWeight, weightRefusal } from '$lib/data/books/sharing/costShareWeights';
 import { leftMonthRefusal, memberMonthsRefusal, spellsOverlap } from '$lib/data/books/sharing/costShareRules';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { projectOfOrganisation } from './costCentreProjectOwner';
@@ -10,12 +11,14 @@ import { CostShareTables, costShareMemberColumns, fromCostShareMemberRow, type C
 import { findCostShare, monthColumn } from './costShareWrites';
 
 /** What a project is to share a cost from and to: the cost centre shared, the project, the month it joins and the month it leaves, if any. */
-export type CostShareMemberRequest = { costCentreId: unknown; projectId: unknown; joinedMonth: unknown; leftMonth?: unknown };
+export type CostShareMemberRequest = { costCentreId: unknown; projectId: unknown; joinedMonth: unknown; leftMonth?: unknown; weight?: unknown };
 
 /** Adds one of the organisation's projects to a shared cost from a month, refused when the project already shares it in any of those months. */
 export async function addCostShareMember(supabase: SupabaseClient, organisationId: string, request: CostShareMemberRequest): Promise<CostShareMember> {
 	const leftMonth = request.leftMonth === undefined || request.leftMonth === '' ? null : request.leftMonth;
 	refuseWhen(memberMonthsRefusal(request.joinedMonth, leftMonth));
+	const weight = request.weight ?? equalWeight;
+	refuseWhen(weightRefusal(weight));
 	const spell = { joinedMonth: request.joinedMonth as MonthKey, leftMonth: leftMonth as MonthKey | null };
 	const share = await findCostShare(supabase, organisationId, request.costCentreId);
 	if (share.members_by === CostShareMembersBy.liveProjects)
@@ -31,7 +34,8 @@ export async function addCostShareMember(supabase: SupabaseClient, organisationI
 		cost_share_id: share.id,
 		project_id: project.id,
 		joined_month: monthColumn(spell.joinedMonth),
-		left_month: monthColumn(spell.leftMonth)
+		left_month: monthColumn(spell.leftMonth),
+		weight
 	};
 	const { data, error } = await supabase.from(CostShareTables.members).insert(row).select(costShareMemberColumns).single();
 	if (error !== null) throw error;
@@ -65,7 +69,7 @@ export async function setCostShareMemberLeaving(
 	return fromCostShareMemberRow(data as CostShareMemberRow);
 }
 
-async function findMemberRow(supabase: SupabaseClient, organisationId: string, memberId: string): Promise<CostShareMemberRow> {
+export async function findMemberRow(supabase: SupabaseClient, organisationId: string, memberId: string): Promise<CostShareMemberRow> {
 	const { data, error } = await supabase
 		.from(CostShareTables.members)
 		.select(costShareMemberColumns)

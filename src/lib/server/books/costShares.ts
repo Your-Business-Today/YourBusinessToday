@@ -1,16 +1,24 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { CostShare, CostShareMember } from '$lib/data/books/sharing/costShare';
 import { CostShareMembersBy, type CostShareMembersByChoice } from '$lib/data/books/sharing/costShareMembersBy';
+import { equalWeight } from '$lib/data/books/sharing/costShareWeights';
 import { monthOfDay } from '$lib/data/books/monthKey';
 import { isSchemaNotYetMigrated } from '$lib/server/schema/schemaNotYetMigrated';
 import { findLiveProjectMembers } from './costShareStatusMembers';
 
 export const CostShareTables = { shares: 'books_cost_shares', members: 'books_cost_share_members' } as const;
 export const costShareColumns = 'id, cost_centre_id, months_covered, members_by';
-export const costShareMemberColumns = 'id, cost_share_id, project_id, joined_month, left_month';
+export const costShareMemberColumns = 'id, cost_share_id, project_id, joined_month, left_month, weight';
 
 export type CostShareRow = { id: string; cost_centre_id: string; months_covered: number; members_by: CostShareMembersByChoice };
-export type CostShareMemberRow = { id: string; cost_share_id: string; project_id: string | null; joined_month: string; left_month: string | null };
+export type CostShareMemberRow = {
+	id: string;
+	cost_share_id: string;
+	project_id: string | null;
+	joined_month: string;
+	left_month: string | null;
+	weight?: number | string;
+};
 
 /**
  * Every shared cost in the organisation's books with the projects that share it, by the month each joined: its named
@@ -39,7 +47,8 @@ export function fromCostShareRow(row: CostShareRow, memberRows: CostShareMemberR
 
 export function fromCostShareMemberRow(row: CostShareMemberRow): CostShareMember {
 	const leftMonth = row.left_month === null ? null : monthOfDay(row.left_month);
-	return { id: row.id, projectId: row.project_id, joinedMonth: monthOfDay(row.joined_month), leftMonth };
+	const weight = row.weight === undefined ? equalWeight : Number(row.weight);
+	return { id: row.id, projectId: row.project_id, joinedMonth: monthOfDay(row.joined_month), leftMonth, weight };
 }
 
 function isKeptByRule(row: CostShareRow): boolean {

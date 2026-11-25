@@ -4,7 +4,9 @@ import { fromPence, toPence } from '../money';
 import { monthStart, type MonthKey } from '../monthKey';
 import { isSharingIn, type CostShare } from './costShare';
 import { monthsCoveredFrom } from './costShareMonths';
+import { equalWeight } from './costShareWeights';
 import { splitPenceEvenly } from './splitPence';
+import { splitPenceByWeight } from './splitPenceByWeight';
 
 /** A line as the profit by project reads it: as the books keep it, or one project's part of a shared line, naming the shared cost it came from. */
 export type ApportionedEntry = LedgerEntry & { sharedFromCostCentreId?: string | null };
@@ -46,8 +48,9 @@ export function projectPartsOf(entry: LedgerEntry, share: CostShare, part: Month
 	const sharing = share.members.filter((member) => isSharingIn(member, part.month));
 	const costCentreIds = sharing.map((member) => (member.projectId === null ? keptAgainstNoProject : (projectCostCentres.get(member.projectId) ?? null)));
 	const receivers = costCentreIds.length === 0 ? [keptAgainstNoProject] : costCentreIds;
-	const debitParts = splitPenceEvenly(part.debitPence, receivers.length);
-	const creditParts = splitPenceEvenly(part.creditPence, receivers.length);
+	const weights = sharing.length === 0 ? [equalWeight] : sharing.map((member) => member.weight ?? equalWeight);
+	const debitParts = splitPenceByWeight(part.debitPence, weights);
+	const creditParts = splitPenceByWeight(part.creditPence, weights);
 	return receivers.map((costCentreId, index) => ({
 		...entry,
 		journalDate: part.journalDate,
