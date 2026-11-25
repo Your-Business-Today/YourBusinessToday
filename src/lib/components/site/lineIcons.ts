@@ -19,12 +19,14 @@ export type LineIconKind =
 	| 'route'
 	| 'selector'
 	| 'shield'
-	| 'sound';
+	| 'sound'
+	| 'star';
 
 /** Stroke paths on a 24 by 24 grid, one icon per kind. */
 export const lineIconPaths: Record<LineIconKind, string[]> = {
 	...navigationIconPaths,
 	arrow: ['M5 12h14', 'm12 5 7 7-7 7'],
+	star: ['M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z'],
 	newspaper: [
 		'M15 18h-5',
 		'M18 14h-8',

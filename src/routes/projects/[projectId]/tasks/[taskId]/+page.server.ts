@@ -3,6 +3,7 @@ import { addAcceptanceCriterion } from '$lib/server/projects/addAcceptanceCriter
 import { accountNameLookup } from '$lib/data/accountNames';
 import { attachmentActions } from './attachmentActions';
 import { autocompleteActions } from './autocompleteActions';
+import { priorityMarkActions } from './priorityMarkActions';
 import { branchActions } from './branchActions';
 import { complexityActions } from './complexityActions';
 import { deleteTaskActions } from './deleteTaskActions';
@@ -49,6 +50,7 @@ export const actions: Actions = {
 	...branchActions,
 	...complexityActions,
 	...autocompleteActions,
+	...priorityMarkActions,
 	...conversationActions,
 	...deleteTaskActions,
 	updateTodo: todoFormActions.updateTodo,
