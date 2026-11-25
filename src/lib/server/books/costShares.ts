@@ -10,7 +10,7 @@ import { findUsageReadings } from './costShareUsageReadings';
 
 export const CostShareTables = { shares: 'books_cost_shares', members: 'books_cost_share_members' } as const;
 export const costShareColumns = 'id, cost_centre_id, months_covered, members_by, split_by';
-export const costShareMemberColumns = 'id, cost_share_id, project_id, joined_month, left_month, weight, cost_centre_id';
+export const costShareMemberColumns = 'id, cost_share_id, project_id, joined_month, left_month, weight, cost_centre_id, directors_loan_account_id';
 
 export type CostShareRow = {
 	id: string;
@@ -27,6 +27,7 @@ export type CostShareMemberRow = {
 	left_month: string | null;
 	weight?: number | string;
 	cost_centre_id?: string | null;
+	directors_loan_account_id?: string | null;
 };
 
 /**
@@ -65,7 +66,9 @@ export function fromCostShareMemberRow(row: CostShareMemberRow): CostShareMember
 	const leftMonth = row.left_month === null ? null : monthOfDay(row.left_month);
 	const weight = row.weight === undefined ? equalWeight : Number(row.weight);
 	const costCentreId = row.cost_centre_id ?? null;
-	return { id: row.id, projectId: row.project_id, joinedMonth: monthOfDay(row.joined_month), leftMonth, weight, costCentreId };
+	const directorsLoanAccountId = row.directors_loan_account_id ?? null;
+	const joinedMonth = monthOfDay(row.joined_month);
+	return { id: row.id, projectId: row.project_id, joinedMonth, leftMonth, weight, costCentreId, directorsLoanAccountId };
 }
 
 function isKeptByRule(row: CostShareRow): boolean {

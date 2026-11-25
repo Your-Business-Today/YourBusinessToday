@@ -3,6 +3,7 @@ import { describeMonth } from '$lib/data/books/monthKey';
 import type { CostShareMember } from '$lib/data/books/sharing/costShare';
 import { CostShareSplitBy } from '$lib/data/books/sharing/costShareUsage';
 import { equalWeight } from '$lib/data/books/sharing/costShareWeights';
+import { isKeptOnLoan } from '$lib/data/books/sharing/directorsLoanParts';
 import { CostShareMembersBy } from '$lib/data/books/sharing/costShareMembersBy';
 import { beforeTheHistoryBegan } from '$lib/data/books/sharing/statusSpells';
 import type { CostShareMonth } from '$lib/data/books/sharing/costShareSplit';
@@ -35,7 +36,7 @@ function memberText(member: CostShareMember, reading: CostSharesReading): string
 	const until = member.leftMonth === null ? 'and carries on' : `to ${describeMonth(member.leftMonth)}`;
 	const from = member.joinedMonth === beforeTheHistoryBegan ? 'from before its status was kept' : `from ${describeMonth(member.joinedMonth)}`;
 	const weighted = member.weight === undefined || member.weight === equalWeight ? '' : `, weight ${member.weight}`;
-	return `${name} shares it ${from} ${until}${weighted} (member ${member.id})`;
+	return `${name} shares it ${from} ${until}${weighted}${loanText(member, reading)} (member ${member.id})`;
 }
 
 function memberName(member: CostShareMember, reading: CostSharesReading): string {
@@ -56,4 +57,12 @@ function monthText(month: CostShareMonth, reading: CostSharesReading): string {
 function hasParts(month: CostShareMonth): boolean {
 	const { parts } = month;
 	return parts.length > 0;
+}
+
+function loanText(member: CostShareMember, reading: CostSharesReading): string {
+	if (!isKeptOnLoan(member)) return '';
+	const moved = reading.loanPostings.filter((posting) => posting.memberId === member.id);
+	const months = moved.map((posting) => `${describeMonth(posting.month)} ${formatPoundsAndPence(posting.amount)}`);
+	const movedText = months.length === 0 ? 'no month moved yet' : `moved: ${months.join(', ')}`;
+	return `, its part gone to the director's loan (${movedText}; post_cost_share_directors_loan moves a month)`;
 }

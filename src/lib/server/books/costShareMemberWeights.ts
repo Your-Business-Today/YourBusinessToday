@@ -58,6 +58,8 @@ async function insertSpell(writes: Writes, row: CostShareMemberRow, fromMonth: M
 		organisation_id: writes.organisationId,
 		cost_share_id: row.cost_share_id,
 		project_id: row.project_id,
+		cost_centre_id: row.cost_centre_id ?? null,
+		directors_loan_account_id: row.directors_loan_account_id ?? null,
 		joined_month: monthColumn(fromMonth),
 		left_month: row.left_month,
 		weight
