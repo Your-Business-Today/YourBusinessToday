@@ -20,6 +20,13 @@ describe('addCostShareMember', () => {
 		expect(books.writes).toEqual([]);
 	});
 
+	it('refuses a named member on a cost shared by every live project, writing nothing', async () => {
+		const books = booksWith([], { ...appleShare, members_by: 'live_projects' });
+		const request = { costCentreId, projectId: codManiaId, joinedMonth: '2026-07' };
+		await expect(addCostShareMember(books.supabase, organisationId, request)).rejects.toThrow('every live project');
+		expect(books.writes).toEqual([]);
+	});
+
 	it('refuses a month that is not written as 2026-07', async () => {
 		const books = booksWith([]);
 		const request = { costCentreId, projectId: codManiaId, joinedMonth: 'July' };

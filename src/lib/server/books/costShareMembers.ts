@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { validateRecordId } from '$lib/data/isUuid';
 import type { MonthKey } from '$lib/data/books/monthKey';
 import type { CostShareMember } from '$lib/data/books/sharing/costShare';
+import { CostShareMembersBy } from '$lib/data/books/sharing/costShareMembersBy';
 import { leftMonthRefusal, memberMonthsRefusal, spellsOverlap } from '$lib/data/books/sharing/costShareRules';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { projectOfOrganisation } from './costCentreProjectOwner';
@@ -17,6 +18,8 @@ export async function addCostShareMember(supabase: SupabaseClient, organisationI
 	refuseWhen(memberMonthsRefusal(request.joinedMonth, leftMonth));
 	const spell = { joinedMonth: request.joinedMonth as MonthKey, leftMonth: leftMonth as MonthKey | null };
 	const share = await findCostShare(supabase, organisationId, request.costCentreId);
+	if (share.members_by === CostShareMembersBy.liveProjects)
+		throw new BooksRefusal('This cost is shared by every live project, read from their status; set_cost_share_members_by with named takes named members instead.');
 	const project = await projectOfOrganisation(supabase, organisationId, request.projectId);
 	if (project === null) throw new BooksRefusal('projectId is needed: the project that shares the cost, by its id as list_projects gives it.');
 	const spells = await spellsOfProject(supabase, organisationId, share.id, project.id);

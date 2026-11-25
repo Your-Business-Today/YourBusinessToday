@@ -15,7 +15,7 @@ const carpManiaAllYear = { id: 'member-1', projectId: Projects.carpMania, joined
 const codManiaFromJuly = { id: 'member-2', projectId: Projects.codMania, joinedMonth: '2026-07', leftMonth: null };
 
 function sharingOf(members: CostSharing['shares'][number]['members']): CostSharing {
-	const share = { id: 'share-apple', costCentreId: CostCentres.appleLicence, monthsCovered: 12, members };
+	const share = { id: 'share-apple', costCentreId: CostCentres.appleLicence, monthsCovered: 12, membersBy: 'named' as const, members };
 	const projectCostCentres = new Map([
 		[Projects.carpMania, CostCentres.carpMania],
 		[Projects.codMania, CostCentres.codMania]
