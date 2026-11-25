@@ -1,7 +1,7 @@
 import { contractPackStageWords } from '$lib/data/contractPackRules';
 import { formatUkDateTime } from '$lib/data/britishDate';
 import { organisationDocumentNames } from './documentHomes';
-import type { ContractPack, ContractPackDocument } from '$lib/data/contractPack';
+import { bracketedBlanks, type ContractPack, type ContractPackDocument } from '$lib/data/contractPack';
 
 /** A client's pack as the connector tells it: where it stands, what it chose, and each document with the blanks still open. */
 export function describeContractPack(clientName: string, pack: ContractPack): string {
@@ -26,8 +26,8 @@ function describeQuote(quoteVersion: number | null): string {
 	return `Fees from version ${quoteVersion} of the client's quote.`;
 }
 
-function describeDocument(document: ContractPackDocument, index: number): string {
-	const heading = `${index + 1}. ${document.title}, version ${document.versionNumber} (document id: ${document.documentId})`;
-	if (document.openBlanks.length === 0) return `${heading} — every blank filled.`;
-	return `${heading} — still open: ${document.openBlanks.map((label) => `[${label}]`).join(', ')}.`;
+function describeDocument({ title, versionNumber, documentId, openBlanks }: ContractPackDocument, index: number): string {
+	const heading = `${index + 1}. ${title}, version ${versionNumber} (document id: ${documentId})`;
+	if (openBlanks.length === 0) return `${heading} — every blank filled.`;
+	return `${heading} — still open: ${bracketedBlanks(openBlanks)}.`;
 }

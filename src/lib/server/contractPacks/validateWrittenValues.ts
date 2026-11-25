@@ -13,12 +13,14 @@ export function validateWrittenValues(given: unknown): BlankValues | string {
 
 function entryRefusal(label: string, value: unknown): string | null {
 	const trimmedLabel = label.trim();
-	if (trimmedLabel === '' || trimmedLabel.length > limits.longestBlankLabel) {
+	const isLabelWithinLimits = trimmedLabel !== '' && trimmedLabel.length <= limits.longestBlankLabel;
+	if (!isLabelWithinLimits) {
 		return `A blank's label is 1 to ${limits.longestBlankLabel} characters, as it stands in its brackets.`;
 	}
 	if (typeof value !== 'string') return `The value for [${trimmedLabel}] is text.`;
-	if (value.trim().length > limits.longestBlankValue) {
-		return `The value for [${trimmedLabel}] is ${value.trim().length} characters; at most ${limits.longestBlankValue}.`;
+	const valueLength = value.trim().length;
+	if (valueLength > limits.longestBlankValue) {
+		return `The value for [${trimmedLabel}] is ${valueLength} characters; at most ${limits.longestBlankValue}.`;
 	}
 	return null;
 }

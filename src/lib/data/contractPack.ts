@@ -18,3 +18,8 @@ export type ContractPack = {
 	preparedAt: string;
 	documents: ContractPackDocument[];
 };
+
+/** The blanks still open, each in its brackets, as a person reads them. */
+export function bracketedBlanks(labels: string[]): string {
+	return labels.map((label) => `[${label}]`).join(', ');
+}

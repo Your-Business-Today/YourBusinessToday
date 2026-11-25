@@ -37,7 +37,7 @@ export async function insertPackDocuments(supabase: SupabaseClient, packId: stri
 export type KeptPackDocument = { documentId: string; drafted: DraftedContractDocument };
 
 /** The client register record an organisation was opened for, whose quote the pack's fees come from; null when none. */
-export async function readOrganisationClientId(supabase: SupabaseClient, organisationId: string): Promise<string | null> {
+export async function findClientIdForOrganisation(supabase: SupabaseClient, organisationId: string): Promise<string | null> {
 	const { data, error } = await supabase.from('organisations').select('client_id').eq('id', organisationId).maybeSingle();
 	if (error !== null) throw error;
 	return (data?.client_id as string | null) ?? null;

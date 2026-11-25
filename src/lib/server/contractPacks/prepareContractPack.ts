@@ -5,7 +5,7 @@ import { keepWrittenDocument } from '$lib/server/projectDocuments/keepProjectDoc
 import { readLeadQuote } from '$lib/server/leadQuotes/readLeadQuote';
 import { contractPackValues } from './contractPackValues';
 import { draftContractDocuments, type DraftedContractDocument } from './draftContractDocuments';
-import { insertContractPack, insertPackDocuments, readOrganisationClientId, type KeptPackDocument } from './contractPackTables';
+import { insertContractPack, insertPackDocuments, findClientIdForOrganisation, type KeptPackDocument } from './contractPackTables';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { DocumentAdder } from '$lib/server/projectDocuments/documentAdder';
 import type { DocumentDetails } from '$lib/projectDocuments/projectDocument';
@@ -21,7 +21,7 @@ export type PackPreparer = { supabase: SupabaseClient; accountId: string; organi
 export async function prepareContractPack(preparer: PackPreparer, request: ContractPackRequest): Promise<string> {
 	const { documentSlugs, clauseSlugs, writtenValues } = request;
 	const { supabase, accountId, organisation } = preparer;
-	const clientId = await readOrganisationClientId(supabase, organisation.id);
+	const clientId = await findClientIdForOrganisation(supabase, organisation.id);
 	const quote = clientId === null ? null : await readLeadQuote(supabase, clientId);
 	const values = contractPackValues(organisation, quote, writtenValues);
 	const drafted = draftContractDocuments(documentSlugs, clauseSlugs, values);

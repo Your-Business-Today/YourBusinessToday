@@ -34,7 +34,7 @@ function readDocumentSlugs(given: unknown): string[] | string {
 	if (slugs === null) return 'The documents are a list of slugs, as list_client_documents gives them.';
 	if (slugs.length === 0) return 'Choose at least one document for the pack.';
 	if (slugs.length > limits.mostDocuments) return `A pack holds at most ${limits.mostDocuments} documents.`;
-	if (new Set(slugs).size !== slugs.length) return 'Each document is chosen once.';
+	if (hasRepeats(slugs)) return 'Each document is chosen once.';
 	const notAContract = slugs.find((slug) => !contractSlugs.includes(slug));
 	if (notAContract === undefined) return slugs;
 	return `"${notAContract}" is not a contract document. The contract documents are: ${contractSlugs.join(', ')}.`;
@@ -44,6 +44,11 @@ function readClauseSlugs(given: unknown): string[] | string {
 	const slugs = readSlugs(given, defaultClauseSlugs);
 	if (slugs === null) return 'The clauses are a list of optional clause slugs, as read_client_document lists them.';
 	if (slugs.length > limits.mostClauses) return `A pack chooses at most ${limits.mostClauses} optional clauses.`;
-	if (new Set(slugs).size !== slugs.length) return 'Each optional clause is chosen once.';
+	if (hasRepeats(slugs)) return 'Each optional clause is chosen once.';
 	return validateChosenClauses(slugs) ?? slugs;
+}
+
+function hasRepeats(slugs: string[]): boolean {
+	const distinct = new Set(slugs);
+	return distinct.size !== slugs.length;
 }

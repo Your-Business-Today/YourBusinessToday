@@ -2,10 +2,10 @@ import { prepareContractPack } from '$lib/server/contractPacks/prepareContractPa
 import { readContractPack } from '$lib/server/contractPacks/readContractPack';
 import { validateContractPackRequest } from '$lib/server/contractPacks/validateContractPackRequest';
 import { validateRecordId } from '$lib/data/isUuid';
+import { contractPackLimits } from '$lib/data/contractPackRules';
 import { noSuchOrganisation, reachableOrganisation } from '../organisationAccess';
-import { contractPackFields as fields } from './contractPackFields';
 import { describeContractPack } from './describeContractPack';
-import { objectSchema, readOptionalText, readText } from '../actionTypes';
+import { objectSchema, readOptionalText, readText, textField } from '../actionTypes';
 import type { McpAction } from '../actionTypes';
 import type { McpCaller } from '../resolveMcpCaller';
 
@@ -16,6 +16,27 @@ const packGuidance =
 	'kept on the organisation as a draft, so every version is kept and the template never changes. Fill the organisation ' +
 	'details first (update_organisation_details) and file the quote (file_lead_quote), then prepare on the person\'s yes. ' +
 	'A blank nobody knows yet stays in its brackets, and read_contract_pack lists those still open.';
+
+const slugList = (description: string) => ({ type: 'array', items: { type: 'string' }, description });
+
+const fields = {
+	organisationId: textField("The client organisation's id, as list_organisations gives it"),
+	packId: textField('A pack id, as read_contract_pack gives it; leave out for the latest pack'),
+	documents: slugList(
+		'The contract documents in the pack, by slug, in the order they are read; leave out for all of them (list_client_documents)'
+	),
+	clauses: slugList(
+		'The optional clauses chosen, by slug; leave out for the ones chosen unless left out (read_client_document lists each)'
+	),
+	values: {
+		type: 'object',
+		additionalProperties: { type: 'string', maxLength: contractPackLimits.longestBlankValue },
+		description:
+			'Blanks written into the pack, each label as it stands in its brackets with the text it is filled with, such as ' +
+			'{"Order number": "YBT-0001", "Start date": "1 December 2026"}. A value given here wins over the organisation\'s ' +
+			"details and the quote. Any blank still unknown stays in its brackets, to be filled later."
+	}
+};
 
 const noPackYet = 'has no contract pack yet: prepare_contract_pack makes one.';
 

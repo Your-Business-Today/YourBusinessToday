@@ -9,7 +9,7 @@ import { getOrganisation } from '$lib/server/organisations/getOrganisation';
 import { getOrganisations } from '$lib/server/organisations/getOrganisations';
 import { prepareContractPack } from '$lib/server/contractPacks/prepareContractPack';
 import { readContractPack } from '$lib/server/contractPacks/readContractPack';
-import { readContractPackForm } from '$lib/server/contractPacks/readContractPackForm';
+import { packInputFromForm } from '$lib/server/contractPacks/packInputFromForm';
 import { validateContractPackRequest } from '$lib/server/contractPacks/validateContractPackRequest';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -37,7 +37,7 @@ export const actions = {
 	prepare: async ({ locals, request }) => {
 		await requireAdmin(locals);
 		const user = await requireUser(locals);
-		const packRequest = validateContractPackRequest(readContractPackForm(await request.formData()));
+		const packRequest = validateContractPackRequest(packInputFromForm(await request.formData()));
 		if (typeof packRequest === 'string') return fail(httpBadRequest, { message: packRequest });
 		const organisation = await getOrganisation(locals.supabase, packRequest.organisationId);
 		if (organisation === null) return fail(httpNotFound, { message: noSuchOrganisation });
