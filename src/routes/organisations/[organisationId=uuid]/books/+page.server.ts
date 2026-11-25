@@ -26,9 +26,9 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 
 export const actions: Actions = {
 	closeMonth: async ({ locals, params, request }) => {
-		const access = await requireOrganisationModule(locals, params.organisationId, 'books');
+		const { user, organisation } = await requireOrganisationModule(locals, params.organisationId, 'books');
 		const today = ukClockAt(new Date()).date;
-		const closer = { accountId: access.user.id };
-		return closeBooksFromForm(supabaseServiceClient(), access.organisation.id, await request.formData(), closer, today);
+		const closer = { accountId: user.id };
+		return closeBooksFromForm(supabaseServiceClient(), organisation.id, await request.formData(), closer, today);
 	}
 };
