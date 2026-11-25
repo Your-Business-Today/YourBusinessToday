@@ -4,31 +4,31 @@
 	import { FormTracker } from '$lib/client/formTracker.svelte';
 	import { formatBritishDateTime } from '$lib/data/britishDate';
 	import { notificationSentence } from '$lib/data/notificationSentence';
-	import type { NotificationListItem } from '$lib/server/notifications/notificationListItem';
+	import { notificationCountLabel } from '$lib/data/notificationCountLabel';
+	import type { NotificationGroup } from '$lib/server/notifications/notificationGroup';
 
-	let {
-		notification,
-		authorName
-	}: { notification: NotificationListItem; authorName: string | null } = $props();
+	let { group, authorName }: { group: NotificationGroup; authorName: string | null } = $props();
 
 	const tracker = new FormTracker();
 
-	const formattedDate = $derived(formatBritishDateTime(notification.createdAt));
+	const hasUnread = $derived(group.unreadCount > 0);
+	const formattedDate = $derived(formatBritishDateTime(group.createdAt));
+	const countLabel = $derived(notificationCountLabel(group.unreadCount, group.notificationCount));
 
 	const sentence = $derived(
 		notificationSentence({
-			subjectKind: notification.subjectKind,
-			subjectTitle: notification.subjectTitle,
-			eventKind: notification.eventKind,
+			subjectKind: group.subjectKind,
+			subjectTitle: group.subjectTitle,
+			eventKind: group.eventKind,
 			actorName: authorName
 		})
 	);
-	const hasBody = $derived(notification.messageBody !== '');
-	const hasFilesShared = $derived(notification.filesShared !== '');
+	const hasBody = $derived(group.messageBody !== '');
+	const hasFilesShared = $derived(group.filesShared !== '');
 </script>
 
-<li class="flex items-start gap-4 px-5 py-4" class:opacity-60={notification.isRead}>
-	{#if !notification.isRead}
+<li class="flex items-start gap-4 px-5 py-4" class:opacity-60={!hasUnread}>
+	{#if hasUnread}
 		<span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-go" aria-label="Unread"></span>
 	{:else}
 		<span class="mt-2 h-2 w-2 shrink-0"></span>
@@ -40,22 +40,27 @@
 			<span class="font-display text-chalk/90">{sentence.which}</span>
 		</p>
 		{#if hasBody}
-			<p class="truncate text-sm text-chalk/60">{notification.messageBody}</p>
+			<p class="truncate text-sm text-chalk/60">{group.messageBody}</p>
 		{/if}
 		{#if hasFilesShared}
-			<p class="text-sm text-chalk/60">{notification.filesShared}</p>
+			<p class="text-sm text-chalk/60">{group.filesShared}</p>
 		{/if}
-		<p class="text-xs text-chalk/40">{formattedDate}</p>
+		<p class="text-xs text-chalk/40">
+			{formattedDate}
+			{#if countLabel !== ''}
+				<span class:text-go={hasUnread}> · {countLabel}</span>
+			{/if}
+		</p>
 	</div>
-	<form method="POST" action="?/openNotification" use:enhance={tracker.submit()}>
-		<input type="hidden" name="notificationId" value={notification.id} />
+	<form method="POST" action="?/openSubject" use:enhance={tracker.submit()}>
+		<input type="hidden" name="notificationId" value={group.id} />
 		<SubmitButton
 			isSaving={tracker.isSaving}
 			savingLabel="Opening…"
 			class="rounded-full border border-hairline px-4 py-1.5 font-display text-xs text-chalk/70
 				transition hover:border-go hover:text-go"
 		>
-			Open {notification.subjectKind}
+			Open {group.subjectKind}
 		</SubmitButton>
 	</form>
 </li>
