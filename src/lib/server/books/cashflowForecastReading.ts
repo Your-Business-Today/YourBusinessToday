@@ -10,24 +10,38 @@ import { findBooksSettings } from './booksSettings';
 import { cashAtBankOn } from './cashAtBank';
 import { findCashflowItems } from './cashflowItems';
 import { findCustomers } from './customers';
+import { findLoanBudgets } from './loanBudgets';
+import type { LoanBudget } from '$lib/data/books/loanBudget/loanBudget';
+import { forecastEntriesOfLoanBudgets } from '$lib/data/books/loanBudget/forecastEntriesOfLoanBudgets';
 
 /** The forecast as read on a day: the cash at bank it starts from, the months, every entry in them and the items kept. */
-export type CashflowForecastReading = { asAt: string; forecast: CashflowForecast; entries: ForecastEntry[]; items: CashflowItem[] };
+export type CashflowForecastReading = {
+	asAt: string;
+	forecast: CashflowForecast;
+	entries: ForecastEntry[];
+	items: CashflowItem[];
+	loanBudgets: LoanBudget[];
+};
 
 const everyCustomer = { customerId: null };
 
-/** Twelve months from the month of the day given: the cash at bank at the end of it, the items kept and the running schedules. */
+/** Twelve months from the month of the day given: the cash at bank at the end of it, the items, the running schedules and the loans. */
 export async function readCashflowForecast(supabase: SupabaseClient, organisationId: string, asAt: string): Promise<CashflowForecastReading> {
 	const months = forecastMonthsFrom(monthOfDay(asAt));
-	const [openingBalance, items, schedules, settings] = await Promise.all([
+	const [openingBalance, items, schedules, settings, loanBudgets] = await Promise.all([
 		cashAtBankOn(supabase, organisationId, asAt),
 		findCashflowItems(supabase, organisationId),
 		findSchedulesToForecast(supabase, organisationId),
-		findBooksSettings(supabase, organisationId)
+		findBooksSettings(supabase, organisationId),
+		findLoanBudgets(supabase, organisationId)
 	]);
 	const paymentTermsDays = settings?.paymentTermsDays ?? invoiceSettingDefaults.paymentTermsDays;
-	const entries = [...forecastEntriesOfItems(items, months), ...forecastEntriesOfSchedules(schedules, months, paymentTermsDays)];
-	return { asAt, forecast: buildCashflowForecast(openingBalance, months, entries), entries, items };
+	const entries = [
+		...forecastEntriesOfItems(items, months),
+		...forecastEntriesOfSchedules(schedules, months, paymentTermsDays),
+		...forecastEntriesOfLoanBudgets(loanBudgets, months)
+	];
+	return { asAt, forecast: buildCashflowForecast(openingBalance, months, entries), entries, items, loanBudgets };
 }
 
 async function findSchedulesToForecast(supabase: SupabaseClient, organisationId: string): Promise<ScheduleToForecast[]> {
