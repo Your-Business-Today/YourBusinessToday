@@ -21,7 +21,7 @@ const vercelMonthly: CashflowItem = {
 };
 const ybtAllAlong = { id: 'member-ybt', projectId: Projects.ybt, joinedMonth: '2026-01', leftMonth: null };
 const carpManiaFromFebruary = { id: 'member-carp', projectId: Projects.carpMania, joinedMonth: '2027-02', leftMonth: null };
-const share = { id: 'share-vercel', costCentreId: vercel.id, monthsCovered: 1, members: [ybtAllAlong, carpManiaFromFebruary] };
+const share = { id: 'share-vercel', costCentreId: vercel.id, monthsCovered: 1, membersBy: 'named' as const, members: [ybtAllAlong, carpManiaFromFebruary] };
 const sharing = {
 	shares: [share],
 	projectCostCentres: new Map([

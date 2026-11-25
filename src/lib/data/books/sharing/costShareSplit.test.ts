@@ -3,7 +3,7 @@ import { LedgerAccountTypes } from '../ledgerAccountTypes';
 import { costShareSplit, twelveMonthsTo } from './costShareSplit';
 
 const software = { accountId: 'account-6100', accountCode: '6100', accountName: 'Software', accountType: LedgerAccountTypes.expense };
-const share = { id: 'share-apple', costCentreId: 'cost-centre-apple', monthsCovered: 12, members: [] };
+const share = { id: 'share-apple', costCentreId: 'cost-centre-apple', monthsCovered: 12, membersBy: 'named' as const, members: [] };
 const part = (journalDate: string, costCentreId: string | null, debit: number) => ({
 	journalDate,
 	...software,

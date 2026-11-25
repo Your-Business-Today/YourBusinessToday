@@ -1,4 +1,5 @@
 import type { MonthKey } from '../monthKey';
+import type { CostShareMembersByChoice } from './costShareMembersBy';
 
 /** The limits books_cost_shares holds a shared cost to, stated once for the service and any form (migration 0291). */
 export const CostShareLimits = { fewestMonthsCovered: 1, mostMonthsCovered: 36 } as const;
@@ -8,9 +9,10 @@ export type CostShareMember = { id: string; projectId: string | null; joinedMont
 
 /**
  * A cost centre whose lines several projects share: each line is spread over the months it covers, counted from the
- * month it is dated, and each month's part is split equally among the projects sharing it that month.
+ * month it is dated, and each month's part is split equally among the projects sharing it that month: the projects named
+ * as its members, or, kept by rule, every project live that month.
  */
-export type CostShare = { id: string; costCentreId: string; monthsCovered: number; members: CostShareMember[] };
+export type CostShare = { id: string; costCentreId: string; monthsCovered: number; membersBy: CostShareMembersByChoice; members: CostShareMember[] };
 
 /** Whether the member shares the cost in the month: on or after the month it joined, and no later than the one it left. */
 export function isSharingIn(member: CostShareMember, month: MonthKey): boolean {

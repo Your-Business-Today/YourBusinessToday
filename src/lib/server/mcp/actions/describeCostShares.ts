@@ -1,6 +1,8 @@
 import { formatPoundsAndPence } from '$lib/data/books/money';
 import { describeMonth } from '$lib/data/books/monthKey';
 import type { CostShareMember } from '$lib/data/books/sharing/costShare';
+import { CostShareMembersBy } from '$lib/data/books/sharing/costShareMembersBy';
+import { beforeTheHistoryBegan } from '$lib/data/books/sharing/statusSpells';
 import type { CostShareMonth } from '$lib/data/books/sharing/costShareSplit';
 import type { CostShareReading, CostSharesReading } from '$lib/server/books/costShareReading';
 
@@ -14,10 +16,12 @@ export function describeCostShares(organisationName: string, reading: CostShares
 }
 
 function shareLines(share: CostShareReading, reading: CostSharesReading): string[] {
-	const { monthsCovered, members, costCentreId } = share.share;
+	const { monthsCovered, members, costCentreId, membersBy } = share.share;
 	const covering = monthsCovered === 1 ? 'each line covers its own month' : `each line covers ${monthsCovered} months from the month it is dated`;
-	const memberLines =
-		members.length === 0 ? ['  - shared by no project yet: add_cost_share_member adds one'] : members.map((member) => `  - ${memberText(member, reading)}`);
+	const isByRule = membersBy === CostShareMembersBy.liveProjects;
+	const ruleLine = isByRule ? ['  - shared by every live project, month by month, from its status:'] : [];
+	const noMemberLine = isByRule ? '  - no project has been live' : '  - shared by no project yet: add_cost_share_member adds one';
+	const memberLines = [...ruleLine, ...(members.length === 0 ? [noMemberLine] : members.map((member) => `  - ${memberText(member, reading)}`))];
 	const monthLines = share.months.filter(hasParts).map((month) => `  - ${monthText(month, reading)}`);
 	const splitLines = monthLines.length === 0 ? ['  - nothing to split in these months'] : monthLines;
 	return ['', `${share.label} (cost centre ${costCentreId}), ${covering}:`, ...memberLines, '  Split:', ...splitLines];
@@ -26,7 +30,8 @@ function shareLines(share: CostShareReading, reading: CostSharesReading): string
 function memberText(member: CostShareMember, reading: CostSharesReading): string {
 	const name = member.projectId === null ? 'a project since deleted' : (reading.projectNames.get(member.projectId) ?? member.projectId);
 	const until = member.leftMonth === null ? 'and carries on' : `to ${describeMonth(member.leftMonth)}`;
-	return `${name} shares it from ${describeMonth(member.joinedMonth)} ${until} (member ${member.id})`;
+	const from = member.joinedMonth === beforeTheHistoryBegan ? 'from before its status was kept' : `from ${describeMonth(member.joinedMonth)}`;
+	return `${name} shares it ${from} ${until} (member ${member.id})`;
 }
 
 function monthText(month: CostShareMonth, reading: CostSharesReading): string {
