@@ -30,6 +30,11 @@ export function versionFilePath(owner: DocumentOwner, documentId: string, versio
 
 /** The name a written document downloads under: its title, as a Markdown file. */
 export function writtenDocumentFilename(title: string): string {
+	return `${filenameWordsOf(title)}${markdownExtension}`;
+}
+
+/** A title as the lower-case words a file is named with, joined by hyphens; "document" when it has none. */
+export function filenameWordsOf(title: string): string {
 	const words = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-	return `${words === '' ? 'document' : words}${markdownExtension}`;
+	return words === '' ? 'document' : words;
 }

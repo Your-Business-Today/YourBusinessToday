@@ -14,7 +14,11 @@ export type ContractPackDocument = {
 	versionNumber: number;
 	openBlanks: string[];
 	signature: ContractPackSignature | null;
+	signedCopyVersion: number | null;
 };
+
+/** A YBT director's countersignature on the whole pack, once the client has signed every document. */
+export type ContractPackCountersignature = { signerName: string; signerPosition: string; signedOn: string; signedAt: string };
 
 /** When the pack was last sent to the client, and the address it went to. */
 export type ContractPackSending = { sentAt: string; sentTo: string };
@@ -29,6 +33,7 @@ export type ContractPack = {
 	preparedAt: string;
 	viewedAt: string | null;
 	sending: ContractPackSending | null;
+	countersignature: ContractPackCountersignature | null;
 	documents: ContractPackDocument[];
 	comments: ContractPackComment[];
 };
@@ -52,4 +57,11 @@ export function bracketedBlanks(labels: string[]): string {
 /** Whether the client has signed every document of the pack. */
 export function isSignedThroughout(pack: ContractPack): boolean {
 	return pack.documents.every((document) => document.signature !== null);
+}
+
+const signedByClient: ContractPackStage = 'signed_by_client';
+
+/** Whether the client has signed the whole pack and YBT has not countersigned it yet. */
+export function isAwaitingCountersignature(pack: ContractPack): boolean {
+	return pack.stage === signedByClient && pack.countersignature === null;
 }

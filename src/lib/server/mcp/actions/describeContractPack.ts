@@ -1,3 +1,4 @@
+import { companyDetails } from '$lib/data/companyDetails';
 import { contractPackStageWords } from '$lib/data/contractPackRules';
 import { formatBritishDate, formatUkDateTime } from '$lib/data/britishDate';
 import { organisationDocumentNames } from './documentHomes';
@@ -9,6 +10,7 @@ export function describeContractPack(clientName: string, pack: ContractPack): st
 	return [
 		`${clientName}'s contract pack (id: ${pack.id}), prepared ${formatUkDateTime(pack.preparedAt)} — ${stage}.`,
 		describeSending(pack),
+		describeCountersignature(pack),
 		describeClauses(pack.chosenClauses),
 		describeQuote(pack.quoteVersion),
 		`Documents, each kept on the organisation: ${organisationDocumentNames.read} reads one in full, and ` +
@@ -23,6 +25,12 @@ function describeSending({ sending }: ContractPack): string {
 	return `Last sent to ${sending.sentTo} on ${formatUkDateTime(sending.sentAt)}.`;
 }
 
+function describeCountersignature({ countersignature }: ContractPack): string {
+	if (countersignature === null) return 'Not countersigned yet: countersign_contract_pack does it once the client has signed every document.';
+	const { signerName, signerPosition, signedOn } = countersignature;
+	return `Countersigned for ${companyDetails.legalName} by ${signerName}, ${signerPosition}, on ${formatBritishDate(signedOn)}.`;
+}
+
 function describeClauses(clauses: string[]): string {
 	if (clauses.length === 0) return 'Optional clauses chosen: none.';
 	return `Optional clauses chosen: ${clauses.join(', ')}.`;
@@ -35,7 +43,7 @@ function describeQuote(quoteVersion: number | null): string {
 
 function describeDocument(document: ContractPackDocument, index: number): string {
 	const { title, versionNumber, documentId } = document;
-	return `${index + 1}. ${title}, version ${versionNumber} (document id: ${documentId}) — ${describeBlanks(document)} ${describeSignature(document)}`;
+	return `${index + 1}. ${title}, version ${versionNumber} (document id: ${documentId}) — ${describeBlanks(document)} ${describeSignature(document)}${describeSignedCopy(document)}`;
 }
 
 function describeBlanks({ openBlanks }: ContractPackDocument): string {
@@ -47,6 +55,11 @@ function describeSignature({ signature }: ContractPackDocument): string {
 	if (signature === null) return 'Not signed by the client yet.';
 	const { signerName, signerPosition, signedOn, versionNumber } = signature;
 	return `Signed by ${signerName}, ${signerPosition}, on ${formatBritishDate(signedOn)}, against version ${versionNumber}.`;
+}
+
+function describeSignedCopy({ signedCopyVersion }: ContractPackDocument): string {
+	if (signedCopyVersion === null) return '';
+	return ` The signed PDF is version ${signedCopyVersion}.`;
 }
 
 function describeComments({ comments, documents }: ContractPack): string[] {

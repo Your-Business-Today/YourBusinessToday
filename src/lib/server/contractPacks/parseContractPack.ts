@@ -1,5 +1,12 @@
 import { blanksIn } from '$lib/data/contractBlanks';
-import type { ContractPack, ContractPackComment, ContractPackDocument, ContractPackSending, ContractPackSignature } from '$lib/data/contractPack';
+import type {
+	ContractPack,
+	ContractPackComment,
+	ContractPackCountersignature,
+	ContractPackDocument,
+	ContractPackSending,
+	ContractPackSignature
+} from '$lib/data/contractPack';
 import type { CommentRow, PackDocumentRow, PackRow, SignatureRow } from './contractPackRows';
 
 /** A pack as its row and the rows under it give it, documents in order and comments oldest first. */
@@ -16,12 +23,14 @@ export function parseContractPack(row: PackRow): ContractPack {
 		preparedAt: row.prepared_at,
 		viewedAt: row.viewed_at,
 		sending: parseSending(row),
+		countersignature: parseCountersignature(row),
 		documents: documents.map((document) => parseDocument(document, signatures)),
 		comments: comments.map(parseComment)
 	};
 }
 
-function parseDocument({ template_slug, document_id, project_documents: kept }: PackDocumentRow, signatures: SignatureRow[]): ContractPackDocument {
+function parseDocument(row: PackDocumentRow, signatures: SignatureRow[]): ContractPackDocument {
+	const { template_slug, document_id, signed_copy_version, project_documents: kept } = row;
 	const signature = signatures.find((candidate) => candidate.document_id === document_id) ?? null;
 	return {
 		documentId: document_id,
@@ -29,13 +38,21 @@ function parseDocument({ template_slug, document_id, project_documents: kept }: 
 		title: kept.title,
 		versionNumber: kept.version_number,
 		openBlanks: blanksIn(kept.markdown ?? ''),
-		signature: signature === null ? null : parseSignature(signature)
+		signature: signature === null ? null : parseSignature(signature),
+		signedCopyVersion: signed_copy_version ?? null
 	};
 }
 
 function parseSending({ sent_at, sent_to }: PackRow): ContractPackSending | null {
 	if (sent_at === null || sent_to === null) return null;
 	return { sentAt: sent_at, sentTo: sent_to };
+}
+
+function parseCountersignature(row: PackRow): ContractPackCountersignature | null {
+	const { countersigner_name, countersigner_position, countersigned_on, countersigned_at } = row;
+	if (countersigner_name === null || countersigner_position === null) return null;
+	if (countersigned_on === null || countersigned_at === null) return null;
+	return { signerName: countersigner_name, signerPosition: countersigner_position, signedOn: countersigned_on, signedAt: countersigned_at };
 }
 
 function parseSignature(row: SignatureRow): ContractPackSignature {

@@ -14,6 +14,9 @@ import { validateContractPackRequest } from '$lib/server/contractPacks/validateC
 import { planSendingOfPack } from '$lib/server/contractPacks/packSendingDoor';
 import { sendContractPack, undeliveredPackNotices } from '$lib/server/contractPacks/sendContractPack';
 import { emailDeliveries } from '$lib/data/emailDelivery';
+import { ukClockAt } from '$lib/data/ukClock';
+import { isAwaitingCountersignature } from '$lib/data/contractPack';
+import { countersignPack } from '$lib/server/contractPacks/countersignDoor';
 import type { Actions, PageServerLoad } from './$types';
 
 const httpBadRequest = 400;
@@ -34,6 +37,8 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		picked: picked === null ? null : { id: picked.id, name: picked.name },
 		pack,
 		sending,
+		isAwaitingCountersignature: pack !== null && isAwaitingCountersignature(pack),
+		today: ukClockAt(new Date()).date,
 		contractDocuments: clientDocumentsFor(documentAudiences.client),
 		optionalClauses: contractOptionalClauses.map(({ slug, title, summary, isChosenByDefault }) => ({ slug, title, summary, isChosenByDefault })),
 		writtenBlanks: contractBlanks.filter((blank) => blank.source === blankSources.pack)
@@ -64,6 +69,19 @@ export const actions = {
 		if (typeof plan === 'string') return fail(httpBadRequest, { sendMessage: plan });
 		const delivery = await sendContractPack(locals.supabase, plan);
 		if (delivery !== emailDeliveries.sent) return fail(httpBadRequest, { sendMessage: undeliveredPackNotices[delivery] });
+		redirect(httpSeeOther, `${clientPacksPath}?organisationId=${organisation.id}`);
+	},
+	countersign: async ({ locals, request }) => {
+		await requireAdmin(locals);
+		const user = await requireUser(locals);
+		const form = Object.fromEntries(await request.formData());
+		const organisationId = String(form.organisationId ?? '');
+		const idRefusal = validateRecordId('organisationId', organisationId);
+		if (idRefusal !== null) return fail(httpBadRequest, { countersignMessage: idRefusal });
+		const organisation = await getOrganisation(locals.supabase, organisationId);
+		if (organisation === null) return fail(httpNotFound, { countersignMessage: noSuchOrganisation });
+		const pack = await countersignPack({ supabase: locals.supabase, accountId: user.id, organisation }, form);
+		if (typeof pack === 'string') return fail(httpBadRequest, { countersignMessage: pack });
 		redirect(httpSeeOther, `${clientPacksPath}?organisationId=${organisation.id}`);
 	}
 } satisfies Actions;

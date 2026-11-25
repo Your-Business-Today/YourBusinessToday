@@ -56,3 +56,20 @@ describe('migration 0286, YBT sending a pack', () => {
 		expect(sendingMigration).toContain("set local lock_timeout = '5s';");
 	});
 });
+
+const countersigningMigration = readFileSync('migrations/0287_contract_pack_countersigning.sql', 'utf8');
+
+describe('migration 0287, YBT countersigning a pack', () => {
+	it('keeps who countersigned, when, and the version holding each signed PDF', () => {
+		expect(countersigningMigration).toContain('char_length(countersigner_name) between 1 and 120');
+		expect(countersigningMigration).toContain('char_length(countersigner_position) between 1 and 120');
+		expect(countersigningMigration).toContain('add column if not exists countersigned_on date');
+		expect(countersigningMigration).toContain('signed_copy_version between 1 and 9999');
+	});
+
+	it('only adds columns, and gives up on a lock in seconds', () => {
+		expect(countersigningMigration).not.toMatch(/\bdrop (table|column)\b/);
+		expect(countersigningMigration).not.toMatch(/\bdelete from\b|\bupdate public\./);
+		expect(countersigningMigration).toContain("set local lock_timeout = '5s';");
+	});
+});

@@ -2,12 +2,13 @@ import { contractPackTable } from './contractPackTables';
 import type { ContractPackStage } from '$lib/data/contractPackRules';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-/** The stages a pack moves on from when YBT sends it, the client opens it, comments on it or signs the last document. */
-const movesOnFrom: Record<'sent' | 'viewed' | 'commented' | 'signed_by_client', ContractPackStage[]> = {
+/** The stages a pack moves on from when YBT sends it, the client opens it, comments on it or signs the last document, or YBT countersigns it. */
+const movesOnFrom: Record<Exclude<ContractPackStage, 'drafted'>, ContractPackStage[]> = {
 	sent: ['drafted'],
 	viewed: ['sent'],
 	commented: ['sent', 'viewed'],
-	signed_by_client: ['sent', 'viewed', 'commented']
+	signed_by_client: ['sent', 'viewed', 'commented'],
+	countersigned: ['signed_by_client']
 };
 
 type PackMove = keyof typeof movesOnFrom;
