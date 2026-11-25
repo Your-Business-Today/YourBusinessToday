@@ -25,7 +25,8 @@ export async function setCostShareMemberWeight(
 	const row = await findMemberRow(supabase, organisationId, request.memberId as string);
 	const member = fromCostShareMemberRow(row);
 	const fromMonth = request.fromMonth as MonthKey;
-	if (!isSharingIn(member, fromMonth)) throw new BooksRefusal(`fromMonth must be a month the member shares the cost, from ${describeMonth(member.joinedMonth)}.`);
+	const isSharingThen = isSharingIn(member, fromMonth);
+	if (!isSharingThen) throw new BooksRefusal(`fromMonth must be a month the member shares the cost, from ${describeMonth(member.joinedMonth)}.`);
 	const weight = request.weight as number;
 	const writes = { supabase, organisationId };
 	if (fromMonth === member.joinedMonth) return [await updateMember(writes, row.id, { weight })];
