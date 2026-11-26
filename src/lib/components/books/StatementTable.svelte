@@ -8,9 +8,9 @@
 
 	let { statement }: { statement: BooksStatement } = $props();
 
-	const accountColumn: RecordsColumn<StatementRow> = { key: 'account', label: 'Account' };
+	const nameColumn: RecordsColumn<StatementRow> = $derived({ key: 'name', label: statement.nameLabel });
 	const columns = $derived([
-		accountColumn,
+		nameColumn,
 		...statement.figureLabels.map((label) => ({ key: label, label, isFigure: true }))
 	]);
 	const weightClasses = {
