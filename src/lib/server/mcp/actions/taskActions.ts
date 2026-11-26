@@ -22,6 +22,7 @@ import { modelSettingsActions } from './modelSettingsActions';
 import { saveBuildModelAction } from './saveBuildModelAction';
 import { taskAttachmentReadActions } from './taskAttachmentReadActions';
 import { taskAttachmentWriteActions } from './taskAttachmentWriteActions';
+import { attachmentFilingActions } from './attachmentFilingActions';
 import { taskReadActions } from './taskReadActions';
 import { openWorkActions } from './openWorkActions';
 import { taskStatusActions } from './taskStatusActions';
@@ -70,5 +71,6 @@ export const taskActions: McpAction[] = [
 	...checklistItemActions,
 	...taskAttachmentReadActions,
 	...taskAttachmentWriteActions,
+	...attachmentFilingActions,
 	...taskUploadActions
 ];
