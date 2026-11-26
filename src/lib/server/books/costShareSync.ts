@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { validateRecordId } from '$lib/data/isUuid';
 import { validateMonthKey, type MonthKey } from '$lib/data/books/monthKey';
+import { CostShareMembersBy } from '$lib/data/books/sharing/costShareMembersBy';
 import { planMemberSync, type MemberSyncPlan } from '$lib/data/books/sharing/memberSync';
 import { BooksRefusal, refuseWhen } from './booksRefusal';
 import { projectOfOrganisation, type OwnedProject } from './costCentreProjectOwner';
@@ -20,6 +21,8 @@ export async function syncCostShareMembers(supabase: SupabaseClient, organisatio
 	refuseWhen(validateMonthKey('month', request.month));
 	const projectIds = validatedProjectIds(request.projectIds);
 	const share = await findCostShare(supabase, organisationId, request.costCentreId);
+	if (share.members_by === CostShareMembersBy.liveProjects)
+		throw new BooksRefusal('This cost is shared by every live project, read from their status, so it follows them already; there are no named members to bring in line.');
 	const projects = await Promise.all(projectIds.map((projectId) => projectOfOrganisation(supabase, organisationId, projectId)));
 	const month = request.month as MonthKey;
 	const plan = planMemberSync(await membersOf(supabase, organisationId, share.id), month, projectIds);

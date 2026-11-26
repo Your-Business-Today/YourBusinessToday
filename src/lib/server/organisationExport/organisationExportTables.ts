@@ -43,6 +43,7 @@ const tablesKeptUnderAParent: ExportedTable[] = [
 	underAParent('workflow_map_station_reviews', 'station_id', mapStations, mapVersions),
 	underAParent('news_story_marks', 'story_id', newsStories),
 	underAParent('project_brand_kits', 'project_id', projects),
+	underAParent('project_status_changes', 'project_id', projects),
 	underAParent('project_brand_kit_traits', 'project_id', projects),
 	underAParent('project_brand_kit_decisions', 'project_id', projects),
 	underAParent('project_document_versions', 'document_id', documents),

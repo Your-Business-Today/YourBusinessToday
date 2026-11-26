@@ -2,9 +2,11 @@ import { LedgerAccountTypes } from '../ledgerAccountTypes';
 import type { LedgerEntry } from '../ledgerEntry';
 import { fromPence, toPence } from '../money';
 import { monthStart, type MonthKey } from '../monthKey';
-import { isSharingIn, type CostShare } from './costShare';
+import { isSharingIn, type CostShare, type CostShareMember } from './costShare';
 import { monthsCoveredFrom } from './costShareMonths';
+import { partWeightsOf } from './costShareUsage';
 import { splitPenceEvenly } from './splitPence';
+import { splitPenceByWeight } from './splitPenceByWeight';
 
 /** A line as the profit by project reads it: as the books keep it, or one project's part of a shared line, naming the shared cost it came from. */
 export type ApportionedEntry = LedgerEntry & { sharedFromCostCentreId?: string | null };
@@ -12,7 +14,8 @@ export type ApportionedEntry = LedgerEntry & { sharedFromCostCentreId?: string |
 /** The organisation's shared costs, and the cost centre each project is kept in, by project. */
 export type CostSharing = { shares: CostShare[]; projectCostCentres: Map<string, string> };
 
-type MonthPart = { month: MonthKey; journalDate: string; debitPence: number; creditPence: number };
+/** One month's part of a shared line, in whole pence, and the day it is dated. */
+export type MonthPart = { month: MonthKey; journalDate: string; debitPence: number; creditPence: number };
 
 const keptAgainstNoProject = null;
 
@@ -40,12 +43,19 @@ function monthPartsOf(entry: LedgerEntry, monthsCovered: number): MonthPart[] {
 	});
 }
 
-function projectPartsOf(entry: LedgerEntry, share: CostShare, part: MonthPart, projectCostCentres: Map<string, string>): ApportionedEntry[] {
+function receiverOf(member: CostShareMember, projectCostCentres: Map<string, string>): string | null {
+	if (member.costCentreId !== undefined && member.costCentreId !== null) return member.costCentreId;
+	return member.projectId === null ? keptAgainstNoProject : (projectCostCentres.get(member.projectId) ?? keptAgainstNoProject);
+}
+
+/** One month's part of a shared line split among the projects sharing the cost that month; kept against no project when none does. */
+export function projectPartsOf(entry: LedgerEntry, share: CostShare, part: MonthPart, projectCostCentres: Map<string, string>): ApportionedEntry[] {
 	const sharing = share.members.filter((member) => isSharingIn(member, part.month));
-	const costCentreIds = sharing.map((member) => (member.projectId === null ? keptAgainstNoProject : (projectCostCentres.get(member.projectId) ?? null)));
+	const costCentreIds = sharing.map((member) => receiverOf(member, projectCostCentres));
 	const receivers = costCentreIds.length === 0 ? [keptAgainstNoProject] : costCentreIds;
-	const debitParts = splitPenceEvenly(part.debitPence, receivers.length);
-	const creditParts = splitPenceEvenly(part.creditPence, receivers.length);
+	const weights = partWeightsOf(share, sharing, part.month);
+	const debitParts = splitPenceByWeight(part.debitPence, weights);
+	const creditParts = splitPenceByWeight(part.creditPence, weights);
 	return receivers.map((costCentreId, index) => ({
 		...entry,
 		journalDate: part.journalDate,

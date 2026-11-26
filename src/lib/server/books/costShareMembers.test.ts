@@ -9,7 +9,7 @@ describe('addCostShareMember', () => {
 		const member = await addCostShareMember(books.supabase, organisationId, { costCentreId, projectId: codManiaId, joinedMonth: '2026-07' });
 		expect(member.joinedMonth).toBe('2026-07');
 		expect(books.writes).toEqual([
-			{ organisation_id: organisationId, cost_share_id: appleShare.id, project_id: codManiaId, joined_month: '2026-07-01', left_month: null }
+			{ organisation_id: organisationId, cost_share_id: appleShare.id, project_id: codManiaId, joined_month: '2026-07-01', left_month: null, weight: 1 }
 		]);
 	});
 
@@ -17,6 +17,13 @@ describe('addCostShareMember', () => {
 		const books = booksWith([spell(memberId, '2026-01-01', null)]);
 		const request = { costCentreId, projectId: codManiaId, joinedMonth: '2026-07' };
 		await expect(addCostShareMember(books.supabase, organisationId, request)).rejects.toBeInstanceOf(BooksRefusal);
+		expect(books.writes).toEqual([]);
+	});
+
+	it('refuses a named member on a cost shared by every live project, writing nothing', async () => {
+		const books = booksWith([], { ...appleShare, members_by: 'live_projects' });
+		const request = { costCentreId, projectId: codManiaId, joinedMonth: '2026-07' };
+		await expect(addCostShareMember(books.supabase, organisationId, request)).rejects.toThrow('every live project');
 		expect(books.writes).toEqual([]);
 	});
 

@@ -15,7 +15,7 @@ const carpManiaAllYear = { id: 'member-1', projectId: Projects.carpMania, joined
 const codManiaFromJuly = { id: 'member-2', projectId: Projects.codMania, joinedMonth: '2026-07', leftMonth: null };
 
 function sharingOf(members: CostSharing['shares'][number]['members']): CostSharing {
-	const share = { id: 'share-apple', costCentreId: CostCentres.appleLicence, monthsCovered: 12, members };
+	const share = { id: 'share-apple', costCentreId: CostCentres.appleLicence, monthsCovered: 12, membersBy: 'named' as const, members };
 	const projectCostCentres = new Map([
 		[Projects.carpMania, CostCentres.carpMania],
 		[Projects.codMania, CostCentres.codMania]
@@ -37,6 +37,13 @@ describe('apportionEntries', () => {
 		expect(costIn(entries, CostCentres.carpMania, '2026-07')).toBe(3.29);
 		expect(costIn(entries, CostCentres.codMania, '2026-07')).toBe(3.29);
 		expect(sumMoney(entries.map((entry) => entry.debit))).toBe(79);
+	});
+
+	it('splits each month by the members’ weights, three quarters to weight 3 and a quarter to weight 1', () => {
+		const monthly: LedgerEntry = { ...licencePaid, debit: 10 };
+		const sharing = { ...sharingOf([{ ...carpManiaAllYear, weight: 3 }, { ...codManiaFromJuly, joinedMonth: '2026-01', weight: 1 }]) };
+		const entries = apportionEntries([monthly], { ...sharing, shares: [{ ...sharing.shares[0], monthsCovered: 1 }] });
+		expect([costIn(entries, CostCentres.carpMania, '2026-01'), costIn(entries, CostCentres.codMania, '2026-01')]).toEqual([7.5, 2.5]);
 	});
 
 	it('dates the first month on the day the line was dated, and each month after on its first day', () => {

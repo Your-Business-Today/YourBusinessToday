@@ -6,13 +6,16 @@ import { CostShareTables, costShareColumns, costShareMemberColumns } from './cos
 
 const migration = readFileSync('migrations/0291_books_cost_shares.sql', 'utf8');
 const statements = migration.replace(/^--.*$/gm, '');
+const columnsAddedLater = ['0292_cost_shares_by_project_status', '0294_cost_share_member_weights', '0295_cost_share_usage_split', '0296_cost_share_directors_loan']
+	.map((name) => readFileSync(`migrations/${name}.sql`, 'utf8'))
+	.join('\n');
 const columnsOf = (list: string) => list.split(', ').filter((column) => column !== 'id');
 
 describe('migration 0291, the shared costs and the projects that share them, and the limits the connector checks', () => {
 	it('holds the same months as the rules, with every column the site reads', () => {
 		const { fewestMonthsCovered, mostMonthsCovered } = CostShareLimits;
 		expect(statements).toContain(`check (months_covered between ${fewestMonthsCovered} and ${mostMonthsCovered})`);
-		for (const column of [...columnsOf(costShareColumns), ...columnsOf(costShareMemberColumns)]) expect(statements).toMatch(new RegExp(`\\n\\t${column} `));
+		for (const column of [...columnsOf(costShareColumns), ...columnsOf(costShareMemberColumns)]) expect(`${statements}${columnsAddedLater}`).toMatch(new RegExp(`\\n\\t(add column if not exists )?${column} `));
 	});
 
 	it('keeps each month as its first day, and a month left never before the month joined', () => {
