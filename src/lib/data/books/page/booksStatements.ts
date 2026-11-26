@@ -20,7 +20,9 @@ export type BooksReports = {
 };
 
 /** A statement as the books page shows it: its name, the days it covers, its figure columns and its rows. */
-export type BooksStatement = { key: string; title: string; caption: string; figureLabels: string[]; rows: StatementRow[] };
+export type BooksStatement = { key: string; title: string; caption: string; nameLabel: string; figureLabels: string[]; rows: StatementRow[] };
+
+const NameLabels = { account: 'Account', project: 'Project' } as const;
 
 const FigureLabels = {
 	profitAndLoss: ['This period', 'Year to date'],
@@ -37,16 +39,17 @@ export function booksStatementsOf(reports: BooksReports, linkEntries: EntriesLin
 		statement('profit-and-loss', 'Profit and loss', periodAndYear, FigureLabels.profitAndLoss, profitAndLossRows(reports.profitAndLoss, period, linkEntries)),
 		statement('balance-sheet', 'Balance sheet', atTheEnd, FigureLabels.balanceSheet, balanceSheetRows(reports.balanceSheet, linkEntries)),
 		statement('trial-balance', 'Trial balance', atTheEnd, FigureLabels.trialBalance, trialBalanceRows(reports.trialBalance, linkEntries)),
-		statement(
-			'profit-by-project',
-			'Profit by project',
-			`${periodAndYear}, for each cost centre and the project it is kept for`,
-			FigureLabels.profitByProject,
-			profitByCostCentreRows(reports.profitByCostCentre)
-		)
+		{
+			key: 'profit-by-project',
+			title: 'Profit by project',
+			caption: `${periodAndYear}, for each project`,
+			nameLabel: NameLabels.project,
+			figureLabels: FigureLabels.profitByProject,
+			rows: profitByCostCentreRows(reports.profitByCostCentre)
+		}
 	];
 }
 
 function statement(key: string, title: string, caption: string, figureLabels: string[], rows: StatementRow[]): BooksStatement {
-	return { key, title, caption, figureLabels, rows };
+	return { key, title, caption, nameLabel: NameLabels.account, figureLabels, rows };
 }

@@ -30,7 +30,7 @@ export type ProfitByCostCentre = { lines: CostCentreProfitLine[]; unallocated: C
 export type SharedCostReading = { asBooked: LedgerEntry[]; sharedCostCentres: ReportedCostCentre[] };
 
 export const ProfitByCostCentreLabels = {
-	unallocated: 'Kept against no cost centre',
+	unallocated: 'Company costs, no project',
 	sharedTiming: 'Shared costs paid in a month other than the one they cover',
 	total: 'Whole organisation'
 } as const;
