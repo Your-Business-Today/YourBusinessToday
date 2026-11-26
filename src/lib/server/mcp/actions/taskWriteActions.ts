@@ -36,7 +36,9 @@ export const taskWriteActions: McpAction[] = [
 			'with requestedBy, so it is worked as their request. A series of steps done in order is a ' +
 			'task sequence: raise one task per step, give each the step before it with waitsForTaskId, ' +
 			'so it shows as a sequence. Files the task needs go on it ' +
-			'with attach_file_to_task once it exists. A development task raised here by staff starts ' +
+			'with attach_file_to_task once it exists. Finished work with nothing left to build — research, a report, briefs — is never a task: ' +
+			'keep it as project documents (add_project_document, or file_task_attachments_as_project_documents for files already on a task), ' +
+			'and put any question about it to the person as a message. A development task raised here by staff starts ' +
 			'with autocomplete on, and by anyone else off; set_task_autocomplete switches it. An ' +
 			'infrastructure, administration, sales or marketing task is always off: a person does it. ' +
 			'Before raising, check the request against the system’s design as the raising doctrine says: one that ' +
