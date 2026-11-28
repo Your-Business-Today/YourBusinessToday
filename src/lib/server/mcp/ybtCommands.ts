@@ -64,11 +64,11 @@ const namedCommands: YbtCommand[] = [
 	{
 		name: 'ybt-tie-off',
 		title: 'YBT tie-off: close this session’s task',
-		description: 'Tie the task this chat worked off, so the chat can be archived: what is unfinished becomes its own task, every open question an ask, and the work log goes on the task.',
+		description: 'Tie the task this chat worked off, so the chat can be archived: what is unfinished stays on the task and is said in its work log, every open question an ask, and the work log goes on the task.',
 		text:
-			'Tie this session’s task off as the doctrine says: raise anything it asked for that is not finished as a task of its own, post every ' +
+			'Tie this session’s task off as the doctrine says: raise nothing, leave anything it asked for that is not finished on the same task, open, post every ' +
 			'open question as a message waiting on the person who answers it, post one work log on the task, mark it done unless its pull request ' +
-			'will, and tell me the chat can be archived, naming the tasks that carry the rest and who has them.'
+			'will, and tell me the chat can be archived, saying what is still left on the task, if anything.'
 	},
 	inboxCommand,
 	...salesCommands

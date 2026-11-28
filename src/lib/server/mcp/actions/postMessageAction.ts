@@ -37,7 +37,7 @@ const postMessageGuidance =
 	'to In progress or Done with the message. ' +
 	'When work on a task stops, the work log goes here: ' +
 	'what changed, the branch and pull request it is on, which files or records, the ' +
-	'decisions and why, and which tasks carry what is left — then the person is told in ' +
+	'decisions and why, and what the task asked for that is still left — then the person is told in ' +
 	'chat that the chat can be archived.';
 
 const addressedNote =

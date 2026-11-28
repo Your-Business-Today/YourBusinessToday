@@ -85,14 +85,21 @@ complete; when it is not, the session raises the rest as new tasks assigned to p
 always ends by saying the chat can be archived. Tying each session off cleanly is what lets a
 task, and the goal above it, be completed rather than carried from chat to chat.
 
+Revised again on 28 November 2026, from James, after a board went from 55 open features to 87
+overnight while every build reported done: a build finishes the task it was given and never
+ends by raising a task, a subtask or a follow-on. What a session cannot finish stays on the
+same task, open, with one message saying what is left; what it notices outside the task is told
+to the person in words, and they decide whether it becomes a task. A story is scoped and split
+before its build, never during it.
+
 - A task is sized for one session when it is raised (the raising doctrine and `create_task` say
   so) and split before it starts when a session finds it is more (working doctrine rule 2): one
   task per step, each assigned to whoever does it, waiting for the one before where the order
   matters.
-- When a session stops, anything the task asked for that it has not finished becomes a subtask
-  assigned to whoever does it next; the work log says which tasks carry what is left; the task is
+- When a session stops, it raises nothing: anything the task asked for that it has not finished
+  stays on the same task, which stays open; the work log says what is left; a finished task is
   marked done unless its pull request will do that on merge; and the person is told in chat that
-  the chat can be archived, with the tasks that carry the rest and who has them (rule 4).
+  the chat can be archived, with what is still left on the task (rule 4).
 - A task stays open only for its pull request to merge or for an answer marked as waiting on
   someone, never for a chat to come back to it. A goal counts its tasks' subtasks, so a split
   task's goal stays open until the last step is done.
