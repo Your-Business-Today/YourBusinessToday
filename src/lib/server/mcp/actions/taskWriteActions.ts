@@ -19,9 +19,9 @@ export const taskWriteActions: McpAction[] = [
 			'storyWant and storyBenefit, and title it with the story. Subtasks are steps of a story and need none. A task is one ' +
 			'session’s work: size it so one Claude session finishes it and ties it off. A feature larger than ' +
 			'that is raised as one parent carrying the story with its chunks in subtasks, in the same call; ' +
-			'a piece found later, of a bug or a feature, is a subtask (parentTaskId), never a new top level task. ' +
-			'When a session stops short, the rest is raised as subtasks of the task, never left in prose or for a next ' +
-			'chat. Put it under the goal it serves (goalId, from find_goals); rename a goal that has outgrown its title with update_goal. Give its department, which puts it on one of the project’s two sides: Development (development, ' +
+			'a piece found while building, of a bug or a feature, is built on the task it was found on, never raised as another. ' +
+			'A build never ends by raising a task, a subtask or a follow-on: when a session stops short, the rest stays on the same ' +
+			'open task with one message saying what is left, and anything noticed outside the task is told to the person in words. Put it under the goal it serves (goalId, from find_goals); rename a goal that has outgrown its title with update_goal. Give its department, which puts it on one of the project’s two sides: Development (development, ' +
 			'infrastructure) or Internal work (administration, sales, marketing). A development task is built by ' +
 			'Claude and ends in a pull request; a job a person does for the project — a cloud setting or secret, ' +
 			'insurance, an account, a listing — is an infrastructure, administration, sales or marketing task, ' +

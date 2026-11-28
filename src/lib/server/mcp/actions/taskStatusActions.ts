@@ -22,9 +22,10 @@ export const taskStatusActions: McpAction[] = [
 			'is when the work starts: work that changes a repository starts on a branch named for ' +
 			'the task, never on the default branch, and set_task_branch records it. A task with a ' +
 			'branch is marked done by itself when its pull request merges. A task is one session’s ' +
-			'work: a session that stops short raises the rest as tasks of its own and marks its task ' +
-			'done, so a task stays open only for its pull request to merge or for an answer it waits ' +
-			'on, never for a chat to come back to it. Marking a task done is never handed to someone ' +
+			'work: a session that stops short raises nothing and leaves the rest on the same task, open, ' +
+			'with one message saying what is left, so a task stays open only for its pull request to merge, ' +
+			'for an answer it waits on or for work that message names, never for a chat to come back to it. ' +
+			'The last piece of a parent story marks the parent done too. Marking a task done is never handed to someone ' +
 			'else as an ask: whoever finishes the work marks it done.',
 		inputSchema: objectSchema(
 			{ taskId: textField('The task id'), status: textField(taskStatusOrder.join(', ')) },

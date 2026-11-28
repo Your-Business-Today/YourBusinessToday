@@ -15,7 +15,7 @@ describe('the raising doctrine', () => {
 
 	it('keeps a bug to one FIX and raises a feature with its chunks as subtasks under one goal', () => {
 		expect(raisingDoctrine).toContain('one task is all a bug needs');
-		expect(raisingDoctrine).toContain('never as a new top level task');
+		expect(raisingDoctrine).toContain('never raised as a subtask or a new task');
 		expect(raisingDoctrine).toContain('subtasks');
 		expect(raisingDoctrine).toContain('credit control');
 		expect(raisingDoctrine).toContain('update_goal');
