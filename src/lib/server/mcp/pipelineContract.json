@@ -60,6 +60,9 @@
 		"update_task_details": {"isWrite": true, "inputs": {"completionPercent": "number", "department": "string", "details": "string", "dueDate": "string", "goalId": "string", "kind": "string", "storyPoints": "number", "taskId": "string", "title": "string"}, "required": ["taskId"]},
 		"update_task_status": {"isWrite": true, "inputs": {"status": "string", "taskId": "string"}, "required": ["status", "taskId"]}
 	},
+	"staffActions": {
+		"approve_goal_plan": {"isWrite": true, "inputs": {"goalId": "string"}, "required": ["goalId"]}
+	},
 	"namesFromElsewhere": {
 		"billing_schedules": "the watch source that raises each billing schedule's invoice on its day",
 		"compare_template_file": "a tool on the portal template's server",

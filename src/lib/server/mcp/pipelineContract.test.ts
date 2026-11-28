@@ -20,6 +20,7 @@ const skillsDirectory = '.claude/skills';
 const nameInBackticks = /`([a-z]+(?:_[a-z0-9]+)+)`/g;
 const contractedTools: Record<string, ContractedCall> = contract.tools;
 const contractedActions: Record<string, ContractedAction> = contract.actions;
+const contractedStaffActions: Record<string, ContractedAction> = contract.staffActions;
 const someoneWhoIsNotStaff = { isAdmin: false, isStaff: false } as AccountStanding;
 const anAdministrator = { isAdmin: true, isStaff: true } as AccountStanding;
 
@@ -52,6 +53,7 @@ function namesTheContractAccountsFor(): Set<string> {
 	return new Set([
 		...Object.keys(contractedTools),
 		...Object.keys(contractedActions),
+		...Object.keys(contractedStaffActions),
 		...promisedValues.flat(),
 		...Object.keys(contract.namesFromElsewhere)
 	]);
@@ -86,6 +88,10 @@ describe('the pipeline contract', () => {
 
 	it('is still honoured by every action the pipeline calls, for someone who is not staff', () => {
 		expect(breachesOf(contractedActions, offeredActions), whatABreachCallsFor).toEqual([]);
+	});
+
+	it('is still honoured by every action only staff are offered', () => {
+		expect(breachesOf(contractedStaffActions, actionsFor(anAdministrator, null)), whatABreachCallsFor).toEqual([]);
 	});
 
 	it('still runs every action through the tool the pipeline calls it on', () => {

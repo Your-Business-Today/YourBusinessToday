@@ -20,7 +20,7 @@ HOLDS_THE_FILES = {
     NOT_CHECKABLE_HERE: "the checks were asked about in this clone, where they could not be run",
 }
 MERGED_ALONGSIDE = "Where this work's pull request has merged, something else was merged alongside it."
-A_FAILURE_THERE = "A failure there is a task of its own."
+A_FAILURE_THERE = "A failure there is fixed now, on a branch into the base, with no task raised for it."
 
 
 def answerForTheBase(clone: Clone, named: str | None) -> int:
