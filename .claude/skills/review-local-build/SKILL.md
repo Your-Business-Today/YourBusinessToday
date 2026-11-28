@@ -48,4 +48,4 @@ When it merges, YBT marks both tasks done by themselves. If CI fails, the branch
 
 - It never merges red, never uses an override, and never merges a pull request it did not open.
 - It never rewrites the local model's work wholesale; work that needs that is sent back.
-- It never widens the task: anything the parent task did not ask for is raised as a task of its own.
+- It never widens the task: anything the parent task did not ask for is left unbuilt and named in the report to the person, who decides whether it becomes a task. It raises none itself.
